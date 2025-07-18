@@ -3,6 +3,23 @@
 
 Welcome to the official development repository for **Daren Prince's** author platform. This project is built with **pure SCSS**, responsive components styled using the **CodyHouse framework**, and actively maintained using **OpenAI Codex**.
 
+#Codex Powered Site Framework
+
+Component system built with AI support from OpenAI Codex.
+
+The site is designed to be clean, responsive, and expandable, with features including:
+
+- 🔥 Custom global SCSS styling system (dark mode default)
+- 🧩 Modular components: buttons, forms, nav, cards, etc.
+- 📚 Individual book pages with purchase links and reviews
+- 🎥 Media center: videos, trailers, and promotional content
+- 📁 File download center with file preview support
+- 🛡️ Member login system for exclusive content access
+- 🚀 Auto-deploy via Netlify with clean file structure
+- 📦 Built with scalability, performance, and brand alignment in mind
+
+This repo serves as the central build system for maintaining, improving, and expanding the digital presence of Daren M. Prince across all author-related platforms.
+
 ---
 
 ## 🎯 Project Overview
@@ -109,11 +126,33 @@ See: [`assets-brand-README.md`](./docs/assets-brand-README.md)
 
 Confident, bold, emotionally intelligent. No fluff. No manipulation. Just real, magnetic connection.
 - Daren’s identity is defined in [`brand-style-guide.md`](./docs/brand-style-guide.md)
-- Writing tone should reflect energy, psychology, and realness
+- Writing tone should reflect energy, psychology, and realness.
 
 ---
 
-## 🔐 Contact & Licensing
+## 📜 Licensing
+
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](http://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to:
+
+- 📤 **Share** — copy and redistribute the material in any medium or format  
+- 🎨 **Adapt** — remix, transform, and build upon the material
+
+Under the following terms:
+
+- 🧠 **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made.  
+- 🚫 **NonCommercial** — You may not use the material for commercial purposes.
+
+> No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+**© 2025 Daren M. Prince. All rights reserved.**
+
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-nc/4.0/)
+
+---
+
+## 🔐 Contact
 
 This project is proprietary and custom-built for Daren Prince.
 
