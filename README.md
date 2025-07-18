@@ -31,7 +31,8 @@ This repo serves as the central build system for maintaining, improving, and exp
 
 ---
 
-## 🗂️ Folder Structure
+## 🗂️ Root Folder Structure
+- Full folder structure and folder naming conventions can be found in `docs/FILE_STRUCTURE.md`
 
 ```bash
 📁 components/         # Reusable UI components (buttons, cards, toggles)
@@ -72,13 +73,6 @@ This repo works hand-in-hand with OpenAI’s Codex to:
 ---
 
 ## 🛠️ Setup Instructions
-
-To scaffold your folders and base files:
-
-```bash
-chmod +x setup.sh
-./setup.sh
-```
 
 To compile your SCSS manually:
 
