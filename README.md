@@ -1,7 +1,7 @@
 
-# 🖥️ Daren Prince Author Platform — Codex-Powered Website
+# 🖥️ Daren Prince Author Platform & Website
 
-Welcome to the official development repository for **Daren Prince's** author platform. This project is built with **pure SCSS**, responsive components styled using the **CodyHouse framework**, and actively maintained using **OpenAI Codex**.
+Welcome to the official development repository for **Daren Prince's** author platform. This project is built with **pure SCSS**, responsive component styles inspired by the **CodyHouse framework**, and actively maintained using **OpenAI Codex** and auto-deployed via **Netlify**.
 
 #Codex Powered Site Framework
 
