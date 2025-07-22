@@ -37,17 +37,22 @@ This repo serves as the central build system for maintaining, improving, and exp
 - Full folder structure and folder naming conventions can be found in `docs/FILE_STRUCTURE.md`
 
 ```bash
-📁 components/         # Reusable UI components (buttons, cards, toggles)
-📁 forms/              # Form layouts and custom fields
-📁 layout/             # Page wrappers, grid, nav/footer partials
-📁 tokens/             # Color variables, mixins, utility classes
-📁 utils/              # Resets, transitions, helpers
-📁 assets/brand/       # Logos, icons, press kit files (see docs/assets-brand-README.md)
-📁 docs/               # Internal documentation (style guide, prompts, agent logic)
-📄 index.html          # Landing page
-📄 components.html     # Demo page for every component
-📝 README.md           # You are here!
+📁 assets/            # Compiled CSS, logos, icons and images
+📁 scss/              # Source SCSS (base, layout, components, themes)
+📁 js/                # Site scripts
+📁 member/            # Member area HTML & styles
+📁 docs/              # Documentation and guides
+📁 test/              # Layout test page
+📄 index.html         # Landing page
+📄 components.html    # UI component showcase
+📄 netlify.toml       # Deployment config
+📄 setup.sh           # Local setup helper
+📄 package.json       # Build scripts and dependencies
+📝 README.md          # You are here!
 ```
+
+> **Note:** `member/index.html` loads both the global `assets/styles.css` and a local `styles.css` file. Confirm both are necessary to avoid duplicate CSS.
+> The file `js/main.js` is currently empty and can be removed unless future scripts are planned.
 
 ---
 

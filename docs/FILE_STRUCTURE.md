@@ -92,7 +92,10 @@ This document details the exact folder and file structure used in the Codex-powe
 
 ```
 /member/
-├── index.html                # Placeholder for login/member dashboard
+├── index.html                # Member login/dashboard
+├── styles.scss               # Source styles for the area
+├── styles.css                # Compiled stylesheet
+├── styles.css.map            # Source map for the compiled CSS
 ```
 
 ---
