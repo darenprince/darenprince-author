@@ -1,1 +1,2 @@
-The official project **README.md** is located inside of the [documentation folder](darenprince-author/main/docs/)
+The official project **README.md** is located inside of the main docs folder here:
+[View Documentation Folder](../docs/)
