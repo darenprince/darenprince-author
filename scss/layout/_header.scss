@@ -1,6 +1,9 @@
 .site-header {
   background: $black;
   padding: $spacing-md 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
   .container {
     display: flex;
@@ -19,11 +22,17 @@
   color: $white;
 }
 
+
+
 .site-nav {
   display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 
   &.is-visible {
     display: block;
+    max-height: 200px;
   }
 
   .nav-list {
