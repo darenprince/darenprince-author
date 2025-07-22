@@ -1,3 +1,5 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
 .alert {
   padding: $spacing-sm $spacing-md;
   border-radius: $border-radius;
