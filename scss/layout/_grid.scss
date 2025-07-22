@@ -7,3 +7,17 @@
 .main-content {
   padding: 2rem 0;
 }
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[class^="col-"] {
+  flex-basis: 100%;
+}
+
+@include respond-to(md) {
+  .col-4\@md { flex-basis: 33.333%; }
+  .col-6\@md { flex-basis: 50%; }
+}
