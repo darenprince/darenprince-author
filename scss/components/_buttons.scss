@@ -10,6 +10,10 @@
   @include button-base($medium-green);
 }
 
+.btn--accent {
+  @include button-base($lime-green);
+}
+
 .btn--ghost {
   background-color: transparent;
   color: $bright-green;
