@@ -58,5 +58,5 @@ Write a new SCSS reset file that includes Cody-style normalize, modern box-sizin
 ## 📜 Markdown & Docs
 
 ```plaintext
-Write an onboarding.md file explaining how to use this repo and modify components. Keep tone casual but clear. Target audience: beginner coder.
+Write docs/onboarding.md summarizing how to build the site, compile SCSS, and where the component files live. Use a bold but beginner-friendly tone.
 ```
