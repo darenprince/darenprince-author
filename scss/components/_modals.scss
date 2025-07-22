@@ -1,3 +1,5 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
 
 .modal-overlay {
   position: fixed;

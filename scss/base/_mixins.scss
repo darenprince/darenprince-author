@@ -1,3 +1,7 @@
+@use "sass:color";
+@use "variables" as *;
+@use "../tokens/colors" as *;
+
 @mixin respond-to($breakpoint) {
   @if $breakpoint == sm {
     @media (min-width: $breakpoint-sm) { @content; }
@@ -23,7 +27,7 @@
 
   &:hover,
   &:focus {
-    background-color: darken($bg, 5%);
+    background-color: color.adjust($bg, $lightness: -5%);
   }
 
   &:disabled {

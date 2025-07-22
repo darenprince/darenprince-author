@@ -1,3 +1,5 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
 .card {
   background-color: $charcoal;
   color: $white;
