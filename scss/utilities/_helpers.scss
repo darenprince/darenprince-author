@@ -1,0 +1,23 @@
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+
+.gap-sm { gap: $spacing-sm; }
+.gap-md { gap: $spacing-md; }
+
+.padding-md { padding: $spacing-md; }
+.padding-y-xl { padding-top: $spacing-xl; padding-bottom: $spacing-xl; }
+
+.margin-bottom-lg { margin-bottom: $spacing-lg; }
+
+.max-width-adaptive-lg {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center { text-align: center; }
+.text-lg { font-size: 1.125rem; }
+.text-xxxl { font-size: 2.5rem; }
+.font-primary { font-family: $font-family-heading; }

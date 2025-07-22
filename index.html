@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body class="theme-dark">
-  <header class="site-header">
-    <div class="container">
+  <header class="site-header padding-y-md">
+    <div class="container max-width-adaptive-lg flex items-center justify-between">
       <div class="logo">
         <img src="assets/logos/logo-web-for-dark-bg.png" alt="Daren Prince">
       </div>
       <button class="nav-toggle js-toggle-nav" aria-controls="nav" aria-expanded="false">Menu</button>
       <nav id="nav" class="site-nav">
-        <ul class="nav-list">
+        <ul class="nav-list flex gap-sm">
           <li><a href="index.html">Home</a></li>
           <li><a href="book.html">Book</a></li>
           <li><a href="press.html">Press</a></li>
@@ -26,7 +26,16 @@
 
   <main>
     <!-- Hero copy sourced from Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf -->
-    <h1>Welcome to the official site</h1>
+    <section class="hero bg-black text-center">
+      <div class="container max-width-adaptive-lg padding-y-xl">
+        <h1 class="text-xxxl font-primary margin-bottom-lg">Welcome to the official site</h1>
+        <p class="text-lg margin-bottom-lg">Discover Daren Prince's latest insights and releases.</p>
+        <div class="flex justify-center gap-sm">
+          <a href="book.html" class="btn btn--primary">Buy the Book</a>
+          <a href="contact.html" class="btn btn--accent">Contact</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
