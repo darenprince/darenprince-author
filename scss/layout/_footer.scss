@@ -1,0 +1,15 @@
+.site-footer {
+  background: $black;
+  color: $white;
+  padding: 2rem 0;
+  text-align: center;
+
+  .footer-logo {
+    width: 120px;
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: $bright-green;
+  }
+}

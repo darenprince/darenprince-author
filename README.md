@@ -40,7 +40,7 @@ This repo serves as the central build system for maintaining, improving, and exp
 📁 layout/             # Page wrappers, grid, nav/footer partials
 📁 tokens/             # Color variables, mixins, utility classes
 📁 utils/              # Resets, transitions, helpers
-📁 assets/brand/       # Logos, icons, press kit files (see assets-brand-README.md)
+📁 assets/brand/       # Logos, icons, press kit files (see docs/assets-brand-README.md)
 📁 docs/               # Internal documentation (style guide, prompts, agent logic)
 📄 index.html          # Landing page
 📄 components.html     # UI Kit component reference
@@ -52,8 +52,8 @@ This repo serves as the central build system for maintaining, improving, and exp
 ## 🎨 Design System
 
 - **Fonts:** Uses CodyHouse system defaults (not the brand fonts from press kit)
-- **Color Tokens:** See `brand-style-guide.md` (exact HEX values for all branding)
-- **Logos & Icons:** Follow `assets-brand-README.md` for proper usage and naming logic
+- **Color Tokens:** See `docs/brand-style-guide.md` (exact HEX values for all branding)
+- **Logos & Icons:** Follow `docs/assets-brand-README.md` for proper usage and naming logic
 
 ---
 
@@ -66,8 +66,8 @@ This repo works hand-in-hand with OpenAI’s Codex to:
 - Generate documentation and Markdown automatically
 
 📄 Refer to:
-- [`AGENTS.md`](./AGENTS.md) — Active Codex personalities
-- [`CODEX_PROMPTS.md`](./CODEX_PROMPTS.md) — Modular prompt stack
+- [`AGENTS.md`](./docs/AGENTS.md) — Active Codex personalities
+- [`CODEX_PROMPTS.md`](./docs/CODEX_PROMPTS.md) — Modular prompt stack
 - [`brand-style-guide.md`](./docs/brand-style-guide.md) — Visual identity references
 
 ---
