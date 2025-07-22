@@ -22,19 +22,92 @@
         </ul>
       </nav>
     </div>
-    <nav class="component-nav margin-top-md">
-      <ul class="flex gap-sm justify-center">
-        <li><a href="#buttons">Buttons</a></li>
-        <li><a href="#forms">Forms</a></li>
-        <li><a href="#cards">Cards</a></li>
-        <li><a href="#modals">Modals</a></li>
-        <li><a href="#alerts">Alerts</a></li>
-        <li><a href="#toggles">Toggles</a></li>
-      </ul>
-    </nav>
+      <nav class="component-nav margin-top-md">
+        <ul class="flex gap-sm justify-center">
+          <li><a href="#hero">Hero</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#downloads">Downloads</a></li>
+          <li><a href="#viewer">Viewer</a></li>
+          <li><a href="#buttons">Buttons</a></li>
+          <li><a href="#forms">Forms</a></li>
+          <li><a href="#cards">Cards</a></li>
+          <li><a href="#modals">Modals</a></li>
+          <li><a href="#alerts">Alerts</a></li>
+          <li><a href="#toggles">Toggles</a></li>
+        </ul>
+      </nav>
   </header>
 
   <main>
+    <section id="hero" class="hero text-center">
+      <div class="container max-width-adaptive-lg">
+        <h2>Hero</h2>
+        <p class="margin-bottom-sm">Quick hero example with centered copy and actions.</p>
+        <div class="flex justify-center gap-sm">
+          <a href="#" class="btn btn--primary">Primary Action</a>
+          <a href="#" class="btn btn--accent">Secondary Action</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+        <h2>Testimonials</h2>
+        <div class="testimonial-grid">
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 1">
+            <blockquote>"A must-read!"</blockquote>
+            <cite>- Alex</cite>
+          </div>
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 2">
+            <blockquote>"Truly inspiring."</blockquote>
+            <cite>- Casey</cite>
+          </div>
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 3">
+            <blockquote>"Eye-opening and real."</blockquote>
+            <cite>- Jordan</cite>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads" class="downloads">
+      <div class="container">
+        <h2>Downloads</h2>
+        <div class="download-grid">
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Press Kit – 4MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Sample Chapter – 2MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Media Sheet – 1MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewer" class="viewer">
+      <div class="container">
+        <h2>Viewer</h2>
+        <div class="toolbar">
+          <a href="#" class="btn btn--ghost">Download</a>
+          <a href="#" class="btn btn--ghost">Zoom</a>
+          <a href="#" class="btn btn--ghost">Print</a>
+        </div>
+        <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
+      </div>
+    </section>
+
     <section id="buttons">
       <h2>Buttons</h2>
       <button class="btn">Primary</button>
