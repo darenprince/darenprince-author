@@ -111,13 +111,26 @@ a:hover, a:focus {
   padding: 1rem;
 }
 
+.padding-y-md {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .padding-y-xl {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
+.margin-bottom-md {
+  margin-bottom: 1rem;
+}
+
 .margin-bottom-lg {
   margin-bottom: 2rem;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
 
 .max-width-adaptive-lg {
@@ -128,6 +141,18 @@ a:hover, a:focus {
 
 .text-center {
   text-align: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-md {
+  font-size: 1rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
 }
 
 .text-lg {
@@ -297,6 +322,44 @@ a:hover, a:focus {
   cursor: not-allowed;
 }
 
+.btn--success {
+  background-color: #C2E9C1;
+  color: #070A06;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+.btn--success:hover, .btn--success:focus {
+  background-color: rgb(175.4821428571, 226.3214285714, 174.1785714286);
+}
+.btn--success:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--error {
+  background-color: #456F3A;
+  color: #FDFDFD;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+.btn--error:hover, .btn--error:focus {
+  background-color: rgb(58.5887573964, 94.2514792899, 49.2485207101);
+}
+.btn--error:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn--accent {
   background-color: #8CD679;
   color: #FDFDFD;
@@ -369,7 +432,7 @@ select[disabled] {
   color: #FDFDFD;
   padding: 1rem;
   border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(7, 10, 6, 0.15);
   margin-bottom: 1rem;
 }
 
@@ -379,7 +442,7 @@ select[disabled] {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(7, 10, 6, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -401,12 +464,12 @@ select[disabled] {
   margin-bottom: 1rem;
 }
 
-.alert-success {
+.alert--success {
   background-color: #87BD72;
   color: #070A06;
 }
 
-.alert-error {
+.alert--error {
   background-color: #456F3A;
   color: #FDFDFD;
 }
