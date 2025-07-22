@@ -17,7 +17,7 @@ Use the following color palette (HEX format only), and reference filenames EXACT
 ## 📄 Page Builds
 
 ```plaintext
-Generate a full HTML + SCSS page called components.html. Include previews of buttons, forms, navbars, alerts, cards, and toggles. Use dark mode and mobile-first responsive layout. Do not use external libraries.
+Generate a full HTML + SCSS page called components.html. Include previews of hero banners, testimonial grids, download cards, document viewer, buttons, forms, navbars, alerts, cards, and toggles. Use dark mode and mobile-first responsive layout. Do not use external libraries.
 ```
 
 ```plaintext

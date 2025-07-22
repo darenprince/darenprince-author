@@ -27,7 +27,7 @@ This repo serves as the central build system for maintaining, improving, and exp
 - **Dark Mode by Default** — All components, layouts, and views are built assuming dark mode is the active theme.
 - **SCSS-First** — All styling is modular and built using SCSS variables, functions, mixins, and partials.
 - **Codex Integrated** — Prompt-driven development using OpenAI’s Codex (https://chat.openai.com/codex).
-- **Custom Component Library** — A dedicated `components.html` showcases reusable building blocks styled for Daren’s brand.
+- **Custom Component Library** — `components.html` demos every UI component used across the site. Add new components here to keep them organized.
 
 ---
 
@@ -43,7 +43,7 @@ This repo serves as the central build system for maintaining, improving, and exp
 📁 assets/brand/       # Logos, icons, press kit files (see docs/assets-brand-README.md)
 📁 docs/               # Internal documentation (style guide, prompts, agent logic)
 📄 index.html          # Landing page
-📄 components.html     # UI Kit component reference
+📄 components.html     # Demo page for every component
 📝 README.md           # You are here!
 ```
 

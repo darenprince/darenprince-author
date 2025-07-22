@@ -25,7 +25,7 @@ The `--watch` flag keeps Sass running so any edits automatically rebuild.
 - **SCSS Components:** `scss/components/` contains partials like `_buttons.scss` and `_forms.scss`.
 - **Base Styles:** Global resets and variables live under `scss/base/`.
 - **Tokens:** Brand colors are defined in `scss/tokens/_colors.scss`.
-- **Pages:** `index.html` is the landing page. `components.html` showcases reusable bits.
+- **Pages:** `index.html` is the landing page. `components.html` demos all available components—add new ones here for easy reference.
 
 Every component imports into `scss/styles.scss`, so keep file names consistent.
 
