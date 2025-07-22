@@ -1,3 +1,6 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
 .downloads {
   padding: $spacing-xl 0;
 

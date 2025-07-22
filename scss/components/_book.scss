@@ -7,6 +7,8 @@ $book-thickness: 50px !default;
 $book-bg-color: transparent !default;
 $book-pages-offset: 3px !default;
 
+@use "sass:math";
+
 .book-preview {
   perspective: $book-perspective;
   display: flex;
@@ -28,7 +30,7 @@ $book-pages-offset: 3px !default;
       left: 0;
       width: 100%;
       height: 100%;
-      transform: translateZ($book-thickness / 2);
+      transform: translateZ(math.div($book-thickness, 2));
       background-color: $book-bg-color;
       border-radius: 0 $book-radius $book-radius 0;
       box-shadow: none;
@@ -74,7 +76,7 @@ $book-pages-offset: 3px !default;
       left: 0;
       width: 100%;
       height: 100%;
-      transform: translateZ(-$book-thickness / 2);
+      transform: translateZ(math.div(-$book-thickness, 2));
       background-color: $book-bg-color;
       border-radius: 0 $book-radius $book-radius 0;
       box-shadow: none;

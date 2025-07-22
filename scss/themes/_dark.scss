@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "../tokens/colors" as *;
+
 body.theme-dark {
   background-color: $charcoal;
   color: $white;
@@ -6,7 +9,7 @@ body.theme-dark {
     color: $bright-green;
 
     &:hover {
-      color: lighten($bright-green, 10%);
+      color: color.adjust($bright-green, $lightness: 10%);
     }
   }
 }
