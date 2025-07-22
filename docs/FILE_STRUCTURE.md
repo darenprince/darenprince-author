@@ -101,7 +101,6 @@ This document details the exact folder and file structure used in the Codex-powe
 
 ```
 /js/
-├── main.js                  # Global site logic
 ├── mobile-nav.js            # Navigation toggle script
 ```
 
