@@ -1,0 +1,12 @@
+body.theme-dark {
+  background-color: $charcoal;
+  color: $white;
+
+  a {
+    color: $bright-green;
+
+    &:hover {
+      color: lighten($bright-green, 10%);
+    }
+  }
+}

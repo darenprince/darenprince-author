@@ -1,0 +1,37 @@
+.testimonials {
+  padding: $spacing-xl 0;
+
+  .testimonial-grid {
+    display: grid;
+    gap: $spacing-lg;
+    grid-template-columns: 1fr;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .card {
+    background: $black;
+    padding: $spacing-lg;
+    text-align: center;
+    border-radius: $border-radius;
+
+    img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-bottom: $spacing-sm;
+    }
+
+    blockquote {
+      font-size: 0.875rem;
+      margin: $spacing-sm 0;
+    }
+
+    cite {
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+}

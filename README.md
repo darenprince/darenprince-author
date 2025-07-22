@@ -108,8 +108,8 @@ A `/member` area will be added for gated content access using Codex + auth.
 ## 👀 Asset Naming & Image Guide
 
 - Logos are named by **size** and **background intent**
-  - `logo-dark.svg` = for use on dark backgrounds
-  - `logo-light.svg` = for use on light backgrounds
+  - `logo-web-for-dark-bg.png` = for use on dark backgrounds
+  - `logo-web-for-light-bg.png` = for use on light backgrounds
   - `icon-32-facebook.svg` = 32x32 social icons
 - Do not rename images from their current structure
 

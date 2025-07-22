@@ -1,0 +1,31 @@
+.downloads {
+  padding: $spacing-xl 0;
+
+  .download-grid {
+    display: grid;
+    gap: $spacing-lg;
+    grid-template-columns: 1fr;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .download-card {
+    background: $black;
+    padding: $spacing-lg;
+    border-radius: $border-radius;
+    text-align: center;
+
+    img {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto $spacing-md;
+    }
+
+    .file-info {
+      font-size: 0.875rem;
+      margin-bottom: $spacing-sm;
+    }
+  }
+}
