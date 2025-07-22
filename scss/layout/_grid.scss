@@ -1,13 +1,4 @@
 @use "../base/mixins" as *;
-.container {
-  width: min(90%, 1200px);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.main-content {
-  padding: 2rem 0;
-}
 
 .grid {
   display: flex;
