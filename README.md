@@ -74,10 +74,11 @@ This repo works hand-in-hand with OpenAI’s Codex to:
 
 ## 🛠️ Setup Instructions
 
-To compile your SCSS manually:
+SCSS compilation is handled through npm scripts:
 
 ```bash
-sass styles.scss styles.css --watch
+npm run build   # compile once
+npm run watch   # watch for changes
 ```
 
 ---

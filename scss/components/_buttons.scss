@@ -1,0 +1,26 @@
+.btn {
+  @include button-base($bright-green);
+}
+
+.btn--primary {
+  @include button-base($deep-green);
+}
+
+.btn--secondary {
+  @include button-base($medium-green);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: $bright-green;
+  border: 2px solid $bright-green;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius;
+  transition: $transition;
+
+  &:hover,
+  &:focus {
+    background-color: $bright-green;
+    color: $black;
+  }
+}

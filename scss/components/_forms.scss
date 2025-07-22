@@ -1,0 +1,34 @@
+.form-group {
+  margin-bottom: $spacing-md;
+}
+
+label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: 600;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: $spacing-xs $spacing-sm;
+  border: 1px solid $medium-gray;
+  border-radius: $border-radius;
+  background-color: $charcoal;
+  color: $white;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: $bright-green;
+}
+
+input[disabled],
+textarea[disabled],
+select[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
