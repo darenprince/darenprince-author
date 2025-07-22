@@ -15,6 +15,7 @@ This folder contains all images, logos, icons, and branded media used across the
 | `daren-prince-profile-sm.jpg`  | Small author image (footer/header)     |
 | `og-image.jpg`                 | Social sharing image (Open Graph)      |
 | `presskit-thumb.jpg`           | Thumbnail for downloadable press kit   |
+| `presskit-thumb-portrait.png`  | Portrait-oriented press kit thumbnail  |
 | `tagline.png`                  | Visual tagline "Level Up" banner       |
 | `thank-you-graphic.png`        | Confirmation screen artwork            |
 
