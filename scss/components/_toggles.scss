@@ -1,3 +1,5 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
 .toggle {
   display: inline-flex;
   align-items: center;
