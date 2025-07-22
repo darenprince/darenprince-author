@@ -1,0 +1,38 @@
+.component-nav {
+  margin-top: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  .component-nav__list {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    justify-content: center;
+  }
+
+  .component-nav__list a {
+    color: $white;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      color: $bright-green;
+    }
+  }
+
+  .component-nav__select {
+    width: 100%;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $black;
+    color: $white;
+    border: 1px solid $medium-gray;
+    border-radius: $border-radius;
+  }
+
+  @include respond-to(md) {
+    .component-nav__select { display: none; }
+    .component-nav__list { display: flex; }
+  }
+}

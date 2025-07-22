@@ -18,3 +18,11 @@ if (modalOverlay) {
     modalOverlay.classList.remove('is-visible');
   });
 }
+
+const componentSelect = document.querySelector('.component-nav__select');
+if (componentSelect) {
+  componentSelect.addEventListener('change', function () {
+    const target = document.querySelector(this.value);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+}

@@ -22,20 +22,35 @@
         </ul>
       </nav>
     </div>
-      <nav class="component-nav margin-top-md">
-        <ul class="flex gap-sm justify-center">
-          <li><a href="#hero">Hero</a></li>
-          <li><a href="#book">Book Cover</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
-          <li><a href="#downloads">Downloads</a></li>
-          <li><a href="#viewer">Viewer</a></li>
-          <li><a href="#buttons">Buttons</a></li>
-          <li><a href="#forms">Forms</a></li>
-          <li><a href="#cards">Cards</a></li>
-          <li><a href="#modals">Modals</a></li>
-          <li><a href="#alerts">Alerts</a></li>
-          <li><a href="#toggles">Toggles</a></li>
-        </ul>
+      <nav class="component-nav">
+        <div class="container">
+          <select class="component-nav__select" aria-label="Jump to component">
+            <option value="#hero">Hero</option>
+            <option value="#book">Book Cover</option>
+            <option value="#testimonials">Testimonials</option>
+            <option value="#downloads">Downloads</option>
+            <option value="#viewer">Viewer</option>
+            <option value="#buttons">Buttons</option>
+            <option value="#forms">Forms</option>
+            <option value="#cards">Cards</option>
+            <option value="#modals">Modals</option>
+            <option value="#alerts">Alerts</option>
+            <option value="#toggles">Toggles</option>
+          </select>
+          <ul class="component-nav__list flex gap-sm justify-center">
+            <li><a href="#hero">Hero</a></li>
+            <li><a href="#book">Book Cover</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#downloads">Downloads</a></li>
+            <li><a href="#viewer">Viewer</a></li>
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#forms">Forms</a></li>
+            <li><a href="#cards">Cards</a></li>
+            <li><a href="#modals">Modals</a></li>
+            <li><a href="#alerts">Alerts</a></li>
+            <li><a href="#toggles">Toggles</a></li>
+          </ul>
+        </div>
       </nav>
   </header>
 
@@ -118,62 +133,74 @@
     </section>
 
     <section id="buttons">
-      <h2>Buttons</h2>
-      <button class="btn">Primary</button>
-      <button class="btn btn-accent">Accent</button>
-      <button class="btn btn-success">Success</button>
-      <button class="btn btn-error">Error</button>
+      <div class="container">
+        <h2>Buttons</h2>
+        <button class="btn">Primary</button>
+        <button class="btn btn-accent">Accent</button>
+        <button class="btn btn-success">Success</button>
+        <button class="btn btn-error">Error</button>
+      </div>
     </section>
 
     <section id="forms">
-      <h2>Form Elements</h2>
-      <form>
-        <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Jane Doe">
+      <div class="container">
+        <h2>Form Elements</h2>
+        <form>
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Jane Doe">
 
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="you@example.com">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com">
 
-        <label for="message">Message</label>
-        <textarea id="message" rows="4" placeholder="Say hello"></textarea>
+          <label for="message">Message</label>
+          <textarea id="message" rows="4" placeholder="Say hello"></textarea>
 
-        <button type="submit" class="btn">Submit</button>
-      </form>
+          <button type="submit" class="btn">Submit</button>
+        </form>
+      </div>
     </section>
 
     <section id="cards">
-      <h2>Card</h2>
-      <div class="card">
-        <h3>Sample Card</h3>
-        <p>This is a basic card layout for testing styles.</p>
-        <button class="btn btn-accent">Action</button>
+      <div class="container">
+        <h2>Card</h2>
+        <div class="card">
+          <h3>Sample Card</h3>
+          <p>This is a basic card layout for testing styles.</p>
+          <button class="btn btn-accent">Action</button>
+        </div>
       </div>
     </section>
 
     <section id="modals">
-      <h2>Modal</h2>
-      <button class="btn js-open-modal">Open Modal</button>
-      <div class="modal-overlay" id="demo-modal">
-        <div class="modal">
-          <h3>Modal Title</h3>
-          <p>Modal body content goes here.</p>
-          <button class="btn js-close-modal">Close</button>
+      <div class="container">
+        <h2>Modal</h2>
+        <button class="btn js-open-modal">Open Modal</button>
+        <div class="modal-overlay" id="demo-modal">
+          <div class="modal">
+            <h3>Modal Title</h3>
+            <p>Modal body content goes here.</p>
+            <button class="btn js-close-modal">Close</button>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="alerts">
-      <h2>Alerts</h2>
-      <div class="alert alert-success">Success alert example.</div>
-      <div class="alert alert-error">Error alert example.</div>
+      <div class="container">
+        <h2>Alerts</h2>
+        <div class="alert alert-success">Success alert example.</div>
+        <div class="alert alert-error">Error alert example.</div>
+      </div>
     </section>
 
     <section id="toggles">
-      <h2>Toggle</h2>
-      <label class="toggle">
-        <input type="checkbox" checked>
-        <span class="toggle-slider"></span>
-      </label>
+      <div class="container">
+        <h2>Toggle</h2>
+        <label class="toggle">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
     </section>
   </main>
 
