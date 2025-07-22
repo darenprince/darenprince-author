@@ -14,6 +14,7 @@ The site is designed to be clean, responsive, and expandable, with features incl
 - 📚 Individual book pages with purchase links and reviews
 - 🎥 Media center: videos, trailers, and promotional content
 - 📁 File download center with file preview support
+- 📕 3D book cover component for interactive previews
 - 🛡️ Member login system for exclusive content access
 - 🚀 Auto-deploy via Netlify with clean file structure
 - 📦 Built with scalability, performance, and brand alignment in mind
@@ -28,6 +29,7 @@ This repo serves as the central build system for maintaining, improving, and exp
 - **SCSS-First** — All styling is modular and built using SCSS variables, functions, mixins, and partials.
 - **Codex Integrated** — Prompt-driven development using OpenAI’s Codex (https://chat.openai.com/codex).
 - **Custom Component Library** — `components.html` demos every UI component used across the site. Add new components here to keep them organized.
+- **3D Book Cover** — see `docs/3d-book-guide.md` for customizing rotating book covers.
 
 ---
 
