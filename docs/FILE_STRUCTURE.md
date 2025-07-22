@@ -10,7 +10,7 @@ This document details the exact folder and file structure used in the Codex-powe
 ```
 / (Project Root)
 ├── index.html                 # Homepage (dark mode layout)
-├── components.html            # UI kit reference for reusable components
+├── components.html            # Demo page listing every UI component
 ├── assets/                    # Images, logos and compiled CSS
 ├── scss/                      # Source SCSS files
 ├── js/                        # JavaScript helpers
@@ -49,6 +49,14 @@ This document details the exact folder and file structure used in the Codex-powe
 /components/
 ├── _buttons.scss             # Default button styles
 ├── _forms.scss               # Input fields and form layout
+├── _cards.scss               # Card layouts
+├── _modals.scss              # Modal windows
+├── _alerts.scss              # Alert messages
+├── _toggles.scss             # Toggle switches
+├── _hero.scss                # Hero banner section
+├── _testimonials.scss        # Testimonial grid
+├── _downloads.scss           # Download cards
+├── _viewer.scss              # Embedded document viewer
 ```
 
 ---
