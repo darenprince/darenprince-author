@@ -48,7 +48,10 @@ This project is driven by AI collaboration through OpenAI’s Codex:
 
 Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/brand/`).
 
-**Official Fonts:**
+**Fonts:**
+For UI and website text, Default CodyHouse style Sans Serif fonts are to be used consistently.
+
+For Graphic Design, Ads, Images:
 - League Spartan (Primary Headline)
 - Futura (Secondary Headline / Navigation)
 - Knockout Welterweight (Accents & Stylized Labels)
@@ -59,7 +62,7 @@ Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/bra
 - `#D5D5D5` Light Gray
 - `#B8BAB7` Medium Gray
 - `#3B3C3B` Charcoal
-- `#070A06` Black
+- `#141414` Black
 - `#456F3A` Deep Green
 - `#6DA667` Medium Green
 - `#87BD72` Bright Green
