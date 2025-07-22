@@ -1,0 +1,15 @@
+.alert {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius;
+  margin-bottom: $spacing-md;
+}
+
+.alert-success {
+  background-color: $bright-green;
+  color: $black;
+}
+
+.alert-error {
+  background-color: $deep-green;
+  color: $white;
+}

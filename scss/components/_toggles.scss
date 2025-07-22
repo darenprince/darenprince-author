@@ -1,0 +1,38 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle input {
+  display: none;
+}
+
+.toggle-slider {
+  width: 40px;
+  height: 20px;
+  background-color: $medium-gray;
+  border-radius: 20px;
+  position: relative;
+  transition: $transition;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: $white;
+  border-radius: 50%;
+  transition: $transition;
+}
+
+input:checked + .toggle-slider {
+  background-color: $bright-green;
+}
+
+input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
