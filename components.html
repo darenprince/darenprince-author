@@ -25,8 +25,9 @@
       <nav class="component-nav">
         <div class="container">
           <select class="component-nav__select" aria-label="Jump to component">
-            <option value="#hero">Hero</option>
-            <option value="#book">Book Cover</option>
+          <option value="#hero">Hero</option>
+          <option value="#banner">Banner</option>
+          <option value="#book">Book Cover</option>
             <option value="#testimonials">Testimonials</option>
             <option value="#downloads">Downloads</option>
             <option value="#viewer">Viewer</option>
@@ -40,6 +41,7 @@
           </select>
           <ul class="component-nav__list flex gap-sm justify-center">
             <li><a href="#hero">Hero</a></li>
+            <li><a href="#banner">Banner</a></li>
             <li><a href="#book">Book Cover</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
             <li><a href="#downloads">Downloads</a></li>
@@ -67,6 +69,26 @@
         </div>
   </div>
 </section>
+
+    <section id="banner" class="demo-section">
+      <div class="container">
+        <h2>Banner</h2>
+        <p class="margin-bottom-sm">Promotional callout with image and action.</p>
+        <a href="#" class="banner">
+          <div class="banner__grid">
+            <div class="col-6@md" aria-hidden="true">
+              <div class="banner__figure" style="background-image: url('https://placehold.co/600x400?text=Banner');"></div>
+            </div>
+            <div class="col-6@md">
+              <div class="banner__text">
+                <h3>New Release</h3>
+                <span class="banner__link"><i>Learn More</i></span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
 
     <section id="book-tabs" class="demo-section">
       <div class="container">
