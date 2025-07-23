@@ -1,0 +1,36 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+
+.accordion {
+  border-top: 1px solid $medium-gray;
+
+  .accordion-item {
+    border-bottom: 1px solid $medium-gray;
+
+    .accordion-trigger {
+      width: 100%;
+      padding: $spacing-md;
+      background: $charcoal;
+      color: $white;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      border: 0;
+      border-radius: 0;
+      transition: $transition;
+
+      &[aria-expanded='true'] {
+        background: $deep-green;
+      }
+    }
+
+    .accordion-panel {
+      padding: $spacing-md;
+    }
+  }
+}
+
+.accordion-panel[hidden] { display: none; }
