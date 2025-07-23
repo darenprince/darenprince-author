@@ -191,52 +191,151 @@ body.theme-light {
   height: 40px;
 }
 
-.nav-toggle {
-  background: transparent;
-  border: 0;
-  color: #FDFDFD;
+.main-nav-wrapper {
+  background-color: #3B3C3B;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.site-nav {
+.nav-toggle {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #FDFDFD;
+  display: flex;
+  align-items: center;
+}
+.nav-toggle .line {
+  fill: none;
+  stroke: #FDFDFD;
+  stroke-width: 2;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-open .nav-toggle .line-top {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-open .nav-toggle .line-middle {
+  opacity: 0;
+}
+
+.menu-open .nav-toggle .line-bottom {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav-menu {
   display: none;
+  flex-direction: column;
+  padding: 1rem 0;
+  gap: 0.75rem;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
 }
-.site-nav.is-visible {
-  display: block;
-  max-height: 200px;
+
+.menu-open .nav-menu {
+  display: flex;
+  max-height: 500px;
+  opacity: 1;
 }
-.site-nav .nav-list {
+
+.nav-list {
   list-style: none;
   margin: 0;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  background: #070A06;
+  padding: 0 1rem;
 }
-.site-nav .nav-list a {
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #FDFDFD;
   text-decoration: none;
   font-weight: 600;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
 }
-.site-nav .nav-list a:hover {
+.nav-link:hover, .nav-link:focus {
   color: #87BD72;
+}
+
+.nav-item--active > .nav-link {
+  color: #87BD72;
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  background: #464646;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.menu-open .nav-item--has-submenu.menu-open > .submenu {
+  display: flex;
+}
+
+.nav-item--has-submenu .submenu-toggle {
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.nav-item--has-submenu .submenu-toggle .chevron {
+  transition: transform 0.3s ease;
+}
+
+.nav-item--has-submenu.menu-open > .submenu-toggle .chevron {
+  transform: rotate(180deg);
 }
 
 @media (min-width: 768px) {
   .nav-toggle {
     display: none;
   }
-  .site-nav {
-    display: block;
-  }
-  .site-nav .nav-list {
+  .nav-menu {
+    display: flex !important;
     flex-direction: row;
-    gap: 2rem;
-    background: transparent;
+    align-items: center;
+    justify-content: flex-end;
     padding: 0;
+    max-height: none;
+    opacity: 1;
+  }
+  .nav-list {
+    display: flex;
+    gap: 2rem;
+    padding: 0;
+  }
+  .submenu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    min-width: 180px;
+    padding: 0.75rem 0;
+    display: none;
+  }
+  .nav-item--has-submenu:hover > .submenu {
+    display: flex;
   }
 }
 .component-nav {
@@ -813,6 +912,7 @@ input:checked + .toggle-slider::before {
 .book-details .locked-preview p {
   margin-bottom: 1rem;
 }
+
 .banner {
   display: block;
   text-decoration: none;
@@ -875,55 +975,6 @@ input:checked + .toggle-slider::before {
 .banner__link:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-=======
-.brandon-page {
-  background-color: #ffc0cb;
-  color: #070A06;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.brandon-page .quote {
-  position: absolute;
-  font-size: 1.2rem;
-  font-weight: 600;
-  animation: float-quote 10s ease-in-out infinite alternate;
-  opacity: 0.85;
-}
-
-.brandon-page .quote:nth-child(odd) {
-  animation-duration: 8s;
-}
-
-.brandon-page .quote:nth-child(even) {
-  animation-duration: 12s;
-}
-
-@keyframes float-quote {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(-20px, 20px) rotate(5deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-}
-.brandon-page .login-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ff69b4;
-  color: #FDFDFD;
-  padding: 1rem 2rem;
-  border-radius: 0.25rem;
-  font-size: 1.25rem;
-  text-decoration: none;
-  text-align: center;
 }
 
 /*# sourceMappingURL=styles.css.map */

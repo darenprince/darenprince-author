@@ -1,0 +1,156 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+@use "../tokens/colors" as *;
+
+.main-nav-wrapper {
+  background-color: $charcoal;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: $spacing-sm 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-toggle {
+  background: transparent;
+  border: none;
+  padding: $spacing-xs;
+  cursor: pointer;
+  color: $white;
+  display: flex;
+  align-items: center;
+
+  .line {
+    fill: none;
+    stroke: $white;
+    stroke-width: 2;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+}
+
+.menu-open .nav-toggle .line-top {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-open .nav-toggle .line-middle {
+  opacity: 0;
+}
+.menu-open .nav-toggle .line-bottom {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav-menu {
+  display: none;
+  flex-direction: column;
+  padding: $spacing-md 0;
+  gap: $spacing-sm;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.menu-open .nav-menu {
+  display: flex;
+  max-height: 500px;
+  opacity: 1;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 $spacing-md;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: $white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: $spacing-xs;
+  transition: color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    color: $bright-green;
+  }
+}
+
+.nav-item--active > .nav-link {
+  color: $bright-green;
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  background: $charcoal-light;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.menu-open .nav-item--has-submenu.menu-open > .submenu {
+  display: flex;
+}
+
+.nav-item--has-submenu .submenu-toggle {
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  cursor: pointer;
+
+  .chevron {
+    transition: transform 0.3s ease;
+  }
+}
+
+.nav-item--has-submenu.menu-open > .submenu-toggle .chevron {
+  transform: rotate(180deg);
+}
+
+@media (min-width: $breakpoint-md) {
+  .nav-toggle { display: none; }
+
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0;
+    max-height: none;
+    opacity: 1;
+  }
+
+  .nav-list {
+    display: flex;
+    gap: $spacing-lg;
+    padding: 0;
+  }
+
+  .submenu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    min-width: 180px;
+    padding: $spacing-sm 0;
+    display: none;
+  }
+
+  .nav-item--has-submenu:hover > .submenu {
+    display: flex;
+  }
+}
