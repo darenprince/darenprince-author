@@ -12,15 +12,31 @@
       <a href="index.html" class="logo">
         <img src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
       </a>
-      <button class="nav-toggle js-toggle-nav" aria-controls="nav" aria-expanded="false">Menu</button>
-      <nav id="nav" class="site-nav">
-        <ul class="nav-list">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+      <div class="main-nav-wrapper">
+        <button class="nav-toggle" aria-controls="main-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line class="line1" x1="3" y1="6" x2="21" y2="6" />
+            <line class="line2" x1="3" y1="12" x2="21" y2="12" />
+            <line class="line3" x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav id="main-nav" class="nav-menu" aria-label="Primary">
+          <ul>
+            <li class="nav-item"><a class="nav-link" href="index.html"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3.293l6 6V15h-4v-3H6v3H2V9.293l6-6z"/><path d="M7 13h2v2H7v-2z"/></svg><span>Home</span></a></li>
+            <li class="nav-item has-submenu">
+              <button class="nav-link submenu-toggle" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v12H2z" stroke="none"/><path d="M4 2v12M12 2v12M2 6h12M2 10h12" stroke="currentColor" fill="none"/></svg><span>Book</span></button>
+              <ul class="submenu" aria-label="Book">
+                <li><a href="book.html">Overview</a></li>
+                <li><a href="book/preview.html">Preview</a></li>
+                <li><a href="book/buy.html">Buy Now</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="about.html"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a4 4 0 100 8 4 4 0 000-8z"/><path d="M6 8h4v5H6V8z"/></svg><span>About</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4z"/><path d="M0 4l8 5 8-5"/></svg><span>Contact</span></a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
       <nav class="component-nav">
         <div class="container">
@@ -305,7 +321,7 @@
   <footer>
     <p>Component library demo.</p>
   </footer>
-  <script src="/js/mobile-nav.js"></script>
+  <script src="/js/main-nav.js"></script>
   <script src="/js/book-tabs.js"></script>
 </body>
 </html>
