@@ -1,6 +1,7 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 @use "../base/mixins" as *;
+
 .site-header {
   background: $black;
   padding: $spacing-md 0;
@@ -19,59 +20,3 @@
   }
 }
 
-.nav-toggle {
-  background: transparent;
-  border: 0;
-  color: $white;
-}
-
-
-
-.site-nav {
-  display: none;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-
-  &.is-visible {
-    display: block;
-    max-height: 200px;
-  }
-
-  .nav-list {
-    list-style: none;
-    margin: 0;
-    padding: $spacing-md;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-    background: $black;
-
-    a {
-      color: $white;
-      text-decoration: none;
-      font-weight: 600;
-
-      &:hover {
-        color: $bright-green;
-      }
-    }
-  }
-}
-
-@include respond-to(md) {
-  .nav-toggle {
-    display: none;
-  }
-
-  .site-nav {
-    display: block;
-
-    .nav-list {
-      flex-direction: row;
-      gap: $spacing-lg;
-      background: transparent;
-      padding: 0;
-    }
-  }
-}
