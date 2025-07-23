@@ -1,0 +1,94 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+.main-nav-wrapper {
+  background: $charcoal;
+  padding: $spacing-sm 0;
+  position: relative;
+}
+
+.nav-toggle {
+  background: transparent;
+  border: 0;
+  color: $white;
+  cursor: pointer;
+  padding: $spacing-xs;
+  display: flex;
+  align-items: center;
+  svg { width: 24px; height: 24px; stroke: $white; stroke-width: 2px; fill: none; }
+
+  .line { transition: transform 0.3s ease, opacity 0.3s ease; }
+
+  &.menu-open {
+    .line-1 { transform: translateY(5px) rotate(45deg); }
+    .line-2 { opacity: 0; }
+    .line-3 { transform: translateY(-5px) rotate(-45deg); }
+  }
+}
+
+.nav-menu {
+  display: none;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: $spacing-sm 0;
+  background: $charcoal;
+
+  &.menu-open {
+    display: flex;
+    animation: navFade 0.3s forwards;
+  }
+
+  .nav-item { position: relative; }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    color: $white;
+    text-decoration: none;
+    padding: $spacing-xs $spacing-md;
+    transition: color 0.3s;
+
+    svg { width: 20px; height: 20px; color: $mint-green; }
+
+    &:hover, &:focus { color: $bright-green; }
+  }
+
+  .submenu {
+    display: none;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: $spacing-xs 0;
+    background: lighten($charcoal, 8%);
+    border-radius: $border-radius;
+  }
+
+  .submenu.menu-open { display: flex; animation: submenuFade 0.3s forwards; }
+}
+
+@keyframes navFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes submenuFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+@include respond-to(md) {
+  .nav-toggle { display: none; }
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    padding: 0;
+
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 180px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      display: none;
+    }
+
+    .nav-item--has-submenu:hover > .submenu,
+    .nav-item--has-submenu:focus-within > .submenu { display: flex; }
+  }
+}
