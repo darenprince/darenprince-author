@@ -1,0 +1,151 @@
+/* =======================================
+   Book Details Tab Component
+   Author: Daren Prince
+   Description: Tabbed layout with preview, description, trailer, and locked content
+   ======================================= */
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+@use "../tokens/colors" as *;
+
+.book-details {
+  padding: $spacing-xl 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .sticky-purchase-bar {
+    position: sticky;
+    top: 0;
+    background-color: $charcoal;
+    padding: $spacing-sm $spacing-md;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    border-bottom: 1px solid $medium-gray;
+
+    .buy-controls {
+      display: flex;
+      gap: $spacing-xs;
+      align-items: center;
+
+      select {
+        padding: $spacing-xs;
+        background: $black;
+        color: $white;
+        border: 1px solid $medium-gray;
+        border-radius: $border-radius;
+      }
+    }
+
+    .short-summary {
+      margin-left: $spacing-md;
+      font-size: 0.875rem;
+      color: $light-gray;
+    }
+  }
+
+  .tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-sm;
+    margin: $spacing-lg 0;
+
+    button {
+      background: transparent;
+      color: $white;
+      border: 2px solid $bright-green;
+      padding: $spacing-xs $spacing-md;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: $transition;
+
+      &[aria-selected='true'],
+      &:hover,
+      &:focus {
+        background-color: $bright-green;
+        color: $black;
+      }
+    }
+  }
+
+  [role='tabpanel'] {
+    margin-bottom: $spacing-lg;
+  }
+
+  .preview-toggle {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-md;
+
+    button {
+      background: $medium-gray;
+      color: $black;
+      padding: $spacing-xs $spacing-sm;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: $transition;
+
+      &.active,
+      &:hover,
+      &:focus {
+        background: $bright-green;
+        color: $black;
+      }
+    }
+  }
+
+  .preview-display {
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: $border-radius;
+    }
+  }
+
+  .long-description {
+    margin-bottom: $spacing-md;
+    line-height: $line-height-base;
+  }
+
+  .book-specs {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: $spacing-xs;
+      border: 1px solid $medium-gray;
+    }
+
+    th {
+      text-align: left;
+      background: $charcoal;
+      color: $white;
+    }
+  }
+
+  .video-block {
+    text-align: center;
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: $border-radius;
+    }
+  }
+
+  .locked-preview {
+    text-align: center;
+    padding: $spacing-lg;
+    background: $charcoal;
+    border-radius: $border-radius;
+
+    p {
+      margin-bottom: $spacing-md;
+    }
+  }
+}
