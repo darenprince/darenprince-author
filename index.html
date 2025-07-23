@@ -8,17 +8,40 @@
 </head>
 <body class="theme-dark">
   <header class="site-header padding-y-md">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
+    <div class="main-nav-wrapper container max-width-adaptive-lg flex items-center justify-between">
       <a href="index.html" class="logo">
         <img src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
       </a>
-      <button class="nav-toggle js-toggle-nav" aria-controls="nav" aria-expanded="false">Menu</button>
-      <nav id="nav" class="site-nav">
-        <ul class="nav-list flex gap-sm">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
+      <button class="nav-toggle js-toggle-nav" aria-controls="primary-navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line class="line line-1" x1="3" y1="6" x2="21" y2="6" />
+          <line class="line line-2" x1="3" y1="12" x2="21" y2="12" />
+          <line class="line line-3" x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <nav id="primary-navigation" class="nav-menu" aria-label="Main Navigation">
+        <ul class="nav-menu__list">
+          <li class="nav-item"><a class="nav-link" href="/">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/></svg>
+            Home</a></li>
+          <li class="nav-item nav-item--has-submenu">
+            <button class="submenu-toggle nav-link" aria-haspopup="true" aria-expanded="false">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>
+              Book
+              <svg class="chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>
+            </button>
+            <ul class="submenu">
+              <li><a class="nav-link" href="/book">Overview</a></li>
+              <li><a class="nav-link" href="/book/preview">Preview</a></li>
+              <li><a class="nav-link" href="/book/buy">Buy Now</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/about">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5"/><path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3"/></svg>
+            About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></svg>
+            Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -96,6 +119,6 @@
   <footer>
     <p>&copy; 2023 Daren Prince. All rights reserved.</p>
   </footer>
-  <script src="/js/mobile-nav.js"></script>
+  <script src="/js/main-nav.js"></script>
   </body>
   </html>
