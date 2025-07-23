@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Details Demo</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="dark">
+
+  <section class="book-details">
+
+    <!-- Sticky Purchase Header -->
+    <div class="sticky-purchase-bar">
+      <div class="buy-controls">
+        <select class="store-selector">
+          <option>Amazon</option>
+          <option>Apple Books</option>
+          <option>Google Play</option>
+          <option>Books-A-Million</option>
+        </select>
+        <button class="btn btn--primary">Buy Now</button>
+      </div>
+      <p class="short-summary">The ultimate men’s playbook for flirting, seduction, and connection.</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" role="tablist" aria-label="Book Tabs">
+      <button role="tab" aria-selected="true" aria-controls="tab-preview" id="tab-btn-preview">📘 Preview</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">📄 Description</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-trailer" id="tab-btn-trailer">▶️ Trailer</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-members" id="tab-btn-members">🔐 Members Only</button>
+    </nav>
+
+    <!-- Tab Content Areas -->
+    <div id="tab-preview" role="tabpanel" aria-labelledby="tab-btn-preview">
+      <div class="preview-toggle">
+        <button class="active">3D View</button>
+        <button>Front Cover</button>
+        <button>Back Cover</button>
+      </div>
+      <div class="preview-display">
+        <img src="assets/placeholders/book-3d.jpg" alt="3D Book Preview" />
+      </div>
+    </div>
+
+    <div id="tab-description" role="tabpanel" aria-labelledby="tab-btn-description" hidden>
+      <div class="long-description">
+        <p>This book is a no-nonsense guide to modern dating for emotionally intelligent men who are done with gimmicks and ready for real results...</p>
+      </div>
+      <table class="book-specs">
+        <tr><th>ISBN-13</th><td>9798303844407</td></tr>
+        <tr><th>ISBN-10</th><td>9798303844407</td></tr>
+        <tr><th>Publisher</th><td>Independently Published</td></tr>
+        <tr><th>Publish Date</th><td>December 2024</td></tr>
+        <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
+        <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
+        <tr><th>Page Count</th><td>258</td></tr>
+      </table>
+    </div>
+
+    <div id="tab-trailer" role="tabpanel" aria-labelledby="tab-btn-trailer" hidden>
+      <div class="video-block">
+        <video controls poster="assets/placeholders/video-thumbnail.jpg">
+          <source src="assets/placeholders/book-trailer.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+    </div>
+
+    <div id="tab-members" role="tabpanel" aria-labelledby="tab-btn-members" hidden>
+      <div class="locked-preview">
+        <p>This exclusive content is available to members only.</p>
+        <button class="btn btn--ghost">Join for Access</button>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>
