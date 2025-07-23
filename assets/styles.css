@@ -691,5 +691,127 @@ input:checked + .toggle-slider::before {
     transform: rotateY(-30deg);
   }
 }
+/* =======================================
+   Book Details Tab Component
+   Author: Daren Prince
+   Description: Tabbed layout with preview, description, trailer, and locked content
+   ======================================= */
+.book-details {
+  padding: 3rem 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.book-details .sticky-purchase-bar {
+  position: sticky;
+  top: 0;
+  background-color: #3B3C3B;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  border-bottom: 1px solid #B8BAB7;
+}
+.book-details .sticky-purchase-bar .buy-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.book-details .sticky-purchase-bar .buy-controls select {
+  padding: 0.5rem;
+  background: #070A06;
+  color: #FDFDFD;
+  border: 1px solid #B8BAB7;
+  border-radius: 0.25rem;
+}
+.book-details .sticky-purchase-bar .short-summary {
+  margin-left: 1rem;
+  font-size: 0.875rem;
+  color: #D5D5D5;
+}
+.book-details .tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+.book-details .tab-nav button {
+  background: transparent;
+  color: #FDFDFD;
+  border: 2px solid #87BD72;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.book-details .tab-nav button[aria-selected=true], .book-details .tab-nav button:hover, .book-details .tab-nav button:focus {
+  background-color: #87BD72;
+  color: #070A06;
+}
+.book-details [role=tabpanel] {
+  margin-bottom: 2rem;
+}
+.book-details .preview-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.book-details .preview-toggle button {
+  background: #B8BAB7;
+  color: #070A06;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.book-details .preview-toggle button.active, .book-details .preview-toggle button:hover, .book-details .preview-toggle button:focus {
+  background: #87BD72;
+  color: #070A06;
+}
+.book-details .preview-display {
+  text-align: center;
+}
+.book-details .preview-display img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.25rem;
+}
+.book-details .long-description {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.book-details .book-specs {
+  width: 100%;
+  border-collapse: collapse;
+}
+.book-details .book-specs th, .book-details .book-specs td {
+  padding: 0.5rem;
+  border: 1px solid #B8BAB7;
+}
+.book-details .book-specs th {
+  text-align: left;
+  background: #3B3C3B;
+  color: #FDFDFD;
+}
+.book-details .video-block {
+  text-align: center;
+}
+.book-details .video-block video {
+  width: 100%;
+  height: auto;
+  border-radius: 0.25rem;
+}
+.book-details .locked-preview {
+  text-align: center;
+  padding: 2rem;
+  background: #3B3C3B;
+  border-radius: 0.25rem;
+}
+.book-details .locked-preview p {
+  margin-bottom: 1rem;
+}
 
 /*# sourceMappingURL=styles.css.map */
