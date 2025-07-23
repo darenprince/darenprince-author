@@ -1,0 +1,152 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+@use "../tokens/colors" as *;
+
+.main-nav-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xs;
+  color: $white;
+  transition: transform .3s;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: $mint-green;
+    stroke-width: 2;
+  }
+
+  &.menu-open svg .line1 {
+    transform: translateY(6px) rotate(45deg);
+  }
+  &.menu-open svg .line2 {
+    opacity: 0;
+  }
+  &.menu-open svg .line3 {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}
+
+.nav-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background-color: $charcoal;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  padding: $spacing-md;
+  display: none;
+  flex-direction: column;
+  gap: $spacing-sm;
+  transition: opacity .3s, transform .3s;
+  opacity: 0;
+  transform: translateY(-10px);
+
+  &.menu-open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    color: $white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: $spacing-xs;
+    transition: color .3s;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      margin-right: $spacing-xs;
+      fill: $mint-green;
+    }
+
+    &:hover,
+    &:focus {
+      color: $bright-green;
+    }
+  }
+
+  .submenu {
+    list-style: none;
+    padding-left: 0;
+    margin-top: $spacing-xs;
+    background-color: $charcoal-light;
+    border-radius: $border-radius;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s;
+
+    a {
+      padding: $spacing-xs $spacing-md;
+      display: block;
+      color: $white;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: $bright-green;
+        color: $black;
+      }
+    }
+
+    &.menu-open {
+      max-height: 300px;
+    }
+  }
+}
+
+@include respond-to(md) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    position: static;
+    display: flex !important;
+    flex-direction: row;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    opacity: 1;
+    transform: none;
+
+    .nav-item + .nav-item {
+      margin-left: $spacing-lg;
+    }
+
+    .submenu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background-color: $charcoal-light;
+      padding: $spacing-sm 0;
+      max-height: none;
+      display: none;
+    }
+
+    .has-submenu:hover .submenu {
+      display: block;
+    }
+  }
+}
+
