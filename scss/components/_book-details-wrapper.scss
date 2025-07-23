@@ -1,0 +1,81 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+
+.book-details-wrapper {
+  padding: $spacing-xl 0;
+
+  .book-details-layout {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  .book-media {
+    position: relative;
+  }
+
+  .view-toggle {
+    position: absolute;
+    bottom: $spacing-sm;
+    right: $spacing-sm;
+    display: flex;
+    gap: $spacing-xs;
+
+    button {
+      background: $medium-gray;
+      color: $black;
+      padding: $spacing-xs $spacing-sm;
+      border: 0;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: $transition;
+
+      &.active,
+      &:hover,
+      &:focus {
+        background: $bright-green;
+        color: $black;
+      }
+    }
+  }
+
+  .purchase-box {
+    background: $charcoal;
+    padding: $spacing-md;
+    border-radius: $border-radius;
+
+    .buy-controls {
+      display: flex;
+      gap: $spacing-xs;
+      margin-bottom: $spacing-sm;
+
+      select {
+        padding: $spacing-xs;
+        background: $black;
+        color: $white;
+        border: 1px solid $medium-gray;
+        border-radius: $border-radius;
+      }
+    }
+
+    @include respond-to(md) {
+      margin-left: $spacing-lg;
+      min-width: 220px;
+    }
+  }
+}
+
+.book-3d.view-front {
+  transform: rotateY(0deg);
+}
+
+.book-3d.view-back {
+  transform: rotateY(-180deg);
+}
+
