@@ -1,55 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Forensic Dashboard</title>
-  <link rel="stylesheet" href="assets/css/style.css"/>
-  <script src="assets/js/script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PicDetective Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="sidebar">
-    <div class="logo">🧠 Forensic Nav</div>
-    <ul class="nav-links" id="dynamicNav">
-      <!-- JavaScript will inject links here -->
-    </ul>
+<div id="loginOverlay" class="overlay">
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+    <button onclick="login()">Unlock</button>
+    <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
+    <p><a href="#" id="showRegister">Register</a></p>
   </div>
-  <div class="main-content">
-    <div class="topbar">
-      <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Search report..." />
-    </div>
-    <div class="content-area" id="reportContent">
-      
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Forensic Environmental & Behavioral Analysis Report</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #111; color: #eee; margin: 0; padding: 2rem; }
-        h1, h2, h3 { color: #72e0d1; }
-        img { max-width: 100%; height: auto; border: 1px solid #555; margin-bottom: 2rem; }
-        section { margin-bottom: 4rem; }
-        .meta, .observation { color: #aaa; font-size: 0.95em; }
-        .callout { background: #222; border-left: 4px solid #72e0d1; padding: 1rem; margin: 1rem 0; }
-        a { color: #72e0d1; text-decoration: none; }
-        nav { background: #222; padding: 1rem; position: fixed; top: 0; width: 100%; z-index: 1000; }
-        nav a { margin-right: 2rem; font-weight: bold; }
-        .content { margin-top: 80px; }
-        .img-block { margin-top: 2rem; }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="#summary">Summary</a>
-        <a href="#environment">Environment</a>
-        <a href="#behavior">Behavior</a>
-        <a href="#risks">Risks</a>
-        <a href="#technology">Tech</a>
-        <a href="#items">Inventory</a>
-    </nav>
-    <div class="content">
+</div>
+<div id="registerOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Register</h2>
+    <input type="text" id="regUser" placeholder="Username">
+    <input type="password" id="regPass" placeholder="Password">
+    <button onclick="registerUser()">Register</button>
+    <p><a href="#" id="closeRegister">Cancel</a></p>
+  </div>
+</div>
+
+<aside class="sidebar">
+  <div class="logo">PicDetective</div>
+  <ul class="nav-links">
+    <li class="menu-item has-sub">
+      <a href="#"><i class="fa fa-file-alt"></i><span class="link-name">Sections</span><i class="fa fa-chevron-down arrow"></i></a>
+      <ul class="sub-menu">
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#environment">Environment</a></li>
+        <li><a href="#behavior">Behavior</a></li>
+        <li><a href="#technology">Tech</a></li>
+        <li><a href="#items">Inventory</a></li>
+      </ul>
+    </li>
+    <li><a href="#fullInventory"><i class="fa fa-list"></i><span class="link-name">Inventory List</span></a></li>
+  </ul>
+</aside>
+
+<main class="content">
+  <div class="topbar">
+    <button id="toggleBtn"><i class="fa fa-bars"></i></button>
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterContent()">
+  </div>
+  <section id="reportContent">
         <section id="summary">
             <h1>Dr. Prince Mode: Full-Spectrum Forensic Report</h1>
             <p class="meta">Generated: July 24, 2025</p>
@@ -182,8 +183,6 @@
             <p>✅ HTML dossier compiled and all data safely written to file.</p>
         </section>
     </div>
-</body>
-</html>
 
 <section id="tech-corner">
     <h2>Technology, Airflow, and Power Load – Image 5</h2>
@@ -599,19 +598,66 @@
     <p>🔍 This document reflects a complete analysis up to <strong>Image 15</strong>. Images 16–18 pending re-upload or manual inclusion.</p>
     <p>📁 <strong>HTML forensic report is finalized and ready for archival, presentation, or continued updates.</strong></p>
 </section>
-</body>
-</html>
-
-    </div>
-  </div>
-
-  <div class="login-overlay" id="loginOverlay">
-    <div class="login-box">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Password">
-        <button onclick="checkPassword()">Unlock</button>
-        <p id="loginError" style="color: red; display: none;">Incorrect password.</p>
-    </div>
-  </div>
+  </section>
+  <section id="fullInventory">
+    <h2>Inventory List</h2>
+    <ul>
+      <li>Biotene mouth spray</li>
+      <li>Mouthwash</li>
+      <li>Prescription bottles</li>
+      <li>Blister pack pills</li>
+      <li>Vape juice containers</li>
+      <li>USB cables and chargers</li>
+      <li>Credit cards</li>
+      <li>Bodycology body mists (Sweet Love & Whipped Vanilla)</li>
+      <li>Eyeglass cleaner</li>
+      <li>Hydration aids and bottled drinks</li>
+      <li>Purple spray bottle</li>
+      <li>Energy drink</li>
+      <li>Degree deodorant</li>
+      <li>Supplements (turmeric, magnesium, B-complex)</li>
+      <li>Cantu Shea Butter & Luv Baby Oil</li>
+      <li>Body wash, lotions, conditioners</li>
+      <li>Cereal boxes</li>
+      <li>Nike shoe boxes, tan boots, slip-ons</li>
+      <li>Laundry bin</li>
+      <li>Onkyo/Sony receiver</li>
+      <li>Wireless speaker</li>
+      <li>Power surge bar & IR remote</li>
+      <li>Purple Lasko fan</li>
+      <li>Desktop lamp</li>
+      <li>Cigarette/tool container</li>
+      <li>Drill</li>
+      <li>Paper towels (multi-roll)</li>
+      <li>Candy/snack bags</li>
+      <li>Tools: hammer, wire cutters, tape, screwdriver</li>
+      <li>Flashlight & batteries</li>
+      <li>Air freshener</li>
+      <li>Pill bottle</li>
+      <li>Loose cash</li>
+      <li>Chex Mix</li>
+      <li>USB charger & remote</li>
+      <li>Vape devices</li>
+      <li>Cologne & body spray</li>
+      <li>Tray container</li>
+      <li>Lighter & vape charger</li>
+      <li>Wooden dresser</li>
+      <li>iMac computer</li>
+      <li>Secondary monitor</li>
+      <li>Gaming controller</li>
+      <li>Glasses on stand</li>
+      <li>Shopping bags & totes</li>
+      <li>Plastic drawer tower</li>
+      <li>Hooded sweatshirt</li>
+      <li>Personal drawer items (body spray, lotion, scissors)</li>
+      <li>Alcohol wipes</li>
+      <li>Charge cords & adapters</li>
+      <li>OTC medications</li>
+      <li>Snacks like Rice Krispies</li>
+      <li>Toothbrush holder with loose items</li>
+    </ul>
+  </section>
+</main>
+<script src="script.js"></script>
 </body>
 </html>
