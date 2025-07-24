@@ -8,10 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div id="loadingScreen" class="loading-screen"><img src="deticon.png" alt="loading"></div>
+<div id="loadingScreen" class="loading-screen">
+  <img src="deticon.png" alt="loading">
+  <div class="progress"><div class="bar"></div></div>
+</div>
 <div id="loginOverlay" class="overlay" style="display:none;">
   <div class="login-box">
     <img src="detlogo.PNG" alt="PicDetective" class="login-logo">
+    <p class="tagline">Ai Powered Forensic Image Analysis</p>
     <h2>Login</h2>
     <div class="input-group">
       <input type="text" id="loginUser" placeholder="Username">
@@ -22,7 +26,7 @@
     </div>
     <button onclick="login()">Unlock</button>
     <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
-    <p><a href="#" id="showRegister">Register</a></p>
+    <button id="showRegister" class="link-btn">Register</button>
   </div>
 </div>
 <div id="registerOverlay" class="overlay" style="display:none;">
@@ -34,17 +38,22 @@
       <span class="toggle-pass" data-target="regPass"><i class="fa fa-eye"></i></span>
     </div>
     <button onclick="registerUser()">Register</button>
-    <p><a href="#" id="closeRegister">Cancel</a></p>
+    <button id="closeRegister" class="link-btn">Cancel</button>
   </div>
 </div>
 
 <aside class="sidebar">
-  <div class="logo">PicDetective</div>
+  <div class="logo">
+    <img src="deticon.png" alt="logo">
+    <span class="logo-text">PIC Detective</span>
+    <button id="sidebarClose" class="close-sidebar"><i class="fa fa-angle-left"></i></button>
+  </div>
   <ul class="nav-links">
     <li class="menu-item has-sub">
       <a href="#"><i class="fa fa-file-alt"></i><span class="link-name">Sections</span><i class="fa fa-chevron-down arrow"></i></a>
       <ul class="sub-menu" id="sectionMenu"></ul>
     </li>
+    <li><a href="#"><i class="fa fa-plus"></i><span class="link-name">New Analysis</span></a></li>
     <li><a href="#fullInventory"><i class="fa fa-list"></i><span class="link-name">Inventory List</span></a></li>
     <li><a href="analysis.html"><i class="fa fa-chart-bar"></i><span class="link-name">Full Analysis</span></a></li>
     <li><a href="#" id="logoutBtn"><i class="fa fa-door-open"></i><span class="link-name">Logout</span></a></li>
@@ -54,10 +63,17 @@
 <main class="content">
   <div class="topbar" id="topbar">
     <button id="toggleBtn"><i class="fa fa-bars"></i></button>
+    <span class="title"><strong>Forensic Image Report</strong></span>
     <button id="searchToggle"><i class="fa fa-search"></i></button>
     <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterContent()">
+    <div class="actions">
+      <button id="printBtn"><i class="fa fa-print"></i></button>
+      <button id="settingsBtn"><i class="fa fa-cog"></i></button>
+      <button id="logoutIcon"><i class="fa fa-sign-out-alt"></i></button>
+    </div>
   </div>
   <section id="reportContent">
+    <button id="copyBtn" class="copy-btn" aria-label="Copy report"><i class="fa fa-clipboard"></i></button>
         <section id="summary">
             <h1>Dr. Prince Mode: Full-Spectrum Forensic Report</h1>
             <p class="meta">Generated: July 24, 2025</p>
