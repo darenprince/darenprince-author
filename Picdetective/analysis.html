@@ -32,18 +32,23 @@
 <div id="registerOverlay" class="overlay" style="display:none;">
   <div class="login-box">
     <h2>Register</h2>
-    <div class="input-group"><input type="text" id="regUser" placeholder="Username"></div>
+    <div class="input-group"><input type="text" id="regFirst" placeholder="First Name"></div>
+    <div class="input-group"><input type="text" id="regLast" placeholder="Last Name"></div>
+    <div class="input-group"><input type="email" id="regEmail" placeholder="Email"></div>
     <div class="input-group" style="position:relative;">
       <input type="password" id="regPass" placeholder="Password">
       <span class="toggle-pass" data-target="regPass"><i class="fa fa-eye"></i></span>
     </div>
+    <div id="passStatus" class="pass-status">Must be 8 chars with number & symbol</div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass2" placeholder="Confirm Password">
+      <span class="toggle-pass" data-target="regPass2"><i class="fa fa-eye"></i></span>
+    </div>
+    <div class="terms"><input type="checkbox" id="agree"> <label for="agree">I agree to <a href="#">Terms of Use</a> and electronic signature.</label></div>
     <button onclick="registerUser()">Register</button>
     <button id="closeRegister" class="link-btn">Cancel</button>
   </div>
 </div>
-
-<aside class="sidebar">
-  <div class="logo">
     <img src="deticon.png" alt="logo">
     <span class="logo-text">PIC Detective</span>
     <button id="sidebarClose" class="close-sidebar"><i class="fa fa-angle-left"></i></button>
@@ -685,6 +690,14 @@
   <i class="fa fa-text-height"></i>
   <input type="range" id="fontSlider" min="14" max="24" value="16">
 </div>
+<footer class="site-footer">
+  <div class="footer-logo"><img src="deticon.png" alt="logo"><span>Pic Detective</span></div>
+  <ul class="footer-links">
+    <li><a href="#">Terms</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+  <span class="copyright">&copy; 2025 Daren Prince</span>
+</footer>
 <script src="script.js"></script>
 </body>
 </html>
