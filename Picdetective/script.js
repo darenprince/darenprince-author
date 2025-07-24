@@ -41,21 +41,33 @@ document.getElementById('closeRegister').addEventListener('click', e=>{
   e.preventDefault();
   document.getElementById('registerOverlay').style.display='none';
 });
-
-function registerUser(){
-  const u = document.getElementById('regUser').value;
-  const p = document.getElementById('regPass').value;
-  if(u && p){
-    localStorage.setItem('pdUser', JSON.stringify({username:u,password:p}));
-    alert('Registration successful');
-    document.getElementById('registerOverlay').style.display='none';
-    document.getElementById('loginUser').value = u;
-    document.getElementById('loginPass').value = p;
-  }
+const passInput = document.getElementById("regPass");
+if(passInput){
+  passInput.addEventListener("input", ()=>{
+    const ok = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/.test(passInput.value);
+    document.getElementById("passStatus").classList.toggle("valid", ok);
+  });
 }
 
-function filterContent(){
-  const query = document.getElementById('searchInput').value.toLowerCase();
+
+function registerUser(){
+  const first = document.getElementById('regFirst').value.trim();
+  const last = document.getElementById('regLast').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  const agree = document.getElementById('agree').checked;
+  const passOk = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/.test(pass);
+  if(first && last && email && passOk && pass === pass2 && agree){
+    localStorage.setItem('pdUser', JSON.stringify({username:email,password:pass,first,last}));
+    alert('Registration successful');
+    document.getElementById('registerOverlay').style.display='none';
+    document.getElementById('loginUser').value = email;
+    document.getElementById('loginPass').value = pass;
+  }else{
+    alert('Please complete the form correctly');
+  }
+}
   document.querySelectorAll('#reportContent section, #fullInventory li').forEach(el=>{
     if(el.innerText.toLowerCase().includes(query)){
       el.style.display='';
