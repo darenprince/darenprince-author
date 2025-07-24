@@ -128,9 +128,15 @@ if(slider){
 
 const copyBtn = document.getElementById('copyBtn');
 if(copyBtn){
+  const tip = document.createElement('span');
+  tip.className = 'tooltip';
+  tip.textContent = 'Text copied to clipboard';
+  copyBtn.appendChild(tip);
   copyBtn.addEventListener('click', ()=>{
     const text = document.getElementById('reportContent').innerText;
     navigator.clipboard.writeText(text);
+    tip.style.display = 'block';
+    setTimeout(()=> tip.style.display = 'none', 2000);
   });
 }
 
