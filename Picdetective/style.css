@@ -17,16 +17,15 @@ body {
 }
 .sidebar {
   position: fixed;
-  width: 300px;
+  width: 60px;
   height: 100vh;
   background: var(--panel);
   padding-top: 20px;
-  transform: translateX(-310px);
-  transition: transform 0.3s ease;
+  transition: width 0.3s ease;
   z-index: 100;
 }
 .sidebar.open {
-  transform: translateX(0);
+  width: 300px;
 }
 .logo {
   display:flex;
@@ -217,6 +216,20 @@ body {
   padding:8px;
   border-radius:4px;
   cursor:pointer;
+  font-size:1.2em;
+}
+.copy-btn i{color:var(--accent);}
+.copy-btn .tooltip{
+  position:absolute;
+  top:-30px;
+  right:0;
+  background:#333;
+  color:#fff;
+  padding:4px 8px;
+  border-radius:4px;
+  font-size:12px;
+  display:none;
+  white-space:nowrap;
 }
 
 #reportContent > section, #fullInventory {
@@ -234,7 +247,7 @@ body {
   margin:1rem 0;
 }
 .content {
-  margin-left: 0;
+  margin-left: 60px;
   padding: 20px;
   transition: margin-left 0.3s ease, font-size 0.2s ease;
 }
@@ -261,12 +274,6 @@ body {
   margin-left: 300px;
 }
 
-@media(max-width:768px){
-  .sidebar{width:60px;}
-  .sidebar.open{width:300px;}
-  .sidebar .link-name{display:none;}
-  .sidebar.open .link-name{display:inline;}
-  .content{margin-left:60px;}
-  .sidebar.open ~ .content{margin-left:300px;}
-}
+.sidebar .link-name{display:none;}
+.sidebar.open .link-name{display:inline;}
 .error{color:#f55;margin-top:10px;}
