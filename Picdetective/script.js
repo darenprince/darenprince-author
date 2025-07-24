@@ -1,4 +1,14 @@
 const defaultUser = {username: 'admin', password: 'Im@g355uck'};
+let loggedIn = false;
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('loginOverlay').style.display = 'flex';
+  }, 2000);
+
+  buildSectionMenu();
+});
 
 function login(){
   const user = localStorage.getItem('pdUser') ? JSON.parse(localStorage.getItem('pdUser')) : defaultUser;
@@ -6,6 +16,10 @@ function login(){
   const p = document.getElementById('loginPass').value;
   if(u === user.username && p === user.password){
     document.getElementById('loginOverlay').style.display = 'none';
+    document.querySelector('.sidebar').classList.add('open');
+    document.querySelector('.logo').innerHTML = '<img src="deticon.png" alt="logo">';
+    buildSectionMenu();
+    loggedIn = true;
   }else{
     document.getElementById('loginError').style.display = 'block';
   }
@@ -28,6 +42,8 @@ function registerUser(){
     localStorage.setItem('pdUser', JSON.stringify({username:u,password:p}));
     alert('Registration successful');
     document.getElementById('registerOverlay').style.display='none';
+    document.getElementById('loginUser').value = u;
+    document.getElementById('loginPass').value = p;
   }
 }
 
@@ -53,3 +69,55 @@ document.querySelectorAll('.menu-item > a').forEach(link=>{
     item.classList.toggle('open');
   });
 });
+
+// search toggle
+document.getElementById('searchToggle').addEventListener('click', ()=>{
+  document.getElementById('topbar').classList.toggle('search-open');
+  if(document.getElementById('topbar').classList.contains('search-open')){
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// password visibility
+document.querySelectorAll('.toggle-pass').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    const target = document.getElementById(t.dataset.target);
+    if(target.type === 'password'){
+      target.type = 'text';
+      t.innerHTML = '<i class="fa fa-eye-slash"></i>';
+    }else{
+      target.type = 'password';
+      t.innerHTML = '<i class="fa fa-eye"></i>';
+    }
+  });
+});
+
+// logout
+document.getElementById('logoutBtn').addEventListener('click', e=>{
+  e.preventDefault();
+  loggedIn = false;
+  document.getElementById('loginOverlay').style.display='flex';
+  document.querySelector('.sidebar').classList.remove('open');
+});
+
+// font slider
+const slider = document.getElementById('fontSlider');
+if(slider){
+  slider.addEventListener('input', ()=>{
+    document.querySelector('.content').style.fontSize = slider.value + 'px';
+  });
+}
+
+function buildSectionMenu(){
+  const menu = document.getElementById('sectionMenu');
+  if(!menu) return;
+  menu.innerHTML = '';
+  document.querySelectorAll('#reportContent > section').forEach(sec=>{
+    const h2 = sec.querySelector('h2');
+    if(h2 && sec.id){
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${sec.id}">${h2.textContent}</a>`;
+      menu.appendChild(li);
+    }
+  });
+}

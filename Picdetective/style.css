@@ -1,22 +1,37 @@
 
+:root {
+  --primary: #17A2D5;
+  --accent: #ED4091;
+  --bg: #121212;
+  --panel: #1f1f1f;
+  --text: #e0e0e0;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #121212;
-  color: #e0e0e0;
+  background: var(--bg);
+  color: var(--text);
 }
 .sidebar {
   position: fixed;
   width: 250px;
   height: 100vh;
-  background: #1f1f1f;
+  background: var(--panel);
   padding-top: 20px;
+  transform: translateX(-260px);
+  transition: transform 0.3s ease;
+  z-index: 100;
+}
+.sidebar.open {
+  transform: translateX(0);
 }
 .logo {
-  color: #fff;
   text-align: center;
   margin-bottom: 30px;
-  font-size: 1.5rem;
+}
+.logo img {
+  max-width: 150px;
 }
 .nav-links {
   list-style: none;
@@ -24,7 +39,7 @@ body {
 }
 .nav-links li {
   padding: 15px 25px;
-  color: #ccc;
+  color: var(--text);
   cursor: pointer;
 }
 .nav-links li:hover {
@@ -48,11 +63,12 @@ body {
   color: white;
   border: none;
 }
-.login-overlay {
+.overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.95);
+  background: url('detbg.PNG') center/cover no-repeat;
+  background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,6 +79,8 @@ body {
   padding: 2rem;
   color: white;
   border-radius: 10px;
+  position: relative;
+  animation: fadeIn 0.5s ease forwards;
 }
 .login-box input {
   padding: 0.75rem;
@@ -70,18 +88,113 @@ body {
   background: #333;
   color: white;
   border: none;
+  margin-bottom: 10px;
+  border-radius: 4px;
 }
 .login-box button {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
-  background: #3498db;
+  background: var(--primary);
   border: none;
   color: white;
   cursor: pointer;
+  }
+.login-logo {
+  display: block;
+  margin: 0 auto 1rem;
+  max-width: 180px;
+}
+.toggle-pass {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--accent);
+}
+.loading-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.loading-screen img { max-width: 200px; animation: spin 2s linear infinite; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.topbar {
+  background: var(--panel);
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display:flex;
+  align-items:center;
+}
+.topbar button {
+  background: transparent;
+  border:none;
+  color: var(--text);
+  cursor:pointer;
+  font-size:1.2rem;
+}
+#searchInput {
+  max-width:0;
+  opacity:0;
+  transition:max-width 0.3s ease, opacity 0.3s ease;
+  margin-left:10px;
+  background:#2a2a2a;
+  color:white;
+  border:none;
+  padding:8px;
+  border-radius:4px;
+}
+.topbar.search-open #searchInput {
+  max-width:200px;
+  opacity:1;
+}
+#fontControl {
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  background:var(--panel);
+  padding:10px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  z-index:90;
+}
+#fontControl input[type="range"] { width:100px; }
+
+#reportContent > section, #fullInventory {
+  background:#1a1a1a;
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:8px;
+}
+.callout {
+  background:#222;
+  padding:1rem;
+  border-left:4px solid var(--primary);
+  margin:1rem 0;
 }
 .content {
-  margin-left: 250px;
+  margin-left: 0;
   padding: 20px;
+  transition: margin-left 0.3s ease, font-size 0.2s ease;
 }
 .nav-links li a{
   color:#ccc;
@@ -101,6 +214,10 @@ body {
 .menu-item.open .sub-menu{max-height:500px;}
 .arrow{transition:transform 0.3s;}
 .menu-item.open > a .arrow{transform:rotate(180deg);}
+.sidebar.open ~ .content {
+  margin-left: 250px;
+}
+
 @media(max-width:768px){
   .sidebar{width:60px;}
   .sidebar.open{width:250px;}
@@ -109,5 +226,4 @@ body {
   .content{margin-left:60px;}
   .sidebar.open ~ .content{margin-left:250px;}
 }
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;}
 .error{color:#f55;margin-top:10px;}
