@@ -8,11 +8,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div id="loginOverlay" class="overlay">
+<div id="loadingScreen" class="loading-screen"><img src="deticon.png" alt="loading"></div>
+<div id="loginOverlay" class="overlay" style="display:none;">
   <div class="login-box">
+    <img src="detlogo.PNG" alt="PicDetective" class="login-logo">
     <h2>Login</h2>
-    <input type="text" id="loginUser" placeholder="Username">
-    <input type="password" id="loginPass" placeholder="Password">
+    <div class="input-group">
+      <input type="text" id="loginUser" placeholder="Username">
+    </div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="loginPass" placeholder="Password">
+      <span class="toggle-pass" data-target="loginPass"><i class="fa fa-eye"></i></span>
+    </div>
     <button onclick="login()">Unlock</button>
     <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
     <p><a href="#" id="showRegister">Register</a></p>
@@ -21,8 +28,11 @@
 <div id="registerOverlay" class="overlay" style="display:none;">
   <div class="login-box">
     <h2>Register</h2>
-    <input type="text" id="regUser" placeholder="Username">
-    <input type="password" id="regPass" placeholder="Password">
+    <div class="input-group"><input type="text" id="regUser" placeholder="Username"></div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass" placeholder="Password">
+      <span class="toggle-pass" data-target="regPass"><i class="fa fa-eye"></i></span>
+    </div>
     <button onclick="registerUser()">Register</button>
     <p><a href="#" id="closeRegister">Cancel</a></p>
   </div>
@@ -33,21 +43,18 @@
   <ul class="nav-links">
     <li class="menu-item has-sub">
       <a href="#"><i class="fa fa-file-alt"></i><span class="link-name">Sections</span><i class="fa fa-chevron-down arrow"></i></a>
-      <ul class="sub-menu">
-        <li><a href="#summary">Summary</a></li>
-        <li><a href="#environment">Environment</a></li>
-        <li><a href="#behavior">Behavior</a></li>
-        <li><a href="#technology">Tech</a></li>
-        <li><a href="#items">Inventory</a></li>
-      </ul>
+      <ul class="sub-menu" id="sectionMenu"></ul>
     </li>
     <li><a href="#fullInventory"><i class="fa fa-list"></i><span class="link-name">Inventory List</span></a></li>
+    <li><a href="analysis.html"><i class="fa fa-chart-bar"></i><span class="link-name">Full Analysis</span></a></li>
+    <li><a href="#" id="logoutBtn"><i class="fa fa-door-open"></i><span class="link-name">Logout</span></a></li>
   </ul>
 </aside>
 
 <main class="content">
-  <div class="topbar">
+  <div class="topbar" id="topbar">
     <button id="toggleBtn"><i class="fa fa-bars"></i></button>
+    <button id="searchToggle"><i class="fa fa-search"></i></button>
     <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterContent()">
   </div>
   <section id="reportContent">
@@ -658,6 +665,10 @@
     </ul>
   </section>
 </main>
+<div id="fontControl">
+  <i class="fa fa-text-height"></i>
+  <input type="range" id="fontSlider" min="14" max="24" value="16">
+</div>
 <script src="script.js"></script>
 </body>
 </html>
