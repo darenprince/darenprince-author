@@ -2,12 +2,19 @@ const defaultUser = {username: 'admin', password: 'Im@g355uck'};
 let loggedIn = false;
 
 window.addEventListener('DOMContentLoaded', () => {
+  const bar = document.querySelector('#loadingScreen .bar');
+  let w = 0;
+  const iv = setInterval(()=>{ bar.style.width = (++w) + '%'; },20);
   setTimeout(() => {
+    clearInterval(iv);
     document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginOverlay').style.display = 'flex';
+    if(localStorage.getItem('pdLoggedIn') === 'true'){
+      document.querySelector('.sidebar').classList.add('open');
+    }else{
+      document.getElementById('loginOverlay').style.display = 'flex';
+    }
+    buildSectionMenu();
   }, 2000);
-
-  buildSectionMenu();
 });
 
 function login(){
@@ -17,9 +24,9 @@ function login(){
   if(u === user.username && p === user.password){
     document.getElementById('loginOverlay').style.display = 'none';
     document.querySelector('.sidebar').classList.add('open');
-    document.querySelector('.logo').innerHTML = '<img src="deticon.png" alt="logo">';
     buildSectionMenu();
     loggedIn = true;
+    localStorage.setItem('pdLoggedIn','true');
   }else{
     document.getElementById('loginError').style.display = 'block';
   }
@@ -61,6 +68,12 @@ function filterContent(){
 document.getElementById('toggleBtn').addEventListener('click', ()=>{
   document.querySelector('.sidebar').classList.toggle('open');
 });
+const sidebarClose = document.getElementById('sidebarClose');
+if(sidebarClose){
+  sidebarClose.addEventListener('click', ()=>{
+    document.querySelector('.sidebar').classList.remove('open');
+  });
+}
 
 document.querySelectorAll('.menu-item > a').forEach(link=>{
   link.addEventListener('click', e=>{
@@ -93,12 +106,17 @@ document.querySelectorAll('.toggle-pass').forEach(t=>{
 });
 
 // logout
-document.getElementById('logoutBtn').addEventListener('click', e=>{
-  e.preventDefault();
+function doLogout(){
   loggedIn = false;
+  localStorage.removeItem('pdLoggedIn');
   document.getElementById('loginOverlay').style.display='flex';
   document.querySelector('.sidebar').classList.remove('open');
+}
+document.getElementById('logoutBtn').addEventListener('click', e=>{
+  e.preventDefault();
+  doLogout();
 });
+document.getElementById('logoutIcon').addEventListener('click', doLogout);
 
 // font slider
 const slider = document.getElementById('fontSlider');
@@ -108,13 +126,24 @@ if(slider){
   });
 }
 
+const copyBtn = document.getElementById('copyBtn');
+if(copyBtn){
+  copyBtn.addEventListener('click', ()=>{
+    const text = document.getElementById('reportContent').innerText;
+    navigator.clipboard.writeText(text);
+  });
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+document.getElementById('settingsBtn').addEventListener('click', ()=>{});
+
 function buildSectionMenu(){
   const menu = document.getElementById('sectionMenu');
   if(!menu) return;
   menu.innerHTML = '';
   document.querySelectorAll('#reportContent > section').forEach(sec=>{
     const h2 = sec.querySelector('h2');
-    if(h2 && sec.id){
+    if(h2 && sec.id && !h2.textContent.includes('Checkpoint Summary')){
       const li = document.createElement('li');
       li.innerHTML = `<a href="#${sec.id}">${h2.textContent}</a>`;
       menu.appendChild(li);
