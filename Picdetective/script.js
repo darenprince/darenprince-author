@@ -76,6 +76,9 @@ function registerUser(){
     alert('Please complete the form correctly');
   }
 }
+
+function filterContent(){
+  const query = document.getElementById('searchInput').value.toLowerCase();
   document.querySelectorAll('#reportContent section, #fullInventory li').forEach(el=>{
     if(el.innerText.toLowerCase().includes(query)){
       el.style.display='';
