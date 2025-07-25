@@ -6,6 +6,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const loadingScreen = document.getElementById('loadingScreen');
   let w = 0;
   const loadDuration = 3500;
+  const storedUser = localStorage.getItem('pdUser');
+  if(!storedUser){
+    localStorage.setItem('pdUser', JSON.stringify(defaultUser));
+  } else {
+    const u = JSON.parse(storedUser);
+    if(!u.username || !u.password){
+      localStorage.setItem('pdUser', JSON.stringify(defaultUser));
+    }
+  }
   const iv = setInterval(() => {
     if (w < 100) {
       bar.style.width = (++w) + '%';
