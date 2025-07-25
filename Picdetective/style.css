@@ -157,14 +157,17 @@ body {
   pointer-events: none;
   z-index: -1;
 }
-.loading-screen img { max-width: 150px; margin-bottom:20px; animation: spin 3s linear infinite; filter: drop-shadow(0 0 15px var(--accent)); }
-.loading-screen .progress{width:80%;height:6px;background:#333;border-radius:4px;margin-top:20px;overflow:hidden;}
-.loading-screen .bar{height:100%;width:0;background:var(--primary);}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.loading-screen .progress{
+  width:80%;
+  height:6px;
+  background:#333;
+  border-radius:4px;
+  overflow:hidden;
+  position:absolute;
+  top:75%;
+  transform:translateY(-50%);
 }
+.loading-screen .bar{height:100%;width:0;background:#ccc;}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.9); }
