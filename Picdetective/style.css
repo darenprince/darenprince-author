@@ -75,7 +75,10 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  opacity:0;
+  transition:opacity 0.5s ease;
 }
+.overlay.show{opacity:1;}
 .login-box {
   background: #222;
   padding: 2rem;
@@ -93,23 +96,25 @@ body {
   margin:-5px 0 1rem;
 }
 .login-box input {
-  padding: 0.85rem 1rem;
+  padding: 1rem;
   width: 100%;
   background: #333;
   color: white;
   border: none;
   margin-bottom: 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   box-sizing:border-box;
+  font-size:1rem;
 }
 .login-box button {
   margin-top: 1rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 1rem;
+  width:100%;
   background: var(--primary);
   border: none;
   color: white;
   cursor: pointer;
-  border-radius:6px;
+  border-radius:20px;
 }
 .link-btn{
   background: var(--accent);
@@ -120,10 +125,27 @@ body {
   cursor:pointer;
   margin-top:1rem;
 }
+.login-btn{
+  background:#C1564D;
+  color:#fff;
+}
+.register-btn{
+  background:#5DC0C3;
+  color:#fff;
+  margin-top:0.5rem;
+}
+.forgot-link{
+  display:block;
+  text-align:center;
+  margin-top:0.5rem;
+  font-size:0.85rem;
+  color:#ccc;
+  text-decoration:none;
+}
 .login-logo {
   display: block;
   margin: 0 auto 1rem;
-  max-width: 180px;
+  max-width: 200px;
 }
 .toggle-pass {
   position: absolute;
@@ -146,7 +168,9 @@ body {
   z-index: 10000;
   flex-direction: column;
   overflow: hidden;
+  transition:opacity 0.5s ease;
 }
+.loading-screen.hide{opacity:0;}
 .loading-screen video {
   position: absolute;
   top: 0;

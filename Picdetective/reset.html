@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="overlay show" style="display:flex;">
+  <div class="login-box">
+    <h2>Reset Password</h2>
+    <div class="input-group"><input type="password" id="newPass" placeholder="New Password"></div>
+    <div class="input-group"><input type="password" id="newPass2" placeholder="Confirm Password"></div>
+    <button id="resetBtn" class="login-btn">Reset Password</button>
+  </div>
+</div>
+<script>
+ document.getElementById('resetBtn').addEventListener('click',function(){
+   const p1=document.getElementById('newPass').value;
+   const p2=document.getElementById('newPass2').value;
+   if(p1 && p1===p2){
+     const user=localStorage.getItem('pdUser')?JSON.parse(localStorage.getItem('pdUser')):null;
+     if(user){ user.password=p1; localStorage.setItem('pdUser',JSON.stringify(user)); }
+     alert('Password updated');
+     window.location.href='index.html';
+   }else{
+     alert('Passwords must match');
+   }
+ });
+</script>
+</body>
+</html>
