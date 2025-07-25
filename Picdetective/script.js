@@ -4,17 +4,25 @@ let loggedIn = false;
 window.addEventListener('DOMContentLoaded', () => {
   const bar = document.querySelector('#loadingScreen .bar');
   let w = 0;
-  const iv = setInterval(()=>{ bar.style.width = (++w) + '%'; },20);
+  const loadDuration = 3000;
+  const iv = setInterval(() => {
+    if (w < 100) {
+      bar.style.width = (++w) + '%';
+    } else {
+      clearInterval(iv);
+    }
+  }, loadDuration / 100);
   setTimeout(() => {
     clearInterval(iv);
+    bar.style.width = '100%';
     document.getElementById('loadingScreen').style.display = 'none';
-    if(localStorage.getItem('pdLoggedIn') === 'true'){
+    if (localStorage.getItem('pdLoggedIn') === 'true') {
       document.querySelector('.sidebar').classList.add('open');
-    }else{
+    } else {
       document.getElementById('loginOverlay').style.display = 'flex';
     }
     buildSectionMenu();
-  }, 2000);
+  }, loadDuration);
 });
 
 function login(){
