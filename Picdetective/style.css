@@ -33,6 +33,12 @@ body {
   padding:0 15px;
   margin-bottom:20px;
 }
+.logo a{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  color:inherit;
+}
 .logo img {
   width:30px;
   margin-right:10px;
@@ -73,7 +79,8 @@ body {
   display: flex;
   background-color: #000;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top:5vh;
   z-index: 9999;
   opacity:0;
   transition:opacity 0.5s ease;
@@ -130,7 +137,7 @@ body {
   color:#fff;
 }
 .register-btn{
-  background:#5DC0C3;
+  background:var(--accent);
   color:#fff;
   margin-top:0.5rem;
 }
@@ -253,7 +260,7 @@ body {
 
 .copy-btn{
   position:absolute;
-  top:10px;
+  bottom:10px;
   right:10px;
   background:var(--panel);
   border:none;
@@ -262,6 +269,7 @@ body {
   border-radius:4px;
   cursor:pointer;
   font-size:1.2em;
+  z-index:1000;
 }
 .copy-btn i{color:var(--accent);}
 .copy-btn .tooltip{
@@ -330,6 +338,6 @@ body {
 .site-footer{background:#0d1117;color:#8b949e;font-size:14px;border-top:1px solid #30363d;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;}
 .site-footer .footer-links{list-style:none;display:flex;gap:15px;margin:0;padding:0;}
 .site-footer .footer-links a{color:#8b949e;text-decoration:none;}
-.site-footer .footer-logo{display:flex;align-items:center;gap:10px;font-weight:bold;color:#fff;}
+.site-footer .footer-logo{display:flex;align-items:center;gap:10px;font-weight:bold;color:#fff;text-decoration:none;}
 .site-footer img{width:24px;}
 
