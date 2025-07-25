@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5DC0C3">
+  <title>PicDetective Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div id="loadingScreen" class="loading-screen">
+  <video class="loading-bg" src="detbgvid.webm" autoplay muted loop playsinline></video>
+  <div class="progress"><div class="bar"></div></div>
+</div>
+<div id="loginOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <img src="detlogo2.PNG" alt="PicDetective" class="login-logo">
+    <p class="tagline">Ai Powered Forensic Image Analysis</p>
+    <h2>Login</h2>
+    <div class="input-group">
+      <input type="text" id="loginUser" placeholder="Username">
+    </div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="loginPass" placeholder="Password">
+      <span class="toggle-pass" data-target="loginPass"><i class="fa fa-eye"></i></span>
+    </div>
+    <button onclick="login()" class="login-btn">Unlock</button>
+    <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
+    <button id="showRegister" class="register-btn">Register</button>
+    <a href="#" id="forgotLink" class="forgot-link">Forgot password?</a>
+  </div>
+</div>
+<div id="registerOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Register</h2>
+    <div class="input-group"><input type="text" id="regFirst" placeholder="First Name"></div>
+    <div class="input-group"><input type="text" id="regLast" placeholder="Last Name"></div>
+    <div class="input-group"><input type="email" id="regEmail" placeholder="Email"></div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass" placeholder="Password">
+      <span class="toggle-pass" data-target="regPass"><i class="fa fa-eye"></i></span>
+    </div>
+    <div id="passStatus" class="pass-status">Must be 8 chars with number & symbol</div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass2" placeholder="Confirm Password">
+      <span class="toggle-pass" data-target="regPass2"><i class="fa fa-eye"></i></span>
+    </div>
+    <div class="terms"><input type="checkbox" id="agree"> <label for="agree">I agree to <a href="#">Terms of Use</a> and electronic signature.</label></div>
+    <button onclick="registerUser()">Register</button>
+    <button id="closeRegister" class="link-btn">Cancel</button>
+  </div>
+</div>
+<div id="forgotOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Forgot Password</h2>
+    <div class="input-group"><input type="email" id="resetEmail" placeholder="Email"></div>
+    <button id="sendReset" class="login-btn">Send Reset Link</button>
+    <button id="backLogin" class="link-btn" style="margin-top:0.5rem;">Back to Login</button>
+  </div>
+</div>
+<aside class="sidebar">
+  <div class="logo">
+    <img src="deticon.png" alt="logo">
+    <span class="logo-text">PIC Detective</span>
+    <button id="sidebarClose" class="close-sidebar"><i class="fa fa-angle-left"></i></button>
+  </div>
+  <ul class="nav-links">
+    <li class="menu-item has-sub">
+      <a href="#"><i class="fa fa-file-alt"></i><span class="link-name">Sections</span><i class="fa fa-chevron-down arrow"></i></a>
+      <ul class="sub-menu" id="sectionMenu"></ul>
+    </li>
+    <li><a href="#"><i class="fa fa-plus"></i><span class="link-name">New Analysis</span></a></li>
+    <li><a href="analysis.html"><i class="fa fa-chart-bar"></i><span class="link-name">Full Analysis</span></a></li>
+    <li><a href="#" id="logoutBtn"><i class="fa fa-door-open"></i><span class="link-name">Logout</span></a></li>
+  </ul>
+</aside>
+
+<main class="content">
+  <div class="topbar" id="topbar">
+    <button id="toggleBtn"><i class="fa fa-bars"></i></button>
+    <span class="title"><strong>Forensic Image Report</strong></span>
+    <button id="searchToggle"><i class="fa fa-search"></i></button>
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterContent()">
+    <div class="actions">
+      <button id="printBtn"><i class="fa fa-print"></i></button>
+      <button id="settingsBtn"><i class="fa fa-cog"></i></button>
+      <button id="logoutIcon"><i class="fa fa-sign-out-alt"></i></button>
+    </div>
+  </div>
+  <section id="reportContent">
+    <button id="copyBtn" class="copy-btn" title="Copy report"><i class="fa fa-clipboard"></i></button>
+<section id="final-summary">
+    <h2>🧠 Final Summary: Full Forensic Behavioral & Environmental Analysis</h2>
+    <p>This report has synthesized high-resolution insights across 15 processed images.</p>
+    <h3>Global Behavioral Themes Identified:</h3>
+    <ul>
+        <li><strong>Controlled Chaos:</strong> A recurring behavioral motif where function trumps form. Objects are placed based on emotional reinforcement, not visual order.</li>
+        <li><strong>Sensory-Based Self-Regulation:</strong> Heavy reliance on nicotine, sugar, caffeine, scent, and tech as methods of emotional grounding and energy management.</li>
+        <li><strong>Trauma-Survival Adaptations:</strong> Drawer clustering, mixed domain storage, overstocking, and impulsive item usage patterns are all indicative of coping mechanisms from past instability.</li>
+        <li><strong>Emotional Burnout & Executive Dysfunction:</strong> Hygiene and organization cycles exist, but degrade under load. Evidence of alternating high-function and complete drop-off zones.</li>
+        <li><strong>Solo Patterning & Lack of Social Oversight:</strong> Most spaces are configured for individual access and emotional maintenance, not cohabitation or public presentation.</li>
+    </ul>
+
+    <h3>Key Environmental Risk Flags:</h3>
+    <ul>
+        <li>Fire hazards: tangled cords, overloaded outlets, smoking/vaping near fabric.</li>
+        <li>Cross-contamination: storage of food, medication, and hygiene in single zones.</li>
+        <li>Trip and clutter risk: low-floor piles, drawers left open, tools scattered.</li>
+    </ul>
+
+    <h3>Clinical Considerations (Preliminary):</h3>
+    <ul>
+        <li>Possible stimulant use history (nicotine/meth/caffeine-based cycle behavior).</li>
+        <li>Indicators of ADHD, trauma-recovery, or emotional regulation disorder.</li>
+        <li>Patterns consistent with post-acute stimulant withdrawal (oral fixation, clutter tolerance, low hygiene friction).</li>
+    </ul>
+
+    <p>🔍 This document reflects a complete analysis up to <strong>Image 15</strong>. Images 16–18 pending re-upload or manual inclusion.</p>
+    <p>📁 <strong>HTML forensic report is finalized and ready for archival, presentation, or continued updates.</strong></p>
+</section>
+  </section>
+  
+</main>
+<div id="fontControl">
+  <i class="fa fa-text-height"></i>
+  <input type="range" id="fontSlider" min="14" max="24" value="16">
+</div>
+<footer class="site-footer">
+  <div class="footer-logo"><img src="deticon.png" alt="logo"><span>Pic Detective</span></div>
+  <ul class="footer-links">
+    <li><a href="#">Terms</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+  <span class="copyright">&copy; 2025 Daren Prince</span>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
