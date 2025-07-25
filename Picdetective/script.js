@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const bar = document.querySelector('#loadingScreen .bar');
   const loadingScreen = document.getElementById('loadingScreen');
   let w = 0;
-  const loadDuration = 3000;
+  const loadDuration = 3500;
   const iv = setInterval(() => {
     if (w < 100) {
       bar.style.width = (++w) + '%';
