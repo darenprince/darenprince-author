@@ -25,9 +25,10 @@
       <input type="password" id="loginPass" placeholder="Password">
       <span class="toggle-pass" data-target="loginPass"><i class="fa fa-eye"></i></span>
     </div>
-    <button onclick="login()">Unlock</button>
+    <button onclick="login()" class="login-btn">Unlock</button>
     <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
-    <button id="showRegister" class="link-btn">Register</button>
+    <button id="showRegister" class="register-btn">Register</button>
+    <a href="#" id="forgotLink" class="forgot-link">Forgot password?</a>
   </div>
 </div>
 <div id="registerOverlay" class="overlay" style="display:none;">
@@ -48,6 +49,14 @@
     <div class="terms"><input type="checkbox" id="agree"> <label for="agree">I agree to <a href="#">Terms of Use</a> and electronic signature.</label></div>
     <button onclick="registerUser()">Register</button>
     <button id="closeRegister" class="link-btn">Cancel</button>
+  </div>
+</div>
+<div id="forgotOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Forgot Password</h2>
+    <div class="input-group"><input type="email" id="resetEmail" placeholder="Email"></div>
+    <button id="sendReset" class="login-btn">Send Reset Link</button>
+    <button id="backLogin" class="link-btn" style="margin-top:0.5rem;">Back to Login</button>
   </div>
 </div>
     <img src="deticon.png" alt="logo">

@@ -3,6 +3,7 @@ let loggedIn = false;
 
 window.addEventListener('DOMContentLoaded', () => {
   const bar = document.querySelector('#loadingScreen .bar');
+  const loadingScreen = document.getElementById('loadingScreen');
   let w = 0;
   const loadDuration = 3000;
   const iv = setInterval(() => {
@@ -15,13 +16,18 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     clearInterval(iv);
     bar.style.width = '100%';
-    document.getElementById('loadingScreen').style.display = 'none';
-    if (localStorage.getItem('pdLoggedIn') === 'true') {
-      document.querySelector('.sidebar').classList.add('open');
-    } else {
-      document.getElementById('loginOverlay').style.display = 'flex';
-    }
-    buildSectionMenu();
+    loadingScreen.classList.add('hide');
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+      if (localStorage.getItem('pdLoggedIn') === 'true') {
+        document.querySelector('.sidebar').classList.add('open');
+      } else {
+        const login = document.getElementById('loginOverlay');
+        login.style.display = 'flex';
+        requestAnimationFrame(()=> login.classList.add('show'));
+      }
+      buildSectionMenu();
+    }, 500);
   }, loadDuration);
 });
 
@@ -30,7 +36,9 @@ function login(){
   const u = document.getElementById('loginUser').value;
   const p = document.getElementById('loginPass').value;
   if(u === user.username && p === user.password){
-    document.getElementById('loginOverlay').style.display = 'none';
+    const loginBox = document.getElementById('loginOverlay');
+    loginBox.classList.remove('show');
+    setTimeout(()=>loginBox.style.display='none',500);
     document.querySelector('.sidebar').classList.add('open');
     buildSectionMenu();
     loggedIn = true;
@@ -42,13 +50,57 @@ function login(){
 
 document.getElementById('showRegister').addEventListener('click', e=>{
   e.preventDefault();
-  document.getElementById('registerOverlay').style.display='flex';
+  const reg = document.getElementById('registerOverlay');
+  reg.style.display='flex';
+  requestAnimationFrame(()=>reg.classList.add('show'));
 });
 
 document.getElementById('closeRegister').addEventListener('click', e=>{
   e.preventDefault();
-  document.getElementById('registerOverlay').style.display='none';
+  const reg = document.getElementById('registerOverlay');
+  reg.classList.remove('show');
+  setTimeout(()=>reg.style.display='none',500);
 });
+
+const forgotLink = document.getElementById('forgotLink');
+if(forgotLink){
+  forgotLink.addEventListener('click',e=>{
+    e.preventDefault();
+    document.getElementById('loginOverlay').style.display='none';
+    const f = document.getElementById('forgotOverlay');
+    f.style.display='flex';
+    requestAnimationFrame(()=>f.classList.add('show'));
+  });
+}
+
+const backLogin = document.getElementById('backLogin');
+if(backLogin){
+  backLogin.addEventListener('click',e=>{
+    e.preventDefault();
+    const f = document.getElementById('forgotOverlay');
+    f.classList.remove('show');
+    setTimeout(()=>{
+      f.style.display='none';
+      const l=document.getElementById('loginOverlay');
+      l.style.display='flex';
+      requestAnimationFrame(()=>l.classList.add('show'));
+    },500);
+  });
+}
+
+const sendReset = document.getElementById('sendReset');
+if(sendReset){
+  sendReset.addEventListener('click',()=>{
+    const email=document.getElementById('resetEmail').value.trim();
+    const user=localStorage.getItem('pdUser')?JSON.parse(localStorage.getItem('pdUser')):defaultUser;
+    if(email===user.username){
+      alert('Password reset link sent to '+email);
+      window.location.href='reset.html';
+    }else{
+      alert('Email not found');
+    }
+  });
+}
 const passInput = document.getElementById("regPass");
 if(passInput){
   passInput.addEventListener("input", ()=>{
@@ -132,7 +184,9 @@ document.querySelectorAll('.toggle-pass').forEach(t=>{
 function doLogout(){
   loggedIn = false;
   localStorage.removeItem('pdLoggedIn');
-  document.getElementById('loginOverlay').style.display='flex';
+  const login = document.getElementById('loginOverlay');
+  login.style.display='flex';
+  requestAnimationFrame(()=>login.classList.add('show'));
   document.querySelector('.sidebar').classList.remove('open');
 }
 document.getElementById('logoutBtn').addEventListener('click', e=>{
