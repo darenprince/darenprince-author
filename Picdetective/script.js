@@ -28,8 +28,10 @@ window.addEventListener('DOMContentLoaded', () => {
     loadingScreen.classList.add('hide');
     setTimeout(() => {
       loadingScreen.style.display = 'none';
+      const sidebar = document.querySelector('.sidebar');
       if (localStorage.getItem('pdLoggedIn') === 'true') {
-        document.querySelector('.sidebar').classList.add('open');
+        sidebar.classList.add('open');
+        setTimeout(() => sidebar.classList.remove('open'), 1500);
       } else {
         const login = document.getElementById('loginOverlay');
         login.style.display = 'flex';
