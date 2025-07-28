@@ -1,9 +1,11 @@
-document
-  .querySelector('.js-toggle-nav')
-  .addEventListener('click', function () {
-    const nav = document.getElementById('nav');
+const navToggle = document.querySelector('.js-toggle-nav');
+const nav = document.getElementById('nav');
+if (navToggle && nav) {
+  navToggle.addEventListener('click', function () {
     nav.classList.toggle('is-visible');
+    navToggle.classList.toggle('is-open');
   });
+}
 
 const modalOverlay = document.getElementById('demo-modal');
 if (modalOverlay) {

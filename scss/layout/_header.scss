@@ -22,7 +22,29 @@
 .nav-toggle {
   background: transparent;
   border: 0;
-  color: $white;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  span,
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $white;
+    transition: $transition;
+  }
+  span { top: 50%; transform: translateY(-50%); }
+  &::before { top: 0; }
+  &::after { bottom: 0; }
+
+  &.is-open {
+    span { opacity: 0; }
+    &::before { top: 50%; transform: rotate(45deg); }
+    &::after { bottom: 50%; transform: rotate(-45deg); }
+  }
 }
 
 
