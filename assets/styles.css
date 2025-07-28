@@ -515,7 +515,7 @@ input:checked + .toggle-slider::before {
 
 .hero {
   position: relative;
-  background-image: url("https://placehold.co/1200x600?text=Hero");
+  background-image: url("../Hero-bg.PNG");
   background-size: cover;
   background-position: center;
   padding: 3rem 0;
@@ -976,6 +976,43 @@ input:checked + .toggle-slider::before {
 
 .book-3d.view-back {
   transform: rotateY(-180deg);
+}
+
+.trailer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.trailer-overlay.is-visible {
+  display: flex;
+}
+
+.trailer-modal {
+  position: relative;
+}
+
+.trailer-modal iframe {
+  height: 90vh;
+  width: 31.1538461538vh;
+  border: none;
+}
+
+.trailer-modal .close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #FDFDFD;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=styles.css.map */
