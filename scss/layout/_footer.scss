@@ -1,10 +1,18 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
+
 .site-footer {
   background: $black;
   color: $white;
-  padding: 2rem 0;
-  text-align: center;
+  padding: $spacing-lg 0;
+  text-align: left;
+
+  .footer-grid {
+    display: grid;
+    gap: $spacing-md;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    align-items: start;
+  }
 
   .footer-logo {
     width: 120px;
@@ -12,6 +20,16 @@
   }
 
   a {
-    color: $bright-green;
+    color: $white;
+    text-decoration: none;
+    &:hover { color: $bright-green; }
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: $spacing-xxs;
   }
 }
