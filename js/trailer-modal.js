@@ -4,16 +4,36 @@ if (modal) {
   const heroSection = document.querySelector('.js-open-trailer-section');
   const closeButton = modal.querySelector('.js-close-trailer');
   const iframe = modal.querySelector('iframe');
-  const videoUrl = 'https://www.youtube.com/embed/I1W7JdHC33A?controls=1&modestbranding=1&fs=1&rel=0';
+  const videoId = 'I1W7JdHC33A';
+  let player;
 
   function openModal() {
-    iframe.src = videoUrl;
     modal.classList.add('is-visible');
+    if (player) {
+      player.playVideo();
+    } else {
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+      window.onYouTubeIframeAPIReady = function () {
+        player = new YT.Player(iframe, {
+          videoId,
+          playerVars: { autoplay: 1, controls: 1, modestbranding: 1, rel: 0 },
+          events: {
+            onStateChange: function (e) {
+              if (e.data === YT.PlayerState.ENDED) closeModal();
+            }
+          }
+        });
+      };
+    }
   }
 
   function closeModal() {
     modal.classList.remove('is-visible');
-    iframe.src = '';
+    if (player) player.stopVideo();
   }
 
   if (openButton) {
