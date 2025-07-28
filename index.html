@@ -26,16 +26,22 @@
 
   <main>
     <!-- Hero copy sourced from Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf -->
-    <section class="hero text-center">
+    <section class="hero text-center js-open-trailer-section">
       <div class="container max-width-adaptive-lg">
         <h1>Welcome to the official site</h1>
-        <p>Discover Daren Prince's latest insights and releases.</p>
         <div class="flex justify-center gap-sm">
-          <a href="book.html" class="btn btn--primary">Buy the Book</a>
-          <a href="contact.html" class="btn btn--accent">Contact</a>
+          <a href="book.html" class="btn btn--primary">By the Book</a>
+          <button class="btn btn--accent js-open-trailer-btn">Watch the Trailer</button>
         </div>
       </div>
     </section>
+
+    <div class="trailer-overlay" id="trailer-modal">
+      <div class="trailer-modal">
+        <button class="close-btn js-close-trailer" aria-label="Close">&times;</button>
+        <iframe title="Game On Trailer" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+    </div>
 
     <section class="testimonials">
       <div class="container">
@@ -97,5 +103,6 @@
     <p>&copy; 2023 Daren Prince. All rights reserved.</p>
   </footer>
   <script src="/js/mobile-nav.js"></script>
+  <script src="/js/trailer-modal.js"></script>
   </body>
   </html>
