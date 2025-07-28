@@ -1,7 +1,7 @@
 @use "../base/variables" as *;
 .hero {
   position: relative;
-  background-image: url('https://placehold.co/1200x600?text=Hero');
+  background-image: url('../Hero-bg.PNG');
   background-size: cover;
   background-position: center;
   padding: $spacing-xl 0;
