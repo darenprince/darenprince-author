@@ -17,6 +17,7 @@ mkdir -p scss/base scss/utilities scss/components scss/themes scss/layout
 # === Initial Files ===
 touch index.html components.html
 touch test/test.html
+touch test/layout-debug.html
 touch member/index.html
 
 # === SCSS Files ===
