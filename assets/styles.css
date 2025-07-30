@@ -1077,4 +1077,11 @@ input:checked + .toggle-slider::before {
   cursor: pointer;
 }
 
+.demo-container {
+  background-color: rgb(71.6428571429, 72.8571428571, 71.6428571429);
+  padding: 2rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /*# sourceMappingURL=styles.css.map */
