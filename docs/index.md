@@ -11,5 +11,5 @@ Welcome to the official docs for the Daren Prince Author Platform. All guides as
 - [assets-brand-README](assets-brand-README.md) — Asset naming rules
 - [3d-book-guide](3d-book-guide.md) — Rotating book component how-to
 - [onboarding](onboarding.md) — Setup for new contributors
-- [UPDATED_README_DarenPrince](UPDATED_README_DarenPrince.md) — Legacy site vision
-- [LICENSE](LICENSE.md) — Usage permissions
+- [archive/UPDATED_README_DarenPrince.md](archive/UPDATED_README_DarenPrince.md) — Legacy site vision
+- [archive/LICENSE.md](archive/LICENSE.md) — Usage permissions

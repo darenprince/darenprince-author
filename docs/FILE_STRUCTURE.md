@@ -17,6 +17,7 @@ This document details the exact folder and file structure used in the Codex-powe
 ├── member/                    # Member area (in progress)
 ├── docs/                      # Project documentation
 ├── test/                      # Demo layouts and checks
+├── archive/                   # Archived files and legacy docs
 ├── package.json               # Build scripts and dependencies
 ├── package-lock.json          # Version-locked dependencies
 ├── setup.sh                   # Initialization script
@@ -113,7 +114,8 @@ This document details the exact folder and file structure used in the Codex-powe
 
 ```
 /test/
-├── test.html                 # Basic layout test page
+├── test.html                 # Main demo page
+├── layout-debug.html         # Grid layout debug file
 ```
 
 ---
