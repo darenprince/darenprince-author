@@ -1502,10 +1502,15 @@ input:checked + .slider:before {
   z-index: 9998;
 }
 
-body.menu-open {
-  transform: translateX(-260px);
-  overflow: hidden;
+.site-wrap {
   transition: transform 0.4s ease;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+body.menu-open .site-wrap {
+  transform: translateX(-260px);
 }
 body.menu-open .mega-menu {
   transform: translateX(0);
