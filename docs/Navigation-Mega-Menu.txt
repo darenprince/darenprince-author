@@ -1,0 +1,331 @@
+Mega Menu Structure and Functionality
+
+Overview: This custom mega menu is based on the CodyHouse Mega-Site Navigation template. It provides a responsive, multi-level navigation with an overlay and smooth CSS transitions. The menu’s design features a dark background and vibrant green accent icons and highlights for a modern, cohesive look. It is built with semantic HTML (unordered lists for menus), SCSS for styling (with easily adjustable variables), and jQuery for interactive behavior. The following documentation details the menu’s HTML structure, JavaScript behaviors for toggling submenus and responsive views, icon usage, color palette, example menu content, and guidance on extending or modifying the menu.
+
+HTML Structure of the Menu
+
+Mobile view of the main navigation menu open, displaying top-level items with green outline icons (Home, Books, About, Media, Swag, Blog, Collabs, Contact) and a dark background.
+
+The menu’s HTML is organized as a nested set of <ul> lists within a <nav> container. Each top-level menu item is an <li> element. Key classes in the HTML structure include:
+	•	has-children – applied to any <li> that contains a submenu. This class indicates a nested <ul> is present.
+	•	cd-secondary-nav – a class for secondary submenu lists. In this implementation, the first nested <ul> under a top-level item may use a class like cd-secondary-nav (or similar) to distinguish styling for submenu containers.
+	•	is-hidden – applied to submenu <ul> elements to hide them by default. On initial load, all nested sub-menus are hidden off-canvas (for mobile view) by this class.
+	•	go-back – a special <li> item placed at the top of each submenu list. It contains a link that allows the user to navigate back to the previous menu level. For the first-level submenu, this is often labeled “Menu” or “Back”. For deeper levels, it is labeled with the parent category’s name.
+	•	see-all – an optional <li> item (usually right after the go-back link) that provides a “See All” or “All [Category]” link. This typically links to a landing page that aggregates all items of that category. (This is optional; it can be omitted if the main category itself is clickable or if not needed.)
+
+Nested Structure: A top-level <li class="has-children"> contains an <a> (which serves as the trigger for its submenu on mobile) and a nested <ul> for the submenu. The submenu <ul> is initially class="is-hidden" so it’s not visible until triggered. For example, a simplified snippet for a menu with one submenu looks like:
+
+<ul id="cd-primary-nav" class="cd-primary-nav">
+  <li class="has-children">
+    <a href="#0">Books</a>
+    <ul class="cd-secondary-nav is-hidden">
+      <li class="go-back"><a href="#0">Back</a></li>
+      <!-- (go-back brings user back to main menu) -->
+      <!-- Optional "see-all" link: -->
+      <!-- <li class="see-all"><a href="/books">All Books</a></li> -->
+      <li><a href="/books/game-on">Game On!</a></li>
+      <li><a href="/books/unshakeable">Unshakeable</a></li>
+    </ul>
+  </li>
+  <li><a href="/about">About</a></li>
+  <!-- ...other top-level items... -->
+</ul>
+
+In the above structure, the "Books" item has two sub-items. The go-back list item appears at the top of the submenu (with text “Back” in this custom version) and would take the user back to the main menu. The see-all item (commented out in the example) could be included to link to an overview page of all books. Every submenu that itself contains further nesting would have its own go-back link pointing to its parent category and an optional see-all link for that category. For instance, CodyHouse’s original example shows multiple nested levels using the same pattern ￼. Each deeper level <ul> also carries class="is-hidden" initially, and each parent <li> at any level that has a submenu gets class="has-children" ￼.
+
+Primary Nav Container: The outer <ul> (with an id like cd-primary-nav) wraps all top-level items. In the CodyHouse framework, this primary nav is placed inside a <nav class="cd-nav"> element for semantic structure. In the HTML file, the <nav> is separate from the header for mobile, but JavaScript may move it into the header for desktop (discussed below). The primary <ul> often has an additional class like is-fixed to facilitate fixed positioning on mobile devices ￼.
+
+Header and Triggers: Above the nav in the HTML, there is a <header class="cd-main-header"> which typically contains:
+	•	A logo (e.g., an anchor with cd-logo class).
+	•	A set of header action buttons in an unordered list with class cd-header-buttons. In the default CodyHouse structure, this includes:
+	•	A search trigger link: <a class="cd-search-trigger" href="#cd-search">...</a> (for toggling a search form overlay).
+	•	A menu trigger link: <a class="cd-nav-trigger" href="#cd-primary-nav">Menu<span></span></a> – this is the “hamburger” icon that toggles the visibility of the main navigation.
+	•	In the custom implementation, an user/account trigger may be added here as well (for example, an icon for user login/account). This user trigger is not in the original CodyHouse snippet but was added in the custom menu to handle auth links (Log In/Account menu).
+
+The header buttons are typically absolutely positioned on the top-right of the header ￼. The cd-nav-trigger is the hamburger menu icon; it uses a <span> inside for the icon lines which are styled via CSS. The cd-search-trigger is similar but controls the search overlay (not detailed here since the focus is on navigation).
+
+Overlay Element: Immediately after the <main> content container in the HTML is a <div class="cd-overlay"></div>. This overlay is a full-screen translucent layer that appears when the menu (or search) is active. It’s initially empty and hidden, only becoming visible to dim the background when the menu is open. We cover its behavior in the JS section, but note it’s part of the HTML structure.
+
+In summary, the HTML is structured with a clear hierarchy of UL lists for navigation. Each submenu is nested inside its parent list item and marked hidden by default via classes. This provides the scaffolding needed for the CSS and JS to apply the mega-menu functionality.
+
+JavaScript Behavior and Submenu Transitions
+
+The menu’s interactive behavior is powered by jQuery (and a touch-events library for swipe support). The main script (e.g., main.js) handles opening/closing the menu, as well as sliding in and out submenus on mobile devices. Key aspects of the JavaScript behavior include:
+	•	Menu Toggle (.cd-nav-trigger): When the user taps or clicks the hamburger menu icon, the script toggles the primary navigation’s visibility. This is done by adding or removing a class (e.g., nav-is-visible) on several elements:
+	•	The <ul id="cd-primary-nav"> (or its parent <nav>) receives nav-is-visible to indicate the menu is open.
+	•	The <header class="cd-main-header"> and the <main class="cd-main-content"> may also get a nav-is-visible class. In the CodyHouse approach, adding nav-is-visible to these elements triggers a CSS transform that shifts the main content aside to make room for the menu ￼ ￼.
+	•	The menu trigger itself (.cd-nav-trigger link) often gets a class (or changes state) to turn into a “close” icon (usually by toggling nav-is-visible or another class on it, which CSS uses to switch the hamburger icon to an “X”).
+	•	Overlay Toggle (.cd-overlay): Simultaneously, the overlay <div> is shown by adding class is-visible to it ￼. The overlay is a semi-transparent layer (in this case tinted green with opacity) that covers the page content when the menu is open, preventing interaction with the content behind the menu. When the menu is opened via the trigger, .cd-overlay gains is-visible (making it full opacity and visible) ￼. When the menu closes, this class is removed, hiding the overlay. The overlay’s presence provides a clear modal effect and also serves as a click target to close the menu: a click on the overlay will trigger the menu to close, as implemented in the script. On touch devices, swipe gestures are also supported – the inclusion of jquery.mobile.custom.min.js allows detection of swipe events. For example, a swipe left on the overlay or menu (when open) will be detected by the script to close the navigation (this is especially useful if the menu is on the right side; if the menu were on the left, a swipe right could be used) ￼. These interactions make the menu easier to dismiss on mobile.
+	•	Submenu Expansion (has-children links): On smaller screens (mobile/tablet), tapping a menu item that has a submenu will slide in that submenu. The JavaScript intercepts clicks on links that are within li.has-children. Instead of immediately following the link, it prevents the default action and activates the submenu animation:
+	•	If the targeted submenu <ul> was hidden (.is-hidden), the script removes the is-hidden class from it, making it visible ￼.
+	•	At the same time, it adds a class moves-out to the parent <ul> (the current menu level) ￼. The CSS tied to .moves-out causes the current list’s items to shift off-screen (typically sliding left) and fade, creating a space for the submenu to appear ￼. Essentially, the parent menu “moves out” of view while the child menu slides in.
+	•	It may also add a class like selected to the clicked <a> to highlight it as the active selection, and ensure any sibling submenus are closed (re-adding is-hidden to any other open submenus, and removing their parent’s selected states) ￼. This ensures only one submenu is open at a time.
+Mobile view after tapping “Books”: the “Books” submenu slides in. A “Back” link (with a left arrow icon) appears at the top, and the submenu items “Game On!” and “Unshakeable” are shown. The parent menu (main menu) has slid out of view to the left.
+In the embedded image above, you can see how tapping Books brought up a new panel. The “Back” link at top (a customized go-back item) allows returning to the main menu. This corresponds to the li.go-back element in the submenu. In code, clicking the go-back link triggers the reverse transition:
+	•	The script handles .go-back clicks by adding is-hidden back to the current submenu’s <ul> and removing moves-out from the parent menu’s <ul> ￼. This causes the child submenu to slide off and the parent menu to slide back into view.
+	•	The result is a smooth breadcrumb-like navigation: you can drill down into submenus and back out to parent menus easily. Each submenu knows its parent via the text in the go-back link (set to the parent category’s name or “Menu” for the top level).
+	•	Desktop Behavior: On larger screens (desktop breakpoint), the menu behavior changes:
+	•	The script moves the <nav class="cd-nav"> (with the <ul>) into the <header> when the viewport is wide enough (≥1170px). This is done so that the navigation can be displayed as a traditional horizontal menu in the header bar ￼. On narrow screens the nav is separate (for the off-canvas approach), but on desktop it typically should reside in the header for better layout.
+	•	The mobile-specific classes like is-hidden, moves-out, etc., are mostly relevant only when the menu is in collapsed mobile mode. In desktop mode, the CSS resets the submenu visibility (no translateX offsets). In fact, the CSS for desktop (@media (min-width: 1170px)) removes the transform translations and makes all submenus visible in the flow (no longer position: fixed off-canvas) ￼ ￼. Also, elements like the .go-back and .see-all links are hidden on desktop, since the desktop navigation might present submenus differently (e.g., dropdowns or mega panels) – they aren’t needed when there’s more space ￼ ￼.
+	•	The default CodyHouse code does not rely on click-to-expand for desktop. Instead, one approach is that all first-level links are clickable (or hoverable) and reveal their submenus as a dropdown. In this template’s CSS, submenus on desktop might already be visible or could be shown with a hover. (If using the updated CodyHouse library, one can use a data attribute to enable hover on submenu, or implement a small script for hover intent ￼. In this custom code, one could add a hover style: for example, using CSS to display the submenu UL on li:hover or use the CodyHouse Dropdown utility if integrated.)
+	•	The hamburger trigger and overlay are not used on desktop. The cd-nav-trigger (hamburger) is hidden via CSS on large screens, and the menu is simply part of the page header. Thus, the menu is always visible in a horizontal layout and doesn’t overlay the page. The overlay <div> also isn’t needed for nav (though it might still be used for the search overlay if that’s implemented).
+	•	Other JS Details: The script likely also handles closing the menu when clicking outside or pressing ESC (depending on implementation; not in original snippet, but easy to add). Also, because the menu uses touch events, the script ensures that if you swipe the menu itself (say, swipe right-to-left when menu is open on right side), it also closes the menu ￼. This is achieved by binding swipe events on the overlay and nav element.
+
+In summary, the JavaScript is primarily adding/removing classes to trigger CSS transitions:
+	•	nav-is-visible – opens or closes the entire menu (affecting nav, overlay, and page transform).
+	•	moves-out – slides a menu level out when a child submenu is opened.
+	•	is-hidden – toggles the actual display of submenu <ul>s.
+	•	selected – (if used) highlights an active menu link.
+	•	It also utilizes go-back clicks and overlay clicks/swipes to navigate backward or close.
+
+This approach keeps the logic simple: the heavy lifting of animation is done by CSS, while JS just switches classes based on user input. As the CodyHouse article notes, they “didn’t do a lot in jQuery, apart from adding classes according to specific events” ￼.
+
+Icon Usage and Customization
+
+One distinctive aspect of this menu is the use of green outline icons alongside each menu item. These icons are styled in a way similar to Font Awesome (line icons) and provide a quick visual cue for each section. The current menu uses icons as follows (green colored line-style icons):
+	•	Home: house icon (outline of a home).
+	•	Books: book icon.
+	•	About: user/person icon.
+	•	Media: camera icon.
+	•	Swag: t-shirt/apparel icon.
+	•	Blog: document/paper icon.
+	•	Collabs: (collaborations) – likely a handshake or group icon (in the custom set).
+	•	Contact: envelope icon.
+	•	Social (Facebook, Instagram, etc.): respective brand icons (probably also in outline style to match).
+	•	Auth/Log In: a key icon (as shown next to “Log In” in the mobile menu).
+
+These icons were integrated based on the CodyHouse template which originally included a set of SVG icons (designed by Dario Ferrando) for menu items ￼ ￼. In the SCSS, each top-level menu item is given an identifier class (like .item-1, .item-2, etc.), and the CSS uses a pseudo-element (::before) to display the icon background image for that item ￼. For example, the SCSS snippet below (from the CodyHouse source) maps item classes to SVG icon files:
+
+.cd-nav-icons .cd-nav-item {
+  &::before {
+    /* item icon placeholder */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 40px 40px;
+  }
+  &.item-1::before { background-image: url('../img/line-icon-1.svg'); }
+  &.item-2::before { background-image: url('../img/line-icon-2.svg'); }
+  &.item-3::before { background-image: url('../img/line-icon-3.svg'); }
+  &.item-4::before { background-image: url('../img/line-icon-4.svg'); }
+  /* ...and so on for item-5, item-6, etc... */
+}
+
+￼
+
+In the custom menu, the icons have been set up such that each main menu link has the appropriate class (item-1 through item-8) corresponding to the desired icon. For instance, if “Home” is item-1, its icon file line-icon-1.svg might be a home icon. “Books” as item-2 would use line-icon-2.svg (book icon), and so forth. All these SVGs are colored in the theme’s green (#69aa6f) to match the design, or they could be monochrome SVGs that are being colored via CSS/inline attributes.
+
+How to Change Icons:
+	1.	Using CSS background images: You can simply swap out the SVG file referenced in the SCSS for a given item class. For example, if you want to change the icon for “Media” from a camera to a video icon, you would replace the background-image: url('...') for its class (say, .item-4) with a new SVG file. Ensure the new SVG is stored in the img/ directory or adjust the path accordingly. The sizing (40px in the snippet above) can also be tweaked if the new icon has different dimensions.
+	2.	Adding new items: If you add a new top-level menu item and want an icon, assign it the next available item class (e.g., .item-9) and add a corresponding rule in the SCSS to point to a new icon image. For example, if adding a menu item “Shop”, you might add .item-9::before { background-image: url('../img/line-icon-9.svg'); } in the SCSS and ensure an SVG exists. This way, the new item will display its icon automatically.
+	3.	Using icon fonts or libraries: Instead of CSS background images, you can integrate an icon font (like Font Awesome or similar). To do this, you could include the icon’s <i> tag or <svg> directly in the HTML of the menu link. For example: <a href="/shop"><i class="fas fa-store"></i> Shop</a>. You would then adjust the CSS to position the <i> element (e.g., giving it a margin-right and the correct color). The current structure doesn’t include <i> elements, so you’d add them manually in the HTML if needed. The menu item styling (padding-left in CSS for .cd-nav-icons .cd-nav-item) may need to be adjusted or overridden to accommodate inline icons instead of pseudo-elements.
+	4.	Inline SVG: Similarly, you could embed an actual SVG element in the link if you want more control. This might be desirable if you want to color the SVG via CSS or manipulate it. For example: <a href="/contact"><svg class="icon icon-envelope" ...>...</svg> Contact</a>. Ensure the SVG’s stroke or fill is set to currentColor or a CSS variable if you want it to inherit the menu’s color.
+
+The menu’s icons are colored by the CSS – in the CodyHouse example, the pseudo-elements were likely given background-image with the color pre-applied in the SVG files. In our custom styling, the icons appear in the same consistent green as other accents. If using Font Awesome or similar, you can simply add a class that makes them green (for example, a utility class or custom CSS: .cd-nav-icons i { color: #69aa6f; }). If you use inline SVG, you can apply a fill/stroke color via CSS as well.
+
+Social Icons: The social media links (Facebook, Instagram, YouTube, TikTok) in this menu are represented by their icons. These could be implemented as simple anchor tags with icon fonts or SVGs (for example, Font Awesome brand icons or custom SVGs). In the current menu’s screenshots, they appear as green outline icons at the bottom of the menu. They might be placed either as part of the menu <ul> or in a separate container. A straightforward implementation is adding them as list items without text, for example:
+
+<ul class="social-links">
+  <li><a href="https://facebook.com/..." target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+  <li><a href="https://instagram.com/..." target="_blank"><i class="fab fa-instagram"></i></a></li>
+  ...
+</ul>
+
+styled appropriately (e.g., icons sized and given the theme color). If using the CodyHouse approach, you could also integrate them into the main nav as a special section – for instance, CodyHouse had a concept of .cd-nav-icons for lists that primarily consist of icons with optional text. In any case, to change or add a social icon, you would either change the Font Awesome class (to another platform’s icon) or swap the SVG. The green color should be applied as with other icons.
+
+Summary: The menu’s icon system is flexible:
+	•	For each main item, an icon can be assigned via a CSS class mapping to an SVG.
+	•	Developers can easily change icons site-wide by replacing the SVG files or updating the SCSS mappings ￼.
+	•	Alternatively, one can incorporate an icon font or inline SVG if that fits the project better – just remember to adjust the HTML/SCSS accordingly (padding and alignment might need tweaks).
+	•	The consistent use of the green color for icons means that if you change the accent color in one place (SCSS variable), all icons will update to the new color (assuming the SVGs inherit color or you switch to font icons which do).
+
+Color Palette and SCSS Variables
+
+The mega menu’s color scheme is controlled by a few key SCSS variables, making it easy to maintain consistency and update colors. The current palette is a dark theme with a bright green accent. In the _variables.scss file, the primary color variables are defined as:
+
+$color-1: #2e3233; // grey dark (nearly black)
+$color-2: #69aa6f; // green (accent color)
+$color-3: #e2e3df; // grey light
+$color-4: #ffffff; // white
+
+￼
+
+These four colors are used throughout the menu’s styling:
+	•	$color-1 (Dark Gray): This is the base background color for the navigation. The side menu’s background is $color-1, providing a dark backdrop for the light text and green icons ￼. It’s also used for text color in some contexts (e.g., on light backgrounds, $color-1 is the body text color ￼). In our menu, $color-1 appears as the near-black background of the mobile nav drawer and possibly for text on white backgrounds.
+	•	$color-2 (Green): This is the accent color and is used for icons, highlights, and important elements. The menu icons (SVG line icons) are colored in this green. Additionally, interactive states use this green; for example, on desktop, hovering a main menu link turns it green, and the active menu item is underlined in green ￼. The “See All” links in submenus on mobile are also styled in the green color to make them stand out ￼. Outside the menu, this same green is used for buttons like “Buy Now” or “3D View” on the site, ensuring a consistent accent across the UI. Because $color-2 is defined in one place, changing it will update all these elements. For instance, to switch the accent to blue, you’d change $color-2 to a blue hex code and all icons, hover states, button backgrounds, etc., that reference it would become blue.
+	•	$color-3 (Light Gray): A light grey used for surfaces and borders. In the menu, $color-3 is applied to elements like the main content background (.cd-main-content) to contrast the dark nav ￼, or used as a subtle divider line color (e.g., border lines between menu items might be lighten($color-1, 5%) which effectively is a slightly lighter grey than $color-1, approximating $color-3). It provides subtle contrast without being stark.
+	•	$color-4 (White): The primary text color on dark backgrounds. In the nav, the menu item labels are white text on the dark background ￼. Also, the header background is white ($color-4) on desktop, and body background is $color-4 in this design (meaning content pages have white background) ￼ ￼. Essentially, white is used wherever a light background or text on dark is needed.
+
+SCSS Variables Control: Because these are variables, developers can easily adjust the theme. The CodyHouse author specifically highlighted how easy it is to “change some of the navigation settings with SASS (yep, you can set variables!)” ￼. For example:
+	•	If you wanted a different theme, you might set $color-1 to a true black (#000), and maybe $color-2 to a brand color (say, #ff6600 for orange). Instantly the menu background would become black, icons and highlights orange, etc.
+	•	The SCSS also defines sizes (like $nav-width-S: 260px; for the mobile nav width, header heights, etc.) ￼, which can be tweaked in a similar way.
+	•	By using the SCSS variables, you ensure all related elements update together. For instance, $color-2 not only colors icons and links but also the semi-transparent overlay (.cd-overlay) background uses an rgba of $color-2 ￼. In our case, the overlay is a green-tinted transparency which ties in with the accent. If $color-2 changed, the overlay tint would change too.
+
+Buttons and Other Elements: As noted, other UI components like buttons (“Buy Now”, “3D View”) use the same green ($color-2) for backgrounds or text, which creates a unified look. Those are likely defined in other SCSS files, but because they reference $color-2, they stay in sync with the nav’s accent. The menu’s design thus isn’t in isolation – it’s part of a consistent style guide.
+
+Dark/Light Contrast: The combination of $color-1 (dark gray) background and $color-4 (white) text meets accessibility needs for contrast. The green $color-2 on $color-1 is also generally a good contrast. If you drastically change colors, be mindful of maintaining readability (e.g., if $color-1 becomes light, you’d want to adjust $color-4 to a dark text color accordingly).
+
+In summary, the color palette is controlled by a handful of SCSS variables:
+	•	Modify these in _variables.scss to re-skin the menu.
+	•	The changes propagate through all menu styles (backgrounds, text, icons, overlay, etc.) thanks to SASS.
+	•	Consistency with other site components is achieved by reusing $color-2 and the others globally.
+
+Menu Content and Structure: Current Setup
+
+The current custom menu structure (as gleaned from the provided design) includes the following items:
+	•	Home – Top-level menu item (likely linking to the homepage).
+	•	Books – Top-level item that has a submenu with specific book titles:
+	•	Game On! – Sub-item under Books (probably a page for the “Game On!” book).
+	•	Unshakeable – Sub-item under Books (page for “Unshakeable” book).
+(Books might not have a “see all” in this custom version; the two book titles are directly listed. If a “See All Books” link were needed, it could be added as a see-all item.)
+	•	About – Top-level item (linking to an about page).
+	•	Media – Top-level item (perhaps linking to a media/press page).
+	•	Swag – Top-level item (linking to a merchandise or store page, given “swag” typically means merchandise).
+	•	Blog – Top-level item (linking to the blog index).
+	•	Collabs – Top-level item (likely a page about collaborations or partners).
+	•	Contact – Top-level item (link to a contact page or form).
+
+Following the main navigation items, the menu also shows social and user account links:
+	•	Social Icons: The menu displays icons linking to social media profiles:
+	•	Facebook, Instagram, YouTube, TikTok – each represented by their icon. In the mobile menu screenshot, these appear as a horizontal row of icons at the bottom of the menu drawer (with no text labels, just recognizable icons). They are styled in the same green color to match the theme. Usually these would open the respective social sites in a new tab.
+	•	Authentication / User Menu: On the far right of the header, there is a user account icon. This serves as a trigger for auth-related links:
+	•	If the user is not logged in, the menu shows a “Log In” link (with a key icon) – in the mobile screenshot, “Log In” is listed at the very bottom with a key icon. This likely directs to a login page or opens a login modal.
+	•	If the user is logged in, the interface shows a dropdown panel when clicking the user icon (instead of a direct link). In the provided screenshot for the user dropdown, a small menu appears with links: Dashboard, Account, Logout. It even labels the user as “Guest” in the example (which might be a placeholder or the username).
+	•	Dashboard – would link to a user’s dashboard/home.
+	•	Account – link to account settings/profile.
+	•	Logout – link or action to log the user out.
+	•	These links are grouped under the user icon separately from the main navigation. In implementation, this could be an entirely separate <ul> or <div> for the dropdown, not part of the primary <ul>. For example, one could create a small dropdown component that toggles on clicking the user icon (using a bit of JS). It’s mentioned here because it’s part of the overall header/menu functionality in the design.
+	•	On mobile, if a user is logged in, the presence of the user icon trigger remains, and tapping it would show the same dropdown menu (overlaid on the header area). On desktop, the dropdown might appear below the icon. The styling for this dropdown would be handled in CSS (likely positioned absolute at top-right). It’s a custom addition beyond the CodyHouse base, implemented to integrate site authentication links.
+
+To summarize the structure in outline form:
+	•	Main Navigation:
+	•	Home
+	•	Books
+– Game On! (submenu item)
+– Unshakeable (submenu item)
+	•	About
+	•	Media
+	•	Swag
+	•	Blog
+	•	Collabs
+	•	Contact
+	•	Social Links: Facebook, Instagram, YouTube, TikTok (icon links, likely in menu footer area).
+	•	User/Account:
+	•	Log In (shown as a menu item or button when not authenticated).
+	•	[User Icon] (when clicked, reveals dropdown with Dashboard, Account, Logout for authenticated users).
+
+This menu content can of course be modified by changing the HTML. To add or remove a section, you’d edit the <ul id="cd-primary-nav"> list in the HTML. For example, if you wanted to add a new top-level category “Shop”, you would add a new <li> in the primary <ul> structure, possibly with has-children if it has a submenu. You’d then populate its <ul> submenu similarly to others (with go-back, etc.). Don’t forget to assign a new icon class to it and update SCSS for the icon (as described earlier) if you want it to have an icon.
+
+Likewise, to update social links, you can modify that section (if they are in a separate <ul class="social-links"> or similar). And for auth links, the behavior may be controlled by server-side logic (showing “Log In” vs the user dropdown depending on session state), but structurally, you have to include those elements in the HTML and use CSS/JS to toggle them.
+
+One thing to note is that the menu is fully responsive – the structure remains the same, but CSS media queries restyle it for desktop vs mobile, and JS only conditionally moves elements (like injecting the nav into header on desktop, as mentioned). In terms of content structure, what you list under each menu is up to the site’s needs, but it should follow the established pattern for the code to handle it correctly.
+
+Styling, Responsiveness, and Media Queries
+
+The mega menu’s CSS is written in SCSS and uses a mobile-first responsive approach. The layout and visibility of the menu adapt at defined breakpoints (as set in _layout.scss). The primary breakpoints in this project are:
+	•	$S (small): 480px (mobile devices).
+	•	$M (medium): 768px (small tablets).
+	•	$L (large): 1170px (desktop breakpoint) ￼.
+	•	$maxL: one pixel below $L (i.e., 1169px) – used for targeting styles below the desktop breakpoint ￼.
+
+The CSS uses mixins for media queries, so styles inside @include MQ(L) apply at widths ≥1170px, and MQ(maxL) applies <1170px (mobile/tablet).
+
+Mobile vs Desktop CSS:
+	•	By default, the CSS is geared towards mobile (nav as a full-screen drawer). For example, .cd-primary-nav is positioned fixed and hidden off-canvas by default (using transform: translateX(100%) via the .is-hidden class) for small screens ￼. The mobile nav occupies a fixed width ($nav-width-S = 260px wide) on the side ￼.
+	•	On desktop (@media (min-width: 1170px)), the styles are overridden:
+	•	The primary nav <ul> is set to static positioning, no longer fixed, and is displayed horizontally (float: right in the header, with menu items floated left) ￼ ￼.
+	•	Background becomes transparent (since on desktop the nav is on a white header) ￼, and menu items are styled as inline links (with a different line-height equal to the taller header, etc.) ￼.
+	•	The hamburger trigger (cd-nav-trigger) is hidden on desktop, since we don’t need a drawer toggle when the menu is just visible; correspondingly, the overlay (cd-overlay) is not used for the nav in desktop mode.
+	•	Submenu handling: The .cd-secondary-nav (and any nested <ul>) is no longer absolutely positioned offscreen; it’s either hidden by not being triggered or, if this were a mega-dropdown design, could be positioned under its parent link. In CodyHouse’s basic implementation, they actually keep submenus in the DOM but not displayed as a dropdown by default. However, they provide utility classes or JavaScript in more advanced versions to handle mega-dropdown layouts. In our simpler case, if we wanted submenus on desktop, we might add a hover style:
+
+.cd-primary-nav li.has-children:hover > ul {
+  display: block; /* or visibility: visible; transform: none; */
+}
+
+along with styling for the dropdown appearance (position absolute under the menu bar, perhaps). The template’s focus, though, is on mobile behavior, so out-of-the-box it might require a bit of extra CSS/JS to fully realize hover-dropdowns on desktop. The CodyHouse article suggests showing secondary nav options right away for better UX ￼, which could be interpreted as designing the dropdown content to be immediately accessible.
+
+	•	In this custom implementation, it’s likely that on desktop, the “Books” item either is just a link to a category page (if they wanted to avoid drop-downs entirely), or it could be clickable to toggle a dropdown. If needed, a developer can implement a click or hover dropdown using additional JS or the CodyHouse Dropdown component.
+
+SCSS Structure: The styles are split into partials like _layout.scss (for grid and media query mixins), _variables.scss (for colors, sizes), and the main style.scss. The main SCSS imports those and contains the bulk of the styling rules ￼. It’s organized into sections for main components (header, nav, etc.). This makes it maintainable – e.g., breakpoints and colors are all defined in one place.
+
+Responsive behaviors implemented:
+	•	Overflow Scrolling: On mobile, the nav (.cd-primary-nav) is set to overflow: auto and uses -webkit-overflow-scrolling: touch ￼, which means if the menu is taller than the viewport, the user can scroll within the menu smoothly (useful if you have many menu items).
+	•	Transforms for Performance: The menu and content use CSS transforms for showing/hiding (translateX) which are GPU-accelerated on modern devices, making the animations very smooth. The CSS includes will-change: transform to optimize this ￼.
+	•	Transition Timing: Most show/hide animations are set to 0.3s (300ms) transitions, as seen in the SCSS for transforms and opacity ￼ ￼. This gives a snappy feel without being too abrupt.
+	•	Nav on Left Option: The template provides a class nav-on-left on the <body> which, if added, will flip the positioning of the mobile nav to the left side instead of the right ￼. All transforms and overlay translations respect this (e.g., overlay will translate differently if nav-on-left is present) ￼. By default, in our case, we kept it on the right (common for menus), but it’s good to know one can simply add nav-on-left to the body tag to change the drawer side.
+	•	Fixed Nav Option: Similarly, adding nav-is-fixed to the <body> will make the navigation bar fixed at the top on larger screens ￼. This would keep the menu visible as the user scrolls. In our setup, if you want the header to stick at top on desktop, you can use this class (and ensure your header CSS accounts for it). The CodyHouse CSS already has rules for .nav-is-fixed .cd-main-header to position it fixed at top ￼ and for .nav-is-fixed .cd-primary-nav on desktop to position absolute within header (so it can remain visible) ￼.
+	•	Z-index layering: SCSS variables define z-index levels ($below-content, $content, $above-content) ￼. The nav is given a z-index such that it sits above the main content when open (e.g., the nav might be $above-content, and overlay at $content or vice versa). The exact values ensure the stacking order: the overlay (z-index 2) and nav (z-index 3) sit on top of main content (z-index 1) ￼ ￼. This prevents any content from overlapping the menu when it’s open.
+
+Testing Responsiveness: If you shrink or enlarge the browser window, at 1170px width the layout toggles between the mobile style (below 1170) and desktop style (1170 and up). The JavaScript likely listens to window resize as well to move the nav in or out of the header as needed. It’s important to test the menu on a variety of devices (mobile phones, tablets, desktop monitors) to ensure the experience is smooth:
+	•	On phones, the menu should cover the full viewport height and scroll internally if needed.
+	•	The overlay should prevent body scrolling when nav is open (note: the script adds overflow-hidden to body or main content on open – in our SCSS we see body.nav-on-left.overflow-hidden { overflow: hidden; } which indicates that on some conditions we disable scroll on the main document when nav is open ￼).
+	•	On desktop, test that the menu items are all visible in the header and dropdowns (if any) appear correctly. If the menu items exceed the width, they might wrap – the layout SCSS gave a padding-right to the nav container (150px) to account for space on the right side ￼, presumably to avoid overlap with other header elements.
+
+In summary, the menu is built to be responsive by design, using a combination of CSS media queries and a small bit of JS for structural adjustment. Developers can tweak the breakpoint ($L variable) if needed to shift when the mobile vs desktop view activates. Also, if a tablet layout change was needed at $M (768px), additional media queries could be added (for example, to maybe show a slightly different layout on tablet – though currently it likely treats tablet the same as mobile with the drawer).
+
+Because it’s SCSS, any customization to responsiveness (like adding a new breakpoint or changing $L to a different pixel value) can be done in the variables and mixins, and the compiled CSS will follow suit.
+
+Extending and Modifying the Mega Menu
+
+One of the advantages of this CodyHouse-based menu is that it is quite extensible. Here are guidelines for developers or AI agents (tools that might automatically adjust code) to modify the menu:
+	•	Adding a New Top-Level Menu Item: Simply edit the HTML to include a new <li> in the primary nav <ul>. Follow the existing format:
+	•	If the new item has no submenu, just add a <li><a href="...">New Item</a></li> in the appropriate position.
+	•	If it requires a submenu, add class="has-children" to the <li> and include a nested <ul class="cd-secondary-nav is-hidden">...</ul>. Inside that, start with a go-back item (link back to “Menu” or parent), optionally a see-all item linking to the overview, and then the submenu links.
+	•	Assign an icon class to it (e.g., class="cd-nav-item item-X") consistent with the numbering of icons, if using the CSS icon method. Then update the SCSS: add an &.item-X::before { background-image: url('...icon.svg'); } rule in the icons section (or reuse an existing icon if appropriate).
+	•	No further JS changes are needed for a new item; the existing jQuery will automatically apply to any has-children links and handle them.
+	•	Example: To add “Shop” with no submenu – <li><a href="/shop">Shop</a></li>. To add “Products” with a submenu –
+
+<li class="has-children">
+  <a href="#0">Products</a>
+  <ul class="cd-secondary-nav is-hidden">
+    <li class="go-back"><a href="#0">Back</a></li>
+    <li class="see-all"><a href="/products">All Products</a></li>
+    <li><a href="/products/category1">Category 1</a></li>
+    <li><a href="/products/category2">Category 2</a></li>
+  </ul>
+</li>
+
+Then assign an icon class like item-9 to the <a> or <li> (depending on how it’s set in HTML) and add the CSS mapping for item-9 as needed.
+
+	•	Adding a Submenu to an Existing Item: If a top-level item currently has no submenu (like “Blog” in our structure) but you want to add sub-navigation (say categories or recent posts), you can convert it into has-children:
+	•	Change <li><a href="/blog">Blog</a></li> to <li class="has-children"><a href="#0">Blog</a><ul class="cd-secondary-nav is-hidden"> ... </ul></li>.
+	•	Inside the new <ul>, add go-back (text “Blog” or “Back”), and then the items (e.g., <li><a href="/blog/category1">Category 1</a></li> etc., or a see-all linking to the main blog page).
+	•	Note: When doing this, consider that the top-level “Blog” link was presumably going to the blog main page. Since we changed its <a href> to #0 (to enable the JS toggling), we should ensure the “see-all” link in the submenu provides access to the main blog page (e.g., <li class="see-all"><a href="/blog">All Blog Posts</a></li>). That way, users on desktop can still reach the blog main page. Alternatively, you can forego using #0 and instead handle it differently on desktop vs mobile, but the simplest is the see-all pattern CodyHouse uses.
+	•	Changing Animations or Transitions: The slide-in animation speed or style can be adjusted via CSS:
+	•	To change speed, find the transition declarations in SCSS (transition(transform .3s, opacity .3s) etc.) and change the duration. For example, .3s to .5s for a slower slide.
+	•	To change the easing, you could add an easing function (e.g., transition: transform .3s ease-in-out).
+	•	Different animation: If you wanted, for instance, a fade overlay menu instead of sliding, you could remove the translateX transforms and instead toggle opacity/visibility only. That would require changing the CSS for .is-hidden to perhaps display: none and using a fade-in class. This is a more involved change but doable by altering the class toggle logic and CSS.
+	•	The JavaScript is relatively simple; if you were to implement a vastly different animation, ensure the JS still adds/removes classes appropriately. For example, if not sliding, you might not need moves-out at all and instead just show/hide submenus by toggling a class that handles opacity. Those changes require a good understanding of the desired effect.
+	•	Adjusting the Responsive Breakpoint: If 1170px is not suitable for your design (maybe you want the desktop menu to kick in at a different width), just change the $L variable in _layout.scss ￼. For example, set $L: 1024px; $maxL: 1023px; if you want tablet (1024) to already use the desktop layout. Then recompile the CSS. The JS that moves the nav might also have a condition (likely if $(window).width() >= 1170) to append the nav to header; you’d want to update that value in the script to match your new breakpoint.
+	•	Changing Menu Placement (left/right or fixed positioning): As noted, you can use the provided body classes:
+	•	To have the mobile menu slide in from the left side of the screen, add nav-on-left to the <body> tag. The CSS will then position the nav on the left and adjust the overlay transform accordingly ￼ ￼.
+	•	To make the menu always fixed on top (desktop), add nav-is-fixed to the <body> – the header and nav will then behave like a sticky fixed nav bar ￼. Ensure this doesn’t cover content (you might need to add top padding to your page content equal to the header height).
+	•	Styling Tweaks: Because the SCSS is modular, you can open the style.scss (and partials) and find the section you need to tweak:
+	•	For example, to change the font or text size of menu items, look for .cd-primary-nav a styles in the SCSS (it’s set to 1.6rem by default, and uses $primary-font which is sans-serif unless changed) ￼ ￼. You can change the font family or size globally via variables or override those rules.
+	•	To modify the background color or opacity of the overlay, adjust $color-2 or the code in .cd-overlay (it uses rgba($color-2, 0.8) for the backdrop tint ￼).
+	•	If you prefer the overlay to be pure black at 50%, you could do background-color: rgba(0,0,0,0.5) instead.
+	•	To change the hamburger icon design (for example, make it three thick bars or a different color), you can edit the CSS for .cd-nav-trigger and its pseudo-elements. Currently it draws the lines with background: $color-1 (dark) on a light header, which is why on the white header the burger appears dark. If you had a dark header, you might want the burger lines to be white instead – you’d then set those to $color-4.
+	•	Accessibility Considerations: If modifying or extending, ensure to keep it accessible:
+	•	Add aria-label or screen-reader text for the menu trigger (e.g., “Open menu”/“Close menu”) and search trigger.
+	•	If using the new CodyHouse accessible version, they provide ARIA attributes and roles. In this implementation, at minimum ensure the <nav> has a role “navigation” and maybe a label (aria-labelledby or aria-label like “Primary Navigation”).
+	•	If adding new interactive elements, include focus states in CSS (the template likely has some focus outline handling, e.g., maybe removing default outline but adding custom).
+	•	For an AI agent modifying the menu, it should preserve these attributes and roles, or improve on them.
+	•	Using an AI to make changes: An AI code assistant could use this documentation to safely make adjustments. For example, if asked to “add a new menu item called FAQ that links to /faq”, the AI should:
+	1.	Insert a new <li> in the HTML with <a href="/faq">FAQ</a> in the appropriate spot.
+	2.	If icons are desired for everything, it might assign the next item-N class and ensure an icon (if available) or leave it without one.
+	3.	It might also add a SCSS entry for a new icon if needed.
+	4.	The AI should not break the structure (e.g., it should include go-back if it adds a submenu).
+	•	Because the structure and classes are clearly documented here, even an automated agent should follow the patterns (for instance, always wrap submenu items in <ul class="... is-hidden"> and include the necessary first items).
+	•	Any changes by an AI should be tested or reviewed, but the consistent pattern makes it less likely to introduce errors if this documentation is followed.
+	•	Upgrading to CodyHouse v2 (if desired): The documentation we have is based on the CodyHouse “Mega-Site Navigation” (older version). CodyHouse released an updated Accessible Mega Menu Navigation component ￼ which uses a different approach (CSS custom properties, utility classes, etc.). If a developer wanted to integrate those improvements (for better accessibility, hover intent, etc.), it might involve a more significant refactor. However, the concepts would remain: use nested lists, data attributes or classes for states, etc. Given the customizations made (like user menu, icons), one would have to port those to the new structure. It’s a possible extension path if the project demands it.
+
+In conclusion, this mega menu is quite flexible. Whether by hand or with the aid of an AI, one can extend it by maintaining the structural conventions and leveraging the SCSS variables. The key is to preserve the classes and hierarchy so that the existing CSS/JS continues to work:
+	•	Always use has-children for items with submenus.
+	•	Include go-back and is-hidden on submenus.
+	•	Toggle nav-is-visible, moves-out, etc., via script or additional scripts if you add new interactive elements.
+	•	Use the SCSS theming to your advantage – adjust variables for global changes instead of hard-coding many values.
+
+By following these guidelines, the menu can grow with the site’s needs, and remain maintainable and consistent in style and behavior. The separation of concerns (HTML for structure, SCSS for style, JS for behavior) means each aspect can be modified without drastically affecting the others, which is ideal for iterative development and collaboration (human or AI).
+
+Sources:
+	•	CodyHouse “Mega-Site Navigation” tutorial and code ￼ ￼ ￼ ￼ ￼ ￼ (for base structure, classes, and variables)
+	•	User-provided design screenshots (for custom menu item titles and icon usage).
