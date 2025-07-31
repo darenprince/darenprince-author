@@ -15,11 +15,12 @@
   --color-muted: #B8BAB7;
   --color-black: #070A06;
   --color-white: #FDFDFD;
-  --color-surface: #212121;
-  --color-icon: #87BD72;
-  --color-border: #313132;
-  --color-accent: #8CD679;
-  --color-contrast-high: #FDFDFD;
+  --color-surface: #2e3233;
+  --color-icon: #69aa6f;
+  --color-border: #e2e3df;
+  --color-accent: #69aa6f;
+  --color-accent-rgb: 105, 170, 111;
+  --color-contrast-high: #ffffff;
   --color-success: #87BD72;
 }
 
@@ -1336,8 +1337,7 @@ input:checked + .toggle-slider::before {
   position: fixed;
   top: 0;
   right: 0;
-  width: 100%;
-  max-width: 260px;
+  width: 260px;
   height: 100%;
   background-color: var(--color-surface);
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
@@ -1348,7 +1348,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 .mega-menu.visible {
   transform: translateX(0%);
@@ -1368,7 +1368,7 @@ input:checked + .toggle-slider::before {
   flex-grow: 1;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 .mega-menu-list a {
   color: var(--color-muted);
@@ -1376,6 +1376,8 @@ input:checked + .toggle-slider::before {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0 1.25rem;
+  width: 100%;
 }
 .mega-menu-list a.active {
   color: var(--color-lime);
@@ -1383,7 +1385,8 @@ input:checked + .toggle-slider::before {
 }
 .mega-menu-list li {
   font-size: 1.1rem;
-  padding: 0.8rem 0;
+  height: 50px;
+  line-height: 50px;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -1421,11 +1424,12 @@ input:checked + .toggle-slider::before {
   height: 100%;
   padding: 0;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 .mega-menu-list .has-submenu .submenu li {
   font-size: 1rem;
-  padding: 0.8rem 0;
+  height: 30px;
+  line-height: 30px;
   display: flex;
   align-items: center;
 }
@@ -1500,7 +1504,7 @@ input:checked + .toggle-slider::before {
   left: 0;
   right: 0;
   bottom: 0;
-  transition: 0.4s;
+  transition: 0.3s;
 }
 
 .slider:before {
@@ -1511,7 +1515,7 @@ input:checked + .toggle-slider::before {
   left: 0.1rem;
   bottom: 0.1rem;
   background-color: var(--color-contrast-high);
-  transition: 0.4s;
+  transition: 0.3s;
   border-radius: 50%;
 }
 
@@ -1544,16 +1548,16 @@ input:checked + .slider:before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(var(--color-primary), 0.8);
+  background-color: rgba(var(--color-accent-rgb), 0.8);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
   z-index: 9998;
 }
 
 .site-wrap {
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 body.menu-open {
@@ -1569,6 +1573,69 @@ body.menu-open .menu-overlay {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+@media (min-width: 1170px) {
+  .js-menu-toggle {
+    display: none;
+  }
+  .mega-menu {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    overflow: visible;
+  }
+  .mega-menu .menu-close {
+    display: none;
+  }
+  .mega-menu-list {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    position: static;
+    transform: none !important;
+    overflow: visible;
+  }
+  .mega-menu-list li {
+    border-bottom: 0;
+    height: auto;
+    line-height: normal;
+    position: relative;
+  }
+  .mega-menu-list li:hover > .submenu {
+    opacity: 1;
+    visibility: visible;
+  }
+  .mega-menu-list a {
+    padding: 0 0.5rem;
+  }
+  .mega-menu-list .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: var(--color-surface);
+    transform: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+  }
+  .menu-overlay {
+    display: none;
+  }
+  body.menu-open {
+    overflow: visible;
+  }
+  body.menu-open .site-wrap {
+    transform: none;
+  }
+  body.menu-open .mega-menu {
+    transform: none;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
