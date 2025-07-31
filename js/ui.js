@@ -28,6 +28,11 @@ export const UI = (() => {
     }, delay);
   }
 
+  // Public alias for toast()
+  function showToast(message, type = 'info', delay = 3000) {
+    toast(message, type, delay);
+  }
+
   function showProgress(container) {
     let bar = container.querySelector('.bar');
     if (!bar) {
@@ -48,7 +53,7 @@ export const UI = (() => {
     if (bar) bar.style.width = '0%';
   }
 
-  return { toast, showProgress, setProgress, hideProgress };
+  return { toast, showToast, showProgress, setProgress, hideProgress };
 })();
 
 window.GameOnUI = UI;
