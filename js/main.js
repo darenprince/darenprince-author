@@ -7,6 +7,24 @@ document.addEventListener('DOMContentLoaded', async function () {
   const themeToggle = document.getElementById('themeToggle');
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
+  const headerContainer = document.querySelector('.site-header .container');
+  const desktopBreakpoint = 1170;
+
+  function moveMegaMenu() {
+    if (!megaMenu || !headerContainer) return;
+    if (window.innerWidth >= desktopBreakpoint) {
+      if (!headerContainer.contains(megaMenu)) {
+        headerContainer.appendChild(megaMenu);
+      }
+    } else {
+      if (megaMenu.parentElement !== document.body) {
+        document.body.insertBefore(megaMenu, menuOverlay);
+      }
+    }
+  }
+
+  moveMegaMenu();
+  window.addEventListener('resize', moveMegaMenu);
 
   let supabaseClient;
   if (window.supabase) {
