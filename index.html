@@ -25,6 +25,17 @@
         <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
       </form>
     </div>
+    <div class="profile-dropdown js-profile-dropdown" hidden>
+      <div class="profile-info">
+        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+        <span class="profile-name">Guest</span>
+      </div>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li class="js-logout">Logout</li>
+      </ul>
+    </div>
   </header>
 
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
@@ -159,6 +170,8 @@
     </div>
   </footer>
   <script src="/js/ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="/js/profile-dropdown.js"></script>
   <script src="/js/trailer-modal.js"></script>
   <script src="/js/main.js"></script>
   </body>
