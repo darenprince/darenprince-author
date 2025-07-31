@@ -114,6 +114,26 @@ Design must follow clean, bold, masculine UI logic with large readable typograph
 
 ---
 
+## 🛠️ UI Utilities
+
+`/js/ui.js` provides small helpers for toast notifications and progress bars.
+Include the module on any page that needs them:
+
+```html
+<script type="module" src="/js/ui.js"></script>
+```
+
+Usage:
+
+```javascript
+GameOnUI.toast('Saved!', 'success');
+const bar = document.querySelector('.progress');
+GameOnUI.showProgress(bar);
+GameOnUI.setProgress(bar, 50);
+```
+
+---
+
 ## ✍️ Writing & Voice
 
 This brand does not tolerate fluff, gimmicks, or generic advice.
