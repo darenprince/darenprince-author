@@ -41,6 +41,6 @@ This serves the project locally and reflects your SCSS changes immediately.
 
 ## 5. Keep It Bold
 
-Daren’s brand voice is confident and direct. When you write or code, keep copy short and powerful. Dark mode is the default—no need to design a light theme yet.
+Daren’s brand voice is confident and direct. Keep copy short and powerful. Dark mode is the baseline, but a light theme is available via `#themeToggle`.
 
 That’s it! You’re ready to create components and push updates. If you get stuck, read `docs/FILE_STRUCTURE.md` for more details.
