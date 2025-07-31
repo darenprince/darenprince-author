@@ -145,3 +145,16 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(1.4rem);
 }
+/* === THEME TOGGLE ICONS === */
+.icon-sun,
+.icon-moon {
+  font-size: 1.2rem;
+}
+
+.theme-dark .icon-sun {
+  display: none;
+}
+
+.theme-light .icon-moon {
+  display: none;
+}
