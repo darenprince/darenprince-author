@@ -298,7 +298,7 @@ body.theme-light {
   background-color: #070A06;
   color: #FDFDFD;
   border: 1px solid #B8BAB7;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 @media (min-width: 768px) {
   .component-nav .component-nav__select {
@@ -312,10 +312,6 @@ body.theme-light {
 .demo-section {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #B8BAB7;
-}
-.demo-section:last-of-type {
-  border-bottom: 0;
 }
 
 .site-footer {
@@ -354,7 +350,7 @@ body.theme-light {
   color: #FDFDFD;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -373,7 +369,7 @@ body.theme-light {
   color: #FDFDFD;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -392,7 +388,7 @@ body.theme-light {
   color: #FDFDFD;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -411,7 +407,7 @@ body.theme-light {
   color: #FDFDFD;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -430,7 +426,7 @@ body.theme-light {
   color: #87BD72;
   border: 2px solid #87BD72;
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
 .btn--ghost:hover, .btn--ghost:focus {
@@ -454,7 +450,7 @@ select {
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid #B8BAB7;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   background-color: #3B3C3B;
   color: #FDFDFD;
 }
@@ -477,7 +473,7 @@ select[disabled] {
   background-color: #3B3C3B;
   color: #FDFDFD;
   padding: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
 }
@@ -502,14 +498,14 @@ select[disabled] {
   background-color: #3B3C3B;
   color: #FDFDFD;
   padding: 2rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   max-width: 500px;
   width: 90%;
 }
 
 .alert {
   padding: 0.75rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
 
@@ -619,7 +615,7 @@ input:checked + .toggle-slider::before {
   background: #070A06;
   padding: 2rem;
   text-align: center;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .testimonials .card img {
   border-radius: 50%;
@@ -652,7 +648,7 @@ input:checked + .toggle-slider::before {
 .downloads .download-card {
   background: #070A06;
   padding: 2rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   text-align: center;
 }
 .downloads .download-card img {
@@ -772,7 +768,7 @@ input:checked + .toggle-slider::before {
   background: #070A06;
   color: #FDFDFD;
   border: 1px solid #B8BAB7;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .book-details .sticky-purchase-bar .short-summary {
   margin-left: 1rem;
@@ -790,7 +786,7 @@ input:checked + .toggle-slider::before {
   color: #FDFDFD;
   border: 2px solid #87BD72;
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -812,7 +808,7 @@ input:checked + .toggle-slider::before {
   color: #070A06;
   padding: 0.5rem 0.75rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -826,7 +822,7 @@ input:checked + .toggle-slider::before {
 .book-details .preview-display img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .book-details .long-description {
   margin-bottom: 1rem;
@@ -851,13 +847,13 @@ input:checked + .toggle-slider::before {
 .book-details .video-block video {
   width: 100%;
   height: auto;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .book-details .locked-preview {
   text-align: center;
   padding: 2rem;
   background: #3B3C3B;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .book-details .locked-preview p {
   margin-bottom: 1rem;
@@ -869,7 +865,7 @@ input:checked + .toggle-slider::before {
   color: inherit;
   overflow: hidden;
   background-color: #3B3C3B;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease-in-out;
 }
@@ -912,7 +908,7 @@ input:checked + .toggle-slider::before {
   color: #070A06;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
@@ -987,7 +983,7 @@ input:checked + .toggle-slider::before {
   color: #070A06;
   padding: 0.5rem 0.75rem;
   border: 0;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -998,7 +994,7 @@ input:checked + .toggle-slider::before {
 .book-details-wrapper .purchase-box {
   background: #3B3C3B;
   padding: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 .book-details-wrapper .purchase-box .buy-controls {
   display: flex;
@@ -1010,7 +1006,7 @@ input:checked + .toggle-slider::before {
   background: #070A06;
   color: #FDFDFD;
   border: 1px solid #B8BAB7;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 @media (min-width: 768px) {
   .book-details-wrapper .purchase-box {
@@ -1077,10 +1073,29 @@ input:checked + .toggle-slider::before {
   cursor: pointer;
 }
 
+.separator {
+  border-top: 1px solid #B8BAB7;
+  margin: 2rem 0;
+}
+
+.component-docs {
+  margin: 1rem 0;
+}
+.component-docs pre {
+  background: #3B3C3B;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  color: #FDFDFD;
+}
+.component-docs .copy-btn {
+  margin-top: 0.5rem;
+}
+
 .demo-container {
   background-color: rgb(71.6428571429, 72.8571428571, 71.6428571429);
   padding: 2rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
