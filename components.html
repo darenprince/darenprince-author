@@ -8,36 +8,6 @@
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body class="theme-dark">
-  <header class="site-header padding-y-sm js-sticky-nav">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
-      <a href="index.html" class="logo">
-        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
-      </a>
-      <div class="nav-btn-group flex items-center gap-sm">
-        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
-      </div>
-    </div>
-    <div class="search-bar js-search-bar" hidden>
-      <form class="search-form flex items-center">
-        <input type="search" placeholder="search site" />
-        <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
-      </form>
-    </div>
-    <div class="profile-dropdown js-profile-dropdown" hidden>
-      <div class="profile-info">
-        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
-        <span class="profile-name">Guest</span>
-      </div>
-      <ul>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Account</a></li>
-        <li class="js-logout">Logout</li>
-      </ul>
-    </div>
-  </header>
-
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <div class="theme-toggle-row" data-toggle-theme>
       <label class="switch">
@@ -73,7 +43,39 @@
     </ul>
   </nav>
   <div class="menu-overlay js-menu-overlay"></div>
+<div class="site-wrap">
+    <header class="site-header padding-y-sm js-sticky-nav">
+    <div class="container max-width-adaptive-lg flex items-center justify-between">
+      <a href="index.html" class="logo">
+        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+      </a>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      </div>
+    </div>
+    <div class="search-bar js-search-bar" hidden>
+      <form class="search-form flex items-center">
+        <input type="search" placeholder="search site" />
+        <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+      </form>
+    </div>
+    <div class="profile-dropdown js-profile-dropdown" hidden>
+      <div class="profile-info">
+        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+        <span class="profile-name">Guest</span>
+      </div>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li class="js-logout">Logout</li>
+      </ul>
+    </div>
+  </header>
 
+    </ul>
+  </nav>
   <nav class="component-nav">
         <div class="container">
           <select class="component-nav__select" aria-label="Jump to component">
@@ -524,6 +526,7 @@
   <footer>
     <p>Component library demo.</p>
   </footer>
+  </div>
   <script src="/js/mobile-nav.js"></script>
   <script src="/js/ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
