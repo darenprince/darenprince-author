@@ -13,6 +13,7 @@
   padding: 2rem 1.5rem;
   z-index: 9999;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
@@ -91,13 +92,13 @@
     .submenu {
       position: absolute;
       top: 0;
-      left: 100%;
+      left: 0;
       width: 100%;
       background-color: var(--color-surface);
       height: 100%;
       padding: 0;
-      transform: translateX(0);
-      transition: left 0.4s ease;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
 
       li {
         font-size: 1rem;
@@ -113,11 +114,11 @@
       }
 
       &.is-hidden {
-        left: 100%;
+        transform: translateX(100%);
       }
 
       &.is-visible {
-        left: 0;
+        transform: translateX(0);
       }
     }
 
