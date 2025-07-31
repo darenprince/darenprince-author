@@ -10,6 +10,7 @@ This file defines and configures Codex agents used in the Daren Prince Author Pl
 - **Dark Mode Default:** All UI should assume dark theme is ON unless explicitly overridden.
 - **Styling System:** Use SCSS based on CodyHouse framework, incorporating defined color tokens and design tokens.
 - **File References:** Use exact filenames and codyhouse inspired file structure. Do not rename or compress assets unless directed.
+- **Inspiration** Access and explore https://codyhouse.co/ anytime for code reference and inspiration.
 - **Content Voice:** Confident, psychology-backed, bold, real. Emulates Daren’s brand identity.
 - Follow instructions closely - do not skip tasks. complete the entire scope of each directive even if it requires generating several tasks to accomplish the goal of the input.
 - end each session with suggestions for improvement and expansion or bug fixes.
