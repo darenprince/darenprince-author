@@ -1,16 +1,16 @@
-$deep-green: #456F3A;
-$medium-green: #6DA667;
-$bright-green: #87BD72;
-$mint-green: #C2E9C1;
-$lime-green: #8CD679;
-$charcoal: #3B3C3B;
-$light-gray: #D5D5D5;
-$medium-gray: #B8BAB7;
-$black: #070A06;
-$white: #FDFDFD;
+$deep-green: var(--color-primary);
+$medium-green: var(--color-primary-hover);
+$bright-green: var(--color-bright);
+$mint-green: var(--color-mint);
+$lime-green: var(--color-lime);
+$charcoal: var(--color-charcoal);
+$light-gray: var(--gray-100);
+$medium-gray: var(--color-muted);
+$black: var(--color-black);
+$white: var(--color-white);
 
 // extended dark grays for layouts
-$gray-900: #161616;
-$gray-800: #212121;
-$gray-700: #313132;
-$gray-600: #2F2F2F;
+$gray-900: var(--gray-900);
+$gray-800: var(--gray-800);
+$gray-700: var(--gray-700);
+$gray-600: var(--gray-600);
