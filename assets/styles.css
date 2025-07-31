@@ -15,6 +15,12 @@
   --color-muted: #B8BAB7;
   --color-black: #070A06;
   --color-white: #FDFDFD;
+  --color-surface: #212121;
+  --color-icon: #87BD72;
+  --color-border: #313132;
+  --color-accent: #8CD679;
+  --color-contrast-high: #FDFDFD;
+  --color-success: #87BD72;
 }
 
 .theme-light {
