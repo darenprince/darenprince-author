@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function requireSession() {
@@ -49,6 +49,12 @@ async function init() {
   if (!session) return;
   const user = session.user;
   updateGreeting(user.email);
+  const metadata = user.user_metadata || {};
+  document.getElementById('first-name').value = metadata.first_name || '';
+  document.getElementById('last-name').value = metadata.last_name || '';
+  document.getElementById('phone').value = metadata.phone || '';
+  document.getElementById('birthdate').value = metadata.birthdate || '';
+  document.getElementById('shipping-address').value = metadata.shipping_address || '';
   await listFiles('user-data', user.id, 'file-list');
   await loadSharedFiles(user.id);
 
@@ -75,15 +81,25 @@ async function init() {
     e.preventDefault();
     const email = document.getElementById('new-email').value;
     const password = document.getElementById('new-password').value;
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const phone = document.getElementById('phone').value;
+    const birthdate = document.getElementById('birthdate').value;
+    const shipping = document.getElementById('shipping-address').value;
     let msg = '';
-    if (email) {
-      const { error } = await supabase.auth.updateUser({ email });
-      if (error) msg += error.message + ' ';
-    }
-    if (password) {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) msg += error.message;
-    }
+    const updates = {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        birthdate,
+        shipping_address: shipping,
+      },
+    };
+    if (email) updates.email = email;
+    if (password) updates.password = password;
+    const { error } = await supabase.auth.updateUser(updates);
+    if (error) msg = error.message;
     document.querySelector('.profile-msg').textContent = msg || 'Updated';
   });
 
