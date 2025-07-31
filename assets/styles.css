@@ -1211,4 +1211,69 @@ input:checked + .toggle-slider::before {
   padding: 1rem;
 }
 
+/* Mega menu styles */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: none;
+  padding: 1rem;
+  background-color: var(--gray-800);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  z-index: 200;
+}
+.mega-menu a {
+  color: var(--color-white);
+  text-decoration: none;
+  font-weight: 600;
+}
+.mega-menu a:hover {
+  color: var(--color-bright);
+}
+@media (min-width: 768px) {
+  .mega-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+}
+
+.nav-item.has-mega:hover > .mega-menu,
+.nav-item.has-mega:focus-within > .mega-menu {
+  display: grid;
+}
+
+/* Theme switch styles */
+.theme-toggle {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.35rem;
+}
+
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+body.theme-light .theme-toggle .icon-sun {
+  display: none;
+}
+
+body.theme-light .theme-toggle .icon-moon {
+  display: inline;
+}
+
+body.theme-dark .theme-toggle .icon-sun {
+  display: inline;
+}
+
+body.theme-dark .theme-toggle .icon-moon {
+  display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */
