@@ -171,6 +171,7 @@ All public content, meta descriptions, button text, and landing copy must reflec
 
 Build Tools:
 ```bash
+npm install     # install dependencies
 npm run build   # one-time SCSS compilation
 npm run watch   # live watching and compiling
 ```
