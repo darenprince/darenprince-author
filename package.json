@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "sass scss/styles.scss assets/styles.css",
+    "build:html": "node build-html.js",
+    "build": "npm run build:html && sass scss/styles.scss assets/styles.css",
     "watch": "sass scss/styles.scss assets/styles.css --watch"
   },
   "devDependencies": {

@@ -7,26 +7,7 @@
   <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body class="theme-dark">
-  <header class="site-header padding-y-md">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
-      <a href="index.html" class="logo">
-        <img src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
-      </a>
-      <button class="nav-toggle js-toggle-nav" aria-controls="nav" aria-expanded="false"><span></span></button>
-      <nav id="nav" class="site-nav">
-        <ul class="nav-list flex gap-sm">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <button data-toggle-theme class="theme-toggle" aria-label="Toggle theme">
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
-      </button>
-    </div>
-  </header>
+  <!--#include file="partials/header.html" -->
   <main>
     <section class="downloads">
       <div class="container">
@@ -51,33 +32,7 @@
       </div>
     </section>
   </main>
-<footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">YouTube</a></li>
-        </ul>
-      </div>
-      <div>
-        <p>&copy; 2023 Daren Prince. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <!--#include file="partials/footer.html" -->
   <script src="/js/ui.js"></script>
   <script src="/js/main.js"></script>
 </body>

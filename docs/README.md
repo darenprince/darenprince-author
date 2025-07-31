@@ -83,7 +83,7 @@ Sass variables in `scss/tokens/_colors.scss` map directly to those custom proper
 **Adding a new token**
 1. Declare `--color-name` in `_css-vars.scss`.
 2. Add `$name: var(--color-name);` to `_colors.scss`.
-3. Run `npm run build` to update the compiled CSS.
+3. Run `npm run build` to process HTML includes and compile the CSS.
 
 ---
 
@@ -171,8 +171,8 @@ All public content, meta descriptions, button text, and landing copy must reflec
 
 Build Tools:
 ```bash
-npm run build   # one-time SCSS compilation
-npm run watch   # live watching and compiling
+npm run build   # generate HTML from partials and compile SCSS
+npm run watch   # watch SCSS and recompile
 ```
 
 Local Preview (via Netlify CLI):
