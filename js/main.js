@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
+  const menuClose = document.querySelector('.js-close-menu');
   const logoutBtn = document.querySelector('.logout-btn');
   const themeToggle = document.getElementById('themeToggle');
   const searchToggle = document.querySelector('.js-search-toggle');
@@ -9,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
   if (menuToggle && megaMenu) {
     menuToggle.addEventListener('click', function () {
       megaMenu.classList.toggle('visible');
+    });
+  }
+
+  if (menuClose && megaMenu) {
+    menuClose.addEventListener('click', function () {
+      megaMenu.classList.remove('visible');
     });
   }
 

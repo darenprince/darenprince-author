@@ -1,3 +1,5 @@
+@use "base/variables" as *;
+
 /* === MEGA MENU === */
 .mega-menu {
   position: fixed;
@@ -13,6 +15,17 @@
   overflow-y: auto;
   transform: translateX(100%);
   transition: transform 0.4s ease;
+
+  .close-btn {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    background: none;
+    border: none;
+    color: var(--color-contrast-high);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
 
   &.visible {
     transform: translateX(0%);
