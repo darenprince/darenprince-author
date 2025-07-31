@@ -148,6 +148,12 @@ netlify dev
 
 Deployment: Push to `main` auto-deploys via Netlify CI/CD.
 
+### Dashboard on Netlify
+1. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` env vars in your Netlify project.
+2. Deploy the site and visit `/login.html` to sign in.
+3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
+
+
 ---
 
 ## 🔒 Licensing

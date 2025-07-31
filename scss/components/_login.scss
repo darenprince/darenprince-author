@@ -1,0 +1,13 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+.login-container {
+  max-width: 400px;
+  margin: $spacing-lg auto;
+  .card {
+    padding: $spacing-md;
+  }
+  .auth-error {
+    color: $lime-green;
+    margin-bottom: $spacing-sm;
+  }
+}

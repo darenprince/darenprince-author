@@ -1099,4 +1099,41 @@ input:checked + .toggle-slider::before {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+}
+.login-container .card {
+  padding: 1rem;
+}
+.login-container .auth-error {
+  color: #8CD679;
+  margin-bottom: 0.75rem;
+}
+
+.dashboard {
+  display: flex;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 1rem;
+  background-color: #3B3C3B;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
 /*# sourceMappingURL=styles.css.map */
