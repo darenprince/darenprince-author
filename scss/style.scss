@@ -1,0 +1,55 @@
+@use "base/variables" as *;
+@use "base/mixins" as *;
+@use "tokens/colors" as *;
+
+/* Mega menu styles */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: none;
+  padding: $spacing-md;
+  background-color: $gray-800;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  z-index: 200;
+
+  a {
+    color: $white;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      color: $bright-green;
+    }
+  }
+
+  @include respond-to(md) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: $spacing-md;
+  }
+}
+
+.nav-item.has-mega:hover > .mega-menu,
+.nav-item.has-mega:focus-within > .mega-menu {
+  display: grid;
+}
+
+/* Theme switch styles */
+.theme-toggle {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs;
+  border-radius: $border-radius;
+}
+
+.theme-toggle .icon-moon { display: none; }
+body.theme-light .theme-toggle .icon-sun { display: none; }
+body.theme-light .theme-toggle .icon-moon { display: inline; }
+body.theme-dark .theme-toggle .icon-sun { display: inline; }
+body.theme-dark .theme-toggle .icon-moon { display: none; }
