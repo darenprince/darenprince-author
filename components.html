@@ -60,20 +60,25 @@
 
   <main>
     <section id="hero" class="hero text-center demo-section">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Hero</h2>
-        <div class="flex justify-center gap-sm">
-          <a href="#" class="btn btn--primary">Primary Action</a>
-          <a href="#" class="btn btn--accent">Secondary Action</a>
-        </div>
-  </div>
-</section>
+      <h2>Hero</h2>
+      <div class="flex justify-center gap-sm">
+        <a href="#" class="btn btn--primary">Primary Action</a>
+        <a href="#" class="btn btn--accent">Secondary Action</a>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Hero</h3>
+      <p>Function: top-of-page call to action.</p>
+      <p>Tech Specs: styled in <code>scss/components/_hero.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="hero-code"><code class="language-html">&lt;section class=&quot;hero&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="hero-code">Copy</button>
+    </div>
 
     <section id="banner" class="demo-section">
-      <div class="container demo-container">
-        <h2>Banner</h2>
-        <p class="margin-bottom-sm">Promotional callout with image and action.</p>
-        <a href="#" class="banner">
+      <h2>Banner</h2>
+      <p class="margin-bottom-sm">Promotional callout with image and action.</p>
+      <a href="#" class="banner">
           <div class="banner__grid">
             <div class="col-6@md" aria-hidden="true">
               <div class="banner__figure" style="background-image: url('https://placehold.co/600x400?text=Banner');"></div>
@@ -85,13 +90,19 @@
               </div>
             </div>
           </div>
-        </a>
-      </div>
+      </a>
     </section>
+    <div class="component-docs">
+      <h3>Banner</h3>
+      <p>Function: promotional callout with image and link.</p>
+      <p>Tech Specs: styled in <code>scss/components/_banner.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="banner-code"><code class="language-html">&lt;section class=&quot;banner&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="banner-code">Copy</button>
+    </div>
 
     <section id="book-details-wrapper" class="demo-section">
-      <div class="container demo-container">
-        <h2>Book Details Wrapper</h2>
+      <h2>Book Details Wrapper</h2>
         <div class="book-details-wrapper">
           <div class="book-details-layout">
             <div class="book-media">
@@ -159,11 +170,18 @@
         </div>
       </div>
     </section>
+    <div class="component-docs">
+      <h3>Book Details Wrapper</h3>
+      <p>Function: interactive book preview with purchase options.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book-details-wrapper.scss</code>, JS in <code>js/book-details.js</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-details-wrapper-code"><code class="language-html">&lt;section id=&quot;book-details-wrapper&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="book-details-wrapper-code">Copy</button>
+    </div>
 
     <section id="book-tabs" class="demo-section">
-      <div class="container demo-container">
-        <h2>📘 Book Details Tabs</h2>
-        <section class="book-details">
+      <h2>📘 Book Details Tabs</h2>
+      <section class="book-details">
 
     <!-- Sticky Purchase Header -->
     <div class="sticky-purchase-bar">
@@ -230,22 +248,34 @@
       </div>
     </div>
 
-  </section>
-      </div>
     </section>
+      </section>
+    <div class="component-docs">
+      <h3>Book Tabs</h3>
+      <p>Function: tabbed interface for preview, description, trailer, and members area.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book-tabs.scss</code>, JS in <code>js/book-tabs.js</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-tabs-code"><code class="language-html">&lt;section id=&quot;book-tabs&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="book-tabs-code">Copy</button>
+    </div>
 
     <section id="book" class="book-preview demo-section">
-      <div class="container flex justify-center demo-container">
-        <div class="book-3d">
-          <img src="https://placehold.co/200x300?text=Cover" alt="Sample Book Cover">
-        </div>
+      <div class="book-3d">
+        <img src="https://placehold.co/200x300?text=Cover" alt="Sample Book Cover">
       </div>
     </section>
+    <div class="component-docs">
+      <h3>Book Cover</h3>
+      <p>Function: static 3D book render.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-code"><code class="language-html">&lt;section id=&quot;book&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="book-code">Copy</button>
+    </div>
 
     <section id="testimonials" class="testimonials demo-section">
-      <div class="container demo-container">
-        <h2>Testimonials</h2>
-        <div class="testimonial-grid">
+      <h2>Testimonials</h2>
+      <div class="testimonial-grid">
           <div class="card">
             <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 1">
             <blockquote>"A must-read!"</blockquote>
@@ -261,14 +291,20 @@
             <blockquote>"Eye-opening and real."</blockquote>
             <cite>- Jordan</cite>
           </div>
-        </div>
       </div>
     </section>
+    <div class="component-docs">
+      <h3>Testimonials</h3>
+      <p>Function: display user quotes in cards.</p>
+      <p>Tech Specs: styles in <code>scss/components/_testimonials.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="testimonials-code"><code class="language-html">&lt;section id=&quot;testimonials&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="testimonials-code">Copy</button>
+    </div>
 
     <section id="downloads" class="downloads demo-section">
-      <div class="container demo-container">
-        <h2>Downloads</h2>
-        <div class="download-grid">
+      <h2>Downloads</h2>
+      <div class="download-grid">
           <div class="download-card">
             <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
             <p class="file-info">Press Kit – 4MB PDF</p>
@@ -285,35 +321,65 @@
             <a href="#" class="btn btn--primary">Download</a>
           </div>
         </div>
-      </div>
     </section>
+    <div class="component-docs">
+      <h3>Downloads</h3>
+      <p>Function: card grid for PDF or media downloads.</p>
+      <p>Tech Specs: styles in <code>scss/components/_downloads.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="downloads-code"><code class="language-html">&lt;section id=&quot;downloads&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="downloads-code">Copy</button>
+    </div>
 
     <section id="viewer" class="viewer demo-section">
-      <div class="container demo-container">
-        <h2>Viewer</h2>
-        <div class="toolbar">
+      <h2>Viewer</h2>
+      <div class="toolbar">
           <a href="#" class="btn btn--ghost">Download</a>
           <a href="#" class="btn btn--ghost">Zoom</a>
           <a href="#" class="btn btn--ghost">Print</a>
         </div>
-        <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
-      </div>
+      <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
     </section>
+    <div class="component-docs">
+      <h3>Viewer</h3>
+      <p>Function: embeds a document with simple toolbar.</p>
+      <p>Tech Specs: styles in <code>scss/components/_viewer.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="viewer-code"><code class="language-html">&lt;section id=&quot;viewer&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="viewer-code">Copy</button>
+    </div>
 
     <section id="buttons" class="demo-section">
-      <div class="container demo-container">
-        <h2>Buttons</h2>
-        <button class="btn">Primary</button>
-        <button class="btn btn-accent">Accent</button>
-        <button class="btn btn-success">Success</button>
-        <button class="btn btn-error">Error</button>
-      </div>
+      <h2>Buttons</h2>
+      <button class="btn">Primary</button>
+      <button class="btn btn-accent">Accent</button>
+      <button class="btn btn-success">Success</button>
+      <button class="btn btn-error">Error</button>
     </section>
+    <div class="component-docs">
+      <h3>Buttons</h3>
+      <p>Function: reusable button styles.</p>
+      <p>Tech Specs: styles in <code>scss/components/_buttons.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="buttons-code"><code class="language-html">&lt;button class=&quot;btn&quot;&gt;...&lt;/button&gt;</code></pre>
+      <button class="copy-btn" data-target="buttons-code">Copy</button>
+    </div>
+
+    <section id="separator-demo" class="demo-section">
+      <div class="separator"></div>
+    </section>
+    <div class="component-docs">
+      <h3>Separator</h3>
+      <p>Function: simple horizontal divider.</p>
+      <p>Tech Specs: styles in <code>scss/components/_separator.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="separator-code"><code class="language-html">&lt;div class=&quot;separator&quot;&gt;&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="separator-code">Copy</button>
+    </div>
 
     <section id="forms" class="demo-section">
-      <div class="container demo-container">
-        <h2>Form Elements</h2>
-        <form>
+      <h2>Form Elements</h2>
+      <form>
           <label for="name">Name</label>
           <input type="text" id="name" placeholder="Jane Doe">
 
@@ -325,51 +391,82 @@
 
           <button type="submit" class="btn">Submit</button>
         </form>
-      </div>
     </section>
+    <div class="component-docs">
+      <h3>Forms</h3>
+      <p>Function: basic form field styling.</p>
+      <p>Tech Specs: styles in <code>scss/components/_forms.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="forms-code"><code class="language-html">&lt;form&gt;...&lt;/form&gt;</code></pre>
+      <button class="copy-btn" data-target="forms-code">Copy</button>
+    </div>
 
     <section id="cards" class="demo-section">
-      <div class="container demo-container">
-        <h2>Card</h2>
-        <div class="card">
+      <h2>Card</h2>
+      <div class="card">
           <h3>Sample Card</h3>
           <p>This is a basic card layout for testing styles.</p>
           <button class="btn btn-accent">Action</button>
         </div>
-      </div>
     </section>
+    <div class="component-docs">
+      <h3>Cards</h3>
+      <p>Function: container for small pieces of content.</p>
+      <p>Tech Specs: styles in <code>scss/components/_cards.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="cards-code"><code class="language-html">&lt;div class=&quot;card&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="cards-code">Copy</button>
+    </div>
 
     <section id="modals" class="demo-section">
-      <div class="container demo-container">
-        <h2>Modal</h2>
-        <button class="btn js-open-modal">Open Modal</button>
-        <div class="modal-overlay" id="demo-modal">
+      <h2>Modal</h2>
+      <button class="btn js-open-modal">Open Modal</button>
+      <div class="modal-overlay" id="demo-modal">
           <div class="modal">
             <h3>Modal Title</h3>
             <p>Modal body content goes here.</p>
             <button class="btn js-close-modal">Close</button>
           </div>
         </div>
-      </div>
     </section>
+    <div class="component-docs">
+      <h3>Modals</h3>
+      <p>Function: overlay dialog windows.</p>
+      <p>Tech Specs: styles in <code>scss/components/_modals.scss</code>, toggled with custom JS.</p>
+      <p>Implementation:</p>
+      <pre id="modals-code"><code class="language-html">&lt;div class=&quot;modal-overlay&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="modals-code">Copy</button>
+    </div>
 
     <section id="alerts" class="demo-section">
-      <div class="container demo-container">
-        <h2>Alerts</h2>
-        <div class="alert alert-success">Success alert example.</div>
-        <div class="alert alert-error">Error alert example.</div>
-      </div>
+      <h2>Alerts</h2>
+      <div class="alert alert-success">Success alert example.</div>
+      <div class="alert alert-error">Error alert example.</div>
     </section>
+    <div class="component-docs">
+      <h3>Alerts</h3>
+      <p>Function: contextual success and error messages.</p>
+      <p>Tech Specs: styles in <code>scss/components/_alerts.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="alerts-code"><code class="language-html">&lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="alerts-code">Copy</button>
+    </div>
 
     <section id="toggles" class="demo-section">
-      <div class="container demo-container">
-        <h2>Toggle</h2>
-        <label class="toggle">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
+      <h2>Toggle</h2>
+      <label class="toggle">
+        <input type="checkbox" checked>
+        <span class="toggle-slider"></span>
+      </label>
     </section>
+    <div class="component-docs">
+      <h3>Toggles</h3>
+      <p>Function: switch between on/off states.</p>
+      <p>Tech Specs: styles in <code>scss/components/_toggles.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="toggles-code"><code class="language-html">&lt;label class=&quot;toggle&quot;&gt;...&lt;/label&gt;</code></pre>
+      <button class="copy-btn" data-target="toggles-code">Copy</button>
+    </div>
   </main>
 
   <footer>
@@ -378,5 +475,17 @@
   <script src="/js/mobile-nav.js"></script>
   <script src="/js/book-tabs.js"></script>
   <script src="/js/book-details.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (target) {
+          navigator.clipboard.writeText(target.textContent.trim());
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

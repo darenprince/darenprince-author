@@ -4,9 +4,5 @@
 .demo-section {
   padding-top: $spacing-lg;
   padding-bottom: $spacing-lg;
-  border-bottom: 1px solid $medium-gray;
-
-  &:last-of-type {
-    border-bottom: 0;
-  }
+  // spacing only - separators removed
 }
