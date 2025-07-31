@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
   const menuOverlay = document.querySelector('.js-menu-overlay');
+  const menuClose = document.querySelector('.js-menu-close');
   const logoutBtn = document.querySelector('.logout-btn');
   const themeToggle = document.getElementById('themeToggle');
   const searchToggle = document.querySelector('.js-search-toggle');
@@ -26,21 +27,35 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  if (menuClose) {
+    menuClose.addEventListener('click', function () {
+      document.body.classList.remove('menu-open');
+      megaMenu.classList.remove('submenu-active');
+      const openSub = megaMenu.querySelector('.submenu.is-visible');
+      if (openSub) openSub.classList.remove('is-visible');
+      megaMenu.querySelector('.mega-menu-list').classList.remove('moves-out');
+    });
+  }
+
   if (menuOverlay) {
     menuOverlay.addEventListener('click', function () {
       document.body.classList.remove('menu-open');
+      megaMenu.classList.remove('submenu-active');
+      const openSub = megaMenu.querySelector('.submenu.is-visible');
+      if (openSub) openSub.classList.remove('is-visible');
+      megaMenu.querySelector('.mega-menu-list').classList.remove('moves-out');
     });
   }
 
   if (logoutBtn) {
     if (session) {
-      logoutBtn.innerHTML = '<i class="ti ti-logout"></i> Logout';
+      logoutBtn.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
       logoutBtn.addEventListener('click', async function () {
         if (supabaseClient) await supabaseClient.auth.signOut();
         window.location.href = '/';
       });
     } else {
-      logoutBtn.innerHTML = '<i class="ti ti-login"></i><a href="/login.html">Log In</a>';
+      logoutBtn.innerHTML = '<a href="/login.html"><i class="ti ti-key"></i> Log In</a>';
     }
   }
 
@@ -69,4 +84,26 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
+
+  const submenuTriggers = document.querySelectorAll('.js-submenu-trigger');
+  submenuTriggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      const submenu = this.nextElementSibling;
+      submenu.classList.add('is-visible');
+      megaMenu.querySelector('.mega-menu-list').classList.add('moves-out');
+      megaMenu.classList.add('submenu-active');
+    });
+  });
+
+  const goBackLinks = document.querySelectorAll('.js-go-back');
+  goBackLinks.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const submenu = this.closest('.submenu');
+      submenu.classList.remove('is-visible');
+      megaMenu.querySelector('.mega-menu-list').classList.remove('moves-out');
+      megaMenu.classList.remove('submenu-active');
+    });
+  });
 });
