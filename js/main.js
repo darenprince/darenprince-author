@@ -4,20 +4,23 @@ document.addEventListener('DOMContentLoaded', function () {
   const logoutBtn = document.querySelector('.logout-btn');
   const themeToggle = document.getElementById('themeToggle');
 
-  // Open/close hamburger menu
-  menuToggle.addEventListener('click', function () {
-    megaMenu.classList.toggle('visible');
-  });
+  if (menuToggle && megaMenu) {
+    menuToggle.addEventListener('click', function () {
+      megaMenu.classList.toggle('visible');
+    });
+  }
 
-  // Clicking logout
-  logoutBtn.addEventListener('click', function () {
-    // Supabase logout logic would go here
-    window.location.href = '/';
-  });
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function () {
+      // Supabase logout logic would go here
+      window.location.href = '/';
+    });
+  }
 
-  // Toggle light/dark mode
-  themeToggle.addEventListener('change', function () {
-    document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode');
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener('change', function () {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+    });
+  }
 });
