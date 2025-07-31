@@ -9,6 +9,7 @@
 </head>
 <body class="theme-dark">
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
     <div class="theme-toggle-row" data-toggle-theme>
       <label class="switch">
         <input type="checkbox" id="themeToggle">
@@ -18,20 +19,21 @@
       <i class="ti ti-moon icon-moon"></i>
     </div>
     <ul class="mega-menu-list">
-      <li><i class="ti ti-home"></i><a href="index.html">Home</a></li>
+      <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
       <li class="has-submenu">
-        <div class="flex items-center"><i class="ti ti-book"></i>Books</div>
-        <ul class="submenu">
-          <li><i class="ti ti-book"></i><a href="book.html">Game On!</a></li>
-          <li><i class="ti ti-book-2"></i><a href="index.html">Unshakeable</a></li>
+        <a href="#" class="js-submenu-trigger"><i class="ti ti-book"></i>Books<i class="ti ti-chevron-right arrow"></i></a>
+        <ul class="submenu is-hidden">
+          <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
+          <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
+          <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
         </ul>
       </li>
-      <li><i class="ti ti-user"></i><a href="index.html">About</a></li>
-      <li><i class="ti ti-camera"></i><a href="press.html">Media</a></li>
-      <li><i class="ti ti-shirt"></i><a href="index.html">Swag</a></li>
-      <li><i class="ti ti-news"></i><a href="index.html">Blog</a></li>
-      <li><i class="ti ti-handshake"></i><a href="index.html">Collabs</a></li>
-      <li><i class="ti ti-mail"></i><a href="contact.html">Contact</a></li>
+      <li><a href="index.html"><i class="ti ti-user"></i>About</a></li>
+      <li><a href="press.html"><i class="ti ti-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ti ti-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ti ti-news"></i>Blog</a></li>
+      <li><a href="index.html"><i class="ti ti-handshake"></i>Collabs</a></li>
+      <li><a href="contact.html"><i class="ti ti-mail"></i>Contact</a></li>
       <hr>
       <li class="social-row">
         <a href="#"><i class="ti ti-brand-facebook"></i></a>
