@@ -2,7 +2,7 @@
 @use "../tokens/colors" as *;
 
 .site-footer {
-  background: $black;
+  background: linear-gradient($gray-900, $gray-800);
   color: $white;
   padding: $spacing-lg 0;
   text-align: left;
