@@ -13,6 +13,7 @@
 @use "layout/component-nav" as *;
 @use "layout/demo-section" as *;
 @use "layout/footer" as *;
+@use "layout/nav" as *;
 @use "components/buttons" as *;
 @use "components/forms" as *;
 @use "components/cards" as *;
@@ -34,7 +35,6 @@
 @use "components/demo-container" as *;
 @use "components/loaders" as *;
 
-@use "components/profile-dropdown" as *;
 
 @use "components/login" as *;
 @use "components/dashboard" as *;
