@@ -5,28 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game On! Book Details</title>
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
 <body class="theme-dark">
-  <header class="site-header padding-y-md">
+  <header class="site-header padding-y-sm js-sticky-nav">
     <div class="container max-width-adaptive-lg flex items-center justify-between">
       <a href="index.html" class="logo">
-        <img src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+        <img src="/assets/logos/logo-web-for-dark-bg.png" alt="Daren Prince">
       </a>
-      <button class="nav-toggle js-toggle-nav" aria-controls="nav" aria-expanded="false"><span></span></button>
-      <nav id="nav" class="site-nav">
-        <ul class="nav-list flex gap-sm">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <button data-toggle-theme class="theme-toggle" aria-label="Toggle theme">
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
-      </button>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti-search"></i></button>
+        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti-user"></i></button>
+        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti-menu-2"></i></button>
+      </div>
+    </div>
+    <div class="search-bar js-search-bar" hidden>
+      <form class="search-form flex items-center">
+        <input type="search" placeholder="search site" />
+        <button type="submit" class="search-submit"><i class="ti-search"></i></button>
+      </form>
     </div>
   </header>
+
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <div class="theme-toggle-row">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+      <span>Light mode</span>
+    </div>
+    <ul class="mega-menu-list">
+      <li><i class="ti-home"></i><a href="index.html">Home</a></li>
+      <li class="has-submenu">
+        <div class="flex items-center"><i class="ti-book"></i>The Books</div>
+        <ul class="submenu">
+          <li><a href="book.html">Game On!</a></li>
+          <li><a href="press.html">Press</a></li>
+        </ul>
+      </li>
+      <li><i class="ti-mail"></i><a href="contact.html">Contact</a></li>
+      <hr>
+      <li class="social-row">
+        <a href="#"><i class="ti-brand-facebook"></i></a>
+        <a href="#"><i class="ti-brand-instagram"></i></a>
+        <a href="#"><i class="ti-brand-youtube"></i></a>
+        <a href="#"><i class="ti-brand-tiktok"></i></a>
+      </li>
+      <li class="logout-btn">Logout</li>
+    </ul>
+  </nav>
 
   <main>
     <section class="book-details-wrapper">
