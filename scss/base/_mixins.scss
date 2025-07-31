@@ -14,7 +14,7 @@
   }
 }
 
-@mixin button-base($bg, $text: $white) {
+@mixin button-base($bg, $text: var(--color-white), $hover: null) {
   background-color: $bg;
   color: $text;
   padding: $spacing-xs $spacing-md;
@@ -27,7 +27,13 @@
 
   &:hover,
   &:focus {
-    background-color: color.adjust($bg, $lightness: -5%);
+    @if $hover != null {
+      background-color: $hover;
+    } @else if type-of($bg) == color {
+      background-color: color.adjust($bg, $lightness: -5%);
+    } @else {
+      background-color: $bg;
+    }
   }
 
   &:disabled {
