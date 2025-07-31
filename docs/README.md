@@ -21,6 +21,7 @@ This project is built to:
 
 - **Framework**: Pure HTML + Modular SCSS (CodyHouse-style system)
 - **Dark Mode Default**: Site is styled with dark mode as the baseline
+- **Theme Toggle**: Each page has a button that switches `theme-dark` and `theme-light`
 - **Build Tools**: Node, npm, Netlify CLI
 - **Auto Deployment**: Netlify CI/CD connected to GitHub main branch
 - **Prompt Engine**: Codex by OpenAI powers real-time generation of components, prompts, and site logic
@@ -70,6 +71,19 @@ For Graphic Design, Ads, Images:
 - `#C2E9C1` Mint Green
 
 Design must follow clean, bold, masculine UI logic with large readable typography, generous spacing, and no frills.
+
+---
+
+## 🎛 CSS Variables & Tokens
+
+Color variables live in `scss/tokens/_css-vars.scss` and are applied globally under `:root`. The file also defines `.theme-light` overrides so the theme toggle can swap palettes.
+
+Sass variables in `scss/tokens/_colors.scss` map directly to those custom properties. Reference these Sass tokens throughout components so color changes remain centralized.
+
+**Adding a new token**
+1. Declare `--color-name` in `_css-vars.scss`.
+2. Add `$name: var(--color-name);` to `_colors.scss`.
+3. Run `npm run build` to update the compiled CSS.
 
 ---
 
@@ -126,7 +140,8 @@ Include the module on any page that needs them:
 Usage:
 
 ```javascript
-GameOnUI.toast('Saved!', 'success');
+// showToast is an alias of GameOnUI.toast
+GameOnUI.showToast('Saved!', 'success');
 const bar = document.querySelector('.progress');
 GameOnUI.showProgress(bar);
 GameOnUI.setProgress(bar, 50);
