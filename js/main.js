@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (themeToggle) {
     themeToggle.addEventListener('change', function () {
-      document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode');
+      document.body.classList.toggle('theme-dark');
+      document.body.classList.toggle('theme-light');
     });
   }
 });
