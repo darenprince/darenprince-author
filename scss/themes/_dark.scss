@@ -2,7 +2,7 @@
 @use "../tokens/colors" as *;
 
 body.theme-dark {
-  background-color: $charcoal;
+  background: linear-gradient($gray-700, $gray-600);
   color: $white;
 
   a {
