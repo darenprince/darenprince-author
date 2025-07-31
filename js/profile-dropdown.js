@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const nameEl = dropdown.querySelector('.profile-name');
   let client;
   if (window.supabase) {
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const { data } = await client.auth.getSession();
     if (data.session) {
