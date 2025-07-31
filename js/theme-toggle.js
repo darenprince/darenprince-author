@@ -1,9 +1,10 @@
 (function() {
-  var btn = document.querySelector('[data-toggle-theme]');
-  if (!btn) return;
+  var container = document.querySelector('[data-toggle-theme]');
+  if (!container) return;
   var body = document.body;
-  var sun = btn.querySelector('.icon-sun');
-  var moon = btn.querySelector('.icon-moon');
+  var sun = container.querySelector('.icon-sun');
+  var moon = container.querySelector('.icon-moon');
+  var checkbox = container.querySelector('input[type="checkbox"]');
 
   function apply(theme) {
     body.classList.remove('theme-dark', 'theme-light');
@@ -18,15 +19,23 @@
         moon.style.display = 'none';
       }
     }
+    if (checkbox) checkbox.checked = theme === 'light';
   }
 
-  var saved = localStorage.getItem('theme');
-  if (!saved) saved = 'dark';
+  var saved = localStorage.getItem('theme') || 'dark';
   apply(saved);
 
-  btn.addEventListener('click', function() {
-    var newTheme = body.classList.contains('theme-dark') ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-    apply(newTheme);
-  });
+  if (checkbox) {
+    checkbox.addEventListener('change', function() {
+      var newTheme = checkbox.checked ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      apply(newTheme);
+    });
+  } else {
+    container.addEventListener('click', function() {
+      var newTheme = body.classList.contains('theme-dark') ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      apply(newTheme);
+    });
+  }
 })();

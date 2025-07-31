@@ -39,12 +39,13 @@
   </header>
 
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <div class="theme-toggle-row">
+    <div class="theme-toggle-row" data-toggle-theme>
       <label class="switch">
         <input type="checkbox" id="themeToggle">
         <span class="slider"></span>
       </label>
-      <span>Light mode</span>
+      <i class="ti ti-sun icon-sun"></i>
+      <i class="ti ti-moon icon-moon"></i>
     </div>
     <ul class="mega-menu-list">
       <li><i class="ti ti-home"></i><a href="index.html">Home</a></li>
@@ -526,6 +527,7 @@
   <script src="/js/ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
   <script src="/js/book-tabs.js"></script>
   <script src="/js/book-details.js"></script>
   <script src="/js/main.js"></script>
