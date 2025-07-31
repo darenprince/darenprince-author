@@ -68,6 +68,10 @@ textarea {
   padding: 2rem 0;
 }
 
+body.theme-fade {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   font-family: "Helvetica Neue", Arial, sans-serif;
