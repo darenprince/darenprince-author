@@ -9,7 +9,7 @@ body.theme-dark {
     color: $bright-green;
 
     &:hover {
-      color: color.adjust($bright-green, $lightness: 10%);
+      color: color-mix(in srgb, $bright-green, white 10%);
     }
   }
 }
