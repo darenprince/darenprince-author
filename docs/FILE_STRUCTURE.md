@@ -123,7 +123,7 @@ This document details the exact folder and file structure used in the Codex-powe
 ## 🛠 Misc
 
 - **Colors:** Only use HEX values defined in `brand-style-guide.md`
-- **Dark Mode:** Always active by default — light mode not required.
+- **Dark Mode:** Baseline is dark, but a light theme can be enabled via `#themeToggle`.
 - **Fonts:** CodyHouse system defaults, no custom brand fonts (yet)
 - **Filenames:** Follow all conventions from `assets-brand-README.md`
 

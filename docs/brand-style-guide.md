@@ -52,6 +52,6 @@ This should be reflected in UI copy, system prompts, and all AI agent replies.
 
 ---
 
-## ✅ Dark Mode Always On
+## ✅ Dark Mode Baseline
 
-All components and media are designed to be shown in dark mode. Any light-mode variants (such as `logo-web-for-light-bg.png`) are fallback-only.
+All components and media are designed for dark mode, with optional light variants triggered by `#themeToggle`.
