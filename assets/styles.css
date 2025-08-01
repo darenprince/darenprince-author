@@ -186,10 +186,14 @@ body.theme-dark {
   color: var(--color-white);
 }
 body.theme-dark a {
-  color: var(--color-bright);
+  color: var(--color-muted);
+  text-decoration: none;
+}
+body.theme-dark a.active {
+  color: var(--color-lime);
 }
 body.theme-dark a:hover {
-  color: color-mix(in srgb, var(--color-bright), white 10%);
+  color: var(--color-muted);
 }
 
 body.theme-light {
