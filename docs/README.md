@@ -170,9 +170,10 @@ All public content, meta descriptions, button text, and landing copy must reflec
 
 Build Tools:
 ```bash
-npm install     # install dependencies
-npm run build   # one-time SCSS compilation
-npm run watch   # live watching and compiling
+./scripts/local_setup.sh   # install deps and compile once
+./scripts/start_dev.sh     # watch files & launch dev server
+npm run build              # one-time SCSS compilation
+npm run watch              # live watching and compiling
 ```
 
 Local Preview (via Netlify CLI):
