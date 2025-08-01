@@ -19,12 +19,13 @@ p {
 }
 
 a {
-  color: $bright-green;
+  color: $medium-gray;
   text-decoration: none;
   transition: $transition;
 
   &:hover,
   &:focus {
+    color: $bright-green;
     text-decoration: underline;
   }
 }
