@@ -35,7 +35,6 @@ This project is driven by AI collaboration through OpenAI’s Codex:
 - Modular prompts generate SCSS components
 - Systematic integration with Codex logic tracked in `docs/CODEX_PROMPTS.md`
 - Brand-aware personality definitions in `docs/AGENTS.md`
-- Each build phase references `AUTHOR_SITE_MASTER_STRATEGY_EXPANDED.txt`
 
 ⚠️ All prompts, component logic, and layout flow must follow the official strategy and never deviate from:
 - Brand fonts
@@ -63,7 +62,7 @@ For Graphic Design, Ads, Images:
 - `#D5D5D5` Light Gray
 - `#B8BAB7` Medium Gray
 - `#3B3C3B` Charcoal
-- `#141414` Black
+ - `#070A06` Black
 - `#456F3A` Deep Green
 - `#6DA667` Medium Green
 - `#87BD72` Bright Green
