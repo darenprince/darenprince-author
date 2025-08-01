@@ -114,11 +114,12 @@ p {
 }
 
 a {
-  color: var(--color-bright);
+  color: var(--color-muted);
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 }
 a:hover, a:focus {
+  color: var(--color-bright);
   text-decoration: underline;
 }
 
@@ -186,10 +187,13 @@ body.theme-dark {
   color: var(--color-white);
 }
 body.theme-dark a {
-  color: var(--color-bright);
+  color: var(--color-muted);
 }
 body.theme-dark a:hover {
-  color: color-mix(in srgb, var(--color-bright), white 10%);
+  color: var(--color-bright);
+}
+body.theme-dark a.active {
+  color: var(--color-lime);
 }
 
 body.theme-light {
@@ -1348,7 +1352,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 .mega-menu.visible {
   transform: translateX(0%);
@@ -1368,7 +1372,7 @@ input:checked + .toggle-slider::before {
   flex-grow: 1;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 .mega-menu-list a {
   color: var(--color-muted);
@@ -1421,7 +1425,7 @@ input:checked + .toggle-slider::before {
   height: 100%;
   padding: 0;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 .mega-menu-list .has-submenu .submenu li {
   font-size: 1rem;
@@ -1500,7 +1504,7 @@ input:checked + .toggle-slider::before {
   left: 0;
   right: 0;
   bottom: 0;
-  transition: 0.4s;
+  transition: 0.25s;
 }
 
 .slider:before {
@@ -1511,7 +1515,7 @@ input:checked + .toggle-slider::before {
   left: 0.1rem;
   bottom: 0.1rem;
   background-color: var(--color-contrast-high);
-  transition: 0.4s;
+  transition: 0.25s;
   border-radius: 50%;
 }
 
@@ -1548,12 +1552,12 @@ input:checked + .slider:before {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.25s ease;
   z-index: 9998;
 }
 
 .site-wrap {
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 
 body.menu-open {
