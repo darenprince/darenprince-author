@@ -1,5 +1,6 @@
 
 # 🖥️ Daren Prince Author Platform & Website
+⚠️ **Legacy:** This file is kept for historical reference. For the latest information see `docs/README.md`.
 
 Welcome to the official development repository for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
 
@@ -34,7 +35,6 @@ This project is driven by AI collaboration through OpenAI’s Codex:
 - Modular prompts generate SCSS components
 - Systematic integration with Codex logic tracked in `docs/CODEX_PROMPTS.md`
 - Brand-aware personality definitions in `docs/AGENTS.md`
-- Each build phase references `AUTHOR_SITE_MASTER_STRATEGY_EXPANDED.txt`
 
 ⚠️ All prompts, component logic, and layout flow must follow the official strategy and never deviate from:
 - Brand fonts
