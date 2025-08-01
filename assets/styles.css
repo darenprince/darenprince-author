@@ -1386,7 +1386,7 @@ book-3d-viewer .zoom-modal .zoom-content .close-btn {
 }
 
 .separator {
-  border-top: 1px solid var(--color-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   margin: 2rem 0;
 }
 
@@ -1606,7 +1606,7 @@ book-3d-viewer .zoom-modal .zoom-content .close-btn {
 .mega-menu-list hr {
   margin: 1rem 0;
   border: none;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .mega-menu-list .social-row {
   display: flex;
