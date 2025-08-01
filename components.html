@@ -18,15 +18,10 @@
       <i class="ti ti-sun icon-sun"></i>
       <i class="ti ti-moon icon-moon"></i>
     </div>
-    <ul class="mega-menu-list">
+    <ul class="mega-menu-list level-1 is-visible">
       <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
       <li class="has-submenu">
         <a href="#" class="js-submenu-trigger"><i class="ti ti-book"></i>Books<i class="ti ti-chevron-right arrow"></i></a>
-        <ul class="submenu is-hidden">
-          <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
-          <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
-          <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
-        </ul>
       </li>
       <li><a href="index.html"><i class="ti ti-user"></i>About</a></li>
       <li><a href="press.html"><i class="ti ti-camera"></i>Media</a></li>
@@ -42,6 +37,11 @@
         <a href="#"><i class="ti ti-brand-tiktok"></i></a>
       </li>
       <li class="logout-btn">Logout</li>
+    </ul>
+    <ul class="mega-menu-list level-2 submenu is-hidden">
+      <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
+      <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
+      <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
     </ul>
   </nav>
   <div class="menu-overlay js-menu-overlay"></div>
@@ -532,6 +532,7 @@
   <script src="/js/mobile-nav.js"></script>
   <script src="/js/ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="/js/profile-dropdown.js"></script>
   <script src="/js/theme-toggle.js"></script>
   <script src="/js/book-tabs.js"></script>
