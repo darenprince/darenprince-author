@@ -54,13 +54,13 @@ Navigation styles live primarily in the SCSS folder:
 - `scss/layout/_nav.scss` – shared styles for icon buttons, search bar and the profile dropdown.
 - `scss/components/_profile-dropdown.scss` – extra styling for the dropdown itself.
 
-All partials are imported in `scss/styles.scss`, which is the entry point compiled to CSS. After editing any SCSS, run:
+All partials are imported in `scss/style.scss`, which is the entry point compiled to CSS. After editing any SCSS, run:
 
 ```bash
 npm run build
 ```
 
-This command uses `sass scss/styles.scss assets/styles.css` as specified in `package.json`.
+This command uses `sass scss/style.scss assets/styles.css` as specified in `package.json`.
 
 ## 3. JavaScript Behavior
 
