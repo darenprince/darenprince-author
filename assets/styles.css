@@ -1603,11 +1603,6 @@ book-3d-viewer .zoom-modal .zoom-content .close-btn {
   align-items: center;
   gap: 0.75rem;
 }
-.mega-menu-list hr {
-  margin: 1rem 0;
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
 .mega-menu-list .social-row {
   display: flex;
   gap: 1.25rem;
