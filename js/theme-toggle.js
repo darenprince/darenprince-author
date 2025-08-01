@@ -19,7 +19,7 @@
         moon.style.display = 'none';
       }
     }
-    if (checkbox) checkbox.checked = theme === 'light';
+    if (checkbox) checkbox.checked = theme === 'dark';
   }
 
   var saved = localStorage.getItem('theme') || 'dark';
@@ -27,7 +27,7 @@
 
   if (checkbox) {
     checkbox.addEventListener('change', function() {
-      var newTheme = checkbox.checked ? 'light' : 'dark';
+      var newTheme = checkbox.checked ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
       apply(newTheme);
     });
