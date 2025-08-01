@@ -1,6 +1,10 @@
 Mega Menu Structure and Functionality
 
-Overview: This custom mega menu is based on the CodyHouse Mega-Site Navigation template. It provides a responsive, multi-level navigation with an overlay and smooth CSS transitions. The menu’s design features a dark background and vibrant green accent icons and highlights for a modern, cohesive look. It is built with semantic HTML (unordered lists for menus), SCSS for styling (with easily adjustable variables), and jQuery for interactive behavior. The following documentation details the menu’s HTML structure, JavaScript behaviors for toggling submenus and responsive views, icon usage, color palette, example menu content, and guidance on extending or modifying the menu.
+Overview: This custom mega menu is based on the CodyHouse Mega-Site Navigation template. 
+
+you will find a sample of all of the files included in the original template at: 'References-ignore/MegaMenu'
+
+It provides a responsive, multi-level navigation with an overlay and smooth CSS transitions. The menu’s design features a dark background and vibrant green accent icons and highlights for a modern, cohesive look. It is built with semantic HTML (unordered lists for menus), SCSS for styling (with easily adjustable variables), and jQuery for interactive behavior. The following documentation details the menu’s HTML structure, JavaScript behaviors for toggling submenus and responsive views, icon usage, color palette, example menu content, and guidance on extending or modifying the menu.
 
 HTML Structure of the Menu
 
