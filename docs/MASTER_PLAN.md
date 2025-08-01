@@ -18,7 +18,8 @@ PHASE 1: FOUNDATIONAL DESIGN STRATEGY
 ==================================================
 
 1. ✅ Brand Alignment
-   - Use official Game On! fonts: League Spartan, Futura, Knockout Welterweight, Helvetica Now
+   - Use default CodyHouse fonts for all UI.
+   - Brand fonts (League Spartan, Futura, Knockout Welterweight, Helvetica Now) reserved for graphics or print assets
    - Apply HEX-coded color palette consistently: Charcoal, Deep Greens, Mint Green, White, etc.
    - Maintain bold, real, emotionally intelligent tone in layout and microcopy
    - Avoid all hyphens, dashes, or truncated content
@@ -117,9 +118,9 @@ PHASE 3: SCSS, SPACING & STRUCTURE STRATEGY
 - Mobile-first media queries
 - Layout breakpoints at: 480px, 768px, 1024px, 1440px
 
-✅ TYPOGRAPHY
-- Headings: Use brand fonts in defined sizes (e.g., H1 = 3.2rem)
-- Body: Helvetica Now or fallback sans-serif
+-✅ TYPOGRAPHY
+- Headings: Use default CodyHouse font stack (e.g., H1 = 3.2rem)
+- Body: sans-serif (Helvetica Now or system font)
 - Line height, letter spacing defined for legibility
 
 ==================================================
