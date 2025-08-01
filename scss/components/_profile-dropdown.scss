@@ -48,9 +48,12 @@
         }
       }
 
-      &.js-logout {
+      button.logout-btn {
         color: $accent;
         cursor: pointer;
+        background: none;
+        border: none;
+        font: inherit;
       }
     }
   }

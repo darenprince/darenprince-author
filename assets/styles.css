@@ -497,9 +497,12 @@ body.theme-light {
 .profile-dropdown ul li a:hover {
   color: var(--color-bright);
 }
-.profile-dropdown ul li.js-logout {
+.profile-dropdown ul li button.logout-btn {
   color: var(--color-accent);
   cursor: pointer;
+  background: none;
+  border: none;
+  font: inherit;
 }
 
 .btn {
@@ -1618,6 +1621,10 @@ book-3d-viewer .zoom-modal .zoom-content .close-btn {
   margin-top: 2rem;
   font-weight: 600;
   color: var(--color-accent);
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
 }
 
 /* === THEME TOGGLE SWITCH === */
