@@ -1,0 +1,38 @@
+
+.face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(var(--light-angle, 145deg), rgba(255,255,255,0.07), transparent 60%);
+  transition: background 0.2s ease-out;
+}
+.book {
+  position: relative;
+  overflow: visible; // ensure shadows render
+  z-index: 1;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  // Ambient soft fade (bottom third)
+  &::before {
+    bottom: 0;
+    height: 33%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.07), transparent);
+  }
+
+  // Darker grounded fade (bottom edge)
+  &::after {
+    bottom: 0;
+    height: 5%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+  }
+}
