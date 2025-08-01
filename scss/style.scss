@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 
   &.visible {
     transform: translateX(0%);
@@ -39,7 +39,7 @@
   flex-grow: 1;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 
   a {
     color: $medium-gray;
@@ -99,7 +99,7 @@
       height: 100%;
       padding: 0;
       transform: translateX(100%);
-      transition: transform 0.4s ease;
+      transition: transform 0.25s ease;
 
       li {
         font-size: 1rem;
@@ -190,7 +190,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  transition: 0.4s;
+  transition: 0.25s;
 }
 
 .slider:before {
@@ -201,7 +201,7 @@
   left: 0.1rem;
   bottom: 0.1rem;
   background-color: var(--color-contrast-high);
-  transition: 0.4s;
+  transition: 0.25s;
   border-radius: 50%;
 }
 
@@ -237,13 +237,13 @@ input:checked + .slider:before {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.25s ease;
   z-index: 9998;
 }
 
 
 .site-wrap {
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 
 body.menu-open {
