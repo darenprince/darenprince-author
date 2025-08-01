@@ -114,11 +114,12 @@ p {
 }
 
 a {
-  color: var(--color-bright);
+  color: var(--color-muted);
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 }
 a:hover, a:focus {
+  color: var(--color-muted);
   text-decoration: underline;
 }
 
@@ -186,10 +187,13 @@ body.theme-dark {
   color: var(--color-white);
 }
 body.theme-dark a {
-  color: var(--color-bright);
+  color: var(--color-muted);
 }
 body.theme-dark a:hover {
-  color: color-mix(in srgb, var(--color-bright), white 10%);
+  color: var(--color-muted);
+}
+body.theme-dark a.active {
+  color: var(--color-lime);
 }
 
 body.theme-light {
@@ -1348,7 +1352,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 .mega-menu.visible {
   transform: translateX(0%);
@@ -1363,12 +1367,22 @@ input:checked + .toggle-slider::before {
   list-style: none;
   padding: 0;
   margin: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+.mega-menu-list.is-visible {
+  transform: translateX(0);
+  z-index: 2;
+}
+.mega-menu-list.moves-out {
+  transform: translateX(-100%);
+  z-index: 1;
 }
 .mega-menu-list a {
   color: var(--color-muted);
@@ -1399,12 +1413,6 @@ input:checked + .toggle-slider::before {
   width: 1.25rem;
   text-align: center;
 }
-.mega-menu-list.moves-out {
-  transform: translateX(-100%);
-}
-.mega-menu-list .has-submenu {
-  position: relative;
-}
 .mega-menu-list .has-submenu > a {
   width: 100%;
   justify-content: space-between;
@@ -1412,59 +1420,55 @@ input:checked + .toggle-slider::before {
 .mega-menu-list .has-submenu > a .arrow {
   margin-left: auto;
 }
-.mega-menu-list .has-submenu .submenu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+.mega-menu-list .submenu {
   background-color: var(--color-surface);
   height: 100%;
   padding: 0;
   transform: translateX(100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
-.mega-menu-list .has-submenu .submenu li {
+.mega-menu-list .submenu li {
   font-size: 1rem;
   padding: 0.8rem 0;
   display: flex;
   align-items: center;
 }
-.mega-menu-list .has-submenu .submenu li i {
+.mega-menu-list .submenu li i {
   font-size: 1rem;
   width: 1.25rem;
   text-align: center;
 }
-.mega-menu-list .has-submenu .submenu.is-hidden {
+.mega-menu-list .submenu.is-hidden {
   transform: translateX(100%);
 }
-.mega-menu-list .has-submenu .submenu.is-visible {
+.mega-menu-list .submenu.is-visible {
   transform: translateX(0);
 }
-.mega-menu-list .has-submenu .go-back {
+.mega-menu-list .submenu .go-back {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-.mega-menu-list .has-submenu .go-back a {
+.mega-menu-list .submenu .go-back a {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
-.mega-menu-list hr {
+.mega-menu-list .submenu hr {
   margin: 1rem 0;
   border: none;
   border-top: 1px solid var(--color-border);
 }
-.mega-menu-list .social-row {
+.mega-menu-list .submenu .social-row {
   display: flex;
   gap: 1.25rem;
   justify-content: center;
   margin-top: auto;
   padding: 1rem 0;
 }
-.mega-menu-list .social-row a {
+.mega-menu-list .submenu .social-row a {
   font-size: 1.4rem;
   color: var(--color-icon);
 }
-.mega-menu-list .logout-btn {
+.mega-menu-list .submenu .logout-btn {
   margin-top: 2rem;
   font-weight: 600;
   color: var(--color-accent);
@@ -1500,7 +1504,7 @@ input:checked + .toggle-slider::before {
   left: 0;
   right: 0;
   bottom: 0;
-  transition: 0.4s;
+  transition: 0.25s;
 }
 
 .slider:before {
@@ -1511,7 +1515,7 @@ input:checked + .toggle-slider::before {
   left: 0.1rem;
   bottom: 0.1rem;
   background-color: var(--color-contrast-high);
-  transition: 0.4s;
+  transition: 0.25s;
   border-radius: 50%;
 }
 
@@ -1548,12 +1552,12 @@ input:checked + .slider:before {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.25s ease;
   z-index: 9998;
 }
 
 .site-wrap {
-  transition: transform 0.4s ease;
+  transition: transform 0.25s ease;
 }
 
 body.menu-open {
