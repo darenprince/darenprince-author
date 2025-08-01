@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  const logoutEl = dropdown.querySelector('.js-logout');
+  const logoutEl = dropdown.querySelector('.js-auth-toggle');
   if (logoutEl) {
     logoutEl.addEventListener('click', async () => {
       if (client) await client.auth.signOut();

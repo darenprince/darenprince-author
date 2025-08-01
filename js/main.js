@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const megaMenu = document.querySelector('.js-mega-menu');
   const menuOverlay = document.querySelector('.js-menu-overlay');
   const menuClose = document.querySelector('.js-menu-close');
-  const logoutBtn = document.querySelector('.logout-btn');
+  const authToggle = document.querySelector('.js-auth-toggle');
   const themeToggle = document.getElementById('themeToggle');
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
@@ -47,15 +47,18 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  if (logoutBtn) {
+  if (authToggle) {
     if (session) {
-      logoutBtn.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
-      logoutBtn.addEventListener('click', async function () {
+      authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
+      authToggle.addEventListener('click', async function () {
         if (supabaseClient) await supabaseClient.auth.signOut();
         window.location.href = '/';
       });
     } else {
-      logoutBtn.innerHTML = '<a href="/login.html"><i class="ti ti-key"></i> Log In</a>';
+      authToggle.innerHTML = '<i class="ti ti-key"></i> Log In';
+      authToggle.addEventListener('click', function () {
+        window.location.href = '/login.html';
+      });
     }
   }
 
