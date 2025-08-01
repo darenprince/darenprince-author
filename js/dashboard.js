@@ -103,7 +103,7 @@ async function init() {
     document.querySelector('.profile-msg').textContent = msg || 'Updated';
   });
 
-  document.querySelector('.js-logout').addEventListener('click', async () => {
+  document.querySelector('.js-auth-toggle').addEventListener('click', async () => {
     await supabase.auth.signOut();
     window.location.href = 'login.html';
   });
