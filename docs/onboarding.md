@@ -4,10 +4,10 @@ Welcome to the Daren Prince Author Platform! This quick primer gets you building
 
 ## 1. Install Dependencies
 
-The project uses Node and the `sass` package to compile styles. Install everything with:
+Run the helper script to install Node packages and compile the initial stylesheet:
 
 ```bash
-npm install
+./scripts/local_setup.sh
 ```
 
 ## 2. Compile SCSS
@@ -31,10 +31,10 @@ Every component imports into `scss/styles.scss`, so keep file names consistent.
 
 ## 4. Preview the Site
 
-After compiling styles, open `index.html` in your browser or run Netlify’s dev server:
+After compiling styles, start the live dev server:
 
 ```bash
-npx netlify-cli dev
+./scripts/start_dev.sh
 ```
 
 This serves the project locally and reflects your SCSS changes immediately.
