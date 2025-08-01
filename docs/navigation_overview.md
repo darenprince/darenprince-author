@@ -49,7 +49,7 @@ The header at the top of each page contains icons that toggle search, the profil
 
 Navigation styles live primarily in the SCSS folder:
 
-- `scss/style.scss` – defines the mega menu layout and transitions.
+- `scss/styles.scss` – defines the mega menu layout and transitions.
 - `scss/layout/_header.scss` – styles the sticky header bar.
 - `scss/layout/_nav.scss` – shared styles for icon buttons, search bar and the profile dropdown.
 - `scss/components/_profile-dropdown.scss` – extra styling for the dropdown itself.
