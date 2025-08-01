@@ -6,10 +6,15 @@ body.theme-dark {
   color: $white;
 
   a {
-    color: $bright-green;
+    color: $medium-gray;
+    text-decoration: none;
+
+    &.active {
+      color: $lime-green;
+    }
 
     &:hover {
-      color: color-mix(in srgb, $bright-green, white 10%);
+      color: $medium-gray;
     }
   }
 }

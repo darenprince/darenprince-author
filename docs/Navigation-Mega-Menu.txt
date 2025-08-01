@@ -168,6 +168,8 @@ In summary, the color palette is controlled by a handful of SCSS variables:
 	•	Modify these in _variables.scss to re-skin the menu.
 	•	The changes propagate through all menu styles (backgrounds, text, icons, overlay, etc.) thanks to SASS.
 	•	Consistency with other site components is achieved by reusing $color-2 and the others globally.
+Dark Mode Link Behavior: navigation links appear in medium gray by default. The active page uses the `.active` class to switch the link color to lime green. Hovering non-active links keeps them gray so the active page stands out.
+
 
 Menu Content and Structure: Current Setup
 
