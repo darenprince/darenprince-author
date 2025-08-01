@@ -28,6 +28,16 @@
     top: 1rem;
     right: 1rem;
   }
+
+  .mega-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+
+    img {
+      width: 120px;
+      opacity: 0.5;
+    }
+  }
 }
 
 .mega-menu-list {
@@ -61,7 +71,7 @@
     align-items: center;
     gap: 0.75rem;
     cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
     &:hover {
       opacity: 0.8;
@@ -124,7 +134,7 @@
     }
 
     .go-back {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
       a {
         display: flex;
@@ -137,7 +147,7 @@
   hr {
     margin: 1rem 0;
     border: none;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .social-row {
@@ -157,6 +167,13 @@
     margin-top: 2rem;
     font-weight: 600;
     color: var(--color-accent);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: inherit;
+    cursor: pointer;
   }
 }
 

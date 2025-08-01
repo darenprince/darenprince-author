@@ -55,7 +55,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         window.location.href = '/';
       });
     } else {
-      logoutBtn.innerHTML = '<a href="/login.html"><i class="ti ti-key"></i> Log In</a>';
+      logoutBtn.innerHTML = '<i class="ti ti-key"></i> Log In';
+      logoutBtn.addEventListener('click', function () {
+        window.location.href = '/login.html';
+      });
     }
   }
 
