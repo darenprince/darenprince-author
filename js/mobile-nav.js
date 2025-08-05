@@ -12,13 +12,17 @@ if (modalOverlay) {
   const openBtn = document.querySelector('.js-open-modal');
   const closeBtn = modalOverlay.querySelector('.js-close-modal');
 
-  openBtn.addEventListener('click', function () {
-    modalOverlay.classList.add('is-visible');
-  });
+  if (openBtn) {
+    openBtn.addEventListener('click', function () {
+      modalOverlay.classList.add('is-visible');
+    });
+  }
 
-  closeBtn.addEventListener('click', function () {
-    modalOverlay.classList.remove('is-visible');
-  });
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      modalOverlay.classList.remove('is-visible');
+    });
+  }
 }
 
 const componentSelect = document.querySelector('.component-nav__select');
