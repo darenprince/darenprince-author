@@ -57,9 +57,8 @@ Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/bra
 **Fonts:**
 For UI and website text, Default CodyHouse style Sans Serif fonts are to be used consistently.
 
-For Graphic Design, Ads, Images:
-- League Spartan (Primary Headline)
-- Futura (Secondary Headline / Navigation)
+- Futura Bold (Primary Headline)
+- Helvetica Medium (Secondary Headline / Navigation)
 - Knockout Welterweight (Accents & Stylized Labels)
 - Helvetica Now (Body, System, Utility)
 
