@@ -3,116 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daren Prince - Author</title>
+  <title>Daren Prince - Site Under Maintenance</title>
   <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    body { display:flex; flex-direction:column; align-items:center; text-align:center; padding:2rem; }
+    .hero img { max-width:100%; height:auto; margin-bottom:2rem; }
+    .hero h1 { font-size:2rem; margin-bottom:1rem; }
+    .hero p { margin-bottom:2rem; }
+    .book-section img { max-width:200px; height:auto; margin-bottom:1rem; }
+    .book-section details { margin-top:1rem; }
+    .book-section summary { cursor:pointer; font-weight:bold; margin-bottom:1rem; }
+    .contact-form { margin-top:4rem; width:100%; max-width:30rem; display:flex; flex-direction:column; gap:1rem; }
+    .contact-form input, .contact-form textarea { padding:0.5rem; }
+    .logos { margin-top:4rem; display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; }
+    .logos img { max-width:120px; height:auto; }
+  </style>
 </head>
 <body class="theme-dark">
-  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
-    <div class="theme-toggle-row" data-toggle-theme>
-      <label class="switch">
-        <input type="checkbox" id="themeToggle">
-        <span class="slider"></span>
-      </label>
-      <i class="ti ti-sun icon-sun"></i>
-      <i class="ti ti-moon icon-moon"></i>
-    </div>
-    <ul class="mega-menu-list">
-      <li><a href="index.html" class="active"><i class="ti ti-home"></i>Home</a></li>
-      <li class="has-submenu">
-        <a href="#" class="js-submenu-trigger"><i class="ti ti-book"></i>Books<i class="ti ti-chevron-right arrow"></i></a>
-        <ul class="submenu is-hidden">
-          <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
-          <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
-          <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
-        </ul>
-      </li>
-      <li><a href="index.html"><i class="ti ti-user"></i>About</a></li>
-      <li><a href="press.html"><i class="ti ti-camera"></i>Media</a></li>
-      <li><a href="index.html"><i class="ti ti-shirt"></i>Swag</a></li>
-      <li><a href="index.html"><i class="ti ti-news"></i>Blog</a></li>
-      <li><a href="index.html"><i class="ti ti-handshake"></i>Collabs</a></li>
-      <li><a href="contact.html"><i class="ti ti-mail"></i>Contact</a></li>
-      <li class="social-row">
-        <a href="#"><i class="ti ti-brand-facebook"></i></a>
-        <a href="#"><i class="ti ti-brand-instagram"></i></a>
-        <a href="#"><i class="ti ti-brand-youtube"></i></a>
-        <a href="#"><i class="ti ti-brand-tiktok"></i></a>
-      </li>
-      <li><button class="logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
-    </ul>
-  </nav>
-  <div class="menu-overlay js-menu-overlay"></div>
-<div class="site-wrap">
-    <header class="site-header padding-y-sm js-sticky-nav">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
-      <a href="index.html" class="logo">
-        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
-      </a>
-      <div class="nav-btn-group flex items-center gap-sm">
-        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
-      </div>
-    </div>
-    <div class="search-bar js-search-bar" hidden>
-      <form class="search-form flex items-center">
-        <input type="search" placeholder="search site" />
-        <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
-      </form>
-    </div>
-    <div class="profile-dropdown js-profile-dropdown" hidden>
-      <div class="profile-info">
-        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
-        <span class="profile-name">Guest</span>
-      </div>
-      <ul>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Account</a></li>
-        <li><button class="logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
-      </ul>
-    </div>
-  </header>
-
-  <main>
-  Acknowledged. No more assumptions. No guessing. Let’s correct that.
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">YouTube</a></li>
-        </ul>
-      </div>
-      <div>
-        <p>&copy; 2023 Daren Prince. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-  </div>
-  <script src="/js/ui.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="/js/profile-dropdown.js"></script>
-  <script src="/js/trailer-modal.js"></script>
-  <script src="/js/theme-toggle.js"></script>
-  <script src="/js/main.js"></script>
-  </body>
-  </html>
+  <section class="hero">
+    <img src="assets/images/Hero-bg.PNG" alt="Daren Prince">
+    <h1>Daren’s Site is Leveling Up</h1>
+    <p>Game on, even when the page is down. We’re upgrading the experience — faster, sleeker, bolder. Hang tight.</p>
+  </section>
+  <section class="book-section">
+    <img src="assets/images/presskit-thumb.jpg" alt="Game On! book mockup">
+    <details open>
+      <summary>Get the Book</summary>
+      <p>No gimmicks. No games. Just real results. <em>Game On!</em> is not another gimmicky “pickup artist” guide – it’s a real-world roadmap for authentic, magnetic connection. This 5-star Amazon bestseller cracked the Top 100 Kindle charts, proving that modern men are ready to ditch the mind games and get real.</p>
+      <p>Bold, playful, and grounded in real psychology, <em>Game On!</em> cuts through the nonsense to show you how to master the conversation, spark genuine attraction, and build connections that actually last.</p>
+      <p>Packed with humor, actionable exercises, and expert insights, <em>Game On!</em> helps you become the man who naturally attracts respect and interest. You’ll learn to confidently approach women, truly listen and understand, and express yourself with authenticity and emotional intelligence – all key ingredients for real attraction and lasting love.</p>
+    </details>
+  </section>
+  <section class="contact-section">
+    <form class="contact-form">
+      <input type="text" name="name" placeholder="Name">
+      <input type="email" name="email" placeholder="Email">
+      <textarea name="message" rows="4" placeholder="Message"></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <p style="margin-top:1rem;">For media, interviews, or reader messages, contact: <a href="mailto:press@darenprince.com">press@darenprince.com</a></p>
+  </section>
+  <section class="logos">
+    <a href="https://a.co/d/irajx1w" target="_blank"><img src="assets/logos/amazon.png" alt="Amazon"></a>
+    <a href="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900" target="_blank"><img src="assets/logos/ibooks.png" alt="Apple Books"></a>
+    <a href="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ" target="_blank"><img src="assets/logos/googleplay.png" alt="Google Play"></a>
+    <a href="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407" target="_blank"><img src="assets/logos/booksamillion.png" alt="Books-A-Million"></a>
+    <a href="https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380" target="_blank"><img src="assets/logos/thriftbooks.png" alt="ThriftBooks"></a>
+    <a href="https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407" target="_blank"><img src="assets/logos/waterstones.png" alt="Waterstones"></a>
+  </section>
+</body>
+</html>
