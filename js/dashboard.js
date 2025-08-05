@@ -1,9 +1,9 @@
 const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function requireSession() {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await supabaseClient.auth.getSession();
   if (!data.session) {
     window.location.href = 'login.html';
     return null;
@@ -17,12 +17,12 @@ function updateGreeting(email) {
 }
 
 async function listFiles(bucket, path, target) {
-  const { data, error } = await supabase.storage.from(bucket).list(path);
+  const { data, error } = await supabaseClient.storage.from(bucket).list(path);
   if (error) return;
   const ul = document.getElementById(target);
   ul.innerHTML = '';
   for (const item of data) {
-    const { data: url } = await supabase.storage.from(bucket).getPublicUrl(`${path}/${item.name}`);
+    const { data: url } = await supabaseClient.storage.from(bucket).getPublicUrl(`${path}/${item.name}`);
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url.publicUrl;
@@ -33,7 +33,7 @@ async function listFiles(bucket, path, target) {
 }
 
 async function loadSharedFiles(userId) {
-  const { data, error } = await supabase.from('folder_access').select('*').eq('user_id', userId);
+  const { data, error } = await supabaseClient.from('folder_access').select('*').eq('user_id', userId);
   if (error) return;
   const ul = document.getElementById('shared-list');
   ul.innerHTML = '';
@@ -63,7 +63,7 @@ async function init() {
     e.preventDefault();
     const file = document.getElementById('user-file').files[0];
     if (!file) return;
-    await supabase.storage.from('user-data').upload(`${user.id}/${file.name}`, file, { upsert: true });
+    await supabaseClient.storage.from('user-data').upload(`${user.id}/${file.name}`, file, { upsert: true });
     await listFiles('user-data', user.id, 'file-list');
   });
 
@@ -71,8 +71,8 @@ async function init() {
   avatarInput.addEventListener('change', async () => {
     const file = avatarInput.files[0];
     if (!file) return;
-    await supabase.storage.from('avatars').upload(`${user.id}.jpg`, file, { upsert: true, contentType: file.type });
-    const { data } = await supabase.storage.from('avatars').getPublicUrl(`${user.id}.jpg`);
+    await supabaseClient.storage.from('avatars').upload(`${user.id}.jpg`, file, { upsert: true, contentType: file.type });
+    const { data } = await supabaseClient.storage.from('avatars').getPublicUrl(`${user.id}.jpg`);
     document.getElementById('avatar-preview').src = data.publicUrl;
   });
 
@@ -98,13 +98,13 @@ async function init() {
     };
     if (email) updates.email = email;
     if (password) updates.password = password;
-    const { error } = await supabase.auth.updateUser(updates);
+    const { error } = await supabaseClient.auth.updateUser(updates);
     if (error) msg = error.message;
     document.querySelector('.profile-msg').textContent = msg || 'Updated';
   });
 
   document.querySelector('.js-auth-toggle').addEventListener('click', async () => {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     window.location.href = 'login.html';
   });
 }

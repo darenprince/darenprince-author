@@ -27,23 +27,25 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  if (menuClose) {
+  if (menuClose && megaMenu) {
     menuClose.addEventListener('click', function () {
       document.body.classList.remove('menu-open');
       megaMenu.classList.remove('submenu-active');
       const openSub = megaMenu.querySelector('.submenu.is-visible');
       if (openSub) openSub.classList.remove('is-visible');
-      megaMenu.querySelector('.mega-menu-list').classList.remove('moves-out');
+      const list = megaMenu.querySelector('.mega-menu-list');
+      if (list) list.classList.remove('moves-out');
     });
   }
 
-  if (menuOverlay) {
+  if (menuOverlay && megaMenu) {
     menuOverlay.addEventListener('click', function () {
       document.body.classList.remove('menu-open');
       megaMenu.classList.remove('submenu-active');
       const openSub = megaMenu.querySelector('.submenu.is-visible');
       if (openSub) openSub.classList.remove('is-visible');
-      megaMenu.querySelector('.mega-menu-list').classList.remove('moves-out');
+      const list = megaMenu.querySelector('.mega-menu-list');
+      if (list) list.classList.remove('moves-out');
     });
   }
 
