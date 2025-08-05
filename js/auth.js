@@ -1,9 +1,9 @@
 const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function checkSession() {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await supabaseClient.auth.getSession();
   if (data.session) {
     window.location.href = 'dashboard.html';
   }
@@ -45,9 +45,9 @@ if (form) {
     const shipping = document.getElementById('shipping-address')?.value;
     let result;
     if (mode === 'signin') {
-      result = await supabase.auth.signInWithPassword({ email, password });
+      result = await supabaseClient.auth.signInWithPassword({ email, password });
     } else {
-      result = await supabase.auth.signUp({
+      result = await supabaseClient.auth.signUp({
         email,
         password,
         options: {
