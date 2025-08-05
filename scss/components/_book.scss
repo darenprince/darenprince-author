@@ -77,7 +77,10 @@ $book-pages-offset: 3px !default;
       width: 100%;
       height: 100%;
       transform: translateZ(math.div(-$book-thickness, 2));
-      background-color: $book-bg-color;
+      background-image: url('images/game-on-back-cover.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       border-radius: 0 $book-radius $book-radius 0;
       box-shadow: none;
     }
