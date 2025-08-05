@@ -20,30 +20,6 @@
     position: relative;
   }
 
-  .view-toggle {
-    position: absolute;
-    bottom: $spacing-sm;
-    right: $spacing-sm;
-    display: flex;
-    gap: $spacing-xs;
-
-    button {
-      background: $medium-gray;
-      color: $black;
-      padding: $spacing-xs $spacing-sm;
-      border: 0;
-      border-radius: $border-radius;
-      cursor: pointer;
-      transition: $transition;
-
-      &.active,
-      &:hover,
-      &:focus {
-        background: $bright-green;
-        color: $black;
-      }
-    }
-  }
 
   .purchase-box {
     background: $charcoal;
@@ -71,11 +47,4 @@
   }
 }
 
-.book-3d.view-front {
-  transform: rotateY(0deg);
-}
-
-.book-3d.view-back {
-  transform: rotateY(-180deg);
-}
 
