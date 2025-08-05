@@ -1,9 +1,5 @@
 const book = document.getElementById('book');
-const btnFront = document.getElementById('btn-front');
-const btnBack = document.getElementById('btn-back');
-const btnZoom = document.getElementById('btn-zoom');
-const zoomModal = document.getElementById('zoomModal');
-const closeZoom = document.getElementById('closeZoom');
+const btnFlip = document.getElementById('btn-flip');
 
 let isDragging = false;
 let startX = 0;
@@ -91,32 +87,14 @@ function startIdleSpin() {
   spin();
 }
 
-// === Buttons ===
-btnFront?.addEventListener('click', () => {
-  currentRotation = 0;
+// === Flip Button ===
+let flipped = false;
+btnFlip?.addEventListener('click', () => {
+  flipped = !flipped;
+  currentRotation = flipped ? 180 : 0;
   velocity = 0;
   spinning = false;
   applyRotation(currentRotation);
-});
-
-btnBack?.addEventListener('click', () => {
-  currentRotation = 180;
-  velocity = 0;
-  spinning = false;
-  applyRotation(currentRotation);
-});
-
-// === Zoom Modal ===
-btnZoom?.addEventListener('click', () => {
-  zoomModal.classList.remove('hidden');
-});
-
-closeZoom?.addEventListener('click', () => {
-  zoomModal.classList.add('hidden');
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') zoomModal.classList.add('hidden');
 });
 
 // Start auto-spin after initial load
