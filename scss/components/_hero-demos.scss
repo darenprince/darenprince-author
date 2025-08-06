@@ -131,15 +131,21 @@
 
     &.playing {
       .hero-content {
-        opacity: 0;
-        transition: opacity 0.6s;
+        position: static;
 
-        button {
-          position: absolute;
-          left: 50%;
-          bottom: 2rem;
-          transform: translate(-50%, 0);
+        h1,
+        p {
+          opacity: 0;
+          transition: opacity 0.6s;
         }
+      }
+
+      .hero-content button {
+        position: absolute;
+        left: 50%;
+        bottom: 2rem;
+        transform: translate(-50%, 0);
+        z-index: 2;
       }
     }
   }
