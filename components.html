@@ -116,14 +116,33 @@
   </header>
 
   <main>
-    <section id="hero" class="hero text-center demo-section">
-      <div class="container demo-container">
-        <h2>Hero</h2>
-        <div class="flex justify-center gap-sm">
-          <a href="#" class="btn btn--primary">Primary Action</a>
-          <a href="#" class="btn btn--accent">Secondary Action</a>
+    <section id="hero" class="demo-section">
+      <section id="parallaxHero" class="hero active">
+        <div class="hero-content">
+          <h1>Parallax Hero</h1>
+          <p>Scroll the page to see a static background parallax effect in action.</p>
+          <button>Explore</button>
         </div>
-      </div>
+      </section>
+
+      <section id="scrollVideoHero" class="hero">
+        <video muted playsinline id="videoBg">
+          <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-content">
+          <h1>Scroll-Triggered Video</h1>
+          <p>As you scroll, the background video fades in for dynamic storytelling.</p>
+          <button>Order Now</button>
+        </div>
+      </section>
+
+      <section id="autoScaleHero" class="hero">
+        <div class="hero-content">
+          <h1>Auto-Scaling Hero</h1>
+          <p>This hero shrinks smoothly as the user scrolls down the page.</p>
+          <button>Start</button>
+        </div>
+      </section>
     </section>
     <div class="component-docs">
       <h3>Hero</h3>
