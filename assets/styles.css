@@ -730,6 +730,37 @@ input:checked + .toggle-slider::before {
   background-position: center;
   padding: 3rem 0;
   text-align: center;
+  overflow: hidden;
+}
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+.hero .hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.hero .hero-video iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.hero .hero-mute-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(var(--color-black), 0.4);
+  border: none;
+  color: var(--color-white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
 }
 .hero h1 {
   font-size: 2.5rem;
