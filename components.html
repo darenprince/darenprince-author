@@ -116,8 +116,8 @@
   </header>
 
   <main>
-    <section id="hero" class="demo-section">
-      <section id="parallaxHero" class="hero active">
+    <section id="hero" class="demo-section hero-demos">
+      <section id="parallaxHero" class="hero hero-parallax active">
         <div class="hero-content">
           <h1>Parallax Hero</h1>
           <p>Scroll the page to see a static background parallax effect in action.</p>
@@ -125,7 +125,7 @@
         </div>
       </section>
 
-      <section id="scrollVideoHero" class="hero">
+      <section id="scrollVideoHero" class="hero hero-scroll-video active">
         <video muted playsinline id="videoBg">
           <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4" />
         </video>
@@ -136,7 +136,7 @@
         </div>
       </section>
 
-      <section id="autoScaleHero" class="hero">
+      <section id="autoScaleHero" class="hero hero-auto-scale active">
         <div class="hero-content">
           <h1>Auto-Scaling Hero</h1>
           <p>This hero shrinks smoothly as the user scrolls down the page.</p>
@@ -620,6 +620,7 @@
   <script src="/js/book-tabs.js"></script>
   <script src="/js/book-details.js"></script>
   <script type="module" src="js/book-3d-inertia-light-slowspin.js"></script>
+  <script src="/js/hero-demos.js"></script>
   <script src="/js/main.js"></script>
   <script>
     document.querySelectorAll('.copy-btn').forEach(btn => {
