@@ -76,23 +76,19 @@
   </header>
 
   <main>
-    <!-- Hero copy sourced from Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf -->
-    <section class="hero text-center js-open-trailer-section">
+    <!-- Hero with autoplay video -->
+    <section class="hero text-center">
+      <div class="hero-video" id="heroVideo"></div>
+      <button class="hero-mute-btn" id="heroMuteBtn" aria-label="Toggle sound">
+        <i class="ti ti-volume-off"></i>
+      </button>
       <div class="container max-width-adaptive-lg">
         <h1>Tired Of Getting Played?</h1>
         <div class="flex justify-center gap-sm">
           <a href="book.html" class="btn btn--primary">Buy Now</a>
-          <button class="btn btn--accent js-open-trailer-btn">▸ Trailer</button>
         </div>
       </div>
     </section>
-
-    <div class="trailer-overlay" id="trailer-modal">
-      <div class="trailer-modal">
-        <button class="close-btn js-close-trailer" aria-label="Close">&times;</button>
-<iframe title="Game On Trailer" allow="autoplay; fullscreen" allowfullscreen src="about:blank"></iframe>
-      </div>
-    </div>
 
     <section class="testimonials">
       <div class="container">
@@ -182,7 +178,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="/js/profile-dropdown.js"></script>
-  <script src="/js/trailer-modal.js"></script>
+  <script src="/js/hero-video.js"></script>
   <script src="/js/theme-toggle.js"></script>
   <script src="/js/main.js"></script>
   </body>
