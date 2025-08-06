@@ -1,4 +1,4 @@
-const videoId = 'I1W7JdHC33A';
+const videoId = document.getElementById('heroVideo')?.dataset.videoId;
 let player;
 
 function initHeroVideo() {
