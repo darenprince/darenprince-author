@@ -4,156 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>All Hero Examples</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f0f0f0;
-    }
-
-    header {
-      padding: 1rem;
-      background: #333;
-      color: #fff;
-      text-align: center;
-    }
-
-    .controls {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      padding: 1rem;
-      flex-wrap: wrap;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #666;
-    }
-
-    .hero {
-      display: none;
-      height: 100vh;
-      overflow: hidden;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .hero.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .hero-content {
-      max-width: 700px;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero button {
-      padding: 0.75rem 1.5rem;
-      background: #ff6347;
-      border: none;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .hero button:hover {
-      background: #ff8267;
-    }
-
-    /* Parallax */
-    #parallaxHero {
-      background: url('https://picsum.photos/1920/1080?image=1050') center/cover fixed;
-    }
-
-    #parallaxHero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-    }
-
-    /* Scroll-Triggered Video */
-    #scrollVideoHero video {
-      position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1s ease;
-      z-index: 1;
-    }
-
-    #scrollVideoHero.loaded video {
-      opacity: 1;
-    }
-
-    #scrollVideoHero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1;
-    }
-
-    /* Auto-Scaling */
-    #autoScaleHero {
-      background: url('https://picsum.photos/1920/1080?image=903') center/cover;
-      transition: height 0.3s;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
+<body class="hero-demos">
 
-  <header>
+  <header class="hero-demos__header">
     <h1>🧪 All Hero Examples in One Demo</h1>
   </header>
 
-  <div class="controls">
+  <div class="hero-demos__controls">
     <button onclick="showHero('parallaxHero')">Parallax Hero</button>
     <button onclick="showHero('scrollVideoHero')">Scroll-Triggered Video</button>
     <button onclick="showHero('autoScaleHero')">Auto-Scaling Hero</button>
   </div>
 
   <!-- Parallax Hero -->
-  <section id="parallaxHero" class="hero active">
+  <section id="parallaxHero" class="hero hero-parallax active">
     <div class="hero-content">
       <h1>Parallax Hero</h1>
       <p>Scroll the page to see a static background parallax effect in action.</p>
@@ -162,7 +28,7 @@
   </section>
 
   <!-- Scroll-Triggered Video Hero -->
-  <section id="scrollVideoHero" class="hero">
+  <section id="scrollVideoHero" class="hero hero-scroll-video">
     <video muted playsinline id="videoBg">
       <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4" />
     </video>
@@ -174,7 +40,7 @@
   </section>
 
   <!-- Auto-Scaling Hero -->
-  <section id="autoScaleHero" class="hero">
+  <section id="autoScaleHero" class="hero hero-auto-scale">
     <div class="hero-content">
       <h1>Auto-Scaling Hero</h1>
       <p>This hero shrinks smoothly as the user scrolls down the page.</p>
