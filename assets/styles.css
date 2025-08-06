@@ -1005,12 +1005,12 @@ input:checked + .toggle-slider::before {
   border: none;
 }
 
-book-3d-viewer {
+.book-3d-viewer {
   position: relative;
   width: 240px;
   perspective: 1200px;
 }
-book-3d-viewer::before {
+.book-3d-viewer::before {
   content: "";
   position: absolute;
   bottom: -8px;
@@ -1022,7 +1022,7 @@ book-3d-viewer::before {
   filter: blur(8px);
   pointer-events: none;
 }
-book-3d-viewer .book {
+.book-3d-viewer .book {
   width: 200px;
   height: 300px;
   position: relative;
@@ -1030,62 +1030,62 @@ book-3d-viewer .book {
   transform: rotateY(0deg);
   transition: transform 0.8s ease;
 }
-book-3d-viewer .book:hover {
+.book-3d-viewer .book:hover {
   transform: rotateY(-10deg);
 }
-book-3d-viewer .book .face {
+.book-3d-viewer .book .face {
   position: absolute;
   border-radius: 4px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   background-size: cover;
   background-position: center;
 }
-book-3d-viewer .book .face::after {
+.book-3d-viewer .book .face::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(var(--light-angle, 145deg), rgba(255, 255, 255, 0.07), transparent 60%);
   pointer-events: none;
 }
-book-3d-viewer .book .face.front {
+.book-3d-viewer .book .face.front {
   width: 200px;
   height: 300px;
   transform: translateZ(4px);
   background-image: url("../assets/images/game-on-main-cover.png");
 }
-book-3d-viewer .book .face.back {
+.book-3d-viewer .book .face.back {
   width: 200px;
   height: 300px;
   transform: rotateY(180deg) translateZ(4px);
   background-image: url("../assets/images/game-on-back-cover.jpg");
 }
-book-3d-viewer .book .face.spine {
+.book-3d-viewer .book .face.spine {
   width: 8px;
   height: 300px;
   transform: rotateY(90deg) translateX(100px);
   transform-origin: left;
   background-image: url("../assets/images/game-on-spine.jpg");
 }
-book-3d-viewer .book .face.top {
+.book-3d-viewer .book .face.top {
   width: 200px;
   height: 8px;
   transform: rotateX(90deg) translateY(-4px);
   transform-origin: top;
   background: #f9f9f9;
 }
-book-3d-viewer .book .face.bottom {
+.book-3d-viewer .book .face.bottom {
   width: 200px;
   height: 8px;
   transform: rotateX(-90deg) translateY(296px);
   transform-origin: bottom;
   background: #f9f9f9;
 }
-book-3d-viewer .book-controls {
+.book-3d-viewer .book-controls {
   display: flex;
   justify-content: center;
   margin-top: var(--space-sm);
 }
-book-3d-viewer .book-controls .icon-btn {
+.book-3d-viewer .book-controls .icon-btn {
   width: 32px;
   height: 32px;
   display: flex;
@@ -1098,7 +1098,7 @@ book-3d-viewer .book-controls .icon-btn {
   font-size: 1.6rem;
   transition: transform 0.2s;
 }
-book-3d-viewer .book-controls .icon-btn:hover {
+.book-3d-viewer .book-controls .icon-btn:hover {
   transform: scale(1.05);
 }
 
