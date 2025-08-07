@@ -66,10 +66,16 @@ textarea {
   line-height: inherit;
 }
 
-.container {
+.container, .container--dark {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+}
+
+.container--dark {
+  background-color: var(--gray-800);
+  color: var(--color-white);
+  padding: 2rem;
 }
 
 .main-content {
@@ -669,7 +675,8 @@ select[disabled] {
   transform: translateY(-50%);
   color: var(--color-danger);
   font-size: 1rem;
-=======
+}
+
 .password-strength .password-reqs {
   list-style: none;
   margin: 0.5rem 0 0;
