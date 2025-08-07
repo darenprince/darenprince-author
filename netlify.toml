@@ -1,3 +1,4 @@
 [build]
   publish = "./"
   command = "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css"
+https://docs.netlify.com/extend/install-and-use/setup-guides/email-integration/?_gl=1*mtorj5*_gcl_au*OTE4ODY0NDQzLjE3NTM5MTk0ODMuNTk4MTg4NzAwLjE3NTQ1OTQwMzMuMTc1NDU5NDYzNQ..#enable-with-netlifytoml
