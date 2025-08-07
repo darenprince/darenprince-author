@@ -1613,6 +1613,8 @@ input:checked + .toggle-slider::before {
 
 .component-docs {
   margin: 1rem 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 .component-docs pre {
   background: var(--color-charcoal);
