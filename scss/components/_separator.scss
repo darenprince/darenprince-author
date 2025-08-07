@@ -2,6 +2,6 @@
 @use "../base/variables" as *;
 
 .separator {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--color-border);
   margin: $spacing-lg 0;
 }
