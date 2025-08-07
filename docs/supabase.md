@@ -7,9 +7,10 @@ This stack uses [Supabase](https://supabase.com) for auth, secure file storage, 
 Set these variables locally or in Netlify:
 
 ```bash
-SUPABASE_URL=<project_url>
-SUPABASE_ANON_KEY=<anon_key>
+SUPABASE_DATABASE_URL=<project_url>
 SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
+SUPABASE_ANON_KEY=<anon_key>
+SUPABASE_JWT_SECRET=<jwt_secret>
 ```
 
 ## 🧠 Client Setup
