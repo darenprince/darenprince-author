@@ -3,15 +3,20 @@ const path = require('path');
 
 const {
   SUPABASE_DATABASE_URL = '',
-  SUPABASE_ANON_KEY = '',
-  SUPABASE_SERVICE_ROLE_KEY = '',
-  SUPABASE_JWT_SECRET = '',
+  SUPABASE_ANON_KEY = ''
 } = process.env;
 
 if (!SUPABASE_DATABASE_URL || !SUPABASE_ANON_KEY) {
-  console.warn('Warning: SUPABASE_DATABASE_URL and/or SUPABASE_ANON_KEY are not set. The application may not function correctly without them.');
+  console.warn('Warning: SUPABASE_DATABASE_URL and/or SUPABASE_ANON_KEY are not set.');
 }
 
-const content = `export const SUPABASE_DATABASE_URL = '${SUPABASE_DATABASE_URL}';\nexport const SUPABASE_ANON_KEY = '${SUPABASE_ANON_KEY}';\nexport const SUPABASE_SERVICE_ROLE_KEY = '${SUPABASE_SERVICE_ROLE_KEY}';\nexport const SUPABASE_JWT_SECRET = '${SUPABASE_JWT_SECRET}';\n`;
-const dest = path.join(__dirname, '..', 'js', 'env.js');
+const content = `window._env_ = {
+  SUPABASE_URL: "${SUPABASE_DATABASE_URL}",
+  SUPABASE_ANON_KEY: "${SUPABASE_ANON_KEY}"
+};
+`;
+
+const dest = path.join(__dirname, '..', 'assets', 'js', '.env.js');
+fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, content);
+console.log('Environment file generated at', dest);
