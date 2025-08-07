@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
 
-  const { data } = await supabase.auth.getSession();
-  const session = data.session;
+  // ---------------------------
+  // menu + search event binding
+  // ---------------------------
 
   if (menuToggle && megaMenu) {
     menuToggle.addEventListener('click', function () {
@@ -40,21 +41,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  // default auth toggle -> login
+  let loginHandler;
   if (authToggle) {
-    if (session) {
-      authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
-      authToggle.addEventListener('click', async function () {
-        await supabase.auth.signOut();
-        window.location.href = '/';
-      });
-    } else {
-      authToggle.innerHTML = '<i class="ti ti-key"></i> Log In';
-      authToggle.addEventListener('click', function () {
-        window.location.href = '/login.html';
-      });
-    }
+    loginHandler = function () {
+      window.location.href = '/login.html';
+    };
+    authToggle.innerHTML = '<i class="ti ti-key"></i> Log In';
+    authToggle.addEventListener('click', loginHandler);
   }
-
 
   if (searchToggle && searchBar) {
     searchToggle.addEventListener('click', function () {
@@ -73,6 +68,29 @@ document.addEventListener('DOMContentLoaded', async function () {
         searchToggle.focus();
       }
     });
+  }
+
+  // ---------------------------
+  // Supabase auth handling
+  // ---------------------------
+
+  try {
+    const { data } = await supabase.auth.getSession();
+    const session = data.session;
+
+    if (authToggle && session) {
+      authToggle.removeEventListener('click', loginHandler);
+      authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
+      authToggle.addEventListener('click', async function () {
+        await supabase.auth.signOut();
+        window.location.href = '/';
+      });
+    }
+  } catch (error) {
+    console.warn('Supabase unavailable: auth features disabled', error);
+    if (authToggle) {
+      authToggle.title = 'Authentication service unavailable';
+    }
   }
 
   if (window.jQuery) {
