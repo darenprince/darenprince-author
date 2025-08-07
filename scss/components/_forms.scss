@@ -34,3 +34,43 @@ select[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.is-valid,
+.is-invalid {
+  position: relative;
+  padding-left: $spacing-lg;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+}
+
+.is-valid {
+  border-color: $success;
+  background-color: rgba(135, 189, 114, 0.15);
+}
+
+.is-valid::before {
+  font-family: "tabler-icons";
+  content: "\ea67";
+  position: absolute;
+  left: $spacing-sm;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $success;
+  font-size: 1rem;
+}
+
+.is-invalid {
+  border-color: $danger;
+  background-color: rgba(224, 49, 49, 0.15);
+}
+
+.is-invalid::before {
+  font-family: "tabler-icons";
+  content: "\ea6a";
+  position: absolute;
+  left: $spacing-sm;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $danger;
+  font-size: 1rem;
+}
