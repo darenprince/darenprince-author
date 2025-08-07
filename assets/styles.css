@@ -1670,14 +1670,23 @@ input:checked + .toggle-slider::before {
     transform: rotate(360deg);
   }
 }
-.login-container {
+.login-container,
+.verify-container,
+.reset-container {
   max-width: 400px;
   margin: 2rem auto;
 }
-.login-container .card {
+.login-container .card,
+.verify-container .card,
+.reset-container .card {
   padding: 1rem;
 }
-.login-container .auth-error {
+.login-container .auth-error,
+.login-container .status-message,
+.verify-container .auth-error,
+.verify-container .status-message,
+.reset-container .auth-error,
+.reset-container .status-message {
   color: var(--color-lime);
   margin-bottom: 0.75rem;
 }
