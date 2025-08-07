@@ -86,9 +86,27 @@
           <label for="email">Email</label>
           <input type="email" id="email" required>
         </div>
-        <div class="form-group">
+        <div class="form-group signin-only">
+          <label for="signin-password">Password</label>
+          <input type="password" id="signin-password" required>
+        </div>
+        <div class="form-group signup-only" hidden>
           <label for="password">Password</label>
-          <input type="password" id="password" required>
+          <input type="password" id="password">
+        </div>
+        <div class="form-group signup-only" hidden>
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password">
+        </div>
+        <div class="password-strength signup-only" hidden>
+          <ul class="password-reqs">
+            <li data-req="length"><i class="ti ti-circle"></i> 8+ characters</li>
+            <li data-req="upper"><i class="ti ti-circle"></i> Uppercase letter</li>
+            <li data-req="lower"><i class="ti ti-circle"></i> Lowercase letter</li>
+            <li data-req="number"><i class="ti ti-circle"></i> Number</li>
+            <li data-req="symbol"><i class="ti ti-circle"></i> Symbol</li>
+            <li data-req="match"><i class="ti ti-circle"></i> Passwords match</li>
+          </ul>
         </div>
         <div class="form-group signup-only" hidden>
           <label for="first-name">First Name</label>
@@ -147,7 +165,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="/js/auth.js"></script>
+  <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/ui.js"></script>
   <script src="/js/profile-dropdown.js"></script>
   <script src="/js/theme-toggle.js"></script>
