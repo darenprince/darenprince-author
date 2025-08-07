@@ -66,13 +66,19 @@ textarea {
   line-height: inherit;
 }
 
-.container, .container--spaced {
+.container, .container--dark, .container--spaced {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
 }
 
 .container--spaced {
+  padding: 2rem;
+}
+
+.container--dark {
+  background-color: var(--gray-800);
+  color: var(--color-white);
   padding: 2rem;
 }
 
