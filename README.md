@@ -130,6 +130,15 @@ Sass variables in `scss/tokens/_colors.scss` map directly to those custom proper
 7. **Contact**
    - Email form (no CAPTCHA), direct links to social media, email
 
+## 📦 Container Variants
+
+Layout containers keep content grounded and intentional. Use these classes to control width and create contrast:
+
+- `.container` – centers content with adaptive max-width.
+- `.container--spaced` – same width plus vertical and horizontal padding; no background or border.
+- `.container--border` – adds a 1px solid border and padding on a transparent backdrop.
+- `.container--dark` – dark gray background, white text, and generous padding for high-contrast blocks.
+
 ---
 
 ## 🛠️ UI Utilities

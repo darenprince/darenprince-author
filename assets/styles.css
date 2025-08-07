@@ -66,10 +66,14 @@ textarea {
   line-height: inherit;
 }
 
-.container {
+.container, .container--spaced {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+}
+
+.container--spaced {
+  padding: 2rem;
 }
 
 .main-content {
