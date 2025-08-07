@@ -207,6 +207,14 @@ Deployment: Push to `main` auto-deploys via Netlify CI/CD.
 2. Deploy the site and visit `/login.html` to sign in.
 3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
 
+### Email Integration
+This site uses Netlify Functions with SendGrid to deliver contact form submissions.
+
+1. Add `SENDGRID_API_KEY`, `SENDGRID_FROM_EMAIL`, and optional `SENDGRID_TO_EMAIL` to your Netlify environment variables.
+2. The function lives at `netlify/functions/send-email.js` and can be invoked via `/.netlify/functions/send-email`.
+3. Front-end forms, such as `contact.html`, POST `name`, `email`, and `message` JSON payloads to this endpoint.
+4. Emails are dispatched through SendGrid with the visitor details in the body and their address set as the reply-to.
+
 
 ---
 
