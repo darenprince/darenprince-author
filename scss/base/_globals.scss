@@ -18,6 +18,13 @@
   background: transparent;
 }
 
+.container--dark {
+  @extend .container;
+  background-color: $gray-800;
+  color: $white;
+  padding: $spacing-lg;
+}
+
 .main-content {
   padding: $spacing-lg 0;
 }
