@@ -1,6 +1,4 @@
-const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+import { supabaseClient } from './supabaseClient.js';
 
 async function requireSession() {
   const { data } = await supabaseClient.auth.getSession();

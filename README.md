@@ -189,6 +189,21 @@ netlify dev
 
 Deployment: Push to `main` auto-deploys via Netlify CI/CD.
 
+### Supabase Setup
+
+1. Copy `.env.example` to `.env` and fill in `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`.
+2. Run `npm run build` (or `npm run watch`) to generate `js/env.js` with your credentials.
+3. Apply database changes with the Supabase CLI:
+   ```bash
+   supabase db push
+   ```
+   This creates tables like `profiles` and configures Row-Level Security.
+4. Deploy edge functions as needed, e.g.:
+   ```bash
+   supabase functions deploy secure-storage
+   ```
+5. For production hosts (Netlify, etc.), set the same environment variables in the project settings so the build step can access them.
+
 ### Dashboard on Netlify
 1. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` env vars in your Netlify project.
 2. Deploy the site and visit `/login.html` to sign in.
