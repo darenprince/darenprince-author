@@ -1,5 +1,5 @@
 import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './password-strength.js';
-import { supabaseClient } from './supabaseClient.js';
+import supabaseClient from '../supabase/client.js';
 
 async function checkSession() {
   const { data } = await supabaseClient.auth.getSession();
@@ -40,13 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
   signupFields.forEach((el) => (el.hidden = true));
   signinFields.forEach((el) => (el.hidden = false));
   initPasswordStrength(submitBtn);
-  if (window.location.hash.includes('type=recovery')) {
-    mode = 'reset';
-    submitBtn.textContent = 'Reset Password';
-    signinFields.forEach((el) => (el.hidden = true));
-    document.getElementById('password').parentElement.hidden = false;
-    document.getElementById('confirm-password').parentElement.hidden = false;
-  }
 });
 if (toggleLink) toggleLink.addEventListener('click', (e) => { e.preventDefault(); toggleMode(); });
 if (resetLink)
@@ -54,9 +47,13 @@ if (resetLink)
     e.preventDefault();
     const email = document.getElementById('email').value;
     const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: `${location.origin}/login.html`,
+      redirectTo: `${location.origin}/reset-password.html`,
     });
-    errorEl.textContent = error ? error.message : 'Check your email for a password reset link.';
+    if (error) {
+      errorEl.textContent = error.message;
+    } else {
+      window.location.href = `verify-email.html?mode=reset`;
+    }
   });
 
 if (form) {
@@ -85,17 +82,11 @@ if (form) {
       return;
     }
 
-    if (mode === 'reset') {
-      result = await supabaseClient.auth.updateUser({ password });
-      errorEl.textContent = result.error ? result.error.message : 'Password updated. Please sign in.';
-      return;
-    }
-
     result = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${location.origin}/login.html`,
+        emailRedirectTo: `${location.origin}/verify-email.html`,
         data: {
           first_name: firstName,
           last_name: lastName,
@@ -104,6 +95,10 @@ if (form) {
         },
       },
     });
-    errorEl.textContent = result.error ? result.error.message : 'Check your email to verify your account.';
+    if (result.error) {
+      errorEl.textContent = result.error.message;
+    } else {
+      window.location.href = `verify-email.html?mode=signup`;
+    }
   });
 }
