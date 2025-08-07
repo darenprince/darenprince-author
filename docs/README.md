@@ -25,6 +25,7 @@ This project is built to:
 - **Build Tools**: Node, npm, Netlify CLI
 - **Auto Deployment**: Netlify CI/CD connected to GitHub main branch
 - **Prompt Engine**: Codex by OpenAI powers real-time generation of components, prompts, and site logic
+- **Supabase**: Auth, storage, and edge functions handled through Supabase
 
 ---
 
@@ -154,6 +155,14 @@ const bar = document.querySelector('.progress');
 GameOnUI.showProgress(bar);
 GameOnUI.setProgress(bar, 50);
 ```
+
+---
+
+## 🔐 Supabase Integration
+
+Supabase powers sign-ups, secure file storage, and serverless logic. The client lives in `/supabase` and is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `js/profile-dropdown.js`. Edge uploads are locked down by `functions/secure-storage`.
+
+More details live in [docs/supabase.md](supabase.md).
 
 ---
 

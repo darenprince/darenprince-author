@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email - Daren Prince</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="theme-dark">
+  <main>
+    <div class="container--spaced max-width-adaptive-lg">
+      <section class="verify-container">
+        <div class="card spacing-y-sm">
+          <h1 class="text-center">Email Verification</h1>
+          <p class="status-message text-center"></p>
+          <p class="text-center margin-top-sm"><a href="login.html">Return to login</a></p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script type="module" src="/js/supabaseClient.js"></script>
+  <script type="module">
+    import { supabaseClient } from '/js/supabaseClient.js';
+    const messageEl = document.querySelector('.status-message');
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const searchParams = new URLSearchParams(window.location.search);
+    const tokenHash = hashParams.get('token_hash') || searchParams.get('token_hash');
+    const email = hashParams.get('email') || searchParams.get('email');
+    const type = hashParams.get('type') || searchParams.get('type');
+    if (tokenHash && email && type) {
+      const { error } = await supabaseClient.auth.verifyOtp({ token_hash: tokenHash, type, email });
+      messageEl.textContent = error ? `Verification failed: ${error.message}` : 'Email verified. You may now sign in.';
+    } else {
+      const mode = searchParams.get('mode');
+      messageEl.textContent = mode === 'reset'
+        ? 'Check your email for a password reset link.'
+        : 'Check your email to verify your account.';
+    }
+  </script>
+</body>
+</html>
