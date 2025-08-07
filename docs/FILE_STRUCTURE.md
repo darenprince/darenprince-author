@@ -14,9 +14,11 @@ This document details the exact folder and file structure used in the Codex-powe
 ├── assets/                    # Images, logos and compiled CSS
 ├── scss/                      # Source SCSS files
 ├── js/                        # JavaScript helpers
+├── supabase/                  # Supabase client, migrations and edge functions
 ├── member/                    # Member area (in progress)
 ├── docs/                      # Project documentation
 ├── test/                      # Demo layouts and checks
+├── tests/                     # Vitest suites for Supabase logic
 ├── archive/                   # Archived files and legacy docs
 ├── package.json               # Build scripts and dependencies
 ├── package-lock.json          # Version-locked dependencies
