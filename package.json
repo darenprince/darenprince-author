@@ -2,10 +2,14 @@
   "scripts": {
     "build": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css",
     "watch": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css --watch",
-    "test": "npm run build",
+    "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass"
   },
   "devDependencies": {
-    "sass": "^1.89.2"
+    "@supabase/supabase-js": "^2.53.0",
+    "@types/node": "^24.2.0",
+    "sass": "^1.89.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }
