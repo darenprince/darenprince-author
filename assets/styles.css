@@ -153,13 +153,40 @@ a:hover, a:focus {
   gap: 1rem;
 }
 
+.spacing-y-sm > * + * {
+  margin-top: 0.75rem;
+}
+
 .padding-md {
   padding: 1rem;
+}
+
+.padding-y-sm {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.padding-y-md {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.padding-y-lg {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .padding-y-xl {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+
+.margin-bottom-sm {
+  margin-bottom: 0.75rem;
+}
+
+.margin-bottom-md {
+  margin-bottom: 1rem;
 }
 
 .margin-bottom-lg {
