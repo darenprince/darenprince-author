@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const avatarImg = dropdown.querySelector('.profile-avatar');
   const nameEl = dropdown.querySelector('.profile-name');
   let client;
-  if (window.supabase) {
-    const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+    client = window.supabase.createClient(
+      window.SUPABASE_URL,
+      window.SUPABASE_ANON_KEY
+    );
     const { data } = await client.auth.getSession();
     if (data.session) {
       const user = data.session.user;

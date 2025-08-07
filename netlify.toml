@@ -1,3 +1,4 @@
 [build]
   publish = "./"
   command = "sass scss/styles.scss assets/styles.css"
+  functions = "netlify/functions"

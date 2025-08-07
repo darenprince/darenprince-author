@@ -194,6 +194,24 @@ Deployment: Push to `main` auto-deploys via Netlify CI/CD.
 2. Deploy the site and visit `/login.html` to sign in.
 3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
 
+### Environment Setup
+1. Copy `.env.example` to `.env` and provide values for:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` (used by Netlify functions)
+2. Run `npm run build` to generate `js/supabase-config.js` from the env vars.
+3. Add the same variables in Netlify project settings for production builds.
+
+### Supabase Database
+Execute the SQL in `supabase/migrations/001_create_profiles.sql` to create a `profiles` table and enable Row-Level Security policies.
+
+### Auth Flows
+- **Email Verification**: users receive a confirmation link after signup.
+- **Password Reset**: the login page includes a "Forgot password?" link that emails a recovery link and allows setting a new password.
+
+### Secure Storage Writes
+Sensitive uploads should go through `netlify/functions/storage-guard.js`, which validates the user's JWT server-side before writing to Supabase storage.
+
 
 ---
 

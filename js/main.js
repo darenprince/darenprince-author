@@ -9,10 +9,11 @@ document.addEventListener('DOMContentLoaded', async function () {
   const searchBar = document.querySelector('.js-search-bar');
 
   let supabaseClient;
-  if (window.supabase) {
-    const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+    supabaseClient = window.supabase.createClient(
+      window.SUPABASE_URL,
+      window.SUPABASE_ANON_KEY
+    );
   }
 
   let session = null;
