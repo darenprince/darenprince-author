@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   const menuOverlay = document.querySelector('.js-menu-overlay');
   const menuClose = document.querySelector('.js-menu-close');
   const authToggle = document.querySelector('.js-auth-toggle');
-  const themeToggle = document.getElementById('themeToggle');
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
 
@@ -56,12 +55,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
-  if (themeToggle) {
-    themeToggle.addEventListener('change', function () {
-      document.body.classList.toggle('theme-dark');
-      document.body.classList.toggle('theme-light');
-    });
-  }
 
   if (searchToggle && searchBar) {
     searchToggle.addEventListener('click', function () {
