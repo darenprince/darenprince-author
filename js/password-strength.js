@@ -2,7 +2,7 @@
 // Password strength indicator
 
 document.addEventListener('DOMContentLoaded', () => {
-  const passwordInput = document.querySelector('#new-password, #password');
+  const passwordInput = document.querySelector('.js-password-strength-input');
   const requirements = document.querySelectorAll('[data-requirement]');
 
   if (!passwordInput || requirements.length === 0) return;
