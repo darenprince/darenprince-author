@@ -21,6 +21,7 @@
   --color-accent: #8CD679;
   --color-contrast-high: #FDFDFD;
   --color-success: #87BD72;
+  --color-danger: #e03131;
 }
 
 .theme-light {
@@ -630,6 +631,45 @@ select[disabled] {
   cursor: not-allowed;
 }
 
+.is-valid,
+.is-invalid {
+  position: relative;
+  padding-left: 2rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+}
+
+.is-valid {
+  border-color: var(--color-success);
+  background-color: rgba(135, 189, 114, 0.15);
+}
+
+.is-valid::before {
+  font-family: "tabler-icons";
+  content: "\ea67";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-success);
+  font-size: 1rem;
+}
+
+.is-invalid {
+  border-color: var(--color-danger);
+  background-color: rgba(224, 49, 49, 0.15);
+}
+
+.is-invalid::before {
+  font-family: "tabler-icons";
+  content: "\ea6a";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-danger);
+  font-size: 1rem;
+=======
 .password-strength .password-reqs {
   list-style: none;
   margin: 0.5rem 0 0;
