@@ -48,7 +48,7 @@ if (forgotLink)
     e.preventDefault();
     const email = document.getElementById('email').value;
     const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.href,
+      redirectTo: `${window.location.origin}/login.html`,
     });
     errorEl.textContent = error ? error.message : 'Check your email for a reset link.';
   });
