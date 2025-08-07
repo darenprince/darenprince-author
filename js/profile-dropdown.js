@@ -1,24 +1,17 @@
 import supabase from '../supabase/client.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.js-profile-toggle');
   const dropdown = document.querySelector('.js-profile-dropdown');
   if (!toggle || !dropdown) return;
 
   const avatarImg = dropdown.querySelector('.profile-avatar');
   const nameEl = dropdown.querySelector('.profile-name');
-  const { data } = await supabase.auth.getSession();
-  if (data.session) {
-    const user = data.session.user;
-    nameEl.textContent = user.user_metadata?.full_name || user.email;
-    const { data: avatarData } = await supabase.storage
-      .from('avatars')
-      .getPublicUrl(`${user.id}.jpg`);
-    if (avatarData?.publicUrl) {
-      avatarImg.src = avatarData.publicUrl;
-    }
-  }
+  const logoutEl = dropdown.querySelector('.js-auth-toggle');
 
+  // ---------------------------
+  // UI event listeners
+  // ---------------------------
   toggle.addEventListener('click', () => {
     dropdown.hidden = !dropdown.hidden;
   });
@@ -29,11 +22,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  const logoutEl = dropdown.querySelector('.js-auth-toggle');
+  // default auth action -> login
+  let loginHandler;
   if (logoutEl) {
-    logoutEl.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      window.location.href = '/';
-    });
+    loginHandler = () => {
+      window.location.href = '/login.html';
+    };
+    logoutEl.textContent = 'Log In';
+    logoutEl.addEventListener('click', loginHandler);
   }
+
+  // ---------------------------
+  // Supabase profile info
+  // ---------------------------
+  (async () => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        const user = data.session.user;
+        nameEl.textContent =
+          user.user_metadata?.full_name || user.email;
+        const { data: avatarData } = await supabase.storage
+          .from('avatars')
+          .getPublicUrl(`${user.id}.jpg`);
+        if (avatarData?.publicUrl) {
+          avatarImg.src = avatarData.publicUrl;
+        }
+        if (logoutEl) {
+          logoutEl.removeEventListener('click', loginHandler);
+          logoutEl.textContent = 'Logout';
+          logoutEl.addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.href = '/';
+          });
+        }
+      }
+    } catch (error) {
+      console.warn('Supabase unavailable: profile data disabled', error);
+      if (nameEl) nameEl.textContent = 'Guest';
+      if (logoutEl) logoutEl.title = 'Authentication service unavailable';
+    }
+  })();
 });
