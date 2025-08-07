@@ -1,6 +1,7 @@
-const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(
+  window.SUPABASE_URL,
+  window.SUPABASE_ANON_KEY
+);
 
 async function checkSession() {
   const { data } = await supabaseClient.auth.getSession();
@@ -27,12 +28,30 @@ const form = document.getElementById('auth-form');
 const submitBtn = document.querySelector('.js-submit');
 const toggleLink = document.querySelector('.js-toggle-auth');
 const errorEl = document.querySelector('.auth-error');
+const forgotLink = document.querySelector('.js-forgot-password');
 
 document.addEventListener('DOMContentLoaded', () => {
   checkSession();
   signupFields.forEach((el) => (el.hidden = true));
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('type') === 'recovery') {
+    mode = 'reset';
+    titleEl.textContent = 'Reset Password';
+    document.getElementById('email').parentElement.hidden = true;
+    toggleLink.hidden = true;
+    submitBtn.textContent = 'Update Password';
+  }
 });
 if (toggleLink) toggleLink.addEventListener('click', (e) => { e.preventDefault(); toggleMode(); });
+if (forgotLink)
+  forgotLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.href,
+    });
+    errorEl.textContent = error ? error.message : 'Check your email for a reset link.';
+  });
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -43,14 +62,16 @@ if (form) {
     const lastName = document.getElementById('last-name')?.value;
     const phone = document.getElementById('phone')?.value;
     const shipping = document.getElementById('shipping-address')?.value;
-    let result;
     if (mode === 'signin') {
-      result = await supabaseClient.auth.signInWithPassword({ email, password });
-    } else {
-      result = await supabaseClient.auth.signUp({
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) errorEl.textContent = error.message;
+      else window.location.href = 'dashboard.html';
+    } else if (mode === 'signup') {
+      const { error } = await supabaseClient.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/login.html`,
           data: {
             first_name: firstName,
             last_name: lastName,
@@ -59,11 +80,13 @@ if (form) {
           },
         },
       });
-    }
-    if (result.error) {
-      errorEl.textContent = result.error.message;
-    } else {
-      window.location.href = 'dashboard.html';
+      errorEl.textContent = error
+        ? error.message
+        : 'Check your email for a confirmation link.';
+    } else if (mode === 'reset') {
+      const { error } = await supabaseClient.auth.updateUser({ password });
+      if (error) errorEl.textContent = error.message;
+      else window.location.href = 'dashboard.html';
     }
   });
 }

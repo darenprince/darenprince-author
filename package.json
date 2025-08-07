@@ -1,11 +1,14 @@
 {
   "scripts": {
-    "build": "sass scss/styles.scss assets/styles.css",
+    "build": "node scripts/generate-config.js && sass scss/styles.scss assets/styles.css",
     "watch": "sass scss/styles.scss assets/styles.css --watch",
     "test": "npm run build",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass"
   },
   "devDependencies": {
     "sass": "^1.89.2"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.4"
   }
 }
