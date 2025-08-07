@@ -17,7 +17,7 @@
   --color-white: #FDFDFD;
   --color-surface: #212121;
   --color-icon: #87BD72;
-  --color-border: #313132;
+  --color-border: rgba(255, 255, 255, 0.08);
   --color-accent: #8CD679;
   --color-contrast-high: #FDFDFD;
   --color-success: #87BD72;
@@ -27,6 +27,7 @@
   --color-charcoal: #FDFDFD;
   --color-black: #070A06;
   --color-white: #FFFFFF;
+  --color-border: rgba(0, 0, 0, 0.15);
   --gray-900: #070A06;
   --gray-800: #3B3C3B;
   --gray-700: #B8BAB7;
