@@ -27,7 +27,7 @@ The client is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `
 
 * **Sign Up / Sign In** – `js/auth.js` handles both modes. New users are stored with metadata like name, phone, and shipping address.
 * **Session Guard** – `js/dashboard.js` and `js/main.js` redirect visitors without a valid session.
-* **Password Reset** – `js/auth.js` sends reset links and `reset-password.html` updates credentials via `supabaseClient.auth.updateUser`.
+* **Password Reset** – `js/auth.js` sends reset links and `reset-password.html` updates credentials via `supabase.auth.updateUser`.
 
 ## 📦 Storage Operations
 
