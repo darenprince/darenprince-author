@@ -18,10 +18,21 @@ if (typeof Deno !== 'undefined' && typeof Deno.env !== 'undefined') {
     process.env.SUPABASE_KEY ??
     '';
 } else {
-  const env = await import('../js/env.js');
-  url = env.SUPABASE_URL;
-  key = env.SUPABASE_KEY;
+  try {
+    const env = await import('../js/env.js');
+    url = env.SUPABASE_URL;
+    key = env.SUPABASE_KEY;
+  } catch (error) {
+    console.error('Failed to load env.js for Supabase config:', error);
+  }
 }
 
-export const supabase = createClient(url, key);
+let supabase = null;
+if (url && key) {
+  supabase = createClient(url, key);
+} else {
+  console.warn('Supabase URL or key not provided; Supabase client not initialized.');
+}
+
+export { supabase };
 export default supabase;
