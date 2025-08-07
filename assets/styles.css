@@ -630,6 +630,36 @@ select[disabled] {
   cursor: not-allowed;
 }
 
+.password-strength .password-reqs {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+.password-strength .password-reqs li {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-muted);
+}
+.password-strength .password-reqs li i {
+  margin-right: 0.25rem;
+}
+.password-strength .password-reqs li.valid {
+  color: var(--color-bright);
+}
+.password-strength .password-reqs li.invalid {
+  color: var(--color-accent);
+}
+
+input.valid {
+  border-color: var(--color-bright);
+}
+
+input.invalid {
+  border-color: var(--color-accent);
+}
+
 .card {
   background-color: var(--color-charcoal);
   color: var(--color-white);
