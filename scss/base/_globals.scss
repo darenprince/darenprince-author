@@ -5,6 +5,11 @@
   margin-right: auto;
 }
 
+.container--spaced {
+  @extend .container;
+  padding: $spacing-lg;
+}
+
 .main-content {
   padding: $spacing-lg 0;
 }
