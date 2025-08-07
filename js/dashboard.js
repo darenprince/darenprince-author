@@ -1,4 +1,4 @@
-import { supabaseClient } from './supabaseClient.js';
+import supabaseClient from '../supabase/client.js';
 
 async function requireSession() {
   const { data } = await supabaseClient.auth.getSession();
