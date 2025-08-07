@@ -1,8 +1,16 @@
 @use "variables" as *;
+@use "../tokens/colors" as *;
 .container {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+}
+
+.container--border {
+  @extend .container;
+  padding: $spacing-lg;
+  border: 1px solid $border;
+  background: transparent;
 }
 
 .main-content {
