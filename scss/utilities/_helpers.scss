@@ -6,10 +6,16 @@
 
 .gap-sm { gap: $spacing-sm; }
 .gap-md { gap: $spacing-md; }
+.spacing-y-sm > * + * { margin-top: $spacing-sm; }
 
 .padding-md { padding: $spacing-md; }
+.padding-y-sm { padding-top: $spacing-sm; padding-bottom: $spacing-sm; }
+.padding-y-md { padding-top: $spacing-md; padding-bottom: $spacing-md; }
+.padding-y-lg { padding-top: $spacing-lg; padding-bottom: $spacing-lg; }
 .padding-y-xl { padding-top: $spacing-xl; padding-bottom: $spacing-xl; }
 
+.margin-bottom-sm { margin-bottom: $spacing-sm; }
+.margin-bottom-md { margin-bottom: $spacing-md; }
 .margin-bottom-lg { margin-bottom: $spacing-lg; }
 
 .max-width-adaptive-lg {
