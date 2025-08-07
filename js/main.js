@@ -1,3 +1,5 @@
+import supabase from '../supabase/client.js';
+
 document.addEventListener('DOMContentLoaded', async function () {
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
@@ -8,13 +10,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
 
-  const supabaseClient = window.supabaseClient;
-
-  let session = null;
-  if (supabaseClient) {
-    const { data } = await supabaseClient.auth.getSession();
-    session = data.session;
-  }
+  const { data } = await supabase.auth.getSession();
+  const session = data.session;
 
   if (menuToggle && megaMenu) {
     menuToggle.addEventListener('click', function () {
@@ -48,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (session) {
       authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
       authToggle.addEventListener('click', async function () {
-        if (supabaseClient) await supabaseClient.auth.signOut();
+        await supabase.auth.signOut();
         window.location.href = '/';
       });
     } else {
