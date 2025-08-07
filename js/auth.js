@@ -1,8 +1,5 @@
 import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './password-strength.js';
-
-const SUPABASE_URL = 'https://ogftwcrihcihqahfasmg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZnR3Y3JpaGNpaHFhaGZhc21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5MjAxNTcsImV4cCI6MjA2OTQ5NjE1N30.XI6epagbdQZgoxOnB63UYXUjUOZEpS8ezKPWuhToP9A';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+import { supabaseClient } from './supabaseClient.js';
 
 async function checkSession() {
   const { data } = await supabaseClient.auth.getSession();
@@ -36,14 +33,31 @@ const form = document.getElementById('auth-form');
 const submitBtn = document.querySelector('.js-submit');
 const toggleLink = document.querySelector('.js-toggle-auth');
 const errorEl = document.querySelector('.auth-error');
+const resetLink = document.querySelector('.js-reset-password');
 
 document.addEventListener('DOMContentLoaded', () => {
   checkSession();
   signupFields.forEach((el) => (el.hidden = true));
   signinFields.forEach((el) => (el.hidden = false));
   initPasswordStrength(submitBtn);
+  if (window.location.hash.includes('type=recovery')) {
+    mode = 'reset';
+    submitBtn.textContent = 'Reset Password';
+    signinFields.forEach((el) => (el.hidden = true));
+    document.getElementById('password').parentElement.hidden = false;
+    document.getElementById('confirm-password').parentElement.hidden = false;
+  }
 });
 if (toggleLink) toggleLink.addEventListener('click', (e) => { e.preventDefault(); toggleMode(); });
+if (resetLink)
+  resetLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: `${location.origin}/login.html`,
+    });
+    errorEl.textContent = error ? error.message : 'Check your email for a password reset link.';
+  });
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -58,28 +72,38 @@ if (form) {
     let result;
     if (mode === 'signin') {
       result = await supabaseClient.auth.signInWithPassword({ email, password: loginPassword });
-    } else {
-      if (!passwordsValid()) {
-        errorEl.textContent = 'Please meet password requirements.';
-        return;
+      if (result.error) {
+        errorEl.textContent = result.error.message;
+      } else {
+        window.location.href = 'dashboard.html';
       }
-      result = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            first_name: firstName,
-            last_name: lastName,
-            phone,
-            shipping_address: shipping,
-          },
+      return;
+    }
+
+    if (!passwordsValid()) {
+      errorEl.textContent = 'Please meet password requirements.';
+      return;
+    }
+
+    if (mode === 'reset') {
+      result = await supabaseClient.auth.updateUser({ password });
+      errorEl.textContent = result.error ? result.error.message : 'Password updated. Please sign in.';
+      return;
+    }
+
+    result = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${location.origin}/login.html`,
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          phone,
+          shipping_address: shipping,
         },
-      });
-    }
-    if (result.error) {
-      errorEl.textContent = result.error.message;
-    } else {
-      window.location.href = 'dashboard.html';
-    }
+      },
+    });
+    errorEl.textContent = result.error ? result.error.message : 'Check your email to verify your account.';
   });
 }

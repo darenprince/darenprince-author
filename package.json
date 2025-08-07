@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "sass scss/styles.scss assets/styles.css",
-    "watch": "sass scss/styles.scss assets/styles.css --watch",
+    "build": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css",
+    "watch": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css --watch",
     "test": "npm run build",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass"
   },
