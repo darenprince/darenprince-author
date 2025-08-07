@@ -20,9 +20,9 @@
   }
 
   a {
-    color: $white;
+    color: $bright-green;
     text-decoration: none;
-    &:hover { color: $bright-green; }
+    &:hover { color: $white; }
   }
 
   .footer-links {

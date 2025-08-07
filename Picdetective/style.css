@@ -343,7 +343,7 @@ body {
 .terms a{color:var(--primary);text-decoration:none;}
 .site-footer{background:#0d1117;color:#8b949e;font-size:14px;border-top:1px solid #30363d;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;}
 .site-footer .footer-links{list-style:none;display:flex;gap:15px;margin:0;padding:0;}
-.site-footer .footer-links a{color:#8b949e;text-decoration:none;}
+.site-footer .footer-links a{color:#87BD72;text-decoration:none;}
 .site-footer .footer-logo{display:flex;align-items:center;gap:10px;font-weight:bold;color:#fff;text-decoration:none;}
 .site-footer img{width:24px;}
 
