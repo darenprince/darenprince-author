@@ -2,11 +2,12 @@
   publish = "./"
   command = "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css"
 
-#[[plugins]]
-#  package = "@netlify/plugin-emails"
+# Remove or comment this out ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+# [[plugins]]
+#   package = "@netlify/plugin-emails"
 
-#[[plugins]]
-#  package = "@helloample/netlify-plugin-replace"
+# [[plugins]]
+#   package = "@netlify/plugin-sitemap"
 
-#[[plugins]]
-#  package = "@netlify/plugin-sitemap"
+# [[plugins]]
+#   package = "@helloample/netlify-plugin-replace"
