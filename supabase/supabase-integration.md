@@ -16,6 +16,7 @@ The Supabase integration for Netlify streamlines your workflow by connecting you
   - `SUPABASE_DATABASE_URL`
   - `SUPABASE_SERVICE_ROLE_KEY`
   - `SUPABASE_ANON_KEY`
+  - `SUPABASE_JWT_SECRET`
 
 - **Framework compatibility:** Select your frontend framework (for example, Next.js, Nuxt, or Vue), and we'll configure the appropriate environment variables.
 
@@ -102,7 +103,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "./database.types";
 
 const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 ```
@@ -115,7 +116,7 @@ const supabase = createClient<Database>(
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 ```
