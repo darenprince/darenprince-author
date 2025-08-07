@@ -41,6 +41,9 @@ The client is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `
 
 ```ts
 const { data: { user } } = await supabase.auth.getUser(token);
+if (!user) {
+  throw new Error('User not found');
+}
 await supabase.storage.from(bucket).upload(`${user.id}/${file.name}`, file.stream());
 ```
 
