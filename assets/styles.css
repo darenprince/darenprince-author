@@ -413,11 +413,11 @@ body.theme-light {
   margin-bottom: 1rem;
 }
 .site-footer a {
-  color: var(--color-white);
+  color: var(--color-bright);
   text-decoration: none;
 }
 .site-footer a:hover {
-  color: var(--color-bright);
+  color: var(--color-white);
 }
 .site-footer .footer-links {
   list-style: none;
