@@ -1,4 +1,12 @@
 [build]
   publish = "./"
-  # Generate env variables and compile Sass
   command = "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css"
+
+#[[plugins]]
+#  package = "@netlify/plugin-emails"
+
+#[[plugins]]
+#  package = "@helloample/netlify-plugin-replace"
+
+#[[plugins]]
+#  package = "@netlify/plugin-sitemap"
