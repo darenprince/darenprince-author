@@ -22,7 +22,7 @@
     justify-content: space-between;
     align-items: center;
     z-index: 10;
-    border-bottom: 1px solid $medium-gray;
+    border-bottom: 1px solid $border;
 
     .buy-controls {
       display: flex;
@@ -33,7 +33,7 @@
         padding: $spacing-xs;
         background: $black;
         color: $white;
-        border: 1px solid $medium-gray;
+        border: 1px solid $border;
         border-radius: $border-radius;
       }
     }
@@ -118,7 +118,7 @@
 
     th, td {
       padding: $spacing-xs;
-      border: 1px solid $medium-gray;
+      border: 1px solid $border;
     }
 
     th {

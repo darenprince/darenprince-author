@@ -341,7 +341,7 @@ body.theme-light {
   padding: 0.5rem 0.75rem;
   background-color: var(--color-black);
   color: var(--color-white);
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 0.35rem;
 }
 @media (min-width: 768px) {
@@ -610,7 +610,7 @@ textarea,
 select {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 0.35rem;
   background-color: var(--color-charcoal);
   color: var(--color-white);
@@ -1215,7 +1215,7 @@ input:checked + .toggle-slider::before {
   justify-content: space-between;
   align-items: center;
   z-index: 10;
-  border-bottom: 1px solid var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
 }
 .book-details .sticky-purchase-bar .buy-controls {
   display: flex;
@@ -1226,7 +1226,7 @@ input:checked + .toggle-slider::before {
   padding: 0.5rem;
   background: var(--color-black);
   color: var(--color-white);
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 0.35rem;
 }
 .book-details .sticky-purchase-bar .short-summary {
@@ -1293,7 +1293,7 @@ input:checked + .toggle-slider::before {
 }
 .book-details .book-specs th, .book-details .book-specs td {
   padding: 0.5rem;
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-border);
 }
 .book-details .book-specs th {
   text-align: left;
@@ -1383,10 +1383,10 @@ input:checked + .toggle-slider::before {
 }
 
 .accordion {
-  border-top: 1px solid var(--color-muted);
+  border-top: 1px solid var(--color-border);
 }
 .accordion .accordion-item {
-  border-bottom: 1px solid var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
 }
 .accordion .accordion-item .accordion-trigger {
   width: 100%;
@@ -1444,7 +1444,7 @@ input:checked + .toggle-slider::before {
   padding: 0.5rem;
   background: var(--color-black);
   color: var(--color-white);
-  border: 1px solid var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 0.35rem;
 }
 @media (min-width: 768px) {
@@ -1662,7 +1662,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--color-border);
 }
 .mega-menu-list li:hover {
   opacity: 0.8;
@@ -1715,7 +1715,7 @@ input:checked + .toggle-slider::before {
   transform: translateX(0);
 }
 .mega-menu-list .has-submenu .go-back {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--color-border);
 }
 .mega-menu-list .has-submenu .go-back a {
   display: flex;
