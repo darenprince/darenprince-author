@@ -3,10 +3,10 @@
 @use "../base/mixins" as *;
 
 .accordion {
-  border-top: 1px solid $medium-gray;
+  border-top: 1px solid $border;
 
   .accordion-item {
-    border-bottom: 1px solid $medium-gray;
+    border-bottom: 1px solid $border;
 
     .accordion-trigger {
       width: 100%;
