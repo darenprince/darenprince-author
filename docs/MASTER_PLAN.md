@@ -30,6 +30,10 @@ PHASE 1: FOUNDATIONAL DESIGN STRATEGY
    - Define a spacing system using REM units (not pixels)
      • E.g., margin-top: 2rem, padding: 1.5rem, gap: 1rem
    - Use a container system (max-width adaptive) to keep content readable on all devices
+     • `.container` centers content with responsive widths
+     • `.container--spaced` adds padding while staying transparent
+     • `.container--border` draws a thin border around the padded block
+     • `.container--dark` introduces a dark gray background and light text for contrast
    - Visual hierarchy:
      • Use H1-H3 tags with consistent sizes and spacing
      • Ensure white space is generous and balanced
