@@ -1,5 +1,5 @@
 import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './password-strength.js';
-import { supabaseClient } from './supabaseClient.js';
+import supabaseClient from '../supabase/client.js';
 
 async function checkSession() {
   const { data } = await supabaseClient.auth.getSession();
