@@ -1,12 +1,15 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
-.login-container {
+.login-container,
+.verify-container,
+.reset-container {
   max-width: 400px;
   margin: $spacing-lg auto;
   .card {
     padding: $spacing-md;
   }
-  .auth-error {
+  .auth-error,
+  .status-message {
     color: $lime-green;
     margin-bottom: $spacing-sm;
   }
