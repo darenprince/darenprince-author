@@ -1,5 +1,3 @@
-import supabase from '../supabase/client.js';
-
 document.addEventListener('DOMContentLoaded', async function () {
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
@@ -75,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   // ---------------------------
 
   try {
+    const { default: supabase } = await import('../supabase/client.js');
     const { data } = await supabase.auth.getSession();
     const session = data.session;
 

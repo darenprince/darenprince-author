@@ -1,5 +1,3 @@
-import supabase from '../supabase/client.js';
-
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.js-profile-toggle');
   const dropdown = document.querySelector('.js-profile-dropdown');
@@ -37,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------------------------
   (async () => {
     try {
+      const { default: supabase } = await import('../supabase/client.js');
       const { data } = await supabase.auth.getSession();
       if (data.session) {
         const user = data.session.user;
