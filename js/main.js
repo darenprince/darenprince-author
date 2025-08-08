@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const authToggle = document.querySelector('.js-auth-toggle');
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
+  const modalOverlay = document.getElementById('demo-modal');
+  const componentSelect = document.querySelector('.component-nav__select');
 
   // ---------------------------
   // menu + search event binding
@@ -67,6 +69,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         searchBar.setAttribute('hidden', '');
         searchToggle.focus();
       }
+    });
+  }
+
+  // ---------------------------
+  // Demo modal + component nav
+  // ---------------------------
+
+  if (modalOverlay) {
+    const openBtn = document.querySelector('.js-open-modal');
+    const closeBtn = modalOverlay.querySelector('.js-close-modal');
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function () {
+        modalOverlay.classList.add('is-visible');
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        modalOverlay.classList.remove('is-visible');
+      });
+    }
+  }
+
+  if (componentSelect) {
+    componentSelect.addEventListener('change', function () {
+      const target = document.querySelector(this.value);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   }
 
