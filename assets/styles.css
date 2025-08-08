@@ -834,7 +834,7 @@ input:checked + .toggle-slider::before {
 
 .hero {
   position: relative;
-  background-image: url("brand/maintenance-banner.jpg");
+  background-image: url("images/fullhero4.png");
   background-size: cover;
   background-position: center;
   padding: 3rem 0;
@@ -1153,6 +1153,7 @@ input:checked + .toggle-slider::before {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 .book-3d-viewer .book .face::after {
   content: "";
@@ -1165,20 +1166,26 @@ input:checked + .toggle-slider::before {
   width: 200px;
   height: 300px;
   transform: translateZ(4px);
-  background-image: url("../assets/images/game-on-main-cover.png");
+  background-image: url("../assets/books/gameon/gameonspread.jpg");
+  background-position: right center;
+  background-size: 1258px 100%;
 }
 .book-3d-viewer .book .face.back {
   width: 200px;
   height: 300px;
   transform: rotateY(180deg) translateZ(4px);
-  background-image: url("../assets/images/game-on-back-cover.jpg");
+  background-image: url("../assets/books/gameon/gameonspread.jpg");
+  background-position: left center;
+  background-size: 1258px 100%;
 }
 .book-3d-viewer .book .face.spine {
   width: 8px;
   height: 300px;
   transform: rotateY(90deg) translateX(100px);
   transform-origin: left;
-  background-image: url("../assets/images/game-on-spine.jpg");
+  background-image: url("../assets/books/gameon/gameonspread.jpg");
+  background-position: center center;
+  background-size: 1258px 100%;
 }
 .book-3d-viewer .book .face.top {
   width: 200px;
