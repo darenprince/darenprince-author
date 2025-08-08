@@ -16,7 +16,7 @@ const content = `window._env_ = {
 };
 `;
 
-const dest = path.join(__dirname, '..', 'assets', 'js', '.env.js');
+const dest = path.join(__dirname, '..', 'assets', 'js', 'env.js');
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, content);
 console.log('Environment file generated at', dest);
