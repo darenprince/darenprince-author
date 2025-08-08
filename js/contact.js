@@ -6,6 +6,11 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!form) return;
 
   const statusEl = form.querySelector('.form-status');
+  const fields = {
+    name: form.querySelector('#name'),
+    email: form.querySelector('#email'),
+    message: form.querySelector('#message'),
+  };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -13,11 +18,20 @@ window.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
     if (statusEl) statusEl.textContent = 'Sending...';
 
-    const payload = {
-      name: form.querySelector('#name')?.value.trim(),
-      email: form.querySelector('#email')?.value.trim(),
-      message: form.querySelector('#message')?.value.trim(),
-    };
+    const payload = {};
+    let allFilled = true;
+    for (const [key, el] of Object.entries(fields)) {
+      const value = (el?.value || '').trim();
+      payload[key] = value;
+      if (!value) allFilled = false;
+    }
+
+    if (!allFilled) {
+      if (statusEl) statusEl.textContent = 'Please fill in all fields.';
+      GameOnUI.showToast('Please fill in all fields.', 'error');
+      submitBtn.disabled = false;
+      return;
+    }
 
     try {
       const res = await fetch('/.netlify/functions/send-email', {
