@@ -103,11 +103,11 @@ This document details the exact folder and file structure used in the Codex-powe
 
 ---
 
-## 📦 JavaScript (Optional)
+## 📦 JavaScript
 
 ```
 /js/
-├── mobile-nav.js            # Navigation toggle script
+├── main.js                 # Core navigation and auth handling
 ```
 
 ---
