@@ -20,7 +20,7 @@
       align-items: center;
       justify-content: center;
       background: none;
-      border: 1px solid var(--color-border);
+      border: 0px solid var(--color-border);
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: transform 0.2s;
@@ -61,7 +61,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-size: cover;
+    background-size: fit;
     background-repeat: no-repeat;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 
@@ -77,7 +77,7 @@
   .front {
     width: var(--book-width);
     height: var(--book-height);
-    transform: translateZ(calc(var(--book-depth) / 2));
+    transform: translateZ(calc(var(--book-depth) / 1));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: right center;
     background-size: 1258px 100%;
