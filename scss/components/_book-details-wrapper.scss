@@ -5,10 +5,11 @@
 .book-details-wrapper {
   padding: $spacing-xl 0;
 
-  .book-details-layout {
+  .book-layout {
     display: flex;
     flex-direction: column;
-    gap: $spacing-lg;
+    gap: $spacing-xl;
+    align-items: center;
 
     @include respond-to(md) {
       flex-direction: row;
@@ -17,14 +18,18 @@
   }
 
   .book-media {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-md;
   }
-
 
   .purchase-box {
     background: $charcoal;
     padding: $spacing-md;
     border-radius: $border-radius;
+    width: 100%;
+    max-width: 220px;
 
     .buy-controls {
       display: flex;
@@ -39,12 +44,5 @@
         border-radius: $border-radius;
       }
     }
-
-    @include respond-to(md) {
-      margin-left: $spacing-lg;
-      min-width: 220px;
-    }
   }
 }
-
-
