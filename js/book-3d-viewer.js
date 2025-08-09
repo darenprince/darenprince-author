@@ -14,7 +14,7 @@ function applyRotation(angle) {
 
 function startAutoRotate() {
   return setInterval(() => {
-    rotation += 0.2;
+    rotation += 0.4;
     applyRotation(rotation);
   }, 50);
 }
