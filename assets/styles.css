@@ -883,9 +883,16 @@ input:checked + .toggle-slider::before {
   animation: fade-in 0.8s ease-out forwards;
   opacity: 0;
 }
-.hero .btn {
+.hero.hero--video h1 {
+  display: none;
+}
+.hero.hero--video .hero-cta {
   animation: fade-in 1s ease-out forwards;
   opacity: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 3rem;
+  transform: translateX(-50%);
 }
 
 @keyframes fade-in {
@@ -1150,13 +1157,15 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-viewer {
-  --book-width: 180px;
-  --book-height: 270px;
+  --book-width: 200px;
+  --book-height: 300px;
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
   margin-inline: 6;
   perspective: 1200px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 }
 .book-3d-viewer .scene {
   width: var(--book-width);
@@ -1516,8 +1525,14 @@ input:checked + .toggle-slider::before {
   border-radius: 0;
   transition: all 0.2s ease-in-out;
 }
+.accordion .accordion-item .accordion-trigger .accordion-icon {
+  transition: transform 0.3s;
+}
 .accordion .accordion-item .accordion-trigger[aria-expanded=true] {
   background: var(--color-primary);
+}
+.accordion .accordion-item .accordion-trigger[aria-expanded=true] .accordion-icon {
+  transform: rotate(180deg);
 }
 .accordion .accordion-item .accordion-panel {
   padding: 1rem;
