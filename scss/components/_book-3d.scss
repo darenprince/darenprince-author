@@ -113,7 +113,7 @@
   }
 
   .top {
-    width: var(--book-width);
+    width: 50%(--book-width);
     height: var(--book-depth);
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
