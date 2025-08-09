@@ -16,13 +16,9 @@ if (typeof Deno !== 'undefined' && typeof Deno.env !== 'undefined') {
     process.env.SUPABASE_ANON_KEY ??
     '';
 } else {
-  try {
-    const env = await import('../js/env.js');
-    url = env.SUPABASE_DATABASE_URL ?? '';
-    key = env.SUPABASE_SERVICE_ROLE_KEY ?? env.SUPABASE_ANON_KEY ?? '';
-  } catch (e) {
-    console.warn('Supabase env.js not found; client not initialized', e);
-  }
+  const env = typeof window !== 'undefined' ? window._env_ || {} : {};
+  url = env.SUPABASE_DATABASE_URL ?? '';
+  key = env.SUPABASE_SERVICE_ROLE_KEY ?? env.SUPABASE_ANON_KEY ?? '';
 }
 let supabase;
 if (url && key) {
