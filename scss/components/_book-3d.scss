@@ -84,7 +84,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.4), transparent 60%);
+      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.2), transparent 60%);
       pointer-events: none;
     }
   }
@@ -99,6 +99,10 @@
     // Scale the full spread image to the combined width of both covers
     // plus the spine so each face shows the correct portion.
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
+
+    &::after {
+      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.2) 60%);
+    }
   }
 
   .back {
