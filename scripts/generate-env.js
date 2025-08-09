@@ -3,7 +3,8 @@ const path = require('path');
 
 const {
   SUPABASE_DATABASE_URL = '',
-  SUPABASE_ANON_KEY = ''
+  SUPABASE_ANON_KEY = '',
+  SUPABASE_SERVICE_ROLE_KEY = ''
 } = process.env;
 
 if (!SUPABASE_DATABASE_URL || !SUPABASE_ANON_KEY) {
@@ -11,12 +12,19 @@ if (!SUPABASE_DATABASE_URL || !SUPABASE_ANON_KEY) {
 }
 
 const content = `window._env_ = {
-  SUPABASE_URL: "${SUPABASE_DATABASE_URL}",
-  SUPABASE_ANON_KEY: "${SUPABASE_ANON_KEY}"
+  SUPABASE_DATABASE_URL: "${SUPABASE_DATABASE_URL}",
+  SUPABASE_ANON_KEY: "${SUPABASE_ANON_KEY}",
+  SUPABASE_SERVICE_ROLE_KEY: "${SUPABASE_SERVICE_ROLE_KEY}"
 };
 `;
 
-const dest = path.join(__dirname, '..', 'js', 'env.js');
-fs.mkdirSync(path.dirname(dest), { recursive: true });
-fs.writeFileSync(dest, content);
-console.log('Environment file generated at', dest);
+const destinations = [
+  path.join(__dirname, '..', 'js', 'env.js'),
+  path.join(__dirname, '..', 'assets', 'js', 'env.js'),
+];
+
+for (const dest of destinations) {
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, content);
+  console.log('Environment file generated at', dest);
+}
