@@ -883,16 +883,16 @@ input:checked + .toggle-slider::before {
   animation: fade-in 0.8s ease-out forwards;
   opacity: 0;
 }
-.hero.hero--video h1 {
-  display: none;
-}
-.hero.hero--video .hero-cta {
+.hero .hero-cta {
   animation: fade-in 1s ease-out forwards;
   opacity: 0;
   position: absolute;
   left: 50%;
   bottom: 3rem;
   transform: translateX(-50%);
+}
+.hero.hero--video h1 {
+  display: none;
 }
 
 @keyframes fade-in {
