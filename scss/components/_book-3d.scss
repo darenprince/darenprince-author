@@ -33,13 +33,15 @@
 }
 
 .book-3d-viewer {
-  --book-width: 180px;
-  --book-height: 270px;
+  --book-width: 200px;
+  --book-height: 300px;
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
   margin-inline: 6;
   perspective: 1200px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 
   .scene {
     width: var(--book-width);
