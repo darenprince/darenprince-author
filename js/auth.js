@@ -1,8 +1,12 @@
-import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './password-strength.js';
-import supabaseClient from '../supabase/client.js';
+import {
+  initPasswordStrength,
+  passwordsValid,
+  resetPasswordStrength,
+} from './password-strength.js';
+import { getSupabase } from './supabase-helper.js';
 
-async function checkSession() {
-  const { data } = await supabaseClient.auth.getSession();
+async function checkSession(sb) {
+  const { data } = await sb.auth.getSession();
   if (data.session) {
     window.location.href = 'dashboard.html';
   }
@@ -36,7 +40,12 @@ const errorEl = document.querySelector('.auth-error');
 const resetLink = document.querySelector('.js-reset-password');
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkSession();
+  const sb = getSupabase(() => {
+    submitBtn.disabled = true;
+    errorEl.textContent = 'Supabase is not configured.';
+  });
+  if (!sb) return;
+  checkSession(sb);
   signupFields.forEach((el) => (el.hidden = true));
   signinFields.forEach((el) => (el.hidden = false));
   initPasswordStrength(submitBtn);
@@ -45,8 +54,12 @@ if (toggleLink) toggleLink.addEventListener('click', (e) => { e.preventDefault()
 if (resetLink)
   resetLink.addEventListener('click', async (e) => {
     e.preventDefault();
+    const sb = getSupabase(() => {
+      errorEl.textContent = 'Supabase is not configured.';
+    });
+    if (!sb) return;
     const email = document.getElementById('email').value;
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
       redirectTo: `${location.origin}/reset-password.html`,
     });
     if (error) {
@@ -59,6 +72,11 @@ if (resetLink)
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const sb = getSupabase(() => {
+      errorEl.textContent = 'Supabase is not configured.';
+      submitBtn.disabled = true;
+    });
+    if (!sb) return;
     const email = document.getElementById('email').value;
     const loginPassword = document.getElementById('signin-password')?.value;
     const password = document.getElementById('password')?.value;
@@ -68,7 +86,7 @@ if (form) {
     const shipping = document.getElementById('shipping-address')?.value;
     let result;
     if (mode === 'signin') {
-      result = await supabaseClient.auth.signInWithPassword({ email, password: loginPassword });
+      result = await sb.auth.signInWithPassword({ email, password: loginPassword });
       if (result.error) {
         errorEl.textContent = result.error.message;
       } else {
@@ -82,7 +100,7 @@ if (form) {
       return;
     }
 
-    result = await supabaseClient.auth.signUp({
+    result = await sb.auth.signUp({
       email,
       password,
       options: {
