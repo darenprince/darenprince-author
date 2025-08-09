@@ -38,7 +38,7 @@
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
-  margin-inline: 0;
+  margin-inline: 6;
   perspective: 1200px;
 
   .scene {
@@ -75,7 +75,7 @@
   }
 
   .front {
-    width: var(--book-width);
+    width: var(--book-width) /2;
     height: var(--book-height);
     transform: translateZ(calc(var(--book-depth) / 1));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
