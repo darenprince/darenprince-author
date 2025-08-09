@@ -92,37 +92,42 @@
         <h2 class="section-heading text-center margin-bottom-lg">Get the Book That Started It All</h2>
 
         <div class="book-details-wrapper">
-          <div class="book-details-layout">
+          <div class="book-layout">
             <div class="book-media">
               <div class="book-3d-viewer">
-                <div class="book" id="book">
-                  <div class="face front"></div>
-                  <div class="face spine"></div>
-                  <div class="face back"></div>
-                  <div class="face top"></div>
-                  <div class="face bottom"></div>
+                <div class="scene">
+                  <div class="book" id="book">
+                    <div class="face front"></div>
+                    <div class="face back"></div>
+                    <div class="face spine"></div>
+                    <div class="face pages"></div>
+                    <div class="face top"></div>
+                    <div class="face bottom"></div>
+                  </div>
+                  <div class="shadow"></div>
                 </div>
                 <div class="book-controls">
-                  <button id="btn-flip" class="icon-btn" aria-label="Flip">
-                    <i class="ti ti-flip-horizontal"></i>
+                  <button id="rotate-left" class="icon-btn" aria-label="Rotate left">
+                    <i class="ti ti-arrow-back-up"></i>
+                  </button>
+                  <button id="rotate-right" class="icon-btn" aria-label="Rotate right">
+                    <i class="ti ti-arrow-forward-up"></i>
                   </button>
                 </div>
               </div>
-            </div>
-            <div class="purchase-box">
-              <div class="buy-controls">
-                <select class="store-selector">
-                  <option>Amazon</option>
-                  <option>Apple Books</option>
-                  <option>Google Play</option>
-                  <option>Books-A-Million</option>
-                </select>
-                <button class="btn btn--primary">Buy Now</button>
+              <div class="purchase-box">
+                <div class="buy-controls">
+                  <select class="store-selector">
+                    <option>Amazon</option>
+                    <option>Apple Books</option>
+                    <option>Google Play</option>
+                    <option>Books-A-Million</option>
+                  </select>
+                  <button class="btn btn--primary">Buy Now</button>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="book-accordion accordion margin-top-lg">
+            <div class="book-accordion accordion">
             <div class="accordion-item">
               <button class="accordion-trigger" aria-expanded="true">Description</button>
               <div class="accordion-panel">
@@ -230,7 +235,7 @@
   <script src="./js/trailer-modal.js"></script>
   <script src="./js/theme-toggle.js"></script>
   <script src="./js/hero-demos.js"></script>
-  <script type="module" src="./js/book-3d-inertia-light-slowspin.js"></script>
+  <script type="module" src="./js/book-3d-viewer.js"></script>
   <script src="./js/book-details.js"></script>
   <script type="module" src="./js/main.js"></script>
   </body>
