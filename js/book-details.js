@@ -9,3 +9,13 @@ document.querySelectorAll('.accordion-trigger').forEach(function(btn){
   });
 });
 
+const storeSelector = document.querySelector('.store-selector');
+const buyButton = document.querySelector('.purchase-box .btn');
+
+buyButton?.addEventListener('click', () => {
+  const url = storeSelector?.value;
+  if (url) {
+    window.open(url, '_blank');
+  }
+});
+
