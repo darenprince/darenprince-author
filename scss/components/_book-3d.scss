@@ -29,6 +29,8 @@
 
   .face {
     position: absolute;
+    top: 0;
+    left: 0;
     background-size: cover;
     background-repeat: no-repeat;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -63,27 +65,31 @@
   .spine {
     width: var(--book-depth);
     height: var(--book-height);
-    transform: rotateY(90deg) translateX(calc(var(--book-width) / 2));
-    transform-origin: left;
+    transform: rotateY(-90deg) translateZ(calc(var(--book-width) / 2));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: center center;
     background-size: 1258px 100%;
   }
 
+  .pages {
+    width: var(--book-depth);
+    height: var(--book-height);
+    transform: rotateY(90deg) translateZ(calc(var(--book-width) / 2));
+    background: #f8f6f0;
+  }
+
   .top {
     width: var(--book-width);
     height: var(--book-depth);
-    transform: rotateX(90deg) translateY(calc(-1 * var(--book-depth) / 2));
-    transform-origin: top;
-    background: #fefefe;
+    transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
+    background: #f8f6f0;
   }
 
   .bottom {
     width: var(--book-width);
     height: var(--book-depth);
-    transform: rotateX(-90deg) translateY(calc(var(--book-height) - var(--book-depth) / 2));
-    transform-origin: bottom;
-    background: #fefefe;
+    transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
+    background: #f8f6f0;
   }
 
   .shadow {
