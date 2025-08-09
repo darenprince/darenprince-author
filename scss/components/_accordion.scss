@@ -21,9 +21,17 @@
       border: 0;
       border-radius: 0;
       transition: $transition;
+      
+      .accordion-icon {
+        transition: transform 0.3s;
+      }
 
       &[aria-expanded='true'] {
         background: $deep-green;
+
+        .accordion-icon {
+          transform: rotate(180deg);
+        }
       }
     }
 
