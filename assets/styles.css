@@ -1140,7 +1140,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   background: none;
-  border: 1px solid var(--color-border);
+  border: 0px solid var(--color-border);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: transform 0.2s;
@@ -1155,7 +1155,7 @@ input:checked + .toggle-slider::before {
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
-  margin-inline: 0;
+  margin-inline: 6;
   perspective: 1200px;
 }
 .book-3d-viewer .scene {
@@ -1193,7 +1193,7 @@ input:checked + .toggle-slider::before {
   transform: translateZ(calc(var(--book-depth) / 2));
   background-image: url("../assets/books/gameon/gameonspread.jpg");
   background-position: right center;
-  background-size: 1258px 100%;
+  background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 }
 .book-3d-viewer .back {
   width: var(--book-width);
@@ -1201,7 +1201,7 @@ input:checked + .toggle-slider::before {
   transform: rotateY(180deg) translateZ(calc(var(--book-depth) / 2));
   background-image: url("../assets/books/gameon/gameonspread.jpg");
   background-position: left center;
-  background-size: 1258px 100%;
+  background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 }
 .book-3d-viewer .spine {
   width: var(--book-depth);
@@ -1210,7 +1210,7 @@ input:checked + .toggle-slider::before {
   transform: rotateY(-90deg) translateZ(calc(var(--book-width) / 2));
   background-image: url("../assets/books/gameon/gameonspread.jpg");
   background-position: center center;
-  background-size: 1258px 100%;
+  background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 }
 .book-3d-viewer .pages {
   width: var(--book-depth);
