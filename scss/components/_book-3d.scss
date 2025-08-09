@@ -1,6 +1,7 @@
+@use "../tokens/colors" as *;
 
 .book-3d-container {
-  background: #111;
+  background: $surface;
   padding: var(--space-sm);
   border-radius: var(--radius-md);
   display: flex;
@@ -33,15 +34,25 @@
 }
 
 .book-3d-viewer {
-  --book-width: 200px;
-  --book-height: 300px;
+  --book-width: 265px;
+  --book-height: 365px;
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
   margin-inline: 6;
   perspective: 1200px;
-  background: rgba(0, 0, 0, 0.2);
+  background: $surface;
   border-radius: 8px;
+
+  .swipe-indicator {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    font-size: 65px;
+    color: var(--color-icon);
+  }
 
   .scene {
     width: var(--book-width);

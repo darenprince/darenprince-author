@@ -82,12 +82,12 @@
     <section id="autoScaleHero" class="hero hero-auto-scale text-center">
       <div class="container max-width-adaptive-lg">
         <h1 style="display:none;">Game On!</h1>
+        <a href="#book-viewer" class="btn btn--primary hero-cta">Buy Now</a>
       </div>
-      <a href="book.html" class="btn btn--primary hero-cta">Buy Now</a>
     </section>
 
     <!-- 2. Get the Book Section -->
-    <section class="book-section padding-y-xl">
+    <section id="book-viewer" class="book-section padding-y-xl">
       <div class="container max-width-adaptive-lg">
         <h2 class="section-heading text-center margin-bottom-lg">Get the Book.</h2>
 
@@ -96,6 +96,7 @@
             <div class="book-media">
               <div class="book-3d-container">
                 <div class="book-3d-viewer">
+                  <div class="swipe-indicator"><i class="ti ti-gesture-swipe"></i></div>
                   <div class="scene">
                     <div class="book" id="book">
                       <div class="face front"></div>
@@ -120,10 +121,10 @@
               <div class="purchase-box">
                 <div class="buy-controls">
                   <select class="store-selector">
-                    <option>Amazon</option>
-                    <option>Apple Books</option>
-                    <option>Google Play</option>
-                    <option>Books-A-Million</option>
+                    <option value="https://a.co/d/irajx1w">Amazon</option>
+                    <option value="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900">Apple Books</option>
+                    <option value="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ">Google Play</option>
+                    <option value="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407">Books-A-Million</option>
                   </select>
                   <button class="btn btn--primary">Buy Now</button>
                 </div>
