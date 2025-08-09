@@ -25,23 +25,41 @@
   }
 
   .purchase-box {
-    background: $charcoal;
+    background: $surface;
     padding: $spacing-md;
     border-radius: $border-radius;
     width: 100%;
-    max-width: 220px;
+    max-width: 100%;
+    @include respond-to(md) {
+      max-width: 220px;
+    }
 
     .buy-controls {
       display: flex;
+      flex-direction: column;
       gap: $spacing-xs;
       margin-bottom: $spacing-sm;
 
+      .store-selector,
+      .btn {
+        width: 100%;
+      }
+
       select {
         padding: $spacing-xs;
-        background: $black;
-        color: $white;
+        background: $surface;
+        color: $contrast-high;
         border: 1px solid $border;
         border-radius: $border-radius;
+      }
+
+      @include respond-to(md) {
+        flex-direction: row;
+
+        .store-selector,
+        .btn {
+          width: auto;
+        }
       }
     }
   }
