@@ -1,7 +1,7 @@
-import supabaseClient from '../supabase/client.js';
+import { getSupabase } from './supabase-helper.js';
 
-async function requireSession() {
-  const { data } = await supabaseClient.auth.getSession();
+async function requireSession(sb) {
+  const { data } = await sb.auth.getSession();
   if (!data.session) {
     window.location.href = 'login.html';
     return null;
@@ -14,13 +14,13 @@ function updateGreeting(email) {
   if (greeting) greeting.textContent = `Hi ${email}`;
 }
 
-async function listFiles(bucket, path, target) {
-  const { data, error } = await supabaseClient.storage.from(bucket).list(path);
+async function listFiles(sb, bucket, path, target) {
+  const { data, error } = await sb.storage.from(bucket).list(path);
   if (error) return;
   const ul = document.getElementById(target);
   ul.innerHTML = '';
   for (const item of data) {
-    const { data: url } = await supabaseClient.storage.from(bucket).getPublicUrl(`${path}/${item.name}`);
+    const { data: url } = await sb.storage.from(bucket).getPublicUrl(`${path}/${item.name}`);
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url.publicUrl;
@@ -30,8 +30,8 @@ async function listFiles(bucket, path, target) {
   }
 }
 
-async function loadSharedFiles(userId) {
-  const { data, error } = await supabaseClient.from('folder_access').select('*').eq('user_id', userId);
+async function loadSharedFiles(sb, userId) {
+  const { data, error } = await sb.from('folder_access').select('*').eq('user_id', userId);
   if (error) return;
   const ul = document.getElementById('shared-list');
   ul.innerHTML = '';
@@ -43,7 +43,11 @@ async function loadSharedFiles(userId) {
 }
 
 async function init() {
-  const session = await requireSession();
+  const sb = getSupabase(() => {
+    alert('Supabase is not configured.');
+  });
+  if (!sb) return;
+  const session = await requireSession(sb);
   if (!session) return;
   const user = session.user;
   updateGreeting(user.email);
@@ -53,24 +57,30 @@ async function init() {
   document.getElementById('phone').value = metadata.phone || '';
   document.getElementById('birthdate').value = metadata.birthdate || '';
   document.getElementById('shipping-address').value = metadata.shipping_address || '';
-  await listFiles('user-data', user.id, 'file-list');
-  await loadSharedFiles(user.id);
+  await listFiles(sb, 'user-data', user.id, 'file-list');
+  await loadSharedFiles(sb, user.id);
 
   const uploadForm = document.getElementById('upload-form');
   uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const file = document.getElementById('user-file').files[0];
     if (!file) return;
-    await supabaseClient.storage.from('user-data').upload(`${user.id}/${file.name}`, file, { upsert: true });
-    await listFiles('user-data', user.id, 'file-list');
+    await sb.storage.from('user-data').upload(`${user.id}/${file.name}`, file, {
+      upsert: true,
+    });
+    await listFiles(sb, 'user-data', user.id, 'file-list');
   });
 
   const avatarInput = document.getElementById('avatar');
   avatarInput.addEventListener('change', async () => {
     const file = avatarInput.files[0];
     if (!file) return;
-    await supabaseClient.storage.from('avatars').upload(`${user.id}.jpg`, file, { upsert: true, contentType: file.type });
-    const { data } = await supabaseClient.storage.from('avatars').getPublicUrl(`${user.id}.jpg`);
+    await sb.storage
+      .from('avatars')
+      .upload(`${user.id}.jpg`, file, { upsert: true, contentType: file.type });
+    const { data } = await sb.storage
+      .from('avatars')
+      .getPublicUrl(`${user.id}.jpg`);
     document.getElementById('avatar-preview').src = data.publicUrl;
   });
 
@@ -96,13 +106,13 @@ async function init() {
     };
     if (email) updates.email = email;
     if (password) updates.password = password;
-    const { error } = await supabaseClient.auth.updateUser(updates);
+    const { error } = await sb.auth.updateUser(updates);
     if (error) msg = error.message;
     document.querySelector('.profile-msg').textContent = msg || 'Updated';
   });
 
   document.querySelector('.js-auth-toggle').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
+    await sb.auth.signOut();
     window.location.href = 'login.html';
   });
 }
