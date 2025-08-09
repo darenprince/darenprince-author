@@ -1125,7 +1125,7 @@ input:checked + .toggle-slider::before {
   --book-depth: 20px;
   position: relative;
   width: var(--book-width);
-  margin-inline: auto;
+  margin-inline: 0;
   perspective: 1200px;
   display: flex;
   flex-direction: column;
