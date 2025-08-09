@@ -61,7 +61,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-size: fit;
+    // Ensure images scale to the face size instead of using their intrinsic
+    // dimensions. `cover` keeps aspect ratio while filling the panel.
+    background-size: cover;
     background-repeat: no-repeat;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 
@@ -75,12 +77,15 @@
   }
 
   .front {
-    width: var(--book-width) /2;
+    // Front cover
+    width: var(--book-width);
     height: var(--book-height);
-    transform: translateZ(calc(var(--book-depth) / 1));
+    transform: translateZ(calc(var(--book-depth) / 2));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: right center;
-    background-size: 1258px 100%;
+    // Scale the full spread image to the combined width of both covers
+    // plus the spine so each face shows the correct portion.
+    background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
   }
 
   .back {
@@ -89,7 +94,7 @@
     transform: rotateY(180deg) translateZ(calc(var(--book-depth) / 2));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: left center;
-    background-size: 1258px 100%;
+    background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
   }
 
   .spine {
@@ -99,7 +104,7 @@
     transform: rotateY(-90deg) translateZ(calc(var(--book-width) / 2));
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: center center;
-    background-size: 1258px 100%;
+    background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
   }
 
   .pages {
@@ -113,7 +118,7 @@
   }
 
   .top {
-    width: 50%(--book-width);
+    width: var(--book-width);
     height: var(--book-depth);
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
