@@ -120,3 +120,27 @@ rotate360?.addEventListener('click', () => {
     { once: true }
   );
 });
+
+const zoomBtn = document.getElementById('zoom-cover');
+const zoomModal = document.getElementById('cover-zoom');
+const closeZoom = document.getElementById('close-cover-zoom');
+const zoomFull = document.getElementById('zoom-full');
+const zoomThumbs = document.querySelectorAll('.thumbnails img');
+
+zoomBtn?.addEventListener('click', () => {
+  zoomModal?.removeAttribute('hidden');
+});
+
+closeZoom?.addEventListener('click', () => {
+  zoomModal?.setAttribute('hidden', '');
+});
+
+zoomThumbs.forEach(img => {
+  img.addEventListener('click', () => {
+    zoomThumbs.forEach(t => t.classList.remove('active'));
+    img.classList.add('active');
+    if (zoomFull) {
+      zoomFull.src = img.dataset.full;
+    }
+  });
+});
