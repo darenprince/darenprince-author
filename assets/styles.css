@@ -70,6 +70,7 @@ textarea {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+  margin-block: 2rem;
 }
 
 .container--spaced {
@@ -80,6 +81,7 @@ textarea {
   padding: 2rem;
   border: 1px solid var(--color-border);
   background: transparent;
+  border-radius: 0.5rem;
 }
 
 .main-content {
@@ -427,9 +429,15 @@ body.theme-light {
   gap: 0.25rem;
 }
 
+body.theme-dark .site-footer a,
+body.theme-light .site-footer a {
+  color: var(--color-bright);
+}
+
 .icon-btn {
   background: transparent;
   border: 0;
+  outline: 1px solid var(--color-border);
   color: var(--color-icon);
   width: 2rem;
   height: 2rem;
@@ -442,6 +450,7 @@ body.theme-light {
 }
 .icon-btn:hover, .icon-btn:focus {
   color: var(--color-bright);
+  outline-color: var(--color-bright);
 }
 
 .nav-btn-group {
