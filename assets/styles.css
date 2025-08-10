@@ -429,12 +429,16 @@ body.theme-light {
   gap: 0.25rem;
 }
 
+
+.icon-btn, .icon-btn--text {
+l
 body.theme-dark .site-footer a,
 body.theme-light .site-footer a {
   color: var(--color-bright);
 }
 
 .icon-btn {
+
   background: transparent;
   border: 0;
   outline: 1px solid var(--color-border);
@@ -448,9 +452,24 @@ body.theme-light .site-footer a {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-.icon-btn:hover, .icon-btn:focus {
+.icon-btn:hover, .icon-btn--text:hover, .icon-btn:focus, .icon-btn--text:focus {
   color: var(--color-bright);
   outline-color: var(--color-bright);
+}
+
+.icon-btn--text {
+  width: auto;
+  height: auto;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-white);
+  border-radius: 0.35rem;
+  font-size: 1rem;
+  gap: 0.25rem;
+}
+.icon-btn--text:hover, .icon-btn--text:focus {
+  color: var(--color-bright);
+  border-color: var(--color-bright);
 }
 
 .nav-btn-group {
@@ -546,11 +565,7 @@ body.theme-light .site-footer a {
   color: var(--color-bright);
 }
 .profile-dropdown ul li button.logout-btn {
-  color: var(--color-accent);
   cursor: pointer;
-  background: none;
-  border: none;
-  font: inherit;
 }
 
 .btn {
@@ -1914,10 +1929,6 @@ input:checked + .toggle-slider::before {
 .mega-menu-list .logout-btn {
   margin-top: 2rem;
   font-weight: 600;
-  color: var(--color-accent);
-  background: none;
-  border: none;
-  font: inherit;
   cursor: pointer;
 }
 
