@@ -155,6 +155,10 @@
     transition: height 0.3s;
   }
 
+  .hero-static {
+    background: url('https://picsum.photos/1920/1080?image=903') center/cover;
+  }
+
   @media (max-width: 768px) {
     .hero {
       h1 {
