@@ -1204,7 +1204,7 @@ input:checked + .toggle-slider::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(var(--light-angle, 120deg), rgba(255, 255, 255, 0.4), transparent 60%);
+  background: linear-gradient(var(--light-angle, 120deg), rgba(255, 255, 255, 0.2), transparent 60%);
   pointer-events: none;
 }
 .book-3d-viewer .front {
@@ -1214,6 +1214,9 @@ input:checked + .toggle-slider::before {
   background-image: url("../assets/books/gameon/gameonspread.jpg");
   background-position: right center;
   background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
+}
+.book-3d-viewer .front::after {
+  background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255, 255, 255, 0.2) 60%);
 }
 .book-3d-viewer .back {
   width: var(--book-width);
