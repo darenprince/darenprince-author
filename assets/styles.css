@@ -275,6 +275,12 @@ body.theme-light {
   height: 40px;
 }
 
+.nav-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .nav-toggle {
   background: transparent;
   border: 0;
@@ -613,7 +619,7 @@ body.theme-light .site-footer a {
   color: var(--color-black);
 }
 
-.icon-btn, .icon-btn--ghost {
+.icon-btn, .icon-btn--text, .icon-btn--ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -627,14 +633,14 @@ body.theme-light .site-footer a {
   cursor: pointer;
   transition: background-color all 0.2s ease-in-out;
 }
-.icon-btn:hover, .icon-btn--ghost:hover {
+.icon-btn:hover, .icon-btn--text:hover, .icon-btn--ghost:hover {
   background-color: var(--color-primary-hover);
 }
-.icon-btn:focus, .icon-btn--ghost:focus {
+.icon-btn:focus, .icon-btn--text:focus, .icon-btn--ghost:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
-.icon-btn:disabled, .icon-btn--ghost:disabled {
+.icon-btn:disabled, .icon-btn--text:disabled, .icon-btn--ghost:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -647,6 +653,23 @@ body.theme-light .site-footer a {
 .icon-btn--ghost:hover {
   background-color: transparent;
   color: var(--color-primary-hover);
+}
+
+.icon-btn--text {
+  width: auto;
+  height: auto;
+  padding: 0.25rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-white);
+  gap: 0.25rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+.icon-btn--text:hover, .icon-btn--text:focus {
+  background-color: transparent;
+  color: var(--color-bright);
+  border-color: var(--color-bright);
 }
 
 .form-group {
