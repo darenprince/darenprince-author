@@ -2,7 +2,7 @@ const book = document.getElementById('book');
 const rotateLeft = document.getElementById('rotate-left');
 const rotateRight = document.getElementById('rotate-right');
 
-let rotation = 0;
+let rotation = 360;
 let isDragging = false;
 let startX = 0;
 let autoInterval = startAutoRotate();

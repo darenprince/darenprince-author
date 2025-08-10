@@ -4,6 +4,7 @@
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+  margin-block: $spacing-lg;
 }
 
 .container--spaced {
@@ -16,6 +17,7 @@
   padding: $spacing-lg;
   border: 1px solid $border;
   background: transparent;
+  border-radius: 0.5rem;
 }
 
 .main-content {

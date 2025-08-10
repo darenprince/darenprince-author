@@ -70,6 +70,7 @@ textarea {
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
+  margin-block: 2rem;
 }
 
 .container--spaced {
@@ -80,6 +81,7 @@ textarea {
   padding: 2rem;
   border: 1px solid var(--color-border);
   background: transparent;
+  border-radius: 0.5rem;
 }
 
 .main-content {
@@ -427,9 +429,19 @@ body.theme-light {
   gap: 0.25rem;
 }
 
+
 .icon-btn, .icon-btn--text {
+l
+body.theme-dark .site-footer a,
+body.theme-light .site-footer a {
+  color: var(--color-bright);
+}
+
+.icon-btn {
+
   background: transparent;
   border: 0;
+  outline: 1px solid var(--color-border);
   color: var(--color-icon);
   width: 2rem;
   height: 2rem;
@@ -442,6 +454,7 @@ body.theme-light {
 }
 .icon-btn:hover, .icon-btn--text:hover, .icon-btn:focus, .icon-btn--text:focus {
   color: var(--color-bright);
+  outline-color: var(--color-bright);
 }
 
 .icon-btn--text {
@@ -1213,7 +1226,7 @@ input:checked + .toggle-slider::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(var(--light-angle, 120deg), rgba(255, 255, 255, 0.4), transparent 60%);
+  background: linear-gradient(var(--light-angle, 120deg), rgba(255, 255, 255, 0.2), transparent 60%);
   pointer-events: none;
 }
 .book-3d-viewer .front {
@@ -1223,6 +1236,9 @@ input:checked + .toggle-slider::before {
   background-image: url("../assets/books/gameon/gameonspread.jpg");
   background-position: right center;
   background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
+}
+.book-3d-viewer .front::after {
+  background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255, 255, 255, 0.2) 60%);
 }
 .book-3d-viewer .back {
   width: var(--book-width);
@@ -1914,81 +1930,6 @@ input:checked + .toggle-slider::before {
   margin-top: 2rem;
   font-weight: 600;
   cursor: pointer;
-}
-
-/* === THEME TOGGLE SWITCH === */
-.theme-toggle-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 2.8rem;
-  height: 1.4rem;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  background-color: var(--color-border);
-  border-radius: 1.4rem;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: 0.25s;
-}
-
-.slider:before {
-  content: "";
-  position: absolute;
-  height: 1.2rem;
-  width: 1.2rem;
-  left: 0.1rem;
-  bottom: 0.1rem;
-  background-color: var(--color-contrast-high);
-  transition: 0.25s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: var(--color-success);
-}
-
-input:checked + .slider:before {
-  transform: translateX(1.4rem);
-}
-
-/* === THEME TOGGLE ICONS === */
-.icon-sun,
-.icon-moon {
-  font-size: 1.2rem;
-}
-
-.theme-toggle-row .icon-sun {
-  order: -1;
-}
-
-.theme-toggle-row .icon-moon {
-  order: 1;
-}
-
-.theme-dark .icon-sun {
-  display: none;
-}
-
-.theme-light .icon-moon {
-  display: none;
 }
 
 /* === MENU OVERLAY & BODY TRANSITION === */

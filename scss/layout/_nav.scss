@@ -5,6 +5,7 @@
 .icon-btn {
   background: transparent;
   border: 0;
+  outline: 1px solid $border;
   color: $icon;
   width: 2rem;
   height: 2rem;
@@ -18,6 +19,7 @@
   &:hover,
   &:focus {
     color: $bright-green;
+    outline-color: $bright-green;
   }
 }
 
