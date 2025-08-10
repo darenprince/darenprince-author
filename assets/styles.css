@@ -261,7 +261,7 @@ body.theme-light {
 }
 .site-header {
   background: linear-gradient(var(--gray-900), var(--gray-800));
-  padding: 1rem 0;
+  padding: 0;
   position: sticky;
   top: 0;
   z-index: 100;
