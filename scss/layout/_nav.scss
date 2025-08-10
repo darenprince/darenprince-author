@@ -21,6 +21,22 @@
   }
 }
 
+.icon-btn--text {
+  @extend .icon-btn;
+  width: auto;
+  height: auto;
+  padding: $spacing-xxs $spacing-sm;
+  border: 1px solid $border;
+  color: $white;
+  border-radius: $border-radius;
+
+  &:hover,
+  &:focus {
+    color: $bright-green;
+    border-color: $bright-green;
+  }
+}
+
 .nav-btn-group {
   display: flex;
   align-items: center;
@@ -107,11 +123,7 @@
       }
 
       button.logout-btn {
-        color: $accent;
         cursor: pointer;
-        background: none;
-        border: none;
-        font: inherit;
       }
     }
   }
