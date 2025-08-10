@@ -1,9 +1,10 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 @use "../base/mixins" as *;
+
 .site-header {
   background: linear-gradient($gray-900, $gray-800);
-  padding: 0;
+  padding-block: $spacing-md;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -12,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-block: 0;
   }
 
   .logo img {
