@@ -74,3 +74,24 @@
     color: $medium-green;
   }
 }
+
+// icon button with text label
+.icon-btn--text {
+  @extend .icon-btn;
+  width: auto;
+  height: auto;
+  padding: $spacing-xxs $spacing-sm;
+  background-color: transparent;
+  border: 1px solid $border;
+  color: $white;
+  gap: $spacing-xxs;
+  font-size: 1rem;
+  transition: $transition;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: $bright-green;
+    border-color: $bright-green;
+  }
+}
