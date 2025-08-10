@@ -30,6 +30,13 @@
         transform: scale(1.1);
       }
     }
+
+    .side-label {
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      display: flex;
+      align-items: center;
+    }
   }
 }
 
