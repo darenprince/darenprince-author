@@ -613,7 +613,6 @@ body.theme-light .site-footer a {
   color: var(--color-black);
 }
 
-
 .icon-btn, .icon-btn--ghost {
   display: inline-flex;
   align-items: center;
@@ -628,7 +627,6 @@ body.theme-light .site-footer a {
   cursor: pointer;
   transition: background-color all 0.2s ease-in-out;
 }
-
 .icon-btn:hover, .icon-btn--ghost:hover {
   background-color: var(--color-primary-hover);
 }
@@ -637,20 +635,9 @@ body.theme-light .site-footer a {
   outline-offset: 2px;
 }
 .icon-btn:disabled, .icon-btn--ghost:disabled {
-
-.icon-btn:hover {
-  background-color: var(--color-primary-hover);
-}
-.icon-btn:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-.icon-btn:disabled {
-
   opacity: 0.6;
   cursor: not-allowed;
 }
-
 
 .icon-btn--ghost {
   background-color: transparent;
@@ -1183,6 +1170,12 @@ input:checked + .toggle-slider::before {
 }
 .book-3d-container .book-controls .icon-btn:hover {
   transform: scale(1.1);
+}
+.book-3d-container .book-controls .side-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
 }
 
 .book-3d-viewer {

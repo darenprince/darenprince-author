@@ -1,6 +1,7 @@
 const book = document.getElementById('book');
 const rotateLeft = document.getElementById('rotate-left');
 const rotateRight = document.getElementById('rotate-right');
+const rotate360 = document.getElementById('rotate-360');
 
 let rotation = 360;
 let isDragging = false;
@@ -103,4 +104,19 @@ rotateRight?.addEventListener('click', () => {
   rotation += 180;
   applyRotation(rotation);
   resetAutoRotate();
+});
+
+rotate360?.addEventListener('click', () => {
+  clearInterval(autoInterval);
+  book.style.transition = 'transform 1s linear';
+  rotation += 360;
+  applyRotation(rotation);
+  book.addEventListener(
+    'transitionend',
+    () => {
+      book.style.transition = 'transform 0.6s ease';
+      resetAutoRotate();
+    },
+    { once: true }
+  );
 });
