@@ -1,9 +1,8 @@
-// Handles scroll-triggered video and auto-scaling hero demos
+// Handles scroll-triggered video demo
 
 document.addEventListener('DOMContentLoaded', () => {
   const videoHero = document.getElementById('scrollVideoHero');
   const video = document.getElementById('videoBg');
-  const autoHero = document.getElementById('autoScaleHero');
 
   function handleScroll() {
     // Fade in and play background video
@@ -18,14 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Shrink auto-scaling hero
-    if (autoHero) {
-      const max = window.innerHeight;
-      const scrollTop = window.scrollY;
-      const offsetTop = autoHero.offsetTop;
-      const newHeight = Math.max(max - (scrollTop - offsetTop), 200);
-      autoHero.style.height = `${newHeight}px`;
-    }
   }
 
   window.addEventListener('scroll', handleScroll);
