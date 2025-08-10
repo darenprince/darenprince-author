@@ -61,3 +61,16 @@
     cursor: not-allowed;
   }
 }
+
+// icon-only button without background
+.icon-btn--ghost {
+  @extend .icon-btn;
+  background-color: transparent;
+  color: $bright-green;
+  transition: color $transition;
+
+  &:hover {
+    background-color: transparent;
+    color: $medium-green;
+  }
+}
