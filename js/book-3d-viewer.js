@@ -5,7 +5,7 @@ const rotateRight = document.getElementById('rotate-right');
 let rotation = 360;
 let isDragging = false;
 let startX = 0;
-let autoInterval = startAutoRotate();
+let autoInterval;
 
 function applyRotation(angle) {
   book.style.transform = `rotateY(${angle}deg)`;
@@ -22,6 +22,32 @@ function startAutoRotate() {
 function resetAutoRotate() {
   clearInterval(autoInterval);
   autoInterval = startAutoRotate();
+}
+
+function initialSpin() {
+  book.style.transition = 'transform 1s linear';
+  rotation += 360;
+  applyRotation(rotation);
+  book.addEventListener(
+    'transitionend',
+    () => {
+      book.style.transition = 'transform 0.6s ease';
+      autoInterval = startAutoRotate();
+    },
+    { once: true }
+  );
+}
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      obs.disconnect();
+      initialSpin();
+    }
+  });
+  observer.observe(book);
+} else {
+  initialSpin();
 }
 
 book.addEventListener('mousedown', e => {
