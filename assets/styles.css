@@ -1142,53 +1142,23 @@ input:checked + .toggle-slider::before {
   border: none;
 }
 
-.book-3d-container {
-  background: transparent;
-  padding: var(--space-sm);
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xs);
-}
-.book-3d-container .book-controls {
-  display: flex;
-  gap: var(--space-xs);
-  margin-top: var(--space-sm);
-}
-.book-3d-container .book-controls .icon-btn {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: 0px solid var(--color-border);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.book-3d-container .book-controls .icon-btn:hover {
-  transform: scale(1.1);
-}
-.book-3d-container .book-controls .side-label {
-  font-size: 0.75rem;
-  color: var(--color-muted);
-  display: flex;
-  align-items: center;
-}
-
 .book-3d-viewer {
   --book-width: 265px;
   --book-height: 365px;
   --book-depth: 20px;
+  --viewer-size: var(--book-height);
   position: relative;
-  width: var(--book-width);
-  margin-inline: 6;
+  width: var(--viewer-size);
+  height: var(--viewer-size);
   perspective: 1200px;
   background: transparent;
   border-radius: 8px;
   z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
 }
 .book-3d-viewer::before {
   content: "";
@@ -1299,6 +1269,90 @@ input:checked + .toggle-slider::before {
   filter: blur(6px);
   transform: translateX(-50%);
   pointer-events: none;
+}
+.book-3d-viewer .book-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background: rgba(0, 0, 0, 0.6);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+}
+.book-3d-viewer .book-controls .icon-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.book-3d-viewer .book-controls .icon-btn:hover {
+  transform: scale(1.1);
+}
+.book-3d-viewer .book-controls .side-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+}
+
+.cover-zoom-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.cover-zoom-modal[hidden] {
+  display: none;
+}
+.cover-zoom-modal .cover-zoom-content {
+  position: relative;
+  background: var(--color-surface);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.cover-zoom-modal .close-btn {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  background: none;
+  border: none;
+  color: var(--color-contrast-high);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.cover-zoom-modal #zoom-full {
+  max-width: 80vw;
+  max-height: 70vh;
+  object-fit: contain;
+}
+.cover-zoom-modal .thumbnails {
+  display: flex;
+  gap: var(--space-xs);
+}
+.cover-zoom-modal .thumbnails img {
+  width: 60px;
+  height: auto;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+}
+.cover-zoom-modal .thumbnails img.active {
+  opacity: 1;
+  border-color: var(--color-accent);
 }
 
 .book-preview {
