@@ -1,7 +1,7 @@
 @use "../tokens/colors" as *;
 
 .book-3d-container {
-  background: $surface;
+  background: transparent;
   padding: var(--space-sm);
   border-radius: var(--radius-md);
   display: flex;
@@ -41,8 +41,19 @@
   width: var(--book-width);
   margin-inline: 6;
   perspective: 1200px;
-  background: $surface;
+  background: transparent;
   border-radius: 8px;
+  z-index: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, var(--color-accent) 0%, transparent 70%);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+  }
 
   .swipe-indicator {
     position: absolute;
@@ -52,6 +63,7 @@
     pointer-events: none;
     font-size: 65px;
     color: var(--color-icon);
+    z-index: 2;
   }
 
   .scene {
@@ -59,6 +71,7 @@
     height: var(--book-height);
     position: relative;
     transform-style: preserve-3d;
+    z-index: 1;
   }
 
   .book {

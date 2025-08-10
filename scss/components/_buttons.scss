@@ -31,3 +31,33 @@
     color: $black;
   }
 }
+
+// icon-only button
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  background-color: $bright-green;
+  color: $white;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color $transition;
+
+  &:hover {
+    background-color: $medium-green;
+  }
+
+  &:focus {
+    outline: 2px solid $deep-green;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
