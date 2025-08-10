@@ -33,3 +33,10 @@
     gap: $spacing-xxs;
   }
 }
+
+body.theme-dark,
+body.theme-light {
+  .site-footer a {
+    color: $bright-green;
+  }
+}
