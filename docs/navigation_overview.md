@@ -8,7 +8,7 @@ Every HTML page (e.g., `index.html`, `login.html`, `contact.html`) contains the 
 
 ```html
 <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-  <button class="icon-btn menu-close js-menu-close" aria-label="Close">
+  <button class="menu-close js-menu-close" aria-label="Close">
     <i class="ti ti-x"></i>
   </button>
   <!-- theme toggle switch omitted -->
@@ -34,10 +34,10 @@ The header at the top of each page contains icons that toggle search, the profil
 <header class="site-header padding-y-sm js-sticky-nav">
   <div class="container max-width-adaptive-lg flex items-center justify-between">
     <a href="index.html" class="logo"><img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince"></a>
-    <div class="nav-btn-group flex items-center gap-sm">
-      <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-      <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-      <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+    <div>
+      <button class="js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+      <button class="js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+      <button class="js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
     </div>
   </div>
   <div class="search-bar js-search-bar" hidden>...</div>
@@ -51,7 +51,7 @@ Navigation styles live primarily in the SCSS folder:
 
 - `scss/styles.scss` – defines the mega menu layout and transitions.
 - `scss/layout/_header.scss` – styles the sticky header bar.
-- `scss/layout/_nav.scss` – shared styles for icon buttons, search bar and the profile dropdown.
+- `scss/layout/_nav.scss` – shared styles for the search bar and the profile dropdown.
 - `scss/components/_profile-dropdown.scss` – extra styling for the dropdown itself.
 
 All partials are imported in `scss/style.scss`, which is the entry point compiled to CSS. After editing any SCSS, run:
