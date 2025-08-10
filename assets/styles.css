@@ -613,7 +613,8 @@ body.theme-light .site-footer a {
   color: var(--color-black);
 }
 
-.icon-btn {
+
+.icon-btn, .icon-btn--ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -627,6 +628,16 @@ body.theme-light .site-footer a {
   cursor: pointer;
   transition: background-color all 0.2s ease-in-out;
 }
+
+.icon-btn:hover, .icon-btn--ghost:hover {
+  background-color: var(--color-primary-hover);
+}
+.icon-btn:focus, .icon-btn--ghost:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.icon-btn:disabled, .icon-btn--ghost:disabled {
+
 .icon-btn:hover {
   background-color: var(--color-primary-hover);
 }
@@ -635,8 +646,20 @@ body.theme-light .site-footer a {
   outline-offset: 2px;
 }
 .icon-btn:disabled {
+
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+
+.icon-btn--ghost {
+  background-color: transparent;
+  color: var(--color-bright);
+  transition: color all 0.2s ease-in-out;
+}
+.icon-btn--ghost:hover {
+  background-color: transparent;
+  color: var(--color-primary-hover);
 }
 
 .form-group {
