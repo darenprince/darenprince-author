@@ -1133,7 +1133,7 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-container {
-  background: var(--color-surface);
+  background: transparent;
   padding: var(--space-sm);
   border-radius: var(--radius-md);
   display: flex;
@@ -1170,8 +1170,18 @@ input:checked + .toggle-slider::before {
   width: var(--book-width);
   margin-inline: 6;
   perspective: 1200px;
-  background: var(--color-surface);
+  background: transparent;
   border-radius: 8px;
+  z-index: 0;
+}
+.book-3d-viewer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, var(--color-accent) 0%, transparent 70%);
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
 }
 .book-3d-viewer .swipe-indicator {
   position: absolute;
@@ -1181,12 +1191,14 @@ input:checked + .toggle-slider::before {
   pointer-events: none;
   font-size: 65px;
   color: var(--color-icon);
+  z-index: 2;
 }
 .book-3d-viewer .scene {
   width: var(--book-width);
   height: var(--book-height);
   position: relative;
   transform-style: preserve-3d;
+  z-index: 1;
 }
 .book-3d-viewer .book {
   width: 100%;
