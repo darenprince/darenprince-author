@@ -1914,6 +1914,14 @@ input:checked + .toggle-slider::before {
   cursor: pointer;
 }
 
+/* === THEME TOGGLE ROW === */
+.theme-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
 /* === MENU OVERLAY & BODY TRANSITION === */
 .menu-overlay {
   position: fixed;
