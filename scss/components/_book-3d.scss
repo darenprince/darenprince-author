@@ -3,10 +3,9 @@
 .book-3d-viewer {
   // Ensure the book maintains a perfect 2:3 aspect ratio
   // when viewed directly from the front.
-  // 246px : 369px preserves 2:3 while staying close to the
-  // previous dimensions of 265px x 365px.
-  --book-width: 246px;
-  --book-height: 369px;
+  // 260px : 390px maintains a 2:3 ratio and is slightly larger
+  --book-width: 260px;
+  --book-height: 390px;
   --book-depth: 20px;
   --viewer-size: var(--book-height);
   position: relative;
@@ -49,6 +48,13 @@
     position: relative;
     transform-style: preserve-3d;
     z-index: 1;
+  }
+
+  .zoom-overlay {
+    position: absolute;
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+    z-index: 2;
   }
 
   .book {
@@ -112,6 +118,13 @@
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: center center;
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+      pointer-events: none;
+    }
   }
 
   .pages {
@@ -121,6 +134,13 @@
     transform: rotateY(90deg) translateZ(calc(var(--book-width) / 2));
     background-image: url('../assets/images/paperside.jpg');
     background-position: center center;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to left, rgba(0,0,0,0.2), transparent);
+      pointer-events: none;
+    }
   }
 
   .top {
@@ -129,6 +149,13 @@
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
     background: #333;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);
+      pointer-events: none;
+    }
   }
 
   .bottom {
@@ -137,6 +164,13 @@
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
     background: #333;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+      pointer-events: none;
+    }
   }
 
   .shadow {
@@ -156,17 +190,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  background: rgba(0, 0, 0, 0.6);
-  padding: var(--space-xs) var(--space-sm);
+  gap: var(--space-sm);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5));
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   align-self: stretch;
-  margin-top: var(--space-lg);
+  margin-top: calc(var(--space-lg) * 1.5);
   margin-inline: var(--space-sm);
 
   .icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,6 +210,7 @@
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: transform 0.2s;
+    font-size: 1.25rem;
 
     &:hover {
       transform: scale(1.1);
@@ -182,10 +218,18 @@
   }
 
   .side-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--color-muted);
     display: flex;
     align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0 var(--space-xs);
+    text-decoration: none;
+    height: 36px;
   }
 }
 
@@ -246,6 +290,61 @@
         opacity: 1;
         border-color: var(--color-accent);
       }
+    }
+  }
+}
+
+.purchase-box {
+  .format-buttons {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+    margin-bottom: var(--space-sm);
+    transition: opacity 0.3s ease;
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .format-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    background: transparent;
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-muted);
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    i {
+      margin-right: var(--space-xs);
+    }
+  }
+
+  .store-selector {
+    text-align: center;
+    border: 1.5px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-xs);
+    margin-bottom: var(--space-sm);
+    background: transparent;
+    color: var(--color-contrast-high);
+    text-align-last: center;
+  }
+
+  .selected-store-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-xs);
+
+    img {
+      max-height: 40px;
     }
   }
 }
