@@ -91,7 +91,7 @@
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 
     &::after {
-      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.2) 60%);
+      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.2) 40%);
     }
   }
 
@@ -128,7 +128,7 @@
     height: var(--book-depth);
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
-    background: #f8f6f0;
+    background: #333;
   }
 
   .bottom {
@@ -136,7 +136,7 @@
     height: var(--book-depth);
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
-    background: #f8f6f0;
+    background: #333;
   }
 
   .shadow {
