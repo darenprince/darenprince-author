@@ -5,6 +5,10 @@ const rotate360 = document.getElementById('rotate-360');
 
 const SNAP_FRONT = -14;
 const SNAP_BACK = 194;
+const PAUSE_BEFORE_RESUME_MS = 4000;
+const QUICK_TRANSITION = 'transform 0.3s ease';
+const DEFAULT_TRANSITION = 'transform 0.6s ease';
+const FULL_SPIN_TRANSITION = 'transform 1s linear';
 
 let rotation = SNAP_FRONT;
 let isDragging = false;
