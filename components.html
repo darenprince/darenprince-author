@@ -9,9 +9,9 @@
 </head>
 <body class="theme-dark">
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <button class="menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
+    <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
     <div class="theme-toggle-row">
-      <button class="js-theme-toggle"><i class="ti ti-moon"></i></button>
+      <button class="icon-btn js-theme-toggle"><i class="ti ti-moon"></i></button>
     </div>
     <ul class="mega-menu-list">
       <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
@@ -35,7 +35,7 @@
         <a href="#"><i class="ti ti-brand-youtube"></i></a>
         <a href="#"><i class="ti ti-brand-tiktok"></i></a>
       </li>
-      <li><button class="logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+      <li><button class="icon-btn--text logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
     </ul>
   </nav>
   <div class="menu-overlay js-menu-overlay"></div>
@@ -45,10 +45,10 @@
       <a href="index.html" class="logo">
         <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
       </a>
-      <div>
-        <button class="js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-        <button class="js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-        <button class="js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
       </div>
     </div>
     <div class="search-bar js-search-bar" hidden>
@@ -65,7 +65,7 @@
       <ul>
         <li><a href="dashboard.html">Dashboard</a></li>
         <li><a href="login.html">Account</a></li>
-        <li><button class="logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+        <li><button class="icon-btn--text logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
       </ul>
     </div>
   </header>
@@ -80,6 +80,7 @@
           <option value="#viewer">Viewer</option>
           <option value="#book-3d-viewer">3D Book Viewer</option>
           <option value="#book-tabs">Book Tabs</option>
+          <option value="#containers">Containers</option>
             <option value="#buttons">Buttons</option>
             <option value="#forms">Forms</option>
             <option value="#cards">Cards</option>
@@ -96,6 +97,7 @@
             <li><a href="#viewer">Viewer</a></li>
             <li><a href="#book-3d-viewer">3D Book Viewer</a></li>
             <li><a href="#book-tabs">Book Tabs</a></li>
+            <li><a href="#containers">Containers</a></li>
             <li><a href="#buttons">Buttons</a></li>
             <li><a href="#forms">Forms</a></li>
             <li><a href="#cards">Cards</a></li>
@@ -467,13 +469,35 @@
       <button class="copy-btn" data-target="book-3d-code">Copy</button>
     </div>
 
+    <section id="containers" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Containers</h2>
+        <div class="container">.container</div>
+        <div class="container--spaced">.container--spaced</div>
+        <div class="container--border">.container--border</div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Containers</h3>
+      <p>Function: responsive layout wrappers with optional spacing and borders.</p>
+      <p>Tech Specs: styles in <code>scss/base/_globals.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="containers-code"><code class="language-html">&lt;div class=&quot;container&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;container--spaced&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;container--border&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="containers-code">Copy</button>
+    </div>
+
     <section id="buttons" class="demo-section padding-y-lg">
       <div class="container max-width-adaptive-lg demo-container">
         <h2>Buttons</h2>
-        <button class="btn">Primary</button>
-        <button class="btn btn-accent">Accent</button>
-        <button class="btn btn-success">Success</button>
-        <button class="btn btn-error">Error</button>
+        <button class="btn">Default</button>
+        <button class="btn--primary">Primary</button>
+        <button class="btn--secondary">Secondary</button>
+        <button class="btn--accent">Accent</button>
+        <button class="btn--ghost">Ghost</button>
+        <button class="icon-btn" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="icon-btn icon-btn--ghost" aria-label="Search"><i class="ti ti-search"></i></button>
       </div>
     </section>
     <div class="component-docs">
@@ -481,7 +505,13 @@
       <p>Function: reusable button styles.</p>
       <p>Tech Specs: styles in <code>scss/components/_buttons.scss</code>.</p>
       <p>Implementation:</p>
-      <pre id="buttons-code"><code class="language-html">&lt;button class=&quot;btn&quot;&gt;...&lt;/button&gt;</code></pre>
+      <pre id="buttons-code"><code class="language-html">&lt;button class=&quot;btn&quot;&gt;Default&lt;/button&gt;
+&lt;button class=&quot;btn--primary&quot;&gt;Primary&lt;/button&gt;
+&lt;button class=&quot;btn--secondary&quot;&gt;Secondary&lt;/button&gt;
+&lt;button class=&quot;btn--accent&quot;&gt;Accent&lt;/button&gt;
+&lt;button class=&quot;btn--ghost&quot;&gt;Ghost&lt;/button&gt;
+&lt;button class=&quot;icon-btn&quot; aria-label=&quot;Search&quot;&gt;&lt;i class=&quot;ti ti-search&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+&lt;button class=&quot;icon-btn icon-btn--ghost&quot; aria-label=&quot;Search&quot;&gt;&lt;i class=&quot;ti ti-search&quot;&gt;&lt;/i&gt;&lt;/button&gt;</code></pre>
       <button class="copy-btn" data-target="buttons-code">Copy</button>
     </div>
 
