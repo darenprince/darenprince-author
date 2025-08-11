@@ -8,14 +8,12 @@
 </div>
 
 <div class="book-controls">
-  <button id="btn-front" class="icon-btn" title="Front">Front</button>
-  <button id="btn-back" class="icon-btn" title="Back">Back</button>
-  <button id="btn-zoom" class="icon-btn" title="Zoom">Zoom</button>
-</div>
-
-<div class="zoom-modal hidden" id="zoomModal">
-  <div class="zoom-content">
-    <img src="assets/books/gameon/gameonspread.jpg" alt="Zoomed Book">
-    <button class="close-btn" id="closeZoom">×</button>
-  </div>
+  <button id="front-view" class="side-label" type="button">FRONT</button>
+  <button id="rotate-left" class="icon-btn" aria-label="Show front">
+    <i class="ti ti-arrow-back-up"></i>
+  </button>
+  <button id="rotate-right" class="icon-btn" aria-label="Show back">
+    <i class="ti ti-arrow-forward-up"></i>
+  </button>
+  <button id="back-view" class="side-label" type="button">BACK</button>
 </div>
