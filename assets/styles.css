@@ -1167,8 +1167,8 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-viewer {
-  --book-width: 265px;
-  --book-height: 365px;
+  --book-width: 246px;
+  --book-height: 369px;
   --book-depth: 20px;
   --viewer-size: var(--book-height);
   position: relative;
