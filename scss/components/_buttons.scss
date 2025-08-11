@@ -95,3 +95,43 @@
     border-color: $bright-green;
   }
 }
+
+/* Navigation icon buttons */
+.nav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $light-gray;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: color $transition;
+
+  &:hover,
+  &:focus {
+    color: $bright-green;
+  }
+}
+
+/* Hamburger menu button */
+.hamburger-btn {
+  @extend .nav-icon-btn;
+  color: $lime-green;
+}
+
+/* Login & logout buttons */
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xxs;
+  padding: $spacing-xxs $spacing-sm;
+  font-weight: 700;
+  color: $light-gray;
+  background: linear-gradient(45deg, rgba(135, 189, 114, 0.05), rgba(69, 111, 58, 0.05));
+  border: 1.5px solid $lime-green;
+  border-radius: $border-radius;
+}
