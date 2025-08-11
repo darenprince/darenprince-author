@@ -1242,7 +1242,7 @@ input:checked + .toggle-slider::before {
   background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 }
 .book-3d-viewer .front::after {
-  background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255, 255, 255, 0.2) 60%);
+  background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255, 255, 255, 0.2) 40%);
 }
 .book-3d-viewer .back {
   width: var(--book-width);
@@ -1274,14 +1274,14 @@ input:checked + .toggle-slider::before {
   height: var(--book-depth);
   top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
   transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
-  background: #f8f6f0;
+  background: #333;
 }
 .book-3d-viewer .bottom {
   width: var(--book-width);
   height: var(--book-depth);
   top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
   transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
-  background: #f8f6f0;
+  background: #333;
 }
 .book-3d-viewer .shadow {
   position: absolute;
