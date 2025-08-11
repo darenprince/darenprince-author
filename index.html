@@ -104,20 +104,20 @@
                 </div>
               </div>
               <div class="book-controls">
-                <span class="side-label">Front</span>
-                <button id="rotate-left" class="icon-btn" aria-label="Rotate left">
+                <button id="front-view" class="side-label" type="button">FRONT</button>
+                <button id="rotate-left" class="icon-btn" aria-label="Show front">
                   <i class="ti ti-arrow-back-up"></i>
                 </button>
                 <button id="rotate-360" class="icon-btn" aria-label="Rotate 360">
                   <i class="ti ti-360"></i>
                 </button>
-                <button id="rotate-right" class="icon-btn" aria-label="Rotate right">
+                <button id="rotate-right" class="icon-btn" aria-label="Show back">
                   <i class="ti ti-arrow-forward-up"></i>
                 </button>
                 <button id="zoom-cover" class="icon-btn" aria-label="Zoom cover">
                   <i class="ti ti-zoom-in"></i>
                 </button>
-                <span class="side-label">Back</span>
+                <button id="back-view" class="side-label" type="button">BACK</button>
               </div>
               <div class="cover-zoom-modal" id="cover-zoom" hidden>
                 <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
@@ -131,13 +131,24 @@
               </div>
               <div class="purchase-box">
                 <div class="buy-controls">
-                  <select class="store-selector">
-                    <option value="https://a.co/d/irajx1w">Amazon</option>
-                    <option value="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900">Apple Books</option>
-                    <option value="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ">Google Play</option>
-                    <option value="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407">Books-A-Million</option>
-                  </select>
-                  <button class="btn btn--primary">Buy Now</button>
+                  <div class="format-buttons">
+                    <button class="format-btn" data-format="ebook" type="button">
+                      <i class="ti ti-device-tablet"></i><span>E-BOOK</span>
+                    </button>
+                    <button class="format-btn" data-format="audio" type="button">
+                      <i class="ti ti-speakerphone"></i><span>AUDIOBOOK</span>
+                    </button>
+                    <button class="format-btn" data-format="print" type="button">
+                      <i class="ti ti-book"></i><span>PRINT</span>
+                    </button>
+                  </div>
+                  <div class="store-select" hidden>
+                    <select class="store-selector">
+                      <option value="">Select Store</option>
+                    </select>
+                  </div>
+                  <button class="btn btn--primary buy-btn">Buy Now</button>
+                  <div class="selected-store-logo"></div>
                 </div>
               </div>
             </div>

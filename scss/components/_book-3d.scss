@@ -1,9 +1,9 @@
 @use "../tokens/colors" as *;
 
 .book-3d-viewer {
-  --book-width: 265px;
-  --book-height: 365px;
-  --book-depth: 20px;
+  --book-width: 280px;
+  --book-height: 380px;
+  --book-depth: 22px;
   --viewer-size: var(--book-height);
   position: relative;
   width: var(--viewer-size);
@@ -108,6 +108,13 @@
     background-image: url('../assets/books/gameon/gameonspread.jpg');
     background-position: center center;
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.05));
+      pointer-events: none;
+    }
   }
 
   .pages {
@@ -117,6 +124,13 @@
     transform: rotateY(90deg) translateZ(calc(var(--book-width) / 2));
     background-image: url('../assets/images/paperside.jpg');
     background-position: center center;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to left, rgba(0,0,0,0.1), rgba(0,0,0,0.02));
+      pointer-events: none;
+    }
   }
 
   .top {
@@ -125,6 +139,13 @@
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
     background: #f8f6f0;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0));
+      pointer-events: none;
+    }
   }
 
   .bottom {
@@ -133,6 +154,13 @@
     top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
     transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
     background: #f8f6f0;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.15), rgba(0,0,0,0));
+      pointer-events: none;
+    }
   }
 
   .shadow {
@@ -152,17 +180,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  background: rgba(0, 0, 0, 0.6);
-  padding: var(--space-xs) var(--space-sm);
+  gap: var(--space-sm);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+  padding: var(--space-sm) var(--space-sm);
   border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   align-self: stretch;
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xl);
   margin-inline: var(--space-sm);
 
   .icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,6 +200,7 @@
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: transform 0.2s;
+    font-size: 1.25rem;
 
     &:hover {
       transform: scale(1.1);
@@ -178,10 +208,81 @@
   }
 
   .side-label {
-    font-size: 0.75rem;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
     color: var(--color-muted);
     display: flex;
     align-items: center;
+  }
+}
+
+.buy-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  .format-buttons {
+    display: flex;
+    gap: var(--space-sm);
+
+    .format-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs);
+      background: transparent;
+      color: var(--color-muted);
+      border: 1.5px solid var(--color-accent);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+
+      &:hover {
+        color: var(--color-accent);
+        background: rgba(0,0,0,0.3);
+      }
+    }
+
+    &.fade-out {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+  }
+
+  .store-select {
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &.visible {
+      opacity: 1;
+    }
+
+    select {
+      width: 100%;
+      padding: var(--space-xs);
+      text-align: center;
+      background: transparent;
+      color: var(--color-contrast-high);
+      border: 1.5px solid var(--color-accent);
+      border-radius: var(--radius-md);
+    }
+  }
+
+  .selected-store-logo {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-xs);
+
+    img {
+      max-height: 40px;
+    }
   }
 }
 

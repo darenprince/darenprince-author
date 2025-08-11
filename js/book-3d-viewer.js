@@ -2,6 +2,8 @@ const book = document.getElementById('book');
 const rotateLeft = document.getElementById('rotate-left');
 const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
+const frontView = document.getElementById('front-view');
+const backView = document.getElementById('back-view');
 
 let rotation = 360;
 let isDragging = false;
@@ -94,17 +96,22 @@ book.addEventListener('touchend', () => {
   resetAutoRotate();
 });
 
-rotateLeft?.addEventListener('click', () => {
-  rotation -= 180;
+function showFront() {
+  rotation = 18;
   applyRotation(rotation);
   resetAutoRotate();
-});
+}
 
-rotateRight?.addEventListener('click', () => {
-  rotation += 180;
+function showBack() {
+  rotation = 199;
   applyRotation(rotation);
   resetAutoRotate();
-});
+}
+
+rotateLeft?.addEventListener('click', showFront);
+rotateRight?.addEventListener('click', showBack);
+frontView?.addEventListener('click', showFront);
+backView?.addEventListener('click', showBack);
 
 rotate360?.addEventListener('click', () => {
   clearInterval(autoInterval);
