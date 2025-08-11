@@ -1191,8 +1191,8 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-viewer {
-  --book-width: 246px;
-  --book-height: 369px;
+  --book-width: 260px;
+  --book-height: 390px;
   --book-depth: 20px;
   --viewer-size: var(--book-height);
   position: relative;
@@ -1233,6 +1233,12 @@ input:checked + .toggle-slider::before {
   position: relative;
   transform-style: preserve-3d;
   z-index: 1;
+}
+.book-3d-viewer .zoom-overlay {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 2;
 }
 .book-3d-viewer .book {
   width: 100%;
@@ -1285,6 +1291,13 @@ input:checked + .toggle-slider::before {
   background-position: center center;
   background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 }
+.book-3d-viewer .spine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
+  pointer-events: none;
+}
 .book-3d-viewer .pages {
   width: var(--book-depth);
   height: var(--book-height);
@@ -1293,6 +1306,13 @@ input:checked + .toggle-slider::before {
   background-image: url("../assets/images/paperside.jpg");
   background-position: center center;
 }
+.book-3d-viewer .pages::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
+  pointer-events: none;
+}
 .book-3d-viewer .top {
   width: var(--book-width);
   height: var(--book-depth);
@@ -1300,12 +1320,26 @@ input:checked + .toggle-slider::before {
   transform: rotateX(90deg) translateZ(calc(var(--book-height) / 2));
   background: #333;
 }
+.book-3d-viewer .top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+  pointer-events: none;
+}
 .book-3d-viewer .bottom {
   width: var(--book-width);
   height: var(--book-depth);
   top: calc(var(--book-height) / 2 - var(--book-depth) / 2);
   transform: rotateX(-90deg) translateZ(calc(var(--book-height) / 2));
   background: #333;
+}
+.book-3d-viewer .bottom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+  pointer-events: none;
 }
 .book-3d-viewer .shadow {
   position: absolute;
@@ -1323,17 +1357,18 @@ input:checked + .toggle-slider::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  background: rgba(0, 0, 0, 0.6);
-  padding: var(--space-xs) var(--space-sm);
+  gap: var(--space-sm);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5));
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   align-self: stretch;
-  margin-top: var(--space-lg);
+  margin-top: calc(var(--space-lg) * 1.5);
   margin-inline: var(--space-sm);
 }
 .book-controls .icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1342,15 +1377,24 @@ input:checked + .toggle-slider::before {
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: transform 0.2s;
+  font-size: 1.25rem;
 }
 .book-controls .icon-btn:hover {
   transform: scale(1.1);
 }
 .book-controls .side-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--color-muted);
   display: flex;
   align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0 var(--space-xs);
+  text-decoration: none;
+  height: 36px;
 }
 
 .cover-zoom-modal {
@@ -1405,6 +1449,54 @@ input:checked + .toggle-slider::before {
 .cover-zoom-modal .thumbnails img.active {
   opacity: 1;
   border-color: var(--color-accent);
+}
+
+.purchase-box .format-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+  transition: opacity 0.3s ease;
+}
+.purchase-box .format-buttons.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+.purchase-box .format-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background: transparent;
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-muted);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.purchase-box .format-btn i {
+  margin-right: var(--space-xs);
+}
+.purchase-box .store-selector {
+  text-align: center;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  background: transparent;
+  color: var(--color-contrast-high);
+  text-align-last: center;
+}
+.purchase-box .selected-store-logo {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xs);
+}
+.purchase-box .selected-store-logo img {
+  max-height: 40px;
 }
 
 .book-preview {
