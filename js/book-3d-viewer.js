@@ -2,9 +2,11 @@ const book = document.getElementById('book');
 const rotateLeft = document.getElementById('rotate-left');
 const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
+const snapFrontBtn = document.getElementById('snap-front');
+const snapBackBtn = document.getElementById('snap-back');
 
-const SNAP_FRONT = -14;
-const SNAP_BACK = 194;
+const SNAP_FRONT = 18;
+const SNAP_BACK = 199;
 const PAUSE_BEFORE_RESUME_MS = 4000;
 const QUICK_TRANSITION = 'transform 0.3s ease';
 const DEFAULT_TRANSITION = 'transform 0.6s ease';
@@ -124,6 +126,14 @@ rotateLeft?.addEventListener('click', () => {
 });
 
 rotateRight?.addEventListener('click', () => {
+  snapTo(SNAP_BACK);
+});
+
+snapFrontBtn?.addEventListener('click', () => {
+  snapTo(SNAP_FRONT);
+});
+
+snapBackBtn?.addEventListener('click', () => {
   snapTo(SNAP_BACK);
 });
 
