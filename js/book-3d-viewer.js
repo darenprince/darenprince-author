@@ -3,10 +3,14 @@ const rotateLeft = document.getElementById('rotate-left');
 const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
 
-let rotation = 360;
+const SNAP_FRONT = -14;
+const SNAP_BACK = 194;
+
+let rotation = SNAP_FRONT;
 let isDragging = false;
 let startX = 0;
 let autoInterval;
+let pauseTimeout;
 
 function applyRotation(angle) {
   book.style.transform = `rotateY(${angle}deg)`;
@@ -22,7 +26,20 @@ function startAutoRotate() {
 
 function resetAutoRotate() {
   clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
   autoInterval = startAutoRotate();
+}
+
+function snapTo(angle) {
+  clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
+  book.style.transition = 'transform 0.3s ease';
+  rotation = angle;
+  applyRotation(rotation);
+  pauseTimeout = setTimeout(() => {
+    book.style.transition = 'transform 0.6s ease';
+    resetAutoRotate();
+  }, 4000);
 }
 
 function initialSpin() {
@@ -38,6 +55,8 @@ function initialSpin() {
     { once: true }
   );
 }
+
+applyRotation(rotation);
 
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries, obs) => {
@@ -56,6 +75,7 @@ book.addEventListener('mousedown', e => {
   startX = e.clientX;
   book.style.transition = 'none';
   clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
 });
 
 window.addEventListener('mousemove', e => {
@@ -78,6 +98,7 @@ book.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
   book.style.transition = 'none';
   clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
 });
 
 book.addEventListener('touchmove', e => {
@@ -95,19 +116,16 @@ book.addEventListener('touchend', () => {
 });
 
 rotateLeft?.addEventListener('click', () => {
-  rotation -= 180;
-  applyRotation(rotation);
-  resetAutoRotate();
+  snapTo(SNAP_FRONT);
 });
 
 rotateRight?.addEventListener('click', () => {
-  rotation += 180;
-  applyRotation(rotation);
-  resetAutoRotate();
+  snapTo(SNAP_BACK);
 });
 
 rotate360?.addEventListener('click', () => {
   clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
   book.style.transition = 'transform 1s linear';
   rotation += 360;
   applyRotation(rotation);
