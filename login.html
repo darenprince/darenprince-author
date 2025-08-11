@@ -10,9 +10,6 @@
 <body class="theme-dark">
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
-    <div class="theme-toggle-row">
-      <button class="icon-btn js-theme-toggle"><i class="ti ti-moon"></i></button>
-    </div>
     <ul class="mega-menu-list">
       <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
       <li class="has-submenu">
@@ -35,7 +32,7 @@
         <a href="#"><i class="ti ti-brand-youtube"></i></a>
         <a href="#"><i class="ti ti-brand-tiktok"></i></a>
       </li>
-      <li><button class="icon-btn--text logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
     </ul>
   </nav>
   <div class="menu-overlay js-menu-overlay"></div>
@@ -46,9 +43,10 @@
         <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
       </a>
       <div class="nav-btn-group flex items-center gap-sm">
-        <button class="icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-        <button class="icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-        <button class="icon-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+        <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="nav-icon-btn js-theme-toggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
+        <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+        <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
       </div>
     </div>
     <div class="search-bar js-search-bar" hidden>
@@ -65,7 +63,7 @@
       <ul>
         <li><a href="dashboard.html">Dashboard</a></li>
         <li><a href="login.html">Account</a></li>
-        <li><button class="icon-btn--text logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+        <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
       </ul>
     </div>
   </header>
@@ -120,7 +118,7 @@
           <textarea id="shipping-address"></textarea>
         </div>
         <p class="auth-error color-accent"></p>
-        <button type="submit" class="btn btn--primary full-width js-submit">Sign In</button>
+        <button type="submit" class="auth-btn full-width js-submit"><i class="ti ti-key"></i> Sign In</button>
         <p class="text-center margin-top-sm auth-switch">
           <a href="#" class="js-toggle-auth">Need an account? Sign Up</a>
         </p>

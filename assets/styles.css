@@ -673,6 +673,49 @@ body.theme-light .site-footer a {
   border-color: var(--color-bright);
 }
 
+.nav-icon-btn, .hamburger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--gray-100);
+  border-radius: 0.35rem;
+  cursor: pointer;
+  transition: color all 0.2s ease-in-out;
+}
+.nav-icon-btn:hover, .hamburger-btn:hover, .nav-icon-btn.is-active, .is-active.hamburger-btn {
+  color: var(--color-lime);
+}
+
+.hamburger-btn {
+  color: var(--color-lime);
+}
+.hamburger-btn:hover, .hamburger-btn.is-active {
+  color: var(--color-lime);
+}
+
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  color: var(--gray-100);
+  background: linear-gradient(45deg, rgba(var(--color-bright), 0.05), rgba(var(--color-bright), 0.05));
+  border: 1.5px solid rgba(var(--color-lime), 0.7);
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.auth-btn i {
+  color: inherit;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }

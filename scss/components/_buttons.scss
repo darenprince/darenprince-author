@@ -95,3 +95,55 @@
     border-color: $bright-green;
   }
 }
+
+// navigation icon button
+.nav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: $light-gray;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: color $transition;
+
+  &:hover,
+  &.is-active {
+    color: $lime-green;
+  }
+}
+
+// hamburger menu button
+.hamburger-btn {
+  @extend .nav-icon-btn;
+  color: $lime-green;
+
+  &:hover,
+  &.is-active {
+    color: $lime-green;
+  }
+}
+
+// auth buttons (login/logout)
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xxs;
+  font-weight: 700;
+  color: $light-gray;
+  background: linear-gradient(45deg, rgba($bright-green, 0.05), rgba($bright-green, 0.05));
+  border: 1.5px solid rgba($lime-green, 0.7);
+  border-radius: $border-radius;
+  padding: $spacing-xxs $spacing-sm;
+  cursor: pointer;
+  text-decoration: none;
+
+  i {
+    color: inherit;
+  }
+}
