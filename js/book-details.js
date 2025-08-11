@@ -83,7 +83,7 @@ formatButtons?.querySelectorAll('.format-btn').forEach(btn => {
 
 function populateStores(format) {
   storeSelector.innerHTML = '<option value="">Select Store</option>';
-  storeOptions[format].forEach(opt => {
+  storeOptions[format]?.forEach(opt => {
     const option = document.createElement('option');
     option.value = opt.url;
     option.textContent = opt.name;
