@@ -89,13 +89,16 @@
           </div>
           <div class="purchase-box">
             <div class="buy-controls">
-              <select class="store-selector">
-                <option value="https://a.co/d/irajx1w">Amazon</option>
-                <option value="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900">Apple Books</option>
-                <option value="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ">Google Play</option>
-                <option value="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407">Books-A-Million</option>
+              <div class="format-buttons">
+                <button class="format-btn" data-format="ebook"><i class="ti ti-device-tablet"></i>E-Book</button>
+                <button class="format-btn" data-format="audio"><i class="ti ti-speakerphone"></i>Audiobook</button>
+                <button class="format-btn" data-format="print"><i class="ti ti-book"></i>Print</button>
+              </div>
+              <select class="store-selector" hidden>
+                <option value="" selected>Select Store</option>
               </select>
-              <button class="btn btn--primary">Buy Now</button>
+              <button class="btn btn--primary buy-now" hidden>Buy Now</button>
+              <div class="selected-store-logo"></div>
             </div>
           </div>
         </div>
