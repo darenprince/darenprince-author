@@ -2,7 +2,7 @@
 @use "../tokens/colors" as *;
 .hero {
   position: relative;
-  background-image: url('images/fullhero4.png');
+  background-image: url('images/fullhero3.png');
   background-size: cover;
   background-position: center;
   padding: $spacing-xl 0;
@@ -63,6 +63,9 @@
     left: 50%;
     bottom: $spacing-xl;
     transform: translateX(-50%);
+    &.throb {
+      animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
+    }
   }
 
   &.hero--video {
@@ -79,4 +82,9 @@
 @keyframes slide-in {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes cta-throb {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
 }
