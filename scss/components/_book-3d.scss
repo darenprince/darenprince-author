@@ -6,7 +6,7 @@
   // 260px : 390px maintains a 2:3 ratio and is slightly larger
   --book-width: 260px;
   --book-height: 390px;
-  --book-depth: 40px;
+  --book-depth: 32px;
   --viewer-size: var(--book-height);
   position: relative;
   width: var(--viewer-size);
@@ -76,11 +76,19 @@
     background-repeat: no-repeat;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 85%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.6) 100%);
+      pointer-events: none;
+    }
+
     &::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.2), transparent 60%);
+      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.15), transparent 50%);
       pointer-events: none;
     }
   }
@@ -97,7 +105,7 @@
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 
     &::after {
-      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.2) 40%);
+      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 25%, transparent 50%);
     }
   }
 
@@ -233,7 +241,7 @@
   }
 }
 
-.cover-zoom-modal {
+  .cover-zoom-modal {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -262,11 +270,17 @@
     position: absolute;
     top: var(--space-sm);
     right: var(--space-sm);
-    background: none;
+    background: rgba(0,0,0,0.6);
     border: none;
-    color: var(--color-contrast-high);
-    font-size: 1.5rem;
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #zoom-full {
@@ -295,47 +309,95 @@
 }
 
 .purchase-box {
+  .purchase-step {
+    text-align: center;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+    transition: opacity 0.3s ease;
+
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  .step-store {
+    opacity: 0;
+  }
+
   .format-buttons {
     display: flex;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
     justify-content: center;
     margin-bottom: var(--space-sm);
     transition: opacity 0.3s ease;
+
     &.hide {
       opacity: 0;
       pointer-events: none;
     }
   }
 
-  .format-btn {
-    flex: 1;
+  .format-option {
+    flex: 0 0 8rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-xs);
+    gap: var(--space-xxs);
     background: transparent;
-    border: 1.5px solid var(--color-accent);
+    border: 2px solid var(--color-accent);
     color: var(--color-muted);
-    padding: var(--space-xs);
+    padding: var(--space-sm);
     border-radius: var(--radius-md);
     cursor: pointer;
     text-transform: uppercase;
     font-weight: 600;
 
     i {
-      margin-right: var(--space-xs);
+      font-size: 2rem;
+      color: var(--color-muted);
+      margin: 0;
     }
   }
 
   .store-selector {
     text-align: center;
-    border: 1.5px solid var(--color-accent);
+    border: 2px solid var(--color-accent);
     border-radius: var(--radius-md);
     padding: var(--space-xs);
     margin-bottom: var(--space-sm);
     background: transparent;
     color: var(--color-contrast-high);
     text-align-last: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  .buy-now {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    i {
+      font-size: 1em;
+    }
+
+    &.show {
+      opacity: 1;
+    }
   }
 
   .selected-store-logo {
