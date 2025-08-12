@@ -4,7 +4,7 @@ const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
-const bookViewer = document.getElementById('book-3d-viewer');
+const bookViewer = document.querySelector('.book-3d-viewer');
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
