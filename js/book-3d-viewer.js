@@ -5,6 +5,8 @@ const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
+const rotateHint = document.querySelector('.rotate-hint');
+let rotateHintTimeout;
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
@@ -19,8 +21,37 @@ let startX = 0;
 let autoInterval;
 let pauseTimeout;
 
+function hideRotateHint() {
+  rotateHint?.classList.add('hide');
+  rotateHint?.classList.remove('show');
+}
+
+export function showRotateHint() {
+  if (!rotateHint) return;
+  rotateHint.classList.remove('hide');
+  rotateHint.classList.add('show');
+  clearTimeout(rotateHintTimeout);
+  const hide = () => {
+    hideRotateHint();
+    clearTimeout(rotateHintTimeout);
+  };
+  book.addEventListener('pointerdown', hide, { once: true });
+  rotateHintTimeout = setTimeout(hide, 4000);
+}
+
+window.showRotateHint = showRotateHint;
+
 window.addEventListener('load', () => {
   bookViewer?.classList.add('loaded');
+  if (rotateHint) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const sr = document.createElement('span');
+      sr.className = 'visually-hidden';
+      sr.textContent = 'Drag left or right to rotate.';
+      rotateHint.appendChild(sr);
+    }
+    showRotateHint();
+  }
 });
 
 function applyRotation(angle) {
