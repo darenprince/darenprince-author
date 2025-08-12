@@ -21,9 +21,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $spacing-md;
+    gap: 0;
     width: 100%;
     position: relative;
+
+    .book-3d-viewer {
+      margin-block: $spacing-lg;
+    }
   }
 
   .purchase-box {
