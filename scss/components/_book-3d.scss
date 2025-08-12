@@ -31,24 +31,48 @@
     pointer-events: none;
   }
 
+  .book-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid $light-gray;
+    border-top-color: $lime-green;
+    border-radius: 50%;
+    animation: book-loader-spin 0.6s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
   .swipe-indicator {
     position: absolute;
     top: 8px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -10px);
     pointer-events: none;
     font-size: 65px;
     color: var(--color-icon);
     z-index: 2;
+    opacity: 0;
   }
 
-  .scene {
-    width: var(--book-width);
-    height: var(--book-height);
-    position: relative;
-    transform-style: preserve-3d;
-    z-index: 1;
-  }
+    &.loaded {
+      .book-loader {
+        display: none;
+      }
+      .swipe-indicator {
+        animation: swipe-hint-in 0.6s ease forwards;
+      }
+    }
+
+    .scene {
+      width: var(--book-width);
+      height: var(--book-height);
+      position: relative;
+      transform-style: preserve-3d;
+      z-index: 1;
+    }
 
   .zoom-overlay {
     position: absolute;
@@ -346,5 +370,22 @@
     img {
       max-height: 40px;
     }
+  }
+}
+
+@keyframes book-loader-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes swipe-hint-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 }
