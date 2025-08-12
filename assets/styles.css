@@ -1245,8 +1245,8 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-viewer {
-  --book-width: 260px;
-  --book-height: 390px;
+  --book-width: 240px;
+  --book-height: 360px;
   --book-depth: 30px;
   --viewer-size: var(--book-height);
   --hint-size: 150px;
@@ -1461,28 +1461,33 @@ input:checked + .toggle-slider::before {
 
 .book-toolbar {
   position: fixed;
-  left: 0;
+  left: 4px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
   border: 1px solid var(--color-border);
-  border-left: none;
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   z-index: 3;
 }
 .book-toolbar .icon-btn {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.125rem;
   background: transparent;
   border: 0;
+  border-radius: 0;
   color: var(--gray-100);
-  font-size: 1.25rem;
+  font-size: 0.75rem;
+}
+.book-toolbar .icon-btn i {
+  font-size: 1.5rem;
 }
 .book-toolbar .icon-btn:hover {
   background: rgba(255, 255, 255, 0.05);
@@ -1500,7 +1505,7 @@ input:checked + .toggle-slider::before {
   }
   .book-toolbar {
     position: absolute;
-    left: -56px;
+    left: -68px;
     top: 50%;
     transform: translateY(-50%);
   }
