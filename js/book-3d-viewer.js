@@ -153,6 +153,24 @@ rotate360?.addEventListener('click', () => {
   );
 });
 
+function quickSpin() {
+  clearInterval(autoInterval);
+  clearTimeout(pauseTimeout);
+  book.style.transition = 'transform 0.5s linear';
+  rotation += 360;
+  applyRotation(rotation);
+  book.addEventListener(
+    'transitionend',
+    () => {
+      book.style.transition = DEFAULT_TRANSITION;
+      resetAutoRotate();
+    },
+    { once: true }
+  );
+}
+
+window.quickSpin = quickSpin;
+
 const zoomBtn = document.getElementById('zoom-cover');
 const zoomModal = document.getElementById('cover-zoom');
 const closeZoom = document.getElementById('close-cover-zoom');

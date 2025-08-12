@@ -40,20 +40,19 @@
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
-  border: none;
+  border: 2px solid transparent;
   background-color: $bright-green;
   color: $white;
   border-radius: $border-radius;
   cursor: pointer;
-  transition: background-color $transition;
+  transition: background-color $transition, border-color $transition;
 
   &:hover {
     background-color: $medium-green;
   }
 
   &:focus {
-    outline: 2px solid $deep-green;
-    outline-offset: 2px;
+    border-color: $deep-green;
   }
 
   &:disabled {
