@@ -72,8 +72,8 @@
     <!-- ⚙️ Site Maintenance Landing Page for DarenPrince.com -->
 
     <!-- 1. Hero Section -->
-    <section id="autoZoomHero" class="hero hero-auto-zoom text-center">
-      <div class="container max-width-adaptive-lg hero-content">
+    <section id="autoZoomHero" class="hero hero-auto-zoom">
+      <div class="hero-content">
         <h1 style="display:none;">Game On!</h1>
         <a href="#book-3d-viewer" class="btn btn--primary hero-cta throb">Buy Now</a>
       </div>
@@ -82,8 +82,6 @@
     <!-- 2. Get the Book Section -->
     <section id="book-viewer" class="book-section padding-y-xl">
       <div class="container max-width-adaptive-lg">
-        <h2 class="section-heading text-center margin-bottom-lg">Get the Book.</h2>
-
         <div class="book-details-wrapper">
           <div class="book-layout">
             <div class="book-media">
@@ -131,36 +129,37 @@
                   </div>
                 </div>
               </div>
-              <div class="purchase-box" id="purchase-options">
-                <div class="buy-controls">
-                  <h3 class="step-header step-one">Your Move. Choose Your Format. Game On!</h3>
-                  <div class="format-options step-one">
-                    <div class="format-option">
-                      <i class="ti ti-speakerphone format-icon"></i>
-                      <button class="format-btn" data-format="audio">AUDIO</button>
-                    </div>
-                    <div class="format-option">
-                      <i class="ti ti-device-tablet format-icon"></i>
-                      <button class="format-btn" data-format="ebook">DIGITAL</button>
-                    </div>
-                    <div class="format-option">
-                      <i class="ti ti-book format-icon"></i>
-                      <button class="format-btn" data-format="print">PRINT</button>
-                    </div>
+            </div>
+            <div class="purchase-box" id="purchase-options">
+              <div class="buy-controls">
+                <h3 class="step-header step-one">Your Move. Choose Your Format. Game On!</h3>
+                <div class="format-options step-one">
+                  <div class="format-option">
+                    <i class="ti ti-speakerphone format-icon"></i>
+                    <button class="format-btn" data-format="audio">AUDIO</button>
                   </div>
-                  <div class="store-step" hidden>
-                    <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
-                    <h3 class="step-header">Choose A Store:</h3>
-                    <div class="store-selector-wrapper">
-                      <select class="store-selector"></select>
-                    </div>
-                    <button class="btn btn--primary buy-now">Shop <strong class="store-name"></strong> <i class="ti ti-arrow-right"></i></button>
-                    <div class="selected-store-logo"></div>
+                  <div class="format-option">
+                    <i class="ti ti-device-tablet format-icon"></i>
+                    <button class="format-btn" data-format="ebook">DIGITAL</button>
                   </div>
+                  <div class="format-option">
+                    <i class="ti ti-book format-icon"></i>
+                    <button class="format-btn" data-format="print">PRINT</button>
+                  </div>
+                </div>
+                <div class="store-step" hidden>
+                  <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
+                  <h3 class="step-header">Choose A Store:</h3>
+                  <div class="store-selector-wrapper">
+                    <select class="store-selector"></select>
+                  </div>
+                  <button class="btn btn--primary buy-now">Shop <strong class="store-name"></strong> <i class="ti ti-arrow-right"></i></button>
+                  <div class="selected-store-logo"></div>
                 </div>
               </div>
             </div>
-            <div class="book-accordion accordion">
+          </div>
+          <div class="book-accordion accordion">
             <div class="accordion-item">
               <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ti ti-chevron-down accordion-icon"></i></button>
               <div class="accordion-panel">
