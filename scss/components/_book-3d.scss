@@ -252,7 +252,8 @@
   position: fixed;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-100%, -50%);
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
@@ -287,6 +288,10 @@
   }
 }
 
+.book-toolbar.visible {
+  transform: translate(0, -50%);
+}
+
 @media (min-width: 768px) {
   .book-media {
     position: relative;
@@ -296,7 +301,7 @@
     position: absolute;
     left: -56px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-100%, -50%);
   }
 }
 
@@ -341,6 +346,7 @@
     max-width: 80vw;
     max-height: 70vh;
     object-fit: contain;
+    border-radius: var(--radius-md);
   }
 
   .thumbnails {
@@ -353,6 +359,7 @@
       cursor: pointer;
       opacity: 0.6;
       border: 2px solid transparent;
+      border-radius: var(--radius-sm);
 
       &.active {
         opacity: 1;
@@ -379,7 +386,6 @@
     justify-content: center;
     gap: var(--space-sm);
     width: 100%;
-    flex: 1;
   }
 
   .step-header {
