@@ -14,8 +14,10 @@ const buttons = {
   compact: root?.querySelector('[data-tool="compact"]'),
 };
 
+const TOGGLEABLE_TOOLS = ['front', 'back', 'spin360'];
+
 export function setActiveTool(name) {
-  ['front', 'back', 'spin360'].forEach(tool => {
+  TOGGLEABLE_TOOLS.forEach(tool => {
     buttons[tool]?.classList.toggle('book-rail__btn--active', tool === name);
   });
 }
