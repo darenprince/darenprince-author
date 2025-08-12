@@ -437,13 +437,26 @@
     <section id="book-3d-viewer" class="demo-section padding-y-lg">
       <div class="container max-width-adaptive-lg demo-container">
         <div class="book-media">
-          <div class="book-toolbar">
-            <button id="zoom-cover" class="icon-btn" aria-label="Zoom cover"><i class="ti ti-zoom-in"></i><span>Zoom</span></button>
-            <button id="snap-front" class="icon-btn" aria-label="Front cover"><i class="ti ti-book"></i><span>Front</span></button>
-            <button id="snap-back" class="icon-btn" aria-label="Back cover"><i class="ti ti-book-2"></i><span>Back</span></button>
-            <button id="rotate-360" class="icon-btn" aria-label="Rotate 360"><i class="ti ti-360"></i><span>360°</span></button>
-            <button id="add-to-cart" class="icon-btn add-to-cart" aria-label="Add to cart"><i class="ti ti-shopping-cart"></i><span>Buy</span></button>
-          </div>
+          <nav class="book-toolbar book-rail" aria-label="Book controls">
+            <ul class="book-rail__list">
+              <li class="book-rail__item">
+                <button id="zoom-cover" class="book-rail__btn" data-tool="zoom" aria-label="Zoom" title="Zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2" fill="none"/><path d="M14 14l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 7v6M7 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="book-rail__label">Zoom</span></button>
+              </li>
+              <li class="book-rail__item">
+                <button id="snap-front" class="book-rail__btn" data-tool="front" aria-label="Front" title="Front"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v16H3zM14 4h7v16h-7z" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="book-rail__label">Front</span></button>
+              </li>
+              <li class="book-rail__item">
+                <button id="snap-back" class="book-rail__btn" data-tool="back" aria-label="Back" title="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 20V4H14v16zM3 4h7v16H3z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 10l-2 2 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="book-rail__label">Back</span></button>
+              </li>
+              <li class="book-rail__item">
+                <button id="rotate-360" class="book-rail__btn" data-tool="spin360" aria-label="Rotate 360 degrees" title="Rotate 360 degrees"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7a8 8 0 1 1-1.8 8.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7h5V2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="book-rail__label">360°</span></button>
+              </li>
+              <li class="book-rail__item">
+                <button id="add-to-cart" class="book-rail__btn" data-tool="buy" aria-label="Buy" title="Buy"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1" fill="currentColor"/><circle cx="20" cy="21" r="1" fill="currentColor"/><path d="M5 6h2l3 9h9l2-8H7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="book-rail__label">Buy</span></button>
+              </li>
+            </ul>
+            <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          </nav>
           <div class="book-3d-viewer">
             <div class="book-loader"></div>
             <div class="rotate-hint" aria-hidden="true">
@@ -662,6 +675,7 @@
   <script src="./js/theme-toggle.js"></script>
   <script src="./js/book-tabs.js"></script>
   <script src="./js/book-details.js"></script>
+  <script type="module" src="js/book-rail.js"></script>
   <script type="module" src="js/book-3d-viewer.js"></script>
   <script src="./js/hero-demos.js"></script>
   <script src="./js/hero-auto-zoom.js"></script>
