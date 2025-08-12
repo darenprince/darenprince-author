@@ -10,10 +10,14 @@ document.querySelectorAll('.accordion-trigger').forEach(function(btn){
 });
 
 const formatButtons = document.querySelectorAll('.format-btn');
-const formatContainer = document.querySelector('.format-buttons');
+const stepOneEls = document.querySelectorAll('.step-one');
+const storeStep = document.querySelector('.store-step');
 const storeSelector = document.querySelector('.store-selector');
 const buyButton = document.querySelector('.buy-now');
 const logoContainer = document.querySelector('.selected-store-logo');
+const formatDisplay = document.getElementById('selected-format');
+const changeFormat = document.getElementById('change-format');
+const storeNameSpan = document.querySelector('.store-name');
 
 const storeData = {
   audio: [
@@ -71,7 +75,7 @@ const storeData = {
 };
 
 function populateSelect(format) {
-  storeSelector.innerHTML = '<option value="" selected>Select Store</option>';
+  storeSelector.innerHTML = '';
   const options = storeData[format] || [];
   options.forEach(store => {
     const opt = document.createElement('option');
@@ -80,20 +84,16 @@ function populateSelect(format) {
     if (store.logo) opt.dataset.logo = store.logo;
     storeSelector.appendChild(opt);
   });
+  const defaultIndex = Array.from(storeSelector.options).findIndex(opt => opt.textContent.includes('Amazon (Paperback)'));
+  storeSelector.selectedIndex = defaultIndex >= 0 ? defaultIndex : 0;
+  updateStoreDisplay();
+  buyButton?.removeAttribute('disabled');
 }
 
-formatButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    formatContainer?.classList.add('hide');
-    populateSelect(btn.dataset.format || '');
-    storeSelector?.removeAttribute('hidden');
-    buyButton?.removeAttribute('hidden');
-  });
-});
-
-storeSelector?.addEventListener('change', () => {
+function updateStoreDisplay() {
   const selected = storeSelector.options[storeSelector.selectedIndex];
   const logo = selected?.dataset.logo;
+  storeNameSpan.textContent = selected ? selected.textContent : '';
   logoContainer.innerHTML = '';
   if (logo) {
     const img = document.createElement('img');
@@ -101,11 +101,42 @@ storeSelector?.addEventListener('change', () => {
     img.alt = `${selected.textContent} logo`;
     logoContainer.appendChild(img);
   }
+}
+
+formatButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('rotate-360')?.click();
+    stepOneEls.forEach(el => {
+      el.classList.add('hide');
+      setTimeout(() => el.setAttribute('hidden', ''), 300);
+    });
+    storeStep?.removeAttribute('hidden');
+    storeStep?.classList.add('visible');
+    formatDisplay.textContent = btn.textContent.trim();
+    populateSelect(btn.dataset.format || '');
+  });
+});
+
+changeFormat?.addEventListener('click', e => {
+  e.preventDefault();
+  stepOneEls.forEach(el => {
+    el.classList.remove('hide');
+    el.removeAttribute('hidden');
+  });
+  storeStep?.classList.remove('visible');
+  storeStep?.setAttribute('hidden', '');
+  logoContainer.innerHTML = '';
+  buyButton?.setAttribute('disabled', 'true');
+});
+
+storeSelector?.addEventListener('change', () => {
+  updateStoreDisplay();
 });
 
 buyButton?.addEventListener('click', () => {
   const url = storeSelector?.value;
   if (url) {
+    document.getElementById('rotate-360')?.click();
     window.open(url, '_blank');
   }
 });

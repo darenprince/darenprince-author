@@ -130,16 +130,30 @@
               </div>
               <div class="purchase-box">
                 <div class="buy-controls">
-                  <div class="format-buttons">
-                    <button class="format-btn" data-format="ebook"><i class="ti ti-device-tablet"></i>E-Book</button>
-                    <button class="format-btn" data-format="audio"><i class="ti ti-speakerphone"></i>Audiobook</button>
-                    <button class="format-btn" data-format="print"><i class="ti ti-book"></i>Print</button>
+                  <h3 class="step-header step-one">Your Move. Choose Your Format. Game On!</h3>
+                  <div class="format-options step-one">
+                    <div class="format-option">
+                      <i class="ti ti-speakerphone format-icon"></i>
+                      <button class="format-btn" data-format="audio">AUDIO</button>
+                    </div>
+                    <div class="format-option">
+                      <i class="ti ti-device-tablet format-icon"></i>
+                      <button class="format-btn" data-format="ebook">DIGITAL</button>
+                    </div>
+                    <div class="format-option">
+                      <i class="ti ti-book format-icon"></i>
+                      <button class="format-btn" data-format="print">PRINT</button>
+                    </div>
                   </div>
-                  <select class="store-selector" hidden>
-                    <option value="" selected>Select Store</option>
-                  </select>
-                  <button class="btn btn--primary buy-now" hidden>Buy Now</button>
-                  <div class="selected-store-logo"></div>
+                  <div class="store-step" hidden>
+                    <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
+                    <h3 class="step-header">Choose A Store:</h3>
+                    <div class="store-selector-wrapper">
+                      <select class="store-selector"></select>
+                    </div>
+                    <button class="btn btn--primary buy-now">Shop <strong class="store-name"></strong> <i class="ti ti-arrow-right"></i></button>
+                    <div class="selected-store-logo"></div>
+                  </div>
                 </div>
               </div>
             </div>
