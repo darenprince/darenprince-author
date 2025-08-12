@@ -101,8 +101,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   padding: 0;
   background: transparent;
   border: none;
@@ -112,9 +112,20 @@
   cursor: pointer;
   transition: color $transition;
 
+  i {
+    font-size: 1.375rem;
+  }
+
   &:hover,
   &.is-active {
     color: $lime-green;
+  }
+}
+
+.nav-icon-btn--static {
+  &:hover,
+  &.is-active {
+    color: inherit;
   }
 }
 
@@ -122,11 +133,18 @@
 .hamburger-btn {
   @extend .nav-icon-btn;
   color: $lime-green;
+  background: transparent;
+  border: 2px solid rgba($lime-green, 0.3);
+  transition: box-shadow $transition;
 
   &:hover,
   &.is-active {
     color: $lime-green;
   }
+}
+
+.menu-open .hamburger-btn {
+  box-shadow: 0 0 8px rgba($lime-green, 0.5);
 }
 
 // auth buttons (login/logout)
