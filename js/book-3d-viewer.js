@@ -23,7 +23,7 @@ if (rotateHint) {
   showRotateHint();
 }
 
-window.showRotateHint = showRotateHint;
+window.BookViewer = { showRotateHint };
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
