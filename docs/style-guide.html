@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Style Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <style>
@@ -22,10 +23,30 @@
 
       <section id="colors" class="component">
         <h2>Color Tokens</h2>
-        <div class="flex gap-sm component-example">
+        <div class="flex flex-wrap gap-sm component-example">
           <div class="swatch dark" style="background:var(--color-primary)">--color-primary</div>
-          <div class="swatch" style="background:var(--color-accent)">--color-accent</div>
+          <div class="swatch dark" style="background:var(--color-primary-hover)">--color-primary-hover</div>
+          <div class="swatch" style="background:var(--color-bright)">--color-bright</div>
+          <div class="swatch" style="background:var(--color-mint)">--color-mint</div>
+          <div class="swatch" style="background:var(--color-lime)">--color-lime</div>
           <div class="swatch dark" style="background:var(--color-charcoal)">--color-charcoal</div>
+          <div class="swatch" style="background:var(--color-muted)">--color-muted</div>
+          <div class="swatch dark" style="background:var(--color-black)">--color-black</div>
+          <div class="swatch" style="background:var(--color-white)">--color-white</div>
+          <div class="swatch" style="background:var(--gray-50)">--gray-50</div>
+          <div class="swatch" style="background:var(--gray-100)">--gray-100</div>
+          <div class="swatch" style="background:var(--gray-200)">--gray-200</div>
+          <div class="swatch dark" style="background:var(--gray-600)">--gray-600</div>
+          <div class="swatch dark" style="background:var(--gray-700)">--gray-700</div>
+          <div class="swatch dark" style="background:var(--gray-800)">--gray-800</div>
+          <div class="swatch dark" style="background:var(--gray-900)">--gray-900</div>
+          <div class="swatch" style="background:var(--color-surface)">--color-surface</div>
+          <div class="swatch" style="background:var(--color-icon)">--color-icon</div>
+          <div class="swatch" style="background:var(--color-border)">--color-border</div>
+          <div class="swatch" style="background:var(--color-accent)">--color-accent</div>
+          <div class="swatch" style="background:var(--color-contrast-high)">--color-contrast-high</div>
+          <div class="swatch" style="background:var(--color-success)">--color-success</div>
+          <div class="swatch" style="background:var(--color-danger)">--color-danger</div>
         </div>
 <pre><code>&lt;div style="background:var(--color-primary)"&gt;&lt;/div&gt;</code></pre>
       </section>
@@ -34,9 +55,10 @@
         <h2>Typography</h2>
         <div class="component-example">
           <h1>Heading 1</h1>
+          <h1 class="styledh1">Styled Heading</h1>
           <p>Paragraph text demonstrates the base font stack.</p>
         </div>
-<pre><code>&lt;h1&gt;Heading 1&lt;/h1&gt;</code></pre>
+<pre><code>&lt;h1 class="styledh1"&gt;Styled Heading&lt;/h1&gt;</code></pre>
       </section>
 
       <section id="buttons" class="component">
@@ -44,9 +66,40 @@
         <div class="flex gap-sm component-example">
           <button class="btn">.btn</button>
           <button class="btn btn--primary">.btn.btn--primary</button>
+          <button class="btn btn--secondary">.btn.btn--secondary</button>
           <button class="btn btn--accent">.btn.btn--accent</button>
+          <button class="btn btn--ghost">.btn.btn--ghost</button>
+          <button class="icon-btn"><i class="ti ti-check"></i></button>
+          <button class="icon-btn--ghost"><i class="ti ti-check"></i></button>
+          <button class="icon-btn--text"><i class="ti ti-plus"></i> Add</button>
+          <button class="nav-icon-btn"><i class="ti ti-home"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static"><i class="ti ti-home"></i></button>
+          <button class="hamburger-btn"><i class="ti ti-menu-2"></i></button>
+          <button class="auth-btn"><i class="ti ti-user"></i> Login</button>
         </div>
 <pre><code>&lt;button class="btn btn--primary"&gt;Call to Action&lt;/button&gt;</code></pre>
+      </section>
+
+      <section id="containers" class="component">
+        <h2>Containers</h2>
+        <div class="component-example spacing-y-sm">
+          <div class="container border-thin-46683C">.container</div>
+          <div class="container--spaced border-thin-46683C">.container--spaced</div>
+          <div class="container--border">.container--border</div>
+        </div>
+<pre><code>&lt;div class="container"&gt;...&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="icons" class="component">
+        <h2>Icons</h2>
+        <div class="flex gap-sm component-example">
+          <i class="ti ti-home"></i>
+          <i class="ti ti-user"></i>
+          <i class="ti ti-mail"></i>
+          <i class="ti ti-book"></i>
+          <i class="ti ti-camera"></i>
+        </div>
+<pre><code>&lt;i class="ti ti-home"&gt;&lt;/i&gt;</code></pre>
       </section>
 
       <section id="forms" class="component">

@@ -28,3 +28,31 @@
 .text-lg { font-size: 1.125rem; }
 .text-xxxl { font-size: 2.5rem; }
 .font-primary { font-family: $font-family-heading; }
+
+// Utility font using League Spartan
+.styledh1 {
+  font-family: 'League Spartan', sans-serif;
+}
+
+// Gradient text utilities
+.text-gradient-lime-deep {
+  background: linear-gradient(135deg, #6FBC5C, #488635);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-gray-light {
+  background: linear-gradient(135deg, #D5D5D5, #FDFDFD);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+// Border utility
+.border-thin-46683C {
+  border: 1px solid rgba(70, 104, 60, 0.6);
+  border-radius: $border-radius;
+}
