@@ -252,7 +252,6 @@
   position: fixed;
   left: 4px;
   top: 50%;
-  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
@@ -260,6 +259,14 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   z-index: 3;
+  opacity: 0;
+  transform: translate(-120%, -50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
 
   .icon-btn {
     width: 56px;
@@ -302,14 +309,13 @@
     position: absolute;
     left: -68px;
     top: 50%;
-    transform: translateY(-50%);
   }
 }
 
 .cover-zoom-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,24 +335,28 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-sm);
-  }
+    width: 90vw;
+    height: 90vh;
 
-  .close-btn {
-    position: absolute;
-    top: var(--space-sm);
-    right: var(--space-sm);
-    background: rgba(0, 0, 0, 0.6);
-    border: none;
-    color: var(--color-contrast-high);
-    font-size: 2rem;
-    cursor: pointer;
-    border-radius: var(--radius-sm);
+    .close-btn {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: var(--color-contrast-high);
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      z-index: 2;
+    }
   }
 
   #zoom-full {
-    max-width: 80vw;
-    max-height: 70vh;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
+    border-radius: var(--radius-md);
   }
 
   .thumbnails {
@@ -359,6 +369,7 @@
       cursor: pointer;
       opacity: 0.6;
       border: 2px solid transparent;
+      border-radius: var(--radius-sm);
 
       &.active {
         opacity: 1;
