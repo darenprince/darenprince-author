@@ -1570,6 +1570,9 @@ input:checked + .toggle-slider::before {
   flex-direction: column;
   justify-content: center;
 }
+.purchase-box [hidden] {
+  display: none !important;
+}
 .purchase-box .buy-controls {
   display: flex;
   flex-direction: column;
@@ -2037,6 +2040,9 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.book-details-wrapper .purchase-box [hidden] {
+  display: none !important;
 }
 @media (min-width: 768px) {
   .book-details-wrapper .purchase-box {
