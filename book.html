@@ -87,16 +87,19 @@
           </div>
           <div class="purchase-box">
             <div class="buy-controls">
-              <div class="format-buttons">
-                <button class="format-btn" data-format="ebook"><i class="ti ti-device-tablet"></i>E-Book</button>
-                <button class="format-btn" data-format="audio"><i class="ti ti-speakerphone"></i>Audiobook</button>
-                <button class="format-btn" data-format="print"><i class="ti ti-book"></i>Print</button>
+              <h3 class="step-header step-one">Your Move. Choose Your Format. Game On!</h3>
+              <div class="format-options step-one">
+                <button class="format-option" data-format="audio"><i class="ti ti-speakerphone"></i><span>AUDIO</span></button>
+                <button class="format-option" data-format="ebook"><i class="ti ti-device-tablet"></i><span>DIGITAL</span></button>
+                <button class="format-option" data-format="print"><i class="ti ti-book"></i><span>PRINT</span></button>
               </div>
-              <select class="store-selector" hidden>
-                <option value="" selected>Select Store</option>
-              </select>
-              <button class="btn btn--primary buy-now" hidden>Buy Now</button>
-              <div class="selected-store-logo"></div>
+              <div class="store-step" hidden>
+                <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
+                <h3 class="step-header">Choose A Store:</h3>
+                <select class="store-selector"></select>
+                <button class="btn btn--primary buy-now">Shop <strong class="store-name"></strong> <i class="ti ti-arrow-right"></i></button>
+                <div class="selected-store-logo"></div>
+              </div>
             </div>
           </div>
         </div>
