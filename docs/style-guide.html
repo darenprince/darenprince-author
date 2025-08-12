@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    .swatch { padding:1rem; border-radius:0.35rem; display:flex; align-items:center; justify-content:center; color:var(--color-black); }
+    .swatch.dark { color:var(--color-white); }
+    pre { background: var(--color-charcoal); padding:1rem; border-radius:0.35rem; overflow:auto; }
+    .component { margin-bottom:2rem; }
+    .component-example { margin-bottom:1rem; }
+  </style>
+</head>
+<body class="theme-dark">
+  <main class="padding-y-lg">
+    <div class="container max-width-adaptive-lg">
+      <h1>Style Guide</h1>
+      <p>This guide showcases the core styles and components powering the Daren Prince experience. Study them, remix them, and build boldly.</p>
+
+      <section id="colors" class="component">
+        <h2>Color Tokens</h2>
+        <div class="flex gap-sm component-example">
+          <div class="swatch dark" style="background:var(--color-primary)">--color-primary</div>
+          <div class="swatch" style="background:var(--color-accent)">--color-accent</div>
+          <div class="swatch dark" style="background:var(--color-charcoal)">--color-charcoal</div>
+        </div>
+<pre><code>&lt;div style="background:var(--color-primary)"&gt;&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="typography" class="component">
+        <h2>Typography</h2>
+        <div class="component-example">
+          <h1>Heading 1</h1>
+          <p>Paragraph text demonstrates the base font stack.</p>
+        </div>
+<pre><code>&lt;h1&gt;Heading 1&lt;/h1&gt;</code></pre>
+      </section>
+
+      <section id="buttons" class="component">
+        <h2>Buttons</h2>
+        <div class="flex gap-sm component-example">
+          <button class="btn">.btn</button>
+          <button class="btn btn--primary">.btn.btn--primary</button>
+          <button class="btn btn--accent">.btn.btn--accent</button>
+        </div>
+<pre><code>&lt;button class="btn btn--primary"&gt;Call to Action&lt;/button&gt;</code></pre>
+      </section>
+
+      <section id="forms" class="component">
+        <h2>Form Elements</h2>
+        <form class="component-example">
+          <div class="form-group">
+            <label for="input-example">Label</label>
+            <input id="input-example" type="text" placeholder="Your name">
+          </div>
+        </form>
+<pre><code>&lt;div class="form-group"&gt;
+  &lt;label&gt;Label&lt;/label&gt;
+  &lt;input type="text"&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="cards" class="component">
+        <h2>Card</h2>
+        <div class="card component-example">
+          <h3>Card Title</h3>
+          <p>Card content rides here.</p>
+        </div>
+<pre><code>&lt;div class="card"&gt;...&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="alerts" class="component">
+        <h2>Alerts</h2>
+        <div class="component-example">
+          <div class="alert alert-success">.alert.alert-success</div>
+          <div class="alert alert-error">.alert.alert-error</div>
+        </div>
+<pre><code>&lt;div class="alert alert-success"&gt;Success&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="toggles" class="component">
+        <h2>Toggle</h2>
+        <div class="component-example">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+<pre><code>&lt;label class="toggle"&gt;
+  &lt;input type="checkbox" checked&gt;
+  &lt;span class="toggle-slider"&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+      </section>
+
+      <section id="modal" class="component">
+        <h2>Modal</h2>
+        <div class="component-example">
+          <button class="btn js-open-modal" data-target="demo-modal">Open Modal</button>
+          <div class="modal-overlay" id="demo-modal" hidden>
+            <div class="modal">
+              <h3>Modal Title</h3>
+              <p>Modal body content goes here.</p>
+              <button class="btn js-close-modal">Close</button>
+            </div>
+          </div>
+        </div>
+<pre><code>&lt;div class="modal-overlay" id="demo-modal" hidden&gt;...&lt;/div&gt;</code></pre>
+      </section>
+    </div>
+  </main>
+
+  <script src="../js/style-guide.js" type="module"></script>
+</body>
+</html>
