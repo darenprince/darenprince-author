@@ -1,0 +1,54 @@
+@use "../base/mixins" as *;
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+
+.cta-btn {
+  @include button-base($bright-green, $black);
+  font-weight: 700;
+  box-shadow: 0 0 0 rgba($bright-green, 0.5);
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba($bright-green, 0.3);
+  }
+}
+
+.cta-btn--outline {
+  @include button-base(transparent, $bright-green);
+  border: 2px solid $bright-green;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($bright-green, 0.1);
+  }
+}
+
+.cta-btn--arrow {
+  @include button-base($deep-green);
+  padding-right: $spacing-lg;
+  position: relative;
+
+  &::after {
+    content: '\2192';
+    position: absolute;
+    right: $spacing-md;
+    transition: transform $transition;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    transform: translateX(4px);
+  }
+}
+
+.cta-btn--glow {
+  @extend .cta-btn;
+  animation: cta-glow 2s ease-in-out infinite;
+}
+
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba($bright-green, 0.5); }
+  50% { box-shadow: 0 0 10px rgba($bright-green, 0.8); }
+}

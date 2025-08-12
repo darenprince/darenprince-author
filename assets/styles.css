@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --gray-50: #FDFDFD;
   --gray-100: #D5D5D5;
@@ -740,6 +741,97 @@ body.theme-light .site-footer a {
   color: inherit;
 }
 
+.cta-btn, .cta-btn--glow {
+  background-color: var(--color-bright);
+  color: var(--color-black);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+  box-shadow: 0 0 0 rgba(var(--color-bright), 0.5);
+  transition: transform all 0.2s ease-in-out, box-shadow all 0.2s ease-in-out;
+}
+.cta-btn:hover, .cta-btn--glow:hover, .cta-btn:focus, .cta-btn--glow:focus {
+  background-color: var(--color-bright);
+}
+.cta-btn:disabled, .cta-btn--glow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cta-btn:hover, .cta-btn--glow:hover, .cta-btn:focus, .cta-btn--glow:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(var(--color-bright), 0.3);
+}
+
+.cta-btn--outline {
+  background-color: transparent;
+  color: var(--color-bright);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid var(--color-bright);
+}
+.cta-btn--outline:hover, .cta-btn--outline:focus {
+  background-color: hsla(0, 0%, -5%, 0);
+}
+.cta-btn--outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cta-btn--outline:hover, .cta-btn--outline:focus {
+  background-color: rgba(var(--color-bright), 0.1);
+}
+
+.cta-btn--arrow {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  padding-right: 2rem;
+  position: relative;
+}
+.cta-btn--arrow:hover, .cta-btn--arrow:focus {
+  background-color: var(--color-primary);
+}
+.cta-btn--arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cta-btn--arrow::after {
+  content: "→";
+  position: absolute;
+  right: 1rem;
+  transition: transform all 0.2s ease-in-out;
+}
+.cta-btn--arrow:hover::after, .cta-btn--arrow:focus::after {
+  transform: translateX(4px);
+}
+
+.cta-btn--glow {
+  animation: cta-glow 2s ease-in-out infinite;
+}
+
+@keyframes cta-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(var(--color-bright), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(var(--color-bright), 0.8);
+  }
+}
 .form-group {
   margin-bottom: 1rem;
 }
