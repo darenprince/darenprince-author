@@ -4,6 +4,26 @@ const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
+const rotateHint = document.getElementById('rotate-hint');
+let rotateHintTimeout;
+
+function hideRotateHint() {
+  rotateHint?.classList.add('hide');
+}
+
+function showRotateHint() {
+  if (!rotateHint) return;
+  rotateHint.classList.remove('hide');
+  clearTimeout(rotateHintTimeout);
+  rotateHintTimeout = setTimeout(hideRotateHint, 4000);
+  book.addEventListener('pointerdown', hideRotateHint, { once: true });
+}
+
+if (rotateHint) {
+  showRotateHint();
+}
+
+window.showRotateHint = showRotateHint;
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
