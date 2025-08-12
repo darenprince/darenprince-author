@@ -46,5 +46,5 @@ const compactClass = 'book-rail--compact';
 buttons.compact?.addEventListener('click', () => {
   const compact = !root.classList.contains(compactClass);
   root.classList.toggle(compactClass, compact);
-  sessionStorage.setItem('bookRailCompact', compact ? '1' : '0');
+  sessionStorage.setItem('bookRailCompact', Number(compact));
 });
