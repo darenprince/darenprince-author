@@ -64,6 +64,13 @@
     left: 50%;
     bottom: $spacing-xl;
     transform: translateX(-50%);
+    background: $accent;
+    color: $charcoal;
+    &:hover,
+    &:focus {
+      background: $accent;
+      color: $charcoal;
+    }
     &.throb {
       animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
     }

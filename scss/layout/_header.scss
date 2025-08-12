@@ -4,7 +4,7 @@
 
 .site-header {
   background: linear-gradient($gray-900, $gray-800);
-  padding-block: $spacing-md;
+  padding-block: 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -24,7 +24,7 @@
 .nav-btn-group {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: 0;
 }
 
 .nav-toggle {
