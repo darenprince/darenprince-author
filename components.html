@@ -437,7 +437,9 @@
       <div class="container max-width-adaptive-lg demo-container">
         <div class="book-3d-viewer">
           <div class="book-loader"></div>
-          <div class="swipe-indicator"><i class="ti ti-gesture-swipe"></i></div>
+          <div class="rotate-hint" aria-hidden="true">
+            <img src="assets/images/360rotate.png" alt="" />
+          </div>
           <div class="scene">
             <div class="book" id="book">
               <div class="face front"></div>
@@ -449,6 +451,9 @@
             </div>
             <div class="shadow"></div>
           </div>
+          <button id="zoom-cover" class="icon-btn zoom-overlay" aria-label="Zoom cover">
+            <i class="ti ti-zoom-in"></i>
+          </button>
         </div>
         <div class="book-controls">
           <button id="rotate-left" class="icon-btn" aria-label="Rotate left">
