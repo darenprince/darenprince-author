@@ -84,7 +84,7 @@ function populateSelect(format) {
     if (store.logo) opt.dataset.logo = store.logo;
     storeSelector.appendChild(opt);
   });
-  const defaultIndex = Array.from(storeSelector.options).findIndex(opt => opt.textContent.includes('Amazon (Paperback)'));
+  const defaultIndex = options.findIndex(store => store.default);
   storeSelector.selectedIndex = defaultIndex >= 0 ? defaultIndex : 0;
   updateStoreDisplay();
   buyButton?.removeAttribute('disabled');
