@@ -1463,7 +1463,8 @@ input:checked + .toggle-slider::before {
   position: fixed;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-100%, -50%);
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
@@ -1494,6 +1495,10 @@ input:checked + .toggle-slider::before {
   color: var(--color-lime, var(--color-success));
 }
 
+.book-toolbar.visible {
+  transform: translate(0, -50%);
+}
+
 @media (min-width: 768px) {
   .book-media {
     position: relative;
@@ -1502,7 +1507,7 @@ input:checked + .toggle-slider::before {
     position: absolute;
     left: -56px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-100%, -50%);
   }
 }
 .cover-zoom-modal {
@@ -1543,6 +1548,7 @@ input:checked + .toggle-slider::before {
   max-width: 80vw;
   max-height: 70vh;
   object-fit: contain;
+  border-radius: var(--radius-md);
 }
 .cover-zoom-modal .thumbnails {
   display: flex;
@@ -1554,6 +1560,7 @@ input:checked + .toggle-slider::before {
   cursor: pointer;
   opacity: 0.6;
   border: 2px solid transparent;
+  border-radius: var(--radius-sm);
 }
 .cover-zoom-modal .thumbnails img.active {
   opacity: 1;
@@ -1577,7 +1584,6 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   gap: var(--space-sm);
   width: 100%;
-  flex: 1;
 }
 .purchase-box .step-header {
   text-align: center;

@@ -3,6 +3,7 @@ const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
+const bookToolbar = document.querySelector('.book-toolbar');
 const rotateHint = document.querySelector('.rotate-hint');
 const addToCartBtn = document.getElementById('add-to-cart');
 const purchaseOptions = document.getElementById('purchase-options');
@@ -108,8 +109,20 @@ if ('IntersectionObserver' in window) {
     }
   });
   observer.observe(book);
+
+  const toolbarObserver = new IntersectionObserver(entries => {
+    if (!bookToolbar) return;
+    if (entries[0].isIntersecting) {
+      bookToolbar.classList.add('visible');
+    } else {
+      bookToolbar.classList.remove('visible');
+    }
+  });
+  const viewer = document.getElementById('book-3d-viewer');
+  if (viewer) toolbarObserver.observe(viewer);
 } else {
   initialSpin();
+  bookToolbar?.classList.add('visible');
 }
 
 book.addEventListener('mousedown', e => {
