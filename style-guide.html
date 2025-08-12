@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="theme-dark">
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
+      <li class="has-submenu">
+        <a href="#" class="js-submenu-trigger"><i class="ti ti-book"></i>Books<i class="ti ti-chevron-right arrow"></i></a>
+        <ul class="submenu is-hidden">
+          <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
+          <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
+          <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
+        </ul>
+      </li>
+      <li><a href="index.html"><i class="ti ti-user"></i>About</a></li>
+      <li><a href="press.html"><i class="ti ti-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ti ti-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ti ti-news"></i>Blog</a></li>
+      <li><a href="index.html"><i class="ti ti-user-plus"></i>Collabs</a></li>
+      <li><a href="contact.html"><i class="ti ti-mail"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="#"><i class="ti ti-brand-facebook"></i></a>
+        <a href="#"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#"><i class="ti ti-brand-youtube"></i></a>
+        <a href="#"><i class="ti ti-brand-tiktok"></i></a>
+      </li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+<div class="site-wrap">
+    <header class="site-header padding-y-sm js-sticky-nav">
+    <div class="container max-width-adaptive-lg flex items-center justify-between">
+      <a href="index.html" class="logo">
+        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+      </a>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="nav-icon-btn js-theme-toggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
+        <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+        <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      </div>
+    </div>
+    <div class="search-bar js-search-bar" hidden>
+      <form class="search-form flex items-center">
+        <input type="search" placeholder="search site" />
+        <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+      </form>
+    </div>
+    <div class="profile-dropdown js-profile-dropdown" hidden>
+      <div class="profile-info">
+        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+        <span class="profile-name">Guest</span>
+      </div>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+      </ul>
+    </div>
+  </header>
+  <nav class="component-nav">
+        <div class="container max-width-adaptive-lg">
+          <select class="component-nav__select" aria-label="Jump to component">
+          <option value="#colors">Colors</option>
+          <option value="#typography">Typography</option>
+          <option value="#hero">Hero</option>
+          <option value="#banner">Banner</option>
+          <option value="#book">Book Cover</option>
+            <option value="#testimonials">Testimonials</option>
+            <option value="#downloads">Downloads</option>
+          <option value="#viewer">Viewer</option>
+          <option value="#book-3d-viewer">3D Book Viewer</option>
+          <option value="#book-tabs">Book Tabs</option>
+          <option value="#containers">Containers</option>
+            <option value="#buttons">Buttons</option>
+            <option value="#forms">Forms</option>
+            <option value="#cards">Cards</option>
+            <option value="#modals">Modals</option>
+            <option value="#alerts">Alerts</option>
+            <option value="#toggles">Toggles</option>
+          </select>
+          <ul class="component-nav__list flex gap-sm justify-center">
+            <li><a href="#colors">Colors</a></li>
+            <li><a href="#typography">Typography</a></li>
+            <li><a href="#hero">Hero</a></li>
+            <li><a href="#banner">Banner</a></li>
+            <li><a href="#book">Book Cover</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#downloads">Downloads</a></li>
+            <li><a href="#viewer">Viewer</a></li>
+            <li><a href="#book-3d-viewer">3D Book Viewer</a></li>
+            <li><a href="#book-tabs">Book Tabs</a></li>
+            <li><a href="#containers">Containers</a></li>
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#forms">Forms</a></li>
+            <li><a href="#cards">Cards</a></li>
+            <li><a href="#modals">Modals</a></li>
+            <li><a href="#alerts">Alerts</a></li>
+            <li><a href="#toggles">Toggles</a></li>
+          </ul>
+        </div>
+      </nav>
+
+  <main>
+    <section id="colors" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Color Palette</h2>
+        <ul class="color-palette">
+          <li>
+            <span class="color-swatch" style="background-color: var(--color-primary);"></span>
+            <code>--color-primary</code>
+          </li>
+          <li>
+            <span class="color-swatch" style="background-color: var(--color-bright);"></span>
+            <code>--color-bright</code>
+          </li>
+          <li>
+            <span class="color-swatch" style="background-color: var(--color-lime);"></span>
+            <code>--color-lime</code>
+          </li>
+          <li>
+            <span class="color-swatch" style="background-color: var(--color-charcoal);"></span>
+            <code>--color-charcoal</code>
+          </li>
+          <li>
+            <span class="color-swatch" style="background-color: var(--color-white);"></span>
+            <code>--color-white</code>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Colors</h3>
+      <p>Function: brand color tokens for consistent styling.</p>
+      <p>Tech Specs: variables in <code>scss/tokens/_colors.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="colors-code"><code class="language-html">&lt;span class=&quot;color-swatch&quot; style=&quot;background-color: var(--color-primary);&quot;&gt;&lt;/span&gt;</code></pre>
+      <button class="copy-btn" data-target="colors-code">Copy</button>
+    </div>
+    <section id="typography" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Typography</h2>
+        <h1>Heading 1</h1>
+        <h2>Heading 2</h2>
+        <h3>Heading 3</h3>
+        <p>Body text example showing default font settings.</p>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Typography</h3>
+      <p>Function: typographic scale and body text.</p>
+      <p>Tech Specs: styles in <code>scss/base/_typography.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="typography-code"><code class="language-html">&lt;h1&gt;Heading 1&lt;/h1&gt;</code></pre>
+      <button class="copy-btn" data-target="typography-code">Copy</button>
+    </div>
+    <section id="hero" class="demo-section hero-demos padding-y-lg">
+      <section id="parallaxHero" class="hero hero-parallax active">
+        <div class="hero-content">
+          <h1>Parallax Hero</h1>
+          <p>Scroll the page to see a static background parallax effect in action.</p>
+          <button>Explore</button>
+        </div>
+      </section>
+
+      <section id="scrollVideoHero" class="hero hero-scroll-video active">
+        <video muted playsinline id="videoBg">
+          <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-content">
+          <h1>Scroll-Triggered Video</h1>
+          <p>As you scroll, the background video fades in for dynamic storytelling.</p>
+          <button>Order Now</button>
+        </div>
+      </section>
+
+      <section id="autoZoomHero" class="hero hero-auto-zoom active">
+        <div class="hero-content">
+          <h1>Auto-Zoom Hero</h1>
+          <p>The background slowly zooms for dramatic effect without reacting to scroll.</p>
+          <button>Start</button>
+        </div>
+      </section>
+    </section>
+    <div class="component-docs">
+      <h3>Hero</h3>
+      <p>Function: top-of-page call to action.</p>
+      <p>Tech Specs: styled in <code>scss/components/_hero.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="hero-code"><code class="language-html">&lt;section class=&quot;hero&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="hero-code">Copy</button>
+    </div>
+
+    <section id="banner" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Banner</h2>
+        <p class="margin-bottom-sm">Promotional callout with image and action.</p>
+        <a href="#" class="banner">
+            <div class="banner__grid">
+              <div class="col-6@md" aria-hidden="true">
+                <div class="banner__figure" style="background-image: url('https://placehold.co/600x400?text=Banner');"></div>
+              </div>
+              <div class="col-6@md">
+                <div class="banner__text">
+                  <h3>New Release</h3>
+                  <span class="banner__link"><i>Learn More</i></span>
+                </div>
+              </div>
+            </div>
+        </a>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Banner</h3>
+      <p>Function: promotional callout with image and link.</p>
+      <p>Tech Specs: styled in <code>scss/components/_banner.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="banner-code"><code class="language-html">&lt;section class=&quot;banner&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="banner-code">Copy</button>
+    </div>
+
+    <section id="book-details-wrapper" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Book Details Wrapper</h2>
+        <div class="book-details-wrapper">
+          <div class="book-details-layout">
+            <div class="book-media">
+              <div class="book-preview">
+                <div class="book-3d">
+                  <img src="assets/images/presskit-thumb.jpg" alt="Game On! cover">
+                </div>
+              </div>
+              <div class="view-toggle">
+                <button data-view="3d" class="active">3D View</button>
+                <button data-view="front">Front Cover</button>
+                <button data-view="back">Back Cover</button>
+              </div>
+            </div>
+            <div class="purchase-box">
+              <div class="buy-controls">
+                <select class="store-selector">
+                  <option>Amazon</option>
+                  <option>Apple Books</option>
+                  <option>Google Play</option>
+                  <option>Books-A-Million</option>
+                </select>
+                <button class="btn btn--primary">Buy Now</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-accordion accordion margin-top-lg">
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ti ti-chevron-down accordion-icon"></i></button>
+              <div class="accordion-panel">
+                <p>No gimmicks. No games. Just real results. <em>Game On!</em> is not another gimmicky “pickup artist” guide – it’s a real-world roadmap for authentic, magnetic connection. This 5-star Amazon bestseller cracked the Top 100 Kindle charts, proving that modern men are ready to ditch the mind games and get real.</p>
+                <p>Bold, playful, and grounded in real psychology, <em>Game On!</em> cuts through the nonsense to show you how to master the conversation, spark genuine attraction, and build connections that actually last.</p>
+                <p>Packed with humor, actionable exercises, and expert insights, <em>Game On!</em> helps you become the man who naturally attracts respect and interest. You’ll learn to confidently approach women, truly listen and understand, and express yourself with authenticity and emotional intelligence – all key ingredients for real attraction and lasting love.</p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false"><span>Who This Book Is For</span><i class="ti ti-chevron-down accordion-icon"></i></button>
+              <div class="accordion-panel" hidden>
+                <ul>
+                  <li>Men who want to stop overthinking and start connecting</li>
+                  <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
+                  <li>Dudes ready to level up their confidence and attract real women</li>
+                  <li>Anyone who wants to master communication and spark real connection</li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false"><span>Book Details</span><i class="ti ti-chevron-down accordion-icon"></i></button>
+              <div class="accordion-panel" hidden>
+                <div class="book-details">
+                  <table class="book-specs">
+                    <tr><th>ISBN-13</th><td>9798303844407</td></tr>
+                    <tr><th>ISBN-10</th><td>9798303844407</td></tr>
+                    <tr><th>Publisher</th><td>Independently Published</td></tr>
+                    <tr><th>Publish Date</th><td>December 2024</td></tr>
+                    <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
+                    <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
+                    <tr><th>Page Count</th><td>258</td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Book Details Wrapper</h3>
+      <p>Function: interactive book preview with purchase options.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book-details-wrapper.scss</code>, JS in <code>js/book-details.js</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-details-wrapper-code"><code class="language-html">&lt;section id=&quot;book-details-wrapper&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="book-details-wrapper-code">Copy</button>
+    </div>
+
+    <section id="book-tabs" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+      <h2>📘 Book Details Tabs</h2>
+      <section class="book-details">
+
+    <!-- Sticky Purchase Header -->
+    <div class="sticky-purchase-bar">
+      <div class="buy-controls">
+        <select class="store-selector">
+          <option>Amazon</option>
+          <option>Apple Books</option>
+          <option>Google Play</option>
+          <option>Books-A-Million</option>
+        </select>
+        <button class="btn btn--primary">Buy Now</button>
+      </div>
+      <p class="short-summary">The ultimate men’s playbook for flirting, seduction, and connection.</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" role="tablist" aria-label="Book Tabs">
+      <button role="tab" aria-selected="true" aria-controls="tab-preview" id="tab-btn-preview">📘 Preview</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">📄 Description</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-trailer" id="tab-btn-trailer">▶️ Trailer</button>
+      <button role="tab" aria-selected="false" aria-controls="tab-members" id="tab-btn-members">🔐 Members Only</button>
+    </nav>
+
+    <!-- Tab Content Areas -->
+    <div id="tab-preview" role="tabpanel" aria-labelledby="tab-btn-preview">
+      <div class="preview-toggle">
+        <button class="active">3D View</button>
+        <button>Front Cover</button>
+        <button>Back Cover</button>
+      </div>
+      <div class="preview-display">
+        <img src="assets/placeholders/book-3d.jpg" alt="3D Book Preview" />
+      </div>
+    </div>
+
+    <div id="tab-description" role="tabpanel" aria-labelledby="tab-btn-description" hidden>
+      <div class="long-description">
+        <p>This book is a no-nonsense guide to modern dating for emotionally intelligent men who are done with gimmicks and ready for real results...</p>
+      </div>
+      <table class="book-specs">
+        <tr><th>ISBN-13</th><td>9798303844407</td></tr>
+        <tr><th>ISBN-10</th><td>9798303844407</td></tr>
+        <tr><th>Publisher</th><td>Independently Published</td></tr>
+        <tr><th>Publish Date</th><td>December 2024</td></tr>
+        <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
+        <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
+        <tr><th>Page Count</th><td>258</td></tr>
+      </table>
+    </div>
+
+    <div id="tab-trailer" role="tabpanel" aria-labelledby="tab-btn-trailer" hidden>
+      <div class="video-block">
+        <video controls poster="assets/placeholders/video-thumbnail.jpg">
+          <source src="assets/placeholders/book-trailer.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+    </div>
+
+    <div id="tab-members" role="tabpanel" aria-labelledby="tab-btn-members" hidden>
+      <div class="locked-preview">
+        <p>This exclusive content is available to members only.</p>
+        <button class="btn btn--ghost">Join for Access</button>
+      </div>
+    </div>
+
+    </section>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Book Tabs</h3>
+      <p>Function: tabbed interface for preview, description, trailer, and members area.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book-tabs.scss</code>, JS in <code>js/book-tabs.js</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-tabs-code"><code class="language-html">&lt;section id=&quot;book-tabs&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="book-tabs-code">Copy</button>
+    </div>
+
+    <section id="book" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <div class="book-preview">
+          <div class="book-3d">
+            <img src="https://placehold.co/200x300?text=Cover" alt="Sample Book Cover">
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Book Cover</h3>
+      <p>Function: static 3D book render.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book.scss</code>.</p>
+            <p>Implementation:</p>
+      <pre id="book-code"><code class="language-html">&lt;div class=&quot;book-preview&quot;&gt;&lt;div class=&quot;book-3d&quot;&gt;&lt;img src=&quot;cover.jpg&quot; alt=&quot;Book cover&quot;&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="book-code">Copy</button>
+    </div>
+
+    <section id="testimonials" class="testimonials demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+      <h2>Testimonials</h2>
+      <div class="testimonial-grid">
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 1">
+            <blockquote>"A must-read!"</blockquote>
+            <cite>- Alex</cite>
+          </div>
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 2">
+            <blockquote>"Truly inspiring."</blockquote>
+            <cite>- Casey</cite>
+          </div>
+          <div class="card">
+            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 3">
+            <blockquote>"Eye-opening and real."</blockquote>
+            <cite>- Jordan</cite>
+          </div>
+      </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Testimonials</h3>
+      <p>Function: display user quotes in cards.</p>
+      <p>Tech Specs: styles in <code>scss/components/_testimonials.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="testimonials-code"><code class="language-html">&lt;section id=&quot;testimonials&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="testimonials-code">Copy</button>
+    </div>
+
+    <section id="downloads" class="downloads demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+      <h2>Downloads</h2>
+      <div class="download-grid">
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Press Kit – 4MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Sample Chapter – 2MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+          <div class="download-card">
+            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+            <p class="file-info">Media Sheet – 1MB PDF</p>
+            <a href="#" class="btn btn--primary">Download</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Downloads</h3>
+      <p>Function: card grid for PDF or media downloads.</p>
+      <p>Tech Specs: styles in <code>scss/components/_downloads.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="downloads-code"><code class="language-html">&lt;section id=&quot;downloads&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="downloads-code">Copy</button>
+    </div>
+
+    <section id="viewer" class="viewer demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+      <h2>Viewer</h2>
+      <div class="toolbar">
+          <a href="#" class="btn btn--ghost">Download</a>
+          <a href="#" class="btn btn--ghost">Zoom</a>
+          <a href="#" class="btn btn--ghost">Print</a>
+        </div>
+      <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Viewer</h3>
+      <p>Function: embeds a document with simple toolbar.</p>
+      <p>Tech Specs: styles in <code>scss/components/_viewer.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="viewer-code"><code class="language-html">&lt;section id=&quot;viewer&quot;&gt;...&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="viewer-code">Copy</button>
+    </div>
+
+    <section id="book-3d-viewer" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <div class="book-3d-viewer">
+          <div class="book-loader"></div>
+          <div class="rotate-hint" aria-hidden="true">
+            <img src="assets/images/360rotate.png" alt="" />
+          </div>
+          <div class="scene">
+            <div class="book" id="book">
+              <div class="face front"></div>
+              <div class="face back"></div>
+              <div class="face spine"></div>
+              <div class="face pages"></div>
+              <div class="face top"></div>
+              <div class="face bottom"></div>
+            </div>
+            <div class="shadow"></div>
+          </div>
+          <button id="zoom-cover" class="icon-btn zoom-overlay" aria-label="Zoom cover">
+            <i class="ti ti-zoom-in"></i>
+          </button>
+        </div>
+        <div class="book-controls">
+          <button id="rotate-left" class="icon-btn" aria-label="Rotate left">
+            <i class="ti ti-arrow-back-up"></i>
+          </button>
+          <button id="rotate-right" class="icon-btn" aria-label="Rotate right">
+            <i class="ti ti-arrow-forward-up"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>3D Book Viewer</h3>
+      <p>Function: interactive book with inertia and lighting.</p>
+      <p>Tech Specs: styles in <code>scss/components/_book-3d.scss</code>, JS in <code>js/book-3d-viewer.js</code>.</p>
+      <p>Implementation:</p>
+      <pre id="book-3d-code"><code class="language-html">&lt;div class=&quot;book-3d-viewer&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="book-3d-code">Copy</button>
+    </div>
+
+    <section id="containers" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Containers</h2>
+        <div class="container">.container</div>
+        <div class="container--spaced">.container--spaced</div>
+        <div class="container--border">.container--border</div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Containers</h3>
+      <p>Function: responsive layout wrappers with optional spacing and borders.</p>
+      <p>Tech Specs: styles in <code>scss/base/_globals.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="containers-code"><code class="language-html">&lt;div class=&quot;container&quot;&gt;...&lt;/div&gt;
+
+      &lt;div class=&quot;container--spaced&quot;&gt;...&lt;/div&gt;
+      &lt;div class=&quot;container--border&quot;&gt;...&lt;/div&gt;</code></pre>
+
+      <button class="copy-btn" data-target="containers-code">Copy</button>
+    </div>
+
+    <section id="buttons" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Buttons</h2>
+        <button class="btn">Default</button>
+        <button class="btn--primary">Primary</button>
+        <button class="btn--secondary">Secondary</button>
+        <button class="btn--accent">Accent</button>
+        <button class="btn--ghost">Ghost</button>
+        <button class="icon-btn" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="icon-btn icon-btn--ghost" aria-label="Search"><i class="ti ti-search"></i></button>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Buttons</h3>
+      <p>Function: reusable button styles.</p>
+      <p>Tech Specs: styles in <code>scss/components/_buttons.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="buttons-code"><code class="language-html">&lt;button class=&quot;btn&quot;&gt;Default&lt;/button&gt;
+
+      &lt;button class=&quot;btn--primary&quot;&gt;Primary&lt;/button&gt;
+      &lt;button class=&quot;btn--secondary&quot;&gt;Secondary&lt;/button&gt;
+      &lt;button class=&quot;btn--accent&quot;&gt;Accent&lt;/button&gt;
+      &lt;button class=&quot;btn--ghost&quot;&gt;Ghost&lt;/button&gt;
+      &lt;button class=&quot;icon-btn&quot; aria-label=&quot;Search&quot;&gt;&lt;i class=&quot;ti ti-search&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;button class=&quot;icon-btn icon-btn--ghost&quot; aria-label=&quot;Search&quot;&gt;&lt;i class=&quot;ti ti-search&quot;&gt;&lt;/i&gt;&lt;/button&gt;</code></pre>
+
+      <button class="copy-btn" data-target="buttons-code">Copy</button>
+    </div>
+
+    <section id="separator-demo" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <div class="separator"></div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Separator</h3>
+      <p>Function: simple horizontal divider.</p>
+      <p>Tech Specs: styles in <code>scss/components/_separator.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="separator-code"><code class="language-html">&lt;div class=&quot;separator&quot;&gt;&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="separator-code">Copy</button>
+    </div>
+
+    <section id="forms" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+      <h2>Form Elements</h2>
+      <form>
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Jane Doe">
+
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com">
+
+          <label for="message">Message</label>
+          <textarea id="message" rows="4" placeholder="Say hello"></textarea>
+
+          <button type="submit" class="btn">Submit</button>
+        </form>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Forms</h3>
+      <p>Function: basic form field styling.</p>
+      <p>Tech Specs: styles in <code>scss/components/_forms.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="forms-code"><code class="language-html">&lt;form&gt;...&lt;/form&gt;</code></pre>
+      <button class="copy-btn" data-target="forms-code">Copy</button>
+    </div>
+
+    <section id="cards" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Card</h2>
+        <div class="card">
+            <h3>Sample Card</h3>
+            <p>This is a basic card layout for testing styles.</p>
+            <button class="btn btn-accent">Action</button>
+          </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Cards</h3>
+      <p>Function: container for small pieces of content.</p>
+      <p>Tech Specs: styles in <code>scss/components/_cards.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="cards-code"><code class="language-html">&lt;div class=&quot;card&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="cards-code">Copy</button>
+    </div>
+
+    <section id="modals" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Modal</h2>
+        <button class="btn js-open-modal">Open Modal</button>
+        <div class="modal-overlay" id="demo-modal">
+            <div class="modal">
+              <h3>Modal Title</h3>
+              <p>Modal body content goes here.</p>
+              <button class="btn js-close-modal">Close</button>
+            </div>
+          </div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Modals</h3>
+      <p>Function: overlay dialog windows.</p>
+      <p>Tech Specs: styles in <code>scss/components/_modals.scss</code>, toggled with custom JS.</p>
+      <p>Implementation:</p>
+      <pre id="modals-code"><code class="language-html">&lt;div class=&quot;modal-overlay&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="modals-code">Copy</button>
+    </div>
+
+    <section id="alerts" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Alerts</h2>
+        <div class="alert alert-success">Success alert example.</div>
+        <div class="alert alert-error">Error alert example.</div>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Alerts</h3>
+      <p>Function: contextual success and error messages.</p>
+      <p>Tech Specs: styles in <code>scss/components/_alerts.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="alerts-code"><code class="language-html">&lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;</code></pre>
+      <button class="copy-btn" data-target="alerts-code">Copy</button>
+    </div>
+
+    <section id="toggles" class="demo-section padding-y-lg">
+      <div class="container max-width-adaptive-lg demo-container">
+        <h2>Toggle</h2>
+        <label class="toggle">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </section>
+    <div class="component-docs">
+      <h3>Toggles</h3>
+      <p>Function: switch between on/off states.</p>
+      <p>Tech Specs: styles in <code>scss/components/_toggles.scss</code>.</p>
+      <p>Implementation:</p>
+      <pre id="toggles-code"><code class="language-html">&lt;label class=&quot;toggle&quot;&gt;...&lt;/label&gt;</code></pre>
+      <button class="copy-btn" data-target="toggles-code">Copy</button>
+    </div>
+  </main>
+
+  <footer class="padding-y-md">
+    <div class="container max-width-adaptive-lg">
+      <p>Component library demo.</p>
+    </div>
+  </footer>
+  </div>
+  <script type="module" src="./js/ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="./js/profile-dropdown.js"></script>
+  <script src="./js/theme-toggle.js"></script>
+  <script src="./js/book-tabs.js"></script>
+  <script src="./js/book-details.js"></script>
+  <script type="module" src="js/book-3d-viewer.js"></script>
+  <script src="./js/hero-demos.js"></script>
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (target) {
+          navigator.clipboard.writeText(target.textContent.trim());
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
