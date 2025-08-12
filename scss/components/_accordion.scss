@@ -2,11 +2,18 @@
 @use "../tokens/colors" as *;
 @use "../base/mixins" as *;
 
+
 .accordion {
-  border-top: 1px solid $border;
+  border: 1px solid $border;
+  border-radius: $border-radius;
+  overflow: hidden;
 
   .accordion-item {
     border-bottom: 1px solid $border;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     .accordion-trigger {
       width: 100%;
@@ -42,3 +49,15 @@
 }
 
 .accordion-panel[hidden] { display: none; }
+
+// open state styles
+.accordion-trigger[aria-expanded='true'] {
+  font-weight: 700;
+}
+
+.accordion-trigger[aria-expanded='true'] + .accordion-panel {
+  background: $surface;
+  color: $white;
+  border-left: 1px solid $border;
+  border-right: 1px solid $border;
+}

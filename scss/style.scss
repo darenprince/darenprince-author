@@ -1,4 +1,5 @@
 @use "tokens/colors" as *;
+@use "base/variables" as *;
 
 /* === MEGA MENU === */
 .mega-menu {
@@ -28,6 +29,12 @@
     top: 1rem;
     right: 1rem;
   }
+
+  .mega-menu-logo {
+    width: 60px;
+    margin: 0 auto $spacing-md;
+    display: block;
+  }
 }
 
 .mega-menu-list {
@@ -56,7 +63,7 @@
 
   li {
     font-size: 1.1rem;
-    padding: 0.8rem 0;
+    padding: 0.6rem 0;
     display: flex;
     align-items: center;
     gap: 0.75rem;
