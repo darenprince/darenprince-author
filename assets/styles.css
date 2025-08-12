@@ -41,6 +41,11 @@
 
 html {
   font-size: 100%;
+  scroll-padding-top: var(--header-offset, 5rem);
+}
+
+[id] {
+  scroll-margin-top: var(--header-offset, 5rem);
 }
 
 body {
