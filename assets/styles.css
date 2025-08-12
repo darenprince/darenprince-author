@@ -1271,15 +1271,35 @@ input:checked + .toggle-slider::before {
   z-index: 0;
   pointer-events: none;
 }
+.book-3d-viewer .book-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--gray-100);
+  border-top-color: var(--color-lime);
+  border-radius: 50%;
+  animation: book-loader-spin 0.6s linear infinite;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
 .book-3d-viewer .swipe-indicator {
   position: absolute;
   top: 8px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -10px);
   pointer-events: none;
   font-size: 65px;
   color: var(--color-icon);
   z-index: 2;
+  opacity: 0;
+}
+.book-3d-viewer.loaded .book-loader {
+  display: none;
+}
+.book-3d-viewer.loaded .swipe-indicator {
+  animation: swipe-hint-in 0.6s ease forwards;
 }
 .book-3d-viewer .scene {
   width: var(--book-width);
@@ -1553,6 +1573,21 @@ input:checked + .toggle-slider::before {
   max-height: 40px;
 }
 
+@keyframes book-loader-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes swipe-hint-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
 .book-preview {
   perspective: 600px;
   display: flex;
