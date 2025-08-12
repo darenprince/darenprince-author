@@ -38,10 +38,11 @@ buttons.spin360?.addEventListener('click', () => {
 buttons.buy?.addEventListener('click', () => hooks.onBuyClick());
 
 const compactClass = 'book-rail--compact';
-(function loadCompact() {
+function loadCompactState() {
   const compact = sessionStorage.getItem('bookRailCompact') === '1';
   root?.classList.toggle(compactClass, compact);
-})();
+}
+loadCompactState();
 
 buttons.compact?.addEventListener('click', () => {
   const compact = !root.classList.contains(compactClass);
