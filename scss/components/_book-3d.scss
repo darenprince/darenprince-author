@@ -110,12 +110,7 @@
       z-index: 1;
     }
 
-  .zoom-overlay {
-    position: absolute;
-    bottom: var(--space-sm);
-    right: var(--space-sm);
-    z-index: 2;
-  }
+  // zoom button moved to external toolbar
 
   .book {
     width: 100%;
@@ -252,50 +247,56 @@
   }
 }
 
-.book-controls {
+// vertical toolbar for book actions
+.book-toolbar {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5));
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-lg);
+  flex-direction: column;
+  background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
   border: 1px solid var(--color-border);
-  align-self: stretch;
-  margin-top: calc(var(--space-lg) * 1.5);
-  margin-inline: var(--space-sm);
+  border-left: none;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  overflow: hidden;
+  z-index: 3;
 
   .icon-btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: none;
+    background: transparent;
     border: 0;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: transform 0.2s;
+    color: var(--gray-100);
     font-size: 1.25rem;
 
     &:hover {
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.05);
     }
   }
 
-  .side-label {
-    font-size: 0.7rem;
-    color: var(--color-muted);
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    font-weight: 700;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    padding: 0 var(--space-xs);
-    text-decoration: none;
-    height: 36px;
+  .icon-btn + .icon-btn {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .add-to-cart {
+    color: var(--color-lime, var(--color-success));
+  }
+}
+
+@media (min-width: 768px) {
+  .book-media {
+    position: relative;
+  }
+
+  .book-toolbar {
+    position: absolute;
+    left: -56px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 

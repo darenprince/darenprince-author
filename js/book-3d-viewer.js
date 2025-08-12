@@ -1,11 +1,11 @@
 const book = document.getElementById('book');
-const rotateLeft = document.getElementById('rotate-left');
-const rotateRight = document.getElementById('rotate-right');
 const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
 const rotateHint = document.querySelector('.rotate-hint');
+const addToCartBtn = document.getElementById('add-to-cart');
+const purchaseOptions = document.getElementById('purchase-options');
 let rotateHintTimeout;
 
 const SNAP_FRONT = 18;
@@ -157,14 +157,6 @@ book.addEventListener('touchend', () => {
   resetAutoRotate();
 });
 
-rotateLeft?.addEventListener('click', () => {
-  snapTo(SNAP_FRONT);
-});
-
-rotateRight?.addEventListener('click', () => {
-  snapTo(SNAP_BACK);
-});
-
 snapFrontBtn?.addEventListener('click', () => {
   snapTo(SNAP_FRONT);
 });
@@ -211,4 +203,8 @@ zoomThumbs.forEach(img => {
       zoomFull.src = img.dataset.full;
     }
   });
+});
+
+addToCartBtn?.addEventListener('click', () => {
+  purchaseOptions?.scrollIntoView({ behavior: 'smooth' });
 });
