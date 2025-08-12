@@ -270,7 +270,7 @@ body.theme-light {
 }
 .site-header {
   background: linear-gradient(var(--gray-900), var(--gray-800));
-  padding-block: 1rem;
+  padding-block: 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -288,7 +288,7 @@ body.theme-light {
 .nav-btn-group {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0;
 }
 
 .nav-toggle {
@@ -983,6 +983,12 @@ input:checked + .toggle-slider::before {
   left: 50%;
   bottom: 3rem;
   transform: translateX(-50%);
+  background: var(--color-accent);
+  color: var(--color-charcoal);
+}
+.hero .hero-cta:hover, .hero .hero-cta:focus {
+  background: var(--color-accent);
+  color: var(--color-charcoal);
 }
 .hero .hero-cta.throb {
   animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
@@ -1155,17 +1161,9 @@ input:checked + .toggle-slider::before {
   width: 100%;
   height: 100%;
   background: url("images/fullhero3.png") center/cover no-repeat;
-  transform: scale(1);
-  animation: heroZoom 20s ease-in-out infinite alternate;
+  transform: scale(var(--hero-scale, 1.05));
+  transition: transform 0.2s ease-out;
   z-index: -1;
-}
-@keyframes heroZoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.1);
-  }
 }
 @media (max-width: 768px) {
   .hero-demos .hero h1 {
@@ -1997,10 +1995,15 @@ input:checked + .toggle-slider::before {
 }
 
 .accordion {
-  border-top: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 0.35rem;
+  overflow: hidden;
 }
 .accordion .accordion-item {
   border-bottom: 1px solid var(--color-border);
+}
+.accordion .accordion-item:last-child {
+  border-bottom: none;
 }
 .accordion .accordion-item .accordion-trigger {
   width: 100%;
@@ -2031,6 +2034,17 @@ input:checked + .toggle-slider::before {
 
 .accordion-panel[hidden] {
   display: none;
+}
+
+.accordion-trigger[aria-expanded=true] {
+  font-weight: 700;
+}
+
+.accordion-trigger[aria-expanded=true] + .accordion-panel {
+  background: var(--color-surface);
+  color: var(--color-white);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
 }
 
 .book-details-wrapper {
@@ -2377,6 +2391,11 @@ input:checked + .toggle-slider::before {
   position: absolute;
   top: 1rem;
   right: 1rem;
+}
+.mega-menu .mega-menu-logo {
+  width: 60px;
+  margin: 0 auto 1rem;
+  display: block;
 }
 
 .mega-menu-list {
