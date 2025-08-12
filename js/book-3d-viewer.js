@@ -5,6 +5,7 @@ const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
 const rotateHint = document.querySelector('.rotate-hint');
 const addToCartBtn = document.getElementById('add-to-cart');
+const bookToolbar = document.querySelector('.book-toolbar');
 const purchaseOptions = document.getElementById('purchase-options');
 let rotateHintTimeout;
 
@@ -207,4 +208,26 @@ zoomThumbs.forEach(img => {
 
 addToCartBtn?.addEventListener('click', () => {
   purchaseOptions?.scrollIntoView({ behavior: 'smooth' });
+});
+
+if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
+  const toolbarObserver = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+      bookToolbar.classList.add('visible');
+    } else {
+      bookToolbar.classList.remove('visible');
+    }
+  }, { threshold: 0.5 });
+  toolbarObserver.observe(bookViewer);
+} else {
+  bookToolbar?.classList.add('visible');
+}
+
+['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
+  purchaseOptions?.addEventListener(evt, () => bookToolbar?.classList.remove('visible'));
+});
+
+['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
+  bookViewer?.addEventListener(evt, () => bookToolbar?.classList.add('visible'));
 });

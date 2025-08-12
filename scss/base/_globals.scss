@@ -1,5 +1,14 @@
 @use "variables" as *;
 @use "../tokens/colors" as *;
+
+:root {
+  --nav-height: 80px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+}
 .container {
   width: min(90%, 1200px);
   margin-left: auto;
