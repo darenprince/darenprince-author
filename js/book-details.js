@@ -9,11 +9,13 @@ document.querySelectorAll('.accordion-trigger').forEach(function(btn){
   });
 });
 
-const formatButtons = document.querySelectorAll('.format-btn');
+const formatButtons = document.querySelectorAll('.format-option');
 const formatContainer = document.querySelector('.format-buttons');
 const storeSelector = document.querySelector('.store-selector');
 const buyButton = document.querySelector('.buy-now');
 const logoContainer = document.querySelector('.selected-store-logo');
+const formatHeader = document.querySelector('.step-format');
+const storeHeader = document.querySelector('.step-store');
 
 const storeData = {
   audio: [
@@ -71,27 +73,24 @@ const storeData = {
 };
 
 function populateSelect(format) {
-  storeSelector.innerHTML = '<option value="" selected>Select Store</option>';
+  storeSelector.innerHTML = '';
   const options = storeData[format] || [];
   options.forEach(store => {
     const opt = document.createElement('option');
     opt.value = store.url;
     opt.textContent = store.name;
     if (store.logo) opt.dataset.logo = store.logo;
+    if (store.name === 'Amazon (Paperback)') opt.selected = true;
     storeSelector.appendChild(opt);
   });
+  if (!storeSelector.value && storeSelector.options.length > 0) {
+    storeSelector.options[0].selected = true;
+  }
+  updateLogo();
+  updateBuyButton();
 }
 
-formatButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    formatContainer?.classList.add('hide');
-    populateSelect(btn.dataset.format || '');
-    storeSelector?.removeAttribute('hidden');
-    buyButton?.removeAttribute('hidden');
-  });
-});
-
-storeSelector?.addEventListener('change', () => {
+function updateLogo() {
   const selected = storeSelector.options[storeSelector.selectedIndex];
   const logo = selected?.dataset.logo;
   logoContainer.innerHTML = '';
@@ -101,9 +100,42 @@ storeSelector?.addEventListener('change', () => {
     img.alt = `${selected.textContent} logo`;
     logoContainer.appendChild(img);
   }
+}
+
+function updateBuyButton() {
+  const selected = storeSelector.options[storeSelector.selectedIndex];
+  if (selected) {
+    buyButton.innerHTML = `Shop <strong>${selected.textContent}</strong> <i class="ti ti-arrow-right"></i>`;
+  }
+}
+
+formatButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    window.quickSpin?.();
+    formatContainer?.classList.add('hide');
+    formatHeader?.classList.add('hide');
+    setTimeout(() => {
+      populateSelect(btn.dataset.format || '');
+      formatContainer?.setAttribute('hidden', '');
+      formatHeader?.setAttribute('hidden', '');
+      storeHeader?.removeAttribute('hidden');
+      storeHeader?.classList.add('show');
+      storeSelector?.removeAttribute('hidden');
+      storeSelector?.classList.add('show');
+      buyButton?.removeAttribute('hidden');
+      buyButton?.classList.add('show');
+    }, 300);
+  });
+});
+
+storeSelector?.addEventListener('change', () => {
+  updateLogo();
+  updateBuyButton();
+  window.quickSpin?.();
 });
 
 buyButton?.addEventListener('click', () => {
+  window.quickSpin?.();
   const url = storeSelector?.value;
   if (url) {
     window.open(url, '_blank');

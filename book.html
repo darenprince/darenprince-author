@@ -87,15 +87,24 @@
           </div>
           <div class="purchase-box">
             <div class="buy-controls">
+              <h3 class="purchase-step step-format">Your Move. Choose Your Format. Game On.</h3>
               <div class="format-buttons">
-                <button class="format-btn" data-format="ebook"><i class="ti ti-device-tablet"></i>E-Book</button>
-                <button class="format-btn" data-format="audio"><i class="ti ti-speakerphone"></i>Audiobook</button>
-                <button class="format-btn" data-format="print"><i class="ti ti-book"></i>Print</button>
+                <button class="format-option" data-format="audio">
+                  <i class="ti ti-volume"></i>
+                  <span>AUDIO</span>
+                </button>
+                <button class="format-option" data-format="ebook">
+                  <i class="ti ti-device-tablet"></i>
+                  <span>DIGITAL</span>
+                </button>
+                <button class="format-option" data-format="print">
+                  <i class="ti ti-book"></i>
+                  <span>PRINT</span>
+                </button>
               </div>
-              <select class="store-selector" hidden>
-                <option value="" selected>Select Store</option>
-              </select>
-              <button class="btn btn--primary buy-now" hidden>Buy Now</button>
+              <h3 class="purchase-step step-store" hidden>Choose A Store:</h3>
+              <select class="store-selector" hidden></select>
+              <button class="btn btn--primary buy-now" hidden></button>
               <div class="selected-store-logo"></div>
             </div>
           </div>
