@@ -1,11 +1,9 @@
+import { hooks } from '../components/book-control-rail/book-control-rail.js';
+
 const book = document.getElementById('book');
-const rotate360 = document.getElementById('rotate-360');
-const snapFrontBtn = document.getElementById('snap-front');
-const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
 const rotateHint = document.querySelector('.rotate-hint');
-const addToCartBtn = document.getElementById('add-to-cart');
-const bookToolbar = document.querySelector('.book-toolbar');
+const bookRail = document.querySelector('.book-rail');
 const purchaseOptions = document.getElementById('purchase-options');
 let rotateHintTimeout;
 
@@ -158,15 +156,20 @@ book.addEventListener('touchend', () => {
   resetAutoRotate();
 });
 
-snapFrontBtn?.addEventListener('click', () => {
+const zoomModal = document.getElementById('cover-zoom');
+const closeZoom = document.getElementById('close-cover-zoom');
+const zoomFull = document.getElementById('zoom-full');
+const zoomThumbs = document.querySelectorAll('.thumbnails img');
+
+hooks.onViewFront = () => {
   snapTo(SNAP_FRONT);
-});
+};
 
-snapBackBtn?.addEventListener('click', () => {
+hooks.onViewBack = () => {
   snapTo(SNAP_BACK);
-});
+};
 
-rotate360?.addEventListener('click', () => {
+hooks.onToggleSpin360 = () => {
   clearInterval(autoInterval);
   clearTimeout(pauseTimeout);
   book.style.transition = 'transform 1s linear';
@@ -180,17 +183,15 @@ rotate360?.addEventListener('click', () => {
     },
     { once: true }
   );
-});
+};
 
-const zoomBtn = document.getElementById('zoom-cover');
-const zoomModal = document.getElementById('cover-zoom');
-const closeZoom = document.getElementById('close-cover-zoom');
-const zoomFull = document.getElementById('zoom-full');
-const zoomThumbs = document.querySelectorAll('.thumbnails img');
+hooks.onBuyClick = () => {
+  purchaseOptions?.scrollIntoView({ behavior: 'smooth' });
+};
 
-zoomBtn?.addEventListener('click', () => {
+hooks.onZoom = () => {
   zoomModal?.removeAttribute('hidden');
-});
+};
 
 closeZoom?.addEventListener('click', () => {
   zoomModal?.setAttribute('hidden', '');
@@ -206,28 +207,24 @@ zoomThumbs.forEach(img => {
   });
 });
 
-addToCartBtn?.addEventListener('click', () => {
-  purchaseOptions?.scrollIntoView({ behavior: 'smooth' });
-});
-
-if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
+if (bookRail && bookViewer && 'IntersectionObserver' in window) {
   const toolbarObserver = new IntersectionObserver(entries => {
     const entry = entries[0];
     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-      bookToolbar.classList.add('visible');
+      bookRail.classList.add('visible');
     } else {
-      bookToolbar.classList.remove('visible');
+      bookRail.classList.remove('visible');
     }
   }, { threshold: 0.5 });
   toolbarObserver.observe(bookViewer);
 } else {
-  bookToolbar?.classList.add('visible');
+  bookRail?.classList.add('visible');
 }
 
 ['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
-  purchaseOptions?.addEventListener(evt, () => bookToolbar?.classList.remove('visible'));
+  purchaseOptions?.addEventListener(evt, () => bookRail?.classList.remove('visible'));
 });
 
 ['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
-  bookViewer?.addEventListener(evt, () => bookToolbar?.classList.add('visible'));
+  bookViewer?.addEventListener(evt, () => bookRail?.classList.add('visible'));
 });
