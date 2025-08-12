@@ -66,6 +66,15 @@ textarea {
   line-height: inherit;
 }
 
+:root {
+  --nav-height: 80px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+}
+
 .container, .container--border, .container--spaced {
   width: min(90%, 1200px);
   margin-left: auto;
@@ -917,10 +926,11 @@ input:checked + .toggle-slider::before {
 
 .hero {
   position: relative;
-  background-image: url("images/fullhero3.png");
+  background-image: url("images/heroposter1.png");
   background-size: cover;
   background-position: center;
   padding: 3rem 0;
+  min-height: 87vh;
   text-align: center;
   overflow: hidden;
 }
@@ -1463,7 +1473,6 @@ input:checked + .toggle-slider::before {
   position: fixed;
   left: 4px;
   top: 50%;
-  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
@@ -1471,6 +1480,13 @@ input:checked + .toggle-slider::before {
   border-radius: var(--radius-lg);
   overflow: hidden;
   z-index: 3;
+  opacity: 0;
+  transform: translate(-120%, -50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.book-toolbar.visible {
+  opacity: 1;
+  transform: translateY(-50%);
 }
 .book-toolbar .icon-btn {
   width: 56px;
@@ -1507,13 +1523,12 @@ input:checked + .toggle-slider::before {
     position: absolute;
     left: -68px;
     top: 50%;
-    transform: translateY(-50%);
   }
 }
 .cover-zoom-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1532,8 +1547,10 @@ input:checked + .toggle-slider::before {
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
+  width: 90vw;
+  height: 90vh;
 }
-.cover-zoom-modal .close-btn {
+.cover-zoom-modal .cover-zoom-content .close-btn {
   position: absolute;
   top: var(--space-sm);
   right: var(--space-sm);
@@ -1543,11 +1560,13 @@ input:checked + .toggle-slider::before {
   font-size: 2rem;
   cursor: pointer;
   border-radius: var(--radius-sm);
+  z-index: 2;
 }
 .cover-zoom-modal #zoom-full {
-  max-width: 80vw;
-  max-height: 70vh;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  border-radius: var(--radius-md);
 }
 .cover-zoom-modal .thumbnails {
   display: flex;
@@ -1559,6 +1578,7 @@ input:checked + .toggle-slider::before {
   cursor: pointer;
   opacity: 0.6;
   border: 2px solid transparent;
+  border-radius: var(--radius-sm);
 }
 .cover-zoom-modal .thumbnails img.active {
   opacity: 1;
