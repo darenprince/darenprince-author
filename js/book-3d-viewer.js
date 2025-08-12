@@ -6,6 +6,8 @@ const bookViewer = document.querySelector('.book-3d-viewer');
 const rotateHint = document.querySelector('.rotate-hint');
 const addToCartBtn = document.getElementById('add-to-cart');
 const purchaseOptions = document.getElementById('purchase-options');
+const bookToolbar = document.querySelector('.book-toolbar');
+const bookMedia = document.querySelector('.book-media');
 let rotateHintTimeout;
 
 const SNAP_FRONT = 18;
@@ -99,6 +101,21 @@ function initialSpin() {
 }
 
 applyRotation(rotation);
+
+if (bookToolbar && bookMedia && 'IntersectionObserver' in window) {
+  const toolbarObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        bookToolbar.classList.add('visible');
+      } else {
+        bookToolbar.classList.remove('visible');
+      }
+    });
+  });
+  toolbarObserver.observe(bookMedia);
+} else {
+  bookToolbar?.classList.add('visible');
+}
 
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries, obs) => {

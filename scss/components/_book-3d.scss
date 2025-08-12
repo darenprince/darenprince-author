@@ -248,11 +248,12 @@
 }
 
 // vertical toolbar for book actions
+// toolbar slides in when book is in view
 .book-toolbar {
   position: fixed;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-100%, -50%);
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
@@ -261,6 +262,7 @@
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   overflow: hidden;
   z-index: 3;
+  transition: transform 0.3s ease;
 
   .icon-btn {
     width: 44px;
@@ -282,9 +284,23 @@
     border-top: 1px solid var(--color-border);
   }
 
+  .icon-btn.has-label {
+    width: auto;
+    padding: 0 var(--space-xs);
+    gap: var(--space-xxs);
+  }
+
+  .icon-btn.has-label span {
+    font-size: 0.75rem;
+  }
+
   .add-to-cart {
     color: var(--color-lime, var(--color-success));
   }
+}
+
+.book-toolbar.visible {
+  transform: translate(0, -50%);
 }
 
 @media (min-width: 768px) {
@@ -296,7 +312,11 @@
     position: absolute;
     left: -56px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-100%, -50%);
+  }
+
+  .book-toolbar.visible {
+    transform: translate(0, -50%);
   }
 }
 
@@ -329,10 +349,16 @@
     position: absolute;
     top: var(--space-sm);
     right: var(--space-sm);
+    width: 32px;
+    height: 32px;
     background: rgba(0, 0, 0, 0.6);
     border: none;
     color: var(--color-contrast-high);
-    font-size: 2rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     border-radius: var(--radius-sm);
   }
@@ -353,6 +379,7 @@
       cursor: pointer;
       opacity: 0.6;
       border: 2px solid transparent;
+      border-radius: var(--radius-sm);
 
       &.active {
         opacity: 1;
@@ -379,7 +406,6 @@
     justify-content: center;
     gap: var(--space-sm);
     width: 100%;
-    flex: 1;
   }
 
   .step-header {
