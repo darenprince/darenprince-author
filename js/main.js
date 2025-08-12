@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  const stickyNav = document.querySelector('.js-sticky-nav');
+  if (stickyNav) {
+    const setOffset = () => {
+      document.documentElement.style.setProperty('--header-offset', `${stickyNav.offsetHeight}px`);
+    };
+    setOffset();
+    window.addEventListener('resize', setOffset);
+  }
+
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
   const menuOverlay = document.querySelector('.js-menu-overlay');
