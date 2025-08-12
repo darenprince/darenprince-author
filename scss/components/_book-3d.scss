@@ -298,6 +298,7 @@
     font-size: 2rem;
     cursor: pointer;
     border-radius: var(--radius-sm);
+    z-index: 1000;
   }
 
   #zoom-full {
