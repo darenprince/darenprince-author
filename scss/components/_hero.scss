@@ -2,12 +2,17 @@
 @use "../tokens/colors" as *;
 .hero {
   position: relative;
-  background-image: url('images/fullhero3.png');
+  background-image: url('images/heroposter1.png');
   background-size: cover;
   background-position: center;
   padding: $spacing-xl 0;
   text-align: center;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .container {
     position: relative;
@@ -73,6 +78,21 @@
       display: none;
     }
   }
+
+  &.hero-auto-zoom {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('images/heroposter1.png') center/cover no-repeat;
+      transform: scale(1);
+      animation: heroZoom 20s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+  }
 }
 
 @keyframes fade-in {
@@ -87,4 +107,9 @@
 @keyframes cta-throb {
   0%, 100% { transform: translateX(-50%) scale(1); }
   50% { transform: translateX(-50%) scale(1.1); }
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
