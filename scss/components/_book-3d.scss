@@ -1,4 +1,5 @@
 @use "../tokens/colors" as *;
+@use "../base/variables" as *;
 
 .book-3d-viewer {
   // Ensure the book maintains a perfect 2:3 aspect ratio
@@ -59,10 +60,13 @@
     &::before {
       content: '';
       position: absolute;
-      width: var(--viewer-size);
-      height: var(--viewer-size);
-      background: radial-gradient(circle, rgba(0, 0, 0, 0.3), transparent 70%);
+      left: 50%;
+      top: 50%;
+      width: var(--hint-size);
+      height: var(--hint-size);
+      background: $charcoal;
       border-radius: 50%;
+      transform: translate(-50%, -50%);
       z-index: -1;
     }
 
@@ -254,9 +258,12 @@
   top: 50%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, var(--gray-800), var(--gray-900));
-  border: 1px solid var(--color-border);
+  gap: $spacing-xxs;
+  padding: $spacing-xxs;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+  border: 0;
   border-radius: var(--radius-lg);
+  box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.3);
   overflow: hidden;
   z-index: 3;
   opacity: 0;
@@ -276,9 +283,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.125rem;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     border: 0;
-    border-radius: 0;
+    border-radius: $border-radius;
     color: var(--gray-100);
     font-size: 0.75rem;
 
@@ -287,12 +294,8 @@
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.15);
     }
-  }
-
-  .icon-btn + .icon-btn {
-    border-top: 1px solid var(--color-border);
   }
 
   .add-to-cart {

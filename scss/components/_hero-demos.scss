@@ -166,18 +166,9 @@
       width: 100%;
       height: 100%;
       background: url('images/fullhero3.png') center/cover no-repeat;
-      transform: scale(1);
-      animation: heroZoom 20s ease-in-out infinite alternate;
+      transform: scale(var(--hero-scale, 1.05));
+      transition: transform 0.2s ease-out;
       z-index: -1;
-    }
-  }
-
-  @keyframes heroZoom {
-    from {
-      transform: scale(1);
-    }
-    to {
-      transform: scale(1.1);
     }
   }
 
