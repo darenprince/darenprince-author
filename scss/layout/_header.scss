@@ -4,7 +4,7 @@
 
 .site-header {
   background: linear-gradient($gray-900, $gray-800);
-  padding-block: $spacing-xxs;
+  padding-block: $spacing-xs;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -15,6 +15,7 @@
     align-items: center;
     justify-content: space-between;
     margin-block: 0;
+    padding-block: $spacing-xxs;
   }
 
   .logo img {
