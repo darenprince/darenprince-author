@@ -1511,6 +1511,7 @@ input:checked + .toggle-slider::before {
   font-size: 2rem;
   cursor: pointer;
   border-radius: var(--radius-sm);
+  z-index: 1000;
 }
 .cover-zoom-modal #zoom-full {
   max-width: 80vw;
