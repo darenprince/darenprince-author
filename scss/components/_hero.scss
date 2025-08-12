@@ -2,14 +2,16 @@
 @use "../tokens/colors" as *;
 .hero {
   position: relative;
-  background-image: url('images/fullhero3.png');
-  background-size: cover;
-  background-position: center;
-  padding: $spacing-xl 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
   text-align: center;
+  padding: $spacing-xl;
   overflow: hidden;
 
-  .container {
+  .hero-content {
     position: relative;
     z-index: 1;
   }
@@ -59,10 +61,6 @@
   .hero-cta {
     animation: fade-in 1s ease-out forwards;
     opacity: 0;
-    position: absolute;
-    left: 50%;
-    bottom: $spacing-xl;
-    transform: translateX(-50%);
     &.throb {
       animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
     }
@@ -72,6 +70,19 @@
     h1 {
       display: none;
     }
+  }
+
+  &.hero-auto-zoom::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/heroposter1.png') center/cover no-repeat;
+    transform: scale(1);
+    animation: heroZoom 20s ease-in-out infinite alternate;
+    z-index: -1;
   }
 }
 
@@ -85,6 +96,11 @@
 }
 
 @keyframes cta-throb {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.1); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
