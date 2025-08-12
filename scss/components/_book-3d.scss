@@ -6,7 +6,7 @@
   // 260px : 390px maintains a 2:3 ratio and is slightly larger
   --book-width: 260px;
   --book-height: 390px;
-  --book-depth: 40px;
+  --book-depth: 30px;
   --viewer-size: var(--book-height);
   position: relative;
   width: var(--viewer-size);
@@ -94,17 +94,23 @@
     position: absolute;
     top: 0;
     left: 0;
-    // Ensure images scale to the face size instead of using their intrinsic
-    // dimensions. `cover` keeps aspect ratio while filling the panel.
     background-size: cover;
     background-repeat: no-repeat;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 85%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.6) 100%);
+      pointer-events: none;
+    }
 
     &::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.2), transparent 60%);
+      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.15), transparent 40%);
       pointer-events: none;
     }
   }
@@ -121,7 +127,7 @@
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 
     &::after {
-      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.2) 40%);
+      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.15) 30%);
     }
   }
 
@@ -286,11 +292,12 @@
     position: absolute;
     top: var(--space-sm);
     right: var(--space-sm);
-    background: none;
+    background: rgba(0, 0, 0, 0.6);
     border: none;
     color: var(--color-contrast-high);
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
+    border-radius: var(--radius-sm);
   }
 
   #zoom-full {
@@ -319,47 +326,94 @@
 }
 
 .purchase-box {
-  .format-buttons {
+  .step-header {
+    text-align: center;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+    }
+  }
+
+  .format-options {
     display: flex;
     gap: var(--space-sm);
     justify-content: center;
     margin-bottom: var(--space-sm);
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     &.hide {
       opacity: 0;
       pointer-events: none;
+      transform: translateY(-10px);
     }
   }
 
-  .format-btn {
+  .format-option {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-xs);
     background: transparent;
-    border: 1.5px solid var(--color-accent);
+    border: 2px solid var(--color-accent);
     color: var(--color-muted);
-    padding: var(--space-xs);
+    padding: var(--space-sm) 0;
     border-radius: var(--radius-md);
     cursor: pointer;
     text-transform: uppercase;
-    font-weight: 600;
+    gap: var(--space-xxs);
 
     i {
-      margin-right: var(--space-xs);
+      color: var(--color-accent);
+      font-size: 1.5rem;
     }
+  }
+
+  .store-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .selected-format-note {
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .selected-format-note a {
+    color: var(--color-muted);
+    text-decoration: underline;
   }
 
   .store-selector {
     text-align: center;
-    border: 1.5px solid var(--color-accent);
+    border: 2px solid var(--color-accent);
     border-radius: var(--radius-md);
     padding: var(--space-xs);
-    margin-bottom: var(--space-sm);
     background: transparent;
     color: var(--color-contrast-high);
     text-align-last: center;
+  }
+
+  .buy-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xxs);
   }
 
   .selected-store-logo {
