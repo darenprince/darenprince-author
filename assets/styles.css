@@ -1948,7 +1948,6 @@ input:checked + .toggle-slider::before {
   max-width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
   border-radius: 8px;
   z-index: 0;
   display: flex;
@@ -2006,10 +2005,12 @@ input:checked + .toggle-slider::before {
   width: var(--hint-size);
   max-width: 100%;
   transform-origin: bottom center;
-  animation: rotate-hint 1.6s ease-in-out infinite alternate;
 }
 .book-3d-viewer .rotate-hint.show {
   opacity: 1;
+}
+.book-3d-viewer .rotate-hint.show img {
+  animation: rotate-hint 1.6s ease-in-out infinite alternate;
 }
 .book-3d-viewer .rotate-hint.hide {
   opacity: 0;
@@ -2836,6 +2837,8 @@ input:checked + .toggle-slider::before {
   gap: 0;
   width: 100%;
   position: relative;
+  min-height: 100vh;
+  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
 }
 .book-details-wrapper .purchase-box {
   background: var(--color-surface);
