@@ -1948,15 +1948,14 @@ input:checked + .toggle-slider::before {
   max-width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
-  border-radius: 8px;
+  border-radius: 0;
   z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  margin: 2rem auto;
+  margin: 0 auto;
 }
 .book-3d-viewer::before {
   content: "";
@@ -2006,10 +2005,12 @@ input:checked + .toggle-slider::before {
   width: var(--hint-size);
   max-width: 100%;
   transform-origin: bottom center;
-  animation: rotate-hint 1.6s ease-in-out infinite alternate;
 }
 .book-3d-viewer .rotate-hint.show {
   opacity: 1;
+}
+.book-3d-viewer .rotate-hint.show img {
+  animation: rotate-hint 1.6s ease-in-out infinite alternate;
 }
 .book-3d-viewer .rotate-hint.hide {
   opacity: 0;
@@ -2815,7 +2816,7 @@ input:checked + .toggle-slider::before {
 }
 
 .book-details-wrapper {
-  padding: 3rem 0;
+  padding: 0;
 }
 .book-details-wrapper .book-layout {
   display: flex;
@@ -2836,6 +2837,21 @@ input:checked + .toggle-slider::before {
   gap: 0;
   width: 100%;
   position: relative;
+  min-height: 100vh;
+  padding: 5rem 0;
+  z-index: 0;
+}
+.book-details-wrapper .book-media::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 100%;
+  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
+  z-index: -1;
+  pointer-events: none;
 }
 .book-details-wrapper .purchase-box {
   background: var(--color-surface);
