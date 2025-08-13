@@ -60,16 +60,9 @@
     animation: fade-in 1s ease-out forwards;
     opacity: 0;
     position: absolute;
-    bottom: $spacing-lg;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background: $accent;
-    color: $charcoal;
-    &:hover,
-    &:focus {
-      background: $accent;
-      color: $charcoal;
-    }
+    transform: translate(-50%, -50%);
     &.throb {
       animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
     }
