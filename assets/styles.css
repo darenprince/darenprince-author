@@ -1950,6 +1950,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
+  margin-block: var(--space-lg);
 }
 .book-3d-viewer::before {
   content: "";
@@ -2826,7 +2827,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0;
   width: 100%;
   position: relative;
 }
