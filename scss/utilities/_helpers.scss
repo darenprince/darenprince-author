@@ -32,6 +32,7 @@
 // Utility font using League Spartan
 .styledh1 {
   font-family: 'League Spartan', sans-serif;
+  text-transform: uppercase;
 }
 
 // Gradient text utilities
@@ -56,3 +57,11 @@
   border: 1px solid rgba(70, 104, 60, 0.6);
   border-radius: $border-radius;
 }
+
+// Button size utilities
+.btn-xs { padding: $spacing-xxs $spacing-xs; font-size: 0.75rem; }
+.btn-sm { padding: $spacing-xs $spacing-sm; font-size: 0.875rem; }
+.btn-md { padding: $spacing-sm $spacing-md; font-size: 1rem; }
+.btn-lg { padding: $spacing-md $spacing-lg; font-size: 1.125rem; }
+.btn-xl { padding: $spacing-lg $spacing-xl; font-size: 1.25rem; }
+.btn-fw { display: block; width: 100%; text-align: center; }

@@ -165,3 +165,72 @@
     color: inherit;
   }
 }
+
+// gradient buttons
+.btn--gray-solid {
+  background-color: $gray-900;
+  border: 1px solid $gray-800;
+  color: $gray-200;
+}
+
+.btn--gray-gradient {
+  background: linear-gradient(to top, $gray-900, $gray-800);
+  border: 1px solid $gray-200;
+  color: $gray-200;
+}
+
+// gray/black themed buttons
+.btn-gray-50  { background-color: var(--gray-50);  color: $black;  border: 1px solid $gray-800; }
+.btn-gray-100 { background-color: var(--gray-100); color: $black;  border: 1px solid $gray-800; }
+.btn-gray-200 { background-color: var(--gray-200); color: $black;  border: 1px solid $gray-800; }
+.btn-gray-600 { background-color: var(--gray-600); color: $white; border: 1px solid $gray-800; }
+.btn-gray-700 { background-color: var(--gray-700); color: $white; border: 1px solid $gray-800; }
+.btn-gray-800 { background-color: var(--gray-800); color: $white; border: 1px solid $gray-800; }
+.btn-gray-900 { background-color: var(--gray-900); color: $white; border: 1px solid $gray-800; }
+.btn-black    { background-color: $black;       color: $white; border: 1px solid $gray-800; }
+
+// creative complimentary color buttons
+$bg-list: var(--color-primary), var(--color-primary-hover), var(--color-bright), var(--color-mint), var(--color-lime), var(--gray-600), var(--gray-700), var(--gray-800), var(--gray-900), var(--color-charcoal);
+$text-list: var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright), var(--color-primary);
+$border-list: var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
+@for $i from 1 through 30 {
+  $bg: nth($bg-list, (($i - 1) % length($bg-list)) + 1);
+  $text: nth($text-list, (($i - 1) % length($text-list)) + 1);
+  $border: nth($border-list, (($i - 1) % length($border-list)) + 1);
+  .btn-combo-#{$i} {
+    background-color: $bg;
+    color: $text;
+    border: 1px solid $border;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius;
+    display: inline-block;
+  }
+  .btn-combo-#{$i}-b {
+    @extend .btn-combo-#{$i};
+    font-weight: 700;
+  }
+}
+
+// bold variants for base buttons
+@mixin bold-variant($selector) {
+  #{$selector}-b {
+    @extend #{$selector};
+    font-weight: 700;
+  }
+}
+
+@include bold-variant('.btn');
+@include bold-variant('.btn--primary');
+@include bold-variant('.btn--secondary');
+@include bold-variant('.btn--accent');
+@include bold-variant('.btn--ghost');
+@include bold-variant('.btn--gray-solid');
+@include bold-variant('.btn--gray-gradient');
+@include bold-variant('.btn-gray-50');
+@include bold-variant('.btn-gray-100');
+@include bold-variant('.btn-gray-200');
+@include bold-variant('.btn-gray-600');
+@include bold-variant('.btn-gray-700');
+@include bold-variant('.btn-gray-800');
+@include bold-variant('.btn-gray-900');
+@include bold-variant('.btn-black');
