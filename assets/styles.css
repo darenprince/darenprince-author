@@ -1613,7 +1613,6 @@ input:checked + .toggle-slider::before {
   overflow: hidden;
 }
 .hero .container {
-  position: relative;
   z-index: 1;
 }
 .hero .hero-video {
@@ -1658,9 +1657,9 @@ input:checked + .toggle-slider::before {
   animation: fade-in 1s ease-out forwards;
   opacity: 0;
   position: absolute;
-  top: 90%;
+  bottom: 2rem;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   background: var(--color-accent);
   color: var(--color-charcoal);
 }
@@ -1695,11 +1694,11 @@ input:checked + .toggle-slider::before {
 }
 @keyframes cta-throb {
   0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateX(-50%) scale(1);
     box-shadow: 0 0 0 color-mix(in srgb, var(--color-lime) 0%, transparent);
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translateX(-50%) scale(1.1);
     box-shadow: 0 0 0.75rem color-mix(in srgb, var(--color-lime) 50%, transparent);
   }
 }
