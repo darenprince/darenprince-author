@@ -12,7 +12,8 @@
     .swatch.dark { color:var(--color-white); }
     pre { background: var(--color-charcoal); padding:1rem; border-radius:0.35rem; overflow:auto; }
     .component { margin-bottom:2rem; }
-    .component-example { margin-bottom:1rem; }
+    .component-example { margin-bottom:1rem; display:flex; flex-wrap:wrap; gap:0.5rem; }
+    nav.style-guide-nav a { margin-right:1rem; }
   </style>
 </head>
 <body class="theme-dark">
@@ -20,6 +21,15 @@
     <div class="container max-width-adaptive-lg">
       <h1>Style Guide</h1>
       <p>This guide showcases the core styles and components powering the Daren Prince experience. Study them, remix them, and build boldly.</p>
+
+      <nav class="style-guide-nav">
+        <a href="#colors">Colors</a>
+        <a href="#typography">Typography</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#utilities">Utilities</a>
+        <a href="#containers">Containers</a>
+        <a href="../components.html">Components</a>
+      </nav>
 
       <section id="colors" class="component">
         <h2>Color Tokens</h2>
@@ -63,7 +73,7 @@
 
       <section id="buttons" class="component">
         <h2>Buttons</h2>
-        <div class="flex gap-sm component-example">
+        <div class="component-example">
           <button class="btn">.btn</button>
           <button class="btn btn--primary">.btn.btn--primary</button>
           <button class="btn btn--secondary">.btn.btn--secondary</button>
@@ -77,7 +87,87 @@
           <button class="hamburger-btn"><i class="ti ti-menu-2"></i></button>
           <button class="auth-btn"><i class="ti ti-user"></i> Login</button>
         </div>
-<pre><code>&lt;button class="btn btn--primary"&gt;Call to Action&lt;/button&gt;</code></pre>
+        <h3>Gradient Buttons</h3>
+        <div class="component-example">
+          <button class="btn--gray-solid">.btn--gray-solid</button>
+          <button class="btn--gray-gradient">.btn--gray-gradient</button>
+        </div>
+        <h3>Gray & Black Variations</h3>
+        <div class="component-example">
+          <button class="btn-gray-50">.btn-gray-50</button>
+          <button class="btn-gray-100">.btn-gray-100</button>
+          <button class="btn-gray-200">.btn-gray-200</button>
+          <button class="btn-gray-600">.btn-gray-600</button>
+          <button class="btn-gray-700">.btn-gray-700</button>
+          <button class="btn-gray-800">.btn-gray-800</button>
+          <button class="btn-gray-900">.btn-gray-900</button>
+          <button class="btn-black">.btn-black</button>
+        </div>
+        <h3>Complimentary Combos</h3>
+        <div class="component-example">
+          <button class="btn-combo-1">1</button>
+          <button class="btn-combo-2">2</button>
+          <button class="btn-combo-3">3</button>
+          <button class="btn-combo-4">4</button>
+          <button class="btn-combo-5">5</button>
+          <button class="btn-combo-6">6</button>
+          <button class="btn-combo-7">7</button>
+          <button class="btn-combo-8">8</button>
+          <button class="btn-combo-9">9</button>
+          <button class="btn-combo-10">10</button>
+          <button class="btn-combo-11">11</button>
+          <button class="btn-combo-12">12</button>
+          <button class="btn-combo-13">13</button>
+          <button class="btn-combo-14">14</button>
+          <button class="btn-combo-15">15</button>
+          <button class="btn-combo-16">16</button>
+          <button class="btn-combo-17">17</button>
+          <button class="btn-combo-18">18</button>
+          <button class="btn-combo-19">19</button>
+          <button class="btn-combo-20">20</button>
+          <button class="btn-combo-21">21</button>
+          <button class="btn-combo-22">22</button>
+          <button class="btn-combo-23">23</button>
+          <button class="btn-combo-24">24</button>
+          <button class="btn-combo-25">25</button>
+          <button class="btn-combo-26">26</button>
+          <button class="btn-combo-27">27</button>
+          <button class="btn-combo-28">28</button>
+          <button class="btn-combo-29">29</button>
+          <button class="btn-combo-30">30</button>
+        </div>
+        <h3>Bold Variants</h3>
+        <div class="component-example">
+          <button class="btn-b">.btn-b</button>
+          <button class="btn--primary-b">.btn--primary-b</button>
+          <button class="btn--secondary-b">.btn--secondary-b</button>
+          <button class="btn--accent-b">.btn--accent-b</button>
+          <button class="btn--ghost-b">.btn--ghost-b</button>
+          <button class="btn--gray-solid-b">.btn--gray-solid-b</button>
+          <button class="btn--gray-gradient-b">.btn--gray-gradient-b</button>
+          <button class="btn-gray-50-b">.btn-gray-50-b</button>
+          <button class="btn-gray-100-b">.btn-gray-100-b</button>
+          <button class="btn-gray-200-b">.btn-gray-200-b</button>
+          <button class="btn-gray-600-b">.btn-gray-600-b</button>
+          <button class="btn-gray-700-b">.btn-gray-700-b</button>
+          <button class="btn-gray-800-b">.btn-gray-800-b</button>
+          <button class="btn-gray-900-b">.btn-gray-900-b</button>
+          <button class="btn-black-b">.btn-black-b</button>
+        </div>
+        <pre><code>&lt;button class="btn btn--primary"&gt;Call to Action&lt;/button&gt;</code></pre>
+      </section>
+
+      <section id="utilities" class="component">
+        <h2>Utility Classes</h2>
+        <h3>Button Sizes</h3>
+        <div class="component-example">
+          <button class="btn btn--primary btn-xs">.btn-xs</button>
+          <button class="btn btn--primary btn-sm">.btn-sm</button>
+          <button class="btn btn--primary btn-md">.btn-md</button>
+          <button class="btn btn--primary btn-lg">.btn-lg</button>
+          <button class="btn btn--primary btn-xl">.btn-xl</button>
+          <button class="btn btn--primary btn-fw">.btn-fw</button>
+        </div>
       </section>
 
       <section id="containers" class="component">
