@@ -1312,6 +1312,13 @@ body.theme-light .site-footer a {
   font-weight: 700;
 }
 
+.btn--secondary-b {
+  background: linear-gradient(130deg, #549841, #8CD679);
+}
+.btn--secondary-b:hover, .btn--secondary-b:focus {
+  background: linear-gradient(130deg, #549841, #8CD679);
+}
+
 .cta-btn, .cta-btn--glow {
   background-color: var(--color-bright);
   color: var(--color-black);
