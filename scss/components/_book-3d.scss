@@ -21,8 +21,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  margin-block: var(--space-lg);
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+  margin-bottom: $spacing-xl;
 
   &::before {
     content: "";
