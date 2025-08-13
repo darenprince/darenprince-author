@@ -234,3 +234,13 @@ $border-list: var(--color-primary), var(--color-lime), var(--gray-200), var(--gr
 @include bold-variant('.btn-gray-800');
 @include bold-variant('.btn-gray-900');
 @include bold-variant('.btn-black');
+
+// custom gradient for hero CTA
+.btn--secondary-b {
+  background: linear-gradient(130deg, #549841, #8CD679);
+
+  &:hover,
+  &:focus {
+    background: linear-gradient(130deg, #549841, #8CD679);
+  }
+}
