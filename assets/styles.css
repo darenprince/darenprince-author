@@ -1657,15 +1657,9 @@ input:checked + .toggle-slider::before {
   animation: fade-in 1s ease-out forwards;
   opacity: 0;
   position: absolute;
-  bottom: 2rem;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-accent);
-  color: var(--color-charcoal);
-}
-.hero .hero-cta:hover, .hero .hero-cta:focus {
-  background: var(--color-accent);
-  color: var(--color-charcoal);
+  transform: translate(-50%, -50%);
 }
 .hero .hero-cta.throb {
   animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
