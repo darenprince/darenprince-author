@@ -3,7 +3,7 @@
 @use "../base/mixins" as *;
 
 .book-details-wrapper {
-  padding: $spacing-xl 0;
+  padding: 0;
 
   .book-layout {
     display: flex;
@@ -24,6 +24,33 @@
     gap: 0;
     width: 100%;
     position: relative;
+    height: 80vh;
+    max-height: 80vh;
+    padding: 5rem 0;
+    z-index: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100%;
+      background: url('../assets/images/IMG_6246.jpeg') center 20%/cover no-repeat;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @include respond-to(md) {
+      height: auto;
+      min-height: 100vh;
+      max-height: none;
+
+      &::before {
+        background-position: center;
+      }
+    }
   }
 
   .purchase-box {
