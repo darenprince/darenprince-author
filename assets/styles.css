@@ -1945,7 +1945,7 @@ input:checked + .toggle-slider::before {
   width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: transparent;
+  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
   border-radius: 8px;
   z-index: 0;
   display: flex;
