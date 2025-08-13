@@ -1314,9 +1314,11 @@ body.theme-light .site-footer a {
 
 .btn--secondary-b {
   background: linear-gradient(130deg, #549841, #8CD679);
+  color: var(--gray-800);
 }
 .btn--secondary-b:hover, .btn--secondary-b:focus {
   background: linear-gradient(130deg, #549841, #8CD679);
+  color: var(--gray-800);
 }
 
 .cta-btn, .cta-btn--glow {
@@ -1942,10 +1944,11 @@ input:checked + .toggle-slider::before {
   --viewer-size: var(--book-height);
   --hint-size: 150px;
   position: relative;
-  width: var(--viewer-size);
+  width: 100%;
+  max-width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: transparent;
+  background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
   border-radius: 8px;
   z-index: 0;
   display: flex;
@@ -1953,8 +1956,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+  margin: 2rem auto;
 }
 .book-3d-viewer::before {
   content: "";

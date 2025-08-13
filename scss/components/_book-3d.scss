@@ -11,10 +11,11 @@
   --viewer-size: var(--book-height);
   --hint-size: 150px;
   position: relative;
-  width: var(--viewer-size);
+  width: 100%;
+  max-width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: transparent;
+  background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
   border-radius: 8px;
   z-index: 0;
   display: flex;
@@ -22,8 +23,7 @@
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
-  margin-top: $spacing-lg;
-  margin-bottom: $spacing-xl;
+  margin: $spacing-lg auto;
 
   &::before {
     content: "";
