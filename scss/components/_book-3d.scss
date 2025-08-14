@@ -1,5 +1,6 @@
 @use "../tokens/colors" as *;
 @use "../base/variables" as *;
+@use "../base/mixins" as *;
 
 .book-3d-viewer {
   // Ensure the book maintains a perfect 2:3 aspect ratio
@@ -15,15 +16,18 @@
   max-width: var(--viewer-size);
   height: var(--viewer-size);
   perspective: 1200px;
-  background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
-  border-radius: 8px;
+  border-radius: 0;
   z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
-  margin: $spacing-lg auto;
+  margin: 0 auto;
+
+  @include respond-to(md) {
+    border-radius: $border-radius;
+  }
 
   &::before {
     content: "";
@@ -76,11 +80,14 @@
       width: var(--hint-size);
       max-width: 100%;
       transform-origin: bottom center;
-      animation: rotate-hint 1.6s ease-in-out infinite alternate;
     }
 
     &.show {
       opacity: 1;
+
+      img {
+        animation: rotate-hint 1.6s ease-in-out infinite alternate;
+      }
     }
 
     &.hide {

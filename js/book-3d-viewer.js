@@ -44,14 +44,11 @@ window.showRotateHint = showRotateHint;
 
 window.addEventListener('load', () => {
   bookViewer?.classList.add('loaded');
-  if (rotateHint) {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const sr = document.createElement('span');
-      sr.className = 'visually-hidden';
-      sr.textContent = 'Drag left or right to rotate.';
-      rotateHint.appendChild(sr);
-    }
-    showRotateHint();
+  if (rotateHint && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const sr = document.createElement('span');
+    sr.className = 'visually-hidden';
+    sr.textContent = 'Drag left or right to rotate.';
+    rotateHint.appendChild(sr);
   }
 });
 
@@ -106,11 +103,17 @@ if ('IntersectionObserver' in window) {
     if (entries[0].isIntersecting) {
       obs.disconnect();
       initialSpin();
+      if (rotateHint) {
+        showRotateHint();
+      }
     }
   });
   observer.observe(book);
 } else {
   initialSpin();
+  if (rotateHint) {
+    showRotateHint();
+  }
 }
 
 book.addEventListener('mousedown', e => {
