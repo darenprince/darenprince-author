@@ -4,6 +4,10 @@
 
 .book-section {
   margin-top: 0;
+
+  .container {
+    margin-block: 0;
+  }
 }
 
 .book-details-wrapper {
@@ -28,9 +32,9 @@
     gap: 0;
     width: 100%;
     position: relative;
-    height: 80vh;
-    max-height: 80vh;
-    padding: 5rem 0;
+    height: 70vh;
+    max-height: 70vh;
+    padding: ($spacing-xl + $spacing-lg) 0;
     z-index: 0;
 
     &::before {
@@ -50,6 +54,7 @@
       height: auto;
       min-height: 100vh;
       max-height: none;
+      padding: ($spacing-xl + $spacing-lg) 0;
 
       &::before {
         background-position: center;
