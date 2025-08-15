@@ -50,13 +50,13 @@ function onInput() {
     renderList([], '');
     return;
   }
-  worker.postMessage({ type: 'search', q, limit: 7 });
+  worker.postMessage({ type: 'suggest', q, limit: 7 });
   window.dispatchEvent(new CustomEvent('search:typed', { detail: { q } }));
 }
 
 worker.addEventListener('message', e => {
-  if (e.data.type === 'results') {
-    results = e.data.results;
+  if (e.data.type === 'suggestions') {
+    results = e.data.suggestions;
     renderList(results, input.value.trim());
   }
 });
