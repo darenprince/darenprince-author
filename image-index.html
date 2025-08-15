@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Index</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    .image-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    @media(max-width:768px){.image-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:480px){.image-grid{grid-template-columns:1fr;}}
+    .image-grid img { width:100%; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
+    .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
+    .image-grid img:active { transform:scale(1.1); }
+    .img-item { display:flex; flex-direction:column; gap:.5rem; }
+    .code-box { display:flex; justify-content:space-between; align-items:center; background:#3B3C3B; padding:.25rem .5rem; border-radius:4px; font-size:.875rem; }
+    .code-box .btn { padding:.25rem .5rem; font-size:.75rem; }
+    .img-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; z-index:1000; }
+    .img-modal img { max-width:90%; max-height:90%; border-radius:8px; }
+    .img-modal .close { position:absolute; top:1rem; right:1rem; font-size:2rem; color:#fff; cursor:pointer; }
+    .auth-gate{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:2000;}
+    .auth-gate__form{background:#2b2b2b;padding:2rem;border-radius:8px;display:flex;flex-direction:column;gap:1rem;}
+    .auth-gate__input{padding:.5rem;border-radius:4px;border:1px solid #555;background:#1e1e1e;color:#fff;}
+    .auth-gate__error{color:#ff6b6b;font-size:.875rem;margin-top:-.5rem;}
+  </style>
+</head>
+<body class="theme-dark">
+<script type="module">
+  import initPasswordGate from './js/password-gate.js';
+  initPasswordGate('1m@g3G@t3');
+</script>
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
+    <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
+      <li><a href="components.html"><i class="ti ti-layout"></i>Components</a></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+  <div class="site-wrap" hidden>
+    <header class="site-header padding-y-sm js-sticky-nav">
+      <div class="container max-width-adaptive-lg flex items-center justify-between">
+        <a href="index.html" class="logo">
+          <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+        </a>
+        <div class="nav-btn-group flex items-center gap-sm">
+          <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
+          <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+          <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+        </div>
+      </div>
+      <div class="search-bar js-search-bar" hidden>
+        <form class="search-form flex items-center">
+          <input type="search" placeholder="search site" />
+          <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+        </form>
+      </div>
+      <div class="profile-dropdown js-profile-dropdown" hidden>
+        <div class="profile-info">
+          <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+          <span class="profile-name">Guest</span>
+        </div>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Account</a></li>
+          <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="padding-y-xl">
+      <div class="container max-width-adaptive-lg">
+        <h1 class="section-heading text-center margin-bottom-lg">Image Index</h1>
+        <input type="search" id="image-search" class="margin-bottom-md" placeholder="Search images" />
+        <div id="gallery" class="image-grid"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="book.html">Book</a></li>
+            <li><a href="components.html">Components</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul class="footer-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">YouTube</a></li>
+          </ul>
+        </div>
+        <div>
+          <p>&copy; 2023 Daren Prince. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="js/image-index.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
