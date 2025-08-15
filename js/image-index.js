@@ -12,7 +12,7 @@ async function initGallery() {
       wrapper.className = 'img-item';
 
       const img = document.createElement('img');
-      img.src = '/' + path;
+      img.src = path;
       img.alt = path.split('/').pop();
       img.loading = 'lazy';
       wrapper.appendChild(img);
