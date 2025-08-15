@@ -42,11 +42,11 @@ self.addEventListener('message', async e => {
     const t0 = performance.now();
     const { q, limit = 8, offset = 0, filters = {}, sort = 'relevance' } = msg;
     const searchOptions = { limit: limit + offset, combineWith: 'AND' };
+    if (filters.category && filters.category !== 'all') {
+      searchOptions.filter = (r) => r.category === filters.category;
+    }
     const results = miniSearch.search(q, searchOptions);
     let filtered = results;
-    if (filters.category && filters.category !== 'all') {
-      filtered = results.filter(r => r.category === filters.category);
-    }
     if (sort === 'date') {
       filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     }
