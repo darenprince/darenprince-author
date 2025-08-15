@@ -85,6 +85,11 @@ Sass variables in `scss/tokens/_colors.scss` map directly to those custom proper
 2. Add `$name: var(--color-name);` to `_colors.scss`.
 3. Run `npm run build` to update the compiled CSS.
 
+### 🛡️ Style & Token Modification Policy
+- Do not change existing styles, colors, or theme tokens.
+- If changes are needed, create new classes, utilities, or tokens to accommodate them.
+- Only alter established tokens when explicitly requested.
+
 ---
 
 ## 🌐 Site Structure

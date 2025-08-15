@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css",
+    "build:search": "node ./src/search/build-index.mjs",
+    "build": "npm run build:search && node scripts/generate-env.js && sass scss/styles.scss assets/styles.css",
     "watch": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css --watch",
     "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass"
@@ -11,6 +12,11 @@
     "sass": "^1.89.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
-    "@sendgrid/mail": "^7.7.0"
+    "@sendgrid/mail": "^7.7.0",
+    "minisearch": "^6.1.0",
+    "glob": "^10.3.12",
+    "gray-matter": "^4.0.3",
+    "cheerio": "^1.0.0-rc.12",
+    "marked": "^10.0.0"
   }
 }
