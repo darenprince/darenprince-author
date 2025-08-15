@@ -29,11 +29,11 @@
       </form>
       <div class="controls">
         <div class="filters" role="tablist">
-          <button data-filter="all" class="is-active">All</button>
-          <button data-filter="articles">Articles</button>
-          <button data-filter="audio">Audio</button>
-          <button data-filter="ebook">E-Book</button>
-          <button data-filter="print">Print</button>
+          <button role="tab" aria-selected="true" data-filter="all" class="is-active">All</button>
+          <button role="tab" aria-selected="false" data-filter="articles">Articles</button>
+          <button role="tab" aria-selected="false" data-filter="audio">Audio</button>
+          <button role="tab" aria-selected="false" data-filter="ebook">E-Book</button>
+          <button role="tab" aria-selected="false" data-filter="print">Print</button>
         </div>
         <label>Sort
           <select data-sort>
