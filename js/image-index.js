@@ -1,5 +1,5 @@
 async function initGallery() {
-  const resp = await fetch('/assets/image-manifest.json');
+  const resp = await fetch('assets/image-manifest.json');
   const images = await resp.json();
   const gallery = document.getElementById('gallery');
   const searchInput = document.getElementById('image-search');
