@@ -3357,4 +3357,9 @@ body.menu-open .menu-overlay {
   pointer-events: auto;
 }
 
+.store-logos img {
+  height: 48px;
+  border-radius: 8px;
+}
+
 /*# sourceMappingURL=styles.css.map */

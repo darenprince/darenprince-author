@@ -47,15 +47,15 @@ const storeData = {
   print: [
     { name: 'Amazon (Paperback)', url: 'https://www.amazon.com/Game-Master-Conversation-Heart-Comprehensive/dp/B0DR5QN7LR', logo: 'amazon.png' },
     { name: 'Amazon (Hardcover)', url: 'https://www.amazon.com/GAME-Master-Conversation-Heart-Comprehensive/dp/B0FCXB2W2F', logo: 'amazon.png' },
-    { name: 'Books-A-Million', url: 'https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407' },
-    { name: 'ThriftBooks', url: 'https://www.thriftbooks.com/w/game-on-master-the-conversation–win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating–amazing-relationships_daren-prince/54448380/' },
+    { name: 'Books-A-Million', url: 'https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/97/Books-A-Million_logo.svg/1200px-Books-A-Million_logo.svg.png' },
+    { name: 'ThriftBooks', url: 'https://www.thriftbooks.com/w/game-on-master-the-conversation–win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating–amazing-relationships_daren-prince/54448380/', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/ThriftBooks_logo.png' },
     { name: 'Better World Books', url: 'https://www.betterworldbooks.com/product/detail/game-on-master-the-conversation-win-her-heart-the-comprehensive-men-s-playbook-for-flirting-9798303844407' },
-    { name: 'eBay – GrandEagleRetail', url: 'https://www.ebay.com/itm/365413682361' },
-    { name: 'Walmart', url: 'https://www.walmart.com/ip/Game-On-Master-the-Conversation-Win-Her-Heart-Paperback-9798303844407' },
-    { name: 'Target', url: 'https://www.target.com/p/game-on-master-the-conversation-win-her-heart-by-daren-prince-paperback' },
+    { name: 'eBay – GrandEagleRetail', url: 'https://www.ebay.com/itm/365413682361', logo: 'ebay.svg' },
+    { name: 'Walmart', url: 'https://www.walmart.com/ip/Game-On-Master-the-Conversation-Win-Her-Heart-Paperback-9798303844407', logo: 'walmart.svg' },
+    { name: 'Target', url: 'https://www.target.com/p/game-on-master-the-conversation-win-her-heart-by-daren-prince-paperback', logo: 'target.svg' },
     { name: 'Alibris', url: 'https://www.alibris.com/Game-On-Master-the-Conversation-Win-Her-Heart-Daren-Prince/book/51827678' },
     { name: 'AbeBooks', url: 'https://www.abebooks.com/servlet/SearchResults?isbn=9798303844407' },
-    { name: 'Bookshop.org', url: 'https://bookshop.org/p/books/game-on-master-the-conversation-win-her-heart-daren-prince/20222624' },
+    { name: 'Bookshop.org', url: 'https://bookshop.org/p/books/game-on-master-the-conversation-win-her-heart-daren-prince/20222624', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Bookshop_Logo.svg' },
     { name: 'IndieBound', url: 'https://www.indiebound.org/book/9798303844407' },
     { name: 'Biblio.com', url: 'https://www.biblio.com/book/game-master-conversation-win-heart-comprehensive/daren-prince/9789798303844407' },
     { name: 'Powell’s Books', url: 'https://www.powells.com/' },
@@ -63,7 +63,7 @@ const storeData = {
     { name: 'Tattered Cover', url: 'https://www.tatteredcover.com/' },
     { name: 'Politics & Prose', url: 'https://www.politics-prose.com/' },
     { name: 'Half Price Books', url: 'https://www.hpb.com/' },
-    { name: 'Waterstones', url: 'https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince//9798303844407' },
+    { name: 'Waterstones', url: 'https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince//9798303844407', logo: 'https://upload.wikimedia.org/wikipedia/commons/1/10/Waterstones_logo.svg' },
     { name: 'Bol.com', url: 'https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/' },
     { name: 'laFeltrinelli / IBS', url: 'https://www.lafeltrinelli.it/game-on-master-conversation-win-libro-inglese-daren-prince/e/9798303844407' },
     { name: 'Atlantic Books', url: 'https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407' },
@@ -97,8 +97,10 @@ function updateStoreDisplay() {
   logoContainer.innerHTML = '';
   if (logo) {
     const img = document.createElement('img');
-    img.src = `/assets/logos/${logo}`;
+    img.src = logo.startsWith('http') ? logo : `assets/logos/${logo}`;
     img.alt = `${selected.textContent} logo`;
+    img.loading = 'lazy';
+    img.style.borderRadius = '8px';
     logoContainer.appendChild(img);
   }
 }
