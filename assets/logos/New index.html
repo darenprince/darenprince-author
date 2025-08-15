@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Center | Daren Prince</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <meta property="og:title" content="Access Downloadable Press Kits, Brand Assets, & Exclusive Content”, perty="og:description" content="Access essential press kits, images, promotional content, author bios, and exclusive content from author Daren Prince." />
+  <meta property="og:image" content="https://files.darenprince.com/og-image.jpg" />
+  <meta property="og:url" content="https://files.darenprince.com/" />
+  <meta name="twitter:card" content="Professional Headshot of Author Daren Prince Next to two of his most popular books Game On! And Unshakable. The Daren Prince branded logo is featured prominently as well." />
+
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;800&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Media Download Center | Daren Prince | Author",
+    "description": "Access and download press kits, images, promotional content, press releases, author bios, and exclusive content from author and communication strategist, Daren Prince.",
+    "url": "https://files.darenprince.com/",
+    "about": {
+      "@type": "Person",
+      "@id": "https://files.darenprince.com/#darenprince",
+      "name": "Daren Prince",
+      "url": "https://www.darenprince.com/",
+      "image": "https://files.darenprince.com/daren-prince-profile-lg.jpg",
+      "jobTitle": "Author",
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "https://files.darenprince.com/#darenprincepublishing"
+      },
+      "name": "Daren Prince Publishing",
+      "url": "https://www.darenprince.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://files.darenprince.com/logo-hires-black-for-light-bg.svg"
+      }
+    }
+  }
+  </script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      color: #FDFDFD;
+      background: url('bg.jpg') no-repeat center top fixed;
+      background-size: cover;
+      background-color: #070A06;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: 1A1A1A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1.0s ease;
+    }
+
+    #loader img {
+      width: 300px;
+      max-width: 80%;
+      /* Removed margin-top: 50px as the ring's margin-bottom will handle spacing from the ring */
+      margin-bottom: 0; /* Ensures no extra space below the logo image itself */
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.93); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.75; }
+    }
+
+    /* Styles for the Glowing Loader Ring */
+    .ring {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border: 0px solid #000;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 100px;
+      font-size: 10px;
+      color: #87BD72;
+      text-shadow: 0 0 10px #87BD72;
+      box-shadow: 0 0 20px rgba(135, 189, 114, 0.5);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      order: 2; /* Ensures ring appears above the image in flex column */
+      margin-bottom: 50px;
+    }
+
+    .ring:before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 100%;
+      height: 100%;
+      border: 5px solid transparent;
+      border-top: 3px solid #87BD72;
+      border-right: 3px solid #87BD72;
+      border-radius: 50%;
+      animation: animateC 2s linear infinite;
+    }
+
+    .ring span {
+      display: block;
+      position: absolute;
+      top: calc(50% - 3px);
+      left: 50%;
+      width: 50%;
+      height: 4px;
+      background: transparent;
+      transform-origin: left;
+      animation: animate 2s linear infinite;
+    }
+
+    .ring span:before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #87BD72;
+      box-shadow: 0 0 20px #87BD72;
+    }
+
+    @keyframes animateC {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes animate {
+      0% {
+        transform: rotate(45deg);
+      }
+      100% {
+        transform: rotate(405deg);
+      }
+    }
+
+
+    /* === NAVIGATION STYLES === */
+    .header-nav {
+      background-color: #212121;
+      box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 70px;
+    }
+
+    .header-nav .logo img {
+      max-width: 125px; /* UPDATED: Slightly larger logo */
+      height: auto;
+      display: block;
+      padding: 0;
+      margin-top: 0; /* Ensures no unexpected top margin */
+    }
+
+    .header-nav .tagline {
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: rgba(135, 189, 114, 0.9); /* Green color with 90% opacity */
+      font-size: 16px;
+      margin-left: 25px;
+      white-space: nowrap;
+    }
+
+    .logo-and-tagline {
+      display: flex;
+      align-items: center;
+      padding-top: 0; /* Ensures no unexpected padding here */
+    }
+
+    /* Menu Button Styles (Hamburger) */
+    .menu-btn {
+      display: none;
+    }
+
+    .menu-icon {
+      cursor: pointer;
+      display: none;
+    }
+
+    .menu-icon .navicon {
+      background: #FDFDFD;
+      display: block;
+      height: 4px;
+      position: relative;
+      transition: background .4s ease-out;
+      width: 20px;
+    }
+
+    .menu-icon .navicon:before,
+    .menu-icon .navicon:after {
+      background: #FDFDFD;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      transition: all .4s ease-out;
+      width: 100%;
+    }
+
+    .menu-icon .navicon:before {
+      top: 6px;
+    }
+
+    .menu-icon .navicon:after {
+      top: 8px;
+    }
+
+    /* Hamburger Animation */
+    .menu-btn:checked ~ .menu-icon .navicon {
+      background: transparent;
+    }
+
+    .menu-btn:checked ~ .menu-icon .navicon:before {
+      transform: rotate(-45deg);
+      top: 0;
+    }
+
+    .menu-btn:checked ~ .menu-icon .navicon:after {
+      transform: rotate(45deg);
+      top: 0;
+    }
+
+    /* Main Navigation List (Desktop) */
+    .menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow: hidden;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      height: auto;
+      position: relative;
+      top: auto;
+      left: auto;
+      width: auto;
+      transform: translateX(0);
+    }
+
+    .menu li a {
+      display: block;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: #D5D5D5;
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 14px;
+      transition: background-color 0.4s ease, color 0.3s ease;
+    }
+
+    .menu li a:hover {
+      background-color: #070A06;
+      color: #C2E9C1;
+    }
+
+    /* Active Page Styling */
+    .menu li a.active-page {
+      color: #C2E9C1;
+      font-weight: 800;
+    }
+
+    /* === END NAVIGATION STYLES === */
+
+    header {
+      text-align: center;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 220px;
+      margin-bottom: 0;
+    }
+
+    header img {
+      display: block;
+      width: 45%;
+      max-width: 400px;
+      height: auto;
+      padding: 12px;
+      box-sizing: border-box;
+      margin: 0 auto 15px auto;
+    }
+
+    h1 {
+      display: none;
+    }
+
+    .intro-text {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      font-size: 15px;
+      color: #D5D5D5;
+      line-height: 1.5;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 870px;
+      margin: 0 auto;
+      flex: 0 0 auto;
+      box-sizing: border-box;
+    }
+
+    .file-entry {
+      background-color: #212121;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: nowrap;
+      text-align: left;
+      border: 1px solid rgba(194, 233, 193, 0.5);
+      box-shadow: 0 0 13px rgba(194, 233, 193, 0.2);
+      margin-bottom: 40px;
+    }
+
+    .file-entry img {
+      max-width: 65px;
+      height: auto;
+      border-radius: 3px;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    .file-meta {
+      flex: 1;
+    }
+
+    .file-entry a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .file-name a {
+        color: #B8BAB7;
+    }
+
+    .file-name {
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 700;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .file-name:hover {
+        color: #8CD679;
+    }
+
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: nowrap;
+      margin-top: 20px; /* Pushed buttons down */
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 15px 22px; /* Increased padding for larger button */
+      text-decoration: none;
+      border-radius: 5px;
+      text-align: center;
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      display: flex; /* Ensure content is centered */
+      align-items: center;
+      justify-content: center;
+      min-width: 120px; /* Set a minimum width for the button */
+    }
+
+    a.btn.view-btn {
+      background-color: #C2E9C1;
+      color: #070A06;
+    }
+    a.btn.view-btn:hover {
+        background-color: #A0D39F;
+    }
+
+    .download-btn {
+      background-color: #456F3A;
+      color: #FDFDFD;
+    }
+    .download-btn:hover {
+        background-color: #3A5F30;
+    }
+
+
+    footer {
+      flex-shrink: 0;
+      color: #D5D5D5;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      overflow: hidden;
+      margin-bottom: 100px;
+    }
+
+    /* Styles for the main footer content area */
+    .footer-main-content {
+        background-color: #313131;
+        padding: 50px 20px;
+    }
+
+    /* Styles for the very bottom copyright/links bar */
+    .footer-bottom-bar {
+        background-color: #1f1f1f;
+        padding: 27px 20px;
+        margin-top: 0px;
+        margin-bottom: 40px;
+    }
+    /* Media Queries for Responsiveness */
+    @media (max-width: 1280px) {
+        body {
+            background-image: url('bg-mobile.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+        }
+
+    /* Helper class to center content within full-width sections */
+    .content-wrapper {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Moved tagline image styling */
+    .footer-tagline-moved {
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    .footer-tagline-moved img {
+        width: 300px;
+        max-width: 70%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    footer h4 {
+      font-size: 18px;
+      text-transform: uppercase;
+      margin-bottom: 17px;
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 18px;
+      margin-bottom: 22px;
+    }
+
+    .footer-icons img {
+      width: auto;
+      height: 23px;
+      opacity: 0.9;
+      transition: transform 0.4s ease;
+    }
+
+    .footer-icons img:hover {
+      transform: scale(1.2);
+    }
+
+    /* Styles for Bookstore Logos in Footer */
+    .bookstore-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      margin-top: 17px;
+      margin-bottom: 69px;
+      flex-wrap: wrap;
+    }
+
+    .bookstore-logos a {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.4s ease, opacity 0.3s ease;
+    }
+
+    .bookstore-logos a img {
+      max-height: 100%;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      opacity: 0.9;
+    }
+
+    .bookstore-logos a:hover {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+
+
+    /* Transparent black overlay for mobile menu */
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 2;
+        display: none;
+        transition: background-color 0.4s ease;
+    }
+
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 600px) {
+      .file-entry {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .file-entry img {
+        margin-bottom: 15px;
+      }
+      .buttons {
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px; /* Pushed buttons down */
+        margin-bottom: 10px;
+      }
+      .btn {
+        min-width: unset;
+        flex-grow: 1;
+        flex-basis: 100%;
+      }
+
+      /* Mobile Nav specific styles */
+      .menu-icon {
+        display: block;
+      }
+      .header-nav .logo-and-tagline {
+        justify-content: flex-start;
+        width: 100%;
+      }
+      .header-nav .tagline {
+        display: block;
+        font-size: 16px;
+        margin-left: 16px;
+        margin-right: auto;
+      }
+
+      .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 100%;
+        background-color: #2f2f2f;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 80px;
+        transition: transform 0.4s ease-out;
+        transform: translateX(-100%);
+        box-sizing: border-box;
+        z-index: 4;
+      }
+
+      /* Footer adjustments for mobile */
+      footer h4 {
+        margin-top: 0 !important;
+      }
+
+
+      /* Ensure form items stack on mobile */
+      form {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      form input,
+      form button {
+        width: 100%;
+        height: 50px;
+        max-width: none;
+        margin-bottom: 6px;
+        box-sizing: border-box;
+      }
+
+
+
+      /* Mobile Styles for Bookstore Logos in Footer */
+      .bookstore-logos {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .bookstore-logos a {
+        width: auto;
+        height: 65px;
+      }
+      .bookstore-logos a img {
+        width: auto;
+        height: 65px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="ring">
+      Loading
+      <span></span>
+    </div>
+    <img src="tagline.png" alt="Burn the Mask. Speak the Truth." />
+  </div>
+
+  <nav class="header-nav">
+    <div class="logo-and-tagline">
+      <a href="https://www.darenprince.com" class="logo">
+        <img src="logo-white.png" alt="Daren Prince Official Logo" />
+      </a>
+      <span class="tagline">IT'S TIME TO LEVEL UP!</span>
+    </div>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu">
+      <li><a href="https://darenprince.com/#page-0">Bio</a></li>
+      <li><a href="https://darenprince.com/#page-1">Books</a></li>
+      <li><a href="https://files.darenprince.com">Press</a></li>
+      <li><a href="#" class="active-page">Downloads</a></li> <li><a href="mailto:contact@darenprince.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="mobile-menu-overlay"></div>
+
+  <header>
+    <img src="download-center-heading.png" alt="Download Center" />
+    <p class="intro-text">
+      Welcome to the official Download Center for Daren Prince. This is your one stop hub for press kits, brand assets, media releases, and exclusive bonus content available to VIP subscribers and media professionals.
+    </p>
+  </header>
+
+  <main>
+    <div class="file-entry">
+      <a href="press-kit.html">
+        <img src="presskit-thumb-portrait.png" alt="Cover image of Game On! Press Kit & Brand Guide" />
+      </a>
+      <div class="file-meta">
+        <a href="press-kit.html">
+            <div class="file-name">Game On! – Official Press Kit & Brand Guidelines (US/EU Version)</div>
+        </a>
+        <p style="font-size: 14px; margin-bottom: 14px; color: #D5D5D5;">
+          Includes high resolution images, author bio, metadata,press releases, author bios, brand identity, and everything media pros need.
+        </p>
+        <div class="buttons">
+          <a class="btn view-btn" href="press-kit.html" aria-label="View Game On! Press Kit page">View</a>
+          <a class="btn download-btn" href="Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" download aria-label="Download Game On! Press Kit PDF">Download (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer style="color: #D5D5D5; font-family: 'Helvetica Neue', sans-serif;">
+    <div class="footer-main-content"> <div class="content-wrapper"> <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+
+                <div style="flex: 1 1 200px;">
+                    <a href="https://www.darenprince.com">
+                        <img src="logo-footer-white.png" alt="Daren Prince Footer Logo" style="max-width: 117px; margin-bottom: 15px;" />
+                    </a>
+                    <p style="font-size: 14px; line-height: 1.2; color: #B8BAB7;">
+                        Daren Prince is the unapologetic voice behind <em>Game On!</em>, helping men master the conversation and spark real connection through confidence and emotional intelligence.
+                    </p>
+                </div>
+
+                <div style="flex: 1 1 150px;">
+                    <h4 style="background: linear-gradient(90deg,#C2E9C1,#87BD72); -webkit-background-clip: text; color: transparent;">
+                        Explore
+                    </h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.9;">
+                        <li><a href="https://darenprince.com/#page-0" style="color: #D5D5D5; font-weight: bold; text-decoration: none;">Bio</a></li>
+                        <li><a href="https://darenprince.com/#page-1" style="color: #D5D5D5; font-weight: bold; text-decoration: none;">Books</a></li>
+                        <li><a href="https://files.darenprince.com">Press</a></li>
+                        <li><a href="#" style="color:#D5D5D5; font-weight: bold; text-decoration: none;">Downloads</a></li> <li><a href="mailto:contact@darenprince.com" style="color: #D5D5D5; font-weight: bold; text-decoration: none;">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div style="flex: 1 1 250px;">
+                    <h4 style="background: linear-gradient(90deg,#87BD72,#456F3A); -webkit-background-clip: text; color: transparent;">
+                        Stay Connected
+                    </h4>
+                    <p style="font-size: 16px; color: #B8BAB7; margin-bottom: 14px;">
+                        Get exclusive updates, content & early access direct from author Daren Prince.
+                    </p>
+                    <form action="mailto:press@darenprince.com" method="POST" enctype="text/plain" style="display: flex; flex-wrap: nowrap; align-items: center; gap: 10px;">
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email address"
+                          aria-label="Your email address"
+                          style="padding: 12px; flex: 1 1 auto; border: none; border-radius: 4px; background-color: #2A2A2A; color: #FDFDFD;"
+                          required
+                        />
+                        <button
+                          type="submit"
+                          style="padding: 12px 16px; background-color: #456F3A; border: none; color: white; border-radius: 4px; white-space: nowrap; margin-top: 6px;"
+                        >
+                          Join →
+                        </button>
+                    </form>
+                </div>
+
+                <div style="flex: 1 1 280px;">
+                    <h4 style="text-align: center; background: linear-gradient(90deg,#C2E9C1,#6DA667); -webkit-background-clip: text; color: transparent; margin-top: 15px;">
+                        Also Available On:
+                    </h4>
+                    <div class="bookstore-logos">
+                        <a href="https://www.amazon.com/author/darenprince" target="_blank" aria-label="Find Daren Prince books on Amazon">
+                            <img src="amazon.png" alt="Amazon Books Logo">
+                        </a>
+                        <a href="https://www.goodreads.com/author/show/53671567.Daren_Prince" target="_blank" aria-label="Find Daren Prince books on Goodreads">
+                            <img src="goodreads.png" alt="Goodreads Logo">
+                        </a>
+                        <a href="https://apple.co/45SmJH4" target="_blank" aria-label="Find Daren Prince books on Apple Books">
+                            <img src="ibooks.png" alt="Apple Books Logo">
+                        </a>
+                        <a href="https://play.google.com/store/books/details/Daren Prince Game On Master The Conversation Win H?id=BYFbEQAAQBAJ" target="_blank" aria-label="Find Daren Prince books on Google Play Books">
+                            <img src="googleplay.png" alt="Google Play Books Logo">
+                        </a>
+                    </div>
+                    <h4 style="text-align: center; background: linear-gradient(90deg,#C2E9C1,#6DA667); -webkit-background-clip: text; color: transparent; margin-top: 30px;">
+                        Follow & Connect
+                    </h4>
+                    <div class="footer-icons">
+                        <a href="https://www.amazon.com/author/darenprince" target="_blank"><img src="amazon-32.png" alt="Amazon Icon"></a>
+                        <a href="#" onclick="event.preventDefault(); alert('Press Ctrl+D (Cmd+D on Mac) to bookmark this page.');"><img src="bookmark-6-32.png" alt="Bookmark Icon"></a>
+                        <a href="mailto:contact@darenprince.com"><img src="read-message-32.png" alt="Email Icon"></a>
+                        <a href="https://youtube.com/@authordarenprince" target="_blank"><img src="youtube-32.png" alt="YouTube Icon"></a>
+                        <a href="https://www.tiktok.com/@darenprince" target="_blank"><img src="tiktok-32.png" alt="TikTok Icon"></a>
+                        <a href="#"><img src="twitter-x-32.png" alt="Twitter X Icon"></a>
+                    </div>
+                </div>
+            </div>
+        </div> </div> <div class="footer-bottom-bar">
+        <div class="content-wrapper">
+            <div class="footer-tagline-moved">
+                <img src="tagline.png" alt="Burn the Mask. Speak the Truth.">
+            </div>
+            <div style="text-align: center; font-size: 12px; color: #5F5F5F;">
+                <p>© 2025 Daren Prince Publishing. All rights reserved. This site and its content are protected under U.S. and international copyright law.</p>
+                <p>
+                    <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Terms</a>
+                    |
+                    <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Privacy</a>
+                    |
+                    <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Compliance</a>
+                    |
+                    <a href="mailto:contact@darenprince.com" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Contact</a>
+                </p>
+            </div>
+        </div> </div> </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const loader = document.getElementById('loader');
+
+      // Define the minimum display time in milliseconds (2 seconds)
+      const minimumDisplayTime = 2000;
+
+      // Record when the page content is fully loaded
+      const loadStartTime = Date.now();
+
+      // Function to hide the loading screen
+      function hideLoadingScreen() {
+        loader.style.opacity = 0; // Start fade out
+        setTimeout(() => {
+          loader.style.display = 'none'; // Hide after fade out
+        }, 1000); // This should match the CSS transition duration for opacity (1.0s = 1000ms)
+      }
+
+      // Check if the minimum display time has passed when content is loaded
+      window.addEventListener('load', () => {
+        const timeElapsed = Date.now() - loadStartTime;
+        if (timeElapsed < minimumDisplayTime) {
+          // If not enough time has passed, wait the remaining time
+          setTimeout(hideLoadingScreen, minimumDisplayTime - timeElapsed);
+        } else {
+          // If enough time has passed, hide immediately
+          hideLoadingScreen();
+        }
+      });
+
+      // NEW: JavaScript for the menu and overlay
+      const menuBtn = document.getElementById('menu-btn');
+      const body = document.body;
+      const menu = document.querySelector('.menu'); // Select the menu itself
+      const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+
+      menuBtn.addEventListener('change', function() {
+          if (this.checked) {
+              body.classList.add('menu-open');
+              menu.style.transform = 'translateX(0)'; // Show menu
+              mobileMenuOverlay.style.display = 'block'; // Show overlay
+          } else {
+              body.classList.remove('menu');
+              menu.style.transform = 'translateX(-100%)'; // Hide menu
+              mobileMenuOverlay.style.display = 'none';
+          }
+      });
+
+      // Close menu/overlay if overlay is clicked (optional but good UX)
+      mobileMenuOverlay.addEventListener('click', () => {
+          menuBtn.checked = false; // Uncheck the menu button
+          body.classList.remove('menu-open');
+          menu.style.transform = 'translateX(-100%)';
+          mobileMenuOverlay.style.display = 'none';
+      });
+
+      // Hide menu and overlay on wider screens if it was open on mobile
+      window.addEventListener('resize', () => {
+          if (window.innerWidth > 600) { // Your mobile breakpoint
+              menuBtn.checked = false;
+              body.classList.remove('menu-open');
+              menu.style.transform = 'translateX(0)'; // Reset menu position for desktop
+              mobileMenuOverlay.style.display = 'none';
+          }
+      });
+    });
+  </script>
+
+</body>
+</html>

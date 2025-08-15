@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Media Center V2</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Center | Daren Prince</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="Daren Prince | Download Center for Press Kits, Brand Assets & VIP Content" />
+  <meta property="og:description" content="Access official media kits, brand assets, press releases, and exclusive bonus content from Daren Prince." />
+  <meta property="og:image" content="https://files.darenprince.com/og-image.jpg" />
+  <meta property="og:url" content="https://files.darenprince.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      color: #FDFDFD;
+      background: url('bg.jpg') no-repeat center top fixed;
+      background-size: cover;
+      background-color: #070A06;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 0 20px 20px;
+    }
+
+    header img {
+      margin-top: 0;
+      padding-bottom: 20px;
+      max-width: 180px;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #B8BAB7;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .intro-text {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      font-size: 15px;
+      color: #D5D5D5;
+      line-height: 1.6;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 960px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .file-entry {
+      background-color: #3B3C3B;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: nowrap;
+      text-align: left;
+    }
+
+    .file-entry img {
+      max-width: 80px;
+      height: auto;
+      border-radius: 4px;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    .file-meta {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .view-btn {
+      background-color: #C2E9C1;
+      color: #070A06;
+    }
+
+    .download-btn {
+      background-color: #456F3A;
+      color: #FDFDFD;
+    }
+
+    footer {
+      flex-shrink: 0;
+      background: linear-gradient(to bottom, #1B1B1B 0%, #0A0A0A 40%, #070A06 100%);
+      color: #D5D5D5;
+      padding: 60px 20px 30px;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    .footer-tagline {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .footer-tagline img {
+      width: 250px;
+      max-width: 90%;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px 0;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .footer-icons img {
+      width: 26px;
+      height: 26px;
+      opacity: 0.9;
+      transition: transform 0.2s ease;
+    }
+
+    .footer-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      .file-entry {
+        flex-direction: column;
+        align-items: flex-start !important;
+        text-align: left !important;
+      }
+
+      .file-entry img {
+        margin-bottom: 16px;
+      }
+
+      footer h4 {
+        margin-top: 0 !important;
+      }
+
+      form {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      form input,
+      form button {
+        width: 100%;
+        max-width: none;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      form button {
+        margin-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="https://www.darenprince.com">
+      <img src="logo-white.png" alt="Daren Prince Official Logo" />
+    </a>
+    <h1>Download Center</h1>
+    <p class="intro-text">
+      Welcome to the official Download Center for Daren Prince. This is your one-stop hub for press kits, brand assets, media releases, and exclusive bonus content available to VIP subscribers and media professionals.
+    </p>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="file-entry">
+      <img src="presskit-thumb-portrait.png" alt="Cover image of Game On! Press Kit & Brand Guide" />
+      <div class="file-meta">
+        <div class="file-name">Game On! – Official Press Kit & Brand Guidelines (US/EU Version)</div>
+        <p style="font-size: 14px; margin-bottom: 14px; color: #D5D5D5;">
+          Includes high-resolution cover art, author bio, ISBNs, audiobook runtime, brand color palette, and everything media pros need.
+        </p>
+        <div class="buttons">
+          <a class="btn view-btn" href="Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" target="_blank" aria-label="View Game On! Press Kit in browser">View</a>
+          <a class="btn download-btn" href="Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" download aria-label="Download Game On! Press Kit PDF">Download (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+
+      <!-- Logo & Bio -->
+      <div style="flex: 1 1 200px;">
+        <a href="https://www.darenprince.com">
+          <img src="logo-footer-white.png" alt="Daren Prince Footer Logo" style="max-width: 140px; margin-bottom: 20px;" />
+        </a>
+        <p style="font-size: 14px; line-height: 1.6; color: #B8BAB7;">
+          Daren Prince is the unapologetic voice behind <em>Game On!</em> — helping men master the conversation, elevate their presence, and spark real connection through confidence and emotional intelligence.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div style="flex: 1 1 150px;">
+        <h4 style="font-size: 14px; text-transform: uppercase; margin-bottom: 16px; background: linear-gradient(90deg,#C2E9C1,#87BD72); -webkit-background-clip: text; color: transparent;">
+          Explore
+        </h4>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px;">
+          <li><a href="https://www.darenprince.com/bio" style="color: #D5D5D5; text-decoration: none;">Bio</a></li>
+          <li><a href="https://www.darenprince.com/books" style="color: #D5D5D5; text-decoration: none;">Books</a></li>
+          <li><a href="mailto:press@darenprince.com" style="color: #D5D5D5; text-decoration: none;">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div style="flex: 1 1 250px;">
+        <h4 style="font-size: 14px; text-transform: uppercase; margin-bottom: 16px; background: linear-gradient(90deg,#87BD72,#456F3A); -webkit-background-clip: text; color: transparent;">
+          Stay Connected
+        </h4>
+        <p style="font-size: 13px; color: #B8BAB7; margin-bottom: 10px;">
+          Get exclusive updates, content & early access direct from Daren Prince.
+        </p>
+        <form action="mailto:press@darenprince.com" method="POST" enctype="text/plain" style="display: flex; flex-wrap: nowrap; align-items: center; gap: 10px;">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            aria-label="Your email address"
+            style="padding: 10px; flex: 1 1 auto; border: none; border-radius: 4px; background-color: #2A2A2A; color: #FDFDFD;"
+            required
+          />
+          <button
+            type="submit"
+            style="padding: 10px 16px; background-color: #456F3A; border: none; color: white; border-radius: 4px; white-space: nowrap;"
+          >
+            Join →
+          </button>
+        </form>
+      </div>
+
+      <!-- Social + Tagline -->
+      <div style="flex: 1 1 280px;">
+        <div class="footer-tagline">
+          <img src="tagline.png" alt="Burn the Mask. Speak the Truth.">
+        </div>
+        <h4 style="font-size: 13px; text-transform: uppercase; margin-bottom: 16px; background: linear-gradient(90deg,#C2E9C1,#6DA667); -webkit-background-clip: text; color: transparent; text-align: center;">
+          Follow & Connect
+        </h4>
+        <div class="footer-icons">
+          <a href="https://www.amazon.com/author/darenprince" target="_blank" aria-label="Daren Prince on Amazon">
+            <img src="amazon-32.png" alt="Amazon Icon">
+          </a>
+          <a href="#" onclick="event.preventDefault(); alert('Press Ctrl+D (Cmd+D on Mac) to bookmark this page.');" aria-label="Bookmark this page">
+            <img src="bookmark-6-32.png" alt="Bookmark Icon">
+          </a>
+          <a href="mailto:contact@darenprince.com" aria-label="Email Daren Prince">
+            <img src="read-message-32.png" alt="Email Icon">
+          </a>
+          <a href="https://youtube.com/@authordarenprince" target="_blank" aria-label="Daren Prince on YouTube">
+            <img src="youtube-32.png" alt="YouTube Icon">
+          </a>
+          <a href="https://www.tiktok.com/@darenprince" target="_blank" aria-label="Daren Prince on TikTok">
+            <img src="tiktok-32.png" alt="TikTok Icon">
+          </a>
+          <a href="#" aria-label="Daren Prince on Twitter/X">
+            <img src="twitter-x-32.png" alt="Twitter X Icon">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 60px; text-align: center; font-size: 12px; color: #5F5F5F;">
+      <p>© 2025 Daren Prince Publishing. All rights reserved. This site and its content are protected under U.S. and international copyright law.</p>
+      <p>
+        <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Terms</a>
+        |
+        <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Privacy</a>
+        |
+        <a href="#" style="color:#87BD72; text-decoration:none; margin: 0 8px;">Compliance</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
