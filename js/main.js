@@ -67,6 +67,22 @@ document.addEventListener('DOMContentLoaded', async function () {
         searchBar.setAttribute('hidden', '');
         searchToggle.focus();
       }
+      if (event.key === '/' && document.activeElement === document.body) {
+        event.preventDefault();
+        searchBar.removeAttribute('hidden');
+        const input = searchBar.querySelector('input[type="search"]');
+        if (input) input.focus();
+      }
+    });
+
+    const searchForm = searchBar.querySelector('form');
+    searchForm?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const query = searchForm.querySelector('input[type="search"]').value.trim();
+      if (query) {
+        const url = `https://www.google.com/search?q=site:darenprince.com+${encodeURIComponent(query)}`;
+        window.open(url, '_blank');
+      }
     });
   }
 
