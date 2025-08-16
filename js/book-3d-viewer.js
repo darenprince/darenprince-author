@@ -8,6 +8,7 @@ const addToCartBtn = document.getElementById('add-to-cart');
 const bookToolbar = document.querySelector('.book-toolbar');
 const purchaseOptions = document.getElementById('purchase-options');
 let rotateHintTimeout;
+let glowShown = false;
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
@@ -41,6 +42,14 @@ export function showRotateHint() {
 }
 
 window.showRotateHint = showRotateHint;
+
+function highlightToolbar() {
+  if (!bookToolbar) return;
+  bookToolbar.classList.add('glow');
+  setTimeout(() => bookToolbar.classList.remove('glow'), 1000);
+}
+
+window.highlightToolbar = highlightToolbar;
 
 window.addEventListener('load', () => {
   bookViewer?.classList.add('loaded');
@@ -218,6 +227,10 @@ if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
     const entry = entries[0];
     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
       bookToolbar.classList.add('visible');
+      if (!glowShown) {
+        highlightToolbar();
+        glowShown = true;
+      }
     } else {
       bookToolbar.classList.remove('visible');
     }
