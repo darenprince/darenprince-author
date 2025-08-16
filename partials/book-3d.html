@@ -1,5 +1,16 @@
 <!-- 📘 Book 3D Viewer Partial Component -->
 <div class="book-media">
+  <div class="book-3d-viewer">
+    <div class="book-loader"></div>
+    <div class="rotate-hint" aria-hidden="true">
+      <img src="assets/images/360rotate.png" alt="" />
+    </div>
+    <div class="book" id="book">
+      <div class="face front"></div>
+      <div class="face spine"></div>
+      <div class="face back"></div>
+    </div>
+  </div>
   <nav class="book-toolbar book-rail" aria-label="Book controls">
     <ul class="book-rail__list">
       <li class="book-rail__item">
@@ -58,17 +69,6 @@
       </svg>
     </button>
   </nav>
-  <div class="book-3d-viewer">
-    <div class="book-loader"></div>
-    <div class="rotate-hint" aria-hidden="true">
-      <img src="assets/images/360rotate.png" alt="" />
-    </div>
-    <div class="book" id="book">
-      <div class="face front"></div>
-      <div class="face spine"></div>
-      <div class="face back"></div>
-    </div>
-  </div>
   <div class="cover-zoom-modal" id="cover-zoom" hidden>
     <div class="cover-zoom-content">
       <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>

@@ -440,6 +440,23 @@
     <section id="book-3d-viewer" class="demo-section padding-y-lg">
       <div class="container max-width-adaptive-lg demo-container">
         <div class="book-media">
+          <div class="book-3d-viewer">
+            <div class="book-loader"></div>
+            <div class="rotate-hint" aria-hidden="true">
+              <img src="assets/images/360rotate.png" alt="" />
+            </div>
+            <div class="scene">
+              <div class="book" id="book">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face spine"></div>
+                <div class="face pages"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+              </div>
+              <div class="shadow"></div>
+            </div>
+          </div>
           <nav class="book-toolbar book-rail" aria-label="Book controls">
             <ul class="book-rail__list">
               <li class="book-rail__item">
@@ -460,23 +477,6 @@
             </ul>
             <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg></button>
           </nav>
-          <div class="book-3d-viewer">
-            <div class="book-loader"></div>
-            <div class="rotate-hint" aria-hidden="true">
-              <img src="assets/images/360rotate.png" alt="" />
-            </div>
-            <div class="scene">
-              <div class="book" id="book">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face spine"></div>
-                <div class="face pages"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-              </div>
-              <div class="shadow"></div>
-            </div>
-          </div>
           <div class="cover-zoom-modal" id="cover-zoom" hidden>
             <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
             <div class="cover-zoom-content">

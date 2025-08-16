@@ -87,6 +87,23 @@
         <div class="book-details-wrapper">
           <div class="book-layout">
             <div class="book-media">
+              <div id="book-3d-viewer" class="book-3d-viewer">
+                <div class="book-loader"></div>
+                <div class="rotate-hint" aria-hidden="true">
+                  <img src="assets/images/360rotate.png" alt="" />
+                </div>
+                <div class="scene">
+                  <div class="book" id="book">
+                    <div class="face front"></div>
+                    <div class="face back"></div>
+                    <div class="face spine"></div>
+                    <div class="face pages"></div>
+                    <div class="face top"></div>
+                    <div class="face bottom"></div>
+                  </div>
+                  <div class="shadow"></div>
+                </div>
+              </div>
               <nav class="book-toolbar book-rail" aria-label="Book controls">
                 <ul class="book-rail__list">
                   <li class="book-rail__item">
@@ -145,23 +162,6 @@
                   </svg>
                 </button>
               </nav>
-              <div id="book-3d-viewer" class="book-3d-viewer">
-                <div class="book-loader"></div>
-                <div class="rotate-hint" aria-hidden="true">
-                  <img src="assets/images/360rotate.png" alt="" />
-                </div>
-                <div class="scene">
-                  <div class="book" id="book">
-                    <div class="face front"></div>
-                    <div class="face back"></div>
-                    <div class="face spine"></div>
-                    <div class="face pages"></div>
-                    <div class="face top"></div>
-                    <div class="face bottom"></div>
-                  </div>
-                  <div class="shadow"></div>
-                </div>
-              </div>
               <div class="cover-zoom-modal" id="cover-zoom" hidden>
                 <div class="cover-zoom-content">
                   <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
