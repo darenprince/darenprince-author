@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/canva-swatches.generated.css">
   <style>
     .swatch { padding:1rem; border-radius:0.35rem; display:flex; align-items:center; justify-content:center; color:var(--color-black); }
     .swatch.dark { color:var(--color-white); }
@@ -14,6 +15,10 @@
     .component { margin-bottom:2rem; }
     .component-example { margin-bottom:1rem; display:flex; flex-wrap:wrap; gap:0.5rem; }
     nav.style-guide-nav a { margin-right:1rem; }
+    #canva-swatches-all .swatch-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    #canva-swatches-all .swatch { background:#1f1f1f0d; padding:1rem; border-radius:.6rem; border:1px solid #e5e5e5; }
+    #canva-swatches-all .tokens { display:block; margin-top:.75rem; font-size:.85rem; word-break:break-word; }
+    #canva-swatches-all .preview svg { margin-right:.5rem; vertical-align:-2px; }
   </style>
 </head>
 <body class="theme-dark">
@@ -60,6 +65,8 @@
         </div>
 <pre><code>&lt;div style="background:var(--color-primary)"&gt;&lt;/div&gt;</code></pre>
       </section>
+
+      <div id="canva-swatches"></div>
 
       <section id="typography" class="component">
         <h2>Typography</h2>
@@ -256,5 +263,10 @@
   </main>
 
   <script src="../js/style-guide.js" type="module"></script>
+  <script type="module">
+    fetch('canva-swatches.generated.html')
+      .then(resp => resp.text())
+      .then(html => { document.getElementById('canva-swatches').outerHTML = html; });
+  </script>
 </body>
 </html>
