@@ -2215,8 +2215,18 @@ input:checked + .toggle-slider::before {
   border: 1px solid var(--border);
   border-radius: var(--radius-rail);
   box-shadow: var(--shadow);
+  position: relative;
   color: var(--ink);
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.book-rail.glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--brand-1);
+  border-radius: inherit;
+  pointer-events: none;
+  animation: rail-chase 1s linear forwards;
 }
 .book-rail__list {
   list-style: none;
@@ -2298,6 +2308,23 @@ input:checked + .toggle-slider::before {
   outline-offset: 2px;
 }
 
+@keyframes rail-chase {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  25% {
+    clip-path: inset(0 0 100% 0);
+  }
+  50% {
+    clip-path: inset(0 0 0 100%);
+  }
+  75% {
+    clip-path: inset(100% 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .book-rail,
   .book-rail__btn,
