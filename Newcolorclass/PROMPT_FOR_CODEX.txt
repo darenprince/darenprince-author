@@ -1,0 +1,43 @@
+You are updating the `darenprince/darenprince-author` site to integrate a complete swatch library taken from Canva.
+Every swatch is a two-stop vertical gradient (top->bottom) with an exact border stroke and an exact cloud/text colour.
+Do not approximate. Do not refactor existing classes. This change is additive only.
+
+## Inputs (already supplied in this package)
+- `assets/css/canva-swatches.ALL.generated.css`  ← tokens + classes for all detected swatches
+- `docs/canva-swatches.ALL.generated.html`       ← catalog fragment (button + container + tokens per swatch)
+- `swatch_catalog_all.csv` / `swatch_catalog_all.json` ← raw values (top, bottom, border, text)
+
+## Goals
+1) Include the generated CSS in the site so classes are available.
+2) Embed the generated HTML fragment in the style guide so every swatch is visible.
+3) Preserve existing behaviour. No deletions or renames of current CSS.
+4) Ensure icons use `currentColor` so they inherit the swatch text colour.
+
+## Exact steps
+1. Create a new branch: `feature/canva-swatches`.
+2. Place files into the repo with these paths:
+   - `assets/css/canva-swatches.generated.css`  (copy from this package's ALL css)
+   - `docs/canva-swatches.generated.html`       (copy from this package's ALL html)
+   - Add `tools/extract_swatches.py` only if it does not exist already (generator is optional at runtime).
+3. Edit `docs/style-guide.html` (ADD-ONLY):
+   - In the <head>, AFTER existing stylesheet links, add:
+     <link rel="stylesheet" href="../assets/css/canva-swatches.generated.css">
+     <style>
+       #canva-swatches .swatch-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+       #canva-swatches .swatch { background:#1f1f1f0d; padding:1rem; border-radius:.6rem; border:1px solid #e5e5e5; }
+       #canva-swatches .tokens { display:block; margin-top:.75rem; font-size:.85rem; word-break:break-word; }
+       #canva-swatches .preview svg { margin-right:.5rem; vertical-align:-2px; }
+     </style>
+   - In the BODY, where you want the catalog to appear, paste the entire contents of `docs/canva-swatches.generated.html`.
+     (If your doc builder supports includes, you can keep it as a separate file and include it. Otherwise inline it.)
+4. Commit your changes:
+   git add assets/css/canva-swatches.generated.css docs/canva-swatches.generated.html docs/style-guide.html
+   git commit -m "Add Canva swatch gradients, borders, and text colours (exact 2-stop) + style-guide catalog"
+   git push origin feature/canva-swatches
+5. Open a Pull Request: base = main, compare = feature/canva-swatches.
+
+## Constraints
+- Two-stop gradients only: linear-gradient(180deg, <top> 0%, <bottom> 100%).
+- Use exact border and cloud/text colours per swatch — values are in the CSS and JSON/CSV.
+- No breaking changes; the site must render as before if none of the new classes are used.
+- Icons/SVGs must use `fill="currentColor"`.
