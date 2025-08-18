@@ -4,16 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Style Guide</title>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Roboto:wght@500;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/canva-swatches.generated.css">
   <style>
+    body{font-family:Helvetica, Arial, sans-serif;}
     .swatch { padding:1rem; border-radius:0.35rem; display:flex; align-items:center; justify-content:center; color:var(--color-black); }
     .swatch.dark { color:var(--color-white); }
     pre { background: var(--color-charcoal); padding:1rem; border-radius:0.35rem; overflow:auto; }
     .component { margin-bottom:2rem; }
     .component-example { margin-bottom:1rem; display:flex; flex-wrap:wrap; gap:0.5rem; }
     nav.style-guide-nav a { margin-right:1rem; }
+    #canva-swatches-all .swatch-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    #canva-swatches-all .swatch { background:#1f1f1f0d; padding:1rem; border-radius:.6rem; border:1px solid #e5e5e5; position:relative; }
+    #canva-swatches-all h4{margin-top:0;margin-bottom:.5rem;font-family:Helvetica, Arial, sans-serif;font-size:1rem;}
+    #canva-swatches-all .preview svg { margin-right:.5rem; vertical-align:-2px; }
+    [class^="btn-swatch-"]{font-family:'Roboto', sans-serif;font-weight:900;}
+    .code-sample{position:relative;margin-top:.5rem;}
+    .code-sample pre{background:var(--gray-800);color:var(--color-white);padding:.5rem .75rem;border-radius:.35rem;overflow:auto;}
+    .code-sample .copy-btn{position:absolute;top:.25rem;right:.25rem;background:none;border:none;color:var(--color-white);cursor:pointer;font-size:1rem;}
+    .util-bold{font-weight:700;}
+    .util-glow{box-shadow:0 0 .8rem var(--color-accent);}
+    @keyframes util-pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+    .util-pulse{animation:util-pulse 2s infinite;}
+    .fav-actions{position:absolute;top:.5rem;right:.5rem;display:flex;gap:.25rem;}
+    .fav-actions button{background:none;border:none;color:var(--color-icon);cursor:pointer;}
+    .fav-actions button.active{color:var(--color-lime);}
+    .swatch-nav-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+    .swatch-nav-grid a{display:inline-block;}
+    .swatch-nav-grid a button,.swatch-nav-grid a div{pointer-events:none;}
   </style>
 </head>
 <body class="theme-dark">
@@ -60,6 +80,8 @@
         </div>
 <pre><code>&lt;div style="background:var(--color-primary)"&gt;&lt;/div&gt;</code></pre>
       </section>
+
+      <div id="canva-swatches"></div>
 
       <section id="typography" class="component">
         <h2>Typography</h2>
@@ -168,6 +190,18 @@
           <button class="btn btn--primary btn-xl">.btn-xl</button>
           <button class="btn btn--primary btn-fw">.btn-fw</button>
         </div>
+        <h3>Visual Helpers</h3>
+        <div class="component-example">
+          <button class="btn btn--primary util-bold">.util-bold</button>
+          <button class="btn btn--primary util-glow">.util-glow</button>
+          <button class="btn btn--primary util-pulse">.util-pulse</button>
+        </div>
+        <div class="component-example">
+          <div class="container util-bold">.util-bold</div>
+          <div class="container util-glow">.util-glow</div>
+          <div class="container util-pulse">.util-pulse</div>
+        </div>
+<pre><code>&lt;button class="btn btn--primary util-glow"&gt;Glow&lt;/button&gt;</code></pre>
       </section>
 
       <section id="containers" class="component">
@@ -256,5 +290,129 @@
   </main>
 
   <script src="../js/style-guide.js" type="module"></script>
+  <script type="module">
+  const ctaTexts=['Buy Now','Get The Book','Level Up','Order Now','Browse Books'];
+  const placeholder=document.getElementById('canva-swatches');
+  fetch('canva-swatches.generated.html')
+    .then(resp=>{if(!resp.ok) throw new Error('Failed to load swatch catalog'); return resp.text();})
+    .then(html=>{
+      placeholder.outerHTML='<section id="canva-swatches-all"><h2>Canva Swatch Catalog – ALL</h2><div id="swatch-nav"></div><h3>Favorite Styles</h3><div class="swatch-grid" id="favorite-swatches"></div><h3>Favorite Container Styles</h3><div class="swatch-grid" id="favorite-container-swatches"></div><h3 id="btn-section">Buttons</h3><div class="swatch-grid" id="button-swatches"></div><h3 id="container-section">Containers</h3><div class="swatch-grid" id="container-swatches"></div></section>';
+      const catalog=document.getElementById('canva-swatches-all');
+
+      const tmp=document.createElement('div');
+      tmp.innerHTML=html;
+      const cards=[...tmp.querySelectorAll('article.swatch')];
+
+      const favorites=new Set(JSON.parse(localStorage.getItem('favorite-swatches')||'[]'));
+      const containerFavorites=new Set(JSON.parse(localStorage.getItem('favorite-container-swatches')||'[]'));
+
+      const btnNav=document.createElement('div');btnNav.className='swatch-nav-grid';
+      const containerNav=document.createElement('div');containerNav.className='swatch-nav-grid';
+
+      function buildCode(code){
+        const wrap=document.createElement('div');wrap.className='code-sample';
+        const pre=document.createElement('pre');const c=document.createElement('code');c.textContent=code;pre.appendChild(c);wrap.appendChild(pre);
+        const copy=document.createElement('button');copy.className='copy-btn';copy.innerHTML='<i class="ti ti-clipboard"></i>';copy.dataset.code=code;
+        wrap.appendChild(copy);
+        return wrap;
+      }
+
+      function buildActions(){
+        const actions=document.createElement('div');actions.className='fav-actions';
+        const star=document.createElement('button');star.className='fav-btn';star.innerHTML='<i class="ti ti-star"></i>';
+        actions.appendChild(star);
+        return actions;
+      }
+
+      function toggleFavorite(id,type){
+        const set=type==='btn'?favorites:containerFavorites;
+        const key=type==='btn'?'favorite-swatches':'favorite-container-swatches';
+        if(set.has(id)) set.delete(id); else set.add(id);
+        localStorage.setItem(key,JSON.stringify([...set]));
+        renderFavorites();
+      }
+
+      function renderFavorites(){
+        const favGrid=document.getElementById('favorite-swatches');
+        const favContainerGrid=document.getElementById('favorite-container-swatches');
+        favGrid.innerHTML='';
+        favorites.forEach(id=>{favGrid.appendChild(document.getElementById('btn-'+id).cloneNode(true));});
+        favContainerGrid.innerHTML='';
+        containerFavorites.forEach(id=>{favContainerGrid.appendChild(document.getElementById('container-'+id).cloneNode(true));});
+        document.querySelectorAll('#button-swatches .fav-btn').forEach(btn=>{
+          const id=btn.closest('article').id.replace('btn-','');
+          btn.classList.toggle('active',favorites.has(id));
+        });
+        document.querySelectorAll('#container-swatches .fav-btn').forEach(btn=>{
+          const id=btn.closest('article').id.replace('container-','');
+          btn.classList.toggle('active',containerFavorites.has(id));
+        });
+        document.querySelectorAll('#favorite-swatches .fav-btn').forEach(btn=>btn.classList.add('active'));
+        document.querySelectorAll('#favorite-container-swatches .fav-btn').forEach(btn=>btn.classList.add('active'));
+      }
+
+      function navLink(target,node){const a=document.createElement('a');a.href='#'+target;a.appendChild(node);return a;}
+
+      cards.forEach((card,idx)=>{
+        const btn=card.querySelector('button');
+        const container=card.querySelector('[class^="container-swatch-"]');
+        const id=btn.className.match(/swatch-\d+/)[0];
+
+        // button card
+        const btnCard=document.createElement('article');btnCard.className='swatch';btnCard.id='btn-'+id;
+        const h=document.createElement('h4');h.textContent=id;btnCard.appendChild(h);
+        const prev=document.createElement('div');prev.className='preview';
+        btn.textContent=ctaTexts[idx%ctaTexts.length];
+        prev.appendChild(btn);btnCard.appendChild(prev);
+        btnCard.appendChild(buildCode(`<button class="${btn.className}">${btn.textContent}</button>`));
+        btnCard.prepend(buildActions());
+        document.getElementById('button-swatches').appendChild(btnCard);
+        btnNav.appendChild(navLink('btn-'+id,btn.cloneNode(true)));
+
+        // container card
+        const contCard=document.createElement('article');contCard.className='swatch';contCard.id='container-'+id;
+        const hc=document.createElement('h4');hc.textContent=id;contCard.appendChild(hc);
+        const prev2=document.createElement('div');prev2.className='preview';
+        prev2.appendChild(container);contCard.appendChild(prev2);
+        contCard.appendChild(buildCode(`<div class="${container.className}">Content</div>`));
+        contCard.prepend(buildActions());
+        document.getElementById('container-swatches').appendChild(contCard);
+        containerNav.appendChild(navLink('container-'+id,container.cloneNode(true)));
+      });
+
+      const nav=document.getElementById('swatch-nav');
+      nav.innerHTML='<h3>Button Gallery</h3>';
+      nav.appendChild(btnNav);
+      const ch=document.createElement('h3');ch.textContent='Container Gallery';nav.appendChild(ch);nav.appendChild(containerNav);
+
+      function handleFavoriteClick(e){
+        const star=e.target.closest('.fav-btn');
+        if(!star) return;
+        e.stopPropagation();
+        const article=star.closest('article');
+        const type=article.id.startsWith('btn-')?'btn':'container';
+        const id=article.id.replace(/^btn-|^container-/,'');
+        toggleFavorite(id,type);
+      }
+
+      function handleCopy(e){
+        const copy=e.target.closest('.copy-btn');
+        if(!copy) return;
+        navigator.clipboard.writeText(copy.dataset.code||'');
+        copy.classList.add('active');setTimeout(()=>copy.classList.remove('active'),1500);
+      }
+
+      ['button-swatches','container-swatches','favorite-swatches','favorite-container-swatches'].forEach(id=>{
+        document.getElementById(id).addEventListener('click',handleFavoriteClick);
+      });
+      catalog.addEventListener('click',handleCopy);
+
+      renderFavorites();
+    })
+    .catch(err=>{
+      console.error(err);
+      if(placeholder) placeholder.textContent='Failed to load swatch catalog.';
+    });
+  </script>
 </body>
 </html>
