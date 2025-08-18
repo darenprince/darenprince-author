@@ -6,6 +6,7 @@
   <title>UI Components</title>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="Newcolorclass/canva-swatches.ALL.generated.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body class="theme-dark">
@@ -111,7 +112,7 @@
 
   <main>
     <section id="hero" class="demo-section hero-demos padding-y-lg">
-      <section id="parallaxHero" class="hero hero-parallax active">
+      <section id="parallaxHero" class="hero hero-parallax active grad-green">
         <div class="hero-content">
           <h1>Parallax Hero</h1>
           <p>Scroll the page to see a static background parallax effect in action.</p>
@@ -505,6 +506,8 @@
         <div class="container">.container</div>
         <div class="container--spaced">.container--spaced</div>
         <div class="container--border">.container--border</div>
+        <div class="container grad-dark">.container grad-dark</div>
+        <div class="container-img_6314_001" data-copy="container-img_6314_001">container-img_6314_001</div>
       </div>
     </section>
     <div class="component-docs">
@@ -523,13 +526,18 @@
     <section id="buttons" class="demo-section padding-y-lg">
       <div class="container max-width-adaptive-lg demo-container">
         <h2>Buttons</h2>
-        <button class="btn">Default</button>
-        <button class="btn--primary">Primary</button>
-        <button class="btn--secondary">Secondary</button>
-        <button class="btn--accent">Accent</button>
-        <button class="btn--ghost">Ghost</button>
-        <button class="icon-btn" aria-label="Search"><i class="ti ti-search"></i></button>
-        <button class="icon-btn icon-btn--ghost" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="btn" data-copy="btn">Default</button>
+        <button class="btn--primary" data-copy="btn--primary">Primary</button>
+        <button class="btn--secondary" data-copy="btn--secondary">Secondary</button>
+        <button class="btn--accent" data-copy="btn--accent">Accent</button>
+        <button class="btn--ghost" data-copy="btn--ghost">Ghost</button>
+        <button class="btn grad-green" data-copy="btn grad-green">Download</button>
+        <button class="btn grad-gray" data-copy="btn grad-gray">Neutral</button>
+        <button class="btn grad-dark" data-copy="btn grad-dark">Dark</button>
+        <button class="btn grad-danger" data-copy="btn grad-danger">Delete</button>
+        <button class="btn-img_6314_001" data-copy="btn-img_6314_001">img_6314_001</button>
+        <button class="icon-btn" aria-label="Search" data-copy="icon-btn"><i class="ti ti-search"></i></button>
+        <button class="icon-btn icon-btn--ghost" aria-label="Search" data-copy="icon-btn icon-btn--ghost"><i class="ti ti-search"></i></button>
       </div>
     </section>
     <div class="component-docs">
@@ -613,7 +621,7 @@
     <section id="cards" class="demo-section padding-y-lg">
       <div class="container max-width-adaptive-lg demo-container">
         <h2>Card</h2>
-        <div class="card">
+        <div class="card grad-gray">
             <h3>Sample Card</h3>
             <p>This is a basic card layout for testing styles.</p>
             <button class="btn btn-accent">Action</button>
@@ -703,6 +711,7 @@
   <script type="module" src="js/book-3d-viewer.js"></script>
   <script src="./js/hero-demos.js"></script>
   <script src="./js/hero-auto-zoom.js"></script>
+  <script type="module" src="./js/style-guide.js"></script>
   <script type="module" src="./js/main.js"></script>
   <script>
     document.querySelectorAll('.copy-btn').forEach(btn => {
