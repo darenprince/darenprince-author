@@ -26,7 +26,11 @@
     .util-glow{box-shadow:0 0 .8rem var(--color-accent);}
     @keyframes util-pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
     .util-pulse{animation:util-pulse 2s infinite;}
-</style>
+    #canva-swatches-all .swatch{position:relative;}
+    .fav-actions{position:absolute;top:.5rem;right:.5rem;display:flex;gap:.25rem;}
+    .fav-actions button{background:none;border:none;color:var(--color-icon);cursor:pointer;}
+    .fav-actions button.active{color:var(--color-lime);}
+  </style>
 </head>
 <body class="theme-dark">
   <main class="padding-y-lg">
@@ -288,24 +292,97 @@
     .then(html => {
       const placeholder = document.getElementById('canva-swatches');
       placeholder.outerHTML = html;
-      document.querySelectorAll('#canva-swatches-all .swatch').forEach(card => {
-        const btn = card.querySelector('button');
-        if(btn){
-          const cls = btn.className;
-          const snippet = document.createElement('div');
-          const code = `&lt;button class="${cls}"&gt;Button&lt;/button&gt;`;
-          snippet.className = 'code-sample';
-          snippet.innerHTML = `<pre><code>${code}</code></pre><button class="copy-btn" data-code="${code}">Copy</button>`;
-          btn.insertAdjacentElement('afterend', snippet);
-        }
-      });
-      document.querySelectorAll('#canva-swatches-all .copy-btn').forEach(copyBtn=>{
-        copyBtn.addEventListener('click', ()=>{
+      const catalog = document.getElementById('canva-swatches-all');
+      const grid = catalog.querySelector('.swatch-grid');
+      const favorites = new Set(JSON.parse(localStorage.getItem('favorite-swatches')||'[]'));
+      const containerFavorites = new Set(JSON.parse(localStorage.getItem('favorite-container-swatches')||'[]'));
+
+      const favArea = document.createElement('div');
+      favArea.id = 'favorites-area';
+      favArea.innerHTML = `<h3>Favorite Styles</h3><div class="swatch-grid" id="favorite-swatches"></div><h3>Favorite Container Styles</h3><div class="swatch-grid" id="favorite-container-swatches"></div>`;
+      catalog.insertBefore(favArea, grid);
+
+      function enhanceCard(card, id){
+        const copyBtn = card.querySelector('.copy-btn');
+        const starBtn = card.querySelector('.fav-btn');
+        const containerBtn = card.querySelector('.fav-container-btn');
+        copyBtn?.addEventListener('click', ()=>{
           navigator.clipboard.writeText(copyBtn.dataset.code);
           copyBtn.textContent='Copied!';
           setTimeout(()=>copyBtn.textContent='Copy',1500);
         });
+        starBtn?.addEventListener('click', e=>{
+          e.stopPropagation();
+          toggleFavorite(id,'btn');
+        });
+        containerBtn?.addEventListener('click', e=>{
+          e.stopPropagation();
+          toggleFavorite(id,'container');
+        });
+      }
+
+      function createFavoriteCard(id){
+        const orig = catalog.querySelector(`article[data-swatch='${id}']`);
+        const clone = orig.cloneNode(true);
+        enhanceCard(clone, id);
+        return clone;
+      }
+
+      function renderFavorites(){
+        const favGrid = document.getElementById('favorite-swatches');
+        const favContainerGrid = document.getElementById('favorite-container-swatches');
+        favGrid.innerHTML='';
+        favorites.forEach(id=>{ favGrid.appendChild(createFavoriteCard(id)); });
+        favContainerGrid.innerHTML='';
+        containerFavorites.forEach(id=>{ favContainerGrid.appendChild(createFavoriteCard(id)); });
+        updateIconStates();
+      }
+
+      function updateIconStates(){
+        catalog.querySelectorAll('article').forEach(card=>{
+          const id = card.dataset.swatch;
+          card.querySelector('.fav-btn')?.classList.toggle('active', favorites.has(id));
+          card.querySelector('.fav-container-btn')?.classList.toggle('active', containerFavorites.has(id));
+        });
+      }
+
+      function toggleFavorite(id,type){
+        const set = type==='btn'?favorites:containerFavorites;
+        const key = type==='btn'?'favorite-swatches':'favorite-container-swatches';
+        if(set.has(id)) set.delete(id); else set.add(id);
+        localStorage.setItem(key, JSON.stringify([...set]));
+        renderFavorites();
+      }
+
+      catalog.querySelectorAll('.swatch').forEach(card => {
+        const btn = card.querySelector('button');
+        if(btn){
+          const cls = btn.className;
+          const snippet = document.createElement('div');
+          const code = `<button class="${cls}">Button</button>`;
+          snippet.className = 'code-sample';
+          snippet.innerHTML = `<pre><code>${code}</code></pre><button class="copy-btn" data-code="${code}">Copy</button>`;
+          btn.insertAdjacentElement('afterend', snippet);
+
+          const id = cls.match(/swatch-\d+/)[0];
+          card.dataset.swatch = id;
+
+          const actions = document.createElement('div');
+          actions.className='fav-actions';
+          const starBtn = document.createElement('button');
+          starBtn.className='fav-btn';
+          starBtn.innerHTML='<i class="ti ti-star"></i>';
+          const containerBtn = document.createElement('button');
+          containerBtn.className='fav-container-btn';
+          containerBtn.innerHTML='<i class="ti ti-border-all"></i>';
+          actions.append(starBtn, containerBtn);
+          card.prepend(actions);
+
+          enhanceCard(card, id);
+        }
       });
+
+      renderFavorites();
     });
   </script>
 </body>
