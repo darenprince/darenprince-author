@@ -3,6 +3,13 @@
 @use "../tokens/colors" as *;
 .btn {
   @include button-base($bright-green);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+.btn-cta {
+  @extend .btn;
+  font-weight: 900;
 }
 
 .btn--primary {
