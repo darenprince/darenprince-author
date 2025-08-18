@@ -1,10 +1,11 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500;900&display=swap");
 :root {
   --gray-50: #FDFDFD;
   --gray-100: #D5D5D5;
   --gray-200: #B8BAB7;
-  --gray-600: #2F2F2F;
-  --gray-700: #313132;
+  --gray-600: #313132;
+  --gray-700: #2F2F2F;
   --gray-800: #212121;
   --gray-900: #161616;
   --brand-green-700: #456F3A;
@@ -609,7 +610,7 @@ body.theme-light .site-footer a {
   cursor: pointer;
 }
 
-.btn, .btn-b {
+.btn, .btn-b, .btn-cta {
   background-color: var(--color-bright);
   color: var(--color-white);
   padding: 0.5rem 1rem;
@@ -619,13 +620,19 @@ body.theme-light .site-footer a {
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
 }
-.btn:hover, .btn-b:hover, .btn:focus, .btn-b:focus {
+.btn:hover, .btn-b:hover, .btn-cta:hover, .btn:focus, .btn-b:focus, .btn-cta:focus {
   background-color: var(--color-bright);
 }
-.btn:disabled, .btn-b:disabled {
+.btn:disabled, .btn-b:disabled, .btn-cta:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.btn-cta {
+  font-weight: 900;
 }
 
 .btn--primary, .btn--primary-b {
