@@ -3,8 +3,8 @@
   --gray-50: #FDFDFD;
   --gray-100: #D5D5D5;
   --gray-200: #B8BAB7;
-  --gray-600: #2F2F2F;
-  --gray-700: #313132;
+  --gray-600: #313132;
+  --gray-700: #2F2F2F;
   --gray-800: #212121;
   --gray-900: #161616;
   --brand-green-700: #456F3A;
@@ -3466,9 +3466,20 @@ body.menu-open .menu-overlay {
   pointer-events: auto;
 }
 
+.store-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .store-logos img {
-  height: 48px;
+  max-height: 48px;
+  height: auto;
+  width: auto;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 /*# sourceMappingURL=styles.css.map */
