@@ -19,7 +19,14 @@
     #canva-swatches-all .swatch { background:#1f1f1f0d; padding:1rem; border-radius:.6rem; border:1px solid #e5e5e5; }
     #canva-swatches-all .tokens { display:block; margin-top:.75rem; font-size:.85rem; word-break:break-word; }
     #canva-swatches-all .preview svg { margin-right:.5rem; vertical-align:-2px; }
-  </style>
+      .code-sample{position:relative;margin-top:.5rem;}
+    .code-sample pre{background:var(--gray-800);color:var(--color-white);padding:.5rem .75rem;border-radius:.35rem;overflow:auto;}
+    .code-sample .copy-btn{position:absolute;top:.25rem;right:.25rem;background:var(--color-accent);color:var(--color-black);border:none;padding:.25rem .5rem;border-radius:.25rem;cursor:pointer;font-size:.75rem;}
+    .util-bold{font-weight:700;}
+    .util-glow{box-shadow:0 0 .8rem var(--color-accent);}
+    @keyframes util-pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+    .util-pulse{animation:util-pulse 2s infinite;}
+</style>
 </head>
 <body class="theme-dark">
   <main class="padding-y-lg">
@@ -175,6 +182,18 @@
           <button class="btn btn--primary btn-xl">.btn-xl</button>
           <button class="btn btn--primary btn-fw">.btn-fw</button>
         </div>
+        <h3>Visual Helpers</h3>
+        <div class="component-example">
+          <button class="btn btn--primary util-bold">.util-bold</button>
+          <button class="btn btn--primary util-glow">.util-glow</button>
+          <button class="btn btn--primary util-pulse">.util-pulse</button>
+        </div>
+        <div class="component-example">
+          <div class="container util-bold">.util-bold</div>
+          <div class="container util-glow">.util-glow</div>
+          <div class="container util-pulse">.util-pulse</div>
+        </div>
+<pre><code>&lt;button class="btn btn--primary util-glow"&gt;Glow&lt;/button&gt;</code></pre>
       </section>
 
       <section id="containers" class="component">
@@ -264,9 +283,30 @@
 
   <script src="../js/style-guide.js" type="module"></script>
   <script type="module">
-    fetch('canva-swatches.generated.html')
-      .then(resp => resp.text())
-      .then(html => { document.getElementById('canva-swatches').outerHTML = html; });
+  fetch('canva-swatches.generated.html')
+    .then(resp => resp.text())
+    .then(html => {
+      const placeholder = document.getElementById('canva-swatches');
+      placeholder.outerHTML = html;
+      document.querySelectorAll('#canva-swatches-all .swatch').forEach(card => {
+        const btn = card.querySelector('button');
+        if(btn){
+          const cls = btn.className;
+          const snippet = document.createElement('div');
+          const code = `&lt;button class="${cls}"&gt;Button&lt;/button&gt;`;
+          snippet.className = 'code-sample';
+          snippet.innerHTML = `<pre><code>${code}</code></pre><button class="copy-btn" data-code="${code}">Copy</button>`;
+          btn.insertAdjacentElement('afterend', snippet);
+        }
+      });
+      document.querySelectorAll('#canva-swatches-all .copy-btn').forEach(copyBtn=>{
+        copyBtn.addEventListener('click', ()=>{
+          navigator.clipboard.writeText(copyBtn.dataset.code);
+          copyBtn.textContent='Copied!';
+          setTimeout(()=>copyBtn.textContent='Copy',1500);
+        });
+      });
+    });
   </script>
 </body>
 </html>
