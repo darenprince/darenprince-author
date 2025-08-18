@@ -1,11 +1,24 @@
-const openBtn = document.querySelector('.js-open-modal');
-const modal = document.getElementById('demo-modal');
-const closeBtn = modal?.querySelector('.js-close-modal');
+export function initCopyClass() {
+  document.querySelectorAll('[data-copy]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const text = el.getAttribute('data-copy');
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        showTooltip(el);
+      });
+    });
+  });
+}
 
-openBtn?.addEventListener('click', () => {
-  modal?.removeAttribute('hidden');
-});
+function showTooltip(el) {
+  const tip = document.createElement('span');
+  tip.className = 'tooltip';
+  tip.textContent = 'Copied!';
+  el.style.position = 'relative';
+  el.appendChild(tip);
+  setTimeout(() => {
+    tip.remove();
+  }, 1200);
+}
 
-closeBtn?.addEventListener('click', () => {
-  modal?.setAttribute('hidden', '');
-});
+document.addEventListener('DOMContentLoaded', initCopyClass);
