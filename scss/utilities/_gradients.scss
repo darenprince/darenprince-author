@@ -1,0 +1,67 @@
+.swatch {
+  flex: 0 0 calc(50% - var(--space-sm));
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-contrast-high);
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.swatch:hover {
+  transform: scale(1.05);
+}
+
+.grad-green {
+  background: linear-gradient(
+    to bottom,
+    var(--brand-green-500),
+    var(--brand-green-700)
+  );
+}
+
+.grad-gray {
+  background: linear-gradient(
+    to bottom,
+    var(--gray-100),
+    var(--gray-200)
+  );
+  color: var(--color-black);
+}
+
+.grad-dark {
+  background: linear-gradient(
+    to bottom,
+    var(--gray-600),
+    var(--gray-900)
+  );
+}
+
+.grad-danger {
+  background: linear-gradient(
+    to bottom,
+    var(--color-danger),
+    #a51111
+  );
+}
+
+.tooltip {
+  position: absolute;
+  background: var(--color-charcoal);
+  color: var(--color-contrast-high);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transform: translateY(-100%);
+  white-space: nowrap;
+  z-index: 1000;
+}
+.grad-green:hover,
+.grad-gray:hover,
+.grad-dark:hover,
+.grad-danger:hover {
+  filter: brightness(1.05);
+}

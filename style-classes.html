@@ -52,8 +52,20 @@
 
     <main class="padding-y-xl">
       <div class="container max-width-adaptive-lg">
-        <h1 class="section-heading text-center margin-bottom-lg">Style Classes</h1>
-        <p class="text-center">Documentation coming soon.</p>
+        <h1 class="section-heading text-center margin-bottom-lg">Style Library</h1>
+        <p class="text-center margin-bottom-md">Click a swatch or button to copy its class name.</p>
+        <div class="style-samples flex gap-sm flex-wrap justify-center margin-bottom-xl">
+          <div class="swatch grad-green" data-copy="grad-green" title="grad-green"><i class="ti ti-cloud"></i></div>
+          <div class="swatch grad-gray" data-copy="grad-gray" title="grad-gray"><i class="ti ti-cloud"></i></div>
+          <div class="swatch grad-dark" data-copy="grad-dark" title="grad-dark"><i class="ti ti-cloud"></i></div>
+          <div class="swatch grad-danger" data-copy="grad-danger" title="grad-danger"><i class="ti ti-cloud"></i></div>
+        </div>
+        <div class="style-samples flex gap-sm flex-wrap justify-center">
+          <button class="btn grad-green" data-copy="btn grad-green">Download</button>
+          <button class="btn grad-gray" data-copy="btn grad-gray">Neutral</button>
+          <button class="btn grad-dark" data-copy="btn grad-dark">Dark</button>
+          <button class="btn grad-danger" data-copy="btn grad-danger">Delete</button>
+        </div>
       </div>
     </main>
 
@@ -86,6 +98,7 @@
       </div>
     </footer>
   </div>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="./js/style-guide.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
