@@ -2253,6 +2253,23 @@ input:checked + .toggle-slider::before {
   color: var(--ink);
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
+.book-rail__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 auto;
+}
+.book-rail__badge-icon {
+  width: 100%;
+  height: 100%;
+  stroke: #39ff14;
+  stroke-width: 2;
+  fill: none;
+  filter: drop-shadow(0 0 2px #39ff14);
+  animation: q-spin 12s linear infinite;
+}
 .book-rail__list {
   list-style: none;
   margin: 0;
@@ -2557,8 +2574,16 @@ input:checked + .toggle-slider::before {
     transform: rotate(-12deg);
   }
 }
+@keyframes q-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .book-3d-viewer .rotate-hint img {
+    animation: none;
+  }
+  .book-rail__badge-icon {
     animation: none;
   }
 }
