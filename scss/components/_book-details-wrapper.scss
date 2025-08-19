@@ -32,33 +32,24 @@
     gap: 0;
     width: 100%;
     position: relative;
-    height: 70vh;
-    max-height: 70vh;
     padding: ($spacing-xl + $spacing-lg) 0;
     z-index: 0;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100vw;
-      height: 100%;
-      background: url('../assets/images/IMG_6246.jpeg') center 20%/cover no-repeat;
-      z-index: -1;
-      pointer-events: none;
+    @include respond-to(md) {
+      padding: ($spacing-xl + $spacing-lg) 0;
     }
 
-    @include respond-to(md) {
-      height: auto;
-      min-height: 100vh;
-      max-height: none;
-      padding: ($spacing-xl + $spacing-lg) 0;
-
-      &::before {
-        background-position: center;
-      }
+    .book-preview {
+      border: 1px solid $light-gray;
+      border-radius: 12px;
+      background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
+      padding: $spacing-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
     }
   }
 
