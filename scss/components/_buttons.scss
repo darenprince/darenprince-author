@@ -174,7 +174,7 @@
 }
 
 .btn--gray-gradient {
-  background: linear-gradient(to top, $gray-900, $gray-800);
+  background: var(--grad-gray-top);
   border: 1px solid $gray-200;
   color: $gray-200;
 }
