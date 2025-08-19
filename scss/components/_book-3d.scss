@@ -283,15 +283,15 @@
 
   .book-toolbar {
     position: absolute;
-    left: -68px;
+    left: -60px;
     top: 50%;
   }
 }
 
 // Book control rail visual styles
 .book-rail {
-  --radius-rail: 12px;
-  --radius-btn: 10px;
+  --radius-rail: 11px;
+  --radius-btn: 11px;
   --brand-1: #87bd72;
   --brand-2: #456f3a;
   --ink: #fafafa;
@@ -311,6 +311,24 @@
   color: var(--ink);
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-rail);
+    padding: 1px;
+    background: linear-gradient(90deg, transparent, rgba(135, 189, 114, 0.8), transparent);
+    background-size: 200% 100%;
+    animation: toolbar-scan 3s linear infinite;
+    pointer-events: none;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
 
   &__list {
     list-style: none;
@@ -407,6 +425,15 @@
       outline: 2px solid var(--brand-1);
       outline-offset: 2px;
     }
+  }
+}
+
+@keyframes toolbar-scan {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 

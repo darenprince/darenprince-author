@@ -18,6 +18,11 @@ const logoContainer = document.querySelector('.selected-store-logo');
 const formatDisplay = document.getElementById('selected-format');
 const changeFormat = document.getElementById('change-format');
 const storeNameSpan = document.querySelector('.store-name');
+const bookToolbar = document.querySelector('.book-toolbar');
+const formatOptionsEl = document.querySelector('.format-options');
+let pulseInterval;
+let pulseCycles = 0;
+let userSelected = false;
 
 const storeData = {
   audio: [
@@ -107,6 +112,7 @@ function updateStoreDisplay() {
 
 formatButtons.forEach(btn => {
   btn.addEventListener('click', () => {
+    userSelected = true;
     document.getElementById('rotate-360')?.click();
     stepOneEls.forEach(el => {
       el.classList.add('hide');
@@ -116,6 +122,10 @@ formatButtons.forEach(btn => {
     storeStep?.classList.add('visible');
     formatDisplay.textContent = btn.textContent.trim();
     populateSelect(btn.dataset.format || '');
+    const opt = btn.closest('.format-option');
+    opt?.classList.add('selected');
+    setTimeout(() => opt?.classList.remove('selected'), 600);
+    clearInterval(pulseInterval);
   });
 });
 
@@ -166,4 +176,38 @@ document.querySelectorAll('.store-logo-link').forEach(link => {
     }, 300);
   });
 });
+
+function startFormatPulse() {
+  const options = document.querySelectorAll('.format-option');
+  if (!options.length) return;
+  let index = 0;
+  const pulse = () => {
+    options.forEach(o => o.classList.remove('pulse'));
+    options[index].classList.add('pulse');
+    setTimeout(() => options[index].classList.remove('pulse'), 1000);
+    index = (index + 1) % options.length;
+    pulseCycles++;
+    if (pulseCycles >= 5 || userSelected) {
+      clearInterval(pulseInterval);
+    }
+  };
+  pulse();
+  pulseInterval = setInterval(pulse, 6000);
+}
+
+bookToolbar?.addEventListener('transitionend', e => {
+  if (e.propertyName === 'transform' && bookToolbar.classList.contains('visible')) {
+    if ('IntersectionObserver' in window && formatOptionsEl) {
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          obs.disconnect();
+          setTimeout(startFormatPulse, 1000);
+        }
+      }, { threshold: 0.5 });
+      obs.observe(formatOptionsEl);
+    } else {
+      setTimeout(startFormatPulse, 1000);
+    }
+  }
+}, { once: true });
 
