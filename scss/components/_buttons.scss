@@ -107,7 +107,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: $light-gray;
+  color: $icon;
   border-radius: $border-radius;
   cursor: pointer;
   transition: color $transition;
@@ -118,7 +118,7 @@
 
   &:hover,
   &.is-active {
-    color: $lime-green;
+    color: $deep-green;
   }
 }
 
@@ -132,14 +132,14 @@
 // hamburger menu button
 .hamburger-btn {
   @extend .nav-icon-btn;
-  color: $lime-green;
+  color: $icon;
   background: transparent;
   border: 2px solid rgba($lime-green, 0.3);
   transition: box-shadow $transition;
 
   &:hover,
   &.is-active {
-    color: $lime-green;
+    color: $deep-green;
   }
 }
 

@@ -296,7 +296,7 @@
   --brand-2: #456f3a;
   --ink: #fafafa;
   --ink-muted: #b8bab7;
-  --surface: rgba(33, 33, 33, 0.75);
+  --surface: rgba(33, 33, 33, 0.5);
   --border: rgba(255, 255, 255, 0.08);
   --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 
@@ -306,7 +306,7 @@
   padding: 0.25rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-rail);
+  border-radius: 0 var(--radius-rail) var(--radius-rail) 0;
   box-shadow: var(--shadow);
   color: var(--ink);
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
