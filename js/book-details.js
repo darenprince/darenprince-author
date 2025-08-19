@@ -143,3 +143,27 @@ buyButton?.addEventListener('click', () => {
   }
 });
 
+document.querySelectorAll('.store-logo-link').forEach(link => {
+  const img = link.querySelector('img');
+  img?.addEventListener('error', () => {
+    link.style.display = 'none';
+  });
+
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const format = link.dataset.format;
+    const store = link.dataset.store;
+    document.getElementById('book-viewer')?.scrollIntoView({ behavior: 'smooth' });
+    const formatBtn = document.querySelector(`.format-btn[data-format="${format}"]`);
+    formatBtn?.click();
+    setTimeout(() => {
+      const options = Array.from(storeSelector.options);
+      const idx = options.findIndex(opt => opt.textContent === store);
+      if (idx >= 0) {
+        storeSelector.selectedIndex = idx;
+        updateStoreDisplay();
+      }
+    }, 300);
+  });
+});
+
