@@ -3,10 +3,12 @@ const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
 const snapBackBtn = document.getElementById('snap-back');
 const bookViewer = document.querySelector('.book-3d-viewer');
+const bookContainer = document.querySelector('.book-3d-container');
 const rotateHint = document.querySelector('.rotate-hint');
 const addToCartBtn = document.getElementById('add-to-cart');
 const bookToolbar = document.querySelector('.book-toolbar');
 const purchaseOptions = document.getElementById('purchase-options');
+const closeBtn = document.getElementById('book-close');
 let rotateHintTimeout;
 
 const SNAP_FRONT = 18;
@@ -163,6 +165,12 @@ book.addEventListener('touchend', () => {
 
 snapFrontBtn?.addEventListener('click', () => {
   snapTo(SNAP_FRONT);
+  setTimeout(() => {
+    clearTimeout(pauseTimeout);
+    bookContainer?.classList.add('fullscreen');
+    closeBtn?.removeAttribute('hidden');
+    bookToolbar?.setAttribute('hidden', '');
+  }, 300);
 });
 
 snapBackBtn?.addEventListener('click', () => {
@@ -233,4 +241,12 @@ if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
 
 ['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
   bookViewer?.addEventListener(evt, () => bookToolbar?.classList.add('visible'));
+});
+
+closeBtn?.addEventListener('click', () => {
+  bookContainer?.classList.remove('fullscreen');
+  closeBtn.setAttribute('hidden', '');
+  bookToolbar?.removeAttribute('hidden');
+  bookToolbar?.classList.add('visible');
+  resetAutoRotate();
 });
