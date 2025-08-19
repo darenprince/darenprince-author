@@ -250,3 +250,40 @@ closeBtn?.addEventListener('click', () => {
   bookToolbar?.classList.add('visible');
   resetAutoRotate();
 });
+
+let glowInterval;
+
+function triggerGlow() {
+  bookToolbar?.classList.add('glow');
+  setTimeout(() => bookToolbar?.classList.remove('glow'), 2000);
+}
+
+function startGlowInterval() {
+  clearInterval(glowInterval);
+  glowInterval = setInterval(triggerGlow, 6000);
+}
+
+function clearGlowInterval() {
+  clearInterval(glowInterval);
+}
+
+if (bookToolbar) {
+  const visibilityObserver = new MutationObserver(() => {
+    if (bookToolbar.classList.contains('visible')) {
+      startGlowInterval();
+    } else {
+      clearGlowInterval();
+    }
+  });
+  visibilityObserver.observe(bookToolbar, { attributes: true, attributeFilter: ['class'] });
+
+  bookToolbar.querySelectorAll('button').forEach(btn => {
+    ['click', 'pointerdown', 'focusin'].forEach(evt =>
+      btn.addEventListener(evt, clearGlowInterval)
+    );
+  });
+
+  if (bookToolbar.classList.contains('visible')) {
+    startGlowInterval();
+  }
+}
