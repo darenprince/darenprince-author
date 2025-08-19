@@ -23,7 +23,7 @@
   --color-black: #070A06;
   --color-white: #FDFDFD;
   --color-surface: #212121;
-  --color-icon: #87BD72;
+  --color-icon: #E6E6E6;
   --color-border: rgba(255, 255, 255, 0.10);
   --color-accent: #8CD679;
   --color-contrast-high: #FDFDFD;
@@ -781,7 +781,7 @@ body.theme-light .site-footer a {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--gray-100);
+  color: var(--color-icon);
   border-radius: 0.35rem;
   cursor: pointer;
   transition: color all 0.2s ease-in-out;
@@ -790,7 +790,7 @@ body.theme-light .site-footer a {
   font-size: 1.375rem;
 }
 .nav-icon-btn:hover, .hamburger-btn:hover, .nav-icon-btn.is-active, .is-active.hamburger-btn {
-  color: var(--color-lime);
+  color: var(--color-primary);
 }
 
 .nav-icon-btn--static:hover, .nav-icon-btn--static.is-active {
@@ -798,13 +798,13 @@ body.theme-light .site-footer a {
 }
 
 .hamburger-btn {
-  color: var(--color-lime);
+  color: var(--color-icon);
   background: transparent;
   border: 2px solid rgba(var(--color-lime), 0.3);
   transition: box-shadow all 0.2s ease-in-out;
 }
 .hamburger-btn:hover, .hamburger-btn.is-active {
-  color: var(--color-lime);
+  color: var(--color-primary);
 }
 
 .menu-open .hamburger-btn {
@@ -1345,6 +1345,21 @@ body.theme-light .site-footer a {
 .btn--secondary-b:hover, .btn--secondary-b:focus {
   background: linear-gradient(130deg, #549841, #8CD679);
   color: var(--gray-800);
+}
+
+i[class^=ti], i[class*=" ti-"] {
+  display: inline-block;
+  color: var(--color-icon);
+  background: radial-gradient(circle at 50% 50%, #f4f4f4, var(--color-icon));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease;
+}
+
+a:hover i[class^=ti], a:active i[class^=ti],
+button:hover i[class^=ti], button:active i[class^=ti],
+i[class^=ti]:hover, i[class^=ti]:active {
+  background: radial-gradient(circle at 50% 50%, var(--color-primary-hover), var(--color-primary));
 }
 
 .cta-btn, .cta-btn--glow {
@@ -2224,7 +2239,7 @@ input:checked + .toggle-slider::before {
   --brand-2: #456f3a;
   --ink: #fafafa;
   --ink-muted: #b8bab7;
-  --surface: rgba(33, 33, 33, 0.75);
+  --surface: rgba(33, 33, 33, 0.5);
   --border: rgba(255, 255, 255, 0.08);
   --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
   display: flex;
@@ -2233,7 +2248,7 @@ input:checked + .toggle-slider::before {
   padding: 0.25rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-rail);
+  border-radius: 0 var(--radius-rail) var(--radius-rail) 0;
   box-shadow: var(--shadow);
   color: var(--ink);
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
