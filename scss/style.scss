@@ -208,7 +208,24 @@ body.menu-open {
   }
 }
 
+.store-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.store-logos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .store-logos img {
-  height: 48px;
+  max-height: 48px;
+  height: auto;
+  width: auto;
   border-radius: 8px;
+  object-fit: contain;
 }
