@@ -3,7 +3,7 @@
 @use "../base/mixins" as *;
 
 .site-header {
-  background: linear-gradient($gray-900, $gray-800);
+  background: var(--grad-gray);
   padding-block: $spacing-xs;
   position: sticky;
   top: 0;
@@ -77,7 +77,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
-    background: linear-gradient($gray-900, $gray-800);
+    background: var(--grad-gray);
 
     a {
       color: $white;

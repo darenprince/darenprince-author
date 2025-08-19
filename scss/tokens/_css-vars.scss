@@ -28,6 +28,9 @@
   --color-contrast-high: #FDFDFD;
   --color-success: #87BD72;
   --color-danger: #e03131;
+  --grad-green: linear-gradient(var(--brand-green-700), var(--brand-green-400));
+  --grad-gray: linear-gradient(var(--gray-900), var(--gray-800));
+  --grad-gray-light: linear-gradient(var(--gray-700), var(--gray-600));
 }
 
 .theme-light {
