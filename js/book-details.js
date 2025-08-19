@@ -16,6 +16,8 @@ const storeSelector = document.querySelector('.store-selector');
 const buyButton = document.querySelector('.buy-now');
 const logoContainer = document.querySelector('.selected-store-logo');
 const formatDisplay = document.getElementById('selected-format');
+const formatBar = document.getElementById('format-bar');
+const formatIcon = document.getElementById('selected-format-icon');
 const changeFormat = document.getElementById('change-format');
 const storeNameSpan = document.querySelector('.store-name');
 
@@ -114,7 +116,17 @@ formatButtons.forEach(btn => {
     });
     storeStep?.removeAttribute('hidden');
     storeStep?.classList.add('visible');
-    formatDisplay.textContent = btn.textContent.trim();
+    formatBar?.removeAttribute('hidden');
+    const mapping = {
+      audio: { text: 'AUDIOBOOK', icon: 'ti ti-speakerphone' },
+      ebook: { text: 'DIGITAL E-BOOK', icon: 'ti ti-device-tablet' },
+      print: { text: 'PRINT BOOK', icon: 'ti ti-book' }
+    };
+    const fmt = mapping[btn.dataset.format || ''] || { text: btn.textContent.trim(), icon: '' };
+    formatDisplay.textContent = fmt.text;
+    if (formatIcon) {
+      formatIcon.className = `${fmt.icon} format-icon`;
+    }
     populateSelect(btn.dataset.format || '');
   });
 });
@@ -127,6 +139,7 @@ changeFormat?.addEventListener('click', e => {
   });
   storeStep?.classList.remove('visible');
   storeStep?.setAttribute('hidden', '');
+  formatBar?.setAttribute('hidden', '');
   logoContainer.innerHTML = '';
   buyButton?.setAttribute('disabled', 'true');
 });
