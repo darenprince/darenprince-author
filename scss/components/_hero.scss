@@ -9,6 +9,7 @@
   min-height: calc(100vh - $spacing-xl);
   text-align: center;
   overflow: hidden;
+  margin-bottom: $spacing-xl;
 
   .container {
     z-index: 1;
