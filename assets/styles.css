@@ -2204,7 +2204,7 @@ input:checked + .toggle-slider::before {
 }
 .book-toolbar.visible {
   opacity: 1;
-  transform: translateY(-50%);
+  transform: translate(0, -50%);
 }
 
 @media (min-width: 768px) {
@@ -2313,14 +2313,6 @@ input:checked + .toggle-slider::before {
   outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .book-rail,
-  .book-rail__btn,
-  .book-rail__toggle {
-    transition: none;
-    transform: none;
-  }
-}
 .cover-zoom-modal {
   position: fixed;
   inset: 0;
@@ -2873,7 +2865,7 @@ input:checked + .toggle-slider::before {
 }
 
 .book-section {
-  margin-top: 0;
+  margin-top: 3rem;
 }
 .book-section .container {
   margin-block: 0;
@@ -2910,7 +2902,7 @@ input:checked + .toggle-slider::before {
   }
 }
 .book-details-wrapper .book-media .book-preview {
-  border: 1px solid var(--gray-100);
+  border: 1px solid var(--color-charcoal);
   border-radius: 12px;
   background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
   padding: 1rem;
@@ -2919,6 +2911,7 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   width: 100%;
   max-width: 400px;
+  max-height: 85vh;
   margin: 0 auto;
 }
 .book-details-wrapper .purchase-box {

@@ -2,8 +2,9 @@
 @use "../tokens/colors" as *;
 @use "../base/mixins" as *;
 
+
 .book-section {
-  margin-top: 0;
+  margin-top: $spacing-xl;
 
   .container {
     margin-block: 0;
@@ -40,7 +41,7 @@
     }
 
     .book-preview {
-      border: 1px solid $light-gray;
+      border: 1px solid $charcoal;
       border-radius: 12px;
       background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
       padding: $spacing-md;
@@ -49,6 +50,7 @@
       justify-content: center;
       width: 100%;
       max-width: 400px;
+      max-height: 85vh;
       margin: 0 auto;
     }
   }

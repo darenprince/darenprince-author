@@ -272,7 +272,7 @@
 
   &.visible {
     opacity: 1;
-    transform: translateY(-50%);
+    transform: translate(0, -50%);
   }
 }
 
@@ -404,14 +404,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .book-rail,
-  .book-rail__btn,
-  .book-rail__toggle {
-    transition: none;
-    transform: none;
-  }
-}
 
 .cover-zoom-modal {
   position: fixed;
