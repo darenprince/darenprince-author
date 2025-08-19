@@ -1982,6 +1982,52 @@ input:checked + .toggle-slider::before {
   border: none;
 }
 
+.book-3d-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+  background-image: var(--book-bg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+.book-3d-container.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 2rem;
+}
+.book-3d-container.fullscreen .book-3d-viewer {
+  --book-width: 320px;
+  --book-height: 480px;
+  --book-depth: 40px;
+  --viewer-size: var(--book-height);
+}
+.book-3d-container:not(.fullscreen) .book-3d-close {
+  display: none;
+}
+
+.book-3d-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-charcoal);
+  border: 1px solid color-mix(in srgb, var(--color-charcoal) 90%, black);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .book-3d-viewer {
   --book-width: 240px;
   --book-height: 360px;
