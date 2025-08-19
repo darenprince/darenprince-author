@@ -64,16 +64,19 @@
       </svg>
     </button>
   </nav>
-  <div class="book-3d-viewer">
-    <div class="book-loader"></div>
-    <div class="rotate-hint" aria-hidden="true">
-      <img src="assets/images/360rotate.png" alt="" />
+  <div class="book-3d-container" style="--book-bg: url('assets/images/3d-book-bg-1.png');">
+    <div class="book-3d-viewer">
+      <div class="book-loader"></div>
+      <div class="rotate-hint" aria-hidden="true">
+        <img src="assets/images/360rotate.png" alt="" />
+      </div>
+      <div class="book" id="book">
+        <div class="face front"></div>
+        <div class="face spine"></div>
+        <div class="face back"></div>
+      </div>
     </div>
-    <div class="book" id="book">
-      <div class="face front"></div>
-      <div class="face spine"></div>
-      <div class="face back"></div>
-    </div>
+    <button class="book-3d-close" id="book-close" aria-label="Close expanded view" hidden>&times;</button>
   </div>
   <div class="cover-zoom-modal" id="cover-zoom" hidden>
     <div class="cover-zoom-content">

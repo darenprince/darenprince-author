@@ -2,6 +2,57 @@
 @use "../base/variables" as *;
 @use "../base/mixins" as *;
 
+.book-3d-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: $spacing-md;
+  margin: 0 auto;
+  background-image: var(--book-bg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+
+  &.fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    padding: $spacing-lg;
+
+    .book-3d-viewer {
+      --book-width: 320px;
+      --book-height: 480px;
+      --book-depth: 40px;
+      --viewer-size: var(--book-height);
+    }
+  }
+
+  &:not(.fullscreen) {
+    .book-3d-close {
+      display: none;
+    }
+  }
+}
+
+.book-3d-close {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: $charcoal;
+  border: 1px solid color-mix(in srgb, var(--color-charcoal) 90%, black);
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .book-3d-viewer {
   // Ensure the book maintains a perfect 2:3 aspect ratio
   // when viewed directly from the front.
