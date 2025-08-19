@@ -16,8 +16,8 @@ $book-pages-offset: 3px !default;
   align-items: center;
 
   .book-3d {
-    width: 200px;
-    height: 300px;
+    width: clamp(150px, 40vw, 300px);
+    aspect-ratio: 2 / 3;
     position: relative;
     transform-style: preserve-3d;
     transform: rotateY($book-rotate);
