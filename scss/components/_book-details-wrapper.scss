@@ -54,7 +54,8 @@
   }
 
   .purchase-box {
-    background: $surface;
+    background: radial-gradient(circle, $surface 0%, color-mix(in srgb, $surface 90%, black) 100%);
+    border: 1px solid color-mix(in srgb, $surface 90%, white);
     padding: $spacing-lg $spacing-md;
     border-radius: $border-radius;
     width: 100%;
@@ -143,15 +144,46 @@
       }
     }
 
-    .selected-format-note {
-      text-align: center;
-      color: var(--color-muted);
-      font-size: 0.875rem;
-    }
+    .format-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      width: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0));
+      padding: $spacing-xs 0;
+      font-size: 0.9375rem;
 
-    .selected-format-note a {
-      color: var(--color-muted);
-      text-decoration: underline;
+      .format-label {
+        color: color-mix(in srgb, $contrast-high 90%, black);
+        font-weight: 400;
+      }
+
+      .format-divider {
+        width: 1px;
+        height: 1em;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .format-value {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xxs;
+
+        .format-icon {
+          color: #d1d1d1;
+        }
+
+        #selected-format {
+          color: var(--color-muted);
+          font-weight: 700;
+        }
+      }
+
+      .change-format {
+        color: $lime-green;
+        text-decoration: underline;
+      }
     }
 
     .store-selector-wrapper {
