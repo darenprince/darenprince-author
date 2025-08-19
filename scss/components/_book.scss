@@ -14,9 +14,11 @@ $book-pages-offset: 3px !default;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 
   .book-3d {
-    width: clamp(150px, 40vw, 300px);
+    width: 100%;
+    max-height: 80vh;
     aspect-ratio: 2 / 3;
     position: relative;
     transform-style: preserve-3d;

@@ -2552,9 +2552,11 @@ input:checked + .toggle-slider::before {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 .book-preview .book-3d {
-  width: clamp(150px, 40vw, 300px);
+  width: 100%;
+  max-height: 80vh;
   aspect-ratio: 2/3;
   position: relative;
   transform-style: preserve-3d;
@@ -2873,7 +2875,7 @@ input:checked + .toggle-slider::before {
 }
 .book-details-wrapper .book-media,
 .book-details-wrapper .book-info {
-  flex: 1;
+  flex: 1 1 50%;
   padding: 3rem 1rem;
 }
 .book-details-wrapper .book-media {
@@ -2885,7 +2887,7 @@ input:checked + .toggle-slider::before {
   z-index: 0;
 }
 .book-details-wrapper .book-media .book-preview {
-  border: 1px solid var(--gray-100);
+  border: 1px solid rgba(128, 128, 128, 0.5);
   border-radius: 12px;
   background: transparent;
   padding: 1rem;
@@ -2893,7 +2895,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 400px;
+  max-height: 80vh;
 }
 .book-details-wrapper .book-info {
   display: flex;
@@ -2908,6 +2910,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
 }
 .book-details-wrapper .purchase-box [hidden] {
   display: none !important;
