@@ -145,21 +145,23 @@
                   </svg>
                 </button>
               </nav>
-              <div id="book-3d-viewer" class="book-3d-viewer">
-                <div class="book-loader"></div>
-                <div class="rotate-hint" aria-hidden="true">
-                  <img src="assets/images/360rotate.png" alt="" />
-                </div>
-                <div class="scene">
-                  <div class="book" id="book">
-                    <div class="face front"></div>
-                    <div class="face back"></div>
-                    <div class="face spine"></div>
-                    <div class="face pages"></div>
-                    <div class="face top"></div>
-                    <div class="face bottom"></div>
+              <div class="book-preview">
+                <div id="book-3d-viewer" class="book-3d-viewer">
+                  <div class="book-loader"></div>
+                  <div class="rotate-hint" aria-hidden="true">
+                    <img src="assets/images/360rotate.png" alt="" />
                   </div>
-                  <div class="shadow"></div>
+                  <div class="scene">
+                    <div class="book" id="book">
+                      <div class="face front"></div>
+                      <div class="face back"></div>
+                      <div class="face spine"></div>
+                      <div class="face pages"></div>
+                      <div class="face top"></div>
+                      <div class="face bottom"></div>
+                    </div>
+                    <div class="shadow"></div>
+                  </div>
                 </div>
               </div>
               <div class="cover-zoom-modal" id="cover-zoom" hidden>
@@ -173,8 +175,9 @@
                 </div>
               </div>
             </div>
-            <div class="purchase-box" id="purchase-options">
-              <div class="buy-controls">
+              <div class="book-info">
+              <div class="purchase-box" id="purchase-options">
+                <div class="buy-controls">
                 <h3 class="step-header step-one styledh1"><span class="text-gradient-lime-deep">Your move.</span><br><span class="text-gradient-gray-light">Select a format.</span></h3>
                 <div class="format-options step-one">
                   <div class="format-option">
@@ -190,8 +193,13 @@
                     <button class="format-btn" data-format="print">PRINT</button>
                   </div>
                 </div>
+                <div class="format-bar" id="format-bar" hidden>
+                  <span class="format-label">Format:</span>
+                  <span class="format-divider"></span>
+                  <span class="format-value"><i id="selected-format-icon" class="ti ti-device-tablet format-icon"></i><strong id="selected-format">DIGITAL E-BOOK</strong></span>
+                  <a href="#" id="change-format" class="change-format">Change Format</a>
+                </div>
                 <div class="store-step" hidden>
-                  <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
                   <h3 class="step-header">Choose A Store:</h3>
                   <div class="store-selector-wrapper">
                     <select class="store-selector"></select>
@@ -200,8 +208,8 @@
                   <div class="selected-store-logo"></div>
                 </div>
               </div>
-            </div>
-            <div class="book-accordion accordion">
+              </div>
+              <div class="book-accordion accordion">
             <div class="accordion-item">
               <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ti ti-chevron-down accordion-icon"></i></button>
               <div class="accordion-panel">
@@ -241,8 +249,10 @@
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
 
