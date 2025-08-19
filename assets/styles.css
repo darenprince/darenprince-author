@@ -1968,9 +1968,9 @@ input:checked + .toggle-slider::before {
 }
 
 .book-3d-viewer {
-  --book-width: 240px;
-  --book-height: 360px;
-  --book-depth: 30px;
+  --book-height: clamp(240px, 40vw, 85vh);
+  --book-width: calc(var(--book-height) * 2 / 3);
+  --book-depth: calc(var(--book-width) / 8);
   --viewer-size: var(--book-height);
   --hint-size: 150px;
   position: relative;
@@ -2195,7 +2195,7 @@ input:checked + .toggle-slider::before {
 
 .book-toolbar {
   position: fixed;
-  left: 4px;
+  left: 0;
   top: 50%;
   z-index: 3;
   opacity: 0;
@@ -2204,17 +2204,12 @@ input:checked + .toggle-slider::before {
 }
 .book-toolbar.visible {
   opacity: 1;
-  transform: translateY(-50%);
+  transform: translate(0, -50%);
 }
 
 @media (min-width: 768px) {
   .book-media {
     position: relative;
-  }
-  .book-toolbar {
-    position: absolute;
-    left: -68px;
-    top: 50%;
   }
 }
 .book-rail {
@@ -2318,14 +2313,6 @@ input:checked + .toggle-slider::before {
   outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .book-rail,
-  .book-rail__btn,
-  .book-rail__toggle {
-    transition: none;
-    transform: none;
-  }
-}
 .cover-zoom-modal {
   position: fixed;
   inset: 0;
@@ -2387,7 +2374,8 @@ input:checked + .toggle-slider::before {
 }
 
 .purchase-box {
-  background: var(--surface);
+  background: radial-gradient(circle, var(--surface) 0%, color-mix(in srgb, var(--surface) 90%, black) 100%);
+  border: 1px solid color-mix(in srgb, var(--surface) 90%, white);
   padding: var(--space-lg) var(--space-md);
   border-radius: var(--radius-md);
   width: 100%;
@@ -2465,13 +2453,39 @@ input:checked + .toggle-slider::before {
   opacity: 1;
   transform: translateY(0);
 }
-.purchase-box .selected-format-note {
-  text-align: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
+.purchase-box .format-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0));
+  padding: var(--space-xs) 0;
+  font-size: 0.9375rem;
 }
-.purchase-box .selected-format-note a {
+.purchase-box .format-bar .format-label {
+  color: color-mix(in srgb, var(--color-contrast-high) 90%, black);
+  font-weight: 400;
+}
+.purchase-box .format-bar .format-divider {
+  width: 1px;
+  height: 1em;
+  background: rgba(255, 255, 255, 0.1);
+}
+.purchase-box .format-bar .format-value {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxs);
+}
+.purchase-box .format-bar .format-value .format-icon {
+  color: #d1d1d1;
+}
+.purchase-box .format-bar .format-value #selected-format {
   color: var(--color-muted);
+  font-weight: 700;
+}
+.purchase-box .format-bar .change-format {
+  color: var(--color-accent);
   text-decoration: underline;
 }
 .purchase-box .store-selector-wrapper {
@@ -2851,7 +2865,7 @@ input:checked + .toggle-slider::before {
 }
 
 .book-section {
-  margin-top: 0;
+  margin-top: 3rem;
 }
 .book-section .container {
   margin-block: 0;
@@ -2864,31 +2878,31 @@ input:checked + .toggle-slider::before {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  align-items: center;
+  align-items: stretch;
 }
 @media (min-width: 768px) {
   .book-details-wrapper .book-layout {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
   }
+}
+.book-details-wrapper .book-media,
+.book-details-wrapper .book-info {
+  flex: 1;
+  width: 100%;
+  padding: 2rem;
 }
 .book-details-wrapper .book-media {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  width: 100%;
+  justify-content: center;
   position: relative;
-  padding: 5rem 0;
+  gap: 0;
   z-index: 0;
 }
-@media (min-width: 768px) {
-  .book-details-wrapper .book-media {
-    padding: 5rem 0;
-  }
-}
 .book-details-wrapper .book-media .book-preview {
-  border: 1px solid var(--gray-100);
+  border: 1px solid var(--color-charcoal);
   border-radius: 12px;
   background: url("../assets/images/IMG_6246.jpeg") center/cover no-repeat;
   padding: 1rem;
@@ -2896,26 +2910,28 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 400px;
+  height: 100%;
+  max-height: 85vh;
   margin: 0 auto;
 }
+.book-details-wrapper .book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: center;
+}
 .book-details-wrapper .purchase-box {
-  background: var(--color-surface);
+  background: radial-gradient(circle, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 90%, black) 100%);
+  border: 1px solid color-mix(in srgb, var(--color-surface) 90%, white);
   padding: 2rem 1rem;
   border-radius: 0.35rem;
   width: 100%;
-  max-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .book-details-wrapper .purchase-box [hidden] {
   display: none !important;
-}
-@media (min-width: 768px) {
-  .book-details-wrapper .purchase-box {
-    max-width: 260px;
-  }
 }
 .book-details-wrapper .purchase-box .buy-controls {
   display: flex;
@@ -2983,13 +2999,39 @@ input:checked + .toggle-slider::before {
   opacity: 1;
   transform: translateY(0);
 }
-.book-details-wrapper .purchase-box .selected-format-note {
-  text-align: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
+.book-details-wrapper .purchase-box .format-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0));
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
 }
-.book-details-wrapper .purchase-box .selected-format-note a {
+.book-details-wrapper .purchase-box .format-bar .format-label {
+  color: color-mix(in srgb, var(--color-contrast-high) 90%, black);
+  font-weight: 400;
+}
+.book-details-wrapper .purchase-box .format-bar .format-divider {
+  width: 1px;
+  height: 1em;
+  background: rgba(255, 255, 255, 0.1);
+}
+.book-details-wrapper .purchase-box .format-bar .format-value {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.book-details-wrapper .purchase-box .format-bar .format-value .format-icon {
+  color: #d1d1d1;
+}
+.book-details-wrapper .purchase-box .format-bar .format-value #selected-format {
   color: var(--color-muted);
+  font-weight: 700;
+}
+.book-details-wrapper .purchase-box .format-bar .change-format {
+  color: var(--color-lime);
   text-decoration: underline;
 }
 .book-details-wrapper .purchase-box .store-selector-wrapper {
