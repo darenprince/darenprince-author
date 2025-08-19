@@ -319,11 +319,24 @@
   z-index: 3;
   opacity: 0;
   transform: translate(-120%, -50%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
 
   &.visible {
     opacity: 1;
     transform: translateY(-50%);
+    animation: toolbar-fade 2s forwards;
+
+    &.glow::after {
+      animation: border-trace 2s ease-out;
+    }
   }
 }
 
@@ -712,6 +725,30 @@
 @media (max-width: 30rem) {
   .book-3d-viewer {
     --hint-size: 69px;
+  }
+}
+
+@keyframes toolbar-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes border-trace {
+  0% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 var(--brand-1);
+  }
+  25% {
+    opacity: 1;
+    box-shadow: 0 0 4px 2px var(--brand-1);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 var(--brand-1);
   }
 }
 
