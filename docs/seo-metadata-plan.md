@@ -24,7 +24,7 @@ PAGE: Homepage (index.html)
 <meta property="og:description" content="Official author site of Daren Prince. Explore books on connection, healing, and confidence.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/">
+<meta property="og:url" content="https://darenprince.com/">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -38,8 +38,8 @@ PAGE: Homepage (index.html)
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Daren Prince",
-  "url": "https://www.darenprince.com",
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "url": "https://darenprince.com",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
     "https://www.goodreads.com/author/show/53671567.Daren_Prince"
@@ -67,7 +67,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
 <meta property="og:description" content="Discover the psychology-backed men's playbook for real attraction and conversation mastery.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://www.darenprince.com/books/game-on">
+<meta property="og:url" content="https://darenprince.com/books/game-on">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -85,7 +85,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
     "@type": "Person",
     "name": "Daren Prince"
   },
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "bookFormat": "https://schema.org/EBook",
   "isbn": "9798303844407",
   "offers": {
@@ -118,7 +118,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
 <meta property="og:description" content="The bold guide to overcoming toxic relationships and reclaiming your strength. Coming soon.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://www.darenprince.com/books/unshakeable">
+<meta property="og:url" content="https://darenprince.com/books/unshakeable">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -136,7 +136,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
     "@type": "Person",
     "name": "Daren Prince"
   },
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "bookFormat": "https://schema.org/EBook",
   "isbn": "TBD",
   "offers": {
@@ -144,7 +144,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
     "price": "TBD",
     "priceCurrency": "USD",
     "availability": "https://schema.org/PreOrder",
-    "url": "https://www.darenprince.com/books/unshakeable"
+    "url": "https://darenprince.com/books/unshakeable"
   },
   "description": "Unshakeable is a powerful guide to identifying narcissistic abuse, breaking free from toxic relationships, and rebuilding emotional strength and clarity."
 }
@@ -169,7 +169,7 @@ PAGE: Meet Daren Prince (/about)
 <meta property="og:description" content="Author. Strategist. Real talker. Learn how Daren turned pain into purpose—and how he helps others master confidence and connection.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="profile">
-<meta property="og:url" content="https://www.darenprince.com/about">
+<meta property="og:url" content="https://darenprince.com/about">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -183,8 +183,8 @@ PAGE: Meet Daren Prince (/about)
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Daren Prince",
-  "url": "https://www.darenprince.com/about",
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "url": "https://darenprince.com/about",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "jobTitle": "Author, Communication Strategist",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
@@ -212,7 +212,7 @@ PAGE: Press & Media (/media)
 <meta property="og:description" content="Get press materials, headshots, and media inquiries for Daren Prince—author of Game On! and Unshakeable.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/media">
+<meta property="og:url" content="https://darenprince.com/media">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -226,8 +226,8 @@ PAGE: Press & Media (/media)
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Daren Prince",
-  "url": "https://www.darenprince.com",
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "url": "https://darenprince.com",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
     "https://www.goodreads.com/author/show/53671567.Daren_Prince"
@@ -240,7 +240,7 @@ PAGE: Press & Media (/media)
 
 Notes:
 - Include downloadable PDF press kit, image previews, and media contact email.
-- Add `<link rel="canonical" href="https://www.darenprince.com/media">` to head for SEO.
+- Add `<link rel="canonical" href="https://darenprince.com/media">` to head for SEO.
 
 ==============================
 PAGE: Swag (/swag)
@@ -256,7 +256,7 @@ PAGE: Swag (/swag)
 <meta property="og:description" content="Shop high-vibe apparel inspired by Daren Prince's bestselling book Game On! Shirts, hoodies, and more.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/swag">
+<meta property="og:url" content="https://darenprince.com/swag">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -270,8 +270,8 @@ PAGE: Swag (/swag)
   "@context": "https://schema.org",
   "@type": "Store",
   "name": "Game On! Swag",
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
-  "url": "https://www.darenprince.com/swag",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "url": "https://darenprince.com/swag",
   "description": "Shop bold, conversation-sparking apparel based on the bestselling book Game On! by Daren Prince. Confidence never goes out of style.",
   "brand": {
     "@type": "Brand",
@@ -298,7 +298,7 @@ PAGE: Blog (/blog)
 <meta property="og:description" content="Unfiltered takes on dating, connection, and confidence. Read the latest insights from Daren Prince.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/blog">
+<meta property="og:url" content="https://darenprince.com/blog">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -312,7 +312,7 @@ PAGE: Blog (/blog)
   "@context": "https://schema.org",
   "@type": "Blog",
   "name": "The Game On! Blog",
-  "url": "https://www.darenprince.com/blog",
+  "url": "https://darenprince.com/blog",
   "description": "The official blog of Daren Prince—featuring bold, emotionally intelligent articles about confidence, relationships, codependency recovery, and dating psychology.",
   "publisher": {
     "@type": "Person",
@@ -340,7 +340,7 @@ PAGE: Collaborations (/collabs)
 <meta property="og:description" content="From affiliate partnerships to guest appearances, Daren Prince is open to bold, aligned collaborations. Reach out today.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/collabs">
+<meta property="og:url" content="https://darenprince.com/collabs">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -354,7 +354,7 @@ PAGE: Collaborations (/collabs)
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Collaborate with Daren Prince",
-  "url": "https://www.darenprince.com/collabs",
+  "url": "https://darenprince.com/collabs",
   "description": "Explore collaborations, affiliate opportunities, and strategic partnerships with Daren Prince.",
   "creator": {
     "@type": "Person",
@@ -381,7 +381,7 @@ PAGE: Contact (/contact)
 <meta property="og:description" content="Reach out to Daren Prince for media, coaching, or collab opportunities. He reads every message.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.darenprince.com/contact">
+<meta property="og:url" content="https://darenprince.com/contact">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -395,11 +395,11 @@ PAGE: Contact (/contact)
   "@context": "https://schema.org",
   "@type": "ContactPage",
   "name": "Contact Daren Prince",
-  "url": "https://www.darenprince.com/contact",
+  "url": "https://darenprince.com/contact",
   "mainEntity": {
     "@type": "Person",
     "name": "Daren Prince",
-    "url": "https://www.darenprince.com"
+    "url": "https://darenprince.com"
   },
   "description": "Use this page to contact author Daren Prince for media, podcast, coaching, or collaboration opportunities. Expect a personal reply if it’s real."
 }
@@ -420,22 +420,22 @@ SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://www.darenprince.com/blog/sample-post-slug"
+    "@id": "https://darenprince.com/blog/sample-post-slug"
   },
   "headline": "Blog Post Title Goes Here",
   "description": "Short summary of the post (around 150–200 characters).",
-  "image": "https://www.darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
   "author": {
     "@type": "Person",
     "name": "Daren Prince",
-    "url": "https://www.darenprince.com/about"
+    "url": "https://darenprince.com/about"
   },
   "publisher": {
     "@type": "Person",
     "name": "Daren Prince",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://www.darenprince.com/assets/images/og-image.jpg"
+      "url": "https://darenprince.com/assets/images/og-image.jpg"
     }
   },
   "datePublished": "2025-07-31",
