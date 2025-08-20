@@ -360,8 +360,31 @@
   border-radius: 0 var(--radius-rail) var(--radius-rail) 0;
   box-shadow: var(--shadow);
   color: var(--ink);
+  position: relative;
+  overflow: visible;
   transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(#39ff14 0deg, transparent 30deg 360deg);
+    filter: drop-shadow(0 0 4px #39ff14);
+    pointer-events: none;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: book-border-chase 3s linear infinite;
+  }
+
+  &.halt-animation::before {
+    animation: none;
+    opacity: 0;
+  }
 
   &__badge {
     display: flex;
@@ -406,6 +429,27 @@
     transition: background 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
       box-shadow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
       transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(57, 255, 20, 0.6), transparent);
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: book-btn-shine 3s linear infinite;
+    }
+
+    .halt-animation &::after {
+      animation: none;
+      opacity: 0;
+    }
 
     svg {
       width: 24px;
@@ -736,6 +780,36 @@
 @keyframes q-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes book-border-chase {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  66% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes book-btn-shine {
+  0%, 60% {
+    left: -100%;
+    opacity: 0;
+  }
+  80% {
+    left: 100%;
+    opacity: 0.6;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
   }
 }
 
