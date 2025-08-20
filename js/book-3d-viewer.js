@@ -267,3 +267,32 @@ closeBtn?.addEventListener('click', () => {
   bookToolbar?.classList.add('visible');
   resetAutoRotate();
 });
+
+if (bookToolbar) {
+  const stopGlow = () => {
+    bookToolbar.dataset.interacted = 'true';
+    bookToolbar.classList.remove('glow');
+  };
+
+  const addStopGlowListeners = () => {
+    ['click', 'pointerdown', 'focusin'].forEach(evt => {
+      bookToolbar.addEventListener(evt, stopGlow, { once: true });
+    });
+  };
+
+  const glowObserver = new MutationObserver(() => {
+    const isVisible = bookToolbar.classList.contains('visible');
+    if (isVisible && !bookToolbar.dataset.interacted) {
+      bookToolbar.classList.add('glow');
+      addStopGlowListeners();
+    } else if (!isVisible) {
+      delete bookToolbar.dataset.interacted;
+      bookToolbar.classList.remove('glow');
+    }
+  });
+
+  glowObserver.observe(bookToolbar, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+}
