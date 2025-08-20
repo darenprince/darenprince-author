@@ -9,8 +9,13 @@
   left: 0;
   width: 100%;
   padding: $spacing-sm $spacing-md;
-  background-color: $surface;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$black} 92%, white),
+    color-mix(in srgb, #{$black} 90%, black)
+  );
   border-top: 1px solid $border;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   z-index: 1000;
 
   .search-form {
@@ -21,11 +26,20 @@
   input[type="search"] {
     flex-grow: 1;
     padding: $spacing-xs $spacing-sm;
-    background-color: $surface;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$surface} 92%, white),
+      color-mix(in srgb, #{$surface} 90%, black)
+    );
     border: 1px solid $border;
     border-right: 0;
     border-radius: $border-radius 0 0 $border-radius;
     color: $contrast-high;
+    &:focus {
+      border-color: $lime-green;
+      box-shadow: 0 0 0 1px $lime-green;
+      outline: none;
+    }
   }
 
   .search-submit {
