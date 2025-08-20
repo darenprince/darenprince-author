@@ -1,17 +1,26 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+
 .c-search {
   position: relative;
   input[type="search"] {
     height: 44px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: $border-radius;
     padding: 0 12px;
     border: 1px solid var(--color-border);
-    background: var(--color-surface);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$surface} 92%, white),
+      color-mix(in srgb, #{$surface} 90%, black)
+    );
     color: var(--color-contrast-high);
-    box-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     &:focus {
       outline: none;
-      box-shadow: var(--focus-ring);
+      border-color: $lime-green;
+      box-shadow: 0 0 0 1px $lime-green;
     }
   }
 }
@@ -24,9 +33,13 @@
   max-height: 70vh;
   overflow: auto;
   border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  border-radius: 12px;
-  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   z-index: 20;
   &[hidden] { display: none; }
 }
@@ -63,19 +76,23 @@
       height: 44px;
       padding: 0 12px;
       border: 1px solid var(--color-border);
-      border-radius: 10px;
-      background: var(--color-surface);
+      border-radius: $border-radius;
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$surface} 92%, white),
+        color-mix(in srgb, #{$surface} 90%, black)
+      );
       color: var(--color-contrast-high);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
       &:focus {
         outline: none;
-        box-shadow: var(--focus-ring);
+        border-color: $lime-green;
+        box-shadow: 0 0 0 1px $lime-green;
       }
     }
     button {
-      background: var(--brand-green-600);
-      color: var(--white);
-      border: none;
-      border-radius: 10px;
+      @include button-base($medium-green);
+      border-radius: $border-radius;
       padding: 0 16px;
     }
   }
@@ -89,7 +106,7 @@
   .result {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: $border-radius;
     padding: 16px;
     transition: transform .2s;
     &:hover { transform: translateY(-2px); }
