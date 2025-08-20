@@ -8,7 +8,8 @@ export function onViewBack() {
   setActiveTool('back');
 }
 export function onToggleSpin360() {
-  setActiveTool('spin360');
+  const btn = rail.querySelector('[data-tool="spin360"]');
+  setActiveTool(btn?.classList.contains('is-active') ? null : 'spin360');
 }
 export function onBuyClick() {}
 
