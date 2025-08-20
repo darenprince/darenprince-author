@@ -4,7 +4,8 @@
     "build": "npm run build:search && node scripts/generate-env.js && sass scss/styles.scss assets/styles.css",
     "watch": "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css --watch",
     "test": "vitest run",
-    "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass"
+    "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass",
+    "deploy": "netlify deploy --prod --site darenprince.netlify.app"
   },
   "devDependencies": {
     "@supabase/supabase-js": "^2.53.0",
@@ -17,6 +18,7 @@
     "glob": "^10.3.12",
     "gray-matter": "^4.0.3",
     "cheerio": "^1.0.0-rc.12",
-    "marked": "^10.0.0"
+    "marked": "^10.0.0",
+    "netlify-cli": "^23.1.4"
   }
 }
