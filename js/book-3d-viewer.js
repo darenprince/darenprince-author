@@ -1,3 +1,5 @@
+import { setActiveTool } from './book-rail.js';
+
 const book = document.getElementById('book');
 const rotate360 = document.getElementById('rotate-360');
 const snapFrontBtn = document.getElementById('snap-front');
@@ -13,6 +15,7 @@ let rotateHintTimeout;
 
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
+const ORIENTATION_TOLERANCE = 75;
 const PAUSE_BEFORE_RESUME_MS = 4000;
 const QUICK_TRANSITION = 'transform 0.3s ease';
 const DEFAULT_TRANSITION = 'transform 0.6s ease';
@@ -54,9 +57,23 @@ window.addEventListener('load', () => {
   }
 });
 
+function updateActiveTool(angle) {
+  const normalized = ((angle % 360) + 360) % 360;
+  const frontDiff = Math.abs(normalized - SNAP_FRONT);
+  const backDiff = Math.abs(normalized - SNAP_BACK);
+  if (frontDiff <= ORIENTATION_TOLERANCE) {
+    setActiveTool('front');
+  } else if (backDiff <= ORIENTATION_TOLERANCE) {
+    setActiveTool('back');
+  } else {
+    setActiveTool(null);
+  }
+}
+
 function applyRotation(angle) {
   book.style.transform = `rotateY(${angle}deg)`;
   book.style.setProperty('--light-angle', `${angle}deg`);
+  updateActiveTool(angle);
 }
 
 function startAutoRotate() {

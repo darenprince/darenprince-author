@@ -1,9 +1,15 @@
 const rail = document.querySelector('.book-rail');
 
 export function onZoom() {}
-export function onViewFront() {}
-export function onViewBack() {}
-export function onToggleSpin360() {}
+export function onViewFront() {
+  setActiveTool('front');
+}
+export function onViewBack() {
+  setActiveTool('back');
+}
+export function onToggleSpin360() {
+  setActiveTool('spin360');
+}
 export function onBuyClick() {}
 
 export function setActiveTool(name) {
