@@ -1350,16 +1350,14 @@ body.theme-light .site-footer a {
 i[class^=ti], i[class*=" ti-"] {
   display: inline-block;
   color: var(--color-icon);
-  background: radial-gradient(circle at 50% 50%, #f4f4f4, var(--color-icon));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: background 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 a:hover i[class^=ti], a:active i[class^=ti],
 button:hover i[class^=ti], button:active i[class^=ti],
 i[class^=ti]:hover, i[class^=ti]:active {
-  background: radial-gradient(circle at 50% 50%, var(--color-primary-hover), var(--color-primary));
+  color: var(--color-primary);
+  text-shadow: 0 0 8px var(--color-primary-hover);
 }
 
 .cta-btn, .cta-btn--glow {
