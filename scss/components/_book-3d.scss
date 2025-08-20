@@ -2,6 +2,10 @@
 @use "../base/variables" as *;
 @use "../base/mixins" as *;
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 .book-3d-container {
   position: relative;
   display: flex;
@@ -14,6 +18,8 @@
   background-size: cover;
   background-position: center;
   border-radius: 10px;
+  z-index: 1;
+  touch-action: none;
 
   &.fullscreen {
     position: fixed;
@@ -68,13 +74,15 @@
   height: var(--viewer-size);
   perspective: 1200px;
   border-radius: 0;
-  z-index: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
   margin: 0 auto;
+  touch-action: none;
+  cursor: grab;
 
   @include respond-to(md) {
     border-radius: $border-radius;
@@ -319,11 +327,70 @@
   z-index: 3;
   opacity: 0;
   transform: translate(-120%, -50%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 2s ease;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  // subtle pulsing border glow
+  &::before {
+    box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.6);
+    opacity: 0;
+  }
+
+  &.glow::before {
+    animation: toolbarGlow 6s ease-out infinite;
+  }
+
+  // chasing highlight
+  &::after {
+    border: 2px solid transparent;
+    background: conic-gradient(#39ff14 0deg 20deg, transparent 20deg);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transform-origin: center;
+  }
+
+  &.visible::after {
+    opacity: 1;
+    animation: toolbarChase 0.6s linear, toolbarChase 0.6s linear reverse 0.6s;
+  }
 
   &.visible {
     opacity: 1;
     transform: translateY(-50%);
+  }
+}
+
+@keyframes toolbarGlow {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 8px 2px rgba(57, 255, 20, 0.6);
+  }
+  5% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(57, 255, 20, 0);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(57, 255, 20, 0);
+  }
+}
+
+@keyframes toolbarChase {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
