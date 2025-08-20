@@ -13,7 +13,7 @@ The Supabase integration for Netlify streamlines your workflow by connecting you
 
 - **Automated environment configuration**. We'll set up these crucial environment variables for you:
 
-  - `SUPABASE_DATABASE_URL`
+  - `SUPABASE_URL`
   - `SUPABASE_SERVICE_ROLE_KEY`
   - `SUPABASE_ANON_KEY`
   - `SUPABASE_JWT_SECRET`
@@ -72,7 +72,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "./database.types";
 
 const supabase = createClient<Database>(
-  process.env.SUPABASE_DATABASE_URL,
+  process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
 ```
@@ -85,7 +85,7 @@ const supabase = createClient<Database>(
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
-  process.env.SUPABASE_DATABASE_URL,
+  process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
 ```
@@ -103,7 +103,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "./database.types";
 
 const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 ```
@@ -116,7 +116,7 @@ const supabase = createClient<Database>(
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 ```
