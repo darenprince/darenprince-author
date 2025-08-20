@@ -4,6 +4,7 @@ The official project **README.md** is located inside of the main docs folder her
 =====
 [View Documentation Folder](./docs/)
 
+**Live Site:** [darenprince.netlify.app](https://darenprince.netlify.app)
 
 # 🖥️ Daren Prince Author Platform & Website
 
