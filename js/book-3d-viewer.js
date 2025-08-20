@@ -262,6 +262,7 @@ if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
 
 closeBtn?.addEventListener('click', () => {
   bookContainer?.classList.remove('fullscreen');
+  closeBtn?.setAttribute('hidden', '');
   closeBtn.setAttribute('hidden', '');
   bookToolbar?.removeAttribute('hidden');
   bookToolbar?.classList.add('visible');
