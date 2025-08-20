@@ -236,7 +236,7 @@ This project is protected under [CC BY-NC 4.0](http://creativecommons.org/licens
 
 ## 📬 Contact
 
-- Official Site: [darenprince.com](https://www.darenprince.com)
+- Official Site: [darenprince.com](https://darenprince.com)
 - Press & Media: [press@darenprince.com](mailto:press@darenprince.com)
 - Publisher: [publishing@darenprince.com](mailto:publishing@darenprince.com)
 
