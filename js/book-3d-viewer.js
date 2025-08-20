@@ -153,8 +153,10 @@ if (book) {
     const centerObserver = new IntersectionObserver(entries => {
       const entry = entries[0];
       if (entry.intersectionRatio === 1) {
-        entry.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        centerObserver.unobserve(entry.target);
+        centerObserver.disconnect();
+        requestAnimationFrame(() => {
+          entry.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
       }
     }, { threshold: 1 });
     centerObserver.observe(bookContainer);
