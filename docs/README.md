@@ -205,7 +205,7 @@ npm install -g netlify-cli
 netlify dev
 ```
 
-Deployment: Push to `main` auto-deploys via Netlify CI/CD.
+Deployment: The live site runs at [darenprince.netlify.app](https://darenprince.netlify.app); pushing to `main` auto-deploys via Netlify CI/CD.
 
 ### Dashboard on Netlify
 1. Set `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` env vars in your Netlify project.
