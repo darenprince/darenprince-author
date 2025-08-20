@@ -13,6 +13,15 @@ const purchaseOptions = document.getElementById('purchase-options');
 const closeBtn = document.getElementById('book-close');
 let rotateHintTimeout;
 
+function stopToolbarEffects() {
+  bookToolbar?.classList.add('halt-animation');
+}
+
+['pointerdown', 'touchstart'].forEach(evt => {
+  bookToolbar?.addEventListener(evt, stopToolbarEffects, { once: true });
+  book?.addEventListener(evt, stopToolbarEffects, { once: true });
+});
+
 const SNAP_FRONT = 18;
 const SNAP_BACK = 199;
 const ORIENTATION_TOLERANCE = 20;
