@@ -203,6 +203,7 @@ bookViewer?.addEventListener('touchmove', e => {
 });
 
 bookViewer?.addEventListener('touchend', () => {
+  if (!isDragging) return;
   isDragging = false;
   book.style.transition = 'transform 0.6s ease';
   resetAutoRotate();
