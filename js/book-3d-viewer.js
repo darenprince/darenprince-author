@@ -26,6 +26,19 @@ let isDragging = false;
 let startX = 0;
 let autoInterval;
 let pauseTimeout;
+let scrollLocked = false;
+
+function lockPageScroll() {
+  if (scrollLocked) return;
+  scrollLocked = true;
+  document.body.classList.add('no-scroll');
+}
+
+function unlockPageScroll() {
+  if (!scrollLocked) return;
+  scrollLocked = false;
+  document.body.classList.remove('no-scroll');
+}
 
 function hideRotateHint() {
   rotateHint?.classList.add('hide');
@@ -41,7 +54,7 @@ export function showRotateHint() {
     hideRotateHint();
     clearTimeout(rotateHintTimeout);
   };
-  book.addEventListener('pointerdown', hide, { once: true });
+  bookViewer?.addEventListener('pointerdown', hide, { once: true });
   rotateHintTimeout = setTimeout(hide, 4000);
 }
 
@@ -135,12 +148,24 @@ if ('IntersectionObserver' in window) {
   }
 }
 
-book.addEventListener('mousedown', e => {
+if (bookContainer && 'IntersectionObserver' in window) {
+  const centerObserver = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (entry.intersectionRatio === 1) {
+      entry.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      centerObserver.unobserve(entry.target);
+    }
+  }, { threshold: 1 });
+  centerObserver.observe(bookContainer);
+}
+
+bookViewer?.addEventListener('mousedown', e => {
   isDragging = true;
   startX = e.clientX;
   book.style.transition = 'none';
   clearInterval(autoInterval);
   clearTimeout(pauseTimeout);
+  lockPageScroll();
 });
 
 window.addEventListener('mousemove', e => {
@@ -156,28 +181,40 @@ window.addEventListener('mouseup', () => {
   isDragging = false;
   book.style.transition = 'transform 0.6s ease';
   resetAutoRotate();
+  unlockPageScroll();
 });
 
-book.addEventListener('touchstart', e => {
+bookViewer?.addEventListener('touchstart', e => {
   isDragging = true;
   startX = e.touches[0].clientX;
   book.style.transition = 'none';
   clearInterval(autoInterval);
   clearTimeout(pauseTimeout);
+  lockPageScroll();
 });
 
-book.addEventListener('touchmove', e => {
+bookViewer?.addEventListener('touchmove', e => {
   if (!isDragging) return;
   const delta = e.touches[0].clientX - startX;
   rotation += delta * 0.5;
   applyRotation(rotation);
   startX = e.touches[0].clientX;
+  e.preventDefault();
 });
 
-book.addEventListener('touchend', () => {
+bookViewer?.addEventListener('touchend', () => {
   isDragging = false;
   book.style.transition = 'transform 0.6s ease';
   resetAutoRotate();
+  unlockPageScroll();
+});
+
+bookViewer?.addEventListener('touchcancel', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  book.style.transition = 'transform 0.6s ease';
+  resetAutoRotate();
+  unlockPageScroll();
 });
 
 snapFrontBtn?.addEventListener('click', () => {
@@ -267,3 +304,32 @@ closeBtn?.addEventListener('click', () => {
   bookToolbar?.classList.add('visible');
   resetAutoRotate();
 });
+
+if (bookToolbar) {
+  const stopGlow = () => {
+    bookToolbar.dataset.interacted = 'true';
+    bookToolbar.classList.remove('glow');
+  };
+
+  const addStopGlowListeners = () => {
+    ['click', 'pointerdown', 'focusin'].forEach(evt => {
+      bookToolbar.addEventListener(evt, stopGlow, { once: true });
+    });
+  };
+
+  const glowObserver = new MutationObserver(() => {
+    const isVisible = bookToolbar.classList.contains('visible');
+    if (isVisible && !bookToolbar.dataset.interacted) {
+      bookToolbar.classList.add('glow');
+      addStopGlowListeners();
+    } else if (!isVisible) {
+      delete bookToolbar.dataset.interacted;
+      bookToolbar.classList.remove('glow');
+    }
+  });
+
+  glowObserver.observe(bookToolbar, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+}
