@@ -2,6 +2,10 @@
 @use "../base/variables" as *;
 @use "../base/mixins" as *;
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 .book-3d-container {
   position: relative;
   display: flex;
@@ -14,6 +18,8 @@
   background-size: cover;
   background-position: center;
   border-radius: 10px;
+  z-index: 1;
+  touch-action: none;
 
   &.fullscreen {
     position: fixed;
@@ -68,13 +74,15 @@
   height: var(--viewer-size);
   perspective: 1200px;
   border-radius: 0;
-  z-index: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
   margin: 0 auto;
+  touch-action: none;
+  cursor: grab;
 
   @include respond-to(md) {
     border-radius: $border-radius;
