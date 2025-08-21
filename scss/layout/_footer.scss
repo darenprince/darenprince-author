@@ -2,8 +2,8 @@
 @use "../tokens/colors" as *;
 
 .site-footer {
-  background: var(--grad-gray);
-  color: $white;
+  background: var(--footer-gradient);
+  color: $icon;
   padding: $spacing-lg 0;
   text-align: left;
 
@@ -20,9 +20,9 @@
   }
 
   a {
-    color: $bright-green;
+    color: $accent;
     text-decoration: none;
-    &:hover { color: $white; }
+    &:hover { color: $contrast-high; }
   }
 
   .footer-links {
@@ -37,6 +37,6 @@
 body.theme-dark,
 body.theme-light {
   .site-footer a {
-    color: $bright-green;
+    color: $accent;
   }
 }
