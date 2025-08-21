@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const authToggle = document.querySelector('.js-auth-toggle');
   const searchToggle = document.querySelector('.js-search-toggle');
   const searchBar = document.querySelector('.js-search-bar');
+  let searchModal;
   const modalOverlay = document.getElementById('demo-modal');
   const componentSelect = document.querySelector('.component-nav__select');
 
@@ -51,39 +52,99 @@ document.addEventListener('DOMContentLoaded', async function () {
     authToggle.addEventListener('click', loginHandler);
   }
 
-  if (searchToggle && searchBar) {
+  if (searchToggle) {
     searchToggle.addEventListener('click', function () {
-      if (searchBar.hasAttribute('hidden')) {
-        searchBar.removeAttribute('hidden');
-        const input = searchBar.querySelector('input[type="search"]');
-        if (input) input.focus();
-      } else {
-        searchBar.setAttribute('hidden', '');
+      if (window.matchMedia('(min-width: 768px)').matches) {
+        openSearchModal();
+      } else if (searchBar) {
+        if (searchBar.hasAttribute('hidden')) {
+          searchBar.removeAttribute('hidden');
+          const input = searchBar.querySelector('input[type="search"]');
+          if (input) input.focus();
+        } else {
+          searchBar.setAttribute('hidden', '');
+        }
       }
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && !searchBar.hasAttribute('hidden')) {
-        searchBar.setAttribute('hidden', '');
-        searchToggle.focus();
+      if (event.key === 'Escape') {
+        if (searchModal && searchModal.classList.contains('is-visible')) {
+          closeSearchModal();
+        } else if (searchBar && !searchBar.hasAttribute('hidden')) {
+          searchBar.setAttribute('hidden', '');
+          searchToggle.focus();
+        }
       }
       if (event.key === '/' && document.activeElement === document.body) {
         event.preventDefault();
-        searchBar.removeAttribute('hidden');
-        const input = searchBar.querySelector('input[type="search"]');
-        if (input) input.focus();
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          openSearchModal();
+        } else if (searchBar) {
+          searchBar.removeAttribute('hidden');
+          const input = searchBar.querySelector('input[type="search"]');
+          if (input) input.focus();
+        }
       }
     });
+  }
 
-    const searchForm = searchBar.querySelector('form');
-    searchForm?.addEventListener('submit', function (e) {
+  const searchForm = searchBar?.querySelector('form');
+  searchForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const query = searchForm.querySelector('input[type="search"]').value.trim();
+    if (query) {
+      const url = `https://www.google.com/search?q=site:darenprince.com+${encodeURIComponent(query)}`;
+      window.open(url, '_blank');
+    }
+  });
+
+  function openSearchModal() {
+    if (!searchModal) {
+      searchModal = createSearchModal();
+    }
+    searchModal.classList.add('is-visible');
+    const input = searchModal.querySelector('input[type="search"]');
+    if (input) input.focus();
+  }
+
+  function closeSearchModal() {
+    if (searchModal) {
+      searchModal.classList.remove('is-visible');
+      searchToggle.focus();
+    }
+  }
+
+  function createSearchModal() {
+    const overlay = document.createElement('div');
+    overlay.className = 'search-modal-overlay';
+    overlay.innerHTML = `
+      <div class="search-modal">
+        <button class="search-close" aria-label="Close search">&times;</button>
+        <form class="search-form flex items-center">
+          <input type="search" placeholder="search site" />
+          <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+        </form>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    const closeBtn = overlay.querySelector('.search-close');
+    closeBtn.addEventListener('click', closeSearchModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeSearchModal();
+    });
+
+    const form = overlay.querySelector('form');
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const query = searchForm.querySelector('input[type="search"]').value.trim();
+      const query = form.querySelector('input[type="search"]').value.trim();
       if (query) {
         const url = `https://www.google.com/search?q=site:darenprince.com+${encodeURIComponent(query)}`;
         window.open(url, '_blank');
       }
     });
+
+    return overlay;
   }
 
   // ---------------------------
