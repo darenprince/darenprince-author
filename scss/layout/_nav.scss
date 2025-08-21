@@ -13,12 +13,12 @@
   border-top: 1px solid $border;
   z-index: 1000;
 
-  .search-form {
+  &__form {
     display: flex;
     width: 100%;
   }
 
-  input[type="search"] {
+  &__input {
     flex-grow: 1;
     padding: $spacing-xs $spacing-sm;
     background-color: $surface;
@@ -28,7 +28,7 @@
     color: $contrast-high;
   }
 
-  .search-submit {
+  &__submit {
     @include button-base($deep-green);
     border-radius: 0 $border-radius $border-radius 0;
     padding: $spacing-xs $spacing-sm;

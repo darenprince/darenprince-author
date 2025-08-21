@@ -7,20 +7,22 @@ let page = parseInt(params.get('page') || '1', 10);
 const limit = 20;
 
 const input = document.querySelector('[data-search-results] input[name="q"]');
-const filterButtons = document.querySelectorAll('.filters [data-filter]');
+const filterButtons = document.querySelectorAll('.search-results__filters [data-filter]');
 const sortSelect = document.querySelector('[data-sort]');
 const resultsList = document.getElementById('results');
-const summary = document.querySelector('.summary');
-const pager = document.querySelector('.pager');
+const summary = document.querySelector('.search-results__summary');
+const pager = document.querySelector('.search-results__pager');
 
 input.value = q;
-filterButtons.forEach(btn => {
-  if (btn.dataset.filter === category) btn.classList.add('is-active');
-  btn.addEventListener('click', e => {
-    category = btn.dataset.filter;
-    update();
+  filterButtons.forEach(btn => {
+    if (btn.dataset.filter === category) btn.classList.add('search-results__filter--active');
+    btn.addEventListener('click', e => {
+      filterButtons.forEach(b => b.classList.remove('search-results__filter--active'));
+      category = btn.dataset.filter;
+      btn.classList.add('search-results__filter--active');
+      update();
+    });
   });
-});
 
 sortSelect.value = sort;
 sortSelect.addEventListener('change', () => {
@@ -28,7 +30,7 @@ sortSelect.addEventListener('change', () => {
   update();
 });
 
-document.querySelector('.search-bar').addEventListener('submit', e => {
+document.querySelector('.search-results__form').addEventListener('submit', e => {
   e.preventDefault();
   q = input.value.trim();
   page = 1;
@@ -55,9 +57,9 @@ function render(data) {
   }
   summary.textContent = `${data.total} results`; 
   data.results.forEach(r => {
-    const li = document.createElement('li');
-    li.className = 'result';
-    li.innerHTML = `<a href="${r.url}"><h3>${r.title}</h3><p class="snippet">${r.snippet}</p><div class="meta"><span class="chip">${r.category || ''}</span></div></a>`;
+      const li = document.createElement('li');
+      li.className = 'search-results__item';
+      li.innerHTML = `<a href="${r.url}"><h3>${r.title}</h3><p class="search-results__snippet">${r.snippet}</p><div class="search-results__meta"><span class="search-results__chip">${r.category || ''}</span></div></a>`;
     resultsList.appendChild(li);
   });
   renderPager(data.total);
