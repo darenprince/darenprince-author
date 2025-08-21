@@ -1,17 +1,26 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+
 .c-search {
   position: relative;
   input[type="search"] {
     height: 44px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: $border-radius;
     padding: 0 12px;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$surface} 92%, white),
+      color-mix(in srgb, #{$surface} 90%, black)
+    );
     color: var(--color-contrast-high);
-    box-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     &:focus {
       outline: none;
-      box-shadow: var(--focus-ring);
+      border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
     }
   }
 }
@@ -23,10 +32,14 @@
   width: 100%;
   max-height: 70vh;
   overflow: auto;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  border-radius: 12px;
-  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   z-index: 20;
   &[hidden] { display: none; }
 }
@@ -62,20 +75,25 @@
       flex: 1;
       height: 44px;
       padding: 0 12px;
-      border: 1px solid var(--color-border);
-      border-radius: 10px;
-      background: var(--color-surface);
+      border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+      border-radius: $border-radius;
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$surface} 92%, white),
+        color-mix(in srgb, #{$surface} 90%, black)
+      );
       color: var(--color-contrast-high);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
       &:focus {
         outline: none;
-        box-shadow: var(--focus-ring);
+        border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
       }
     }
     button {
-      background: var(--brand-green-600);
-      color: var(--white);
-      border: none;
-      border-radius: 10px;
+      @include button-base($medium-green);
+      border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+      border-radius: $border-radius;
       padding: 0 16px;
     }
   }
@@ -88,13 +106,82 @@
   }
   .result {
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+    border-radius: $border-radius;
     padding: 16px;
     transition: transform .2s;
     &:hover { transform: translateY(-2px); }
     .snippet mark {
       background: color-mix(in srgb, var(--brand-green-500) 30%, transparent);
     }
+  }
+}
+
+.search-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  &.is-visible { display: flex; }
+}
+
+.search-modal {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$black} 92%, white),
+    color-mix(in srgb, #{$black} 90%, black)
+  );
+  border-radius: $border-radius;
+  padding: $spacing-lg;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+  .search-form {
+    display: flex;
+    width: 100%;
+  }
+
+  input[type="search"] {
+    flex-grow: 1;
+    padding: $spacing-xs $spacing-sm;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$surface} 92%, white),
+      color-mix(in srgb, #{$surface} 90%, black)
+    );
+    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+    border-right: 0;
+    border-radius: $border-radius 0 0 $border-radius;
+    color: $contrast-high;
+    &:focus {
+      border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
+      outline: none;
+    }
+  }
+
+  .search-submit {
+    @include button-base($deep-green);
+    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
+    border-left: 0;
+    border-radius: 0 $border-radius $border-radius 0;
+    padding: $spacing-xs $spacing-sm;
+  }
+
+  .search-close {
+    position: absolute;
+    top: $spacing-xs;
+    right: $spacing-xs;
+    background: none;
+    border: none;
+    color: $white;
+    font-size: 1.25rem;
+    cursor: pointer;
   }
 }

@@ -1,4 +1,3 @@
-@use "sass:color";
 @use "variables" as *;
 @use "../tokens/colors" as *;
 
@@ -15,7 +14,11 @@
 }
 
 @mixin button-base($bg, $text: var(--color-white), $hover: null) {
-  background-color: $bg;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$bg} 92%, white),
+    color-mix(in srgb, #{$bg} 90%, black)
+  );
   color: $text;
   padding: $spacing-xs $spacing-md;
   border: none;
@@ -24,15 +27,22 @@
   display: inline-block;
   text-decoration: none;
   transition: $transition;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 
   &:hover,
   &:focus {
     @if $hover != null {
-      background-color: $hover;
-    } @else if type-of($bg) == color {
-      background-color: color.adjust($bg, $lightness: -5%);
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$hover} 92%, white),
+        color-mix(in srgb, #{$hover} 90%, black)
+      );
     } @else {
-      background-color: $bg;
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$bg} 92%, white),
+        color-mix(in srgb, #{$bg} 90%, black)
+      );
     }
   }
 
