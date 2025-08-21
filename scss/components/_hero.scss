@@ -38,7 +38,7 @@
     border: none;
     color: $white;
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    border-radius: $border-radius;
     cursor: pointer;
     z-index: 2;
   }

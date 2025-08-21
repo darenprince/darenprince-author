@@ -13,7 +13,7 @@
   background-image: var(--book-bg);
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
+  border-radius: $border-radius;
 
   &.fullscreen {
     position: fixed;
