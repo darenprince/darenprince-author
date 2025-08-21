@@ -40,7 +40,12 @@ The header at the top of each page contains icons that toggle search, the profil
       <button class="js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
     </div>
   </div>
-  <div class="search-bar js-search-bar" hidden>...</div>
+    <div class="search-bar js-search-bar" hidden>
+      <form class="search-bar__form">
+        <input class="search-bar__input" type="search" />
+        <button class="search-bar__submit" type="submit">Search</button>
+      </form>
+    </div>
   <div class="profile-dropdown js-profile-dropdown" hidden>...</div>
 </header>
 ```

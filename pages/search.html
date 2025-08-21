@@ -8,44 +8,44 @@
 </head>
 <body>
   <!-- header reused from index.html simplified -->
-  <header class="site-header padding-y-sm">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
-      <a href="/index.html" class="logo">
-        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince" />
-      </a>
-      <div class="c-search" data-search>
-        <input id="site-search" type="search" placeholder="Search…" autocomplete="off"
-          role="combobox" aria-expanded="false" aria-controls="search-listbox" aria-autocomplete="list" />
-        <div id="search-listbox" class="c-search__dropdown" role="listbox" hidden></div>
+    <header class="site-header padding-y-sm">
+      <div class="container max-width-adaptive-lg flex items-center justify-between">
+        <a href="/index.html" class="logo">
+          <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince" />
+        </a>
+        <div class="c-search" data-search>
+          <input id="site-search" type="search" placeholder="Search…" autocomplete="off"
+            role="combobox" aria-expanded="false" aria-controls="search-listbox" aria-autocomplete="list" />
+          <div id="search-listbox" class="c-search__dropdown" role="listbox" hidden></div>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
   <main>
-    <section class="l-container search-results" data-search-results>
-      <form class="search-bar">
-        <input name="q" value="" placeholder="Search…" />
-        <button type="submit">Search</button>
-      </form>
-      <div class="controls">
-        <div class="filters" role="tablist">
-          <button data-filter="all" class="is-active">All</button>
-          <button data-filter="articles">Articles</button>
-          <button data-filter="audio">Audio</button>
-          <button data-filter="ebook">E-Book</button>
-          <button data-filter="print">Print</button>
+      <section class="l-container search-results" data-search-results>
+        <form class="search-results__form">
+          <input class="search-results__input" name="q" value="" placeholder="Search…" />
+          <button type="submit" class="search-results__submit">Search</button>
+        </form>
+        <div class="search-results__controls">
+          <div class="search-results__filters" role="tablist">
+            <button data-filter="all" class="search-results__filter search-results__filter--active">All</button>
+            <button data-filter="articles" class="search-results__filter">Articles</button>
+            <button data-filter="audio" class="search-results__filter">Audio</button>
+            <button data-filter="ebook" class="search-results__filter">E-Book</button>
+            <button data-filter="print" class="search-results__filter">Print</button>
+          </div>
+          <label class="search-results__sort">Sort
+            <select data-sort>
+              <option value="relevance">Relevance</option>
+              <option value="date">Newest</option>
+            </select>
+          </label>
         </div>
-        <label>Sort
-          <select data-sort>
-            <option value="relevance">Relevance</option>
-            <option value="date">Newest</option>
-          </select>
-        </label>
-      </div>
-      <p class="summary" aria-live="polite"></p>
-      <ol class="results" id="results"></ol>
-      <nav class="pager" aria-label="Pagination"></nav>
-    </section>
+        <p class="search-results__summary" aria-live="polite"></p>
+        <ol class="search-results__list" id="results"></ol>
+        <nav class="search-results__pager" aria-label="Pagination"></nav>
+      </section>
   </main>
 
   <footer class="site-footer">

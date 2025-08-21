@@ -30,10 +30,10 @@ function renderList(items, query) {
     return;
   }
 
-  const list = items
-    .map((item, i) => `<div class="c-search__item" role="option" id="s-${i}" data-url="${item.url}" data-index="${i}"><span>${item.title}</span></div>`)
-    .join('');
-  dropdown.innerHTML = list + `<div class="c-search__item c-search__all" role="option" data-all="true">View all results</div>`;
+    const list = items
+      .map((item, i) => `<div class="c-search__item" role="option" id="s-${i}" data-url="${item.url}" data-index="${i}"><span>${item.title}</span></div>`)
+      .join('');
+    dropdown.innerHTML = list + `<div class="c-search__item c-search__item--all" role="option" data-all="true">View all results</div>`;
   dropdown.hidden = false;
   input.setAttribute('aria-expanded', 'true');
 }
@@ -98,9 +98,9 @@ function onKeyDown(e) {
 }
 
 function setActive(items) {
-  items.forEach(el => el.classList.remove('is-active'));
-  if (activeIndex >= 0 && items[activeIndex]) {
-    items[activeIndex].classList.add('is-active');
+    items.forEach(el => el.classList.remove('c-search__item--active'));
+    if (activeIndex >= 0 && items[activeIndex]) {
+      items[activeIndex].classList.add('c-search__item--active');
     input.setAttribute('aria-activedescendant', items[activeIndex].id);
   } else {
     input.removeAttribute('aria-activedescendant');
