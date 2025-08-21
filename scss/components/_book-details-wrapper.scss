@@ -41,7 +41,7 @@
 
     .book-preview {
       border: 1px solid $light-gray;
-      border-radius: 12px;
+      border-radius: $border-radius;
       background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
       padding: $spacing-md;
       display: flex;
