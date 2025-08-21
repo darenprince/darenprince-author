@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.SUPABASE_DATABASE_URL;
+const url = process.env.SUPABASE_URL;
 const anonKey = process.env.SUPABASE_ANON_KEY;
 
 if (!url || !anonKey) {
   // Skip tests when Supabase credentials are not provided
   describe.skip('supabase storage', () => {
-    it('skipped because SUPABASE_DATABASE_URL or SUPABASE_ANON_KEY is missing', () => {
+    it('skipped because SUPABASE_URL or SUPABASE_ANON_KEY is missing', () => {
       expect(true).toBe(true);
     });
   });
