@@ -9,7 +9,7 @@
   justify-content: center;
   width: 100%;
   padding: $spacing-md;
-  margin: 0 auto;
+  margin-inline: auto;
   background-image: var(--book-bg);
   background-size: cover;
   background-position: center;
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
-  margin: 0 auto;
+  margin-inline: auto;
 
   @include respond-to(md) {
     border-radius: $border-radius;
