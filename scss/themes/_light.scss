@@ -2,5 +2,8 @@
 // Placeholder for future light theme overrides
 body.theme-light {
   background: var(--radial-light-bg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: $icon;
 }

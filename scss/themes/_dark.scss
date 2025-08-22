@@ -3,6 +3,9 @@
 
 body.theme-dark {
   background: var(--dark-main-gradient);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: $white;
 
   a {
