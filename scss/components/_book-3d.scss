@@ -9,11 +9,11 @@
   justify-content: center;
   width: 100%;
   padding: $spacing-md;
-  margin: 0 auto;
+  margin-inline: auto;
   background-image: var(--book-bg);
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
+  border-radius: $border-radius;
 
   &.fullscreen {
     position: fixed;
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
-  margin: 0 auto;
+  margin-inline: auto;
 
   @include respond-to(md) {
     border-radius: $border-radius;
@@ -312,182 +312,6 @@
 }
 
 // vertical toolbar for book actions
-.book-toolbar {
-  position: fixed;
-  left: 4px;
-  top: 50%;
-  z-index: 3;
-  opacity: 0;
-  transform: translate(-120%, -50%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-
-  &.visible {
-    opacity: 1;
-    transform: translateY(-50%);
-  }
-}
-
-@media (min-width: 768px) {
-  .book-media {
-    position: relative;
-  }
-
-  .book-toolbar {
-    position: absolute;
-    left: -68px;
-    top: 50%;
-  }
-}
-
-// Book control rail visual styles
-.book-rail {
-  --radius-rail: 12px;
-  --radius-btn: 10px;
-  --brand-1: #87bd72;
-  --brand-2: #456f3a;
-  --ink: #fafafa;
-  --ink-muted: #b8bab7;
-  --surface: rgba(33, 33, 33, 0.5);
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 0 var(--radius-rail) var(--radius-rail) 0;
-  box-shadow: var(--shadow);
-  color: var(--ink);
-  transition: opacity 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
-
-  &__badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 0 auto;
-  }
-
-  &__badge-icon {
-    width: 100%;
-    height: 100%;
-    stroke: #39ff14;
-    stroke-width: 2;
-    fill: none;
-    filter: drop-shadow(0 0 2px #39ff14);
-    animation: q-spin 12s linear infinite;
-  }
-
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  &__btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.125rem;
-    padding: 0.5rem;
-    border: 1px solid transparent;
-    border-radius: var(--radius-btn);
-    background: transparent;
-    color: inherit;
-    font-size: 0.75rem;
-    transition: background 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
-      box-shadow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
-
-    svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-      fill: none;
-    }
-
-    &:hover,
-    &:focus {
-      background: rgba(135, 189, 114, 0.1);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--brand-1);
-      transform: translateY(-2px);
-      outline: none;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--brand-1);
-      outline-offset: 2px;
-    }
-
-    &.is-active {
-      background: rgba(135, 189, 114, 0.08);
-      box-shadow: 0 0 0 2px var(--brand-1);
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  }
-
-  &__label {
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  &--compact &__label {
-    display: none;
-  }
-
-  &__toggle {
-    margin-top: 0.25rem;
-    align-self: center;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: var(--radius-btn);
-    padding: 0.25rem;
-    color: var(--ink-muted);
-    transition: background 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
-      box-shadow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
-
-    svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-    }
-
-    &:hover,
-    &:focus {
-      color: var(--ink);
-      background: rgba(135, 189, 114, 0.1);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--brand-1);
-      outline: none;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--brand-1);
-      outline-offset: 2px;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .book-rail,
-  .book-rail__btn,
-  .book-rail__toggle {
-    transition: none;
-    transform: none;
-  }
-}
 
 .cover-zoom-modal {
   position: fixed;
