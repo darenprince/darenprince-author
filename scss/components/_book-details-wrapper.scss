@@ -5,10 +5,6 @@
 .book-section {
   margin-top: $spacing-xl;
 
-  .container {
-    margin-block: 0;
-  }
-
   .book-block + .book-block {
     margin-top: $spacing-xl;
   }
@@ -24,7 +20,7 @@
   justify-content: center;
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .purchase-box {

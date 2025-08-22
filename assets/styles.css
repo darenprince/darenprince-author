@@ -2128,7 +2128,7 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   width: 100%;
   padding: 1rem;
-  margin: 0 auto;
+  margin-inline: auto;
   background-image: var(--book-bg);
   background-size: cover;
   background-position: center;
@@ -2185,7 +2185,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  margin: 0 auto;
+  margin-inline: auto;
 }
 @media (min-width: 768px) {
   .book-3d-viewer {
@@ -3079,9 +3079,6 @@ input:checked + .toggle-slider::before {
 .book-section {
   margin-top: 3rem;
 }
-.book-section .container {
-  margin-block: 0;
-}
 .book-section .book-block + .book-block {
   margin-top: 3rem;
 }
@@ -3096,7 +3093,7 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .purchase-box {
