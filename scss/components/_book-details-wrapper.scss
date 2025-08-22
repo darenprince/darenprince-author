@@ -3,202 +3,176 @@
 @use "../base/mixins" as *;
 
 .book-section {
-  margin-top: 0;
+  margin-top: $spacing-xl;
 
-  .container {
-    margin-block: 0;
+  .book-block + .book-block {
+    margin-top: $spacing-xl;
   }
 }
 
-.book-details-wrapper {
-  padding: 0;
+.book-preview {
+  border: 1px solid $light-gray;
+  border-radius: $border-radius;
+  background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin-inline: auto;
+}
 
-  .book-layout {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xl;
-    align-items: center;
+.purchase-box {
+  background: $surface;
+  padding: $spacing-lg $spacing-md;
+  border-radius: $border-radius;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    @include respond-to(md) {
-      flex-direction: row;
-      align-items: flex-start;
-    }
+  [hidden] {
+    display: none !important;
   }
 
-  .book-media {
+  @include respond-to(md) {
+    max-width: 260px;
+  }
+
+  .buy-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
-    width: 100%;
-    position: relative;
-    padding: ($spacing-xl + $spacing-lg) 0;
-    z-index: 0;
-
-    @include respond-to(md) {
-      padding: ($spacing-xl + $spacing-lg) 0;
-    }
-
-    .book-preview {
-      border: 1px solid $light-gray;
-      border-radius: $border-radius;
-      background: url('../assets/images/IMG_6246.jpeg') center/cover no-repeat;
-      padding: $spacing-md;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-  }
-
-  .purchase-box {
-    background: $surface;
-    padding: $spacing-lg $spacing-md;
-    border-radius: $border-radius;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    [hidden] {
-      display: none !important;
-    }
-    @include respond-to(md) {
-      max-width: 260px;
-    }
+    gap: $spacing-sm;
+    width: 100%;
+    flex: 1;
+  }
 
-    .buy-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: $spacing-sm;
-      width: 100%;
-      flex: 1;
-    }
+  .step-header {
+    text-align: center;
+    color: $lime-green;
+    font-weight: 700;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 
-    .step-header {
-      text-align: center;
-      color: $lime-green;
-      font-weight: 700;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      &.hide {
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-10px);
-      }
-    }
-
-    .format-options {
-      display: flex;
-      gap: $spacing-sm;
-      justify-content: center;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      width: 100%;
-      &.hide {
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-10px);
-      }
-    }
-
-    .format-option {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: $spacing-xxs;
-
-      .format-icon {
-        color: $lime-green;
-        font-size: 1.5rem;
-      }
-
-      .format-btn {
-        width: 100%;
-        background: transparent;
-        border: 2px solid $lime-green;
-        color: var(--color-muted);
-        padding: $spacing-sm 0;
-        border-radius: $border-radius;
-        cursor: pointer;
-        text-transform: uppercase;
-      }
-    }
-
-    .store-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: $spacing-sm;
+    &.hide {
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      transform: translateY(-10px);
+    }
+  }
 
-      &.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
+  .format-options {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100%;
+
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+    }
+  }
+
+  .format-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xxs;
+
+    .format-icon {
+      color: $lime-green;
+      font-size: 1.5rem;
     }
 
-    .selected-format-note {
-      text-align: center;
-      color: var(--color-muted);
-      font-size: 0.875rem;
-    }
-
-    .selected-format-note a {
-      color: var(--color-muted);
-      text-decoration: underline;
-    }
-
-    .store-selector-wrapper {
-      position: relative;
+    .format-btn {
       width: 100%;
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: $spacing-sm;
-        top: 50%;
-        transform: translateY(-50%);
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 6px solid $lime-green;
-        pointer-events: none;
-      }
-    }
-
-    .store-selector {
-      width: 100%;
-      appearance: none;
-      text-align: center;
-      border: 2px solid $lime-green;
-      border-radius: $border-radius;
-      padding: $spacing-xs $spacing-xl $spacing-xs $spacing-xs;
       background: transparent;
-      color: $contrast-high;
-      text-align-last: center;
+      border: 2px solid $lime-green;
+      color: var(--color-muted);
+      padding: $spacing-sm 0;
+      border-radius: $border-radius;
+      cursor: pointer;
+      text-transform: uppercase;
     }
+  }
 
-    .buy-now {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: $spacing-xxs;
-      width: 100%;
+  .store-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-sm;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
 
-    .selected-store-logo {
-      display: flex;
-      justify-content: center;
-      margin-top: $spacing-xs;
+  .selected-format-note {
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
 
-      img {
-        max-height: 40px;
-      }
+  .selected-format-note a {
+    color: var(--color-muted);
+    text-decoration: underline;
+  }
+
+  .store-selector-wrapper {
+    position: relative;
+    width: 100%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: $spacing-sm;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid $lime-green;
+      pointer-events: none;
+    }
+  }
+
+  .store-selector {
+    width: 100%;
+    appearance: none;
+    text-align: center;
+    border: 2px solid $lime-green;
+    border-radius: $border-radius;
+    padding: $spacing-xs $spacing-xl $spacing-xs $spacing-xs;
+    background: transparent;
+    color: $contrast-high;
+    text-align-last: center;
+  }
+
+  .buy-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xxs;
+    width: 100%;
+  }
+
+  .selected-store-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacing-xs;
+
+    img {
+      max-height: 40px;
     }
   }
 }
+
