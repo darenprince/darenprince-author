@@ -19,14 +19,39 @@ html {
 .container--spaced {
   @extend .container;
   padding: $spacing-lg;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .container--border {
   @extend .container;
   padding: $spacing-lg;
   border: 1px solid $border;
-  background: transparent;
-  border-radius: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container--light {
+  @extend .container;
+  padding: $spacing-lg;
+  background: var(--grad-light-container);
+  color: var(--light-container-text);
+  border: 1px solid var(--light-container-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .accent {
+    color: var(--light-container-accent);
+  }
 }
 
 .main-content {

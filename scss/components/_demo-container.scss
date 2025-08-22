@@ -1,9 +1,7 @@
-@use "sass:color";
-@use "../tokens/colors" as *;
 @use "../base/variables" as *;
 
 .demo-container {
-  background-color: color-mix(in srgb, $charcoal, white 5%);
+  background-color: var(--color-surface);
   padding: $spacing-lg;
   border-radius: $border-radius;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
