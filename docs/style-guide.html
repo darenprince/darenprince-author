@@ -13,7 +13,7 @@
     pre { background: var(--color-charcoal); padding:1rem; border-radius:0.35rem; overflow:auto; }
     .component { margin-bottom:2rem; }
     .component-example { margin-bottom:1rem; display:flex; flex-wrap:wrap; gap:0.5rem; }
-    nav.style-guide-nav a { margin-right:1rem; }
+    nav.style-guide-nav { display:flex; flex-wrap:wrap; gap:1rem; }
   </style>
 </head>
 <body class="theme-dark">
@@ -55,10 +55,20 @@
           <div class="swatch" style="background:var(--color-border)">--color-border</div>
           <div class="swatch" style="background:var(--color-accent)">--color-accent</div>
           <div class="swatch" style="background:var(--color-contrast-high)">--color-contrast-high</div>
-          <div class="swatch" style="background:var(--color-success)">--color-success</div>
-          <div class="swatch" style="background:var(--color-danger)">--color-danger</div>
+        <div class="swatch" style="background:var(--color-success)">--color-success</div>
+        <div class="swatch" style="background:var(--color-danger)">--color-danger</div>
         </div>
-<pre><code>&lt;div style="background:var(--color-primary)"&gt;&lt;/div&gt;</code></pre>
+        <h3>New Gradients</h3>
+        <div class="flex flex-wrap gap-sm component-example">
+          <div class="swatch dark grad-lemon-lime">--grad-lemon-lime</div>
+          <div class="swatch dark grad-lemon-lime-stroke">--grad-lemon-lime-stroke</div>
+          <div class="swatch dark grad-charcoal-lime">--grad-charcoal-lime</div>
+          <div class="swatch dark grad-charcoal-mint">--grad-charcoal-mint</div>
+          <div class="swatch grad-booger-snow">--grad-booger-snow</div>
+          <div class="swatch dark grad-cash-cloud">--grad-cash-cloud</div>
+          <div class="swatch dark grad-kelly-green">--grad-kelly-green</div>
+        </div>
+<pre><code>&lt;div class="grad-lemon-lime"&gt;&lt;/div&gt;</code></pre>
       </section>
 
       <section id="typography" class="component">
@@ -89,8 +99,13 @@
         </div>
         <h3>Gradient Buttons</h3>
         <div class="component-example">
-          <button class="btn--gray-solid">.btn--gray-solid</button>
-          <button class="btn--gray-gradient">.btn--gray-gradient</button>
+          <button class="btn grad-lemon-lime">.grad-lemon-lime</button>
+          <button class="btn grad-lemon-lime-stroke">.grad-lemon-lime-stroke</button>
+          <button class="btn grad-charcoal-lime">.grad-charcoal-lime</button>
+          <button class="btn grad-charcoal-mint">.grad-charcoal-mint</button>
+          <button class="btn grad-booger-snow">.grad-booger-snow</button>
+          <button class="btn grad-cash-cloud">.grad-cash-cloud</button>
+          <button class="btn grad-kelly-green">.grad-kelly-green</button>
         </div>
         <h3>Gray & Black Variations</h3>
         <div class="component-example">
@@ -172,12 +187,17 @@
 
       <section id="containers" class="component">
         <h2>Containers</h2>
-        <div class="component-example spacing-y-sm">
-          <div class="container border-thin-46683C">.container</div>
-          <div class="container--spaced border-thin-46683C">.container--spaced</div>
-          <div class="container--border">.container--border</div>
+        <div class="component-example flex flex-wrap gap-sm">
+          <div class="container grad-lemon-lime">.grad-lemon-lime</div>
+          <div class="container grad-lemon-lime-stroke">.grad-lemon-lime-stroke</div>
+          <div class="container grad-charcoal-lime">.grad-charcoal-lime</div>
+          <div class="container grad-charcoal-mint">.grad-charcoal-mint</div>
+          <div class="container grad-booger-snow">.grad-booger-snow</div>
+          <div class="container grad-cash-cloud">.grad-cash-cloud</div>
+          <div class="container grad-kelly-green">.grad-kelly-green</div>
+          <div class="container--light"><span class="accent">.container--light</span></div>
         </div>
-<pre><code>&lt;div class="container"&gt;...&lt;/div&gt;</code></pre>
+<pre><code>&lt;div class="container grad-lemon-lime"&gt;...&lt;/div&gt;</code></pre>
       </section>
 
       <section id="icons" class="component">
@@ -255,6 +275,7 @@
     </div>
   </main>
 
+  <script src="../js/theme-toggle.js"></script>
   <script src="../js/style-guide.js" type="module"></script>
 </body>
 </html>
