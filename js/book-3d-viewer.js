@@ -186,7 +186,6 @@ snapFrontBtn?.addEventListener('click', () => {
     clearTimeout(pauseTimeout);
     bookContainer?.classList.add('fullscreen');
     closeBtn?.removeAttribute('hidden');
-    bookToolbar?.setAttribute('hidden', '');
   }, 300);
 });
 
@@ -238,27 +237,7 @@ addToCartBtn?.addEventListener('click', () => {
   purchaseOptions?.scrollIntoView({ behavior: 'smooth' });
 });
 
-if (bookToolbar && bookViewer && 'IntersectionObserver' in window) {
-  const toolbarObserver = new IntersectionObserver(entries => {
-    const entry = entries[0];
-    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-      bookToolbar.classList.add('visible');
-    } else {
-      bookToolbar.classList.remove('visible');
-    }
-  }, { threshold: 0.5 });
-  toolbarObserver.observe(bookViewer);
-} else {
-  bookToolbar?.classList.add('visible');
-}
-
-['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
-  purchaseOptions?.addEventListener(evt, () => bookToolbar?.classList.remove('visible'));
-});
-
-['pointerenter', 'pointerdown', 'focusin'].forEach(evt => {
-  bookViewer?.addEventListener(evt, () => bookToolbar?.classList.add('visible'));
-});
+bookToolbar?.classList.add('visible');
 
 closeBtn?.addEventListener('click', () => {
   bookContainer?.classList.remove('fullscreen');
