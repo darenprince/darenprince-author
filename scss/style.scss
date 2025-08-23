@@ -31,7 +31,7 @@
   }
 
   .mega-menu-logo {
-    width: 60px;
+    width: 70px;
     margin: 0 auto $spacing-md;
     display: block;
   }
@@ -82,35 +82,33 @@
     }
   }
 
-  &.moves-out {
-    transform: translateX(-100%);
+  li:last-child {
+    border-bottom: none;
+  }
+
+  .social-row {
+    border-bottom: none;
   }
 
   .has-submenu {
-    position: relative;
-
     > a {
       width: 100%;
       justify-content: space-between;
+
       .arrow {
         margin-left: auto;
+        transition: transform 0.25s ease;
       }
     }
 
     .submenu {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: var(--color-surface);
-      height: 100%;
-      padding: 0;
-      transform: translateX(100%);
-      transition: transform 0.25s ease;
+      display: none;
+      list-style: none;
+      padding-left: 1.5rem;
 
       li {
         font-size: 1rem;
-        padding: 0.8rem 0;
+        padding: 0.5rem 0;
         display: flex;
         align-items: center;
 
@@ -120,24 +118,10 @@
           text-align: center;
         }
       }
-
-      &.is-hidden {
-        transform: translateX(100%);
-      }
-
-      &.is-visible {
-        transform: translateX(0);
-      }
     }
 
-    .go-back {
-      border-bottom: 1px solid var(--color-border);
-
-      a {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+    &.open > a .arrow {
+      transform: rotate(90deg);
     }
   }
 
@@ -175,9 +159,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 260px;
   height: 100%;
-  background-color: rgba($deep-green, 0.8);
+  background: linear-gradient(to left, rgba($lime-green, 0.2), rgba($lime-green, 0));
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
