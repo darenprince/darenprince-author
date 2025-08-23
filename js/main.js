@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (menuClose && megaMenu) {
     menuClose.addEventListener('click', function () {
       document.body.classList.remove('menu-open');
-      megaMenu.classList.remove('submenu-active');
-      const openSub = megaMenu.querySelector('.submenu.is-visible');
-      if (openSub) openSub.classList.remove('is-visible');
-      const list = megaMenu.querySelector('.mega-menu-list');
-      if (list) list.classList.remove('moves-out');
+      const openSub = megaMenu.querySelector('.has-submenu.open .submenu');
+      if (openSub) {
+        openSub.style.display = 'none';
+        openSub.parentElement.classList.remove('open');
+      }
     });
   }
 
   if (menuOverlay && megaMenu) {
     menuOverlay.addEventListener('click', function () {
       document.body.classList.remove('menu-open');
-      megaMenu.classList.remove('submenu-active');
-      const openSub = megaMenu.querySelector('.submenu.is-visible');
-      if (openSub) openSub.classList.remove('is-visible');
-      const list = megaMenu.querySelector('.mega-menu-list');
-      if (list) list.classList.remove('moves-out');
+      const openSub = megaMenu.querySelector('.has-submenu.open .submenu');
+      if (openSub) {
+        openSub.style.display = 'none';
+        openSub.parentElement.classList.remove('open');
+      }
     });
   }
 
@@ -205,27 +205,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     $megaMenu.find('.js-submenu-trigger').on('click', function (e) {
       e.preventDefault();
-      var $trigger = $(this);
-      var $submenu = $trigger.next('.submenu');
-      var $parentList = $trigger.closest('.mega-menu-list');
-      $parentList.addClass('moves-out');
-      $megaMenu.addClass('submenu-active');
-      setTimeout(function () {
-        $submenu.removeClass('is-hidden').addClass('is-visible');
-      }, transition);
-    });
-
-    $megaMenu.find('.js-go-back').on('click', function (e) {
-      e.preventDefault();
-      var $submenu = $(this).closest('.submenu');
-      var $parentList = $submenu.closest('.mega-menu-list');
-      $submenu.removeClass('is-visible');
-
-      setTimeout(function () {
-        $submenu.addClass('is-hidden');
-        $parentList.removeClass('moves-out');
-        $megaMenu.removeClass('submenu-active');
-      }, transition);
+      var $parent = $(this).parent('.has-submenu');
+      var $submenu = $parent.find('.submenu');
+      $submenu.slideToggle(transition);
+      $parent.toggleClass('open');
     });
   }
 });
