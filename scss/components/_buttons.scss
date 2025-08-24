@@ -75,6 +75,22 @@
   }
 }
 
+// mega menu close button
+.menu-close-btn {
+  @extend .icon-btn;
+  width: 2.75rem;
+  height: 2.75rem;
+  background-color: transparent;
+  color: $lime-green;
+  border: 2px solid $lime-green;
+
+  &:hover {
+    background-color: transparent;
+    color: $bright-green;
+    border-color: $bright-green;
+  }
+}
+
 // icon button with text label
 .icon-btn--text {
   @extend .icon-btn;
