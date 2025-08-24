@@ -13,17 +13,20 @@
     "deploy": "netlify deploy --prod --site darenprince.netlify.app"
   },
   "devDependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "@supabase/supabase-js": "^2.53.0",
     "@types/node": "^24.2.0",
-    "sass": "^1.89.2",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4",
-    "@sendgrid/mail": "^7.7.0",
-    "minisearch": "^6.1.0",
+    "cheerio": "^1.0.0-rc.12",
     "glob": "^10.3.12",
     "gray-matter": "^4.0.3",
-    "cheerio": "^1.0.0-rc.12",
     "marked": "^10.0.0",
-    "netlify-cli": "^23.1.4"
+    "minisearch": "^6.1.0",
+    "netlify-cli": "^23.1.4",
+    "sass": "^1.89.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@opensign/react": "^1.0.3"
   }
 }
