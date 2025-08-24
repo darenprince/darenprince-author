@@ -2140,7 +2140,8 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 1rem;
+  padding-block: 3rem;
+  padding-inline: 1rem;
   margin-inline: auto;
   background-image: var(--book-bg);
   background-size: cover;
