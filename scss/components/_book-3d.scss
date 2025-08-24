@@ -8,7 +8,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: $spacing-md;
+  padding-block: $spacing-xl;
+  padding-inline: $spacing-md;
   margin-inline: auto;
   background-image: var(--book-bg);
   background-size: cover;
