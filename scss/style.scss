@@ -31,7 +31,7 @@
   }
 
   .mega-menu-logo {
-    width: 70px;
+    width: 80px;
     margin: 0 auto $spacing-md;
     display: block;
   }
@@ -84,6 +84,7 @@
 
   li:last-child {
     border-bottom: none;
+    padding-bottom: 0;
   }
 
   .social-row {
@@ -94,8 +95,8 @@
     display: flex;
     gap: 1.25rem;
     justify-content: center;
-    margin-top: auto;
-    padding: 1rem 0;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
 
     a {
       font-size: 1.4rem;
@@ -104,10 +105,11 @@
   }
 
   .logout-btn {
-    margin-top: 2rem;
+    margin-top: 0.5rem;
     font-weight: 600;
     cursor: pointer;
   }
+
 }
 
 /* === THEME TOGGLE ROW === */
@@ -125,7 +127,11 @@
   left: 0;
   right: 260px;
   height: 100%;
-  background: linear-gradient(to left, rgba($lime-green, 0.2), rgba($lime-green, 0));
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--color-lime) 40%, transparent),
+    transparent
+  );
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
