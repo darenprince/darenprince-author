@@ -73,13 +73,13 @@ document.addEventListener('cut', e => e.preventDefault());
 document.addEventListener('paste', e => e.preventDefault());
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && ['c','C','v','V','x','X','a','A','p','P'].includes(e.key)) {
+  if ((e.ctrlKey || e.metaKey) && ['c', 'v', 'x', 'a', 'p'].includes(e.key.toLowerCase())) {
     e.preventDefault();
   }
   if (e.key === 'PrintScreen') {
     e.preventDefault();
   }
-  if ((e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4')) || (e.ctrlKey && e.shiftKey && (e.key === '3' || e.key === '4'))) {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['3', '4'].includes(e.key)) {
     e.preventDefault();
   }
 });
