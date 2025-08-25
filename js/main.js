@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+
   // default auth toggle -> login
   let loginHandler;
   if (authToggle) {
