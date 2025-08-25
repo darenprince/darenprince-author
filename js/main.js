@@ -32,6 +32,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  const submenuToggles = document.querySelectorAll('.js-submenu-toggle');
+  submenuToggles.forEach((toggle) => {
+    toggle.addEventListener('click', function () {
+      const parent = toggle.closest('.has-submenu');
+      if (parent) parent.classList.toggle('open');
+    });
+  });
+
   // default auth toggle -> login
   let loginHandler;
   if (authToggle) {
