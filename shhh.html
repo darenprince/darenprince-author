@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shhh</title>
+<style>
+  body { background-color: #111; color: #eee; font-family: sans-serif; margin: 0; padding: 2rem; user-select: none; }
+  .hidden { display: none; }
+  input, button { background: #222; color: #eee; border: 1px solid #444; padding: 0.5rem; }
+  #chat { margin-top: 1rem; }
+  .message { background: #222; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; animation: fadeout 30s forwards; }
+  @keyframes fadeout { from { opacity: 1; } to { opacity: 0; } }
+</style>
+</head>
+<body>
+<div id="login">
+  <p>This private chat room requires a password. Messages vanish after 30 seconds. Copy/paste and screenshots are disabled for privacy.</p>
+  <input type="password" id="password" placeholder="Password">
+  <button id="enter">Enter</button>
+</div>
+<div id="chatInterface" class="hidden">
+  <p>Welcome. Messages disappear after 30 seconds and cannot be copied or captured.</p>
+  <div id="chat"></div>
+  <input type="text" id="msgInput" placeholder="Type your message...">
+  <button id="send">Send</button>
+</div>
+<script>
+(function(){
+  const correct = 'aaabbbccc';
+  const login = document.getElementById('login');
+  const chatInterface = document.getElementById('chatInterface');
+  document.getElementById('enter').addEventListener('click', () => {
+    const pass = document.getElementById('password').value;
+    if (pass === correct) {
+      login.classList.add('hidden');
+      chatInterface.classList.remove('hidden');
+    } else {
+      alert('Incorrect password');
+    }
+  });
+
+  function addMessage(text){
+    const div = document.createElement('div');
+    div.className = 'message';
+    div.textContent = text;
+    document.getElementById('chat').appendChild(div);
+    setTimeout(() => { div.remove(); }, 30000);
+  }
+
+  document.getElementById('send').addEventListener('click', () => {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (text) {
+      addMessage(text);
+      input.value = '';
+    }
+  });
+
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('paste', e => e.preventDefault());
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['c','C','v','V','x','X','a','A','p','P'].includes(e.key)) {
+      e.preventDefault();
+    }
+    if (e.key === 'PrintScreen') {
+      e.preventDefault();
+    }
+    if ((e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4')) || (e.ctrlKey && e.shiftKey && (e.key === '3' || e.key === '4'))) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+</body>
+</html>
