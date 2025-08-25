@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="theme-dark">
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
+    <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
+      <li><a href="book.html"><i class="ti ti-book"></i>Books</a></li>
+      <li><a href="index.html"><i class="ti ti-user"></i>About</a></li>
+      <li><a href="press.html"><i class="ti ti-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ti ti-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ti ti-news"></i>Blog</a></li>
+      <li><a href="index.html"><i class="ti ti-user-plus"></i>Collabs</a></li>
+      <li><a href="admin-dashboard.html"><i class="ti ti-settings"></i>Developers</a></li>
+      <li><a href="contact.html"><i class="ti ti-mail"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="#"><i class="ti ti-brand-facebook"></i></a>
+        <a href="#"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#"><i class="ti ti-brand-youtube"></i></a>
+        <a href="#"><i class="ti ti-brand-tiktok"></i></a>
+      </li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+<div class="site-wrap">
+    <header class="site-header padding-y-sm js-sticky-nav">
+    <div class="container max-width-adaptive-lg flex items-center justify-between">
+      <a href="index.html" class="logo">
+        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+      </a>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+        <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
+        <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
+        <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      </div>
+    </div>
+    <div class="search-bar js-search-bar" hidden>
+      <form class="search-form flex items-center">
+        <input type="search" placeholder="search site" />
+        <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+      </form>
+    </div>
+    <div class="profile-dropdown js-profile-dropdown" hidden>
+      <div class="profile-info">
+        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+        <span class="profile-name">Guest</span>
+      </div>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ti ti-door-exit"></i> Logout</button></li>
+      </ul>
+    </div>
+  </header>
+  <main class="padding-y-xl">
+    <div class="container max-width-adaptive-lg">
+      <h1 class="section-heading text-center margin-bottom-lg">Site Map</h1>
+      <ul class="text-center" style="list-style:none; padding:0;">
+        <li class="margin-bottom-sm"><a href="index.html" class="btn btn--primary">Home</a></li>
+        <li class="margin-bottom-sm"><a href="book.html" class="btn btn--primary">Book</a></li>
+        <li class="margin-bottom-sm"><a href="press.html" class="btn btn--primary">Media</a></li>
+        <li class="margin-bottom-sm"><a href="contact.html" class="btn btn--primary">Contact</a></li>
+        <li class="margin-bottom-sm"><a href="components.html" class="btn btn--primary">Components</a></li>
+        <li class="margin-bottom-sm"><a href="style-classes.html" class="btn btn--primary">Style Classes</a></li>
+        <li class="margin-bottom-sm"><a href="image-index.html" class="btn btn--primary">Image Index</a></li>
+        <li class="margin-bottom-sm"><a href="admin-dashboard.html" class="btn btn--primary">Developers</a></li>
+      </ul>
+    </div>
+  </main>
+<footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="book.html">Books</a></li>
+          <li><a href="press.html">Media</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <ul class="footer-links">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <p>&copy; <span id="year"></span> Daren Prince. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>
