@@ -3628,7 +3628,7 @@ input:checked + .toggle-slider::before {
   right: 1rem;
 }
 .mega-menu .mega-menu-logo {
-  width: 70px;
+  width: 80px;
   margin: 0 auto 1rem;
   display: block;
 }
@@ -3675,6 +3675,7 @@ input:checked + .toggle-slider::before {
 }
 .mega-menu-list li:last-child {
   border-bottom: none;
+  padding-bottom: 0;
 }
 .mega-menu-list .social-row {
   border-bottom: none;
@@ -3683,15 +3684,15 @@ input:checked + .toggle-slider::before {
   display: flex;
   gap: 1.25rem;
   justify-content: center;
-  margin-top: auto;
-  padding: 1rem 0;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
 }
 .mega-menu-list .social-row a {
   font-size: 1.4rem;
   color: var(--color-icon);
 }
 .mega-menu-list .logout-btn {
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -3711,11 +3712,13 @@ input:checked + .toggle-slider::before {
   left: 0;
   right: 260px;
   height: 100%;
-  background: linear-gradient(to left, rgba(var(--color-lime), 0.2), rgba(var(--color-lime), 0));
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-lime) 40%, transparent));
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: opacity 2s ease, transform 2s ease;
   z-index: 9998;
 }
 
@@ -3736,6 +3739,7 @@ body.menu-open .menu-overlay {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transform: scaleX(1);
 }
 
 .store-logos {
