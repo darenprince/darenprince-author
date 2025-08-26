@@ -14,14 +14,7 @@ Every HTML page (e.g., `index.html`, `login.html`, `contact.html`) contains the 
   <!-- theme toggle switch omitted -->
   <ul class="mega-menu-list">
     <li><a href="index.html" class="active"><i class="ti ti-home"></i>Home</a></li>
-    <li class="has-submenu">
-      <a href="#" class="js-submenu-trigger"><i class="ti ti-book"></i>Books<i class="ti ti-chevron-right arrow"></i></a>
-      <ul class="submenu is-hidden">
-        <li class="go-back js-go-back"><a href="#"><i class="ti ti-arrow-left"></i>Back</a></li>
-        <li><a href="book.html"><i class="ti ti-book"></i>Game On!</a></li>
-        <li><a href="index.html"><i class="ti ti-book-2"></i>Unshakeable</a></li>
-      </ul>
-    </li>
+    <li><a href="book.html"><i class="ti ti-book"></i>Books</a></li>
     <!-- additional links ... -->
   </ul>
 </nav>
@@ -66,20 +59,20 @@ This command uses `sass scss/style.scss assets/styles.css` as specified in `pack
 
 Menu interaction and related UI controls are handled by these scripts:
 
-- `js/main.js` – toggles the mega menu, submenu navigation, theme switch and search bar. Requires jQuery for the submenu animations.
+- `js/main.js` – toggles the mega menu, theme switch and search bar.
 - `js/profile-dropdown.js` – controls the profile menu drop down and logout logic via Supabase.
 - `js/theme-toggle.js` – manages the dark/light theme switching.
 - `js/trailer-modal.js` – unrelated to navigation but loaded on most pages.
 
-`js/main.js` attaches click handlers to `.js-menu-toggle`, `.js-menu-close`, `.js-menu-overlay`, `.js-submenu-trigger` and `.js-go-back` to open/close the side menu and navigate between submenu levels.
+`js/main.js` attaches click handlers to `.js-menu-toggle`, `.js-menu-close` and `.js-menu-overlay` to open and close the side menu.
 
 ## 4. External Dependencies
 
 The HTML includes these external libraries via CDN:
 
 - [Tabler Icons](https://tabler.io/icons) for all `<i class="ti ..."></i>` icons.
-- [jQuery](https://jquery.com/) for submenu animations (`js/main.js` expects `$`).
 - [Supabase JS](https://supabase.com/) used for authentication and profile info.
+- [jQuery](https://jquery.com/) included for legacy scripts.
 
 Ensure these `<script>` tags are present near the end of each page (as seen in `index.html` lines ~184-199):
 
