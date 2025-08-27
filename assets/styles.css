@@ -2646,7 +2646,7 @@ input:checked + .toggle-slider::before {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .book-toolbar.visible {
-  opacity: 1;
+  opacity: 0.9;
   transform: translateY(-50%);
 }
 
