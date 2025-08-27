@@ -2147,6 +2147,7 @@ input:checked + .toggle-slider::before {
   background-size: cover;
   background-position: center;
   border-radius: 0.6875rem;
+  border: 1px solid var(--charcoal-lime-border);
 }
 .book-3d-container.fullscreen {
   position: fixed;
@@ -2646,7 +2647,7 @@ input:checked + .toggle-slider::before {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .book-toolbar.visible {
-  opacity: 1;
+  opacity: 0.9;
   transform: translateY(-50%);
 }
 

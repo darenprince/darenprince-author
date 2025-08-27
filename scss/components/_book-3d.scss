@@ -15,6 +15,7 @@
   background-size: cover;
   background-position: center;
   border-radius: $border-radius;
+  border: 1px solid var(--charcoal-lime-border);
 
   &.fullscreen {
     position: fixed;
