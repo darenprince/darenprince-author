@@ -13,8 +13,19 @@ body {
   font-family: $font-family-base;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  background: var(--grad-gray-light);
+  background-color: $black;
   color: $white;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("images/sitebg/21950c663e716caf4cb0f50c048adf8d.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  z-index: -1;
 }
 
 img, video {
