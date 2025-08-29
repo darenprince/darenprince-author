@@ -1,9 +1,11 @@
 @use "../tokens/colors" as *;
 // Placeholder for future light theme overrides
 body.theme-light {
-  background: var(--radial-light-bg);
-  background-attachment: fixed;
-  background-size: cover;
+  background-image: url("images/sitebg/21950c663e716caf4cb0f50c048adf8d.jpg");
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center top;
+  background-size: cover;
+  background-color: $black;
   color: $icon;
 }
