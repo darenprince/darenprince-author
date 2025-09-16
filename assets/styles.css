@@ -2164,6 +2164,10 @@ input:checked + .toggle-slider::before {
   display: none;
 }
 
+.book-3d-container.grad-charcoal-lime {
+  background-image: var(--book-bg), var(--grad-charcoal-lime);
+}
+
 .book-3d-close {
   position: absolute;
   top: 1rem;
