@@ -2,7 +2,8 @@
   background: var(--grad-green);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-green);
   }
 }
@@ -11,7 +12,8 @@
   background: var(--grad-gray);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-gray);
     --btn-color: var(--color-white);
   }
@@ -21,7 +23,8 @@
   background: var(--grad-gray-top);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-gray-top);
     --btn-color: var(--color-white);
   }
@@ -31,7 +34,8 @@
   background: var(--grad-gray-light);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-gray-light);
     --btn-color: var(--color-charcoal);
   }
@@ -42,7 +46,8 @@
   border: 1px solid var(--lemon-lime-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-lemon-lime);
     --btn-color: var(--lemon-lime-text);
     --btn-border: 1px solid var(--lemon-lime-border);
@@ -55,7 +60,8 @@
   border: 1px solid var(--lemon-lime-stroke-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-lemon-lime-stroke);
     --btn-color: var(--lemon-lime-stroke-text);
     --btn-border: 1px solid var(--lemon-lime-stroke-border);
@@ -68,7 +74,8 @@
   border: 1px solid var(--charcoal-lime-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-charcoal-lime);
     --btn-color: var(--charcoal-lime-text);
     --btn-border: 1px solid var(--charcoal-lime-border);
@@ -81,7 +88,8 @@
   border: 1px solid var(--charcoal-mint-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-charcoal-mint);
     --btn-color: var(--charcoal-mint-text);
     --btn-border: 1px solid var(--charcoal-mint-border);
@@ -94,7 +102,8 @@
   border: 1px solid var(--booger-snow-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-booger-snow);
     --btn-color: var(--booger-snow-text);
     --btn-border: 1px solid var(--booger-snow-border);
@@ -107,7 +116,8 @@
   border: 1px solid var(--cash-cloud-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-cash-cloud);
     --btn-color: var(--cash-cloud-text);
     --btn-border: 1px solid var(--cash-cloud-border);
@@ -120,7 +130,8 @@
   border: 1px solid var(--kelly-green-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-kelly-green);
     --btn-color: var(--kelly-green-text);
     --btn-border: 1px solid var(--kelly-green-border);
@@ -133,7 +144,8 @@
   border: 1px solid var(--light-container-border);
 
   &.btn,
-  &.btn-b {
+  &.btn-b,
+  &.cta-btn {
     --btn-bg: var(--grad-light-container);
     --btn-color: var(--light-container-text);
     --btn-border: 1px solid var(--light-container-border);
