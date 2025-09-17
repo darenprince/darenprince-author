@@ -1,35 +1,40 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient, type SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 let url = '';
 let key = '';
 
+const isBrowser = typeof window !== 'undefined';
+
 if (typeof Deno !== 'undefined' && typeof Deno.env !== 'undefined') {
-  url = Deno.env.get('SUPABASE_DATABASE_URL') ?? '';
+  const read = (name: string) => Deno.env.get(name) ?? '';
+  url = read('SUPABASE_URL') || read('SUPABASE_DATABASE_URL');
   key =
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ??
-    Deno.env.get('SUPABASE_ANON_KEY') ??
-    '';
-} else if (typeof process !== 'undefined' && typeof process.env !== 'undefined') {
-  url = process.env.SUPABASE_DATABASE_URL ?? '';
+    read('SUPABASE_SERVICE_ROLE_KEY') ||
+    read('SUPABASE_ANON_KEY') ||
+    read('SUPABASE_PUBLIC_ANON_KEY');
+} else if (!isBrowser && typeof process !== 'undefined' && typeof process.env !== 'undefined') {
+  const env = process.env;
+  url = env.SUPABASE_URL ?? env.SUPABASE_DATABASE_URL ?? '';
   key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.SUPABASE_ANON_KEY ??
+    env.SUPABASE_SERVICE_ROLE_KEY ??
+    env.SUPABASE_ANON_KEY ??
+    env.SUPABASE_PUBLIC_ANON_KEY ??
     '';
 } else {
   try {
-    const env = await import('../js/env.js');
-    url = env.SUPABASE_DATABASE_URL ?? '';
-    key = env.SUPABASE_SERVICE_ROLE_KEY ?? env.SUPABASE_ANON_KEY ?? '';
+    const env = await import('../assets/js/env.js');
+    url = (env.SUPABASE_URL ?? env.SUPABASE_DATABASE_URL ?? '') as string;
+    key = (env.SUPABASE_ANON_KEY ?? '') as string;
   } catch (e) {
     console.warn('Supabase env.js not found; client not initialized', e);
   }
 }
-let supabase;
-if (url && key) {
-  supabase = createClient(url, key);
-} else {
-  supabase = undefined;
+
+if (!url || !key) {
+  console.warn('Supabase client not configured. Check SUPABASE_URL/SUPABASE_DATABASE_URL and SUPABASE_ANON_KEY.');
 }
+
+const supabase: SupabaseClient | null = url && key ? createClient(url, key) : null;
 
 export { supabase };
 export default supabase;

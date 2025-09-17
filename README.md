@@ -212,8 +212,8 @@ Deployment: Push to `main` auto-deploys via Netlify CI/CD.
 
 ### Supabase Setup
 
-1. Copy `.env.example` to `.env` and fill in `SUPABASE_DATABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, and `SUPABASE_JWT_SECRET`.
-2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with your credentials.
+1. Copy `.env.example` to `.env` and fill in `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET`. The browser bundle only consumes the anon key; keep the service role and JWT secret for server-side features.
+2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with your credentials. The generated file only contains the public URL and anon key so secrets never ship to the client.
 3. Apply database changes with the Supabase CLI:
    ```bash
    supabase db push
@@ -223,10 +223,10 @@ Deployment: Push to `main` auto-deploys via Netlify CI/CD.
    ```bash
    supabase functions deploy secure-storage
    ```
-5. For production hosts (Netlify, etc.), set the same environment variables in the project settings so the build step can access them.
+5. On Netlify, install the [Supabase integration](https://docs.netlify.com/extend/install-and-use/setup-guides/supabase-integration/) and connect your project. Netlify will inject `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET` automatically at deploy time.
 
 ### Dashboard on Netlify
-1. Set `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` env vars in your Netlify project.
+1. Connect the Netlify Supabase integration so the required environment variables stay in sync with your Supabase project.
 2. Deploy the site and visit `/login.html` to sign in.
 3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
 
