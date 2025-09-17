@@ -3,25 +3,25 @@
 @use "../tokens/colors" as *;
 
 .cta-btn {
-  @include button-base($bright-green, $black);
-  font-weight: 700;
-  box-shadow: 0 0 0 rgba($bright-green, 0.5);
-  transition: transform $transition, box-shadow $transition;
-
-  &:hover,
-  &:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba($bright-green, 0.3);
-  }
+  @include button-base($bright-green, $white, color-mix(in srgb, #{$bright-green} 72%, $deep-green));
 }
 
 .cta-btn--outline {
-  @include button-base(transparent, $bright-green);
+  @include button-shell($bright-green, transparent);
+  background: transparent;
   border: 2px solid $bright-green;
+  box-shadow: none;
+  text-shadow: none;
 
   &:hover,
   &:focus {
-    background-color: rgba($bright-green, 0.1);
+    background: color-mix(in srgb, #{$bright-green} 12%, transparent);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$bright-green} 45%, white 55%);
+    outline-offset: 4px;
   }
 }
 
@@ -49,6 +49,6 @@
 }
 
 @keyframes cta-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba($bright-green, 0.5); }
-  50% { box-shadow: 0 0 10px rgba($bright-green, 0.8); }
+  0%, 100% { box-shadow: 0 0 0 color-mix(in srgb, #{$bright-green} 50%, transparent); }
+  50% { box-shadow: 0 0 10px color-mix(in srgb, #{$bright-green} 80%, transparent); }
 }

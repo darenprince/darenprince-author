@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Roboto&display=swap');
 
 :root {
   --primary: #17A2D5;
@@ -13,6 +13,18 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: var(--bg);
+  color: var(--text);
+}
+
+.styledh1 {
+  font-family: 'League Spartan', sans-serif;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: clamp(2.25rem, 1.8rem + 2vw, 3.5rem);
+  letter-spacing: 0.12em;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  text-align: center;
   color: var(--text);
 }
 .sidebar {
