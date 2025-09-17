@@ -13,42 +13,66 @@
   }
 }
 
-@mixin button-base($bg, $text: var(--color-white), $hover: null) {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$bg} 92%, white),
-    color-mix(in srgb, #{$bg} 90%, black)
-  );
+@mixin button-shell($text, $border) {
   color: $text;
   padding: $spacing-xs $spacing-md;
-  border: none;
   border-radius: $border-radius;
+  border: 1px solid $border;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxs;
+  line-height: 1.2;
   text-decoration: none;
-  transition: $transition;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-transform: none;
+  letter-spacing: normal;
+  background: transparent;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  transition: background $transition, color $transition, box-shadow $transition, transform $transition;
 
   &:hover,
   &:focus {
-    @if $hover != null {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$hover} 92%, white),
-        color-mix(in srgb, #{$hover} 90%, black)
-      );
-    } @else {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$bg} 92%, white),
-        color-mix(in srgb, #{$bg} 90%, black)
-      );
-    }
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$text} 35%, rgba(255, 255, 255, 0.7));
+    outline-offset: 3px;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
   }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+@mixin button-base($bg, $text: var(--color-white), $hover: null, $border: null) {
+  $border-color: if($border == null, color-mix(in srgb, #{$bg} 52%, black), $border);
+  @include button-shell($text, $border-color);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$bg} 92%, white),
+    color-mix(in srgb, #{$bg} 75%, black)
+  );
+  color: $text;
+
+  &:hover,
+  &:focus {
+    $hover-bg: if($hover != null, $hover, $bg);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$hover-bg} 95%, white),
+      color-mix(in srgb, #{$hover-bg} 70%, black)
+    );
   }
 }
 

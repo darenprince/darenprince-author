@@ -1,20 +1,37 @@
+@use "sass:list";
 @use "../base/mixins" as *;
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 .btn {
-  @include button-base($bright-green);
+  @include button-base(
+    $medium-green,
+    $white,
+    color-mix(in srgb, #{$medium-green} 78%, $deep-green)
+  );
 }
 
 .btn--primary {
-  @include button-base($deep-green);
+  @include button-base(
+    $deep-green,
+    $white,
+    color-mix(in srgb, #{$deep-green} 82%, black)
+  );
 }
 
 .btn--secondary {
-  @include button-base($medium-green);
+  @include button-base(
+    $bright-green,
+    $white,
+    color-mix(in srgb, #{$bright-green} 74%, $deep-green)
+  );
 }
 
 .btn--accent {
-  @include button-base($lime-green);
+  @include button-base(
+    $lime-green,
+    $white,
+    color-mix(in srgb, #{$lime-green} 72%, $medium-green)
+  );
 }
 
 .btn--subtle {
@@ -41,17 +58,31 @@
 }
 
 .btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxs;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
   background-color: transparent;
   color: $bright-green;
   border: 2px solid $bright-green;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius;
   transition: $transition;
+  box-shadow: none;
 
   &:hover,
   &:focus {
     background-color: $bright-green;
     color: $black;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$bright-green} 50%, $black);
+    outline-offset: 3px;
   }
 }
 
@@ -164,7 +195,7 @@
 .nav-icon-btn--static {
   &:hover,
   &.is-active {
-    color: inherit;
+    color: $bright-green;
   }
 }
 
@@ -173,7 +204,7 @@
   @extend .nav-icon-btn;
   color: $icon;
   background: transparent;
-  border: 2px solid rgba($lime-green, 0.3);
+  border: 2px solid color-mix(in srgb, #{$lime-green} 30%, transparent);
   transition: box-shadow $transition;
 
   &:hover,
@@ -183,7 +214,7 @@
 }
 
 .menu-open .hamburger-btn {
-  box-shadow: 0 0 8px rgba($lime-green, 0.5);
+  box-shadow: 0 0 8px color-mix(in srgb, #{$lime-green} 45%, transparent);
 }
 
 // auth buttons (login/logout)
@@ -193,8 +224,12 @@
   gap: $spacing-xxs;
   font-weight: 700;
   color: $light-gray;
-  background: linear-gradient(45deg, rgba($bright-green, 0.05), rgba($bright-green, 0.05));
-  border: 1.5px solid rgba($lime-green, 0.7);
+  background: linear-gradient(
+    45deg,
+    color-mix(in srgb, #{$bright-green} 8%, transparent),
+    color-mix(in srgb, #{$bright-green} 4%, transparent)
+  );
+  border: 1.5px solid color-mix(in srgb, #{$lime-green} 70%, transparent);
   border-radius: $border-radius;
   padding: $spacing-xxs $spacing-sm;
   cursor: pointer;
@@ -203,6 +238,113 @@
   i {
     color: inherit;
   }
+}
+
+@mixin gradient-button($background, $text, $border, $hover-background: null) {
+  $resolved-border: if($border == null, transparent, $border);
+  @include button-shell($text, $resolved-border);
+  background: $background;
+  color: $text;
+
+  &:hover,
+  &:focus {
+    background: if($hover-background != null, $hover-background, $background);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$text} 35%, #{$resolved-border} 65%);
+  }
+}
+
+.btn--lemon-lime {
+  @include gradient-button(
+    var(--grad-lemon-lime),
+    var(--lemon-lime-text),
+    var(--lemon-lime-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #9AF874 92%, white) 0%,
+      color-mix(in srgb, #2F7A34 70%, black) 100%
+    )
+  );
+}
+
+.btn--lemon-lime-stroke {
+  @include gradient-button(
+    var(--grad-lemon-lime-stroke),
+    var(--lemon-lime-stroke-text),
+    var(--lemon-lime-stroke-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #B3FF8A 90%, white) 0%,
+      color-mix(in srgb, #348739 68%, black) 100%
+    )
+  );
+}
+
+.btn--charcoal-lime {
+  @include gradient-button(
+    var(--grad-charcoal-lime),
+    var(--charcoal-lime-text),
+    var(--charcoal-lime-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #2C2D2C 92%, #F4FFE8 8%) 0%,
+      color-mix(in srgb, #151615 72%, black) 100%
+    )
+  );
+}
+
+.btn--charcoal-mint {
+  @include gradient-button(
+    var(--grad-charcoal-mint),
+    var(--charcoal-mint-text),
+    var(--charcoal-mint-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #2A2D30 90%, #E9FFF6 10%) 0%,
+      color-mix(in srgb, #121315 70%, black) 100%
+    )
+  );
+}
+
+.btn--booger-snow {
+  @include gradient-button(
+    var(--grad-booger-snow),
+    var(--booger-snow-text),
+    var(--booger-snow-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #FFFFFF 95%, #E7F0E3 5%) 0%,
+      color-mix(in srgb, #E7F0E3 80%, #305B2B 20%) 100%
+    )
+  );
+}
+
+.btn--cash-cloud {
+  @include gradient-button(
+    var(--grad-cash-cloud),
+    var(--cash-cloud-text),
+    var(--cash-cloud-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #58B74B 92%, white) 0%,
+      color-mix(in srgb, #12381E 75%, black) 100%
+    )
+  );
+}
+
+.btn--kelly {
+  @include gradient-button(
+    var(--grad-kelly-green),
+    var(--kelly-green-text),
+    var(--kelly-green-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #7DDE5B 94%, white) 0%,
+      color-mix(in srgb, #275930 72%, black) 100%
+    )
+  );
 }
 
 // gradient buttons
@@ -233,9 +375,9 @@ $bg-list: var(--color-primary), var(--color-primary-hover), var(--color-bright),
 $text-list: var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright), var(--color-primary);
 $border-list: var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
 @for $i from 1 through 30 {
-  $bg: nth($bg-list, (($i - 1) % length($bg-list)) + 1);
-  $text: nth($text-list, (($i - 1) % length($text-list)) + 1);
-  $border: nth($border-list, (($i - 1) % length($border-list)) + 1);
+  $bg: list.nth($bg-list, (($i - 1) % list.length($bg-list)) + 1);
+  $text: list.nth($text-list, (($i - 1) % list.length($text-list)) + 1);
+  $border: list.nth($border-list, (($i - 1) % list.length($border-list)) + 1);
   .btn-combo-#{$i} {
     background-color: $bg;
     color: $text;
