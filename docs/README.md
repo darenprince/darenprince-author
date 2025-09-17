@@ -167,6 +167,8 @@ GameOnUI.setProgress(bar, 50);
 
 Supabase powers sign-ups, secure file storage, and serverless logic. The client lives in `/supabase` and is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `js/profile-dropdown.js`. Edge uploads are locked down by `functions/secure-storage`.
 
+Protected engineering pages now import `js/auth-guard.js`, which validates the session, checks the user’s role, and confirms any folder-level permissions before revealing `.site-wrap`.
+
 More details live in [docs/supabase.md](supabase.md).
 
 ---

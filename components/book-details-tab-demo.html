@@ -35,8 +35,8 @@
 </head>
 <body class="dark">
   <script type="module">
-    import initPasswordGate from '../js/password-gate.js';
-    initPasswordGate('Gr@ndCh3r0k33');
+    import { enforceAuthGuard } from '../js/auth-guard.js';
+    enforceAuthGuard({ requiredFolders: ['components/book-details'], loadFolderAccess: true });
   </script>
 
   <div class="site-wrap" hidden>
