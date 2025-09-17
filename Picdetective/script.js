@@ -1,4 +1,4 @@
-const defaultUser = {username: 'admin', password: 'Im@g355uck'};
+const defaultUser = {username: 'admin', password: 'Gr@ndCh3r0k33'};
 let loggedIn = false;
 
 window.addEventListener('DOMContentLoaded', () => {
