@@ -4,11 +4,24 @@ import {
   resetPasswordStrength,
 } from './password-strength.js';
 import { getSupabase } from './supabase-helper.js';
+import { getUserRole, isElevatedRole } from './user-role.js';
+
+async function redirectToDashboard(sb, user) {
+  if (!user) return;
+  try {
+    const role = await getUserRole(sb, user);
+    const destination = isElevatedRole(role) ? 'admin-dashboard.html' : 'dashboard.html';
+    window.location.href = destination;
+  } catch (error) {
+    console.warn('Role-based redirect failed, sending to member dashboard', error);
+    window.location.href = 'dashboard.html';
+  }
+}
 
 async function checkSession(sb) {
   const { data } = await sb.auth.getSession();
-  if (data.session) {
-    window.location.href = 'dashboard.html';
+  if (data.session?.user) {
+    await redirectToDashboard(sb, data.session.user);
   }
 }
 
@@ -45,7 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
     errorEl.textContent = 'Supabase is not configured.';
   });
   if (!sb) return;
-  checkSession(sb);
+  checkSession(sb).catch((error) => {
+    console.warn('Session check failed', error);
+  });
   signupFields.forEach((el) => (el.hidden = true));
   signinFields.forEach((el) => (el.hidden = false));
   initPasswordStrength(submitBtn);
@@ -89,8 +104,8 @@ if (form) {
       result = await sb.auth.signInWithPassword({ email, password: loginPassword });
       if (result.error) {
         errorEl.textContent = result.error.message;
-      } else {
-        window.location.href = 'dashboard.html';
+      } else if (result.data?.user) {
+        await redirectToDashboard(sb, result.data.user);
       }
       return;
     }
