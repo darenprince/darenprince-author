@@ -111,6 +111,12 @@ Sass variables in `scss/tokens/_colors.scss` map directly to those custom proper
 📄 netlify.toml     # Redirect and build config
 ```
 
+### 🍏 Apple icon workflow
+- Icon PNGs and launch images are generated at install time from the base64 payload stored in `assets/icons/apple-assets.json`.
+- `npm install` (or any command that runs npm's `postinstall`) will automatically recreate the PNG set via `scripts/materialize-apple-assets.mjs` so static hosting platforms receive the files during their build step.
+- To tweak the artwork, install Pillow (`pip install pillow`) and run `python scripts/generate_apple_icons.py`. This regenerates the PNGs locally and refreshes the base64 payload ready for commit.
+- After regenerating, run `npm run generate:images` to update `assets/image-manifest.json` if you rely on the manifest elsewhere in the project.
+
 ---
 
 ## 📄 Planned Pages

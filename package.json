@@ -10,6 +10,7 @@
     "watch": "node scripts/generate-env.js && npm run generate:images && sass scss/styles.scss assets/styles.css --watch",
     "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass",
+    "postinstall": "node scripts/materialize-apple-assets.mjs",
     "deploy": "netlify deploy --prod --site darenprince.netlify.app"
   },
   "devDependencies": {
