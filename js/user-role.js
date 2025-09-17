@@ -1,11 +1,11 @@
-const VALID_ROLES = ['member', 'developer', 'admin'];
+const VALID_ROLES = new Set(['member', 'developer', 'admin']);
 const ELEVATED_ROLES = new Set(['developer', 'admin']);
 export const DEFAULT_ROLE = 'member';
 
 export function normalizeRole(role) {
   if (typeof role !== 'string') return DEFAULT_ROLE;
   const normalized = role.trim().toLowerCase();
-  return VALID_ROLES.includes(normalized) ? normalized : DEFAULT_ROLE;
+  return VALID_ROLES.has(normalized) ? normalized : DEFAULT_ROLE;
 }
 
 export function isElevatedRole(role) {
