@@ -2,19 +2,39 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 .btn {
-  @include button-base($bright-green);
+  @include button-base(
+    $bright-green,
+    $black,
+    $medium-green,
+    color-mix(in srgb, #{$bright-green} 65%, transparent)
+  );
 }
 
 .btn--primary {
-  @include button-base($deep-green);
+  @include button-base(
+    $deep-green,
+    $white,
+    color-mix(in srgb, #{$deep-green} 85%, black),
+    color-mix(in srgb, #{$deep-green} 60%, transparent)
+  );
 }
 
 .btn--secondary {
-  @include button-base($medium-green);
+  @include button-base(
+    $medium-green,
+    $black,
+    color-mix(in srgb, #{$medium-green} 80%, $deep-green),
+    color-mix(in srgb, #{$medium-green} 60%, transparent)
+  );
 }
 
 .btn--accent {
-  @include button-base($lime-green);
+  @include button-base(
+    $lime-green,
+    $black,
+    color-mix(in srgb, #{$lime-green} 80%, $medium-green),
+    color-mix(in srgb, #{$lime-green} 60%, transparent)
+  );
 }
 
 .btn--subtle {
@@ -41,17 +61,31 @@
 }
 
 .btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxs;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
   background-color: transparent;
   color: $bright-green;
   border: 2px solid $bright-green;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius;
   transition: $transition;
+  box-shadow: none;
 
   &:hover,
   &:focus {
     background-color: $bright-green;
     color: $black;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$bright-green} 50%, $black);
+    outline-offset: 3px;
   }
 }
 
@@ -203,6 +237,57 @@
   i {
     color: inherit;
   }
+}
+
+@mixin gradient-button($background, $text, $border) {
+  @include button-structure($text, $border);
+  background: $background;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+
+  &:hover,
+  &:focus {
+    background: $background;
+    color: $text;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$border} 60%, #{$text} 40%);
+    outline-offset: 3px;
+  }
+}
+
+.btn--lemon-lime {
+  @include gradient-button(var(--grad-lemon-lime), var(--lemon-lime-text), var(--lemon-lime-border));
+}
+
+.btn--lemon-lime-stroke {
+  @include gradient-button(
+    var(--grad-lemon-lime-stroke),
+    var(--lemon-lime-stroke-text),
+    var(--lemon-lime-stroke-border)
+  );
+}
+
+.btn--charcoal-lime {
+  @include gradient-button(var(--grad-charcoal-lime), var(--charcoal-lime-text), var(--charcoal-lime-border));
+}
+
+.btn--charcoal-mint {
+  @include gradient-button(var(--grad-charcoal-mint), var(--charcoal-mint-text), var(--charcoal-mint-border));
+}
+
+.btn--booger-snow {
+  @include gradient-button(var(--grad-booger-snow), var(--booger-snow-text), var(--booger-snow-border));
+}
+
+.btn--cash-cloud {
+  @include gradient-button(var(--grad-cash-cloud), var(--cash-cloud-text), var(--cash-cloud-border));
+}
+
+.btn--kelly {
+  @include gradient-button(var(--grad-kelly-green), var(--kelly-green-text), var(--kelly-green-border));
 }
 
 // gradient buttons
