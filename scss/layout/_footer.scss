@@ -7,6 +7,13 @@
   padding: $spacing-lg 0;
   text-align: left;
 
+  .container {
+    width: min(100%, 1200px);
+    margin: 0 auto;
+    margin-block: 0;
+    padding-inline: clamp($spacing-md, 5vw, $spacing-xl);
+  }
+
   .footer-grid {
     display: grid;
     gap: $spacing-md;
