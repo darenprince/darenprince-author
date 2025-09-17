@@ -1,0 +1,341 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+@use "../base/mixins" as *;
+
+.bio-hero {
+  position: relative;
+  padding: $spacing-xl 0;
+  background: radial-gradient(circle at top right, color-mix(in srgb, $mint-green 16%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, color-mix(in srgb, $charcoal 92%, black) 0%, color-mix(in srgb, $gray-900 80%, black) 60%);
+  overflow: hidden;
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xxs $spacing-sm;
+    border-radius: 999px;
+    background: color-mix(in srgb, $mint-green 35%, transparent);
+    color: $bright-green;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    margin-bottom: $spacing-sm;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: $spacing-sm;
+    color: $white;
+  }
+
+  p {
+    max-width: 48ch;
+    margin-bottom: $spacing-lg;
+    color: color-mix(in srgb, $white 82%, transparent);
+  }
+
+  &__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+}
+
+.bio-intro {
+  padding: $spacing-xl 0;
+
+  .bio-intro__grid {
+    display: grid;
+    gap: $spacing-lg;
+    align-items: center;
+
+    @include respond-to(md) {
+      grid-template-columns: 340px 1fr;
+    }
+  }
+
+  figure {
+    background: linear-gradient(160deg, color-mix(in srgb, $mint-green 24%, transparent), transparent 60%);
+    border-radius: $border-radius;
+    padding: $spacing-sm;
+    text-align: center;
+
+    img {
+      width: 100%;
+      border-radius: calc($border-radius - $spacing-xxs);
+      object-fit: cover;
+    }
+
+    figcaption {
+      margin-top: $spacing-xs;
+      font-size: 0.875rem;
+      color: color-mix(in srgb, $medium-gray 90%, $white 10%);
+    }
+  }
+
+  .bio-intro__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    blockquote {
+      margin: 0;
+      padding: $spacing-md;
+      border-left: 3px solid $lime-green;
+      background: color-mix(in srgb, $gray-900 88%, transparent);
+      font-style: italic;
+    }
+  }
+}
+
+.bio-stats {
+  padding: $spacing-xl 0;
+
+  .bio-stats__grid {
+    display: grid;
+    gap: $spacing-md;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .bio-stat {
+    background: color-mix(in srgb, $gray-900 92%, transparent);
+    border-radius: $border-radius;
+    padding: $spacing-lg $spacing-md;
+    text-align: center;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+
+    h3 {
+      font-size: 2rem;
+      margin-bottom: $spacing-xs;
+      color: $bright-green;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: color-mix(in srgb, $medium-gray 80%, $white 20%);
+    }
+  }
+}
+
+.bio-pillars {
+  padding: $spacing-xl 0;
+
+  .bio-pillars__grid {
+    display: grid;
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bio-pillar {
+    background: linear-gradient(160deg, color-mix(in srgb, $gray-900 82%, transparent), transparent 55%);
+    padding: $spacing-lg;
+    border-radius: $border-radius;
+    border: 1px solid color-mix(in srgb, $mint-green 16%, transparent);
+
+    h3 {
+      margin-bottom: $spacing-sm;
+      color: $white;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: $spacing-xs;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+
+        i {
+          color: $lime-green;
+        }
+      }
+    }
+  }
+}
+
+.bio-timeline {
+  padding: $spacing-xl 0;
+
+  .bio-timeline__grid {
+    display: grid;
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: 2fr 3fr;
+      gap: $spacing-xl;
+    }
+  }
+
+  .bio-timeline__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: $spacing-md;
+
+    li {
+      position: relative;
+      padding-left: $spacing-lg;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0.4rem;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: $lime-green;
+        box-shadow: 0 0 0 6px color-mix(in srgb, $lime-green 18%, transparent);
+      }
+
+      strong {
+        display: block;
+        margin-bottom: $spacing-xxs;
+        color: $white;
+      }
+
+      span {
+        color: color-mix(in srgb, $medium-gray 78%, $white 22%);
+      }
+    }
+  }
+}
+
+.bio-media {
+  padding: $spacing-xl 0;
+
+  .bio-media__grid {
+    display: grid;
+    gap: $spacing-md;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bio-media__card {
+    background: color-mix(in srgb, $gray-900 90%, transparent);
+    border-radius: $border-radius;
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    border: 1px solid color-mix(in srgb, $mint-green 20%, transparent);
+
+    h3 {
+      color: $white;
+      margin: 0;
+    }
+
+    p {
+      color: color-mix(in srgb, $medium-gray 84%, $white 16%);
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    a {
+      align-self: flex-start;
+    }
+  }
+}
+
+.bio-press {
+  padding: $spacing-xl 0;
+
+  .bio-press__grid {
+    display: grid;
+    gap: $spacing-md;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bio-press__card {
+    background: linear-gradient(145deg, color-mix(in srgb, $gray-900 80%, transparent), transparent 70%);
+    border-radius: $border-radius;
+    padding: $spacing-lg;
+    text-align: center;
+    border: 1px solid color-mix(in srgb, $mint-green 12%, transparent);
+
+    img {
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto $spacing-md;
+      border-radius: calc($border-radius / 1.5);
+    }
+
+    h3 {
+      margin-bottom: $spacing-xs;
+      color: $white;
+    }
+
+    p {
+      margin-bottom: $spacing-sm;
+      color: color-mix(in srgb, $medium-gray 80%, $white 20%);
+    }
+  }
+}
+
+.bio-cta {
+  padding: $spacing-xl 0 $spacing-lg;
+
+  .bio-cta__grid {
+    display: grid;
+    gap: $spacing-md;
+
+    @include respond-to(md) {
+      grid-template-columns: 2fr 3fr;
+    }
+  }
+
+  .bio-cta__card,
+  .bio-cta__subscribe {
+    background: color-mix(in srgb, $gray-900 88%, transparent);
+    border-radius: $border-radius;
+    padding: $spacing-lg;
+    border: 1px solid color-mix(in srgb, $mint-green 20%, transparent);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3);
+  }
+
+  .bio-cta__subscribe {
+    display: grid;
+    gap: $spacing-sm;
+
+    .btn {
+      justify-self: start;
+    }
+  }
+}
+
+.bio-headshots {
+  padding: $spacing-xl 0;
+
+  .bio-headshots__grid {
+    display: grid;
+    gap: $spacing-md;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  img {
+    width: 100%;
+    border-radius: $border-radius;
+    object-fit: cover;
+  }
+}
