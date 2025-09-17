@@ -61,29 +61,49 @@
   .bio-intro__grid {
     display: grid;
     gap: $spacing-lg;
-    align-items: center;
+    align-items: start;
 
     @include respond-to(md) {
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: minmax(0, 360px) 1fr;
     }
   }
 
-  figure {
+  .bio-intro__media {
+    display: grid;
+    gap: $spacing-sm;
+  }
+
+  .bio-intro__portrait-stack {
+    display: grid;
+    gap: $spacing-sm;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .bio-intro__portrait {
     background: linear-gradient(160deg, color-mix(in srgb, $mint-green 24%, transparent), transparent 60%);
     border-radius: $border-radius;
     padding: $spacing-sm;
     text-align: center;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.32);
 
     img {
       width: 100%;
       border-radius: calc($border-radius - $spacing-xxs);
       object-fit: cover;
+      aspect-ratio: 4 / 5;
+      display: block;
     }
 
     figcaption {
       margin-top: $spacing-xs;
       font-size: 0.875rem;
       color: color-mix(in srgb, $medium-gray 90%, $white 10%);
+    }
+  }
+
+  .bio-intro__portrait--primary {
+    img {
+      aspect-ratio: 3 / 4;
     }
   }
 
@@ -229,6 +249,8 @@
 
 .bio-media {
   padding: $spacing-xl 0;
+  background: linear-gradient(180deg, rgba(17, 18, 23, 0.92), rgba(17, 18, 23, 0.92)),
+    url('../assets/images/IMG_6127.png') center/cover no-repeat;
 
   .bio-media__grid {
     display: grid;
@@ -267,6 +289,8 @@
 
 .bio-cta {
   padding: $spacing-xl 0 $spacing-lg;
+  background: linear-gradient(180deg, rgba(17, 18, 23, 0.94), rgba(17, 18, 23, 0.94)),
+    url('../assets/images/IMG_6099.jpeg') center/cover no-repeat;
 
   .bio-cta__grid {
     display: grid;
