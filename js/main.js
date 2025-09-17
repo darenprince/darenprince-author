@@ -1,4 +1,12 @@
+import { applyIndexingMeta } from './seo-indexing.js';
+
 document.addEventListener('DOMContentLoaded', async function () {
+  const indexingRule = applyIndexingMeta();
+  if (indexingRule) {
+    console.debug(
+      `[SEO] Robots directive set to "${indexingRule.directive}" — ${indexingRule.reason}`
+    );
+  }
   const menuToggle = document.querySelector('.js-menu-toggle');
   const megaMenu = document.querySelector('.js-mega-menu');
   const menuOverlay = document.querySelector('.js-menu-overlay');
