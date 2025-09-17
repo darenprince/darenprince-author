@@ -2,19 +2,53 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 .btn {
-  @include button-base($bright-green, var(--color-black));
+  --btn-bg: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$deep-green} 78%, black),
+    color-mix(in srgb, #{$deep-green} 96%, black)
+  );
+  --btn-border: 1px solid color-mix(in srgb, #{$deep-green} 68%, black);
+  --btn-color: var(--color-contrast-high);
+  --btn-bg-hover: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$deep-green} 70%, black),
+    color-mix(in srgb, #{$deep-green} 96%, black)
+  );
+  --btn-shadow: 0 18px 40px color-mix(in srgb, #{$deep-green} 32%, transparent);
+  @include button-base($deep-green, var(--color-contrast-high));
+  font-weight: 600;
 }
 
 .btn--primary {
-  @include button-base($deep-green);
+  @extend .btn;
 }
 
 .btn--secondary {
-  @include button-base($medium-green, var(--color-black));
+  --btn-bg: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$medium-green} 78%, black),
+    color-mix(in srgb, #{$medium-green} 94%, black)
+  );
+  --btn-border: 1px solid color-mix(in srgb, #{$medium-green} 64%, black);
+  --btn-bg-hover: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$medium-green} 70%, black),
+    color-mix(in srgb, #{$medium-green} 92%, black)
+  );
 }
 
 .btn--accent {
-  @include button-base($lime-green, var(--color-black));
+  --btn-bg: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$lime-green} 78%, black),
+    color-mix(in srgb, #{$lime-green} 92%, black)
+  );
+  --btn-border: 1px solid color-mix(in srgb, #{$lime-green} 58%, black);
+  --btn-bg-hover: linear-gradient(
+    140deg,
+    color-mix(in srgb, #{$lime-green} 70%, black),
+    color-mix(in srgb, #{$lime-green} 92%, black)
+  );
 }
 
 .btn--subtle {
@@ -169,7 +203,7 @@
   @extend .nav-icon-btn;
   color: $icon;
   background: transparent;
-  border: 2px solid rgba($lime-green, 0.3);
+  border: 2px solid color-mix(in srgb, #{$lime-green} 30%, transparent);
   transition: box-shadow $transition;
 
   &:hover,
@@ -179,7 +213,7 @@
 }
 
 .menu-open .hamburger-btn {
-  box-shadow: 0 0 8px rgba($lime-green, 0.5);
+  box-shadow: 0 0 8px color-mix(in srgb, #{$lime-green} 50%, transparent);
 }
 
 // auth buttons (login/logout)
@@ -189,8 +223,12 @@
   gap: $spacing-xxs;
   font-weight: 700;
   color: $light-gray;
-  background: linear-gradient(45deg, rgba($bright-green, 0.05), rgba($bright-green, 0.05));
-  border: 1.5px solid rgba($lime-green, 0.7);
+  background: linear-gradient(
+    45deg,
+    color-mix(in srgb, #{$bright-green} 5%, transparent),
+    color-mix(in srgb, #{$bright-green} 5%, transparent)
+  );
+  border: 1.5px solid color-mix(in srgb, #{$lime-green} 70%, transparent);
   border-radius: $border-radius;
   padding: $spacing-xxs $spacing-sm;
   cursor: pointer;

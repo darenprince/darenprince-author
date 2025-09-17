@@ -1,10 +1,15 @@
 .grad-green {
   background: var(--grad-green);
+  color: var(--color-contrast-high);
+  border: 1px solid color-mix(in srgb, #2A5E1C 60%, black);
 
   &.btn,
   &.btn-b,
   &.cta-btn {
     --btn-bg: var(--grad-green);
+    --btn-color: var(--color-contrast-high);
+    --btn-border: 1px solid color-mix(in srgb, #2A5E1C 60%, black);
+    --btn-bg-hover: var(--grad-green);
   }
 }
 
