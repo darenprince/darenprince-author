@@ -2,19 +2,35 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 .btn {
-  @include button-base($bright-green);
+  @include button-base(
+    $medium-green,
+    $white,
+    color-mix(in srgb, #{$medium-green} 78%, $deep-green)
+  );
 }
 
 .btn--primary {
-  @include button-base($deep-green);
+  @include button-base(
+    $deep-green,
+    $white,
+    color-mix(in srgb, #{$deep-green} 82%, black)
+  );
 }
 
 .btn--secondary {
-  @include button-base($medium-green);
+  @include button-base(
+    $bright-green,
+    $white,
+    color-mix(in srgb, #{$bright-green} 74%, $deep-green)
+  );
 }
 
 .btn--accent {
-  @include button-base($lime-green);
+  @include button-base(
+    $lime-green,
+    $white,
+    color-mix(in srgb, #{$lime-green} 72%, $medium-green)
+  );
 }
 
 .btn--subtle {
@@ -41,17 +57,31 @@
 }
 
 .btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxs;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
   background-color: transparent;
   color: $bright-green;
   border: 2px solid $bright-green;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius;
   transition: $transition;
+  box-shadow: none;
 
   &:hover,
   &:focus {
     background-color: $bright-green;
     color: $black;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$bright-green} 50%, $black);
+    outline-offset: 3px;
   }
 }
 
@@ -203,6 +233,150 @@
   i {
     color: inherit;
   }
+}
+
+@mixin gradient-button($background, $text, $border, $hover-background: null) {
+  @include button-structure($text, $border);
+  background: $background;
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: $text;
+  text-shadow: if($text == $black, none, 0 1px 1px rgba(0, 0, 0, 0.35));
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: inherit;
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 65%);
+    opacity: 0.7;
+    transition: opacity $transition, transform $transition;
+    z-index: -1;
+  }
+
+  &:hover,
+  &:focus {
+    background: if($hover-background != null, $hover-background, $background);
+    box-shadow:
+      0 22px 42px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+  }
+
+  &:focus-visible {
+    $outline-source: if($border == null, rgba(255, 255, 255, 0.4), $border);
+    outline: 3px solid color-mix(in srgb, #{$outline-source} 55%, #{$text} 45%);
+    outline-offset: 4px;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+
+    &::before {
+      opacity: 0.65;
+      transform: none;
+    }
+  }
+}
+
+.btn--lemon-lime {
+  @include gradient-button(
+    var(--grad-lemon-lime),
+    var(--lemon-lime-text),
+    var(--lemon-lime-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #9AF874 92%, white) 0%,
+      color-mix(in srgb, #2F7A34 70%, black) 100%
+    )
+  );
+}
+
+.btn--lemon-lime-stroke {
+  @include gradient-button(
+    var(--grad-lemon-lime-stroke),
+    var(--lemon-lime-stroke-text),
+    var(--lemon-lime-stroke-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #B3FF8A 90%, white) 0%,
+      color-mix(in srgb, #348739 68%, black) 100%
+    )
+  );
+}
+
+.btn--charcoal-lime {
+  @include gradient-button(
+    var(--grad-charcoal-lime),
+    var(--charcoal-lime-text),
+    var(--charcoal-lime-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #2C2D2C 92%, #A1F48E 8%) 0%,
+      color-mix(in srgb, #151615 72%, black) 100%
+    )
+  );
+}
+
+.btn--charcoal-mint {
+  @include gradient-button(
+    var(--grad-charcoal-mint),
+    var(--charcoal-mint-text),
+    var(--charcoal-mint-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #2A2D30 90%, #C3FFEC 10%) 0%,
+      color-mix(in srgb, #121315 70%, black) 100%
+    )
+  );
+}
+
+.btn--booger-snow {
+  @include gradient-button(
+    var(--grad-booger-snow),
+    var(--booger-snow-text),
+    var(--booger-snow-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #FFFFFF 95%, #E7F0E3 5%) 0%,
+      color-mix(in srgb, #E7F0E3 80%, #305B2B 20%) 100%
+    )
+  );
+}
+
+.btn--cash-cloud {
+  @include gradient-button(
+    var(--grad-cash-cloud),
+    var(--cash-cloud-text),
+    var(--cash-cloud-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #58B74B 92%, white) 0%,
+      color-mix(in srgb, #12381E 75%, black) 100%
+    )
+  );
+}
+
+.btn--kelly {
+  @include gradient-button(
+    var(--grad-kelly-green),
+    var(--kelly-green-text),
+    var(--kelly-green-border),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, #7DDE5B 94%, white) 0%,
+      color-mix(in srgb, #275930 72%, black) 100%
+    )
+  );
 }
 
 // gradient buttons
