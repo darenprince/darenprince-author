@@ -52,7 +52,7 @@ const resolveFromDeno = () => {
   if (typeof Deno === 'undefined' || typeof Deno.env === 'undefined') {
     return null;
   }
-  const read = (name) => Deno.env.get(name) ?? undefined;
+  const read = (name) => Deno.env.get(name);
   return finalizeConfig(readFromReader(read));
 };
 
