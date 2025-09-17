@@ -8,10 +8,12 @@ Set these variables locally or in Netlify:
 
 ```bash
 SUPABASE_DATABASE_URL=<project_url>
-SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
 SUPABASE_ANON_KEY=<anon_key>
+SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
 SUPABASE_JWT_SECRET=<jwt_secret>
 ```
+
+The Netlify × Supabase integration now provisions these runtime values automatically. For local development copy `.env.example` to `.env`, fill in the same fields, and run `npm run build` so `assets/js/env.js` is generated with only the database URL and anon key. Optional aliases like `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_DATABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are supported for frameworks that expect prefixed variables, but they resolve to the same underlying values.
 
 ## 🧠 Client Setup
 
@@ -21,6 +23,8 @@ SUPABASE_JWT_SECRET=<jwt_secret>
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 export const supabase = createClient(url, key);
 ```
+
+When the code runs in the browser it only consumes the anon key exported from `assets/js/env.js`, keeping the service role key and JWT secret out of the public bundle.
 
 The client is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `js/profile-dropdown.js` for session checks, sign-ins, and secure storage.
 

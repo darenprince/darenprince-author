@@ -6,3 +6,5 @@ node_modules/
 .env.js
 *.env.js
 env.js
+assets/js/env.js
+!.env.example
