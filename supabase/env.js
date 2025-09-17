@@ -22,7 +22,7 @@ const isBrowser = typeof window !== 'undefined';
 const readFirstDefined = (reader, keys) => {
   for (const key of keys) {
     const value = reader(key);
-    if (value !== undefined && value !== null) {
+    if (value != null) {
       return value;
     }
   }
