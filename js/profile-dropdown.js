@@ -1,3 +1,5 @@
+import { getUserRole, isElevatedRole } from './user-role.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.js-profile-toggle');
   const dropdown = document.querySelector('.js-profile-dropdown');
@@ -6,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const avatarImg = dropdown.querySelector('.profile-avatar');
   const nameEl = dropdown.querySelector('.profile-name');
   const logoutEl = dropdown.querySelector('.js-auth-toggle');
+  const dashboardLink = dropdown.querySelector('.js-dashboard-link');
 
   // ---------------------------
   // UI event listeners
@@ -49,6 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
           .getPublicUrl(`${user.id}.jpg`);
         if (avatarData?.publicUrl) {
           avatarImg.src = avatarData.publicUrl;
+        }
+        if (dashboardLink) {
+          const role = await getUserRole(supabase, user);
+          if (isElevatedRole(role)) {
+            dashboardLink.href = 'admin-dashboard.html';
+            dashboardLink.textContent = 'Admin Dashboard';
+          } else {
+            dashboardLink.href = 'dashboard.html';
+            dashboardLink.textContent = 'Dashboard';
+          }
         }
         if (logoutEl) {
           logoutEl.removeEventListener('click', loginHandler);

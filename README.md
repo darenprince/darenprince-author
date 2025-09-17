@@ -219,16 +219,20 @@ Deployment: Push to `main` auto-deploys via Netlify CI/CD.
    supabase db push
    ```
    This creates tables like `profiles` and configures Row-Level Security.
+   If you prefer the Supabase SQL Editor, run the one-shot script in
+   [`supabase/sql_editor_setup.sql`](supabase/sql_editor_setup.sql) to set up
+   the same tables, policies, and storage buckets in a single execution.
 4. Deploy edge functions as needed, e.g.:
    ```bash
    supabase functions deploy secure-storage
    ```
 5. On Netlify, install the [Supabase integration](https://docs.netlify.com/extend/install-and-use/setup-guides/supabase-integration/) and connect your project. Netlify will inject `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET` automatically at deploy time.
+6. Assign elevated access by editing a user's `role` in Supabase → **Authentication → Users**. Set the metadata `role` to `developer` or `admin` (default is `member`). The SQL script keeps `profiles.role` in sync so those users are automatically routed to the admin dashboard after signing in.
 
 ### Dashboard on Netlify
 1. Connect the Netlify Supabase integration so the required environment variables stay in sync with your Supabase project.
 2. Deploy the site and visit `/login.html` to sign in.
-3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
+3. Authenticated users are redirected to `dashboard.html` (or `admin-dashboard.html` when their role is `developer` or `admin`) where they can manage files and profile info.
 
 
 ---
