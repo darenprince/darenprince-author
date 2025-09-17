@@ -3,49 +3,63 @@
 @use "../tokens/colors" as *;
 
 .cta-btn {
-  @include button-base($bright-green, $black);
-  --btn-bg-hover: var(--btn-bg, linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$bright-green} 92%, white),
-    color-mix(in srgb, #{$bright-green} 90%, black)
-  ));
-  --btn-hover-color: var(--btn-color, #{$black});
+  --btn-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, #{$deep-green} 78%, black),
+    color-mix(in srgb, #{$deep-green} 96%, black)
+  );
+  --btn-border: 1px solid color-mix(in srgb, #{$deep-green} 68%, black);
+  --btn-color: var(--color-contrast-high);
+  --btn-bg-hover: linear-gradient(
+    135deg,
+    color-mix(in srgb, #{$deep-green} 70%, black),
+    color-mix(in srgb, #{$deep-green} 96%, black)
+  );
+  --btn-hover-color: var(--color-contrast-high);
+  --btn-shadow: 0 20px 42px color-mix(in srgb, #{$deep-green} 32%, transparent);
+  @include button-base($deep-green, var(--color-contrast-high));
   font-weight: 600;
   letter-spacing: 0.01em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: $spacing-xxs;
-  box-shadow: 0 12px 24px rgba($bright-green, 0.25);
-  transition: transform $transition, box-shadow $transition;
+  text-transform: none;
+  box-shadow: var(--btn-shadow);
+  transition: transform $transition, box-shadow $transition, background $transition, color $transition;
 
   &:hover,
   &:focus {
     transform: translateY(-1px);
-    box-shadow: inset 0 0 0 2px rgba($lime-green, 0.1), 0 16px 28px rgba($bright-green, 0.3);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, #{$lime-green} 35%, transparent),
+      0 24px 40px color-mix(in srgb, #{$deep-green} 46%, transparent);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: inset 0 0 0 2px rgba($lime-green, 0.12), inset 0 4px 12px rgba($black, 0.35);
+    box-shadow:
+      inset 0 2px 10px color-mix(in srgb, #{$black} 55%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, #{$lime-green} 45%, transparent);
   }
 }
 
 .cta-btn--outline {
   @extend .cta-btn;
   --btn-bg: transparent;
-  --btn-color: $bright-green;
-  --btn-border: 2px solid #{$bright-green};
+  --btn-color: var(--color-bright);
+  --btn-border: 2px solid var(--color-bright);
   --btn-bg-hover: transparent;
-  box-shadow: inset 0 0 0 1px rgba($bright-green, 0.4);
+  --btn-hover-color: var(--color-bright);
+  --btn-shadow: inset 0 0 0 1px color-mix(in srgb, #{$bright-green} 42%, transparent);
 
   &:hover,
   &:focus {
-    box-shadow: inset 0 0 0 2px rgba($lime-green, 0.18);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, #{$lime-green} 28%, transparent);
   }
 
   &:active {
-    box-shadow: inset 0 0 0 2px rgba($lime-green, 0.25);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, #{$lime-green} 38%, transparent);
   }
 }
 
@@ -73,6 +87,15 @@
 }
 
 @keyframes cta-glow {
-  0%, 100% { box-shadow: inset 0 0 0 2px rgba($lime-green, 0.08), 0 12px 24px rgba($bright-green, 0.25); }
-  50% { box-shadow: inset 0 0 0 2px rgba($lime-green, 0.16), 0 18px 36px rgba($bright-green, 0.4); }
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, #{$lime-green} 22%, transparent),
+      0 16px 32px color-mix(in srgb, #{$deep-green} 34%, transparent);
+  }
+
+  50% {
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, #{$lime-green} 34%, transparent),
+      0 22px 44px color-mix(in srgb, #{$deep-green} 48%, transparent);
+  }
 }
