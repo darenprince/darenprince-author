@@ -6,16 +6,18 @@ let key = '';
 const isBrowser = typeof window !== 'undefined';
 
 if (typeof Deno !== 'undefined' && typeof Deno.env !== 'undefined') {
-  const read = (name: string) => Deno.env.get(name) ?? '';
+  const read = (name: string) => Deno.env.get(name);
   url =
-    read('SUPABASE_DATABASE_URL') ||
-    read('NEXT_PUBLIC_SUPABASE_URL') ||
-    read('NEXT_PUBLIC_SUPABASE_DATABASE_URL');
+    read('SUPABASE_DATABASE_URL') ??
+    read('NEXT_PUBLIC_SUPABASE_URL') ??
+    read('NEXT_PUBLIC_SUPABASE_DATABASE_URL') ??
+    '';
   key =
-    read('SUPABASE_SERVICE_ROLE_KEY') ||
-    read('SUPABASE_ANON_KEY') ||
-    read('SUPABASE_PUBLIC_ANON_KEY') ||
-    read('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    read('SUPABASE_SERVICE_ROLE_KEY') ??
+    read('SUPABASE_ANON_KEY') ??
+    read('SUPABASE_PUBLIC_ANON_KEY') ??
+    read('NEXT_PUBLIC_SUPABASE_ANON_KEY') ??
+    '';
 } else if (!isBrowser && typeof process !== 'undefined' && typeof process.env !== 'undefined') {
   const env = process.env;
   url =
