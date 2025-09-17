@@ -2,7 +2,7 @@
 @use "../base/variables" as *;
 @use "../tokens/colors" as *;
 .btn {
-  @include button-base($bright-green);
+  @include button-base($bright-green, var(--color-black));
 }
 
 .btn--primary {
@@ -10,49 +10,45 @@
 }
 
 .btn--secondary {
-  @include button-base($medium-green);
+  @include button-base($medium-green, var(--color-black));
 }
 
 .btn--accent {
-  @include button-base($lime-green);
+  @include button-base($lime-green, var(--color-black));
 }
 
 .btn--subtle {
+  --btn-bg: color-mix(in srgb, #{$gray-900} 92%, transparent);
+  --btn-border: 1px solid color-mix(in srgb, #{$mint-green} 22%, transparent);
+  --btn-color: color-mix(in srgb, #{$mint-green} 75%, #{$white} 25%);
+  --btn-bg-hover: color-mix(in srgb, #{$mint-green} 36%, transparent);
+  --btn-hover-color: #{$black};
+  --btn-shadow: none;
   display: inline-flex;
   align-items: center;
   gap: $spacing-xxs;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius;
-  background: color-mix(in srgb, $gray-900 92%, transparent);
-  border: 1px solid color-mix(in srgb, $mint-green 22%, transparent);
-  color: color-mix(in srgb, $mint-green 75%, $white 25%);
   text-decoration: none;
   transition: $transition;
 
   i {
     font-size: 1rem;
   }
-
-  &:hover,
-  &:focus {
-    background: color-mix(in srgb, $mint-green 36%, transparent);
-    color: $black;
-  }
 }
 
 .btn--ghost {
-  background-color: transparent;
-  color: $bright-green;
-  border: 2px solid $bright-green;
-  padding: $spacing-xs $spacing-md;
-  border-radius: $border-radius;
-  transition: $transition;
-
-  &:hover,
-  &:focus {
-    background-color: $bright-green;
-    color: $black;
-  }
+  --btn-bg: transparent;
+  --btn-border: 2px solid #{$bright-green};
+  --btn-color: #{$bright-green};
+  --btn-bg-hover: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$bright-green} 92%, white),
+    color-mix(in srgb, #{$bright-green} 90%, black)
+  );
+  --btn-hover-color: #{$black};
+  --btn-shadow: none;
+  background: transparent;
 }
 
 // icon-only button

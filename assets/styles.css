@@ -35,10 +35,10 @@
   --grad-gray-light: linear-gradient(var(--gray-700), var(--gray-600));
   --grad-lemon-lime: linear-gradient(#7FC66C, #63A355);
   --lemon-lime-border: #679C59;
-  --lemon-lime-text: #FFFFFF;
+  --lemon-lime-text: #041007;
   --grad-lemon-lime-stroke: linear-gradient(#7FC66C, #63A355);
   --lemon-lime-stroke-border: #F0FFEB;
-  --lemon-lime-stroke-text: #FFFFFF;
+  --lemon-lime-stroke-text: #041007;
   --grad-charcoal-lime: linear-gradient(#3F3F3F, #2C2C2C);
   --charcoal-lime-border: #333333;
   --charcoal-lime-text: #9DDC8E;
@@ -52,9 +52,9 @@
   --cash-cloud-border: #052614;
   --cash-cloud-text: #EEECEC;
   --radial-light-bg: radial-gradient(circle at center, #F5F5F5, #DADADA);
-  --grad-kelly-green: linear-gradient(#63A553, #447239);
-  --kelly-green-border: #679C59;
-  --kelly-green-text: #FFFFFF;
+  --grad-kelly-green: linear-gradient(#70C561, #4F9B3C);
+  --kelly-green-border: #3F6F32;
+  --kelly-green-text: #041007;
   --grad-light-container: linear-gradient(130deg, #EAEAEA, #DADADA);
   --light-container-border: #D5D5D5;
   --light-container-text: #717171;
@@ -368,17 +368,32 @@ a:hover, a:focus {
 .grad-green {
   background: var(--grad-green);
 }
+.grad-green.btn, .grad-green.btn-b {
+  --btn-bg: var(--grad-green);
+}
 
 .grad-gray {
   background: var(--grad-gray);
+}
+.grad-gray.btn, .grad-gray.btn-b {
+  --btn-bg: var(--grad-gray);
+  --btn-color: var(--color-white);
 }
 
 .grad-gray-top {
   background: var(--grad-gray-top);
 }
+.grad-gray-top.btn, .grad-gray-top.btn-b {
+  --btn-bg: var(--grad-gray-top);
+  --btn-color: var(--color-white);
+}
 
 .grad-gray-light {
   background: var(--grad-gray-light);
+}
+.grad-gray-light.btn, .grad-gray-light.btn-b {
+  --btn-bg: var(--grad-gray-light);
+  --btn-color: var(--color-charcoal);
 }
 
 .grad-lemon-lime {
@@ -386,11 +401,23 @@ a:hover, a:focus {
   color: var(--lemon-lime-text);
   border: 1px solid var(--lemon-lime-border);
 }
+.grad-lemon-lime.btn, .grad-lemon-lime.btn-b {
+  --btn-bg: var(--grad-lemon-lime);
+  --btn-color: var(--lemon-lime-text);
+  --btn-border: 1px solid var(--lemon-lime-border);
+  --btn-bg-hover: var(--grad-lemon-lime);
+}
 
 .grad-lemon-lime-stroke {
   background: var(--grad-lemon-lime-stroke);
   color: var(--lemon-lime-stroke-text);
   border: 1px solid var(--lemon-lime-stroke-border);
+}
+.grad-lemon-lime-stroke.btn, .grad-lemon-lime-stroke.btn-b {
+  --btn-bg: var(--grad-lemon-lime-stroke);
+  --btn-color: var(--lemon-lime-stroke-text);
+  --btn-border: 1px solid var(--lemon-lime-stroke-border);
+  --btn-bg-hover: var(--grad-lemon-lime-stroke);
 }
 
 .grad-charcoal-lime {
@@ -398,11 +425,23 @@ a:hover, a:focus {
   color: var(--charcoal-lime-text);
   border: 1px solid var(--charcoal-lime-border);
 }
+.grad-charcoal-lime.btn, .grad-charcoal-lime.btn-b {
+  --btn-bg: var(--grad-charcoal-lime);
+  --btn-color: var(--charcoal-lime-text);
+  --btn-border: 1px solid var(--charcoal-lime-border);
+  --btn-bg-hover: var(--grad-charcoal-lime);
+}
 
 .grad-charcoal-mint {
   background: var(--grad-charcoal-mint);
   color: var(--charcoal-mint-text);
   border: 1px solid var(--charcoal-mint-border);
+}
+.grad-charcoal-mint.btn, .grad-charcoal-mint.btn-b {
+  --btn-bg: var(--grad-charcoal-mint);
+  --btn-color: var(--charcoal-mint-text);
+  --btn-border: 1px solid var(--charcoal-mint-border);
+  --btn-bg-hover: var(--grad-charcoal-mint);
 }
 
 .grad-booger-snow {
@@ -410,11 +449,23 @@ a:hover, a:focus {
   color: var(--booger-snow-text);
   border: 1px solid var(--booger-snow-border);
 }
+.grad-booger-snow.btn, .grad-booger-snow.btn-b {
+  --btn-bg: var(--grad-booger-snow);
+  --btn-color: var(--booger-snow-text);
+  --btn-border: 1px solid var(--booger-snow-border);
+  --btn-bg-hover: var(--grad-booger-snow);
+}
 
 .grad-cash-cloud {
   background: var(--grad-cash-cloud);
   color: var(--cash-cloud-text);
   border: 1px solid var(--cash-cloud-border);
+}
+.grad-cash-cloud.btn, .grad-cash-cloud.btn-b {
+  --btn-bg: var(--grad-cash-cloud);
+  --btn-color: var(--cash-cloud-text);
+  --btn-border: 1px solid var(--cash-cloud-border);
+  --btn-bg-hover: var(--grad-cash-cloud);
 }
 
 .grad-kelly-green {
@@ -422,11 +473,23 @@ a:hover, a:focus {
   color: var(--kelly-green-text);
   border: 1px solid var(--kelly-green-border);
 }
+.grad-kelly-green.btn, .grad-kelly-green.btn-b {
+  --btn-bg: var(--grad-kelly-green);
+  --btn-color: var(--kelly-green-text);
+  --btn-border: 1px solid var(--kelly-green-border);
+  --btn-bg-hover: var(--grad-kelly-green);
+}
 
 .grad-light-container {
   background: var(--grad-light-container);
   color: var(--light-container-text);
   border: 1px solid var(--light-container-border);
+}
+.grad-light-container.btn, .grad-light-container.btn-b {
+  --btn-bg: var(--grad-light-container);
+  --btn-color: var(--light-container-text);
+  --btn-border: 1px solid var(--light-container-border);
+  --btn-bg-hover: var(--grad-light-container);
 }
 
 .grad-light-nav {
@@ -489,7 +552,7 @@ body.theme-light {
   padding-block: 0.5rem;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1200;
   border-bottom: 1px solid rgba(var(--color-lime), 0.05);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -711,23 +774,24 @@ body.theme-light .site-footer a {
   outline: none;
 }
 .search-bar .search-submit {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-color, var(--color-white));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   border-left: 0;
   border-radius: 0 0.6875rem 0.6875rem 0;
   padding: 0.5rem 0.75rem;
 }
 .search-bar .search-submit:hover, .search-bar .search-submit:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
 }
 .search-bar .search-submit:disabled {
   opacity: 0.5;
@@ -781,19 +845,20 @@ body.theme-light .site-footer a {
 }
 
 .btn, .btn-b {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .btn:hover, .btn-b:hover, .btn:focus, .btn-b:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
 .btn:disabled, .btn-b:disabled {
   opacity: 0.5;
@@ -801,19 +866,20 @@ body.theme-light .site-footer a {
 }
 
 .btn--primary, .btn--primary-b {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-color, var(--color-white));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .btn--primary:hover, .btn--primary-b:hover, .btn--primary:focus, .btn--primary-b:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
 }
 .btn--primary:disabled, .btn--primary-b:disabled {
   opacity: 0.5;
@@ -821,19 +887,20 @@ body.theme-light .site-footer a {
 }
 
 .btn--secondary, .btn--secondary-b {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black)));
+  color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .btn--secondary:hover, .btn--secondary-b:hover, .btn--secondary:focus, .btn--secondary-b:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
 .btn--secondary:disabled, .btn--secondary-b:disabled {
   opacity: 0.5;
@@ -841,19 +908,20 @@ body.theme-light .site-footer a {
 }
 
 .btn--accent, .btn--accent-b {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-lime) 92%, white), color-mix(in srgb, var(--color-lime) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-lime) 92%, white), color-mix(in srgb, var(--color-lime) 90%, black)));
+  color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .btn--accent:hover, .btn--accent-b:hover, .btn--accent:focus, .btn--accent-b:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-lime) 92%, white), color-mix(in srgb, var(--color-lime) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-lime) 92%, white), color-mix(in srgb, var(--color-lime) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
 .btn--accent:disabled, .btn--accent-b:disabled {
   opacity: 0.5;
@@ -861,36 +929,36 @@ body.theme-light .site-footer a {
 }
 
 .btn--subtle {
+  --btn-bg: color-mix(in srgb, var(--gray-900) 92%, transparent);
+  --btn-border: 1px solid color-mix(in srgb, var(--color-mint) 22%, transparent);
+  --btn-color: color-mix(in srgb, var(--color-mint) 75%, var(--color-white) 25%);
+  --btn-bg-hover: color-mix(in srgb, var(--color-mint) 36%, transparent);
+  --btn-hover-color: var(--color-black);
+  --btn-shadow: none;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem 1rem;
   border-radius: 0.6875rem;
-  background: color-mix(in srgb, var(--gray-900) 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-mint) 22%, transparent);
-  color: color-mix(in srgb, var(--color-mint) 75%, var(--color-white) 25%);
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 }
 .btn--subtle i {
   font-size: 1rem;
 }
-.btn--subtle:hover, .btn--subtle:focus {
-  background: color-mix(in srgb, var(--color-mint) 36%, transparent);
-  color: var(--color-black);
-}
 
 .btn--ghost, .btn--ghost-b {
-  background-color: transparent;
-  color: var(--color-bright);
-  border: 2px solid var(--color-bright);
-  padding: 0.5rem 1rem;
-  border-radius: 0.6875rem;
-  transition: all 0.2s ease-in-out;
-}
-.btn--ghost:hover, .btn--ghost-b:hover, .btn--ghost:focus, .btn--ghost-b:focus {
-  background-color: var(--color-bright);
-  color: var(--color-black);
+  --btn-bg: transparent;
+  --btn-border: 2px solid var(--color-bright);
+  --btn-color: var(--color-bright);
+  --btn-bg-hover: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-bright) 92%, white),
+    color-mix(in srgb, var(--color-bright) 90%, black)
+  );
+  --btn-hover-color: var(--color-black);
+  --btn-shadow: none;
+  background: transparent;
 }
 
 .icon-btn, .icon-btn--text, .menu-close-btn, .icon-btn--ghost {
@@ -1549,22 +1617,23 @@ i[class^=ti]:hover, i[class^=ti]:active {
 }
 
 .cta-btn, .cta-btn--glow {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
-  color: var(--color-black);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   font-weight: 700;
   box-shadow: 0 0 0 rgba(var(--color-bright), 0.5);
   transition: transform all 0.2s ease-in-out, box-shadow all 0.2s ease-in-out;
 }
 .cta-btn:hover, .cta-btn--glow:hover, .cta-btn:focus, .cta-btn--glow:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
 .cta-btn:disabled, .cta-btn--glow:disabled {
   opacity: 0.5;
@@ -1576,20 +1645,21 @@ i[class^=ti]:hover, i[class^=ti]:active {
 }
 
 .cta-btn--outline {
-  background: linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black));
-  color: var(--color-bright);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black)));
+  color: var(--btn-color, var(--color-bright));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   border: 2px solid var(--color-bright);
 }
 .cta-btn--outline:hover, .cta-btn--outline:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-bright)));
 }
 .cta-btn--outline:disabled {
   opacity: 0.5;
@@ -1600,21 +1670,22 @@ i[class^=ti]:hover, i[class^=ti]:active {
 }
 
 .cta-btn--arrow {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-color, var(--color-white));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   padding-right: 2rem;
   position: relative;
 }
 .cta-btn--arrow:hover, .cta-btn--arrow:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
 }
 .cta-btn--arrow:disabled {
   opacity: 0.5;
@@ -3054,20 +3125,21 @@ input:checked + .toggle-slider::before {
 }
 
 .banner__link {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
-  color: var(--color-black);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   margin-top: 0.75rem;
 }
 .banner__link:hover, .banner__link:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
 .banner__link:disabled {
   opacity: 0.5;
@@ -3475,22 +3547,23 @@ input:checked + .toggle-slider::before {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-lime) 60%, transparent);
 }
 .search-results .search-bar button {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black)));
+  color: var(--btn-color, var(--color-white));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   border-radius: 0.6875rem;
   padding: 0 16px;
 }
 .search-results .search-bar button:hover, .search-results .search-bar button:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-hover) 92%, white), color-mix(in srgb, var(--color-primary-hover) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
 }
 .search-results .search-bar button:disabled {
   opacity: 0.5;
@@ -3558,23 +3631,24 @@ input:checked + .toggle-slider::before {
   outline: none;
 }
 .search-modal .search-submit {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
-  color: var(--color-white);
+  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-color, var(--color-white));
   padding: 0.5rem 1rem;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: 0.6875rem;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   border-left: 0;
   border-radius: 0 0.6875rem 0.6875rem 0;
   padding: 0.5rem 0.75rem;
 }
 .search-modal .search-submit:hover, .search-modal .search-submit:focus {
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black));
+  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
+  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
 }
 .search-modal .search-submit:disabled {
   opacity: 0.5;
