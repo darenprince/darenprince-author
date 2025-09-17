@@ -1,8 +1,13 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 const env = window._env_ || {};
-const supabaseUrl = env.SUPABASE_URL || env.SUPABASE_DATABASE_URL || '';
-const supabaseAnonKey = env.SUPABASE_ANON_KEY || env.SUPABASE_PUBLIC_ANON_KEY || '';
+const supabaseUrl =
+  env.SUPABASE_DATABASE_URL ||
+  env.NEXT_PUBLIC_SUPABASE_URL ||
+  env.NEXT_PUBLIC_SUPABASE_DATABASE_URL ||
+  '';
+const supabaseAnonKey =
+  env.SUPABASE_ANON_KEY || env.SUPABASE_PUBLIC_ANON_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 let supabase = null;
 
