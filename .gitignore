@@ -7,4 +7,5 @@ node_modules/
 *.env.js
 env.js
 assets/js/env.js
+!supabase/env.js
 !.env.example
