@@ -13,42 +13,99 @@
   }
 }
 
-@mixin button-base($bg, $text: var(--color-white), $hover: null) {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$bg} 92%, white),
-    color-mix(in srgb, #{$bg} 90%, black)
-  );
+@mixin button-structure($text, $border: null) {
   color: $text;
-  padding: $spacing-xs $spacing-md;
-  border: none;
-  border-radius: $border-radius;
+  padding: 0.875rem 1.875rem;
+  border-radius: 999px;
+  border: 1px solid if($border == null, transparent, $border);
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxs;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
   text-decoration: none;
-  transition: $transition;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  transition: transform $transition, box-shadow $transition, background 160ms ease;
+  text-align: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  z-index: 0;
+}
+
+@mixin button-base($bg, $text: var(--color-white), $hover: null, $border: null) {
+  $resolved-border: if($border == null, color-mix(in srgb, #{$bg} 35%, black), $border);
+  @include button-structure($text, $resolved-border);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, #{$bg} 95%, white) 0%,
+    color-mix(in srgb, #{$bg} 68%, black) 100%
+  );
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: $text;
+  text-shadow: if($text == $black, none, 0 1px 1px rgba(0, 0, 0, 0.35));
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 65%);
+    opacity: 0.72;
+    transition: opacity $transition, transform $transition;
+    z-index: -1;
+  }
 
   &:hover,
   &:focus {
-    @if $hover != null {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$hover} 92%, white),
-        color-mix(in srgb, #{$hover} 90%, black)
-      );
-    } @else {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$bg} 92%, white),
-        color-mix(in srgb, #{$bg} 90%, black)
-      );
+    $active-bg: if($hover != null, $hover, $bg);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, #{$active-bg} 98%, white) 0%,
+      color-mix(in srgb, #{$active-bg} 62%, black) 100%
+    );
+    box-shadow:
+      0 22px 42px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #{$bg} 35%, white 65%);
+    outline-offset: 4px;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+    &::before {
+      opacity: 0.65;
+      transform: none;
     }
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.55;
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+
+    &::before {
+      opacity: 0.4;
+    }
   }
 }
 

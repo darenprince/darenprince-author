@@ -28,7 +28,7 @@ Each block sits inside `.container.max-width-adaptive-lg` wrappers and leans on 
 ## Asset Sources
 - Headshots: `/assets/images/daren-prince-profile-lg.jpg`.
 - Press kit PDF: `/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf`.
-- Buttons reuse global gradients (`.grad-kelly-green`) and approved button variants for secondary actions.
+- Buttons reuse the `.btn--kelly` gradient button and approved button variants for secondary actions.
 
 ## Global Integration
 - Mega menu, footer menus, and `sitemap.html` point to `meet-daren-prince.html` instead of the placeholder About link.

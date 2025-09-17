@@ -22,7 +22,7 @@ The `press.html` page centralizes every media ready asset for Daren Prince. It b
 
 ## Styling Notes
 - Dedicated partial: `scss/components/_press-page.scss` (imported in `scss/styles.scss`).
-- Buttons reuse `.grad-kelly-green`, `.btn--accent`, and `.btn--subtle` variants already defined.
+- Buttons reuse `.btn--kelly`, `.btn--accent`, and `.btn--subtle` variants already defined.
 - Viewer styling comes from `scss/components/_viewer.scss`; the press partial layers layout spacing.
 
 ## Future Enhancements
