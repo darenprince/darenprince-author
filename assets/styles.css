@@ -640,6 +640,12 @@ body.theme-light {
   padding: 2rem 0;
   text-align: left;
 }
+.site-footer .container {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  margin-block: 0;
+  padding-inline: clamp(1rem, 5vw, 3rem);
+}
 .site-footer .footer-grid {
   display: grid;
   gap: 1rem;
