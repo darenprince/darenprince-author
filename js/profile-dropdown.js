@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     try {
       const { default: supabase } = await import('../supabase/client.js');
+      if (!supabase) {
+        throw new Error('Supabase client not configured');
+      }
       const { data } = await supabase.auth.getSession();
       if (data.session) {
         const user = data.session.user;
