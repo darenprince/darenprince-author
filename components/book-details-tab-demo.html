@@ -34,8 +34,14 @@
   <!-- End Apple PWA + Safari enhancements -->
 </head>
 <body class="dark">
+  <script type="module">
+    import initPasswordGate from '../js/password-gate.js';
+    initPasswordGate('Gr@ndCh3r0k33');
+  </script>
 
-  <section class="book-details">
+  <div class="site-wrap" hidden>
+
+    <section class="book-details">
 
     <!-- Sticky Purchase Header -->
     <div class="sticky-purchase-bar">
@@ -101,8 +107,9 @@
         <button class="btn btn--ghost">Join for Access</button>
       </div>
     </div>
+    </section>
 
-  </section>
+  </div>
 
 </body>
 </html>
