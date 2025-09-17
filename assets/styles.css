@@ -368,14 +368,14 @@ a:hover, a:focus {
 .grad-green {
   background: var(--grad-green);
 }
-.grad-green.btn, .grad-green.btn-b {
+.grad-green.btn, .grad-green.btn-b, .grad-green.cta-btn {
   --btn-bg: var(--grad-green);
 }
 
 .grad-gray {
   background: var(--grad-gray);
 }
-.grad-gray.btn, .grad-gray.btn-b {
+.grad-gray.btn, .grad-gray.btn-b, .grad-gray.cta-btn {
   --btn-bg: var(--grad-gray);
   --btn-color: var(--color-white);
 }
@@ -383,7 +383,7 @@ a:hover, a:focus {
 .grad-gray-top {
   background: var(--grad-gray-top);
 }
-.grad-gray-top.btn, .grad-gray-top.btn-b {
+.grad-gray-top.btn, .grad-gray-top.btn-b, .grad-gray-top.cta-btn {
   --btn-bg: var(--grad-gray-top);
   --btn-color: var(--color-white);
 }
@@ -391,7 +391,7 @@ a:hover, a:focus {
 .grad-gray-light {
   background: var(--grad-gray-light);
 }
-.grad-gray-light.btn, .grad-gray-light.btn-b {
+.grad-gray-light.btn, .grad-gray-light.btn-b, .grad-gray-light.cta-btn {
   --btn-bg: var(--grad-gray-light);
   --btn-color: var(--color-charcoal);
 }
@@ -401,7 +401,7 @@ a:hover, a:focus {
   color: var(--lemon-lime-text);
   border: 1px solid var(--lemon-lime-border);
 }
-.grad-lemon-lime.btn, .grad-lemon-lime.btn-b {
+.grad-lemon-lime.btn, .grad-lemon-lime.btn-b, .grad-lemon-lime.cta-btn {
   --btn-bg: var(--grad-lemon-lime);
   --btn-color: var(--lemon-lime-text);
   --btn-border: 1px solid var(--lemon-lime-border);
@@ -413,7 +413,7 @@ a:hover, a:focus {
   color: var(--lemon-lime-stroke-text);
   border: 1px solid var(--lemon-lime-stroke-border);
 }
-.grad-lemon-lime-stroke.btn, .grad-lemon-lime-stroke.btn-b {
+.grad-lemon-lime-stroke.btn, .grad-lemon-lime-stroke.btn-b, .grad-lemon-lime-stroke.cta-btn {
   --btn-bg: var(--grad-lemon-lime-stroke);
   --btn-color: var(--lemon-lime-stroke-text);
   --btn-border: 1px solid var(--lemon-lime-stroke-border);
@@ -425,7 +425,7 @@ a:hover, a:focus {
   color: var(--charcoal-lime-text);
   border: 1px solid var(--charcoal-lime-border);
 }
-.grad-charcoal-lime.btn, .grad-charcoal-lime.btn-b {
+.grad-charcoal-lime.btn, .grad-charcoal-lime.btn-b, .grad-charcoal-lime.cta-btn {
   --btn-bg: var(--grad-charcoal-lime);
   --btn-color: var(--charcoal-lime-text);
   --btn-border: 1px solid var(--charcoal-lime-border);
@@ -437,7 +437,7 @@ a:hover, a:focus {
   color: var(--charcoal-mint-text);
   border: 1px solid var(--charcoal-mint-border);
 }
-.grad-charcoal-mint.btn, .grad-charcoal-mint.btn-b {
+.grad-charcoal-mint.btn, .grad-charcoal-mint.btn-b, .grad-charcoal-mint.cta-btn {
   --btn-bg: var(--grad-charcoal-mint);
   --btn-color: var(--charcoal-mint-text);
   --btn-border: 1px solid var(--charcoal-mint-border);
@@ -449,7 +449,7 @@ a:hover, a:focus {
   color: var(--booger-snow-text);
   border: 1px solid var(--booger-snow-border);
 }
-.grad-booger-snow.btn, .grad-booger-snow.btn-b {
+.grad-booger-snow.btn, .grad-booger-snow.btn-b, .grad-booger-snow.cta-btn {
   --btn-bg: var(--grad-booger-snow);
   --btn-color: var(--booger-snow-text);
   --btn-border: 1px solid var(--booger-snow-border);
@@ -461,7 +461,7 @@ a:hover, a:focus {
   color: var(--cash-cloud-text);
   border: 1px solid var(--cash-cloud-border);
 }
-.grad-cash-cloud.btn, .grad-cash-cloud.btn-b {
+.grad-cash-cloud.btn, .grad-cash-cloud.btn-b, .grad-cash-cloud.cta-btn {
   --btn-bg: var(--grad-cash-cloud);
   --btn-color: var(--cash-cloud-text);
   --btn-border: 1px solid var(--cash-cloud-border);
@@ -473,7 +473,7 @@ a:hover, a:focus {
   color: var(--kelly-green-text);
   border: 1px solid var(--kelly-green-border);
 }
-.grad-kelly-green.btn, .grad-kelly-green.btn-b {
+.grad-kelly-green.btn, .grad-kelly-green.btn-b, .grad-kelly-green.cta-btn {
   --btn-bg: var(--grad-kelly-green);
   --btn-color: var(--kelly-green-text);
   --btn-border: 1px solid var(--kelly-green-border);
@@ -485,7 +485,7 @@ a:hover, a:focus {
   color: var(--light-container-text);
   border: 1px solid var(--light-container-border);
 }
-.grad-light-container.btn, .grad-light-container.btn-b {
+.grad-light-container.btn, .grad-light-container.btn-b, .grad-light-container.cta-btn {
   --btn-bg: var(--grad-light-container);
   --btn-color: var(--light-container-text);
   --btn-border: 1px solid var(--light-container-border);
@@ -1616,7 +1616,7 @@ i[class^=ti]:hover, i[class^=ti]:active {
   text-shadow: 0 0 8px var(--color-primary-hover);
 }
 
-.cta-btn, .cta-btn--glow {
+.cta-btn, .cta-btn--glow, .cta-btn--arrow, .cta-btn--outline {
   background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
   color: var(--btn-color, var(--color-black));
   padding: 0.5rem 1rem;
@@ -1627,69 +1627,55 @@ i[class^=ti]:hover, i[class^=ti]:active {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
-  font-weight: 700;
-  box-shadow: 0 0 0 rgba(var(--color-bright), 0.5);
+  --btn-bg-hover: var(--btn-bg, linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-bright) 92%, white),
+    color-mix(in srgb, var(--color-bright) 90%, black)
+  ));
+  --btn-hover-color: var(--btn-color, var(--color-black));
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  box-shadow: 0 12px 24px rgba(var(--color-bright), 0.25);
   transition: transform all 0.2s ease-in-out, box-shadow all 0.2s ease-in-out;
 }
-.cta-btn:hover, .cta-btn--glow:hover, .cta-btn:focus, .cta-btn--glow:focus {
+.cta-btn:hover, .cta-btn--glow:hover, .cta-btn--arrow:hover, .cta-btn--outline:hover, .cta-btn:focus, .cta-btn--glow:focus, .cta-btn--arrow:focus, .cta-btn--outline:focus {
   background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-bright) 92%, white), color-mix(in srgb, var(--color-bright) 90%, black)));
   color: var(--btn-hover-color, var(--btn-color, var(--color-black)));
 }
-.cta-btn:disabled, .cta-btn--glow:disabled {
+.cta-btn:disabled, .cta-btn--glow:disabled, .cta-btn--arrow:disabled, .cta-btn--outline:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.cta-btn:hover, .cta-btn--glow:hover, .cta-btn:focus, .cta-btn--glow:focus {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(var(--color-bright), 0.3);
+.cta-btn:hover, .cta-btn--glow:hover, .cta-btn--arrow:hover, .cta-btn--outline:hover, .cta-btn:focus, .cta-btn--glow:focus, .cta-btn--arrow:focus, .cta-btn--outline:focus {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.1), 0 16px 28px rgba(var(--color-bright), 0.3);
+}
+.cta-btn:active, .cta-btn--glow:active, .cta-btn--arrow:active, .cta-btn--outline:active {
+  transform: translateY(0);
+  box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.12), inset 0 4px 12px rgba(var(--color-black), 0.35);
 }
 
 .cta-btn--outline {
-  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black)));
-  color: var(--btn-color, var(--color-bright));
-  padding: 0.5rem 1rem;
-  border: var(--btn-border, none);
-  border-radius: 0.6875rem;
-  cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
-  border: 2px solid var(--color-bright);
+  --btn-bg: transparent;
+  --btn-color: $bright-green;
+  --btn-border: 2px solid var(--color-bright);
+  --btn-bg-hover: transparent;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-bright), 0.4);
 }
 .cta-btn--outline:hover, .cta-btn--outline:focus {
-  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, transparent 92%, white), color-mix(in srgb, transparent 90%, black)));
-  color: var(--btn-hover-color, var(--btn-color, var(--color-bright)));
+  box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.18);
 }
-.cta-btn--outline:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.cta-btn--outline:hover, .cta-btn--outline:focus {
-  background-color: rgba(var(--color-bright), 0.1);
+.cta-btn--outline:active {
+  box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.25);
 }
 
 .cta-btn--arrow {
-  background: var(--btn-bg, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
-  color: var(--btn-color, var(--color-white));
-  padding: 0.5rem 1rem;
-  border: var(--btn-border, none);
-  border-radius: 0.6875rem;
-  cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   padding-right: 2rem;
   position: relative;
-}
-.cta-btn--arrow:hover, .cta-btn--arrow:focus {
-  background: var(--btn-bg-hover, linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 92%, white), color-mix(in srgb, var(--color-primary) 90%, black)));
-  color: var(--btn-hover-color, var(--btn-color, var(--color-white)));
-}
-.cta-btn--arrow:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 .cta-btn--arrow::after {
   content: "→";
@@ -1702,15 +1688,15 @@ i[class^=ti]:hover, i[class^=ti]:active {
 }
 
 .cta-btn--glow {
-  animation: cta-glow 2s ease-in-out infinite;
+  animation: cta-glow 2.25s ease-in-out infinite;
 }
 
 @keyframes cta-glow {
   0%, 100% {
-    box-shadow: 0 0 0 rgba(var(--color-bright), 0.5);
+    box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.08), 0 12px 24px rgba(var(--color-bright), 0.25);
   }
   50% {
-    box-shadow: 0 0 10px rgba(var(--color-bright), 0.8);
+    box-shadow: inset 0 0 0 2px rgba(var(--color-lime), 0.16), 0 18px 36px rgba(var(--color-bright), 0.4);
   }
 }
 .form-group {
@@ -1970,10 +1956,6 @@ input:checked + .toggle-slider::before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--gray-800);
-}
-.hero .hero-cta:hover, .hero .hero-cta:focus {
-  color: var(--gray-800);
 }
 .hero .hero-cta.throb {
   animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
@@ -3970,7 +3952,7 @@ input:checked + .toggle-slider::before {
   display: grid;
   gap: 0.75rem;
 }
-.bio-cta .bio-cta__subscribe .btn {
+.bio-cta .bio-cta__subscribe .cta-btn {
   justify-self: start;
 }
 
@@ -4202,7 +4184,7 @@ input:checked + .toggle-slider::before {
   color: color-mix(in srgb, var(--color-muted) 80%, var(--color-white) 20%);
   flex-grow: 1;
 }
-.press-downloads .press-download .btn {
+.press-downloads .press-download .cta-btn {
   align-self: center;
 }
 
@@ -4291,7 +4273,7 @@ input:checked + .toggle-slider::before {
   display: grid;
   gap: 0.75rem;
 }
-.press-contact .press-contact__cta .btn {
+.press-contact .press-contact__cta .cta-btn {
   justify-self: start;
 }
 

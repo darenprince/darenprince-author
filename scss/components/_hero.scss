@@ -63,12 +63,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: $gray-800;
 
-    &:hover,
-    &:focus {
-      color: $gray-800;
-    }
     &.throb {
       animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
     }

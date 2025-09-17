@@ -45,7 +45,7 @@ if (modal) {
 
   if (heroSection) {
     heroSection.addEventListener('click', function (e) {
-      if (e.target.closest('.btn')) return;
+      if (e.target.closest('.cta-btn')) return;
       openModal();
     });
   }
