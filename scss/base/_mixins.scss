@@ -14,36 +14,36 @@
 }
 
 @mixin button-base($bg, $text: var(--color-white), $hover: null) {
-  background: linear-gradient(
+  $default-bg: linear-gradient(
     to bottom,
     color-mix(in srgb, #{$bg} 92%, white),
     color-mix(in srgb, #{$bg} 90%, black)
   );
-  color: $text;
+  $default-hover-bg: if(
+    $hover != null,
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$hover} 92%, white),
+      color-mix(in srgb, #{$hover} 90%, black)
+    ),
+    $default-bg
+  );
+
+  background: var(--btn-bg, #{$default-bg});
+  color: var(--btn-color, #{$text});
   padding: $spacing-xs $spacing-md;
-  border: none;
+  border: var(--btn-border, none);
   border-radius: $border-radius;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
   transition: $transition;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--btn-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
 
   &:hover,
   &:focus {
-    @if $hover != null {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$hover} 92%, white),
-        color-mix(in srgb, #{$hover} 90%, black)
-      );
-    } @else {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$bg} 92%, white),
-        color-mix(in srgb, #{$bg} 90%, black)
-      );
-    }
+    background: var(--btn-bg-hover, #{$default-hover-bg});
+    color: var(--btn-hover-color, var(--btn-color, #{$text}));
   }
 
   &:disabled {
