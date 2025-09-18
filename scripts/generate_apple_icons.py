@@ -12,7 +12,12 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 ICONS_DIR = ROOT / "assets" / "icons"
-PAYLOAD_PATH = ICONS_DIR / "apple-assets.json"
+ICON_DATA_PATH = ICONS_DIR / "icon-data.json"
+MANIFEST_PATH = ICONS_DIR / "site.webmanifest"
+BROWSERCONFIG_PATH = ICONS_DIR / "browserconfig.xml"
+
+THEME_COLOR = "#111217"
+BACKGROUND_COLOR = "#0b0c12"
 
 
 def _gradient_background(size: int) -> Image.Image:
@@ -95,14 +100,22 @@ def create_base_artwork(size: int = 3200) -> Image.Image:
     return img
 
 
+def _render_png(base: Image.Image, size: int) -> bytes:
+    resized = base.resize((size, size), Image.LANCZOS)
+    buffer = io.BytesIO()
+    resized.save(buffer, format="PNG", optimize=True)
+    return buffer.getvalue()
+
+
+def _encode_data_uri(data: bytes) -> str:
+    return "data:image/png;base64," + base64.b64encode(data).decode("ascii")
+
+
 def save_touch_icons(base: Image.Image) -> dict[str, bytes]:
     ICONS_DIR.mkdir(parents=True, exist_ok=True)
     payload: dict[str, bytes] = {}
     for size in (512, 256, 180, 167, 152, 120):
-        resized = base.resize((size, size), Image.LANCZOS)
-        buffer = io.BytesIO()
-        resized.save(buffer, format="PNG", optimize=True)
-        data = buffer.getvalue()
+        data = _render_png(base, size)
         name = f"apple-touch-icon-{size}.png"
         (ICONS_DIR / name).write_bytes(data)
         payload[name] = data
@@ -148,11 +161,43 @@ def save_mask_icon() -> None:
     (ICONS_DIR / "safari-pinned-tab.svg").write_text(mask_svg, encoding="utf-8")
 
 
-def write_payload(payload: dict[str, bytes]) -> None:
-    encoded = {
-        name: base64.b64encode(data).decode("ascii") for name, data in sorted(payload.items())
+def build_icon_data(base: Image.Image, payload: dict[str, bytes]) -> dict[str, str]:
+    icon_data = {
+        "icon16": _encode_data_uri(_render_png(base, 16)),
+        "icon32": _encode_data_uri(_render_png(base, 32)),
+        "icon48": _encode_data_uri(_render_png(base, 48)),
+        "icon120": _encode_data_uri(payload["apple-touch-icon-120.png"]),
+        "icon152": _encode_data_uri(payload["apple-touch-icon-152.png"]),
+        "icon180": _encode_data_uri(payload["apple-touch-icon-180.png"]),
+        "icon192": _encode_data_uri(_render_png(base, 192)),
+        "icon512": _encode_data_uri(_render_png(base, 512)),
+        "tile150": _encode_data_uri(_render_png(base, 150)),
     }
-    PAYLOAD_PATH.write_text(json.dumps(encoded, indent=2), encoding="utf-8")
+    ICON_DATA_PATH.write_text(json.dumps(icon_data, indent=2), encoding="utf-8")
+    return icon_data
+
+
+def write_manifest(icon_data: dict[str, str]) -> None:
+    manifest = {
+        "name": "Daren Prince",
+        "short_name": "Daren Prince",
+        "description": "Official site for Daren Prince books, coaching, and community.",
+        "icons": [
+            {"src": icon_data["icon192"], "sizes": "192x192", "type": "image/png"},
+            {"src": icon_data["icon512"], "sizes": "512x512", "type": "image/png"},
+        ],
+        "theme_color": THEME_COLOR,
+        "background_color": BACKGROUND_COLOR,
+        "display": "standalone",
+        "start_url": "/index.html",
+        "scope": "/",
+    }
+    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+
+def write_browserconfig(icon_data: dict[str, str]) -> None:
+    browserconfig = f"""<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<browserconfig>\n  <msapplication>\n    <tile>\n      <square150x150logo src=\"{icon_data['tile150']}\"/>\n      <TileColor>{THEME_COLOR}</TileColor>\n    </tile>\n  </msapplication>\n</browserconfig>\n"""
+    BROWSERCONFIG_PATH.write_text(browserconfig, encoding="utf-8")
 
 
 def main() -> None:
@@ -160,7 +205,9 @@ def main() -> None:
     payload = save_touch_icons(base)
     save_splash_screens(base, payload)
     save_mask_icon()
-    write_payload(payload)
+    icon_data = build_icon_data(base, payload)
+    write_manifest(icon_data)
+    write_browserconfig(icon_data)
 
 
 if __name__ == "__main__":
