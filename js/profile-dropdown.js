@@ -1,4 +1,6 @@
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { getUserRole, isElevatedRole } from './user-role.js';
+import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.js-profile-toggle');
@@ -8,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const avatarImg = dropdown.querySelector('.profile-avatar');
   const nameEl = dropdown.querySelector('.profile-name');
   const logoutEl = dropdown.querySelector('.js-auth-toggle');
-  const dashboardLink = dropdown.querySelector('.js-dashboard-link');
+  const dashboardLink =
+    dropdown.querySelector('.js-dashboard-link') ||
+    dropdown.querySelector('a[href*="dashboard"]');
 
   // ---------------------------
   // UI event listeners
@@ -38,11 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------------------------
   (async () => {
     try {
-      const { default: supabase } = await import('../supabase/client.js');
+      const supabase = getSupabase((message) => {
+        if (logoutEl) logoutEl.title = message || SUPABASE_SETUP_MESSAGE;
+        logSupabaseWarning('profileDropdown.missingSupabase', message || SUPABASE_SETUP_MESSAGE);
+      });
       if (!supabase) {
         throw new Error('Supabase client not configured');
       }
-      const { data } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        throw error;
+      }
       if (data.session) {
         const user = data.session.user;
         nameEl.textContent =
@@ -67,13 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
           logoutEl.removeEventListener('click', loginHandler);
           logoutEl.textContent = 'Logout';
           logoutEl.addEventListener('click', async () => {
-            await supabase.auth.signOut();
+            const { error: signOutError } = await supabase.auth.signOut();
+            if (signOutError) {
+              logSupabaseError('profileDropdown.signOut', signOutError);
+              return;
+            }
             window.location.href = '/';
           });
         }
       }
     } catch (error) {
-      console.warn('Supabase unavailable: profile data disabled', error);
+      logSupabaseError('profileDropdown.init', error);
       if (nameEl) nameEl.textContent = 'Guest';
       if (logoutEl) logoutEl.title = 'Authentication service unavailable';
     }
