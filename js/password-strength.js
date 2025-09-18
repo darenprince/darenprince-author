@@ -41,6 +41,10 @@ const reqEls = {
 };
 let submitBtn;
 
+function submitGuardDisabled() {
+  return Boolean(submitBtn?.dataset?.supabaseDisabled === 'true');
+}
+
 function setReqState(name, valid) {
   const el = reqEls[name];
   if (!el) return;
@@ -77,7 +81,7 @@ function evaluate() {
   passwordInput.classList.toggle('invalid', !Object.values(checks).every(Boolean) && val.length > 0);
 
   const allValid = Object.values(checks).every(Boolean) && match;
-  if (submitBtn) submitBtn.disabled = !allValid;
+  if (submitBtn) submitBtn.disabled = !allValid || submitGuardDisabled();
   return allValid;
 }
 

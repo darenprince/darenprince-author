@@ -41,15 +41,15 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script type="module">
-    import { getSupabase } from './js/supabase-helper.js';
+    import { getSupabase, SUPABASE_SETUP_MESSAGE } from './js/supabase-helper.js';
     const messageEl = document.querySelector('.status-message');
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const searchParams = new URLSearchParams(window.location.search);
     const tokenHash = hashParams.get('token_hash') || searchParams.get('token_hash');
     const email = hashParams.get('email') || searchParams.get('email');
     const type = hashParams.get('type') || searchParams.get('type');
-    const supabaseClient = getSupabase(() => {
-      messageEl.textContent = 'Supabase is not configured. Verification will complete after deployment injects credentials.';
+    const supabaseClient = getSupabase((message) => {
+      messageEl.textContent = `${message || SUPABASE_SETUP_MESSAGE} Email verification will complete after deployment injects credentials.`;
     });
     if (!supabaseClient) {
       return;
