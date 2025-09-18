@@ -65,10 +65,11 @@ async function showBlockingMessage({ heading, body, actions = [], meta }) {
   overlay.className = 'auth-blocker';
   const panel = document.createElement('div');
   panel.className = 'auth-blocker__panel';
-  panel.innerHTML = `
-    <h2>${heading}</h2>
-    <p>${body}</p>
-  `;
+  const h2 = document.createElement('h2');
+  h2.textContent = heading;
+  const p = document.createElement('p');
+  p.textContent = body;
+  panel.append(h2, p);
   const actionGroup = document.createElement('div');
   actionGroup.className = 'auth-blocker__actions';
   actions.forEach((action) => {
