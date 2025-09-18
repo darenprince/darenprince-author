@@ -1,5 +1,6 @@
-import { getSupabase } from './supabase-helper.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { getUserRole, isElevatedRole, normalizeRole } from './user-role.js';
+import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
 const DEFAULT_REDIRECT = 'login.html';
 let gateStylesInjected = false;
@@ -51,7 +52,9 @@ function dispatchAuthEvent(name, detail) {
   try {
     window.dispatchEvent(new CustomEvent(name, { detail }));
   } catch (error) {
-    console.warn('Auth guard event dispatch failed', error);
+    logSupabaseWarning('authGuard.dispatch', 'Auth guard event dispatch failed', {
+      message: error?.message,
+    });
   }
 }
 
@@ -121,7 +124,7 @@ async function fetchFolderAccess(supabase, userId) {
     if (error) throw error;
     return (data ?? []).map((row) => row.file_name);
   } catch (error) {
-    console.warn('Failed to load folder access', error);
+    logSupabaseError('authGuard.folderAccess', error, { userId });
     return [];
   }
 }
@@ -164,10 +167,10 @@ export async function enforceAuthGuard(options = {}) {
     deniedHeading,
   } = options;
 
-  const supabase = getSupabase(() => {
+  const supabase = getSupabase((message) => {
     showBlockingMessage({
-      heading: 'Supabase is offline',
-      body: 'Authentication services are unavailable. Try again later or ping the engineering channel.',
+      heading: 'Supabase needs configuration',
+      body: message || SUPABASE_SETUP_MESSAGE,
       actions: [
         {
           label: 'Back to homepage',
@@ -186,6 +189,9 @@ export async function enforceAuthGuard(options = {}) {
 
   const { data, error } = await supabase.auth.getSession();
   if (error || !data.session) {
+    if (error) {
+      logSupabaseError('authGuard.getSession', error);
+    }
     window.location.href = buildLoginRedirect();
     dispatchAuthEvent('auth:denied', { reason: 'no-session', error });
     return { supabase, user: null, role: null, folderAccess: [] };
@@ -256,7 +262,9 @@ export async function enforceAuthGuard(options = {}) {
     try {
       await onAuthorized(detail);
     } catch (error) {
-      console.warn('auth guard onAuthorized hook failed', error);
+      logSupabaseWarning('authGuard.onAuthorized', 'onAuthorized hook failed', {
+        message: error?.message,
+      });
     }
   }
   return detail;
