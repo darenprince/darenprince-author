@@ -1,5 +1,10 @@
 import { enforceAuthGuard } from './auth-guard.js';
 import { FOLDER_CATALOG } from './folder-catalog.js';
+import {
+  logSupabaseError,
+  logSupabaseInfo,
+  logSupabaseWarning,
+} from './supabase-logger.js';
 
 const ROLE_OPTIONS = [
   { value: 'member', label: 'Member' },
@@ -53,7 +58,10 @@ function formatTimestamp(iso) {
       timeStyle: 'short',
     }).format(date);
   } catch (error) {
-    console.warn('Failed to format timestamp', error);
+    logSupabaseWarning('adminConsole.formatTimestamp', 'Failed to format timestamp', {
+      message: error?.message,
+      value: iso,
+    });
     return iso;
   }
 }
@@ -247,7 +255,7 @@ async function handleRoleChange(userId, newRole, card) {
       state.users[index] = { ...state.users[index], role };
     }
   } catch (error) {
-    console.warn('Role update failed', error);
+    logSupabaseError('adminConsole.roleUpdate', error, { userId, newRole });
     setToast('Role update failed. Please retry.', 'error');
     renderUsers();
   } finally {
@@ -277,7 +285,7 @@ async function handleFolderToggle(userId, card) {
     }
     setToast('Folder access updated.', 'success');
   } catch (error) {
-    console.warn('Folder assignment failed', error);
+    logSupabaseError('adminConsole.folderAccess', error, { userId });
     setToast('Unable to update folder access right now.', 'error');
     renderUsers();
   } finally {
@@ -305,12 +313,14 @@ async function handlePasswordReset(user, card) {
       setToast('Password reset link copied to clipboard.', 'success');
     } else if (link) {
       setToast('Password reset link ready. Copy from console log.', 'success');
-      console.info('Password reset link', link);
+      logSupabaseInfo('adminConsole.passwordResetLink', 'Password reset link generated', {
+        link,
+      });
     } else {
       setToast('Password reset email triggered.', 'success');
     }
   } catch (error) {
-    console.warn('Password reset failed', error);
+    logSupabaseError('adminConsole.passwordReset', error, { userId: user.id });
     setToast('Could not generate password reset link.', 'error');
   } finally {
     toggleCardDisabled(card, false);
@@ -338,7 +348,7 @@ async function handleDeleteUser(user, card) {
     renderUsers();
     setToast('User deleted.', 'success');
   } catch (error) {
-    console.warn('User deletion failed', error);
+    logSupabaseError('adminConsole.deleteUser', error, { userId: user.id });
     setToast('Failed to delete user. Check logs for details.', 'error');
     toggleCardDisabled(card, false);
   }
@@ -357,7 +367,7 @@ async function loadUsers() {
     state.users = Array.isArray(payload.users) ? payload.users : [];
     renderUsers();
   } catch (error) {
-    console.warn('Failed to load admin users', error);
+    logSupabaseError('adminConsole.loadUsers', error);
     setToast('Unable to load users. Refresh or check Supabase logs.', 'error');
     state.users = [];
     renderUsers();
