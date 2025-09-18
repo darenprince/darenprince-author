@@ -76,6 +76,12 @@
 
   &.hero-auto-zoom {
     cursor: pointer;
+
+    .hero-cta {
+      top: auto;
+      bottom: clamp(1.5rem, 12vh, 4.5rem);
+      transform: translate(-50%, 0);
+    }
   }
 
   &.hero--video {
