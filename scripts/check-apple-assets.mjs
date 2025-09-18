@@ -9,21 +9,57 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 const iconsDir = path.join(root, 'assets', 'icons');
-const payloadPath = path.join(iconsDir, 'apple-assets.json');
+const payloadPath = path.join(iconsDir, 'icon-data.json');
+
+function parseDataUri(value, name) {
+  if (typeof value !== 'string') {
+    throw new TypeError(`Icon payload for ${name} must be a string data URI.`);
+  }
+
+  if (!value.startsWith('data:')) {
+    throw new Error(`Icon payload for ${name} is not a valid data URI.`);
+  }
+
+  const commaIndex = value.indexOf(',');
+  if (commaIndex === -1) {
+    throw new Error(`Icon payload for ${name} is missing a comma separator.`);
+  }
+
+  const metadata = value.slice(5, commaIndex);
+  const data = value.slice(commaIndex + 1);
+  const params = metadata.split(';');
+  const mimeType = params[0] || 'application/octet-stream';
+  const isBase64 = params.includes('base64');
+
+  if (!data) {
+    throw new Error(`Icon payload for ${name} is empty.`);
+  }
+
+  if (isBase64) {
+    const normalized = data.replace(/\s+/g, '');
+    return { mimeType, buffer: Buffer.from(normalized, 'base64') };
+  }
+
+  return { mimeType, buffer: Buffer.from(decodeURIComponent(data), 'utf8') };
+}
 
 async function readPayload() {
   const raw = await fs.readFile(payloadPath, 'utf8');
   if (!raw.trim()) {
-    throw new Error('apple-assets.json is empty.');
+    throw new Error('icon-data.json is empty.');
   }
 
   const payload = JSON.parse(raw);
   const entries = Object.entries(payload);
   if (!entries.length) {
-    throw new Error('apple-assets.json contains no assets.');
+    throw new Error('icon-data.json contains no assets.');
   }
 
-  return entries;
+  return entries.map(([name, dataUri]) => ({
+    name,
+    dataUri,
+    ...parseDataUri(dataUri, name),
+  }));
 }
 
 async function runMaterializeScript() {
@@ -54,9 +90,10 @@ async function ensureAssets(entries) {
   const pngSignature = Buffer.from('89504e470d0a1a0a', 'hex');
   const failures = [];
 
-  for (const [name, base64] of entries) {
+  for (const entry of entries) {
+    const { name, buffer, mimeType } = entry;
     const expectedPath = path.join(iconsDir, name);
-    const expectedBuffer = Buffer.from(base64, 'base64');
+    const expectedBuffer = buffer;
 
     if (expectedBuffer.length === 0) {
       failures.push(`Payload for ${name} is empty.`);
@@ -65,9 +102,11 @@ async function ensureAssets(entries) {
 
     try {
       const fileBuffer = await fs.readFile(expectedPath);
-      if (!fileBuffer.subarray(0, pngSignature.length).equals(pngSignature)) {
-        failures.push(`${name} is not a valid PNG.`);
-        continue;
+      if (mimeType === 'image/png' || name.toLowerCase().endsWith('.png')) {
+        if (!fileBuffer.subarray(0, pngSignature.length).equals(pngSignature)) {
+          failures.push(`${name} is not a valid PNG.`);
+          continue;
+        }
       }
 
       if (!fileBuffer.equals(expectedBuffer)) {
@@ -88,7 +127,7 @@ async function ensureAssets(entries) {
 
 async function removeExistingOutputs(entries) {
   await Promise.all(
-    entries.map(async ([name]) => {
+    entries.map(async ({ name }) => {
       try {
         await fs.rm(path.join(iconsDir, name), { force: true });
       } catch (error) {

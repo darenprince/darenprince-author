@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import mimetypes
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
@@ -12,7 +13,10 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 ICONS_DIR = ROOT / "assets" / "icons"
-PAYLOAD_PATH = ICONS_DIR / "apple-assets.json"
+PAYLOAD_PATH = ICONS_DIR / "icon-data.json"
+
+
+mimetypes.add_type("image/svg+xml", ".svg")
 
 
 def _gradient_background(size: int) -> Image.Image:
@@ -137,21 +141,28 @@ def save_splash_screens(base: Image.Image, payload: dict[str, bytes]) -> None:
         payload[name] = data
 
 
-def save_mask_icon() -> None:
+def save_mask_icon(payload: dict[str, bytes]) -> None:
     mask_svg = """<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1024 1024\">
-  <path fill=\"#000\" d=\"M298 220h214c210 0 364 140 364 292 0 180-128 292-364 292H298z\"/>
-  <path fill=\"#000\" fill-rule=\"evenodd\" d=\"M374 312v400h96c142 0 226-80 226-200s-84-200-226-200z\"/>
-  <path fill=\"#000\" d=\"M292 220h82v584h-82z\"/>
-  <path fill=\"#000\" d=\"M312 340h260v88H312z\"/>
-  <path fill=\"#000\" d=\"M328 184h368l-48 176-132-108-128 108z\"/>
-</svg>"""
+  <path fill=\"#000\" d=\"M298 220h214c210 0 364 140 364 292 0 180-128 292-364 292H298z\" />
+  <path fill=\"#000\" fill-rule=\"evenodd\" d=\"M374 312v400h96c142 0 226-80 226-200s-84-200-226-200z\" />
+  <path fill=\"#000\" d=\"M292 220h82v584h-82z\" />
+  <path fill=\"#000\" d=\"M312 340h260v88H312z\" />
+  <path fill=\"#000\" d=\"M328 184h368l-48 176-132-108-128 108z\" />
+</svg>
+"""
     (ICONS_DIR / "safari-pinned-tab.svg").write_text(mask_svg, encoding="utf-8")
+    payload["safari-pinned-tab.svg"] = mask_svg.encode("utf-8")
 
 
 def write_payload(payload: dict[str, bytes]) -> None:
-    encoded = {
-        name: base64.b64encode(data).decode("ascii") for name, data in sorted(payload.items())
-    }
+    def to_data_uri(name: str, data: bytes) -> str:
+        mime_type, _ = mimetypes.guess_type(name)
+        if not mime_type:
+            mime_type = "application/octet-stream"
+        encoded = base64.b64encode(data).decode("ascii")
+        return f"data:{mime_type};base64,{encoded}"
+
+    encoded = {name: to_data_uri(name, data) for name, data in sorted(payload.items())}
     PAYLOAD_PATH.write_text(json.dumps(encoded, indent=2), encoding="utf-8")
 
 
@@ -159,7 +170,7 @@ def main() -> None:
     base = create_base_artwork()
     payload = save_touch_icons(base)
     save_splash_screens(base, payload)
-    save_mask_icon()
+    save_mask_icon(payload)
     write_payload(payload)
 
 
