@@ -68,6 +68,7 @@
 
 import path from 'node:path';
 import process from 'node:process';
+import { parseArgs } from 'node:util';
 import fs from 'fs-extra';
 import { globby } from 'globby';
 import { load } from 'cheerio';
@@ -85,22 +86,17 @@ const DEFAULT_CONFIG = {
   leave_svg_unoptimized: true
 };
 
-function parseArgs(argv) {
-  const args = {};
-  for (let i = 0; i < argv.length; i += 1) {
-    const token = argv[i];
-    if (token.startsWith('--')) {
-      const key = token.replace(/^--/, '');
-      const next = argv[i + 1];
-      if (!next || next.startsWith('--')) {
-        args[key] = true;
-      } else {
-        args[key] = next;
-        i += 1;
-      }
-    }
-  }
-  return args;
+function getCliOptions(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    options: {
+      root: { type: 'string' },
+      config: { type: 'string' },
+      'dry-run': { type: 'boolean', default: false },
+    },
+    allowPositionals: false,
+  });
+  return values;
 }
 
 function normaliseConfig(configFromFile) {
@@ -131,24 +127,16 @@ function normaliseConfig(configFromFile) {
 }
 
 function splitUrl(rawSrc) {
-  const hashIndex = rawSrc.indexOf('#');
-  const queryIndex = rawSrc.indexOf('?');
-  let pathPart = rawSrc;
-  let queryPart = '';
-  let hashPart = '';
-  if (queryIndex !== -1) {
-    pathPart = rawSrc.slice(0, queryIndex);
-    if (hashIndex !== -1) {
-      queryPart = rawSrc.slice(queryIndex + 1, hashIndex);
-      hashPart = rawSrc.slice(hashIndex);
-    } else {
-      queryPart = rawSrc.slice(queryIndex + 1);
-    }
-  } else if (hashIndex !== -1) {
-    pathPart = rawSrc.slice(0, hashIndex);
-    hashPart = rawSrc.slice(hashIndex);
+  try {
+    const url = new URL(rawSrc, 'https://placeholder.local');
+    const query = url.search.replace(/^\?/, '');
+    const hash = url.hash;
+    const pathLength = rawSrc.length - (query ? query.length + 1 : 0) - hash.length;
+    const pathPart = rawSrc.slice(0, pathLength);
+    return { path: pathPart, query, hash };
+  } catch {
+    return { path: rawSrc, query: '', hash: '' };
   }
-  return { path: pathPart, query: queryPart, hash: hashPart };
 }
 
 function combineQuery(existing, addition) {
@@ -214,7 +202,7 @@ async function createBackupOnce(filePath, dryRun) {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const args = getCliOptions(process.argv.slice(2));
   const root = path.resolve(process.cwd(), args.root ? String(args.root) : '.');
   const dryRun = Boolean(args['dry-run']);
   const configPath = args.config ? path.resolve(process.cwd(), String(args.config)) : null;
@@ -245,25 +233,25 @@ async function main() {
     const $ = load(original, { decodeEntities: false });
     let mutated = false;
 
-    $('img').each((_, element) => {
+    for (const element of $('img').toArray()) {
       const img = $(element);
       const rawSrc = (img.attr('src') ?? '').trim();
-      if (!rawSrc) return;
+      if (!rawSrc) continue;
       if (isRemoteOrData(rawSrc)) {
         summary.skippedRemoteOrSvg += 1;
-        return;
+        continue;
       }
       if (rawSrc.startsWith('/downloads/')) {
-        return;
+        continue;
       }
       if (/nf_resize=/.test(rawSrc)) {
-        return;
+        continue;
       }
       const { path: pathPart, query } = splitUrl(rawSrc);
       const extension = path.extname(pathPart).toLowerCase();
       if (extension === '.svg' && config.leave_svg_unoptimized) {
         summary.skippedRemoteOrSvg += 1;
-        return;
+        continue;
       }
 
       const hasDownloadAttr = img.is('[data-download]') || img.is('[data-press]');
@@ -273,12 +261,12 @@ async function main() {
       const safeFsPath = ensureWithinRoot(root, fsPath);
       if (!safeFsPath) {
         summary.missingSource += 1;
-        return;
+        continue;
       }
       const webPath = deriveWebPath(root, safeFsPath, pathPart);
       if (!webPath) {
         summary.missingSource += 1;
-        return;
+        continue;
       }
 
       const isDownloadMatch = micromatch.isMatch(webPath, config.downloadable_globs);
@@ -294,21 +282,21 @@ async function main() {
         mutated = true;
         summary.downloadsRewritten += 1;
         if (!dryRun) {
-          fs.ensureDirSync(path.dirname(destinationFs));
           try {
-            fs.copyFileSync(safeFsPath, destinationFs);
+            await fs.ensureDir(path.dirname(destinationFs));
+            await fs.copy(safeFsPath, destinationFs);
           } catch (error) {
             console.warn(`Failed to copy ${safeFsPath} -> ${destinationFs}:`, error.message);
           }
         }
-        return;
+        continue;
       }
 
       const isOptimizableExt = config.optimize_extensions.includes(extension);
       const matchesOptimizeGlob = micromatch.isMatch(webPath, config.optimize_globs);
 
       if (!isOptimizableExt || !matchesOptimizeGlob) {
-        return;
+        continue;
       }
 
       const widths = config.optimize.widths;
@@ -335,7 +323,7 @@ async function main() {
       }
       mutated = true;
       summary.siteImagesOptimized += 1;
-    });
+    }
 
     if (mutated) {
       await createBackupOnce(filePath, dryRun);
