@@ -44,7 +44,7 @@ async function loadSharedFiles(sb, userId) {
 
 async function init() {
   const sb = getSupabase((message) => {
-    alert(message || SUPABASE_SETUP_MESSAGE);
+    alert(message);
   });
   if (!sb) return;
   const session = await requireSession(sb);
