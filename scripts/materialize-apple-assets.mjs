@@ -7,7 +7,39 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 const iconsDir = path.join(root, 'assets', 'icons');
-const payloadPath = path.join(iconsDir, 'apple-assets.json');
+const payloadPath = path.join(iconsDir, 'icon-data.json');
+
+function parseDataUri(value, name) {
+  if (typeof value !== 'string') {
+    throw new TypeError(`Icon payload for ${name} must be a string data URI.`);
+  }
+
+  if (!value.startsWith('data:')) {
+    throw new Error(`Icon payload for ${name} is not a valid data URI.`);
+  }
+
+  const commaIndex = value.indexOf(',');
+  if (commaIndex === -1) {
+    throw new Error(`Icon payload for ${name} is missing a comma separator.`);
+  }
+
+  const metadata = value.slice(5, commaIndex);
+  const data = value.slice(commaIndex + 1);
+  const params = metadata.split(';');
+  const mimeType = params[0] || 'application/octet-stream';
+  const isBase64 = params.includes('base64');
+
+  if (!data) {
+    throw new Error(`Icon payload for ${name} is empty.`);
+  }
+
+  if (isBase64) {
+    const normalized = data.replace(/\s+/g, '');
+    return { mimeType, buffer: Buffer.from(normalized, 'base64') };
+  }
+
+  return { mimeType, buffer: Buffer.from(decodeURIComponent(data), 'utf8') };
+}
 
 async function main() {
   let payload;
@@ -21,15 +53,17 @@ async function main() {
   }
 
   await fs.mkdir(iconsDir, { recursive: true });
+  const entries = Object.entries(payload);
+
   await Promise.all(
-    Object.entries(payload).map(async ([name, base64]) => {
+    entries.map(async ([name, dataUri]) => {
+      const { buffer } = parseDataUri(dataUri, name);
       const target = path.join(iconsDir, name);
-      const buffer = Buffer.from(base64, 'base64');
       await fs.writeFile(target, buffer);
     }),
   );
 
-  console.log(`[apple-assets] Materialized ${Object.keys(payload).length} Apple icon files.`);
+  console.log(`[apple-assets] Materialized ${entries.length} Apple icon files from icon-data.json.`);
 }
 
 main().catch((error) => {
