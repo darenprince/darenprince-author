@@ -129,6 +129,32 @@ Deploy via Supabase CLI (`supabase functions deploy admin-users`).
 
 ---
 
+## 6. Bootstrap your own admin access
+
+If you cannot reach any protected pages yet, elevate your account with the bundled helper script. It uses the Supabase service
+role key so run it locally (or from a secure CI job) after exporting your credentials:
+
+```bash
+export SUPABASE_DATABASE_URL="https://<project>.supabase.co"
+export SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
+
+# Creates or updates the admin user. Add --password to set a known password.
+node scripts/bootstrap-admin.js --email you@example.com --name "Daren Prince"
+```
+
+What the script handles for you:
+
+- Creates the user (with a generated password when `--password` is omitted) and confirms the account so you can sign in
+  immediately.
+- Syncs `user_metadata` and `app_metadata` with the `admin` role so the auth guard unlocks elevated views.
+- Upserts the profile row to match, ensuring the admin console lists you with the correct role and name.
+
+After the script runs it prints the login email plus either your supplied password or the generated one. Sign in at
+`login.html` and you should land on the dashboard with the admin menus available. Rotate the password from the Supabase
+dashboard once you are in if you used the generated value.
+
+---
+
 ## 6. Testing & observability
 
 - `npm test` runs Vitest suites, including new coverage for env resolution.

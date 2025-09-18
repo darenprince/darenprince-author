@@ -1,12 +1,21 @@
-import { getSupabase } from './supabase-helper.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
+import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
 async function requireSession(sb) {
-  const { data } = await sb.auth.getSession();
-  if (!data.session) {
+  try {
+    const { data, error } = await sb.auth.getSession();
+    if (error) throw error;
+    if (!data.session) {
+      logSupabaseWarning('dashboard.session', 'No active Supabase session');
+      window.location.href = 'login.html';
+      return null;
+    }
+    return data.session;
+  } catch (error) {
+    logSupabaseError('dashboard.session', error);
     window.location.href = 'login.html';
     return null;
   }
-  return data.session;
 }
 
 function updateGreeting(email) {
@@ -16,11 +25,22 @@ function updateGreeting(email) {
 
 async function listFiles(sb, bucket, path, target) {
   const { data, error } = await sb.storage.from(bucket).list(path);
-  if (error) return;
+  if (error) {
+    logSupabaseError('dashboard.listFiles', error, { bucket, path });
+    return;
+  }
   const ul = document.getElementById(target);
+  if (!ul) {
+    logSupabaseWarning('dashboard.listFiles', 'Missing list target element', { target });
+    return;
+  }
   ul.innerHTML = '';
   for (const item of data) {
     const { data: url } = await sb.storage.from(bucket).getPublicUrl(`${path}/${item.name}`);
+    if (!url?.publicUrl) {
+      logSupabaseWarning('dashboard.publicUrl', 'Missing public URL for file', { bucket, path, file: item.name });
+      continue;
+    }
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url.publicUrl;
@@ -32,8 +52,15 @@ async function listFiles(sb, bucket, path, target) {
 
 async function loadSharedFiles(sb, userId) {
   const { data, error } = await sb.from('folder_access').select('*').eq('user_id', userId);
-  if (error) return;
+  if (error) {
+    logSupabaseError('dashboard.sharedFiles', error, { userId });
+    return;
+  }
   const ul = document.getElementById('shared-list');
+  if (!ul) {
+    logSupabaseWarning('dashboard.sharedFiles', 'Missing shared list element');
+    return;
+  }
   ul.innerHTML = '';
   data.forEach((row) => {
     const li = document.createElement('li');
@@ -43,8 +70,8 @@ async function loadSharedFiles(sb, userId) {
 }
 
 async function init() {
-  const sb = getSupabase(() => {
-    alert('Supabase is not configured.');
+  const sb = getSupabase((message) => {
+    alert(message || SUPABASE_SETUP_MESSAGE);
   });
   if (!sb) return;
   const session = await requireSession(sb);
@@ -61,31 +88,46 @@ async function init() {
   await loadSharedFiles(sb, user.id);
 
   const uploadForm = document.getElementById('upload-form');
-  uploadForm.addEventListener('submit', async (e) => {
+  uploadForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const file = document.getElementById('user-file').files[0];
     if (!file) return;
-    await sb.storage.from('user-data').upload(`${user.id}/${file.name}`, file, {
+    const { error } = await sb.storage.from('user-data').upload(`${user.id}/${file.name}`, file, {
       upsert: true,
     });
+    if (error) {
+      logSupabaseError('dashboard.upload', error, { file: file.name });
+      return;
+    }
     await listFiles(sb, 'user-data', user.id, 'file-list');
   });
 
   const avatarInput = document.getElementById('avatar');
-  avatarInput.addEventListener('change', async () => {
+  avatarInput?.addEventListener('change', async () => {
     const file = avatarInput.files[0];
     if (!file) return;
-    await sb.storage
+    const { error: uploadError } = await sb.storage
       .from('avatars')
       .upload(`${user.id}.jpg`, file, { upsert: true, contentType: file.type });
-    const { data } = await sb.storage
+    if (uploadError) {
+      logSupabaseError('dashboard.avatarUpload', uploadError);
+      return;
+    }
+    const { data, error: publicError } = await sb.storage
       .from('avatars')
       .getPublicUrl(`${user.id}.jpg`);
-    document.getElementById('avatar-preview').src = data.publicUrl;
+    if (publicError) {
+      logSupabaseError('dashboard.avatarUrl', publicError);
+      return;
+    }
+    const preview = document.getElementById('avatar-preview');
+    if (preview) {
+      preview.src = data.publicUrl;
+    }
   });
 
   const profileForm = document.getElementById('profile-form');
-  profileForm.addEventListener('submit', async (e) => {
+  profileForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('new-email').value;
     const password = document.getElementById('new-password').value;
@@ -107,12 +149,20 @@ async function init() {
     if (email) updates.email = email;
     if (password) updates.password = password;
     const { error } = await sb.auth.updateUser(updates);
-    if (error) msg = error.message;
-    document.querySelector('.profile-msg').textContent = msg || 'Updated';
+    if (error) {
+      msg = error.message;
+      logSupabaseError('dashboard.updateProfile', error, { updates });
+    }
+    const msgTarget = document.querySelector('.profile-msg');
+    if (msgTarget) msgTarget.textContent = msg || 'Updated';
   });
 
-  document.querySelector('.js-auth-toggle').addEventListener('click', async () => {
-    await sb.auth.signOut();
+  document.querySelector('.js-auth-toggle')?.addEventListener('click', async () => {
+    const { error } = await sb.auth.signOut();
+    if (error) {
+      logSupabaseError('dashboard.signOut', error);
+      return;
+    }
     window.location.href = 'login.html';
   });
 }
