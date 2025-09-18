@@ -40,26 +40,23 @@
 
 import path from 'node:path';
 import process from 'node:process';
+import { parseArgs } from 'node:util';
 import fs from 'fs-extra';
 import { globby } from 'globby';
 import { load } from 'cheerio';
 
-function parseArgs(argv) {
-  const args = {};
-  for (let i = 0; i < argv.length; i += 1) {
-    const token = argv[i];
-    if (token.startsWith('--')) {
-      const key = token.replace(/^--/, '');
-      const next = argv[i + 1];
-      if (!next || next.startsWith('--')) {
-        args[key] = true;
-      } else {
-        args[key] = next;
-        i += 1;
-      }
-    }
-  }
-  return args;
+function getCliOptions(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    options: {
+      root: { type: 'string' },
+      domain: { type: 'string' },
+      'dry-run': { type: 'boolean', default: false },
+      'fallback-og': { type: 'string' },
+    },
+    allowPositionals: false,
+  });
+  return values;
 }
 
 function toPosix(value) {
@@ -169,7 +166,7 @@ function deriveBreadcrumbs(domain, canonicalPath) {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const args = getCliOptions(process.argv.slice(2));
   if (!args.domain) {
     console.error('--domain is required (e.g. https://example.com)');
     process.exit(1);
@@ -307,16 +304,16 @@ async function main() {
         '@type': 'WebSite',
         name: siteName,
         url: domain,
-        potentialAction: undefined
+        ...(searchExists
+          ? {
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: `${domain}/search?q={search_term_string}`,
+                'query-input': 'required name=search_term_string'
+              }
+            }
+          : {}),
       };
-      if (searchExists) {
-        website.potentialAction = {
-          '@type': 'SearchAction',
-          target: `${domain}/search?q={search_term_string}`,
-          'query-input': 'required name=search_term_string'
-        };
-      }
-      if (!website.potentialAction) delete website.potentialAction;
       jsonLdSnippets.push(website);
     } else {
       const isBlogPosting = hasElement($, 'article');

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Console &mdash; User Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <style>
+    body { background: #050709; color: #f4f4f4; font-family: 'League Spartan', system-ui, sans-serif; }
+    .site-wrap { min-height: 100vh; display: flex; flex-direction: column; }
+    .console-header { border-bottom: 1px solid rgba(125, 222, 91, 0.35); background: linear-gradient(135deg, rgba(125, 222, 91, 0.08), rgba(9, 13, 17, 0.9)); padding: 2rem 1.5rem; }
+    .console-header__title { font-size: clamp(2rem, 5vw, 2.75rem); margin: 0; }
+    .console-header__subtitle { margin: 0.5rem 0 0; color: #cbd5cb; max-width: 46rem; line-height: 1.5; }
+    .console-main { flex: 1; padding: 2rem 1.5rem 4rem; max-width: 1100px; margin: 0 auto; width: 100%; }
+    .console-toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .console-toolbar__search { flex: 1 1 260px; position: relative; }
+    .console-toolbar__search input { width: 100%; padding: 0.85rem 1rem 0.85rem 2.8rem; border-radius: 999px; border: 1px solid rgba(125, 222, 91, 0.25); background: rgba(13, 17, 21, 0.9); color: inherit; font-size: 1rem; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+    .console-toolbar__search input:focus { outline: none; border-color: rgba(125, 222, 91, 0.75); box-shadow: 0 0 0 2px rgba(125, 222, 91, 0.15); }
+    .console-toolbar__search .ti { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(125, 222, 91, 0.7); }
+    .console-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .console-pill { padding: 0.65rem 1.2rem; border-radius: 999px; border: 1px solid rgba(125, 222, 91, 0.35); color: #7dde5b; background: rgba(15, 20, 25, 0.85); font-weight: 600; font-size: 0.95rem; }
+    .console-toast { margin-bottom: 1.5rem; padding: 0.9rem 1.2rem; border-radius: 16px; border: 1px solid transparent; background: rgba(17, 18, 23, 0.9); display: flex; align-items: center; gap: 0.75rem; }
+    .console-toast[data-variant="success"] { border-color: rgba(125, 222, 91, 0.55); color: #7dde5b; }
+    .console-toast[data-variant="error"] { border-color: rgba(255, 92, 135, 0.6); color: #ff5c87; }
+    .console-toast[data-variant="warning"] { border-color: rgba(255, 195, 86, 0.5); color: #ffc356; }
+    .console-toast[data-variant="info"] { border-color: rgba(104, 211, 255, 0.45); color: #68d3ff; }
+    .console-loading { display: flex; align-items: center; gap: 0.5rem; color: rgba(203, 213, 203, 0.85); margin-bottom: 1rem; }
+    .console-loading .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(125, 222, 91, 0.35); border-top-color: rgba(125, 222, 91, 0.9); animation: spin 0.75s linear infinite; }
+    .user-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .user-card { background: rgba(17, 18, 23, 0.92); border-radius: 18px; padding: 1.5rem; border: 1px solid rgba(125, 222, 91, 0.2); display: flex; flex-direction: column; gap: 1rem; box-shadow: 0 18px 30px -25px rgba(0, 0, 0, 0.6); transition: transform 0.25s ease, border-color 0.25s ease; }
+    .user-card:hover { transform: translateY(-4px); border-color: rgba(125, 222, 91, 0.6); }
+    .user-card.is-busy { opacity: 0.6; pointer-events: none; }
+    .user-card__heading { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+    .user-card__identity { max-width: 70%; }
+    .user-card__email { margin: 0; font-size: 1.1rem; }
+    .user-card__name { margin: 0.35rem 0 0; font-size: 0.95rem; color: rgba(203, 213, 203, 0.8); }
+    .user-card__role { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; letter-spacing: 0.03em; text-transform: uppercase; color: rgba(125, 222, 91, 0.85); }
+    .user-card__role select { background: rgba(9, 13, 17, 0.9); border: 1px solid rgba(125, 222, 91, 0.45); color: inherit; border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.95rem; }
+    .user-card__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; margin: 0; }
+    .user-card__meta dt { font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(203, 213, 203, 0.65); }
+    .user-card__meta dd { margin: 0; font-size: 0.95rem; color: rgba(235, 242, 235, 0.9); }
+    .user-card__folders { display: flex; flex-direction: column; gap: 0.75rem; }
+    .user-card__folders h4 { margin: 0; font-size: 0.95rem; letter-spacing: 0.04em; color: rgba(125, 222, 91, 0.85); text-transform: uppercase; }
+    .folder-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .folder-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.8rem; border-radius: 999px; border: 1px solid rgba(125, 222, 91, 0.4); background: rgba(9, 13, 17, 0.8); cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; }
+    .folder-pill input { accent-color: #7dde5b; }
+    .folder-pill:hover { border-color: rgba(125, 222, 91, 0.7); }
+    .folder-pill__label { font-size: 0.85rem; letter-spacing: 0.01em; }
+    .user-card__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .btn { border-radius: 999px; padding: 0.65rem 1.2rem; font-weight: 600; border: 1px solid transparent; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    .btn--ghost { background: transparent; border-color: rgba(125, 222, 91, 0.45); color: #7dde5b; }
+    .btn--ghost:hover { transform: translateY(-1px); box-shadow: 0 12px 18px -14px rgba(125, 222, 91, 0.8); }
+    .btn--danger { background: rgba(255, 92, 135, 0.12); border-color: rgba(255, 92, 135, 0.6); color: #ff5c87; }
+    .btn--danger:hover { transform: translateY(-1px); box-shadow: 0 12px 24px -16px rgba(255, 92, 135, 0.55); }
+    .empty-state { border: 1px dashed rgba(125, 222, 91, 0.35); border-radius: 18px; padding: 2rem; text-align: center; color: rgba(203, 213, 203, 0.8); }
+    .empty-state strong { color: #7dde5b; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 720px) {
+      .console-header { padding: 1.75rem 1.25rem; }
+      .console-main { padding: 1.75rem 1.25rem 3.5rem; }
+      .user-card__heading { flex-direction: column; }
+      .user-card__identity { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-wrap" hidden data-console-root>
+    <header class="console-header">
+      <h1 class="console-header__title">Supabase Command Center</h1>
+      <p class="console-header__subtitle">Review every authenticated profile, elevate roles, toggle folder access, and trigger recovery workflows without leaving the dashboard.</p>
+    </header>
+    <main class="console-main">
+      <div class="console-toolbar">
+        <div class="console-toolbar__search">
+          <i class="ti ti-search"></i>
+          <input type="search" placeholder="Search by email, name, role, or folder" autocomplete="off" data-user-search />
+        </div>
+        <div class="console-stats">
+          <span class="console-pill" data-user-summary>0 users visible</span>
+        </div>
+      </div>
+      <div class="console-loading" data-console-loading hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading user roster…</span>
+      </div>
+      <div class="console-toast" data-console-toast hidden></div>
+      <section class="empty-state" data-empty-state hidden>
+        <p><strong>No users match that filter.</strong> Adjust the search query or clear folder toggles.</p>
+      </section>
+      <section class="user-grid" data-user-list></section>
+    </main>
+<footer class="site-footer">
+      <div class="container" style="padding: 2rem 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;">
+        <p style="margin: 0; color: rgba(203, 213, 203, 0.7);">&copy; 2025 Daren Prince Ops. All systems secure.</p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="admin-dashboard.html" style="color: #7dde5b; font-weight: 600; text-decoration: none;">Back to admin hub</a>
+          <a href="dashboard.html" style="color: rgba(203, 213, 203, 0.8); text-decoration: none;">Member dashboard</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="./js/admin-user-console.js"></script>
+</body>
+</html>
