@@ -3,7 +3,7 @@ import {
   passwordsValid,
   resetPasswordStrength,
 } from './password-strength.js';
-import { getSupabase } from './supabase-helper.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { getUserRole, isElevatedRole } from './user-role.js';
 
 function resolveRedirectTarget(role) {
@@ -48,60 +48,105 @@ async function checkSession(sb) {
   }
 }
 
-const signupFields = document.querySelectorAll('.signup-only');
-const signinFields = document.querySelectorAll('.signin-only');
-const titleEl = document.querySelector('.login-container h1');
-
-function toggleMode() {
-  mode = mode === 'signin' ? 'signup' : 'signin';
-  submitBtn.textContent = mode === 'signin' ? 'Sign In' : 'Sign Up';
-  toggleLink.textContent =
-    mode === 'signin' ? 'Need an account? Sign Up' : 'Already have an account? Sign In';
-  signupFields.forEach((el) => (el.hidden = mode !== 'signup'));
-  signinFields.forEach((el) => (el.hidden = mode !== 'signin'));
-  if (mode === 'signup') {
-    resetPasswordStrength(submitBtn);
-  } else {
-    submitBtn.disabled = false;
-  }
-  if (titleEl) titleEl.textContent = mode === 'signin' ? 'Member Login' : 'Create Account';
-  errorEl.textContent = '';
-}
-
 let mode = 'signin';
 const form = document.getElementById('auth-form');
 const submitBtn = document.querySelector('.js-submit');
 const toggleLink = document.querySelector('.js-toggle-auth');
 const errorEl = document.querySelector('.auth-error');
 const resetLink = document.querySelector('.js-reset-password');
+const signupFields = document.querySelectorAll('.signup-only');
+const signinFields = document.querySelectorAll('.signin-only');
+const titleEl = document.querySelector('.login-container h1');
+const signinPasswordInput = document.getElementById('signin-password');
+const signupPasswordInput = document.getElementById('password');
+const signupConfirmInput = document.getElementById('confirm-password');
+
+function handleMissingSupabase(message) {
+  const notice = message || SUPABASE_SETUP_MESSAGE;
+  if (submitBtn) submitBtn.disabled = true;
+  if (errorEl) errorEl.textContent = notice;
+}
+
+function setRequired(field, isRequired) {
+  if (!field) return;
+  field.required = Boolean(isRequired);
+  if (isRequired) {
+    field.setAttribute('aria-required', 'true');
+  } else {
+    field.removeAttribute('aria-required');
+  }
+}
+
+function updateSubmitLabel() {
+  if (!submitBtn) return;
+  const isSignin = mode === 'signin';
+  const label = isSignin ? 'Sign In' : 'Create Account';
+  const icon = isSignin ? 'ti ti-key' : 'ti ti-user-plus';
+  submitBtn.innerHTML = `<i class="${icon}"></i> ${label}`;
+}
+
+function applyMode(nextMode) {
+  mode = nextMode;
+  const isSignin = mode === 'signin';
+  signupFields.forEach((el) => {
+    el.hidden = isSignin;
+    el.setAttribute('aria-hidden', String(isSignin));
+  });
+  signinFields.forEach((el) => {
+    el.hidden = !isSignin;
+    el.setAttribute('aria-hidden', String(!isSignin));
+  });
+  setRequired(signinPasswordInput, isSignin);
+  setRequired(signupPasswordInput, !isSignin);
+  setRequired(signupConfirmInput, !isSignin);
+  if (!isSignin) {
+    if (signinPasswordInput) {
+      signinPasswordInput.value = '';
+    }
+    resetPasswordStrength(submitBtn);
+    signupPasswordInput?.focus({ preventScroll: true });
+  } else {
+    if (submitBtn) submitBtn.disabled = false;
+    if (signupPasswordInput) signupPasswordInput.value = '';
+    if (signupConfirmInput) signupConfirmInput.value = '';
+  }
+  updateSubmitLabel();
+  if (toggleLink) {
+    toggleLink.textContent = isSignin
+      ? 'Need an account? Sign Up'
+      : 'Already have an account? Sign In';
+  }
+  if (titleEl) titleEl.textContent = isSignin ? 'Member Login' : 'Create Account';
+  if (errorEl) errorEl.textContent = '';
+}
+
+function toggleMode() {
+  applyMode(mode === 'signin' ? 'signup' : 'signin');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  const sb = getSupabase(() => {
-    submitBtn.disabled = true;
-    errorEl.textContent = 'Supabase is not configured.';
-  });
+  applyMode(mode);
+  initPasswordStrength(submitBtn);
+
+  const sb = getSupabase(handleMissingSupabase);
   if (!sb) return;
   checkSession(sb).catch((error) => {
     console.warn('Session check failed', error);
   });
-  signupFields.forEach((el) => (el.hidden = true));
-  signinFields.forEach((el) => (el.hidden = false));
-  initPasswordStrength(submitBtn);
+  // applyMode already ran above to ensure UI defaults
 });
 if (toggleLink) toggleLink.addEventListener('click', (e) => { e.preventDefault(); toggleMode(); });
 if (resetLink)
   resetLink.addEventListener('click', async (e) => {
     e.preventDefault();
-    const sb = getSupabase(() => {
-      errorEl.textContent = 'Supabase is not configured.';
-    });
+    const sb = getSupabase(handleMissingSupabase);
     if (!sb) return;
     const email = document.getElementById('email').value;
     const { error } = await sb.auth.resetPasswordForEmail(email, {
       redirectTo: `${location.origin}/reset-password.html`,
     });
     if (error) {
-      errorEl.textContent = error.message;
+      if (errorEl) errorEl.textContent = error.message;
     } else {
       window.location.href = `verify-email.html?mode=reset`;
     }
@@ -110,14 +155,11 @@ if (resetLink)
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const sb = getSupabase(() => {
-      errorEl.textContent = 'Supabase is not configured.';
-      submitBtn.disabled = true;
-    });
+    const sb = getSupabase(handleMissingSupabase);
     if (!sb) return;
     const email = document.getElementById('email').value;
-    const loginPassword = document.getElementById('signin-password')?.value;
-    const password = document.getElementById('password')?.value;
+    const loginPassword = signinPasswordInput?.value;
+    const password = signupPasswordInput?.value;
     const firstName = document.getElementById('first-name')?.value;
     const lastName = document.getElementById('last-name')?.value;
     const phone = document.getElementById('phone')?.value;
@@ -126,7 +168,7 @@ if (form) {
     if (mode === 'signin') {
       result = await sb.auth.signInWithPassword({ email, password: loginPassword });
       if (result.error) {
-        errorEl.textContent = result.error.message;
+        if (errorEl) errorEl.textContent = result.error.message;
       } else if (result.data?.user) {
         await redirectToDashboard(sb, result.data.user);
       }
@@ -134,7 +176,7 @@ if (form) {
     }
 
     if (!passwordsValid()) {
-      errorEl.textContent = 'Please meet password requirements.';
+      if (errorEl) errorEl.textContent = 'Please meet password requirements.';
       return;
     }
 
@@ -152,7 +194,7 @@ if (form) {
       },
     });
     if (result.error) {
-      errorEl.textContent = result.error.message;
+      if (errorEl) errorEl.textContent = result.error.message;
     } else {
       window.location.href = `verify-email.html?mode=signup`;
     }

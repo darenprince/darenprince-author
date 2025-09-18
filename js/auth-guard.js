@@ -1,4 +1,4 @@
-import { getSupabase } from './supabase-helper.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { getUserRole, isElevatedRole, normalizeRole } from './user-role.js';
 
 const DEFAULT_REDIRECT = 'login.html';
@@ -164,10 +164,10 @@ export async function enforceAuthGuard(options = {}) {
     deniedHeading,
   } = options;
 
-  const supabase = getSupabase(() => {
+  const supabase = getSupabase((message) => {
     showBlockingMessage({
-      heading: 'Supabase is offline',
-      body: 'Authentication services are unavailable. Try again later or ping the engineering channel.',
+      heading: 'Supabase needs configuration',
+      body: message || SUPABASE_SETUP_MESSAGE,
       actions: [
         {
           label: 'Back to homepage',
