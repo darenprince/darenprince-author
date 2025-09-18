@@ -78,7 +78,7 @@ function syncEmptyState(hasRows) {
 
 function renderUsers() {
   if (!dom.list) return;
-  dom.list.innerHTML = '';
+  dom.list.replaceChildren();
   const filter = state.filter.trim().toLowerCase();
   const filtered = filter
     ? state.users.filter((user) => {
