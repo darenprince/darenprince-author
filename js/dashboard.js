@@ -1,4 +1,4 @@
-import { getSupabase } from './supabase-helper.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 
 async function requireSession(sb) {
   const { data } = await sb.auth.getSession();
@@ -43,8 +43,8 @@ async function loadSharedFiles(sb, userId) {
 }
 
 async function init() {
-  const sb = getSupabase(() => {
-    alert('Supabase is not configured.');
+  const sb = getSupabase((message) => {
+    alert(message || SUPABASE_SETUP_MESSAGE);
   });
   if (!sb) return;
   const session = await requireSession(sb);

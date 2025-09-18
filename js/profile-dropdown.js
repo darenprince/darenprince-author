@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const avatarImg = dropdown.querySelector('.profile-avatar');
   const nameEl = dropdown.querySelector('.profile-name');
   const logoutEl = dropdown.querySelector('.js-auth-toggle');
-  const dashboardLink = dropdown.querySelector('.js-dashboard-link');
+  const dashboardLink =
+    dropdown.querySelector('.js-dashboard-link') ||
+    dropdown.querySelector('a[href*="dashboard"]');
 
   // ---------------------------
   // UI event listeners
