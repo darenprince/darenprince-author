@@ -1,6 +1,6 @@
 # 🔐 Supabase Integration
 
-Supabase powers authentication, profile sync, and secure storage across the Daren Prince platform. The production project (`ogftwcrihcihqahfasmg`) already includes all migrations from `/supabase/migrations`, so the schema described here matches the live environment.
+Supabase powers authentication, profile sync, secure storage, and now full auditing across the Daren Prince platform. The production project (`ogftwcrihcihqahfasmg`) already includes all migrations from `/supabase/migrations`, so the schema described here matches the live environment.
 
 ## ⚙️ Environment bootstrapping
 
@@ -20,21 +20,39 @@ Aliases such as `NEXT_PUBLIC_SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_ANON_KEY` ar
 ## 🗂️ Schema recap
 
 ### `public.profiles`
-Mirror table for `auth.users`. A trigger (`sync_profile_from_auth`) creates a row the moment an auth user appears. Columns include role (`member` default), contact info, and timestamps. RLS allows users to manage only their own record.
+Mirror table for `auth.users`. A trigger (`sync_profile_from_auth`) creates or updates a row the moment an auth user appears. The table now uses a surrogate identity primary key (`id` bigint) alongside the `user_id` UUID reference to `auth.users`. Key columns:
+
+- `user_id` (uuid, unique) – required FK to `auth.users.id`
+- `first_name`, `last_name`, `phone`, `shipping_address`, `avatar_url`
+- `role` (`profile_role` enum) – defaults to `member`, allows `developer` and `admin`
+- `created_at` (timestamptz) – defaults to UTC `now()`
+
+RLS is consolidated into:
+
+- `Profiles: select owner`
+- `Profiles: insert owner`
+- `Profiles: update owner`
+- `Profiles: delete owner`
+
+Each policy uses `(SELECT auth.uid()) = user_id` to follow Supabase’s latest security guidance.
+
+### `private.profile_audit`
+Tracks every INSERT/UPDATE/DELETE on `public.profiles`. Trigger `trg_profiles_audit` calls a SECURITY DEFINER function that writes `{ profile_id, user_id, full_name, avatar_url, phone, action, changed_at, changed_by }` with the acting `auth.uid()`. Execution is revoked from the `public`, `anon`, and `authenticated` roles to prevent direct invocation.
 
 ### `public.folder_access`
-Text-based permissions that gate engineering surfaces. Each row grants a user access to a named folder/page (`file_name`). Users can create/update/delete only their own entries. Elevated roles (`developer`, `admin`) bypass the check.
+Text-based permissions that gate engineering surfaces. Each row grants a user access to a named folder/page (`file_name`). Users can create/update/delete only their own entries. Elevated roles (`developer`, `admin`) bypass the check in the front-end guard.
 
 ### Storage buckets
 - `avatars` (public) – one JPEG per user (`<user_id>.jpg`)
 - `user-data` (private) – personal files (`<user_id>/<filename>`)
 
-RLS rules defined in `0002_create_folder_access_and_policies.sql` secure both buckets.
+RLS rules defined in `0002_create_folder_access_and_policies.sql` plus the storage policy refresh inside `sql_editor_setup.sql` keep both buckets locked to their owners.
 
 ## 🧠 Client entry points
 
 - `supabase/client.js` (browser ESM) and `supabase/client.ts` (Deno) create the shared client.
-- `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `js/profile-dropdown.js` consume the client for session handling, logout, profile updates, and storage operations.
+- `js/auth.js` handles sign-in/sign-up, redirect logic, and metadata sync.
+- `js/auth-guard.js` enforces session, role, and folder checks before revealing gated pages.
 - `supabase/functions/secure-storage/index.ts` validates bearer tokens before streaming uploads into Supabase Storage.
 
 ## 🛡️ Role & folder gating
@@ -51,14 +69,6 @@ Pages that were previously protected by a static password now import `js/auth-gu
 </script>
 ```
 
-`enforceAuthGuard` workflow:
-
-1. Resolve the Supabase client (gracefully handles missing config).
-2. Redirect unauthenticated visitors to `login.html?redirect=<current path>`.
-3. Fetch the user’s role via `public.profiles`.
-4. Optionally fetch `public.folder_access` for folder-level checks.
-5. Reveal `.site-wrap` when access is granted or render a branded blocker with next steps when it is not.
-
 Standard folder keys:
 
 | Page                                   | Folder key             |
@@ -74,9 +84,20 @@ Hook into `window` events:
 - `auth:ready` – emitted after a successful check with `{ supabase, user, role, folderAccess }`.
 - `auth:denied` – emitted whenever the guard blocks access.
 
+## 🧾 SQL deployment & validation
+
+1. Run the migrations in `/supabase/migrations` sequentially (CLI or SQL Editor). `0004_profiles_audit.sql` performs the schema restructuring, creates the audit trail, and refreshes policies.
+2. For ad-hoc fixes, execute the corresponding blocks from `supabase/sql_editor_setup.sql`; it is idempotent and safe to re-run.
+3. Re-run the validation script from the Supabase brief. Confirm:
+   - `idx_profiles_user_id` exists and is used by RLS queries.
+   - `private.profile_audit` receives rows for insert/update/delete with `changed_by` populated (service role executions may log `NULL`).
+   - Consolidated profile and folder policies remain enabled.
+   - Storage policies for `avatars` and `user-data` are still in place.
+4. Document verification results, rollback plan, and next steps in `docs/audit/PROFILES_AUDIT.md`.
+
 ## 🔑 Authentication flow
 
-`login.html` (powered by `js/auth.js`) now respects the `redirect` query parameter so users land back on the protected page they initially requested. Invalid or elevated-only targets fall back to the appropriate dashboard based on role. Password reset links point to `reset-password.html`, and metadata updates (`first_name`, `phone`, etc.) flow through `sb.auth.updateUser`.
+`login.html` (powered by `js/auth.js`) respects the `redirect` query parameter so users land back on the protected page they initially requested. Invalid or elevated-only targets fall back to the appropriate dashboard based on role. Password reset links point to `reset-password.html`, and metadata updates (`first_name`, `phone`, `shipping_address`, optional `avatar_url`) flow through `sb.auth.updateUser` and into `public.profiles` via the trigger.
 
 ## 📦 Storage ops
 
@@ -84,16 +105,12 @@ Hook into `window` events:
 - Avatar uploads overwrite `<user_id>.jpg` in the `avatars` bucket and refresh the preview immediately via `getPublicUrl`.
 - The secure-storage edge function can be extended for additional buckets; it already validates the caller with `supabase.auth.getUser(token)`.
 
-## ✅ Verification
+## ✅ Verification checklist
 
-The validation SQL block provided with the task confirms:
-
-- All auth users own a profile row and vice versa.
-- `profile_role` enum + `role` column exist.
-- `folder_access` has indexes and RLS in place.
+- Profiles and audit rows sync automatically when a user signs up or edits metadata.
+- `profile_role` enum + `role` column exist and default to `member`.
+- Folder RLS policies allow users to manage only their own records.
 - Storage buckets `avatars` + `user-data` exist with RLS enabled.
-
-Run the block again after future migrations or policy tweaks.
 
 ## 🚀 Next build orders
 
@@ -113,4 +130,3 @@ Log every admin action in a dedicated audit table.
 
 - Expand Vitest coverage to include the new guard (`auth-guard.js`) via mocking `window.dispatchEvent` and Supabase responses.
 - Add observability (console or logging) when folder checks fail due to configuration gaps.
-
