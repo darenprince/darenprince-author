@@ -1,4 +1,10 @@
 import supabaseClient from '../supabase/client.js';
+import { bindSupabaseClient, logSupabaseWarning } from './supabase-logger.js';
+
+export const SUPABASE_SETUP_MESSAGE =
+  'Supabase is not configured. Add your project URL and anon key to .env (or assets/js/env.js) and run "npm run build" so the client can initialize. See docs/supabase/README.md for full setup steps.';
+
+const boundClient = bindSupabaseClient(supabaseClient, 'supabase');
 
 /**
  * Retrieves the Supabase client if it is configured.
@@ -9,17 +15,20 @@ import supabaseClient from '../supabase/client.js';
  * @returns {import('@supabase/supabase-js').SupabaseClient|null}
  */
 export function getSupabase(onMissing) {
-  if (!supabaseClient) {
+  if (!boundClient) {
+    logSupabaseWarning('supabase.init', SUPABASE_SETUP_MESSAGE);
     if (typeof onMissing === 'function') {
       try {
-        onMissing();
-      } catch (_) {
-        // ignore errors from callbacks
+        onMissing(SUPABASE_SETUP_MESSAGE);
+      } catch (error) {
+        logSupabaseWarning('supabase.init', 'Supabase fallback handler threw an error', {
+          message: error?.message,
+        });
       }
     } else {
-      alert('Supabase is not configured.');
+      alert(SUPABASE_SETUP_MESSAGE);
     }
     return null;
   }
-  return supabaseClient;
+  return boundClient;
 }
