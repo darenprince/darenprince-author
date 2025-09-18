@@ -1910,6 +1910,11 @@ input:checked + .toggle-slider::before {
 .hero.hero-auto-zoom {
   cursor: pointer;
 }
+.hero.hero-auto-zoom .hero-cta {
+  top: auto;
+  bottom: clamp(1.5rem, 12vh, 4.5rem);
+  transform: translate(-50%, 0);
+}
 .hero.hero--video h1 {
   display: none;
 }
