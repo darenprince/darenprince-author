@@ -6,8 +6,21 @@ create extension if not exists "pgcrypto";
 -- Private schema stores audit tables and security-definer helpers
 create schema if not exists private;
 
--- Define role enum once so profiles can classify access
-create type if not exists public.profile_role as enum ('member', 'developer', 'admin');
+-- Define role enum once so profiles can classify access. Supabase/Postgres lacks
+-- CREATE TYPE IF NOT EXISTS for enums, so guard creation inside a DO block.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type t
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'profile_role'
+      AND n.nspname = 'public'
+  ) THEN
+    EXECUTE $$CREATE TYPE public.profile_role AS ENUM ('member', 'developer', 'admin')$$;
+  END IF;
+END
+$$;
 
 -- Profiles table stores member contact info keyed to the auth user
 create table if not exists public.profiles (
@@ -259,10 +272,62 @@ create table if not exists private.profile_audit (
   full_name text,
   avatar_url text,
   phone text,
-  action text not null check (action in ('insert', 'update', 'delete')),
+  action text,
   changed_at timestamptz not null default timezone('utc', now()),
   changed_by uuid
 );
+
+alter table private.profile_audit
+  add column if not exists profile_id bigint references public.profiles(id) on delete cascade,
+  add column if not exists user_id uuid,
+  add column if not exists full_name text,
+  add column if not exists avatar_url text,
+  add column if not exists phone text,
+  add column if not exists action text,
+  add column if not exists changed_at timestamptz not null default timezone('utc', now()),
+  add column if not exists changed_by uuid;
+
+alter table private.profile_audit
+  alter column changed_at set default timezone('utc', now());
+
+update private.profile_audit
+set changed_at = timezone('utc', now())
+where changed_at is null;
+
+alter table private.profile_audit
+  alter column changed_at set not null;
+
+update private.profile_audit
+set action = 'update'
+where action is null;
+
+update private.profile_audit
+set action = lower(action)
+where action is not null
+  and action <> lower(action);
+
+update private.profile_audit
+set action = 'update'
+where action is not null
+  and btrim(action) = '';
+
+update private.profile_audit
+set action = 'update'
+where action is not null
+  and action not in ('insert', 'update', 'delete');
+
+alter table private.profile_audit
+  alter column action set not null;
+
+alter table private.profile_audit
+  drop constraint if exists profile_audit_action_check;
+
+alter table private.profile_audit
+  add constraint profile_audit_action_check
+    check (action in ('insert', 'update', 'delete')) not valid;
+
+alter table private.profile_audit
+  validate constraint profile_audit_action_check;
 
 create or replace function private.log_profile_change()
 returns trigger
@@ -272,46 +337,30 @@ set search_path = ''
 as $$
 declare
   actor uuid := (select auth.uid());
+  snapshot record;
 begin
-  if tg_op = 'INSERT' then
-    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
-    values (
-      new.id,
-      new.user_id,
-      concat_ws(' ', new.first_name, new.last_name),
-      new.avatar_url,
-      new.phone,
-      'insert',
-      actor
-    );
-    return new;
-  elsif tg_op = 'UPDATE' then
-    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
-    values (
-      new.id,
-      new.user_id,
-      concat_ws(' ', new.first_name, new.last_name),
-      new.avatar_url,
-      new.phone,
-      'update',
-      actor
-    );
-    return new;
-  elsif tg_op = 'DELETE' then
-    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
-    values (
-      old.id,
-      old.user_id,
-      concat_ws(' ', old.first_name, old.last_name),
-      old.avatar_url,
-      old.phone,
-      'delete',
-      actor
-    );
+  if tg_op = 'DELETE' then
+    snapshot := old;
+  else
+    snapshot := new;
+  end if;
+
+  insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
+  values (
+    snapshot.id,
+    snapshot.user_id,
+    concat_ws(' ', snapshot.first_name, snapshot.last_name),
+    snapshot.avatar_url,
+    snapshot.phone,
+    lower(tg_op),
+    actor
+  );
+
+  if tg_op = 'DELETE' then
     return old;
   end if;
 
-  return null;
+  return new;
 end;
 $$;
 
@@ -331,78 +380,138 @@ values
   ('user-data', 'user-data', false)
 on conflict (id) do nothing;
 
-alter table storage.objects enable row level security;
+DO $$
+DECLARE
+  can_alter boolean;
+  owner_column text;
+BEGIN
+  SELECT has_table_privilege('storage.objects', 'ALTER') INTO can_alter;
 
-drop policy if exists "Authenticated users can read own avatar" on storage.objects;
-create policy "Authenticated users can read own avatar" on storage.objects
-  for select using (
-    bucket_id = 'avatars'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and name = auth.uid() || '.jpg'
-  );
+  IF NOT can_alter THEN
+    RAISE NOTICE 'Skipping storage.objects policy configuration because current role lacks ALTER privilege.';
+    RETURN;
+  END IF;
 
-drop policy if exists "Authenticated users can insert own avatar" on storage.objects;
-create policy "Authenticated users can insert own avatar" on storage.objects
-  for insert with check (
-    bucket_id = 'avatars'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and name = auth.uid() || '.jpg'
-  );
+  SELECT column_name INTO owner_column
+  FROM information_schema.columns
+  WHERE table_schema = 'storage'
+    AND table_name = 'objects'
+    AND column_name IN ('owner', 'owner_id')
+  ORDER BY CASE column_name WHEN 'owner' THEN 1 ELSE 2 END
+  LIMIT 1;
 
-drop policy if exists "Authenticated users can update own avatar" on storage.objects;
-create policy "Authenticated users can update own avatar" on storage.objects
-  for update using (
-    bucket_id = 'avatars'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and name = auth.uid() || '.jpg'
-  );
+  IF owner_column IS NULL THEN
+    RAISE NOTICE 'Skipping storage.objects policy configuration because owner column was not found.';
+    RETURN;
+  END IF;
 
-drop policy if exists "Authenticated users can delete own avatar" on storage.objects;
-create policy "Authenticated users can delete own avatar" on storage.objects
-  for delete using (
-    bucket_id = 'avatars'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and name = auth.uid() || '.jpg'
-  );
+  EXECUTE 'ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY';
 
-drop policy if exists "Authenticated users can read own data" on storage.objects;
-create policy "Authenticated users can read own data" on storage.objects
-  for select using (
-    bucket_id = 'user-data'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and position(auth.uid()::text || '/' in name) = 1
-  );
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can read own avatar" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can insert own avatar" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can update own avatar" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can delete own avatar" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can read own data" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can insert own data" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can update own data" ON storage.objects';
+  EXECUTE 'DROP POLICY IF EXISTS "Authenticated users can delete own data" ON storage.objects';
 
-drop policy if exists "Authenticated users can insert own data" on storage.objects;
-create policy "Authenticated users can insert own data" on storage.objects
-  for insert with check (
-    bucket_id = 'user-data'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and position(auth.uid()::text || '/' in name) = 1
-  );
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can read own avatar" ON storage.objects
+      FOR SELECT USING (
+        bucket_id = 'avatars'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND name = auth.uid() || '.jpg'
+      );
+  $f$, owner_column);
 
-drop policy if exists "Authenticated users can update own data" on storage.objects;
-create policy "Authenticated users can update own data" on storage.objects
-  for update using (
-    bucket_id = 'user-data'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and position(auth.uid()::text || '/' in name) = 1
-  );
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can insert own avatar" ON storage.objects
+      FOR INSERT WITH CHECK (
+        bucket_id = 'avatars'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND name = auth.uid() || '.jpg'
+      );
+  $f$, owner_column);
 
-drop policy if exists "Authenticated users can delete own data" on storage.objects;
-create policy "Authenticated users can delete own data" on storage.objects
-  for delete using (
-    bucket_id = 'user-data'
-    and auth.role() = 'authenticated'
-    and auth.uid() = owner
-    and position(auth.uid()::text || '/' in name) = 1
-  );
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can update own avatar" ON storage.objects
+      FOR UPDATE USING (
+        bucket_id = 'avatars'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND name = auth.uid() || '.jpg'
+      );
+  $f$, owner_column);
+
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can delete own avatar" ON storage.objects
+      FOR DELETE USING (
+        bucket_id = 'avatars'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND name = auth.uid() || '.jpg'
+      );
+  $f$, owner_column);
+
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can read own data" ON storage.objects
+      FOR SELECT USING (
+        bucket_id = 'user-data'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND position(auth.uid()::text || '/' in name) = 1
+      );
+  $f$, owner_column);
+
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can insert own data" ON storage.objects
+      FOR INSERT WITH CHECK (
+        bucket_id = 'user-data'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND position(auth.uid()::text || '/' in name) = 1
+      );
+  $f$, owner_column);
+
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can update own data" ON storage.objects
+      FOR UPDATE USING (
+        bucket_id = 'user-data'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND position(auth.uid()::text || '/' in name) = 1
+      );
+  $f$, owner_column);
+
+  EXECUTE format($f$
+    CREATE POLICY "Authenticated users can delete own data" ON storage.objects
+      FOR DELETE USING (
+        bucket_id = 'user-data'
+        AND auth.role() = 'authenticated'
+        AND auth.uid() = %I
+        AND position(auth.uid()::text || '/' in name) = 1
+      );
+  $f$, owner_column);
+END;
+$$;
+
+-- Admin action audit log
+create schema if not exists private;
+
+create table if not exists private.admin_action_log (
+  id bigint generated always as identity primary key,
+  actor_user_id uuid not null,
+  target_user_id uuid,
+  action text not null check (char_length(action) between 1 and 120),
+  detail jsonb,
+  created_at timestamptz not null default timezone('utc', now())
+);
+
+create index if not exists idx_admin_action_log_actor on private.admin_action_log(actor_user_id);
+create index if not exists idx_admin_action_log_target on private.admin_action_log(target_user_id);
+create index if not exists idx_admin_action_log_created on private.admin_action_log(created_at desc);
 
 commit;
