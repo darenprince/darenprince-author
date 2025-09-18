@@ -1,5 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+#!/usr/bin/env node
+import { mkdirSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const {
   SUPABASE_DATABASE_URL = '',
@@ -44,7 +46,8 @@ if (typeof window !== 'undefined') {
 }
 `;
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dest = path.join(__dirname, '..', 'assets', 'js', 'env.js');
-fs.mkdirSync(path.dirname(dest), { recursive: true });
-fs.writeFileSync(dest, content);
+mkdirSync(path.dirname(dest), { recursive: true });
+writeFileSync(dest, content);
 console.log('Environment file generated at', dest);
