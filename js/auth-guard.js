@@ -167,7 +167,7 @@ export async function enforceAuthGuard(options = {}) {
   const supabase = getSupabase((message) => {
     showBlockingMessage({
       heading: 'Supabase needs configuration',
-      body: message || SUPABASE_SETUP_MESSAGE,
+      body: message,
       actions: [
         {
           label: 'Back to homepage',
