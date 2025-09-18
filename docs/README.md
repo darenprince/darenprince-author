@@ -169,7 +169,7 @@ Supabase powers sign-ups, secure file storage, and serverless logic. The client 
 
 Protected engineering pages now import `js/auth-guard.js`, which validates the session, checks the user’s role, and confirms any folder-level permissions before revealing `.site-wrap`.
 
-More details live in [docs/supabase.md](supabase.md).
+More details live in [docs/supabase.md](supabase.md). Audit actions and rollout notes are captured in [docs/audit/PROFILES_AUDIT.md](audit/PROFILES_AUDIT.md).
 
 ---
 

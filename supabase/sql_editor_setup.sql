@@ -1,122 +1,196 @@
 begin;
 
--- Ensure uuid helpers are available
+-- Ensure uuid + crypto helpers are available
 create extension if not exists "pgcrypto";
+
+-- Private schema stores audit tables and security-definer helpers
+create schema if not exists private;
 
 -- Define role enum once so profiles can classify access
 create type if not exists public.profile_role as enum ('member', 'developer', 'admin');
 
 -- Profiles table stores member contact info keyed to the auth user
 create table if not exists public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
+  id bigint generated always as identity primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
   first_name text,
   last_name text,
   phone text,
   shipping_address text,
+  avatar_url text,
   role public.profile_role not null default 'member',
   created_at timestamptz not null default timezone('utc', now())
 );
 
-do $$
-begin
-  if not exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public'
-      and table_name = 'profiles'
-      and column_name = 'role'
-  ) then
-    alter table public.profiles
-      add column role public.profile_role not null default 'member';
-  elsif exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public'
-      and table_name = 'profiles'
-      and column_name = 'role'
-      and udt_name <> 'profile_role'
-  ) then
-    alter table public.profiles
-      alter column role type public.profile_role using (
-        case lower(trim(role::text))
-          when 'admin' then 'admin'::public.profile_role
-          when 'developer' then 'developer'::public.profile_role
-          when 'member' then 'member'::public.profile_role
-          else 'member'::public.profile_role
-        end
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'profiles'
+      AND column_name = 'role'
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD COLUMN role public.profile_role NOT NULL DEFAULT 'member';
+  ELSIF EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'profiles'
+      AND column_name = 'role'
+      AND udt_name <> 'profile_role'
+  ) THEN
+    ALTER TABLE public.profiles
+      ALTER COLUMN role TYPE public.profile_role USING (
+        CASE lower(trim(role::text))
+          WHEN 'admin' THEN 'admin'::public.profile_role
+          WHEN 'developer' THEN 'developer'::public.profile_role
+          WHEN 'member' THEN 'member'::public.profile_role
+          ELSE 'member'::public.profile_role
+        END
       ),
-      alter column role set default 'member',
-      alter column role set not null;
-  end if;
-end $$;
+      ALTER COLUMN role SET DEFAULT 'member',
+      ALTER COLUMN role SET NOT NULL;
+  END IF;
+END
+$$;
 
--- Keep phone numbers reasonably formatted
-alter table public.profiles
-  drop constraint if exists phone_format_check;
+-- Legacy table support: convert uuid primary key to identity + user_id column
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'profiles'
+      AND column_name = 'id'
+      AND data_type = 'uuid'
+  ) THEN
+    ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS profiles_pkey;
+    ALTER TABLE public.profiles RENAME COLUMN id TO user_id;
+    ALTER TABLE public.profiles ADD COLUMN id bigint GENERATED ALWAYS AS IDENTITY;
+    ALTER TABLE public.profiles ADD CONSTRAINT profiles_pkey PRIMARY KEY (id);
+  END IF;
+END
+$$;
 
-alter table public.profiles
-  add constraint phone_format_check
-    check (phone is null or phone ~ '^[0-9\\-\\+\\(\\) ]*$');
+ALTER TABLE public.profiles
+  ADD COLUMN IF NOT EXISTS user_id uuid;
 
--- Lock down profile access
-alter table public.profiles enable row level security;
+ALTER TABLE public.profiles
+  ADD COLUMN IF NOT EXISTS avatar_url text;
 
-drop policy if exists "Individuals can view own profile" on public.profiles;
-create policy "Individuals can view own profile" on public.profiles
-  for select using (auth.uid() = id);
+ALTER TABLE public.profiles
+  ALTER COLUMN user_id SET NOT NULL;
 
-drop policy if exists "Individuals can update own profile" on public.profiles;
-create policy "Individuals can update own profile" on public.profiles
-  for update using (auth.uid() = id);
+-- Guarantee the auth reference exists even if table pre-dated the FK
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM information_schema.table_constraints tc
+    JOIN information_schema.key_column_usage kcu
+      ON tc.constraint_name = kcu.constraint_name
+    WHERE tc.table_schema = 'public'
+      AND tc.table_name = 'profiles'
+      AND tc.constraint_type = 'FOREIGN KEY'
+      AND kcu.column_name = 'user_id'
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
+  END IF;
+END
+$$;
 
-drop policy if exists "Users can insert own profile" on public.profiles;
-create policy "Users can insert own profile" on public.profiles
-  for insert with check (auth.uid() = id);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'profiles_user_id_key'
+      AND conrelid = 'public.profiles'::regclass
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_user_id_key UNIQUE (user_id);
+  END IF;
+END
+$$;
 
-drop policy if exists "Users can delete own profile" on public.profiles;
-create policy "Users can delete own profile" on public.profiles
-  for delete using (auth.uid() = id);
+CREATE INDEX IF NOT EXISTS idx_profiles_user_id
+  ON public.profiles(user_id);
+
+ALTER TABLE public.profiles
+  DROP CONSTRAINT IF EXISTS phone_format_check;
+
+ALTER TABLE public.profiles
+  ADD CONSTRAINT phone_format_check
+    CHECK (phone IS NULL OR phone ~ '^[0-9\\-\\+\\(\\) ]*$');
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Individuals can view own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Individuals can update own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users can insert own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users can delete own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Profiles: select owner" ON public.profiles;
+DROP POLICY IF EXISTS "Profiles: insert owner" ON public.profiles;
+DROP POLICY IF EXISTS "Profiles: update owner" ON public.profiles;
+DROP POLICY IF EXISTS "Profiles: delete owner" ON public.profiles;
+
+CREATE POLICY "Profiles: select owner" ON public.profiles
+  FOR SELECT TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
+
+CREATE POLICY "Profiles: insert owner" ON public.profiles
+  FOR INSERT TO authenticated
+  WITH CHECK ((SELECT auth.uid()) = user_id);
+
+CREATE POLICY "Profiles: update owner" ON public.profiles
+  FOR UPDATE TO authenticated
+  USING ((SELECT auth.uid()) = user_id)
+  WITH CHECK ((SELECT auth.uid()) = user_id);
+
+CREATE POLICY "Profiles: delete owner" ON public.profiles
+  FOR DELETE TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
 
 -- Maintain profiles in sync with auth metadata for role-based navigation
 create or replace function public.sync_profile_from_auth()
 returns trigger
 language plpgsql
 security definer
-set search_path = public
+set search_path = ''
 as $$
 declare
-  meta_first text;
-  meta_last text;
-  meta_phone text;
-  meta_shipping text;
-  meta_role text;
+  meta jsonb := coalesce(new.raw_user_meta_data, '{}'::jsonb);
+  meta_first text := nullif(trim(meta->>'first_name'), '');
+  meta_last text := nullif(trim(meta->>'last_name'), '');
+  meta_phone text := nullif(trim(meta->>'phone'), '');
+  meta_shipping text := nullif(trim(meta->>'shipping_address'), '');
+  meta_avatar text := nullif(trim(meta->>'avatar_url'), '');
+  meta_role text := nullif(trim(meta->>'role'), '');
   resolved_role public.profile_role := 'member';
 begin
-  if new.raw_user_meta_data ? 'first_name' then
-    meta_first := nullif(trim(new.raw_user_meta_data->>'first_name'), '');
-  end if;
-  if new.raw_user_meta_data ? 'last_name' then
-    meta_last := nullif(trim(new.raw_user_meta_data->>'last_name'), '');
-  end if;
-  if new.raw_user_meta_data ? 'phone' then
-    meta_phone := nullif(trim(new.raw_user_meta_data->>'phone'), '');
-  end if;
-  if new.raw_user_meta_data ? 'shipping_address' then
-    meta_shipping := nullif(trim(new.raw_user_meta_data->>'shipping_address'), '');
-  end if;
-  if new.raw_user_meta_data ? 'role' then
-    meta_role := lower(trim(new.raw_user_meta_data->>'role'));
-    if meta_role = any (array['member', 'developer', 'admin']) then
-      resolved_role := meta_role::public.profile_role;
-    end if;
+  if meta_role is not null then
+    case lower(meta_role)
+      when 'admin' then resolved_role := 'admin';
+      when 'developer' then resolved_role := 'developer';
+      when 'member' then resolved_role := 'member';
+      else resolved_role := 'member';
+    end case;
   end if;
 
-  insert into public.profiles (id, first_name, last_name, phone, shipping_address, role)
-  values (new.id, meta_first, meta_last, meta_phone, meta_shipping, resolved_role)
-  on conflict (id) do update
-    set first_name = coalesce(excluded.first_name, public.profiles.first_name),
-        last_name = coalesce(excluded.last_name, public.profiles.last_name),
-        phone = coalesce(excluded.phone, public.profiles.phone),
-        shipping_address = coalesce(excluded.shipping_address, public.profiles.shipping_address),
-        role = excluded.role;
+  insert into public.profiles as p (user_id, first_name, last_name, phone, shipping_address, avatar_url, role)
+  values (new.id, meta_first, meta_last, meta_phone, meta_shipping, meta_avatar, resolved_role)
+  on conflict (user_id) do update
+    set first_name = case when meta ? 'first_name' then excluded.first_name else p.first_name end,
+        last_name = case when meta ? 'last_name' then excluded.last_name else p.last_name end,
+        phone = case when meta ? 'phone' then excluded.phone else p.phone end,
+        shipping_address = case when meta ? 'shipping_address' then excluded.shipping_address else p.shipping_address end,
+        avatar_url = case when meta ? 'avatar_url' then excluded.avatar_url else p.avatar_url end,
+        role = case when meta ? 'role' then excluded.role else p.role end;
 
   return new;
 end;
@@ -127,13 +201,14 @@ create trigger sync_profile_from_auth
   after insert or update on auth.users
   for each row execute function public.sync_profile_from_auth();
 
-insert into public.profiles (id, first_name, last_name, phone, shipping_address, role)
+insert into public.profiles (user_id, first_name, last_name, phone, shipping_address, avatar_url, role)
 select
   u.id,
   nullif(trim(u.raw_user_meta_data->>'first_name'), ''),
   nullif(trim(u.raw_user_meta_data->>'last_name'), ''),
   nullif(trim(u.raw_user_meta_data->>'phone'), ''),
   nullif(trim(u.raw_user_meta_data->>'shipping_address'), ''),
+  nullif(trim(u.raw_user_meta_data->>'avatar_url'), ''),
   coalesce(
     case
       when u.raw_user_meta_data ? 'role' then
@@ -147,8 +222,8 @@ select
     'member'::public.profile_role
   )
 from auth.users u
-left join public.profiles p on p.id = u.id
-where p.id is null;
+left join public.profiles p on p.user_id = u.id
+where p.user_id is null;
 
 -- Track which files are shared with a member
 create table if not exists public.folder_access (
@@ -162,19 +237,92 @@ alter table public.folder_access enable row level security;
 
 drop policy if exists "Users can view own folder_access" on public.folder_access;
 create policy "Users can view own folder_access" on public.folder_access
-  for select using (auth.uid() = user_id);
+  for select using ((SELECT auth.uid()) = user_id);
 
 drop policy if exists "Users can insert own folder_access" on public.folder_access;
 create policy "Users can insert own folder_access" on public.folder_access
-  for insert with check (auth.uid() = user_id);
+  for insert with check ((SELECT auth.uid()) = user_id);
 
 drop policy if exists "Users can update own folder_access" on public.folder_access;
 create policy "Users can update own folder_access" on public.folder_access
-  for update using (auth.uid() = user_id);
+  for update using ((SELECT auth.uid()) = user_id);
 
 drop policy if exists "Users can delete own folder_access" on public.folder_access;
 create policy "Users can delete own folder_access" on public.folder_access
-  for delete using (auth.uid() = user_id);
+  for delete using ((SELECT auth.uid()) = user_id);
+
+-- Profiles audit trail (private schema)
+create table if not exists private.profile_audit (
+  id bigint generated always as identity primary key,
+  profile_id bigint references public.profiles(id) on delete cascade,
+  user_id uuid,
+  full_name text,
+  avatar_url text,
+  phone text,
+  action text not null check (action in ('insert', 'update', 'delete')),
+  changed_at timestamptz not null default timezone('utc', now()),
+  changed_by uuid
+);
+
+create or replace function private.log_profile_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  actor uuid := (select auth.uid());
+begin
+  if tg_op = 'INSERT' then
+    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
+    values (
+      new.id,
+      new.user_id,
+      concat_ws(' ', new.first_name, new.last_name),
+      new.avatar_url,
+      new.phone,
+      'insert',
+      actor
+    );
+    return new;
+  elsif tg_op = 'UPDATE' then
+    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
+    values (
+      new.id,
+      new.user_id,
+      concat_ws(' ', new.first_name, new.last_name),
+      new.avatar_url,
+      new.phone,
+      'update',
+      actor
+    );
+    return new;
+  elsif tg_op = 'DELETE' then
+    insert into private.profile_audit (profile_id, user_id, full_name, avatar_url, phone, action, changed_by)
+    values (
+      old.id,
+      old.user_id,
+      concat_ws(' ', old.first_name, old.last_name),
+      old.avatar_url,
+      old.phone,
+      'delete',
+      actor
+    );
+    return old;
+  end if;
+
+  return null;
+end;
+$$;
+
+revoke execute on function private.log_profile_change() from public;
+revoke execute on function private.log_profile_change() from anon;
+revoke execute on function private.log_profile_change() from authenticated;
+
+drop trigger if exists trg_profiles_audit on public.profiles;
+create trigger trg_profiles_audit
+  after insert or update or delete on public.profiles
+  for each row execute function private.log_profile_change();
 
 -- Provision storage buckets used by the dashboard
 insert into storage.buckets (id, name, public)

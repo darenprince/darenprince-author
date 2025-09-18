@@ -34,7 +34,8 @@ supabase/
 ├── migrations/
 │   ├── 0001_create_profiles.sql
 │   ├── 0002_create_folder_access_and_policies.sql
-│   └── 0003_update_profile_sync.sql
+│   ├── 0003_update_profile_sync.sql
+│   └── 0004_profiles_audit.sql
 ├── sql_editor_setup.sql     # Enables required extensions + helper schema
 └── supabase-integration.md  # This playbook
 ```
@@ -42,32 +43,52 @@ supabase/
 ## Database & RLS snapshot
 
 ### `auth.users`
-Seeded by Supabase authentication. A trigger defined in `0001_create_profiles.sql` keeps `public.profiles` in sync via `sync_profile_from_auth`.
+Seeded by Supabase authentication. A security-definer trigger (`sync_profile_from_auth`) keeps `public.profiles` in sync whenever a user signs up or edits their metadata.
 
 ### `public.profiles`
-Stores the public profile for every authenticated user.
+Stores the public profile for every authenticated user. Recent restructuring introduced a surrogate identity primary key so we can attach audit logs without exposing UUIDs in the private schema.
 
-| column      | type      | notes                                      |
-|-------------|-----------|---------------------------------------------|
-| `id`        | uuid      | Primary key, mirrors `auth.users.id`       |
-| `email`     | text      | Automatically copied from auth metadata    |
-| `role`      | enum      | `member`, `developer`, or `admin`          |
-| `first_name`, `last_name`, `phone`, `shipping_address`, `birthdate` | text/date | Optional metadata |
-| `created_at`| timestamptz | Default `now()`                          |
+| column        | type                  | notes                                                     |
+|---------------|-----------------------|-----------------------------------------------------------|
+| `id`          | `bigint` identity     | Surrogate primary key, used by triggers/auditing          |
+| `user_id`     | `uuid`                | FK to `auth.users.id`, unique + indexed                   |
+| `first_name`, `last_name` | `text`    | Optional personal data                                    |
+| `phone`       | `text`                | Format validated by `phone_format_check`                  |
+| `shipping_address` | `text`          | Optional contact info                                     |
+| `avatar_url`  | `text`                | Mirrors metadata supplied during signup/profile updates   |
+| `role`        | `profile_role` enum   | `member` (default), `developer`, or `admin`               |
+| `created_at`  | `timestamptz`         | Defaults to `timezone('utc', now())`                      |
 
-Row level security allows users to read/update only their own row.
+Row level security restricts all operations to the owning `auth.uid()` via consolidated policies:
+
+- `Profiles: select owner`
+- `Profiles: insert owner`
+- `Profiles: update owner`
+- `Profiles: delete owner`
 
 ### `public.folder_access`
-Grants per-user access to restricted content buckets. Records are simple `{ id, user_id, file_name, created_at }`. Authenticated users can select/insert/update/delete rows for their own `user_id` only.
+Grants per-user access to restricted content buckets. Records are simple `{ id, user_id, file_name, created_at }`. Authenticated users can select/insert/update/delete rows for their own `user_id` only. Elevated roles (`developer`, `admin`) bypass folder checks automatically on the front end.
 
-The new front-end guard uses this table to decide whether a signed-in member can view `components.html`, `style-classes.html`, `image-index.html`, and other engineering surfaces. Elevated roles (`developer`, `admin`) bypass folder checks automatically.
+### `private.profile_audit`
+Immutable audit log written by the trigger `trg_profiles_audit` whenever `public.profiles` changes. Columns capture the profile surrogate ID, the owning auth user ID, concatenated full name, avatar URL, phone number, action (`insert`/`update`/`delete`), timestamp, and the actor returned by `auth.uid()`. Execution of the security-definer function is revoked from the `public`, `anon`, and `authenticated` roles so only triggers (or privileged callers) can write to the table.
 
 ### Storage buckets
 
 - `avatars` (public) – One JPEG per user (`<user_id>.jpg`)
 - `user-data` (private) – User-owned file tree (`<user_id>/<filename>`)
 
-Row level security on `storage.objects` enforces bucket ownership.
+Row level security on `storage.objects` enforces bucket ownership for both buckets.
+
+## SQL deployment workflow
+
+1. Apply migrations in order (including `0004_profiles_audit.sql`) using the Supabase CLI (`supabase db push`), the SQL Editor, or your migration runner with the service role connection string.
+2. For manual execution, copy the relevant blocks from `supabase/sql_editor_setup.sql` into the SQL Editor. The file is idempotent and safe to re-run in staging/production.
+3. Re-run the validation script provided in the project brief to confirm:
+   - Each auth user has a matching profile row and vice versa.
+   - `idx_profiles_user_id`, the `private.profile_audit` table, and the `trg_profiles_audit` trigger exist.
+   - Consolidated RLS policies are active on `public.profiles` and `public.folder_access`.
+   - Storage RLS remains intact for `avatars` and `user-data`.
+4. Capture the executed SQL, test notes, and rollback plan in `docs/audit/PROFILES_AUDIT.md` (see new log file).
 
 ## Client usage
 
@@ -97,7 +118,7 @@ The guard will:
 
 1. Resolve the Supabase client via `supabase/client.js`.
 2. Redirect to `login.html?redirect=/requested/page` if the session is missing.
-3. Fetch the signed-in user’s role via `public.profiles`.
+3. Fetch the signed-in user’s role via `public.profiles` (using `user_id`).
 4. Load the user’s folder grants when required.
 5. Reveal the page (`.site-wrap`) once authorised or display a branded blocker with next steps when access is denied.
 
@@ -110,7 +131,7 @@ Hook into these events for future dynamic tooling.
 
 ## Authentication UX
 
-`login.html` uses `js/auth.js` to handle sign-in/sign-up, password resets, and redirect flows. If a guard sends a visitor to the login screen with `?redirect=/components.html`, the login script now returns them to that page after a successful role check. Elevated-only destinations fall back to the member dashboard when a user lacks permissions.
+`login.html` uses `js/auth.js` to handle sign-in/sign-up, password resets, and redirect flows. If a guard sends a visitor to the login screen with `?redirect=/components.html`, the login script now returns them to that page after a successful role check. Elevated-only targets fall back to the member dashboard when a user lacks permissions. Metadata captured at signup (`first_name`, `last_name`, `phone`, `shipping_address`, optional `avatar_url`) is synchronised into `public.profiles` via the trigger.
 
 ## Edge function
 
@@ -118,10 +139,11 @@ Hook into these events for future dynamic tooling.
 
 ## Validation checklist
 
-The following SQL sanity checks have been executed against the live database (see task log). Highlights:
+The following SQL sanity checks should be executed after each deployment:
 
-- Profiles are automatically created for every auth user (`sync_profile_from_auth` trigger).
-- `profile_role` enum + `role` column exist and default to `member`.
+- Profiles automatically mirror auth users (`sync_profile_from_auth` trigger fires and audit rows are generated).
+- `profile_role` enum exists, `profiles.role` defaults to `member`, and `idx_profiles_user_id` supports RLS queries.
+- `private.profile_audit` contains rows for inserts/updates/deletes with `changed_by` set to the acting `auth.uid()` (service role executions may yield `NULL`).
 - `folder_access` table & RLS policies allow users to manage their own folder permissions.
 - Storage buckets `avatars` and `user-data` exist with row-level security enabled.
 
@@ -136,8 +158,7 @@ A dedicated management surface still needs to be built inside the admin dashboar
 - Display folder access grants with interactive toggles per folder group.
 - Provide buttons to reset passwords, trigger password recovery emails, or manually set a new password.
 - Support user deletion (with confirmation and clean-up of storage objects/folder grants).
-- Surface Supabase storage structure (buckets and folders) in the UI so admins understand what each toggle controls.
+- Surface Supabase storage structure (buckets and folders) in the UI so admins understand what each toggle controls).
 - Log every admin action to a Supabase table for auditing.
 
 Add a new page in the `admin-dashboard` section that consumes `enforceAuthGuard({ requireElevated: true })` and surfaces these controls once the design is approved.
-
