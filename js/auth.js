@@ -62,9 +62,8 @@ const signupPasswordInput = document.getElementById('password');
 const signupConfirmInput = document.getElementById('confirm-password');
 
 function handleMissingSupabase(message) {
-  const notice = message || SUPABASE_SETUP_MESSAGE;
   if (submitBtn) submitBtn.disabled = true;
-  if (errorEl) errorEl.textContent = notice;
+  if (errorEl) errorEl.textContent = message;
 }
 
 function setRequired(field, isRequired) {
