@@ -49,7 +49,7 @@
     const email = hashParams.get('email') || searchParams.get('email');
     const type = hashParams.get('type') || searchParams.get('type');
     const supabaseClient = getSupabase((message) => {
-      messageEl.textContent = `${message || SUPABASE_SETUP_MESSAGE} Email verification will complete after deployment injects credentials.`;
+      messageEl.textContent = `${message} Email verification will complete after deployment injects credentials.`;
     });
     if (!supabaseClient) {
       return;
