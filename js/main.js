@@ -1,4 +1,6 @@
 import { applyIndexingMeta } from './seo-indexing.js';
+import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
+import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
   const indexingRule = applyIndexingMeta();
@@ -179,23 +181,33 @@ document.addEventListener('DOMContentLoaded', async function () {
   // ---------------------------
 
   try {
-    const { default: supabase } = await import('../supabase/client.js');
+    const supabase = getSupabase((message) => {
+      if (authToggle) authToggle.title = message || SUPABASE_SETUP_MESSAGE;
+      logSupabaseWarning('main.missingSupabase', message || SUPABASE_SETUP_MESSAGE);
+    });
     if (!supabase) {
-      throw new Error('Supabase client not configured');
+      return;
     }
-    const { data } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      throw error;
+    }
     const session = data.session;
 
     if (authToggle && session) {
       authToggle.removeEventListener('click', loginHandler);
       authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout';
       authToggle.addEventListener('click', async function () {
-        await supabase.auth.signOut();
+        const { error: signOutError } = await supabase.auth.signOut();
+        if (signOutError) {
+          logSupabaseError('main.signOut', signOutError);
+          return;
+        }
         window.location.href = '/';
       });
     }
   } catch (error) {
-    console.warn('Supabase unavailable: auth features disabled', error);
+    logSupabaseError('main.authInit', error);
     if (authToggle) {
       authToggle.title = 'Authentication service unavailable';
     }
