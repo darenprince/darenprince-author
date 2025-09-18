@@ -6,10 +6,33 @@ import {
 import { getSupabase } from './supabase-helper.js';
 import { getUserRole, isElevatedRole } from './user-role.js';
 
+function resolveRedirectTarget(role) {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const redirectParam = params.get('redirect');
+    if (!redirectParam) return null;
+    const target = new URL(redirectParam, window.location.origin);
+    if (target.origin !== window.location.origin) return null;
+    if (/login\.html?$/.test(target.pathname)) return null;
+    if (target.pathname.includes('admin-dashboard') && !isElevatedRole(role)) {
+      return null;
+    }
+    return `${target.pathname}${target.search}${target.hash}` || target.pathname;
+  } catch (error) {
+    console.warn('Invalid redirect parameter, ignoring', error);
+    return null;
+  }
+}
+
 async function redirectToDashboard(sb, user) {
   if (!user) return;
   try {
     const role = await getUserRole(sb, user);
+    const redirectTarget = resolveRedirectTarget(role);
+    if (redirectTarget) {
+      window.location.href = redirectTarget;
+      return;
+    }
     const destination = isElevatedRole(role) ? 'admin-dashboard.html' : 'dashboard.html';
     window.location.href = destination;
   } catch (error) {

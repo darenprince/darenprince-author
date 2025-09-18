@@ -25,7 +25,7 @@ export async function getUserRole(sb, user) {
     const { data, error } = await sb
       .from('profiles')
       .select('role')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
     if (error) {
       console.warn('Failed to retrieve profile role', error);

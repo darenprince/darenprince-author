@@ -1,151 +1,164 @@
----
-title: "Supabase integration"
-description: "Learn how to install, configure, and use the Supabase integration with Netlify."
----
+# Supabase Integration Playbook
 
-[Supabase](https://supabase.com/) is an open-source platform that provides a suite of tools including a PostgreSQL database, authentication, storage, real-time capabilities, and a GraphQL API.
+This project is wired to the Supabase project `ogftwcrihcihqahfasmg`. The migrations in `/supabase/migrations` have already been executed in the hosted database, so the schema below reflects production reality. Use this guide to understand how the client is initialised, how auth gates work across the site, and what is left to build next.
 
-The Supabase integration for Netlify streamlines your workflow by connecting your Supabase and Netlify projects. It offers the following benefits:
+## Runtime configuration
 
-- **Seamless authentication**. Easily connect your Supabase account using OAuth.
+The browser client resolves environment variables in this order:
 
-- **Project selection**. Choose your desired Supabase project from your account.
+1. `Deno.env` (edge functions)
+2. `process.env` (Node-based tooling)
+3. `assets/js/env.js` (statically generated for the browser)
 
-- **Automated environment configuration**. We'll set up these crucial environment variables for you:
+Set the following keys locally or in Netlify:
 
-  - `SUPABASE_DATABASE_URL`
-  - `SUPABASE_SERVICE_ROLE_KEY`
-  - `SUPABASE_ANON_KEY`
-  - `SUPABASE_JWT_SECRET`
-
-- **Framework compatibility:** Select your frontend framework (for example, Next.js, Nuxt, or Vue), and we'll configure the appropriate environment variables.
-
-- **Custom prefix option:** Using a different framework? No problem. You can specify a custom prefix for your environment variables.
-
-## Before you begin
-
-To integrate Supabase with your Netlify site, make sure you have the following:
-
-- a [Supabase](https://supabase.com/) account
-- a [deployed site](/deploy/deploy-overview) on Netlify
-
-## Get started with Supabase
-
-As a Team Owner, you can install the Supabase integration for your team to use:
-
-1. In the Netlify UI, navigate to the 
-### NavigationPath Component:
-
-Extensions
- page for your team.
-2. Search for `Supabase` and select it in the search results.
-3. On the details page, select **Install**.
-4. From your team's **Sites** list, select the site you plan to use with Supabase, and navigate to 
-### NavigationPath Component:
-
-Project configuration > General > Supabase
-.
-5. Select **Connect** and follow the prompts to authorize and connect to Supabase.
-6. Select your Supabase project and framework. If you select `Other` during configuration, you will be able to specify a custom prefix for your environment variables.
-7. Select **Save**.
-
-The integration automatically creates [site environment variables](/build/environment-variables/overview) for the configuration values you provide. You can review these variables at any time by navigating to 
-### NavigationPath Component:
-
-Project configuration > Environment variables
-.
-
-### User-level authentication
-
-The Supabase integration authenticates at the user-level in the Netlify UI. When you collaborate on a team, each user needs to follow the authentication steps above to connect to Supabase (steps 4-7).
-
-## Use the Supabase client in your site
-
-You can use the [Supabase client](https://supabase.com/docs/reference/javascript/introduction) in your site to interact with your Supabase project. Pass in the following environment variables when you create the client:
-
-### Tabs Component:
-
-<TabItem label="TypeScript">
-
-```ts
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "./database.types";
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_DATABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+```bash
+SUPABASE_DATABASE_URL=<https://YOUR-PROJECT.supabase.co>
+SUPABASE_ANON_KEY=<anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<service-role>
+SUPABASE_JWT_SECRET=<jwt-secret>
 ```
 
-</TabItem>
+`npm run build` automatically regenerates `assets/js/env.js` with the URL + anon key so the public bundle stays lean. Additional aliases (`NEXT_PUBLIC_SUPABASE_URL`, etc.) are supported by `supabase/env.js`.
 
-<TabItem label="JavaScript">
+## Repo structure
 
-```js
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.SUPABASE_DATABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+```text
+supabase/
+├── client.js                # Browser ESM client (used by UI scripts)
+├── client.ts                # Deno client for edge functions
+├── env.js / env.d.ts        # Environment resolution helpers
+├── functions/
+│   └── secure-storage/
+│       └── index.ts         # Authenticated upload handler
+├── migrations/
+│   ├── 0001_create_profiles.sql
+│   ├── 0002_create_folder_access_and_policies.sql
+│   ├── 0003_update_profile_sync.sql
+│   └── 0004_profiles_audit.sql
+├── sql_editor_setup.sql     # Enables required extensions + helper schema
+└── supabase-integration.md  # This playbook
 ```
 
-</TabItem>
+## Database & RLS snapshot
 
-If your site uses a framework, you'll want to use the prefixed, public environment variables. For example, with Next.js:
+### `auth.users`
+Seeded by Supabase authentication. A security-definer trigger (`sync_profile_from_auth`) keeps `public.profiles` in sync whenever a user signs up or edits their metadata.
 
-### Tabs Component:
+### `public.profiles`
+Stores the public profile for every authenticated user. Recent restructuring introduced a surrogate identity primary key so we can attach audit logs without exposing UUIDs in the private schema.
 
-<TabItem label="TypeScript">
+| column        | type                  | notes                                                     |
+|---------------|-----------------------|-----------------------------------------------------------|
+| `id`          | `bigint` identity     | Surrogate primary key, used by triggers/auditing          |
+| `user_id`     | `uuid`                | FK to `auth.users.id`, unique + indexed                   |
+| `first_name`, `last_name` | `text`    | Optional personal data                                    |
+| `phone`       | `text`                | Format validated by `phone_format_check`                  |
+| `shipping_address` | `text`          | Optional contact info                                     |
+| `avatar_url`  | `text`                | Mirrors metadata supplied during signup/profile updates   |
+| `role`        | `profile_role` enum   | `member` (default), `developer`, or `admin`               |
+| `created_at`  | `timestamptz`         | Defaults to `timezone('utc', now())`                      |
 
-```ts
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "./database.types";
+Row level security restricts all operations to the owning `auth.uid()` via consolidated policies:
 
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+- `Profiles: select owner`
+- `Profiles: insert owner`
+- `Profiles: update owner`
+- `Profiles: delete owner`
+
+### `public.folder_access`
+Grants per-user access to restricted content buckets. Records are simple `{ id, user_id, file_name, created_at }`. Authenticated users can select/insert/update/delete rows for their own `user_id` only. Elevated roles (`developer`, `admin`) bypass folder checks automatically on the front end.
+
+### `private.profile_audit`
+Immutable audit log written by the trigger `trg_profiles_audit` whenever `public.profiles` changes. Columns capture the profile surrogate ID, the owning auth user ID, concatenated full name, avatar URL, phone number, action (`insert`/`update`/`delete`), timestamp, and the actor returned by `auth.uid()`. Execution of the security-definer function is revoked from the `public`, `anon`, and `authenticated` roles so only triggers (or privileged callers) can write to the table.
+
+### Storage buckets
+
+- `avatars` (public) – One JPEG per user (`<user_id>.jpg`)
+- `user-data` (private) – User-owned file tree (`<user_id>/<filename>`)
+
+Row level security on `storage.objects` enforces bucket ownership for both buckets.
+
+## SQL deployment workflow
+
+1. Apply migrations in order (including `0004_profiles_audit.sql`) using the Supabase CLI (`supabase db push`), the SQL Editor, or your migration runner with the service role connection string.
+2. For manual execution, copy the relevant blocks from `supabase/sql_editor_setup.sql` into the SQL Editor. The file is idempotent and safe to re-run in staging/production.
+3. Re-run the validation script provided in the project brief to confirm:
+   - Each auth user has a matching profile row and vice versa.
+   - `idx_profiles_user_id`, the `private.profile_audit` table, and the `trg_profiles_audit` trigger exist.
+   - Consolidated RLS policies are active on `public.profiles` and `public.folder_access`.
+   - Storage RLS remains intact for `avatars` and `user-data`.
+4. Capture the executed SQL, test notes, and rollback plan in `docs/audit/PROFILES_AUDIT.md` (see new log file).
+
+## Client usage
+
+`js/auth-guard.js` is the central gatekeeper. Pages that previously relied on the static password overlay now import:
+
+```html
+<script type="module">
+  import { enforceAuthGuard } from './js/auth-guard.js';
+  enforceAuthGuard({
+    requiredFolders: ['components'],
+    loadFolderAccess: true,
+  });
+</script>
 ```
 
-</TabItem>
+`requiredFolders` should match the `file_name` values inserted into `public.folder_access`. For example:
 
-<TabItem label="JavaScript">
+| Page                                   | Required folder key            |
+|----------------------------------------|--------------------------------|
+| `components.html`                      | `components`                   |
+| `style-classes.html`                   | `style-classes`                |
+| `image-index.html`                     | `image-index`                  |
+| `components/book-details-tab-demo.html`| `components/book-details`      |
+| `admin-dashboard.html`                 | *no folder* (requires elevated role) |
 
-```js
-import { createClient } from "@supabase/supabase-js";
+The guard will:
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_DATABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-```
+1. Resolve the Supabase client via `supabase/client.js`.
+2. Redirect to `login.html?redirect=/requested/page` if the session is missing.
+3. Fetch the signed-in user’s role via `public.profiles` (using `user_id`).
+4. Load the user’s folder grants when required.
+5. Reveal the page (`.site-wrap`) once authorised or display a branded blocker with next steps when access is denied.
 
-</TabItem>
+Successful authorisations emit `window` events:
 
-To test your site locally, install the [Netlify CLI](/api-and-cli-guides/cli-guides/get-started-with-cli) and then run `netlify dev`. [Netlify Dev](/api-and-cli-guides/cli-guides/local-development) will automatically inject the configuration environment variables for you.
+- `auth:ready` – `{ supabase, user, role, folderAccess }`
+- `auth:denied` – `{ reason, role?, folderAccess? }`
 
-## Modify your configuration
+Hook into these events for future dynamic tooling.
 
-To update the Supabase configuration settings for your site:
+## Authentication UX
 
-1. In the Netlify UI, navigate to 
-### NavigationPath Component:
+`login.html` uses `js/auth.js` to handle sign-in/sign-up, password resets, and redirect flows. If a guard sends a visitor to the login screen with `?redirect=/components.html`, the login script now returns them to that page after a successful role check. Elevated-only targets fall back to the member dashboard when a user lacks permissions. Metadata captured at signup (`first_name`, `last_name`, `phone`, `shipping_address`, optional `avatar_url`) is synchronised into `public.profiles` via the trigger.
 
-Project configuration > General > Supabase
- for the site you want to edit.
-2. Update your configuration and then select **Save**.
+## Edge function
 
-Alternatively, you can [update the environment variables](/build/environment-variables/get-started/#modify-and-delete-environment-variables) directly.
+`supabase/functions/secure-storage/index.ts` validates bearer tokens with Supabase Auth before streaming uploads into the requested bucket. The function expects a `multipart/form-data` payload with `file` and `bucket` fields.
 
-## Uninstall the integration
+## Validation checklist
 
-As a Team Owner, to uninstall the Supabase integration:
+The following SQL sanity checks should be executed after each deployment:
 
-1. In the Netlify UI, navigate to the 
-### NavigationPath Component:
+- Profiles automatically mirror auth users (`sync_profile_from_auth` trigger fires and audit rows are generated).
+- `profile_role` enum exists, `profiles.role` defaults to `member`, and `idx_profiles_user_id` supports RLS queries.
+- `private.profile_audit` contains rows for inserts/updates/deletes with `changed_by` set to the acting `auth.uid()` (service role executions may yield `NULL`).
+- `folder_access` table & RLS policies allow users to manage their own folder permissions.
+- Storage buckets `avatars` and `user-data` exist with row-level security enabled.
 
-Extensions
- page for your team.
-2. Search for `Supabase` and select it in the search results.
-3. On the details page, navigate to the **Danger zone** section, and then select **Uninstall this extension**.
+Re-run the validation block in the Supabase SQL editor after migrations or policy changes.
+
+## Follow-up build order: Admin user management console
+
+A dedicated management surface still needs to be built inside the admin dashboard. Requirements:
+
+- List all users (email, role, created date, last sign-in when available).
+- Toggle role assignments (`member` ↔ `developer` ↔ `admin`).
+- Display folder access grants with interactive toggles per folder group.
+- Provide buttons to reset passwords, trigger password recovery emails, or manually set a new password.
+- Support user deletion (with confirmation and clean-up of storage objects/folder grants).
+- Surface Supabase storage structure (buckets and folders) in the UI so admins understand what each toggle controls).
+- Log every admin action to a Supabase table for auditing.
+
+Add a new page in the `admin-dashboard` section that consumes `enforceAuthGuard({ requireElevated: true })` and surfaces these controls once the design is approved.

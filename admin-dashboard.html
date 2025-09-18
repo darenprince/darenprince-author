@@ -8,11 +8,6 @@
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <style>
-    .auth-gate{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:2000;}
-    .auth-gate__form{background:#2b2b2b;padding:2rem;border-radius:8px;display:flex;flex-direction:column;gap:1rem;}
-    .auth-gate__input{padding:.5rem;border-radius:4px;border:1px solid #555;background:#1e1e1e;color:#fff;}
-    .auth-gate__error{color:#ff6b6b;font-size:.875rem;margin-top:-.5rem;}
-
     .admin-dashboard{display:flex;flex-direction:column;gap:3rem;}
     .admin-hero{text-align:center;background:linear-gradient(135deg,rgba(125,222,91,.1),rgba(0,0,0,.35));padding:3rem 2rem;border-radius:20px;border:1px solid rgba(125,222,91,.25);box-shadow:0 20px 45px -35px rgba(125,222,91,.8);}
     .admin-hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:1rem;}
@@ -57,8 +52,8 @@
 </head>
 <body class="theme-dark">
 <script type="module">
-  import initPasswordGate from './js/password-gate.js';
-  initPasswordGate('Gr@ndCh3r0k33');
+  import { enforceAuthGuard } from './js/auth-guard.js';
+  enforceAuthGuard({ requireElevated: true, loadFolderAccess: true });
 </script>
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
@@ -159,6 +154,11 @@
               <i class="ti ti-user"></i>
               <h3>Member Dashboard</h3>
               <p>Simulate member journeys, profile settings, and gated content flows.</p>
+            </a>
+            <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author/blob/main/docs/supabase.md#admin-user-management-console" target="_blank" rel="noopener noreferrer">
+              <i class="ti ti-users"></i>
+              <h3>User Access Console</h3>
+              <p>Follow-up build: elevated admins will assign roles, toggle folder access, reset passwords, and remove accounts.</p>
             </a>
           </div>
         </section>
