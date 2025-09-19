@@ -2,14 +2,6 @@
   const initHeroVideo = () => {
     const hero = document.querySelector('#autoZoomHero.hero--video');
     if (!hero) return;
-    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) return;
-
-    const videoId = parseInt(hero.dataset.videoId || '', 10);
-    if (!videoId) return;
-
-    const frame = hero.querySelector('.hero-video-layer__frame');
-    if (!frame) return;
-
     const videoLayer = hero.querySelector('.js-hero-video');
     const playOverlay = hero.querySelector('.js-hero-play');
     const muteButton = hero.querySelector('.js-hero-mute');
@@ -19,6 +11,54 @@
     const closeBtn = hero.querySelector('.js-hero-close');
     const fullscreenBtn = hero.querySelector('.js-hero-fullscreen');
     const airplayBtn = hero.querySelector('.js-hero-airplay');
+
+    const fallbackToStaticHero = () => {
+      hero.classList.remove(
+        'is-loading',
+        'is-video-ready',
+        'is-video-active',
+        'is-video-playing',
+        'is-video-paused',
+        'is-paused-overlay'
+      );
+      hero.classList.add('is-image-active');
+
+      if (videoLayer) {
+        videoLayer.setAttribute('aria-hidden', 'true');
+      }
+
+      if (playOverlay) {
+        playOverlay.classList.add('is-hidden');
+        playOverlay.setAttribute('aria-hidden', 'true');
+        playOverlay.disabled = true;
+      }
+
+      if (muteButton) {
+        muteButton.hidden = true;
+      }
+
+      if (pauseOverlay) {
+        pauseOverlay.classList.remove('is-visible');
+        pauseOverlay.hidden = true;
+      }
+    };
+
+    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) {
+      fallbackToStaticHero();
+      return;
+    }
+
+    const videoId = parseInt(hero.dataset.videoId || '', 10);
+    if (!videoId) {
+      fallbackToStaticHero();
+      return;
+    }
+
+    const frame = hero.querySelector('.hero-video-layer__frame');
+    if (!frame) {
+      fallbackToStaticHero();
+      return;
+    }
 
     const player = new window.Vimeo.Player(frame, {
       id: videoId,
