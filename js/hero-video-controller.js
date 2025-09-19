@@ -86,7 +86,7 @@
             muteButton.classList.remove('is-attention');
           }
         })
-        .catch(() => {});
+        .catch((error) => console.error('Vimeo player error:', error));
     };
 
     player
