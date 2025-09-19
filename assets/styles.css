@@ -1902,7 +1902,7 @@ input:checked + .toggle-slider::before {
   opacity: 0;
   position: absolute;
   left: 50%;
-  bottom: clamp(1.5rem, 12vw, 4.5rem);
+  bottom: clamp(0.85rem, 8vh, 2.75rem);
   transform: translateX(-50%);
   color: var(--gray-800);
   z-index: 7;
@@ -1922,6 +1922,7 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   --hero-buffer-progress: 0%;
   --hero-media-max-width: min(88vw, 26rem);
+  --hero-playback-progress: 0%;
   padding: clamp(0.35rem, 2vh, 1.5rem) clamp(1rem, 4vw, 3rem) clamp(5rem, 18vh, 6.5rem);
 }
 @media (min-width: 48rem) {
@@ -2001,7 +2002,7 @@ input:checked + .toggle-slider::before {
   aspect-ratio: 9/16;
   border-radius: clamp(1rem, 3vw, 1.75rem);
   overflow: hidden;
-  box-shadow: 0 1.25rem 3.5rem rgba(var(--color-black), 0.45);
+  box-shadow: 0 1.25rem 3.5rem rgba(var(--color-black), 0.45), 0 0 1.5rem rgba(var(--color-black), 0.1);
   background: rgba(0, 0, 0, 0.8);
 }
 .hero.hero--video .hero-video-layer__frame > div,
@@ -2117,25 +2118,26 @@ input:checked + .toggle-slider::before {
 }
 .hero.hero--video .hero-overlay-icon {
   position: absolute;
-  top: clamp(0.75rem, 2vh, 1.6rem);
-  right: clamp(0.75rem, 4vw, 2.75rem);
+  top: clamp(1.1rem, 3vh, 2.4rem);
+  right: clamp(1.1rem, 5vw, 3.1rem);
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.6);
-  color: var(--gray-900);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(12, 12, 12, 0.55);
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 6;
+  box-shadow: 0 0.75rem 1.65rem rgba(var(--color-black), 0.5);
   transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
 }
 .hero.hero--video .hero-overlay-icon i {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
 }
 .hero.hero--video .hero-overlay-icon:hover, .hero.hero--video .hero-overlay-icon:focus {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(18, 18, 18, 0.75);
   transform: translateY(-2px);
 }
 .hero.hero--video.is-loading .hero-play-overlay__spinner {
@@ -2148,34 +2150,86 @@ input:checked + .toggle-slider::before {
   opacity: 0;
   pointer-events: none;
 }
+.hero.hero--video .hero-video-progress {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.25rem, 1.4vh, 1rem);
+  transform: translateX(-50%);
+  width: min(100%, var(--hero-media-max-width));
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.hero.hero--video .hero-video-progress__track {
+  display: block;
+  width: 100%;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.hero.hero--video .hero-video-progress__fill {
+  display: block;
+  width: var(--hero-playback-progress, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  transition: width 0.25s ease;
+}
+.hero.hero--video.is-video-active .hero-video-progress, .hero.hero--video.is-video-paused .hero-video-progress {
+  opacity: 1;
+}
 .hero.hero--video .hero-mute-btn {
   position: absolute;
-  top: clamp(1rem, 5vh, 2.6rem);
+  top: clamp(1rem, 4vh, 2.35rem);
   left: 50%;
   transform: translate(-50%, 0);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(0, 0, 0, 0.55);
-  border: none;
+  justify-content: center;
+  gap: 0.45rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--color-white);
-  padding: 0.45rem 0.8rem;
+  padding: 0.4rem 1.15rem;
   border-radius: 999px;
   cursor: pointer;
   z-index: 6;
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  box-shadow: 0 0.85rem 1.8rem rgba(var(--color-black), 0.45);
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .hero.hero--video .hero-mute-btn i {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+}
+.hero.hero--video .hero-mute-btn:hover, .hero.hero--video .hero-mute-btn:focus-visible {
+  opacity: 1;
+  transform: translate(-50%, -2px);
+  animation-play-state: paused;
 }
 .hero.hero--video .hero-mute-btn.is-attention {
   animation: hero-mute-pulse 1.4s ease-in-out infinite;
 }
+.hero.hero--video.is-muted .hero-mute-btn {
+  opacity: 1;
+  pointer-events: auto;
+  animation: hero-mute-autofade 10s ease forwards;
+}
+.hero.hero--video.is-muted:hover .hero-mute-btn, .hero.hero--video.is-muted:focus-within .hero-mute-btn {
+  opacity: 1;
+  pointer-events: auto;
+  animation-play-state: paused;
+}
 .hero.hero--video:not(.is-muted) .hero-mute-btn {
   opacity: 0;
   pointer-events: none;
+  animation: none;
 }
 .hero.hero--video .hero-video-pause-overlay {
   position: absolute;
@@ -2197,14 +2251,17 @@ input:checked + .toggle-slider::before {
   pointer-events: auto;
 }
 .hero.hero--video .hero-video-pause-overlay__center {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   justify-content: center;
   gap: 0.75rem;
+  width: min(100%, 28rem);
 }
 .hero.hero--video .hero-video-pause-overlay__actions {
   display: flex;
   gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
 }
 .hero.hero--video .hero-video-btn {
   display: inline-flex;
@@ -2245,11 +2302,13 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 0.65rem 1.35rem rgba(var(--color-black), 0.45);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 .hero.hero--video .hero-video-icon-btn:hover, .hero.hero--video .hero-video-icon-btn:focus {
   transform: translateY(-2px);
   background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0.9rem 1.65rem rgba(var(--color-black), 0.5);
 }
 .hero.hero--video .hero-video-icon-btn--overlay {
   position: absolute;
@@ -2315,6 +2374,17 @@ input:checked + .toggle-slider::before {
   50% {
     transform: translateY(-2px);
     box-shadow: 0 0 1rem color-mix(in srgb, var(--color-lime) 65%, transparent);
+  }
+}
+@keyframes hero-mute-autofade {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 .hero-demos {
