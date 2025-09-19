@@ -1,244 +1,80 @@
-
 # 🖥️ Daren Prince Author Platform & Website
 
-Welcome to the official development repository for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
+_Last updated: 2025-02-14_
 
----
+This repository powers the public marketing site, component demos, and private dashboards for **Daren M. Prince**. The build is a dark-mode-first CodyHouse-inspired stack with Supabase authentication and Netlify deploys.
 
 ## ⚡️ Mission
-
-This project is built to:
-
-- Showcase Daren’s published and upcoming books
-- Deliver his message with confidence, clarity, and brand consistency
-- Powerfully reflect the Game On! brand identity (fonts, colors, energy, language)
-- Support future expansions like courses, member access, podcasting, affiliate integration, and more
-- Be deployed lightning-fast via Netlify with clean modular SCSS and prompt-driven component builds via OpenAI Codex
-
----
+- Spotlight the current catalog (Game On!) with cinematic hero treatments and interactive book tooling.
+- Provide a single source of truth for brand tokens, layouts, and reusable UI.
+- Prepare for member-only drops (files, dashboards, live experiences) without leaking unfinished surfaces.
+- Keep deploys fast and scriptable for Netlify + Supabase integrations.
 
 ## 🔧 Stack Overview
+| Layer | Details |
+| --- | --- |
+| Markup | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes) |
+| Styles | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass |
+| JavaScript | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search` |
+| Auth & data | Supabase JS client (auth, storage, admin edge functions) |
+| Build tooling | Node 20+, npm scripts (see `docs/BUILD_PIPELINE.md`), Netlify CLI |
+| Search | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html` |
 
-- **Framework**: Pure HTML + Modular SCSS (CodyHouse-style system)
-- **Dark Mode Default**: Site is styled with dark mode as the baseline
-- **Theme Toggle**: Each page has a button that switches `theme-dark` and `theme-light`
-- **Build Tools**: Node, npm, Netlify CLI
-- **Auto Deployment**: Netlify CI/CD connected to GitHub main branch
-- **Prompt Engine**: Codex by OpenAI powers real-time generation of components, prompts, and site logic
-- **Supabase**: Auth, storage, and edge functions handled through Supabase
+> **Reality Check:** Netlify’s build command only runs Sass + env generation. You must run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
 
----
+## 🧭 Navigation & Theme Controls
+- `js/main.js` handles the mega menu, search toggle, and auth toggle defaults.
+- `js/theme-toggle.js` wires the dark/light switch in headers; most marketing surfaces ship the toggle, but admin utilities like `admin-user-management.html` omit it to prioritize vertical space.
+- Profile dropdown and logout are controlled by `js/profile-dropdown.js` once a Supabase session exists.
 
-## 🧠 Codex Integration
+> **Reality Check:** `components.html` still loads `./js/mobile-nav.js`, but that file was removed. Drop the tag or reinstate the module to avoid 404s.
 
-This project is driven by AI collaboration through OpenAI’s Codex:
+## 🎨 Design System
+- Tokens live in `scss/tokens/_css-vars.scss` (77 CSS variables) and `scss/tokens/_colors.scss` (Sass bindings).
+- Base variables provide Helvetica Neue stacks, spacing from `0.25rem`–`3rem`, and gradient utilities.
+- Component partials (`scss/components/*.scss`) cover buttons, hero demos, book layouts, admin dashboards, press hubs, and search results.
+- Utility classes in `scss/utilities/_helpers.scss` expose spacing, flex, typography, and `.styledh1` (League Spartan accent) helpers.
 
-- Modular prompts generate SCSS components
-- Systematic integration with Codex logic tracked in `docs/CODEX_PROMPTS.md`
-- Brand-aware personality definitions in `docs/AGENTS.md`
+> **Reality Check:** League Spartan is referenced but not bundled. Load the font before using `.styledh1` on public pages or accept the Helvetica fallback.
 
-⚠️ All prompts, component logic, and layout flow must follow the official strategy and never deviate from:
-- Brand fonts
-- HEX color values
-- REM-based spacing logic
-- No dashes, no truncation, no approximations
-
----
-
-## 🎨 Visual Identity
-
-Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/brand/`).
-
-**Fonts:**
-For UI and website text, Default CodyHouse style Sans Serif fonts are to be used consistently.
-
-For Graphic Design, Ads, Images:
-- League Spartan (Primary Headline)
-- Futura (Secondary Headline / Navigation)
-- Knockout Welterweight (Accents & Stylized Labels)
-- Helvetica Now (Body, System, Utility)
-
-**Color Palette:**
-- `#FDFDFD` White
-- `#D5D5D5` Light Gray
-- `#B8BAB7` Medium Gray
-- `#3B3C3B` Charcoal
- - `#070A06` Black
-- `#456F3A` Deep Green
-- `#6DA667` Medium Green
-- `#87BD72` Bright Green
-- `#8CD679` Light Lime Green
-- `#C2E9C1` Mint Green
-
-Design must follow clean, bold, masculine UI logic with large readable typography, generous spacing, and no frills.
-
----
-
-## 🎛 CSS Variables & Tokens
-
-Color variables live in `scss/tokens/_css-vars.scss` and are applied globally under `:root`. The file also defines `.theme-light` overrides so the theme toggle can swap palettes.
-
-Sass variables in `scss/tokens/_colors.scss` map directly to those custom properties. Reference these Sass tokens throughout components so color changes remain centralized.
-
-**Adding a new token**
-1. Declare `--color-name` in `_css-vars.scss`.
-2. Add `$name: var(--color-name);` to `_colors.scss`.
-3. Run `npm run build` to update the compiled CSS.
-
-### 🛡️ Style & Token Modification Policy
-- Do not change existing styles, colors, or theme tokens.
-- If changes are needed, create new classes, utilities, or tokens to accommodate them.
-- Only alter established tokens when explicitly requested.
-
----
-
-## 🌐 Site Structure
-
-```plaintext
-📁 /assets/         # Logos, icons, images, compiled CSS
-📁 /scss/           # Modular SCSS (base, layout, components, utilities)
-📁 /js/             # Custom scripts (optional)
-📁 /member/         # Gated content area (future)
-📁 /docs/           # Prompts, logic, visual guide, file structure docs
-📄 index.html       # Homepage
-📄 components.html  # Master demo sheet for all UI components
-📄 setup.sh         # Local setup script
-📄 netlify.toml     # Redirect and build config
-```
-
----
-
-## 📄 Planned Pages
-
-1. **Home**
-   - Hero headline, featured book, video embed, reviews, email opt-in
-
-2. **Explore Books**
-   - Grid layout with all books, buy links, taglines
-
-3. **Book Detail Pages**
-   - Per-title highlights with formats, reviews, trailers
-
-4. **About Daren**
-   - Long bio, quote, press portrait, personal facts (son DJ, iced coffee, true crime)
-
-5. **Press & Media**
-   - Download center for logos, press kit, media requests
-
-6. **Blog**
-   - Card layout with sort-by-tag filters and deep posts
-
-7. **Contact**
-   - Email form (no CAPTCHA), direct links to social media, email
-
-## 📦 Container Variants
-
-Layout containers keep content grounded and intentional. Use these classes to control width and create contrast:
-
-- `.container` – centers content with adaptive max-width.
-- `.container--spaced` – same width plus vertical and horizontal padding; no background or border.
-- `.container--border` – adds a 1px solid border and padding on a transparent backdrop.
-- `.container--dark` – dark gray background, white text, and generous padding for high-contrast blocks.
-
----
-
-## 🛠️ UI Utilities
-
-`/js/ui.js` provides small helpers for toast notifications and progress bars.
-Include the module on any page that needs them:
-
-```html
-<script type="module" src="/js/ui.js"></script>
-```
-
-Usage:
-
-```javascript
-// showToast is an alias of GameOnUI.toast
-GameOnUI.showToast('Saved!', 'success');
-const bar = document.querySelector('.progress');
-GameOnUI.showProgress(bar);
-GameOnUI.setProgress(bar, 50);
-```
-
----
+## 🧩 Component & Page Map
+See `docs/SITE_STRUCTURE.md` and `docs/UI_COMPONENTS.md` for the full tree. Highlights:
+- `index.html` — hero rail, book CTA, testimonials, contact CTA.
+- `book.html` — tabbed format selector with trailer modal and 3D viewer.
+- `components.html` — live documentation for UI partials (requires auth guard for gated folders).
+- `dashboard.html` — member storage, profile editor, Supabase-driven uploads.
+- `admin-user-management.html` — admin console hitting the `admin-users` edge function.
+- `pages/search.html` — Minisearch-rendered search results (empty until `/content/` is populated).
 
 ## 🔐 Supabase Integration
+- Environment variables resolved via `scripts/generate-env.js` → `assets/js/env.js`.
+- `supabase/env.js` supports Deno (edge), Node (tests/scripts), and browser import fallbacks.
+- Edge functions: `admin-users` (user management) and `secure-storage` (uploads).
+- Database tables: `public.profiles`, `public.folder_access`, `private.profile_audit`, `private.admin_action_log`.
+- Storage buckets: `avatars` (public) and `user-data` (private).
 
-Supabase powers sign-ups, secure file storage, and serverless logic. The client lives in `/supabase` and is reused across `js/main.js`, `js/auth.js`, `js/dashboard.js`, and `js/profile-dropdown.js`. Edge uploads are locked down by `functions/secure-storage`.
+Troubleshoot with `js/supabase-logger.js` (Konami/tap to open overlay) and the Vitest suite in `/tests`.
 
-Protected engineering pages now import `js/auth-guard.js`, which validates the session, checks the user’s role, and confirms any folder-level permissions before revealing `.site-wrap`.
+## 🔍 Search Workflow
+1. Add Markdown to `/content/` (front matter optional) or static pages under `/pages/`.
+2. Run `npm run build:search` to regenerate `public/search/index.json` + `docs.json`.
+3. `src/js/search.js` powers auto-complete; `src/js/search-results.js` renders the results page.
 
-More details live in [docs/supabase.md](supabase.md). Audit actions and rollout notes are captured in [docs/audit/PROFILES_AUDIT.md](audit/PROFILES_AUDIT.md).
+> **Reality Check:** The repo currently ships empty search payloads because `/content/` is not checked in. Seed content before demoing the feature.
 
----
+## 🚀 Development & Deployment
+- `npm install` (or `./scripts/local_setup.sh`) installs dependencies and compiles Sass once.
+- `npm run watch` (or `./scripts/start_dev.sh`) watches Sass and launches `netlify dev` locally.
+- `npm run build` runs search → env → image manifest → Sass in sequence.
+- `npm test` executes Vitest specs for Supabase helpers, auth guard, and Netlify redirects.
+- Deploy by pushing to the `main` branch (Netlify) or running `npm run deploy` with Netlify CLI auth.
 
-## ✍️ Writing & Voice
+## 📚 Documentation Index
+- **Audit & status:** `docs/REPORT_SITE_DOC_AUDIT.md`
+- **Structure & components:** `docs/SITE_STRUCTURE.md`, `docs/UI_COMPONENTS.md`, `docs/FILE_STRUCTURE.md`
+- **Design system:** `docs/STYLE_GUIDE.md`
+- **Build & ops:** `docs/BUILD_PIPELINE.md`, `docs/indexing-strategy.md`
+- **Supabase:** `docs/SUPABASE_INTEGRATION.md`, `docs/supabase.md`, `docs/supabase/README.md`
+- **Changelog:** `docs/CHANGELOG_DOC_SYNC.md`
 
-This brand does not tolerate fluff, gimmicks, or generic advice.
-
-**Tone = Confident + Real + Psychology-backed + Emotionally intelligent**
-
-Approved language includes:
-- “Master the conversation”
-- “Authentic attraction”
-- “Magnetic energy”
-- “Unfiltered honesty”
-- “Modern dating decoded”
-- “Conversations that hit different”
-
-All public content, meta descriptions, button text, and landing copy must reflect the **Game On! Vibe**: bold, magnetic, no shortcuts, real confidence.
-
----
-
-## 🚀 Deployment & Development
-
-Build Tools:
-```bash
-./scripts/local_setup.sh   # install deps and compile once
-./scripts/start_dev.sh     # watch files & launch dev server
-npm run build              # one-time SCSS compilation
-npm run watch              # live watching and compiling
-```
-
-Local Preview (via Netlify CLI):
-```bash
-npm install -g netlify-cli
-netlify dev
-```
-
-Deployment: The live site runs at [darenprince.netlify.app](https://darenprince.netlify.app); pushing to `main` auto-deploys via Netlify CI/CD.
-
-### Dashboard on Netlify
-1. Connect the Netlify Supabase integration so credentials stay synced with your Supabase project.
-2. Deploy the site and visit `/login.html` to sign in.
-3. Authenticated users are redirected to `dashboard.html` where they can manage files and profile info.
-
-### Email Integration
-This site uses Netlify Functions with SendGrid to deliver contact form submissions.
-
-1. Add `SENDGRID_API_KEY`, `SENDGRID_FROM_EMAIL`, and optional `SENDGRID_TO_EMAIL` to your Netlify environment variables.
-2. The function lives at `netlify/functions/send-email.js` and can be invoked via `/.netlify/functions/send-email`.
-3. Front-end forms, such as `contact.html`, POST `name`, `email`, and `message` JSON payloads to this endpoint.
-4. Emails are dispatched through SendGrid with the visitor details in the body and their address set as the reply-to.
-
-
----
-
-## 🔒 Licensing
-
-This project is protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/)
-
-> No commercial reuse. No alteration of branding. Attribution required.
-
----
-
-## 📬 Contact
-
-- Official Site: [darenprince.com](https://darenprince.com)
-- Press & Media: [press@darenprince.com](mailto:press@darenprince.com)
-- Publisher: [publishing@darenprince.com](mailto:publishing@darenprince.com)
-
----
-
-Built with 🔥 by Daren Prince & OpenAI Codex
+Stay bold, stay accurate—keep docs in lockstep with the code.
