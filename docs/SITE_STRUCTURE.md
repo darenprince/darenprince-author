@@ -7,7 +7,7 @@ This map captures the current layout of the repository, the active pages, and th
 ## Root directory overview
 | Path | Purpose | Notes |
 | --- | --- | --- |
-| `/index.html` | Public landing page | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`. |
+| `/index.html` | Public landing page | Hero rail, autoplay trailer, testimonials, contact CTA; loads `js/main.js`, `js/hero-video-controller.js`, `js/hero-demos.js`, `js/theme-toggle.js`. |
 | `/book.html` | Book detail surface | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`. |
 | `/components.html` | Component gallery & docs | Auth-gated folder in production; component navigation driven by `js/main.js` and `js/ui.js`. |
 | `/style-classes.html` | Token & utility showcase | Demonstrates helper classes from `scss/utilities/`. |
@@ -32,7 +32,7 @@ This map captures the current layout of the repository, the active pages, and th
 ## Page inventory
 | Page | Description | Primary modules/styles |
 | --- | --- | --- |
-| `index.html` | Marketing homepage | `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`, `scss/components/_hero.scss`, `_testimonials.scss`. |
+| `index.html` | Marketing homepage | `js/main.js`, `js/hero-video-controller.js`, `js/hero-demos.js`, `js/theme-toggle.js`, `scss/components/_hero.scss`, `_testimonials.scss`. |
 | `book.html` | Game On! detail page | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`, `scss/components/_book-tabs.scss`, `_book-3d.scss`. |
 | `components.html` | Component documentation | `js/main.js`, `js/ui.js`, `scss/layout/_component-nav.scss`, `scss/components/_component-docs.scss`. |
 | `style-classes.html` | Utility gallery | `scss/utilities/_helpers.scss`, `_gradients.scss`. |
@@ -83,6 +83,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `js/admin-user-console.js` | Admin management surface (list users, change roles, folder access, password resets, deletions). |
 | `js/profile-dropdown.js` | Avatar dropdown interactions and Supabase logout. |
 | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js` | Interactive book experiences. |
+| `js/hero-video-controller.js` | Controls the Vimeo hero (autoplay, mute toggle, pause overlay, restart). |
 | `js/ui.js` | Toast + progress utilities exposed via `window.GameOnUI`. |
 | `js/supabase-helper.js`, `js/user-role.js`, `js/supabase-logger.js` | Environment-safe Supabase client access, role normalization, logging overlay. |
 | `src/js/search.js`, `src/js/search-results.js`, `src/search/worker.js` | Minisearch autocomplete and results rendering. |

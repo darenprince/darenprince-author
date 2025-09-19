@@ -105,6 +105,7 @@ Key helper classes from `scss/utilities/_helpers.scss`:
 - Primary CTA palette: `$deep-green` → `$medium-green` gradient.
 - Secondary/light containers: `.grad-light-container` background with `.btn-md` sizing.
 - Outline approach: wrap content in `.container--border` and use `.btn-outline` modifiers.
+- Hero video controls share the CTA system: `.hero-mute-btn` uses the gradient attention pulse, `.hero-video-btn` / `.hero-video-icon-btn` rely on the same rounded geometry with glass overlays from `_hero.scss`.
 
 ## Forms & Inputs
 - Forms leverage `scss/components/_forms.scss` and `_login.scss` for dark-mode inputs, inset shadows, and focus rings.

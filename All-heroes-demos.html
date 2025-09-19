@@ -36,6 +36,7 @@
     <button onclick="showHero('parallaxHero')">Parallax Hero</button>
     <button onclick="showHero('scrollVideoHero')">Scroll-Triggered Video</button>
     <button onclick="showHero('autoScaleHero')">Auto-Scaling Hero</button>
+    <button onclick="showHero('trailerHeroDemo')">Autoplay Trailer Hero</button>
   </div>
 
   <!-- Parallax Hero -->
@@ -68,14 +69,78 @@
     </div>
   </section>
 
+  <!-- Autoplay Trailer Hero -->
+  <section
+    id="trailerHeroDemo"
+    class="hero hero-auto-zoom hero--video text-center is-loading is-image-active"
+    data-video-id="1120030283"
+  >
+    <div class="hero-media">
+      <div class="hero-image-layer js-hero-image" role="presentation">
+        <img
+          src="assets/images/heroposter1.png"
+          alt="Game On! trailer poster"
+          loading="lazy"
+        />
+      </div>
+      <div class="hero-video-layer js-hero-video" aria-hidden="true">
+        <div class="hero-video-layer__frame"></div>
+      </div>
+      <button class="hero-play-overlay js-hero-play" type="button" aria-label="Play trailer demo">
+        <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
+        <span class="hero-play-overlay__icon ti ti-player-play-filled" aria-hidden="true"></span>
+        <span class="visually-hidden">Play trailer</span>
+      </button>
+      <button class="hero-mute-btn js-hero-mute" type="button" aria-label="Unmute trailer audio">
+        <i class="ti ti-volume"></i>
+        <span>Sound On</span>
+      </button>
+      <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
+        <div class="hero-video-pause-overlay__center">
+          <button class="hero-video-btn hero-video-btn--primary js-hero-resume" type="button">
+            <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+            <span>Resume</span>
+          </button>
+          <button class="hero-video-btn js-hero-restart" type="button">
+            <i class="ti ti-rotate-clockwise" aria-hidden="true"></i>
+            <span>Restart</span>
+          </button>
+        </div>
+        <div class="hero-video-pause-overlay__actions">
+          <button class="hero-video-icon-btn js-hero-fullscreen" type="button" aria-label="Fullscreen trailer">
+            <i class="ti ti-maximize" aria-hidden="true"></i>
+          </button>
+          <button class="hero-video-icon-btn js-hero-airplay" type="button" aria-label="AirPlay trailer">
+            <i class="ti ti-brand-airplay" aria-hidden="true"></i>
+          </button>
+          <button class="hero-video-icon-btn js-hero-close" type="button" aria-label="Close trailer">
+            <i class="ti ti-x" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container max-width-adaptive-lg hero-content">
+      <h1>Autoplay Trailer Hero</h1>
+      <p>Crossfade from the poster to the trailer and keep the CTA pinned as playback starts.</p>
+      <a href="#" class="btn grad-kelly-green hero-cta"><strong>Get Started</strong></a>
+    </div>
+  </section>
+
   <script>
     const heroes = document.querySelectorAll('.hero');
+    const trailerHero = document.getElementById('trailerHeroDemo');
 
     function showHero(id) {
       heroes.forEach(hero => {
         hero.classList.remove('active');
       });
-      document.getElementById(id).classList.add('active');
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+      }
+      if (trailerHero && id !== 'trailerHeroDemo') {
+        trailerHero.dispatchEvent(new CustomEvent('heroVideo:stop', { bubbles: true }));
+      }
     }
 
     // Scroll-Triggered Video Activation
@@ -134,6 +199,8 @@
       </div>
     </div>
   </footer>
+  <script src="https://player.vimeo.com/api/player.js" defer></script>
+  <script src="./js/hero-video-controller.js" defer></script>
   <script type="module" src="./js/seo-indexing.js"></script>
 </body>
 </html>

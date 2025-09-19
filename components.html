@@ -154,14 +154,82 @@
           <button>Start</button>
         </div>
       </section>
+
+      <section
+        id="trailerHeroDemo"
+        class="hero hero-auto-zoom hero--video text-center is-loading is-image-active"
+        data-video-id="1120030283"
+      >
+        <div class="hero-media">
+          <div class="hero-image-layer js-hero-image" role="presentation">
+            <img
+              src="assets/images/heroposter1.png"
+              alt="Game On! trailer poster"
+              loading="lazy"
+            />
+          </div>
+          <div class="hero-video-layer js-hero-video" aria-hidden="true">
+            <div class="hero-video-layer__frame"></div>
+          </div>
+          <button class="hero-play-overlay js-hero-play" type="button" aria-label="Play trailer demo">
+            <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
+            <span class="hero-play-overlay__icon ti ti-player-play-filled" aria-hidden="true"></span>
+            <span class="visually-hidden">Play trailer</span>
+          </button>
+          <button class="hero-mute-btn js-hero-mute" type="button" aria-label="Unmute trailer audio">
+            <i class="ti ti-volume"></i>
+            <span>Sound On</span>
+          </button>
+          <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
+            <div class="hero-video-pause-overlay__center">
+              <button class="hero-video-btn hero-video-btn--primary js-hero-resume" type="button">
+                <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+                <span>Resume</span>
+              </button>
+              <button class="hero-video-btn js-hero-restart" type="button">
+                <i class="ti ti-rotate-clockwise" aria-hidden="true"></i>
+                <span>Restart</span>
+              </button>
+            </div>
+            <div class="hero-video-pause-overlay__actions">
+              <button class="hero-video-icon-btn js-hero-fullscreen" type="button" aria-label="Fullscreen trailer">
+                <i class="ti ti-maximize" aria-hidden="true"></i>
+              </button>
+              <button class="hero-video-icon-btn js-hero-airplay" type="button" aria-label="AirPlay trailer">
+                <i class="ti ti-brand-airplay" aria-hidden="true"></i>
+              </button>
+              <button class="hero-video-icon-btn js-hero-close" type="button" aria-label="Close trailer">
+                <i class="ti ti-x" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="container max-width-adaptive-lg hero-content">
+          <h1>Video Hero Controls</h1>
+          <p>Demo of the autoplaying trailer hero with CTA pinned over both image and video states.</p>
+          <a href="#" class="btn grad-kelly-green hero-cta"><strong>Primary CTA</strong></a>
+        </div>
+      </section>
     </section>
     <div class="component-docs">
       <h3>Hero</h3>
       <p>Function: top-of-page call to action.</p>
       <p>Tech Specs: styled in <code>scss/components/_hero.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="hero-code"><code class="language-html">&lt;section class=&quot;hero&quot;&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="hero-code">Copy</button>
+      <h4 id="hero-video">Video trailer hero</h4>
+      <p>Use when the hero needs to crossfade between a poster and an autoplaying video. Requires the Vimeo API and <code>js/hero-video-controller.js</code>.</p>
+      <pre id="hero-video-code"><code class="language-html">&lt;section class=&quot;hero hero-auto-zoom hero--video&quot; data-video-id=&quot;1120030283&quot;&gt;
+  &lt;div class=&quot;hero-media&quot;&gt;
+    &lt;div class=&quot;hero-image-layer js-hero-image&quot;&gt;...&lt;/div&gt;
+    &lt;div class=&quot;hero-video-layer js-hero-video&quot;&gt;
+      &lt;div class=&quot;hero-video-layer__frame&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class=&quot;hero-play-overlay js-hero-play&quot; type=&quot;button&quot;&gt;...&lt;/button&gt;
+    &lt;button class=&quot;hero-mute-btn js-hero-mute&quot; type=&quot;button&quot;&gt;Sound On&lt;/button&gt;
+    &lt;div class=&quot;hero-video-pause-overlay js-hero-pause-overlay&quot; hidden&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;container hero-content&quot;&gt;...&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+      <button class="copy-btn" data-target="hero-video-code">Copy</button>
     </div>
 
     <section id="banner" class="demo-section padding-y-lg">
@@ -756,6 +824,8 @@
   <script src="./js/book-details.js"></script>
   <script type="module" src="./js/book-rail.js"></script>
   <script type="module" src="./js/book-3d-viewer.js"></script>
+  <script src="https://player.vimeo.com/api/player.js" defer></script>
+  <script src="./js/hero-video-controller.js" defer></script>
   <script src="./js/hero-demos.js"></script>
   <script src="./js/hero-auto-zoom.js"></script>
   <script type="module" src="./js/main.js"></script>
