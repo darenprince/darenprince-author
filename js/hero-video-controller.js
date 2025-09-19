@@ -17,7 +17,8 @@
     const resumeBtn = hero.querySelector('.js-hero-resume');
     const restartBtn = hero.querySelector('.js-hero-restart');
     const closeBtn = hero.querySelector('.js-hero-close');
-    const fullscreenBtn = hero.querySelector('.js-hero-fullscreen');
+    const hideBtn = hero.querySelector('.js-hero-hide');
+    const fullscreenButtons = hero.querySelectorAll('.js-hero-fullscreen');
     const airplayBtn = hero.querySelector('.js-hero-airplay');
 
     const player = new window.Vimeo.Player(frame, {
@@ -37,14 +38,67 @@
 
     let pauseReason = null;
     let muteAttentionTimer;
+    let videoDuration = null;
+    let hasAutoScrolled = false;
+    let hasRequestedEndTransition = false;
+
+    const resetEndTransition = () => {
+      hasRequestedEndTransition = false;
+      hero.classList.remove('is-video-ending');
+    };
+
+    const autoScrollAfterEnd = () => {
+      const scrollAmount = Math.min(window.innerHeight * 0.25, 240);
+      window.requestAnimationFrame(() => {
+        window.scrollBy({ top: scrollAmount, left: 0, behavior: 'smooth' });
+      });
+    };
+
+    const setBufferProgress = (value) => {
+      const percent = Math.min(Math.max(typeof value === 'number' ? value : 0, 0), 1);
+      hero.style.setProperty('--hero-buffer-progress', `${Math.round(percent * 100)}%`);
+    };
 
     const setLoading = (isLoading) => {
       hero.classList.toggle('is-loading', Boolean(isLoading));
+      if (isLoading) {
+        hero.classList.remove('has-video-error');
+        if (playOverlay) {
+          playOverlay.disabled = false;
+        }
+        if (muteButton) {
+          muteButton.hidden = false;
+        }
+      }
+      if (playOverlay) {
+        playOverlay.setAttribute('data-loading', isLoading ? 'true' : 'false');
+      }
+    };
+
+    const handleVideoError = () => {
+      setLoading(false);
+      hidePauseOverlay();
+      resetEndTransition();
+      hasAutoScrolled = false;
+      pauseReason = null;
+      hero.classList.add('has-video-error', 'is-image-active');
+      hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
+      setBufferProgress(0);
+      if (playOverlay) {
+        playOverlay.classList.add('is-hidden');
+        playOverlay.disabled = true;
+      }
+      if (muteButton) {
+        muteButton.classList.remove('is-attention');
+        muteButton.hidden = true;
+      }
     };
 
     const showPlayOverlay = () => {
       if (playOverlay) {
+        if (hero.classList.contains('has-video-error')) return;
         playOverlay.classList.remove('is-hidden');
+        playOverlay.disabled = false;
       }
     };
 
@@ -70,6 +124,39 @@
       hero.classList.remove('is-paused-overlay');
     };
 
+    const showPosterFromVideo = () => {
+      hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
+      hero.classList.add('is-image-active');
+      if (!hero.classList.contains('has-video-error')) {
+        showPlayOverlay();
+      }
+    };
+
+    const returnToPoster = () => {
+      const wasPaused = hero.classList.contains('is-video-paused');
+      hidePauseOverlay();
+      pauseReason = 'close';
+      resetEndTransition();
+      hasAutoScrolled = false;
+      setBufferProgress(0);
+      setLoading(false);
+      player
+        .pause()
+        .then(() => player.setCurrentTime(0))
+        .then(() => {
+          if (wasPaused) {
+            showPosterFromVideo();
+            pauseReason = null;
+          }
+        })
+        .catch(() => {
+          if (wasPaused) {
+            showPosterFromVideo();
+            pauseReason = null;
+          }
+        });
+    };
+
     const updateMuteState = () => {
       if (!muteButton) return;
       player
@@ -81,7 +168,7 @@
             clearTimeout(muteAttentionTimer);
             muteAttentionTimer = window.setTimeout(() => {
               muteButton.classList.remove('is-attention');
-            }, 6000);
+            }, 12000);
           } else {
             muteButton.classList.remove('is-attention');
           }
@@ -89,31 +176,108 @@
         .catch((error) => console.error('Vimeo player error:', error));
     };
 
+    setBufferProgress(0);
+
     player
       .ready()
       .then(() => {
         hero.classList.add('is-video-ready');
-        return player.play();
+        player
+          .getDuration()
+          .then((duration) => {
+            if (typeof duration === 'number' && !Number.isNaN(duration)) {
+              videoDuration = duration;
+            }
+          })
+          .catch(() => {});
+        return player.play().catch((error) => {
+          setLoading(false);
+          showPlayOverlay();
+          console.warn('Vimeo autoplay prevented:', error);
+        });
       })
-      .catch(() => {
-        setLoading(false);
-        showPlayOverlay();
+      .catch((error) => {
+        console.error('Vimeo player ready error:', error);
+        handleVideoError();
       });
 
     player.on('loaded', () => {
       hero.classList.add('is-video-ready');
+      setBufferProgress(1);
+      setLoading(false);
+      hero.classList.remove('has-video-error');
+      if (playOverlay) {
+        playOverlay.disabled = false;
+      }
+      if (muteButton) {
+        muteButton.hidden = false;
+      }
+      if (!videoDuration) {
+        player
+          .getDuration()
+          .then((duration) => {
+            if (typeof duration === 'number' && !Number.isNaN(duration)) {
+              videoDuration = duration;
+            }
+          })
+          .catch(() => {});
+      }
     });
 
     player.on('bufferstart', () => setLoading(true));
     player.on('bufferend', () => setLoading(false));
 
+    player.on('progress', (data) => {
+      if (data && typeof data.percent === 'number') {
+        setBufferProgress(data.percent);
+      }
+    });
+
+    player.on('timeupdate', (data) => {
+      if (!data || typeof data.seconds !== 'number') {
+        return;
+      }
+      if (!videoDuration && typeof data.duration === 'number' && !Number.isNaN(data.duration)) {
+        videoDuration = data.duration;
+      }
+      if (hasRequestedEndTransition) {
+        return;
+      }
+      const duration = videoDuration || data.duration;
+      if (!duration || duration <= 0) {
+        return;
+      }
+      if (!hero.classList.contains('is-video-active')) {
+        return;
+      }
+      if (duration - data.seconds <= 3) {
+        hasRequestedEndTransition = true;
+        hero.classList.add('is-video-ending', 'is-image-active');
+        hero.classList.remove('is-video-playing');
+      }
+    });
+
+    player.on('seeked', () => {
+      resetEndTransition();
+      if (hero.classList.contains('is-video-active')) {
+        hero.classList.remove('is-image-active');
+      }
+    });
+
     player.on('play', () => {
+      resetEndTransition();
       hidePauseOverlay();
+      hasAutoScrolled = false;
+      hero.classList.remove('has-video-error');
       hero.classList.add('is-video-active', 'is-video-playing');
       hero.classList.remove('is-video-paused', 'is-image-active');
       setLoading(false);
+      setBufferProgress(1);
       hidePlayOverlay();
       updateMuteState();
+      if (muteButton) {
+        muteButton.hidden = false;
+      }
     });
 
     player.on('pause', () => {
@@ -122,28 +286,37 @@
       if (pauseReason === 'overlay') {
         showPauseOverlay();
       } else if (pauseReason === 'close') {
-        hero.classList.remove('is-video-active');
-        hero.classList.add('is-image-active');
-        showPlayOverlay();
+        showPosterFromVideo();
       }
       pauseReason = null;
+      resetEndTransition();
     });
 
     player.on('ended', () => {
       pauseReason = null;
       hidePauseOverlay();
-      hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
-      hero.classList.add('is-image-active');
-      showPlayOverlay();
+      resetEndTransition();
+      showPosterFromVideo();
+      setBufferProgress(0);
       player.setCurrentTime(0).catch(() => {});
+      if (!hasAutoScrolled) {
+        autoScrollAfterEnd();
+        hasAutoScrolled = true;
+      }
     });
 
     player.on('volumechange', updateMuteState);
+    player.on('error', (error) => {
+      console.error('Vimeo playback error:', error);
+      handleVideoError();
+    });
 
     if (videoLayer) {
       videoLayer.addEventListener('click', (event) => {
         if (!hero.classList.contains('is-video-active')) return;
         if (hero.classList.contains('is-video-paused')) return;
+        if (hero.classList.contains('is-video-ending')) return;
+        if (hero.classList.contains('has-video-error')) return;
         if (pauseOverlay && pauseOverlay.contains(event.target)) return;
         pauseReason = 'overlay';
         player.pause();
@@ -152,13 +325,19 @@
 
     if (playOverlay) {
       playOverlay.addEventListener('click', () => {
+        hero.classList.remove('has-video-error');
+        resetEndTransition();
+        hasAutoScrolled = false;
+        hero.classList.add('is-video-active');
         hero.classList.remove('is-image-active');
         pauseReason = null;
         setLoading(true);
+        setBufferProgress(0);
         hidePlayOverlay();
-        player.play().catch(() => {
+        player.play().catch((error) => {
           setLoading(false);
           showPlayOverlay();
+          console.warn('Vimeo play error:', error);
         });
       });
     }
@@ -167,12 +346,18 @@
       resumeBtn.addEventListener('click', () => {
         hidePauseOverlay();
         pauseReason = null;
+        resetEndTransition();
+        hasAutoScrolled = false;
+        hero.classList.remove('is-image-active');
         player.play();
       });
     }
 
     if (restartBtn) {
       restartBtn.addEventListener('click', () => {
+        resetEndTransition();
+        hasAutoScrolled = false;
+        hero.classList.remove('is-image-active');
         player
           .setCurrentTime(0)
           .then(() => player.play())
@@ -181,21 +366,20 @@
     }
 
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        hidePauseOverlay();
-        pauseReason = 'close';
-        player
-          .pause()
-          .then(() => player.setCurrentTime(0))
-          .catch(() => {});
-      });
+      closeBtn.addEventListener('click', returnToPoster);
     }
 
-    if (fullscreenBtn) {
-      fullscreenBtn.addEventListener('click', () => {
-        if (typeof player.requestFullscreen === 'function') {
-          player.requestFullscreen().catch(() => {});
-        }
+    if (hideBtn) {
+      hideBtn.addEventListener('click', returnToPoster);
+    }
+
+    if (fullscreenButtons.length) {
+      fullscreenButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (typeof player.requestFullscreen === 'function') {
+            player.requestFullscreen().catch(() => {});
+          }
+        });
       });
     }
 
