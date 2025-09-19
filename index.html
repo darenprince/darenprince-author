@@ -113,7 +113,54 @@
     <!-- ⚙️ Site Maintenance Landing Page for DarenPrince.com -->
 
     <!-- 1. Hero Section -->
-    <section id="autoZoomHero" class="hero hero-auto-zoom text-center">
+    <section
+      id="autoZoomHero"
+      class="hero hero-auto-zoom hero--video text-center is-loading is-image-active"
+      data-video-id="1120030283"
+    >
+      <div class="hero-media">
+        <div class="hero-image-layer js-hero-image" role="presentation">
+          <img
+            src="assets/images/heroposter1.png"
+            alt="Cover art for the Game On! trailer"
+          />
+        </div>
+        <div class="hero-video-layer js-hero-video" aria-hidden="true">
+          <div class="hero-video-layer__frame" id="heroVideoFrame"></div>
+        </div>
+        <button class="hero-play-overlay js-hero-play" type="button" aria-label="Play the Game On! book trailer">
+          <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
+          <span class="hero-play-overlay__icon ti ti-player-play-filled" aria-hidden="true"></span>
+          <span class="visually-hidden">Play trailer</span>
+        </button>
+        <button class="hero-mute-btn js-hero-mute" type="button" aria-label="Unmute trailer audio">
+          <i class="ti ti-volume"></i>
+          <span>Sound On</span>
+        </button>
+        <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
+          <div class="hero-video-pause-overlay__center">
+            <button class="hero-video-btn hero-video-btn--primary js-hero-resume" type="button">
+              <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+              <span>Resume</span>
+            </button>
+            <button class="hero-video-btn js-hero-restart" type="button">
+              <i class="ti ti-rotate-clockwise" aria-hidden="true"></i>
+              <span>Restart</span>
+            </button>
+          </div>
+          <div class="hero-video-pause-overlay__actions">
+            <button class="hero-video-icon-btn js-hero-fullscreen" type="button" aria-label="Fullscreen trailer">
+              <i class="ti ti-maximize" aria-hidden="true"></i>
+            </button>
+            <button class="hero-video-icon-btn js-hero-airplay" type="button" aria-label="AirPlay trailer">
+              <i class="ti ti-brand-airplay" aria-hidden="true"></i>
+            </button>
+            <button class="hero-video-icon-btn js-hero-close" type="button" aria-label="Close trailer">
+              <i class="ti ti-x" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="container max-width-adaptive-lg hero-content">
         <h1 style="display:none;">Daren Prince | Author. Strategist. Storyteller.</h1>
         <a href="#book-3d-viewer" class="btn grad-kelly-green hero-cta throb"><strong>Get The Book</strong></a>
@@ -378,6 +425,8 @@
   <script src="./js/theme-toggle.js"></script>
   <script type="module" src="./js/book-3d-viewer.js"></script>
   <script src="./js/book-details.js"></script>
+  <script src="https://player.vimeo.com/api/player.js" defer></script>
+  <script src="./js/hero-video-controller.js" defer></script>
   <script src="./js/hero-auto-zoom.js"></script>
   <script type="module" src="./js/main.js"></script>
   </body>

@@ -23,10 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll);
   onScroll();
 
+  const isVideoHero = hero.classList.contains('hero--video');
   const cta = hero.querySelector('.hero-cta');
   const targetSelector = cta ? cta.getAttribute('href') : null;
   const targetEl = targetSelector ? document.querySelector(targetSelector) : null;
-  if (targetEl) {
+  if (targetEl && !isVideoHero) {
     hero.addEventListener('click', (e) => {
       e.preventDefault();
       targetEl.scrollIntoView({ behavior: 'smooth' });

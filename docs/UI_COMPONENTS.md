@@ -30,12 +30,14 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 ## Hero & storytelling modules
 | Partial | Description | Hook elements | JS |
 | --- | --- | --- | --- |
-| `_hero.scss` | Primary hero layout | `.hero`, `.hero__title`, `.hero__cta` | `js/hero-demos.js`, `js/theme-toggle.js` |
+| `_hero.scss` | Primary hero layout | `.hero`, `.hero__title`, `.hero__cta`, `.hero-mute-btn`, `.hero-video-btn` | `js/hero-demos.js`, `js/theme-toggle.js`, `js/hero-video-controller.js` |
 | `_hero-demos.scss` | Experimental hero variants | `.hero-demo`, `.hero-demo--video`, `.hero-demo--parallax` | `js/hero-demos.js`, `js/hero-video.js`, `js/hero-auto-zoom.js` |
 | `_banner.scss` | Announcement banner | `.banner`, `.banner--success` | — |
 | `_testimonials.scss` | Quote grid with avatars | `.testimonial`, `.testimonial__author` | — |
 | `_downloads.scss` | Download cards | `.download-card`, `.download-card__meta` | `js/image-index.js` (viewer) |
 | `_viewer.scss` | Document/video viewer | `.viewer`, `.viewer__frame`, `.viewer__actions` | `js/image-index.js`, `js/book-3d-viewer.js` |
+
+> **Implementation tip:** The homepage trailer uses the `.hero.hero--video` variant. Keep the CTA anchored with `.hero-cta`, layer the Vimeo frame inside `.hero-video-layer`, and wire playback, mute, and pause overlays through `js/hero-video-controller.js`.
 
 ## Book experience
 | Partial | Description | Hook elements | JS |
@@ -74,7 +76,7 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 ## Component & script crosswalk
 | Surface | Key HTML | SCSS modules | JS |
 | --- | --- | --- | --- |
-| Homepage hero | `index.html` (`.hero`) | `_hero.scss`, `_buttons.scss`, `_cta-buttons.scss` | `js/hero-demos.js`, `js/main.js` |
+| Homepage hero | `index.html` (`.hero.hero--video`) | `_hero.scss`, `_buttons.scss`, `_cta-buttons.scss` | `js/hero-video-controller.js`, `js/hero-demos.js`, `js/main.js` |
 | Book detail | `book.html` | `_book.scss`, `_book-tabs.scss`, `_trailer-modal.scss`, `_book-3d.scss` | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js` |
 | Login | `login.html` | `_login.scss`, `_forms.scss`, `_password-strength.scss` | `js/auth.js`, `js/password-strength.js` |
 | Member dashboard | `dashboard.html` | `_dashboard.scss`, `_cards.scss`, `_forms.scss`, `_viewer.scss` | `js/dashboard.js`, `js/auth-guard.js` |
