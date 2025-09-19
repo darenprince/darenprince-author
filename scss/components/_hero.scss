@@ -1,5 +1,5 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
 .hero {
   position: relative;
   background-image: url('images/heroposter1.png');
@@ -75,22 +75,27 @@
     animation: fade-in 0.8s ease-out forwards;
     opacity: 0;
   }
-    .hero-cta {
-      animation: fade-in 1s ease-out forwards;
-      opacity: 0;
-      position: absolute;
-      left: 50%;
-      bottom: clamp(0.65rem, 3vh, 2.25rem);
-      transform: translateX(-50%);
-      color: $gray-800;
-      z-index: 7;
+
+  .hero-cta {
+    animation: fade-in 1s ease-out forwards;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    bottom: clamp(0.5rem, 2vh, 1.65rem);
+    transform: translateX(-50%);
+    color: $gray-800;
+    z-index: 7;
+    pointer-events: auto;
 
     &:hover,
     &:focus {
       color: $gray-800;
     }
+
     &.throb {
-      animation: fade-in 1s ease-out forwards, cta-throb 2s ease-in-out infinite;
+      animation:
+        fade-in 1s ease-out forwards,
+        cta-throb 2s ease-in-out infinite;
     }
   }
 
@@ -105,20 +110,29 @@
     --hero-buffer-progress: 0%;
     --hero-media-max-height: min(88vh, 48rem);
     --hero-media-max-width: min(88vw, 26rem);
-    --hero-media-inline-size: min(var(--hero-media-max-width), calc(var(--hero-media-max-height) * 0.5625));
+    --hero-media-inline-size: min(
+      var(--hero-media-max-width),
+      calc(var(--hero-media-max-height) * 0.5625)
+    );
     --hero-playback-progress: 0%;
     padding: clamp(0.75rem, 4vh, 2.5rem) clamp(1.25rem, 5vw, 3.25rem) clamp(6.5rem, 18vh, 7.5rem);
 
     @media (min-width: 48rem) {
       --hero-media-max-height: min(88vh, 52rem);
       --hero-media-max-width: min(56vw, 28rem);
-      --hero-media-inline-size: min(var(--hero-media-max-width), calc(var(--hero-media-max-height) * 0.5625));
+      --hero-media-inline-size: min(
+        var(--hero-media-max-width),
+        calc(var(--hero-media-max-height) * 0.5625)
+      );
     }
 
     @media (min-width: 75rem) {
       --hero-media-max-height: min(88vh, 54rem);
       --hero-media-max-width: min(42vw, 30rem);
-      --hero-media-inline-size: min(var(--hero-media-max-width), calc(var(--hero-media-max-height) * 0.5625));
+      --hero-media-inline-size: min(
+        var(--hero-media-max-width),
+        calc(var(--hero-media-max-height) * 0.5625)
+      );
     }
 
     h1 {
@@ -126,11 +140,12 @@
     }
 
     .hero-content {
-      position: relative;
+      position: static;
       z-index: 6;
       width: 100%;
       display: flex;
       justify-content: center;
+      pointer-events: none;
     }
 
     .hero-media {
@@ -165,7 +180,9 @@
       align-items: center;
       justify-content: center;
       padding: clamp(0.35rem, 2vh, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) clamp(4.25rem, 14vh, 5rem);
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      transition:
+        opacity 0.6s ease,
+        visibility 0.6s ease;
     }
 
     .hero-image-layer {
@@ -305,7 +322,9 @@
       gap: 0.25rem;
       cursor: pointer;
       z-index: 6;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
       box-shadow: 0 0 1.5rem rgba($black, 0.35);
 
       &:hover,
@@ -376,7 +395,10 @@
       justify-content: center;
       z-index: 6;
       box-shadow: 0 0.95rem 1.75rem rgba($black, 0.5);
-      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        opacity 0.2s ease;
 
       i {
         font-size: 1.35rem;
@@ -454,10 +476,10 @@
       align-items: center;
       justify-content: center;
       gap: 0.45rem;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       color: var(--color-white);
-      padding: 0.4rem 1.15rem;
+      padding: 0.35rem 1.05rem;
       border-radius: 999px;
       cursor: pointer;
       z-index: 6;
@@ -465,10 +487,20 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 500;
-      box-shadow: 0 0.85rem 1.8rem rgba($black, 0.45);
+      box-shadow:
+        0 0.65rem 1.6rem rgba($black, 0.5),
+        0 0 0.65rem rgba($black, 0.35);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      white-space: nowrap;
+      width: max-content;
+      min-width: 0;
+      max-width: calc(100% - clamp(3rem, 18vw, 6rem));
+      text-align: center;
 
       i {
         font-size: 1.05rem;
@@ -479,6 +511,9 @@
         opacity: 1;
         transform: translate(-50%, -2px);
         animation-play-state: paused;
+        box-shadow:
+          0 0.85rem 1.9rem rgba($black, 0.55),
+          0 0 0.85rem rgba($black, 0.45);
       }
 
       &.is-attention {
@@ -490,6 +525,13 @@
       .hero-mute-btn {
         opacity: 1;
         pointer-events: auto;
+      }
+    }
+
+    &.is-muted.is-mute-hidden {
+      .hero-mute-btn {
+        opacity: 0;
+        pointer-events: none;
       }
     }
 
@@ -564,7 +606,9 @@
       background: rgba(0, 0, 0, 0.55);
       color: var(--color-white);
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
       justify-content: center;
       width: 100%;
 
@@ -603,7 +647,10 @@
       justify-content: center;
       cursor: pointer;
       box-shadow: 0 0.65rem 1.35rem rgba($black, 0.45);
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 
       &:hover,
       &:focus {
@@ -651,16 +698,25 @@
 }
 
 @keyframes fade-in {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-in {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes cta-throb {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-50%) scale(1);
     box-shadow: 0 0 0 color-mix(in srgb, $lime-green 0%, transparent);
   }
@@ -687,4 +743,3 @@
     box-shadow: 0 0 1rem color-mix(in srgb, var(--color-lime) 65%, transparent);
   }
 }
-
