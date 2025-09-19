@@ -20,6 +20,7 @@
     const hideBtn = hero.querySelector('.js-hero-hide');
     const fullscreenButtons = hero.querySelectorAll('.js-hero-fullscreen');
     const airplayBtn = hero.querySelector('.js-hero-airplay');
+    const progressFill = hero.querySelector('.js-hero-progress-fill');
 
     const player = new window.Vimeo.Player(frame, {
       id: videoId,
@@ -41,6 +42,15 @@
     let videoDuration = null;
     let hasAutoScrolled = false;
     let hasRequestedEndTransition = false;
+
+    const setPlaybackProgress = (value) => {
+      const numeric = typeof value === 'number' ? value : 0;
+      const percent = Math.min(Math.max(numeric, 0), 100);
+      hero.style.setProperty('--hero-playback-progress', `${percent}%`);
+      if (progressFill) {
+        progressFill.style.width = `${percent}%`;
+      }
+    };
 
     const resetEndTransition = () => {
       hasRequestedEndTransition = false;
@@ -84,6 +94,7 @@
       hero.classList.add('has-video-error', 'is-image-active');
       hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
       setBufferProgress(0);
+      setPlaybackProgress(0);
       if (playOverlay) {
         playOverlay.classList.add('is-hidden');
         playOverlay.disabled = true;
@@ -138,6 +149,7 @@
       pauseReason = 'close';
       resetEndTransition();
       hasAutoScrolled = false;
+      setPlaybackProgress(0);
       setBufferProgress(0);
       setLoading(false);
       player
@@ -177,6 +189,7 @@
     };
 
     setBufferProgress(0);
+    setPlaybackProgress(0);
 
     player
       .ready()
@@ -247,6 +260,8 @@
       if (!duration || duration <= 0) {
         return;
       }
+      const percent = (data.seconds / duration) * 100;
+      setPlaybackProgress(percent);
       if (!hero.classList.contains('is-video-active')) {
         return;
       }
@@ -298,6 +313,7 @@
       resetEndTransition();
       showPosterFromVideo();
       setBufferProgress(0);
+      setPlaybackProgress(0);
       player.setCurrentTime(0).catch(() => {});
       if (!hasAutoScrolled) {
         autoScrollAfterEnd();
