@@ -7,7 +7,7 @@
     const videoId = parseInt(hero.dataset.videoId || '', 10);
     if (!videoId) return;
 
-    const frame = hero.querySelector('.hero-video-layer__frame');
+    const frame = hero.querySelector('.hero-video-layer__player');
     if (!frame) return;
 
     const videoLayer = hero.querySelector('.js-hero-video');
@@ -20,6 +20,7 @@
     const hideBtn = hero.querySelector('.js-hero-hide');
     const fullscreenButtons = hero.querySelectorAll('.js-hero-fullscreen');
     const airplayBtn = hero.querySelector('.js-hero-airplay');
+    const progressFill = hero.querySelector('.js-hero-progress-fill');
 
     const player = new window.Vimeo.Player(frame, {
       id: videoId,
@@ -37,10 +38,19 @@
     });
 
     let pauseReason = null;
-    let muteAttentionTimer;
     let videoDuration = null;
     let hasAutoScrolled = false;
     let hasRequestedEndTransition = false;
+    let wasPlayingBeforeFullscreen = false;
+
+    const setPlaybackProgress = (value) => {
+      const numeric = typeof value === 'number' ? value : 0;
+      const percent = Math.min(Math.max(numeric, 0), 100);
+      hero.style.setProperty('--hero-playback-progress', `${percent}%`);
+      if (progressFill) {
+        progressFill.style.width = `${percent}%`;
+      }
+    };
 
     const resetEndTransition = () => {
       hasRequestedEndTransition = false;
@@ -84,6 +94,7 @@
       hero.classList.add('has-video-error', 'is-image-active');
       hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
       setBufferProgress(0);
+      setPlaybackProgress(0);
       if (playOverlay) {
         playOverlay.classList.add('is-hidden');
         playOverlay.disabled = true;
@@ -138,6 +149,7 @@
       pauseReason = 'close';
       resetEndTransition();
       hasAutoScrolled = false;
+      setPlaybackProgress(0);
       setBufferProgress(0);
       setLoading(false);
       player
@@ -163,20 +175,13 @@
         .getMuted()
         .then((muted) => {
           hero.classList.toggle('is-muted', muted);
-          if (muted) {
-            muteButton.classList.add('is-attention');
-            clearTimeout(muteAttentionTimer);
-            muteAttentionTimer = window.setTimeout(() => {
-              muteButton.classList.remove('is-attention');
-            }, 12000);
-          } else {
-            muteButton.classList.remove('is-attention');
-          }
+          muteButton.classList.toggle('is-attention', muted);
         })
         .catch((error) => console.error('Vimeo player error:', error));
     };
 
     setBufferProgress(0);
+    setPlaybackProgress(0);
 
     player
       .ready()
@@ -247,6 +252,8 @@
       if (!duration || duration <= 0) {
         return;
       }
+      const percent = (data.seconds / duration) * 100;
+      setPlaybackProgress(percent);
       if (!hero.classList.contains('is-video-active')) {
         return;
       }
@@ -288,6 +295,9 @@
       } else if (pauseReason === 'close') {
         showPosterFromVideo();
       }
+      if (pauseReason === 'overlay' || pauseReason === 'close') {
+        wasPlayingBeforeFullscreen = false;
+      }
       pauseReason = null;
       resetEndTransition();
     });
@@ -298,6 +308,7 @@
       resetEndTransition();
       showPosterFromVideo();
       setBufferProgress(0);
+      setPlaybackProgress(0);
       player.setCurrentTime(0).catch(() => {});
       if (!hasAutoScrolled) {
         autoScrollAfterEnd();
@@ -374,14 +385,56 @@
     }
 
     if (fullscreenButtons.length) {
+      const requestPlayerFullscreen = () => {
+        if (typeof player.requestFullscreen === 'function') {
+          player.requestFullscreen().catch(() => {});
+        }
+      };
       fullscreenButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          if (typeof player.requestFullscreen === 'function') {
-            player.requestFullscreen().catch(() => {});
-          }
+          player
+            .getPaused()
+            .then((paused) => {
+              wasPlayingBeforeFullscreen = !paused;
+              requestPlayerFullscreen();
+            })
+            .catch(() => {
+              wasPlayingBeforeFullscreen = hero.classList.contains('is-video-playing');
+              requestPlayerFullscreen();
+            });
         });
       });
     }
+
+    player.on('fullscreenchange', (data) => {
+      const isFullscreen = Boolean(data && data.fullscreen);
+      if (isFullscreen) {
+        if (hero.classList.contains('is-video-playing')) {
+          wasPlayingBeforeFullscreen = true;
+        }
+        return;
+      }
+      if (!wasPlayingBeforeFullscreen) {
+        return;
+      }
+      wasPlayingBeforeFullscreen = false;
+      player
+        .getPaused()
+        .then((paused) => {
+          if (paused && hero.classList.contains('is-video-active')) {
+            pauseReason = null;
+            hidePauseOverlay();
+            player.play().catch(() => {});
+          }
+        })
+        .catch(() => {
+          if (hero.classList.contains('is-video-active')) {
+            pauseReason = null;
+            hidePauseOverlay();
+            player.play().catch(() => {});
+          }
+        });
+    });
 
     if (airplayBtn) {
       airplayBtn.addEventListener('click', () => {
