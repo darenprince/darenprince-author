@@ -162,6 +162,26 @@
       hero.classList.remove('is-paused-overlay')
     }
 
+    const ensurePlaybackAfterUnmute = (shouldResume) => {
+      if (!shouldResume) return
+      if (!hero.classList.contains('is-video-active')) {
+        return
+      }
+      player
+        .getPaused()
+        .then((paused) => {
+          if (!paused) return
+          pauseReason = null
+          hidePauseOverlay()
+          return player.play()
+        })
+        .catch(() => {
+          pauseReason = null
+          hidePauseOverlay()
+          player.play().catch(() => {})
+        })
+    }
+
     const showPosterFromVideo = () => {
       hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused')
       hero.classList.add('is-image-active')
@@ -525,9 +545,11 @@
       hero.addEventListener('focusin', revealMutePrompt)
 
       muteButton.addEventListener('click', () => {
+        const wasPlaying = hero.classList.contains('is-video-playing')
         player
           .setMuted(false)
           .then(() => player.setVolume(1))
+          .then(() => ensurePlaybackAfterUnmute(wasPlaying))
           .then(() => {
             hero.classList.remove('is-muted')
             muteButton.classList.remove('is-attention')
