@@ -1910,6 +1910,22 @@ input:checked + .toggle-slider::before {
 .hero.hero-auto-zoom {
   cursor: pointer;
 }
+.hero.hero-auto-zoom .hero-cta {
+  top: auto;
+  bottom: clamp(5.5rem, 22vh, 9rem);
+  transform: translate(-50%, 0);
+}
+@media (min-width: 768px) {
+  .hero.hero-auto-zoom .hero-cta {
+    left: calc(50% + clamp(3.5rem, 10vw, 11rem));
+    bottom: clamp(6.5rem, 26vh, 10rem);
+  }
+}
+@media (min-width: 1024px) {
+  .hero.hero-auto-zoom .hero-cta {
+    left: calc(50% + clamp(4.5rem, 12vw, 13rem));
+  }
+}
 .hero.hero--video h1 {
   display: none;
 }
