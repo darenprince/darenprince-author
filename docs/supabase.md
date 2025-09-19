@@ -1,13 +1,12 @@
-# 🔐 Supabase Integration Overview
+# 🔐 Supabase Quick Reference
 
-The full Supabase control guide now lives in [`docs/supabase/README.md`](supabase/README.md). Use this summary for the quickest hits when you need to orient fast.
+The canonical integration guide lives in [`docs/SUPABASE_INTEGRATION.md`](SUPABASE_INTEGRATION.md). Use this page when you need a fast checklist.
 
-- **Project:** `ogftwcrihcihqahfasmg`
-- **Primary surfaces:** `js/auth-guard.js`, `admin-user-management.html`, `supabase/functions/*`
-- **Latest upgrades:**
-  - Admin action audit log (`private.admin_action_log`) with indexed history.
-  - `admin-users` edge function handling role changes, folder grants, password resets, and account deletion.
-  - Supabase Command Center UI for administrators.
-- **Must-run validation:** `npm test`, Supabase SQL validation block, Netlify env check.
+- **Project:** Configure via env vars (`SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`); no IDs are hard-coded.
+- **Key surfaces:** `js/auth-guard.js`, `admin-user-management.html`, `dashboard.html`, `supabase/functions/*`.
+- **Edge functions:** `admin-users` (user admin API) and `secure-storage` (uploads).
+- **Buckets:** `avatars` (public) and `user-data` (private) with per-user RLS.
+- **Latest schema upgrades:** profile sync trigger refresh, folder access policies, `private.admin_action_log`.
+- **Troubleshooting:** Use `js/supabase-logger.js` (Konami/tap overlay) and run `npm test` for env coverage.
 
-Jump into the [playbook](supabase/README.md) for detailed schema diagrams, API callouts, and ops checklists.
+Jump to the full playbook in [`docs/supabase/README.md`](supabase/README.md) for diagrams, policies, and deployment steps.
