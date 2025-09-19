@@ -1,4 +1,5 @@
 @use "../base/variables" as *;
+@use "../base/mixins" as *;
 @use "../tokens/colors" as *;
 .hero {
   position: relative;
@@ -76,6 +77,25 @@
 
   &.hero-auto-zoom {
     cursor: pointer;
+
+    .hero-cta {
+      top: auto;
+      bottom: clamp(5.5rem, 22vh, 9rem);
+      transform: translate(-50%, 0);
+    }
+
+    @include respond-to(md) {
+      .hero-cta {
+        left: calc(50% + clamp(3.5rem, 10vw, 11rem));
+        bottom: clamp(6.5rem, 26vh, 10rem);
+      }
+    }
+
+    @include respond-to(lg) {
+      .hero-cta {
+        left: calc(50% + clamp(4.5rem, 12vw, 13rem));
+      }
+    }
   }
 
   &.hero--video {
