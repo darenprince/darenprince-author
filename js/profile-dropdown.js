@@ -2,7 +2,7 @@ import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { getUserRole, isElevatedRole } from './user-role.js';
 import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
-function initProfileDropdown() {
+async function initProfileDropdown() {
   const toggle = document.querySelector('.js-profile-toggle');
   const dropdown = document.querySelector('.js-profile-dropdown');
   if (!toggle || !dropdown) return;
