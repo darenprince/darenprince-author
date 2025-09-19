@@ -1,146 +1,108 @@
+# 🗂 Project File Structure
 
-# 🗂 Project File Structure for Daren Prince Author Platform
+_Last updated: 2025-02-14_
 
-This document details the exact folder and file structure used in the Codex-powered website project for Daren Prince. It includes descriptions, naming logic, and usage context to ensure consistency across all development and design efforts.
+This reference outlines the actual directories and key files in the repo. Use it alongside `docs/SITE_STRUCTURE.md` when onboarding or wiring automation.
 
----
-
-## 🔧 Root Directory
-
+## Root layout
 ```
-/ (Project Root)
-├── index.html                 # Homepage (dark mode layout)
-├── components.html            # Demo page listing every UI component
-├── assets/                    # Images, logos and compiled CSS
-├── scss/                      # Source SCSS files
-├── js/                        # JavaScript helpers
-├── supabase/                  # Supabase client, migrations and edge functions
-├── member/                    # Member area (in progress)
-├── docs/                      # Project documentation
-├── test/                      # Demo layouts and checks
-├── tests/                     # Vitest suites for Supabase logic
-├── archive/                   # Archived files and legacy docs
-├── package.json               # Build scripts and dependencies
-├── package-lock.json          # Version-locked dependencies
-├── setup.sh                   # Initialization script
-├── .gitignore                 # Files/folders to exclude from version control
-├── netlify.toml               # Optional Netlify deployment config
-├── README.md                  # Project overview and instructions
-├── LICENSE.md                 # Licensing info
+/
+├── assets/                  # Compiled CSS, generated env.js, imagery, press kits
+├── scss/                    # Sass source (base, layout, components, utilities, themes)
+├── js/                      # Browser modules (auth, dashboards, hero demos, helpers)
+├── src/                     # Search worker + build scripts
+├── scripts/                 # Node/python tooling (env generator, manifests, icons, admin bootstrap)
+├── supabase/                # Client helpers, env resolver, migrations, edge functions
+├── docs/                    # Documentation, prompts, audits
+├── pages/                   # Search results shell (`search.html`)
+├── public/search/           # Generated Minisearch payloads
+├── tests/                   # Vitest suites
+├── member/                  # Legacy member dashboard prototype
+├── components/              # HTML demos (e.g., `book-details-tab-demo.html`)
+├── *.html                   # Marketing, auth, dashboard pages
+├── package.json             # npm scripts + dev dependencies
+├── netlify.toml             # Netlify build command + plugin config
+└── tsconfig.json            # TypeScript configuration for tests/functions
 ```
 
----
+> **Reality Check:** The `/components/` directory now stores HTML demos only. All Sass partials live under `scss/components/` and compile through `scss/styles.scss`.
 
-## 🧱 SCSS Directory Structure
-
+## Sass entry points
 ```
-/scss/
-├── styles.scss                # Main entry point importing all modules
-├── base/                      # Resets, globals, typography, variables
-├── layout/                    # Header, footer and grid helpers
-├── components/                # Buttons, forms and reusable pieces
-├── themes/                    # Light/dark theme partials
-├── tokens/                    # Brand color definitions
-├── utilities/                 # Helper classes and mixins
-```
-
----
-
-## 🧩 Component Library
-
-```
-/components/
-├── _buttons.scss             # Default button styles
-├── _forms.scss               # Input fields and form layout
-├── _cards.scss               # Card layouts
-├── _modals.scss              # Modal windows
-├── _alerts.scss              # Alert messages
-├── _toggles.scss             # Toggle switches
-├── _hero.scss                # Hero banner section
-├── _testimonials.scss        # Testimonial grid
-├── _downloads.scss           # Download cards
-├── _viewer.scss              # Embedded document viewer
+/scss
+├── styles.scss              # Main entry importing tokens, base, layout, components, utilities, themes
+├── style.scss               # Legacy mega-menu styles (imported by `scss/styles.scss` at the end)
+├── base/                    # Variables, mixins, globals, typography, reset
+├── layout/                  # Header, footer, grid, component nav, demo sections
+├── components/              # 33 component partials (buttons, hero, book, dashboard, admin, search, etc.)
+├── utilities/               # Spacing, typography, gradient helpers
+├── tokens/                  # CSS custom properties + Sass bindings
+└── themes/                  # Dark/light theme overrides
 ```
 
----
-
-## 📝 Documentation
-
+## JavaScript modules
 ```
-/docs/
-├── README.md                 # Repo root readme
-├── brand-style-guide.md      # HEX color tokens, voice/tone, branding rules
-├── assets-brand-README.md    # Logo/icon usage, naming rules
-├── AGENTS.md                 # Codex agent behavior and tone setup
-├── CODEX_PROMPTS.md          # Prompt library and modular instruction stacks
-```
-
----
-
-## 🖼 Brand Assets
-
-```
-/assets/
-├── brand/                    # Press kit and official PDFs
-├── images/                   # Backgrounds and thumbnails
-├── icons/                    # Social icon set (32x32)
-├── logos/                    # Logo variations
-├── styles.css                # Main compiled stylesheet
-├── styles.css.map            # Source map for the stylesheet
+/js
+├── main.js                  # Mega menu, search toggle, auth toggle defaults
+├── theme-toggle.js          # Dark/light toggle persistence
+├── auth.js                  # Login/signup flows + redirects
+├── auth-guard.js            # Protects gated pages using Supabase
+├── dashboard.js             # Member dashboard interactions
+├── admin-user-console.js    # Admin management UI (roles, folders, resets, deletes)
+├── supabase-helper.js       # Safe Supabase accessor with UI messaging
+├── supabase-logger.js       # Debug overlay + logging proxy
+├── user-role.js             # Role normalization + profile fetch helpers
+├── book-rail.js / book-tabs.js / book-3d-viewer.js / trailer-modal.js
+├── hero-demos.js / hero-video.js / hero-auto-zoom.js
+├── ui.js                    # Toast + progress utilities (exposed as `window.GameOnUI`)
+└── ...                      # Additional modules (image index, contact form helpers, etc.)
 ```
 
----
+`src/js/` hosts browser-side search controllers (`search.js`, `search-results.js`). `src/search/` contains the worker, stopwords, synonyms, and build script.
 
-## 🔐 Member Area
-
+## Supabase assets
 ```
-/member/
-├── index.html                # Member login/dashboard
-├── styles.scss               # Source styles for the area
-├── styles.css                # Compiled stylesheet
-├── styles.css.map            # Source map for the compiled CSS
-```
-
----
-
-## 📦 JavaScript
-
-```
-/js/
-├── main.js                 # Core navigation and auth handling
+/supabase
+├── client.js / client.ts           # Supabase client factories
+├── env.js / env.d.ts               # Environment resolution helpers
+├── functions/
+│   ├── admin-users/index.ts        # Admin API edge function
+│   └── secure-storage/index.ts     # Authenticated storage uploads
+├── migrations/
+│   ├── 0001_create_profiles.sql
+│   ├── 0002_create_folder_access_and_policies.sql
+│   ├── 0003_update_profile_sync.sql
+│   ├── 0004_profiles_audit.sql
+│   └── 0005_admin_action_log.sql
+└── sql_editor_setup.sql            # Legacy policy bootstrap (reference)
 ```
 
----
-
-## 🧪 Testing + Deployment
-
+## Scripts directory
 ```
-/test/
-├── test.html                 # Main demo page
-├── layout-debug.html         # Grid layout debug file
+/scripts
+├── generate-env.js                 # Writes assets/js/env.js from env vars
+├── generate-image-manifest.js      # Builds assets/image-manifest.json
+├── materialize-apple-assets.mjs    # Restores Apple icons from base64 sprite
+├── check-apple-assets.mjs          # Validates Apple icon payload
+├── bootstrap-admin.js              # Seeds/elevates admin user (service role required)
+├── local_setup.sh                  # Installs deps + compiles Sass once
+├── start_dev.sh                    # Watches Sass then runs `netlify dev`
+└── optimize-images.js / seo-enrich.js / inject_apple_meta.py / generate_apple_icons.py
 ```
 
----
-
-## 🛠 Misc
-
-- **Colors:** Only use HEX values defined in `brand-style-guide.md`
-- **Dark Mode:** Baseline is dark, but a light theme can be enabled via `#themeToggle`.
-- **Fonts:** CodyHouse system defaults, no custom brand fonts (yet)
-- **Filenames:** Follow all conventions from `assets-brand-README.md`
-
----
-
-This file should be used as a universal reference for:
-- ✅ Codex building blocks
-- ✅ Brand compliance
-- ✅ Asset usage & dev consistency
-
-## 🏗 Build Commands
-
-Run the Sass build scripts via npm:
-
-```bash
-npm run build   # compile SCSS once
-npm run watch   # watch for changes and recompile
+## Tests
 ```
+/tests
+├── auth.spec.ts                    # Auth guard + login behaviors
+├── supabase-env.spec.ts            # Env resolver coverage
+├── storage.spec.ts                 # Storage helper expectations
+└── netlify-rules.spec.ts           # Redirect/header validation
+```
+
+## Generated artifacts to track
+- `assets/styles.css` — compiled Sass
+- `assets/js/env.js` — generated Supabase env payload
+- `assets/image-manifest.json` — asset catalog for image index tooling
+- `public/search/index.json` + `public/search/docs.json` — Minisearch payloads (empty until `/content/` is populated)
+
+Keep these files committed after running `npm run build` so Netlify serves the latest versions.
