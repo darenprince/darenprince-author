@@ -129,9 +129,18 @@
         <div class="hero-video-layer js-hero-video" aria-hidden="true">
           <div class="hero-video-layer__frame" id="heroVideoFrame"></div>
         </div>
-        <button class="hero-play-overlay js-hero-play" type="button" aria-label="Play the Game On! book trailer">
+        <button
+          class="hero-play-overlay js-hero-play"
+          type="button"
+          aria-label="Play the Game On! book trailer"
+          aria-live="polite"
+        >
           <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
+          <span class="hero-play-overlay__progress-bar" aria-hidden="true">
+            <span class="hero-play-overlay__progress-fill"></span>
+          </span>
           <span class="hero-play-overlay__icon ti ti-player-play-filled" aria-hidden="true"></span>
+          <span class="hero-play-overlay__label" aria-hidden="true">Loading trailer&hellip;</span>
           <span class="visually-hidden">Play trailer</span>
         </button>
         <button class="hero-mute-btn js-hero-mute" type="button" aria-label="Unmute trailer audio">

@@ -38,8 +38,16 @@
     let pauseReason = null;
     let muteAttentionTimer;
 
+    const setBufferProgress = (value) => {
+      const percent = Math.min(Math.max(typeof value === 'number' ? value : 0, 0), 1);
+      hero.style.setProperty('--hero-buffer-progress', `${Math.round(percent * 100)}%`);
+    };
+
     const setLoading = (isLoading) => {
       hero.classList.toggle('is-loading', Boolean(isLoading));
+      if (playOverlay) {
+        playOverlay.setAttribute('data-loading', isLoading ? 'true' : 'false');
+      }
     };
 
     const showPlayOverlay = () => {
@@ -89,6 +97,8 @@
         .catch((error) => console.error('Vimeo player error:', error));
     };
 
+    setBufferProgress(0);
+
     player
       .ready()
       .then(() => {
@@ -102,16 +112,25 @@
 
     player.on('loaded', () => {
       hero.classList.add('is-video-ready');
+      setBufferProgress(1);
+      setLoading(false);
     });
 
     player.on('bufferstart', () => setLoading(true));
     player.on('bufferend', () => setLoading(false));
+
+    player.on('progress', (data) => {
+      if (data && typeof data.percent === 'number') {
+        setBufferProgress(data.percent);
+      }
+    });
 
     player.on('play', () => {
       hidePauseOverlay();
       hero.classList.add('is-video-active', 'is-video-playing');
       hero.classList.remove('is-video-paused', 'is-image-active');
       setLoading(false);
+      setBufferProgress(1);
       hidePlayOverlay();
       updateMuteState();
     });
@@ -135,6 +154,7 @@
       hero.classList.remove('is-video-active', 'is-video-playing', 'is-video-paused');
       hero.classList.add('is-image-active');
       showPlayOverlay();
+      setBufferProgress(0);
       player.setCurrentTime(0).catch(() => {});
     });
 
@@ -155,6 +175,7 @@
         hero.classList.remove('is-image-active');
         pauseReason = null;
         setLoading(true);
+        setBufferProgress(0);
         hidePlayOverlay();
         player.play().catch(() => {
           setLoading(false);
@@ -184,6 +205,8 @@
       closeBtn.addEventListener('click', () => {
         hidePauseOverlay();
         pauseReason = 'close';
+        setBufferProgress(0);
+        setLoading(false);
         player
           .pause()
           .then(() => player.setCurrentTime(0))
