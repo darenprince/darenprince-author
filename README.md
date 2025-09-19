@@ -1,186 +1,163 @@
-The official project **README.md** is located inside of the main docs folder here:
-=====
-[View Official README.md](./docs/README.md)
-=====
-[View Documentation Folder](./docs/)
-
-**Live Site:** [darenprince.netlify.app](https://darenprince.netlify.app)
-
 # 🖥️ Daren Prince Author Platform & Website
 
-Welcome to the official development repository for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
+_Last updated: 2025-02-14_
+
+Welcome to the development hub for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
+
+- **Live Site:** [darenprince.netlify.app](https://darenprince.netlify.app)
+- **Documentation Folder:** [`/docs`](./docs/)
+- **Game On! Press Kit:** [`/assets/brand/`](./assets/brand/)
 
 ---
 
 ## ⚡️ Mission
+This project exists to:
 
-This project is built to:
-
-- Showcase Daren’s published and upcoming books
-- Deliver his message with confidence, clarity, and brand consistency
-- Powerfully reflect the Game On! brand identity (fonts, colors, energy, language)
-- Support future expansions like courses, member access, podcasting, affiliate integration, and more
-- Be deployed lightning-fast via Netlify with clean modular SCSS and prompt-driven component builds via OpenAI Codex
+- Spotlight the book catalog with cinematic hero treatments and interactive tooling.
+- Deliver confident, psychology-backed messaging that matches the Game On! identity.
+- Provide a single source of truth for brand tokens, layouts, and reusable UI.
+- Prepare for member-only experiences without exposing unfinished surfaces.
+- Keep deploys fast, automated, and ready for Netlify + Supabase integrations.
 
 ---
 
 ## 🔧 Stack Overview
+| Layer | Details |
+| --- | --- |
+| Markup | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes) |
+| Styles | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default) |
+| JavaScript | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search` |
+| Auth & data | Supabase JS client (auth, storage, admin edge functions) |
+| Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md)), Netlify CLI |
+| Search | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html` |
 
-- **Framework**: Pure HTML + Modular SCSS (CodyHouse-style system)
-- **Dark Mode Default**: Site is styled with dark mode as the baseline
-- **Theme Toggle**: Each page has a button that switches `theme-dark` and `theme-light`
-- **Build Tools**: Node, npm, Netlify CLI
-- **Auto Deployment**: Netlify CI/CD connected to GitHub main branch
-- **Prompt Engine**: Codex by OpenAI powers real-time generation of components, prompts, and site logic
-
----
-
-## 🧠 Codex Integration
-
-This project is driven by AI collaboration through OpenAI’s Codex:
-
-- Modular prompts generate SCSS components
-- Systematic integration with Codex logic tracked in `docs/CODEX_PROMPTS.md`
-- Brand-aware personality definitions in `docs/AGENTS.md`
-
-⚠️ All prompts, component logic, and layout flow must follow the official strategy and never deviate from:
-- Brand fonts
-- HEX color values
-- REM-based spacing logic
-- No dashes, no truncation, no approximations
+> **Reality Check:** Netlify’s build command only runs Sass compilation and environment generation. Run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
 
 ---
 
-## 🎨 Visual Identity
+## 🧭 Navigation, Theme & UI Utilities
+- `js/main.js` manages the mega menu, search toggle, and auth defaults.
+- `js/theme-toggle.js` wires the dark/light switch. Marketing pages ship with the toggle; admin utilities may omit it to save space.
+- `js/profile-dropdown.js` activates the profile menu and logout once a Supabase session exists.
+- `js/ui.js` exposes toast + progress helpers:
+  ```html
+  <script type="module" src="/js/ui.js"></script>
+  ```
+  ```javascript
+  GameOnUI.showToast('Saved!', 'success');
+  const bar = document.querySelector('.progress');
+  GameOnUI.showProgress(bar);
+  GameOnUI.setProgress(bar, 50);
+  ```
+- `components.html` still references `./js/mobile-nav.js`, but that file was removed. Remove the tag or restore the module to avoid 404s.
 
-Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/brand/`).
+---
 
-**Fonts:**
-For UI and website text, Default CodyHouse style Sans Serif fonts are to be used consistently.
+## 🎨 Design System
+Brand identity is governed by the Game On! press assets and CodyHouse-inspired SCSS architecture.
 
-- Futura Bold (Primary Headline)
-- Helvetica Medium (Secondary Headline / Navigation)
-- Knockout Welterweight (Accents & Stylized Labels)
-- Helvetica Now (Body, System, Utility)
+**Fonts**
+- Futura Bold (Primary headline)
+- Helvetica Medium (Secondary headline / navigation)
+- Knockout Welterweight (Accents & stylized labels)
+- Helvetica Now (Body, system, utility)
 
-**Color Palette:**
+> **Reality Check:** League Spartan appears in `.styledh1`. Load the font before using that class publicly, or accept the Helvetica fallback.
+
+**Color Palette**
 - `#FDFDFD` White
 - `#D5D5D5` Light Gray
 - `#B8BAB7` Medium Gray
 - `#3B3C3B` Charcoal
- - `#070A06` Black
+- `#070A06` Black
 - `#456F3A` Deep Green
 - `#6DA667` Medium Green
 - `#87BD72` Bright Green
 - `#8CD679` Light Lime Green
 - `#C2E9C1` Mint Green
 
-Design must follow clean, bold, masculine UI logic with large readable typography, generous spacing, and no frills.
+Design principles: bold, dark-mode-first, generous spacing, masculine energy, no gimmicks.
 
----
+**Tokens & Variables**
+- CSS custom properties live in `scss/tokens/_css-vars.scss` and include light theme overrides for the toggle.
+- Sass bindings live in `scss/tokens/_colors.scss`. Reference these tokens throughout components so color changes stay centralized.
+- Utility classes (spacing, flex, typography) reside in `scss/utilities/_helpers.scss`.
 
-## 🎛 CSS Variables & Tokens
-
-Color variables live in `scss/tokens/_css-vars.scss` and are applied globally under `:root`. The file also defines `.theme-light` overrides so the theme toggle can swap palettes.
-
-Sass variables in `scss/tokens/_colors.scss` map directly to those custom properties. Reference these Sass tokens throughout components so color changes remain centralized.
-
-**Adding a new token**
+_Adding a new token_
 1. Declare `--color-name` in `_css-vars.scss`.
-2. Add `$name: var(--color-name);` to `_colors.scss`.
-3. Run `npm run build` to update the compiled CSS.
+2. Map it in `_colors.scss` (`$name: var(--color-name);`).
+3. Run `npm run build` to refresh the compiled CSS.
 
-### 🛡️ Style & Token Modification Policy
-- Do not change existing styles, colors, or theme tokens.
-- If changes are needed, create new classes, utilities, or tokens to accommodate them.
-- Only alter established tokens when explicitly requested.
+> Do not edit existing tokens unless explicitly requested. Prefer adding new variables or utility classes.
 
 ---
 
-## 🌐 Site Structure
-
+## 🌐 Site & File Structure
 ```plaintext
 📁 /assets/         # Logos, icons, images, compiled CSS
 📁 /scss/           # Modular SCSS (base, layout, components, utilities)
-📁 /js/             # Custom scripts (optional)
+📁 /js/             # Custom scripts (nav, theme toggle, Supabase helpers, UI utilities)
 📁 /member/         # Gated content area (future)
-📁 /docs/           # Prompts, logic, visual guide, file structure docs
+📁 /docs/           # Prompts, logic, visual guides, build notes, audits
+📁 /pages/          # Additional static page entries (e.g., search results)
 📄 index.html       # Homepage
-📄 components.html  # Master demo sheet for all UI components
+📄 components.html  # Master demo sheet for UI components
 📄 setup.sh         # Local setup script
 📄 netlify.toml     # Redirect and build config
 ```
 
-### 🍏 Apple icon workflow
-- Icon PNGs and launch images are generated at install time from the base64 payload stored in `assets/icons/apple-assets.json`.
-- `npm install` (or any command that runs npm's `postinstall`) will automatically recreate the PNG set via `scripts/materialize-apple-assets.mjs` so static hosting platforms receive the files during their build step.
-- To tweak the artwork, install Pillow (`pip install pillow`) and run `python scripts/generate_apple_icons.py`. This regenerates the PNGs locally and refreshes the base64 payload ready for commit.
-- After regenerating, run `npm run generate:images` to update `assets/image-manifest.json` if you rely on the manifest elsewhere in the project.
+**Apple icon workflow**
+- PNGs and launch images materialize from the base64 payload in `assets/icons/apple-assets.json`.
+- Running `npm install` (or any `postinstall`) invokes `scripts/materialize-apple-assets.mjs` to rebuild icons.
+- To tweak the artwork, install Pillow (`pip install pillow`) and run `python scripts/generate_apple_icons.py`.
+- After regenerating art, run `npm run generate:images` to refresh `assets/image-manifest.json` if it’s used elsewhere.
 
 ---
 
-## 📄 Planned Pages
+## 🧩 Component & Page Highlights
+Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
-1. **Home**
-   - Hero headline, featured book, video embed, reviews, email opt-in
-
-2. **Explore Books**
-   - Grid layout with all books, buy links, taglines
-
-3. **Book Detail Pages**
-   - Per-title highlights with formats, reviews, trailers
-
-4. **About Daren**
-   - Long bio, quote, press portrait, personal facts (son DJ, iced coffee, true crime)
-
-5. **Press & Media**
-   - Download center for logos, press kit, media requests
-
-6. **Blog**
-   - Card layout with sort-by-tag filters and deep posts
-
-7. **Contact**
-   - Email form (no CAPTCHA), direct links to social media, email
-
-## 📦 Container Variants
-
-Layout containers keep content grounded and intentional. Use these classes to control width and create contrast:
-
-- `.container` – centers content with adaptive max-width.
-- `.container--spaced` – same width plus vertical and horizontal padding; no background or border.
-- `.container--border` – adds a 1px solid border and padding on a transparent backdrop.
-- `.container--dark` – dark gray background, white text, and generous padding for high-contrast blocks.
+- `index.html` — hero rail, featured book CTA, testimonials, contact capture.
+- `book.html` — tabbed format selector with trailer modal and 3D viewer.
+- `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
+- `dashboard.html` — member storage, profile editor, Supabase-driven uploads.
+- `admin-user-management.html` — admin console backed by the `admin-users` edge function.
+- `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
 
 ---
 
-## 🛠️ UI Utilities
+## 🔐 Supabase Integration
+- Environment variables flow through `scripts/generate-env.js` → `assets/js/env.js`.
+- `supabase/env.js` offers Deno (edge), Node (tests/scripts), and browser fallbacks.
+- Edge functions: `admin-users` (user management) and `secure-storage` (uploads).
+- Database tables: `public.profiles`, `public.folder_access`, `private.profile_audit`, `private.admin_action_log`.
+- Storage buckets: `avatars` (public) and `user-data` (private).
 
-`/js/ui.js` provides small helpers for toast notifications and progress bars.
-Include the module on any page that needs them:
+_Troubleshooting_
+- Use `js/supabase-logger.js` (Konami/tap overlay) for runtime diagnostics.
+- Run the Vitest suite in `/tests` to validate Supabase helpers and auth guards.
 
-```html
-<script type="module" src="/js/ui.js"></script>
-```
-
-Usage:
-
-```javascript
-// showToast is an alias of GameOnUI.toast
-GameOnUI.showToast('Saved!', 'success');
-const bar = document.querySelector('.progress');
-GameOnUI.showProgress(bar);
-GameOnUI.setProgress(bar, 50);
-```
+_Setup Checklist_
+1. Copy `.env.example` → `.env` and fill `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET` (Netlify integration injects the same vars).
+2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with non-sensitive keys.
+3. Apply database changes with `supabase db push` or execute [`supabase/sql_editor_setup.sql`](./supabase/sql_editor_setup.sql) in the Supabase SQL editor.
+4. Deploy edge functions as needed, e.g. `supabase functions deploy secure-storage`.
+5. Assign elevated roles by editing user metadata (`role` → `developer` or `admin`) in Supabase **Authentication → Users**. Matching roles in `profiles` automatically route admins to `admin-dashboard.html` after login.
 
 ---
 
-## ✍️ Writing & Voice
+## 🔍 Search Workflow
+1. Add Markdown to `/content/` (front matter optional) or static pages under `/pages/`.
+2. Run `npm run build:search` to regenerate `public/search/index.json` and `docs.json`.
+3. `src/js/search.js` powers auto-complete; `src/js/search-results.js` renders search results.
 
-This brand does not tolerate fluff, gimmicks, or generic advice.
+> The repository ships empty search payloads because `/content/` is not tracked. Seed content before demoing search.
 
-**Tone = Confident + Real + Psychology-backed + Emotionally intelligent**
+---
 
-Approved language includes:
+## ✍️ Voice & Content Rules
+The brand voice is confident, real, psychology-backed, and emotionally intelligent. Approved phrases:
+
 - “Master the conversation”
 - “Authentic attraction”
 - “Magnetic energy”
@@ -188,65 +165,54 @@ Approved language includes:
 - “Modern dating decoded”
 - “Conversations that hit different”
 
-All public content, meta descriptions, button text, and landing copy must reflect the **Game On! Vibe**: bold, magnetic, no shortcuts, real confidence.
+Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 
 ---
 
-## 🚀 Deployment & Development
-
-Build Tools:
+## 🚀 Development & Deployment
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
-./scripts/start_dev.sh     # watch files & launch dev server
-npm run build              # one-time SCSS compilation
-npm run watch              # live watching and compiling
+./scripts/start_dev.sh     # watch files & launch Netlify dev server
+npm run build              # build search → env → images → Sass
+npm run watch              # watch Sass and run Netlify dev
+npm test                   # run Vitest suite
 ```
 
-Local Preview (via Netlify CLI):
+Local preview with Netlify CLI:
 ```bash
 npm install -g netlify-cli
 netlify dev
 ```
 
-Deployment: Push to `main` auto-deploys via Netlify CI/CD.
+Pushing to `main` triggers Netlify CI/CD. Connect the Netlify Supabase integration so environment variables stay synchronized.
 
-### Supabase Setup
-
-1. Copy `.env.example` to `.env` and fill in `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET`. These variable names match the Netlify Supabase integration so local and cloud builds stay in sync.
-2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with your credentials. The generated file only contains the database URL and anon key so secrets never ship to the client, and Netlify’s Supabase plugin provides the same values automatically during deploys. Optional `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_DATABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` aliases are also supported for frameworks that expect prefixed variables.
-3. Apply database changes with the Supabase CLI:
-   ```bash
-   supabase db push
-   ```
-   This creates tables like `profiles` and configures Row-Level Security.
-   If you prefer the Supabase SQL Editor, run the one-shot script in
-   [`supabase/sql_editor_setup.sql`](supabase/sql_editor_setup.sql) to set up
-   the same tables, policies, and storage buckets in a single execution.
-4. Deploy edge functions as needed, e.g.:
-   ```bash
-   supabase functions deploy secure-storage
-   ```
-5. On Netlify, install the [Supabase integration](https://docs.netlify.com/extend/install-and-use/setup-guides/supabase-integration/) and connect your project. Netlify will inject `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET` automatically at deploy time.
-6. Assign elevated access by editing a user's `role` in Supabase → **Authentication → Users**. Set the metadata `role` to `developer` or `admin` (default is `member`). The SQL script keeps `profiles.role` in sync so those users are automatically routed to the admin dashboard after signing in.
-
-### Dashboard on Netlify
-1. Connect the Netlify Supabase integration so the required environment variables stay in sync with your Supabase project.
+### Dashboard Access on Netlify
+1. Connect the Supabase integration in Netlify for env parity.
 2. Deploy the site and visit `/login.html` to sign in.
-3. Authenticated users are redirected to `dashboard.html` (or `admin-dashboard.html` when their role is `developer` or `admin`) where they can manage files and profile info.
+3. Authenticated users land on `dashboard.html`; roles of `developer` or `admin` redirect to `admin-dashboard.html`.
 
+---
+
+## 📚 Documentation Index
+- **Audit & status:** [`docs/REPORT_SITE_DOC_AUDIT.md`](./docs/REPORT_SITE_DOC_AUDIT.md)
+- **Structure & components:** [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md), [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md), [`docs/FILE_STRUCTURE.md`](./docs/FILE_STRUCTURE.md)
+- **Design system:** [`docs/STYLE_GUIDE.md`](./docs/STYLE_GUIDE.md)
+- **Build & ops:** [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md), [`docs/indexing-strategy.md`](./docs/indexing-strategy.md)
+- **Supabase:** [`docs/SUPABASE_INTEGRATION.md`](./docs/SUPABASE_INTEGRATION.md), [`docs/supabase.md`](./docs/supabase.md), [`supabase/README.md`](./supabase/README.md)
+- **Changelog:** [`docs/CHANGELOG_DOC_SYNC.md`](./docs/CHANGELOG_DOC_SYNC.md)
+
+Stay bold, stay accurate—keep docs in lockstep with the code.
 
 ---
 
 ## 🔒 Licensing
-
-This project is protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/)
+Protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/).
 
 > No commercial reuse. No alteration of branding. Attribution required.
 
 ---
 
 ## 📬 Contact
-
 - Official Site: [darenprince.com](https://darenprince.com)
 - Press & Media: [press@darenprince.com](mailto:press@darenprince.com)
 - Publisher: [publishing@darenprince.com](mailto:publishing@darenprince.com)
