@@ -2,7 +2,7 @@ import { applyIndexingMeta } from './seo-indexing.js';
 import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js';
 import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js';
 
-document.addEventListener('DOMContentLoaded', async function () {
+async function initNavigationAndAuth() {
   const indexingRule = applyIndexingMeta();
   if (indexingRule) {
     console.debug(
@@ -212,5 +212,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       authToggle.title = 'Authentication service unavailable';
     }
   }
+}
 
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initNavigationAndAuth, { once: true });
+} else {
+  initNavigationAndAuth();
+}
