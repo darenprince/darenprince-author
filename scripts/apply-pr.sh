@@ -37,8 +37,8 @@ PATCH_URL="${BASE_URL}/pull/${PR_NUMBER}.patch"
 PATCH_FILE="$(mktemp)"
 trap 'rm -f "$PATCH_FILE"' EXIT
 
-if ! curl -fsSL "$PATCH_URL" -o "$PATCH_FILE"; then
-  echo "Error: Unable to download patch from $PATCH_URL" >&2
+if ! curl -fsSL "$PATCH_URL" -o "$PATCH_FILE" || [ ! -s "$PATCH_FILE" ]; then
+  echo "Error: Unable to download patch from $PATCH_URL or patch is empty." >&2
   exit 1
 fi
 
