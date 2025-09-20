@@ -1,44 +1,29 @@
-# Conflict Kit Quick Start
+# Conflict Kit Cheat Sheet
 
-The Conflict Kit keeps Netlify deploys from `main` smooth, even when multiple features land simultaneously. Use this cheat sheet before and during every rebase or patch apply.
+## Apply a Pull Request Patch
 
-## 1. Configure Git Once
+1. From the repository root, run `./scripts/apply-pr.sh <PR-number>` to download and apply the upstream patch with a three-way merge.
+2. If the script reports conflicts during `git am`, fix the files, choose incoming changes with `git checkout --theirs <file>`, or keep local edits with `git checkout --ours <file>`, then stage and run `git am --continue`.
+3. If the script falls back to `git apply --3way` and conflicts remain, resolve them with the same `--theirs`/`--ours` flow, stage the files, and finish with `git commit`.
+4. Review `git status` to confirm a clean working tree before continuing development.
 
-```bash
-git config merge.conflictstyle diff3
-git config rerere.enabled true
-```
-
-Diff3 shows the shared ancestor so conflicts are easier to reason about. `rerere` remembers your resolutions and replays them automatically the next time the same conflict appears.
-
-## 2. Daily Sync Flow
+## Daily Sync
 
 1. `git checkout main`
-2. `git fetch origin && git rebase origin/main`
-3. If conflicts appear and you are not actively reviewing them yet, quick-accept the remote copy:
-   ```bash
-   git checkout --theirs <file>
-   git add <file>
-   git rebase --continue
-   ```
-4. Start fresh work from the clean default branch: `git checkout -b feat/my-feature`.
-5. Format before committing: `npm run format` (or let the pre-commit hook format staged files).
-6. Apply incoming patches with `scripts/apply-patch.sh` to minimize manual fixes.
+2. `git fetch origin`
+3. `git rebase origin/main`
+4. When conflicts occur, prefer the remote version for dependency manifests like `package.json` by running `git checkout --theirs package.json` before staging.
+5. For generated assets (e.g., files in `public/` or build outputs), keep the local copy with `git checkout --ours <generated-file>` prior to staging.
+6. After resolving conflicts, run `git rebase --continue` until the rebase completes, and push with `git push --force-with-lease` if required.
 
-## 3. Conflict Strategy
+## New Work
 
-- **Generated or bundled assets** (`dist/**`, `build/**`, `*.min.*`, `assets/image-manifest.json`, `assets/js/env.js`) are marked `merge=ours`. Keep your copy, continue the rebase, then rerun the build.
-- **Docs and changelogs** use the `union` merge driver so contributions from both sides survive. Give the final copy a quick proofread.
-- **package.json / package-lock.json**: when bootstrapping and you are not reviewing dependency updates, accept the remote copy (`git checkout --theirs ...`) and rerun `npm install`.
+1. `git checkout -b <feature-branch> origin/main`
+2. Build features with confidence—Husky hooks and Prettier will auto-format on commit.
+3. Keep commits focused and descriptive to make reviews faster and more effective.
 
-## 4. Fast Follow After Conflicts
+## Rollback Safety
 
-- Run the relevant build (`npm run build`, `npm run generate:images`, etc.) if you resolved generated files.
-- Execute smoke checks or `npm test` if code paths changed.
-- Push once the branch is clean: `git status` should show no staged generated artifacts.
-
-## 5. Patch Helper
-
-Use `scripts/apply-patch.sh path/to/file.patch`. It tries `git am --3way` first (preserving authorship) and falls back to `git apply --3way`. On failure it prints the exact next steps so you can finish the merge confidently.
-
-Stay bold, stay smooth, and keep merges boring.
+1. Abort an in-progress rebase with `git rebase --abort` to restore the previous state.
+2. Reset your local main branch to the remote source of truth anytime with `git checkout main` followed by `git reset --hard origin/main`.
+3. When in doubt, create a safety branch (`git checkout -b backup/<date>`) before experimenting.
