@@ -3884,6 +3884,159 @@ input:checked + .toggle-slider::before {
   margin-bottom: 1rem;
 }
 
+.apple-books-promo {
+  margin: 3rem 0;
+}
+.apple-books-promo[hidden] {
+  display: none !important;
+}
+.apple-books-promo__inner {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 3rem);
+  border-radius: clamp(0.6875rem, 2vw, 1.75rem);
+  border: 1px solid color-mix(in srgb, var(--color-mint) 35%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 36%, transparent) 0%,
+    color-mix(in srgb, var(--color-charcoal) 90%, var(--color-black) 10%) 100%
+  );
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(1.5rem);
+  opacity: 0;
+  transition:
+    transform 360ms ease,
+    opacity 360ms ease;
+}
+@media (min-width: 768px) {
+  .apple-books-promo__inner {
+    grid-template-columns: minmax(120px, 180px) 1fr;
+  }
+}
+.apple-books-promo__inner::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(
+    circle at top right,
+    color-mix(in srgb, var(--color-bright) 40%, transparent) 0%,
+    transparent 55%
+  );
+  opacity: 0.75;
+  pointer-events: none;
+}
+.apple-books-promo.is-visible .apple-books-promo__inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+.apple-books-promo__media {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(96px, 18vw, 160px);
+  aspect-ratio: 1;
+  padding: 1rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--gray-900) 85%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-mint) 25%, transparent);
+  margin-inline: auto;
+}
+.apple-books-promo__media img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.4));
+}
+.apple-books-promo__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .apple-books-promo__content {
+    text-align: left;
+  }
+}
+.apple-books-promo__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gray-900) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-mint) 30%, transparent);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-mint) 70%, var(--color-white) 30%);
+  margin-bottom: 0.75rem;
+}
+.apple-books-promo__badge i {
+  font-size: 1rem;
+}
+.apple-books-promo__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0 0 0.75rem;
+  color: var(--color-white);
+}
+.apple-books-promo__title em {
+  font-style: normal;
+  color: var(--color-bright);
+}
+.apple-books-promo__description {
+  margin: 0 0 1rem;
+  color: color-mix(in srgb, var(--color-mint) 65%, var(--color-white) 35%);
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+}
+.apple-books-promo__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 768px) {
+  .apple-books-promo__actions {
+    justify-content: flex-start;
+  }
+}
+.apple-books-promo__cta {
+  box-shadow: 0 18px 35px rgba(19, 255, 123, 0.25);
+}
+.apple-books-promo__dismiss {
+  border: none;
+  background: transparent;
+  color: color-mix(in srgb, var(--color-mint) 70%, var(--color-white) 30%);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.6875rem;
+  transition:
+    color all 0.2s ease-in-out,
+    background-color all 0.2s ease-in-out;
+}
+.apple-books-promo__dismiss:hover,
+.apple-books-promo__dismiss:focus {
+  color: var(--color-white);
+  background-color: color-mix(in srgb, var(--color-mint) 30%, transparent);
+  outline: none;
+}
+.apple-books-promo__footnote {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--color-mint) 55%, var(--color-white) 45%);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .apple-books-promo__footnote {
+    text-align: left;
+  }
+}
+
 .banner {
   display: block;
   text-decoration: none;
