@@ -1,5 +1,5 @@
 [build]
   publish = "./"
-  command = "node scripts/generate-env.js && sass scss/styles.scss assets/styles.css"
+  command = "node scripts/generate-env.js && node scripts/generate-icons.mjs && sass scss/styles.scss assets/styles.css"
 [[plugins]]
   package = "@netlify/plugin-emails"

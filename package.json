@@ -6,12 +6,11 @@
   "scripts": {
     "build:search": "node ./src/search/build-index.mjs",
     "generate:images": "node scripts/generate-image-manifest.js",
-    "build": "npm run build:search && node scripts/generate-env.js && npm run generate:images && sass scss/styles.scss assets/styles.css",
-    "watch": "node scripts/generate-env.js && npm run generate:images && sass scss/styles.scss assets/styles.css --watch",
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "build": "npm run build:search && node scripts/generate-env.js && npm run generate:icons && npm run generate:images && sass scss/styles.scss assets/styles.css",
+    "watch": "node scripts/generate-env.js && npm run generate:icons && npm run generate:images && sass scss/styles.scss assets/styles.css --watch",
     "test": "vitest run",
-    "check:apple-assets": "node scripts/check-apple-assets.mjs",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass; husky install",
-    "postinstall": "node scripts/materialize-apple-assets.mjs",
     "deploy": "netlify deploy --prod --site darenprince.netlify.app",
     "postprocess:assets": "node optimize-images.js --root .",
     "postprocess:seo": "node seo-enrich.js --root . --domain $DOMAIN",
@@ -32,6 +31,7 @@
     "marked": "^10.0.0",
     "netlify-cli": "^23.1.4",
     "fs-extra": "^11.2.0",
+    "favicons": "^7.1.6",
     "globby": "^14.0.2",
     "micromatch": "^4.0.7",
     "husky": "^9.1.7",
@@ -40,6 +40,6 @@
   },
   "type": "module",
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,scss,sass,html,json,md}": "prettier --write"
+    "*.{js,jsx,ts,tsx,css,scss,sass,json,md}": "prettier --write"
   }
 }
