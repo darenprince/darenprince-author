@@ -6,7 +6,7 @@ usage() {
   exit 1
 }
 
-if [ $# -ne 1 ]; then
+if [[ $# -ne 1 || ! "$1" =~ ^[0-9]+$ ]]; then
   usage
 fi
 
