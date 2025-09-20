@@ -21,17 +21,16 @@ fi
 # Convert remote URL to https://github.com/<owner>/<repo>
 if [[ "$REMOTE_URL" =~ ^git@github.com:(.+)\.git$ ]]; then
   REPO_PATH="${BASH_REMATCH[1]}"
-  BASE_URL="https://github.com/${REPO_PATH}"
 elif [[ "$REMOTE_URL" =~ ^https://github.com/(.+)\.git$ ]]; then
   REPO_PATH="${BASH_REMATCH[1]}"
-  BASE_URL="https://github.com/${REPO_PATH}"
 elif [[ "$REMOTE_URL" =~ ^https://github.com/(.+)$ ]]; then
-  REPO_PATH="${BASH_REMATCH[1]}"
-  BASE_URL="https://github.com/${REPO_PATH%/}"
+  REPO_PATH="${BASH_REMATCH[1]%/}"
 else
   echo "Error: Unsupported origin remote URL format: $REMOTE_URL" >&2
   exit 1
 fi
+
+BASE_URL="https://github.com/${REPO_PATH}"
 
 PATCH_URL="${BASE_URL}/pull/${PR_NUMBER}.patch"
 PATCH_FILE="$(mktemp)"
