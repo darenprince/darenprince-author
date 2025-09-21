@@ -2051,7 +2051,7 @@ input:checked + .toggle-slider::before {
 
 .hero {
   position: relative;
-  background-image: url('images/heroposter1.png');
+  background-image: url('images/hero-poster-bg-blank.jpg');
   background-size: cover;
   background-position: top center;
   background-color: var(--gray-900);
