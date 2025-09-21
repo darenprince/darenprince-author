@@ -3,6 +3,7 @@ import { resolveSupabaseConfig, resolveSupabaseConfigSync } from '../supabase/en
 
 const SUPABASE_URL_KEYS = [
   'SUPABASE_DATABASE_URL',
+  'SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
 ]
@@ -12,6 +13,8 @@ const SUPABASE_KEY_KEYS = [
   'SUPABASE_ANON_KEY',
   'SUPABASE_PUBLIC_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'PUBLIC_SUPABASE_ANON_KEY',
 ]
 
 const originalEnv = { ...process.env }
@@ -81,6 +84,24 @@ describe('resolveSupabaseConfigSync', () => {
     const config = resolveSupabaseConfigSync()
     expect(config.url).toBe('https://alias.supabase.co')
     expect(config.key).toBe('alias-anon')
+  })
+
+
+  it('falls back to SUPABASE_URL when SUPABASE_DATABASE_URL is missing', () => {
+    process.env.SUPABASE_URL = 'https://url-only.supabase.co'
+    process.env.SUPABASE_ANON_KEY = 'anon-key'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.url).toBe('https://url-only.supabase.co')
+    expect(config.key).toBe('anon-key')
+  })
+
+  it('reads PUBLIC_SUPABASE_ANON_KEY when anon aliases are provided', () => {
+    process.env.SUPABASE_DATABASE_URL = 'https://example.supabase.co'
+    process.env.PUBLIC_SUPABASE_ANON_KEY = 'public-anon'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.key).toBe('public-anon')
   })
 
   it('reads credentials from global runtime overrides', () => {

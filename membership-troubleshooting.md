@@ -20,6 +20,8 @@ SUPABASE_DATABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your-anon-key
 ```
 
+The resolver also honors the aliases `SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, and `PUBLIC_SUPABASE_PUBLISHABLE_KEY` if those better match how your hosting provider exposes secrets.
+
 Run `npm run build` whenever you change these values so the generated `assets/js/env.js` bundle picks them up for the browser.
 
 ### Direct browser overrides
@@ -38,7 +40,10 @@ window._env_ = {
   SUPABASE_DATABASE_URL: 'https://your-project.supabase.co',
   SUPABASE_ANON_KEY: 'your-anon-key',
 }
-```
+
+
+// Aliases are accepted as well (e.g. SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
+
 
 Keep real production secrets out of the repo—reserve this pattern for disposable testing environments.
 
