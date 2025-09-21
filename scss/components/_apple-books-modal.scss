@@ -1,0 +1,181 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+@use '../tokens/colors' as *;
+
+.apple-books-modal {
+  position: fixed;
+  bottom: clamp($spacing-md, 4vw, 3.5rem);
+  left: clamp($spacing-md, 5vw, 3.5rem);
+  right: clamp($spacing-md, 5vw, 3.5rem);
+  z-index: 1200;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+  opacity: 0;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  @include respond-to(md) {
+    left: auto;
+    max-width: min(420px, 28rem);
+  }
+
+  &__dialog {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(80px, 120px) 1fr;
+    gap: $spacing-lg;
+    align-items: start;
+    padding: clamp($spacing-lg, 4vw, $spacing-xl);
+    border-radius: clamp($border-radius, 3vw, 1.75rem);
+    border: 1px solid color-mix(in srgb, $mint-green 35%, $deep-green 65%);
+    background: linear-gradient(
+        145deg,
+        color-mix(in srgb, $mint-green 18%, $black) 0%,
+        color-mix(in srgb, $mint-green 8%, $black) 55%,
+        color-mix(in srgb, $mint-green 28%, $charcoal) 100%
+      )
+      border-box;
+    box-shadow:
+      0 20px 45px rgba(0, 0, 0, 0.45),
+      0 0 40px rgba(19, 255, 123, 0.35);
+    transform: translate3d(0, 1.5rem, 0);
+    opacity: 0;
+    transition:
+      transform 360ms ease,
+      opacity 360ms ease;
+
+    @include respond-to(sm) {
+      grid-template-columns: minmax(96px, 132px) 1fr;
+    }
+
+    @include respond-to(md) {
+      grid-template-columns: minmax(96px, 160px) 1fr;
+    }
+  }
+
+  &.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+
+    .apple-books-modal__dialog {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+
+  &__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp($spacing-sm, 2.8vw, $spacing-md);
+    border-radius: 1.75rem;
+    background: color-mix(in srgb, $deep-green 60%, $black 40%);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, $mint-green 45%, $deep-green),
+      0 0 22px rgba(19, 255, 123, 0.18);
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__body {
+    text-align: left;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xxs;
+    padding: $spacing-xxs 0;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, $mint-green 85%, $white 15%);
+    margin-bottom: $spacing-sm;
+
+    i {
+      font-size: 1rem;
+      filter: drop-shadow(0 0 6px rgba(19, 255, 123, 0.55));
+    }
+  }
+
+  &__title {
+    margin: 0 0 $spacing-sm;
+    font-size: clamp(1.55rem, 4vw, 2.25rem);
+    color: $white;
+
+    em {
+      font-style: normal;
+      color: $bright-green;
+    }
+  }
+
+  &__description {
+    margin: 0 0 $spacing-md;
+    color: color-mix(in srgb, $mint-green 65%, $white 35%);
+    font-size: clamp(1rem, 2.4vw, 1.125rem);
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    box-shadow: 0 18px 35px rgba(19, 255, 123, 0.25);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__footnote {
+    margin: 0;
+    font-size: 0.85rem;
+    color: color-mix(in srgb, $mint-green 55%, $white 45%);
+  }
+
+  &__close {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    border: none;
+    background: color-mix(in srgb, $deep-green 75%, $black);
+    color: color-mix(in srgb, $mint-green 80%, $white 20%);
+    display: grid;
+    place-items: center;
+    font-size: 1.35rem;
+    cursor: pointer;
+    transition:
+      background-color $transition,
+      color $transition,
+      transform 220ms ease,
+      box-shadow 220ms ease;
+    box-shadow: 0 0 18px rgba(19, 255, 123, 0.2);
+
+    &:hover,
+    &:focus {
+      background: color-mix(in srgb, $mint-green 65%, $deep-green);
+      color: $white;
+      transform: scale(1.08);
+      box-shadow: 0 0 28px rgba(19, 255, 123, 0.45);
+      outline: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &__dialog {
+      transition: none;
+      transform: none;
+    }
+
+    &.is-visible .apple-books-modal__dialog {
+      transform: none;
+    }
+  }
+}
