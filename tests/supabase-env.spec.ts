@@ -86,6 +86,7 @@ describe('resolveSupabaseConfigSync', () => {
     expect(config.key).toBe('alias-anon')
   })
 
+
   it('falls back to SUPABASE_URL when SUPABASE_DATABASE_URL is missing', () => {
     process.env.SUPABASE_URL = 'https://url-only.supabase.co'
     process.env.SUPABASE_ANON_KEY = 'anon-key'
