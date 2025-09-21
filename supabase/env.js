@@ -49,6 +49,24 @@ const finalizeConfig = ({ url, key }) => ({
   key: key ?? '',
 })
 
+const hasValue = (value) => typeof value === 'string' && value.trim() !== ''
+
+const combineConfigs = (...configs) => {
+  let url
+  let key
+  for (const config of configs) {
+    if (!config) continue
+    if (!url && hasValue(config.url)) {
+      url = config.url.trim()
+    }
+    if (!key && hasValue(config.key)) {
+      key = config.key.trim()
+    }
+    if (url && key) break
+  }
+  return finalizeConfig({ url, key })
+}
+
 const resolveFromDeno = () => {
   if (typeof Deno === 'undefined' || typeof Deno.env === 'undefined') {
     return null
@@ -64,24 +82,49 @@ const resolveFromNode = () => {
   return finalizeConfig(readFromEnvLike(process.env))
 }
 
+const resolveFromGlobalEnv = () => {
+  try {
+    const globalEnv =
+      (typeof globalThis !== 'undefined' &&
+        (globalThis._env_ || (globalThis.window && globalThis.window._env_))) ||
+      null
+    if (globalEnv && typeof globalEnv === 'object') {
+      return finalizeConfig(readFromEnvLike(globalEnv))
+    }
+  } catch (error) {
+    console.warn('Supabase global env lookup failed', error)
+  }
+  return null
+}
+
 const resolveFromBrowserEnv = async () => {
+  const configs = []
   try {
     const envModule = await import('../assets/js/env.js')
     const env = (envModule && envModule.default) || envModule
     if (env && typeof env === 'object') {
-      return finalizeConfig(readFromEnvLike(env))
+      configs.push(finalizeConfig(readFromEnvLike(env)))
     }
   } catch (error) {
     console.warn('Supabase env.js not found; client not initialized', error)
   }
-  return finalizeConfig({})
+  const globalConfig = resolveFromGlobalEnv()
+  if (globalConfig) {
+    configs.push(globalConfig)
+  }
+  return combineConfigs(...configs)
 }
 
 export const resolveSupabaseConfigSync = () =>
-  resolveFromDeno() ?? resolveFromNode() ?? finalizeConfig({})
+  combineConfigs(resolveFromDeno(), resolveFromNode(), resolveFromGlobalEnv())
 
 export const resolveSupabaseConfig = async () => {
-  return resolveFromDeno() ?? resolveFromNode() ?? resolveFromBrowserEnv()
+  return combineConfigs(
+    resolveFromDeno(),
+    resolveFromNode(),
+    await resolveFromBrowserEnv(),
+    finalizeConfig({})
+  )
 }
 
 export default resolveSupabaseConfig
