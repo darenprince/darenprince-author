@@ -41,8 +41,9 @@ window._env_ = {
   SUPABASE_ANON_KEY: 'your-anon-key',
 }
 
+
 // Aliases are accepted as well (e.g. SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
-```
+
 
 Keep real production secrets out of the repo—reserve this pattern for disposable testing environments.
 
