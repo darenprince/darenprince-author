@@ -422,10 +422,14 @@ iggers that deserve an extra hit of drama.</p>
       const loadingScreen = document.getElementById('loadingScreen');
       const fadeOutLoader = () => {
         if (!loadingScreen) return;
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
+
+        const handleTransitionEnd = () => {
           loadingScreen.style.display = 'none';
-        }, 500);
+          loadingScreen.removeEventListener('transitionend', handleTransitionEnd);
+        };
+
+        loadingScreen.addEventListener('transitionend', handleTransitionEnd);
+        loadingScreen.style.opacity = '0';
       };
 
       if (document.readyState === 'complete') {
