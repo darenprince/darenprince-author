@@ -46,31 +46,30 @@ const readFromReader = (reader) => ({
   key: readFirstDefined(reader, KEY_KEYS),
 })
 
-const finalizeConfig = ({ url, key }) => ({
-  url: url ?? '',
-  key: key ?? '',
-})
+const normalizeValue = (value) => (typeof value === 'string' ? value.trim() : undefined)
 
-const hasValue = (value) => typeof value === 'string' && value.trim() !== ''
+const finalizeConfig = ({ url, key }) => ({
+  url: normalizeValue(url) ?? '',
+  key: normalizeValue(key) ?? '',
+})
 
 const combineConfigs = (...configs) => {
   let url
   let key
   for (const config of configs) {
     if (!config) continue
-    if (!url && hasValue(config.url)) {
 
-      url = config.url
-    }
-    if (!key && hasValue(config.key)) {
-      key = config.key
+    const nextUrl = normalizeValue(config.url)
+    const nextKey = normalizeValue(config.key)
 
-      url = config.url.trim()
+    if (!url && nextUrl) {
+      url = nextUrl
     }
-    if (!key && hasValue(config.key)) {
-      key = config.key.trim()
 
+    if (!key && nextKey) {
+      key = nextKey
     }
+
     if (url && key) break
   }
   return finalizeConfig({ url, key })
