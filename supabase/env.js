@@ -1,5 +1,6 @@
 const URL_KEYS = [
   'SUPABASE_DATABASE_URL',
+  'SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
   'PUBLIC_SUPABASE_URL',
@@ -11,6 +12,7 @@ const KEY_KEYS = [
   'SUPABASE_PUBLIC_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'PUBLIC_SUPABASE_ANON_KEY',
 ]
 
 const isBrowser = typeof window !== 'undefined'
@@ -57,10 +59,17 @@ const combineConfigs = (...configs) => {
   for (const config of configs) {
     if (!config) continue
     if (!url && hasValue(config.url)) {
+
+      url = config.url
+    }
+    if (!key && hasValue(config.key)) {
+      key = config.key
+
       url = config.url.trim()
     }
     if (!key && hasValue(config.key)) {
       key = config.key.trim()
+
     }
     if (url && key) break
   }
