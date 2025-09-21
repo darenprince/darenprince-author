@@ -59,10 +59,10 @@ const combineConfigs = (...configs) => {
   for (const config of configs) {
     if (!config) continue
     if (!url && hasValue(config.url)) {
-      url = config.url.trim()
+      url = config.url
     }
     if (!key && hasValue(config.key)) {
-      key = config.key.trim()
+      key = config.key
     }
     if (url && key) break
   }
