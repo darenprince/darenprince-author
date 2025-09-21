@@ -146,8 +146,8 @@
     font-size: 1.35rem;
     cursor: pointer;
     transition:
-      background-color $transition,
-      color $transition,
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out,
       transform 220ms ease;
 
     &:hover,
