@@ -25,13 +25,19 @@ Run `npm run build` whenever you change these values so the generated `assets/js
 ### Direct browser overrides
 
 If you prefer to commit a checked-in configuration for staging, create `assets/js/env.js` with a default export that exposes the
-same keys:
+same keys (or provide a runtime object on `window._env_`, which the resolver now inspects automatically):
 
 ```js
 export default {
   SUPABASE_DATABASE_URL: 'https://your-project.supabase.co',
   SUPABASE_ANON_KEY: 'your-anon-key',
-};
+}
+
+// Runtime-only alternative (e.g., injected before other scripts run)
+window._env_ = {
+  SUPABASE_DATABASE_URL: 'https://your-project.supabase.co',
+  SUPABASE_ANON_KEY: 'your-anon-key',
+}
 ```
 
 Keep real production secrets out of the repo—reserve this pattern for disposable testing environments.
@@ -86,12 +92,12 @@ against your live project. Skip or adjust this file if you need to avoid touchin
 
 ## 5. Common troubleshooting steps
 
-| Symptom | Likely cause | Fix |
-| --- | --- | --- |
-| Buttons stay disabled and "Supabase is not configured" message appears | Missing URL/key or build step not run | Double-check environment variables and rerun `npm run build` |
-| Sign up button never enables even with valid passwords | Confirmation field mismatch or missing symbol/number | Follow the checklist until every icon switches to a checkmark |
-| Successful login but redirect feels wrong | `redirect` query param points to a protected admin page | Confirm the target page is allowed for the signed-in role |
-| Logger never shows | Debug mode not enabled | Use any activation method in section 3 or check that `localStorage` is writable |
+| Symptom                                                                | Likely cause                                            | Fix                                                                             |
+| ---------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Buttons stay disabled and "Supabase is not configured" message appears | Missing URL/key or build step not run                   | Double-check environment variables and rerun `npm run build`                    |
+| Sign up button never enables even with valid passwords                 | Confirmation field mismatch or missing symbol/number    | Follow the checklist until every icon switches to a checkmark                   |
+| Successful login but redirect feels wrong                              | `redirect` query param points to a protected admin page | Confirm the target page is allowed for the signed-in role                       |
+| Logger never shows                                                     | Debug mode not enabled                                  | Use any activation method in section 3 or check that `localStorage` is writable |
 
 Following the steps above ensures the membership experience works as designed and gives you a repeatable procedure for validating
 future changes.
