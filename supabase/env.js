@@ -2,16 +2,18 @@ const URL_KEYS = [
   'SUPABASE_DATABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
-];
+  'PUBLIC_SUPABASE_URL',
+]
 
 const KEY_KEYS = [
   'SUPABASE_SERVICE_ROLE_KEY',
   'SUPABASE_ANON_KEY',
   'SUPABASE_PUBLIC_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-];
+  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+]
 
-const isBrowser = typeof window !== 'undefined';
+const isBrowser = typeof window !== 'undefined'
 
 /**
  * @template T
@@ -21,19 +23,18 @@ const isBrowser = typeof window !== 'undefined';
  */
 const readFirstDefined = (reader, keys) => {
   for (const key of keys) {
-    const value = reader(key);
+    const value = reader(key)
     if (value !== undefined && value !== null) {
-      return value;
+      return value
     }
   }
-  return undefined;
-};
+  return undefined
+}
 
 /**
  * @param {{ [key: string]: string | undefined }} envLike
  */
-const readFromEnvLike = (envLike) =>
-  readFromReader((name) => envLike?.[name]);
+const readFromEnvLike = (envLike) => readFromReader((name) => envLike?.[name])
 
 /**
  * @param {(name: string) => string | undefined | null} reader
@@ -41,48 +42,46 @@ const readFromEnvLike = (envLike) =>
 const readFromReader = (reader) => ({
   url: readFirstDefined(reader, URL_KEYS),
   key: readFirstDefined(reader, KEY_KEYS),
-});
+})
 
 const finalizeConfig = ({ url, key }) => ({
   url: url ?? '',
   key: key ?? '',
-});
+})
 
 const resolveFromDeno = () => {
   if (typeof Deno === 'undefined' || typeof Deno.env === 'undefined') {
-    return null;
+    return null
   }
-  const read = (name) => Deno.env.get(name) ?? undefined;
-  return finalizeConfig(readFromReader(read));
-};
+  const read = (name) => Deno.env.get(name) ?? undefined
+  return finalizeConfig(readFromReader(read))
+}
 
 const resolveFromNode = () => {
   if (isBrowser || typeof process === 'undefined' || typeof process.env === 'undefined') {
-    return null;
+    return null
   }
-  return finalizeConfig(readFromEnvLike(process.env));
-};
+  return finalizeConfig(readFromEnvLike(process.env))
+}
 
 const resolveFromBrowserEnv = async () => {
   try {
-    const envModule = await import('../assets/js/env.js');
-    const env = (envModule && envModule.default) || envModule;
+    const envModule = await import('../assets/js/env.js')
+    const env = (envModule && envModule.default) || envModule
     if (env && typeof env === 'object') {
-      return finalizeConfig(readFromEnvLike(env));
+      return finalizeConfig(readFromEnvLike(env))
     }
   } catch (error) {
-    console.warn('Supabase env.js not found; client not initialized', error);
+    console.warn('Supabase env.js not found; client not initialized', error)
   }
-  return finalizeConfig({});
-};
+  return finalizeConfig({})
+}
 
 export const resolveSupabaseConfigSync = () =>
-  resolveFromDeno() ?? resolveFromNode() ?? finalizeConfig({});
+  resolveFromDeno() ?? resolveFromNode() ?? finalizeConfig({})
 
 export const resolveSupabaseConfig = async () => {
-  return (
-    resolveFromDeno() ?? resolveFromNode() ?? resolveFromBrowserEnv()
-  );
-};
+  return resolveFromDeno() ?? resolveFromNode() ?? resolveFromBrowserEnv()
+}
 
-export default resolveSupabaseConfig;
+export default resolveSupabaseConfig
