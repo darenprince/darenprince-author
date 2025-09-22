@@ -269,6 +269,13 @@ const resolveFromNetlifyFunction = async () => {
 const resolveFromBrowserEnv = async () => {
   const configs = []
 
+
+  const storageConfig = resolveFromRuntimeStorage()
+  if (storageConfig) {
+    configs.push(storageConfig)
+  }
+
+
   try {
     const envModule = await import('../assets/js/env.js')
     const env = (envModule && envModule.default) || envModule
@@ -300,6 +307,8 @@ const resolveFromBrowserEnv = async () => {
     }
   }
 
+
+ 
   const storageConfig = resolveFromRuntimeStorage()
   if (storageConfig) {
     configs.push(storageConfig)
@@ -309,6 +318,7 @@ const resolveFromBrowserEnv = async () => {
   if (globalConfig) {
     configs.push(globalConfig)
   }
+
 
   if (hasWindow()) {
     const combined = combineConfigs(...configs)
