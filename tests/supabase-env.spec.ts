@@ -1,21 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { resolveSupabaseConfig, resolveSupabaseConfigSync } from '../supabase/env.js'
-
-const SUPABASE_URL_KEYS = [
-  'SUPABASE_DATABASE_URL',
-  'SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
-]
-
-const SUPABASE_KEY_KEYS = [
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_ANON_KEY',
-  'SUPABASE_PUBLIC_ANON_KEY',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
-  'PUBLIC_SUPABASE_ANON_KEY',
-]
+import {
+  SUPABASE_URL_KEYS,
+  SUPABASE_ANON_KEYS,
+  SUPABASE_SERVICE_ROLE_KEYS,
+} from '../supabase/config-keys.js'
 
 const originalEnv = { ...process.env }
 
@@ -42,11 +31,15 @@ function resetEnv() {
       // @ts-expect-error -- cleanup test stubs
       delete globalThis.document
     }
+    if ('fetch' in globalThis) {
+      // @ts-expect-error -- cleanup test stubs
+      delete globalThis.fetch
+    }
   }
 }
 
 function clearSupabaseKeys() {
-  for (const key of [...SUPABASE_URL_KEYS, ...SUPABASE_KEY_KEYS]) {
+  for (const key of [...SUPABASE_URL_KEYS, ...SUPABASE_ANON_KEYS, ...SUPABASE_SERVICE_ROLE_KEYS]) {
     delete process.env[key]
   }
 }
@@ -110,6 +103,35 @@ describe('resolveSupabaseConfigSync', () => {
     expect(config.key).toBe('anon-key')
   })
 
+  it('supports Netlify Supabase integration aliases', () => {
+    process.env.SUPABASE_DB_URL = 'https://netlify.supabase.co'
+    process.env.SUPABASE_API_KEY = 'netlify-anon'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.url).toBe('https://netlify.supabase.co')
+    expect(config.key).toBe('netlify-anon')
+  })
+
+  it('ignores empty primary aliases in favor of populated fallbacks', () => {
+    process.env.SUPABASE_DATABASE_URL = '   '
+    process.env.SUPABASE_URL = 'https://fallback.supabase.co'
+    process.env.SUPABASE_SERVICE_ROLE_KEY = ''
+    process.env.SUPABASE_SERVICE_KEY = 'fallback-service'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.url).toBe('https://fallback.supabase.co')
+    expect(config.key).toBe('fallback-service')
+  })
+
+  it('supports legacy SUPABASE_KEY alias for anon credentials', () => {
+    process.env.SUPABASE_DATABASE_URL = 'https://legacy.supabase.co'
+    process.env.SUPABASE_KEY = 'legacy-anon'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.url).toBe('https://legacy.supabase.co')
+    expect(config.key).toBe('legacy-anon')
+  })
+
   it('reads PUBLIC_SUPABASE_ANON_KEY when anon aliases are provided', () => {
     process.env.SUPABASE_DATABASE_URL = 'https://example.supabase.co'
     process.env.PUBLIC_SUPABASE_ANON_KEY = 'public-anon'
@@ -141,7 +163,7 @@ describe('resolveSupabaseConfig (async)', () => {
     expect(config.url).toBe('https://global.supabase.co')
     expect(config.key).toBe('global-anon')
     expect(infoSpy).toHaveBeenCalledWith(
-      'Supabase env.js not found; continuing with runtime overrides'
+      '[Supabase][browser-env] Supabase env.js not found; continuing with runtime overrides'
     )
     expect(warnSpy).not.toHaveBeenCalled()
   })
@@ -179,5 +201,60 @@ describe('resolveSupabaseConfig (async)', () => {
     const config = await resolveSupabaseConfig()
     expect(config.url).toBe('https://runtime.supabase.co')
     expect(config.key).toBe('runtime-anon')
+  })
+
+  it('falls back to Netlify function when no other credentials are available', async () => {
+    const store = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value)
+        return null
+      },
+      removeItem: (key: string) => {
+        store.delete(key)
+      },
+      clear: () => {
+        store.clear()
+      },
+      key: (index: number) => Array.from(store.keys())[index] ?? null,
+      get length() {
+        return store.size
+      },
+    }
+
+    const fetchResponse = {
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        url: 'https://remote.supabase.co',
+        anonKey: 'remote-anon',
+        configured: true,
+      }),
+    }
+
+    const fetchSpy = vi.fn().mockResolvedValue(fetchResponse)
+
+    // @ts-expect-error -- simulate browser window for tests
+    globalThis.window = {
+      localStorage: storage,
+      fetch: fetchSpy,
+      addEventListener: () => {},
+      dispatchEvent: () => {},
+    }
+    // @ts-expect-error -- minimal document stub for browser detection
+    globalThis.document = {}
+    // @ts-expect-error -- provide global fetch fallback
+    globalThis.fetch = fetchSpy
+
+    const config = await resolveSupabaseConfig()
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/.netlify/functions/supabase-config',
+      expect.objectContaining({ method: 'GET' })
+    )
+    expect(config.url).toBe('https://remote.supabase.co')
+    expect(config.key).toBe('remote-anon')
+    expect(store.get('supabaseRuntimeConfig')).toBe(
+      JSON.stringify({ url: 'https://remote.supabase.co', anonKey: 'remote-anon' })
+    )
   })
 })
