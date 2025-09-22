@@ -128,6 +128,12 @@ const resolveFromGlobalEnv = () => {
 
 const resolveFromBrowserEnv = async () => {
   const configs = []
+
+  const storageConfig = resolveFromRuntimeStorage()
+  if (storageConfig) {
+    configs.push(storageConfig)
+  }
+
   try {
     const envModule = await import('../assets/js/env.js')
     const env = (envModule && envModule.default) || envModule
@@ -145,14 +151,12 @@ const resolveFromBrowserEnv = async () => {
       console.warn('Supabase env.js lookup failed', error)
     }
   }
-  const storageConfig = resolveFromRuntimeStorage()
-  if (storageConfig) {
-    configs.push(storageConfig)
-  }
+
   const globalConfig = resolveFromGlobalEnv()
   if (globalConfig) {
     configs.push(globalConfig)
   }
+
   return combineConfigs(...configs)
 }
 
