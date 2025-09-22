@@ -3,6 +3,14 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import {
+  SUPABASE_URL_KEYS,
+  SUPABASE_ANON_KEYS,
+  SUPABASE_SERVICE_ROLE_KEYS,
+  SUPABASE_JWT_KEYS,
+  describeSupabaseKeyPresence,
+} from '../supabase/config-keys.js'
+
 const DOTENV_CANDIDATES = ['.env.local', '.env']
 
 const sanitizeValue = (value = '') => {
@@ -74,44 +82,48 @@ const getFirstDefined = (...keys) => {
   return ''
 }
 
-const resolvedUrl = getFirstDefined(
-  'SUPABASE_DATABASE_URL',
-  'SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
-  'PUBLIC_SUPABASE_URL'
-)
+const resolvedUrl = getFirstDefined(...SUPABASE_URL_KEYS)
 
-const resolvedAnonKey = getFirstDefined(
-  'SUPABASE_ANON_KEY',
-  'SUPABASE_PUBLIC_ANON_KEY',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
-  'PUBLIC_SUPABASE_ANON_KEY'
-)
+const resolvedAnonKey = getFirstDefined(...SUPABASE_ANON_KEYS)
 
-const resolvedServiceKey = getFirstDefined(
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_SERVICE_KEY',
-  'SUPABASE_SERVICE_ROLE',
-  'SUPABASE_SERVICE_API_KEY'
-)
+const resolvedServiceKey = getFirstDefined(...SUPABASE_SERVICE_ROLE_KEYS)
+
+const resolvedJwt = getFirstDefined(...SUPABASE_JWT_KEYS)
 
 if (!resolvedUrl || !resolvedAnonKey) {
-  console.warn('Warning: SUPABASE_DATABASE_URL and/or SUPABASE_ANON_KEY are not set.')
+  const presence = describeSupabaseKeyPresence(env)
+  console.warn(
+    '[Supabase] Missing build-time credentials. Provide SUPABASE_DATABASE_URL and SUPABASE_ANON_KEY (or any recognised alias).'
+  )
+  if (presence.urlKeys.length || presence.anonKeys.length) {
+    console.warn('[Supabase] Detected partial keys:', {
+      urlKeys: presence.urlKeys,
+      anonKeys: presence.anonKeys,
+    })
+  }
 }
 
 if (resolvedServiceKey) {
   console.info('Supabase service role key detected; it will not be written to the client bundle.')
 }
 
+if (resolvedJwt) {
+  console.info('Supabase JWT secret detected; it will not be written to the client bundle.')
+}
+
 const envPayload = {
   SUPABASE_DATABASE_URL: resolvedUrl,
   SUPABASE_URL: resolvedUrl,
+  SUPABASE_DB_URL: resolvedUrl,
+  SUPABASE_PROJECT_URL: resolvedUrl,
+  SUPABASE_REST_URL: resolvedUrl,
   NEXT_PUBLIC_SUPABASE_URL: resolvedUrl,
   NEXT_PUBLIC_SUPABASE_DATABASE_URL: resolvedUrl,
   SUPABASE_ANON_KEY: resolvedAnonKey,
   SUPABASE_PUBLIC_ANON_KEY: resolvedAnonKey,
+  SUPABASE_PUBLIC_API_KEY: resolvedAnonKey,
+  SUPABASE_API_KEY: resolvedAnonKey,
+  SUPABASE_KEY: resolvedAnonKey,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: resolvedAnonKey,
   PUBLIC_SUPABASE_URL: resolvedUrl,
   PUBLIC_SUPABASE_PUBLISHABLE_KEY: resolvedAnonKey,
