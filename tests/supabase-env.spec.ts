@@ -112,6 +112,17 @@ describe('resolveSupabaseConfigSync', () => {
     expect(config.key).toBe('netlify-anon')
   })
 
+  it('ignores empty primary aliases in favor of populated fallbacks', () => {
+    process.env.SUPABASE_DATABASE_URL = '   '
+    process.env.SUPABASE_URL = 'https://fallback.supabase.co'
+    process.env.SUPABASE_SERVICE_ROLE_KEY = ''
+    process.env.SUPABASE_SERVICE_KEY = 'fallback-service'
+
+    const config = resolveSupabaseConfigSync()
+    expect(config.url).toBe('https://fallback.supabase.co')
+    expect(config.key).toBe('fallback-service')
+  })
+
   it('supports legacy SUPABASE_KEY alias for anon credentials', () => {
     process.env.SUPABASE_DATABASE_URL = 'https://legacy.supabase.co'
     process.env.SUPABASE_KEY = 'legacy-anon'
