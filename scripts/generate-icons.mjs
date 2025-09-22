@@ -32,7 +32,7 @@ function buildFaviconsConfig() {
     developerURL: 'https://darenprince.com',
     dir: 'auto',
     lang: 'en-US',
-    background: '#111217',
+    background: 'transparent',
     theme_color: '#111217',
     display: 'standalone',
     orientation: 'any',
