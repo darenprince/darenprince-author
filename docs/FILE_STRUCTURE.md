@@ -91,6 +91,8 @@ This reference outlines the actual directories and key files in the repo. Use it
 ├── bootstrap-admin.js         # Seeds/elevates admin user (service role required)
 ├── local_setup.sh             # Installs deps + compiles Sass once
 ├── start_dev.sh               # Watches Sass then runs `netlify dev`
+├── optimize-images.js         # Optional image optimization pass
+├── seo-enrich.js              # Optional metadata enrichment
 └── apply-patch.sh             # Patch helper for automated updates
 ```
 
