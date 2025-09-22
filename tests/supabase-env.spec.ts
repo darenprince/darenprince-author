@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { resolveSupabaseConfig, resolveSupabaseConfigSync } from '../supabase/env.js'
 
 const SUPABASE_URL_KEYS = [
@@ -43,12 +43,19 @@ function clearSupabaseKeys() {
   }
 }
 
+let infoSpy
+let warnSpy
+
 beforeEach(() => {
   resetEnv()
   clearSupabaseKeys()
+  infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
+  warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 })
 
 afterEach(() => {
+  infoSpy?.mockRestore()
+  warnSpy?.mockRestore()
   resetEnv()
 })
 
@@ -85,7 +92,6 @@ describe('resolveSupabaseConfigSync', () => {
     expect(config.url).toBe('https://alias.supabase.co')
     expect(config.key).toBe('alias-anon')
   })
-
 
   it('falls back to SUPABASE_URL when SUPABASE_DATABASE_URL is missing', () => {
     process.env.SUPABASE_URL = 'https://url-only.supabase.co'
@@ -126,5 +132,9 @@ describe('resolveSupabaseConfig (async)', () => {
     const config = await resolveSupabaseConfig()
     expect(config.url).toBe('https://global.supabase.co')
     expect(config.key).toBe('global-anon')
+    expect(infoSpy).toHaveBeenCalledWith(
+      'Supabase env.js not found; continuing with runtime overrides'
+    )
+    expect(warnSpy).not.toHaveBeenCalled()
   })
 })

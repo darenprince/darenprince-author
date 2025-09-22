@@ -1,6 +1,20 @@
 # 🔐 Supabase Control Playbook
 
-_Last updated: 2025-02-14_
+_Last updated: 2025-02-15_
+
+---
+
+## ⚡ Status snapshot
+
+- **Tests:** `npm test` now covers the deployment orchestrator alongside env resolution, auth, storage, and Netlify routing.
+- **Automation:** `npm run deploy:supabase -- --dry-run` plans `supabase db push` plus function deploys (`secure-storage`, `admin-users`). Use `npm run deploy:auto` to chain build → Supabase deploy → Netlify deploy when credentials are present.
+- **Admin access:** Seed user staged for QA — see [Section 7](#7-bootstrap-an-admin-account) for credentials and reminders.
+
+## 🎯 Next actions
+
+1. Install the Supabase CLI (`npm install -g supabase`) and authenticate via `supabase login` before running `npm run deploy:supabase`.
+2. Provide `SUPABASE_PROJECT_REF` in CI to unlock non-interactive function deploys.
+3. Rotate the dummy admin password after first sign-in; promote additional admins with `scripts/bootstrap-admin.js`.
 
 This playbook expands on the quick reference with schema details, access model, and operational steps. It assumes credentials are supplied via environment variables (no project IDs are hard-coded).
 
@@ -151,6 +165,14 @@ node scripts/bootstrap-admin.js --email you@example.com --name "Admin User"
 - Creates or updates the user, confirms the account, sets `app_metadata.user_metadata.role = 'admin'`.
 - Upserts `public.profiles` to match.
 - Prints generated password if none supplied; rotate via Supabase dashboard afterwards.
+
+### 📇 Current seeded admin (QA)
+
+| Email                    | Password         | First name | Last name | Notes                                                   |
+| ------------------------ | ---------------- | ---------- | --------- | ------------------------------------------------------- |
+| `Daren.Prince@gmail.com` | `NorthStar!4829` | Daren      | Prince    | Dummy QA credential — rotate immediately in production. |
+
+Reference payload: [`supabase/admin-users.seed.json`](../../supabase/admin-users.seed.json).
 
 ---
 

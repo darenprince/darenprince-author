@@ -114,7 +114,15 @@ const resolveFromBrowserEnv = async () => {
       configs.push(finalizeConfig(readFromEnvLike(env)))
     }
   } catch (error) {
-    console.warn('Supabase env.js not found; client not initialized', error)
+    const notFound =
+      error &&
+      (error.code === 'ERR_MODULE_NOT_FOUND' || /Cannot find module/i.test(error.message || ''))
+
+    if (notFound) {
+      console.info('Supabase env.js not found; continuing with runtime overrides')
+    } else {
+      console.warn('Supabase env.js lookup failed', error)
+    }
   }
   const globalConfig = resolveFromGlobalEnv()
   if (globalConfig) {

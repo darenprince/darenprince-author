@@ -1,6 +1,6 @@
 # 🔐 Supabase Integration Overview
 
-_Last updated: 2025-02-14_
+_Last updated: 2025-02-15_
 
 This guide documents how Supabase is wired across the repo—environment variables, client helpers, schema, storage, and edge functions.
 
@@ -84,7 +84,8 @@ Deploy functions with `supabase functions deploy admin-users secure-storage` aft
 ## Bootstrap & tooling
 
 - `scripts/bootstrap-admin.js` uses the service role key to create/elevate an admin user, sync metadata, and print credentials.
-- `tests/` (Vitest) cover env resolution, auth guard behavior, storage helpers, and Netlify rules. Run `npm test` after editing Supabase helpers or migrations.
+- `scripts/deploy-supabase.js` orchestrates `supabase db push` plus function deploys; wire it up via `npm run deploy:supabase` or the chained `npm run deploy:auto`.
+- `tests/` (Vitest) cover env resolution, auth guard behavior, storage helpers, the deployment orchestrator, and Netlify rules. Run `npm test` after editing Supabase helpers or migrations.
 
 ## Operational guardrails
 
