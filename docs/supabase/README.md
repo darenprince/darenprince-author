@@ -1,6 +1,6 @@
 # 🔐 Supabase Control Playbook
 
-_Last updated: 2025-02-14_
+_Last updated: 2025-02-16_
 
 This playbook expands on the quick reference with schema details, access model, and operational steps. It assumes credentials are supplied via environment variables (no project IDs are hard-coded).
 
@@ -52,6 +52,19 @@ Aliases (`SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_
 
 - `avatars` (public) — stores `<user_id>.jpg`; policies restrict CRUD to the owner.
 - `user-data` (private) — stores `<user_id>/<filename>` tree; policies enforce prefix-based ownership.
+
+### Storage metadata tables
+
+- `storage.objects`, `storage.prefixes`, and `storage.buckets_analytics` expose bucket structure for tooling and analytics.
+- Multipart uploads land in `storage.s3_multipart_uploads` + `storage.s3_multipart_uploads_parts`; Supabase manages lifecycle—query for diagnostics only.
+- `storage.migrations` tracks Supabase storage engine upgrades; do not edit manually.
+
+### HTTP request queue & responses
+
+- `net.http_request_queue` is now enabled for background webhooks (email, CRM, analytics) without custom workers.
+- Enqueue jobs from SQL or PostgREST via `net.http_enqueue` and let Supabase execute them asynchronously.
+- Delivery metadata persists in `net._http_response` (status code, headers, body, error messages, timeout flag).
+- Join queue rows with responses to build dashboards, retries, or alerting.
 
 ### Validation checklist
 

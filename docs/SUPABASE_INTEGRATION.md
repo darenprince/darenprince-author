@@ -1,6 +1,6 @@
 # 🔐 Supabase Integration Overview
 
-_Last updated: 2025-02-14_
+_Last updated: 2025-02-16_
 
 This guide documents how Supabase is wired across the repo—environment variables, client helpers, schema, storage, and edge functions.
 
@@ -46,6 +46,9 @@ Migrations in `supabase/migrations` define the following objects:
 | `private.profile_audit`    | Immutable audit log capturing profile inserts/updates/deletes via `log_profile_change`.                                                                                                             |
 | `private.admin_action_log` | Tracks every admin action from the console (role change, folder update, reset, deletion).                                                                                                           |
 | Storage buckets            | `avatars` (public `<user_id>.jpg`), `user-data` (private `<user_id>/<filename>`); row-level policies enforce user ownership.                                                                        |
+| `net.http_request_queue`   | Supabase-managed queue for scheduled/outbound HTTP calls (`net.http_enqueue`), used by cron jobs and long-running workflows.                                                                        |
+| `net._http_response`       | Historical responses for queued HTTP calls (status, headers, body, error metadata) to support retries and debugging.                                                                                |
+| `storage` metadata tables  | Managed catalog tables (`storage.objects`, `storage.prefixes`, `storage.buckets_analytics`, `storage.s3_multipart_uploads*`) surfaced for diagnostics and tooling.                                  |
 
 ## Folder access model
 
@@ -71,6 +74,30 @@ Migrations in `supabase/migrations` define the following objects:
 - Rejects missing params and unauthorized requests.
 
 Deploy functions with `supabase functions deploy admin-users secure-storage` after updating code.
+
+### Background HTTP jobs
+
+- Supabase now enables the managed HTTP queue (`net.http_request_queue`) for async webhooks and third-party integrations.
+- Enqueue jobs from SQL or PostgREST:
+
+  ```sql
+  select net.http_enqueue(
+    url => 'https://example.com',
+    method => 'POST',
+    body => jsonb_build_object('event', 'ping')
+  );
+  ```
+
+  ```javascript
+  await supabase.rpc('net_http_enqueue', {
+    url: 'https://example.com',
+    method: 'POST',
+    body: JSON.stringify({ event: 'ping' }),
+  })
+  ```
+
+- Inspect delivery results inside `net._http_response`; join on `response_id` to capture status codes, headers, or errors.
+- Pair with Supabase cron to trigger recurring automations without standing up external workers.
 
 ## Frontend flows
 
