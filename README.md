@@ -47,10 +47,10 @@ This project exists to:
   <script type="module" src="/js/ui.js"></script>
   ```
   ```javascript
-  GameOnUI.showToast('Saved!', 'success')
-  const bar = document.querySelector('.progress')
-  GameOnUI.showProgress(bar)
-  GameOnUI.setProgress(bar, 50)
+  GameOnUI.showToast('Saved!', 'success');
+  const bar = document.querySelector('.progress');
+  GameOnUI.showProgress(bar);
+  GameOnUI.setProgress(bar, 50);
   ```
 - `components.html` still references `./js/mobile-nav.js`, but that file was removed. Remove the tag or restore the module to avoid 404s.
 
