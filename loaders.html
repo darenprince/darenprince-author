@@ -7,407 +7,86 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-  <style>
-    :root {
-      color-scheme: dark;
-    }
-
-    body.theme-dark {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at top, rgba(25, 28, 41, 0.9), #07070d 70%);
-      color: #f5f7ff;
-      min-height: 100vh;
-    }
-
-    main.page-shell {
-      display: none;
-      padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 6vw, 6rem);
-    }
-
-    .page-header {
-      max-width: 60rem;
-      margin: 0 auto clamp(2rem, 5vw, 4rem);
-      text-align: center;
-    }
-
-    .page-header h1 {
-      font-family: 'League Spartan', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .page-header p {
-      color: rgba(232, 241, 255, 0.72);
-      font-size: clamp(1rem, 2vw, 1.125rem);
-      line-height: 1.7;
-    }
-
-    .loader-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: clamp(1.5rem, 4vw, 2.5rem);
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .loader-card {
-      background: rgba(12, 14, 24, 0.85);
-      border: 1px solid rgba(118, 130, 199, 0.1);
-      border-radius: 24px;
-      box-shadow: 0 35px 60px -35px rgba(0, 0, 0, 0.65);
-      padding: clamp(1.75rem, 3vw, 2.5rem);
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .loader-card h2 {
-      font-family: 'League Spartan', sans-serif;
-      font-size: 1.35rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .loader-card p {
-      color: rgba(232, 241, 255, 0.65);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .loader-demo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 180px;
-      padding: 1rem;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(26, 31, 47, 0.95), rgba(11, 14, 24, 0.9));
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Shared loading screen styles */
-    .loading-screen {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      color: #f5f7ff;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-    }
-
-    .loading-screen--fullscreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
-      background: radial-gradient(circle at top, rgba(40, 48, 80, 0.7), rgba(5, 6, 12, 0.96));
-      transition: opacity 0.5s ease-out;
-    }
-
-    .loading-logo {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-      font-family: 'League Spartan', sans-serif;
-      font-size: clamp(2.25rem, 6vw, 4.5rem);
-    }
-
-    .loading-logo span {
-      display: inline-block;
-      background: linear-gradient(120deg, #f9f7f7 0%, #7f8cff 40%, #54ffe5 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: pulse 1.6s infinite;
-    }
-
-    .loading-logo .loading-p {
-      animation-delay: 0.25s;
-    }
-
-    .loading-crown {
-      position: absolute;
-      top: -22%;
-      left: 52%;
-      width: 1.75em;
-      height: 1em;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #ffd166, #ff6f61);
-      clip-path: polygon(10% 100%, 18% 40%, 35% 85%, 50% 20%, 65% 85%, 82% 40%, 90% 100%);
-      box-shadow: 0 8px 25px rgba(255, 166, 0, 0.35);
-      animation: crown-sparkle 1.8s ease-in-out infinite;
-    }
-
-    .loading-bar {
-      width: clamp(220px, 40vw, 320px);
-      height: 6px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .loading-bar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, #7f8cff, #54ffe5, transparent);
-      transform: translateX(-100%);
-      animation: bar-sweep 1.35s ease-in-out infinite;
-    }
-
-    /* Geometric loader */
-    .geometric-loader {
-      width: 140px;
-      height: 140px;
-      position: relative;
-    }
-
-    .line-segment {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 2px solid rgba(84, 255, 229, 0.4);
-      border-radius: 18px;
-      box-shadow: 0 0 25px rgba(84, 255, 229, 0.35);
-      transform: scale(0.2) rotate(0deg);
-      opacity: 0;
-      animation: geo-expand 2.8s ease-in-out infinite;
-    }
-
-    .line-segment.line-2 {
-      border-color: rgba(127, 140, 255, 0.45);
-      box-shadow: 0 0 35px rgba(127, 140, 255, 0.4);
-      animation-delay: 1.4s;
-    }
-
-    /* Neon DP text loader */
-    .neon-loader {
-      position: relative;
-      width: 200px;
-      height: 120px;
-    }
-
-    .loading-text {
-      width: 100%;
-      height: 100%;
-    }
-
-    .loading-text text {
-      font-size: 64px;
-      font-family: 'League Spartan', sans-serif;
-      stroke-dasharray: 260;
-      stroke-dashoffset: 260;
-      animation: text-trace 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 14px rgba(84, 255, 229, 0.55));
-    }
-
-    .glow-sweep {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 0% 50%, rgba(127, 140, 255, 0.3), transparent 55%);
-      animation: glow-slide 3s ease-in-out infinite;
-      mix-blend-mode: screen;
-    }
-
-    /* Controls */
-    .actions {
-      margin: clamp(2.5rem, 6vw, 4rem) auto 0;
-      text-align: center;
-    }
-
-    .actions button {
-      background: linear-gradient(135deg, #7f8cff, #54ffe5);
-      border: none;
-      color: #05060a;
-      font-weight: 600;
-      padding: 0.9rem 1.75rem;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 18px 30px -18px rgba(84, 255, 229, 0.6);
-    }
-
-    .actions button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 26px 45px -22px rgba(84, 255, 229, 0.75);
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: translateY(0);
-        filter: drop-shadow(0 0 15px rgba(127, 140, 255, 0.6));
-      }
-      50% {
-        transform: translateY(-6px);
-        filter: drop-shadow(0 0 30px rgba(84, 255, 229, 0.75));
-      }
-    }
-
-    @keyframes crown-sparkle {
-      0%, 100% {
-        transform: translateX(-50%) scale(1);
-        opacity: 0.85;
-      }
-      50% {
-        transform: translateX(-50%) scale(1.1);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bar-sweep {
-      0% {
-        transform: translateX(-100%);
-      }
-      50% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(100%);
-      }
-    }
-
-    @keyframes geo-expand {
-      0% {
-        transform: scale(0.25) rotate(0deg);
-        opacity: 0;
-      }
-      40% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1) rotate(45deg);
-        opacity: 0.85;
-      }
-      100% {
-        transform: scale(0.25) rotate(90deg);
-        opacity: 0;
-      }
-    }
-
-    @keyframes text-trace {
-      0% {
-        stroke-dashoffset: 260;
-        fill: transparent;
-      }
-      45% {
-        stroke-dashoffset: 0;
-        fill: rgba(84, 255, 229, 0.25);
-      }
-      60% {
-        fill: rgba(84, 255, 229, 0.65);
-      }
-      100% {
-        stroke-dashoffset: -260;
-        fill: transparent;
-      }
-    }
-
-    @keyframes glow-slide {
-      0% {
-        transform: translateX(-60%);
-        opacity: 0.15;
-      }
-      40% {
-        transform: translateX(40%);
-        opacity: 0.35;
-      }
-      100% {
-        transform: translateX(120%);
-        opacity: 0.05;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .loader-demo {
-        min-height: 150px;
-      }
-
-      .loading-bar {
-        width: 100%;
-      }
-
-      .actions button {
-        width: 100%;
-      }
-    }
-  </style>
 </head>
-<body class="theme-dark">
-  <div id="loadingScreen" class="loading-screen loading-screen--fullscreen">
-    <div class="loading-logo">
-      <span class="loading-d">D</span><span class="loading-p">P</span>
-      <span class="loading-crown"></span>
+<body class="theme-dark loaders-page">
+  <div
+    id="loadingScreen"
+    class="loader-overlay is-active"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading Daren Prince experience"
+  >
+    <div class="dp-loader dp-loader--monogram" aria-hidden="true">
+      <div class="dp-loader__logo">
+        <span class="dp-loader__letter">D</span>
+        <span class="dp-loader__letter dp-loader__letter--offset">P</span>
+        <span class="dp-loader__crown"></span>
+      </div>
+      <div class="dp-loader__bar"></div>
     </div>
-    <div class="loading-bar"></div>
   </div>
 
-  <main id="mainContent" class="page-shell" style="display: none;">
-    <header class="page-header">
-      <p class="eyebrow">Daren Prince UI Lab</p>
+  <main id="mainContent" class="loader-shell" hidden>
+    <header class="loader-shell__header">
+      <p class="loader-shell__eyebrow">Daren Prince UI Lab</p>
       <h1>Loader Animations</h1>
-      <p>Cut through dead air and keep visitors engaged. Explore a suite of branded loading animations tuned for a dark-mode expe
-rience. Each block below showcases a different motion language you can drop into any page or product state.</p>
+      <p>
+        Cut through dead air and keep visitors engaged. Explore a suite of branded loading animations tuned for a dark-mode
+        experience. Each block below showcases a different motion language you can drop into any page or product state.
+      </p>
     </header>
 
-    <section class="loader-grid">
+    <section class="loader-showcase">
       <article class="loader-card">
-        <h2>Signature Monogram Loader</h2>
-        <p>The hero treatment for brand-first experiences. The DP monogram pulses with a crown spark and a sweeping energy bar, pe
-rfect for page-level transitions or splash screens.</p>
-        <div class="loader-demo">
-          <div class="loading-screen">
-            <div class="loading-logo">
-              <span class="loading-d">D</span><span class="loading-p">P</span>
-              <span class="loading-crown"></span>
+        <h2 class="loader-card__title">Signature Monogram Loader</h2>
+        <p class="loader-card__description">
+          The hero treatment for brand-first experiences. The DP monogram pulses with a crown spark and a sweeping energy bar,
+          perfect for page-level transitions or splash screens.
+        </p>
+        <div class="loader-card__stage">
+          <div class="dp-loader dp-loader--monogram" role="status" aria-label="Loading">
+            <div class="dp-loader__logo">
+              <span class="dp-loader__letter">D</span>
+              <span class="dp-loader__letter dp-loader__letter--offset">P</span>
+              <span class="dp-loader__crown"></span>
             </div>
-            <div class="loading-bar"></div>
+            <div class="dp-loader__bar"></div>
           </div>
         </div>
       </article>
 
       <article class="loader-card">
-        <h2>Geometric Expansion Loader</h2>
-        <p>Minimal lines bloom into dimensional frames, signaling momentum while staying lightweight. Use this for inline loading s
-tates, card refreshes, or content placeholders.</p>
-        <div class="loader-demo">
-          <div class="loading-screen">
-            <div class="geometric-loader">
-              <div class="line-segment line-1"></div>
-              <div class="line-segment line-2"></div>
-            </div>
+        <h2 class="loader-card__title">Geometric Expansion Loader</h2>
+        <p class="loader-card__description">
+          Minimal lines bloom into dimensional frames, signaling momentum while staying lightweight. Use this for inline loading
+          states, card refreshes, or content placeholders.
+        </p>
+        <div class="loader-card__stage">
+          <div class="dp-loader dp-loader--geometry" aria-hidden="true">
+            <div class="dp-loader__geo-frame"></div>
+            <div class="dp-loader__geo-frame dp-loader__geo-frame--alt"></div>
           </div>
         </div>
       </article>
 
       <article class="loader-card">
-        <h2>Neon Outline Loader</h2>
-        <p>A kinetic DP logotype traced in electric green with a shimmering glow sweep. Ideal for video interstitials or action tr
-iggers that deserve an extra hit of drama.</p>
-        <div class="loader-demo">
-          <div class="loading-screen">
-            <div class="neon-loader">
-              <svg class="loading-text" viewBox="0 0 200 100">
-                <text x="10" y="70" fill="none" stroke="#54ffe5" stroke-width="2">DP</text>
-              </svg>
-              <div class="glow-sweep"></div>
-            </div>
+        <h2 class="loader-card__title">Neon Outline Loader</h2>
+        <p class="loader-card__description">
+          A kinetic DP logotype traced in electric green with a shimmering glow sweep. Ideal for video interstitials or action
+          triggers that deserve an extra hit of drama.
+        </p>
+        <div class="loader-card__stage">
+          <div class="dp-loader dp-loader--neon" aria-hidden="true">
+            <svg class="dp-loader__neon-text" viewBox="0 0 200 100" aria-hidden="true" focusable="false">
+              <text x="10" y="70">DP</text>
+            </svg>
+            <div class="dp-loader__neon-glow"></div>
           </div>
         </div>
       </article>
     </section>
 
-    <div class="actions">
+    <div class="loader-actions">
       <button type="button" data-replay-loader>Replay full-screen loader</button>
     </div>
   </main>
@@ -416,24 +95,25 @@ iggers that deserve an extra hit of drama.</p>
     document.addEventListener('DOMContentLoaded', () => {
       const mainContent = document.getElementById('mainContent');
       if (mainContent) {
-        mainContent.style.display = 'block';
+        mainContent.removeAttribute('hidden');
       }
 
       const loadingScreen = document.getElementById('loadingScreen');
+
       const fadeOutLoader = () => {
         if (!loadingScreen) return;
 
         const handleTransitionEnd = () => {
-          loadingScreen.style.display = 'none';
+          loadingScreen.classList.add('is-hidden');
           loadingScreen.removeEventListener('transitionend', handleTransitionEnd);
         };
 
         loadingScreen.addEventListener('transitionend', handleTransitionEnd);
-        loadingScreen.style.opacity = '0';
+        loadingScreen.classList.remove('is-active');
       };
 
       if (document.readyState === 'complete') {
-        fadeOutLoader();
+        requestAnimationFrame(fadeOutLoader);
       } else {
         window.addEventListener('load', fadeOutLoader);
       }
@@ -441,11 +121,11 @@ iggers that deserve an extra hit of drama.</p>
       const replayButton = document.querySelector('[data-replay-loader]');
       if (replayButton && loadingScreen) {
         replayButton.addEventListener('click', () => {
-          loadingScreen.style.display = 'flex';
-          requestAnimationFrame(() => {
-            loadingScreen.style.opacity = '1';
-            setTimeout(fadeOutLoader, 1200);
-          });
+          loadingScreen.classList.remove('is-hidden');
+          loadingScreen.classList.remove('is-active');
+          void loadingScreen.offsetWidth;
+          loadingScreen.classList.add('is-active');
+          setTimeout(fadeOutLoader, 1200);
         });
       }
     });
