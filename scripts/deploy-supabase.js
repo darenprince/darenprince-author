@@ -5,32 +5,14 @@ import { tmpdir } from 'node:os'
 import { pathToFileURL } from 'node:url'
 import { resolve, join } from 'node:path'
 
+import {
+  SUPABASE_URL_KEYS,
+  SUPABASE_SERVICE_ROLE_KEYS,
+  SUPABASE_ANON_KEYS,
+  SUPABASE_JWT_KEYS,
+} from '../supabase/config-keys.js'
+
 const DEFAULT_FUNCTIONS = ['secure-storage', 'admin-users']
-
-const SUPABASE_URL_KEYS = [
-  'SUPABASE_DATABASE_URL',
-  'SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
-  'PUBLIC_SUPABASE_URL',
-]
-
-const SUPABASE_SERVICE_ROLE_KEYS = [
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_SERVICE_KEY',
-  'SUPABASE_SERVICE_ROLE',
-  'SUPABASE_SERVICE_API_KEY',
-]
-
-const SUPABASE_ANON_KEYS = [
-  'SUPABASE_ANON_KEY',
-  'SUPABASE_PUBLIC_ANON_KEY',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
-  'PUBLIC_SUPABASE_ANON_KEY',
-]
-
-const SUPABASE_JWT_KEYS = ['SUPABASE_JWT_SECRET', 'SUPABASE_JWT', 'NEXT_PUBLIC_SUPABASE_JWT_SECRET']
 
 const sanitizeEnvValue = (value) => {
   if (value === undefined || value === null) return ''
