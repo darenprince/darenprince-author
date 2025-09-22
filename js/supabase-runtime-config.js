@@ -61,18 +61,11 @@ const applyRuntimeConfig = (config, { broadcast = true, persist } = {}) => {
   const normalized = normalizeConfig(config)
   const env = { ...(window._env_ || {}) }
 
-  applyValue(env, 'SUPABASE_DATABASE_URL', normalized.url)
-  applyValue(env, 'SUPABASE_URL', normalized.url)
-  applyValue(env, 'NEXT_PUBLIC_SUPABASE_URL', normalized.url)
-  applyValue(env, 'NEXT_PUBLIC_SUPABASE_DATABASE_URL', normalized.url)
+  ['SUPABASE_DATABASE_URL', 'SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_DATABASE_URL', 'PUBLIC_SUPABASE_URL'].forEach(key => applyValue(env, key, normalized.url));
 
-  applyValue(env, 'SUPABASE_ANON_KEY', normalized.anonKey)
-  applyValue(env, 'SUPABASE_PUBLIC_ANON_KEY', normalized.anonKey)
-  applyValue(env, 'NEXT_PUBLIC_SUPABASE_ANON_KEY', normalized.anonKey)
-  applyValue(env, 'PUBLIC_SUPABASE_PUBLISHABLE_KEY', normalized.anonKey)
-  applyValue(env, 'PUBLIC_SUPABASE_ANON_KEY', normalized.anonKey)
+  ['SUPABASE_ANON_KEY', 'SUPABASE_PUBLIC_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY', 'PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'PUBLIC_SUPABASE_ANON_KEY'].forEach(key => applyValue(env, key, normalized.anonKey));
 
-  applyValue(env, 'SUPABASE_JWT_SECRET', normalized.jwtSecret)
+  ['SUPABASE_JWT_SECRET', 'SUPABASE_JWT', 'NEXT_PUBLIC_SUPABASE_JWT_SECRET'].forEach(key => applyValue(env, key, normalized.jwtSecret));
 
   window._env_ = env
 
