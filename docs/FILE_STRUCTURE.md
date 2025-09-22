@@ -5,6 +5,7 @@ _Last updated: 2025-02-14_
 This reference outlines the actual directories and key files in the repo. Use it alongside `docs/SITE_STRUCTURE.md` when onboarding or wiring automation.
 
 ## Root layout
+
 ```
 /
 ├── assets/                  # Compiled CSS, generated env.js, imagery, press kits
@@ -28,6 +29,7 @@ This reference outlines the actual directories and key files in the repo. Use it
 > **Reality Check:** The `/components/` directory now stores HTML demos only. All Sass partials live under `scss/components/` and compile through `scss/styles.scss`.
 
 ## Sass entry points
+
 ```
 /scss
 ├── styles.scss              # Main entry importing tokens, base, layout, components, utilities, themes
@@ -41,6 +43,7 @@ This reference outlines the actual directories and key files in the repo. Use it
 ```
 
 ## JavaScript modules
+
 ```
 /js
 ├── main.js                  # Mega menu, search toggle, auth toggle defaults
@@ -61,6 +64,7 @@ This reference outlines the actual directories and key files in the repo. Use it
 `src/js/` hosts browser-side search controllers (`search.js`, `search-results.js`). `src/search/` contains the worker, stopwords, synonyms, and build script.
 
 ## Supabase assets
+
 ```
 /supabase
 ├── client.js / client.ts           # Supabase client factories
@@ -78,19 +82,22 @@ This reference outlines the actual directories and key files in the repo. Use it
 ```
 
 ## Scripts directory
+
 ```
 /scripts
-├── generate-env.js                 # Writes assets/js/env.js from env vars
-├── generate-image-manifest.js      # Builds assets/image-manifest.json
-├── materialize-apple-assets.mjs    # Restores Apple icons from base64 sprite
-├── check-apple-assets.mjs          # Validates Apple icon payload
-├── bootstrap-admin.js              # Seeds/elevates admin user (service role required)
-├── local_setup.sh                  # Installs deps + compiles Sass once
-├── start_dev.sh                    # Watches Sass then runs `netlify dev`
-└── optimize-images.js / seo-enrich.js / inject_apple_meta.py / generate_apple_icons.py
+├── generate-env.js            # Writes assets/js/env.js from env vars
+├── generate-icons.mjs         # Builds favicons + Apple assets from icon-master.PNG
+├── generate-image-manifest.js # Builds assets/image-manifest.json
+├── bootstrap-admin.js         # Seeds/elevates admin user (service role required)
+├── local_setup.sh             # Installs deps + compiles Sass once
+├── start_dev.sh               # Watches Sass then runs `netlify dev`
+├── optimize-images.js         # Optional image optimization pass
+├── seo-enrich.js              # Optional metadata enrichment
+└── apply-patch.sh             # Patch helper for automated updates
 ```
 
 ## Tests
+
 ```
 /tests
 ├── auth.spec.ts                    # Auth guard + login behaviors
@@ -100,6 +107,7 @@ This reference outlines the actual directories and key files in the repo. Use it
 ```
 
 ## Generated artifacts to track
+
 - `assets/styles.css` — compiled Sass
 - `assets/js/env.js` — generated Supabase env payload
 - `assets/image-manifest.json` — asset catalog for image index tooling
