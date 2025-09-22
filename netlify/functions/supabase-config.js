@@ -29,7 +29,7 @@ const createEnvReaders = (context) => {
     readers.push((key) => process.env?.[key])
   }
 
-  const netlifyEnv = typeof Netlify !== 'undefined' ? Netlify?.env : undefined
+  const netlifyEnv = globalThis.Netlify?.env
   if (netlifyEnv) {
     if (typeof netlifyEnv.get === 'function') {
       readers.push((key) => netlifyEnv.get(key))
