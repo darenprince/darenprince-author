@@ -2,7 +2,7 @@
 
 _Last updated: 2025-02-14_
 
-Welcome to the development hub for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
+Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
 - **Live Site:** [darenprince.netlify.app](https://darenprince.netlify.app)
 - **Documentation Folder:** [`/docs`](./docs/)
@@ -11,6 +11,7 @@ Welcome to the development hub for **Daren M. Prince**, bestselling author of *G
 ---
 
 ## ⚡️ Mission
+
 This project exists to:
 
 - Spotlight the book catalog with cinematic hero treatments and interactive tooling.
@@ -22,20 +23,22 @@ This project exists to:
 ---
 
 ## 🔧 Stack Overview
-| Layer | Details |
-| --- | --- |
-| Markup | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes) |
-| Styles | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default) |
-| JavaScript | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search` |
-| Auth & data | Supabase JS client (auth, storage, admin edge functions) |
+
+| Layer         | Details                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| Markup        | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes)      |
+| Styles        | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default)  |
+| JavaScript    | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search`                           |
+| Auth & data   | Supabase JS client (auth, storage, admin edge functions)                                      |
 | Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md)), Netlify CLI |
-| Search | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html` |
+| Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                         |
 
 > **Reality Check:** Netlify’s build command only runs Sass compilation and environment generation. Run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
 
 ---
 
 ## 🧭 Navigation, Theme & UI Utilities
+
 - `js/main.js` manages the mega menu, search toggle, and auth defaults.
 - `js/theme-toggle.js` wires the dark/light switch. Marketing pages ship with the toggle; admin utilities may omit it to save space.
 - `js/profile-dropdown.js` activates the profile menu and logout once a Supabase session exists.
@@ -54,9 +57,11 @@ This project exists to:
 ---
 
 ## 🎨 Design System
+
 Brand identity is governed by the Game On! press assets and CodyHouse-inspired SCSS architecture.
 
 **Fonts**
+
 - Futura Bold (Primary headline)
 - Helvetica Medium (Secondary headline / navigation)
 - Knockout Welterweight (Accents & stylized labels)
@@ -65,6 +70,7 @@ Brand identity is governed by the Game On! press assets and CodyHouse-inspired S
 > **Reality Check:** League Spartan appears in `.styledh1`. Load the font before using that class publicly, or accept the Helvetica fallback.
 
 **Color Palette**
+
 - `#FDFDFD` White
 - `#D5D5D5` Light Gray
 - `#B8BAB7` Medium Gray
@@ -79,11 +85,13 @@ Brand identity is governed by the Game On! press assets and CodyHouse-inspired S
 Design principles: bold, dark-mode-first, generous spacing, masculine energy, no gimmicks.
 
 **Tokens & Variables**
+
 - CSS custom properties live in `scss/tokens/_css-vars.scss` and include light theme overrides for the toggle.
 - Sass bindings live in `scss/tokens/_colors.scss`. Reference these tokens throughout components so color changes stay centralized.
 - Utility classes (spacing, flex, typography) reside in `scss/utilities/_helpers.scss`.
 
 _Adding a new token_
+
 1. Declare `--color-name` in `_css-vars.scss`.
 2. Map it in `_colors.scss` (`$name: var(--color-name);`).
 3. Run `npm run build` to refresh the compiled CSS.
@@ -93,6 +101,7 @@ _Adding a new token_
 ---
 
 ## 🌐 Site & File Structure
+
 ```plaintext
 📁 /assets/         # Logos, icons, images, compiled CSS
 📁 /scss/           # Modular SCSS (base, layout, components, utilities)
@@ -107,14 +116,15 @@ _Adding a new token_
 ```
 
 **Apple icon workflow**
-- PNGs and launch images materialize from the base64 payload in `assets/icons/apple-assets.json`.
-- Running `npm install` (or any `postinstall`) invokes `scripts/materialize-apple-assets.mjs` to rebuild icons.
-- To tweak the artwork, install Pillow (`pip install pillow`) and run `python scripts/generate_apple_icons.py`.
-- After regenerating art, run `npm run generate:images` to refresh `assets/image-manifest.json` if it’s used elsewhere.
+
+- Favicons, Apple touch icons, and launch screens are generated from `assets/icons/icon-master.PNG` via `scripts/generate-icons.mjs`.
+- Run `npm run generate:icons` whenever the master icon changes to refresh `/assets/icons/generated` and inline head snippets.
+- Netlify executes the same script during deploys (`netlify.toml` build command) so committed HTML stays in sync.
 
 ---
 
 ## 🧩 Component & Page Highlights
+
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
 - `index.html` — hero rail, featured book CTA, testimonials, contact capture.
@@ -127,6 +137,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 ---
 
 ## 🔐 Supabase Integration
+
 - Environment variables flow through `scripts/generate-env.js` → `assets/js/env.js`.
 - `supabase/env.js` offers Deno (edge), Node (tests/scripts), and browser fallbacks.
 - Edge functions: `admin-users` (user management) and `secure-storage` (uploads).
@@ -134,10 +145,12 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - Storage buckets: `avatars` (public) and `user-data` (private).
 
 _Troubleshooting_
+
 - Use `js/supabase-logger.js` (Konami/tap overlay) for runtime diagnostics.
 - Run the Vitest suite in `/tests` to validate Supabase helpers and auth guards.
 
 _Setup Checklist_
+
 1. Copy `.env.example` → `.env` and fill `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET` (Netlify integration injects the same vars).
 2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with non-sensitive keys.
 3. Apply database changes with `supabase db push` or execute [`supabase/sql_editor_setup.sql`](./supabase/sql_editor_setup.sql) in the Supabase SQL editor.
@@ -147,6 +160,7 @@ _Setup Checklist_
 ---
 
 ## 🔍 Search Workflow
+
 1. Add Markdown to `/content/` (front matter optional) or static pages under `/pages/`.
 2. Run `npm run build:search` to regenerate `public/search/index.json` and `docs.json`.
 3. `src/js/search.js` powers auto-complete; `src/js/search-results.js` renders search results.
@@ -156,6 +170,7 @@ _Setup Checklist_
 ---
 
 ## ✍️ Voice & Content Rules
+
 The brand voice is confident, real, psychology-backed, and emotionally intelligent. Approved phrases:
 
 - “Master the conversation”
@@ -170,6 +185,7 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 ---
 
 ## 🚀 Development & Deployment
+
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
 ./scripts/start_dev.sh     # watch files & launch Netlify dev server
@@ -179,6 +195,7 @@ npm test                   # run Vitest suite
 ```
 
 Local preview with Netlify CLI:
+
 ```bash
 npm install -g netlify-cli
 netlify dev
@@ -187,6 +204,7 @@ netlify dev
 Pushing to `main` triggers Netlify CI/CD. Connect the Netlify Supabase integration so environment variables stay synchronized.
 
 ### Dashboard Access on Netlify
+
 1. Connect the Supabase integration in Netlify for env parity.
 2. Deploy the site and visit `/login.html` to sign in.
 3. Authenticated users land on `dashboard.html`; roles of `developer` or `admin` redirect to `admin-dashboard.html`.
@@ -194,6 +212,7 @@ Pushing to `main` triggers Netlify CI/CD. Connect the Netlify Supabase integrati
 ---
 
 ## 📚 Documentation Index
+
 - **Audit & status:** [`docs/REPORT_SITE_DOC_AUDIT.md`](./docs/REPORT_SITE_DOC_AUDIT.md)
 - **Structure & components:** [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md), [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md), [`docs/FILE_STRUCTURE.md`](./docs/FILE_STRUCTURE.md)
 - **Design system:** [`docs/STYLE_GUIDE.md`](./docs/STYLE_GUIDE.md)
@@ -206,6 +225,7 @@ Stay bold, stay accurate—keep docs in lockstep with the code.
 ---
 
 ## 🔒 Licensing
+
 Protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/).
 
 > No commercial reuse. No alteration of branding. Attribution required.
@@ -213,6 +233,7 @@ Protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/).
 ---
 
 ## 📬 Contact
+
 - Official Site: [darenprince.com](https://darenprince.com)
 - Press & Media: [press@darenprince.com](mailto:press@darenprince.com)
 - Publisher: [publishing@darenprince.com](mailto:publishing@darenprince.com)
