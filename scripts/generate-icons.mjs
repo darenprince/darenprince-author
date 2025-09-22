@@ -57,12 +57,13 @@ function buildFaviconsConfig() {
 
 function createBlock(htmlSnippet, indent) {
   const innerIndent = `${indent}  `;
-  const formatted = htmlSnippet
+  const snippetLines = htmlSnippet
     .trim()
     .split('\n')
     .map((line) => `${innerIndent}${line}`)
     .join('\n');
-  return `${indent}${START_MARKER}\n${formatted}\n${indent}${END_MARKER}`;
+  const bannerReminder = `${innerIndent}<!-- Smart App banner is rendered by js/main.js -->`;
+  return `${indent}${START_MARKER}\n${bannerReminder}\n${snippetLines}\n${indent}${END_MARKER}`;
 }
 
 async function writeAssets({ images, files, html }) {
