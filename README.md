@@ -123,6 +123,15 @@ _Adding a new token_
 
 ---
 
+## Smart App Banner
+
+- Test in Safari on iPhone and iPad
+- Confirm the native banner appears
+- Tapping opens Apple Books directly to the Game On book
+- Banner does not appear inside the installed PWA view
+
+---
+
 ## 🧩 Component & Page Highlights
 
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:

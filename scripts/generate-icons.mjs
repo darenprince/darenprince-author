@@ -57,9 +57,13 @@ function buildFaviconsConfig() {
 
 function createBlock(htmlSnippet, indent) {
   const innerIndent = `${indent}  `;
-  const formatted = htmlSnippet
-    .trim()
-    .split('\n')
+  const snippetLines = htmlSnippet.trim().split('\n');
+  const smartBannerLines = [
+    '<!-- Example with affiliate:',
+    '<meta name="apple-itunes-app" content="app-id=364709193, app-argument=https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900, affiliate-data=partnerId=XXXXXXXX"> -->',
+    '<meta name="apple-itunes-app" content="app-id=364709193, app-argument=https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900">',
+  ];
+  const formatted = [...smartBannerLines, ...snippetLines]
     .map((line) => `${innerIndent}${line}`)
     .join('\n');
   return `${indent}${START_MARKER}\n${formatted}\n${indent}${END_MARKER}`;
