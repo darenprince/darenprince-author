@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { describe, it, expect, vi } from 'vitest'
 import {
   planSupabaseCommands,
@@ -43,13 +44,70 @@ describe('deploy-supabase automation', () => {
       includeDbPush: false,
       functions: ['alpha', 'beta', 'alpha'],
       spawn: fakeSpawn as any,
+      env: {
+        SUPABASE_DATABASE_URL: 'https://example.supabase.co',
+        SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+      },
     })
     expect(result.ok).toBe(true)
     expect(result.reason).toBe('dry-run')
-    expect(result.commands).toEqual([
+    expect(result.commands?.[0]).toEqual({
+      description: 'Sync Supabase edge function secrets',
+      args: ['secrets', 'set', '--env-file', expect.stringMatching(/supabase\.env$/)],
+    })
+    expect(result.commands?.slice(1)).toEqual([
       { description: 'Deploy edge function: alpha', args: ['functions', 'deploy', 'alpha'] },
       { description: 'Deploy edge function: beta', args: ['functions', 'deploy', 'beta'] },
     ])
     expect(fakeSpawn).toHaveBeenCalledOnce()
+  })
+
+  it('fails when attempting to deploy functions without Supabase secrets', () => {
+    const fakeSpawn = vi.fn(() => ({ status: 0, stdout: 'Supabase CLI 1.0.0' }))
+    const result = deploySupabase({
+      dryRun: true,
+      includeDbPush: false,
+      functions: ['alpha'],
+      spawn: fakeSpawn as any,
+      env: {},
+    })
+    expect(result.ok).toBe(false)
+    expect(result.reason).toBe('missing-secrets')
+  })
+
+  it('syncs optional Supabase secrets when provided', () => {
+    const captured: string[] = []
+    const fakeSpawn = vi.fn((command: string, args: string[]) => {
+      if (args[0] === '--version') {
+        return { status: 0, stdout: 'Supabase CLI 1.0.0' }
+      }
+
+      if (args[0] === 'secrets' && args[1] === 'set') {
+        const fileFlagIndex = args.indexOf('--env-file')
+        const filePath = args[fileFlagIndex + 1]
+        const contents = readFileSync(filePath, 'utf8').trim().split('\n')
+        captured.push(...contents)
+      }
+
+      return { status: 0, stdout: '' }
+    })
+
+    const result = deploySupabase({
+      includeDbPush: false,
+      functions: ['alpha'],
+      spawn: fakeSpawn as any,
+      env: {
+        SUPABASE_DATABASE_URL: 'https://example.supabase.co',
+        SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+        SUPABASE_ANON_KEY: 'anon-key',
+        SUPABASE_JWT_SECRET: 'jwt-secret',
+      },
+    })
+
+    expect(result.ok).toBe(true)
+    expect(captured).toContain('SUPABASE_URL=https://example.supabase.co')
+    expect(captured).toContain('SUPABASE_SERVICE_ROLE_KEY=service-role-key')
+    expect(captured).toContain('SUPABASE_ANON_KEY=anon-key')
+    expect(captured).toContain('SUPABASE_JWT_SECRET=jwt-secret')
   })
 })

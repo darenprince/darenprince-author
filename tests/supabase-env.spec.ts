@@ -34,6 +34,14 @@ function resetEnv() {
   }
   if (typeof globalThis !== 'undefined') {
     delete globalThis._env_
+    if ('window' in globalThis) {
+      // @ts-expect-error -- cleanup test stubs
+      delete globalThis.window
+    }
+    if ('document' in globalThis) {
+      // @ts-expect-error -- cleanup test stubs
+      delete globalThis.document
+    }
   }
 }
 
@@ -136,5 +144,40 @@ describe('resolveSupabaseConfig (async)', () => {
       'Supabase env.js not found; continuing with runtime overrides'
     )
     expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  it('reads runtime overrides from localStorage when present', async () => {
+    const store = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value)
+        return null
+      },
+      removeItem: (key: string) => {
+        store.delete(key)
+      },
+      clear: () => {
+        store.clear()
+      },
+      key: (index: number) => Array.from(store.keys())[index] ?? null,
+      get length() {
+        return store.size
+      },
+    }
+
+    // @ts-expect-error -- simulate browser window for tests
+    globalThis.window = { localStorage: storage }
+    // @ts-expect-error -- minimal document stub for browser detection
+    globalThis.document = {}
+
+    storage.setItem(
+      'supabaseRuntimeConfig',
+      JSON.stringify({ url: 'https://runtime.supabase.co', anonKey: 'runtime-anon' })
+    )
+
+    const config = await resolveSupabaseConfig()
+    expect(config.url).toBe('https://runtime.supabase.co')
+    expect(config.key).toBe('runtime-anon')
   })
 })

@@ -15,7 +15,8 @@ const KEY_KEYS = [
   'PUBLIC_SUPABASE_ANON_KEY',
 ]
 
-const isBrowser = typeof window !== 'undefined'
+const hasWindow = () => typeof window !== 'undefined'
+const RUNTIME_STORAGE_KEY = 'supabaseRuntimeConfig'
 
 /**
  * @template T
@@ -53,6 +54,26 @@ const finalizeConfig = ({ url, key }) => ({
   key: normalizeValue(key) ?? '',
 })
 
+const resolveFromRuntimeStorage = () => {
+  if (!hasWindow()) return null
+  try {
+    const storage = window.localStorage
+    if (!storage) return null
+    const raw = storage.getItem(RUNTIME_STORAGE_KEY)
+    if (!raw) return null
+    const payload = JSON.parse(raw)
+    if (!payload || typeof payload !== 'object') return null
+    const { url, anonKey, key } = payload
+    return finalizeConfig({
+      url: url ?? payload?.supabaseUrl,
+      key: anonKey ?? key ?? payload?.supabaseAnonKey,
+    })
+  } catch (error) {
+    console.warn('Supabase runtime storage lookup failed', error)
+  }
+  return null
+}
+
 const combineConfigs = (...configs) => {
   let url
   let key
@@ -84,7 +105,7 @@ const resolveFromDeno = () => {
 }
 
 const resolveFromNode = () => {
-  if (isBrowser || typeof process === 'undefined' || typeof process.env === 'undefined') {
+  if (hasWindow() || typeof process === 'undefined' || typeof process.env === 'undefined') {
     return null
   }
   return finalizeConfig(readFromEnvLike(process.env))
@@ -123,6 +144,10 @@ const resolveFromBrowserEnv = async () => {
     } else {
       console.warn('Supabase env.js lookup failed', error)
     }
+  }
+  const storageConfig = resolveFromRuntimeStorage()
+  if (storageConfig) {
+    configs.push(storageConfig)
   }
   const globalConfig = resolveFromGlobalEnv()
   if (globalConfig) {
