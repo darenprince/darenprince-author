@@ -220,6 +220,238 @@
       mix-blend-mode: screen;
     }
 
+    /* Wordmark prism loader */
+    .wordmark-prism {
+      position: relative;
+      width: clamp(260px, 52vw, 420px);
+      aspect-ratio: 3.4 / 1;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      filter: drop-shadow(0 22px 45px rgba(127, 140, 255, 0.25));
+    }
+
+    .wordmark-prism::before,
+    .wordmark-prism::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      mask: url('assets/logos/logo-hires-white-for-dark-bg.svg') center / contain no-repeat;
+      -webkit-mask: url('assets/logos/logo-hires-white-for-dark-bg.svg') center / contain no-repeat;
+    }
+
+    .wordmark-prism::before {
+      background: linear-gradient(135deg, rgba(87, 255, 229, 0.92), rgba(131, 146, 255, 0.9), rgba(255, 255, 255, 0.88));
+      background-size: 180% 180%;
+      animation: prism-shift 3.5s ease-in-out infinite;
+    }
+
+    .wordmark-prism::after {
+      background: radial-gradient(circle at 30% 30%, rgba(127, 140, 255, 0.55), transparent 60%);
+      filter: blur(22px);
+      opacity: 0.65;
+      animation: prism-glow 4.2s ease-in-out infinite;
+    }
+
+    .wordmark-prism__grid,
+    .wordmark-prism__scan {
+      position: absolute;
+      inset: 0;
+      mask: url('assets/logos/logo-hires-white-for-dark-bg.svg') center / contain no-repeat;
+      -webkit-mask: url('assets/logos/logo-hires-white-for-dark-bg.svg') center / contain no-repeat;
+    }
+
+    .wordmark-prism__grid {
+      background: repeating-linear-gradient(90deg, rgba(5, 12, 24, 0) 0%, rgba(5, 12, 24, 0) 8%, rgba(84, 255, 229, 0.12) 11%, rgba(84, 255, 229, 0.38) 14%, rgba(5, 12, 24, 0) 18%);
+      mix-blend-mode: screen;
+      animation: board-pan 2.4s linear infinite;
+      opacity: 0.9;
+    }
+
+    .wordmark-prism__scan {
+      background: linear-gradient(120deg, transparent 18%, rgba(255, 255, 255, 0.85) 50%, transparent 82%);
+      mix-blend-mode: screen;
+      animation: prism-scan 2.1s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    /* Icon reactor loader */
+    .icon-reactor-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.35rem;
+      position: relative;
+    }
+
+    .icon-reactor-stage {
+      position: relative;
+      width: clamp(160px, 32vw, 220px);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-reactor {
+      position: relative;
+      width: 70%;
+      aspect-ratio: 1 / 1;
+      filter: drop-shadow(0 15px 35px rgba(84, 255, 229, 0.4));
+    }
+
+    .icon-reactor::before,
+    .icon-reactor::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      mask: url('assets/icons/darenprince-icon.svg') center / contain no-repeat;
+      -webkit-mask: url('assets/icons/darenprince-icon.svg') center / contain no-repeat;
+    }
+
+    .icon-reactor__grid,
+    .icon-reactor__pulse,
+    .icon-reactor__flare {
+      position: absolute;
+      inset: 0;
+      mask: url('assets/icons/darenprince-icon.svg') center / contain no-repeat;
+      -webkit-mask: url('assets/icons/darenprince-icon.svg') center / contain no-repeat;
+    }
+
+    .icon-reactor::before {
+      background: linear-gradient(135deg, rgba(84, 255, 229, 0.92), rgba(127, 140, 255, 0.85));
+      background-size: 160% 160%;
+      animation: reactor-flux 4s ease-in-out infinite;
+    }
+
+    .icon-reactor::after {
+      background: radial-gradient(circle at 45% 30%, rgba(255, 255, 255, 0.65), transparent 60%);
+      filter: blur(18px);
+      opacity: 0.7;
+      animation: reactor-glow 3.6s ease-in-out infinite;
+    }
+
+    .icon-reactor__grid {
+      background: repeating-conic-gradient(from 0deg, rgba(5, 12, 24, 0) 0deg 14deg, rgba(84, 255, 229, 0.28) 14deg 18deg);
+      mix-blend-mode: screen;
+      animation: reactor-rotate 3s linear infinite;
+      opacity: 0.9;
+      transform-origin: center;
+    }
+
+    .icon-reactor__pulse {
+      background: radial-gradient(circle, rgba(84, 255, 229, 0.35) 0%, rgba(84, 255, 229, 0.05) 65%, transparent 70%);
+      transform: scale(0.9);
+      animation: reactor-pulse 2.4s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .icon-reactor__flare {
+      background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.85) 50%, transparent 65%);
+      mix-blend-mode: screen;
+      animation: reactor-flare 1.8s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .icon-reactor__orbit {
+      position: absolute;
+      inset: -6%;
+      border-radius: 50%;
+      border: 2px solid rgba(84, 255, 229, 0.35);
+      animation: orbit-spin 6s linear infinite;
+      box-shadow: 0 0 35px rgba(84, 255, 229, 0.2);
+    }
+
+    .icon-reactor__orbit::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(84, 255, 229, 1), rgba(127, 140, 255, 1));
+      transform: translateX(-50%);
+      box-shadow: 0 0 18px rgba(84, 255, 229, 0.65);
+    }
+
+    .icon-reactor__orbit--inner {
+      inset: 14%;
+      border-color: rgba(127, 140, 255, 0.35);
+      animation-duration: 3.3s;
+      animation-direction: reverse;
+      opacity: 0.75;
+    }
+
+    .icon-reactor__label {
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(232, 241, 255, 0.62);
+    }
+
+    /* Game On arena loader */
+    .gameon-arena {
+      position: relative;
+      width: clamp(260px, 52vw, 380px);
+      aspect-ratio: 3.2 / 1.25;
+      border-radius: 26px;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 25%, rgba(125, 222, 91, 0.12), transparent 70%);
+      filter: drop-shadow(0 18px 40px rgba(125, 222, 91, 0.25));
+    }
+
+    .gameon-arena::before,
+    .gameon-arena::after {
+      content: '';
+      position: absolute;
+      inset: 12% 10%;
+      mask: url('assets/images/game-on-logo-limewhite-neon.png') center / contain no-repeat;
+      -webkit-mask: url('assets/images/game-on-logo-limewhite-neon.png') center / contain no-repeat;
+    }
+
+    .gameon-arena__grid,
+    .gameon-arena__scan,
+    .gameon-arena__flare {
+      position: absolute;
+      inset: 12% 10%;
+      mask: url('assets/images/game-on-logo-limewhite-neon.png') center / contain no-repeat;
+      -webkit-mask: url('assets/images/game-on-logo-limewhite-neon.png') center / contain no-repeat;
+    }
+
+    .gameon-arena::before {
+      background: linear-gradient(120deg, rgba(125, 222, 91, 0.95), rgba(84, 255, 229, 0.88), rgba(127, 140, 255, 0.72));
+      background-size: 160% 160%;
+      animation: arena-shift 3.8s ease-in-out infinite;
+    }
+
+    .gameon-arena::after {
+      background: radial-gradient(circle at 60% 50%, rgba(255, 255, 255, 0.6), transparent 65%);
+      filter: blur(20px);
+      opacity: 0.7;
+      animation: arena-glow 4.4s ease-in-out infinite;
+    }
+
+    .gameon-arena__grid {
+      background: repeating-linear-gradient(0deg, rgba(9, 12, 24, 0) 0%, rgba(9, 12, 24, 0) 12%, rgba(84, 255, 229, 0.1) 16%, rgba(84, 255, 229, 0.35) 21%, rgba(9, 12, 24, 0) 26%),
+        repeating-linear-gradient(90deg, rgba(9, 12, 24, 0) 0%, rgba(9, 12, 24, 0) 10%, rgba(125, 222, 91, 0.18) 13%, rgba(125, 222, 91, 0.32) 17%, rgba(9, 12, 24, 0) 22%);
+      mix-blend-mode: screen;
+      animation: arena-pan 3s linear infinite;
+      opacity: 0.85;
+    }
+
+    .gameon-arena__scan {
+      background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.85) 50%, transparent 70%);
+      mix-blend-mode: screen;
+      animation: arena-scan 1.9s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .gameon-arena__flare {
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.1) 45%, transparent 70%);
+      animation: arena-flare 2.6s ease-in-out infinite;
+      transform-origin: center;
+    }
+
     /* Controls */
     .actions {
       margin: clamp(2.5rem, 6vw, 4rem) auto 0;
@@ -328,6 +560,171 @@
       }
     }
 
+    @keyframes board-pan {
+      from {
+        background-position: 0% 0%;
+      }
+      to {
+        background-position: 120% 0%;
+      }
+    }
+
+    @keyframes prism-shift {
+      0%,
+      100% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+    }
+
+    @keyframes prism-glow {
+      0%,
+      100% {
+        opacity: 0.45;
+        transform: scale(0.98);
+      }
+      50% {
+        opacity: 0.85;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes prism-scan {
+      0% {
+        transform: translateX(-45%);
+        opacity: 0;
+      }
+      35% {
+        opacity: 1;
+      }
+      65% {
+        opacity: 0.75;
+      }
+      100% {
+        transform: translateX(45%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes orbit-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes reactor-flux {
+      0%,
+      100% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+    }
+
+    @keyframes reactor-glow {
+      0%,
+      100% {
+        opacity: 0.45;
+        transform: scale(0.9);
+      }
+      50% {
+        opacity: 0.85;
+        transform: scale(1.03);
+      }
+    }
+
+    @keyframes reactor-rotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes reactor-pulse {
+      0%,
+      100% {
+        transform: scale(0.85);
+        opacity: 0.45;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes reactor-flare {
+      0% {
+        transform: rotate(-25deg) translateX(-45%);
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(-25deg) translateX(45%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes arena-shift {
+      0%,
+      100% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+    }
+
+    @keyframes arena-glow {
+      0%,
+      100% {
+        opacity: 0.45;
+        transform: scale(0.96);
+      }
+      50% {
+        opacity: 0.85;
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes arena-pan {
+      0% {
+        background-position: 0% 0%, 0% 0%;
+      }
+      100% {
+        background-position: 100% 0%, 0% 100%;
+      }
+    }
+
+    @keyframes arena-scan {
+      0% {
+        transform: translateX(-40%);
+        opacity: 0;
+      }
+      35% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(40%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes arena-flare {
+      0%,
+      100% {
+        transform: scale(0.85);
+        opacity: 0.4;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
     @media (max-width: 640px) {
       .loader-demo {
         min-height: 150px;
@@ -372,6 +769,52 @@ rfect for page-level transitions or splash screens.</p>
               <span class="loading-crown"></span>
             </div>
             <div class="loading-bar"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="loader-card">
+        <h2>Wordmark Prism Loader</h2>
+        <p>The full Daren Prince wordmark is the light source—layered neon boards ripple through each letter while a spectral scan polishes the edges.</p>
+        <div class="loader-demo">
+          <div class="loading-screen">
+            <div class="wordmark-prism" aria-hidden="true">
+              <span class="wordmark-prism__grid"></span>
+              <span class="wordmark-prism__scan"></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="loader-card">
+        <h2>Icon Reactor Loader</h2>
+        <p>The DP monogram becomes a reactor core with rotating data boards, breathing pulses, and dual orbits that telegraph focused energy.</p>
+        <div class="loader-demo">
+          <div class="loading-screen icon-reactor-shell">
+            <div class="icon-reactor-stage">
+              <div class="icon-reactor" aria-hidden="true">
+                <span class="icon-reactor__grid"></span>
+                <span class="icon-reactor__pulse"></span>
+                <span class="icon-reactor__flare"></span>
+              </div>
+              <div class="icon-reactor__orbit" aria-hidden="true"></div>
+              <div class="icon-reactor__orbit icon-reactor__orbit--inner" aria-hidden="true"></div>
+            </div>
+            <p class="icon-reactor__label">Stabilizing signal</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="loader-card">
+        <h2>Game On Arena Loader</h2>
+        <p>The Game On emblem fills with arena boards—stacked scoring grids, diagonal sweeps, and a spotlight flare that cycles like a pre-game hype reel.</p>
+        <div class="loader-demo">
+          <div class="loading-screen">
+            <div class="gameon-arena" aria-hidden="true">
+              <span class="gameon-arena__grid"></span>
+              <span class="gameon-arena__scan"></span>
+              <span class="gameon-arena__flare"></span>
+            </div>
           </div>
         </div>
       </article>
