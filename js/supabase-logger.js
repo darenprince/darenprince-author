@@ -1,26 +1,26 @@
-const MAX_LOGS = 200;
-const STORAGE_KEY = 'supabaseLogBuffer';
-const STORAGE_VERSION = 1;
-const logs = [];
-let panel;
-let badge;
-let autoScroll = true;
-let panelInitialized = false;
-let debugActive = false;
-let panelHost = null;
-let badgeHost = null;
-const proxyCache = new WeakMap();
-let keyboardListenerAttached = false;
-let storageWarningLogged = false;
+const MAX_LOGS = 200
+const STORAGE_KEY = 'supabaseLogBuffer'
+const STORAGE_VERSION = 1
+const logs = []
+let panel
+let badge
+let autoScroll = true
+let panelInitialized = false
+let debugActive = false
+let panelHost = null
+let badgeHost = null
+const proxyCache = new WeakMap()
+let keyboardListenerAttached = false
+let storageWarningLogged = false
 const SECRET_TAP_SELECTORS = [
   '[data-supabase-debug-target]',
   '.mega-menu-logo',
   '.logo img',
   '.footer-logo',
   '.logo',
-];
-const SECRET_TAP_THRESHOLD = 7;
-const SECRET_TAP_WINDOW = 3000;
+]
+const SECRET_TAP_THRESHOLD = 7
+const SECRET_TAP_WINDOW = 3000
 const KONAMI_SEQUENCE = [
   'arrowup',
   'arrowup',
@@ -32,51 +32,75 @@ const KONAMI_SEQUENCE = [
   'arrowright',
   'b',
   'a',
-];
-let secretGesturesInitialized = false;
-let secretTapTarget = null;
-let secretTapCount = 0;
-let secretTapTimer = null;
-let konamiIndex = 0;
-let konamiListenerAttached = false;
-let secretTapObserver = null;
+]
+let secretGesturesInitialized = false
+let secretTapTarget = null
+let secretTapCount = 0
+let secretTapTimer = null
+let konamiIndex = 0
+let konamiListenerAttached = false
+let secretTapObserver = null
+let diagnosticsListenerAttached = false
 
 function isBrowser() {
-  return typeof window !== 'undefined' && typeof document !== 'undefined';
+  return typeof window !== 'undefined' && typeof document !== 'undefined'
 }
 
 function safeStorage() {
-  if (!isBrowser()) return null;
+  if (!isBrowser()) return null
   try {
-    return window.localStorage;
+    return window.localStorage
   } catch (error) {
     if (!storageWarningLogged) {
-      console.warn('[Supabase]', 'client.storage', 'Unable to access localStorage for debug logs', error);
-      storageWarningLogged = true;
+      console.warn(
+        '[Supabase]',
+        'client.storage',
+        'Unable to access localStorage for debug logs',
+        error
+      )
+      storageWarningLogged = true
     }
-    return null;
+    return null
   }
 }
 
 function loadPersistedLogs() {
-  const storage = safeStorage();
-  if (!storage) return;
+  const storage = safeStorage()
+  if (!storage) return
   try {
-    const raw = storage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const payload = JSON.parse(raw);
-    if (!payload || payload.version !== STORAGE_VERSION || !Array.isArray(payload.logs)) return;
+    const raw = storage.getItem(STORAGE_KEY)
+    if (!raw) return
+    const payload = JSON.parse(raw)
+    if (!payload || payload.version !== STORAGE_VERSION || !Array.isArray(payload.logs)) return
     payload.logs.slice(-MAX_LOGS).forEach((entry) => {
-      logs.push({ ...entry });
-    });
+      logs.push({ ...entry })
+    })
   } catch (error) {
-    console.warn('[Supabase]', 'client.storage', 'Unable to restore persisted Supabase logs', error);
+    console.warn('[Supabase]', 'client.storage', 'Unable to restore persisted Supabase logs', error)
   }
 }
 
+function attachDiagnosticsStream() {
+  if (!isBrowser() || diagnosticsListenerAttached) return
+  diagnosticsListenerAttached = true
+  window.addEventListener('supabase:diagnostic', (event) => {
+    const entry = event?.detail
+    if (!entry || typeof entry !== 'object') return
+    const level = entry.level === 'error' ? 'error' : entry.level === 'warn' ? 'warn' : 'info'
+    pushLog({
+      id: entry.id || `${Date.now()}-${Math.random()}`,
+      timestamp: entry.timestamp || Date.now(),
+      level,
+      context: `diagnostic.${entry.step || 'unknown'}`,
+      message: entry.message || 'Diagnostic event',
+      detail: entry.detail,
+    })
+  })
+}
+
 function persistLogs() {
-  const storage = safeStorage();
-  if (!storage) return;
+  const storage = safeStorage()
+  if (!storage) return
   try {
     const payload = {
       version: STORAGE_VERSION,
@@ -84,58 +108,58 @@ function persistLogs() {
         ...entry,
         detail: serializeDetail(entry.detail),
       })),
-    };
-    storage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+    storage.setItem(STORAGE_KEY, JSON.stringify(payload))
   } catch (error) {
     if (error?.name === 'QuotaExceededError') {
-      console.warn('[Supabase]', 'client.storage', 'Supabase log persistence quota exceeded');
+      console.warn('[Supabase]', 'client.storage', 'Supabase log persistence quota exceeded')
     } else {
-      console.warn('[Supabase]', 'client.storage', 'Unable to persist Supabase logs', error);
+      console.warn('[Supabase]', 'client.storage', 'Unable to persist Supabase logs', error)
     }
   }
 }
 
 function serializeDetail(detail) {
-  if (!detail) return undefined;
+  if (!detail) return undefined
   try {
-    if (typeof detail === 'string') return detail;
-    return JSON.stringify(detail, null, 2);
+    if (typeof detail === 'string') return detail
+    return JSON.stringify(detail, null, 2)
   } catch (error) {
-    return String(detail);
+    return String(detail)
   }
 }
 
 function pushLog(entry) {
-  logs.push(entry);
+  logs.push(entry)
   if (logs.length > MAX_LOGS) {
-    logs.shift();
+    logs.shift()
   }
-  persistLogs();
+  persistLogs()
   if (entry.level === 'error') {
-    console.error('[Supabase]', entry.context, entry.message, entry.detail);
+    console.error('[Supabase]', entry.context, entry.message, entry.detail)
   } else if (entry.level === 'warn') {
-    console.warn('[Supabase]', entry.context, entry.message, entry.detail);
+    console.warn('[Supabase]', entry.context, entry.message, entry.detail)
   } else {
-    console.info('[Supabase]', entry.context, entry.message, entry.detail);
+    console.info('[Supabase]', entry.context, entry.message, entry.detail)
   }
   if (isBrowser()) {
-    renderLogs();
+    renderLogs()
     if (!panel || panel.hidden) {
-      updateBadge();
+      updateBadge()
     }
-    const event = new CustomEvent('supabase:log', { detail: entry });
-    window.dispatchEvent(event);
+    const event = new CustomEvent('supabase:log', { detail: entry })
+    window.dispatchEvent(event)
   }
 }
 
 function ensurePanel() {
-  if (!isBrowser()) return;
+  if (!isBrowser()) return
   if (!panelInitialized) {
-    panelInitialized = true;
-    panel = document.createElement('section');
-    panel.className = 'supabase-log-panel';
-    panel.setAttribute('role', 'log');
-    panel.hidden = true;
+    panelInitialized = true
+    panel = document.createElement('section')
+    panel.className = 'supabase-log-panel'
+    panel.setAttribute('role', 'log')
+    panel.hidden = true
     panel.innerHTML = `
       <header>
         <div>
@@ -149,8 +173,8 @@ function ensurePanel() {
         </div>
       </header>
       <ol class="entries" aria-live="polite"></ol>
-    `;
-    const styles = document.createElement('style');
+    `
+    const styles = document.createElement('style')
     styles.textContent = `
       .supabase-log-panel {
         position: fixed;
@@ -278,85 +302,85 @@ function ensurePanel() {
       .supabase-log-badge.hidden {
         display: none;
       }
-    `;
-    document.head.appendChild(styles);
-    badge = document.createElement('button');
-    badge.type = 'button';
-    badge.className = 'supabase-log-badge hidden';
-    badge.innerHTML = '<span class="dot"></span><span>Supabase Logs</span>';
-    badge.addEventListener('click', () => togglePanel(true));
-    panel.querySelector('.js-close').addEventListener('click', () => togglePanel(false));
-    panel.querySelector('.js-clear').addEventListener('click', clearLogs);
+    `
+    document.head.appendChild(styles)
+    badge = document.createElement('button')
+    badge.type = 'button'
+    badge.className = 'supabase-log-badge hidden'
+    badge.innerHTML = '<span class="dot"></span><span>Supabase Logs</span>'
+    badge.addEventListener('click', () => togglePanel(true))
+    panel.querySelector('.js-close').addEventListener('click', () => togglePanel(false))
+    panel.querySelector('.js-clear').addEventListener('click', clearLogs)
     panel.querySelector('.js-autoscroll').addEventListener('change', (event) => {
-      autoScroll = event.target.checked;
-    });
+      autoScroll = event.target.checked
+    })
   }
 
-  const targetPanelHost = resolvePanelHost();
+  const targetPanelHost = resolvePanelHost()
   if (panel && targetPanelHost && panel.parentElement !== targetPanelHost) {
-    targetPanelHost.appendChild(panel);
+    targetPanelHost.appendChild(panel)
   }
 
-  const targetBadgeHost = resolveBadgeHost();
+  const targetBadgeHost = resolveBadgeHost()
   if (badge && targetBadgeHost && badge.parentElement !== targetBadgeHost) {
-    targetBadgeHost.appendChild(badge);
+    targetBadgeHost.appendChild(badge)
   }
 
   if (!keyboardListenerAttached) {
-    document.addEventListener('keydown', handleDebugShortcut);
-    keyboardListenerAttached = true;
+    document.addEventListener('keydown', handleDebugShortcut)
+    keyboardListenerAttached = true
   }
 }
 
 function clearLogs() {
-  logs.splice(0, logs.length);
-  renderLogs();
-  updateBadge();
-  const storage = safeStorage();
+  logs.splice(0, logs.length)
+  renderLogs()
+  updateBadge()
+  const storage = safeStorage()
   if (storage) {
-    storage.removeItem(STORAGE_KEY);
+    storage.removeItem(STORAGE_KEY)
   }
 }
 
 function updateBadge() {
-  if (!badge) return;
+  if (!badge) return
   if (!debugActive) {
-    badge.classList.add('hidden');
-    badge.innerHTML = '<span>Supabase Logs</span>';
-    return;
+    badge.classList.add('hidden')
+    badge.innerHTML = '<span>Supabase Logs</span>'
+    return
   }
-  const unreadErrors = logs.filter((entry) => entry.level === 'error').length;
+  const unreadErrors = logs.filter((entry) => entry.level === 'error').length
   if (unreadErrors === 0) {
-    badge.classList.add('hidden');
-    badge.innerHTML = '<span>Supabase Logs</span>';
-    return;
+    badge.classList.add('hidden')
+    badge.innerHTML = '<span>Supabase Logs</span>'
+    return
   }
-  badge.classList.remove('hidden');
-  badge.innerHTML = `<strong>${unreadErrors}</strong> Supabase ${unreadErrors === 1 ? 'issue' : 'issues'}`;
+  badge.classList.remove('hidden')
+  badge.innerHTML = `<strong>${unreadErrors}</strong> Supabase ${unreadErrors === 1 ? 'issue' : 'issues'}`
 }
 
 function togglePanel(forceOpen) {
-  if (!debugActive) return;
-  if (!panel) return;
-  const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : panel.hidden;
-  panel.hidden = !shouldOpen;
+  if (!debugActive) return
+  if (!panel) return
+  const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : panel.hidden
+  panel.hidden = !shouldOpen
   if (shouldOpen) {
     if (autoScroll) {
-      const entriesEl = panel.querySelector('.entries');
-      entriesEl.scrollTop = entriesEl.scrollHeight;
+      const entriesEl = panel.querySelector('.entries')
+      entriesEl.scrollTop = entriesEl.scrollHeight
     }
   }
-  updateBadge();
+  updateBadge()
 }
 
 function renderLogs() {
-  if (!panel || !debugActive) return;
-  const list = panel.querySelector('.entries');
-  if (!list) return;
+  if (!panel || !debugActive) return
+  const list = panel.querySelector('.entries')
+  if (!list) return
   list.innerHTML = logs
     .map((entry) => {
-      const time = new Date(entry.timestamp).toLocaleTimeString();
-      const detail = serializeDetail(entry.detail);
+      const time = new Date(entry.timestamp).toLocaleTimeString()
+      const detail = serializeDetail(entry.detail)
       return `
         <li class="level-${entry.level}">
           <div class="meta">
@@ -367,71 +391,76 @@ function renderLogs() {
           <div class="message">${entry.message}</div>
           ${detail ? `<pre class="detail">${detail}</pre>` : ''}
         </li>
-      `;
+      `
     })
-    .join('');
+    .join('')
   if (autoScroll) {
-    list.scrollTop = list.scrollHeight;
+    list.scrollTop = list.scrollHeight
   }
 }
 
 function initDebugPanel() {
-  if (!isBrowser()) return;
-  initSecretGestures();
-  const params = new URLSearchParams(window.location.search);
-  const storedPreference = getStoredDebugPreference();
+  if (!isBrowser()) return
+  initSecretGestures()
+  const params = new URLSearchParams(window.location.search)
+  const storedPreference = getStoredDebugPreference()
   if (storedPreference) {
-    activateDebug({ persist: true, open: false });
+    activateDebug({ persist: true, open: false })
   }
   if (params.has('supabaseDebug')) {
-    const value = params.get('supabaseDebug');
-    const shouldPersist = value === 'persist' || value === '1';
-    const shouldOpen = value !== 'hidden';
-    activateDebug({ persist: shouldPersist ? true : null, open: shouldOpen });
+    const value = params.get('supabaseDebug')
+    const shouldPersist = value === 'persist' || value === '1'
+    const shouldOpen = value !== 'hidden'
+    activateDebug({ persist: shouldPersist ? true : null, open: shouldOpen })
   }
   window.supabaseDebug = {
     toggle: () => {
       if (!debugActive) {
-        activateDebug({ persist: null, open: true });
+        activateDebug({ persist: null, open: true })
       } else {
-        togglePanel();
+        togglePanel()
       }
     },
     show: () => {
       if (!debugActive) {
-        activateDebug({ persist: null, open: true });
+        activateDebug({ persist: null, open: true })
       } else {
-        togglePanel(true);
+        togglePanel(true)
       }
     },
     hide: () => togglePanel(false),
-    enable: (options = {}) => activateDebug({ persist: options.persist ?? true, open: options.open ?? true }),
+    enable: (options = {}) =>
+      activateDebug({ persist: options.persist ?? true, open: options.open ?? true }),
     disable: () => deactivateDebug(),
     export: () => logs.slice(),
     clear: () => clearLogs(),
     mount: (panelContainer, badgeContainer) => {
-      if (!isBrowser()) return;
-      panelHost = resolveElement(panelContainer) || null;
-      badgeHost = resolveElement(badgeContainer) || panelHost || null;
+      if (!isBrowser()) return
+      panelHost = resolveElement(panelContainer) || null
+      badgeHost = resolveElement(badgeContainer) || panelHost || null
       if (debugActive) {
-        ensurePanel();
+        ensurePanel()
       }
     },
     isEnabled: () => debugActive,
-  };
+  }
 }
 
 if (isBrowser()) {
-  loadPersistedLogs();
+  loadPersistedLogs()
+  attachDiagnosticsStream()
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDebugPanel);
+    document.addEventListener('DOMContentLoaded', initDebugPanel)
   } else {
-    initDebugPanel();
+    initDebugPanel()
   }
 }
 
 export function logSupabaseEvent(level, context, message, detail) {
-  const hasUUID = typeof globalThis !== 'undefined' && globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function';
+  const hasUUID =
+    typeof globalThis !== 'undefined' &&
+    globalThis.crypto &&
+    typeof globalThis.crypto.randomUUID === 'function'
   pushLog({
     id: hasUUID ? globalThis.crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
     timestamp: Date.now(),
@@ -439,247 +468,247 @@ export function logSupabaseEvent(level, context, message, detail) {
     context,
     message,
     detail,
-  });
+  })
 }
 
 export function logSupabaseError(context, error, detail) {
-  const message = error?.message || String(error);
-  const payload = detail || {};
-  if (error?.status) payload.status = error.status;
-  if (error?.code) payload.code = error.code;
-  if (error?.stack) payload.stack = error.stack;
-  logSupabaseEvent('error', context, message, payload);
+  const message = error?.message || String(error)
+  const payload = detail || {}
+  if (error?.status) payload.status = error.status
+  if (error?.code) payload.code = error.code
+  if (error?.stack) payload.stack = error.stack
+  logSupabaseEvent('error', context, message, payload)
 }
 
 export function logSupabaseWarning(context, message, detail) {
-  logSupabaseEvent('warn', context, message, detail);
+  logSupabaseEvent('warn', context, message, detail)
 }
 
 export function logSupabaseInfo(context, message, detail) {
-  logSupabaseEvent('info', context, message, detail);
+  logSupabaseEvent('info', context, message, detail)
 }
 
 export function getSupabaseLogs() {
-  return logs.slice();
+  return logs.slice()
 }
 
 function createProxy(target, context) {
-  if (!target || typeof target !== 'object' && typeof target !== 'function') {
-    return target;
+  if (!target || (typeof target !== 'object' && typeof target !== 'function')) {
+    return target
   }
   if (proxyCache.has(target)) {
-    return proxyCache.get(target);
+    return proxyCache.get(target)
   }
   const proxy = new Proxy(target, {
     get(original, prop, receiver) {
-      const value = Reflect.get(original, prop, receiver);
+      const value = Reflect.get(original, prop, receiver)
       if (value && (typeof value === 'object' || typeof value === 'function')) {
         if (typeof value === 'function') {
           return async (...args) => {
             try {
-              const result = await value.apply(original, args);
+              const result = await value.apply(original, args)
               if (result?.error) {
                 logSupabaseError(`${context}.${String(prop)}`, result.error, {
                   args,
                   data: result.data,
-                });
+                })
               }
-              return result;
+              return result
             } catch (error) {
               logSupabaseError(`${context}.${String(prop)}`, error, {
                 args,
-              });
-              throw error;
+              })
+              throw error
             }
-          };
+          }
         }
-        return createProxy(value, `${context}.${String(prop)}`);
+        return createProxy(value, `${context}.${String(prop)}`)
       }
-      return value;
+      return value
     },
-  });
-  proxyCache.set(target, proxy);
-  return proxy;
+  })
+  proxyCache.set(target, proxy)
+  return proxy
 }
 
 export function bindSupabaseClient(client, context = 'client') {
-  if (!client) return client;
-  return createProxy(client, context);
+  if (!client) return client
+  return createProxy(client, context)
 }
 
 function resolveElement(target) {
-  if (!target) return null;
+  if (!target) return null
   if (typeof target === 'string') {
-    return document.querySelector(target);
+    return document.querySelector(target)
   }
   if (typeof Element !== 'undefined' && target instanceof Element) {
-    return target;
+    return target
   }
-  return null;
+  return null
 }
 
 function resolvePanelHost() {
   if (!panelHost || !panelHost.isConnected) {
-    panelHost = null;
+    panelHost = null
   }
-  return panelHost || document.body;
+  return panelHost || document.body
 }
 
 function resolveBadgeHost() {
   if (!badgeHost || !badgeHost.isConnected) {
-    badgeHost = null;
+    badgeHost = null
   }
-  return badgeHost || document.body;
+  return badgeHost || document.body
 }
 
 function handleDebugShortcut(event) {
-  if (!debugActive || !panel) return;
+  if (!debugActive || !panel) return
   if ((event.ctrlKey || event.metaKey) && event.altKey && event.key.toLowerCase() === 'l') {
-    event.preventDefault();
-    togglePanel(panel.hidden);
+    event.preventDefault()
+    togglePanel(panel.hidden)
   }
 }
 
 function initSecretGestures() {
-  if (!isBrowser() || secretGesturesInitialized) return;
-  secretGesturesInitialized = true;
-  setupSecretTapTarget();
-  setupKonamiShortcut();
+  if (!isBrowser() || secretGesturesInitialized) return
+  secretGesturesInitialized = true
+  setupSecretTapTarget()
+  setupKonamiShortcut()
 }
 
 function setupSecretTapTarget() {
-  if (secretTapTarget && secretTapTarget.isConnected) return;
-  const target = findSecretTapTarget();
+  if (secretTapTarget && secretTapTarget.isConnected) return
+  const target = findSecretTapTarget()
   if (target) {
-    attachSecretTapTarget(target);
-    return;
+    attachSecretTapTarget(target)
+    return
   }
-  if (secretTapObserver) return;
+  if (secretTapObserver) return
   secretTapObserver = new MutationObserver(() => {
-    const candidate = findSecretTapTarget();
+    const candidate = findSecretTapTarget()
     if (candidate) {
-      attachSecretTapTarget(candidate);
+      attachSecretTapTarget(candidate)
       if (secretTapObserver) {
-        secretTapObserver.disconnect();
-        secretTapObserver = null;
+        secretTapObserver.disconnect()
+        secretTapObserver = null
       }
     }
-  });
-  secretTapObserver.observe(document.documentElement, { childList: true, subtree: true });
+  })
+  secretTapObserver.observe(document.documentElement, { childList: true, subtree: true })
 }
 
 function findSecretTapTarget() {
   for (const selector of SECRET_TAP_SELECTORS) {
-    const element = document.querySelector(selector);
-    if (element) return element;
+    const element = document.querySelector(selector)
+    if (element) return element
   }
-  return document.body || null;
+  return document.body || null
 }
 
 function attachSecretTapTarget(target) {
-  secretTapTarget = target;
-  secretTapTarget.addEventListener('click', handleSecretTap);
+  secretTapTarget = target
+  secretTapTarget.addEventListener('click', handleSecretTap)
 }
 
 function handleSecretTap(event) {
-  if (!secretTapTarget) return;
-  secretTapCount += 1;
+  if (!secretTapTarget) return
+  secretTapCount += 1
   if (secretTapTimer) {
-    clearTimeout(secretTapTimer);
+    clearTimeout(secretTapTimer)
   }
-  secretTapTimer = setTimeout(resetSecretTapSequence, SECRET_TAP_WINDOW);
+  secretTapTimer = setTimeout(resetSecretTapSequence, SECRET_TAP_WINDOW)
   if (secretTapCount < SECRET_TAP_THRESHOLD) {
-    return;
+    return
   }
-  resetSecretTapSequence();
+  resetSecretTapSequence()
   if (!debugActive) {
-    activateDebug({ persist: null, open: true });
+    activateDebug({ persist: null, open: true })
   } else if (panel) {
-    togglePanel(panel.hidden);
+    togglePanel(panel.hidden)
   }
-  event.preventDefault();
+  event.preventDefault()
 }
 
 function resetSecretTapSequence() {
-  secretTapCount = 0;
+  secretTapCount = 0
   if (secretTapTimer) {
-    clearTimeout(secretTapTimer);
-    secretTapTimer = null;
+    clearTimeout(secretTapTimer)
+    secretTapTimer = null
   }
 }
 
 function setupKonamiShortcut() {
-  if (konamiListenerAttached) return;
-  document.addEventListener('keydown', handleKonamiShortcut, true);
-  konamiListenerAttached = true;
+  if (konamiListenerAttached) return
+  document.addEventListener('keydown', handleKonamiShortcut, true)
+  konamiListenerAttached = true
 }
 
 function handleKonamiShortcut(event) {
-  const key = event.key?.toLowerCase();
-  if (!key) return;
+  const key = event.key?.toLowerCase()
+  if (!key) return
   if (key === KONAMI_SEQUENCE[konamiIndex]) {
-    konamiIndex += 1;
+    konamiIndex += 1
     if (konamiIndex === KONAMI_SEQUENCE.length) {
-      konamiIndex = 0;
+      konamiIndex = 0
       if (!debugActive) {
-        activateDebug({ persist: null, open: true });
+        activateDebug({ persist: null, open: true })
       } else if (panel) {
-        togglePanel(panel.hidden);
+        togglePanel(panel.hidden)
       }
-      event.preventDefault();
+      event.preventDefault()
     }
-    return;
+    return
   }
   if (key === KONAMI_SEQUENCE[0]) {
-    konamiIndex = 1;
+    konamiIndex = 1
   } else {
-    konamiIndex = 0;
+    konamiIndex = 0
   }
 }
 
 function getStoredDebugPreference() {
-  const storage = safeStorage();
-  if (!storage) return false;
-  return storage.getItem('supabaseDebug') === '1';
+  const storage = safeStorage()
+  if (!storage) return false
+  return storage.getItem('supabaseDebug') === '1'
 }
 
 function setStoredDebugPreference(enabled) {
-  const storage = safeStorage();
-  if (!storage) return;
+  const storage = safeStorage()
+  if (!storage) return
   if (enabled) {
-    storage.setItem('supabaseDebug', '1');
+    storage.setItem('supabaseDebug', '1')
   } else {
-    storage.removeItem('supabaseDebug');
+    storage.removeItem('supabaseDebug')
   }
 }
 
 function activateDebug({ persist = null, open = true } = {}) {
-  if (!isBrowser()) return;
+  if (!isBrowser()) return
   if (!debugActive) {
-    debugActive = true;
-    ensurePanel();
-    renderLogs();
+    debugActive = true
+    ensurePanel()
+    renderLogs()
   }
   if (persist === true) {
-    setStoredDebugPreference(true);
+    setStoredDebugPreference(true)
   }
   if (persist === false) {
-    setStoredDebugPreference(false);
+    setStoredDebugPreference(false)
   }
-  updateBadge();
+  updateBadge()
   if (open) {
-    togglePanel(true);
+    togglePanel(true)
   } else if (panel) {
-    panel.hidden = true;
+    panel.hidden = true
   }
 }
 
 function deactivateDebug() {
-  if (!debugActive) return;
-  debugActive = false;
-  setStoredDebugPreference(false);
+  if (!debugActive) return
+  debugActive = false
+  setStoredDebugPreference(false)
   if (panel) {
-    panel.hidden = true;
+    panel.hidden = true
   }
-  updateBadge();
+  updateBadge()
 }
