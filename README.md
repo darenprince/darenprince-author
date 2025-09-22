@@ -123,6 +123,16 @@ _Adding a new token_
 
 ---
 
+## Smart App Banner
+
+- Test in Safari on iPhone and iPad
+- Confirm the custom Game On banner appears with the book art, Apple-inspired typography, and CTA
+- Tapping **View** launches Apple Books directly to the Game On listing
+- Dismiss the banner and verify it stays hidden on reload (local storage)
+- Install the PWA and confirm the banner remains hidden in the standalone view
+
+---
+
 ## 🧩 Component & Page Highlights
 
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
