@@ -1,9 +1,85 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { pathToFileURL } from 'node:url'
-import { resolve } from 'node:path'
+import { resolve, join } from 'node:path'
 
 const DEFAULT_FUNCTIONS = ['secure-storage', 'admin-users']
+
+const SUPABASE_URL_KEYS = [
+  'SUPABASE_DATABASE_URL',
+  'SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_DATABASE_URL',
+  'PUBLIC_SUPABASE_URL',
+]
+
+const SUPABASE_SERVICE_ROLE_KEYS = [
+  'SUPABASE_SERVICE_ROLE_KEY',
+  'SUPABASE_SERVICE_KEY',
+  'SUPABASE_SERVICE_ROLE',
+  'SUPABASE_SERVICE_API_KEY',
+]
+
+const SUPABASE_ANON_KEYS = [
+  'SUPABASE_ANON_KEY',
+  'SUPABASE_PUBLIC_ANON_KEY',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'PUBLIC_SUPABASE_ANON_KEY',
+]
+
+const SUPABASE_JWT_KEYS = ['SUPABASE_JWT_SECRET', 'SUPABASE_JWT', 'NEXT_PUBLIC_SUPABASE_JWT_SECRET']
+
+const sanitizeEnvValue = (value) => {
+  if (value === undefined || value === null) return ''
+  return `${value}`.trim()
+}
+
+const readFirstEnvValue = (env, keys) => {
+  for (const key of keys) {
+    const value = sanitizeEnvValue(env?.[key])
+    if (value) return value
+  }
+  return ''
+}
+
+const createSecretsEnvFile = (env) => {
+  const url = readFirstEnvValue(env, SUPABASE_URL_KEYS)
+  const serviceRoleKey = readFirstEnvValue(env, SUPABASE_SERVICE_ROLE_KEYS)
+  const anonKey = readFirstEnvValue(env, SUPABASE_ANON_KEYS)
+
+  if (!url || !serviceRoleKey) {
+    return {
+      ok: false,
+      missingUrl: !url,
+      missingServiceKey: !serviceRoleKey,
+    }
+  }
+
+  const dir = mkdtempSync(join(tmpdir(), 'supabase-secrets-'))
+  const file = join(dir, 'supabase.env')
+  const lines = [`SUPABASE_URL=${url}`, `SUPABASE_SERVICE_ROLE_KEY=${serviceRoleKey}`]
+
+  if (anonKey) {
+    lines.push(`SUPABASE_ANON_KEY=${anonKey}`)
+  }
+
+  const jwtSecret = readFirstEnvValue(env, SUPABASE_JWT_KEYS)
+  if (jwtSecret) {
+    lines.push(`SUPABASE_JWT_SECRET=${jwtSecret}`)
+  }
+  writeFileSync(file, `${lines.join('\n')}\n`, 'utf8')
+
+  return {
+    ok: true,
+    file,
+    cleanup: () => {
+      rmSync(dir, { recursive: true, force: true })
+    },
+  }
+}
 
 const toFlagList = (value) => {
   if (!value) return []
@@ -73,29 +149,65 @@ export const deploySupabase = ({
   }
 
   const commands = planSupabaseCommands({ includeDbPush, functions, projectRef })
+  const firstFunctionIndex = commands.findIndex((command) =>
+    command.description.startsWith('Deploy edge function:')
+  )
+
+  let secretHandle = null
+  if (firstFunctionIndex !== -1) {
+    const secretResult = createSecretsEnvFile(env)
+    if (!secretResult.ok) {
+      const missingParts = []
+      if (secretResult.missingUrl) missingParts.push('SUPABASE_DATABASE_URL')
+      if (secretResult.missingServiceKey) missingParts.push('SUPABASE_SERVICE_ROLE_KEY')
+      return {
+        ok: false,
+        reason: 'missing-secrets',
+        message:
+          'Supabase secrets missing. Provide SUPABASE_DATABASE_URL (or SUPABASE_URL) and SUPABASE_SERVICE_ROLE_KEY before deploying edge functions.',
+        missing: missingParts,
+      }
+    }
+
+    secretHandle = secretResult
+    const secretArgs = ['secrets', 'set', '--env-file', secretHandle.file]
+    if (projectRef) {
+      secretArgs.push('--project-ref', projectRef)
+    }
+    commands.splice(firstFunctionIndex, 0, {
+      description: 'Sync Supabase edge function secrets',
+      args: secretArgs,
+    })
+  }
+
   if (dryRun) {
+    secretHandle?.cleanup()
     return { ok: true, reason: 'dry-run', commands }
   }
 
-  for (const command of commands) {
-    const result = spawn('supabase', command.args, { stdio: 'inherit', env })
-    if (result.error) {
-      return {
-        ok: false,
-        reason: 'spawn-error',
-        message: result.error.message,
-        failedCommand: command,
+  try {
+    for (const command of commands) {
+      const result = spawn('supabase', command.args, { stdio: 'inherit', env })
+      if (result.error) {
+        return {
+          ok: false,
+          reason: 'spawn-error',
+          message: result.error.message,
+          failedCommand: command,
+        }
+      }
+      if (result.status !== 0) {
+        return {
+          ok: false,
+          reason: 'non-zero',
+          message: `Command "supabase ${command.args.join(' ')}" exited with status ${result.status}.`,
+          failedCommand: command,
+          status: result.status,
+        }
       }
     }
-    if (result.status !== 0) {
-      return {
-        ok: false,
-        reason: 'non-zero',
-        message: `Command "supabase ${command.args.join(' ')}" exited with status ${result.status}.`,
-        failedCommand: command,
-        status: result.status,
-      }
-    }
+  } finally {
+    secretHandle?.cleanup()
   }
 
   return { ok: true, commands }
