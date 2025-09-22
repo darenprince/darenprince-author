@@ -6,17 +6,66 @@ import {
 import {
   SUPABASE_URL_KEYS,
   SUPABASE_ANON_KEYS,
-  describeSupabaseKeyPresence,
+  SUPABASE_SERVICE_ROLE_KEYS,
+  SUPABASE_JWT_KEYS,
 } from '../../supabase/config-keys.js'
 
-const readFirstEnv = (keys) => {
+const coerceEnvValue = (value) => {
+  if (value === undefined || value === null) {
+    return undefined
+  }
+  const normalized = `${value}`.trim()
+  return normalized === '' ? undefined : normalized
+}
+
+const createEnvReaders = (context) => {
+  const readers = []
+
+  if (context?.env && typeof context.env === 'object') {
+    readers.push((key) => context.env?.[key])
+  }
+
+  if (typeof process !== 'undefined' && process.env && typeof process.env === 'object') {
+    readers.push((key) => process.env?.[key])
+  }
+
+  const netlifyEnv = typeof Netlify !== 'undefined' ? Netlify?.env : undefined
+  if (netlifyEnv) {
+    if (typeof netlifyEnv.get === 'function') {
+      readers.push((key) => netlifyEnv.get(key))
+    } else if (typeof netlifyEnv === 'object') {
+      readers.push((key) => netlifyEnv?.[key])
+    }
+  }
+
+  if (typeof Deno !== 'undefined' && typeof Deno.env?.get === 'function') {
+    readers.push((key) => Deno.env.get(key))
+  }
+
+  return readers
+}
+
+const readFirstEnv = (keys, readers) => {
   for (const key of keys) {
-    const value = process.env?.[key]
-    if (value !== undefined && value !== null && `${value}`.trim() !== '') {
-      return `${value}`.trim()
+    for (const reader of readers) {
+      const value = coerceEnvValue(reader(key))
+      if (value !== undefined) {
+        return value
+      }
     }
   }
   return ''
+}
+
+const describeAvailableKeys = (readers) => {
+  const describeKeys = (keys) =>
+    keys.filter((key) => readers.some((reader) => coerceEnvValue(reader(key)) !== undefined))
+  return {
+    urlKeys: describeKeys(SUPABASE_URL_KEYS),
+    anonKeys: describeKeys(SUPABASE_ANON_KEYS),
+    serviceRoleKeys: describeKeys(SUPABASE_SERVICE_ROLE_KEYS),
+    jwtKeys: describeKeys(SUPABASE_JWT_KEYS),
+  }
 }
 
 const buildCorsHeaders = () => ({
@@ -31,7 +80,7 @@ const buildJsonHeaders = () => ({
   ...buildCorsHeaders(),
 })
 
-export const handler = async (event) => {
+export const handler = async (event, context) => {
   if (event.httpMethod === 'OPTIONS') {
     logSupabaseDiagnosticInfo('netlify-function', 'Handled CORS preflight for Supabase config')
     return {
@@ -51,8 +100,9 @@ export const handler = async (event) => {
     }
   }
 
-  const url = readFirstEnv(SUPABASE_URL_KEYS)
-  const anonKey = readFirstEnv(SUPABASE_ANON_KEYS)
+  const envReaders = createEnvReaders(context)
+  const url = readFirstEnv(SUPABASE_URL_KEYS, envReaders)
+  const anonKey = readFirstEnv(SUPABASE_ANON_KEYS, envReaders)
 
   const configured = Boolean(url && anonKey)
   const body = {
@@ -80,7 +130,7 @@ export const handler = async (event) => {
       'Supabase credentials missing in Netlify environment',
       {
         ...body.missing,
-        available: describeSupabaseKeyPresence(process.env),
+        available: describeAvailableKeys(envReaders),
       }
     )
   }
