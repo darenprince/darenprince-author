@@ -86,9 +86,7 @@ function initSmartAppBanner() {
     root.style.setProperty('--smart-app-banner-height', `${banner.offsetHeight}px`)
   }
 
-  updateOffset()
-  window.requestAnimationFrame(updateOffset)
-  window.setTimeout(updateOffset, 200)
+  window.requestAnimationFrame(updateOffset);
 
   const resizeHandler = () => updateOffset()
   window.addEventListener('resize', resizeHandler)
