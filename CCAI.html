@@ -8,6 +8,290 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="assets/images/Crowncode/crowncode-fav.png" />
+  <style>
+    body.ccai-page {
+      --bg: linear-gradient(160deg, #17181a 0%, #242223 55%, #17181a 100%);
+      --grid: rgba(2, 72, 115, 0.18);
+      --panel: rgba(23, 24, 26, 0.94);
+      --outline: rgba(2, 72, 115, 0.45);
+      --accent: #024873;
+      --accent-strong: #024873;
+      --accent-dark: #012a46;
+      --accent-soft: rgba(2, 72, 115, 0.18);
+      --text-main: #e4e4e4;
+      --text-muted: rgba(228, 228, 228, 0.72);
+      --input-bg: rgba(23, 24, 26, 0.92);
+      --input-border: rgba(2, 72, 115, 0.55);
+      --cta-bg: #024873;
+      --cta-outline: rgba(2, 72, 115, 0.5);
+      --cta-text: #e4e4e4;
+      --shadow: 0 28px 48px rgba(1, 42, 70, 0.42);
+      --border-strong: rgba(2, 72, 115, 0.45);
+      --border-soft: rgba(1, 42, 70, 0.28);
+      --border-card: rgba(2, 72, 115, 0.32);
+      --border-glow: rgba(2, 72, 115, 0.48);
+      --panel-glass: rgba(23, 24, 26, 0.78);
+      --panel-soft: rgba(23, 24, 26, 0.86);
+      --glow-strong: rgba(2, 72, 115, 0.6);
+      --glow-soft: rgba(2, 72, 115, 0.18);
+      --toast-text: rgba(228, 228, 228, 0.85);
+      --color-primary: #012a46;
+      --color-primary-hover: #024873;
+      --color-bright: #024873;
+      --color-mint: rgba(2, 72, 115, 0.65);
+      --color-lime: rgba(2, 72, 115, 0.4);
+      --color-accent: #024873;
+      --color-border: rgba(2, 72, 115, 0.24);
+      --color-surface: rgba(23, 24, 26, 0.92);
+      --focus-ring: 0 0 0 3px rgba(2, 72, 115, 0.35);
+    }
+
+    .ccai-page .page-loader,
+    .ccai-page .brief-loader {
+      background: rgba(23, 24, 26, 0.94);
+    }
+
+    .ccai-page .loader-ring {
+      border: 2px solid rgba(2, 72, 115, 0.25);
+      border-top-color: #024873;
+    }
+
+    .ccai-page.grid-background::before {
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(2, 72, 115, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(1, 42, 70, 0.16), transparent 50%),
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    }
+
+    .ccai-page.grid-background::after {
+      background: radial-gradient(circle at center, rgba(23, 24, 26, 0) 0%, rgba(23, 24, 26, 0.85) 70%);
+    }
+
+    .ccai-page .btn-primary:hover {
+      box-shadow: 0 26px 46px rgba(2, 72, 115, 0.38);
+    }
+
+    .ccai-page .btn-secondary {
+      background: rgba(23, 24, 26, 0.75);
+      border-color: rgba(2, 72, 115, 0.45);
+      color: #e4e4e4;
+    }
+
+    .ccai-page .btn-secondary:hover {
+      background: rgba(2, 72, 115, 0.2);
+      border-color: rgba(2, 72, 115, 0.55);
+      color: #e4e4e4;
+    }
+
+    .ccai-page input:focus,
+    .ccai-page textarea:focus,
+    .ccai-page .token-input:focus {
+      box-shadow: 0 0 0 3px rgba(2, 72, 115, 0.28);
+    }
+
+    .ccai-page .cap-card {
+      background: linear-gradient(180deg, rgba(23, 24, 26, 0.92) 0%, rgba(23, 24, 26, 0.85) 100%);
+    }
+
+    .ccai-page .brief-header {
+      background: linear-gradient(90deg, rgba(2, 72, 115, 0.6), rgba(23, 24, 26, 0.95));
+      border-bottom: 1px solid rgba(2, 72, 115, 0.45);
+    }
+
+    .ccai-page .modal-backdrop {
+      background: rgba(23, 24, 26, 0.9);
+    }
+
+    .ccai-page .modal-panel {
+      background: rgba(23, 24, 26, 0.94);
+      box-shadow: 0 32px 64px rgba(1, 42, 70, 0.45);
+    }
+
+    .ccai-page .security-toast {
+      background: rgba(23, 24, 26, 0.95);
+      box-shadow: 0 24px 48px rgba(1, 42, 70, 0.38);
+    }
+
+    .ccai-page .warning-panel .warning-title {
+      color: #e4e4e4;
+    }
+
+    .hero-visual {
+      margin-top: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-visual img {
+      max-width: min(460px, 90vw);
+      width: 100%;
+      filter: drop-shadow(0 25px 50px rgba(1, 42, 70, 0.45));
+      border-radius: 28px;
+      border: 1px solid rgba(2, 72, 115, 0.3);
+      background: radial-gradient(circle at 20% 20%, rgba(2, 72, 115, 0.18), transparent 65%);
+      padding: 1.5rem;
+    }
+
+    .access-gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 24, 26, 0.96);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+      z-index: 999;
+    }
+
+    .access-gate-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .access-gate-panel {
+      width: min(420px, 92vw);
+      background: linear-gradient(155deg, rgba(23, 24, 26, 0.95), rgba(1, 42, 70, 0.85));
+      border: 1px solid rgba(2, 72, 115, 0.45);
+      border-radius: 32px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 30px 55px rgba(1, 42, 70, 0.45);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      transform: translateY(12px);
+    }
+
+    .access-gate-overlay.active .access-gate-panel {
+      transform: translateY(0);
+    }
+
+    .gate-header {
+      font-size: 1.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      color: #e4e4e4;
+    }
+
+    .gate-display {
+      font-family: "League Spartan", sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.28em;
+      color: rgba(228, 228, 228, 0.85);
+      background: rgba(23, 24, 26, 0.9);
+      border: 1px solid rgba(2, 72, 115, 0.55);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.75rem;
+      min-height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gate-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .keypad-key {
+      font-size: 1.4rem;
+      font-family: "League Spartan", sans-serif;
+      letter-spacing: 0.08em;
+      padding: 0.85rem 0;
+      border-radius: 18px;
+      border: 1px solid rgba(2, 72, 115, 0.4);
+      background: radial-gradient(circle at 50% -10%, rgba(2, 72, 115, 0.3), rgba(23, 24, 26, 0.92));
+      color: #e4e4e4;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .keypad-key:focus-visible,
+    .keypad-key:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(1, 42, 70, 0.45);
+      outline: none;
+    }
+
+    .keypad-key[data-keypad="submit"] {
+      background: linear-gradient(135deg, #012a46, #024873);
+      border-color: rgba(2, 72, 115, 0.55);
+    }
+
+    .keypad-key[data-keypad="clear"] {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .gate-status {
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 119, 119, 0.78);
+      min-height: 1.4rem;
+    }
+
+    .access-gate-overlay.error .access-gate-panel {
+      border-color: rgba(255, 119, 119, 0.65);
+      box-shadow: 0 35px 65px rgba(255, 84, 84, 0.28);
+    }
+
+    .access-gate-overlay.error .gate-display {
+      border-color: rgba(255, 119, 119, 0.5);
+      color: rgba(255, 199, 199, 0.8);
+    }
+
+    .access-gate-overlay.success .access-gate-panel {
+      border-color: rgba(2, 72, 115, 0.85);
+      background: linear-gradient(155deg, rgba(1, 42, 70, 0.95), rgba(2, 72, 115, 0.92));
+      box-shadow: 0 45px 80px rgba(1, 42, 70, 0.5);
+    }
+
+    .access-gate-overlay.success .gate-display {
+      border-color: rgba(2, 72, 115, 0.65);
+      color: #e4e4e4;
+    }
+
+    .access-gate-overlay.success .gate-status {
+      color: #e4e4e4;
+      animation: accessPulse 1.2s ease infinite;
+    }
+
+    .access-gate-overlay.success .keypad-key {
+      background: linear-gradient(145deg, #012a46, #024873);
+      border-color: rgba(2, 72, 115, 0.75);
+      color: #e4e4e4;
+      pointer-events: none;
+    }
+
+    @keyframes accessPulse {
+      0% {
+        opacity: 0.4;
+        letter-spacing: 0.12em;
+      }
+      50% {
+        opacity: 1;
+        letter-spacing: 0.26em;
+      }
+      100% {
+        opacity: 0.4;
+        letter-spacing: 0.12em;
+      }
+    }
+  </style>
 </head>
 <body class="ccai-page grid-background">
   <div class="page-loader" id="pageLoader" aria-hidden="true">
@@ -20,6 +304,28 @@
     <div class="loader-ring" aria-hidden="true"></div>
     <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai clearance loader" class="loader-logo" />
     <div class="loader-text">Authorizing Token</div>
+  </div>
+
+  <div class="access-gate-overlay" id="accessGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle" aria-hidden="true">
+    <div class="access-gate-panel">
+      <div class="gate-header" id="gateTitle">Enter Access Code</div>
+      <div class="gate-display" id="gateDisplay">ENTER CODE</div>
+      <div class="gate-keypad" role="group" aria-label="Secure numeric keypad">
+        <button type="button" class="keypad-key" data-keypad="1">1</button>
+        <button type="button" class="keypad-key" data-keypad="2">2</button>
+        <button type="button" class="keypad-key" data-keypad="3">3</button>
+        <button type="button" class="keypad-key" data-keypad="4">4</button>
+        <button type="button" class="keypad-key" data-keypad="5">5</button>
+        <button type="button" class="keypad-key" data-keypad="6">6</button>
+        <button type="button" class="keypad-key" data-keypad="7">7</button>
+        <button type="button" class="keypad-key" data-keypad="8">8</button>
+        <button type="button" class="keypad-key" data-keypad="9">9</button>
+        <button type="button" class="keypad-key" data-keypad="clear" aria-label="Clear access code">CLR</button>
+        <button type="button" class="keypad-key" data-keypad="0">0</button>
+        <button type="button" class="keypad-key" data-keypad="submit" aria-label="Submit access code">#</button>
+      </div>
+      <div class="gate-status" id="gateStatus" role="status" aria-live="polite"></div>
+    </div>
   </div>
 
   <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai chain badge" class="badge-watermark" />
@@ -46,6 +352,9 @@
           Contact Sales
         </a>
       </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai hero insignia" />
     </div>
   </header>
 
@@ -220,6 +529,7 @@
   <script>
     const ACCESS_TOKEN = "jagvov-8wyngy-sobpoK";
     const ACCESS_STORAGE_KEY = "ccai-brief-clearance";
+    const NUMERIC_PASSCODE = "640161869";
     const pageLoader = document.getElementById("pageLoader");
     const briefLoader = document.getElementById("briefLoader");
     const accessModal = document.getElementById("accessModal");
@@ -232,11 +542,102 @@
     const reportBreachBtn = document.getElementById("reportBreach");
     const proceedBriefBtn = document.getElementById("proceedBrief");
     const accessTriggers = document.querySelectorAll("[data-access-trigger]");
+    const accessGate = document.getElementById("accessGate");
+    const gateDisplay = document.getElementById("gateDisplay");
+    const gateStatus = document.getElementById("gateStatus");
+    const gateButtons = accessGate ? accessGate.querySelectorAll("[data-keypad]") : [];
     let toastTimer;
+    let gateInput = "";
+    let gateUnlocked = false;
+
+    function updateGateDisplay() {
+      if (!gateDisplay) return;
+      gateDisplay.textContent = gateInput ? gateInput.replace(/./g, "•") : "ENTER CODE";
+    }
+
+    function resetGateState() {
+      gateInput = "";
+      gateUnlocked = false;
+      if (gateStatus) {
+        gateStatus.textContent = "";
+      }
+      updateGateDisplay();
+      accessGate?.classList.remove("error", "success");
+    }
+
+    function grantGateAccess() {
+      gateUnlocked = true;
+      if (gateStatus) {
+        gateStatus.textContent = "Access Granted";
+      }
+      if (gateDisplay) {
+        gateDisplay.textContent = "ACCESS GRANTED";
+      }
+      if (accessGate) {
+        accessGate.classList.remove("error");
+        accessGate.classList.add("success");
+      }
+      setTimeout(() => {
+        if (accessGate) {
+          accessGate.classList.remove("active");
+          accessGate.setAttribute("aria-hidden", "true");
+        }
+        setBodyScrollLock(false);
+        setTimeout(() => {
+          if (accessGate) {
+            accessGate.classList.remove("success");
+          }
+          resetGateState();
+        }, 600);
+      }, 1100);
+    }
+
+    function handleGateInput(value) {
+      if (!accessGate || gateUnlocked) {
+        return;
+      }
+      accessGate.classList.remove("error");
+
+      if (value === "clear") {
+        resetGateState();
+        return;
+      }
+
+      if (value === "submit") {
+        if (gateInput === NUMERIC_PASSCODE) {
+          grantGateAccess();
+        } else {
+          accessGate.classList.add("error");
+          if (gateStatus) {
+            gateStatus.textContent = "Access Code Denied";
+          }
+          triggerSecurityNotice("Invalid access code");
+          setTimeout(() => accessGate && accessGate.classList.remove("error"), 900);
+        }
+        return;
+      }
+
+      if (gateInput.length < NUMERIC_PASSCODE.length) {
+        gateInput += value;
+        updateGateDisplay();
+      }
+    }
+
+    if (gateButtons.length) {
+      gateButtons.forEach((button) => {
+        button.addEventListener("click", () => handleGateInput(button.dataset.keypad));
+      });
+    }
 
     window.addEventListener("load", () => {
       setTimeout(() => {
         pageLoader.classList.add("hidden");
+        if (accessGate) {
+          updateGateDisplay();
+          accessGate.classList.add("active");
+          accessGate.setAttribute("aria-hidden", "false");
+          setBodyScrollLock(true);
+        }
       }, 650);
     });
 
