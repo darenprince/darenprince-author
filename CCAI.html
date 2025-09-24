@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrownCode.ai Intelligence Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070a06;
+      --grid: rgba(111, 162, 112, 0.12);
+      --panel: rgba(10, 15, 10, 0.9);
+      --outline: rgba(109, 166, 103, 0.35);
+      --accent: #6da667;
+      --accent-strong: #87bd72;
+      --accent-dark: #456f3a;
+      --accent-soft: #c2e9c1;
+      --text-main: #f2f7ef;
+      --text-muted: rgba(194, 233, 193, 0.78);
+      --input-bg: rgba(9, 14, 9, 0.92);
+      --input-border: rgba(118, 176, 118, 0.6);
+      --cta-bg: #6da667;
+      --cta-outline: rgba(120, 176, 118, 0.45);
+      --cta-text: #021303;
+      --shadow: 0 28px 48px rgba(7, 18, 7, 0.55);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "League Spartan", "Futura", "Helvetica", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      letter-spacing: 0.02em;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    .page-loader,
+    .brief-loader {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 10, 6, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 9999;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .page-loader.hidden,
+    .brief-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-logo {
+      width: 92px;
+      height: auto;
+      filter: drop-shadow(0 12px 24px rgba(135, 196, 140, 0.45));
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .loader-ring {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid rgba(111, 170, 118, 0.25);
+      border-top-color: var(--accent);
+      animation: rotate 1.35s linear infinite;
+    }
+
+    .loader-text {
+      font-size: 0.82rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .grid-background::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(135, 196, 140, 0.12), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(98, 167, 102, 0.1), transparent 50%),
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: cover, cover, 80px 80px, 80px 80px;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .grid-background::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(7, 10, 6, 0) 0%, rgba(7, 10, 6, 0.86) 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .badge-watermark {
+      position: fixed;
+      inset: auto 5vw 8vh auto;
+      max-width: 220px;
+      opacity: 0.14;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    header {
+      padding: 3rem 5vw 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      position: relative;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.4rem;
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      background: rgba(9, 13, 9, 0.82);
+      border-radius: 1rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .top-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: rgba(194, 233, 193, 0.78);
+    }
+
+    .top-brand::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(135, 196, 140, 0.6);
+    }
+
+    .top-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      background: rgba(12, 18, 12, 0.72);
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .top-login:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(109, 166, 103, 0.18);
+    }
+
+    .hero-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .main-logo {
+      width: clamp(140px, 18vw, 200px);
+      height: auto;
+      filter: drop-shadow(0 18px 45px rgba(135, 196, 140, 0.3));
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .classification-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      background: rgba(69, 111, 58, 0.18);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+    }
+
+    .classification-tag span {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(135, 196, 140, 0.7);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-subline {
+      max-width: 40rem;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.95rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-main);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid rgba(135, 196, 140, 0.45);
+      outline-offset: 4px;
+    }
+
+    .btn svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: var(--cta-text);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 26px 46px rgba(69, 111, 58, 0.35);
+    }
+
+    .btn-secondary {
+      border-color: var(--cta-outline);
+      color: var(--text-main);
+      background: rgba(11, 19, 11, 0.65);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(109, 166, 103, 0.18);
+      transform: translateY(-2px);
+    }
+
+    main {
+      flex: 1;
+      padding: 0 5vw 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    section {
+      position: relative;
+      padding: 2.5rem clamp(1.5rem, 5vw, 3.5rem);
+      border: 1px solid rgba(118, 176, 118, 0.4);
+      background: rgba(10, 15, 10, 0.88);
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 48px rgba(7, 18, 7, 0.4);
+      backdrop-filter: blur(16px);
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(135, 196, 140, 0.22);
+      mask: linear-gradient(90deg, rgba(7, 16, 7, 0.45) 0%, rgba(7, 16, 7, 0) 30%, rgba(7, 16, 7, 0) 70%, rgba(7, 16, 7, 0.45) 100%);
+      pointer-events: none;
+    }
+
+    section h2 {
+      margin-top: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    .about-text p {
+      margin: 0 0 1rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cap-card {
+      padding: 1.6rem;
+      border-radius: 1.1rem;
+      background: linear-gradient(180deg, rgba(12, 19, 12, 0.92) 0%, rgba(9, 14, 9, 0.85) 100%);
+      border: 1px solid rgba(118, 176, 118, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cap-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px dashed rgba(135, 196, 140, 0.22);
+      pointer-events: none;
+    }
+
+    .cap-icon {
+      width: 2.2rem;
+      height: 2.2rem;
+      color: var(--accent);
+    }
+
+    .cap-card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cap-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .inquiry-form {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      gap: 0.75rem;
+    }
+
+    label span {
+      font-weight: 600;
+    }
+
+    input, textarea {
+      padding: 1rem 1.2rem;
+      border-radius: 0.9rem;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(135, 196, 140, 0.25);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: var(--cta-text);
+      box-shadow: var(--shadow);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .cta-strip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      text-align: center;
+      border-style: dashed;
+      border-color: rgba(118, 176, 118, 0.5);
+      background: rgba(69, 111, 58, 0.18);
+    }
+
+    .cta-strip h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 3rem 5vw 4rem;
+      color: rgba(194, 233, 193, 0.72);
+      font-size: 0.85rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    footer::before {
+      content: "CHAIN ID: CROWN-CODE-709B";
+      display: block;
+      margin-bottom: 1.2rem;
+      font-size: 0.7rem;
+      color: rgba(135, 196, 140, 0.6);
+      letter-spacing: 0.35em;
+    }
+
+    footer .contact {
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(118, 176, 118, 0.45);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 10, 6, 0.92);
+      backdrop-filter: blur(24px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 9998;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-panel {
+      width: min(440px, 100%);
+      background: rgba(10, 15, 10, 0.94);
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      border-radius: 1.25rem;
+      padding: 2.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 32px 64px rgba(7, 18, 7, 0.5);
+      position: relative;
+    }
+
+    .modal-panel h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+
+    .modal-panel p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .modal-panel label {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      gap: 0.65rem;
+    }
+
+    .token-input {
+      padding: 1rem 1.2rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(118, 176, 118, 0.55);
+      background: rgba(11, 16, 11, 0.92);
+      color: var(--text-main);
+      letter-spacing: 0.14em;
+      font-size: 1rem;
+      text-transform: lowercase;
+    }
+
+    .token-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(135, 196, 140, 0.28);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-note {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(194, 233, 193, 0.68);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: transparent;
+      border: 1px solid rgba(118, 176, 118, 0.4);
+      color: var(--text-muted);
+      border-radius: 999px;
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .token-error {
+      color: #f58d8d;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+    }
+
+    .warning-panel {
+      text-align: center;
+      gap: 1.8rem;
+    }
+
+    .warning-title {
+      font-size: 1.35rem;
+      color: #f5c56e;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .warning-panel strong {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+    }
+
+    .warning-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .warning-actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .brief-shell {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 0 5vw 4rem;
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      border-radius: 1.75rem;
+      overflow: hidden;
+      background: rgba(10, 15, 10, 0.9);
+      box-shadow: 0 32px 66px rgba(7, 18, 7, 0.5);
+    }
+
+    .brief-shell.active {
+      display: flex;
+    }
+
+    .brief-header {
+      background: linear-gradient(90deg, rgba(69, 111, 58, 0.6), rgba(8, 13, 8, 0.95));
+      padding: 1.8rem clamp(1.5rem, 4vw, 3rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      border-bottom: 1px solid rgba(118, 176, 118, 0.35);
+    }
+
+    .brief-header h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    .brief-header .brief-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .brief-content {
+      padding: clamp(1.8rem, 4vw, 3rem);
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .brief-content h4 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .brief-content p,
+    .brief-content li {
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .brief-content ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .security-toast {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      background: rgba(11, 17, 11, 0.95);
+      border: 1px solid rgba(118, 176, 118, 0.45);
+      border-radius: 1rem;
+      padding: 1rem 1.4rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(194, 233, 193, 0.85);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(12px);
+      z-index: 9999;
+    }
+
+    .security-toast.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-badge {
+      margin-top: 1.8rem;
+      max-width: 160px;
+      opacity: 0.42;
+      display: block;
+    }
+
+    @keyframes rotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 2.8rem 6vw 3rem;
+      }
+
+      .hero-topline {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .hero-topline .classification-tag {
+        justify-content: center;
+      }
+
+      .brief-shell {
+        margin: 0 6vw 3rem;
+      }
+
+      .brief-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .brief-header .brief-meta {
+        text-align: left;
+        align-items: flex-start;
+      }
+
+      main {
+        padding: 0 6vw 5rem;
+      }
+
+      section {
+        padding: 2.2rem clamp(1rem, 6vw, 2.5rem);
+      }
+
+      .cta-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .security-toast {
+        right: 50%;
+        transform: translate(50%, 12px);
+      }
+
+      .security-toast.active {
+        transform: translate(50%, 0);
+      }
+    }
+  </style>
+</head>
+<body class="grid-background">
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-ring" aria-hidden="true"></div>
+    <img src="assets/images/Crowncode/3D002D9C-FCF0-4687-8FFD-88D49FC4F895.png" alt="CrownCode.ai animated insignia" class="loader-logo" />
+    <div class="loader-text">Initializing Secure Node</div>
+  </div>
+
+  <div class="brief-loader hidden" id="briefLoader" aria-hidden="true">
+    <div class="loader-ring" aria-hidden="true"></div>
+    <img src="assets/images/Crowncode/3D002D9C-FCF0-4687-8FFD-88D49FC4F895.png" alt="CrownCode.ai clearance loader" class="loader-logo" />
+    <div class="loader-text">Authorizing Token</div>
+  </div>
+
+  <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai chain badge" class="badge-watermark" />
+
+  <header id="hero">
+    <div class="top-bar">
+      <div class="top-brand">CrownCode.ai</div>
+      <a class="top-login" href="login.html">Login</a>
+    </div>
+    <div class="hero-topline">
+      <img src="assets/images/Crowncode/3D002D9C-FCF0-4687-8FFD-88D49FC4F895.png" alt="CrownCode.ai primary insignia" class="main-logo" />
+      <div class="classification-tag"><span></span> Authorized Access Only</div>
+    </div>
+    <div class="hero-copy">
+      <h1>CrownCode.ai Intelligence Systems</h1>
+      <p class="hero-subline">Advanced Behavioral, Forensic, and OSINT Modules — Authorized Access Only.</p>
+      <div class="cta-group">
+        <button class="btn btn-primary access-trigger" type="button" data-access-trigger>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18"/><path d="M7 5v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5"/><path d="M10 5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2"/></svg>
+          Access The Brief
+        </button>
+        <a class="btn btn-secondary" href="mailto:sales@crowncode.ai">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10h-6"/><path d="M21 6H11a4 4 0 0 0-4 4v10"/><path d="m3 10 7 7 4-4 7 7"/></svg>
+          Contact Sales
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <h2>(U) About CrownCode.ai</h2>
+      <div class="about-text">
+        <p>(U) CrownCode.ai provides advanced behavioral, forensic, and OSINT intelligence systems.</p>
+        <p>(U) Trusted by investigators, analysts, and decision-makers where clarity and truth are critical.</p>
+      </div>
+    </section>
+
+    <section id="capabilities">
+      <h2>(U) Capabilities Snapshot</h2>
+      <div class="capabilities-grid">
+        <article class="cap-card">
+          <svg class="cap-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M14.31 8a4 4 0 0 1 1.69 3.31"/><path d="M9.69 16A4 4 0 0 1 8 12.69"/><path d="M9.34 6.67A4 4 0 0 1 12 8h0"/><path d="M14.66 17.33A4 4 0 0 1 12 16h0"/></svg>
+          <h3>Behavioral Profiling</h3>
+          <p>Pattern extraction and persona inference to support decision advantage.</p>
+        </article>
+        <article class="cap-card">
+          <svg class="cap-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12v4"/><path d="M9 12h6"/><path d="M6 12h.01"/><path d="M18 12h.01"/><path d="M3 12h.01"/><path d="M21 12h.01"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M4.22 4.22l.7.7"/><path d="M19.08 19.08l.7.7"/><path d="M1 1l22 22"/></svg>
+          <h3>Forensic Scene Analysis</h3>
+          <p>Multi-source parsing and chain-of-custody ready outputs.</p>
+        </article>
+        <article class="cap-card">
+          <svg class="cap-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 6 7 3-7 3-7-3 7-3Z"/><path d="m19 9 2 .86c.63.27 1 .88 1 1.56v2.07"/><path d="M3 12.43v-2.07c0-.68.37-1.29 1-1.56L6 8.38"/><path d="m12 12 7 3-7 3-7-3"/><path d="m5 15-2 .86c-.63.27-1 .88-1 1.56v2.07"/><path d="M21 19.57v-2.07c0-.68-.37-1.29-1-1.56L18 15.62"/></svg>
+          <h3>OSINT Fusion</h3>
+          <p>Cross-platform aggregation with provenance and confidence scoring.</p>
+        </article>
+        <article class="cap-card">
+          <svg class="cap-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8"/><path d="M3 8v8"/><path d="M7 4h10"/><path d="m7 20 10-4"/><path d="M7 4v16"/><path d="M17 4v16"/></svg>
+          <h3>Deception Detection</h3>
+          <p>Linguistic and multimodal indicators for intent and anomaly detection.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="inquiry">
+      <h2>(U) Inquiry Form</h2>
+      <form class="inquiry-form" action="#" method="post">
+        <label>
+          <span>(U) Name</span>
+          <input type="text" name="name" placeholder="Your Name" required />
+        </label>
+        <label>
+          <span>(U) Email</span>
+          <input type="email" name="email" placeholder="name@organization.com" required />
+        </label>
+        <label>
+          <span>(U) Organization</span>
+          <input type="text" name="organization" placeholder="Organization" />
+        </label>
+        <label>
+          <span>(U) Message</span>
+          <textarea name="message" placeholder="Brief inquiry..." required></textarea>
+        </label>
+        <button type="submit" class="btn submit-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2Z"/></svg>
+          Secure Submit
+        </button>
+      </form>
+    </section>
+
+    <section class="cta-strip">
+      <h3>Clearance Gate</h3>
+      <div class="cta-group">
+        <button class="btn btn-primary access-trigger" type="button" data-access-trigger>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18"/><path d="M7 5v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5"/><path d="M10 5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2"/></svg>
+          Access The Brief
+        </button>
+        <a class="btn btn-secondary" href="mailto:sales@crowncode.ai">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10h-6"/><path d="M21 6H11a4 4 0 0 0-4 4v10"/><path d="m3 10 7 7 4-4 7 7"/></svg>
+          Contact Sales
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <section class="brief-shell" id="briefShell" aria-hidden="true">
+    <div class="brief-header">
+      <h3>(TS//SI) CrownCode.ai Operational Brief</h3>
+      <div class="brief-meta">
+        <span>Access Level: Restricted</span>
+        <span>No Download | No Capture</span>
+      </div>
+    </div>
+    <div class="brief-content" id="briefDocument">
+      <div>
+        <h4>1. Mission Summary</h4>
+        <p>CrownCode.ai establishes secure intelligence systems engineered for agencies, investigators, and analysts who demand clarity under pressure. The landing experience must communicate an authoritative, high-trust perimeter that signals classified control while directing visitors toward clearance pathways.</p>
+      </div>
+      <div>
+        <h4>2. Structural Layout</h4>
+        <ul>
+          <li>One-page scroll with anchored segments covering Hero, About, Capabilities Snapshot, Inquiry Form, CTA Strip, and Footer.</li>
+          <li>Navigation remains directive and minimal, relying on scroll anchors instead of a full navigation bar.</li>
+          <li>Each block reinforces restricted-access positioning and funnels to the inquiry or brief access gates.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>3. Visual Doctrine</h4>
+        <ul>
+          <li>Primary palette anchored in charcoal <code>#070A06</code> with gradients of brand greens <code>#456F3A</code>, <code>#6DA667</code>, <code>#87BD72</code>, and <code>#C2E9C1</code>.</li>
+          <li>Typography leverages League Spartan, Futura, and Helvetica Now in bold, directive weights.</li>
+          <li>Interface motifs include classification banners, matrix overlays, clearance locks, and forensic gridlines.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>4. Interaction Protocols</h4>
+        <ul>
+          <li>Primary CTA: <strong>Access The Brief</strong> — solid green accent leading to clearance validation.</li>
+          <li>Secondary CTA: <strong>Contact Sales</strong> — outlined presentation for formal outreach.</li>
+          <li>Inquiry form fields: Name, Email, Organization, Message. Labels include portion marks such as <em>(U)</em> to reinforce classification.</li>
+          <li>Form submission button labeled <strong>Secure Submit</strong> with audit-trace styling.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>5. Capability Snapshot</h4>
+        <ul>
+          <li>Behavioral Profiling — persona inference for decisive actioning.</li>
+          <li>Forensic Scene Analysis — multi-source parsing ready for chain-of-custody.</li>
+          <li>OSINT Fusion — cross-platform aggregation with provenance scoring.</li>
+          <li>Deception Detection — linguistic and multimodal anomaly exposure.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>6. Compliance Notices</h4>
+        <p>Distribution of this material is restricted. Capture attempts including download, screen recording, or screenshotting are prohibited. Activity is monitored, tagged, and subject to enforcement escalation.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="accessModal" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+    <form class="modal-panel" id="accessForm">
+      <button type="button" class="modal-close" data-modal-close aria-label="Close access modal">&times;</button>
+      <h3 id="accessTitle">Clearance Token Required</h3>
+      <p>Authenticate with the issued CrownCode.ai token. Unauthorized entry attempts trigger alerting.</p>
+      <label>
+        <span>(U) Access Token</span>
+        <input type="password" class="token-input" id="tokenInput" name="token" autocomplete="off" inputmode="text" placeholder="token format: xxx-xxxxx-xxxxx" required />
+      </label>
+      <div class="token-error" id="tokenError" role="alert" aria-live="assertive"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Authorize Access</button>
+      </div>
+      <div class="modal-note">All access attempts are recorded.</div>
+    </form>
+  </div>
+
+  <div class="modal-overlay" id="warningModal" role="alertdialog" aria-modal="true" aria-labelledby="warningTitle">
+    <div class="modal-panel warning-panel">
+      <button type="button" class="modal-close" data-modal-close aria-label="Close warning modal">&times;</button>
+      <div class="warning-title" id="warningTitle">⚠️ Final Warning ⚠️</div>
+      <p>This system and its proprietary technologies are protected by federal law, cybersecurity enforcement logic, and hardlocked chain protocols. Attempted misuse will result in audit trace tagging, lockout enforcement, and legal consequence.</p>
+      <strong>If you have reached this point without authorization: Cease reading. Destroy this file. Report the incident immediately.</strong>
+      <div class="warning-actions">
+        <button type="button" class="btn btn-secondary" id="reportBreach">Report Breach</button>
+        <button type="button" class="btn btn-primary" id="proceedBrief">Proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="security-toast" id="securityToast" role="status" aria-live="assertive"></div>
+
+  <footer>
+    <div class="contact">Contact: <a href="mailto:sales@crowncode.ai">sales@crowncode.ai</a></div>
+    <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai badge" class="footer-badge" />
+  </footer>
+
+  <script>
+    const ACCESS_TOKEN = "jagvov-8wyngy-sobpoK";
+    const ACCESS_STORAGE_KEY = "ccai-brief-clearance";
+    const pageLoader = document.getElementById("pageLoader");
+    const briefLoader = document.getElementById("briefLoader");
+    const accessModal = document.getElementById("accessModal");
+    const warningModal = document.getElementById("warningModal");
+    const tokenInput = document.getElementById("tokenInput");
+    const tokenError = document.getElementById("tokenError");
+    const accessForm = document.getElementById("accessForm");
+    const briefShell = document.getElementById("briefShell");
+    const securityToast = document.getElementById("securityToast");
+    const reportBreachBtn = document.getElementById("reportBreach");
+    const proceedBriefBtn = document.getElementById("proceedBrief");
+    const accessTriggers = document.querySelectorAll("[data-access-trigger]");
+    let toastTimer;
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        pageLoader.classList.add("hidden");
+      }, 650);
+    });
+
+    if (sessionStorage.getItem(ACCESS_STORAGE_KEY) === "verified") {
+      briefShell.classList.add("active");
+      briefShell.setAttribute("aria-hidden", "false");
+    }
+
+    function triggerSecurityNotice(message) {
+      securityToast.textContent = message;
+      securityToast.classList.add("active");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        securityToast.classList.remove("active");
+      }, 3000);
+    }
+
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      triggerSecurityNotice("Context capture blocked");
+    });
+
+    document.addEventListener("copy", (event) => {
+      event.preventDefault();
+      triggerSecurityNotice("Copy action prevented");
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const blockedCombos = (
+        (event.ctrlKey || event.metaKey) && ["s", "p", "u", "c", "x"].includes(event.key.toLowerCase())
+      ) ||
+      event.key === "PrintScreen" ||
+      event.key === "F12" ||
+      (event.ctrlKey && event.shiftKey && ["i", "j", "c"].includes(event.key.toLowerCase()));
+
+      if (blockedCombos) {
+        event.preventDefault();
+        triggerSecurityNotice("Capture attempt intercepted");
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      if (event.key === "PrintScreen") {
+        triggerSecurityNotice("Screenshot attempt logged");
+      }
+    });
+
+    function setBodyScrollLock(lock) {
+      document.body.classList.toggle("no-scroll", lock);
+    }
+
+    function openAccessModal() {
+      accessModal.classList.add("active");
+      setBodyScrollLock(true);
+      setTimeout(() => tokenInput.focus(), 100);
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove("active");
+      if (!accessModal.classList.contains("active") && !warningModal.classList.contains("active")) {
+        setBodyScrollLock(false);
+      }
+    }
+
+    function handleAccessTrigger() {
+      if (sessionStorage.getItem(ACCESS_STORAGE_KEY) === "verified") {
+        warningModal.classList.add("active");
+        setBodyScrollLock(true);
+      } else {
+        openAccessModal();
+      }
+    }
+
+    function showBriefLoader() {
+      setBodyScrollLock(true);
+      briefLoader.classList.remove("hidden");
+      setTimeout(() => {
+        briefLoader.classList.add("hidden");
+        warningModal.classList.add("active");
+      }, 1200);
+    }
+
+    function revealBrief() {
+      warningModal.classList.remove("active");
+      briefShell.classList.add("active");
+      briefShell.setAttribute("aria-hidden", "false");
+      sessionStorage.setItem(ACCESS_STORAGE_KEY, "verified");
+      setBodyScrollLock(false);
+      setTimeout(() => {
+        briefShell.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+
+    accessTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", handleAccessTrigger);
+    });
+
+    document.querySelectorAll("[data-modal-close]").forEach((button) => {
+      button.addEventListener("click", () => {
+        closeModal(button.closest(".modal-overlay"));
+      });
+    });
+
+    accessModal.addEventListener("click", (event) => {
+      if (event.target === accessModal) {
+        closeModal(accessModal);
+      }
+    });
+
+    warningModal.addEventListener("click", (event) => {
+      if (event.target === warningModal) {
+        closeModal(warningModal);
+      }
+    });
+
+    accessForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const suppliedToken = tokenInput.value.trim();
+      if (suppliedToken === ACCESS_TOKEN) {
+        tokenError.textContent = "";
+        closeModal(accessModal);
+        showBriefLoader();
+        accessForm.reset();
+      } else {
+        tokenError.textContent = "Token invalid. Incident flagged.";
+        triggerSecurityNotice("Invalid token attempt");
+      }
+    });
+
+    proceedBriefBtn.addEventListener("click", () => {
+      revealBrief();
+    });
+
+    reportBreachBtn.addEventListener("click", () => {
+      window.location.href = "mailto:security@crowncode.ai?subject=CrownCode.ai%20Breach%20Report&body=Describe%20the%20incident%20for%20immediate%20review.";
+    });
+  </script>
+</body>
+</html>
