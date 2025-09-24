@@ -184,8 +184,8 @@
 
     .gate-display {
       font-family: "League Spartan", sans-serif;
-      font-size: 1.9rem;
-      letter-spacing: 0.28em;
+      font-size: 1.65rem;
+      letter-spacing: 0.22em;
       color: rgba(228, 228, 228, 0.85);
       background: rgba(23, 24, 26, 0.9);
       border: 1px solid rgba(2, 72, 115, 0.55);
@@ -206,13 +206,13 @@
     }
 
     .keypad-key {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-family: "League Spartan", sans-serif;
       letter-spacing: 0.08em;
       padding: 0.85rem 0;
       border-radius: 18px;
       border: 1px solid rgba(2, 72, 115, 0.4);
-      background: radial-gradient(circle at 50% -10%, rgba(2, 72, 115, 0.3), rgba(23, 24, 26, 0.92));
+      background: radial-gradient(circle at 50% 20%, rgba(72, 72, 76, 0.35), rgba(10, 10, 12, 0.95));
       color: #e4e4e4;
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
@@ -221,13 +221,14 @@
     .keypad-key:focus-visible,
     .keypad-key:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(1, 42, 70, 0.45);
+      box-shadow: 0 12px 24px rgba(3, 8, 14, 0.6);
       outline: none;
+      background: radial-gradient(circle at 50% 10%, rgba(96, 96, 102, 0.4), rgba(8, 8, 10, 0.92));
     }
 
     .keypad-key[data-keypad="submit"] {
-      background: linear-gradient(135deg, #012a46, #024873);
-      border-color: rgba(2, 72, 115, 0.55);
+      background: radial-gradient(circle at 50% 18%, rgba(92, 92, 98, 0.45), rgba(6, 6, 8, 0.96));
+      border-color: rgba(40, 124, 168, 0.55);
     }
 
     .keypad-key[data-keypad="clear"] {
@@ -237,7 +238,7 @@
     }
 
     .gate-status {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: rgba(255, 119, 119, 0.78);
@@ -271,24 +272,24 @@
     }
 
     .access-gate-overlay.success .keypad-key {
-      background: linear-gradient(145deg, #012a46, #024873);
-      border-color: rgba(2, 72, 115, 0.75);
+      background: radial-gradient(circle at 50% 18%, rgba(110, 110, 118, 0.45), rgba(12, 14, 18, 0.95));
+      border-color: rgba(40, 124, 168, 0.75);
       color: #e4e4e4;
       pointer-events: none;
     }
 
     @keyframes accessPulse {
       0% {
-        opacity: 0.4;
-        letter-spacing: 0.12em;
+        opacity: 0.7;
+        letter-spacing: 0.14em;
       }
       50% {
-        opacity: 1;
-        letter-spacing: 0.26em;
+        opacity: 0.95;
+        letter-spacing: 0.18em;
       }
       100% {
-        opacity: 0.4;
-        letter-spacing: 0.12em;
+        opacity: 0.7;
+        letter-spacing: 0.14em;
       }
     }
   </style>
