@@ -6,140 +6,553 @@
   <title>CrownCode.ai Intelligence Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
-  <link rel="icon" type="image/png" href="assets/images/Crowncode/crowncode-fav.png" />
+  <link rel="icon" type="image/png" href="assets/images/Crowncode/icons/favicon.ico" />
   <style>
     body.ccai-page {
-      --bg: linear-gradient(160deg, #17181a 0%, #242223 55%, #17181a 100%);
-      --grid: rgba(2, 72, 115, 0.18);
-      --panel: rgba(23, 24, 26, 0.94);
-      --outline: rgba(2, 72, 115, 0.45);
-      --accent: #024873;
-      --accent-strong: #024873;
-      --accent-dark: #012a46;
-      --accent-soft: rgba(2, 72, 115, 0.18);
-      --text-main: #e4e4e4;
-      --text-muted: rgba(228, 228, 228, 0.72);
-      --input-bg: rgba(23, 24, 26, 0.92);
-      --input-border: rgba(2, 72, 115, 0.55);
-      --cta-bg: #024873;
-      --cta-outline: rgba(2, 72, 115, 0.5);
-      --cta-text: #e4e4e4;
-      --shadow: 0 28px 48px rgba(1, 42, 70, 0.42);
-      --border-strong: rgba(2, 72, 115, 0.45);
-      --border-soft: rgba(1, 42, 70, 0.28);
-      --border-card: rgba(2, 72, 115, 0.32);
-      --border-glow: rgba(2, 72, 115, 0.48);
-      --panel-glass: rgba(23, 24, 26, 0.78);
-      --panel-soft: rgba(23, 24, 26, 0.86);
-      --glow-strong: rgba(2, 72, 115, 0.6);
-      --glow-soft: rgba(2, 72, 115, 0.18);
-      --toast-text: rgba(228, 228, 228, 0.85);
-      --color-primary: #012a46;
-      --color-primary-hover: #024873;
-      --color-bright: #024873;
-      --color-mint: rgba(2, 72, 115, 0.65);
-      --color-lime: rgba(2, 72, 115, 0.4);
-      --color-accent: #024873;
-      --color-border: rgba(2, 72, 115, 0.24);
-      --color-surface: rgba(23, 24, 26, 0.92);
-      --focus-ring: 0 0 0 3px rgba(2, 72, 115, 0.35);
+      --bg: linear-gradient(165deg, #040b14 0%, #0d1f33 45%, #123654 100%);
+      --grid: rgba(30, 82, 130, 0.18);
+      --panel: rgba(7, 16, 28, 0.95);
+      --outline: rgba(44, 124, 201, 0.55);
+      --accent: #1b5cff;
+      --accent-strong: #1243b3;
+      --accent-dark: #0a2d6a;
+      --accent-soft: rgba(36, 110, 189, 0.2);
+      --text-main: #eaf3ff;
+      --text-muted: rgba(177, 207, 244, 0.78);
+      --input-bg: rgba(6, 18, 32, 0.94);
+      --input-border: rgba(58, 134, 211, 0.55);
+      --cta-bg: #1b5cff;
+      --cta-outline: rgba(58, 134, 211, 0.6);
+      --cta-text: #ffffff;
+      --shadow: 0 28px 48px rgba(5, 19, 36, 0.6);
+      --border-strong: rgba(58, 134, 211, 0.55);
+      --border-soft: rgba(21, 59, 102, 0.32);
+      --border-card: rgba(58, 134, 211, 0.38);
+      --border-glow: rgba(46, 118, 201, 0.55);
+      --panel-glass: rgba(6, 18, 32, 0.82);
+      --panel-soft: rgba(6, 18, 32, 0.9);
+      --glow-strong: rgba(58, 134, 211, 0.62);
+      --glow-soft: rgba(58, 134, 211, 0.2);
+      --toast-text: rgba(188, 216, 250, 0.88);
+      --color-primary: #1243b3;
+      --color-primary-hover: #2d7dff;
+      --color-bright: #4a9bff;
+      --color-mint: rgba(90, 163, 255, 0.65);
+      --color-lime: rgba(133, 188, 255, 0.4);
+      --color-accent: #1b5cff;
+      --color-border: rgba(58, 134, 211, 0.28);
+      --color-surface: rgba(6, 18, 32, 0.92);
+      --focus-ring: 0 0 0 3px rgba(58, 134, 211, 0.42);
+      font-family: "Rubik", sans-serif;
+      background-color: #030b14;
     }
 
     .ccai-page .page-loader,
     .ccai-page .brief-loader {
-      background: rgba(23, 24, 26, 0.94);
+      background: rgba(3, 11, 20, 0.96);
+      backdrop-filter: blur(8px);
     }
 
-    .ccai-page .loader-ring {
-      border: 2px solid rgba(2, 72, 115, 0.25);
-      border-top-color: #024873;
+    .ccai-page .brief-loader {
+      background: rgba(6, 18, 32, 0.94);
+    }
+
+    .flip-loader {
+      width: 64px;
+      height: 64px;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(29, 92, 255, 0.95), rgba(74, 155, 255, 0.85));
+      box-shadow: 0 20px 45px rgba(5, 19, 36, 0.65);
+      animation: flipX 1.15s linear infinite;
+    }
+
+    @keyframes flipX {
+      0% {
+        transform: perspective(260px) rotateX(0deg) rotateY(0deg);
+      }
+      50% {
+        transform: perspective(260px) rotateX(-180deg) rotateY(0deg);
+      }
+      100% {
+        transform: perspective(260px) rotateX(-180deg) rotateY(-180deg);
+      }
+    }
+
+    .lock-loader {
+      width: 64px;
+      height: 44px;
+      position: relative;
+      border: 5px solid #4a9bff;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    .lock-loader::before {
+      content: "";
+      position: absolute;
+      border: 5px solid #4a9bff;
+      width: 32px;
+      height: 28px;
+      border-radius: 50% 50% 0 0;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, -100%);
+    }
+
+    .lock-loader::after {
+      content: "";
+      position: absolute;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #4a9bff;
+      box-shadow: 16px 0 #4a9bff, -16px 0 #4a9bff;
+      animation: lockFlash 0.5s ease-out infinite alternate;
+    }
+
+    @keyframes lockFlash {
+      0% {
+        background-color: rgba(74, 155, 255, 0.25);
+        box-shadow: 16px 0 rgba(74, 155, 255, 0.25), -16px 0 rgba(74, 155, 255, 1);
+      }
+      50% {
+        background-color: rgba(74, 155, 255, 1);
+        box-shadow: 16px 0 rgba(74, 155, 255, 0.25), -16px 0 rgba(74, 155, 255, 0.25);
+      }
+      100% {
+        background-color: rgba(74, 155, 255, 0.25);
+        box-shadow: 16px 0 rgba(74, 155, 255, 1), -16px 0 rgba(74, 155, 255, 0.25);
+      }
     }
 
     .ccai-page.grid-background::before {
       background-image:
-        radial-gradient(circle at 20% 20%, rgba(2, 72, 115, 0.18), transparent 55%),
-        radial-gradient(circle at 80% 10%, rgba(1, 42, 70, 0.16), transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(74, 155, 255, 0.22), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(18, 67, 179, 0.18), transparent 50%),
         linear-gradient(var(--grid) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     }
 
     .ccai-page.grid-background::after {
-      background: radial-gradient(circle at center, rgba(23, 24, 26, 0) 0%, rgba(23, 24, 26, 0.85) 70%);
+      background: radial-gradient(circle at center, rgba(6, 18, 32, 0) 0%, rgba(6, 18, 32, 0.86) 70%);
+    }
+
+    .ccai-page .btn {
+      font-family: "Rubik", sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .ccai-page .btn-primary {
+      background: var(--cta-bg);
+      color: var(--cta-text);
+      border: 1px solid var(--cta-outline);
+      box-shadow: 0 18px 42px rgba(13, 39, 75, 0.65);
     }
 
     .ccai-page .btn-primary:hover {
-      box-shadow: 0 26px 46px rgba(2, 72, 115, 0.38);
+      box-shadow: 0 26px 48px rgba(13, 39, 75, 0.78);
+      background: var(--color-primary-hover);
     }
 
     .ccai-page .btn-secondary {
-      background: rgba(23, 24, 26, 0.75);
-      border-color: rgba(2, 72, 115, 0.45);
-      color: #e4e4e4;
+      background: rgba(27, 92, 255, 0.82);
+      border-color: rgba(74, 155, 255, 0.65);
+      color: #ffffff;
+      box-shadow: 0 18px 42px rgba(13, 39, 75, 0.55);
     }
 
     .ccai-page .btn-secondary:hover {
-      background: rgba(2, 72, 115, 0.2);
-      border-color: rgba(2, 72, 115, 0.55);
-      color: #e4e4e4;
+      background: rgba(45, 125, 255, 0.92);
+      border-color: rgba(135, 188, 255, 0.85);
+      color: #ffffff;
+    }
+
+    .ccai-page .submit-btn {
+      background: rgba(27, 92, 255, 0.88);
+      border: 1px solid rgba(74, 155, 255, 0.65);
+      color: #ffffff;
+      box-shadow: 0 20px 42px rgba(10, 37, 74, 0.55);
+    }
+
+    .ccai-page .submit-btn:hover {
+      background: rgba(45, 125, 255, 0.98);
+      border-color: rgba(135, 188, 255, 0.9);
+      color: #ffffff;
     }
 
     .ccai-page input:focus,
     .ccai-page textarea:focus,
     .ccai-page .token-input:focus {
-      box-shadow: 0 0 0 3px rgba(2, 72, 115, 0.28);
+      box-shadow: var(--focus-ring);
     }
 
     .ccai-page .cap-card {
-      background: linear-gradient(180deg, rgba(23, 24, 26, 0.92) 0%, rgba(23, 24, 26, 0.85) 100%);
+      background: linear-gradient(180deg, rgba(6, 18, 32, 0.92) 0%, rgba(8, 28, 52, 0.88) 100%);
+      border: 1px solid rgba(74, 155, 255, 0.25);
+    }
+
+    .ccai-page .cap-card h3 {
+      color: #eaf3ff;
+    }
+
+    .ccai-page .cap-card p {
+      color: rgba(177, 207, 244, 0.78);
+    }
+
+    .ccai-page .cap-icon {
+      color: #4a9bff;
+    }
+
+    .ccai-page section h2,
+    .ccai-page section h3,
+    .ccai-page section h4 {
+      color: #eaf3ff;
+    }
+
+    .ccai-page section p,
+    .ccai-page section li {
+      color: rgba(177, 207, 244, 0.82);
+    }
+
+    .ccai-page section li::marker {
+      color: #4a9bff;
+    }
+
+    .ccai-page form label span {
+      color: rgba(177, 207, 244, 0.75);
+    }
+
+    .ccai-page input,
+    .ccai-page textarea,
+    .ccai-page .token-input {
+      background: rgba(6, 18, 32, 0.88);
+      border: 1px solid rgba(74, 155, 255, 0.45);
+      color: #eaf3ff;
+    }
+
+    .ccai-page input::placeholder,
+    .ccai-page textarea::placeholder {
+      color: rgba(133, 188, 255, 0.45);
+    }
+
+    .ccai-page footer {
+      background: rgba(3, 11, 20, 0.95);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: #eaf3ff;
+      border-top: 1px solid rgba(58, 134, 211, 0.32);
+    }
+
+    .ccai-page footer a {
+      color: #4a9bff;
+    }
+
+    .ccai-page .footer-badge {
+      display: block;
+      width: min(200px, 100%);
+      margin: 1.75rem auto 0;
+      filter: drop-shadow(0 18px 45px rgba(46, 118, 201, 0.45));
+    }
+
+    .ccai-page .modal-panel h3,
+    .ccai-page .modal-panel p,
+    .ccai-page .modal-note {
+      color: rgba(225, 236, 255, 0.9);
+    }
+
+    .ccai-page .modal-note {
+      font-size: 0.85rem;
+      color: rgba(177, 207, 244, 0.7);
+    }
+
+    .ccai-page .token-error {
+      color: #ff7b7b;
     }
 
     .ccai-page .brief-header {
-      background: linear-gradient(90deg, rgba(2, 72, 115, 0.6), rgba(23, 24, 26, 0.95));
-      border-bottom: 1px solid rgba(2, 72, 115, 0.45);
+      background: linear-gradient(90deg, rgba(18, 67, 179, 0.78), rgba(6, 18, 32, 0.96));
+      border-bottom: 1px solid rgba(74, 155, 255, 0.55);
     }
 
     .ccai-page .modal-backdrop {
-      background: rgba(23, 24, 26, 0.9);
+      background: rgba(0, 0, 0, 0.88);
     }
 
     .ccai-page .modal-panel {
-      background: rgba(23, 24, 26, 0.94);
-      box-shadow: 0 32px 64px rgba(1, 42, 70, 0.45);
+      background: rgba(6, 18, 32, 0.94);
+      box-shadow: 0 32px 64px rgba(10, 37, 74, 0.55);
     }
 
     .ccai-page .security-toast {
-      background: rgba(23, 24, 26, 0.95);
-      box-shadow: 0 24px 48px rgba(1, 42, 70, 0.38);
+      background: rgba(6, 18, 32, 0.95);
+      box-shadow: 0 24px 48px rgba(10, 37, 74, 0.55);
+      color: rgba(188, 216, 250, 0.88);
     }
 
     .ccai-page .warning-panel .warning-title {
-      color: #e4e4e4;
+      color: #b1cff4;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 950;
+      background: rgba(3, 11, 20, 0.95);
+      box-shadow: 0 18px 30px rgba(3, 11, 20, 0.65);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+      gap: 1rem;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #eaf3ff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    .brand-link img {
+      height: 44px;
+      width: auto;
+      filter: drop-shadow(0 10px 22px rgba(46, 118, 201, 0.55));
+    }
+
+    .nav-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(90, 163, 255, 0.45);
+      background: rgba(10, 37, 74, 0.85);
+      color: #eaf3ff;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-toggle:hover {
+      background: rgba(45, 125, 255, 0.35);
+      border-color: rgba(135, 188, 255, 0.75);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 940;
+    }
+
+    .nav-menu a,
+    .nav-menu button {
+      font-family: "Rubik", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(90, 163, 255, 0.35);
+      background: rgba(10, 37, 74, 0.85);
+      color: #eaf3ff;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-menu button {
+      cursor: pointer;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu button:hover {
+      background: rgba(45, 125, 255, 0.95);
+      color: #ffffff;
+      border-color: rgba(135, 188, 255, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .nav-menu .nav-link-primary {
+      background: var(--cta-bg);
+      color: #ffffff;
+      border-color: rgba(135, 188, 255, 0.9);
+    }
+
+    .nav-menu .nav-link-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: rgba(177, 207, 244, 0.85);
+    }
+
+    .hero {
+      padding: clamp(3rem, 7vw, 5rem) 0 3.5rem;
+      max-width: none;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
     }
 
     .hero-visual {
-      margin-top: 2.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+      border: 0;
+      box-shadow: 0 65px 110px rgba(3, 11, 20, 0.65);
+      background: linear-gradient(180deg, rgba(3, 11, 20, 0.85), rgba(10, 37, 74, 0.6));
     }
 
     .hero-visual img {
-      max-width: min(460px, 90vw);
+      display: block;
       width: 100%;
-      filter: drop-shadow(0 25px 50px rgba(1, 42, 70, 0.45));
-      border-radius: 28px;
-      border: 1px solid rgba(2, 72, 115, 0.3);
-      background: radial-gradient(circle at 20% 20%, rgba(2, 72, 115, 0.18), transparent 65%);
-      padding: 1.5rem;
+      height: clamp(360px, 62vh, 680px);
+      object-fit: cover;
+      filter: saturate(1.08) contrast(1.1);
+    }
+
+    .hero-content {
+      display: grid;
+      gap: 1.9rem;
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      text-align: left;
+    }
+
+    .hero-content .classification-tag {
+      width: fit-content;
+      margin-top: 0.35rem;
+      background: rgba(27, 92, 255, 0.18);
+      border: 1px solid rgba(74, 155, 255, 0.55);
+      color: #b1cff4;
+    }
+
+    .hero-content .classification-tag span {
+      background: rgba(74, 155, 255, 0.65);
+    }
+
+    .hero-brand-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: stretch;
+      text-align: left;
+      gap: 1.75rem;
+    }
+
+    .hero-logo-large {
+      width: 100%;
+      filter: drop-shadow(0 30px 70px rgba(46, 118, 201, 0.55));
+    }
+
+    .hero-kicker {
+      font-weight: 700;
+      font-size: clamp(1.35rem, 3vw, 2.1rem);
+      letter-spacing: 0.01em;
+      color: #b1cff4;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 5vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      color: #eaf3ff;
+    }
+
+    .hero-subline {
+      max-width: 680px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(177, 207, 244, 0.82);
+    }
+
+    @media (max-width: 900px) {
+      .nav-menu {
+        position: fixed;
+        top: 76px;
+        right: 1.5rem;
+        left: 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(3, 11, 20, 0.94);
+        border: 1px solid rgba(90, 163, 255, 0.35);
+        border-radius: 24px;
+        padding: 1.5rem;
+        transform: translateY(-140%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+      }
+
+      .nav-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .nav-menu a,
+      .nav-menu button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+      }
+
+      .nav-container {
+        padding: 0.75rem 1.25rem;
+      }
+
+      .hero {
+        padding-top: 3.75rem;
+      }
+
+      .hero-brand-row {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .hero-kicker {
+        font-size: clamp(1.15rem, 4vw, 1.6rem);
+      }
+
+      .hero-content {
+        padding: 0 1.25rem;
+      }
     }
 
     .access-gate-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(23, 24, 26, 0.96);
-      backdrop-filter: blur(10px);
+      background: rgba(3, 11, 20, 0.92);
+      backdrop-filter: blur(14px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -157,12 +570,12 @@
     }
 
     .access-gate-panel {
-      width: min(420px, 92vw);
-      background: linear-gradient(155deg, rgba(23, 24, 26, 0.95), rgba(1, 42, 70, 0.85));
-      border: 1px solid rgba(2, 72, 115, 0.45);
+      width: min(440px, 92vw);
+      background: linear-gradient(160deg, rgba(6, 18, 32, 0.96), rgba(18, 67, 179, 0.92));
+      border: 1px solid rgba(74, 155, 255, 0.55);
       border-radius: 32px;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 30px 55px rgba(1, 42, 70, 0.45);
+      padding: 2.75rem 2.25rem;
+      box-shadow: 0 36px 75px rgba(3, 11, 20, 0.6);
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -170,112 +583,92 @@
       transform: translateY(12px);
     }
 
+    .access-gate-panel .lock-loader {
+      margin: 0 auto 1.5rem;
+    }
+
     .access-gate-overlay.active .access-gate-panel {
       transform: translateY(0);
     }
 
     .gate-header {
-      font-size: 1.55rem;
-      letter-spacing: 0.08em;
+      font-size: 1.45rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 1.25rem;
-      color: #e4e4e4;
+      margin-bottom: 1.35rem;
+      color: #eaf3ff;
     }
 
-    .gate-display {
-      font-family: "League Spartan", sans-serif;
-      font-size: 1.65rem;
-      letter-spacing: 0.22em;
-      color: rgba(228, 228, 228, 0.85);
-      background: rgba(23, 24, 26, 0.9);
-      border: 1px solid rgba(2, 72, 115, 0.55);
-      border-radius: 16px;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.75rem;
-      min-height: 3.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .gate-description {
+      font-size: 0.95rem;
+      color: rgba(177, 207, 244, 0.78);
+      margin-bottom: 1.85rem;
+      line-height: 1.6;
     }
 
-    .gate-keypad {
+    .gate-form {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.85rem;
-      margin-bottom: 1.5rem;
+      gap: 1.25rem;
     }
 
-    .keypad-key {
-      font-size: 1.35rem;
-      font-family: "League Spartan", sans-serif;
-      letter-spacing: 0.08em;
-      padding: 0.85rem 0;
-      border-radius: 18px;
-      border: 1px solid rgba(2, 72, 115, 0.4);
-      background: radial-gradient(circle at 50% 20%, rgba(72, 72, 76, 0.35), rgba(10, 10, 12, 0.95));
-      color: #e4e4e4;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    .gate-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
     }
 
-    .keypad-key:focus-visible,
-    .keypad-key:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(3, 8, 14, 0.6);
-      outline: none;
-      background: radial-gradient(circle at 50% 10%, rgba(96, 96, 102, 0.4), rgba(8, 8, 10, 0.92));
-    }
-
-    .keypad-key[data-keypad="submit"] {
-      background: radial-gradient(circle at 50% 18%, rgba(92, 92, 98, 0.45), rgba(6, 6, 8, 0.96));
-      border-color: rgba(40, 124, 168, 0.55);
-    }
-
-    .keypad-key[data-keypad="clear"] {
-      font-size: 1.05rem;
+    .gate-field label {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
+      color: rgba(177, 207, 244, 0.65);
+    }
+
+    .gate-input {
+      padding: 0.85rem 1.15rem;
+      border-radius: 16px;
+      border: 1px solid rgba(74, 155, 255, 0.55);
+      background: rgba(6, 18, 32, 0.88);
+      color: #eaf3ff;
       letter-spacing: 0.12em;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .gate-input::placeholder {
+      color: rgba(133, 188, 255, 0.35);
+      letter-spacing: 0.08em;
+    }
+
+    .gate-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .gate-status {
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255, 119, 119, 0.78);
       min-height: 1.4rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 119, 119, 0.8);
+    }
+
+    .access-gate-overlay .gate-status.success {
+      color: #4a9bff;
+      animation: accessPulse 1.3s ease infinite;
     }
 
     .access-gate-overlay.error .access-gate-panel {
       border-color: rgba(255, 119, 119, 0.65);
-      box-shadow: 0 35px 65px rgba(255, 84, 84, 0.28);
-    }
-
-    .access-gate-overlay.error .gate-display {
-      border-color: rgba(255, 119, 119, 0.5);
-      color: rgba(255, 199, 199, 0.8);
+      box-shadow: 0 45px 85px rgba(255, 84, 84, 0.28);
     }
 
     .access-gate-overlay.success .access-gate-panel {
-      border-color: rgba(2, 72, 115, 0.85);
-      background: linear-gradient(155deg, rgba(1, 42, 70, 0.95), rgba(2, 72, 115, 0.92));
-      box-shadow: 0 45px 80px rgba(1, 42, 70, 0.5);
-    }
-
-    .access-gate-overlay.success .gate-display {
-      border-color: rgba(2, 72, 115, 0.65);
-      color: #e4e4e4;
-    }
-
-    .access-gate-overlay.success .gate-status {
-      color: #e4e4e4;
-      animation: accessPulse 1.2s ease infinite;
-    }
-
-    .access-gate-overlay.success .keypad-key {
-      background: radial-gradient(circle at 50% 18%, rgba(110, 110, 118, 0.45), rgba(12, 14, 18, 0.95));
-      border-color: rgba(40, 124, 168, 0.75);
-      color: #e4e4e4;
-      pointer-events: none;
+      border-color: rgba(133, 188, 255, 0.85);
+      background: linear-gradient(160deg, rgba(10, 37, 74, 0.96), rgba(45, 125, 255, 0.92));
+      box-shadow: 0 45px 80px rgba(10, 37, 74, 0.55);
     }
 
     @keyframes accessPulse {
@@ -296,70 +689,80 @@
 </head>
 <body class="ccai-page grid-background">
   <div class="page-loader" id="pageLoader" aria-hidden="true">
-    <div class="loader-ring" aria-hidden="true"></div>
-    <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai animated insignia" class="loader-logo" />
+    <img src="assets/images/Crowncode/Crowncode-OG.png" alt="CrownCode.ai animated insignia" class="loader-logo" />
+    <span class="flip-loader" aria-hidden="true"></span>
     <div class="loader-text">Initializing Secure Node</div>
   </div>
 
   <div class="brief-loader hidden" id="briefLoader" aria-hidden="true">
-    <div class="loader-ring" aria-hidden="true"></div>
-    <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai clearance loader" class="loader-logo" />
+    <img src="assets/images/Crowncode/Crowncode-OG.png" alt="CrownCode.ai clearance loader" class="loader-logo" />
+    <span class="lock-loader" aria-hidden="true"></span>
     <div class="loader-text">Authorizing Token</div>
   </div>
 
   <div class="access-gate-overlay" id="accessGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle" aria-hidden="true">
     <div class="access-gate-panel">
-      <div class="gate-header" id="gateTitle">Enter Access Code</div>
-      <div class="gate-display" id="gateDisplay">ENTER CODE</div>
-      <div class="gate-keypad" role="group" aria-label="Secure numeric keypad">
-        <button type="button" class="keypad-key" data-keypad="1">1</button>
-        <button type="button" class="keypad-key" data-keypad="2">2</button>
-        <button type="button" class="keypad-key" data-keypad="3">3</button>
-        <button type="button" class="keypad-key" data-keypad="4">4</button>
-        <button type="button" class="keypad-key" data-keypad="5">5</button>
-        <button type="button" class="keypad-key" data-keypad="6">6</button>
-        <button type="button" class="keypad-key" data-keypad="7">7</button>
-        <button type="button" class="keypad-key" data-keypad="8">8</button>
-        <button type="button" class="keypad-key" data-keypad="9">9</button>
-        <button type="button" class="keypad-key" data-keypad="clear" aria-label="Clear access code">CLR</button>
-        <button type="button" class="keypad-key" data-keypad="0">0</button>
-        <button type="button" class="keypad-key" data-keypad="submit" aria-label="Submit access code">#</button>
-      </div>
-      <div class="gate-status" id="gateStatus" role="status" aria-live="polite"></div>
+      <span class="lock-loader" aria-hidden="true"></span>
+      <div class="gate-header" id="gateTitle">Clearance Password Required</div>
+      <p class="gate-description">Authenticate with the issued CrownCode.ai clearance string to continue.</p>
+      <form class="gate-form" id="gateForm">
+        <div class="gate-field">
+          <label for="gatePassword">Access Password</label>
+          <input type="password" class="gate-input" id="gatePassword" name="gatePassword" autocomplete="off" placeholder="Enter clearance password" required />
+        </div>
+        <div class="gate-actions">
+          <button type="submit" class="btn btn-primary">Unlock Access</button>
+          <button type="button" class="btn btn-secondary" id="gateReset">Reset</button>
+        </div>
+        <div class="gate-status" id="gateStatus" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </div>
 
-  <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai chain badge" class="badge-watermark" />
-
-  <header id="hero">
-    <div class="top-bar">
-      <div class="top-brand">CrownCode.ai</div>
-      <a class="top-login" href="login.html">Login</a>
-    </div>
-    <div class="hero-topline">
-      <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai primary insignia" class="main-logo" />
-      <div class="classification-tag"><span></span> Authorized Access Only</div>
-    </div>
-    <div class="hero-copy">
-      <h1>CrownCode.ai Intelligence Systems</h1>
-      <p class="hero-subline">Advanced Behavioral, Forensic, and OSINT Modules — Authorized Access Only.</p>
-      <div class="cta-group">
-        <button class="btn btn-primary access-trigger" type="button" data-access-trigger>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18"/><path d="M7 5v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5"/><path d="M10 5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2"/></svg>
-          Access The Brief
-        </button>
-        <a class="btn btn-secondary" href="mailto:sales@crowncode.ai">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10h-6"/><path d="M21 6H11a4 4 0 0 0-4 4v10"/><path d="m3 10 7 7 4-4 7 7"/></svg>
-          Contact Sales
-        </a>
-      </div>
-    </div>
-    <div class="hero-visual" aria-hidden="true">
-      <img src="assets/images/Crowncode/Crowncode-OG.png.PNG" alt="CrownCode.ai hero insignia" />
+  <header class="site-header">
+    <div class="nav-container">
+      <a class="brand-link" href="#hero">
+        <img src="assets/images/NavLogo.PNG" alt="CrownCode.ai navigation logo" />
+        <span>CrownCode.ai</span>
+      </a>
+      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <nav class="nav-menu" id="primaryNav">
+        <button class="nav-link-primary access-trigger" type="button" data-access-trigger>Access Brief</button>
+        <a href="#inquiry">Request Access</a>
+        <a href="login.html">Login</a>
+      </nav>
     </div>
   </header>
 
+  <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai chain badge" class="badge-watermark" />
+
   <main>
+    <section id="hero" class="hero">
+      <div class="hero-visual">
+        <img src="assets/images/Crowncode/desktopui-Nobg.PNG" alt="CrownCode.ai operations interface" />
+      </div>
+      <div class="hero-content">
+        <div class="hero-brand-row">
+          <img src="assets/images/Crowncode/Crowncode-OG.png" alt="CrownCode.ai primary insignia" class="hero-logo-large" />
+          <p class="hero-kicker">Building the future of AI forensics &amp; behavior profiling</p>
+        </div>
+        <div class="classification-tag"><span></span> Authorized Access Only</div>
+        <h1>CrownCode.ai Intelligence Systems</h1>
+        <p class="hero-subline">Advanced Behavioral, Forensic, and OSINT Modules — Authorized Access Only.</p>
+        <div class="cta-group">
+          <button class="btn btn-primary access-trigger" type="button" data-access-trigger>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18"/><path d="M7 5v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5"/><path d="M10 5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2"/></svg>
+            Access The Brief
+          </button>
+          <a class="btn btn-secondary" href="mailto:sales@crowncode.ai">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10h-6"/><path d="M21 6H11a4 4 0 0 0-4 4v10"/><path d="m3 10 7 7 4-4 7 7"/></svg>
+            Contact Sales
+          </a>
+        </div>
+      </div>
+    </section>
     <section id="about">
       <h2>(U) About CrownCode.ai</h2>
       <div class="about-text">
@@ -459,16 +862,16 @@
       <div>
         <h4>3. Visual Doctrine</h4>
         <ul>
-          <li>Primary palette anchored in charcoal <code>#070A06</code> with gradients of brand greens <code>#456F3A</code>, <code>#6DA667</code>, <code>#87BD72</code>, and <code>#C2E9C1</code>.</li>
-          <li>Typography leverages League Spartan, Futura, and Helvetica Now in bold, directive weights.</li>
+          <li>Primary palette anchored in midnight navy <code>#030B14</code> with cobalt gradients <code>#1243B3</code>, <code>#1B5CFF</code>, <code>#2D7DFF</code>, and luminous accents <code>#B1CFF4</code>.</li>
+          <li>Typography leverages the Rubik family in bold, directive weights.</li>
           <li>Interface motifs include classification banners, matrix overlays, clearance locks, and forensic gridlines.</li>
         </ul>
       </div>
       <div>
         <h4>4. Interaction Protocols</h4>
         <ul>
-          <li>Primary CTA: <strong>Access The Brief</strong> — solid green accent leading to clearance validation.</li>
-          <li>Secondary CTA: <strong>Contact Sales</strong> — outlined presentation for formal outreach.</li>
+          <li>Primary CTA: <strong>Access The Brief</strong> — solid cobalt accent leading to clearance validation.</li>
+          <li>Secondary CTA: <strong>Contact Sales</strong> — luminous cobalt edge for formal outreach.</li>
           <li>Inquiry form fields: Name, Email, Organization, Message. Labels include portion marks such as <em>(U)</em> to reinforce classification.</li>
           <li>Form submission button labeled <strong>Secure Submit</strong> with audit-trace styling.</li>
         </ul>
@@ -524,13 +927,14 @@
 
   <footer>
     <div class="contact">Contact: <a href="mailto:sales@crowncode.ai">sales@crowncode.ai</a></div>
-    <img src="assets/images/Crowncode/905437AD-6656-4AD8-B5A6-CF08F6199F27.png" alt="CrownCode.ai badge" class="footer-badge" />
+    <img src="assets/images/Crowncode/Crowncode-OG.png" alt="CrownCode.ai badge" class="footer-badge" />
   </footer>
 
   <script>
-    const ACCESS_TOKEN = "jagvov-8wyngy-sobpoK";
+    const CLEARANCE_PASSWORD = "@cc355D3n13D$$";
+    const ACCESS_TOKEN = CLEARANCE_PASSWORD;
     const ACCESS_STORAGE_KEY = "ccai-brief-clearance";
-    const NUMERIC_PASSCODE = "640161869";
+    const GATE_STORAGE_KEY = "ccai-gate-clearance";
     const pageLoader = document.getElementById("pageLoader");
     const briefLoader = document.getElementById("briefLoader");
     const accessModal = document.getElementById("accessModal");
@@ -544,102 +948,113 @@
     const proceedBriefBtn = document.getElementById("proceedBrief");
     const accessTriggers = document.querySelectorAll("[data-access-trigger]");
     const accessGate = document.getElementById("accessGate");
-    const gateDisplay = document.getElementById("gateDisplay");
+    const gateForm = document.getElementById("gateForm");
+    const gatePasswordInput = document.getElementById("gatePassword");
     const gateStatus = document.getElementById("gateStatus");
-    const gateButtons = accessGate ? accessGate.querySelectorAll("[data-keypad]") : [];
+    const gateReset = document.getElementById("gateReset");
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("primaryNav");
     let toastTimer;
-    let gateInput = "";
-    let gateUnlocked = false;
+    
+    function setNavState(open) {
+      if (!navMenu || !navToggle) return;
+      navMenu.classList.toggle("open", open);
+      navToggle.setAttribute("aria-expanded", String(open));
+    }
 
-    function updateGateDisplay() {
-      if (!gateDisplay) return;
-      gateDisplay.textContent = gateInput ? gateInput.replace(/./g, "•") : "ENTER CODE";
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", () => {
+        const willOpen = !navMenu.classList.contains("open");
+        setNavState(willOpen);
+      });
+
+      navMenu.querySelectorAll("a, button").forEach((item) => {
+        item.addEventListener("click", () => {
+          if (navMenu.classList.contains("open")) {
+            setNavState(false);
+          }
+        });
+      });
     }
 
     function resetGateState() {
-      gateInput = "";
-      gateUnlocked = false;
       if (gateStatus) {
         gateStatus.textContent = "";
+        gateStatus.classList.remove("success");
       }
-      updateGateDisplay();
+      if (gatePasswordInput) {
+        gatePasswordInput.value = "";
+      }
       accessGate?.classList.remove("error", "success");
     }
 
-    function grantGateAccess() {
-      gateUnlocked = true;
-      if (gateStatus) {
-        gateStatus.textContent = "Access Granted";
-      }
-      if (gateDisplay) {
-        gateDisplay.textContent = "ACCESS GRANTED";
-      }
-      if (accessGate) {
-        accessGate.classList.remove("error");
-        accessGate.classList.add("success");
-      }
-      setTimeout(() => {
-        if (accessGate) {
-          accessGate.classList.remove("active");
-          accessGate.setAttribute("aria-hidden", "true");
-        }
+    function openGateOverlay() {
+      if (!accessGate) return;
+      accessGate.classList.add("active");
+      accessGate.setAttribute("aria-hidden", "false");
+      setBodyScrollLock(true);
+      setTimeout(() => gatePasswordInput?.focus(), 150);
+    }
+
+    function closeGateOverlay() {
+      if (!accessGate) return;
+      accessGate.classList.remove("active");
+      accessGate.setAttribute("aria-hidden", "true");
+      resetGateState();
+      if (!accessModal.classList.contains("active") && !warningModal.classList.contains("active")) {
         setBodyScrollLock(false);
-        setTimeout(() => {
-          if (accessGate) {
-            accessGate.classList.remove("success");
-          }
-          resetGateState();
-        }, 600);
+      }
+    }
+
+    function flagGateError() {
+      if (!accessGate || !gateStatus) return;
+      accessGate.classList.add("error");
+      gateStatus.textContent = "Password denied";
+      gateStatus.classList.remove("success");
+      triggerSecurityNotice("Invalid access code");
+      setTimeout(() => accessGate.classList.remove("error"), 900);
+    }
+
+    function handleGateSuccess() {
+      if (!accessGate || !gateStatus) return;
+      accessGate.classList.remove("error");
+      accessGate.classList.add("success");
+      gateStatus.textContent = "Access granted";
+      gateStatus.classList.add("success");
+      sessionStorage.setItem(GATE_STORAGE_KEY, "cleared");
+      setTimeout(() => {
+        closeGateOverlay();
       }, 1100);
     }
 
-    function handleGateInput(value) {
-      if (!accessGate || gateUnlocked) {
-        return;
-      }
-      accessGate.classList.remove("error");
-
-      if (value === "clear") {
-        resetGateState();
-        return;
-      }
-
-      if (value === "submit") {
-        if (gateInput === NUMERIC_PASSCODE) {
-          grantGateAccess();
-        } else {
-          accessGate.classList.add("error");
-          if (gateStatus) {
-            gateStatus.textContent = "Access Code Denied";
-          }
-          triggerSecurityNotice("Invalid access code");
-          setTimeout(() => accessGate && accessGate.classList.remove("error"), 900);
-        }
-        return;
-      }
-
-      if (gateInput.length < NUMERIC_PASSCODE.length) {
-        gateInput += value;
-        updateGateDisplay();
+    function handleGateSubmit(event) {
+      event.preventDefault();
+      const supplied = gatePasswordInput ? gatePasswordInput.value.trim() : "";
+      if (supplied === CLEARANCE_PASSWORD) {
+        handleGateSuccess();
+      } else {
+        flagGateError();
       }
     }
 
-    if (gateButtons.length) {
-      gateButtons.forEach((button) => {
-        button.addEventListener("click", () => handleGateInput(button.dataset.keypad));
+    if (gateForm) {
+      gateForm.addEventListener("submit", handleGateSubmit);
+    }
+
+    if (gateReset) {
+      gateReset.addEventListener("click", () => {
+        resetGateState();
+        gatePasswordInput?.focus();
       });
     }
 
     window.addEventListener("load", () => {
       setTimeout(() => {
-        pageLoader.classList.add("hidden");
-        if (accessGate) {
-          updateGateDisplay();
-          accessGate.classList.add("active");
-          accessGate.setAttribute("aria-hidden", "false");
-          setBodyScrollLock(true);
+        pageLoader?.classList.add("hidden");
+        if (accessGate && !sessionStorage.getItem(GATE_STORAGE_KEY)) {
+          openGateOverlay();
         }
-      }, 650);
+      }, 5200);
     });
 
     if (sessionStorage.getItem(ACCESS_STORAGE_KEY) === "verified") {
@@ -648,6 +1063,7 @@
     }
 
     function triggerSecurityNotice(message) {
+      if (!securityToast) return;
       securityToast.textContent = message;
       securityToast.classList.add("active");
       clearTimeout(toastTimer);
@@ -667,6 +1083,9 @@
     });
 
     document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && navMenu?.classList.contains("open")) {
+        setNavState(false);
+      }
       const blockedCombos = (
         (event.ctrlKey || event.metaKey) && ["s", "p", "u", "c", "x"].includes(event.key.toLowerCase())
       ) ||
@@ -704,6 +1123,9 @@
     }
 
     function handleAccessTrigger() {
+      if (navMenu?.classList.contains("open")) {
+        setNavState(false);
+      }
       if (sessionStorage.getItem(ACCESS_STORAGE_KEY) === "verified") {
         warningModal.classList.add("active");
         setBodyScrollLock(true);
@@ -714,9 +1136,9 @@
 
     function showBriefLoader() {
       setBodyScrollLock(true);
-      briefLoader.classList.remove("hidden");
+      briefLoader?.classList.remove("hidden");
       setTimeout(() => {
-        briefLoader.classList.add("hidden");
+        briefLoader?.classList.add("hidden");
         warningModal.classList.add("active");
       }, 1200);
     }
