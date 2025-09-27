@@ -1,0 +1,172 @@
+:root {
+  --ccai-primary: #1a4480;
+  --ccai-primary-dark: #112e51;
+  --ccai-accent: #0b4778;
+  --ccai-surface: #f0f5ff;
+  --ccai-surface-strong: #e3ebf9;
+  --ccai-surface-dark: #12212f;
+  --ccai-border: #d4dbe5;
+  --ccai-alert: #f9dede;
+  --ccai-alert-border: #b50909;
+  --ccai-success: #e3f5e1;
+  --ccai-success-border: #2e8540;
+}
+
+body.ccai-page {
+  font-family:
+    'Public Sans',
+    'Source Sans Pro',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  background: linear-gradient(180deg, #0d1b2a 0%, #102840 35%, #0b1d31 100%);
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+html.ccai-modal-open,
+html.ccai-modal-open body {
+  overflow: hidden;
+}
+
+.ccai-page .usa-header,
+.ccai-page .usa-footer {
+  background-color: rgba(15, 32, 56, 0.92);
+  color: #fff;
+}
+
+.ccai-page .usa-nav__primary > li > a,
+.ccai-page .usa-nav__primary > li > button {
+  color: #fff;
+}
+
+.ccai-page .usa-nav__primary > li > a:focus,
+.ccai-page .usa-nav__primary > li > button:focus {
+  outline: 3px solid var(--ccai-surface-strong);
+  outline-offset: 2px;
+}
+
+.ccai-page .usa-section {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ccai-page .usa-hero {
+  background-image:
+    linear-gradient(135deg, rgba(17, 46, 81, 0.95), rgba(8, 27, 45, 0.95)),
+    url('../images/905437AD-6656-4AD8-B5A6-CF08F6199F27.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.ccai-page .usa-hero__callout {
+  background-color: rgba(12, 31, 55, 0.88);
+  border: 1px solid rgba(227, 235, 249, 0.25);
+}
+
+.ccai-page .usa-button {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.ccai-page .usa-button--accent-warm {
+  background-color: var(--ccai-primary);
+  color: #fff;
+}
+
+.ccai-page .usa-button--accent-warm:hover,
+.ccai-page .usa-button--accent-warm:focus {
+  background-color: #0b4778;
+}
+
+.ccai-page .usa-card__container {
+  background: rgba(12, 31, 55, 0.85);
+  border: 1px solid rgba(227, 235, 249, 0.2);
+  color: #f5f8ff;
+}
+
+.ccai-page .usa-card__heading {
+  color: #ffffff;
+}
+
+.ccai-page .usa-card__media img {
+  max-height: 72px;
+}
+
+.ccai-page .usa-modal {
+  background-color: rgba(7, 18, 31, 0.9);
+}
+
+.ccai-page .usa-modal__content {
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, rgba(15, 32, 56, 0.98), rgba(6, 18, 30, 0.98));
+  border: 1px solid rgba(227, 235, 249, 0.15);
+  color: #f7fafd;
+}
+
+.ccai-page .usa-modal__main > :last-child {
+  margin-bottom: 0;
+}
+
+.ccai-page .usa-alert {
+  border-radius: 0.5rem;
+}
+
+.ccai-page .usa-alert--warning {
+  background-color: rgba(201, 45, 18, 0.12);
+  border-color: rgba(201, 45, 18, 0.65);
+  color: #ffd9c5;
+}
+
+.ccai-page .usa-alert--info {
+  background-color: rgba(37, 123, 191, 0.18);
+  border-color: rgba(98, 177, 232, 0.8);
+  color: #e5f3ff;
+}
+
+.ccai-page .usa-form .usa-label,
+.ccai-page .usa-form .usa-legend {
+  color: #f5faff;
+}
+
+.ccai-page .usa-form .usa-input,
+.ccai-page .usa-form .usa-textarea {
+  background: rgba(255, 255, 255, 0.92);
+  color: #1b1b1b;
+}
+
+.ccai-page .usa-form .usa-input:focus,
+.ccai-page .usa-form .usa-textarea:focus {
+  outline: 3px solid #73b3e7;
+  outline-offset: 1px;
+}
+
+.ccai-page a {
+  color: #9ad1ff;
+}
+
+.ccai-page a:hover,
+.ccai-page a:focus {
+  color: #cfe6ff;
+}
+
+.ccai-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ccai-section-header__eyebrow {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ad1ff;
+}
+
+.ccai-grid-divider {
+  border-top: 1px solid rgba(227, 235, 249, 0.18);
+  margin: 3rem 0;
+}
