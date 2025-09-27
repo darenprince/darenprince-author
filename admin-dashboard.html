@@ -7,29 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-  <style>
-    .admin-dashboard{display:flex;flex-direction:column;gap:3rem;}
-    .admin-hero{text-align:center;background:linear-gradient(135deg,rgba(125,222,91,.1),rgba(0,0,0,.35));padding:3rem 2rem;border-radius:20px;border:1px solid rgba(125,222,91,.25);box-shadow:0 20px 45px -35px rgba(125,222,91,.8);}
-    .admin-hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:1rem;}
-    .admin-hero p{max-width:48rem;margin:0 auto 2rem;line-height:1.6;color:#d6d6d6;}
-    .status-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:0;padding:0;list-style:none;}
-    .status-pills li{background:rgba(17,18,23,.85);border:1px solid rgba(125,222,91,.35);color:#7dde5b;padding:.75rem 1.25rem;border-radius:999px;display:flex;align-items:center;gap:.5rem;font-weight:600;letter-spacing:.01em;}
-    .dashboard-section{display:flex;flex-direction:column;gap:1.5rem;}
-    .dashboard-section h2{font-size:1.75rem;margin-bottom:0;}
-    .dashboard-grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
-    .dashboard-card{background:rgba(17,18,23,.85);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:.75rem;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;text-align:left;text-decoration:none;color:#f7f7f7;}
-    .dashboard-card:hover,.dashboard-card:focus-visible{transform:translateY(-4px);border-color:rgba(125,222,91,.6);box-shadow:0 18px 35px -25px rgba(125,222,91,.8);}
-    .dashboard-card i{font-size:1.5rem;color:#7dde5b;}
-    .dashboard-card h3{margin:0;font-size:1.15rem;}
-    .dashboard-card p{margin:0;color:#c7c7c7;line-height:1.5;}
-    .dashboard-list{display:grid;gap:1rem;list-style:none;padding:0;margin:0;}
-    .dashboard-list li{background:rgba(17,18,23,.85);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
-    .dashboard-list a{color:#7dde5b;font-weight:600;display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;}
-    @media (max-width: 720px){
-      .admin-hero{padding:2.5rem 1.25rem;}
-      .dashboard-grid{grid-template-columns:1fr;}
-    }
-  </style>
   <!-- Apple PWA + Safari enhancements -->
     <!-- Smart App banner is rendered by js/main.js -->
     <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
@@ -126,7 +103,7 @@
     <header class="site-header padding-y-sm js-sticky-nav">
       <div class="container max-width-adaptive-lg flex items-center justify-between">
         <a href="index.html" class="logo">
-          <img src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+          <img src="assets/logos/logo-hires-white-for-dark-bg.svg" alt="Daren Prince wordmark">
         </a>
         <div class="nav-btn-group flex items-center gap-sm">
           <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
@@ -155,128 +132,212 @@
     </header>
 
     <main class="padding-y-xl">
-      <div class="container max-width-adaptive-lg admin-dashboard">
-        <section class="admin-hero">
-          <h1>Operator Command Center</h1>
-          <p>You are the architect of this universe. Every component, story beat, and integration responds to your signal. Rally the team, brief the AI, and ship boldly.</p>
-          <ul class="status-pills">
-            <li><i class="ti ti-shield-check"></i>Secure access confirmed</li>
-            <li><i class="ti ti-cpu"></i>Automation standing by</li>
-            <li><i class="ti ti-rocket"></i>Launch window is open</li>
-          </ul>
+      <div class="container max-width-adaptive-lg developer-dashboard">
+        <section class="developer-hero surface-panel">
+          <div class="developer-hero__intro">
+            <p class="section-eyebrow">Developer Command</p>
+            <h1 class="developer-hero__title">Operator Command Center</h1>
+            <p class="developer-hero__lede">You are the architect of this universe. Every component, story beat, and integration responds to your signal. Rally the team, brief the AI, and ship boldly.</p>
+            <ul class="status-pills">
+              <li><i class="ti ti-shield-check"></i>Secure access confirmed</li>
+              <li><i class="ti ti-cpu"></i>Automation standing by</li>
+              <li><i class="ti ti-rocket"></i>Launch window is open</li>
+            </ul>
+          </div>
+          <div class="developer-hero__aside">
+            <figure class="developer-hero__badge" aria-labelledby="labs-badge">
+              <img src="assets/logos/logo-hires-white-for-dark-bg.svg" alt="Daren Prince Labs insignia" />
+              <figcaption id="labs-badge">Daren Prince Labs</figcaption>
+            </figure>
+            <div class="developer-hero__metrics">
+              <div class="developer-metric">
+                <span class="developer-metric__label">Active systems</span>
+                <span class="developer-metric__value">07</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Verified clearances</span>
+                <span class="developer-metric__value">03</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Labs online</span>
+                <span class="developer-metric__value">04</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Last audit</span>
+                <span class="developer-metric__value">3h ago</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="dashboard-section">
-          <h2 class="section-heading">Quick Actions</h2>
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Operational Launchpad</p>
+            <h2 class="section-heading">Quick Actions</h2>
+            <p class="section-lede">Primary tooling for accelerating releases, validating site parity, and coordinating with AI copilots.</p>
+          </div>
           <div class="dashboard-grid">
             <a class="dashboard-card" href="components.html">
               <i class="ti ti-layout"></i>
-              <h3>Component Library</h3>
-              <p>Review reusable modules, hero layouts, sliders, and UI atoms for rapid deployment.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Component Library</h3>
+                <p class="dashboard-card__copy">Review reusable modules, hero layouts, sliders, and UI atoms for rapid deployment.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="style-classes.html">
               <i class="ti ti-color-swatch"></i>
-              <h3>Style Classes</h3>
-              <p>Track typography scales, utility classes, and theming tokens used across the platform.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Style Classes</h3>
+                <p class="dashboard-card__copy">Track typography scales, utility classes, and theming tokens used across the platform.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="image-index.html">
               <i class="ti ti-photo"></i>
-              <h3>Image Index</h3>
-              <p>Search, audit, and reuse optimized imagery and artwork for launches or campaigns.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Image Index</h3>
+                <p class="dashboard-card__copy">Search, audit, and reuse optimized imagery and artwork for launches or campaigns.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="sitemap.html">
               <i class="ti ti-hierarchy-3"></i>
-              <h3>Site Map &amp; Page Index</h3>
-              <p>Validate public hierarchy, hidden routes, and ensure navigation parity across touchpoints.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Site Map &amp; Page Index</h3>
+                <p class="dashboard-card__copy">Validate public hierarchy, hidden routes, and ensure navigation parity across touchpoints.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="pages/search.html">
               <i class="ti ti-search"></i>
-              <h3>Search Experience</h3>
-              <p>QA the live search UI, filters, and result relevance tuning for upcoming releases.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Search Experience</h3>
+                <p class="dashboard-card__copy">QA the live search UI, filters, and result relevance tuning for upcoming releases.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="dashboard.html">
               <i class="ti ti-user"></i>
-              <h3>Member Dashboard</h3>
-              <p>Simulate member journeys, profile settings, and gated content flows.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Member Dashboard</h3>
+                <p class="dashboard-card__copy">Simulate member journeys, profile settings, and gated content flows.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author/blob/main/docs/supabase.md#admin-user-management-console" target="_blank" rel="noopener noreferrer">
               <i class="ti ti-users"></i>
-              <h3>User Access Console</h3>
-              <p>Follow-up build: elevated admins will assign roles, toggle folder access, reset passwords, and remove accounts.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">User Access Console</h3>
+                <p class="dashboard-card__copy">Follow-up build: elevated admins will assign roles, toggle folder access, reset passwords, and remove accounts.</p>
+              </div>
             </a>
           </div>
         </section>
 
-        <section class="dashboard-section">
-          <h2 class="section-heading">Experimental Labs</h2>
+        <section class="dashboard-section developer-labs">
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Labs Network</p>
+            <h2 class="section-heading">Daren Prince Labs</h2>
+            <p class="section-lede">High-velocity prototypes and research spaces hardened for intelligence workflows.</p>
+          </div>
           <div class="dashboard-grid">
-            <a class="dashboard-card" href="Picdetective/index.html">
+            <a class="dashboard-card dashboard-card--labs" href="labs/crowncode/index.html">
+              <i class="ti ti-hexagon"></i>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">CrownCode.ai Intelligence Lab</h3>
+                <p class="dashboard-card__copy">USWDS-driven security gate with calibration loaders, clearance workflows, and trust signals.</p>
+                <span class="dashboard-card__tag">Clearance Alpha</span>
+              </div>
+            </a>
+            <a class="dashboard-card dashboard-card--labs" href="Picdetective/index.html">
               <i class="ti ti-radar"></i>
-              <h3>Pic Detective</h3>
-              <p>Prototype image forensics assistant with registration, login, and analysis workflows.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Pic Detective</h3>
+                <p class="dashboard-card__copy">Prototype image forensics assistant covering uploads, analysis, and investigative reporting.</p>
+                <span class="dashboard-card__tag">Beta Field Test</span>
+              </div>
             </a>
-            <a class="dashboard-card" href="components/book-details-tab-demo.html">
+            <a class="dashboard-card dashboard-card--labs" href="components/book-details-tab-demo.html">
               <i class="ti ti-books"></i>
-              <h3>Tabbed Book Detail Demo</h3>
-              <p>Preview interactive product storytelling layouts powered by CodyHouse components.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Narrative Commerce Deck</h3>
+                <p class="dashboard-card__copy">Interactive product storytelling with tabbed content, ideal for launch sequences.</p>
+                <span class="dashboard-card__tag">Storycraft Suite</span>
+              </div>
             </a>
-            <a class="dashboard-card" href="shhh.html">
+            <a class="dashboard-card dashboard-card--labs" href="shhh.html">
               <i class="ti ti-lock"></i>
-              <h3>Private Broadcast Room</h3>
-              <p>Test ephemeral messaging, Supabase channels, and frictionless moderation controls.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Private Broadcast Room</h3>
+                <p class="dashboard-card__copy">Ephemeral messaging environment featuring Supabase channels and moderation controls.</p>
+                <span class="dashboard-card__tag">Signal Ops</span>
+              </div>
             </a>
           </div>
         </section>
 
         <section class="dashboard-section">
-          <h2 class="section-heading">Documentation &amp; Intelligence</h2>
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Briefing Library</p>
+            <h2 class="section-heading">Documentation &amp; Intelligence</h2>
+            <p class="section-lede">Stay synched with system protocols, SEO guardrails, and prompt engineering guidance.</p>
+          </div>
           <ul class="dashboard-list">
             <li>
-              <a href="https://github.com/darenprince/darenprince-author/blob/main/README.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-notebook"></i> Platform Overview</a>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/README.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-notebook"></i> Platform Overview</a>
               <p>High-level runbook, brand voice, and onboarding intel to align new collaborators instantly.</p>
             </li>
             <li>
-              <a href="https://github.com/darenprince/darenprince-author/blob/main/docs/indexing-strategy.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-target"></i> Indexing &amp; SEO Strategy</a>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/indexing-strategy.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-target"></i> Indexing &amp; SEO Strategy</a>
               <p>Clarifies crawl budgets, gating posture, and how protected routes avoid thin-content penalties.</p>
             </li>
             <li>
-              <a href="https://github.com/darenprince/darenprince-author/blob/main/docs/supabase.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-database"></i> Supabase Playbook</a>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/supabase.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-database"></i> Supabase Playbook</a>
               <p>Environment variables, auth flows, and storage policies backing login, reset, and realtime features.</p>
             </li>
             <li>
-              <a href="https://github.com/darenprince/darenprince-author/blob/main/docs/CODEX_PROMPTS.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-message-2"></i> Codex Prompt Library</a>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/CODEX_PROMPTS.md" target="_blank" rel="noopener noreferrer"><i class="ti ti-message-2"></i> Codex Prompt Library</a>
               <p>Reusable prompt engineering patterns for AI-assisted builds, migrations, and component authoring.</p>
             </li>
           </ul>
         </section>
 
         <section class="dashboard-section">
-          <h2 class="section-heading">Systems &amp; Integrations</h2>
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Systems Pulse</p>
+            <h2 class="section-heading">Integrations &amp; Control Panels</h2>
+            <p class="section-lede">Direct access to infrastructure touchpoints orchestrating deploys, auth, and automation.</p>
+          </div>
           <div class="dashboard-grid">
             <a class="dashboard-card" href="admin-user-management.html">
               <i class="ti ti-shield-lock"></i>
-              <h3>Supabase Command Center</h3>
-              <p>Manage roles, folder permissions, and recovery workflows built on the new access controls.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Supabase Command Center</h3>
+                <p class="dashboard-card__copy">Manage roles, folder permissions, and recovery workflows built on the new access controls.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author" target="_blank" rel="noopener noreferrer">
               <i class="ti ti-brand-github"></i>
-              <h3>GitHub Repository</h3>
-              <p>Review commit history, open pull requests, and CI insights before green-lighting releases.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">GitHub Repository</h3>
+                <p class="dashboard-card__copy">Review commit history, open pull requests, and CI insights before green-lighting releases.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="https://app.netlify.com/projects/darenprince/overview" target="_blank" rel="noopener noreferrer">
               <i class="ti ti-cloud-upload"></i>
-              <h3>Netlify Deploys</h3>
-              <p>Monitor deploy previews, production rollouts, and environment variables.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Netlify Deploys</h3>
+                <p class="dashboard-card__copy">Monitor deploy previews, production rollouts, and environment variables.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="https://supabase.com/dashboard/project/ogftwcrihcihqahfasmg" target="_blank" rel="noopener noreferrer">
               <i class="ti ti-database-export"></i>
-              <h3>Supabase Control Center</h3>
-              <p>Manage database tables, auth settings, and storage buckets powering dynamic experiences.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">Supabase Control Center</h3>
+                <p class="dashboard-card__copy">Manage database tables, auth settings, and storage buckets powering dynamic experiences.</p>
+              </div>
             </a>
             <a class="dashboard-card" href="https://chatgpt.com/codex" target="_blank" rel="noopener noreferrer">
               <i class="ti ti-robot"></i>
-              <h3>ChatGPT Codex Portal</h3>
-              <p>Spin up new builds, orchestrate AI assistants, and refine automation scripts.</p>
+              <div class="dashboard-card__body">
+                <h3 class="dashboard-card__title">ChatGPT Codex Portal</h3>
+                <p class="dashboard-card__copy">Spin up new builds, orchestrate AI assistants, and refine automation scripts.</p>
+              </div>
             </a>
           </div>
         </section>
