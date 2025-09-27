@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UI Components</title>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <!-- Apple PWA + Safari enhancements -->
     <!-- Smart App banner is rendered by js/main.js -->
@@ -78,7 +78,7 @@
   </script>
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
-    <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
     <ul class="mega-menu-list">
       <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
       <li><a href="book.html"><i class="ti ti-book"></i>Books</a></li>
@@ -243,7 +243,7 @@
           <div class="book-block">
             <div class="book-preview">
               <div class="book-3d">
-                <img src="assets/images/presskit-thumb.jpg" alt="Game On! cover">
+                <img src="/assets/images/presskit-thumb.jpg" alt="Game On! cover">
               </div>
             </div>
           </div>
@@ -347,7 +347,7 @@
         <button>Back Cover</button>
       </div>
       <div class="preview-display">
-        <img src="assets/placeholders/book-3d.jpg" alt="3D Book Preview" />
+        <img src="/assets/placeholders/book-3d.jpg" alt="3D Book Preview" />
       </div>
     </div>
 
@@ -368,8 +368,8 @@
 
     <div id="tab-trailer" role="tabpanel" aria-labelledby="tab-btn-trailer" hidden>
       <div class="video-block">
-        <video controls poster="assets/placeholders/video-thumbnail.jpg">
-          <source src="assets/placeholders/book-trailer.mp4" type="video/mp4">
+        <video controls poster="/assets/images/placeholders/video-thumbnail.jpg">
+          <source src="/assets/placeholders/book-trailer.mp4" type="video/mp4">
           Your browser does not support video playback.
         </video>
       </div>
@@ -520,7 +520,7 @@
           <div class="book-3d-viewer">
             <div class="book-loader"></div>
             <div class="rotate-hint" aria-hidden="true">
-              <img src="assets/images/360rotate.png" alt="" />
+              <img src="/assets/images/360rotate.png" alt="" />
             </div>
             <div class="scene">
               <div class="book" id="book">
@@ -537,10 +537,10 @@
           <div class="cover-zoom-modal" id="cover-zoom" hidden>
             <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
             <div class="cover-zoom-content">
-              <img id="zoom-full" src="assets/images/book-front.jpg" alt="Zoomed cover">
+              <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover">
               <div class="thumbnails">
-                <img src="assets/images/book-front.jpg" data-full="assets/images/book-front.jpg" class="active" alt="Front cover">
-                <img src="assets/images/book-back.jpg" data-full="assets/images/book-back.jpg" alt="Back cover">
+                <img src="/assets/images/book-front.jpg" data-full="/assets/images/book-front.jpg" class="active" alt="Front cover">
+                <img src="/assets/images/book-back.jpg" data-full="/assets/images/book-back.jpg" alt="Back cover">
               </div>
             </div>
           </div>
@@ -764,7 +764,7 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
       </div>
       <div>
         <h4>Explore</h4>
@@ -791,18 +791,18 @@
     </div>
   </footer>
   </div>
-  <script src="./js/mobile-nav.js"></script>
-  <script type="module" src="./js/ui.js"></script>
+  <script src="/js/mobile-nav.js"></script>
+  <script type="module" src="/js/ui.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="./js/profile-dropdown.js"></script>
-  <script src="./js/theme-toggle.js"></script>
-  <script src="./js/book-tabs.js"></script>
-  <script src="./js/book-details.js"></script>
-  <script type="module" src="./js/book-rail.js"></script>
-  <script type="module" src="./js/book-3d-viewer.js"></script>
-  <script src="./js/hero-demos.js"></script>
-  <script src="./js/hero-auto-zoom.js"></script>
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script src="/js/book-tabs.js"></script>
+  <script src="/js/book-details.js"></script>
+  <script type="module" src="/js/book-rail.js"></script>
+  <script type="module" src="/js/book-3d-viewer.js"></script>
+  <script src="/js/hero-demos.js"></script>
+  <script src="/js/hero-auto-zoom.js"></script>
+  <script type="module" src="/js/main.js"></script>
   <script>
     document.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', () => {

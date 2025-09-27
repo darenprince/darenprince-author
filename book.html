@@ -16,7 +16,7 @@
     <meta name="twitter:image" content="https://darenprince.com/assets/images/Og-daren-prince.PNG">
     <link rel="canonical" href="https://darenprince.com/books/game-on">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <script type="application/ld+json">
   {
@@ -107,7 +107,7 @@
 <body class="theme-dark">
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
-    <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
     <ul class="mega-menu-list">
       <li><a href="index.html"><i class="ti ti-home"></i>Home</a></li>
       <li><a href="book.html" class="active"><i class="ti ti-book"></i>Books</a></li>
@@ -234,11 +234,11 @@
             </nav>
 
             <!-- Book 3D viewer -->
-            <div class="book-3d-container" style="--book-bg: url('assets/images/3d-book-bg-1.png');">
+                <div class="book-3d-container" style="--book-bg: url('/assets/images/3d-book-bg-1.png');">
               <div class="book-3d-viewer">
                 <div class="book-loader"></div>
                 <div class="rotate-hint" aria-hidden="true">
-                  <img src="assets/images/360rotate.png" alt="" />
+                  <img src="/assets/images/360rotate.png" alt="" />
                 </div>
                 <div class="book" id="book">
                   <div class="face front"></div>
@@ -251,10 +251,10 @@
             <div class="cover-zoom-modal" id="cover-zoom" hidden>
               <div class="cover-zoom-content">
                 <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
-                <img id="zoom-full" src="assets/images/book-front.jpg" alt="Zoomed cover">
+                <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover">
                 <div class="thumbnails">
-                  <img src="assets/images/book-front.jpg" data-full="assets/images/book-front.jpg" class="active" alt="Front cover">
-                  <img src="assets/images/book-back.jpg" data-full="assets/images/book-back.jpg" alt="Back cover">
+                  <img src="/assets/images/book-front.jpg" data-full="/assets/images/book-front.jpg" class="active" alt="Front cover">
+                  <img src="/assets/images/book-back.jpg" data-full="/assets/images/book-back.jpg" alt="Back cover">
                 </div>
               </div>
             </div>
@@ -336,7 +336,7 @@
 <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
       </div>
       <div>
         <h4>Explore</h4>
@@ -363,13 +363,13 @@
     </div>
   </footer>
   </div>
-  <script type="module" src="./js/ui.js"></script>
+  <script type="module" src="/js/ui.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="./js/profile-dropdown.js"></script>
-  <script src="./js/theme-toggle.js"></script>
-  <script src="./js/book-details.js"></script>
-  <script type="module" src="./js/book-3d-viewer.js"></script>
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script src="/js/book-details.js"></script>
+  <script type="module" src="/js/book-3d-viewer.js"></script>
+  <script type="module" src="/js/main.js"></script>
 </body>
 </html>
 
