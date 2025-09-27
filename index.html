@@ -123,30 +123,25 @@
     <link rel="icon" type="image/png" href="labs/crowncode/icons/crowncode-fav.png" />
   </head>
   <body class="theme-dark">
-    <div class="ccai-preloader" role="status" aria-live="polite">
-      <span class="ccai-preloader__sr-only">Loading: AI Forensic Data Analysis</span>
-      <button class="ccai-preloader__skip" type="button">Skip intro</button>
-      <div class="ccai-preloader__glyphs" aria-hidden="true"></div>
-      <div class="ccai-preloader__code" aria-hidden="true">
-        <div class="ccai-preloader__layer" data-depth="0.15"></div>
-        <div class="ccai-preloader__layer" data-depth="0.3"></div>
-        <div class="ccai-preloader__layer" data-depth="0.45"></div>
-        <div class="ccai-preloader__layer" data-depth="0.6"></div>
-        <div class="ccai-preloader__layer" data-depth="0.75"></div>
+    <div class="gameon-preloader" data-preloader role="status" aria-live="polite">
+      <span class="gameon-preloader__sr-only">Loading Game On: Master the Conversation</span>
+      <button class="gameon-preloader__skip" type="button" data-preloader-skip>Skip intro</button>
+      <div class="gameon-preloader__backdrop" aria-hidden="true">
+        <span class="gameon-preloader__bolt gameon-preloader__bolt--primary"></span>
+        <span class="gameon-preloader__bolt gameon-preloader__bolt--alt"></span>
+        <span class="gameon-preloader__pulse"></span>
       </div>
-      <div class="ccai-preloader__logo-stack" aria-hidden="true">
-        <span class="ccai-preloader__logo-aura"></span>
-        <span class="ccai-preloader__logo-pulse"></span>
-        <span class="ccai-preloader__logo-ring"></span>
-        <span class="ccai-preloader__logo-ring ccai-preloader__logo-ring--counter"></span>
-        <img
-          src="labs/crowncode/images/905437AD-6656-4AD8-B5A6-CF08F6199F27.png"
-          alt=""
-          class="ccai-preloader__logo"
-        />
+      <div class="gameon-preloader__stage" aria-hidden="true">
+        <div class="gameon-preloader__logo" role="presentation">
+          <span class="gameon-preloader__letter">G</span>
+          <span class="gameon-preloader__letter gameon-preloader__letter--offset">O</span>
+          <span class="gameon-preloader__crown" aria-hidden="true"></span>
+        </div>
+        <div class="gameon-preloader__progress" role="presentation">
+          <span class="gameon-preloader__progress-fill" data-preloader-progress></span>
+        </div>
+        <p class="gameon-preloader__tagline">Locking in your next move…</p>
       </div>
-      <h1 class="ccai-preloader__title">AI Forensic Data Analysis</h1>
-      <p class="ccai-preloader__subtitle" aria-hidden="true">CrownCode.AI Systems Division</p>
     </div>
     <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
       <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
@@ -845,7 +840,7 @@
         </div>
       </footer>
     </div>
-    <script src="assets/js/preloader-ccai.js" defer></script>
+    <script src="assets/js/preloader-gameon.js" defer></script>
     <script src="assets/js/env.js"></script>
     <script type="module" src="assets/js/app.js"></script>
     <script type="module" src="./js/ui.js"></script>
