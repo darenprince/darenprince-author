@@ -1,0 +1,292 @@
+@use '../tokens' as ccai;
+@use '../mixins' as mix;
+@use 'sass:color';
+
+.ccai-loader,
+.ccai-brief-loader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: ccai.color('surface-overlay');
+  z-index: 20;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.ccai-loader[hidden],
+.ccai-brief-loader[hidden] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ccai-loader__panel,
+.ccai-brief-loader__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(2rem, 3vw, 2.75rem) clamp(1.75rem, 3vw, 2.5rem);
+  border-radius: 1rem;
+  background: linear-gradient(
+    160deg,
+    color.change(ccai.color('surface-high'), $alpha: 0.95),
+    color.change(ccai.color('surface'), $alpha: 0.92)
+  );
+  border: 1px solid ccai.color('border-soft');
+  box-shadow: 0 32px 64px ccai.color('glow');
+  text-align: center;
+  width: min(90vw, 420px);
+}
+
+.ccai-loader__title {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ccai-loader__meta {
+  font-size: 0.95rem;
+  color: ccai.color('text-muted');
+}
+
+.ccai-loader__image {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid ccai.color('border-soft');
+  padding: 0.5rem;
+  background-color: color.change(ccai.color('surface'), $alpha: 0.85);
+}
+
+.usa-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  overflow-y: auto;
+}
+
+.usa-modal.is-visible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usa-modal::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: ccai.color('surface-overlay');
+  z-index: -1;
+}
+
+.usa-modal[hidden] {
+  display: none !important;
+}
+
+.usa-modal__content {
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    180deg,
+    color.change(ccai.color('surface-high'), $alpha: 0.96),
+    color.change(ccai.color('surface'), $alpha: 0.98)
+  );
+  border: 1px solid ccai.color('border-soft');
+  color: ccai.color('text');
+  box-shadow: 0 32px 80px ccai.color('glow');
+}
+
+.usa-modal__main > :last-child {
+  margin-bottom: 0;
+}
+
+.ccai-gate .usa-modal__content {
+  max-width: 32rem;
+}
+
+.ccai-gate__monitor {
+  font-family: 'Roboto Mono', 'Source Code Pro', monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: color.change(ccai.color('surface-elevated'), $alpha: 0.92);
+  border: 1px solid ccai.color('border-soft');
+  border-radius: 0.75rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  min-height: 3.2rem;
+}
+
+.ccai-gate__status {
+  min-height: 1.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: ccai.color('warning');
+}
+
+.ccai-gate__keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ccai-gate__keypad button {
+  font-family: 'Public Sans', sans-serif;
+  font-size: 1.2rem;
+  padding: 0.75rem 0;
+  border-radius: 0.75rem;
+  border: 1px solid ccai.color('border-soft');
+  background: color.change(ccai.color('surface-elevated'), $alpha: 0.92);
+  color: ccai.color('text');
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.2s ease;
+}
+
+.ccai-gate__keypad button:hover,
+.ccai-gate__keypad button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px ccai.color('glow');
+  border-color: ccai.color('info');
+  outline: none;
+}
+
+.ccai-gate__keypad button[data-keypad='submit'],
+.ccai-gate__keypad button[data-keypad='clear'] {
+  background-color: color.mix(ccai.color('surface-elevated'), ccai.color('primary'), 80%);
+}
+
+.ccai-gate__keypad button[data-keypad='submit'] {
+  color: ccai.color('text');
+}
+
+.ccai-gate[data-state='success'] .ccai-gate__monitor {
+  border-color: ccai.color('success');
+  color: ccai.color('success');
+}
+
+.ccai-gate[data-state='success'] .ccai-gate__status {
+  color: ccai.color('success');
+}
+
+.ccai-gate[data-state='error'] .ccai-gate__monitor {
+  border-color: ccai.color('danger');
+  color: ccai.color('danger');
+}
+
+.ccai-gate[data-state='error'] .ccai-gate__status {
+  color: ccai.color('danger');
+}
+
+.ccai-brief-shell[hidden] {
+  display: none !important;
+}
+
+.ccai-brief-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 2vw, 2.25rem);
+  border-radius: 1rem;
+  background: linear-gradient(
+    180deg,
+    color.change(ccai.color('surface-high'), $alpha: 0.94),
+    color.change(ccai.color('surface'), $alpha: 0.9)
+  );
+  border: 1px solid ccai.color('border-soft');
+  box-shadow: 0 32px 64px ccai.color('glow');
+}
+
+.ccai-brief-shell__grid {
+  @include mix.responsive-grid(220px);
+}
+
+.ccai-brief-shell__panel {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: color.change(ccai.color('surface-elevated'), $alpha: 0.94);
+  border: 1px solid ccai.color('border-soft');
+}
+
+.ccai-brief-shell__panel h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.ccai-security-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  max-width: 320px;
+  z-index: 30;
+  transform: translateY(120%);
+  transition: transform 0.35s ease;
+}
+
+.ccai-security-toast[data-visible='true'] {
+  transform: translateY(0);
+}
+
+.ccai-pulse {
+  position: relative;
+  isolation: isolate;
+}
+
+.ccai-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 1px solid color.change(ccai.color('info'), $alpha: 0.55);
+  opacity: 0;
+  animation: ccai-pulse 2.4s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes ccai-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccai-pulse::after {
+    animation: none;
+  }
+}
+
+.ccai-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ccai-badge-list .usa-tag {
+  background: color.change(ccai.color('surface-elevated'), $alpha: 0.9);
+  border: 1px solid ccai.color('border-soft');
+  color: ccai.color('text');
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ccai-resource-note {
+  font-size: 0.9rem;
+  color: ccai.color('text-muted');
+}

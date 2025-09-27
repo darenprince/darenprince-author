@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use 'sass:color';
+
+$colors: (
+  'ink': #030b16,
+  'surface': #071321,
+  'surface-elevated': #0d1f35,
+  'surface-high': #142c47,
+  'surface-overlay': rgba(11, 27, 49, 0.92),
+  'primary': #73b3e7,
+  'primary-strong': #1a4480,
+  'primary-faint': rgba(115, 179, 231, 0.28),
+  'accent': #00bde3,
+  'accent-faint': rgba(0, 189, 227, 0.18),
+  'warning': #f6c65b,
+  'warning-strong': #c05600,
+  'danger': #f2938c,
+  'success': #71be63,
+  'success-faint': rgba(113, 190, 99, 0.18),
+  'info': #97d4ea,
+  'border': #294263,
+  'border-soft': rgba(151, 196, 239, 0.18),
+  'glow': rgba(6, 18, 30, 0.6),
+  'text': #f7fbff,
+  'text-muted': rgba(215, 230, 255, 0.78),
+);
+
+@function color($token) {
+  @return map.get($colors, $token);
+}
+
+@function alpha($token, $opacity) {
+  $base: color($token);
+  @if $base == null {
+    @return null;
+  }
+  @return color.change($base, $alpha: $opacity);
+}
