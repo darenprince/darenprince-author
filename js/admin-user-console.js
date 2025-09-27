@@ -1,23 +1,19 @@
-import { enforceAuthGuard } from './auth-guard.js';
-import { FOLDER_CATALOG } from './folder-catalog.js';
-import {
-  logSupabaseError,
-  logSupabaseInfo,
-  logSupabaseWarning,
-} from './supabase-logger.js';
+import { getSupabase } from './supabase-helper.js'
+import { FOLDER_CATALOG } from './folder-catalog.js'
+import { logSupabaseError, logSupabaseInfo, logSupabaseWarning } from './supabase-logger.js'
 
 const ROLE_OPTIONS = [
   { value: 'member', label: 'Member' },
   { value: 'developer', label: 'Developer' },
   { value: 'admin', label: 'Admin' },
-];
+]
 
 const state = {
   supabase: null,
   user: null,
   users: [],
   filter: '',
-};
+}
 
 const dom = {
   app: document.querySelector('[data-console-root]'),
@@ -27,67 +23,77 @@ const dom = {
   loading: document.querySelector('[data-console-loading]'),
   search: document.querySelector('[data-user-search]'),
   emptyState: document.querySelector('[data-empty-state]'),
-};
+}
+
+const defaultEmptyStateMarkup = dom.emptyState?.innerHTML ?? ''
 
 function setToast(message, variant = 'info') {
-  if (!dom.toast) return;
-  dom.toast.textContent = message;
-  dom.toast.dataset.variant = variant;
-  dom.toast.hidden = false;
+  if (!dom.toast) return
+  dom.toast.textContent = message
+  dom.toast.dataset.variant = variant
+  dom.toast.hidden = false
 }
 
 function clearToast() {
-  if (!dom.toast) return;
-  dom.toast.textContent = '';
-  dom.toast.hidden = true;
-  delete dom.toast.dataset.variant;
+  if (!dom.toast) return
+  dom.toast.textContent = ''
+  dom.toast.hidden = true
+  delete dom.toast.dataset.variant
 }
 
 function setLoading(loading) {
-  if (!dom.loading) return;
-  dom.loading.hidden = !loading;
+  if (!dom.loading) return
+  dom.loading.hidden = !loading
 }
 
 function formatTimestamp(iso) {
-  if (!iso) return 'Never';
+  if (!iso) return 'Never'
   try {
-    const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return iso;
+    const date = new Date(iso)
+    if (Number.isNaN(date.getTime())) return iso
     return new Intl.DateTimeFormat('en-US', {
       dateStyle: 'medium',
       timeStyle: 'short',
-    }).format(date);
+    }).format(date)
   } catch (error) {
     logSupabaseWarning('adminConsole.formatTimestamp', 'Failed to format timestamp', {
       message: error?.message,
       value: iso,
-    });
-    return iso;
+    })
+    return iso
   }
 }
 
 function toggleCardDisabled(card, disabled) {
-  card.classList.toggle('is-busy', Boolean(disabled));
+  card.classList.toggle('is-busy', Boolean(disabled))
   card.querySelectorAll('button, input, select').forEach((el) => {
-    el.disabled = Boolean(disabled);
-  });
+    el.disabled = Boolean(disabled)
+  })
 }
 
 function updateSummary(count) {
-  if (!dom.summary) return;
-  const descriptor = count === 1 ? 'user' : 'users';
-  dom.summary.textContent = `${count} ${descriptor} visible`;
+  if (!dom.summary) return
+  const descriptor = count === 1 ? 'user' : 'users'
+  dom.summary.textContent = `${count} ${descriptor} visible`
 }
 
 function syncEmptyState(hasRows) {
-  if (!dom.emptyState) return;
-  dom.emptyState.hidden = hasRows;
+  if (!dom.emptyState) return
+  dom.emptyState.hidden = hasRows
+}
+
+function setEmptyStateMessage(markup) {
+  if (!dom.emptyState || typeof markup !== 'string') return
+  dom.emptyState.innerHTML = markup
 }
 
 function renderUsers() {
-  if (!dom.list) return;
-  dom.list.replaceChildren();
-  const filter = state.filter.trim().toLowerCase();
+  if (!dom.list) return
+  if (dom.emptyState && defaultEmptyStateMarkup) {
+    setEmptyStateMessage(defaultEmptyStateMarkup)
+  }
+  dom.list.replaceChildren()
+  const filter = state.filter.trim().toLowerCase()
   const filtered = filter
     ? state.users.filter((user) => {
         const target = [
@@ -99,308 +105,331 @@ function renderUsers() {
         ]
           .filter(Boolean)
           .join(' ')
-          .toLowerCase();
-        return target.includes(filter);
+          .toLowerCase()
+        return target.includes(filter)
       })
-    : state.users;
+    : state.users
 
   filtered.forEach((user) => {
-    const card = buildUserCard(user);
-    dom.list.appendChild(card);
-  });
+    const card = buildUserCard(user)
+    dom.list.appendChild(card)
+  })
 
-  updateSummary(filtered.length);
-  syncEmptyState(filtered.length > 0);
+  updateSummary(filtered.length)
+  syncEmptyState(filtered.length > 0)
 }
 
 function buildUserCard(user) {
-  const card = document.createElement('article');
-  card.className = 'user-card';
-  card.dataset.userId = user.id;
+  const card = document.createElement('article')
+  card.className = 'user-card'
+  card.dataset.userId = user.id
 
-  const heading = document.createElement('header');
-  heading.className = 'user-card__heading';
+  const heading = document.createElement('header')
+  heading.className = 'user-card__heading'
 
-  const identity = document.createElement('div');
-  identity.className = 'user-card__identity';
+  const identity = document.createElement('div')
+  identity.className = 'user-card__identity'
 
-  const emailEl = document.createElement('h3');
-  emailEl.className = 'user-card__email';
-  emailEl.textContent = user.email ?? 'Unknown email';
+  const emailEl = document.createElement('h3')
+  emailEl.className = 'user-card__email'
+  emailEl.textContent = user.email ?? 'Unknown email'
 
-  const nameEl = document.createElement('p');
-  nameEl.className = 'user-card__name';
-  const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
-  nameEl.textContent = fullName || 'Profile pending sync';
+  const nameEl = document.createElement('p')
+  nameEl.className = 'user-card__name'
+  const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ')
+  nameEl.textContent = fullName || 'Profile pending sync'
 
-  identity.append(emailEl, nameEl);
+  identity.append(emailEl, nameEl)
 
-  const roleControl = document.createElement('label');
-  roleControl.className = 'user-card__role';
-  roleControl.innerHTML = '<span>Role</span>';
+  const roleControl = document.createElement('label')
+  roleControl.className = 'user-card__role'
+  roleControl.innerHTML = '<span>Role</span>'
 
-  const roleSelect = document.createElement('select');
+  const roleSelect = document.createElement('select')
   ROLE_OPTIONS.forEach((option) => {
-    const opt = document.createElement('option');
-    opt.value = option.value;
-    opt.textContent = option.label;
+    const opt = document.createElement('option')
+    opt.value = option.value
+    opt.textContent = option.label
     if (option.value === user.role) {
-      opt.selected = true;
+      opt.selected = true
     }
-    roleSelect.appendChild(opt);
-  });
+    roleSelect.appendChild(opt)
+  })
   roleSelect.addEventListener('change', () => {
-    handleRoleChange(user.id, roleSelect.value, card);
-  });
-  roleControl.appendChild(roleSelect);
+    handleRoleChange(user.id, roleSelect.value, card)
+  })
+  roleControl.appendChild(roleSelect)
 
-  heading.append(identity, roleControl);
+  heading.append(identity, roleControl)
 
-  const metaList = document.createElement('dl');
-  metaList.className = 'user-card__meta';
+  const metaList = document.createElement('dl')
+  metaList.className = 'user-card__meta'
 
-  const createdLabel = document.createElement('dt');
-  createdLabel.textContent = 'Created';
-  const createdValue = document.createElement('dd');
-  createdValue.textContent = formatTimestamp(user.created_at);
+  const createdLabel = document.createElement('dt')
+  createdLabel.textContent = 'Created'
+  const createdValue = document.createElement('dd')
+  createdValue.textContent = formatTimestamp(user.created_at)
 
-  const seenLabel = document.createElement('dt');
-  seenLabel.textContent = 'Last seen';
-  const seenValue = document.createElement('dd');
-  seenValue.textContent = formatTimestamp(user.last_sign_in_at);
+  const seenLabel = document.createElement('dt')
+  seenLabel.textContent = 'Last seen'
+  const seenValue = document.createElement('dd')
+  seenValue.textContent = formatTimestamp(user.last_sign_in_at)
 
-  metaList.append(createdLabel, createdValue, seenLabel, seenValue);
+  metaList.append(createdLabel, createdValue, seenLabel, seenValue)
 
-  const folderSection = document.createElement('section');
-  folderSection.className = 'user-card__folders';
-  const folderHeading = document.createElement('h4');
-  folderHeading.textContent = 'Folder access';
-  folderSection.appendChild(folderHeading);
+  const folderSection = document.createElement('section')
+  folderSection.className = 'user-card__folders'
+  const folderHeading = document.createElement('h4')
+  folderHeading.textContent = 'Folder access'
+  folderSection.appendChild(folderHeading)
 
-  const folderGrid = document.createElement('div');
-  folderGrid.className = 'folder-grid';
-  const assigned = new Set(user.folder_access || []);
+  const folderGrid = document.createElement('div')
+  folderGrid.className = 'folder-grid'
+  const assigned = new Set(user.folder_access || [])
 
   FOLDER_CATALOG.forEach((folder) => {
-    const checkboxId = `${user.id}-${folder.id}`;
-    const wrapper = document.createElement('label');
-    wrapper.className = 'folder-pill';
+    const checkboxId = `${user.id}-${folder.id}`
+    const wrapper = document.createElement('label')
+    wrapper.className = 'folder-pill'
     if (folder.description) {
-      wrapper.title = folder.description;
+      wrapper.title = folder.description
     }
 
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.value = folder.id;
-    input.checked = assigned.has(folder.id);
-    input.dataset.folderCheckbox = 'true';
-    input.id = checkboxId;
+    const input = document.createElement('input')
+    input.type = 'checkbox'
+    input.value = folder.id
+    input.checked = assigned.has(folder.id)
+    input.dataset.folderCheckbox = 'true'
+    input.id = checkboxId
     input.addEventListener('change', () => {
-      handleFolderToggle(user.id, card);
-    });
+      handleFolderToggle(user.id, card)
+    })
 
-    const text = document.createElement('span');
-    text.className = 'folder-pill__label';
-    text.textContent = folder.label;
+    const text = document.createElement('span')
+    text.className = 'folder-pill__label'
+    text.textContent = folder.label
 
-    wrapper.append(input, text);
-    folderGrid.appendChild(wrapper);
-  });
+    wrapper.append(input, text)
+    folderGrid.appendChild(wrapper)
+  })
 
-  folderSection.appendChild(folderGrid);
+  folderSection.appendChild(folderGrid)
 
-  const actions = document.createElement('div');
-  actions.className = 'user-card__actions';
+  const actions = document.createElement('div')
+  actions.className = 'user-card__actions'
 
-  const resetButton = document.createElement('button');
-  resetButton.type = 'button';
-  resetButton.className = 'btn btn--ghost';
-  resetButton.textContent = 'Reset password';
+  const resetButton = document.createElement('button')
+  resetButton.type = 'button'
+  resetButton.className = 'btn btn--ghost'
+  resetButton.textContent = 'Reset password'
   resetButton.addEventListener('click', () => {
-    handlePasswordReset(user, card);
-  });
+    handlePasswordReset(user, card)
+  })
 
-  const deleteButton = document.createElement('button');
-  deleteButton.type = 'button';
-  deleteButton.className = 'btn btn--danger';
-  deleteButton.textContent = 'Delete user';
+  const deleteButton = document.createElement('button')
+  deleteButton.type = 'button'
+  deleteButton.className = 'btn btn--danger'
+  deleteButton.textContent = 'Delete user'
   deleteButton.addEventListener('click', () => {
-    handleDeleteUser(user, card);
-  });
+    handleDeleteUser(user, card)
+  })
 
   if (user.id === state.user?.id) {
-    deleteButton.disabled = true;
-    deleteButton.title = 'You cannot delete the active admin session.';
+    deleteButton.disabled = true
+    deleteButton.title = 'You cannot delete the active admin session.'
   }
 
-  actions.append(resetButton, deleteButton);
+  actions.append(resetButton, deleteButton)
 
-  card.append(heading, metaList, folderSection, actions);
-  return card;
+  card.append(heading, metaList, folderSection, actions)
+  return card
 }
 
 async function handleRoleChange(userId, newRole, card) {
-  if (!state.supabase) return;
-  toggleCardDisabled(card, true);
-  clearToast();
+  if (!state.supabase) return
+  toggleCardDisabled(card, true)
+  clearToast()
   try {
     const { data, error } = await state.supabase.functions.invoke('admin-users', {
       body: { action: 'update-role', userId, role: newRole },
-    });
-    if (error) throw error;
-    const role = data?.role ?? newRole;
-    setToast('Role updated successfully.', 'success');
-    const index = state.users.findIndex((user) => user.id === userId);
+    })
+    if (error) throw error
+    const role = data?.role ?? newRole
+    setToast('Role updated successfully.', 'success')
+    const index = state.users.findIndex((user) => user.id === userId)
     if (index >= 0) {
-      state.users[index] = { ...state.users[index], role };
+      state.users[index] = { ...state.users[index], role }
     }
   } catch (error) {
-    logSupabaseError('adminConsole.roleUpdate', error, { userId, newRole });
-    setToast('Role update failed. Please retry.', 'error');
-    renderUsers();
+    logSupabaseError('adminConsole.roleUpdate', error, { userId, newRole })
+    setToast('Role update failed. Please retry.', 'error')
+    renderUsers()
   } finally {
-    toggleCardDisabled(card, false);
+    toggleCardDisabled(card, false)
   }
 }
 
 async function handleFolderToggle(userId, card) {
-  if (!state.supabase) return;
-  toggleCardDisabled(card, true);
-  clearToast();
+  if (!state.supabase) return
+  toggleCardDisabled(card, true)
+  clearToast()
   try {
-    const folders = Array.from(
-      card.querySelectorAll('input[data-folder-checkbox="true"]'),
-    )
+    const folders = Array.from(card.querySelectorAll('input[data-folder-checkbox="true"]'))
       .filter((input) => input.checked)
       .map((input) => input.value)
-      .filter((value, index, arr) => arr.indexOf(value) === index);
+      .filter((value, index, arr) => arr.indexOf(value) === index)
     const { data, error } = await state.supabase.functions.invoke('admin-users', {
       body: { action: 'set-folder-access', userId, folders },
-    });
-    if (error) throw error;
-    const nextFolders = data?.folders ?? folders;
-    const index = state.users.findIndex((user) => user.id === userId);
+    })
+    if (error) throw error
+    const nextFolders = data?.folders ?? folders
+    const index = state.users.findIndex((user) => user.id === userId)
     if (index >= 0) {
-      state.users[index] = { ...state.users[index], folder_access: nextFolders };
+      state.users[index] = { ...state.users[index], folder_access: nextFolders }
     }
-    setToast('Folder access updated.', 'success');
+    setToast('Folder access updated.', 'success')
   } catch (error) {
-    logSupabaseError('adminConsole.folderAccess', error, { userId });
-    setToast('Unable to update folder access right now.', 'error');
-    renderUsers();
+    logSupabaseError('adminConsole.folderAccess', error, { userId })
+    setToast('Unable to update folder access right now.', 'error')
+    renderUsers()
   } finally {
-    toggleCardDisabled(card, false);
+    toggleCardDisabled(card, false)
   }
 }
 
 async function handlePasswordReset(user, card) {
-  if (!state.supabase) return;
-  toggleCardDisabled(card, true);
-  clearToast();
+  if (!state.supabase) return
+  toggleCardDisabled(card, true)
+  clearToast()
   try {
-    const redirectTo = `${window.location.origin}/reset-password.html`;
+    const redirectTo = `${window.location.origin}/reset-password.html`
     const { data, error } = await state.supabase.functions.invoke('admin-users', {
       body: {
         action: 'send-password-reset',
         userId: user.id,
         redirectTo,
       },
-    });
-    if (error) throw error;
-    const link = data?.actionLink;
+    })
+    if (error) throw error
+    const link = data?.actionLink
     if (link && navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(link);
-      setToast('Password reset link copied to clipboard.', 'success');
+      await navigator.clipboard.writeText(link)
+      setToast('Password reset link copied to clipboard.', 'success')
     } else if (link) {
-      setToast('Password reset link ready. Copy from console log.', 'success');
+      setToast('Password reset link ready. Copy from console log.', 'success')
       logSupabaseInfo('adminConsole.passwordResetLink', 'Password reset link generated', {
         link,
-      });
+      })
     } else {
-      setToast('Password reset email triggered.', 'success');
+      setToast('Password reset email triggered.', 'success')
     }
   } catch (error) {
-    logSupabaseError('adminConsole.passwordReset', error, { userId: user.id });
-    setToast('Could not generate password reset link.', 'error');
+    logSupabaseError('adminConsole.passwordReset', error, { userId: user.id })
+    setToast('Could not generate password reset link.', 'error')
   } finally {
-    toggleCardDisabled(card, false);
+    toggleCardDisabled(card, false)
   }
 }
 
 async function handleDeleteUser(user, card) {
-  if (!state.supabase) return;
+  if (!state.supabase) return
   if (user.id === state.user?.id) {
-    setToast('You cannot delete your active session.', 'warning');
-    return;
+    setToast('You cannot delete your active session.', 'warning')
+    return
   }
   const confirmation = window.confirm(
-    `Delete ${user.email}? This removes folders, storage, and the auth record.`,
-  );
-  if (!confirmation) return;
-  toggleCardDisabled(card, true);
-  clearToast();
+    `Delete ${user.email}? This removes folders, storage, and the auth record.`
+  )
+  if (!confirmation) return
+  toggleCardDisabled(card, true)
+  clearToast()
   try {
     const { error } = await state.supabase.functions.invoke('admin-users', {
       body: { action: 'delete-user', userId: user.id },
-    });
-    if (error) throw error;
-    state.users = state.users.filter((item) => item.id !== user.id);
-    renderUsers();
-    setToast('User deleted.', 'success');
+    })
+    if (error) throw error
+    state.users = state.users.filter((item) => item.id !== user.id)
+    renderUsers()
+    setToast('User deleted.', 'success')
   } catch (error) {
-    logSupabaseError('adminConsole.deleteUser', error, { userId: user.id });
-    setToast('Failed to delete user. Check logs for details.', 'error');
-    toggleCardDisabled(card, false);
+    logSupabaseError('adminConsole.deleteUser', error, { userId: user.id })
+    setToast('Failed to delete user. Check logs for details.', 'error')
+    toggleCardDisabled(card, false)
   }
 }
 
 async function loadUsers() {
-  if (!state.supabase) return;
-  setLoading(true);
-  clearToast();
+  if (!state.supabase) return
+  setLoading(true)
+  clearToast()
   try {
     const { data, error } = await state.supabase.functions.invoke('admin-users', {
       method: 'GET',
-    });
-    if (error) throw error;
-    const payload = data ?? {};
-    state.users = Array.isArray(payload.users) ? payload.users : [];
-    renderUsers();
+    })
+    if (error) throw error
+    const payload = data ?? {}
+    state.users = Array.isArray(payload.users) ? payload.users : []
+    renderUsers()
   } catch (error) {
-    logSupabaseError('adminConsole.loadUsers', error);
-    setToast('Unable to load users. Refresh or check Supabase logs.', 'error');
-    state.users = [];
-    renderUsers();
+    logSupabaseError('adminConsole.loadUsers', error)
+    setToast('Unable to load users. Refresh or check Supabase logs.', 'error')
+    state.users = []
+    renderUsers()
   } finally {
-    setLoading(false);
+    setLoading(false)
+  }
+}
+
+async function resolveActiveUser() {
+  if (!state.supabase) {
+    state.user = null
+    return
+  }
+  try {
+    const { data, error } = await state.supabase.auth.getUser()
+    if (error) throw error
+    state.user = data?.user ?? null
+  } catch (error) {
+    state.user = null
+    logSupabaseWarning('adminConsole.session', 'Unable to determine active Supabase user.', {
+      message: error?.message,
+    })
   }
 }
 
 function bindSearch() {
-  if (!dom.search) return;
+  if (!dom.search) return
   dom.search.addEventListener('input', () => {
-    state.filter = dom.search.value;
-    renderUsers();
-  });
+    state.filter = dom.search.value
+    renderUsers()
+  })
 }
 
-function initConsole() {
-  if (!dom.app) return;
-  bindSearch();
-  enforceAuthGuard({
-    requireElevated: true,
-    allowedRoles: ['admin'],
-    loadFolderAccess: true,
-    onAuthorized: async ({ supabase, user }) => {
-      state.supabase = supabase;
-      state.user = user;
-      clearToast();
-      await loadUsers();
-    },
-    deniedHeading: 'Admins only',
-    deniedMessage:
-      'This console is restricted to system administrators. Request elevated access before returning.',
-  });
+async function initConsole() {
+  if (!dom.app) return
+  dom.app.removeAttribute('hidden')
+  bindSearch()
+
+  const supabase = getSupabase((message) => {
+    setToast(message, 'warning')
+    if (dom.emptyState) {
+      setEmptyStateMessage(`<p><strong>Supabase setup required.</strong> ${message}</p>`)
+      dom.emptyState.hidden = false
+    }
+    if (dom.list) {
+      dom.list.replaceChildren()
+    }
+  })
+
+  if (!supabase) {
+    setLoading(false)
+    return
+  }
+
+  state.supabase = supabase
+  clearToast()
+  await resolveActiveUser()
+  await loadUsers()
 }
 
-document.addEventListener('DOMContentLoaded', initConsole);
+document.addEventListener('DOMContentLoaded', initConsole)
