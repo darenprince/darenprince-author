@@ -1,0 +1,60 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'tokens' as ccai;
+
+@mixin glass-panel($surface: 'surface-elevated', $border: 'border-soft') {
+  background: linear-gradient(
+    180deg,
+    color.adjust(ccai.color($surface), $lightness: 2%),
+    color.adjust(ccai.color($surface), $lightness: -1%)
+  );
+  border: 1px solid ccai.color($border);
+  box-shadow: 0 32px 80px ccai.color('glow');
+}
+
+@mixin focus-outline {
+  outline: 3px solid ccai.color('primary');
+  outline-offset: 2px;
+}
+
+@mixin section-shell {
+  background: radial-gradient(
+    circle at top,
+    color.change(ccai.color('surface-high'), $alpha: 0.72) 0%,
+    color.change(ccai.color('surface'), $alpha: 0.92) 65%,
+    ccai.color('surface') 100%
+  );
+  border: 1px solid ccai.color('border-soft');
+  border-radius: 1rem;
+  padding: clamp(1.5rem, 2vw + 1rem, 3rem);
+  box-shadow: 0 20px 60px ccai.color('glow');
+}
+
+@mixin eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  color: ccai.color('text-muted');
+}
+
+@mixin responsive-grid($min: 280px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
+  gap: clamp(1rem, 1.5vw, 1.75rem);
+}
+
+@mixin subdued-text {
+  color: ccai.color('text-muted');
+}
+
+@mixin link-hover-glow {
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: ccai.color('info');
+    text-shadow: 0 0 18px ccai.color('primary-faint');
+  }
+}
