@@ -34,6 +34,8 @@ This project exists to:
 | Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                         |
 
 > **Reality Check:** Netlify’s build command only runs Sass compilation and environment generation. Run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
+>
+> **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build` or `npm run watch`.
 
 ---
 
