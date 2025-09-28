@@ -37,7 +37,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="/assets/styles.css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
@@ -123,36 +123,55 @@
     <link rel="icon" type="image/png" href="labs/crowncode/icons/crowncode-fav.png" />
   </head>
   <body class="theme-dark">
-    <div class="ccai-preloader" role="status" aria-live="polite">
-      <span class="ccai-preloader__sr-only">Loading: AI Forensic Data Analysis</span>
-      <button class="ccai-preloader__skip" type="button">Skip intro</button>
-      <div class="ccai-preloader__glyphs" aria-hidden="true"></div>
-      <div class="ccai-preloader__code" aria-hidden="true">
-        <div class="ccai-preloader__layer" data-depth="0.15"></div>
-        <div class="ccai-preloader__layer" data-depth="0.3"></div>
-        <div class="ccai-preloader__layer" data-depth="0.45"></div>
-        <div class="ccai-preloader__layer" data-depth="0.6"></div>
-        <div class="ccai-preloader__layer" data-depth="0.75"></div>
+    <div class="gameon-preloader" data-preloader role="status" aria-live="polite">
+      <span class="gameon-preloader__sr-only">Loading Game On: Master the Conversation</span>
+      <button class="gameon-preloader__skip" type="button" data-preloader-skip>Skip intro</button>
+      <div class="gameon-preloader__stage" aria-hidden="true">
+        <div class="gameon-preloader__logo" role="presentation">
+          <span class="gameon-preloader__letter">G</span>
+          <span class="gameon-preloader__letter gameon-preloader__letter--offset">O</span>
+          <span class="gameon-preloader__crown" aria-hidden="true"></span>
+        </div>
+        <div class="gameon-preloader__flipbook" aria-hidden="true">
+          <div class="gameon-preloader__flipbook-frame">
+            <div class="gameon-preloader__flipbook-inner">
+              <span class="gameon-preloader__flipbook-wing gameon-preloader__flipbook-wing--left"></span>
+              <span class="gameon-preloader__flipbook-middle"></span>
+              <span class="gameon-preloader__flipbook-wing gameon-preloader__flipbook-wing--right"></span>
+            </div>
+            <ul class="gameon-preloader__flipbook-pages">
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+              <li class="gameon-preloader__flipbook-page"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="gameon-preloader__progress" role="presentation">
+          <span class="gameon-preloader__progress-fill" data-preloader-progress></span>
+        </div>
+        <p class="gameon-preloader__tagline">Locking in your next move…</p>
       </div>
-      <div class="ccai-preloader__logo-stack" aria-hidden="true">
-        <span class="ccai-preloader__logo-aura"></span>
-        <span class="ccai-preloader__logo-pulse"></span>
-        <span class="ccai-preloader__logo-ring"></span>
-        <span class="ccai-preloader__logo-ring ccai-preloader__logo-ring--counter"></span>
-        <img
-          src="labs/crowncode/images/905437AD-6656-4AD8-B5A6-CF08F6199F27.png"
-          alt=""
-          class="ccai-preloader__logo"
-        />
-      </div>
-      <h1 class="ccai-preloader__title">AI Forensic Data Analysis</h1>
-      <p class="ccai-preloader__subtitle" aria-hidden="true">CrownCode.AI Systems Division</p>
     </div>
     <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
       <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
         <i class="ti ti-x"></i>
       </button>
-      <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+      <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
       <ul class="mega-menu-list">
         <li>
           <a href="index.html" class="active"><i class="ti ti-home"></i>Home</a>
@@ -200,7 +219,7 @@
         <div class="container max-width-adaptive-lg flex items-center justify-between">
           <a href="index.html" class="logo">
             <img
-              src="assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png"
+              src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png"
               alt="Daren Prince"
             />
           </a>
@@ -261,7 +280,7 @@
           <div class="hero-media">
             <div class="hero-image-layer js-hero-image" role="presentation">
               <img
-                src="assets/images/heroposter1.png"
+                src="/assets/images/heroposter1.png"
                 alt="Cover art for the Game On! trailer"
                 loading="lazy"
               />
@@ -512,12 +531,12 @@
                 </nav>
                 <div
                   class="book-3d-container"
-                  style="--book-bg: url('assets/images/3d-book-bg-1.png')"
+                  style="--book-bg: url('/assets/images/3d-book-bg-1.png')"
                 >
                   <div id="book-3d-viewer" class="book-3d-viewer">
                     <div class="book-loader"></div>
                     <div class="rotate-hint" aria-hidden="true">
-                      <img src="assets/images/360rotate.png" alt="" />
+                      <img src="/assets/images/360rotate.png" alt="" />
                     </div>
                     <div class="scene">
                       <div class="book" id="book">
@@ -543,17 +562,17 @@
                 <div class="cover-zoom-modal" id="cover-zoom" hidden>
                   <div class="cover-zoom-content">
                     <button class="close-btn" id="close-cover-zoom"><i class="ti ti-x"></i></button>
-                    <img id="zoom-full" src="assets/images/book-front.jpg" alt="Zoomed cover" />
+                    <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover" />
                     <div class="thumbnails">
                       <img
-                        src="assets/images/book-front.jpg"
-                        data-full="assets/images/book-front.jpg"
+                        src="/assets/images/book-front.jpg"
+                        data-full="/assets/images/book-front.jpg"
                         class="active"
                         alt="Front cover"
                       />
                       <img
-                        src="assets/images/book-back.jpg"
-                        data-full="assets/images/book-back.jpg"
+                        src="/assets/images/book-back.jpg"
+                        data-full="/assets/images/book-back.jpg"
                         alt="Back cover"
                       />
                     </div>
@@ -682,7 +701,7 @@
             <article class="author-spotlight-card">
               <div class="author-spotlight-card__media">
                 <img
-                  src="assets/images/daren-prince-profile-sm.jpg"
+                  src="/assets/images/daren-prince-profile-sm.jpg"
                   alt="Daren Prince smiling in a studio headshot"
                   loading="lazy"
                 />
@@ -720,7 +739,7 @@
                 ><img
                   class="store-logo"
                   loading="lazy"
-                  src="assets/logos/amazon.png"
+                  src="/assets/logos/amazon.png"
                   alt="Amazon Logo"
                   onerror="this.closest('a').style.display='none'"
               /></a>
@@ -732,7 +751,7 @@
                 ><img
                   class="store-logo"
                   loading="lazy"
-                  src="assets/logos/ibooks.png"
+                  src="/assets/logos/ibooks.png"
                   alt="Apple Books Logo"
                   onerror="this.closest('a').style.display='none'"
               /></a>
@@ -744,7 +763,7 @@
                 ><img
                   class="store-logo"
                   loading="lazy"
-                  src="assets/logos/googleplay.png"
+                  src="/assets/logos/googleplay.png"
                   alt="Google Play Logo"
                   onerror="this.closest('a').style.display='none'"
               /></a>
@@ -818,7 +837,7 @@
       <footer class="site-footer">
         <div class="container footer-grid">
           <div>
-            <img src="assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
+            <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
           </div>
           <div>
             <h4>Explore</h4>
@@ -845,20 +864,20 @@
         </div>
       </footer>
     </div>
-    <script src="assets/js/preloader-ccai.js" defer></script>
-    <script src="assets/js/env.js"></script>
-    <script type="module" src="assets/js/app.js"></script>
-    <script type="module" src="./js/ui.js"></script>
+    <script src="/assets/js/preloader-gameon.js" defer></script>
+    <script src="/assets/js/env.js"></script>
+    <script type="module" src="/assets/js/app.js"></script>
+    <script type="module" src="/js/ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="module" src="./js/profile-dropdown.js"></script>
-    <script src="./js/trailer-modal.js"></script>
-    <script src="./js/theme-toggle.js"></script>
-    <script type="module" src="./js/book-3d-viewer.js"></script>
-    <script src="./js/book-details.js"></script>
+    <script type="module" src="/js/profile-dropdown.js"></script>
+    <script src="/js/trailer-modal.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+    <script type="module" src="/js/book-3d-viewer.js"></script>
+    <script src="/js/book-details.js"></script>
     <script src="https://player.vimeo.com/api/player.js" defer></script>
-    <script src="./js/hero-video-controller.js" defer></script>
-    <script src="./js/hero-auto-zoom.js"></script>
-    <script type="module" src="./js/main.js"></script>
+    <script src="/js/hero-video-controller.js" defer></script>
+    <script src="/js/hero-auto-zoom.js"></script>
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>
 
