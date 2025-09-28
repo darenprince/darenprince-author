@@ -6,13 +6,13 @@
 }
 
 .surface-panel {
-  background: linear-gradient(140deg, rgba(135, 189, 114, 0.12), rgba(7, 10, 6, 0.75));
+  background: linear-gradient(140deg, color-mix(in srgb, var(--color-bright), transparent 88%), color-mix(in srgb, var(--color-black), transparent 25%));
   border: 1px solid color-mix(in srgb, var(--color-bright) 35%, transparent);
   border-radius: 1.25rem;
   padding: clamp(2rem, 5vw, 3rem);
   box-shadow:
-    0 30px 65px -55px rgba(135, 189, 114, 0.85),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    0 30px 65px -55px color-mix(in srgb, var(--color-bright), transparent 15%),
+    0 0 0 1px color-mix(in srgb, var(--color-white), transparent 96%) inset;
 }
 
 .developer-hero {
