@@ -10,3 +10,6 @@ assets/js/env.js
 !supabase/env.js
 !.env.example
 assets/icons/generated/
+
+assets/styles.unprefixed.css
+assets/styles.unprefixed.css.map
