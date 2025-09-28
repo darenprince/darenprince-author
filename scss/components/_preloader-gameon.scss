@@ -1,0 +1,471 @@
+$gameon-void: #030806;
+$gameon-midnight: #05100b;
+$gameon-shadow: #07140f;
+$gameon-ember: #0f1f17;
+$gameon-neon: #8bffbb;
+$gameon-accent: #4dff8c;
+$gameon-emerald: #1f9b69;
+$gameon-laser: #7df4d3;
+$gameon-glow: #b1ffd6;
+$gameon-crown-highlight: #f9ffd2;
+$gameon-crown-base: #b5ff83;
+$gameon-flipbook-page-count: 18;
+
+body.is-preloading {
+  overflow: hidden;
+}
+
+.gameon-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: grid;
+  place-items: center;
+  padding: clamp(2rem, 6vw, 7rem);
+  color: var(--color-contrast-high);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  background:
+    radial-gradient(circle at 12% 8%, rgba($gameon-neon, 0.18), transparent 58%),
+    radial-gradient(circle at 88% 12%, rgba($gameon-glow, 0.12), transparent 52%),
+    linear-gradient(160deg, $gameon-ember, $gameon-shadow 65%, $gameon-void);
+  isolation: isolate;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+  opacity: 1;
+  visibility: visible;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle, rgba($gameon-neon, 0.12), transparent 70%);
+    filter: blur(120px);
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    animation: gameon-preloader-atmosphere 22s linear infinite;
+  }
+
+  &--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &--reduced-motion {
+    .gameon-preloader__letter,
+    .gameon-preloader__progress-fill,
+    .gameon-preloader__crown::after,
+    .gameon-preloader__flipbook-inner,
+    .gameon-preloader__flipbook-wing,
+    .gameon-preloader__flipbook-page {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+.gameon-preloader__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.gameon-preloader__skip {
+  position: absolute;
+  top: clamp(1rem, 4vw, 2.25rem);
+  right: clamp(1rem, 4vw, 2.75rem);
+  padding: 0.55rem 1.65rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid rgba($gameon-neon, 0.45);
+  background: rgba(4, 12, 9, 0.35);
+  color: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $gameon-glow;
+    border-color: rgba($gameon-neon, 0.75);
+    background: rgba($gameon-neon, 0.12);
+    outline: none;
+  }
+}
+
+.gameon-preloader__stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(1.2rem, 4vw, 2.6rem);
+  justify-items: center;
+  text-align: center;
+  max-width: 36rem;
+}
+
+.gameon-preloader__logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.25em, 1vw, 0.5em);
+  font-family: 'League Spartan', 'Impact', sans-serif;
+  font-size: clamp(2.6rem, 8vw, 5.25rem);
+  letter-spacing: 0.08em;
+}
+
+.gameon-preloader__flipbook {
+  --flipbook-duration: 6.8s;
+  --flipbook-color: rgba(177, 255, 214, 0.92);
+  position: relative;
+  margin-top: clamp(1.4rem, 4vw, 2.4rem);
+  filter: drop-shadow(0 16px 34px rgba($gameon-neon, 0.32));
+
+  &-frame {
+    position: relative;
+    width: 32px;
+    height: 12px;
+    margin: 0 auto;
+    transform-origin: center;
+    transform: scale(1.85);
+  }
+
+  &-inner {
+    width: 32px;
+    height: 12px;
+    position: relative;
+    transform-origin: 2px 2px;
+    transform: rotateZ(-90deg);
+    animation: gameon-flipbook-spin var(--flipbook-duration) ease infinite;
+  }
+
+  &-wing {
+    width: 60px;
+    height: 4px;
+    top: 0;
+    border-radius: 2px;
+    background: var(--flipbook-color);
+    position: absolute;
+
+    &::before {
+      content: '';
+      width: 48px;
+      height: 4px;
+      border-radius: 2px;
+      background: inherit;
+      position: absolute;
+      top: -10px;
+      left: 6px;
+    }
+  }
+
+  &-wing--left {
+    right: 28px;
+    transform-origin: 58px 2px;
+    transform: rotateZ(90deg);
+    animation: gameon-flipbook-left var(--flipbook-duration) ease infinite;
+  }
+
+  &-wing--right {
+    left: 28px;
+    transform-origin: 2px 2px;
+    transform: rotateZ(-90deg);
+    animation: gameon-flipbook-right var(--flipbook-duration) ease infinite;
+  }
+
+  &-middle {
+    width: 32px;
+    height: 12px;
+    border: 4px solid var(--flipbook-color);
+    border-top: 0;
+    border-radius: 0 0 9px 9px;
+    transform: translateY(2px);
+    box-shadow: 0 0 22px rgba($gameon-neon, 0.35);
+  }
+
+  &-pages {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  &-page {
+    height: 4px;
+    border-radius: 2px;
+    transform-origin: 100% 2px;
+    width: 48px;
+    right: 0;
+    top: -10px;
+    position: absolute;
+    background: var(--flipbook-color);
+    transform: rotateZ(0deg) translateX(-18px);
+    animation-duration: var(--flipbook-duration);
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    box-shadow: 0 0 12px rgba($gameon-neon, 0.45);
+  }
+
+  @for $index from 1 through $gameon-flipbook-page-count {
+    $page-index: $index - 1;
+
+    &-page:nth-child(#{$index}) {
+      animation-name: gameon-flipbook-page-#{$page-index};
+    }
+  }
+
+  @media (max-width: 900px) {
+    &-frame {
+      transform: scale(1.55);
+    }
+  }
+
+  @media (max-width: 600px) {
+    &-frame {
+      transform: scale(1.35);
+    }
+  }
+}
+
+.gameon-preloader__letter {
+  display: inline-block;
+  background: linear-gradient(120deg, $gameon-glow 0%, $gameon-accent 45%, $gameon-emerald 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 45px rgba($gameon-neon, 0.45);
+  animation: gameon-letter-pulse 1.8s ease-in-out infinite;
+
+  &--offset {
+    animation-delay: 0.3s;
+  }
+}
+
+.gameon-preloader__crown {
+  position: absolute;
+  top: -26%;
+  left: 52%;
+  width: clamp(2.1rem, 5vw, 2.8rem);
+  height: clamp(1.25rem, 3vw, 1.6rem);
+  transform: translateX(-50%);
+  clip-path: polygon(12% 100%, 18% 40%, 36% 82%, 52% 15%, 68% 82%, 86% 40%, 92% 100%);
+  background: linear-gradient(
+    135deg,
+    rgba($gameon-crown-highlight, 0.95),
+    rgba($gameon-crown-base, 0.65)
+  );
+  box-shadow:
+    0 10px 30px rgba($gameon-crown-highlight, 0.35),
+    0 0 28px rgba($gameon-neon, 0.45);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($gameon-glow, 0.8), transparent 70%);
+    filter: blur(6px);
+    opacity: 0.75;
+    animation: gameon-crown-sparkle 2.4s ease-in-out infinite;
+  }
+}
+
+.gameon-preloader__progress {
+  position: relative;
+  width: clamp(220px, 38vw, 340px);
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba($gameon-accent, 0.35),
+    0 12px 28px rgba($gameon-emerald, 0.2);
+}
+
+.gameon-preloader__progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    rgba($gameon-emerald, 0.15),
+    rgba($gameon-neon, 0.95),
+    rgba($gameon-emerald, 0.15)
+  );
+  box-shadow: 0 0 32px rgba($gameon-neon, 0.45);
+  transition: width 0.45s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba($gameon-glow, 0.8), transparent);
+    transform: translateX(-100%);
+    animation: gameon-bar-sweep 1.35s ease-in-out infinite;
+  }
+}
+
+.gameon-preloader__tagline {
+  font-size: clamp(0.78rem, 1.9vw, 0.98rem);
+  letter-spacing: 0.26em;
+  color: rgba(255, 255, 255, 0.68);
+  text-transform: uppercase;
+}
+
+@keyframes gameon-preloader-atmosphere {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gameon-flipbook-left {
+  4% {
+    transform: rotateZ(90deg);
+  }
+  10%,
+  40% {
+    transform: rotateZ(0deg);
+  }
+  46%,
+  54% {
+    transform: rotateZ(90deg);
+  }
+  60%,
+  90% {
+    transform: rotateZ(0deg);
+  }
+  96% {
+    transform: rotateZ(90deg);
+  }
+}
+
+@keyframes gameon-flipbook-right {
+  4% {
+    transform: rotateZ(-90deg);
+  }
+  10%,
+  40% {
+    transform: rotateZ(0deg);
+  }
+  46%,
+  54% {
+    transform: rotateZ(-90deg);
+  }
+  60%,
+  90% {
+    transform: rotateZ(0deg);
+  }
+  96% {
+    transform: rotateZ(-90deg);
+  }
+}
+
+@keyframes gameon-flipbook-spin {
+  4% {
+    transform: rotateZ(-90deg);
+  }
+  10%,
+  40% {
+    transform: rotateZ(0deg);
+    transform-origin: 2px 2px;
+  }
+  40.01%,
+  59.99% {
+    transform-origin: 30px 2px;
+  }
+  46%,
+  54% {
+    transform: rotateZ(90deg);
+  }
+  60%,
+  90% {
+    transform: rotateZ(0deg);
+    transform-origin: 2px 2px;
+  }
+  96% {
+    transform: rotateZ(-90deg);
+  }
+}
+
+@for $page-index from 0 to $gameon-flipbook-page-count {
+  $delay: $page-index * 1.86;
+  $delay-after: $page-index * 1.74;
+
+  @keyframes gameon-flipbook-page-#{$page-index} {
+    #{4 + $delay}% {
+      transform: rotateZ(0deg) translateX(-18px);
+    }
+    #{13 + $delay-after}%,
+    #{54 + $delay}% {
+      transform: rotateZ(180deg) translateX(-18px);
+    }
+    #{63 + $delay-after}% {
+      transform: rotateZ(0deg) translateX(-18px);
+    }
+  }
+}
+
+@keyframes gameon-letter-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    text-shadow: 0 0 26px rgba($gameon-neon, 0.35);
+  }
+  50% {
+    transform: translateY(-6%);
+    text-shadow: 0 0 45px rgba($gameon-glow, 0.65);
+  }
+}
+
+@keyframes gameon-crown-sparkle {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes gameon-bar-sweep {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 600px) {
+  .gameon-preloader {
+    letter-spacing: 0.12em;
+    padding: clamp(1.5rem, 6vw, 3rem);
+  }
+
+  .gameon-preloader__skip {
+    letter-spacing: 0.16em;
+  }
+
+  .gameon-preloader__tagline {
+    letter-spacing: 0.2em;
+  }
+}

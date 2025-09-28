@@ -86,7 +86,7 @@ function initSmartAppBanner() {
     root.style.setProperty('--smart-app-banner-height', `${banner.offsetHeight}px`)
   }
 
-  window.requestAnimationFrame(updateOffset);
+  window.requestAnimationFrame(updateOffset)
 
   const resizeHandler = () => updateOffset()
   window.addEventListener('resize', resizeHandler)
@@ -116,10 +116,10 @@ async function initNavigationAndAuth() {
       `[SEO] Robots directive set to "${indexingRule.directive}" — ${indexingRule.reason}`
     )
   }
-  const menuToggle = document.querySelector('.js-menu-toggle')
+  const menuToggles = Array.from(document.querySelectorAll('.js-menu-toggle'))
   const megaMenu = document.querySelector('.js-mega-menu')
   const menuOverlay = document.querySelector('.js-menu-overlay')
-  const menuClose = document.querySelector('.js-menu-close')
+  const menuCloses = Array.from(document.querySelectorAll('.js-menu-close'))
   const authToggle = document.querySelector('.js-auth-toggle')
   const searchToggle = document.querySelector('.js-search-toggle')
   const searchBar = document.querySelector('.js-search-bar')
@@ -131,22 +131,35 @@ async function initNavigationAndAuth() {
   // menu + search event binding
   // ---------------------------
 
-  if (menuToggle && megaMenu) {
-    menuToggle.addEventListener('click', function () {
-      document.body.classList.toggle('menu-open')
+  const setMenuState = (shouldOpen) => {
+    document.body.classList.toggle('menu-open', shouldOpen)
+    megaMenu?.classList.toggle('is-active', shouldOpen)
+    menuOverlay?.classList.toggle('is-active', shouldOpen)
+    menuToggles.forEach((toggle) =>
+      toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false')
+    )
+  }
+
+  if (megaMenu && menuToggles.length) {
+    menuToggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const isOpen = document.body.classList.contains('menu-open')
+        setMenuState(!isOpen)
+      })
+      if (!toggle.hasAttribute('aria-expanded')) {
+        toggle.setAttribute('aria-expanded', 'false')
+      }
     })
   }
 
-  if (menuClose && megaMenu) {
-    menuClose.addEventListener('click', function () {
-      document.body.classList.remove('menu-open')
+  if (megaMenu && menuCloses.length) {
+    menuCloses.forEach((closeButton) => {
+      closeButton.addEventListener('click', () => setMenuState(false))
     })
   }
 
   if (menuOverlay && megaMenu) {
-    menuOverlay.addEventListener('click', function () {
-      document.body.classList.remove('menu-open')
-    })
+    menuOverlay.addEventListener('click', () => setMenuState(false))
   }
 
   // default auth toggle -> login
@@ -176,6 +189,9 @@ async function initNavigationAndAuth() {
 
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
+        if (document.body.classList.contains('menu-open')) {
+          setMenuState(false)
+        }
         if (searchModal && searchModal.classList.contains('is-visible')) {
           closeSearchModal()
         } else if (searchBar && !searchBar.hasAttribute('hidden')) {
