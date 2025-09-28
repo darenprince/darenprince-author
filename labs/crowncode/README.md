@@ -2,6 +2,10 @@
 
 This laboratory encapsulates the CrownCode.ai experience inside the `labs/crowncode` workspace so it can evolve independently from the primary Daren Prince author site. The interface was rebuilt with the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov) to ensure federal-grade accessibility, performance, and responsive behavior.
 
+This workspace contains only files and html related to the crowncode.ai project
+
+live site: https://darenprince.com/labs/crowncode/index.html
+
 ## Structure
 
 ```
