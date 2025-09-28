@@ -40,6 +40,9 @@
     "sass": "^1.89.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
+    "dependencies": {
+  "@uswds/uswds": "^3.10.0",
+}
   },
   "type": "module",
   "lint-staged": {
