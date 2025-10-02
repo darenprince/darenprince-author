@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>911 Emergency Command Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="emergency-911/dist/911.css" />
+</head>
+<body class="emergency-body">
+  <header class="alert-banner" role="banner">
+    <span class="alert-icon" aria-hidden="true">🆘</span>
+    <div class="alert-text" aria-live="polite">Emergency Command Portal</div>
+    <span class="alert-icon" aria-hidden="true">⚠️</span>
+  </header>
+
+  <main class="emergency-layout" aria-hidden="true" tabindex="-1" data-protected-content>
+    <article class="emergency-card" aria-labelledby="triage-title">
+      <h2 class="emergency-card__title" id="triage-title">Rapid Triage</h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">01</span>
+          <span>Confirm caller location and cross streets. Dispatch nearest unit.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">02</span>
+          <span>Initiate medical priority assessment. Flag red-level protocols when life-threatening.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">03</span>
+          <span>Activate video uplink if onsite support is <abbr title="Emergency Medical Technician">EMT</abbr>-equipped.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="intel-title">
+      <h2 class="emergency-card__title" id="intel-title">Intel Feed</h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">ALR</span>
+          <span>Monitor automated license recognition alerts. Cross-check against active warrants.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">BIO</span>
+          <span>Pull responder vitals from wearables. Escalate if stress load exceeds 85% threshold.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">NET</span>
+          <span>Deploy secure channel via <a href="mailto:command@rapidresponse.io">command@rapidresponse.io</a> for field uploads.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="stabilize-title">
+      <h2 class="emergency-card__title" id="stabilize-title">Stabilization Checklist</h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">A</span>
+          <span>Airway: confirm patency, deploy OPA/NPA as required, prep intubation kit.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">B</span>
+          <span>Breathing: monitor <abbr title="Oxygen saturation">SpO₂</abbr> and respirations, trigger assisted ventilation if &lt; 90%.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">C</span>
+          <span>Circulation: control hemorrhage, initiate IV/IO access, begin warmed fluids if shock suspected.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="comms-title">
+      <h2 class="emergency-card__title" id="comms-title">Communications Matrix</h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">RAD</span>
+          <span>Switch to encrypted tactical band Bravo-7. Confirm roll call every 5 minutes.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">CMD</span>
+          <span>Log command decisions in incident timeline. Sync with county <abbr title="Emergency Operations Center">EOC</abbr>.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">PRT</span>
+          <span>Issue press holding statement with approved keywords: "stabilizing", "coordinated", "active."</span>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="emergency-footer">
+    Signal locked. All activity is monitored and timestamped for audit integrity.
+  </footer>
+
+  <section class="password-gate" id="passwordGate" aria-hidden="false" role="dialog" aria-labelledby="gate-title" aria-describedby="gate-subtitle">
+    <div class="password-gate__panel">
+      <h1 class="password-gate__title" id="gate-title">Secure Access Required</h1>
+      <p class="password-gate__subtitle" id="gate-subtitle">Enter the incident password to unlock the command portal.</p>
+      <form class="password-form" novalidate>
+        <label class="sr-only" for="password-input">Incident password</label>
+        <input class="password-field" id="password-input" type="password" name="password" autocomplete="off" placeholder="Enter emergency code" required aria-required="true" />
+        <button class="password-submit" type="submit">Authorize</button>
+        <div class="password-error" role="alert" data-error></div>
+      </form>
+    </div>
+  </section>
+
+  <script src="emergency-911/dist/911.js" defer></script>
+</body>
+</html>
