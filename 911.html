@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>911 Emergency Command Portal</title>
+  <link rel="stylesheet" href="emergency-911/dist/911.css" />
+</head>
+<body class="emergency-body">
+  <header class="emergency-header" role="banner">
+    <nav class="emergency-nav" aria-label="Emergency status">
+      <div class="nav-section nav-section--brand">
+        <span class="nav-icon" aria-hidden="true">🆘</span>
+        <span class="nav-title">Emergency Command Portal</span>
+      </div>
+      <div class="nav-section nav-section--status">
+        <span class="nav-warning" aria-hidden="true">⚠️</span>
+        <span class="nav-status">Code Black Active</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="emergency-layout" aria-hidden="true" tabindex="-1" data-protected-content>
+    <article class="emergency-card" aria-labelledby="triage-title">
+      <h2 class="emergency-card__title" id="triage-title">
+        <span class="title-icon" aria-hidden="true">🚑</span>
+        <span>Rapid Triage</span>
+      </h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">01</span>
+          <span>Confirm caller location and cross streets. <span class="critical-text">Verify GPS before dispatch.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">02</span>
+          <span>Initiate medical priority assessment. <span class="critical-text">Escalate to RED if airway, breathing, or circulation is compromised.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">03</span>
+          <span>Activate video uplink if onsite support is <abbr title="Emergency Medical Technician">EMT</abbr>-equipped. <span class="critical-text">Keep line open for real-time directives.</span></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="intel-title">
+      <h2 class="emergency-card__title" id="intel-title">
+        <span class="title-icon" aria-hidden="true">📡</span>
+        <span>Intel Feed</span>
+      </h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">ALR</span>
+          <span>Monitor automated license recognition alerts. <span class="critical-text">Cross-check against active warrants.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">BIO</span>
+          <span>Pull responder vitals from wearables. <span class="critical-text">Escalate if stress load exceeds 85% threshold.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">NET</span>
+          <span>Deploy secure channel via <a href="mailto:command@rapidresponse.io">command@rapidresponse.io</a> for field uploads.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="stabilize-title">
+      <h2 class="emergency-card__title" id="stabilize-title">
+        <span class="title-icon" aria-hidden="true">🩺</span>
+        <span>Stabilization Checklist</span>
+      </h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">A</span>
+          <span><span class="critical-text">Airway:</span> confirm patency, deploy OPA/NPA as required, prep intubation kit.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">B</span>
+          <span><span class="critical-text">Breathing:</span> monitor <abbr title="Oxygen saturation">SpO₂</abbr> and respirations, trigger assisted ventilation if &lt; 90%.</span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">C</span>
+          <span><span class="critical-text">Circulation:</span> control hemorrhage, initiate IV/IO access, begin warmed fluids if shock suspected.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="emergency-card" aria-labelledby="comms-title">
+      <h2 class="emergency-card__title" id="comms-title">
+        <span class="title-icon" aria-hidden="true">📞</span>
+        <span>Communications Matrix</span>
+      </h2>
+      <div class="emergency-card__body">
+        <div class="list-tag">
+          <span class="list-tag__badge">RAD</span>
+          <span>Switch to encrypted tactical band Bravo-7. <span class="critical-text">Confirm roll call every 5 minutes.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">CMD</span>
+          <span>Log command decisions in incident timeline. <span class="critical-text">Sync with county <abbr title="Emergency Operations Center">EOC</abbr>.</span></span>
+        </div>
+        <div class="list-tag">
+          <span class="list-tag__badge">PRT</span>
+          <span>Issue press holding statement with approved keywords: "stabilizing", "coordinated", "active."</span>
+        </div>
+      </div>
+    </article>
+
+    <section class="emergency-actions" aria-label="Immediate actions">
+      <button class="action-button" type="button">
+        <span class="action-icon" aria-hidden="true">🚓</span>
+        <span class="action-label">
+          <span class="action-title">Dispatch Units</span>
+          <span class="action-subtitle">Route nearest patrol to incident GPS</span>
+        </span>
+      </button>
+      <button class="action-button" type="button">
+        <span class="action-icon" aria-hidden="true">🚑</span>
+        <span class="action-label">
+          <span class="action-title">Request Medical</span>
+          <span class="action-subtitle">Notify trauma center and prep bay</span>
+        </span>
+      </button>
+      <button class="action-button" type="button">
+        <span class="action-icon" aria-hidden="true">📢</span>
+        <span class="action-label">
+          <span class="action-title">Broadcast Alert</span>
+          <span class="action-subtitle">Send agency-wide push notification</span>
+        </span>
+      </button>
+    </section>
+  </main>
+
+  <footer class="emergency-footer">
+    Signal locked. All activity is monitored and timestamped for audit integrity.
+  </footer>
+
+  <section class="password-gate" id="passwordGate" aria-hidden="false" role="dialog" aria-labelledby="gate-title" aria-describedby="gate-subtitle">
+    <div class="password-gate__panel">
+      <h1 class="password-gate__title" id="gate-title">Secure Access Required</h1>
+      <p class="password-gate__subtitle" id="gate-subtitle">Enter the incident password to unlock the command portal.</p>
+      <form class="password-form" novalidate>
+        <label class="sr-only" for="password-input">Incident password</label>
+        <input class="password-field" id="password-input" type="password" name="password" autocomplete="off" placeholder="Enter emergency code" required aria-required="true" />
+        <button class="password-submit" type="submit">Authorize</button>
+        <div class="password-error" role="alert" data-error></div>
+      </form>
+    </div>
+  </section>
+
+  <script src="emergency-911/dist/911.js" defer></script>
+</body>
+</html>
