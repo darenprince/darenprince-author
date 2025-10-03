@@ -13,7 +13,10 @@ body {
   font-family: $font-family-base;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  background: var(--grad-gray-light);
+  background-image: url('../assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   color: $white;
   position: relative;
   z-index: 0;
