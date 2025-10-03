@@ -26,14 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const stored = sessionStorage.getItem('emergencyAccess');
   if (stored === 'granted') {
     unlock();
-    return;
+  } else {
+    layout.setAttribute('aria-hidden', 'true');
+    layout.setAttribute('tabindex', '-1');
+    gate.classList.remove('is-hidden');
+    gate.setAttribute('aria-hidden', 'false');
+    body.classList.add('is-locked');
   }
-
-  layout.setAttribute('aria-hidden', 'true');
-  layout.setAttribute('tabindex', '-1');
-  gate.classList.remove('is-hidden');
-  gate.setAttribute('aria-hidden', 'false');
-  body.classList.add('is-locked');
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -69,4 +68,81 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     input.focus();
   }, 180);
+
+  const copyButtons = document.querySelectorAll('.copy-trigger');
+  const copyTimers = new WeakMap();
+
+  const setTooltip = (snippet, message) => {
+    const tooltip = snippet.querySelector('.copy-tooltip');
+    if (tooltip) {
+      tooltip.textContent = message;
+    }
+  };
+
+  const resetSnippet = (snippet) => {
+    snippet.classList.remove('is-copied');
+    setTooltip(snippet, 'Copy');
+  };
+
+  const copyText = async (text) => {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    let succeeded = false;
+    try {
+      succeeded = document.execCommand('copy');
+    } catch (errorCopy) {
+      succeeded = false;
+    }
+
+    document.body.removeChild(textarea);
+    return succeeded;
+  };
+
+  copyButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      const snippet = button.closest('.code-snippet');
+      const code = snippet?.querySelector('code');
+
+      if (!snippet || !code) {
+        return;
+      }
+
+      const text = code.textContent.replace(/\n\s+/g, '\n').trim();
+
+      try {
+        const success = await copyText(text);
+        if (success) {
+          snippet.classList.add('is-copied');
+          setTooltip(snippet, 'Copied!');
+        } else {
+          setTooltip(snippet, 'Copy failed');
+        }
+      } catch (copyError) {
+        setTooltip(snippet, 'Copy failed');
+      }
+
+      const existingTimer = copyTimers.get(snippet);
+      if (existingTimer) {
+        clearTimeout(existingTimer);
+      }
+
+      const timer = window.setTimeout(() => {
+        resetSnippet(snippet);
+        copyTimers.delete(snippet);
+      }, 2200);
+
+      copyTimers.set(snippet, timer);
+    });
+  });
 });
