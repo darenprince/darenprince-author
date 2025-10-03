@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>911 Emergency Command Portal</title>
+  <link rel="stylesheet" href="emergency-911/dist/911.css" />
+</head>
+<body class="emergency-body">
+  <header class="emergency-header" role="banner">
+    <nav class="emergency-nav" aria-label="Emergency status">
+      <div class="nav-section nav-section--brand">
+        <span class="nav-icon" aria-hidden="true">🆘</span>
+        <span class="nav-title">Emergency Command Portal</span>
+      </div>
+      <div class="nav-section nav-section--status">
+        <span class="nav-warning" aria-hidden="true">⚠️</span>
+        <span class="nav-status">SOS Alert Active</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="emergency-layout" aria-hidden="true" tabindex="-1" data-protected-content>
+    <section class="grid grid--primary">
+      <article class="emergency-card emergency-card--alert" aria-labelledby="alert-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">🆘</span>
+          <h2 class="emergency-card__title" id="alert-title">Daren’s SOS Emergency Alert System Active</h2>
+        </div>
+        <p class="card-lead">If you’re seeing this, Daren’s iPhone triggered an emergency alert. Assume he may be in danger, unresponsive, or unable to communicate.</p>
+        <p class="card-text">Act fast, confirm the situation, and coordinate a safe response. Every second matters.</p>
+
+        <section class="priority-block" aria-labelledby="priority-title">
+          <h3 class="priority-title" id="priority-title">What to do immediately</h3>
+          <ul class="priority-list">
+            <li>
+              <span class="priority-badge" aria-hidden="true">1</span>
+              <span>Check each live link and confirm Daren’s status.</span>
+            </li>
+            <li>
+              <span class="priority-badge" aria-hidden="true">2</span>
+              <span>If anything looks wrong, call <strong>911</strong> and share his latest location.</span>
+            </li>
+            <li>
+              <span class="priority-badge" aria-hidden="true">3</span>
+              <span>Trust your instincts — this alert only fires under critical conditions.</span>
+            </li>
+          </ul>
+        </section>
+
+        <div class="cta-row" role="group" aria-label="Emergency call to actions">
+          <a class="action-button" href="tel:911">
+            <span class="action-icon" aria-hidden="true">🚨</span>
+            <span class="action-label">Call 911 Now</span>
+          </a>
+          <a class="action-button action-button--secondary" href="#live-phone" data-jump>
+            <span class="action-icon" aria-hidden="true">📹</span>
+            <span class="action-label">Check Live Camera</span>
+          </a>
+          <a class="action-button action-button--outline" href="#share-alert">
+            <span class="action-icon" aria-hidden="true">🔁</span>
+            <span class="action-label">Share Alert Brief</span>
+          </a>
+        </div>
+      </article>
+
+      <aside class="emergency-card emergency-card--map" aria-labelledby="map-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">📍</span>
+          <h2 class="emergency-card__title" id="map-title">Live Location Map</h2>
+        </div>
+        <div class="map-placeholder" role="img" aria-label="Placeholder showing that the live map feed will appear here">
+          <span class="map-placeholder__label">Awaiting secure map feed</span>
+          <span class="map-placeholder__status">Connect to verified tracking to populate this view.</span>
+        </div>
+        <p class="map-note">This panel updates with Daren’s real-time position once the secure data stream is active.</p>
+      </aside>
+    </section>
+
+    <section class="grid grid--secondary">
+      <article class="emergency-card" aria-labelledby="context-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">🧭</span>
+          <h2 class="emergency-card__title" id="context-title">Recent Context</h2>
+        </div>
+        <p class="card-text">Review the latest intel tied to current risks or threats. Prioritize confirming these details with responders on scene.</p>
+        <div class="code-snippet" data-copy-group>
+          <code>
+Staying at Brandon Bryan &amp; Wayne Shano’s house
+5/17 • Elliot St., Alexandria
+          </code>
+          <button class="copy-trigger" type="button" aria-label="Copy recent location">
+            <span aria-hidden="true">📋</span>
+          </button>
+          <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+        </div>
+      </article>
+
+      <article class="emergency-card" aria-labelledby="links-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">🔗</span>
+          <h2 class="emergency-card__title" id="links-title">Live Links</h2>
+        </div>
+        <ul class="resource-list">
+          <li id="live-location">
+            <div class="resource-meta">
+              <span class="resource-icon" aria-hidden="true">📡</span>
+              <div>
+                <h3 class="resource-title">Live Google Location</h3>
+                <p class="resource-text">Opens real-time GPS tracking. Confirm movement and send to dispatch.</p>
+              </div>
+            </div>
+            <div class="code-snippet" data-copy-group>
+              <code>https://maps.google.com/?q=daren-live</code>
+              <button class="copy-trigger" type="button" aria-label="Copy Google location link">
+                <span aria-hidden="true">📋</span>
+              </button>
+              <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+            </div>
+            <a class="resource-action" href="https://maps.google.com/?q=daren-live" target="_blank" rel="noopener">View live location</a>
+          </li>
+          <li id="icloud-folder">
+            <div class="resource-meta">
+              <span class="resource-icon" aria-hidden="true">🗂️</span>
+              <div>
+                <h3 class="resource-title">911 Emergency Folder in iCloud</h3>
+                <p class="resource-text">Contains files, notes, photos, and logs tied to this incident.</p>
+              </div>
+            </div>
+            <div class="code-snippet" data-copy-group>
+              <code>https://www.icloud.com/sharedalbum/911-emergency</code>
+              <button class="copy-trigger" type="button" aria-label="Copy iCloud folder link">
+                <span aria-hidden="true">📋</span>
+              </button>
+              <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+            </div>
+            <a class="resource-action" id="share-alert" href="https://www.icloud.com/sharedalbum/911-emergency" target="_blank" rel="noopener">View files on iCloud</a>
+          </li>
+          <li id="live-phone">
+            <div class="resource-meta">
+              <span class="resource-icon" aria-hidden="true">🎥</span>
+              <div>
+                <h3 class="resource-title">Live Phone Cam Feed</h3>
+                <p class="resource-text">Automatically starts a secure video feed from Daren’s iPhone.</p>
+              </div>
+            </div>
+            <div class="code-snippet" data-copy-group>
+              <code>https://live.phone/feeds/daren</code>
+              <button class="copy-trigger" type="button" aria-label="Copy live cam link">
+                <span aria-hidden="true">📋</span>
+              </button>
+              <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+            </div>
+            <a class="resource-action" href="https://live.phone/feeds/daren" target="_blank" rel="noopener">Open live camera feed</a>
+          </li>
+        </ul>
+      </article>
+
+      <article class="emergency-card" aria-labelledby="medical-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">🩺</span>
+          <h2 class="emergency-card__title" id="medical-title">Medical Info</h2>
+        </div>
+        <div class="code-snippet" data-copy-group>
+          <code>
+Name: Daren Prince
+Age: 36
+Conditions: Type 1 Diabetes (insulin-dependent), Asthma
+Height / Weight: 5’9” / 162 lbs
+Primary Language: English
+          </code>
+          <button class="copy-trigger" type="button" aria-label="Copy medical profile">
+            <span aria-hidden="true">📋</span>
+          </button>
+          <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+        </div>
+        <section class="priority-block priority-block--warning" aria-labelledby="unresponsive-title">
+          <h3 class="priority-title" id="unresponsive-title">If unresponsive</h3>
+          <ul class="priority-list priority-list--compact">
+            <li>
+              <span class="priority-badge" aria-hidden="true">!</span>
+              <span>Do <strong>not</strong> give insulin.</span>
+            </li>
+            <li>
+              <span class="priority-badge" aria-hidden="true">+</span>
+              <span>Administer glucagon or provide sugary food/drink immediately.</span>
+            </li>
+            <li>
+              <span class="priority-badge" aria-hidden="true">📞</span>
+              <span>Call <strong>911</strong> without delay.</span>
+            </li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="emergency-card" aria-labelledby="tracker-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">📲</span>
+          <h2 class="emergency-card__title" id="tracker-title">Trackers &amp; Contingencies</h2>
+        </div>
+        <p class="card-text">AirTags may be active on personal items. Even if the phone powers down, location signals could remain available.</p>
+        <div class="code-snippet" data-copy-group>
+          <code>https://www.icloud.com/find</code>
+          <button class="copy-trigger" type="button" aria-label="Copy Find My link">
+            <span aria-hidden="true">📋</span>
+          </button>
+          <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+        </div>
+        <div class="code-snippet" data-copy-group>
+          <code>Apple ID: daren.prince@gmail.com</code>
+          <button class="copy-trigger" type="button" aria-label="Copy Apple ID">
+            <span aria-hidden="true">📋</span>
+          </button>
+          <span class="copy-tooltip" role="status" aria-live="polite">Copy</span>
+        </div>
+        <p class="card-text">Use secure credentials only. Update command once tracking is confirmed.</p>
+      </article>
+
+      <article class="emergency-card emergency-card--notice" aria-labelledby="evidence-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">📁</span>
+          <h2 class="emergency-card__title" id="evidence-title">Evidence Uploads</h2>
+        </div>
+        <p class="card-text">Photos, audio, and video files sync continuously. Expect staggered updates — refresh the live links every few minutes.</p>
+        <p class="card-text">Flag any new files tied to suspects or timeline changes and escalate immediately.</p>
+      </article>
+
+      <article class="emergency-card emergency-card--media" aria-labelledby="photos-title">
+        <div class="emergency-card__header">
+          <span class="card-icon" aria-hidden="true">🖼️</span>
+          <h2 class="emergency-card__title" id="photos-title">Recent Photos (Past 7 Days)</h2>
+        </div>
+        <div class="media-grid">
+          <div class="media-placeholder" aria-label="Recent photo placeholder 1">Photo pending sync</div>
+          <div class="media-placeholder" aria-label="Recent photo placeholder 2">Photo pending sync</div>
+          <div class="media-placeholder" aria-label="Recent photo placeholder 3">Photo pending sync</div>
+          <div class="media-placeholder" aria-label="Recent photo placeholder 4">Photo pending sync</div>
+          <div class="media-placeholder" aria-label="Recent photo placeholder 5">Photo pending sync</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="emergency-footer">
+    Signal locked. All activity is monitored and timestamped for audit integrity.
+  </footer>
+
+  <section class="password-gate" id="passwordGate" aria-hidden="false" role="dialog" aria-labelledby="gate-title" aria-describedby="gate-subtitle">
+    <div class="password-gate__panel">
+      <h1 class="password-gate__title" id="gate-title">Secure Access Required</h1>
+      <p class="password-gate__subtitle" id="gate-subtitle">Enter the incident password to unlock the command portal.</p>
+      <form class="password-form" novalidate>
+        <label class="sr-only" for="password-input">Incident password</label>
+        <input class="password-field" id="password-input" type="password" name="password" autocomplete="off" placeholder="Enter emergency code" required aria-required="true" />
+        <button class="password-submit" type="submit">Authorize</button>
+        <div class="password-error" role="alert" data-error></div>
+      </form>
+    </div>
+  </section>
+
+  <script src="emergency-911/dist/911.js" defer></script>
+</body>
+</html>
