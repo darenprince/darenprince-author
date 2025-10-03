@@ -1,12 +1,31 @@
-@use "sass:color";
-@use "../tokens/colors" as *;
+@use '../tokens/colors' as *;
 
 body.theme-dark {
-  background: var(--dark-main-gradient);
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
+  position: relative;
+  min-height: 100vh;
   color: $white;
+  background-color: #020202;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('../assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  @media (max-width: 768px) {
+    &::before {
+      background-size: contain;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  }
 
   a {
     color: $medium-gray;
