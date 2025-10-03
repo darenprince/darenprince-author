@@ -69,6 +69,251 @@
   </header>
 
   <main id="top" class="emergency-main" aria-hidden="true" tabindex="-1" data-protected-content>
+    <section
+      class="emergency-card emergency-card--dashboard"
+      id="sos-intel"
+      data-card
+      data-loading="true"
+      aria-labelledby="sos-intel-title"
+    >
+      <div class="card-loader" aria-hidden="true"></div>
+      <header class="emergency-card__header">
+        <span class="emergency-card__icon emergency-card__icon--dashboard" aria-hidden="true"></span>
+        <h2 class="emergency-card__title" id="sos-intel-title">Live SOS Command Summary</h2>
+      </header>
+      <div class="emergency-card__content">
+        <div class="dashboard-alerts" role="list">
+          <article class="dashboard-alert dashboard-alert--critical" role="listitem">
+            <div class="dashboard-alert__icon" aria-hidden="true"></div>
+            <div class="dashboard-alert__body">
+              <p class="dashboard-alert__eyebrow">SOS ACTIVATED</p>
+              <p class="dashboard-alert__title">Daren Prince</p>
+              <p class="dashboard-alert__meta">Phone: <a href="tel:13182800664">318-280-0664</a></p>
+            </div>
+          </article>
+          <article class="dashboard-alert dashboard-alert--device" role="listitem">
+            <div class="dashboard-alert__icon" aria-hidden="true"></div>
+            <div class="dashboard-alert__body">
+              <p class="dashboard-alert__eyebrow">PRIMARY DEVICE</p>
+              <p class="dashboard-alert__title">iPhone 16 Pro Max</p>
+              <p class="dashboard-alert__meta">EID: 890490320074088851002093863863 &middot; IMEI: 45 286494 576610 2</p>
+            </div>
+          </article>
+          <article class="dashboard-alert dashboard-alert--network" role="listitem">
+            <div class="dashboard-alert__icon" aria-hidden="true"></div>
+            <div class="dashboard-alert__body">
+              <p class="dashboard-alert__eyebrow">NETWORK STATUS</p>
+              <p class="dashboard-alert__title">Google Fi</p>
+              <p class="dashboard-alert__meta">Wi-Fi: Familywifi &middot; Cellular: No SIM detected</p>
+            </div>
+          </article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="dashboard-panel" aria-labelledby="device-status-title">
+            <div class="dashboard-panel__header">
+              <h3 class="dashboard-panel__title" id="device-status-title">Device &amp; Signal Health</h3>
+              <span class="network-badge" role="img" aria-label="Network: Google Fi">
+                <span class="network-badge__logo" aria-hidden="true">
+                  <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                    <rect x="2" y="2" width="10" height="20" rx="5" fill="#34a853" />
+                    <rect x="14" y="2" width="10" height="10" rx="5" fill="#fbbc04" />
+                    <rect x="26" y="2" width="20" height="10" rx="5" fill="#4285f4" />
+                    <circle cx="36" cy="18" r="4" fill="#ea4335" />
+                  </svg>
+                </span>
+                <span class="network-badge__text">Google Fi</span>
+              </span>
+            </div>
+            <dl class="device-data">
+              <div class="device-data__row">
+                <dt>SOS Activated By</dt>
+                <dd>Daren Prince</dd>
+              </div>
+              <div class="device-data__row">
+                <dt>Primary Phone</dt>
+                <dd><a href="tel:13182800664">(318) 280-0664</a></dd>
+              </div>
+              <div class="device-data__row">
+                <dt>Device</dt>
+                <dd>Apple iPhone 16 Pro Max</dd>
+              </div>
+              <div class="device-data__row">
+                <dt>EID</dt>
+                <dd>890490320074088851002093863863</dd>
+              </div>
+              <div class="device-data__row">
+                <dt>IMEI</dt>
+                <dd>45 286494 576610 2</dd>
+              </div>
+            </dl>
+            <div class="device-metrics" data-device-telemetry>
+              <div
+                class="device-metric device-metric--battery"
+                data-metric="battery"
+                data-level="85"
+                data-status="discharging"
+              >
+                <div class="device-metric__label">Battery</div>
+                <div
+                  class="device-metric__visual"
+                  data-battery-visual
+                  role="img"
+                  aria-live="polite"
+                  aria-label="Battery level 85 percent"
+                >
+                  <span class="battery-icon" aria-hidden="true">
+                    <span class="battery-icon__fill" data-battery-fill></span>
+                    <span class="battery-icon__cap"></span>
+                    <span class="battery-icon__bolt" data-battery-bolt aria-hidden="true"></span>
+                  </span>
+                </div>
+                <div class="device-metric__value" data-battery-output aria-live="polite">85%</div>
+              </div>
+              <div
+                class="device-metric device-metric--wifi"
+                data-metric="wifi"
+                data-state="connected"
+                data-strength="3"
+                data-ssid="Familywifi"
+              >
+                <div class="device-metric__label">Wi-Fi Network</div>
+                <div
+                  class="device-metric__visual"
+                  data-wifi-visual
+                  role="img"
+                  aria-live="polite"
+                  aria-label="Wi-Fi connected to Familywifi"
+                >
+                  <span class="wifi-indicator" data-wifi-indicator aria-hidden="true">
+                    <span class="wifi-indicator__arc wifi-indicator__arc--outer"></span>
+                    <span class="wifi-indicator__arc wifi-indicator__arc--middle"></span>
+                    <span class="wifi-indicator__arc wifi-indicator__arc--inner"></span>
+                    <span class="wifi-indicator__dot"></span>
+                    <span class="wifi-indicator__slash"></span>
+                  </span>
+                </div>
+                <div class="device-metric__value" data-wifi-output aria-live="polite">Familywifi</div>
+              </div>
+              <div
+                class="device-metric device-metric--cell"
+                data-metric="cell"
+                data-state="no-sim"
+                data-strength="0"
+                data-label="No SIM"
+              >
+                <div class="device-metric__label">Cellular Signal</div>
+                <div
+                  class="device-metric__visual"
+                  data-cell-visual
+                  role="img"
+                  aria-live="polite"
+                  aria-label="No SIM detected"
+                >
+                  <span class="cell-signal" data-cell-indicator data-strength="0" data-state="no-sim" aria-hidden="true">
+                    <span class="cell-signal__bar"></span>
+                    <span class="cell-signal__bar"></span>
+                    <span class="cell-signal__bar"></span>
+                    <span class="cell-signal__bar"></span>
+                    <span class="cell-signal__badge" data-cell-badge aria-hidden="true"></span>
+                  </span>
+                </div>
+                <div class="device-metric__value" data-cell-output aria-live="polite">No SIM</div>
+              </div>
+            </div>
+          </section>
+          <section class="dashboard-panel" aria-labelledby="location-status-title">
+            <div class="dashboard-panel__header">
+              <h3 class="dashboard-panel__title" id="location-status-title">Location Snapshot</h3>
+            </div>
+            <div class="location-card">
+              <p class="location-card__label">Address</p>
+              <p class="location-card__value">6100 Monroe Hwy<br />Ball, LA 71405<br />United States</p>
+              <p class="location-card__label">Coordinates</p>
+              <p class="location-card__value">31.41363&deg; N, 92.41116&deg; W</p>
+              <a
+                class="location-card__link"
+                href="https://maps.apple.com/?address=6100%20Monroe%20Hwy,%20Ball,%20LA%2071405,%20United%20States&ll=31.41363,-92.41116&q=My%20Location"
+                target="_blank"
+                rel="noopener"
+              >View in Maps</a>
+            </div>
+            <button class="directory-trigger" type="button" data-directory-open>Local Emergency Directory</button>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="emergency-card emergency-card--contacts" id="emergency-contacts" data-card data-loading="true" aria-labelledby="contacts-title">
+      <div class="card-loader" aria-hidden="true"></div>
+      <header class="emergency-card__header">
+        <span class="emergency-card__icon emergency-card__icon--contacts" aria-hidden="true"></span>
+        <h2 class="emergency-card__title" id="contacts-title">Emergency Call Routing</h2>
+      </header>
+      <div class="emergency-card__content">
+        <p class="emergency-card__intro">Tap a contact to begin a live call. All numbers are verified and prioritized.</p>
+        <ul class="contact-list">
+          <li class="contact-list__item">
+            <div class="contact-list__details">
+              <span class="contact-list__name">Lori Simmons</span>
+              <span class="contact-list__role">Mother</span>
+            </div>
+            <a class="call-button" href="tel:13182901275">
+              <span class="call-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <path
+                    d="M18.6 14.2c-1.1-.3-2.2.2-2.8 1.1l-.4.6a16.8 16.8 0 0 1-6.2-6.2l.6-.4a3 3 0 0 0 1.1-2.8l-.3-1.5a1.6 1.6 0 0 0-1.6-1.3H6a2.1 2.1 0 0 0-2.1 2.2c.4 8 6.8 14.4 14.7 14.7A2.1 2.1 0 0 0 20.8 19v-3.1a1.6 1.6 0 0 0-1.3-1.6l-1-.1Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span class="call-button__label">Call 318-290-1275</span>
+            </a>
+          </li>
+          <li class="contact-list__item">
+            <div class="contact-list__details">
+              <span class="contact-list__name">Connie Caraway</span>
+              <span class="contact-list__role">Roommate</span>
+            </div>
+            <a class="call-button" href="tel:13186131688">
+              <span class="call-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <path
+                    d="M18.6 14.2c-1.1-.3-2.2.2-2.8 1.1l-.4.6a16.8 16.8 0 0 1-6.2-6.2l.6-.4a3 3 0 0 0 1.1-2.8l-.3-1.5a1.6 1.6 0 0 0-1.6-1.3H6a2.1 2.1 0 0 0-2.1 2.2c.4 8 6.8 14.4 14.7 14.7A2.1 2.1 0 0 0 20.8 19v-3.1a1.6 1.6 0 0 0-1.3-1.6l-1-.1Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span class="call-button__label">Call (318) 613-1688</span>
+            </a>
+          </li>
+        </ul>
+        <div class="contact-actions">
+          <a class="call-button call-button--primary" href="tel:511">
+            <span class="call-button__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <path
+                  d="M18.6 14.2c-1.1-.3-2.2.2-2.8 1.1l-.4.6a16.8 16.8 0 0 1-6.2-6.2l.6-.4a3 3 0 0 0 1.1-2.8l-.3-1.5a1.6 1.6 0 0 0-1.6-1.3H6a2.1 2.1 0 0 0-2.1 2.2c.4 8 6.8 14.4 14.7 14.7A2.1 2.1 0 0 0 20.8 19v-3.1a1.6 1.6 0 0 0-1.3-1.6l-1-.1Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+            <span class="call-button__label">Dispatch Ambulance (511)</span>
+          </a>
+          <a class="call-button call-button--critical" href="tel:911">
+            <span class="call-button__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <path
+                  d="M18.6 14.2c-1.1-.3-2.2.2-2.8 1.1l-.4.6a16.8 16.8 0 0 1-6.2-6.2l.6-.4a3 3 0 0 0 1.1-2.8l-.3-1.5a1.6 1.6 0 0 0-1.6-1.3H6a2.1 2.1 0 0 0-2.1 2.2c.4 8 6.8 14.4 14.7 14.7A2.1 2.1 0 0 0 20.8 19v-3.1a1.6 1.6 0 0 0-1.3-1.6l-1-.1Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+            <span class="call-button__label">Call 911</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="emergency-card" id="alert-overview" data-card data-loading="true" aria-labelledby="alert-title">
       <div class="card-loader" aria-hidden="true"></div>
       <header class="emergency-card__header">
@@ -327,6 +572,338 @@
       <h2 class="alert-modal__title" id="alertModalTitle">Not a Joke — Real Emergency</h2>
       <p class="alert-modal__body">This SOS was triggered from a live iPhone distress signal. Treat every instruction as urgent and real&mdash;no drills, no pranks.</p>
       <button class="alert-modal__acknowledge" type="button" data-modal-close>Stay focused</button>
+    </div>
+  </div>
+
+  <div
+    class="directory-modal"
+    data-directory-modal
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="directoryModalTitle"
+    aria-hidden="true"
+  >
+    <div class="directory-modal__overlay" data-directory-close></div>
+    <div class="directory-modal__panel" role="document">
+      <button class="directory-modal__close" type="button" aria-label="Close emergency directory" data-directory-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="directory-modal__header">
+        <h2 class="directory-modal__title" id="directoryModalTitle">🚨 Emergency Contact Directory</h2>
+        <p class="directory-modal__subtitle">Rapides &amp; Grant Parishes (Louisiana) &mdash; Always dial 911 first for any emergency.</p>
+        <label class="directory-search">
+          <span class="sr-only">Search emergency directory</span>
+          <input type="search" placeholder="Search agencies, services, or numbers" data-directory-search />
+        </label>
+      </div>
+      <div class="directory-modal__content">
+        <section class="directory-section" data-directory-section>
+          <h3 class="directory-section__title">📍 Rapides Parish</h3>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish sheriff main dispatch 3184736700">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; Main</h4>
+                <p>Phone: <a href="tel:13184736700">318-473-6700</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish sheriff south substation alexandria 3311 3rd st">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; South Substation</h4>
+                <p>3311 3rd St, Alexandria</p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish sheriff tioga substation 3186401696 400 john allison dr">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; Tioga Substation</h4>
+                <p>400 John Allison Dr &middot; Phone: <a href="tel:13186401696">318-640-1696</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish sheriff glenmora substation 3187486307">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; Glenmora Substation</h4>
+                <p>Phone: <a href="tel:13187486307">318-748-6307</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish sheriff hineston substation under construction">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; Hineston Substation</h4>
+                <p>Under construction &mdash; use main line above for updates.</p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Police Departments</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="alexandria police department 3184495099 1000 bolton ave">
+              <div class="directory-entry__body">
+                <h5>Alexandria Police Department</h5>
+                <p>1000 Bolton Ave &middot; Phone: <a href="tel:13184495099">318-449-5099</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="pineville police department 3184426603">
+              <div class="directory-entry__body">
+                <h5>Pineville Police Department</h5>
+                <p>Phone: <a href="tel:13184426603">318-442-6603</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="ball police department 3186404673 100 municipal dr">
+              <div class="directory-entry__body">
+                <h5>Ball Police Department</h5>
+                <p>100 Municipal Dr &middot; Phone: <a href="tel:13186404673">318-640-4673</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="boyce police department 3187935110">
+              <div class="directory-entry__body">
+                <h5>Boyce Police Department</h5>
+                <p>Phone: <a href="tel:13187935110">318-793-5110</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="cheneyville police department 3187769380">
+              <div class="directory-entry__body">
+                <h5>Cheneyville Police Department</h5>
+                <p>Phone: <a href="tel:13187769380">318-776-9380</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="glenmora police department 3187486307">
+              <div class="directory-entry__body">
+                <h5>Glenmora Police Department</h5>
+                <p>Phone: <a href="tel:13187486307">318-748-6307</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="lecompte police department 3187769389">
+              <div class="directory-entry__body">
+                <h5>Lecompte Police Department</h5>
+                <p>Phone: <a href="tel:13187769389">318-776-9389</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="woodworth police department 3184421198">
+              <div class="directory-entry__body">
+                <h5>Woodworth Police Department</h5>
+                <p>Phone: <a href="tel:13184421198">318-442-1198</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Fire Departments (Districts)</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 2 tioga ball libuse 3184458124">
+              <div class="directory-entry__body">
+                <h5>District 2 &mdash; Tioga / Ball / Libuse</h5>
+                <p>Phone: <a href="tel:13184458124">318-445-8124</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 3 alpine poland 3186408227">
+              <div class="directory-entry__body">
+                <h5>District 3 &mdash; Alpine / Poland</h5>
+                <p>Phone: <a href="tel:13186408227">318-640-8227</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 4 holiday village 3184435243">
+              <div class="directory-entry__body">
+                <h5>District 4 &mdash; Holiday Village</h5>
+                <p>Phone: <a href="tel:13184435243">318-443-5243</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 5 oakhill 3186593398">
+              <div class="directory-entry__body">
+                <h5>District 5 &mdash; Oakhill</h5>
+                <p>Phone: <a href="tel:13186593398">318-659-3398</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 6 deville buckeye 3184669993">
+              <div class="directory-entry__body">
+                <h5>District 6 &mdash; Deville / Buckeye</h5>
+                <p>Phone: <a href="tel:13184669993">318-466-9993</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="fire district 9 hwy 1 south 3187671434">
+              <div class="directory-entry__body">
+                <h5>District 9 &mdash; Highway 1 South</h5>
+                <p>Phone: <a href="tel:13187671434">318-767-1434</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Ambulance / EMS</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="acadian ambulance rapides dispatch 3184456128">
+              <div class="directory-entry__body">
+                <h5>Acadian Ambulance &mdash; Rapides Dispatch</h5>
+                <p>Phone: <a href="tel:13184456128">318-445-6128</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Hospitals</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides regional medical center 3187693000">
+              <div class="directory-entry__body">
+                <h5>Rapides Regional Medical Center</h5>
+                <p>Phone: <a href="tel:13187693000">318-769-3000</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="christus st frances cabrini hospital 3184871122">
+              <div class="directory-entry__body">
+                <h5>CHRISTUS St. Frances Cabrini</h5>
+                <p>Phone: <a href="tel:13184871122">318-487-1122</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Utilities &amp; Support</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="cleco power outage 18006226537">
+              <div class="directory-entry__body">
+                <h5>CLECO Power</h5>
+                <p>Phone: <a href="tel:18006226537">1-800-622-6537</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="entergy louisiana outage 18009688243">
+              <div class="directory-entry__body">
+                <h5>Entergy Louisiana</h5>
+                <p>Phone: <a href="tel:18009688243">1-800-968-8243</a> (1-800-9OUTAGE)</p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="city of alexandria utilities 3184731301">
+              <div class="directory-entry__body">
+                <h5>City of Alexandria Utilities</h5>
+                <p>Phone: <a href="tel:13184731301">318-473-1301</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="rapides parish animal control 3184736706">
+              <div class="directory-entry__body">
+                <h5>Rapides Parish Animal Control</h5>
+                <p>Phone: <a href="tel:13184736706">318-473-6706</a></p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="directory-section" data-directory-section>
+          <h3 class="directory-section__title">📍 Grant Parish</h3>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish sheriff main dispatch 3186273261 205 cypress st colfax">
+              <div class="directory-entry__body">
+                <h4>Sheriff&rsquo;s Office &mdash; Main / Dispatch</h4>
+                <p>205 Cypress St, Colfax &middot; Phone: <a href="tel:13186273261">318-627-3261</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Local Police</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="colfax police department 3186275357">
+              <div class="directory-entry__body">
+                <h5>Colfax Police Department</h5>
+                <p>Phone: <a href="tel:13186275357">318-627-5357</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="creola town hall police 3186410430">
+              <div class="directory-entry__body">
+                <h5>Creola Town Hall / Police</h5>
+                <p>Phone: <a href="tel:13186410430">318-641-0430</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="pollock town hall police 3187653796">
+              <div class="directory-entry__body">
+                <h5>Pollock Town Hall</h5>
+                <p>Phone: <a href="tel:13187653796">318-765-3796</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Fire Departments</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish fire district 1 colfax 3186272636">
+              <div class="directory-entry__body">
+                <h5>District 1 &mdash; Colfax</h5>
+                <p>Phone: <a href="tel:13186272636">318-627-2636</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish fire district 3 dry prong 3188995341 3188997670">
+              <div class="directory-entry__body">
+                <h5>District 3 &mdash; Dry Prong</h5>
+                <p>Phone: <a href="tel:13188995341">318-899-5341</a> or <a href="tel:13188997670">318-899-7670</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish fire district 5 pollock 3187659730">
+              <div class="directory-entry__body">
+                <h5>District 5 &mdash; Pollock</h5>
+                <p>Phone: <a href="tel:13187659730">318-765-9730</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish fire district 7 atlanta 3186462635">
+              <div class="directory-entry__body">
+                <h5>District 7 &mdash; Atlanta</h5>
+                <p>Phone: <a href="tel:13186462635">318-646-2635</a></p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Ambulance / EMS</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="acadian ambulance grant parish dispatch via sheriff 3186273261">
+              <div class="directory-entry__body">
+                <h5>Acadian Ambulance &mdash; Grant Dispatch</h5>
+                <p>Phone: <a href="tel:13186273261">318-627-3261</a> (via Sheriff dispatch)</p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Hospitals</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="nearest hospitals rapides regional 3187693000 cabrini 3184871122">
+              <div class="directory-entry__body">
+                <h5>Nearest Hospitals</h5>
+                <p>Rapides Regional (<a href="tel:13187693000">318-769-3000</a>) &middot; Cabrini (<a href="tel:13184871122">318-487-1122</a>)</p>
+              </div>
+            </li>
+          </ul>
+          <h4 class="directory-subheading">Utilities &amp; Support</h4>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="cleco grant parish 18006226537">
+              <div class="directory-entry__body">
+                <h5>CLECO</h5>
+                <p>Phone: <a href="tel:18006226537">1-800-622-6537</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="entergy grant parish 18009688243">
+              <div class="directory-entry__body">
+                <h5>Entergy</h5>
+                <p>Phone: <a href="tel:18009688243">1-800-968-8243</a> (1-800-9OUTAGE)</p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="grant parish animal control 3183210424">
+              <div class="directory-entry__body">
+                <h5>Grant Parish Animal Control</h5>
+                <p>Phone: <a href="tel:13183210424">318-321-0424</a></p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="directory-section" data-directory-section>
+          <h3 class="directory-section__title">☎️ Statewide / Hotlines</h3>
+          <ul class="directory-list">
+            <li class="directory-entry" data-directory-entry data-filter-text="poison control 18002221222">
+              <div class="directory-entry__body">
+                <h4>Poison Control</h4>
+                <p>Phone: <a href="tel:18002221222">1-800-222-1222</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="suicide crisis lifeline 988">
+              <div class="directory-entry__body">
+                <h4>Suicide &amp; Crisis Lifeline</h4>
+                <p>Phone: <a href="tel:988">988</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="child abuse hotline dcfs 18554525437">
+              <div class="directory-entry__body">
+                <h4>Child Abuse Hotline (DCFS)</h4>
+                <p>Phone: <a href="tel:18554525437">1-855-452-5437</a></p>
+              </div>
+            </li>
+            <li class="directory-entry" data-directory-entry data-filter-text="national domestic violence hotline 18007997233">
+              <div class="directory-entry__body">
+                <h4>National Domestic Violence Hotline</h4>
+                <p>Phone: <a href="tel:18007997233">1-800-799-7233</a></p>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <p class="directory-empty" data-directory-empty hidden>No matches found. Try a different keyword or city name.</p>
+      </div>
     </div>
   </div>
 
