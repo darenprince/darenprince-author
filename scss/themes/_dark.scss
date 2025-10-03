@@ -1,11 +1,12 @@
-@use "sass:color";
-@use "../tokens/colors" as *;
+@use 'sass:color';
+@use '../tokens/colors' as *;
 
 body.theme-dark {
-  background: var(--dark-main-gradient);
+  background-image: url('../assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg');
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   color: $white;
 
   a {
