@@ -10,10 +10,17 @@
   <link rel="stylesheet" href="emergency-911/dist/911.css" />
 </head>
 <body class="emergency-body">
-  <header class="alert-banner" role="banner">
-    <span class="alert-icon" aria-hidden="true">🆘</span>
-    <div class="alert-text" aria-live="polite">Emergency Command Portal</div>
-    <span class="alert-icon" aria-hidden="true">⚠️</span>
+  <header class="status-bar" role="banner">
+    <span class="status-bar__icon icon icon--sos" aria-hidden="true">
+      <span class="icon__glyph"></span>
+    </span>
+    <div class="status-bar__content" aria-live="polite">
+      <span class="status-bar__kicker">911 Response Kit</span>
+      <span class="status-bar__title">Emergency Command Portal</span>
+    </div>
+    <span class="status-bar__icon icon icon--scan" aria-hidden="true">
+      <span class="icon__glyph"></span>
+    </span>
   </header>
 
   <main class="emergency-layout" aria-hidden="true" tabindex="-1" data-protected-content>
@@ -22,15 +29,15 @@
       <div class="emergency-card__body">
         <div class="list-tag">
           <span class="list-tag__badge">01</span>
-          <span>Confirm caller location and cross streets. Dispatch nearest unit.</span>
+          <span class="list-tag__text">Confirm caller location and cross streets. Dispatch nearest unit.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">02</span>
-          <span>Initiate medical priority assessment. Flag red-level protocols when life-threatening.</span>
+          <span class="list-tag__text">Initiate medical priority assessment. Flag red-level protocols when life-threatening.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">03</span>
-          <span>Activate video uplink if onsite support is <abbr title="Emergency Medical Technician">EMT</abbr>-equipped.</span>
+          <span class="list-tag__text">Activate video uplink if onsite support is <abbr title="Emergency Medical Technician">EMT</abbr>-equipped.</span>
         </div>
       </div>
     </article>
@@ -40,15 +47,15 @@
       <div class="emergency-card__body">
         <div class="list-tag">
           <span class="list-tag__badge">ALR</span>
-          <span>Monitor automated license recognition alerts. Cross-check against active warrants.</span>
+          <span class="list-tag__text">Monitor automated license recognition alerts. Cross-check against active warrants.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">BIO</span>
-          <span>Pull responder vitals from wearables. Escalate if stress load exceeds 85% threshold.</span>
+          <span class="list-tag__text">Pull responder vitals from wearables. Escalate if stress load exceeds 85% threshold.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">NET</span>
-          <span>Deploy secure channel via <a href="mailto:command@rapidresponse.io">command@rapidresponse.io</a> for field uploads.</span>
+          <span class="list-tag__text">Deploy secure channel via <a href="mailto:command@rapidresponse.io">command@rapidresponse.io</a> for field uploads.</span>
         </div>
       </div>
     </article>
@@ -58,15 +65,15 @@
       <div class="emergency-card__body">
         <div class="list-tag">
           <span class="list-tag__badge">A</span>
-          <span>Airway: confirm patency, deploy OPA/NPA as required, prep intubation kit.</span>
+          <span class="list-tag__text">Airway: confirm patency, deploy OPA/NPA as required, prep intubation kit.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">B</span>
-          <span>Breathing: monitor <abbr title="Oxygen saturation">SpO₂</abbr> and respirations, trigger assisted ventilation if &lt; 90%.</span>
+          <span class="list-tag__text">Breathing: monitor <abbr title="Oxygen saturation">SpO₂</abbr> and respirations, trigger assisted ventilation if &lt; 90%.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">C</span>
-          <span>Circulation: control hemorrhage, initiate IV/IO access, begin warmed fluids if shock suspected.</span>
+          <span class="list-tag__text">Circulation: control hemorrhage, initiate IV/IO access, begin warmed fluids if shock suspected.</span>
         </div>
       </div>
     </article>
@@ -76,15 +83,15 @@
       <div class="emergency-card__body">
         <div class="list-tag">
           <span class="list-tag__badge">RAD</span>
-          <span>Switch to encrypted tactical band Bravo-7. Confirm roll call every 5 minutes.</span>
+          <span class="list-tag__text">Switch to encrypted tactical band Bravo-7. Confirm roll call every 5 minutes.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">CMD</span>
-          <span>Log command decisions in incident timeline. Sync with county <abbr title="Emergency Operations Center">EOC</abbr>.</span>
+          <span class="list-tag__text">Log command decisions in incident timeline. Sync with county <abbr title="Emergency Operations Center">EOC</abbr>.</span>
         </div>
         <div class="list-tag">
           <span class="list-tag__badge">PRT</span>
-          <span>Issue press holding statement with approved keywords: "stabilizing", "coordinated", "active."</span>
+          <span class="list-tag__text">Issue press holding statement with approved keywords: "stabilizing", "coordinated", "active."</span>
         </div>
       </div>
     </article>
