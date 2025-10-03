@@ -226,7 +226,7 @@ a {
   border-radius: 14px;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 
-  &:focus {
+  &:focus-visible {
     @include focus-ring;
   }
 }
