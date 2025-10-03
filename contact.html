@@ -151,27 +151,132 @@
       </ul>
     </div>
   </header>
-  <main>
-    <section>
-      <div class="container--border max-width-adaptive-md">
-        <h1 class="margin-bottom-sm text-center">Let’s Talk About It</h1>
-        <p class="margin-bottom-md text-center">Send a quick message or reach out on social media.</p>
-        <form id="contact-form" class="spacing-y-sm">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" required>
+  <main class="contact-page">
+    <section class="contact-hero">
+      <div class="container max-width-adaptive-lg contact-hero__content">
+        <span class="contact-hero__eyebrow">Contact</span>
+        <h1 class="contact-hero__title">Direct access to Daren’s desk</h1>
+        <p class="contact-hero__subtitle">
+          Media interviews, coaching requests, deployment coordination—bring it. Every note is reviewed with the
+          same focus we pour into our launches.
+        </p>
+        <div class="contact-hero__meta">
+          <span><i class="ti ti-mail"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></span>
+          <span><i class="ti ti-clock"></i>Avg response: <strong>within 48 hours</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-direct">
+      <div class="container max-width-adaptive-lg contact-direct__grid">
+        <article class="contact-card">
+          <span class="contact-card__icon" aria-hidden="true"><i class="ti ti-microphone"></i></span>
+          <h2>Media &amp; press features</h2>
+          <p>Podcasts, TV, print, or digital spreads. Request B-roll, quotes, and supporting research.</p>
+          <ul class="contact-card__list">
+            <li><i class="ti ti-file-description"></i><a href="/press.html">Press kit &amp; assets</a></li>
+            <li><i class="ti ti-mail"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
+          </ul>
+        </article>
+        <article class="contact-card">
+          <span class="contact-card__icon" aria-hidden="true"><i class="ti ti-rocket"></i></span>
+          <h2>Coaching &amp; launch strategy</h2>
+          <p>Partner on immersive experiences, brand collaborations, or rollout campaigns for the Game On ecosystem.</p>
+          <ul class="contact-card__list">
+            <li><i class="ti ti-calendar"></i><a href="https://cal.com" target="_blank" rel="noopener">Book a discovery call</a></li>
+            <li><i class="ti ti-phone"></i>Voice &amp; text: <a href="tel:+13107945858">+1 (310) 794-5858</a></li>
+          </ul>
+        </article>
+        <article class="contact-card contact-card--highlight">
+          <span class="contact-card__icon" aria-hidden="true"><i class="ti ti-topology-complex"></i></span>
+          <h2>Deployment &amp; ops support</h2>
+          <p>Need access to Netlify, Supabase, or analytics during a push? Loop us in with your timeline and stack.</p>
+          <ul class="contact-card__list">
+            <li><i class="ti ti-brand-netlify"></i>Netlify: <span>Site ID ready</span></li>
+            <li><i class="ti ti-database"></i>Supabase: <span>Production + staging</span></li>
+          </ul>
+          <a class="btn btn--ghost" href="docs/BUILD_PIPELINE.md">Review deployment playbook</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-form-section" aria-labelledby="contact-form-heading">
+      <div class="container">
+        <div class="contact-form__layout">
+          <div class="contact-form__sidebar">
+            <h2 id="contact-form-heading">Send a personal brief</h2>
+            <p>
+              Drop the context, timing, and what success looks like. We triage daily and reply with next steps, assets,
+              or a direct calendar link.
+            </p>
+            <div class="contact-meta">
+              <div class="contact-meta__item">
+                <span class="contact-meta__label">Status</span>
+                <span class="contact-meta__value"><i class="ti ti-point"></i>Accepting new engagements</span>
+              </div>
+              <div class="contact-meta__item">
+                <span class="contact-meta__label">Office hours</span>
+                <span class="contact-meta__value"><i class="ti ti-sun"></i>Mon – Thu, 10a – 4p PT</span>
+              </div>
+              <div class="contact-meta__item">
+                <span class="contact-meta__label">Social</span>
+                <span class="contact-meta__value contact-meta__social">
+                  <a href="https://instagram.com" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+                  <a href="https://youtube.com" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+                  <a href="https://tiktok.com" aria-label="TikTok"><i class="ti ti-brand-tiktok"></i></a>
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required>
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary">Send Message</button>
-          <p class="form-status margin-top-sm"></p>
-        </form>
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required />
+            </div>
+            <div class="form-group">
+              <label for="topic">Focus</label>
+              <select id="topic" name="topic" required>
+                <option value="General Inquiry" selected>General inquiry</option>
+                <option value="Media Request">Media request</option>
+                <option value="Coaching & Strategy">Coaching &amp; strategy</option>
+                <option value="Deployment Support">Deployment support</option>
+                <option value="Speaking Invitation">Speaking invitation</option>
+              </select>
+            </div>
+            <fieldset class="contact-form__urgency">
+              <legend>How fast do you need us?</legend>
+              <div class="contact-form__urgency-options">
+                <label class="radio-pill">
+                  <input type="radio" name="urgency" value="standard" checked />
+                  <span>Standard (48h)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="urgency" value="priority" />
+                  <span>Priority (24h)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="urgency" value="critical" />
+                  <span>Critical (same day)</span>
+                </label>
+              </div>
+            </fieldset>
+            <div class="form-group">
+              <label for="channel">Preferred channel <span>(optional)</span></label>
+              <input type="text" id="channel" name="channel" placeholder="Share your best contact handle or link" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            <input type="hidden" id="source" name="source" value="contact-page" />
+            <button type="submit" class="btn btn--primary">Send message</button>
+            <p class="form-status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -213,6 +318,7 @@
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
+
 
 
 
