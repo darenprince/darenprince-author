@@ -140,6 +140,7 @@ body.is-preloading {
     margin: 0 auto;
     transform-origin: center;
     transform: scale(1.85);
+    perspective: 640px;
   }
 
   &-inner {
@@ -149,6 +150,7 @@ body.is-preloading {
     transform-origin: 2px 2px;
     transform: rotateZ(-90deg);
     animation: gameon-flipbook-spin var(--flipbook-duration) ease infinite;
+    transform-style: preserve-3d;
   }
 
   &-wing {
@@ -203,18 +205,20 @@ body.is-preloading {
     left: 50%;
     top: 0;
     transform: translateX(-50%);
+    transform-style: preserve-3d;
   }
 
   &-page {
     height: 4px;
     border-radius: 2px;
-    transform-origin: 100% 2px;
+    transform-origin: 0% 50%;
     width: 48px;
     right: 0;
     top: -10px;
     position: absolute;
     background: var(--flipbook-color);
-    transform: rotateZ(0deg) translateX(-18px);
+    transform: rotateY(0deg) translateX(-18px);
+    backface-visibility: hidden;
     animation-duration: var(--flipbook-duration);
     animation-timing-function: ease;
     animation-iteration-count: infinite;
@@ -407,14 +411,14 @@ body.is-preloading {
 
   @keyframes gameon-flipbook-page-#{$page-index} {
     #{4 + $delay}% {
-      transform: rotateZ(0deg) translateX(-18px);
+      transform: rotateY(0deg) translateX(-18px);
     }
     #{13 + $delay-after}%,
     #{54 + $delay}% {
-      transform: rotateZ(180deg) translateX(-18px);
+      transform: rotateY(-180deg) translateX(-18px);
     }
     #{63 + $delay-after}% {
-      transform: rotateZ(0deg) translateX(-18px);
+      transform: rotateY(0deg) translateX(-18px);
     }
   }
 }
