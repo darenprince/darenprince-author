@@ -78,34 +78,46 @@ function initSmartAppBanner() {
     return
   }
 
-  body.prepend(banner)
-  body.classList.add('has-smart-app-banner')
+  body.appendChild(banner)
 
-  const root = document.documentElement
-  const updateOffset = () => {
-    root.style.setProperty('--smart-app-banner-height', `${banner.offsetHeight}px`)
+  const revealThreshold = 120
+  let hasRevealed = false
+
+  const revealBanner = () => {
+    if (hasRevealed) return
+    hasRevealed = true
+    banner.classList.remove('smart-app-banner--hidden')
+    banner.classList.add('smart-app-banner--visible')
   }
 
-  window.requestAnimationFrame(updateOffset)
+  const scrollRevealHandler = () => {
+    if (window.scrollY > revealThreshold) {
+      revealBanner()
+      window.removeEventListener('scroll', scrollRevealHandler)
+    }
+  }
 
-  const resizeHandler = () => updateOffset()
-  window.addEventListener('resize', resizeHandler)
+  if (window.scrollY > revealThreshold) {
+    window.requestAnimationFrame(revealBanner)
+  } else {
+    window.addEventListener('scroll', scrollRevealHandler, { passive: true })
+  }
 
   const closeButton = banner.querySelector('.smart-app-banner__close')
   closeButton?.addEventListener('click', () => {
     persistSmartAppBannerDismissal()
+    window.removeEventListener('scroll', scrollRevealHandler)
+    banner.classList.remove('smart-app-banner--visible')
     banner.classList.add('smart-app-banner--hidden')
     window.setTimeout(() => {
       banner.remove()
-      body.classList.remove('has-smart-app-banner')
-      root.style.setProperty('--smart-app-banner-height', '0px')
-      window.removeEventListener('resize', resizeHandler)
     }, 360)
   })
 
   const ctaButton = banner.querySelector('.smart-app-banner__cta')
   ctaButton?.addEventListener('click', () => {
     persistSmartAppBannerDismissal()
+    window.removeEventListener('scroll', scrollRevealHandler)
   })
 }
 

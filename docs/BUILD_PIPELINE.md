@@ -44,6 +44,9 @@ This doc captures how assets are generated locally and in Netlify. Follow it bef
   package = "@netlify/plugin-emails"
 ```
 
+- Netlify environment variables must include SendGrid credentials: `SENDGRID_API_KEY`, `SENDGRID_FROM_EMAIL`, and either
+  `SENDGRID_CONTACT_TO` or `SENDGRID_TO_EMAIL` (defaults to the from address). These power the contact form function and route
+  payloads that now include topic, urgency, preferred channel, and source metadata.
 - Configure Netlify env vars (`SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, etc.) to match local settings.
 - When search or image manifests change, commit the generated JSON so Netlify serves updated data.
 
