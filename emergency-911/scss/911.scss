@@ -923,7 +923,7 @@ a {
 }
 
 .code-snippet.is-copied code {
-  color: color.mix(#ffffff, $color-border, 4%);
+  color: color.mix($color-text, $color-border, 85%);
 }
 
 .media-grid {
