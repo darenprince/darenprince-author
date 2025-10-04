@@ -367,16 +367,13 @@ a:hover {
 }
 
 .emergency-card__icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 1rem;
-  background: rgba(255, 69, 58, 0.18);
-  border: 1px solid rgba(255, 69, 58, 0.35);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--color-accent);
-  font-size: 1.35rem;
+  font-size: 1.65rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .emergency-card__icon i {
@@ -389,6 +386,27 @@ a:hover {
   font-weight: 700;
   font-size: 1.15rem;
   letter-spacing: 0;
+}
+
+.emergency-card--alert-critical {
+  border: 1px solid var(--color-accent);
+}
+
+.emergency-card--alert-critical .emergency-card__header {
+  background: var(--color-accent);
+  margin: -1.75rem -1.75rem 1.5rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  color: #fff;
+}
+
+.emergency-card--alert-critical .emergency-card__icon {
+  color: #fff;
+  font-size: 1.85rem;
+}
+
+.emergency-card--alert-critical .emergency-card__title {
+  color: #fff;
 }
 
 .emergency-card__content {
