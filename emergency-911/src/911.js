@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const error = gate?.querySelector('[data-error]')
   const gateContent = gate?.querySelector('[data-gate-content]')
   const gateAuth = gate?.querySelector('[data-gate-auth]')
+  const authStages = Array.from(gateAuth?.querySelectorAll('[data-auth-stage]') ?? [])
   const preloader = document.querySelector('[data-preloader]')
   const nav = document.querySelector('.command-nav')
   const menuToggle = document.querySelector('.command-menu-toggle')
@@ -313,8 +314,42 @@ document.addEventListener('DOMContentLoaded', () => {
   window.PulseGuardTelemetry = telemetryAPI
 
   let lastDirectoryTrigger = null
-  const AUTH_DURATION = 2500
+  const AUTH_STAGE_DURATION = 2000
+  const AUTH_DURATION = authStages.length ? authStages.length * AUTH_STAGE_DURATION : 2500
   const EXIT_DURATION = 420
+
+  let authStageTimers = []
+
+  const resetAuthStages = () => {
+    authStageTimers.forEach((timer) => window.clearTimeout(timer))
+    authStageTimers = []
+    authStages.forEach((stage) => {
+      stage.classList.remove('is-active')
+      stage.setAttribute('aria-hidden', 'true')
+    })
+  }
+
+  const showAuthStage = (index) => {
+    authStages.forEach((stage, stageIndex) => {
+      const isActive = stageIndex === index
+      stage.classList.toggle('is-active', isActive)
+      stage.setAttribute('aria-hidden', isActive ? 'false' : 'true')
+    })
+  }
+
+  const cycleAuthStages = () => {
+    if (!authStages.length) return
+    resetAuthStages()
+    showAuthStage(0)
+    for (let index = 1; index < authStages.length; index += 1) {
+      const timer = window.setTimeout(() => {
+        showAuthStage(index)
+      }, AUTH_STAGE_DURATION * index)
+      authStageTimers.push(timer)
+    }
+  }
+
+  resetAuthStages()
 
   const revealCards = () => {
     cards.forEach((card) => {
@@ -461,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const unlockPortal = () => {
     if (!gate || !main) return
 
+    resetAuthStages()
     sessionStorage.setItem('emergencyAccess', 'granted')
     gate.classList.add('is-hidden')
     gate.classList.remove('is-authenticating', 'is-exiting')
@@ -497,6 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form?.setAttribute('aria-busy', 'true')
     gateContent?.setAttribute('aria-hidden', 'true')
     gateAuth?.setAttribute('aria-hidden', 'false')
+    cycleAuthStages()
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur()
     }
@@ -524,6 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (main) {
       main.setAttribute('aria-hidden', 'false')
     }
+    resetAuthStages()
     gateAuth?.setAttribute('aria-hidden', 'true')
     gateContent?.setAttribute('aria-hidden', 'false')
     form?.removeAttribute('aria-busy')
@@ -537,6 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gate.setAttribute('aria-hidden', 'false')
       body.classList.add('is-locked')
     }
+    resetAuthStages()
     gateAuth?.setAttribute('aria-hidden', 'true')
     gateContent?.setAttribute('aria-hidden', 'false')
     if (inputs && inputs.length > 0) {
