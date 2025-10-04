@@ -186,6 +186,7 @@
     <nav class="command-nav" id="commandNav" aria-label="Emergency sections">
       <ul class="command-nav__list">
         <li><a href="#alert-overview">Alert Overview</a></li>
+        <li><a href="#device-location">Device Location</a></li>
         <li><a href="#recent-context">Recent Context</a></li>
         <li><a href="#live-links">Live Links</a></li>
         <li><a href="#evidence">Evidence Uploads</a></li>
@@ -198,6 +199,30 @@
   </header>
 
   <main id="top" class="emergency-main" aria-hidden="true" tabindex="-1" data-protected-content>
+    <section class="emergency-card emergency-card--alert-critical" id="alert-overview" data-card data-loading="true" aria-labelledby="alert-title">
+      <div class="card-loader" aria-hidden="true"></div>
+      <header class="emergency-card__header">
+        <span class="emergency-card__icon emergency-card__icon--alert" aria-hidden="true">
+          <i class="fi fi-rr-triangle-warning"></i>
+        </span>
+        <h2 class="emergency-card__title" id="alert-title">Mobile SOS Emergency Alert Activated by Daren Prince</h2>
+      </header>
+      <div class="emergency-card__content">
+        <p class="lead">READ IMMEDIATELY!</p>
+        <p>If you&rsquo;re reading this, my iPhone triggered an emergency alert.</p>
+        <p>This means I may be in danger, unresponsive, or unable to communicate. Please act quickly and carefully.</p>
+        <p class="attention-highlight">Trust your instincts &mdash; this alert is not sent lightly.</p>
+        <div class="action-steps">
+          <h3 class="action-steps__title">What To Do</h3>
+          <ul class="action-steps__list">
+            <li>Check all live links and files below.</li>
+            <li>If anything seems wrong, call 911 and give them my location.</li>
+            <li>Share only with trusted responders actively helping.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section
       class="emergency-card emergency-card--dashboard"
       id="sos-intel"
@@ -263,23 +288,38 @@
             </div>
             <dl class="device-data">
               <div class="device-data__row">
-                <dt>SOS Activated By</dt>
+                <dt>
+                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-user"></i></span>
+                  <span class="device-data__label">SOS Activated By</span>
+                </dt>
                 <dd>Daren Prince</dd>
               </div>
               <div class="device-data__row">
-                <dt>Primary Phone</dt>
+                <dt>
+                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-phone-call"></i></span>
+                  <span class="device-data__label">Primary Phone</span>
+                </dt>
                 <dd><a href="tel:13182800664">(318) 280-0664</a></dd>
               </div>
               <div class="device-data__row">
-                <dt>Device</dt>
+                <dt>
+                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-mobile-button"></i></span>
+                  <span class="device-data__label">Device</span>
+                </dt>
                 <dd>Apple iPhone 16 Pro Max</dd>
               </div>
               <div class="device-data__row">
-                <dt>EID</dt>
+                <dt>
+                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-sim-card"></i></span>
+                  <span class="device-data__label">EID</span>
+                </dt>
                 <dd>890490320074088851002093863863</dd>
               </div>
               <div class="device-data__row">
-                <dt>IMEI</dt>
+                <dt>
+                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-barcode"></i></span>
+                  <span class="device-data__label">IMEI</span>
+                </dt>
                 <dd>45 286494 576610 2</dd>
               </div>
             </dl>
@@ -358,48 +398,66 @@
               </div>
             </div>
           </section>
-          <section class="dashboard-panel" aria-labelledby="location-status-title">
-            <div class="dashboard-panel__header">
-              <h3 class="dashboard-panel__title" id="location-status-title">Location Snapshot</h3>
-            </div>
-            <div class="location-card">
-              <p class="location-card__label">Address</p>
-              <p class="location-card__value">6100 Monroe Hwy<br />Ball, LA 71405<br />United States</p>
-              <p class="location-card__label">Coordinates</p>
-              <p class="location-card__value">31.41363&deg; N, 92.41116&deg; W</p>
-              <a
-                class="location-card__link"
-                href="https://maps.apple.com/?address=6100%20Monroe%20Hwy,%20Ball,%20LA%2071405,%20United%20States&ll=31.41363,-92.41116&q=My%20Location"
-                target="_blank"
-                rel="noopener"
-              >View in Maps</a>
-            </div>
-            <button class="directory-trigger" type="button" data-directory-open>Local Emergency Directory</button>
-          </section>
         </div>
       </div>
     </section>
 
-    <section class="emergency-card emergency-card--alert-critical" id="alert-overview" data-card data-loading="true" aria-labelledby="alert-title">
+    <section class="emergency-card emergency-card--location" id="device-location" data-card data-loading="true" aria-labelledby="device-location-title">
       <div class="card-loader" aria-hidden="true"></div>
       <header class="emergency-card__header">
-        <span class="emergency-card__icon emergency-card__icon--alert" aria-hidden="true">
-          <i class="fi fi-rr-triangle-warning"></i>
+        <span class="emergency-card__icon emergency-card__icon--map" aria-hidden="true">
+          <i class="fi fi-rr-map-marker"></i>
         </span>
-        <h2 class="emergency-card__title" id="alert-title">Mobile SOS Emergency Alert Activated by Daren Prince</h2>
+        <h2 class="emergency-card__title" id="device-location-title">Device Location &amp; Tracking</h2>
       </header>
       <div class="emergency-card__content">
-        <p class="lead">READ IMMEDIATELY!</p>
-        <p>If you&rsquo;re reading this, my iPhone triggered an emergency alert.</p>
-        <p>This means I may be in danger, unresponsive, or unable to communicate. Please act quickly and carefully.</p>
-        <p class="attention-highlight">Trust your instincts &mdash; this alert is not sent lightly.</p>
-        <div class="action-steps">
-          <h3 class="action-steps__title">What To Do</h3>
-          <ul class="action-steps__list">
-            <li>Check all live links and files below.</li>
-            <li>If anything seems wrong, call 911 and give them my location.</li>
-            <li>Share only with trusted responders actively helping.</li>
-          </ul>
+        <div class="device-location">
+          <div class="location-card">
+            <p class="location-card__label">Address</p>
+            <p class="location-card__value">6100 Monroe Hwy<br />Ball, LA 71405<br />United States</p>
+            <p class="location-card__label">Coordinates</p>
+            <p class="location-card__value">31.41363&deg; N, 92.41116&deg; W</p>
+          </div>
+          <div class="location-actions">
+            <a
+              class="location-card__link"
+              href="https://maps.apple.com/?address=6100%20Monroe%20Hwy,%20Ball,%20LA%2071405,%20United%20States&ll=31.41363,-92.41116&q=My%20Location"
+              target="_blank"
+              rel="noopener"
+            >Open in Apple Maps</a>
+            <a
+              class="location-card__link location-card__link--google"
+              href="https://www.google.com/maps?q=31.41363,-92.41116"
+              target="_blank"
+              rel="noopener"
+            >Open Live Google Tracker</a>
+          </div>
+        </div>
+        <div class="location-trackers">
+          <article class="location-trackers__panel">
+            <h3 class="location-trackers__title">Live Tracking Map</h3>
+            <div class="map-frame location-trackers__map" role="img" aria-label="Live traffic map centered near Ball, Louisiana">
+              <iframe
+                title="Live Tracking Map"
+                src="https://embed.waze.com/iframe?zoom=14&lat=31.41363&lon=-92.41116&pin=1"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </article>
+          <article class="location-trackers__panel">
+            <h3 class="location-trackers__title">Google Maps Tracker</h3>
+            <div class="map-frame location-trackers__map location-trackers__map--google" role="img" aria-label="Google Maps tracker for Ball, Louisiana">
+              <iframe
+                title="Google Maps Tracker"
+                src="https://maps.google.com/maps?q=31.41363,-92.41116&z=14&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -447,6 +505,12 @@
             </span>
             <span class="call-button__label">Dispatch Ambulance (511)</span>
           </a>
+          <button class="call-button directory-trigger" type="button" data-directory-open>
+            <span class="call-button__icon" aria-hidden="true">
+              <i class="fi fi-rr-book-alt"></i>
+            </span>
+            <span class="call-button__label">Local Emergency Directory</span>
+          </button>
           <a class="call-button call-button--critical" href="tel:911">
             <span class="call-button__icon" aria-hidden="true">
               <i class="fi fi-rr-shield-exclamation"></i>
@@ -474,28 +538,6 @@
             <span class="context-detail">Staying at Brandon Bryan &amp; Wayne Shano&rsquo;s house on Elliot St. in Alexandria</span>
           </li>
         </ul>
-      </div>
-    </section>
-
-    <section class="emergency-card emergency-card--map" id="live-location" data-card data-loading="true" aria-labelledby="map-title">
-      <div class="card-loader" aria-hidden="true"></div>
-      <header class="emergency-card__header">
-        <span class="emergency-card__icon emergency-card__icon--map" aria-hidden="true">
-          <i class="fi fi-rr-map-marker"></i>
-        </span>
-        <h2 class="emergency-card__title" id="map-title">Live Location Map</h2>
-      </header>
-      <div class="emergency-card__content">
-        <p>The map updates with the most recent location signal. Cross-reference with the live Google link for movement.</p>
-        <div class="map-frame" role="img" aria-label="Live map centered on Alexandria, Virginia">
-          <iframe
-            title="Live Google Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.363235951803!2d-77.05637992326779!3d38.80608687174866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b7b0db35c50c71%3A0x84a4c74a4d06f069!2sAlexandria%2C%20VA!5e0!3m2!1sen!2sus!4v1720072800000!5m2!1sen!2sus"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen
-          ></iframe>
-        </div>
       </div>
     </section>
 
@@ -698,8 +740,18 @@
           </form>
         </div>
         <div class="password-gate__auth" data-gate-auth aria-hidden="true" role="status" aria-live="polite">
-          <div class="password-gate__auth-spinner" aria-hidden="true"></div>
-          <p class="password-gate__auth-text">Authenting</p>
+          <div class="password-gate__auth-stage" data-auth-stage="token" aria-hidden="true">
+            <span class="password-gate__auth-loader password-gate__auth-loader--token" aria-hidden="true"></span>
+            <span class="sr-only">Authenticating token</span>
+          </div>
+          <div class="password-gate__auth-stage" data-auth-stage="connecting" aria-hidden="true">
+            <span class="password-gate__auth-loader password-gate__auth-loader--connecting" aria-hidden="true"></span>
+            <span class="sr-only">Connecting</span>
+          </div>
+          <div class="password-gate__auth-stage" data-auth-stage="locating" aria-hidden="true">
+            <span class="password-gate__auth-loader password-gate__auth-loader--locating" aria-hidden="true"></span>
+            <span class="sr-only">Locating</span>
+          </div>
         </div>
       </div>
     </div>
@@ -709,14 +761,14 @@
     <div class="alert-modal__overlay" data-modal-close></div>
     <div class="alert-modal__panel" role="document">
       <button class="alert-modal__close" type="button" aria-label="Dismiss alert" data-modal-close>
-        <span aria-hidden="true"></span>
+        <span class="alert-modal__close-icon" aria-hidden="true">&times;</span>
       </button>
       <div class="alert-modal__icon" aria-hidden="true">
         <i class="fi fi-rr-alarm-exclamation"></i>
       </div>
-      <h2 class="alert-modal__title" id="alertModalTitle">Not a Joke — Real Emergency</h2>
+      <h2 class="alert-modal__title" id="alertModalTitle">THIS IS A REAL EMERGENCY.</h2>
       <p class="alert-modal__body">This SOS was triggered from a live iPhone distress signal. Treat every instruction as urgent and real&mdash;no drills, no pranks.</p>
-      <button class="alert-modal__acknowledge" type="button" data-modal-close>Stay focused</button>
+      <button class="alert-modal__acknowledge" type="button" data-modal-close>Stay Focused</button>
     </div>
   </div>
 
