@@ -375,178 +375,12 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  color: var(--color-accent);
+  font-size: 1.35rem;
 }
 
-.emergency-card__icon::before,
-.emergency-card__icon::after {
-  content: '';
-  position: absolute;
-  background: var(--color-accent);
-}
-
-.emergency-card__icon--alert::before,
-.emergency-card__icon--alert::after {
-  width: 0.18rem;
-  height: 60%;
-  border-radius: 999px;
-}
-
-.emergency-card__icon--alert::after {
-  transform: rotate(90deg);
-}
-
-.emergency-card__icon--context::before {
-  width: 70%;
-  height: 0.18rem;
-  border-radius: 999px;
-}
-
-.emergency-card__icon--context::after {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  bottom: 0.4rem;
-  right: 0.5rem;
-}
-
-.emergency-card__icon--map::before {
-  width: 65%;
-  height: 65%;
-  border-radius: 50%;
-  border: 2px solid var(--color-accent);
-  background: transparent;
-}
-
-.emergency-card__icon--map::after {
-  width: 0.35rem;
-  height: 0.9rem;
-  border-radius: 0.35rem;
-  transform: translateY(0.65rem) rotate(45deg);
-}
-
-.emergency-card__icon--link::before {
-  width: 1.1rem;
-  height: 0.18rem;
-  border-radius: 999px;
-}
-
-.emergency-card__icon--link::after {
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 2px solid var(--color-accent);
-  border-radius: 50%;
-  top: 0.4rem;
-  right: 0.4rem;
-  background: transparent;
-}
-
-.emergency-card__icon--dashboard::before,
-.emergency-card__icon--dashboard::after {
-  border-radius: 999px;
-}
-
-.emergency-card__icon--dashboard::before {
-  width: 1.4rem;
-  height: 0.18rem;
-  box-shadow:
-    0 -0.45rem 0 0 rgba(255, 69, 58, 0.6),
-    0 0.45rem 0 0 rgba(255, 69, 58, 0.35);
-}
-
-.emergency-card__icon--dashboard::after {
-  width: 0.2rem;
-  height: 0.2rem;
-  right: 0.55rem;
-  top: 0.5rem;
-  box-shadow: 0 0 12px rgba(255, 69, 58, 0.5);
-}
-
-.emergency-card__icon--contacts::before,
-.emergency-card__icon--contacts::after {
-  border-radius: 0.4rem;
-}
-
-.emergency-card__icon--contacts::before {
-  width: 0.45rem;
-  height: 1.4rem;
-  left: 0.55rem;
-  border-radius: 0.6rem;
-}
-
-.emergency-card__icon--contacts::after {
-  width: 1.1rem;
-  height: 0.65rem;
-  border-radius: 0.35rem;
-  right: 0.45rem;
-  top: 0.55rem;
-}
-
-.emergency-card__icon--evidence::before {
-  width: 1.1rem;
-  height: 0.18rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.emergency-card__icon--evidence::after {
-  width: 0.18rem;
-  height: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.emergency-card__icon--medical::before {
-  width: 0.18rem;
-  height: 65%;
-}
-
-.emergency-card__icon--medical::after {
-  width: 65%;
-  height: 0.18rem;
-  border-radius: 999px;
-}
-
-.emergency-card__icon--aid::before,
-.emergency-card__icon--aid::after {
-  width: 0.18rem;
-  height: 60%;
-  border-radius: 999px;
-}
-
-.emergency-card__icon--aid::after {
-  transform: rotate(90deg);
-}
-
-.emergency-card__icon--tracker::before {
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
-  border: 2px solid var(--color-accent);
-  background: transparent;
-}
-
-.emergency-card__icon--tracker::after {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--color-accent);
-}
-
-.emergency-card__icon--photos::before {
-  width: 1.1rem;
-  height: 0.9rem;
-  border-radius: 0.4rem;
-  border: 2px solid var(--color-accent);
-  background: transparent;
-}
-
-.emergency-card__icon--photos::after {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  top: 0.5rem;
-  left: 0.5rem;
+.emergency-card__icon i {
+  line-height: 1;
 }
 
 .emergency-card__title {
@@ -600,14 +434,11 @@ a:hover {
   align-items: center;
   justify-content: center;
   color: var(--color-text-primary);
+  font-size: 1rem;
 }
 
-.dashboard-alert__icon::before {
-  content: '';
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 0.35rem;
-  border: 2px solid currentColor;
+.dashboard-alert__icon i {
+  line-height: 1;
 }
 
 .dashboard-alert__body {
@@ -1253,11 +1084,11 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.1rem;
 }
 
-.call-button__icon svg {
-  width: 100%;
-  height: 100%;
+.call-button__icon i {
+  line-height: 1;
 }
 
 .call-button__label {
@@ -1681,25 +1512,15 @@ a:hover {
   cursor: pointer;
 }
 
-.copy-button__icon,
-.copy-button__icon::before {
-  content: '';
-  display: block;
-  width: 1rem;
-  height: 0.75rem;
-  border-radius: 0.25rem;
-  border: 2px solid currentColor;
-  position: relative;
+.copy-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
 }
 
-.copy-button__icon::before {
-  position: absolute;
-  inset: auto;
-  bottom: -0.35rem;
-  right: -0.35rem;
-  width: 1rem;
-  height: 0.75rem;
-  background: rgba(0, 0, 0, 0.6);
+.copy-button__icon i {
+  line-height: 1;
 }
 
 .copy-button__tooltip {
@@ -1735,24 +1556,20 @@ a:hover {
 }
 
 .photo-placeholder__icon {
-  display: inline-block;
-  width: 2.2rem;
-  height: 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
   border-radius: 50%;
   border: 2px solid var(--color-accent);
   margin-bottom: 0.75rem;
-  position: relative;
+  color: var(--color-accent);
+  font-size: 1.35rem;
 }
 
-.photo-placeholder__icon::after {
-  content: '';
-  position: absolute;
-  inset: 35% auto auto 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--color-accent);
-  transform: translateX(-50%);
+.photo-placeholder__icon i {
+  line-height: 1;
 }
 
 .back-to-top {
@@ -1778,12 +1595,15 @@ a:hover {
 }
 
 .back-to-top__icon {
-  width: 1rem;
-  height: 1rem;
-  border-left: 2px solid currentColor;
-  border-top: 2px solid currentColor;
-  transform: rotate(45deg);
-  margin-top: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-top: 0.1rem;
+}
+
+.back-to-top__icon i {
+  line-height: 1;
 }
 
 .back-to-top.is-visible {
@@ -1893,52 +1713,21 @@ a:hover {
 
 .password-gate__icon {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 4rem;
   height: 4rem;
   margin-bottom: 0.35rem;
+  border-radius: 1.5rem;
+  background: rgba(255, 69, 58, 0.18);
+  border: 1px solid rgba(255, 69, 58, 0.35);
+  color: var(--color-accent);
+  box-shadow: 0 6px 18px rgba(255, 69, 58, 0.2);
+  font-size: 1.85rem;
 }
 
-.password-gate__icon-circle {
-  width: 100%;
-  height: 100%;
-  border-radius: 999px;
-  background: var(--color-accent);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 18px rgba(255, 69, 58, 0.25);
-}
-
-.password-gate__icon-lock {
-  position: relative;
-  width: 1.55rem;
-  height: 1.7rem;
-  color: #0d0d10;
-}
-
-.password-gate__icon-lock::before,
-.password-gate__icon-lock::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-text-primary);
-}
-
-.password-gate__icon-lock::before {
-  bottom: 0;
-  width: 100%;
-  height: 1rem;
-  border-radius: 0.45rem;
-}
-
-.password-gate__icon-lock::after {
-  top: 0;
-  width: 120%;
-  height: 0.85rem;
-  border-radius: 0.85rem 0.85rem 0.55rem 0.55rem;
-  box-shadow: inset 0 0 0 0.22rem var(--color-text-primary);
-  background: transparent;
+.password-gate__icon i {
+  line-height: 1;
 }
 
 .password-gate__title {
@@ -2149,29 +1938,15 @@ a:hover {
   background: rgba(255, 69, 58, 0.2);
   border: 1px solid rgba(255, 69, 58, 0.4);
   margin: 0 auto 1.25rem;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: 1.6rem;
 }
 
-.alert-modal__icon::before,
-.alert-modal__icon::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-accent);
-  border-radius: 999px;
-}
-
-.alert-modal__icon::before {
-  width: 0.3rem;
-  height: 1.6rem;
-  top: 0.65rem;
-}
-
-.alert-modal__icon::after {
-  width: 0.35rem;
-  height: 0.35rem;
-  bottom: 0.65rem;
+.alert-modal__icon i {
+  line-height: 1;
 }
 
 .alert-modal__title {
