@@ -216,6 +216,14 @@ netlify dev
 Pushing to `main` triggers Netlify CI/CD. Connect the Netlify Supabase integration so environment variables stay synchronized.
 If the build ever skips `scripts/generate-env.js`, the browser will fetch `/.netlify/functions/supabase-config` at runtime to hydrate Supabase credentials from Netlify env vars.
 
+### Pull request previews on GitHub Pages
+
+- Workflow: [`.github/workflows/deploy-pr-preview.yml`](./.github/workflows/deploy-pr-preview.yml) installs [Deploy PR Preview](https://github.com/marketplace/actions/deploy-pr-preview) so every in-repo pull request publishes a temporary GitHub Pages build under `pr-preview/pr-<number>/`.
+- Configure **Settings → Pages** to deploy from the `gh-pages` branch (or update `preview-branch` in the workflow to match your Pages branch).
+- Grant the repository **Actions → General → Workflow permissions → Read and write** access so the action can push preview commits and update sticky comments.
+- The workflow skips forked pull requests until upstream support lands in the action; local branches within this repo receive previews automatically.
+- Closing a pull request automatically removes its preview, keeping the `gh-pages` branch tidy.
+
 ### Dashboard Access on Netlify
 
 1. Connect the Supabase integration in Netlify for env parity.
