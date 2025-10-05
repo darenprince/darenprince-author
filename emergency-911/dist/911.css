@@ -139,11 +139,12 @@ a:hover {
   text-decoration: none;
 }
 
-.command-logo__svg {
+.command-logo__img {
   display: block;
-  width: clamp(2.75rem, 6vw, 3.25rem);
+  width: clamp(2rem, 4.5vw, 2.5rem);
+  max-width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 1.25rem rgba(255, 69, 58, 0.25));
+  filter: drop-shadow(0 0 0.85rem rgba(255, 69, 58, 0.25));
 }
 
 .command-menu-toggle {
@@ -269,12 +270,13 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.command-footer__svg {
+.command-footer__img {
   display: block;
-  width: clamp(2.5rem, 5vw, 3rem);
+  width: clamp(2rem, 4vw, 2.4rem);
+  max-width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.35));
-  opacity: 0.9;
+  filter: drop-shadow(0 0 0.65rem rgba(0, 0, 0, 0.4));
+  opacity: 1;
 }
 
 .emergency-main {
