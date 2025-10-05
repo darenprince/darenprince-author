@@ -71,11 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const gateContent = gate?.querySelector('[data-gate-content]')
   const gateAuth = gate?.querySelector('[data-gate-auth]')
   const authStages = Array.from(gateAuth?.querySelectorAll('[data-auth-stage]') ?? [])
+  const tokenStage = gateAuth?.querySelector('[data-auth-stage="token"]') ?? null
+  const tokenLoader = tokenStage?.querySelector('.password-gate__auth-loader--token') ?? null
   const preloader = document.querySelector('[data-preloader]')
   const nav = document.querySelector('.command-nav')
   const menuToggle = document.querySelector('.command-menu-toggle')
   const backToTop = document.querySelector('.back-to-top')
   const modal = document.querySelector('[data-alert-modal]')
+  const modalSequence = modal?.querySelector('[data-alert-sequence]') ?? null
   const modalCloseTriggers = modal?.querySelectorAll('[data-modal-close]') ?? []
   const copyButtons = document.querySelectorAll('.copy-button')
   const directoryModal = document.querySelector('[data-directory-modal]')
@@ -95,7 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const cellMetric = telemetryPanel?.querySelector('[data-metric="cell"]') ?? null
 
   const updateBatteryMetric = (metric, payload = {}) => {
-    const status = normalizeState(payload.status ?? metric.dataset.status, ['charging', 'discharging', 'full'], 'discharging')
+    const status = normalizeState(
+      payload.status ?? metric.dataset.status,
+      ['charging', 'discharging', 'full'],
+      'discharging'
+    )
     const level = clampNumber(toNumber(payload.level ?? metric.dataset.level ?? '0', 0), 0, 100)
     const isCharging = status === 'charging'
     const levelState = level <= 5 ? 'critical' : level <= 25 ? 'low' : 'normal'
@@ -129,8 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const updateWifiMetric = (metric, payload = {}) => {
-    const wifiState = normalizeState(payload.state ?? metric.dataset.state, ['connected', 'limited', 'offline'], 'offline')
-    const strength = clampNumber(toInteger(payload.strength ?? metric.dataset.strength ?? '0', 0), 0, 3)
+    const wifiState = normalizeState(
+      payload.state ?? metric.dataset.state,
+      ['connected', 'limited', 'offline'],
+      'offline'
+    )
+    const strength = clampNumber(
+      toInteger(payload.strength ?? metric.dataset.strength ?? '0', 0),
+      0,
+      3
+    )
     const ssid = (payload.ssid ?? metric.dataset.ssid ?? '').toString().trim()
     metric.dataset.state = wifiState
     metric.dataset.strength = String(strength)
@@ -165,8 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const updateCellMetric = (metric, payload = {}) => {
-    const cellState = normalizeState(payload.state ?? metric.dataset.state, ['connected', 'limited', 'offline', 'no-sim'], 'offline')
-    const strength = clampNumber(toInteger(payload.strength ?? metric.dataset.strength ?? '0', 0), 0, 4)
+    const cellState = normalizeState(
+      payload.state ?? metric.dataset.state,
+      ['connected', 'limited', 'offline', 'no-sim'],
+      'offline'
+    )
+    const strength = clampNumber(
+      toInteger(payload.strength ?? metric.dataset.strength ?? '0', 0),
+      0,
+      4
+    )
     const label = (payload.label ?? metric.dataset.label ?? '').toString().trim()
     metric.dataset.state = cellState
     metric.dataset.strength = String(strength)
@@ -239,19 +262,31 @@ document.addEventListener('DOMContentLoaded', () => {
     battery: batteryMetric
       ? {
           level: toNumber(batteryMetric.dataset.level ?? '0', 0),
-          status: normalizeState(batteryMetric.dataset.status, ['charging', 'discharging', 'full'], 'discharging'),
+          status: normalizeState(
+            batteryMetric.dataset.status,
+            ['charging', 'discharging', 'full'],
+            'discharging'
+          ),
         }
       : null,
     wifi: wifiMetric
       ? {
-          state: normalizeState(wifiMetric.dataset.state, ['connected', 'limited', 'offline'], 'offline'),
+          state: normalizeState(
+            wifiMetric.dataset.state,
+            ['connected', 'limited', 'offline'],
+            'offline'
+          ),
           strength: clampNumber(toInteger(wifiMetric.dataset.strength ?? '0', 0), 0, 3),
           ssid: wifiMetric.dataset.ssid ?? '',
         }
       : null,
     cell: cellMetric
       ? {
-          state: normalizeState(cellMetric.dataset.state, ['connected', 'limited', 'offline', 'no-sim'], 'offline'),
+          state: normalizeState(
+            cellMetric.dataset.state,
+            ['connected', 'limited', 'offline', 'no-sim'],
+            'offline'
+          ),
           strength: clampNumber(toInteger(cellMetric.dataset.strength ?? '0', 0), 0, 4),
           label: cellMetric.dataset.label ?? '',
         }
@@ -282,6 +317,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.CrownSOSTelemetry = telemetryAPI
 
   let lastDirectoryTrigger = null
+  let tokenCheckTimer = null
+  let modalSequenceTimers = []
   const AUTH_STAGE_DURATION = 2000
   const AUTH_DURATION = authStages.length ? authStages.length * AUTH_STAGE_DURATION : 2500
   const EXIT_DURATION = 420
@@ -291,6 +328,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetAuthStages = () => {
     authStageTimers.forEach((timer) => window.clearTimeout(timer))
     authStageTimers = []
+    if (tokenCheckTimer) {
+      window.clearTimeout(tokenCheckTimer)
+      tokenCheckTimer = null
+    }
+    tokenLoader?.classList.remove('is-success')
     authStages.forEach((stage) => {
       stage.classList.remove('is-active')
       stage.setAttribute('aria-hidden', 'true')
@@ -302,6 +344,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const isActive = stageIndex === index
       stage.classList.toggle('is-active', isActive)
       stage.setAttribute('aria-hidden', isActive ? 'false' : 'true')
+      if (stage.dataset.authStage === 'token') {
+        if (!isActive) {
+          tokenLoader?.classList.remove('is-success')
+          if (tokenCheckTimer) {
+            window.clearTimeout(tokenCheckTimer)
+            tokenCheckTimer = null
+          }
+          return
+        }
+        tokenLoader?.classList.remove('is-success')
+        if (tokenCheckTimer) {
+          window.clearTimeout(tokenCheckTimer)
+          tokenCheckTimer = null
+        }
+        const delay = Math.max(0, AUTH_STAGE_DURATION - 500)
+        tokenCheckTimer = window.setTimeout(() => {
+          if (stage.classList.contains('is-active')) {
+            tokenLoader?.classList.add('is-success')
+          }
+        }, delay)
+      }
     })
   }
 
@@ -315,6 +378,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }, AUTH_STAGE_DURATION * index)
       authStageTimers.push(timer)
     }
+  }
+
+  const resetModalSequence = () => {
+    modalSequenceTimers.forEach((timer) => window.clearTimeout(timer))
+    modalSequenceTimers = []
+    modalSequence?.classList.remove('is-active', 'is-expanded', 'is-complete')
+  }
+
+  const startModalSequence = () => {
+    if (!modalSequence) return
+    resetModalSequence()
+    window.requestAnimationFrame(() => {
+      modalSequence.classList.add('is-active')
+      const expandTimer = window.setTimeout(() => {
+        modalSequence.classList.add('is-expanded')
+      }, 150)
+      const completeTimer = window.setTimeout(() => {
+        modalSequence.classList.add('is-complete')
+      }, 780)
+      modalSequenceTimers.push(expandTimer, completeTimer)
+    })
   }
 
   resetAuthStages()
@@ -334,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const openModal = () => {
     if (!modal) return
     modal.setAttribute('aria-hidden', 'false')
+    startModalSequence()
     const acknowledge = modal.querySelector('.alert-modal__acknowledge')
     window.setTimeout(() => {
       acknowledge?.focus()
@@ -343,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModal = () => {
     if (!modal) return
     modal.setAttribute('aria-hidden', 'true')
+    resetModalSequence()
   }
 
   modalCloseTriggers.forEach((trigger) => {

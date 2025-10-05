@@ -132,7 +132,7 @@
     name="description"
     content="Daren Prince has triggered an SOS alert from his device. This indicates he may be in danger or require urgent assistance."
   />
-  <meta name="theme-color" content="#8B0000" />
+  <meta name="theme-color" content="#d64646" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Crown SOS Emergency Portal | Daren Prince" />
   <meta
@@ -752,12 +752,18 @@
         <div class="password-gate__auth" data-gate-auth aria-hidden="true" role="status" aria-live="polite">
           <div class="password-gate__auth-stages">
             <div class="password-gate__auth-stage" data-auth-stage="token" aria-hidden="true">
-              <span class="password-gate__auth-loader password-gate__auth-loader--token" aria-hidden="true"></span>
+              <span class="password-gate__auth-loader password-gate__auth-loader--token" aria-hidden="true">
+                <span class="password-gate__auth-check" aria-hidden="true">
+                  <i class="fi fi-rr-check"></i>
+                </span>
+              </span>
               <span class="password-gate__auth-label" aria-hidden="true">AUTHENTICATING</span>
               <span class="sr-only">Authenticating token</span>
             </div>
             <div class="password-gate__auth-stage" data-auth-stage="connecting" aria-hidden="true">
-              <span class="password-gate__auth-loader password-gate__auth-loader--connecting" aria-hidden="true"></span>
+              <span class="password-gate__auth-loader password-gate__auth-loader--connecting" aria-hidden="true">
+                <span class="password-gate__signal" aria-hidden="true"></span>
+              </span>
               <span class="password-gate__auth-label" aria-hidden="true">CONNECTING</span>
               <span class="sr-only">Connecting</span>
             </div>
@@ -781,12 +787,23 @@
       <button class="alert-modal__close" type="button" aria-label="Dismiss alert" data-modal-close>
         <span class="alert-modal__close-icon" aria-hidden="true">&times;</span>
       </button>
-      <div class="alert-modal__icon" aria-hidden="true">
-        <i class="fi fi-rr-alarm-exclamation"></i>
+      <div class="alert-sequence" data-alert-sequence>
+        <div class="alert-sequence__icon" aria-hidden="true">
+          <span class="alert-sequence__pulse" aria-hidden="true"></span>
+          <span class="alert-sequence__glyph" aria-hidden="true">
+            <i class="fi fi-rr-alarm-exclamation"></i>
+          </span>
+        </div>
+        <div class="alert-sequence__content">
+          <p class="alert-sequence__eyebrow">Critical distress signal</p>
+          <h2 class="alert-sequence__title" id="alertModalTitle">This is a real emergency.</h2>
+          <p class="alert-sequence__body">
+            This SOS was triggered from a live iPhone distress signal. Treat every instruction as urgent and real&mdash;no drills,
+            no pranks.
+          </p>
+          <button class="alert-modal__acknowledge" type="button" data-modal-close>Stay Focused</button>
+        </div>
       </div>
-      <h2 class="alert-modal__title" id="alertModalTitle">THIS IS A REAL EMERGENCY.</h2>
-      <p class="alert-modal__body">This SOS was triggered from a live iPhone distress signal. Treat every instruction as urgent and real&mdash;no drills, no pranks.</p>
-      <button class="alert-modal__acknowledge" type="button" data-modal-close>Stay Focused</button>
     </div>
   </div>
 
