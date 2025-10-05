@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTelemetryState(telemetryState)
   }
 
-  const telemetryAPI = window.PulseGuardTelemetry ?? {}
+  const telemetryAPI = window.CrownSOSTelemetry ?? {}
   telemetryAPI.update = (patch = {}) => {
     if (!telemetryPanel) return
     const nextState = {
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cell: telemetryState.cell ? { ...telemetryState.cell } : null,
     }),
   })
-  window.PulseGuardTelemetry = telemetryAPI
+  window.CrownSOSTelemetry = telemetryAPI
 
   let lastDirectoryTrigger = null
   const AUTH_STAGE_DURATION = 2000
