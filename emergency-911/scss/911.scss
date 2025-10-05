@@ -1868,8 +1868,11 @@ a:hover {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(1.5rem, 4vw, 2.25rem);
+  padding: clamp(1.5rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 2.75rem);
   transform: translateX(45%);
   opacity: 0;
   transition:
@@ -2000,16 +2003,72 @@ a:hover {
   font-weight: 600;
 }
 
-.password-gate__auth-stage {
-  position: absolute;
-  inset: 0;
-  display: none;
+.password-gate__auth-stages {
+  position: relative;
+  width: min(100%, 18.5rem);
+  min-height: clamp(7rem, 24vw, 9rem);
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.password-gate__auth-stage {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .password-gate__auth-stage.is-active {
   display: flex;
+}
+
+.password-gate__auth-label {
+  font-family: var(--font-system-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.password-gate__auth-progress {
+  width: min(100%, 18.5rem);
+}
+
+.loader {
+  width: 100%;
+  height: 4.8px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.loader::after {
+  content: '';
+  width: 0%;
+  height: 4.8px;
+  background-color: #fff;
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.25) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.25) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 15px 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  animation: animFw 6s ease-in infinite;
 }
 
 .password-gate__auth-loader {
@@ -2105,6 +2164,16 @@ a:hover {
   border-radius: 50%;
   background: #fff;
   transform: translate(-50%, -50%);
+}
+
+@keyframes animFw {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
 }
 
 @keyframes flash {
