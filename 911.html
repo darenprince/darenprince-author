@@ -750,17 +750,25 @@
           </form>
         </div>
         <div class="password-gate__auth" data-gate-auth aria-hidden="true" role="status" aria-live="polite">
-          <div class="password-gate__auth-stage" data-auth-stage="token" aria-hidden="true">
-            <span class="password-gate__auth-loader password-gate__auth-loader--token" aria-hidden="true"></span>
-            <span class="sr-only">Authenticating token</span>
+          <div class="password-gate__auth-stages">
+            <div class="password-gate__auth-stage" data-auth-stage="token" aria-hidden="true">
+              <span class="password-gate__auth-loader password-gate__auth-loader--token" aria-hidden="true"></span>
+              <span class="password-gate__auth-label" aria-hidden="true">AUTHENTICATING</span>
+              <span class="sr-only">Authenticating token</span>
+            </div>
+            <div class="password-gate__auth-stage" data-auth-stage="connecting" aria-hidden="true">
+              <span class="password-gate__auth-loader password-gate__auth-loader--connecting" aria-hidden="true"></span>
+              <span class="password-gate__auth-label" aria-hidden="true">CONNECTING</span>
+              <span class="sr-only">Connecting</span>
+            </div>
+            <div class="password-gate__auth-stage" data-auth-stage="locating" aria-hidden="true">
+              <span class="password-gate__auth-loader password-gate__auth-loader--locating" aria-hidden="true"></span>
+              <span class="password-gate__auth-label" aria-hidden="true">LOCATING</span>
+              <span class="sr-only">Locating</span>
+            </div>
           </div>
-          <div class="password-gate__auth-stage" data-auth-stage="connecting" aria-hidden="true">
-            <span class="password-gate__auth-loader password-gate__auth-loader--connecting" aria-hidden="true"></span>
-            <span class="sr-only">Connecting</span>
-          </div>
-          <div class="password-gate__auth-stage" data-auth-stage="locating" aria-hidden="true">
-            <span class="password-gate__auth-loader password-gate__auth-loader--locating" aria-hidden="true"></span>
-            <span class="sr-only">Locating</span>
+          <div class="password-gate__auth-progress" aria-hidden="true">
+            <span class="loader"></span>
           </div>
         </div>
       </div>
