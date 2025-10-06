@@ -18,20 +18,20 @@ This project exists to:
 - Deliver confident, psychology-backed messaging that matches the Game On! identity.
 - Provide a single source of truth for brand tokens, layouts, and reusable UI.
 - Prepare for member-only experiences without exposing unfinished surfaces.
-- Keep deploys fast, automated, and ready for Netlify + Supabase integrations.
+- Keep deploys fast, automated, and ready for the upcoming data platform relaunch.
 
 ---
 
 ## 🔧 Stack Overview
 
-| Layer         | Details                                                                                       |
-| ------------- | --------------------------------------------------------------------------------------------- |
-| Markup        | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes)      |
-| Styles        | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default)  |
-| JavaScript    | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search`                           |
-| Auth & data   | Supabase JS client (auth, storage, admin edge functions)                                      |
-| Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md)), Netlify CLI |
-| Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                         |
+| Layer         | Details                                                                                                                          |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Markup        | Static HTML pages (`index.html`, `book.html`, `components.html`, dashboards, prototypes)                                         |
+| Styles        | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default)                                     |
+| JavaScript    | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search`                                                              |
+| Data platform | Authentication and storage provider under migration (see [`docs/data-platform-migration.md`](./docs/data-platform-migration.md)) |
+| Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md)), Netlify CLI                                    |
+| Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                                                            |
 
 > **Reality Check:** Netlify’s build command only runs Sass compilation and environment generation. Run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
 >
@@ -43,7 +43,7 @@ This project exists to:
 
 - `js/main.js` manages the mega menu, search toggle, and auth defaults.
 - `js/theme-toggle.js` wires the dark/light switch. Marketing pages ship with the toggle; admin utilities may omit it to save space.
-- `js/profile-dropdown.js` activates the profile menu and logout once a Supabase session exists.
+- `js/profile-dropdown.js` toggles the profile menu and routes visitors to login while auth is offline.
 - `js/ui.js` exposes toast + progress helpers:
   ```html
   <script type="module" src="/js/ui.js"></script>
@@ -107,7 +107,7 @@ _Adding a new token_
 ```plaintext
 📁 /assets/         # Logos, icons, images, compiled CSS
 📁 /scss/           # Modular SCSS (base, layout, components, utilities)
-📁 /js/             # Custom scripts (nav, theme toggle, Supabase helpers, UI utilities)
+📁 /js/             # Custom scripts (nav, theme toggle, auth placeholders, UI utilities)
 📁 /member/         # Gated content area (future)
 📁 /docs/           # Prompts, logic, visual guides, build notes, audits
 📁 /pages/          # Additional static page entries (e.g., search results)
@@ -142,32 +142,25 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `index.html` — hero rail, featured book CTA, testimonials, contact capture.
 - `book.html` — tabbed format selector with trailer modal and 3D viewer.
 - `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
-- `dashboard.html` — member storage, profile editor, Supabase-driven uploads.
+- `dashboard.html` — member dashboard placeholder with migration messaging.
 - `admin-user-management.html` — admin console backed by the `admin-users` edge function.
 - `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
 
 ---
 
-## 🔐 Supabase Integration
+## 🔄 Data Platform Migration
 
-- Environment variables flow through `scripts/generate-env.js` → `assets/js/env.js`.
-- `supabase/env.js` offers Deno (edge), Node (tests/scripts), and browser fallbacks.
-- Edge functions: `admin-users` (user management) and `secure-storage` (uploads).
-- Database tables: `public.profiles`, `public.folder_access`, `private.profile_audit`, `private.admin_action_log`.
-- Storage buckets: `avatars` (public) and `user-data` (private).
+The previous database integration has been fully retired. Authentication, storage, and admin tooling are paused while we select and wire up a new provider. During this window:
 
-_Troubleshooting_
+- UI surfaces now display clear migration messaging instead of warning dialogs.
+- All scripts import from `js/auth-service.js`, which returns `null` until the new provider is ready.
+- Build scripts no longer generate runtime credentials or call legacy database CLIs.
 
-- Use `js/supabase-logger.js` (Konami/tap overlay) for runtime diagnostics.
-- Run the Vitest suite in `/tests` to validate Supabase helpers and auth guards.
+_What to do next_
 
-_Setup Checklist_
-
-1. Copy `.env.example` → `.env` and fill `SUPABASE_DATABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET` (Netlify integration injects the same vars).
-2. Run `npm run build` (or `npm run watch`) to generate `assets/js/env.js` with non-sensitive keys.
-3. Apply database changes with `supabase db push` or execute [`supabase/sql_editor_setup.sql`](./supabase/sql_editor_setup.sql) in the Supabase SQL editor.
-4. Deploy edge functions as needed, e.g. `supabase functions deploy secure-storage`.
-5. Assign elevated roles by editing user metadata (`role` → `developer` or `admin`) in Supabase **Authentication → Users**. Matching roles in `profiles` automatically route admins to `admin-dashboard.html` after login.
+1. Review [`docs/data-platform-migration.md`](./docs/data-platform-migration.md) for milestones, required environment variables, and sequencing guidance.
+2. Draft integration adapters under `js/` that conform to the `auth-service` interface before re-enabling secure routes.
+3. Update `.env` with the new provider keys once available (see `.env.example`).
 
 ---
 
@@ -201,7 +194,7 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
 ./scripts/start_dev.sh     # watch files & launch Netlify dev server
-npm run build              # build search → env → images → Sass
+npm run build              # build search → icons → images → Sass
 npm run watch              # watch Sass and run Netlify dev
 npm test                   # run Vitest suite
 ```
@@ -213,8 +206,7 @@ npm install -g netlify-cli
 netlify dev
 ```
 
-Pushing to `main` triggers Netlify CI/CD. Connect the Netlify Supabase integration so environment variables stay synchronized.
-If the build ever skips `scripts/generate-env.js`, the browser will fetch `/.netlify/functions/supabase-config` at runtime to hydrate Supabase credentials from Netlify env vars.
+Pushing to `main` triggers Netlify CI/CD. Environment variables can now be managed directly in Netlify without additional integrations.
 
 ### Pull request previews on GitHub Pages
 
@@ -226,9 +218,9 @@ If the build ever skips `scripts/generate-env.js`, the browser will fetch `/.net
 
 ### Dashboard Access on Netlify
 
-1. Connect the Supabase integration in Netlify for env parity.
-2. Deploy the site and visit `/login.html` to sign in.
-3. Authenticated users land on `dashboard.html`; roles of `developer` or `admin` redirect to `admin-dashboard.html`.
+1. Deploy the site and review `/login.html` to confirm migration messaging is visible.
+2. Disable access toggles in Netlify until the new provider is wired up.
+3. Track progress in [`docs/data-platform-migration.md`](./docs/data-platform-migration.md).
 
 ---
 
@@ -238,7 +230,7 @@ If the build ever skips `scripts/generate-env.js`, the browser will fetch `/.net
 - **Structure & components:** [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md), [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md), [`docs/FILE_STRUCTURE.md`](./docs/FILE_STRUCTURE.md)
 - **Design system:** [`docs/STYLE_GUIDE.md`](./docs/STYLE_GUIDE.md)
 - **Build & ops:** [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md), [`docs/indexing-strategy.md`](./docs/indexing-strategy.md)
-- **Supabase:** [`docs/SUPABASE_INTEGRATION.md`](./docs/SUPABASE_INTEGRATION.md), [`docs/supabase.md`](./docs/supabase.md), [`supabase/README.md`](./supabase/README.md)
+- **Data platform:** [`docs/data-platform-migration.md`](./docs/data-platform-migration.md)
 - **Changelog:** [`docs/CHANGELOG_DOC_SYNC.md`](./docs/CHANGELOG_DOC_SYNC.md)
 
 Stay bold, stay accurate—keep docs in lockstep with the code.
