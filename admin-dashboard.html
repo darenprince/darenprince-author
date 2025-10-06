@@ -200,10 +200,15 @@
   <!-- End Apple PWA + Safari enhancements -->
 </head>
 <body class="theme-dark">
-<script type="module">
-  import { enforceAuthGuard } from './js/auth-guard.js';
-  enforceAuthGuard({ requireElevated: true, loadFolderAccess: true });
-</script>
+  <script type="module">
+    import { enforcePasswordGate } from './js/password-gate.js';
+
+    enforcePasswordGate({
+      gateId: 'admin-dashboard',
+      heading: 'Admin hub access',
+      message: 'Enter the admin password to open the operations dashboard.',
+    });
+  </script>
   <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
     <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ti ti-x"></i></button>
     <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
