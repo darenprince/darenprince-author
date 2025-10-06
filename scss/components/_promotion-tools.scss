@@ -108,8 +108,8 @@
   border-radius: 32px;
   background: var(--banner-bg);
   box-shadow:
-    0 45px 80px -60px rgba(9, 16, 28, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    0 26px 48px -34px rgba(9, 16, 28, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   color: #1d1d1f;
   border: 1px solid rgba(0, 0, 0, 0.06);
   overflow: hidden;
@@ -156,7 +156,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 18px 38px -24px rgba(255, 143, 10, 0.9);
+  box-shadow: 0 12px 24px -16px rgba(255, 143, 10, 0.55);
   position: relative;
 }
 
@@ -247,8 +247,8 @@
   aspect-ratio: 3 / 4.5;
   border-radius: 16px;
   box-shadow:
-    0 24px 36px -26px rgba(15, 23, 42, 0.6),
-    0 18px 28px -28px rgba(0, 0, 0, 0.55);
+    0 14px 26px -18px rgba(15, 23, 42, 0.35),
+    0 12px 22px -20px rgba(0, 0, 0, 0.28);
 }
 
 .apple-oem-banner__button {
@@ -262,7 +262,7 @@
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
-  box-shadow: 0 20px 30px -18px var(--accent-soft);
+  box-shadow: 0 12px 22px -14px var(--accent-soft);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
@@ -271,7 +271,7 @@
 .apple-oem-banner__button:hover,
 .apple-oem-banner__button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 26px 42px -18px var(--accent-soft);
+  box-shadow: 0 16px 30px -16px var(--accent-soft);
 }
 
 .apple-oem-banner__footer {
@@ -303,8 +303,8 @@
 .apple-oem-banner--inset {
   --banner-bg: linear-gradient(145deg, #ffffff 5%, #f4f7ff 55%, #e8ecff 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 35px 70px -55px rgba(18, 22, 33, 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 18px 40px -28px rgba(18, 22, 33, 0.38);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -351,7 +351,7 @@
 .apple-oem-banner--edge {
   --banner-bg: linear-gradient(120deg, #ffffff 0%, #f5f7ff 50%, #edf2ff 100%);
   border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 60px 90px -80px rgba(12, 21, 35, 0.6);
+  box-shadow: 0 20px 38px -28px rgba(12, 21, 35, 0.26);
 }
 
 .apple-oem-banner--edge::before {
@@ -362,7 +362,7 @@
   --banner-bg: linear-gradient(120deg, #ffffff 0%, #f8f9fb 60%, #f0f2f7 100%);
   --accent: #0a84ff;
   --accent-soft: rgba(10, 132, 255, 0.16);
-  box-shadow: 0 24px 44px -32px rgba(15, 23, 42, 0.4);
+  box-shadow: 0 16px 32px -24px rgba(15, 23, 42, 0.28);
 }
 
 .apple-oem-banner--minimal .apple-oem-banner__pill {
