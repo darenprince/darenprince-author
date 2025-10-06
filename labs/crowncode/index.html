@@ -142,6 +142,7 @@
     <link rel="stylesheet" href="https://cdn.designsystem.digital.gov/uswds@3.7.2/css/uswds.min.css" integrity="sha384-iiz7O+n+JrEP6O6pZXVFZF7h5DLaNUVg60Aw7Yb0lF8y3r+U5L0tjXR01Wk2Xyw6" crossorigin="anonymous" />
     <link rel="stylesheet" href="stylesheets/global.css" />
     <link rel="stylesheet" href="stylesheets/packages/ccai-overrides.css" />
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
   </head>
   <body class="usa-template usa-dark-background ccai-page">
     <a class="usa-skipnav" href="#main-content">Skip to main content</a>
@@ -476,6 +477,58 @@
                     Complete the access flow to reveal the secure operational view.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="usa-section usa-dark-background" aria-labelledby="ccai-support-heading">
+        <div class="grid-container">
+          <div class="ccai-section-header">
+            <p class="ccai-section-header__eyebrow">Support the Project</p>
+            <h2 id="ccai-support-heading" class="margin-0">Back CrownCode.ai field operations</h2>
+          </div>
+          <div class="grid-row grid-gap-lg ccai-support">
+            <div class="tablet:grid-col-7">
+              <p class="usa-prose ccai-support__copy">
+                Keep the incident response lab, AI reconnaissance, and rapid prototyping pipeline online for teams that rely on CrownCode.ai.
+                Contributions route through our encrypted Stripe checkout so you can fund the mission in seconds.
+              </p>
+              <div class="ccai-support__actions">
+                <stripe-buy-button
+                  buy-button-id="buy_btn_1SF1aK0ZKpxSDkDjsGt83Wqr"
+                  publishable-key="pk_live_51SF0xe0ZKpxSDkDjkTHzx9O5PVIUCk1AkZjnK0Z2369CK2xabZuXRcSFyyaAqISKXZw7Qz2tVnl3SPXPSrX5pgIj00eGPK9sYg"
+                ></stripe-buy-button>
+                <a class="ccai-support__link" href="https://buy.stripe.com/7sY5kv9pF8xM6lDd5z1VK00" target="_blank" rel="noopener">
+                  <svg class="ccai-support__icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 17L17 7M7 7h10v10"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Open secure checkout
+                </a>
+              </div>
+              <p class="ccai-support__note">
+                Funding fuels dark-site simulations, AI co-pilot training, and reader-first safety tooling across the Daren Prince network.
+              </p>
+            </div>
+            <div class="tablet:grid-col-5">
+              <div class="ccai-support__qr" role="presentation">
+                <div
+                  class="support-author-qr__placeholder"
+                  role="img"
+                  aria-label="Stripe support QR code placeholder. Upload the CrownCode.ai QR asset before launch."
+                >
+                  <span class="support-author-qr__placeholder-title">QR PENDING</span>
+                  <span class="support-author-qr__placeholder-subtitle">Upload Stripe asset</span>
+                </div>
+                <p class="ccai-support__note"><strong>Scan to contribute.</strong> Point your camera and Stripe opens instantly.</p>
               </div>
             </div>
           </div>
