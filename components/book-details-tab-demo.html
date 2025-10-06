@@ -201,8 +201,13 @@
 </head>
 <body class="dark">
   <script type="module">
-    import { enforceAuthGuard } from '../js/auth-guard.js';
-    enforceAuthGuard({ requiredFolders: ['components/book-details'], loadFolderAccess: true });
+    import { enforcePasswordGate } from '../js/password-gate.js';
+
+    enforcePasswordGate({
+      gateId: 'components-book-details',
+      heading: 'Book details component access',
+      message: 'Enter the password to review this component demo.',
+    });
   </script>
 
   <div class="site-wrap" hidden>
