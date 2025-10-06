@@ -1,6 +1,6 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 
 .book-section {
   margin-top: $spacing-xl;
@@ -55,7 +55,9 @@
     text-align: center;
     color: $lime-green;
     font-weight: 700;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
 
     &.hide {
       opacity: 0;
@@ -68,7 +70,9 @@
     display: flex;
     gap: $spacing-sm;
     justify-content: center;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     width: 100%;
 
     &.hide {
@@ -109,7 +113,9 @@
     gap: $spacing-sm;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
 
     &.visible {
       opacity: 1;
@@ -183,7 +189,7 @@
   border-radius: $border-radius;
   background: color-mix(in srgb, $gray-900 88%, transparent);
   border: 1px solid color-mix(in srgb, $lime-green 18%, transparent);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
 
   @include respond-to(md) {
     grid-template-columns: minmax(0, 180px) 1fr;
@@ -194,7 +200,7 @@
     position: relative;
     border-radius: calc($border-radius - $spacing-xxs);
     overflow: hidden;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 
     img {
       width: 100%;
@@ -235,4 +241,3 @@
     align-self: flex-start;
   }
 }
-
