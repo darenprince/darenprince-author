@@ -1,6 +1,6 @@
 import { applyIndexingMeta } from './seo-indexing.js'
-import { getSupabase, SUPABASE_SETUP_MESSAGE } from './supabase-helper.js'
-import { logSupabaseError, logSupabaseWarning } from './supabase-logger.js'
+import { AUTH_DISABLED_MESSAGE, isAuthEnabled } from './auth-service.js'
+import { logAuthWarning } from './auth-logger.js'
 
 const APPLE_BOOKS_URL =
   'https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900'
@@ -121,7 +121,7 @@ function initSmartAppBanner() {
   })
 }
 
-async function initNavigationAndAuth() {
+function initNavigationAndAuth() {
   const indexingRule = applyIndexingMeta()
   if (indexingRule) {
     console.debug(
@@ -310,42 +310,16 @@ async function initNavigationAndAuth() {
     })
   }
 
-  // ---------------------------
-  // Supabase auth handling
-  // ---------------------------
-
-  try {
-    const supabase = getSupabase((message) => {
-      if (authToggle) authToggle.title = message || SUPABASE_SETUP_MESSAGE
-      logSupabaseWarning('main.missingSupabase', message || SUPABASE_SETUP_MESSAGE)
-    })
-    if (!supabase) {
-      return
-    }
-    const { data, error } = await supabase.auth.getSession()
-    if (error) {
-      throw error
-    }
-    const session = data.session
-
-    if (authToggle && session) {
-      authToggle.removeEventListener('click', loginHandler)
-      authToggle.innerHTML = '<i class="ti ti-door-exit"></i> Logout'
-      authToggle.addEventListener('click', async function () {
-        const { error: signOutError } = await supabase.auth.signOut()
-        if (signOutError) {
-          logSupabaseError('main.signOut', signOutError)
-          return
-        }
-        window.location.href = '/'
-      })
-    }
-  } catch (error) {
-    logSupabaseError('main.authInit', error)
+  if (!isAuthEnabled()) {
     if (authToggle) {
-      authToggle.title = 'Authentication service unavailable'
+      authToggle.title = AUTH_DISABLED_MESSAGE
+      logAuthWarning('main.auth', AUTH_DISABLED_MESSAGE)
     }
+    return
   }
+
+  // Placeholder for future auth provider integration.
+  logAuthWarning('main.auth', 'Auth provider integration pending')
 }
 
 function initExperience() {

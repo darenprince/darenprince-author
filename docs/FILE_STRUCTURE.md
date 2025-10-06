@@ -1,116 +1,70 @@
-# 🗂 Project File Structure
+# 📁 File Structure Cheatsheet
 
 _Last updated: 2025-02-14_
 
-This reference outlines the actual directories and key files in the repo. Use it alongside `docs/SITE_STRUCTURE.md` when onboarding or wiring automation.
-
-## Root layout
+Use this as a quick reference when navigating the repository or onboarding collaborators.
 
 ```
-/
-├── assets/                  # Compiled CSS, generated env.js, imagery, press kits
-├── scss/                    # Sass source (base, layout, components, utilities, themes)
-├── js/                      # Browser modules (auth, dashboards, hero demos, helpers)
-├── src/                     # Search worker + build scripts
-├── scripts/                 # Node/python tooling (env generator, manifests, icons, admin bootstrap)
-├── supabase/                # Client helpers, env resolver, migrations, edge functions
-├── docs/                    # Documentation, prompts, audits
-├── pages/                   # Search results shell (`search.html`)
-├── public/search/           # Generated Minisearch payloads
-├── tests/                   # Vitest suites
-├── member/                  # Legacy member dashboard prototype
-├── components/              # HTML demos (e.g., `book-details-tab-demo.html`)
-├── *.html                   # Marketing, auth, dashboard pages
-├── package.json             # npm scripts + dev dependencies
-├── netlify.toml             # Netlify build command + plugin config
-└── tsconfig.json            # TypeScript configuration for tests/functions
+.
+├── assets/                     # Compiled CSS, JS, imagery, icons, press kit
+│   ├── styles.css              # Generated via Sass (`scss/styles.scss`)
+│   └── image-manifest.json     # Output from `scripts/generate-image-manifest.js`
+├── components/                 # HTML demos + partials for marketing and dashboard UI
+├── docs/                       # Project documentation (build pipeline, migration plan, style guides)
+├── js/                         # Browser modules (nav, auth placeholders, dashboards, utilities)
+│   ├── auth-service.js         # Placeholder interface for future authentication provider
+│   ├── auth.js                 # Login/signup UI logic + migration messaging
+│   ├── auth-guard.js           # Displays downtime overlays on gated pages
+│   ├── dashboard.js            # Member dashboard placeholder (disables uploads, shows notices)
+│   ├── admin-user-console.js   # Admin console placeholder (renders migration status)
+│   ├── profile-dropdown.js     # Avatar dropdown + login redirect while auth is offline
+│   ├── ui.js                   # Toast/progress helpers exposed globally
+│   └── ...                     # Book demos, hero controllers, password strength helpers
+├── pages/                      # Standalone HTML shells (e.g., search results)
+├── scss/                       # Modular Sass (tokens, base, layout, components, utilities)
+├── scripts/                    # Node utilities (icon generation, image manifest, setup scripts)
+├── src/                        # Search worker + Minisearch build scripts
+├── tests/                      # Vitest suites (redirect rules, OG image automation)
+├── netlify/                    # Netlify Functions (contact email handler)
+└── package.json                # npm scripts + dependencies
 ```
 
-> **Reality Check:** The `/components/` directory now stores HTML demos only. All Sass partials live under `scss/components/` and compile through `scss/styles.scss`.
+## Key directories & files
 
-## Sass entry points
+### `/js/`
 
-```
-/scss
-├── styles.scss              # Main entry importing tokens, base, layout, components, utilities, themes
-├── style.scss               # Legacy mega-menu styles (imported by `scss/styles.scss` at the end)
-├── base/                    # Variables, mixins, globals, typography, reset
-├── layout/                  # Header, footer, grid, component nav, demo sections
-├── components/              # 33 component partials (buttons, hero, book, dashboard, admin, search, etc.)
-├── utilities/               # Spacing, typography, gradient helpers
-├── tokens/                  # CSS custom properties + Sass bindings
-└── themes/                  # Dark/light theme overrides
-```
+- `auth-service.js` — central auth placeholder returning downtime status.
+- `auth.js` — login/signup UI (delegates to the placeholder for future provider swap).
+- `auth-guard.js` — ensures gated pages surface migration messaging.
+- `dashboard.js` — disables forms/uploads and shows the migration card.
+- `admin-user-console.js` — renders downtime notice in the admin console shell.
+- `profile-dropdown.js` — toggles the avatar menu and routes to login while auth is offline.
+- `ui.js` — toast and progress helpers attached to `window.GameOnUI`.
+- `password-strength.js` — password meter + validation shared across auth forms.
 
-## JavaScript modules
+### `/scripts/`
 
-```
-/js
-├── main.js                  # Mega menu, search toggle, auth toggle defaults
-├── theme-toggle.js          # Dark/light toggle persistence
-├── auth.js                  # Login/signup flows + redirects
-├── auth-guard.js            # Protects gated pages using Supabase
-├── dashboard.js             # Member dashboard interactions
-├── admin-user-console.js    # Admin management UI (roles, folders, resets, deletes)
-├── supabase-helper.js       # Safe Supabase accessor with UI messaging
-├── supabase-logger.js       # Debug overlay + logging proxy
-├── user-role.js             # Role normalization + profile fetch helpers
-├── book-rail.js / book-tabs.js / book-3d-viewer.js / trailer-modal.js
-├── hero-demos.js / hero-video.js / hero-auto-zoom.js
-├── ui.js                    # Toast + progress utilities (exposed as `window.GameOnUI`)
-└── ...                      # Additional modules (image index, contact form helpers, etc.)
-```
+- `generate-icons.mjs` — builds favicons, Apple touch icons, and startup images.
+- `generate-image-manifest.js` — catalogues imagery for internal reference tools.
+- `local_setup.sh` — bootstraps dependencies and runs an initial Sass build.
+- `start_dev.sh` — kicks off the watch task and launches `netlify dev`.
 
-`src/js/` hosts browser-side search controllers (`search.js`, `search-results.js`). `src/search/` contains the worker, stopwords, synonyms, and build script.
+### `/docs/`
 
-## Supabase assets
+- `BUILD_PIPELINE.md` — npm scripts, Netlify configuration, deployment checklist.
+- `SITE_STRUCTURE.md` — page inventory, module mapping, migration state for auth surfaces.
+- `data-platform-migration.md` — roadmap for reintroducing authentication + database features.
+- `STYLE_GUIDE.md`, `UI_COMPONENTS.md`, `FILE_STRUCTURE.md` (this doc) — brand and component references.
 
-```
-/supabase
-├── client.js / client.ts           # Supabase client factories
-├── env.js / env.d.ts               # Environment resolution helpers
-├── functions/
-│   ├── admin-users/index.ts        # Admin API edge function
-│   └── secure-storage/index.ts     # Authenticated storage uploads
-├── migrations/
-│   ├── 0001_create_profiles.sql
-│   ├── 0002_create_folder_access_and_policies.sql
-│   ├── 0003_update_profile_sync.sql
-│   ├── 0004_profiles_audit.sql
-│   └── 0005_admin_action_log.sql
-└── sql_editor_setup.sql            # Legacy policy bootstrap (reference)
-```
+### `/tests/`
 
-## Scripts directory
+- `netlify-rules.spec.ts` — validates redirect rules and headers.
+- `og-image.spec.ts` — ensures Open Graph automation builds as expected.
 
-```
-/scripts
-├── generate-env.js            # Writes assets/js/env.js from env vars
-├── generate-icons.mjs         # Builds favicons + Apple assets from icon-master.PNG
-├── generate-image-manifest.js # Builds assets/image-manifest.json
-├── bootstrap-admin.js         # Seeds/elevates admin user (service role required)
-├── local_setup.sh             # Installs deps + compiles Sass once
-├── start_dev.sh               # Watches Sass then runs `netlify dev`
-├── optimize-images.js         # Optional image optimization pass
-├── seo-enrich.js              # Optional metadata enrichment
-└── apply-patch.sh             # Patch helper for automated updates
-```
+## Generated artifacts
 
-## Tests
+- `assets/styles.css` — compiled CSS. Run `npm run build` or `npm run watch` after editing Sass.
+- `assets/image-manifest.json` — output of `npm run generate:images`.
+- `public/search/*.json` — Minisearch payloads from `npm run build:search`.
 
-```
-/tests
-├── auth.spec.ts                    # Auth guard + login behaviors
-├── supabase-env.spec.ts            # Env resolver coverage
-├── storage.spec.ts                 # Storage helper expectations
-└── netlify-rules.spec.ts           # Redirect/header validation
-```
-
-## Generated artifacts to track
-
-- `assets/styles.css` — compiled Sass
-- `assets/js/env.js` — generated Supabase env payload
-- `assets/image-manifest.json` — asset catalog for image index tooling
-- `public/search/index.json` + `public/search/docs.json` — Minisearch payloads (empty until `/content/` is populated)
-
-Keep these files committed after running `npm run build` so Netlify serves the latest versions.
+> **Reality Check:** With the data platform offline, no scripts should attempt to read or write runtime credentials. Keep `.env` limited to SendGrid and analytics keys until the new provider is ready.
