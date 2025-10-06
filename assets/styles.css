@@ -7282,4 +7282,129 @@ body.menu-open .menu-overlay {
   object-fit: contain;
 }
 
+.support-author-section {
+  background: var(--color-surface, #212121);
+  border-radius: 1.25rem;
+  padding: clamp(2rem, 3vw, 3rem);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  align-items: center;
+}
+
+@media (min-width: 64rem) {
+  .support-author-section {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+}
+
+.support-author-eyebrow {
+  color: var(--color-muted, #b8bab7);
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.support-author-section h2,
+.support-author-section h3 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin-bottom: 1rem;
+}
+
+.support-author-copy {
+  color: var(--color-muted, #b8bab7);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.support-author-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.support-author-section stripe-buy-button {
+  width: min(320px, 100%);
+}
+
+.support-author-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-bright, #87bd72);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.support-author-link:hover,
+.support-author-link:focus {
+  color: var(--color-mint, #c2e9c1);
+}
+
+.support-author-link i,
+.support-author-link svg {
+  font-size: 1.1em;
+}
+
+.support-author-qr {
+  background: rgba(7, 10, 6, 0.35);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.support-author-qr img {
+  display: block;
+  width: min(200px, 100%);
+  margin: 0 auto 1rem;
+  border-radius: 0.75rem;
+}
+
+.support-author-qr__placeholder {
+  display: grid;
+  place-items: center;
+  width: min(200px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto 1rem;
+  border-radius: 0.75rem;
+  border: 1.5px dashed rgba(255, 255, 255, 0.32);
+  background: rgba(0, 0, 0, 0.28);
+  color: var(--color-muted, #b8bab7);
+  text-align: center;
+  padding: 1.25rem;
+  font-weight: 600;
+}
+
+.support-author-qr__placeholder-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.support-author-qr__placeholder-subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.support-author-note {
+  color: var(--color-muted, #b8bab7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.support-author-note strong {
+  color: var(--color-bright, #87bd72);
+  font-weight: 600;
+}
+
 /*# sourceMappingURL=styles.css.map */
