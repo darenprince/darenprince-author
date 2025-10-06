@@ -217,25 +217,19 @@
   <button id="send">Send</button>
 </div>
 <script type="module">
-import supabase from './supabase/client.js';
-
 const correct = 'Gr@ndCh3r0k33';
 const login = document.getElementById('login');
 const chatInterface = document.getElementById('chatInterface');
-let channel;
+const statusBanner = document.createElement('p');
+statusBanner.className = 'chat-status';
+statusBanner.textContent = 'Realtime sync is offline while we rebuild the secure messaging backend.';
+chatInterface.prepend(statusBanner);
 
 document.getElementById('enter').addEventListener('click', async () => {
   const pass = document.getElementById('password').value;
   if (pass === correct) {
     login.classList.add('hidden');
     chatInterface.classList.remove('hidden');
-    if (!supabase) {
-      console.error('Supabase client not configured');
-      return;
-    }
-    channel = supabase.channel('shhh-room', { config: { broadcast: { self: false } } });
-    channel.on('broadcast', { event: 'message' }, payload => addMessage(payload.text));
-    await channel.subscribe();
   } else {
     alert('Incorrect password');
   }
@@ -252,9 +246,8 @@ function addMessage(text){
 document.getElementById('send').addEventListener('click', async () => {
   const input = document.getElementById('msgInput');
   const text = input.value.trim();
-  if (text && channel) {
+  if (text) {
     addMessage(text);
-    await channel.send({ type: 'broadcast', event: 'message', payload: { text } });
     input.value = '';
   }
 });

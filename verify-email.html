@@ -211,30 +211,14 @@
       </section>
     </div>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script type="module">
-    import { getSupabase, SUPABASE_SETUP_MESSAGE } from './js/supabase-helper.js';
     const messageEl = document.querySelector('.status-message');
-    const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const searchParams = new URLSearchParams(window.location.search);
-    const tokenHash = hashParams.get('token_hash') || searchParams.get('token_hash');
-    const email = hashParams.get('email') || searchParams.get('email');
-    const type = hashParams.get('type') || searchParams.get('type');
-    const supabaseClient = getSupabase((message) => {
-      messageEl.textContent = `${message || SUPABASE_SETUP_MESSAGE} Email verification will complete after deployment injects credentials.`;
-    });
-    if (!supabaseClient) {
-      return;
-    }
-    if (tokenHash && email && type) {
-      const { error } = await supabaseClient.auth.verifyOtp({ token_hash: tokenHash, type, email });
-      messageEl.textContent = error ? `Verification failed: ${error.message}` : 'Email verified. You may now sign in.';
-    } else {
-      const mode = searchParams.get('mode');
-      messageEl.textContent = mode === 'reset'
-        ? 'Check your email for a password reset link.'
-        : 'Check your email to verify your account.';
-    }
+    const mode = searchParams.get('mode');
+    if (!messageEl) return;
+    messageEl.textContent = mode === 'reset'
+      ? 'Password reset emails are paused while we migrate to the new data platform. We will notify you once the flow is restored.'
+      : 'Email verification is temporarily offline as we rebuild authentication on the new data provider.';
   </script>
   <footer class="site-footer">
     <div class="container footer-grid">

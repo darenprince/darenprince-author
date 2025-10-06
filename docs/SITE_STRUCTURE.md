@@ -6,27 +6,26 @@ This map captures the current layout of the repository, the active pages, and th
 
 ## Root directory overview
 
-| Path                                                                  | Purpose                                          | Notes                                                                                                                        |
-| --------------------------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| `/index.html`                                                         | Public landing page                              | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`.                          |
-| `/book.html`                                                          | Book detail surface                              | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`. |
-| `/components.html`                                                    | Component gallery & docs                         | Auth-gated folder in production; component navigation driven by `js/main.js` and `js/ui.js`.                                 |
-| `/style-classes.html`                                                 | Token & utility showcase                         | Demonstrates helper classes from `scss/utilities/`.                                                                          |
-| `/dashboard.html`                                                     | Member dashboard                                 | Uploads, profile editing, folder cards; powered by `js/dashboard.js` with Supabase.                                          |
-| `/admin-dashboard.html`                                               | Operator overview                                | Links to admin tooling; uses shared dashboard cards.                                                                         |
-| `/admin-user-management.html`                                         | Supabase admin console                           | Calls the `admin-users` edge function; requires `js/auth-guard.js` and `js/admin-user-console.js`.                           |
-| `/login.html`, `/reset-password.html`, `/verify-email.html`           | Auth flows                                       | Use `js/auth.js`, `js/password-strength.js` for validation and redirects.                                                    |
-| `/contact.html`, `/press.html`, `/meet-daren-prince.html`             | Marketing pages                                  | Share the CodyHouse layout, hero modules, and theme toggle controls.                                                         |
-| `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos                      | Keep behind auth or update before shipping.                                                                                  |
-| `/member/`                                                            | Legacy member shell                              | Currently ungated—treat as prototype until `auth-guard.js` is wired in.                                                      |
-| `/assets/`                                                            | Compiled CSS/JS, imagery, press kit              | `assets/styles.css` is generated from `scss/styles.scss`; `assets/js/env.js` from `scripts/generate-env.js`.                 |
-| `/scss/`                                                              | Sass source                                      | `scss/styles.scss` imports base, layout, component, theme, and utility layers.                                               |
-| `/js/`                                                                | Browser modules                                  | Theme toggle, auth guard, book demos, admin tooling, UI helpers.                                                             |
-| `/src/`                                                               | Search worker + build scripts                    | `src/search/build-index.mjs` constructs Minisearch payloads.                                                                 |
-| `/scripts/`                                                           | Node helpers                                     | Environment generator, icon builder, image manifest tooling, admin bootstrap.                                                |
-| `/supabase/`                                                          | Client, env resolver, migrations, edge functions | Includes `functions/admin-users`, `functions/secure-storage`, and SQL migrations for profiles + folder access.               |
-| `/docs/`                                                              | Documentation & prompts                          | This audit lives here alongside style, build, and Supabase guides.                                                           |
-| `/tests/`                                                             | Vitest suites                                    | Cover Supabase env resolution, auth guard behavior, Netlify redirects.                                                       |
+| Path                                                                  | Purpose                             | Notes                                                                                                                        |
+| --------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `/index.html`                                                         | Public landing page                 | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`.                          |
+| `/book.html`                                                          | Book detail surface                 | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`. |
+| `/components.html`                                                    | Component gallery & docs            | Component navigation driven by `js/main.js` and `js/ui.js`.                                                                  |
+| `/style-classes.html`                                                 | Token & utility showcase            | Demonstrates helper classes from `scss/utilities/`.                                                                          |
+| `/dashboard.html`                                                     | Member dashboard                    | Displays migration messaging and disables forms via `js/dashboard.js`.                                                       |
+| `/admin-dashboard.html`                                               | Operator overview                   | Links to admin tooling; uses shared dashboard cards.                                                                         |
+| `/admin-user-management.html`                                         | Operations command console          | Shows downtime notice via `js/admin-user-console.js`.                                                                        |
+| `/login.html`, `/reset-password.html`, `/verify-email.html`           | Auth flows                          | Use `js/auth.js`, `js/password-strength.js`; all rely on `js/auth-service.js` placeholders for now.                          |
+| `/contact.html`, `/press.html`, `/meet-daren-prince.html`             | Marketing pages                     | Share the CodyHouse layout, hero modules, and theme toggle controls.                                                         |
+| `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos         | Keep behind auth or update before shipping.                                                                                  |
+| `/member/`                                                            | Legacy member shell                 | Currently ungated—treat as prototype until new auth is wired in.                                                             |
+| `/assets/`                                                            | Compiled CSS/JS, imagery, press kit | `assets/styles.css` is generated from `scss/styles.scss`; JS modules live under `/js`.                                       |
+| `/scss/`                                                              | Sass source                         | `scss/styles.scss` imports base, layout, component, theme, and utility layers.                                               |
+| `/js/`                                                                | Browser modules                     | Theme toggle, auth placeholders, book demos, admin tooling, UI helpers.                                                      |
+| `/src/`                                                               | Search worker + build scripts       | `src/search/build-index.mjs` constructs Minisearch payloads.                                                                 |
+| `/scripts/`                                                           | Node helpers                        | Icon builder, image manifest tooling, setup scripts.                                                                         |
+| `/docs/`                                                              | Documentation & prompts             | Build notes, migration plan, style references.                                                                               |
+| `/tests/`                                                             | Vitest suites                       | Cover redirect logic and asset helpers.                                                                                      |
 
 > **Reality Check:** The search builder expects Markdown in `/content/`, but that directory is absent. Until content is seeded, `public/search/index.json` and `docs.json` remain empty and the live search UI has nothing to show.
 
@@ -81,19 +80,19 @@ This map captures the current layout of the repository, the active pages, and th
 
 ## JavaScript modules
 
-| Module                                                                 | Role                                                                                              |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `js/main.js`                                                           | Mega menu, search toggle, auth toggle defaults, component modal controls, Supabase session check. |
-| `js/theme-toggle.js`                                                   | Handles dark/light toggle and persists preference.                                                |
-| `js/auth.js`                                                           | Sign in/up handling, redirects, password reset initiation.                                        |
-| `js/auth-guard.js`                                                     | Protects gated pages; reveals `.site-wrap` only after role/folder checks pass.                    |
-| `js/dashboard.js`                                                      | Member dashboard logic (storage listing/upload, profile updates, sign-out).                       |
-| `js/admin-user-console.js`                                             | Admin management surface (list users, change roles, folder access, password resets, deletions).   |
-| `js/profile-dropdown.js`                                               | Avatar dropdown interactions and Supabase logout.                                                 |
-| `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`       | Interactive book experiences.                                                                     |
-| `js/ui.js`                                                             | Toast + progress utilities exposed via `window.GameOnUI`.                                         |
-| `js/supabase-helper.js`, `js/user-role.js`, `js/supabase-logger.js`    | Environment-safe Supabase client access, role normalization, logging overlay.                     |
-| `src/js/search.js`, `src/js/search-results.js`, `src/search/worker.js` | Minisearch autocomplete and results rendering.                                                    |
+| Module                                                                 | Role                                                                         |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `js/main.js`                                                           | Mega menu, search toggle, auth toggle defaults, component modal controls.    |
+| `js/theme-toggle.js`                                                   | Handles dark/light toggle and persists preference.                           |
+| `js/auth.js`                                                           | Sign in/up UI handling, password validation, migration messaging.            |
+| `js/auth-guard.js`                                                     | Displays gating notices while auth is offline.                               |
+| `js/dashboard.js`                                                      | Member dashboard placeholder (disables uploads, shows migration card).       |
+| `js/admin-user-console.js`                                             | Admin management placeholder (renders offline notice).                       |
+| `js/profile-dropdown.js`                                               | Avatar dropdown interactions with login redirect while auth is offline.      |
+| `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`       | Interactive book experiences.                                                |
+| `js/ui.js`                                                             | Toast + progress utilities exposed via `window.GameOnUI`.                    |
+| `js/image-index.js`, `js/folder-catalog.js`, `js/password-strength.js` | Supporting utilities for manifests, folder display, and password validation. |
+| `src/js/search.js`, `src/js/search-results.js`, `src/search/worker.js` | Minisearch autocomplete and results rendering.                               |
 
 ## Search index pipeline
 
@@ -104,19 +103,9 @@ This map captures the current layout of the repository, the active pages, and th
 
 > **Reality Check:** Without `/content/`, the build logs “Indexed 0 documents” and ships empty JSON files. Address this before marketing the search feature.
 
-## Supabase footprint
-
-- Client: `supabase/client.js` + `supabase/client.ts` (ESM + TS helpers).
-- Env resolver: `supabase/env.js` (Deno → Node → browser fallback).
-- Edge functions: `supabase/functions/admin-users/index.ts`, `supabase/functions/secure-storage/index.ts`.
-- Migrations: `supabase/migrations/0001_create_profiles.sql` through `0005_admin_action_log.sql` (profiles, folder access, audits).
-- Folder catalog: `js/folder-catalog.js` (IDs used for gating and admin UI).
-
 ## Testing footprint
 
-- `tests/supabase-env.spec.ts` — Env resolution coverage.
-- `tests/auth.spec.ts` — Auth guard and login behaviors.
-- `tests/storage.spec.ts`, `tests/netlify-rules.spec.ts` — Storage helpers + Netlify redirect expectations.
-- Run `npm test` after editing Supabase helpers, auth guard, or routing logic.
+- `tests/netlify-rules.spec.ts` — Verifies redirect and headers logic.
+- `tests/og-image.spec.ts` — Ensures Open Graph automation runs without regressions.
 
-> **Reality Check:** The legacy `member/` templates are not protected. Wire `auth-guard.js` or document them as prototypes before exposing links to production users.
+> **Reality Check:** The legacy `member/` templates are not protected. Wire the future auth guard or document them as prototypes before exposing links to production users.
