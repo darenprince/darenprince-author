@@ -138,7 +138,7 @@ html.ccai-modal-open body {
   background: rgba(8, 22, 38, 0.92);
   border: 1px solid var(--ccai-border);
   color: #f7fbff;
-  box-shadow: 0 24px 48px rgba(6, 18, 30, 0.4);
+  box-shadow: 0 8px 18px rgba(6, 18, 30, 0.18);
 }
 
 .ccai-page .usa-summary-box__heading {
