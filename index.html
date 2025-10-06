@@ -188,6 +188,7 @@
       rel="stylesheet"
       href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
     />
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -307,6 +308,9 @@
         </li>
         <li>
           <a href="index.html"><i class="ti ti-user-plus"></i>Collabs</a>
+        </li>
+        <li>
+          <a href="index.html#support-the-author"><i class="ti ti-heart-dollar"></i>Support the Author</a>
         </li>
         <li>
           <a href="admin-dashboard.html"><i class="ti ti-settings"></i>Developers</a>
@@ -929,6 +933,46 @@
                   alt="Waterstones Logo"
                   onerror="this.closest('a').style.display='none'"
               /></a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Support the Author Section -->
+        <section id="support-the-author" class="padding-y-xl">
+          <div class="container max-width-adaptive-lg">
+            <div class="support-author-section">
+              <div>
+                <p class="support-author-eyebrow">Support the mission</p>
+                <h2>Fuel the next breakthrough</h2>
+                <p class="support-author-copy">
+                  Every contribution keeps new playbooks, events, and coaching drops coming for the community.
+                  Back the work directly through our secure Stripe checkout.
+                </p>
+                <div class="support-author-actions">
+                  <stripe-buy-button
+                    buy-button-id="buy_btn_1SF1aK0ZKpxSDkDjsGt83Wqr"
+                    publishable-key="pk_live_51SF0xe0ZKpxSDkDjkTHzx9O5PVIUCk1AkZjnK0Z2369CK2xabZuXRcSFyyaAqISKXZw7Qz2tVnl3SPXPSrX5pgIj00eGPK9sYg"
+                  ></stripe-buy-button>
+                  <a class="support-author-link" href="https://buy.stripe.com/7sY5kv9pF8xM6lDd5z1VK00" target="_blank" rel="noopener">
+                    <i class="ti ti-arrow-up-right"></i>
+                    Open the secure checkout
+                  </a>
+                </div>
+                <p class="support-author-note">
+                  Your support powers CROWN Code AI labs, the 911 rapid-response toolkit, and future reader experiences.
+                </p>
+              </div>
+              <div class="support-author-qr">
+                <div
+                  class="support-author-qr__placeholder"
+                  role="img"
+                  aria-label="Stripe support QR code placeholder. Upload the final QR asset before launch."
+                >
+                  <span class="support-author-qr__placeholder-title">QR PENDING</span>
+                  <span class="support-author-qr__placeholder-subtitle">Upload Stripe asset</span>
+                </div>
+                <p class="support-author-note"><strong>Scan to pay.</strong> Instantly launch the Stripe page from your phone.</p>
+              </div>
             </div>
           </div>
         </section>
