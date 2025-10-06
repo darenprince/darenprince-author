@@ -1,6 +1,6 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 
 .bio-hero {
   position: relative;
@@ -9,7 +9,7 @@
   overflow: hidden;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at top right, rgba($mint-green, 0.18) 0%, transparent 55%);
@@ -80,11 +80,15 @@
   }
 
   .bio-intro__portrait {
-    background: linear-gradient(160deg, color-mix(in srgb, $mint-green 24%, transparent), transparent 60%);
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, $mint-green 24%, transparent),
+      transparent 60%
+    );
     border-radius: $border-radius;
     padding: $spacing-sm;
     text-align: center;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.32);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
 
     img {
       width: 100%;
@@ -139,7 +143,7 @@
     border-radius: $border-radius;
     padding: $spacing-lg $spacing-md;
     text-align: center;
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
 
     h3 {
       font-size: 2rem;
@@ -168,7 +172,11 @@
   }
 
   .bio-pillar {
-    background: linear-gradient(160deg, color-mix(in srgb, $gray-900 82%, transparent), transparent 55%);
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, $gray-900 82%, transparent),
+      transparent 55%
+    );
     padding: $spacing-lg;
     border-radius: $border-radius;
     border: 1px solid color-mix(in srgb, $mint-green 16%, transparent);
@@ -223,7 +231,7 @@
       padding-left: $spacing-lg;
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0.4rem;
         left: 0;
@@ -249,7 +257,8 @@
 
 .bio-media {
   padding: $spacing-xl 0;
-  background: linear-gradient(180deg, rgba(17, 18, 23, 0.92), rgba(17, 18, 23, 0.92)),
+  background:
+    linear-gradient(180deg, rgba(17, 18, 23, 0.92), rgba(17, 18, 23, 0.92)),
     url('../assets/images/IMG_6127.png') center/cover no-repeat;
 
   .bio-media__grid {
@@ -289,7 +298,8 @@
 
 .bio-cta {
   padding: $spacing-xl 0 $spacing-lg;
-  background: linear-gradient(180deg, rgba(17, 18, 23, 0.94), rgba(17, 18, 23, 0.94)),
+  background:
+    linear-gradient(180deg, rgba(17, 18, 23, 0.94), rgba(17, 18, 23, 0.94)),
     url('../assets/images/IMG_6099.jpeg') center/cover no-repeat;
 
   .bio-cta__grid {
@@ -307,7 +317,7 @@
     border-radius: $border-radius;
     padding: $spacing-lg;
     border: 1px solid color-mix(in srgb, $mint-green 20%, transparent);
-    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.26);
   }
 
   .bio-cta__subscribe {
@@ -344,7 +354,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
-    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
 
     h3 {
       margin: 0;

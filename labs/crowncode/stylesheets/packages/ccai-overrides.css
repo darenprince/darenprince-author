@@ -28,7 +28,7 @@
   border-radius: 1rem;
   background: linear-gradient(160deg, rgba(17, 46, 81, 0.95), rgba(8, 27, 45, 0.95));
   border: 1px solid var(--ccai-border);
-  box-shadow: 0 32px 64px rgba(6, 18, 30, 0.55);
+  box-shadow: 0 10px 20px rgba(6, 18, 30, 0.22);
   text-align: center;
   width: min(90vw, 420px);
 }
@@ -130,7 +130,7 @@
 .ccai-gate__keypad button:hover,
 .ccai-gate__keypad button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 16px 28px rgba(6, 18, 30, 0.45);
+  box-shadow: 0 8px 16px rgba(6, 18, 30, 0.2);
   border-color: rgba(154, 209, 255, 0.7);
   outline: none;
 }

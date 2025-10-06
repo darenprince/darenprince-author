@@ -120,7 +120,7 @@
     border-radius: calc($border-radius * 1.2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: linear-gradient(140deg, rgba(33, 33, 33, 0.75), rgba(7, 10, 6, 0.85));
-    box-shadow: 0 30px 45px rgba(7, 10, 6, 0.35);
+    box-shadow: 0 14px 28px rgba(7, 10, 6, 0.28);
     transition:
       transform 0.3s ease,
       border-color 0.3s ease,
@@ -130,7 +130,7 @@
     &:focus-within {
       transform: translateY(-6px);
       border-color: rgba(135, 189, 114, 0.65);
-      box-shadow: 0 40px 60px rgba(7, 10, 6, 0.45);
+      box-shadow: 0 16px 28px rgba(7, 10, 6, 0.32);
     }
 
     h2 {
@@ -290,7 +290,7 @@
     border-radius: calc($border-radius * 1.15);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(12, 18, 12, 0.85);
-    box-shadow: 0 28px 42px rgba(7, 10, 6, 0.38);
+    box-shadow: 0 16px 32px rgba(7, 10, 6, 0.3);
   }
 
   .contact-form__urgency {
