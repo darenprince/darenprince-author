@@ -7407,4 +7407,331 @@ body.menu-open .menu-overlay {
   font-weight: 600;
 }
 
+.labs-page {
+  background:
+    radial-gradient(circle at top left, rgba(135, 189, 114, 0.12), transparent 55%),
+    linear-gradient(140deg, rgba(14, 14, 14, 0.9), rgba(14, 14, 14, 0.6));
+}
+
+.labs-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(69, 111, 58, 0.4), rgba(16, 24, 13, 0.92));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.labs-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(140, 214, 121, 0.35), transparent 60%),
+    radial-gradient(circle at 80% 0%, rgba(135, 189, 114, 0.18), transparent 55%);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.labs-hero__layout {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .labs-hero__layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}
+
+.labs-hero__eyebrow,
+.labs-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(135, 189, 114, 0.16);
+  color: var(--color-bright);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.labs-hero__eyebrow i,
+.labs-section-eyebrow i {
+  font-size: 1rem;
+}
+
+.labs-hero h1 {
+  font-size: clamp(2.5rem, 3vw + 1.5rem, 3.75rem);
+  line-height: 1.05;
+  margin: 1rem 0;
+  color: var(--color-white);
+}
+
+.labs-hero__lead {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 48ch;
+}
+
+.labs-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.labs-hero__stats {
+  display: grid;
+  gap: 1.5rem;
+  position: relative;
+}
+
+@media (min-width: 48rem) {
+  .labs-hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.labs-stat {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 45px -25px rgba(12, 24, 12, 0.8);
+}
+
+.labs-stat h2 {
+  font-size: 2rem;
+  margin: 0 0 0.75rem;
+  color: var(--color-bright);
+}
+
+.labs-stat p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.6;
+}
+
+.labs-showcase {
+  background: linear-gradient(180deg, rgba(33, 33, 33, 0.7), transparent);
+}
+
+.labs-section-header {
+  max-width: 60ch;
+  margin-bottom: 2.5rem;
+}
+
+.labs-section-header h2 {
+  font-size: clamp(2rem, 2vw + 1.25rem, 2.75rem);
+  margin-bottom: 0.75rem;
+}
+
+.labs-section-header p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.labs-grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+@media (min-width: 48rem) {
+  .labs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 75rem) {
+  .labs-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.labs-card {
+  position: relative;
+  height: 100%;
+  padding: 2rem;
+  background: linear-gradient(160deg, rgba(59, 60, 59, 0.88), rgba(24, 24, 24, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.labs-card:hover,
+.labs-card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 40px -22px rgba(0, 0, 0, 0.65);
+}
+
+.labs-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.85rem;
+  background: rgba(135, 189, 114, 0.16);
+  color: var(--color-bright);
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+}
+
+.labs-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.labs-card p {
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.6;
+}
+
+.labs-card__list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.98rem;
+}
+
+.labs-card__list i {
+  color: var(--color-bright);
+  margin-right: 0.5rem;
+}
+
+.labs-rollout {
+  background: linear-gradient(140deg, rgba(12, 18, 10, 0.95), rgba(45, 50, 43, 0.8));
+  border-block: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.labs-rollout__grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .labs-rollout__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.labs-pillars {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 48rem) {
+  .labs-pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.labs-pillar {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  height: 100%;
+}
+
+.labs-pillar h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+}
+
+.labs-pillar p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.6;
+}
+
+.labs-roadmap {
+  padding: 2rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 36px -28px rgba(0, 0, 0, 0.8);
+}
+
+.labs-roadmap h3 {
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.labs-roadmap ol {
+  counter-reset: roadmap;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.labs-roadmap li {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.labs-roadmap strong {
+  color: var(--color-bright);
+  font-weight: 600;
+}
+
+.labs-cta {
+  background: linear-gradient(135deg, rgba(69, 111, 58, 0.65), rgba(14, 16, 12, 0.92));
+}
+
+.labs-cta__content {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (min-width: 64rem) {
+  .labs-cta__content {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+}
+
+.labs-cta__content h2 {
+  font-size: clamp(2rem, 1.6vw + 1.4rem, 2.6rem);
+  margin-bottom: 0.5rem;
+}
+
+.labs-cta__content p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+}
+
+.labs-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+@media (max-width: 47.99rem) {
+  .labs-hero__cta,
+  .labs-cta__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 /*# sourceMappingURL=styles.css.map */
