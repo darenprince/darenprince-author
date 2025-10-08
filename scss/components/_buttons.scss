@@ -1,8 +1,8 @@
-@use "../base/mixins" as *;
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
 .btn {
-  @include button-base($bright-green);
+  @include button-base($bright-green, $black);
 }
 
 .btn--primary {
@@ -10,11 +10,11 @@
 }
 
 .btn--secondary {
-  @include button-base($medium-green);
+  @include button-base($medium-green, $black);
 }
 
 .btn--accent {
-  @include button-base($lime-green);
+  @include button-base($lime-green, $black);
 }
 
 .btn--subtle {
@@ -25,7 +25,7 @@
   border-radius: $border-radius;
   background: color-mix(in srgb, $gray-900 92%, transparent);
   border: 1px solid color-mix(in srgb, $mint-green 22%, transparent);
-  color: color-mix(in srgb, $mint-green 75%, $white 25%);
+  color: $deep-green;
   text-decoration: none;
   transition: $transition;
 
@@ -42,16 +42,16 @@
 
 .btn--ghost {
   background-color: transparent;
-  color: $bright-green;
-  border: 2px solid $bright-green;
+  color: $deep-green;
+  border: 2px solid $deep-green;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius;
   transition: $transition;
 
   &:hover,
   &:focus {
-    background-color: $bright-green;
-    color: $black;
+    background-color: $deep-green;
+    color: $contrast-high;
   }
 }
 
@@ -89,12 +89,12 @@
 .icon-btn--ghost {
   @extend .icon-btn;
   background-color: transparent;
-  color: $bright-green;
+  color: $deep-green;
   transition: color $transition;
 
   &:hover {
     background-color: transparent;
-    color: $medium-green;
+    color: $deep-green;
   }
 }
 
@@ -104,13 +104,13 @@
   width: 2.75rem;
   height: 2.75rem;
   background-color: transparent;
-  color: $lime-green;
-  border: 2px solid $lime-green;
+  color: $deep-green;
+  border: 2px solid $deep-green;
 
   &:hover {
     background-color: transparent;
-    color: $bright-green;
-    border-color: $bright-green;
+    color: $contrast-high;
+    border-color: $deep-green;
   }
 }
 
@@ -130,8 +130,8 @@
   &:hover,
   &:focus {
     background-color: transparent;
-    color: $bright-green;
-    border-color: $bright-green;
+    color: $deep-green;
+    border-color: $deep-green;
   }
 }
 
@@ -219,19 +219,57 @@
 }
 
 // gray/black themed buttons
-.btn-gray-50  { background-color: var(--gray-50);  color: $black;  border: 1px solid $gray-800; }
-.btn-gray-100 { background-color: var(--gray-100); color: $black;  border: 1px solid $gray-800; }
-.btn-gray-200 { background-color: var(--gray-200); color: $black;  border: 1px solid $gray-800; }
-.btn-gray-600 { background-color: var(--gray-600); color: $white; border: 1px solid $gray-800; }
-.btn-gray-700 { background-color: var(--gray-700); color: $white; border: 1px solid $gray-800; }
-.btn-gray-800 { background-color: var(--gray-800); color: $white; border: 1px solid $gray-800; }
-.btn-gray-900 { background-color: var(--gray-900); color: $white; border: 1px solid $gray-800; }
-.btn-black    { background-color: $black;       color: $white; border: 1px solid $gray-800; }
+.btn-gray-50 {
+  background-color: var(--gray-50);
+  color: $black;
+  border: 1px solid $gray-800;
+}
+.btn-gray-100 {
+  background-color: var(--gray-100);
+  color: $black;
+  border: 1px solid $gray-800;
+}
+.btn-gray-200 {
+  background-color: var(--gray-200);
+  color: $black;
+  border: 1px solid $gray-800;
+}
+.btn-gray-600 {
+  background-color: var(--gray-600);
+  color: $white;
+  border: 1px solid $gray-800;
+}
+.btn-gray-700 {
+  background-color: var(--gray-700);
+  color: $white;
+  border: 1px solid $gray-800;
+}
+.btn-gray-800 {
+  background-color: var(--gray-800);
+  color: $white;
+  border: 1px solid $gray-800;
+}
+.btn-gray-900 {
+  background-color: var(--gray-900);
+  color: $white;
+  border: 1px solid $gray-800;
+}
+.btn-black {
+  background-color: $black;
+  color: $white;
+  border: 1px solid $gray-800;
+}
 
 // creative complimentary color buttons
-$bg-list: var(--color-primary), var(--color-primary-hover), var(--color-bright), var(--color-mint), var(--color-lime), var(--gray-600), var(--gray-700), var(--gray-800), var(--gray-900), var(--color-charcoal);
-$text-list: var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright), var(--color-primary);
-$border-list: var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
+$bg-list:
+  var(--color-primary), var(--color-primary-hover), var(--color-bright), var(--color-mint),
+  var(--color-lime), var(--gray-600), var(--gray-700), var(--gray-800), var(--gray-900),
+  var(--color-charcoal);
+$text-list:
+  var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright),
+  var(--color-primary);
+$border-list:
+  var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
 @for $i from 1 through 30 {
   $bg: nth($bg-list, (($i - 1) % length($bg-list)) + 1);
   $text: nth($text-list, (($i - 1) % length($text-list)) + 1);
@@ -276,12 +314,12 @@ $border-list: var(--color-primary), var(--color-lime), var(--gray-200), var(--gr
 
 // custom gradient for hero CTA
 .btn--secondary-b {
-  background: linear-gradient(130deg, #549841, #8CD679);
+  background: linear-gradient(130deg, #549841, #8cd679);
   color: $gray-800;
 
   &:hover,
   &:focus {
-    background: linear-gradient(130deg, #549841, #8CD679);
+    background: linear-gradient(130deg, #549841, #8cd679);
     color: $gray-800;
   }
 }
