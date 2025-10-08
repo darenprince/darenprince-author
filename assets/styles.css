@@ -7,17 +7,17 @@
   --gray-700: #2f2f2f;
   --gray-800: #212121;
   --gray-900: #161616;
-  --brand-green-700: #102419;
-  --brand-green-600: #163523;
-  --brand-green-500: #1f4a31;
-  --brand-green-400: #28583b;
-  --brand-green-200: #336948;
-  --focus-ring: 0 0 0 3px rgba(31, 74, 49, 0.35);
-  --color-primary: var(--brand-green-700);
-  --color-primary-hover: var(--brand-green-600);
-  --color-bright: var(--brand-green-500);
-  --color-mint: var(--brand-green-400);
-  --color-lime: var(--brand-green-200);
+  --brand-green-700: #456f3a;
+  --brand-green-600: #6da667;
+  --brand-green-500: #87bd72;
+  --brand-green-400: #8cd679;
+  --brand-green-200: #c2e9c1;
+  --focus-ring: 0 0 0 3px rgba(135, 189, 114, 0.35);
+  --color-primary: #456f3a;
+  --color-primary-hover: #6da667;
+  --color-bright: #87bd72;
+  --color-mint: #c2e9c1;
+  --color-lime: #8cd679;
   --color-charcoal: #3b3c3b;
   --color-muted: #b8bab7;
   --color-black: #070a06;
@@ -25,35 +25,35 @@
   --color-surface: #212121;
   --color-icon: #e6e6e6;
   --color-border: rgba(255, 255, 255, 0.1);
-  --color-accent: var(--brand-green-500);
+  --color-accent: #8cd679;
   --color-contrast-high: #fdfdfd;
-  --color-success: var(--brand-green-500);
+  --color-success: #87bd72;
   --color-danger: #e03131;
   --grad-green: linear-gradient(var(--brand-green-700), var(--brand-green-400));
   --grad-gray: linear-gradient(var(--gray-900), var(--gray-800));
   --grad-gray-top: linear-gradient(to top, var(--gray-900), var(--gray-800));
   --grad-gray-light: linear-gradient(var(--gray-700), var(--gray-600));
-  --grad-lemon-lime: linear-gradient(#1f4a31, #163523);
-  --lemon-lime-border: #0f2419;
+  --grad-lemon-lime: linear-gradient(#7fc66c, #63a355);
+  --lemon-lime-border: #679c59;
   --lemon-lime-text: #ffffff;
-  --grad-lemon-lime-stroke: linear-gradient(#1f4a31, #163523);
-  --lemon-lime-stroke-border: #183327;
+  --grad-lemon-lime-stroke: linear-gradient(#7fc66c, #63a355);
+  --lemon-lime-stroke-border: #f0ffeb;
   --lemon-lime-stroke-text: #ffffff;
   --grad-charcoal-lime: linear-gradient(#3f3f3f, #2c2c2c);
-  --charcoal-lime-border: #252525;
-  --charcoal-lime-text: #c0d8c8;
+  --charcoal-lime-border: #333333;
+  --charcoal-lime-text: #9ddc8e;
   --grad-charcoal-mint: linear-gradient(#3f3f3f, #2c2c2c);
-  --charcoal-mint-border: #2a2a2a;
-  --charcoal-mint-text: #d1e2d3;
+  --charcoal-mint-border: #99aa95;
+  --charcoal-mint-text: #b0eaa3;
   --grad-booger-snow: linear-gradient(#ffffff, #e5e5e5);
-  --booger-snow-border: #183327;
+  --booger-snow-border: #416a39;
   --booger-snow-text: var(--booger-snow-border);
-  --grad-cash-cloud: linear-gradient(#163523, #102419);
-  --cash-cloud-border: #05140c;
+  --grad-cash-cloud: linear-gradient(#4f8141, #354f2e);
+  --cash-cloud-border: #052614;
   --cash-cloud-text: #eeecec;
   --radial-light-bg: radial-gradient(circle at center, #f5f5f5, #dadada);
-  --grad-kelly-green: linear-gradient(#1f4a31, #163523);
-  --kelly-green-border: #0f2419;
+  --grad-kelly-green: linear-gradient(#63a553, #447239);
+  --kelly-green-border: #679c59;
   --kelly-green-text: #ffffff;
   --grad-light-container: linear-gradient(130deg, #eaeaea, #dadada);
   --light-container-border: #d5d5d5;
@@ -850,7 +850,7 @@ body.theme-light .site-footer a {
     color-mix(in srgb, var(--color-bright) 92%, white),
     color-mix(in srgb, var(--color-bright) 90%, black)
   );
-  color: var(--color-white);
+  color: var(--color-black);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.6875rem;
@@ -916,7 +916,7 @@ body.theme-light .site-footer a {
     color-mix(in srgb, var(--color-primary-hover) 92%, white),
     color-mix(in srgb, var(--color-primary-hover) 90%, black)
   );
-  color: var(--color-white);
+  color: var(--color-black);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.6875rem;
@@ -949,7 +949,7 @@ body.theme-light .site-footer a {
     color-mix(in srgb, var(--color-lime) 92%, white),
     color-mix(in srgb, var(--color-lime) 90%, black)
   );
-  color: var(--color-white);
+  color: var(--color-black);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.6875rem;
@@ -983,7 +983,7 @@ body.theme-light .site-footer a {
   border-radius: 0.6875rem;
   background: color-mix(in srgb, var(--gray-900) 92%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-mint) 22%, transparent);
-  color: color-mix(in srgb, var(--color-mint) 75%, var(--color-white) 25%);
+  color: var(--color-primary);
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 }
@@ -999,8 +999,8 @@ body.theme-light .site-footer a {
 .btn--ghost,
 .btn--ghost-b {
   background-color: transparent;
-  color: var(--color-bright);
-  border: 2px solid var(--color-bright);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
   padding: 0.5rem 1rem;
   border-radius: 0.6875rem;
   transition: all 0.2s ease-in-out;
@@ -1009,8 +1009,8 @@ body.theme-light .site-footer a {
 .btn--ghost-b:hover,
 .btn--ghost:focus,
 .btn--ghost-b:focus {
-  background-color: var(--color-bright);
-  color: var(--color-black);
+  background-color: var(--color-primary);
+  color: var(--color-contrast-high);
 }
 
 .icon-btn,
@@ -1053,25 +1053,25 @@ body.theme-light .site-footer a {
 
 .icon-btn--ghost {
   background-color: transparent;
-  color: var(--color-bright);
+  color: var(--color-primary);
   transition: color all 0.2s ease-in-out;
 }
 .icon-btn--ghost:hover {
   background-color: transparent;
-  color: var(--color-primary-hover);
+  color: var(--color-primary);
 }
 
 .menu-close-btn {
   width: 2.75rem;
   height: 2.75rem;
   background-color: transparent;
-  color: var(--color-lime);
-  border: 2px solid var(--color-lime);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
 }
 .menu-close-btn:hover {
   background-color: transparent;
-  color: var(--color-bright);
-  border-color: var(--color-bright);
+  color: var(--color-contrast-high);
+  border-color: var(--color-primary);
 }
 
 .icon-btn--text {
@@ -1088,8 +1088,8 @@ body.theme-light .site-footer a {
 .icon-btn--text:hover,
 .icon-btn--text:focus {
   background-color: transparent;
-  color: var(--color-bright);
-  border-color: var(--color-bright);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .nav-icon-btn,
