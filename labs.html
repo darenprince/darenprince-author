@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crown Labs Projects | Daren Prince</title>
+  <meta name="description" content="Deep-dive into the current Crown Labs lineup by Daren Prince with practical descriptions of Pic Detective, Ai Cherry Pie, Crown SOS, JustUs.chat, CrownCode.ai, and Operation Phoenix.">
+  <meta property="og:title" content="Crown Labs Projects">
+  <meta property="og:description" content="Understand the mission, audience, and build stage for Pic Detective, Ai Cherry Pie, Crown SOS, JustUs.chat, CrownCode.ai, and Operation Phoenix.">
+  <meta property="og:image" content="https://darenprince.com/assets/images/og-daren-prince.png">
+  <meta property="og:image:secure_url" content="https://darenprince.com/assets/images/og-daren-prince.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1366">
+  <meta property="og:image:height" content="767">
+  <meta property="og:image:alt" content="Crown Labs applications collage">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://darenprince.com/labs">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crown Labs Projects">
+  <meta name="twitter:description" content="Get the story behind each Crown Labs initiative and see what Daren Prince is building next.">
+  <meta name="twitter:image" content="https://darenprince.com/assets/images/og-daren-prince.png">
+  <meta name="twitter:image:alt" content="Crown Labs applications collage">
+  <link rel="canonical" href="https://darenprince.com/labs">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Crown Labs projects",
+    "description": "Status snapshot for software and playbooks being developed by Daren Prince.",
+    "url": "https://darenprince.com/labs",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Pic Detective",
+          "applicationCategory": "ImageProcessingApplication",
+          "operatingSystem": "Web (prototype)",
+          "softwareVersion": "Prototype",
+          "description": "Browser-based investigator assistant that compares metadata, file hashes, and generative telltales to validate imagery."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Ai Cherry Pie",
+          "applicationCategory": "CreativeApplication",
+          "operatingSystem": "Web (planned)",
+          "softwareVersion": "Concept",
+          "description": "Campaign copy ideation studio that strings together prompt recipes for headlines, emails, and launch plans."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Crown SOS",
+          "applicationCategory": "SafetyApplication",
+          "operatingSystem": "Mobile and web (planned)",
+          "softwareVersion": "Design",
+          "description": "Community safety playbook for coordinating emergency check-ins, escalation trees, and survivor-approved resources."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "JustUs.chat",
+          "applicationCategory": "SocialNetworkingApplication",
+          "operatingSystem": "Web (planned)",
+          "softwareVersion": "Planning",
+          "description": "Trauma-informed group chat environment with facilitator tools, session recaps, and consent-first onboarding."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "CrownCode.ai",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Web (internal)",
+          "softwareVersion": "Internal",
+          "description": "Automation command center that codifies reusable prompts, evaluation harnesses, and delivery checklists."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Operation Phoenix",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "Web (playbook)",
+          "softwareVersion": "v1",
+          "description": "Recovery program that documents daily rituals, self-advocacy scripts, and accountability templates for rebuilding momentum."
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Apple touch icons and startup images -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="manifest" href="/assets/icons/generated/site.webmanifest">
+    <link rel="mask-icon" href="/assets/icons/generated/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <meta name="application-name" content="Daren Prince">
+    <meta name="msapplication-TileColor" content="transparent">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+  <!-- End Apple PWA + Safari enhancements -->
+</head>
+<body class="theme-dark">
+  <header class="labs-nav" role="banner">
+    <div class="labs-nav__inner container max-width-adaptive-lg">
+      <a href="index.html" class="labs-nav__brand">
+        <span class="labs-nav__glyph" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="labsGlyphGradient" x1="4" y1="6" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#7C5CFF" />
+                <stop offset="0.45" stop-color="#5EF0FF" />
+                <stop offset="1" stop-color="#B7FF5E" />
+              </linearGradient>
+            </defs>
+            <path d="M6 23L4 10L11 15L16 6L21 15L28 10L26 23H6Z" stroke="url(#labsGlyphGradient)" stroke-width="1.75" stroke-linejoin="round" />
+            <path d="M8 23C10.2091 25.2091 12.7909 27 16 27C19.2091 27 21.7909 25.2091 24 23" stroke="url(#labsGlyphGradient)" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="labs-nav__wordmark">Crown Labs</span>
+      </a>
+      <button class="labs-nav__toggle" type="button" aria-expanded="false" aria-controls="labs-nav-menu" aria-label="Toggle navigation">
+        <span class="labs-nav__toggle-line"></span>
+        <span class="labs-nav__toggle-line"></span>
+      </button>
+      <nav class="labs-nav__menu" id="labs-nav-menu" aria-label="Primary">
+        <ul class="labs-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#projects" class="is-active" aria-current="page"><i class="ti ti-crown" aria-hidden="true"></i><span>Projects</span></a></li>
+          <li><a href="#ai-tools">AI Tools</a></li>
+          <li><a href="#docs">Docs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a class="labs-nav__cta" href="#launch">Launch Lab</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="labs-page">
+    <section class="labs-hero padding-y-xl">
+      <div class="container max-width-adaptive-lg labs-hero__layout">
+        <div>
+          <span class="labs-hero__eyebrow">Crown Labs projects</span>
+          <h1>Where AI, science, and imagination ignite new builds.</h1>
+          <p class="labs-hero__lead">Crown Labs is Daren Prince’s digital laboratory—an illuminated space where neural tooling, field research, and human storytelling co-develop. Every dossier shares the problem being solved, who it empowers, what’s working right now, and the validation checkpoint we’re racing toward next.</p>
+          <div class="labs-hero__cta">
+            <a class="btn btn--labs-primary" href="contact.html"><i class="ti ti-rocket"></i>Request project details</a>
+            <a class="btn btn--labs-ghost" href="mailto:press@darenprince.com"><i class="ti ti-mail"></i>Ask about collaboration</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="labs-showcase padding-y-xl" id="projects">
+      <div class="container max-width-adaptive-lg">
+        <header class="labs-section-header">
+          <span class="labs-section-eyebrow">Project catalogue</span>
+          <h2>Crown Labs active concepts</h2>
+          <p>Each project tile distills the customer promise, the neural tooling in play, and the next piece of evidence we need before graduating the build. We refresh the status language as prototypes, pilots, and playbooks evolve.</p>
+        </header>
+        <div class="labs-grid">
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-search"></i></span>
+            <h3>Pic Detective</h3>
+            <p>Evidence-verification kit for investigators who need a fast read on whether a photo or still was edited, staged, or AI-generated.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Correlating EXIF timelines, hash lookups, and diffusion-artifact scans into an analyst-ready briefing.</li>
+              <li><strong>Status:</strong> Browser prototype is running through internal case studies with subject-matter advisors.</li>
+              <li><strong>Next step:</strong> Publish a field workbook and invite newsroom partners to stress test the workflow.</li>
+            </ul>
+          </article>
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-ice-cream"></i></span>
+            <h3>Ai Cherry Pie</h3>
+            <p>Creative brief co-pilot that assembles audience research, brand voice, and launch logistics into ready-to-edit campaign recipes.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Building prompt "slices" for headlines, nurture sequences, and asset shot lists that stay on voice.</li>
+              <li><strong>Status:</strong> Conversation maps and tone guides reviewed with marketing collaborators.</li>
+              <li><strong>Next step:</strong> Release an interactive sample pantry with proven prompt stacks.</li>
+            </ul>
+          </article>
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-sos"></i></span>
+            <h3>Crown SOS</h3>
+            <p>Crisis coordination platform for survivor-led networks to confirm safety, activate mutual aid, and surface trusted resources.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Drafting escalation trees, geofenced check-ins, and warm handoff scripts for responders.</li>
+              <li><strong>Status:</strong> Mobile and web wireframes undergoing tabletop exercises with partner organizations.</li>
+              <li><strong>Next step:</strong> Validate notification cadences during a supervised emergency drill.</li>
+            </ul>
+          </article>
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-message-circle"></i></span>
+            <h3>JustUs.chat</h3>
+            <p>Moderated group messaging designed for restorative conversations where facilitators need trauma-aware controls.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Session agendas, reflection prompts, and receipt tracking that reinforce community agreements.</li>
+              <li><strong>Status:</strong> Interview insights translated into a requirements doc and facilitation playbook.</li>
+              <li><strong>Next step:</strong> Build a clickable prototype covering onboarding, moderation, and consent renewals.</li>
+            </ul>
+          </article>
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-code"></i></span>
+            <h3>CrownCode.ai</h3>
+            <p>Automation operations hub that turns repeatable build standards into reusable prompt packs and test harnesses.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Cataloging delivery checklists, RAG templates, and evaluation scorecards for internal teams.</li>
+              <li><strong>Status:</strong> Active in-house system guiding how experiments ship across Crown Labs projects.</li>
+              <li><strong>Next step:</strong> Draft contributor guidelines and open a limited-access partner workspace.</li>
+            </ul>
+          </article>
+          <article class="card labs-card">
+            <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-flame"></i></span>
+            <h3>Operation Phoenix</h3>
+            <p>Structured recovery program for survivors and advocates who need reliable rituals, planning cadences, and peer accountability.</p>
+            <ul class="labs-card__list">
+              <li><strong>Focus:</strong> Weekly reset ceremonies, micro-journaling prompts, and progress audits that rebuild stability.</li>
+              <li><strong>Status:</strong> Version 1 handbook published with ongoing cohort feedback collection.</li>
+              <li><strong>Next step:</strong> Compile case studies and integrate trauma specialist reviews for v2.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="labs-rollout padding-y-xl" id="ai-tools">
+      <div class="container max-width-adaptive-lg labs-rollout__grid">
+        <div>
+          <span class="labs-section-eyebrow">Working style</span>
+          <h2>How Crown Labs tests ideas</h2>
+          <p>Crown Labs focuses on small, evidence-based iterations. Research notes, prototypes, and partner pilots are documented before any public launch commitments are made.</p>
+          <div class="labs-pillars">
+            <div class="labs-pillar">
+              <h3><i class="ti ti-notebook"></i>Research sessions</h3>
+              <p>Interviews and case studies capture how survivors, advocates, and builders intend to use each tool.</p>
+            </div>
+            <div class="labs-pillar">
+              <h3><i class="ti ti-radar"></i>Prototype reviews</h3>
+              <p>Low- and mid-fidelity builds are reviewed with trusted advisors to ensure the scope matches real needs.</p>
+            </div>
+            <div class="labs-pillar">
+              <h3><i class="ti ti-seeding"></i>Measured releases</h3>
+              <p>Pilots are documented with clear support plans before scaling or inviting additional collaborators.</p>
+            </div>
+          </div>
+        </div>
+        <aside class="labs-roadmap" aria-label="Status summary" id="docs">
+          <h3>Current milestone tracker</h3>
+          <ol>
+            <li><strong>Pic Detective:</strong> Finalizing analyst workbook outlining provenance triage sequences.</li>
+            <li><strong>Ai Cherry Pie:</strong> Testing prompt slices against real campaign retrospectives.</li>
+            <li><strong>Crown SOS:</strong> Running tabletop simulations on the escalation decision tree.</li>
+            <li><strong>JustUs.chat:</strong> Detailing facilitator roles, consent checkpoints, and safety escalation paths.</li>
+            <li><strong>CrownCode.ai:</strong> Packaging automation scorecards into shareable guidance.</li>
+            <li><strong>Operation Phoenix:</strong> Interviewing cohort leaders to shape version 2 case studies.</li>
+          </ol>
+          <a class="btn btn--labs-ghost" href="mailto:press@darenprince.com"><i class="ti ti-notebook"></i>Request status updates</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="labs-cta padding-y-xl" id="launch">
+      <div class="container max-width-adaptive-lg labs-cta__content">
+        <div>
+          <h2>Need more detail about a specific project?</h2>
+          <p>Share how you hope to use the work and we’ll send back documentation, prototypes, or timelines that are currently available.</p>
+        </div>
+        <div class="labs-cta__actions">
+          <a class="btn btn--labs-primary" href="contact.html"><i class="ti ti-phone"></i>Contact Daren</a>
+          <a class="btn btn--labs-ghost" href="docs/BUILD_PIPELINE.md"><i class="ti ti-topology-star"></i>Review the build pipeline</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="book.html">Book</a></li>
+          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+          <li><a href="components.html">Components</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="labs.html" class="active">Labs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul class="footer-links">
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+      <div>
+        <p>&copy; 2025 Daren Prince. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const nav = document.querySelector('.labs-nav');
+      const toggle = nav?.querySelector('.labs-nav__toggle');
+      const menu = nav?.querySelector('.labs-nav__menu');
+      if (!toggle || !menu) return;
+
+      const setExpanded = (expanded) => {
+        toggle.setAttribute('aria-expanded', String(expanded));
+        menu.classList.toggle('is-open', expanded);
+      };
+
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        setExpanded(!isExpanded);
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setExpanded(false));
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+          setExpanded(false);
+        }
+      });
+    })();
+  </script>
+  <script type="module" src="/js/ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
