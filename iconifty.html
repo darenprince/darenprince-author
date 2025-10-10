@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iconifty - Instant Monochrome SVG Vectorizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script defer src="./js/imagetracer_v1.2.6.js"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 4rem;
+      box-sizing: border-box;
+      background: radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 55%),
+        radial-gradient(circle at bottom, rgba(45, 212, 191, 0.12), transparent 45%),
+        #0f172a;
+    }
+
+    main {
+      width: min(1080px, 100%);
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 0 0 0.5rem;
+      color: #f8fafc;
+      text-shadow: 0 12px 40px rgba(15, 23, 42, 0.45);
+    }
+
+    p.subtitle {
+      margin: 0 auto;
+      max-width: 46ch;
+      color: rgba(226, 232, 240, 0.85);
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+
+    section.card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 20px;
+      padding: clamp(1.25rem, 4vw, 2rem);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.45);
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(148, 163, 184, 0.35);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      display: grid;
+      gap: 0.75rem;
+      background: rgba(15, 23, 42, 0.35);
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .upload-area:hover {
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    input[type="file"] {
+      justify-self: center;
+      color: inherit;
+    }
+
+    .controls {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .control-group {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .control-group label {
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(226, 232, 240, 0.9);
+    }
+
+    .control-group input[type="range"] {
+      width: 100%;
+    }
+
+    .toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .results-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .preview-box {
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .preview-box h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: rgba(248, 250, 252, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .preview-stage {
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px dashed rgba(148, 163, 184, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .preview-stage svg,
+    .preview-stage img {
+      max-width: 100%;
+      max-height: 320px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: inherit;
+      padding: 0.75rem;
+      font-family: 'Fira Code', 'SFMono-Regular', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    button.download {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem 1.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: linear-gradient(120deg, #60a5fa, #22d3ee);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button.download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.35);
+    }
+
+    .status {
+      font-size: 0.95rem;
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.65);
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .toggles {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Iconifty</h1>
+    <p class="subtitle">Upload any bitmap and instantly trace it into a smooth, monochrome SVG icon. Fine-tune the smoothing, color sensitivity, and background cleanup, then download ready-to-use vector code and CSS.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="upload-area">
+        <strong>Drop an image or click to upload</strong>
+        <span class="status" id="status">Waiting for an image…</span>
+        <input id="file-input" type="file" accept="image/*" />
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="smoothing">Smoothing <span id="smoothing-value">2</span></label>
+          <input id="smoothing" type="range" min="0" max="10" step="1" value="2" />
+        </div>
+        <div class="control-group">
+          <label for="tolerance">Color tolerance <span id="tolerance-value">160</span></label>
+          <input id="tolerance" type="range" min="0" max="255" step="1" value="160" />
+        </div>
+        <div class="toggles">
+          <label class="toggle"><input id="remove-bg" type="checkbox" checked /> Remove background</label>
+          <label class="toggle"><input id="auto-crop" type="checkbox" checked /> Auto-crop empty edges</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-grid">
+      <div class="preview-box">
+        <h2>Vector Preview <button class="download" id="download" disabled>Download SVG</button></h2>
+        <div class="preview-stage" id="svg-preview">
+          <span class="status">Upload an image to see the vector result.</span>
+        </div>
+      </div>
+      <div class="preview-box">
+        <h2>SVG Code</h2>
+        <textarea id="svg-code" readonly placeholder="SVG markup will appear here"></textarea>
+      </div>
+      <div class="preview-box">
+        <h2>CSS Snippet</h2>
+        <textarea id="css-code" readonly placeholder="CSS background-image helper will appear here"></textarea>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Crafted with ❤ for creators who love crisp icons. Works entirely in your browser.
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('file-input');
+      const smoothingInput = document.getElementById('smoothing');
+      const toleranceInput = document.getElementById('tolerance');
+      const removeBgInput = document.getElementById('remove-bg');
+      const autoCropInput = document.getElementById('auto-crop');
+      const statusEl = document.getElementById('status');
+      const smoothingValueEl = document.getElementById('smoothing-value');
+      const toleranceValueEl = document.getElementById('tolerance-value');
+      const svgPreview = document.getElementById('svg-preview');
+      const svgCodeOutput = document.getElementById('svg-code');
+      const cssCodeOutput = document.getElementById('css-code');
+      const downloadButton = document.getElementById('download');
+
+      let originalImage = null;
+      let originalUrl = null;
+      let currentDownloadUrl = null;
+
+      const updateStatus = (message) => {
+        statusEl.textContent = message;
+      };
+
+      const ensureTracerReady = () => {
+        if (window.ImageTracer) {
+          return true;
+        }
+
+        console.error('ImageTracer engine missing.');
+        updateStatus('Vector engine failed to load. Refresh the page to try again.');
+        svgPreview.innerHTML =
+          '<span class="status">Vector engine failed to load. Please refresh.</span>';
+        downloadButton.disabled = true;
+        return false;
+      };
+
+      const applyBoxBlur = (gray, width, height, radius) => {
+        if (radius <= 0) return gray;
+        const tmp = new Float32Array(gray.length);
+        const kernelSize = radius * 2 + 1;
+        const kernelFactor = 1 / kernelSize;
+
+        for (let y = 0; y < height; y++) {
+          const rowIndex = y * width;
+          let acc = 0;
+          for (let x = -radius; x <= radius; x++) {
+            const clampedX = Math.min(width - 1, Math.max(0, x));
+            acc += gray[rowIndex + clampedX];
+          }
+          for (let x = 0; x < width; x++) {
+            tmp[rowIndex + x] = acc * kernelFactor;
+            const addIndex = Math.min(width - 1, x + radius + 1);
+            const removeIndex = Math.max(0, x - radius);
+            acc += gray[rowIndex + addIndex] - gray[rowIndex + removeIndex];
+          }
+        }
+
+        const out = new Float32Array(gray.length);
+        for (let x = 0; x < width; x++) {
+          let acc = 0;
+          for (let y = -radius; y <= radius; y++) {
+            const clampedY = Math.min(height - 1, Math.max(0, y));
+            acc += tmp[clampedY * width + x];
+          }
+          for (let y = 0; y < height; y++) {
+            out[y * width + x] = acc * kernelFactor;
+            const addIndex = Math.min(height - 1, y + radius + 1);
+            const removeIndex = Math.max(0, y - radius);
+            acc += tmp[addIndex * width + x] - tmp[removeIndex * width + x];
+          }
+        }
+
+        return out;
+      };
+
+      const getCornerAverage = (data, width, height) => {
+        const corners = [
+          0,
+          (width - 1) * 4,
+          (height - 1) * width * 4,
+          (height * width - 1) * 4,
+        ];
+        const color = { r: 0, g: 0, b: 0 };
+        corners.forEach((idx) => {
+          color.r += data[idx];
+          color.g += data[idx + 1];
+          color.b += data[idx + 2];
+        });
+        color.r /= corners.length;
+        color.g /= corners.length;
+        color.b /= corners.length;
+        return color;
+      };
+
+      const removeBackground = (imageData, tolerance) => {
+        const { data, width, height } = imageData;
+        const bg = getCornerAverage(data, width, height);
+        const tolSq = tolerance * tolerance;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const dr = data[i] - bg.r;
+          const dg = data[i + 1] - bg.g;
+          const db = data[i + 2] - bg.b;
+          const distanceSq = dr * dr + dg * dg + db * db;
+          if (distanceSq < tolSq) {
+            data[i + 3] = 0;
+          }
+        }
+      };
+
+      const cropTransparent = (imageData) => {
+        const { data, width, height } = imageData;
+        let top = height;
+        let left = width;
+        let bottom = 0;
+        let right = 0;
+        let hasContent = false;
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const idx = (y * width + x) * 4 + 3;
+            if (data[idx] > 0) {
+              hasContent = true;
+              if (x < left) left = x;
+              if (x > right) right = x;
+              if (y < top) top = y;
+              if (y > bottom) bottom = y;
+            }
+          }
+        }
+
+        if (!hasContent) {
+          return imageData;
+        }
+
+        const croppedWidth = right - left + 1;
+        const croppedHeight = bottom - top + 1;
+        const canvas = document.createElement('canvas');
+        canvas.width = croppedWidth;
+        canvas.height = croppedHeight;
+        const ctx = canvas.getContext('2d');
+        const copy = ctx.createImageData(croppedWidth, croppedHeight);
+
+        for (let y = 0; y < croppedHeight; y++) {
+          for (let x = 0; x < croppedWidth; x++) {
+            const srcIdx = ((top + y) * width + (left + x)) * 4;
+            const dstIdx = (y * croppedWidth + x) * 4;
+            copy.data[dstIdx] = data[srcIdx];
+            copy.data[dstIdx + 1] = data[srcIdx + 1];
+            copy.data[dstIdx + 2] = data[srcIdx + 2];
+            copy.data[dstIdx + 3] = data[srcIdx + 3];
+          }
+        }
+
+        return copy;
+      };
+
+      const thresholdImage = (imageData, tolerance, smoothing) => {
+        const { data, width, height } = imageData;
+        const gray = new Float32Array(width * height);
+        for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+          gray[p] = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+        }
+
+        const blurRadius = Math.min(5, Math.round(smoothing));
+        const blurred = applyBoxBlur(gray, width, height, blurRadius);
+
+        for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+          if (blurred[p] >= tolerance) {
+            data[i] = 255;
+            data[i + 1] = 255;
+            data[i + 2] = 255;
+            data[i + 3] = 0;
+          } else {
+            data[i] = 0;
+            data[i + 1] = 0;
+            data[i + 2] = 0;
+            data[i + 3] = 255;
+          }
+        }
+      };
+
+      const renderSvgPreview = (svgString) => {
+        svgPreview.innerHTML = '';
+        try {
+          const parsed = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+          const svgElement = parsed.documentElement;
+          if (svgElement.nodeName !== 'svg') {
+            throw new Error('Invalid SVG output');
+          }
+          svgElement.setAttribute('width', '100%');
+          svgElement.setAttribute('height', '100%');
+          svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          svgPreview.appendChild(svgElement);
+        } catch (error) {
+          svgPreview.innerHTML = '<span class="status">Unable to render SVG preview.</span>';
+          console.error(error);
+        }
+      };
+
+      const updateDownloadLink = (svgString) => {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+          currentDownloadUrl = null;
+        }
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        currentDownloadUrl = URL.createObjectURL(blob);
+        downloadButton.disabled = false;
+        downloadButton.onclick = () => {
+          const anchor = document.createElement('a');
+          anchor.href = currentDownloadUrl;
+          anchor.download = 'iconifty.svg';
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+        };
+      };
+
+      const updateOutputs = (svgString) => {
+        svgCodeOutput.value = svgString;
+        const encoded = encodeURIComponent(svgString)
+          .replace(/'/g, '%27')
+          .replace(/"/g, '%22');
+        const cssSnippet = `.iconifty-icon {\n  width: 128px;\n  height: 128px;\n  background: url("data:image/svg+xml,${encoded}") center/contain no-repeat;\n}`;
+        cssCodeOutput.value = cssSnippet;
+      };
+
+      const processImage = async () => {
+        if (!originalImage) return;
+        if (!ensureTracerReady()) return;
+        updateStatus('Tracing…');
+        svgPreview.innerHTML = '<span class="status">Crunching pixels…</span>';
+        downloadButton.disabled = true;
+
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+
+        const smoothing = Number(smoothingInput.value);
+        const tolerance = Number(toleranceInput.value);
+        const removeBackgroundEnabled = removeBgInput.checked;
+        const autoCropEnabled = autoCropInput.checked;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = originalImage.naturalWidth;
+        canvas.height = originalImage.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(originalImage, 0, 0);
+
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        if (removeBackgroundEnabled) {
+          removeBackground(imageData, Math.max(0, tolerance));
+        }
+
+        thresholdImage(imageData, tolerance, smoothing);
+
+        if (autoCropEnabled) {
+          imageData = cropTransparent(imageData);
+        }
+
+        const options = {
+          numberofcolors: 2,
+          mincolorratio: 1,
+          pathomit: Math.max(0, 2 - smoothing),
+          ltres: Math.max(0.1, 1 + smoothing * 0.2),
+          qtres: Math.max(0.1, 1 + smoothing * 0.15),
+          scale: 1,
+          strokewidth: 0,
+          blurradius: 0,
+          blurdelta: 0,
+          palette: [
+            { r: 0, g: 0, b: 0, a: 255 },
+            { r: 255, g: 255, b: 255, a: 0 },
+          ],
+        };
+
+        const svgString = ImageTracer.imagedataToSVG(imageData, options);
+
+        renderSvgPreview(svgString);
+        updateDownloadLink(svgString);
+        updateOutputs(svgString);
+        updateStatus('Vector ready. Adjust sliders for refinements.');
+      };
+
+      const handleFile = async (file) => {
+        if (!file) return;
+        try {
+          updateStatus('Loading image…');
+          if (originalUrl) {
+            URL.revokeObjectURL(originalUrl);
+            originalUrl = null;
+          }
+          const objectUrl = URL.createObjectURL(file);
+          originalUrl = objectUrl;
+          const img = new Image();
+          img.onload = () => {
+            originalImage = img;
+            processImage();
+            URL.revokeObjectURL(objectUrl);
+            originalUrl = null;
+          };
+          img.onerror = () => {
+            updateStatus('Unable to read image. Please try a different file.');
+            URL.revokeObjectURL(objectUrl);
+            originalUrl = null;
+          };
+          img.src = objectUrl;
+        } catch (error) {
+          console.error(error);
+          updateStatus('Failed to load image. Please try a different file.');
+        }
+      };
+
+      fileInput.addEventListener('change', (event) => {
+        const [file] = event.target.files;
+        handleFile(file);
+      });
+
+      const preventDefaults = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      };
+
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+        document.addEventListener(eventName, preventDefaults, false);
+      });
+
+      document.addEventListener('drop', (event) => {
+        const file = event.dataTransfer?.files?.[0];
+        if (file) {
+          fileInput.files = event.dataTransfer.files;
+          handleFile(file);
+        }
+      });
+
+      smoothingInput.addEventListener('input', () => {
+        smoothingValueEl.textContent = smoothingInput.value;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      toleranceInput.addEventListener('input', () => {
+        toleranceValueEl.textContent = toleranceInput.value;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      [removeBgInput, autoCropInput].forEach((input) => {
+        input.addEventListener('change', () => {
+          if (originalImage) {
+            processImage();
+          }
+        });
+      });
+
+      window.addEventListener('beforeunload', () => {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
+        if (originalUrl) {
+          URL.revokeObjectURL(originalUrl);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
