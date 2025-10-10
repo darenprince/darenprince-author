@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daren Prince Author Platform — Button System Demo</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: var(--color-surface);
+        color: var(--color-white);
+        min-height: 100vh;
+      }
+      .docs-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 4rem;
+        display: grid;
+        gap: 3rem;
+      }
+      header {
+        display: grid;
+        gap: 1rem;
+      }
+      header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+      }
+      header p {
+        margin: 0;
+        max-width: 60ch;
+        color: var(--color-muted);
+      }
+      section {
+        display: grid;
+        gap: 1.5rem;
+      }
+      section h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+      .button-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .btn-stack {
+        display: grid;
+        gap: 0.75rem;
+      }
+      .btn-stack .btn {
+        width: fit-content;
+      }
+      .button-grid.demo-columns {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      .demo-card {
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: color-mix(in srgb, var(--gray-900) 85%, transparent);
+        padding: 1.25rem;
+        display: grid;
+        gap: 1rem;
+      }
+      .demo-card h3 {
+        margin: 0;
+        font-size: 1.125rem;
+      }
+      .demo-card p {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 0.95rem;
+      }
+      .btn-on-dark {
+        background: color-mix(in srgb, var(--gray-900) 75%, transparent);
+        padding: 1.25rem;
+        border-radius: 1rem;
+        display: grid;
+        gap: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .token-callout {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.95rem;
+        color: var(--color-muted);
+      }
+      .demo-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="docs-wrapper">
+      <header>
+        <h1>Button System Demo</h1>
+        <p>
+          Live preview of every pill-shaped button variant configured in
+          <code>$btn-variants</code> plus utility styles. Use this catalogue alongside
+          <code>docs/button-system.md</code> when adjusting tokens or creating new
+          combinations.
+        </p>
+        <p>
+          Legacy utility classes such as <code>.btn-sm</code> now delegate to the same
+          CSS variable scale as <code>.btn--sm</code>, so older templates render with the
+          updated typography and spacing automatically.
+        </p>
+        <div class="btn-row">
+          <a class="btn" href="../docs/button-system.md">Read the guide</a>
+          <a class="btn btn--ghost" href="#customize">Jump to customization notes</a>
+        </div>
+      </header>
+
+      <section id="core-variants">
+        <h2>Core variants</h2>
+        <div class="button-grid demo-columns">
+          <div class="demo-card">
+            <h3>Primary</h3>
+            <p>Flat lime CTA for high-emphasis flows.</p>
+            <div class="btn-row">
+              <button class="btn btn--primary">Primary</button>
+              <button class="btn btn--primary btn--flat">Primary Flat</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Forest</h3>
+            <p>Deep green alternative for layered hero modules.</p>
+            <div class="btn-row">
+              <button class="btn btn--forest">Forest</button>
+              <button class="btn btn--forest-b">Forest Bold</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Charcoal</h3>
+            <p>Reversed charcoal surface for light cards or forms.</p>
+            <div class="btn-row">
+              <button class="btn btn--charcoal">Charcoal</button>
+              <button class="btn btn--charcoal-b">Charcoal Bold</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Mint</h3>
+            <p>Fresh mint tone for secondary or success actions.</p>
+            <div class="btn-row">
+              <button class="btn btn--mint">Mint</button>
+              <button class="btn btn--mint-b">Mint Bold</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Outline</h3>
+            <p>Bordered lime accent that keeps the interior flat.</p>
+            <div class="btn-row">
+              <button class="btn btn--outline">Outline</button>
+              <button class="btn btn--outline btn--flat">Outline Flat</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="size-scale">
+        <h2>Size &amp; density scale</h2>
+        <div class="button-grid demo-columns">
+          <div class="demo-card">
+            <h3>Core ramp</h3>
+            <p>Apply size modifiers on top of <code>.btn</code> for consistent heights.</p>
+            <div class="btn-stack">
+              <button class="btn btn--primary btn--xs">XS action</button>
+              <button class="btn btn--primary btn--sm">Small action</button>
+              <button class="btn btn--primary btn--md">Medium action</button>
+              <button class="btn btn--primary btn--lg">Large action</button>
+              <button class="btn btn--primary btn--xl">XL hero CTA</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Size + theme combos</h3>
+            <p>Mix any color variant with a density token.</p>
+            <div class="btn-stack">
+              <button class="btn btn--forest btn--sm">Forest compact</button>
+              <button class="btn btn--charcoal btn--lg">Charcoal large</button>
+              <button class="btn btn--outline btn--xl">Outline XL</button>
+              <button class="btn btn--mint btn--xs">Mint micro</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Icon spacing</h3>
+            <p>Gap + min-height tokens keep icons aligned across sizes.</p>
+            <div class="btn-stack">
+              <button class="btn btn--charcoal btn--sm">
+                <span aria-hidden="true" class="demo-icon">⚡</span>
+                Quick deploy
+              </button>
+              <button class="btn btn--forest btn--md">
+                <span aria-hidden="true" class="demo-icon">🎯</span>
+                Target clients
+              </button>
+              <button class="btn btn--outline btn--lg btn--flat">
+                <span aria-hidden="true" class="demo-icon">🔒</span>
+                Secure portal
+              </button>
+            </div>
+            <p class="token-callout">
+              Token hooks: <code>--btn-gap</code>, <code>--btn-min-height</code>,
+              <code>--btn-font-size</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ghost-outline">
+        <h2>Ghost &amp; subtle controls</h2>
+        <div class="button-grid demo-columns">
+          <div class="demo-card">
+            <h3>Ghost</h3>
+            <p>Transparent surface with lime border for dark backgrounds.</p>
+            <div class="btn-row">
+              <button class="btn btn--ghost">Ghost</button>
+              <button class="btn btn--ghost-b">Ghost Bold</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Subtle</h3>
+            <p>Soft mint background for quiet, inline actions.</p>
+            <div class="btn-row">
+              <button class="btn btn--subtle">Subtle</button>
+              <button class="btn btn--subtle" disabled>Disabled</button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h3>Utility helpers</h3>
+            <p>Pill buttons scale down cleanly for icon affordances.</p>
+            <div class="btn-row">
+              <button class="icon-btn" aria-label="Play">▶</button>
+              <button class="icon-btn--ghost" aria-label="Close">✕</button>
+              <button class="icon-btn--text">
+                <span class="icon">★</span>
+                Favorites
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="states">
+        <h2>States &amp; spacing</h2>
+        <div class="btn-on-dark">
+          <div class="btn-row">
+            <button class="btn" disabled>Disabled</button>
+            <button class="btn btn--forest" data-demo="hover">Hover</button>
+            <button class="btn btn--charcoal">Default spacing</button>
+            <button class="btn btn--ghost">Ghost</button>
+          </div>
+          <p class="token-callout">
+            Token hooks: <code>--btn-bg</code>, <code>--btn-color</code>,
+            <code>--btn-hover-bg</code>, <code>--btn-hover-color</code>,
+            <code>--btn-border-width</code>, <code>--btn-border-color</code>,
+            <code>--btn-shadow</code>, <code>--btn-hover-shadow</code>,
+            <code>--btn-radius</code>, <code>--btn-padding-x</code>,
+            <code>--btn-padding-y</code>, <code>--btn-gap</code>,
+            <code>--btn-min-height</code>, <code>--btn-font-size</code>,
+            <code>--btn-line-height</code>.
+          </p>
+        </div>
+      </section>
+
+      <section id="customize">
+        <h2>Customize quickly</h2>
+        <div class="button-grid">
+          <div class="demo-card">
+            <h3>Change a variant color</h3>
+            <p>
+              Edit the <code>$btn-variants</code> map in
+              <code>scss/components/_buttons.scss</code> and adjust the
+              <code>bg</code>, <code>text</code>, and <code>hover-bg</code>
+              entries. Rebuild assets to propagate the change across the site.
+            </p>
+          </div>
+          <div class="demo-card">
+            <h3>Override per instance</h3>
+            <p>
+              Apply CSS custom properties on any button element to tweak radius,
+              spacing, or colors inline:
+            </p>
+            <pre class="token-callout">&lt;button class="btn btn--primary" style="--btn-bg: #ffb703; --btn-color: #081c15"&gt;Sunrise CTA&lt;/button&gt;</pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
