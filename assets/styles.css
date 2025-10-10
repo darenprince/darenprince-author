@@ -243,6 +243,9 @@ a:focus {
   color: var(--color-bright);
   text-decoration: underline;
 }
+a.active {
+  color: var(--color-lime);
+}
 
 .flex {
   display: flex;
@@ -491,15 +494,6 @@ body.theme-dark::before {
     background-position: center top;
     background-color: rgba(0, 0, 0, 0.9);
   }
-}
-body.theme-dark a {
-  color: var(--color-muted);
-}
-body.theme-dark a:hover {
-  color: var(--color-bright);
-}
-body.theme-dark a.active {
-  color: var(--color-lime);
 }
 
 body.theme-light {
