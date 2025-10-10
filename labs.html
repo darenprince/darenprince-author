@@ -149,6 +149,7 @@
   <meta name="twitter:image:alt" content="Crown Labs applications collage">
   <link rel="canonical" href="https://darenprince.com/labs">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@300;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <script type="application/ld+json">
@@ -353,13 +354,19 @@
             </g>
           </svg>
         </span>
-        <span class="labs-nav__wordmark">Crown Labs</span>
+        <span class="labs-nav__wordmark">
+          <span class="labs-nav__wordmark-crown">CROWN</span>
+          <span class="labs-nav__wordmark-divider" aria-hidden="true"></span>
+          <span class="labs-nav__wordmark-labs">LABS</span>
+        </span>
       </a>
       <button class="labs-nav__toggle" type="button" aria-expanded="false" aria-controls="labs-nav-menu" aria-label="Toggle navigation">
         <span class="labs-nav__toggle-line"></span>
         <span class="labs-nav__toggle-line"></span>
       </button>
-      <nav class="labs-nav__menu" id="labs-nav-menu" aria-label="Primary">
+    </div>
+    <nav class="labs-nav__menu" id="labs-nav-menu" aria-label="Primary">
+      <div class="labs-nav__menu-inner container max-width-adaptive-lg">
         <ul class="labs-nav__list">
           <li><a href="index.html">Home</a></li>
           <li><a href="#introduction"><i class="ti ti-sparkles" aria-hidden="true"></i><span>Introduction</span></a></li>
@@ -369,8 +376,8 @@
           <li><a href="#coming-soon"><i class="ti ti-scan" aria-hidden="true"></i><span>Coming Soon</span></a></li>
           <li><a href="contact.html"><i class="ti ti-mail" aria-hidden="true"></i><span>Contact</span></a></li>
         </ul>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </header>
 
   <main class="labs-page">
@@ -427,6 +434,7 @@
         <div class="labs-grid">
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-code"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-code"></i></span>
             <div class="labs-card__header">
               <h3>CrownCode.ai</h3>
               <p class="labs-card__summary">CrownCode.ai is the foundation of the Crown ecosystem, powering modular intelligence engines across every Crown Labs build.</p>
@@ -434,14 +442,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>It serves as the advanced intelligence engine development platform where analytical frameworks, modular AI tools, and logic hardened data systems are built, trained, and deployed for the entire network.</p>
                   </div>
@@ -449,14 +453,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Development and training of specialized intelligence engines</span></li>
@@ -470,14 +470,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To push the boundaries of applied artificial intelligence with precision, creativity, and human awareness.</p>
                   </div>
@@ -487,6 +483,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-analyze"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-analyze"></i></span>
             <div class="labs-card__header">
               <h3>CrownCode Intelligence Suite</h3>
               <p class="labs-card__summary">The CrownCode Intelligence Suite decodes human patterns with forensic precision to reveal motives, deception, and emotional states.</p>
@@ -494,14 +491,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>Built from the evolution of Dr. Prince Mode, this environment fuses behavioral science, psychological intelligence, and emotional resonance modeling to reconstruct narratives and decode deception dynamics.</p>
                   </div>
@@ -509,14 +502,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Behavioral and psychological profiling</span></li>
@@ -530,14 +519,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To bring clarity where confusion lives and truth where deception hides by turning raw data into decisive intelligence.</p>
                   </div>
@@ -547,6 +532,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-sos"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-sos"></i></span>
             <div class="labs-card__header">
               <h3>Crown SOS</h3>
               <p class="labs-card__summary">Crown SOS transforms every smartphone into a safety lifeline with instant, encrypted SOS broadcasts.</p>
@@ -554,14 +540,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>Users create custom trigger gestures, voice commands, or inactivity timers that immediately deliver audio, video, medical intel, and live coordinates to trusted contacts or designated responders.</p>
                   </div>
@@ -569,14 +551,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Custom trigger gestures, voice commands, or inactivity timers</span></li>
@@ -590,14 +568,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To combine technology, trust, and rapid response so help arrives the instant someone needs it.</p>
                   </div>
@@ -607,6 +581,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-flame"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-flame"></i></span>
             <div class="labs-card__header">
               <h3>Operation Phoenix</h3>
               <p class="labs-card__summary">Operation Phoenix delivers a stability, recovery, and reinvention framework built to defeat crisis and rebuild strength.</p>
@@ -614,14 +589,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>Created to combat homelessness and acute instability, the framework evolved from survival system to empowerment blueprint rooted in the Unshakeable philosophy of rebuilding from within.</p>
                   </div>
@@ -629,14 +600,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Stability modules covering shelter, budgeting, boundaries, and safety</span></li>
@@ -650,14 +617,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To help people reclaim stability, rebuild identity, and rise unshakeable with structure, awareness, and self leadership.</p>
                   </div>
@@ -667,6 +630,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-ice-cream"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-ice-cream"></i></span>
             <div class="labs-card__header">
               <h3>AiCherryPie</h3>
               <p class="labs-card__summary">AiCherryPie humanizes AI generated text so every deliverable feels natural, emotive, and unmistakably human.</p>
@@ -674,14 +638,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>The engine strips mechanical phrasing, restores emotional rhythm, and preserves author identity so AI-assisted writing reads raw, real, and alive.</p>
                   </div>
@@ -689,14 +649,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Removes robotic phrasing and repetitive structures</span></li>
@@ -709,14 +665,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To restore humanity to written expression and bring emotion back to the modern voice.</p>
                   </div>
@@ -726,6 +678,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-search"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-search"></i></span>
             <div class="labs-card__header">
               <h3>Pic Detective</h3>
               <p class="labs-card__summary">Pic Detective safeguards creators with visual intelligence that validates imagery and exposes manipulation.</p>
@@ -733,14 +686,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>The toolkit combines anomaly detection, source tracing, and pattern recognition to authenticate images for investigators, journalists, and creative teams.</p>
                   </div>
@@ -748,14 +697,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Metadata and EXIF inspection</span></li>
@@ -768,14 +713,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To make truth visible by confirming what is real in a digital world that blurs the line.</p>
                   </div>
@@ -785,6 +726,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-message-circle"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-message-circle"></i></span>
             <div class="labs-card__header">
               <h3>JustUs.chat</h3>
               <p class="labs-card__summary">JustUs.chat keeps conversations private, temporary, and accountable for teams, families, and support circles.</p>
@@ -792,14 +734,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>The platform enables real, temporary conversations that self-delete after use, preserving confidentiality while keeping trusted circles connected.</p>
                   </div>
@@ -807,14 +745,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>Temporary chat rooms that delete automatically</span></li>
@@ -827,14 +761,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To restore privacy, safety, and honesty to digital communication.</p>
                   </div>
@@ -844,6 +774,7 @@
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ti ti-device-gamepad-2"></i></span>
+            <span class="labs-card__watermark" aria-hidden="true"><i class="ti ti-device-gamepad-2"></i></span>
             <div class="labs-card__header">
               <h3>Game On!</h3>
               <p class="labs-card__summary">Game On! is the flagship author brand anchoring the Game On relationship intelligence series and its global reach.</p>
@@ -851,14 +782,10 @@
             <div class="labs-card__accordion">
               <details class="labs-accordion labs-accordion--details">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
-                    <span class="labs-accordion__label-text">Details</span>
-                  </span>
+                  <span class="labs-accordion__label">Details</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-info-hexagon"></i></span>
                   <div class="labs-accordion__body">
                     <p>The brand hub centralizes the catalog for <em>Game On: Master the Conversation and Win Her Heart</em> and prepares the runway for future releases across print, digital, and experiential channels.</p>
                   </div>
@@ -866,14 +793,10 @@
               </details>
               <details class="labs-accordion labs-accordion--features">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
-                    <span class="labs-accordion__label-text">Core Features</span>
-                  </span>
+                  <span class="labs-accordion__label">Core Features</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-adjustments-bolt"></i></span>
                   <div class="labs-accordion__body">
                     <ul class="labs-card__list">
                       <li><span class="labs-card__bullet" aria-hidden="true"><i class="ti ti-crown"></i></span><span>A+ content experiences and global vendor listings</span></li>
@@ -886,14 +809,10 @@
               </details>
               <details class="labs-accordion labs-accordion--mission">
                 <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">
-                    <span class="labs-accordion__summary-icon" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
-                    <span class="labs-accordion__label-text">Mission</span>
-                  </span>
+                  <span class="labs-accordion__label">Mission</span>
                   <span class="labs-accordion__chevron" aria-hidden="true"><i class="ti ti-chevron-down"></i></span>
                 </summary>
                 <div class="labs-accordion__content">
-                  <span class="labs-accordion__glyph" aria-hidden="true"><i class="ti ti-target-arrow"></i></span>
                   <div class="labs-accordion__body">
                     <p class="labs-card__mission">To redefine communication, confidence, and connection for the modern world.</p>
                   </div>
@@ -910,11 +829,23 @@
         <div>
           <span class="labs-section-eyebrow">Coming Soon</span>
           <h2>Next evolutions in the Crown Labs ecosystem.</h2>
-          <ul class="labs-card__list">
-            <li><strong>Crown Labs Design System:</strong> A complete SCSS and component architecture unifying all Crown Labs products.</li>
-            <li><strong>Operation Phoenix App Suite:</strong> A dedicated dashboard for mobile and desktop that tracks progress, goals, and growth.</li>
-            <li><strong>Crown SOS Pro:</strong> A professional grade version of Crown SOS for first responders, private security, and corporate safety teams.</li>
-            <li><strong>Creator Intelligence Stack:</strong> A connected creative suite combining AiCherryPie, Pic Detective, and author analytics for creators and publishers.</li>
+          <ul class="labs-rollout__list">
+            <li class="labs-rollout__item">
+              <span class="labs-rollout__item-title">Crown Labs Design System</span>
+              <p class="labs-rollout__item-description">A complete SCSS and component architecture unifying all Crown Labs products.</p>
+            </li>
+            <li class="labs-rollout__item">
+              <span class="labs-rollout__item-title">Operation Phoenix App Suite</span>
+              <p class="labs-rollout__item-description">A dedicated dashboard for mobile and desktop that tracks progress, goals, and growth.</p>
+            </li>
+            <li class="labs-rollout__item">
+              <span class="labs-rollout__item-title">Crown SOS Pro</span>
+              <p class="labs-rollout__item-description">A professional grade version of Crown SOS for first responders, private security, and corporate safety teams.</p>
+            </li>
+            <li class="labs-rollout__item">
+              <span class="labs-rollout__item-title">Creator Intelligence Stack</span>
+              <p class="labs-rollout__item-description">A connected creative suite combining AiCherryPie, Pic Detective, and author analytics for creators and publishers.</p>
+            </li>
           </ul>
         </div>
         <aside class="labs-roadmap" aria-label="Mission statement" id="closing">
@@ -1045,13 +976,36 @@
   <script>
     (() => {
       const nav = document.querySelector('.labs-nav');
+      if (nav) {
+        requestAnimationFrame(() => nav.classList.add('is-ready'));
+      }
+
       const toggle = nav?.querySelector('.labs-nav__toggle');
       const menu = nav?.querySelector('.labs-nav__menu');
       if (!toggle || !menu) return;
 
+      const menuInner = menu.querySelector('.labs-nav__menu-inner');
+
+      const refreshMenuHeight = () => {
+        if (window.innerWidth >= 1024) {
+          menu.style.removeProperty('--labs-nav-open-height');
+          return;
+        }
+        const nextHeight = menuInner?.scrollHeight || menu.scrollHeight;
+        if (nextHeight) {
+          menu.style.setProperty('--labs-nav-open-height', `${nextHeight}px`);
+        }
+      };
+
       const setExpanded = (expanded) => {
+        if (expanded) {
+          refreshMenuHeight();
+        }
         toggle.setAttribute('aria-expanded', String(expanded));
         menu.classList.toggle('is-open', expanded);
+        if (!expanded) {
+          refreshMenuHeight();
+        }
       };
 
       toggle.addEventListener('click', () => {
@@ -1063,11 +1017,17 @@
         link.addEventListener('click', () => setExpanded(false));
       });
 
-      window.addEventListener('resize', () => {
+      const handleResize = () => {
         if (window.innerWidth >= 1024) {
           setExpanded(false);
+          menu.style.removeProperty('--labs-nav-open-height');
+        } else {
+          refreshMenuHeight();
         }
-      });
+      };
+
+      window.addEventListener('resize', handleResize);
+      refreshMenuHeight();
     })();
   </script>
   <script>
