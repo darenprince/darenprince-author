@@ -1,6 +1,12 @@
 const ACCESS_TOKEN = 'jagvov-8wyngy-sobpoK'
 const NUMERIC_PASSCODE = '640161869'
 const ACCESS_STORAGE_KEY = 'ccai-brief-clearance'
+const MODAL_LOADER_STEPS = [
+  { label: 'Authenticating', announcement: 'Authenticating secure channel' },
+  { label: 'Connecting', announcement: 'Connecting to encrypted brief' },
+  { label: 'Locating', announcement: 'Locating secure dossier' },
+]
+const MODAL_LOADER_STEP_DURATION = 1500
 const prefersReducedMotion =
   typeof window.matchMedia === 'function'
     ? window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -12,6 +18,8 @@ const prefersReducedMotion =
 
 const pageLoader = document.getElementById('ccai-page-loader')
 const briefLoader = document.getElementById('ccai-brief-loader')
+const modalLoader = document.getElementById('ccai-modal-loader')
+const modalLoaderStatus = modalLoader?.querySelector('[data-loader-status]') ?? null
 const accessModal = document.getElementById('ccai-access-modal')
 const gateModal = document.getElementById('ccai-gate')
 const warningModal = document.getElementById('ccai-warning-modal')
@@ -39,6 +47,8 @@ const state = {
   gateUnlocked: false,
   toastTimer: null,
   storedClearanceId: null,
+  modalLoaderTimer: null,
+  modalLoaderTimers: [],
 }
 
 function refreshScrollLock() {
@@ -67,6 +77,87 @@ function closeModal(modal) {
     resetGateState()
   }
   refreshScrollLock()
+}
+
+function clearModalLoaderTimers() {
+  if (state.modalLoaderTimer) {
+    clearTimeout(state.modalLoaderTimer)
+    state.modalLoaderTimer = null
+  }
+  if (state.modalLoaderTimers.length) {
+    state.modalLoaderTimers.forEach((timer) => clearTimeout(timer))
+    state.modalLoaderTimers = []
+  }
+}
+
+function finalizeModalLoaderSequence(callback) {
+  if (!modalLoader) {
+    callback?.()
+    return
+  }
+
+  clearModalLoaderTimers()
+  modalLoader.classList.remove('is-visible')
+
+  const teardown = () => {
+    modalLoader.hidden = true
+    modalLoader.setAttribute('aria-hidden', 'true')
+    if (modalLoaderStatus) {
+      modalLoaderStatus.textContent = 'Secure channel ready'
+    }
+    document.documentElement.classList.remove('ccai-modal-open')
+    modalLoader.removeEventListener('transitionend', teardown)
+    callback?.()
+  }
+
+  if (prefersReducedMotion.matches) {
+    teardown()
+    return
+  }
+
+  modalLoader.addEventListener('transitionend', teardown, { once: true })
+}
+
+function runModalLoaderSequence(callback) {
+  if (!modalLoader) {
+    callback?.()
+    return
+  }
+
+  clearModalLoaderTimers()
+
+  if (modalLoaderStatus) {
+    modalLoaderStatus.textContent = MODAL_LOADER_STEPS[0].announcement
+  }
+
+  document.documentElement.classList.add('ccai-modal-open')
+  modalLoader.hidden = false
+  modalLoader.setAttribute('aria-hidden', 'false')
+
+  if (prefersReducedMotion.matches) {
+    finalizeModalLoaderSequence(callback)
+    return
+  }
+
+  requestAnimationFrame(() => {
+    modalLoader.classList.add('is-visible')
+  })
+
+  MODAL_LOADER_STEPS.forEach((step, index) => {
+    const timer = setTimeout(() => {
+      if (modalLoaderStatus) {
+        modalLoaderStatus.textContent = step.announcement
+      }
+    }, index * MODAL_LOADER_STEP_DURATION)
+    state.modalLoaderTimers.push(timer)
+  })
+
+  state.modalLoaderTimer = setTimeout(
+    () => {
+      finalizeModalLoaderSequence(callback)
+    },
+    MODAL_LOADER_STEPS.length * MODAL_LOADER_STEP_DURATION + 450
+  )
 }
 
 function updateGateDisplay() {
@@ -130,6 +221,9 @@ function verifyGateCode() {
     gateDisplay.textContent = 'Access granted'
     setTimeout(() => {
       closeModal(gateModal)
+      runModalLoaderSequence(() => {
+        openModal(accessModal)
+      })
     }, 900)
   } else {
     gateModal.dataset.state = 'error'
