@@ -7,7 +7,7 @@
     "build:search": "node ./src/search/build-index.mjs",
     "generate:images": "node scripts/generate-image-manifest.js",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "build": "npm run build:search && npm run generate:icons && npm run generate:images && sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
+    "build": "npm run lint:buttons && npm run build:search && npm run generate:icons && npm run generate:images && sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
     "watch": "npm run generate:icons && npm run generate:images && sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch",
     "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass; husky install",
@@ -15,6 +15,7 @@
     "postprocess:assets": "node optimize-images.js --root .",
     "postprocess:seo": "node seo-enrich.js --root . --domain $DOMAIN",
     "format": "prettier --write .",
+    "lint:buttons": "node scripts/check-button-variants.mjs",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
