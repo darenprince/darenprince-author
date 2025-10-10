@@ -1,6 +1,8 @@
-@use "variables" as *;
-@use "../tokens/colors" as *;
-*,*::before,*::after {
+@use 'variables' as *;
+@use '../tokens/colors' as *;
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -13,7 +15,12 @@ body {
   font-family: $font-family-base;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  background-image: url('../assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg');
+  background: radial-gradient(
+    circle,
+    rgba(75, 75, 75, 1),
+    rgba(59, 59, 59, 1),
+    rgba(32, 32, 32, 1)
+  );
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -24,14 +31,15 @@ body {
 }
 
 body::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   background: inherit;
 }
 
-img, video {
+img,
+video {
   max-width: 100%;
   height: auto;
 }
