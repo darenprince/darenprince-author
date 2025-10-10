@@ -1,22 +1,56 @@
-@use "../base/variables" as *;
-.flex { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
+@use '../base/variables' as *;
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
 
-.gap-sm { gap: $spacing-sm; }
-.gap-md { gap: $spacing-md; }
-.spacing-y-sm > * + * { margin-top: $spacing-sm; }
+.gap-sm {
+  gap: $spacing-sm;
+}
+.gap-md {
+  gap: $spacing-md;
+}
+.spacing-y-sm > * + * {
+  margin-top: $spacing-sm;
+}
 
-.padding-md { padding: $spacing-md; }
-.padding-y-sm { padding-top: $spacing-sm; padding-bottom: $spacing-sm; }
-.padding-y-md { padding-top: $spacing-md; padding-bottom: $spacing-md; }
-.padding-y-lg { padding-top: $spacing-lg; padding-bottom: $spacing-lg; }
-.padding-y-xl { padding-top: $spacing-xl; padding-bottom: $spacing-xl; }
+.padding-md {
+  padding: $spacing-md;
+}
+.padding-y-sm {
+  padding-top: $spacing-sm;
+  padding-bottom: $spacing-sm;
+}
+.padding-y-md {
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+}
+.padding-y-lg {
+  padding-top: $spacing-lg;
+  padding-bottom: $spacing-lg;
+}
+.padding-y-xl {
+  padding-top: $spacing-xl;
+  padding-bottom: $spacing-xl;
+}
 
-.margin-bottom-sm { margin-bottom: $spacing-sm; }
-.margin-bottom-md { margin-bottom: $spacing-md; }
-.margin-bottom-lg { margin-bottom: $spacing-lg; }
+.margin-bottom-sm {
+  margin-bottom: $spacing-sm;
+}
+.margin-bottom-md {
+  margin-bottom: $spacing-md;
+}
+.margin-bottom-lg {
+  margin-bottom: $spacing-lg;
+}
 
 .max-width-adaptive-lg {
   max-width: 1200px;
@@ -24,10 +58,18 @@
   margin-right: auto;
 }
 
-.text-center { text-align: center; }
-.text-lg { font-size: 1.125rem; }
-.text-xxxl { font-size: 2.5rem; }
-.font-primary { font-family: $font-family-heading; }
+.text-center {
+  text-align: center;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+.text-xxxl {
+  font-size: 2.5rem;
+}
+.font-primary {
+  font-family: $font-family-heading;
+}
 
 // Utility font using League Spartan
 .styledh1 {
@@ -40,7 +82,7 @@
 
 // Gradient text utilities
 .text-gradient-lime-deep {
-  background: linear-gradient(135deg, #6FBC5C, #488635);
+  background: linear-gradient(135deg, #6fbc5c, #488635);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -48,7 +90,7 @@
 }
 
 .text-gradient-gray-light {
-  background: linear-gradient(135deg, #D5D5D5, #FDFDFD);
+  background: linear-gradient(135deg, #d5d5d5, #fdfdfd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -61,10 +103,56 @@
   border-radius: $border-radius;
 }
 
-// Button size utilities
-.btn-xs { padding: $spacing-xxs $spacing-xs; font-size: 0.75rem; }
-.btn-sm { padding: $spacing-xs $spacing-sm; font-size: 0.875rem; }
-.btn-md { padding: $spacing-sm $spacing-md; font-size: 1rem; }
-.btn-lg { padding: $spacing-md $spacing-lg; font-size: 1.125rem; }
-.btn-xl { padding: $spacing-lg $spacing-xl; font-size: 1.25rem; }
-.btn-fw { display: block; width: 100%; text-align: center; }
+// Button size utilities share the same CSS variable scale as .btn--* modifiers.
+#{$button-brand-scope} {
+  .btn-xs {
+    --btn-font-size: 0.8125rem;
+    --btn-line-height: 1.05;
+    --btn-padding-y: 0.35rem;
+    --btn-padding-x: 0.9rem;
+    --btn-gap: 0.35rem;
+    --btn-min-height: 2.125rem;
+  }
+
+  .btn-sm {
+    --btn-font-size: 0.9rem;
+    --btn-line-height: 1.05;
+    --btn-padding-y: 0.45rem;
+    --btn-padding-x: 1.1rem;
+    --btn-gap: 0.45rem;
+    --btn-min-height: 2.45rem;
+  }
+
+  .btn-md {
+    --btn-font-size: 1rem;
+    --btn-line-height: 1.1;
+    --btn-padding-y: 0.6rem;
+    --btn-padding-x: 1.45rem;
+    --btn-gap: 0.5rem;
+    --btn-min-height: 2.75rem;
+  }
+
+  .btn-lg {
+    --btn-font-size: 1.0625rem;
+    --btn-line-height: 1.1;
+    --btn-padding-y: 0.75rem;
+    --btn-padding-x: 1.75rem;
+    --btn-gap: 0.6rem;
+    --btn-min-height: 3.1rem;
+  }
+
+  .btn-xl {
+    --btn-font-size: 1.15rem;
+    --btn-line-height: 1.05;
+    --btn-padding-y: 0.9rem;
+    --btn-padding-x: 2.25rem;
+    --btn-gap: 0.65rem;
+    --btn-min-height: 3.5rem;
+  }
+
+  .btn-fw {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
