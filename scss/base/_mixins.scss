@@ -1,55 +1,87 @@
-@use "variables" as *;
-@use "../tokens/colors" as *;
+@use 'variables' as *;
+@use '../tokens/colors' as *;
 
 @mixin respond-to($breakpoint) {
   @if $breakpoint == sm {
-    @media (min-width: $breakpoint-sm) { @content; }
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
   } @else if $breakpoint == md {
-    @media (min-width: $breakpoint-md) { @content; }
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
   } @else if $breakpoint == lg {
-    @media (min-width: $breakpoint-lg) { @content; }
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
   } @else if $breakpoint == xl {
-    @media (min-width: $breakpoint-xl) { @content; }
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
   }
 }
 
-@mixin button-base($bg, $text: var(--color-white), $hover: null) {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$bg} 92%, white),
-    color-mix(in srgb, #{$bg} 90%, black)
-  );
-  color: $text;
-  padding: $spacing-xs $spacing-md;
-  border: none;
-  border-radius: $border-radius;
-  cursor: pointer;
-  display: inline-block;
+@mixin button-structure {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap, $btn-gap-default);
+  padding: var(--btn-padding-y, $btn-padding-y-default) var(--btn-padding-x, $btn-padding-x-default);
+  border-radius: var(--btn-radius, $btn-radius-default);
+  border: var(--btn-border-width, 0) solid var(--btn-border-color, transparent);
+  background: var(--btn-bg, $bright-green);
+  color: var(--btn-color, $contrast-high);
+  font-size: var(--btn-font-size, $btn-font-size-default);
+  font-weight: var(--btn-font-weight, $btn-font-weight-default);
+  letter-spacing: var(--btn-letter-spacing, $btn-letter-spacing-default);
+  line-height: var(--btn-line-height, $btn-line-height-default);
+  min-height: var(--btn-min-height, $btn-min-height-default);
+  text-transform: var(--btn-text-transform, $btn-text-transform-default);
   text-decoration: none;
-  transition: $transition;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: var(--btn-transition, $btn-transition-default);
+  box-shadow: var(--btn-shadow, none);
 
   &:hover,
   &:focus {
-    @if $hover != null {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$hover} 92%, white),
-        color-mix(in srgb, #{$hover} 90%, black)
-      );
-    } @else {
-      background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, #{$bg} 92%, white),
-        color-mix(in srgb, #{$bg} 90%, black)
-      );
-    }
+    background: var(--btn-hover-bg, var(--btn-bg, $bright-green));
+    color: var(--btn-hover-color, var(--btn-color, $contrast-high));
+    box-shadow: var(--btn-hover-shadow, var(--btn-shadow, none));
+  }
+
+  &:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--btn-border-color, $mint-green) 60%, transparent);
+    outline-offset: 3px;
   }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+}
+
+@mixin button-base(
+  $bg,
+  $text: $white,
+  $hover: null,
+  $hover-text: null,
+  $border-width: 0,
+  $border-color: transparent,
+  $shadow: none,
+  $hover-shadow: null
+) {
+  --btn-bg: #{$bg};
+  --btn-color: #{$text};
+  --btn-hover-bg: #{if($hover != null, $hover, $bg)};
+  --btn-hover-color: #{if($hover-text != null, $hover-text, $text)};
+  --btn-border-width: #{$border-width};
+  --btn-border-color: #{$border-color};
+  --btn-shadow: #{$shadow};
+  @if $hover-shadow != null {
+    --btn-hover-shadow: #{$hover-shadow};
+  }
+
+  @include button-structure;
 }
 
 @mixin visually-hidden {
