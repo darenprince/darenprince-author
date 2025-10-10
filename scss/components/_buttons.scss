@@ -1,325 +1,529 @@
+@use 'sass:list';
+@use 'sass:map';
 @use '../base/mixins' as *;
 @use '../base/variables' as *;
 @use '../tokens/colors' as *;
-.btn {
-  @include button-base($bright-green, $black);
-}
 
-.btn--primary {
-  @include button-base($deep-green);
-}
-
-.btn--secondary {
-  @include button-base($medium-green, $black);
-}
-
-.btn--accent {
-  @include button-base($lime-green, $black);
-}
-
-.btn--subtle {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xxs;
-  padding: $spacing-xs $spacing-md;
-  border-radius: $border-radius;
-  background: color-mix(in srgb, $gray-900 92%, transparent);
-  border: 1px solid color-mix(in srgb, $mint-green 22%, transparent);
-  color: $deep-green;
-  text-decoration: none;
-  transition: $transition;
-
-  i {
-    font-size: 1rem;
+@function btn-config($config, $key, $fallback: null) {
+  @if map.has-key($config, $key) {
+    @return map.get($config, $key);
   }
 
-  &:hover,
-  &:focus {
-    background: color-mix(in srgb, $mint-green 36%, transparent);
-    color: $black;
-  }
+  @return $fallback;
 }
 
-.btn--ghost {
-  background-color: transparent;
-  color: $deep-green;
-  border: 2px solid $deep-green;
-  padding: $spacing-xs $spacing-md;
-  border-radius: $border-radius;
-  transition: $transition;
+@mixin btn-variant($name, $config) {
+  $bg: btn-config($config, bg, $bright-green);
+  $text: btn-config($config, text, $contrast-high);
+  $hover-bg: btn-config($config, hover-bg, null);
+  $hover-text: btn-config($config, hover-text, null);
+  $border-width: btn-config($config, border-width, 0);
+  $border-color: btn-config($config, border-color, transparent);
+  $shadow: btn-config($config, shadow, none);
+  $hover-shadow: btn-config($config, hover-shadow, null);
+  $radius: btn-config($config, radius, null);
+  $padding-x: btn-config($config, padding-x, null);
+  $padding-y: btn-config($config, padding-y, null);
+  $font-weight: btn-config($config, font-weight, null);
+  $text-transform: btn-config($config, text-transform, null);
+  $letter-spacing: btn-config($config, letter-spacing, null);
+  $font-size: btn-config($config, font-size, null);
+  $line-height: btn-config($config, line-height, null);
+  $gap: btn-config($config, gap, null);
+  $min-height: btn-config($config, min-height, null);
 
-  &:hover,
-  &:focus {
-    background-color: $deep-green;
-    color: $contrast-high;
-  }
-}
+  .btn--#{$name} {
+    @include button-base(
+      $bg,
+      $text,
+      $hover-bg,
+      $hover-text,
+      $border-width,
+      $border-color,
+      $shadow,
+      $hover-shadow
+    );
 
-// icon-only button
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  border: none;
-  background-color: $bright-green;
-  color: $white;
-  border-radius: $border-radius;
-  cursor: pointer;
-  transition: background-color $transition;
+    @if $radius != null {
+      --btn-radius: #{$radius};
+    }
 
-  &:hover {
-    background-color: $medium-green;
-  }
+    @if $padding-x != null {
+      --btn-padding-x: #{$padding-x};
+    }
 
-  &:focus {
-    outline: 2px solid $deep-green;
-    outline-offset: 2px;
-  }
+    @if $padding-y != null {
+      --btn-padding-y: #{$padding-y};
+    }
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
+    @if $font-weight != null {
+      --btn-font-weight: #{$font-weight};
+    }
 
-// icon-only button without background
-.icon-btn--ghost {
-  @extend .icon-btn;
-  background-color: transparent;
-  color: $deep-green;
-  transition: color $transition;
+    @if $text-transform != null {
+      --btn-text-transform: #{$text-transform};
+    }
 
-  &:hover {
-    background-color: transparent;
-    color: $deep-green;
+    @if $letter-spacing != null {
+      --btn-letter-spacing: #{$letter-spacing};
+    }
+
+    @if $font-size != null {
+      --btn-font-size: #{$font-size};
+    }
+
+    @if $line-height != null {
+      --btn-line-height: #{$line-height};
+    }
+
+    @if $gap != null {
+      --btn-gap: #{$gap};
+    }
+
+    @if $min-height != null {
+      --btn-min-height: #{$min-height};
+    }
   }
 }
 
-// mega menu close button
-.menu-close-btn {
-  @extend .icon-btn;
-  width: 2.75rem;
-  height: 2.75rem;
-  background-color: transparent;
-  color: $deep-green;
-  border: 2px solid $deep-green;
-
-  &:hover {
-    background-color: transparent;
-    color: $contrast-high;
-    border-color: $deep-green;
-  }
-}
-
-// icon button with text label
-.icon-btn--text {
-  @extend .icon-btn;
-  width: auto;
-  height: auto;
-  padding: $spacing-xxs $spacing-sm;
-  background-color: transparent;
-  border: 1px solid $border;
-  color: $white;
-  gap: $spacing-xxs;
-  font-size: 1rem;
-  transition: $transition;
-
-  &:hover,
-  &:focus {
-    background-color: transparent;
-    color: $deep-green;
-    border-color: $deep-green;
-  }
-}
-
-// navigation icon button
-.nav-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: $icon;
-  border-radius: $border-radius;
-  cursor: pointer;
-  transition: color $transition;
-
-  i {
-    font-size: 1.375rem;
-  }
-
-  &:hover,
-  &.is-active {
-    color: $deep-green;
-  }
-}
-
-.nav-icon-btn--static {
-  &:hover,
-  &.is-active {
-    color: inherit;
-  }
-}
-
-// hamburger menu button
-.hamburger-btn {
-  @extend .nav-icon-btn;
-  color: $icon;
-  background: transparent;
-  border: 2px solid rgba($lime-green, 0.3);
-  transition: box-shadow $transition;
-
-  &:hover,
-  &.is-active {
-    color: $deep-green;
-  }
-}
-
-.menu-open .hamburger-btn {
-  box-shadow: 0 0 8px rgba($lime-green, 0.5);
-}
-
-// auth buttons (login/logout)
-.auth-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xxs;
-  font-weight: 700;
-  color: $light-gray;
-  background: linear-gradient(45deg, rgba($bright-green, 0.05), rgba($bright-green, 0.05));
-  border: 1.5px solid rgba($lime-green, 0.7);
-  border-radius: $border-radius;
-  padding: $spacing-xxs $spacing-sm;
-  cursor: pointer;
-  text-decoration: none;
-
-  i {
-    color: inherit;
-  }
-}
-
-// gradient buttons
-.btn--gray-solid {
-  background-color: $gray-900;
-  border: 1px solid $gray-800;
-  color: $gray-200;
-}
-
-.btn--gray-gradient {
-  background: var(--grad-gray-top);
-  border: 1px solid $gray-200;
-  color: $gray-200;
-}
-
-// gray/black themed buttons
-.btn-gray-50 {
-  background-color: var(--gray-50);
-  color: $black;
-  border: 1px solid $gray-800;
-}
-.btn-gray-100 {
-  background-color: var(--gray-100);
-  color: $black;
-  border: 1px solid $gray-800;
-}
-.btn-gray-200 {
-  background-color: var(--gray-200);
-  color: $black;
-  border: 1px solid $gray-800;
-}
-.btn-gray-600 {
-  background-color: var(--gray-600);
-  color: $white;
-  border: 1px solid $gray-800;
-}
-.btn-gray-700 {
-  background-color: var(--gray-700);
-  color: $white;
-  border: 1px solid $gray-800;
-}
-.btn-gray-800 {
-  background-color: var(--gray-800);
-  color: $white;
-  border: 1px solid $gray-800;
-}
-.btn-gray-900 {
-  background-color: var(--gray-900);
-  color: $white;
-  border: 1px solid $gray-800;
-}
-.btn-black {
-  background-color: $black;
-  color: $white;
-  border: 1px solid $gray-800;
-}
-
-// creative complimentary color buttons
-$bg-list:
-  var(--color-primary), var(--color-primary-hover), var(--color-bright), var(--color-mint),
-  var(--color-lime), var(--gray-600), var(--gray-700), var(--gray-800), var(--gray-900),
-  var(--color-charcoal);
-$text-list:
-  var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright),
-  var(--color-primary);
-$border-list:
-  var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
-@for $i from 1 through 30 {
-  $bg: nth($bg-list, (($i - 1) % length($bg-list)) + 1);
-  $text: nth($text-list, (($i - 1) % length($text-list)) + 1);
-  $border: nth($border-list, (($i - 1) % length($border-list)) + 1);
-  .btn-combo-#{$i} {
-    background-color: $bg;
-    color: $text;
-    border: 1px solid $border;
-    padding: $spacing-xs $spacing-md;
-    border-radius: $border-radius;
-    display: inline-block;
-  }
-  .btn-combo-#{$i}-b {
-    @extend .btn-combo-#{$i};
-    font-weight: 700;
-  }
-}
-
-// bold variants for base buttons
 @mixin bold-variant($selector) {
   #{$selector}-b {
     @extend #{$selector};
-    font-weight: 700;
+    --btn-font-weight: 700;
   }
 }
 
-@include bold-variant('.btn');
-@include bold-variant('.btn--primary');
-@include bold-variant('.btn--secondary');
-@include bold-variant('.btn--accent');
-@include bold-variant('.btn--ghost');
-@include bold-variant('.btn--gray-solid');
-@include bold-variant('.btn--gray-gradient');
-@include bold-variant('.btn-gray-50');
-@include bold-variant('.btn-gray-100');
-@include bold-variant('.btn-gray-200');
-@include bold-variant('.btn-gray-600');
-@include bold-variant('.btn-gray-700');
-@include bold-variant('.btn-gray-800');
-@include bold-variant('.btn-gray-900');
-@include bold-variant('.btn-black');
+#{$button-brand-scope} {
+  .btn {
+    @include button-base($lime-green, $black, color-mix(in srgb, #{$lime-green} 80%, black));
+    --btn-radius: #{$btn-radius-default};
+    --btn-padding-y: #{$btn-padding-y-default};
+    --btn-padding-x: #{$btn-padding-x-default};
+    --btn-font-size: #{$btn-font-size-default};
+    --btn-line-height: #{$btn-line-height-default};
+    --btn-font-weight: #{$btn-font-weight-default};
+    --btn-letter-spacing: #{$btn-letter-spacing-default};
+    --btn-text-transform: #{$btn-text-transform-default};
+    --btn-gap: #{$btn-gap-default};
+    --btn-shadow: none;
+    --btn-hover-shadow: none;
+    --btn-border-width: 0;
+    --btn-border-color: transparent;
+    --btn-transition: #{$btn-transition-default};
+    --btn-min-height: #{$btn-min-height-default};
+  }
 
-// custom gradient for hero CTA
-.btn--secondary-b {
-  background: linear-gradient(130deg, #549841, #8cd679);
-  color: $gray-800;
+  .btn--block {
+    width: 100%;
+  }
 
-  &:hover,
-  &:focus {
-    background: linear-gradient(130deg, #549841, #8cd679);
-    color: $gray-800;
+  .btn--flat {
+    --btn-shadow: none;
+    --btn-hover-shadow: none;
+    --btn-border-width: 0;
+    --btn-transition: background-color 0.18s ease, color 0.18s ease;
+  }
+
+  $btn-sizes: (
+    xs: (
+      font-size: 0.8125rem,
+      line-height: 1.05,
+      padding-y: 0.35rem,
+      padding-x: 0.9rem,
+      min-height: 2.125rem,
+      gap: 0.35rem,
+    ),
+    sm: (
+      font-size: 0.9rem,
+      line-height: 1.05,
+      padding-y: 0.45rem,
+      padding-x: 1.1rem,
+      min-height: 2.45rem,
+      gap: 0.45rem,
+    ),
+    md: (
+      font-size: 1rem,
+      line-height: 1.1,
+      padding-y: 0.6rem,
+      padding-x: 1.45rem,
+      min-height: 2.75rem,
+      gap: 0.5rem,
+    ),
+    lg: (
+      font-size: 1.0625rem,
+      line-height: 1.1,
+      padding-y: 0.75rem,
+      padding-x: 1.75rem,
+      min-height: 3.1rem,
+      gap: 0.6rem,
+    ),
+    xl: (
+      font-size: 1.15rem,
+      line-height: 1.05,
+      padding-y: 0.9rem,
+      padding-x: 2.25rem,
+      min-height: 3.5rem,
+      gap: 0.65rem,
+      font-weight: 600,
+    ),
+  );
+
+  @mixin btn-size($name, $config) {
+    .btn--#{$name} {
+      @if map.has-key($config, font-size) {
+        --btn-font-size: #{map.get($config, font-size)};
+      }
+
+      @if map.has-key($config, line-height) {
+        --btn-line-height: #{map.get($config, line-height)};
+      }
+
+      @if map.has-key($config, padding-y) {
+        --btn-padding-y: #{map.get($config, padding-y)};
+      }
+
+      @if map.has-key($config, padding-x) {
+        --btn-padding-x: #{map.get($config, padding-x)};
+      }
+
+      @if map.has-key($config, min-height) {
+        --btn-min-height: #{map.get($config, min-height)};
+      }
+
+      @if map.has-key($config, gap) {
+        --btn-gap: #{map.get($config, gap)};
+      }
+
+      @if map.has-key($config, font-weight) {
+        --btn-font-weight: #{map.get($config, font-weight)};
+      }
+    }
+  }
+
+  @each $size, $settings in $btn-sizes {
+    @include btn-size($size, $settings);
+  }
+
+  $primary-variant: (
+    bg: $lime-green,
+    text: $black,
+    hover-bg: color-mix(in srgb, #{$lime-green} 84%, black),
+  );
+
+  $forest-variant: (
+    bg: $deep-green,
+    text: $contrast-high,
+    hover-bg: color-mix(in srgb, #{$deep-green} 88%, black),
+  );
+
+  $charcoal-variant: (
+    bg: $gray-900,
+    text: $white,
+    hover-bg: color-mix(in srgb, #{$gray-900} 88%, white),
+  );
+
+  $mint-variant: (
+    bg: color-mix(in srgb, #{$mint-green} 88%, transparent),
+    text: $deep-green,
+    hover-bg: color-mix(in srgb, #{$mint-green} 75%, white),
+  );
+
+  $outline-variant: (
+    bg: transparent,
+    text: $lime-green,
+    hover-bg: color-mix(in srgb, #{$lime-green} 12%, transparent),
+    border-width: 1px,
+    border-color: color-mix(in srgb, #{$lime-green} 60%, transparent),
+  );
+
+  $btn-variants: (
+    primary: $primary-variant,
+    accent: $primary-variant,
+    forest: $forest-variant,
+    secondary: $forest-variant,
+    charcoal: $charcoal-variant,
+    contrast: $charcoal-variant,
+    mint: $mint-variant,
+    neutral: $mint-variant,
+    outline: $outline-variant,
+  );
+
+  @each $name, $config in $btn-variants {
+    @include btn-variant($name, $config);
+    @include bold-variant('.btn--#{$name}');
+  }
+
+  .btn--ghost {
+    @include button-base(
+      transparent,
+      $deep-green,
+      color-mix(in srgb, #{$deep-green} 12%, transparent),
+      $deep-green,
+      2px,
+      color-mix(in srgb, #{$deep-green} 55%, transparent)
+    );
+  }
+
+  .btn--subtle {
+    @include button-base(
+      color-mix(in srgb, #{$mint-green} 14%, transparent),
+      $deep-green,
+      color-mix(in srgb, #{$mint-green} 24%, transparent),
+      $deep-green,
+      1px,
+      color-mix(in srgb, #{$mint-green} 35%, transparent)
+    );
+    @extend .btn--sm;
+    --btn-font-weight: 500;
+
+    i {
+      font-size: 1rem;
+    }
+  }
+
+  // icon-only buttons inherit the same motion + focus patterns
+  .icon-btn {
+    @include button-base(
+      $bright-green,
+      $white,
+      color-mix(in srgb, #{$bright-green} 85%, white),
+      $white,
+      0,
+      transparent
+    );
+    --btn-radius: 50%;
+    --btn-padding-x: 0;
+    --btn-padding-y: 0;
+    --btn-gap: 0;
+    --btn-line-height: 1;
+    --btn-min-height: #{$btn-min-height-default};
+    width: var(--btn-min-height);
+    height: var(--btn-min-height);
+    font-size: 1.125rem;
+  }
+
+  .icon-btn--ghost {
+    @include button-base(
+      transparent,
+      $deep-green,
+      color-mix(in srgb, #{$deep-green} 12%, transparent),
+      $deep-green,
+      2px,
+      color-mix(in srgb, #{$deep-green} 50%, transparent)
+    );
+    --btn-padding-x: 0;
+    --btn-padding-y: 0;
+    --btn-gap: 0;
+    --btn-line-height: 1;
+    --btn-min-height: #{$btn-min-height-default};
+    width: var(--btn-min-height);
+    height: var(--btn-min-height);
+    font-size: 1.125rem;
+  }
+
+  .menu-close-btn {
+    @extend .icon-btn--ghost;
+    --btn-border-color: color-mix(in srgb, #{$deep-green} 85%, transparent);
+    --btn-border-width: 2px;
+    --btn-min-height: 3rem;
+    width: var(--btn-min-height);
+    height: var(--btn-min-height);
+  }
+
+  .icon-btn--text {
+    @extend .icon-btn--ghost;
+    --btn-padding-x: #{$spacing-sm};
+    --btn-padding-y: #{$spacing-xxs};
+    --btn-border-width: 1px;
+    --btn-border-color: color-mix(in srgb, #{$deep-green} 40%, transparent);
+    --btn-gap: #{$spacing-xxs};
+    font-size: 1rem;
+  }
+
+  .nav-icon-btn {
+    @include button-base(
+      transparent,
+      $icon,
+      color-mix(in srgb, #{$deep-green} 10%, transparent),
+      $deep-green,
+      0,
+      transparent
+    );
+    --btn-padding-x: 0;
+    --btn-padding-y: 0;
+    --btn-gap: 0;
+    --btn-line-height: 1;
+    --btn-min-height: 3rem;
+    width: var(--btn-min-height);
+    height: var(--btn-min-height);
+
+    i {
+      font-size: 1.375rem;
+    }
+
+    &.is-active {
+      --btn-color: #{$deep-green};
+    }
+  }
+
+  .nav-icon-btn--static {
+    --btn-color: inherit;
+    --btn-hover-color: inherit;
+    --btn-hover-bg: transparent;
+  }
+
+  .hamburger-btn {
+    @extend .nav-icon-btn;
+    --btn-border-width: 2px;
+    --btn-border-color: color-mix(in srgb, #{$lime-green} 30%, transparent);
+    transition: box-shadow $transition;
+
+    &.is-active {
+      --btn-color: #{$deep-green};
+    }
+  }
+
+  .menu-open .hamburger-btn {
+    box-shadow: 0 0 8px color-mix(in srgb, #{$lime-green} 50%, transparent);
+  }
+
+  .auth-btn {
+    @include button-base(
+      linear-gradient(
+        45deg,
+        color-mix(in srgb, #{$bright-green} 8%, transparent),
+        color-mix(in srgb, #{$lime-green} 12%, transparent)
+      ),
+      $light-gray,
+      color-mix(in srgb, #{$bright-green} 18%, transparent),
+      $contrast-high,
+      1.5px,
+      color-mix(in srgb, #{$lime-green} 70%, transparent),
+      none
+    );
+    --btn-padding-y: #{$spacing-xxs};
+    --btn-padding-x: #{$spacing-sm};
+    --btn-font-weight: 700;
+
+    i {
+      color: inherit;
+    }
+  }
+
+  $neutral-surfaces: (
+    'gray-50': (
+      bg: var(--gray-50),
+      text: $black,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-600) 18%, transparent),
+      shadow: none,
+    ),
+    'gray-100': (
+      bg: var(--gray-100),
+      text: $black,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-700) 22%, transparent),
+      shadow: none,
+    ),
+    'gray-200': (
+      bg: var(--gray-200),
+      text: $black,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-800) 26%, transparent),
+      shadow: none,
+    ),
+    'gray-600': (
+      bg: var(--gray-600),
+      text: $white,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-900) 45%, transparent),
+      shadow: none,
+    ),
+    'gray-700': (
+      bg: var(--gray-700),
+      text: $white,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-900) 55%, transparent),
+      shadow: none,
+    ),
+    'gray-800': (
+      bg: var(--gray-800),
+      text: $white,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-900) 65%, transparent),
+      shadow: none,
+    ),
+    'gray-900': (
+      bg: var(--gray-900),
+      text: $white,
+      border-width: 1px,
+      border-color: color-mix(in srgb, var(--gray-900) 75%, transparent),
+      shadow: none,
+    ),
+    'black': (
+      bg: $black,
+      text: $white,
+      border-width: 1px,
+      border-color: color-mix(in srgb, #{$black} 70%, transparent),
+      shadow: none,
+    ),
+  );
+
+  @each $tone, $settings in $neutral-surfaces {
+    .btn-#{$tone} {
+      @include button-base(
+        btn-config($settings, bg),
+        btn-config($settings, text),
+        null,
+        null,
+        btn-config($settings, border-width, 0),
+        btn-config($settings, border-color, transparent),
+        btn-config($settings, shadow, none)
+      );
+    }
+
+    @include bold-variant('.btn-#{$tone}');
+  }
+
+  .btn--gray-solid {
+    @include button-base($gray-900, $gray-200, null, null, 1px, $gray-800);
+  }
+
+  .btn--gray-gradient {
+    @include button-base(var(--grad-gray-top), $gray-200, null, null, 1px, $gray-200);
+  }
+
+  $combo-backgrounds:
+    var(--color-primary), var(--color-primary-hover), var(--color-bright), var(--color-mint),
+    var(--color-lime), var(--gray-600), var(--gray-700), var(--gray-800), var(--gray-900),
+    var(--color-charcoal);
+  $combo-text:
+    var(--color-white), var(--color-black), var(--gray-200), var(--color-lime), var(--color-bright),
+    var(--color-primary);
+  $combo-border:
+    var(--color-primary), var(--color-lime), var(--gray-200), var(--gray-700), var(--color-white);
+
+  @for $i from 1 through 30 {
+    $bg-index: (($i - 1) % list.length($combo-backgrounds)) + 1;
+    $text-index: (($i - 1) % list.length($combo-text)) + 1;
+    $border-index: (($i - 1) % list.length($combo-border)) + 1;
+    $bg: list.nth($combo-backgrounds, $bg-index);
+    $text: list.nth($combo-text, $text-index);
+    $border: list.nth($combo-border, $border-index);
+
+    .btn-combo-#{$i} {
+      @include button-base($bg, $text, null, null, 1px, $border, none);
+    }
+
+    .btn-combo-#{$i}-b {
+      @extend .btn-combo-#{$i};
+      --btn-font-weight: 700;
+    }
+  }
+
+  @each $selector
+    in ('.btn', '.btn--ghost', '.btn--subtle', '.btn--gray-solid', '.btn--gray-gradient')
+  {
+    @include bold-variant($selector);
   }
 }
