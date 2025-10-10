@@ -12,7 +12,12 @@ body.theme-dark {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-image: url('../assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg');
+    background: radial-gradient(
+      circle,
+      rgba(75, 75, 75, 1),
+      rgba(59, 59, 59, 1),
+      rgba(32, 32, 32, 1)
+    );
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
