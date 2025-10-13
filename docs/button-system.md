@@ -84,7 +84,7 @@ Because the mixin writes to CSS variables first, you can adjust any `--btn-*` pr
 ## Implementation Notes
 
 - Hover and press states pick up `--btn-hover-shadow` if you opt into elevation.
-- All hover/focus states leverage the same motion easing defined by `$transition`.
+- All hover/focus states leverage the same motion easing defined by the `--btn-transition` custom property.
 - The system assumes dark-mode-first palettes (per platform directive) while still supporting light-surface tokens via custom properties.
 
 ## Visual Gallery
