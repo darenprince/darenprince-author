@@ -273,7 +273,12 @@
       1px,
       color-mix(in srgb, #{$mint-green} 35%, transparent)
     );
-    @extend .btn--sm;
+    --btn-font-size: 0.9rem;
+    --btn-line-height: 1.05;
+    --btn-padding-y: 0.45rem;
+    --btn-padding-x: 1.1rem;
+    --btn-min-height: 2.45rem;
+    --btn-gap: 0.45rem;
     --btn-font-weight: 500;
 
     i {
