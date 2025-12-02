@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iconifty - Instant Monochrome SVG Vectorizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script defer src="./js/imagetracer_v1.2.6.js"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 4rem;
+      box-sizing: border-box;
+      background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.2), transparent 38%),
+        radial-gradient(circle at 80% 10%, rgba(236, 72, 153, 0.14), transparent 40%),
+        radial-gradient(circle at 70% 80%, rgba(14, 165, 233, 0.12), transparent 42%),
+        linear-gradient(145deg, #0b1223 0%, #0f172a 45%, #0a1223 100%);
+    }
+
+    main {
+      width: min(1080px, 100%);
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      display: grid;
+      gap: 0.75rem;
+      justify-items: center;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 20px 50px rgba(14, 165, 233, 0.15);
+    }
+
+    .brand svg {
+      width: 42px;
+      height: 42px;
+      filter: drop-shadow(0 8px 20px rgba(34, 211, 238, 0.25));
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.1rem);
+      margin: 0;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      text-shadow: 0 12px 40px rgba(15, 23, 42, 0.45);
+    }
+
+    p.subtitle {
+      margin: 0 auto;
+      max-width: 58ch;
+      color: rgba(226, 232, 240, 0.85);
+      line-height: 1.65;
+      font-size: 1.05rem;
+    }
+
+    section.card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 20px;
+      padding: clamp(1.25rem, 4vw, 2rem);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.45);
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(148, 163, 184, 0.35);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      display: grid;
+      gap: 0.75rem;
+      background: rgba(15, 23, 42, 0.35);
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+
+    .upload-area:hover,
+    .upload-area.dragover {
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(59, 130, 246, 0.08);
+      transform: translateY(-1px);
+    }
+
+    input[type="file"] {
+      justify-self: center;
+      color: inherit;
+      font-weight: 600;
+    }
+
+    .controls {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: end;
+    }
+
+    .control-group {
+      display: grid;
+      gap: 0.35rem;
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.65), rgba(15, 23, 42, 0.75));
+      box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .control-group label {
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(226, 232, 240, 0.9);
+    }
+
+    .control-group input[type="range"] {
+      width: 100%;
+    }
+
+    .toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .results-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .preview-box {
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .preview-box h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: rgba(248, 250, 252, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .preview-box h2 span.meta {
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.8);
+      font-weight: 500;
+    }
+
+    .preview-stage {
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px dashed rgba(148, 163, 184, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .preview-stage svg,
+    .preview-stage img {
+      max-width: 100%;
+      max-height: 320px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: inherit;
+      padding: 0.75rem;
+      font-family: 'Fira Code', 'SFMono-Regular', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    button.download,
+    button.copy-button,
+    button.secondary {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem 1.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: linear-gradient(120deg, #60a5fa, #22d3ee);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button.download:hover,
+    button.copy-button:hover,
+    button.secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.35);
+    }
+
+    button.copy-button,
+    button.secondary {
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      background: rgba(148, 163, 184, 0.25);
+      color: rgba(226, 232, 240, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    button.copy-button:hover,
+    button.secondary:hover {
+      background: rgba(148, 163, 184, 0.35);
+      box-shadow: none;
+    }
+
+    button.copy-button.copied {
+      background: rgba(34, 211, 238, 0.2);
+      border-color: rgba(34, 211, 238, 0.6);
+      color: #22d3ee;
+    }
+
+    button.download:disabled,
+    button.copy-button:disabled,
+    button.secondary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .chip {
+      background: rgba(148, 163, 184, 0.18);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: rgba(226, 232, 240, 0.9);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .chip strong {
+      color: #f8fafc;
+    }
+
+    .status {
+      font-size: 0.95rem;
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: rgba(148, 163, 184, 0.78);
+      margin: 0.35rem 0 0;
+    }
+
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.65);
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .toggles {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="brand">
+      <svg viewBox="0 0 120 120" aria-hidden="true" role="img">
+        <defs>
+          <linearGradient id="g" x1="0%" x2="120%" y1="0%" y2="100%">
+            <stop stop-color="#60a5fa" offset="0%"></stop>
+            <stop stop-color="#22d3ee" offset="50%"></stop>
+            <stop stop-color="#ec4899" offset="100%"></stop>
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="56" fill="url(#g)" opacity="0.18" />
+        <path
+          fill="url(#g)"
+          d="M60 14c-6.4 0-12.9 2.1-18.2 6.3C28.3 32 22.4 53 28.8 69.8l1.2 3.1-7.7 21c-.7 1.9 1.1 3.7 3 3l19.5-7 3.4 1.2c16.4 5.7 35-1.8 43.4-17 7.1-12.8 5.2-29.1-4.7-40.3C79.3 21 69.8 14 60 14Zm0 17.5c8.1 0 14.7 6.6 14.7 14.7S68.1 61 60 61s-14.7-6.6-14.7-14.7S51.9 31.5 60 31.5Z"
+        />
+      </svg>
+      <div>
+        <h1>Iconifty</h1>
+        <div class="chip-row">
+          <span class="chip"><strong>Offline</strong> tracing</span>
+          <span class="chip">SVG + CSS export</span>
+          <span class="chip">Smart cleanup</span>
+        </div>
+      </div>
+    </span>
+    <p class="subtitle">Upload any bitmap and instantly trace it into a smooth, monochrome SVG icon. Tune smoothing, contrast, and cleanup, then export a black-on-white mark or a black icon on transparent in ready-to-use SVG + CSS.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="upload-area">
+        <strong>Drop an image or click to upload</strong>
+        <span class="status" id="status">Waiting for an image…</span>
+        <input id="file-input" type="file" accept="image/*" />
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="smoothing">Smoothing <span id="smoothing-value">2</span></label>
+          <input id="smoothing" type="range" min="0" max="10" step="1" value="2" />
+          <p class="note">Higher smoothing simplifies edges for cleaner paths.</p>
+        </div>
+        <div class="control-group">
+          <label for="tolerance">Color tolerance <span id="tolerance-value">160</span></label>
+          <input id="tolerance" type="range" min="0" max="255" step="1" value="160" />
+          <button class="secondary" id="auto-threshold" disabled>Smart threshold</button>
+          <p class="note">Auto-threshold scans your upload to pick a balanced cutoff.</p>
+        </div>
+        <div class="control-group">
+          <label for="fill-color">Ink color <span class="chip"><span class="swatch" id="color-swatch"></span><span id="fill-color-value">#000000</span></span></label>
+          <input id="fill-color" type="color" value="#000000" />
+          <p class="note">Output stays monochrome—choose your ink shade.</p>
+        </div>
+        <div class="control-group">
+          <label for="contrast">Contrast boost <span id="contrast-value">18%</span></label>
+          <input id="contrast" type="range" min="0" max="80" step="2" value="18" />
+          <p class="note">Gives faint artwork extra punch before tracing.</p>
+        </div>
+        <div class="control-group">
+          <label for="cleanup">Speckle cleanup <span id="cleanup-value">1</span></label>
+          <input id="cleanup" type="range" min="0" max="4" step="1" value="1" />
+          <p class="note">Removes stray dots and fills pinholes for smoother silhouettes.</p>
+        </div>
+        <div class="control-group">
+          <div class="toggles">
+            <label class="toggle"><input id="remove-bg" type="checkbox" checked /> Remove background</label>
+            <label class="toggle"><input id="auto-crop" type="checkbox" checked /> Auto-crop empty edges</label>
+            <label class="toggle"><input id="invert-output" type="checkbox" /> Invert fill</label>
+            <label class="toggle"><input id="white-background" type="checkbox" checked /> Solid white backdrop</label>
+          </div>
+          <div class="chip-row">
+            <span class="chip">Step 1: Drop or upload</span>
+            <span class="chip">Step 2: Tweak sliders</span>
+            <span class="chip">Step 3: Download SVG</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-grid">
+      <div class="preview-box">
+        <h2>
+          Original Image
+          <span class="meta" id="original-meta">Waiting…</span>
+        </h2>
+        <div class="preview-stage" id="original-preview">
+          <span class="status">Your uploaded image will appear here.</span>
+        </div>
+      </div>
+      <div class="preview-box">
+        <h2>
+          Vector Preview
+          <span class="meta" id="vector-meta">Waiting…</span>
+        </h2>
+        <div class="preview-stage" id="svg-preview">
+          <span class="status">Upload an image to see the vector result.</span>
+        </div>
+        <div class="chip-row">
+          <button class="download" id="download" disabled>Download SVG</button>
+          <button class="secondary" id="reset" disabled>Reset</button>
+        </div>
+      </div>
+      <div class="preview-box">
+        <h2>
+          SVG Code
+          <button class="copy-button" id="copy-svg" disabled>Copy SVG</button>
+        </h2>
+        <textarea id="svg-code" readonly placeholder="SVG markup will appear here"></textarea>
+      </div>
+      <div class="preview-box">
+        <h2>
+          CSS Snippet
+          <button class="copy-button" id="copy-css" disabled>Copy CSS</button>
+        </h2>
+        <textarea id="css-code" readonly placeholder="CSS background-image helper will appear here"></textarea>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Crafted with ❤ for creators who love crisp icons. Works entirely in your browser.
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('file-input');
+      const smoothingInput = document.getElementById('smoothing');
+      const toleranceInput = document.getElementById('tolerance');
+      const removeBgInput = document.getElementById('remove-bg');
+      const autoCropInput = document.getElementById('auto-crop');
+      const invertInput = document.getElementById('invert-output');
+      const contrastInput = document.getElementById('contrast');
+      const cleanupInput = document.getElementById('cleanup');
+      const whiteBgInput = document.getElementById('white-background');
+      const autoThresholdButton = document.getElementById('auto-threshold');
+      const fillColorInput = document.getElementById('fill-color');
+      const fillColorValue = document.getElementById('fill-color-value');
+      const fillSwatch = document.getElementById('color-swatch');
+      const statusEl = document.getElementById('status');
+      const smoothingValueEl = document.getElementById('smoothing-value');
+      const toleranceValueEl = document.getElementById('tolerance-value');
+      const contrastValueEl = document.getElementById('contrast-value');
+      const cleanupValueEl = document.getElementById('cleanup-value');
+      const originalPreview = document.getElementById('original-preview');
+      const originalMeta = document.getElementById('original-meta');
+      const uploadArea = document.querySelector('.upload-area');
+      const svgPreview = document.getElementById('svg-preview');
+      const svgCodeOutput = document.getElementById('svg-code');
+      const cssCodeOutput = document.getElementById('css-code');
+      const downloadButton = document.getElementById('download');
+      const resetButton = document.getElementById('reset');
+      const copySvgButton = document.getElementById('copy-svg');
+      const copyCssButton = document.getElementById('copy-css');
+      const vectorMeta = document.getElementById('vector-meta');
+
+      const copyTimeouts = new WeakMap();
+
+      let originalImage = null;
+      let originalUrl = null;
+      let currentDownloadUrl = null;
+      let lastFileName = '';
+      let lastFileSize = 0;
+
+      const updateStatus = (message) => {
+        statusEl.textContent = message;
+      };
+
+      const setCopyEnabled = (enabled) => {
+        [copySvgButton, copyCssButton].forEach((button) => {
+          if (!button) return;
+          button.disabled = !enabled;
+          button.classList.remove('copied');
+        });
+      };
+
+      const resetOutputs = () => {
+        svgPreview.innerHTML = '<span class="status">Upload an image to see the vector result.</span>';
+        svgCodeOutput.value = '';
+        cssCodeOutput.value = '';
+        downloadButton.disabled = true;
+        setCopyEnabled(false);
+      };
+
+      const showOriginalPlaceholder = (message = 'Your uploaded image will appear here.') => {
+        originalPreview.innerHTML = `<span class="status">${message}</span>`;
+        originalMeta.textContent = 'Waiting…';
+      };
+
+      const resetInterface = () => {
+        originalImage = null;
+        lastFileName = '';
+        lastFileSize = 0;
+        resetOutputs();
+        showOriginalPlaceholder();
+        vectorMeta.textContent = 'Waiting…';
+        autoThresholdButton.disabled = true;
+        resetButton.disabled = true;
+        updateStatus('Waiting for an image…');
+      };
+
+      const updateOriginalPreview = (img, fileName) => {
+        if (!img) {
+          showOriginalPlaceholder();
+          return;
+        }
+
+        const previewImg = new Image();
+        previewImg.src = img.src;
+        previewImg.alt = fileName ? `Original upload: ${fileName}` : 'Original upload';
+        previewImg.style.maxWidth = '100%';
+        previewImg.style.maxHeight = '320px';
+        originalPreview.innerHTML = '';
+        originalPreview.appendChild(previewImg);
+
+        const dimensions = `${img.naturalWidth}×${img.naturalHeight}`;
+        const size = lastFileSize ? `${(lastFileSize / 1024).toFixed(1)} KB` : '';
+        const details = [dimensions, size, fileName].filter(Boolean).join(' • ');
+        originalMeta.textContent = details || dimensions;
+      };
+
+      const fallbackCopyText = (text) => {
+        try {
+          const temp = document.createElement('textarea');
+          temp.value = text;
+          temp.setAttribute('readonly', '');
+          temp.style.position = 'absolute';
+          temp.style.left = '-9999px';
+          document.body.appendChild(temp);
+          temp.select();
+          const result = document.execCommand('copy');
+          document.body.removeChild(temp);
+          return result;
+        } catch (error) {
+          console.error('Fallback copy failed', error);
+          return false;
+        }
+      };
+
+      const flagCopied = (button) => {
+        if (!button) return;
+        if (copyTimeouts.has(button)) {
+          clearTimeout(copyTimeouts.get(button));
+          copyTimeouts.delete(button);
+        }
+        button.classList.add('copied');
+        const timeout = window.setTimeout(() => {
+          button.classList.remove('copied');
+          copyTimeouts.delete(button);
+        }, 1600);
+        copyTimeouts.set(button, timeout);
+      };
+
+      const copyText = async (button, text) => {
+        if (!text) return;
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            flagCopied(button);
+            return;
+          }
+        } catch (error) {
+          console.warn('Async clipboard failed, falling back.', error);
+        }
+
+        const success = fallbackCopyText(text);
+        if (success) {
+          flagCopied(button);
+        }
+      };
+
+      const ensureTracerReady = () => {
+        if (window.ImageTracer) {
+          return true;
+        }
+
+        console.error('ImageTracer engine missing.');
+        updateStatus('Vector engine failed to load. Refresh the page to try again.');
+        svgPreview.innerHTML =
+          '<span class="status">Vector engine failed to load. Please refresh.</span>';
+        downloadButton.disabled = true;
+        return false;
+      };
+
+      const applyBoxBlur = (gray, width, height, radius) => {
+        if (radius <= 0) return gray;
+        const tmp = new Float32Array(gray.length);
+        const kernelSize = radius * 2 + 1;
+        const kernelFactor = 1 / kernelSize;
+
+        for (let y = 0; y < height; y++) {
+          const rowIndex = y * width;
+          let acc = 0;
+          for (let x = -radius; x <= radius; x++) {
+            const clampedX = Math.min(width - 1, Math.max(0, x));
+            acc += gray[rowIndex + clampedX];
+          }
+          for (let x = 0; x < width; x++) {
+            tmp[rowIndex + x] = acc * kernelFactor;
+            const addIndex = Math.min(width - 1, x + radius + 1);
+            const removeIndex = Math.max(0, x - radius);
+            acc += gray[rowIndex + addIndex] - gray[rowIndex + removeIndex];
+          }
+        }
+
+        const out = new Float32Array(gray.length);
+        for (let x = 0; x < width; x++) {
+          let acc = 0;
+          for (let y = -radius; y <= radius; y++) {
+            const clampedY = Math.min(height - 1, Math.max(0, y));
+            acc += tmp[clampedY * width + x];
+          }
+          for (let y = 0; y < height; y++) {
+            out[y * width + x] = acc * kernelFactor;
+            const addIndex = Math.min(height - 1, y + radius + 1);
+            const removeIndex = Math.max(0, y - radius);
+            acc += tmp[addIndex * width + x] - tmp[removeIndex * width + x];
+          }
+        }
+
+        return out;
+      };
+
+      const getCornerAverage = (data, width, height) => {
+        const corners = [
+          0,
+          (width - 1) * 4,
+          (height - 1) * width * 4,
+          (height * width - 1) * 4,
+        ];
+        const color = { r: 0, g: 0, b: 0 };
+        corners.forEach((idx) => {
+          color.r += data[idx];
+          color.g += data[idx + 1];
+          color.b += data[idx + 2];
+        });
+        color.r /= corners.length;
+        color.g /= corners.length;
+        color.b /= corners.length;
+        return color;
+      };
+
+      const removeBackground = (imageData, tolerance) => {
+        const { data, width, height } = imageData;
+        const bg = getCornerAverage(data, width, height);
+        const tolSq = tolerance * tolerance;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const dr = data[i] - bg.r;
+          const dg = data[i + 1] - bg.g;
+          const db = data[i + 2] - bg.b;
+          const distanceSq = dr * dr + dg * dg + db * db;
+          if (distanceSq < tolSq) {
+            data[i + 3] = 0;
+          }
+        }
+      };
+
+      const cropTransparent = (imageData) => {
+        const { data, width, height } = imageData;
+        let top = height;
+        let left = width;
+        let bottom = 0;
+        let right = 0;
+        let hasContent = false;
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const idx = (y * width + x) * 4 + 3;
+            if (data[idx] > 0) {
+              hasContent = true;
+              if (x < left) left = x;
+              if (x > right) right = x;
+              if (y < top) top = y;
+              if (y > bottom) bottom = y;
+            }
+          }
+        }
+
+        if (!hasContent) {
+          return imageData;
+        }
+
+        const croppedWidth = right - left + 1;
+        const croppedHeight = bottom - top + 1;
+        const canvas = document.createElement('canvas');
+        canvas.width = croppedWidth;
+        canvas.height = croppedHeight;
+        const ctx = canvas.getContext('2d');
+        const copy = ctx.createImageData(croppedWidth, croppedHeight);
+
+        for (let y = 0; y < croppedHeight; y++) {
+          for (let x = 0; x < croppedWidth; x++) {
+            const srcIdx = ((top + y) * width + (left + x)) * 4;
+            const dstIdx = (y * croppedWidth + x) * 4;
+            copy.data[dstIdx] = data[srcIdx];
+            copy.data[dstIdx + 1] = data[srcIdx + 1];
+            copy.data[dstIdx + 2] = data[srcIdx + 2];
+            copy.data[dstIdx + 3] = data[srcIdx + 3];
+          }
+        }
+
+        return copy;
+      };
+
+      const applyContrast = (gray, contrast) => {
+        if (!contrast) return gray;
+        const factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+        const adjusted = new Float32Array(gray.length);
+        for (let i = 0; i < gray.length; i++) {
+          const val = factor * (gray[i] - 128) + 128;
+          adjusted[i] = Math.min(255, Math.max(0, val));
+        }
+        return adjusted;
+      };
+
+      const cleanupNoise = (imageData, passes, fillValue, backgroundValue, backgroundAlpha) => {
+        const { data, width, height } = imageData;
+        if (!passes) return imageData;
+        const copy = new Uint8ClampedArray(data.length);
+
+        const isForeground = (idx) => data[idx + 3] > 0 && data[idx] === fillValue;
+
+        for (let iteration = 0; iteration < passes; iteration++) {
+          if (iteration > 0) {
+            data.set(copy);
+          }
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              const idx = (y * width + x) * 4;
+              let neighbors = 0;
+              for (let ny = -1; ny <= 1; ny++) {
+                for (let nx = -1; nx <= 1; nx++) {
+                  const px = x + nx;
+                  const py = y + ny;
+                  if (px < 0 || py < 0 || px >= width || py >= height) continue;
+                  const nIdx = (py * width + px) * 4;
+                  if (isForeground(nIdx)) neighbors++;
+                }
+              }
+              const keepForeground = neighbors >= 5;
+              const baseIdx = iteration === passes - 1 ? idx : (y * width + x) * 4;
+              copy[baseIdx] = keepForeground ? fillValue : backgroundValue;
+              copy[baseIdx + 1] = keepForeground ? fillValue : backgroundValue;
+              copy[baseIdx + 2] = keepForeground ? fillValue : backgroundValue;
+              copy[baseIdx + 3] = keepForeground ? 255 : backgroundAlpha;
+            }
+          }
+        }
+
+        data.set(copy);
+        return imageData;
+      };
+
+      const thresholdImage = (imageData, tolerance, smoothing, invert, contrast, backgroundAlpha) => {
+        const { data, width, height } = imageData;
+        const gray = new Float32Array(width * height);
+        for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+          gray[p] = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+        }
+
+        const boosted = applyContrast(gray, contrast);
+        const blurRadius = Math.min(5, Math.round(smoothing));
+        const blurred = applyBoxBlur(boosted, width, height, blurRadius);
+
+        for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+          const isForeground = invert ? blurred[p] >= tolerance : blurred[p] < tolerance;
+          const fillValue = invert ? 255 : 0;
+          const backgroundValue = invert ? 0 : 255;
+          if (isForeground) {
+            data[i] = fillValue;
+            data[i + 1] = fillValue;
+            data[i + 2] = fillValue;
+            data[i + 3] = 255;
+          } else {
+            data[i] = backgroundValue;
+            data[i + 1] = backgroundValue;
+            data[i + 2] = backgroundValue;
+            data[i + 3] = backgroundAlpha;
+          }
+        }
+      };
+
+      const estimateThreshold = (imageData) => {
+        const histogram = new Uint32Array(256);
+        const { data } = imageData;
+        for (let i = 0; i < data.length; i += 4) {
+          const value = Math.round(data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114);
+          histogram[value]++;
+        }
+
+        let sum = 0;
+        let total = 0;
+        for (let i = 0; i < 256; i++) {
+          sum += i * histogram[i];
+          total += histogram[i];
+        }
+
+        let sumB = 0;
+        let wB = 0;
+        let maximum = 0;
+        let threshold = 0;
+
+        for (let i = 0; i < 256; i++) {
+          wB += histogram[i];
+          if (wB === 0) continue;
+          const wF = total - wB;
+          if (wF === 0) break;
+          sumB += i * histogram[i];
+          const mB = sumB / wB;
+          const mF = (sum - sumB) / wF;
+          const between = wB * wF * (mB - mF) * (mB - mF);
+          if (between > maximum) {
+            maximum = between;
+            threshold = i;
+          }
+        }
+
+        return threshold;
+      };
+
+      const renderSvgPreview = (svgString) => {
+        svgPreview.innerHTML = '';
+        try {
+          const parsed = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+          const svgElement = parsed.documentElement;
+          if (svgElement.nodeName !== 'svg') {
+            throw new Error('Invalid SVG output');
+          }
+          svgElement.setAttribute('width', '100%');
+          svgElement.setAttribute('height', '100%');
+          svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          svgPreview.appendChild(svgElement);
+        } catch (error) {
+          svgPreview.innerHTML = '<span class="status">Unable to render SVG preview.</span>';
+          console.error(error);
+        }
+      };
+
+      const ensureBackgroundRect = (svgString) => {
+        try {
+          const parsed = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+          const svgEl = parsed.documentElement;
+          const viewBox = svgEl.getAttribute('viewBox');
+          let width = Number(svgEl.getAttribute('width')) || 0;
+          let height = Number(svgEl.getAttribute('height')) || 0;
+          if (viewBox) {
+            const parts = viewBox.split(/\s+/).map(Number);
+            if (parts.length === 4) {
+              width = parts[2];
+              height = parts[3];
+            }
+          }
+          if (!width || !height) {
+            width = height = 1024;
+            svgEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          }
+          const backgroundRect = parsed.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          backgroundRect.setAttribute('width', width);
+          backgroundRect.setAttribute('height', height);
+          backgroundRect.setAttribute('fill', '#ffffff');
+          svgEl.insertBefore(backgroundRect, svgEl.firstChild);
+          return new XMLSerializer().serializeToString(parsed);
+        } catch (error) {
+          console.warn('Unable to enforce white background', error);
+          return svgString;
+        }
+      };
+
+      const updateDownloadLink = (svgString) => {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+          currentDownloadUrl = null;
+        }
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        currentDownloadUrl = URL.createObjectURL(blob);
+        downloadButton.disabled = false;
+        downloadButton.onclick = () => {
+          const anchor = document.createElement('a');
+          anchor.href = currentDownloadUrl;
+          anchor.download = (lastFileName ? `${lastFileName}-iconifty.svg` : 'iconifty.svg').replace(/\s+/g, '-');
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+        };
+      };
+
+      const updateOutputs = (svgString) => {
+        svgCodeOutput.value = svgString;
+        const encoded = encodeURIComponent(svgString)
+          .replace(/'/g, '%27')
+          .replace(/"/g, '%22');
+        const cssSnippet = `.iconifty-icon {\n  width: 128px;\n  height: 128px;\n  background: url("data:image/svg+xml,${encoded}") center/contain no-repeat;\n}`;
+        cssCodeOutput.value = cssSnippet;
+        setCopyEnabled(true);
+      };
+
+      const parseVectorMeta = (svgString) => {
+        try {
+          const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+          const paths = doc.querySelectorAll('path, rect, circle, ellipse, polygon, polyline');
+          const viewBox = doc.documentElement.getAttribute('viewBox');
+          const view = viewBox ? viewBox.split(' ').slice(2).join('×') : null;
+          const metrics = [];
+          if (paths.length) metrics.push(`${paths.length} path${paths.length === 1 ? '' : 's'}`);
+          if (view) metrics.push(`ViewBox ${view}`);
+          vectorMeta.textContent = metrics.length ? metrics.join(' • ') : 'Vector ready';
+        } catch (error) {
+          console.warn('Unable to parse vector meta', error);
+          vectorMeta.textContent = 'Vector ready';
+        }
+      };
+
+      const processImage = async () => {
+        if (!originalImage) return;
+        if (!ensureTracerReady()) return;
+        updateStatus('Tracing…');
+        svgPreview.innerHTML = '<span class="status">Crunching pixels…</span>';
+        downloadButton.disabled = true;
+
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+
+        const smoothing = Number(smoothingInput.value);
+        const tolerance = Number(toleranceInput.value);
+        const contrastBoost = Number(contrastInput.value);
+        const removeBackgroundEnabled = removeBgInput.checked;
+        const autoCropEnabled = autoCropInput.checked;
+        const invertOutputEnabled = invertInput.checked;
+        const cleanupPasses = Number(cleanupInput.value);
+        const whiteBackgroundEnabled = whiteBgInput.checked;
+        const fillColor = hexToRgba(fillColorInput.value || '#000000');
+        const backgroundAlpha = whiteBackgroundEnabled ? 255 : 0;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = originalImage.naturalWidth;
+        canvas.height = originalImage.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(originalImage, 0, 0);
+
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        if (removeBackgroundEnabled) {
+          removeBackground(imageData, Math.max(0, tolerance));
+        }
+
+        thresholdImage(imageData, tolerance, smoothing, invertOutputEnabled, contrastBoost, backgroundAlpha);
+
+        if (cleanupPasses > 0) {
+          const fillValue = invertOutputEnabled ? 255 : 0;
+          const backgroundValue = invertOutputEnabled ? 0 : 255;
+          cleanupNoise(imageData, cleanupPasses, fillValue, backgroundValue, backgroundAlpha);
+        }
+
+        if (autoCropEnabled) {
+          imageData = cropTransparent(imageData);
+        }
+
+        const fillPaletteColor = fillColor;
+        const backgroundPalette = whiteBackgroundEnabled
+          ? { r: 255, g: 255, b: 255, a: 255 }
+          : { r: 255, g: 255, b: 255, a: 0 };
+
+        const options = {
+          numberofcolors: 2,
+          mincolorratio: 1,
+          pathomit: Math.max(0, 2 - smoothing),
+          ltres: Math.max(0.1, 1 + smoothing * 0.2),
+          qtres: Math.max(0.1, 1 + smoothing * 0.15),
+          scale: 1,
+          strokewidth: 0,
+          blurradius: 0,
+          blurdelta: 0,
+          palette: [fillPaletteColor, backgroundPalette],
+        };
+
+        let svgString = ImageTracer.imagedataToSVG(imageData, options);
+
+        if (whiteBackgroundEnabled) {
+          svgString = ensureBackgroundRect(svgString);
+        }
+
+        renderSvgPreview(svgString);
+        updateDownloadLink(svgString);
+        updateOutputs(svgString);
+        parseVectorMeta(svgString);
+        updateStatus('Vector ready. Adjust sliders for refinements.');
+        resetButton.disabled = false;
+      };
+
+      const handleFile = async (file) => {
+        if (!file) return;
+        try {
+          updateStatus('Loading image…');
+          lastFileName = file.name || '';
+          lastFileSize = file.size || 0;
+          if (originalUrl) {
+            URL.revokeObjectURL(originalUrl);
+            originalUrl = null;
+          }
+          const objectUrl = URL.createObjectURL(file);
+          originalUrl = objectUrl;
+          setCopyEnabled(false);
+          svgPreview.innerHTML = '<span class="status">Preparing preview…</span>';
+          originalMeta.textContent = 'Loading…';
+          originalPreview.innerHTML = '<span class="status">Loading image…</span>';
+          svgCodeOutput.value = '';
+          cssCodeOutput.value = '';
+          autoThresholdButton.disabled = true;
+          vectorMeta.textContent = 'Crunching…';
+          const img = new Image();
+          img.onload = () => {
+            originalImage = img;
+            updateOriginalPreview(img, lastFileName);
+            processImage();
+            URL.revokeObjectURL(objectUrl);
+            originalUrl = null;
+            autoThresholdButton.disabled = false;
+          };
+          img.onerror = () => {
+            updateStatus('Unable to read image. Please try a different file.');
+            URL.revokeObjectURL(objectUrl);
+            originalUrl = null;
+            autoThresholdButton.disabled = true;
+            vectorMeta.textContent = 'Waiting…';
+            resetButton.disabled = true;
+          };
+          img.src = objectUrl;
+        } catch (error) {
+          console.error(error);
+          updateStatus('Failed to load image. Please try a different file.');
+        }
+      };
+
+      fileInput.addEventListener('change', (event) => {
+        const [file] = event.target.files;
+        handleFile(file);
+      });
+
+      const preventDefaults = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      };
+
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+        document.addEventListener(eventName, preventDefaults, false);
+      });
+
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        document.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+      });
+
+      ['dragleave', 'drop'].forEach((eventName) => {
+        document.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+      });
+
+      document.addEventListener('drop', (event) => {
+        const file = event.dataTransfer?.files?.[0];
+        if (file) {
+          fileInput.files = event.dataTransfer.files;
+          handleFile(file);
+        }
+      });
+
+      smoothingInput.addEventListener('input', () => {
+        smoothingValueEl.textContent = smoothingInput.value;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      toleranceInput.addEventListener('input', () => {
+        toleranceValueEl.textContent = toleranceInput.value;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      contrastInput.addEventListener('input', () => {
+        contrastValueEl.textContent = `${contrastInput.value}%`;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      cleanupInput.addEventListener('input', () => {
+        cleanupValueEl.textContent = cleanupInput.value;
+        if (originalImage) {
+          processImage();
+        }
+      });
+
+      [removeBgInput, autoCropInput, invertInput, whiteBgInput].forEach((input) => {
+        input.addEventListener('change', () => {
+          if (originalImage) {
+            processImage();
+          }
+        });
+      });
+
+      if (autoThresholdButton) {
+        autoThresholdButton.addEventListener('click', () => {
+          if (!originalImage || !ensureTracerReady()) return;
+          const canvas = document.createElement('canvas');
+          canvas.width = originalImage.naturalWidth;
+          canvas.height = originalImage.naturalHeight;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(originalImage, 0, 0);
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const suggested = estimateThreshold(data);
+          toleranceInput.value = suggested;
+          toleranceValueEl.textContent = suggested;
+          processImage();
+        });
+      }
+
+      const hexToRgba = (hex) => {
+        const normalized = hex.replace('#', '');
+        const bigint = parseInt(normalized.length === 3 ? normalized.replace(/(.)/g, '$1$1') : normalized, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return { r, g, b, a: 255 };
+      };
+
+      const updateColorSwatch = () => {
+        const value = fillColorInput.value || '#000000';
+        fillColorValue.textContent = value.toUpperCase();
+        fillSwatch.style.background = value;
+        if (originalImage) {
+          processImage();
+        }
+      };
+
+      const syncControlLabels = () => {
+        smoothingValueEl.textContent = smoothingInput.value;
+        toleranceValueEl.textContent = toleranceInput.value;
+        contrastValueEl.textContent = `${contrastInput.value}%`;
+        cleanupValueEl.textContent = cleanupInput.value;
+      };
+
+      fillColorInput.addEventListener('input', updateColorSwatch);
+
+      if (resetButton) {
+        resetButton.addEventListener('click', () => {
+          resetInterface();
+          fileInput.value = '';
+        });
+      }
+
+      if (copySvgButton) {
+        copySvgButton.addEventListener('click', () => {
+          if (!copySvgButton.disabled) {
+            copyText(copySvgButton, svgCodeOutput.value);
+          }
+        });
+      }
+
+      if (copyCssButton) {
+        copyCssButton.addEventListener('click', () => {
+          if (!copyCssButton.disabled) {
+            copyText(copyCssButton, cssCodeOutput.value);
+          }
+        });
+      }
+
+      window.addEventListener('beforeunload', () => {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
+        if (originalUrl) {
+          URL.revokeObjectURL(originalUrl);
+        }
+      });
+
+      resetOutputs();
+      showOriginalPlaceholder();
+      updateColorSwatch();
+      syncControlLabels();
+    });
+  </script>
+</body>
+</html>
