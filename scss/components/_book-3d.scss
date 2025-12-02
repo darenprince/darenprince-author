@@ -1,6 +1,6 @@
-@use "../tokens/colors" as *;
-@use "../base/variables" as *;
-@use "../base/mixins" as *;
+@use '../tokens/colors' as *;
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
 
 .book-3d-container {
   position: relative;
@@ -82,7 +82,7 @@
   }
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at center, var(--color-accent) 0%, transparent 70%);
@@ -113,7 +113,9 @@
     pointer-events: none;
     z-index: 2;
     opacity: 0;
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
 
     &::before {
       content: '';
@@ -161,19 +163,19 @@
     }
   }
 
-    &.loaded {
-      .book-loader {
-        display: none;
-      }
+  &.loaded {
+    .book-loader {
+      display: none;
     }
+  }
 
-    .scene {
-      width: var(--book-width);
-      height: var(--book-height);
-      position: relative;
-      transform-style: preserve-3d;
-      z-index: 1;
-    }
+  .scene {
+    width: var(--book-width);
+    height: var(--book-height);
+    position: relative;
+    transform-style: preserve-3d;
+    z-index: 1;
+  }
 
   // zoom button moved to external toolbar
 
@@ -192,13 +194,18 @@
     left: 0;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 
     &::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 85%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.6) 100%);
+      background: linear-gradient(
+        to bottom,
+        transparent 85%,
+        rgba(0, 0, 0, 0.4) 95%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
       pointer-events: none;
     }
 
@@ -206,7 +213,11 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(var(--light-angle, 120deg), rgba(255,255,255,0.15), transparent 40%);
+      background: linear-gradient(
+        var(--light-angle, 120deg),
+        rgba(255, 255, 255, 0.15),
+        transparent 40%
+      );
       pointer-events: none;
     }
   }
@@ -223,7 +234,11 @@
     background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
 
     &::after {
-      background: linear-gradient(var(--light-angle, 120deg), transparent, rgba(255,255,255,0.15) 30%);
+      background: linear-gradient(
+        var(--light-angle, 120deg),
+        transparent,
+        rgba(255, 255, 255, 0.15) 30%
+      );
     }
   }
 
@@ -248,7 +263,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
       pointer-events: none;
     }
   }
@@ -264,7 +279,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to left, rgba(0,0,0,0.2), transparent);
+      background: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent);
       pointer-events: none;
     }
   }
@@ -279,7 +294,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
       pointer-events: none;
     }
   }
@@ -294,7 +309,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
       pointer-events: none;
     }
   }
@@ -305,7 +320,7 @@
     left: 50%;
     width: 70%;
     height: 20px;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 70%);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
     filter: blur(6px);
     transform: translateX(-50%);
     pointer-events: none;
@@ -409,7 +424,9 @@
     text-align: center;
     color: var(--color-accent);
     font-weight: 700;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     &.hide {
       opacity: 0;
       pointer-events: none;
@@ -421,7 +438,9 @@
     display: flex;
     gap: var(--space-sm);
     justify-content: center;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     width: 100%;
     &.hide {
       opacity: 0;
@@ -461,7 +480,9 @@
     gap: var(--space-sm);
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
 
     &.visible {
       opacity: 1;
