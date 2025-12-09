@@ -309,6 +309,48 @@
       font-size: 15px;
     }
 
+    .hero-banner {
+      margin: 10px auto 6px;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+      background: linear-gradient(135deg, rgba(255, 45, 133, 0.2), rgba(18, 18, 18, 0.75));
+      isolation: isolate;
+    }
+
+    .hero-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      filter: saturate(1.05);
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 12, 15, 0.05), rgba(12, 12, 15, 0.55));
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .banner-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0, 0, 0, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -492,6 +534,10 @@
   </header>
 
   <main class="container">
+    <div class="hero-banner">
+      <img src="assets/images/hotaghead.png" alt="HoTag neon headline collage" loading="lazy">
+      <div class="banner-tag">New drop visual — parody only</div>
+    </div>
     <section class="hero">
       <div>
         <div class="highlight-ribbon">
