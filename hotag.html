@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HoTag — Precision Tracking for Questionable Choices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=League+Spartan:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hot-crimson: #d7263d;
+      --neon-fuchsia: #ff2d85;
+      --deep-charcoal: #121212;
+      --soft-white: #f6f6f6;
+      --champagne-gold: #d8b56a;
+      --gunmetal: #2c3136;
+      --glass: rgba(255, 255, 255, 0.04);
+      --stroke: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(255, 45, 133, 0.14), transparent 30%),
+        radial-gradient(circle at 80% 0%, rgba(216, 181, 106, 0.14), transparent 32%),
+        linear-gradient(145deg, #0c0c0f, #13141a 50%, #0b0b10);
+      color: var(--soft-white);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 28px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(12, 12, 15, 0.9), rgba(12, 12, 15, 0.4));
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--soft-white);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 30%, #ff5f9f, var(--hot-crimson));
+      box-shadow: 0 0 0 6px rgba(255, 45, 133, 0.14), 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(255, 45, 133, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-circle::before,
+    .logo-circle::after {
+      content: '';
+      position: absolute;
+    }
+
+    .logo-circle::before {
+      inset: 14% 26%;
+      border-radius: 12px;
+      border: 3px solid var(--soft-white);
+      border-bottom-width: 6px;
+      clip-path: polygon(0 0, 100% 0, 100% 65%, 70% 100%, 30% 100%, 0 65%);
+      opacity: 0.9;
+    }
+
+    .logo-circle::after {
+      width: 22px;
+      height: 10px;
+      background: var(--soft-white);
+      border-radius: 12px;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+      opacity: 0.9;
+    }
+
+    .brand-name {
+      font-family: 'League Spartan', 'Inter', sans-serif;
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px 80px;
+      position: relative;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 45, 133, 0.18);
+      color: var(--soft-white);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      align-items: center;
+      gap: 32px;
+      padding: 52px 0 32px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -40px -80px -60px;
+      background: radial-gradient(circle at 60% 40%, rgba(255, 45, 133, 0.18), rgba(18, 18, 18, 0)),
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0));
+      filter: blur(12px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-family: 'League Spartan', 'Inter', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.05;
+      margin: 16px 0;
+      letter-spacing: -0.5px;
+    }
+
+    h2 {
+      font-family: 'League Spartan', 'Inter', sans-serif;
+      font-size: clamp(26px, 4vw, 36px);
+      margin: 16px 0 10px;
+      letter-spacing: -0.3px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin: 12px 0 8px;
+      letter-spacing: -0.2px;
+    }
+
+    p {
+      color: #e8e8e8;
+      margin: 0 0 14px;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 10px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--hot-crimson), var(--neon-fuchsia));
+      color: var(--soft-white);
+      box-shadow: 0 16px 32px rgba(255, 45, 133, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--soft-white);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    .fine-print {
+      font-size: 12px;
+      color: #c9c9c9;
+    }
+
+    .panel {
+      background: linear-gradient(145deg, rgba(255, 45, 133, 0.08), rgba(18, 18, 18, 0.98));
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.42);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 45%);
+      pointer-events: none;
+    }
+
+    .mockup {
+      position: relative;
+      background: radial-gradient(circle at 20% 20%, rgba(255, 45, 133, 0.15), rgba(18, 18, 18, 0.95));
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      min-height: 360px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .mockup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 20%, rgba(216, 181, 106, 0.4), rgba(18, 18, 18, 0.3));
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .mock-map {
+      background: #0e0e10;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 16px;
+      position: relative;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    .mock-map h4 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+    }
+
+    .pin-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pin-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .pin-name {
+      font-weight: 600;
+    }
+
+    .pin-distance {
+      color: #f7b9cf;
+      font-weight: 600;
+    }
+
+    .map-glow {
+      position: absolute;
+      inset: 30% 10% 10% 40%;
+      background: radial-gradient(circle, rgba(255, 45, 133, 0.4), rgba(18, 18, 18, 0));
+      filter: blur(28px);
+    }
+
+    .section {
+      margin: 64px 0 0;
+      position: relative;
+    }
+
+    .section .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .subdued {
+      color: #c9c9c9;
+      font-size: 15px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(255, 45, 133, 0.16);
+      color: var(--neon-fuchsia);
+      font-weight: 800;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffd7eb;
+      margin: 8px 0 12px;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #f8cde1;
+    }
+
+    .faq {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    footer {
+      margin-top: 72px;
+      padding: 28px 0 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #c6c6c6;
+      font-size: 14px;
+    }
+
+    .noise-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="160" height="160" filter="url(%23n)" opacity="0.08"/></svg>');
+      opacity: 0.35;
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .highlight-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(120deg, rgba(255, 45, 133, 0.18), rgba(216, 181, 106, 0.28));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px 18px;
+      border-radius: 16px;
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-ribbon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 40%);
+      pointer-events: none;
+    }
+
+    .tag-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .tag-pill {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-weight: 700;
+      font-size: 13px;
+      color: #ffd7eb;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      position: relative;
+    }
+
+    .timeline-card {
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .timeline-card h4 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .meta-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #f4c7dc;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+
+    .grid-duo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .mini-divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-fuchsia), transparent);
+      margin: 12px 0;
+      border-radius: 999px;
+    }
+
+    .accent-text {
+      color: #ffd7eb;
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      header {
+        padding: 18px 18px 10px;
+      }
+
+      .container {
+        padding: 0 18px 64px;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .brand-mark .pill {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <header>
+    <a href="#" class="brand-mark">
+      <span class="logo-circle" aria-hidden="true"></span>
+      <span class="brand-name">HoTag</span>
+      <span class="pill">Parody Tech • Comedy Only</span>
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="highlight-ribbon">
+          <span class="pill">LumiLogix Drop</span>
+          <span class="accent-text">Comedy-only parody hardware • ships with zero tracking</span>
+        </div>
+        <h1>HoTag — Precision Tracking for Questionable Choices.</h1>
+        <p class="subdued">You can’t control your hoes. But you <strong>can</strong> control how hard you laugh about them. The parody “people tracker” built for messy adults, chaotic group chats, and anyone with a PhD in ignoring red flags.</p>
+        <div class="cta-group">
+          <a class="btn btn-primary" href="#shop">Get HoTagged</a>
+          <a class="btn btn-secondary" href="#how">Watch How It Works</a>
+        </div>
+        <p class="fine-print">Parody product. For jokes only. Don’t be weird. No real tracking. No non-consensual anything.</p>
+        <div class="tag-pills">
+          <span class="tag-pill">Satire brand</span>
+          <span class="tag-pill">Tech keynote energy</span>
+          <span class="tag-pill">Group chat approved</span>
+          <span class="tag-pill">Includes legal disclaimers</span>
+        </div>
+      </div>
+      <div class="mockup" aria-hidden="true">
+        <div class="mock-map">
+          <h4>Find My Ho (Mock)</h4>
+          <div class="pin-row">
+            <span class="pin-name">Main Ho</span>
+            <span class="pin-distance">0.8 mi · suspicious</span>
+          </div>
+          <div class="pin-row">
+            <span class="pin-name">Backup Plan</span>
+            <span class="pin-distance">2.1 mi · “just got home”</span>
+          </div>
+          <div class="pin-row">
+            <span class="pin-name">Mystery Ho</span>
+            <span class="pin-distance">5.7 mi · red flag zone</span>
+          </div>
+          <div class="pin-row">
+            <span class="pin-name">Alibi?</span>
+            <span class="pin-distance">0.2 mi · too close</span>
+          </div>
+        </div>
+        <div class="map-glow"></div>
+      </div>
+    </section>
+
+    <section class="section" id="what">
+      <div class="panel">
+        <h2>What the hell is HoTag?</h2>
+        <p>HoTag is a parody tracking tag for the people in your life who move suspicious, text back slow, and always “just got home.” Inspired by real tracking tech, HoTag is a gag gift designed for messy group chats, bachelor/bachelorette parties, and anyone who’s ever said, “I just wanna see <em>where</em> they went.”</p>
+        <p><strong>Real laughs. Fake tracking. No felonies.</strong></p>
+        <div class="panel-grid">
+          <div class="panel">
+            <h3>HoRadar™</h3>
+            <p>Visualize all your “special friends” on a playful mock map. It’s cartography for chaos.</p>
+          </div>
+          <div class="panel">
+            <h3>SussAlert™</h3>
+            <p>Imaginary alerts for when they get too close to their ex, their “cousin,” or the club they swore they don’t go to anymore.</p>
+          </div>
+          <div class="panel">
+            <h3>HoHistory™</h3>
+            <p>A comedy “timeline” showing their “movements” exactly like you always suspected (because you’ve seen this movie before).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-duo">
+        <div class="panel">
+          <div class="meta-row">How it feels</div>
+          <h2>Full-on keynote vibes.</h2>
+          <div class="mini-divider"></div>
+          <p>Think “mock Apple launch,” but for people with questionable taste. Crisp typography, glassy gradients, and a UI that makes it obvious this is satire—not surveillance.</p>
+          <p><span class="accent-text">HoTag</span> pokes fun at modern “where you at?” culture with bright pins, fake alerts, and tongue-in-cheek naming. It’s all roast, zero risk.</p>
+          <div class="tag-pills">
+            <span class="tag-pill">Red Flag Edition</span>
+            <span class="tag-pill">Gunmetal Glow</span>
+            <span class="tag-pill">Champagne Halo</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="meta-row">Safety baked-in</div>
+          <h2>We clown. We clarify.</h2>
+          <div class="mini-divider"></div>
+          <p>Every section ships with reminders: HoTag doesn’t track anyone and shouldn’t be used to invade privacy. It’s a gag gift for adults who can laugh at themselves—and respect boundaries.</p>
+          <p class="fine-print">HoTag is for entertainment only. Don’t be weird. Don’t be illegal. Don’t weaponize tech against people.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>How it works (kinda)</h2>
+      <p class="subdued">Three steps to comic relief. Zero steps to actual stalking—because that’s illegal and gross.</p>
+      <div class="steps">
+        <div class="panel">
+          <div class="badge">1</div>
+          <h3>Tag It</h3>
+          <p>Assign a HoTag to your favorite liability: write their name, inside joke, or “Do Not Answer.”</p>
+        </div>
+        <div class="panel">
+          <div class="badge">2</div>
+          <h3>Open the Map</h3>
+          <p>Use our mock “Find My Ho” visuals to imagine where they <em>probably</em> are. (Spoiler: with their “cousin.”)</p>
+        </div>
+        <div class="panel">
+          <div class="badge">3</div>
+          <h3>Laugh With Your Friends</h3>
+          <p>Send screenshots, roast your own choices, and remember: if you’re using this, you’re probably the problem too.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <h2>Choose your bundle</h2>
+      <p class="subdued">Built for gag gifts, bachelor/bachelorette packs, and anyone collecting red flags like Pokémon.</p>
+      <div class="product-grid">
+        <div class="panel">
+          <h3>Classic HoTag</h3>
+          <p>Single tag + digital mock “Find My Ho” screens. The gateway gag gift.</p>
+          <div class="price">$19.99</div>
+          <a class="btn btn-primary" href="#">Add to Cart</a>
+        </div>
+        <div class="panel">
+          <h3>Toxic Relationship Bundle (3-Pack)</h3>
+          <p>“Main Ho.” “Backup Ho.” “Mystery Ho.” Because you love a roster.</p>
+          <div class="price">$39.99</div>
+          <a class="btn btn-primary" href="#">Add to Cart</a>
+        </div>
+        <div class="panel">
+          <h3>Red Flag Edition</h3>
+          <p>Limited red/gold design plus mini booklet: “13 Red Flags You Ignored.”</p>
+          <div class="price">$29.99</div>
+          <a class="btn btn-primary" href="#">Add to Cart</a>
+        </div>
+        <div class="panel">
+          <h3>Bachelor / Bachelorette Party Pack (10-Pack)</h3>
+          <p>The ultimate pre-wedding roast accessory. Includes “just kidding” cards.</p>
+          <div class="price">$99.99</div>
+          <a class="btn btn-primary" href="#">Add to Cart</a>
+        </div>
+      </div>
+      <div class="timeline" aria-label="Lead capture and nurture"> 
+        <div class="timeline-card">
+          <div class="meta-row">Lead magnet</div>
+          <h4>13 Red Flags Guide (Free PDF)</h4>
+          <p>Exit-intent popup trades an email for the roastable red flags checklist. Comedy first, consent reminders always.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="meta-row">Post-purchase</div>
+          <h4>“How to gift this without getting slapped”</h4>
+          <p>Follow-up email plus referral code. Encourages UGC unboxings and reminds recipients it’s a joke.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="meta-row">UGC ask</div>
+          <h4>“Send your funniest map screenshot”</h4>
+          <p>Fans share mock locations and roast themselves—keeps the humor on the buyer, not the “hoes.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <h2>Social proof (fake, like the tracking)</h2>
+        <p class="quote">⭐⭐⭐⭐⭐ “Got this for my friend. His girl did <strong>not</strong> think it was funny. We did.”</p>
+        <p class="quote">⭐⭐⭐⭐⭐ “Perfect for the group chat. 10/10 would get slapped again.”</p>
+        <p class="quote">⭐⭐⭐⭐ “Docking a star because it doesn’t actually track my ex. Coward product.”</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>FAQ + Safety</h2>
+      <div class="faq">
+        <div class="panel">
+          <h3>Is this real tracking?</h3>
+          <p>No. HoTag is a parody gift. It doesn’t track real people, and you absolutely should not use any tracking device without consent.</p>
+        </div>
+        <div class="panel">
+          <h3>Is this for men or women?</h3>
+          <p>Anyone with questionable taste in partners is welcome. Roast everyone equally.</p>
+        </div>
+        <div class="panel">
+          <h3>Is this legal?</h3>
+          <p>Using HoTag as a joke: yes. Tracking people without their knowledge: hell no. Don’t be that person.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p><strong>HoTag</strong> — Satire tech for laughing at your bad decisions. Not a real tracker. Comedy only.</p>
+      <p>Cold traffic hooks → landing → cart → email flow. Get HoTagged at <a href="https://gethotagged.com" style="color: var(--neon-fuchsia); text-decoration: none;">gethotagged.com</a>.</p>
+    </footer>
+  </main>
+</body>
+</html>
