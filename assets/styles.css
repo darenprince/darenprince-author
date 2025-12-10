@@ -5562,20 +5562,22 @@ input:checked + .toggle-slider::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding-block: calc(3rem + 50px);
-  padding-inline: 1rem;
+  width: var(--book-frame-width, min(90vw, 520px));
+  padding-block: var(--book-frame-padding-block, clamp(4rem, 8vw, 6rem));
+  padding-inline: var(--book-frame-padding-inline, 0);
   margin-inline: auto;
-  background-image: var(--book-bg);
+  background: var(--book-bg, none);
   background-size: cover;
   background-position: center;
-  border-radius: 0.6875rem;
+  border-radius: var(--book-frame-radius, 0);
 }
 .book-3d-container.fullscreen {
   position: fixed;
   inset: 0;
   z-index: 1000;
   padding: 2rem;
+  background: rgba(8, 9, 12, 0.95);
+  width: 100%;
 }
 .book-3d-container.fullscreen .book-3d-viewer {
   --book-width: 320px;
@@ -6082,18 +6084,19 @@ input:checked + .toggle-slider::before {
 }
 .book-toolbar {
   position: fixed;
-  left: 4px;
+  left: clamp(0.75rem, 2vw, 2rem);
   top: 50%;
   z-index: 3;
   opacity: 0;
-  transform: translate(-120%, -50%);
+  transform: translateY(-50%);
+  pointer-events: none;
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
 }
 .book-toolbar.visible {
   opacity: 1;
-  transform: translateY(-50%);
+  pointer-events: auto;
 }
 
 @media (min-width: 768px) {
@@ -6101,9 +6104,7 @@ input:checked + .toggle-slider::before {
     position: relative;
   }
   .book-toolbar {
-    position: absolute;
-    left: -68px;
-    top: 50%;
+    left: clamp(1.5rem, 3vw, 2.75rem);
   }
 }
 .book-rail {
@@ -6113,9 +6114,9 @@ input:checked + .toggle-slider::before {
   --brand-2: #456f3a;
   --ink: #fafafa;
   --ink-muted: #b8bab7;
-  --surface: rgba(33, 33, 33, 0.5);
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  --surface: #111217;
+  --border: rgba(255, 255, 255, 0.14);
+  --shadow: 0 16px 30px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -6235,6 +6236,86 @@ input:checked + .toggle-slider::before {
 .book-rail__toggle:focus-visible {
   outline: 2px solid var(--brand-1);
   outline-offset: 2px;
+}
+
+.book-rail--horizontal {
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-rail);
+  width: min(640px, 100%);
+}
+.book-rail--horizontal .book-rail__badge {
+  display: none;
+}
+.book-rail--horizontal .book-rail__list {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.book-rail--horizontal .book-rail__item {
+  flex: 1 1 0;
+}
+.book-rail--horizontal .book-rail__btn {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+.book-rail--horizontal .book-rail__toggle {
+  margin: 0 0 0 0.5rem;
+  align-self: center;
+}
+
+.book-toolbar-demo {
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: color-mix(in srgb, var(--color-charcoal) 92%, black 8%);
+  border-radius: 1rem;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45);
+  max-width: 720px;
+  margin-inline: auto;
+}
+.book-toolbar-demo__book {
+  width: min(280px, 70vw);
+  aspect-ratio: 2 / 3;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(33, 37, 45, 0.95), rgba(58, 81, 67, 0.9));
+  display: grid;
+  place-items: center;
+  color: var(--color-lime);
+  font-family: 'League Spartan', system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+}
+.book-toolbar-demo__caption {
+  color: var(--color-contrast-medium);
+  font-size: 0.9375rem;
+  text-align: center;
+  max-width: 32rem;
+}
+
+@media (max-width: 42rem) {
+  .book-rail--horizontal {
+    flex-direction: column;
+    width: 100%;
+  }
+  .book-rail--horizontal .book-rail__list {
+    flex-direction: column;
+  }
+  .book-rail--horizontal .book-rail__btn {
+    justify-content: flex-start;
+  }
+  .book-rail--horizontal .book-rail__toggle {
+    margin: 0.5rem 0 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6766,6 +6847,17 @@ input:checked + .toggle-slider::before {
 
 .book-section {
   margin-top: 3rem;
+}
+.book-experience {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-inline: clamp(1.5rem, 6vw, 4rem);
+  margin-inline: auto;
+  width: 100%;
+  margin-bottom: 3rem;
 }
 .book-section .book-block + .book-block {
   margin-top: 3rem;
