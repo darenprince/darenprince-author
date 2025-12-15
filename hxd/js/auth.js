@@ -1,9 +1,22 @@
-const ACCESS_PASSWORD = 'afterdark'
+const ACCESS_PASSWORD = 'no5@f3words'
 const ACCESS_KEY = 'hxdAccessGranted'
 
-function unlockGate(gate) {
+function getSessionStore() {
+  try {
+    const { sessionStorage } = window
+    sessionStorage.setItem('__hxd_test', 'ok')
+    sessionStorage.removeItem('__hxd_test')
+    return sessionStorage
+  } catch (_error) {
+    return null
+  }
+}
+
+function unlockGate(gate, store) {
   document.body.classList.remove('locked')
-  sessionStorage.setItem(ACCESS_KEY, 'true')
+  if (store) {
+    store.setItem(ACCESS_KEY, 'true')
+  }
   if (gate) {
     gate.classList.add('hidden')
   }
@@ -13,13 +26,14 @@ function handleGate() {
   const gate = document.querySelector('.access-gate')
   if (!gate) return
 
-  const hasAccess = sessionStorage.getItem(ACCESS_KEY) === 'true'
+  const store = getSessionStore()
+  const hasAccess = store?.getItem(ACCESS_KEY) === 'true'
   const form = document.getElementById('access-form')
   const input = document.getElementById('access-password')
   const error = document.getElementById('gate-error')
 
   if (hasAccess) {
-    unlockGate(gate)
+    unlockGate(gate, store)
     return
   }
 
@@ -31,13 +45,15 @@ function handleGate() {
     const value = input?.value?.trim() || ''
 
     if (value === ACCESS_PASSWORD) {
-      unlockGate(gate)
-      input.value = ''
-      error.textContent = ''
+      unlockGate(gate, store)
+      if (input) input.value = ''
+      if (error) error.textContent = ''
     } else {
-      error.textContent = 'Wrong door.'
-      form.classList.add('shake')
-      setTimeout(() => form.classList.remove('shake'), 360)
+      if (error) error.textContent = 'Wrong door.'
+      if (form) {
+        form.classList.add('shake')
+        setTimeout(() => form.classList.remove('shake'), 360)
+      }
     }
   })
 }
