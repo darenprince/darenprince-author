@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Backstage</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-title">HXD Playground</span>
+        <span class="brand-subtitle">Private. After Dark.</span>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="section-title">Backstage Access</h1>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Open Private Chat</h3>
+        <p class="hero-subtitle">Some things don’t belong on the main stage.</p>
+        <a class="btn" href="#"><span class="material-symbols-outlined">lock</span> Private Link</a>
+      </div>
+      <div class="card">
+        <h3>Leave a Secret Note</h3>
+        <p class="hero-subtitle">Keep it discreet. Keep it ours.</p>
+        <form class="dark-glass" style="display:grid; gap:12px;">
+          <input class="input" type="text" placeholder="Title" />
+          <textarea class="input" rows="3" placeholder="What are you hiding?" style="resize:none;"></textarea>
+          <button class="btn btn-primary" type="button">Seal it</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

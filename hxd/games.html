@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Games</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-title">HXD Playground</span>
+        <span class="brand-subtitle">Private. After Dark.</span>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="section-title">Playground</h1>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Spin the Dare</h3>
+        <p class="hero-subtitle">Heat without the theatrics.</p>
+        <button class="btn" id="dare-btn"><span class="material-symbols-outlined">whatshot</span> Spin It</button>
+        <div class="dark-glass" id="dare-output" style="margin-top:10px;">See where the flame lands.</div>
+      </div>
+      <div class="card">
+        <h3>Coin Flip</h3>
+        <p class="hero-subtitle">Who decides the night?</p>
+        <button class="btn" id="coin-btn"><span class="material-symbols-outlined">casino</span> Flip</button>
+        <div class="actions" style="margin-top:12px;">
+          <button class="btn" data-vibe="Chill">Chill</button>
+          <button class="btn" data-vibe="Wild">Wild</button>
+          <button class="btn" data-vibe="Surprise">Surprise</button>
+        </div>
+        <div class="dark-glass" id="coin-output" style="margin-top:10px;">Let fate decide.</div>
+      </div>
+      <div class="card">
+        <h3>Compliment Generator</h3>
+        <p class="hero-subtitle">Daren energy. Your effect.</p>
+        <button class="btn" id="compliment-btn"><span class="material-symbols-outlined">favorite</span> Whisper One</button>
+        <div class="dark-glass" id="compliment-output" style="margin-top:10px;">Earned, never generic.</div>
+      </div>
+    </div>
+    <p class="footer-line">Results are optional. Reactions are not.</p>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
