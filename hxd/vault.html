@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Vault</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-title">HXD Playground</span>
+        <span class="brand-subtitle">Private. After Dark.</span>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="section-title">The Vault</h1>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Coupon Wall</h3>
+        <p class="hero-subtitle">IOUs that never expire.</p>
+        <ul class="list-muted">
+          <li>+ One midnight breakfast. No questions.</li>
+          <li>+ Full body stretch session.</li>
+          <li>+ Slow dance in the kitchen.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Notes for Haley</h3>
+        <p class="hero-subtitle">Pinned where it’s safe.</p>
+        <ul class="list-muted">
+          <li>You’re the reason this exists.</li>
+          <li>Your laugh is better than any soundtrack here.</li>
+          <li>More coming soon.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Private Archive</h3>
+        <p class="hero-subtitle">Holding space for us.</p>
+        <div class="dark-glass">More coming soon.</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
