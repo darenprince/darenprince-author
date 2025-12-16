@@ -1,3 +1,72 @@
+const EMAIL_TO = 'daren.prince@gmail.com'
+let selectionUpdater
+
+function buildMailto(subject, body) {
+  return `mailto:${EMAIL_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
+function sendEmail(subject, body) {
+  window.location.href = buildMailto(subject, body)
+}
+
+function summarizeForm(form) {
+  const data = new FormData(form)
+  const summary = []
+  data.forEach((value, key) => {
+    if (value) summary.push(`${key}: ${value}`)
+  })
+  return summary.join('\n') || 'No details provided yet.'
+}
+
+function initSelectionConsole() {
+  const output = document.getElementById('selection-output')
+  const noteInput = document.getElementById('selection-note')
+  const submitBtn = document.getElementById('selection-submit')
+  const clearBtn = document.getElementById('selection-clear')
+
+  if (!output || !submitBtn) return null
+
+  let latest = ''
+  let subject = 'HxD Selection'
+
+  const update = (text, nextSubject = 'HxD Selection') => {
+    latest = text
+    subject = nextSubject
+    output.textContent = text || 'Waiting for your move.'
+    submitBtn.disabled = !text
+  }
+
+  submitBtn.addEventListener('click', () => {
+    if (!latest) return
+    const note = noteInput?.value?.trim()
+    const body = `${latest}${note ? `\n\nNotes: ${note}` : ''}\n\nSubmitted from HxD Playground.`
+    sendEmail(subject, body)
+  })
+
+  clearBtn?.addEventListener('click', () => {
+    update('')
+    if (noteInput) noteInput.value = ''
+  })
+
+  document.querySelectorAll('[data-selection-target]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.selectionTarget
+      const target = document.getElementById(targetId)
+      if (!target) return
+      const nextSubject = btn.dataset.selectionSubject || 'HxD Selection'
+      let text = ''
+      if (target.tagName === 'FORM') {
+        text = summarizeForm(target)
+      } else {
+        text = target.textContent.trim()
+      }
+      update(text, nextSubject)
+    })
+  })
+
+  return update
+}
+
 function initMenu() {
   const menuButton = document.querySelector('.menu-button')
   const overlay = document.querySelector('.overlay-menu')
@@ -52,6 +121,7 @@ function initMoodGenerator() {
   btn.addEventListener('click', () => {
     const choice = moods[Math.floor(Math.random() * moods.length)]
     output.textContent = choice
+    selectionUpdater?.(`Tonight's vibe: ${choice}`, 'HxD Vibe')
   })
 }
 
@@ -71,6 +141,7 @@ function initCalendarIdeas() {
   btn.addEventListener('click', () => {
     const idea = ideas[Math.floor(Math.random() * ideas.length)]
     output.textContent = idea
+    selectionUpdater?.(`Schedule idea: ${idea}`, 'Schedule idea')
   })
 }
 
@@ -101,31 +172,81 @@ function initGames() {
 
   dareBtn?.addEventListener('click', () => {
     dareOutput.textContent = dares[Math.floor(Math.random() * dares.length)]
+    selectionUpdater?.(`Dare: ${dareOutput.textContent}`, 'Dare pick')
   })
 
   coinBtn?.addEventListener('click', () => {
     const result = Math.random() > 0.5 ? 'Haley calls it.' : 'Daren decides.'
     coinOutput.textContent = result
+    selectionUpdater?.(`Coin flip result: ${result}`, 'Coin flip')
   })
 
   vibeButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const vibe = btn.dataset.vibe
       coinOutput.textContent = `Tonight’s vibe: ${vibe}.`
+      selectionUpdater?.(`Vibe locked: ${vibe}`, 'Vibe choice')
     })
   })
 
   complimentBtn?.addEventListener('click', () => {
     complimentOutput.textContent = compliments[Math.floor(Math.random() * compliments.length)]
+    selectionUpdater?.(`Compliment to send: ${complimentOutput.textContent}`, 'Compliment')
   })
 }
 
+function initCalendarForm() {
+  const form = document.getElementById('calendar-form')
+  if (!form) return
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const summary = summarizeForm(form)
+    selectionUpdater?.(summary, 'Calendar pick')
+    sendEmail('Calendar pick — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+  })
+}
+
+function initBackstageForm() {
+  const form = document.getElementById('backstage-form')
+  if (!form) return
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const summary = summarizeForm(form)
+    selectionUpdater?.(summary, 'Backstage note')
+    sendEmail('Backstage note — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+  })
+}
+
+function initSpotifyStatus() {
+  const frame = document.querySelector('iframe[data-testid="embed-iframe"]')
+  const status = document.querySelector('[data-spotify-status]')
+  if (!frame || !status) return
+
+  const fallback = () => {
+    if (status.textContent?.includes('live')) return
+    status.textContent =
+      'If the embed stalls, tap “Open in Spotify” and keep the soundtrack moving.'
+  }
+
+  frame.addEventListener('load', () => {
+    status.textContent = 'Spotify is live. If you don’t hear it, open in the app and keep it loud.'
+  })
+
+  setTimeout(fallback, 3500)
+}
+
 function init() {
+  selectionUpdater = initSelectionConsole()
   initMenu()
   cycleStatus()
   initMoodGenerator()
   initCalendarIdeas()
   initGames()
+  initCalendarForm()
+  initBackstageForm()
+  initSpotifyStatus()
   rotateLines('#playlist-lines', [
     'You know what this playlist leads to.',
     'Press play. Don’t overthink it.',
