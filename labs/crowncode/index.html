@@ -604,6 +604,34 @@
       </div>
     </div>
 
+    <div
+      class="ccai-modal-loader"
+      id="ccai-modal-loader"
+      role="status"
+      aria-live="assertive"
+      aria-hidden="true"
+      hidden
+    >
+      <div class="ccai-modal-loader__panel" role="document">
+        <div class="ccai-modal-loader__viewport">
+          <div class="ccai-modal-loader__step" data-loader-step="0" aria-hidden="true">
+            <div class="ccai-modal-loader__pulse" aria-hidden="true"></div>
+            <p class="ccai-modal-loader__label">Authenticating</p>
+          </div>
+          <div class="ccai-modal-loader__step" data-loader-step="1" aria-hidden="true">
+            <div class="ccai-modal-loader__pulse" aria-hidden="true"></div>
+            <p class="ccai-modal-loader__label">Connecting</p>
+          </div>
+          <div class="ccai-modal-loader__step" data-loader-step="2" aria-hidden="true">
+            <div class="ccai-modal-loader__pulse" aria-hidden="true"></div>
+            <p class="ccai-modal-loader__label">Locating</p>
+          </div>
+        </div>
+        <p class="usa-sr-only" data-loader-status>Authenticating secure channel</p>
+        <span class="loader" aria-hidden="true"></span>
+      </div>
+    </div>
+
     <div class="usa-modal" id="ccai-access-modal" role="dialog" aria-modal="true" aria-labelledby="ccai-access-heading" hidden>
       <div class="usa-modal__content">
         <div class="usa-modal__main">
