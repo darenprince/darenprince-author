@@ -416,6 +416,20 @@ function initSpotifyStatus() {
   setTimeout(fallback, 3500)
 }
 
+function initSignals() {
+  const triggers = document.querySelectorAll('[data-signal]')
+  if (!triggers.length) return
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const message = trigger.dataset.signal
+      const subject = trigger.dataset.subject || 'HxD signal'
+      selectionUpdater?.(message, subject)
+      selectionStatus?.('Signal queued for Daren.', 'info')
+    })
+  })
+}
+
 function init() {
   const selectionConsole = initSelectionConsole()
   selectionUpdater = selectionConsole?.update
@@ -428,6 +442,7 @@ function init() {
   initCalendarForm()
   initBackstageForm()
   initSpotifyStatus()
+  initSignals()
   rotateLines('#playlist-lines', [
     'You know what this playlist leads to.',
     'Press play. Don’t overthink it.',
