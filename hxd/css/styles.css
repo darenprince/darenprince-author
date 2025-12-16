@@ -385,6 +385,51 @@ header {
   color: var(--muted);
 }
 
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  background: rgba(155, 15, 31, 0.16);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.heat-range-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.heat-range {
+  width: 100%;
+  accent-color: var(--accent-strong);
+}
+
+.range-legend {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.range-legend span {
+  width: 16px;
+  text-align: center;
+}
+
 .dark-glass {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
@@ -489,6 +534,28 @@ header {
 
 .selection-note {
   background: rgba(255, 255, 255, 0.02);
+}
+
+.selection-status {
+  font-size: 0.95rem;
+  color: var(--muted);
+  min-height: 20px;
+}
+
+.selection-status[data-tone='pending'] {
+  color: #ffb347;
+}
+
+.selection-status[data-tone='success'] {
+  color: #8be9c4;
+}
+
+.selection-status[data-tone='error'] {
+  color: #ff6b6b;
+}
+
+.selection-status[data-tone='info'] {
+  color: #c7d0ff;
 }
 
 .selection-hint {

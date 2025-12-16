@@ -1,9 +1,13 @@
 import sgMail from '@sendgrid/mail'
 
+const DEFAULT_TO_EMAIL = 'author@darenprince.com'
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY ?? ''
 const SENDGRID_FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL ?? ''
 const CONTACT_TO_EMAIL =
-  process.env.SENDGRID_CONTACT_TO ?? process.env.SENDGRID_TO_EMAIL ?? SENDGRID_FROM_EMAIL
+  process.env.SENDGRID_CONTACT_TO ||
+  process.env.SENDGRID_TO_EMAIL ||
+  SENDGRID_FROM_EMAIL ||
+  DEFAULT_TO_EMAIL
 
 if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY)
@@ -82,6 +86,10 @@ export const handler = async (event) => {
     ].filter(Boolean)
 
     text = lines.join('\n')
+  }
+
+  if (!to) {
+    to = CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL
   }
 
   const msg = {
