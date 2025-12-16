@@ -363,54 +363,153 @@
               </div>
             </div>
           </div>
-          <form id="contact-form" class="contact-form" novalidate>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" autocomplete="name" required />
+          <div class="contact-form__content">
+            <div class="contact-form__banner">
+              <div>
+                <p class="contact-form__eyebrow">Now with smart routing</p>
+                <p class="contact-form__title">Submissions auto-save, score quality, and route to the right lane.</p>
+              </div>
+              <div class="contact-form__badges">
+                <span class="contact-chip">Drafts saved locally</span>
+                <span class="contact-chip contact-chip--accent">Priority lanes respected</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" autocomplete="email" required />
-            </div>
-            <div class="form-group">
-              <label for="topic">Focus</label>
-              <select id="topic" name="topic" required>
-                <option value="General Inquiry" selected>General inquiry</option>
-                <option value="Media Request">Media request</option>
-                <option value="Coaching & Strategy">Coaching &amp; strategy</option>
-                <option value="Deployment Support">Deployment support</option>
-                <option value="Speaking Invitation">Speaking invitation</option>
-              </select>
-            </div>
-            <fieldset class="contact-form__urgency">
-              <legend>How fast do you need us?</legend>
-              <div class="contact-form__urgency-options">
-                <label class="radio-pill">
-                  <input type="radio" name="urgency" value="standard" checked />
-                  <span>Standard (48h)</span>
-                </label>
-                <label class="radio-pill">
-                  <input type="radio" name="urgency" value="priority" />
-                  <span>Priority (24h)</span>
-                </label>
-                <label class="radio-pill">
-                  <input type="radio" name="urgency" value="critical" />
-                  <span>Critical (same day)</span>
+            <form id="contact-form" class="contact-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" autocomplete="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" autocomplete="email" required />
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="topic">Focus</label>
+                  <select id="topic" name="topic" required>
+                    <option value="General Inquiry" selected>General inquiry</option>
+                    <option value="Media Request">Media request</option>
+                    <option value="Coaching & Strategy">Coaching &amp; strategy</option>
+                    <option value="Deployment Support">Deployment support</option>
+                    <option value="Speaking Invitation">Speaking invitation</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="objective">Outcome</label>
+                  <input
+                    type="text"
+                    id="objective"
+                    name="objective"
+                    placeholder="What success looks like in one sentence"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <fieldset class="contact-form__urgency">
+                <legend>How fast do you need us?</legend>
+                <div class="contact-form__urgency-options">
+                  <label class="radio-pill">
+                    <input type="radio" name="urgency" value="standard" checked />
+                    <span>Standard (48h)</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="urgency" value="priority" />
+                    <span>Priority (24h)</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="urgency" value="critical" />
+                    <span>Critical (same day)</span>
+                  </label>
+                </div>
+              </fieldset>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="channel">Preferred channel <span>(optional)</span></label>
+                  <input type="text" id="channel" name="channel" placeholder="Share your best contact handle or link" />
+                </div>
+                <div class="form-group">
+                  <label for="timeline">Timeline</label>
+                  <select id="timeline" name="timeline">
+                    <option value="This week" selected>This week</option>
+                    <option value="Within 2 weeks">Within 2 weeks</option>
+                    <option value="Next month">Next month</option>
+                    <option value="Flexible">Flexible</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" maxlength="1200" required></textarea>
+                <div class="form-help">
+                  <span class="form-help__hint">Drop names, links, and dates so we can respond with specifics.</span>
+                  <span class="form-help__counter" data-char-count>0/1200</span>
+                </div>
+              </div>
+              <div class="form-checks">
+                <label class="checkbox-inline">
+                  <input type="checkbox" id="subscribe" name="subscribe" />
+                  <span>Send me a copy of this submission with my routing lane.</span>
                 </label>
               </div>
-            </fieldset>
-            <div class="form-group">
-              <label for="channel">Preferred channel <span>(optional)</span></label>
-              <input type="text" id="channel" name="channel" placeholder="Share your best contact handle or link" />
+              <input type="hidden" id="source" name="source" value="contact-page" />
+              <button type="submit" class="btn btn--primary">Send message</button>
+              <p class="form-status" aria-live="polite"></p>
+            </form>
+
+            <div class="contact-intel" aria-live="polite">
+              <article class="intel-card">
+                <div class="intel-card__header">
+                  <div class="intel-card__meta">
+                    <p class="intel-eyebrow">Submission health</p>
+                    <h3>Pre-flight checks</h3>
+                  </div>
+                  <span class="contact-chip contact-chip--ghost" data-quality-label>Not ready</span>
+                </div>
+                <div class="intel-meter" role="presentation">
+                  <div class="intel-meter__bar" data-quality-bar></div>
+                </div>
+                <ul class="intel-checklist">
+                  <li data-check="identity">Identity locked</li>
+                  <li data-check="contact">Reachback verified</li>
+                  <li data-check="context">Context-rich brief</li>
+                  <li data-check="timeline">Timeline selected</li>
+                </ul>
+              </article>
+              <article class="intel-card">
+                <div class="intel-card__header">
+                  <div class="intel-card__meta">
+                    <p class="intel-eyebrow">Routing logic</p>
+                    <h3>Where this goes</h3>
+                  </div>
+                  <span class="contact-chip contact-chip--outline" data-routing-label>Standard lane</span>
+                </div>
+                <div class="intel-routes">
+                  <div class="intel-route">
+                    <span class="intel-route__label">Topic</span>
+                    <span class="intel-route__value" data-route-topic>General inquiry</span>
+                  </div>
+                  <div class="intel-route">
+                    <span class="intel-route__label">Urgency</span>
+                    <span class="intel-route__value" data-route-urgency>Standard</span>
+                  </div>
+                  <div class="intel-route">
+                    <span class="intel-route__label">Timeline</span>
+                    <span class="intel-route__value" data-route-timeline>This week</span>
+                  </div>
+                </div>
+                <p class="intel-note">
+                  Priority or critical pushes trigger after-hours routing. Add links and targets so we can reply with a
+                  concrete plan on the first pass.
+                </p>
+                <div class="intel-actions">
+                  <span class="intel-mini">Auto-saves drafts</span>
+                  <span class="intel-mini">Replies via your preferred channel</span>
+                </div>
+              </article>
             </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" required></textarea>
-            </div>
-            <input type="hidden" id="source" name="source" value="contact-page" />
-            <button type="submit" class="btn btn--primary">Send message</button>
-            <p class="form-status" aria-live="polite"></p>
-          </form>
+          </div>
         </div>
       </div>
     </section>
@@ -453,8 +552,6 @@
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
-
-
 
 
 
