@@ -55,7 +55,7 @@
     <div class="card-grid">
       <div class="card">
         <h3>Spin the Dare</h3>
-        <p class="hero-subtitle">Heat without the theatrics.</p>
+        <p class="hero-subtitle">Heat without the theatrics. More options. No repeats.</p>
         <button class="btn" id="dare-btn"><span class="material-symbols-outlined">whatshot</span> Spin It</button>
         <div class="dark-glass" id="dare-output" style="margin-top:10px;">See where the flame lands.</div>
         <div class="inline-actions">
@@ -64,12 +64,14 @@
       </div>
       <div class="card">
         <h3>Coin Flip</h3>
-        <p class="hero-subtitle">Who decides the night?</p>
+        <p class="hero-subtitle">Who decides the night? Bias it with a vibe, then flip.</p>
         <button class="btn" id="coin-btn"><span class="material-symbols-outlined">casino</span> Flip</button>
         <div class="actions" style="margin-top:12px;">
           <button class="btn" data-vibe="Chill">Chill</button>
           <button class="btn" data-vibe="Wild">Wild</button>
           <button class="btn" data-vibe="Surprise">Surprise</button>
+          <button class="btn" data-vibe="Tender">Tender</button>
+          <button class="btn" data-vibe="Chaos">Chaos</button>
         </div>
         <div class="dark-glass" id="coin-output" style="margin-top:10px;">Let fate decide.</div>
         <div class="inline-actions">
@@ -83,6 +85,35 @@
         <div class="dark-glass" id="compliment-output" style="margin-top:10px;">Earned, never generic.</div>
         <div class="inline-actions">
           <button class="btn ghost" data-selection-target="compliment-output" data-selection-subject="Compliment">Submit this one</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Scenario Dealer</h3>
+        <p class="hero-subtitle">Location, pace, twist. Shuffle until it feels right.</p>
+        <div class="chip-row">
+          <button class="chip" data-scenario="Cab ride detour. Eyes only. Hands allowed.">Cab detour</button>
+          <button class="chip" data-scenario="Kitchen lights off. Playlist on. No talking until the chorus.">Kitchen blackout</button>
+          <button class="chip" data-scenario="Hotel lobby lobby. Meet like strangers.">Strangers in the lobby</button>
+        </div>
+        <button class="btn" id="scenario-btn" style="margin-top:12px;"><span class="material-symbols-outlined">shuffle</span> Deal a scenario</button>
+        <div class="dark-glass" id="scenario-output" style="margin-top:10px;">Stack the deck or spin one fresh.</div>
+        <div class="inline-actions">
+          <button class="btn ghost" data-selection-target="scenario-output" data-selection-subject="Scenario dealer">Submit this scenario</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Heat Meter</h3>
+        <p class="hero-subtitle">Slide to set tonight’s ceiling. Lock it or leave it fluid.</p>
+        <div class="heat-range-wrap">
+          <input class="heat-range" id="heat-range" type="range" min="1" max="5" value="3" />
+          <div class="range-legend">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+          </div>
+        </div>
+        <div class="dark-glass" id="heat-output" style="margin-top:10px;">Midnight tempo. Mix of soft and sharp.</div>
+        <div class="actions" style="margin-top:12px;">
+          <button class="btn" id="heat-lock"><span class="material-symbols-outlined">lock</span> Lock it in</button>
+          <button class="btn ghost" data-selection-target="heat-output" data-selection-subject="Heat meter">Submit this heat</button>
         </div>
       </div>
     </div>
@@ -106,10 +137,12 @@
         <button class="btn" id="selection-clear">Clear</button>
         <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
       </div>
-      <p class="selection-hint">Anything you pick, spin, or suggest can be staged here and emailed to daren.prince@gmail.com.</p>
+      <p class="selection-status" id="selection-status" role="status" aria-live="polite"></p>
+      <p class="selection-hint">Anything you pick, spin, or suggest is sent straight to author@darenprince.com — never from your inbox.</p>
     </div>
   </section>
 
+  <script src="js/email-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
 </body>
