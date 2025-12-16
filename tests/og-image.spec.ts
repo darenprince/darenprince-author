@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(currentDir, '..')
 const htmlPath = path.join(repoRoot, '911.html')
-const imageRelativePath = 'emergency-911/911-ogimage.jpeg'
+const imageRelativePath = 'emergency-911/911-ogimage.svg'
 const imagePath = path.join(repoRoot, imageRelativePath)
 
 describe('911 metadata og:image', () => {

@@ -1,12 +1,32 @@
-const EMAIL_TO = 'daren.prince@gmail.com'
+const EMAIL_TO = 'author@darenprince.com'
+const EMAIL_ENDPOINT = window.HXD_EMAIL_ENDPOINT || ''
+const EMAIL_TOKEN = window.HXD_EMAIL_TOKEN || ''
 let selectionUpdater
+let selectionStatus
 
-function buildMailto(subject, body) {
-  return `mailto:${EMAIL_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-}
+async function sendEmail(subject, body) {
+  if (!EMAIL_ENDPOINT) {
+    throw new Error('Email endpoint is not configured. Set window.HXD_EMAIL_ENDPOINT.')
+  }
 
-function sendEmail(subject, body) {
-  window.location.href = buildMailto(subject, body)
+  const headers = { 'Content-Type': 'application/json' }
+  if (EMAIL_TOKEN) {
+    headers.Authorization = `Bearer ${EMAIL_TOKEN}`
+  }
+
+  const payload = { to: EMAIL_TO, subject, text: body }
+  const response = await fetch(EMAIL_ENDPOINT, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok) {
+    const message = await response.text()
+    throw new Error(message || 'Failed to send email')
+  }
+
+  return response.json()
 }
 
 function summarizeForm(form) {
@@ -23,30 +43,67 @@ function initSelectionConsole() {
   const noteInput = document.getElementById('selection-note')
   const submitBtn = document.getElementById('selection-submit')
   const clearBtn = document.getElementById('selection-clear')
+  const status = document.getElementById('selection-status')
 
   if (!output || !submitBtn) return null
 
   let latest = ''
   let subject = 'HxD Selection'
+  let sending = false
+
+  const setStatus = (text, tone = 'muted') => {
+    if (!status) return
+    status.textContent = text
+    status.dataset.tone = tone
+  }
 
   const update = (text, nextSubject = 'HxD Selection') => {
     latest = text
     subject = nextSubject
     output.textContent = text || 'Waiting for your move.'
     submitBtn.disabled = !text
+    if (text) {
+      setStatus('Ready to deliver. Add a note or hit submit.', 'info')
+    } else {
+      setStatus(
+        EMAIL_ENDPOINT
+          ? 'Queue cleared. Pick something to send.'
+          : 'Email routing not set yet. Add HXD_EMAIL_ENDPOINT.',
+        'muted'
+      )
+    }
   }
 
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', async () => {
     if (!latest) return
+    if (sending) return
+    sending = true
+    const previousLabel = submitBtn.textContent
+    submitBtn.textContent = 'Sending…'
+    submitBtn.disabled = true
     const note = noteInput?.value?.trim()
     const body = `${latest}${note ? `\n\nNotes: ${note}` : ''}\n\nSubmitted from HxD Playground.`
-    sendEmail(subject, body)
+    setStatus('Sending to Daren…', 'pending')
+
+    try {
+      await sendEmail(subject, body)
+      setStatus('Delivered to Daren and archived in the vault.', 'success')
+    } catch (error) {
+      console.error(error)
+      setStatus('Could not send right now. Try again or message directly.', 'error')
+    } finally {
+      sending = false
+      submitBtn.textContent = previousLabel
+      submitBtn.disabled = !latest
+    }
   })
 
   clearBtn?.addEventListener('click', () => {
     update('')
     if (noteInput) noteInput.value = ''
   })
+
+  update('')
 
   document.querySelectorAll('[data-selection-target]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -64,7 +121,7 @@ function initSelectionConsole() {
     })
   })
 
-  return update
+  return { update, setStatus }
 }
 
 function initMenu() {
@@ -153,6 +210,12 @@ function initGames() {
   const vibeButtons = document.querySelectorAll('[data-vibe]')
   const complimentBtn = document.getElementById('compliment-btn')
   const complimentOutput = document.getElementById('compliment-output')
+  const scenarioBtn = document.getElementById('scenario-btn')
+  const scenarioOutput = document.getElementById('scenario-output')
+  const scenarioChips = document.querySelectorAll('[data-scenario]')
+  const heatSlider = document.getElementById('heat-range')
+  const heatOutput = document.getElementById('heat-output')
+  const heatLock = document.getElementById('heat-lock')
 
   const dares = [
     'Pick the song. Own the room.',
@@ -160,6 +223,11 @@ function initGames() {
     'Dealer’s choice kiss.',
     'Text me a memory you shouldn’t forget.',
     'You choose the next indulgence.',
+    'Trade phones for 20 minutes. Trust the energy.',
+    'No phones, just eye contact for the next track.',
+    'Pick a stranger’s favorite drink and we find it.',
+    'You call the Uber—destination is a surprise.',
+    'You set the safe word. Then we ignore it (mostly).',
   ]
 
   const compliments = [
@@ -168,7 +236,34 @@ function initGames() {
     'Your confidence is a dare I keep taking.',
     'You taste like decisions I don’t regret.',
     'You make patience feel overrated.',
+    'You laugh like you know the secret ending.',
+    'You’re the plot twist I never fix.',
+    'You don’t enter rooms—you change atmospheres.',
+    'Your curiosity keeps burning holes in my rules.',
+    'You’re a VIP pass disguised as a person.',
   ]
+
+  const scenarios = {
+    overtime: ['late-night rooftop', 'after-hours lounge', 'empty studio'],
+    pace: ['slow burn', 'no-rules sprint', 'stepped rhythm—push/pull'],
+    twist: ['phones off', 'no yes/no answers allowed', 'every song change = new dare'],
+  }
+
+  const describeHeat = (level) => {
+    switch (Number(level)) {
+      case 1:
+        return 'Warm-up stretch. Eye contact and teasing only.'
+      case 2:
+        return 'Low flame. Soft hands, slower soundtrack.'
+      case 3:
+        return 'Midnight tempo. Mix of soft and sharp.'
+      case 4:
+        return 'Sparks up. High energy, your rules get blurry.'
+      case 5:
+      default:
+        return 'White-hot. No safe words. Only signals.'
+    }
+  }
 
   dareBtn?.addEventListener('click', () => {
     dareOutput.textContent = dares[Math.floor(Math.random() * dares.length)]
@@ -193,17 +288,71 @@ function initGames() {
     complimentOutput.textContent = compliments[Math.floor(Math.random() * compliments.length)]
     selectionUpdater?.(`Compliment to send: ${complimentOutput.textContent}`, 'Compliment')
   })
+
+  scenarioBtn?.addEventListener('click', () => {
+    const pick = (list) => list[Math.floor(Math.random() * list.length)]
+    const setup = `${pick(scenarios.overtime)}, ${pick(scenarios.pace)}, ${pick(scenarios.twist)}.`
+    scenarioOutput.textContent = setup
+    selectionUpdater?.(`Scenario pull: ${setup}`, 'Scenario dealer')
+  })
+
+  scenarioChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const card = chip.dataset.scenario
+      scenarioOutput.textContent = card
+      selectionUpdater?.(`Scenario pick: ${card}`, 'Scenario dealer')
+    })
+  })
+
+  const updateHeat = (value) => {
+    const label = describeHeat(value)
+    if (heatOutput) {
+      heatOutput.textContent = label
+    }
+    selectionUpdater?.(`Heat meter at ${value}: ${label}`, 'Heat meter')
+  }
+
+  heatSlider?.addEventListener('input', (event) => {
+    updateHeat(event.target.value)
+  })
+
+  heatLock?.addEventListener('click', () => {
+    const level = heatSlider?.value || 3
+    const label = describeHeat(level)
+    heatOutput.textContent = `Locked at ${level} — ${label}`
+    selectionUpdater?.(`Heat meter locked at ${level}: ${label}`, 'Heat meter')
+  })
 }
 
 function initCalendarForm() {
   const form = document.getElementById('calendar-form')
   if (!form) return
 
-  form.addEventListener('submit', (event) => {
+  const submitButton = form.querySelector('button[type="submit"]')
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault()
     const summary = summarizeForm(form)
     selectionUpdater?.(summary, 'Calendar pick')
-    sendEmail('Calendar pick — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+    if (submitButton) {
+      submitButton.disabled = true
+      submitButton.dataset.label = submitButton.textContent
+      submitButton.textContent = 'Sending…'
+    }
+    selectionStatus?.('Sending schedule to Daren…', 'pending')
+    try {
+      await sendEmail('Calendar pick — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+      selectionStatus?.('Schedule delivered to Daren.', 'success')
+      form.reset()
+    } catch (error) {
+      console.error(error)
+      selectionStatus?.('Schedule could not be sent. Try again.', 'error')
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false
+        submitButton.textContent = submitButton.dataset.label || 'Submit this schedule'
+      }
+    }
   })
 }
 
@@ -211,11 +360,31 @@ function initBackstageForm() {
   const form = document.getElementById('backstage-form')
   if (!form) return
 
-  form.addEventListener('submit', (event) => {
+  const submitButton = form.querySelector('button[type="submit"]')
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault()
     const summary = summarizeForm(form)
     selectionUpdater?.(summary, 'Backstage note')
-    sendEmail('Backstage note — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+    if (submitButton) {
+      submitButton.disabled = true
+      submitButton.dataset.label = submitButton.textContent
+      submitButton.textContent = 'Sending…'
+    }
+    selectionStatus?.('Sending backstage note…', 'pending')
+    try {
+      await sendEmail('Backstage note — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+      selectionStatus?.('Backstage note delivered.', 'success')
+      form.reset()
+    } catch (error) {
+      console.error(error)
+      selectionStatus?.('Backstage note failed. Try again.', 'error')
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false
+        submitButton.textContent = submitButton.dataset.label || 'Seal it'
+      }
+    }
   })
 }
 
@@ -238,7 +407,9 @@ function initSpotifyStatus() {
 }
 
 function init() {
-  selectionUpdater = initSelectionConsole()
+  const selectionConsole = initSelectionConsole()
+  selectionUpdater = selectionConsole?.update
+  selectionStatus = selectionConsole?.setStatus
   initMenu()
   cycleStatus()
   initMoodGenerator()
