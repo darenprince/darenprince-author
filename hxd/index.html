@@ -22,8 +22,14 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <span class="brand-title">HXD Playground</span>
-        <span class="brand-subtitle">Private. After Dark.</span>
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-flame">🔥</span>
+          <span class="brand-heart">🤍</span>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-title">HXD Playground</span>
+          <span class="brand-subtitle">Flying high. No safe words.</span>
+        </div>
       </div>
       <button class="menu-button" aria-label="Open menu">
         <span class="material-symbols-outlined">menu</span>
@@ -47,7 +53,7 @@
   <main class="container hero">
     <div>
       <div class="hero-title">H × D Playground</div>
-      <p class="hero-subtitle">Luxury. Chaos. No Safe Words.</p>
+      <p class="hero-subtitle">Flying high. No safe words.</p>
     </div>
     <div class="status-indicator">
       <span class="status-dot"></span>
@@ -58,7 +64,31 @@
       <button class="btn" id="mood-btn">Pick Tonight’s Vibe</button>
     </div>
     <div class="dark-glass" id="mood-output">Keep it slow. Let it burn.</div>
+    <div class="inline-actions">
+      <button class="btn ghost" data-selection-target="mood-output" data-selection-subject="HxD Vibe">Submit this vibe</button>
+    </div>
   </main>
+
+  <section class="container selection-console">
+    <div class="selection-top">
+      <div>
+        <p class="section-eyebrow">Your picks queue</p>
+        <h2 class="section-title">Send it when you’re sure</h2>
+      </div>
+      <div class="glow-dot" aria-hidden="true"></div>
+    </div>
+    <div class="dark-glass selection-body">
+      <p class="selection-label">Latest selection</p>
+      <p class="selection-output" id="selection-output">Waiting for your move.</p>
+      <label class="selection-note-label" for="selection-note">Add a note</label>
+      <textarea class="input selection-note" id="selection-note" rows="3" placeholder="Where, when, extras…"></textarea>
+      <div class="actions">
+        <button class="btn" id="selection-clear">Clear</button>
+        <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
+      </div>
+      <p class="selection-hint">Anything you pick, spin, or suggest can be staged here and emailed to daren.prince@gmail.com.</p>
+    </div>
+  </section>
 
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
