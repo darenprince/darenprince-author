@@ -22,8 +22,14 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <span class="brand-title">HXD Playground</span>
-        <span class="brand-subtitle">Private. After Dark.</span>
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-flame">🔥</span>
+          <span class="brand-heart">🤍</span>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-title">HXD Playground</span>
+          <span class="brand-subtitle">Flying high. No safe words.</span>
+        </div>
       </div>
       <button class="menu-button" aria-label="Open menu">
         <span class="material-symbols-outlined">menu</span>
@@ -52,6 +58,9 @@
         <p class="hero-subtitle">Heat without the theatrics.</p>
         <button class="btn" id="dare-btn"><span class="material-symbols-outlined">whatshot</span> Spin It</button>
         <div class="dark-glass" id="dare-output" style="margin-top:10px;">See where the flame lands.</div>
+        <div class="inline-actions">
+          <button class="btn ghost" data-selection-target="dare-output" data-selection-subject="Dare">Submit this dare</button>
+        </div>
       </div>
       <div class="card">
         <h3>Coin Flip</h3>
@@ -63,16 +72,43 @@
           <button class="btn" data-vibe="Surprise">Surprise</button>
         </div>
         <div class="dark-glass" id="coin-output" style="margin-top:10px;">Let fate decide.</div>
+        <div class="inline-actions">
+          <button class="btn ghost" data-selection-target="coin-output" data-selection-subject="Coin flip">Submit this call</button>
+        </div>
       </div>
       <div class="card">
         <h3>Compliment Generator</h3>
         <p class="hero-subtitle">Daren energy. Your effect.</p>
         <button class="btn" id="compliment-btn"><span class="material-symbols-outlined">favorite</span> Whisper One</button>
         <div class="dark-glass" id="compliment-output" style="margin-top:10px;">Earned, never generic.</div>
+        <div class="inline-actions">
+          <button class="btn ghost" data-selection-target="compliment-output" data-selection-subject="Compliment">Submit this one</button>
+        </div>
       </div>
     </div>
     <p class="footer-line">Results are optional. Reactions are not.</p>
   </main>
+
+  <section class="container selection-console">
+    <div class="selection-top">
+      <div>
+        <p class="section-eyebrow">Your picks queue</p>
+        <h2 class="section-title">Send it when you’re sure</h2>
+      </div>
+      <div class="glow-dot" aria-hidden="true"></div>
+    </div>
+    <div class="dark-glass selection-body">
+      <p class="selection-label">Latest selection</p>
+      <p class="selection-output" id="selection-output">Waiting for your move.</p>
+      <label class="selection-note-label" for="selection-note">Add a note</label>
+      <textarea class="input selection-note" id="selection-note" rows="3" placeholder="Dare details, timing, where to meet."></textarea>
+      <div class="actions">
+        <button class="btn" id="selection-clear">Clear</button>
+        <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
+      </div>
+      <p class="selection-hint">Anything you pick, spin, or suggest can be staged here and emailed to daren.prince@gmail.com.</p>
+    </div>
+  </section>
 
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
