@@ -32,8 +32,18 @@ async function sendEmail(subject, body) {
 function summarizeForm(form) {
   const data = new FormData(form)
   const summary = []
+  const labelFor = (key) => {
+    const field = form.elements[key]
+    if (!field) return key
+    if (field?.dataset?.label) return field.dataset.label
+    if (field?.length) {
+      const labeled = Array.from(field).find((item) => item?.dataset?.label)
+      if (labeled?.dataset?.label) return labeled.dataset.label
+    }
+    return key
+  }
   data.forEach((value, key) => {
-    if (value) summary.push(`${key}: ${value}`)
+    if (value) summary.push(`${labelFor(key)}: ${value}`)
   })
   return summary.join('\n') || 'No details provided yet.'
 }
