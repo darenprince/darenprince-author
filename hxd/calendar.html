@@ -55,7 +55,7 @@
     <div class="card">
       <div class="dark-glass calendar-shell" style="margin-bottom:16px;">
         <div class="calendar-overlay"></div>
-        <iframe class="calendar-frame" src="https://calendar.google.com/calendar/embed?src=c_188c8d961c5e2b93bffb7fc711e54d02b8c05498ea5c37a1d1a55ae592b8df20%40group.calendar.google.com&ctz=America%2FNew_York&mode=AGENDA&color=%23c32232&bgcolor=%23070506" style="border:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
+        <iframe class="calendar-frame" src="https://calendar.google.com/calendar/embed?src=c_188c8d961c5e2b93bffb7fc711e54d02b8c05498ea5c37a1d1a55ae592b8df20%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&color=%23c32232&bgcolor=%23070506" style="border:0" width="100%" height="640" frameborder="0" scrolling="no"></iframe>
       </div>
       <div class="actions" style="margin-bottom:10px;">
         <button class="btn" id="idea-btn">Suggest a Night</button>
@@ -65,17 +65,52 @@
       <form class="calendar-form" id="calendar-form">
         <div class="calendar-form-grid">
           <label class="calendar-label">
-            Date/time
-            <input class="input" type="text" name="when" placeholder="Friday, 10pm" />
+            Date
+            <input class="input" type="date" name="date" data-label="Date" />
           </label>
           <label class="calendar-label">
-            What happens
-            <input class="input" type="text" name="what" placeholder="Afterparty, rooftop, chaos" />
+            Start time
+            <input class="input" type="time" name="time" data-label="Start time" />
+          </label>
+          <label class="calendar-label">
+            Plan
+            <input class="input" type="text" name="what" data-label="Plan" placeholder="Afterparty, rooftop, chaos" />
+          </label>
+          <label class="calendar-label">
+            Location
+            <input class="input" list="locations" name="where" data-label="Location" placeholder="Soho House, skyline lounge, secret bar" />
+            <datalist id="locations">
+              <option value="West Village townhouse" />
+              <option value="Lower East Side speakeasy" />
+              <option value="Rooftop with skyline views" />
+              <option value="Beachfront hideout" />
+              <option value="Private studio" />
+            </datalist>
+          </label>
+          <label class="calendar-label">
+            Duration
+            <select class="input" name="duration" data-label="Duration">
+              <option value="">Pick the run time</option>
+              <option value="Quick hit — 1 hour">Quick hit — 1 hour</option>
+              <option value="Standard trouble — 2 hours">Standard trouble — 2 hours</option>
+              <option value="After-hours stretch — 3+ hours">After-hours stretch — 3+ hours</option>
+              <option value="Until sunrise">Until sunrise</option>
+            </select>
+          </label>
+          <label class="calendar-label">
+            Vibe
+            <select class="input" name="vibe" data-label="Vibe">
+              <option value="">Pick the pace</option>
+              <option value="Slow burn">Slow burn</option>
+              <option value="Playful chaos">Playful chaos</option>
+              <option value="High voltage">High voltage</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
           </label>
         </div>
         <label class="calendar-label">
           Extras
-          <textarea class="input" name="notes" rows="3" placeholder="Dress code, playlist, guest list…"></textarea>
+          <textarea class="input" name="notes" rows="3" data-label="Extras" placeholder="Dress code, playlist, guest list…"></textarea>
         </label>
         <div class="actions">
           <button class="btn btn-primary" type="submit">Submit this schedule</button>
