@@ -356,6 +356,18 @@ header {
   margin-top: 32px;
 }
 
+.badge {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow);
+}
+
 .card {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(155, 15, 31, 0.04));
   border: 1px solid var(--border);
@@ -383,6 +395,29 @@ header {
 
 .card p {
   color: var(--muted);
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.pill {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.pill:hover {
+  border-color: var(--accent);
+  background: rgba(155, 15, 31, 0.14);
 }
 
 .chip-row {
@@ -458,11 +493,49 @@ header {
   gap: 10px;
 }
 
+.list-muted.tight {
+  gap: 6px;
+}
+
 .section-title {
   font-size: 1.4rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
+}
+
+.vibe-tracks {
+  margin-top: -18px;
+  position: relative;
+  z-index: 1;
+}
+
+.signal-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 12px;
+}
+
+.signal-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 6px;
+}
+
+.signal-label {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.signal-copy {
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 .section-eyebrow {
