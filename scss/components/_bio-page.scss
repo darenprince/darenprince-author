@@ -64,19 +64,14 @@
     align-items: start;
 
     @include respond-to(md) {
-      grid-template-columns: minmax(0, 360px) 1fr;
+      grid-template-columns: minmax(0, 380px) 1fr;
     }
   }
 
   .bio-intro__media {
     display: grid;
     gap: $spacing-sm;
-  }
-
-  .bio-intro__portrait-stack {
-    display: grid;
-    gap: $spacing-sm;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    align-content: start;
   }
 
   .bio-intro__portrait {
@@ -106,8 +101,15 @@
   }
 
   .bio-intro__portrait--primary {
+    padding: $spacing-md;
+
     img {
       aspect-ratio: 3 / 4;
+    }
+
+    figcaption {
+      max-width: 32ch;
+      margin-inline: auto;
     }
   }
 
@@ -124,6 +126,10 @@
       font-style: italic;
     }
   }
+}
+
+.bio-icon {
+  stroke-width: 1.6;
 }
 
 .bio-stats {
