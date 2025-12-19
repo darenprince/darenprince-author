@@ -8046,17 +8046,13 @@ body.is-preloading {
 }
 @media (min-width: 768px) {
   .bio-intro .bio-intro__grid {
-    grid-template-columns: minmax(0, 360px) 1fr;
+    grid-template-columns: minmax(0, 380px) 1fr;
   }
 }
 .bio-intro .bio-intro__media {
   display: grid;
   gap: 0.75rem;
-}
-.bio-intro .bio-intro__portrait-stack {
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  align-content: start;
 }
 .bio-intro .bio-intro__portrait {
   background: linear-gradient(
@@ -8081,8 +8077,15 @@ body.is-preloading {
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--color-muted) 90%, var(--color-white) 10%);
 }
+.bio-intro .bio-intro__portrait--primary {
+  padding: 1rem;
+}
 .bio-intro .bio-intro__portrait--primary img {
   aspect-ratio: 3/4;
+}
+.bio-intro .bio-intro__portrait--primary figcaption {
+  max-width: 32ch;
+  margin-inline: auto;
 }
 .bio-intro .bio-intro__content {
   display: flex;
@@ -8095,6 +8098,10 @@ body.is-preloading {
   border-left: 3px solid var(--color-lime);
   background: color-mix(in srgb, var(--gray-900) 88%, transparent);
   font-style: italic;
+}
+
+.bio-icon {
+  stroke-width: 1.6;
 }
 
 .bio-stats {
