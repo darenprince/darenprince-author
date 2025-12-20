@@ -1,14 +1,21 @@
-@use "../tokens/colors" as *;
+@use '../tokens/colors' as *;
 
-i[class^="ti"], i[class*=" ti-"] {
+i[class^='ti'],
+i[class*=' ti-'] {
   display: inline-block;
   color: $icon;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  font-weight: 400;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
 }
 
-a:hover i[class^="ti"], a:active i[class^="ti"],
-button:hover i[class^="ti"], button:active i[class^="ti"],
-i[class^="ti"]:hover, i[class^="ti"]:active {
+a:hover i[class^='ti'],
+a:active i[class^='ti'],
+button:hover i[class^='ti'],
+button:active i[class^='ti'],
+i[class^='ti']:hover,
+i[class^='ti']:active {
   color: $deep-green;
   text-shadow: 0 0 8px $medium-green;
 }
