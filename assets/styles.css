@@ -4218,6 +4218,7 @@ i[class^='ti'],
 i[class*=' ti-'] {
   display: inline-block;
   color: var(--color-icon);
+  font-weight: 400;
   transition:
     color 0.3s ease,
     text-shadow 0.3s ease;
