@@ -53,7 +53,7 @@ function updateSubmitLabel() {
   if (!submitBtn) return
   const isSignin = mode === 'signin'
   const label = isSignin ? 'Sign In' : 'Create Account'
-  const icon = isSignin ? 'ti ti-key' : 'ti ti-user-plus'
+  const icon = isSignin ? 'ph ph-key' : 'ph ph-user-plus'
   submitBtn.innerHTML = `<i class="${icon}"></i> ${label}`
 }
 
