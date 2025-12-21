@@ -1,5 +1,5 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
 .form-group {
   margin-bottom: $spacing-md;
 }
@@ -49,8 +49,8 @@ select[disabled] {
 }
 
 .is-valid::before {
-  font-family: "tabler-icons";
-  content: "\ea67";
+  font-family: 'Phosphor';
+  content: '\e184';
   position: absolute;
   left: $spacing-sm;
   top: 50%;
@@ -65,8 +65,8 @@ select[disabled] {
 }
 
 .is-invalid::before {
-  font-family: "tabler-icons";
-  content: "\ea6a";
+  font-family: 'Phosphor';
+  content: '\e4f8';
   position: absolute;
   left: $spacing-sm;
   top: 50%;

@@ -180,7 +180,7 @@ function initNavigationAndAuth() {
     loginHandler = function () {
       window.location.href = '/login.html'
     }
-    authToggle.innerHTML = '<i class="ti ti-key"></i> Log In'
+    authToggle.innerHTML = '<i class="ph ph-key"></i> Log In'
     authToggle.addEventListener('click', loginHandler)
   }
 
@@ -258,7 +258,7 @@ function initNavigationAndAuth() {
         <button class="search-close" aria-label="Close search">&times;</button>
         <form class="search-form flex items-center">
           <input type="search" placeholder="search site" />
-          <button type="submit" class="search-submit"><i class="ti ti-search"></i></button>
+          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
         </form>
       </div>`
     document.body.appendChild(overlay)

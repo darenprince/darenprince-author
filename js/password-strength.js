@@ -51,7 +51,7 @@ function setReqState(name, valid) {
   el.classList.toggle('invalid', !valid)
   const icon = el.querySelector('i')
   if (icon) {
-    icon.className = valid ? 'ti ti-check' : 'ti ti-circle'
+    icon.className = valid ? 'ph ph-check' : 'ph ph-circle'
   }
 }
 

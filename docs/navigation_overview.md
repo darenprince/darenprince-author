@@ -2,7 +2,7 @@
 
 _Last updated: 2025-02-14_
 
-This guide summarizes the navigation system (mega menu, header icons, profile dropdown) with accurate file references.
+This guide summarizes the navigation system (mega menu, header icons, profile dropdown) with accurate file references. For icon usage standards, see `docs/icon-system.md`.
 
 ## 1. HTML markup
 
@@ -15,9 +15,11 @@ Most public pages (`index.html`, `book.html`, `login.html`, `contact.html`, etc.
       <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince" />
     </a>
     <div>
-      <button class="js-search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-      <button class="js-profile-toggle" aria-label="Account"><i class="ti ti-user"></i></button>
-      <button class="js-menu-toggle" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      <button class="js-search-toggle" aria-label="Search">
+        <i class="ph ph-magnifying-glass"></i>
+      </button>
+      <button class="js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
+      <button class="js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
     </div>
   </div>
   <div class="search-bar js-search-bar" hidden>…</div>
@@ -53,7 +55,7 @@ Run `npm run build` (or the `watch` script) after editing any of these partials.
 
 Every page loads:
 
-- [Tabler Icons](https://tabler.io/icons) for `<i class="ti …"></i>` glyphs.
+- [Phosphor Icons](https://phosphoricons.com/) for `<i class="ph …"></i>` glyphs.
 - [jQuery 3.7.1](https://code.jquery.com/jquery-3.7.1.min.js) for legacy scripts still referenced by some demos.
 - Future data provider SDK (to be reintroduced once the migration completes).
 

@@ -6,7 +6,7 @@
   <title>Style Guide</title>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <style>
     .swatch { padding:1rem; border-radius:0.35rem; display:flex; align-items:center; justify-content:center; color:var(--color-black); }
     .swatch.dark { color:var(--color-white); }
@@ -152,13 +152,13 @@
           <button class="btn btn--secondary">.btn.btn--secondary</button>
           <button class="btn btn--accent">.btn.btn--accent</button>
           <button class="btn btn--ghost">.btn.btn--ghost</button>
-          <button class="icon-btn"><i class="ti ti-check"></i></button>
-          <button class="icon-btn--ghost"><i class="ti ti-check"></i></button>
-          <button class="icon-btn--text"><i class="ti ti-plus"></i> Add</button>
-          <button class="nav-icon-btn"><i class="ti ti-home"></i></button>
-          <button class="nav-icon-btn nav-icon-btn--static"><i class="ti ti-home"></i></button>
-          <button class="hamburger-btn"><i class="ti ti-menu-2"></i></button>
-          <button class="auth-btn"><i class="ti ti-user"></i> Login</button>
+          <button class="icon-btn"><i class="ph ph-check"></i></button>
+          <button class="icon-btn--ghost"><i class="ph ph-check"></i></button>
+          <button class="icon-btn--text"><i class="ph ph-plus"></i> Add</button>
+          <button class="nav-icon-btn"><i class="ph ph-house"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static"><i class="ph ph-house"></i></button>
+          <button class="hamburger-btn"><i class="ph ph-list"></i></button>
+          <button class="auth-btn"><i class="ph ph-user"></i> Login</button>
         </div>
         <h3>Gradient Buttons</h3>
         <div class="component-example">
@@ -265,14 +265,15 @@
 
       <section id="icons" class="component">
         <h2>Icons</h2>
+        <p>Phosphor Icons are the standard across Crown brands. Use the <code>ph</code> base class plus the icon name (e.g., <code>ph-house</code>) and keep icons aligned with dark-mode contrast. Reference <code>docs/icon-system.md</code> for the official icon map.</p>
         <div class="flex gap-sm component-example">
-          <i class="ti ti-home"></i>
-          <i class="ti ti-user"></i>
-          <i class="ti ti-mail"></i>
-          <i class="ti ti-book"></i>
-          <i class="ti ti-camera"></i>
+          <i class="ph ph-house"></i>
+          <i class="ph ph-user"></i>
+          <i class="ph ph-envelope"></i>
+          <i class="ph ph-book"></i>
+          <i class="ph ph-camera"></i>
         </div>
-<pre><code>&lt;i class="ti ti-home"&gt;&lt;/i&gt;</code></pre>
+<pre><code>&lt;i class="ph ph-house"&gt;&lt;/i&gt;</code></pre>
       </section>
 
       <section id="forms" class="component">
@@ -342,8 +343,6 @@
   <script src="/js/style-guide.js" type="module"></script>
 </body>
 </html>
-
-
 
 
 
