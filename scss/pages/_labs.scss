@@ -4,14 +4,14 @@
 
 .btn--labs-primary {
   @include button-base(
-    color-mix(in srgb, #{$deep-green} 78%, #{$charcoal}),
+    transparent,
     $white,
-    color-mix(in srgb, #{$deep-green} 65%, #{$charcoal}),
+    color-mix(in srgb, #{$charcoal} 70%, transparent),
     $white,
     1px,
-    color-mix(in srgb, #{$lime-green} 45%, #{$charcoal}),
-    0 18px 30px rgba(0, 0, 0, 0.35),
-    0 20px 35px rgba(0, 0, 0, 0.45)
+    color-mix(in srgb, #{$light-gray} 70%, transparent),
+    none,
+    none
   );
   --btn-radius: 999px;
   --btn-padding-x: 1.9rem;
@@ -25,6 +25,7 @@
 
 .labs-page {
   color: $white;
+  background: color-mix(in srgb, #{$charcoal} 85%, black);
 }
 
 .labs-nav {
