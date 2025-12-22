@@ -152,6 +152,380 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@300;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <style>
+    :root {
+      --labs-bg: #0a0c18;
+      --labs-surface: rgba(18, 23, 40, 0.92);
+      --labs-surface-strong: rgba(28, 36, 60, 0.96);
+      --labs-card: rgba(16, 20, 38, 0.9);
+      --labs-border: rgba(126, 145, 255, 0.16);
+      --labs-glow: rgba(124, 92, 255, 0.35);
+      --labs-accent: #6df6ff;
+      --labs-accent-strong: #7c5cff;
+      --labs-highlight: #f5e553;
+      --labs-text: #f5f7ff;
+      --labs-muted: #b2bbd8;
+      --labs-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --labs-radius-lg: 32px;
+      --labs-radius-md: 20px;
+      --labs-radius-sm: 14px;
+    }
+
+    body.labs-theme {
+      background: radial-gradient(circle at top, rgba(124, 92, 255, 0.25), transparent 40%),
+        radial-gradient(circle at 20% 20%, rgba(109, 246, 255, 0.25), transparent 45%),
+        var(--labs-bg);
+      color: var(--labs-text);
+    }
+
+    .labs-page {
+      background: transparent;
+    }
+
+    .labs-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 10, 20, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(124, 92, 255, 0.25);
+      box-shadow: 0 12px 40px rgba(7, 10, 18, 0.35);
+    }
+
+    .labs-nav__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .labs-nav__wordmark {
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .labs-nav__toggle {
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.14);
+      border: 1px solid rgba(124, 92, 255, 0.35);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .labs-nav__toggle:hover {
+      transform: translateY(-1px);
+      border-color: rgba(124, 92, 255, 0.6);
+    }
+
+    .labs-nav__menu {
+      background: rgba(8, 10, 20, 0.92);
+      border-top: 1px solid rgba(124, 92, 255, 0.2);
+    }
+
+    .labs-nav__list a {
+      color: var(--labs-text);
+      opacity: 0.78;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .labs-nav__list a:hover,
+    .labs-nav__list a.is-active {
+      opacity: 1;
+      color: var(--labs-accent);
+    }
+
+    .labs-nav__cta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .btn--labs-primary {
+      background: linear-gradient(120deg, var(--labs-accent-strong), var(--labs-accent));
+      color: #090b14;
+      border: none;
+      box-shadow: 0 16px 40px rgba(109, 246, 255, 0.3);
+    }
+
+    .btn--labs-secondary {
+      background: transparent;
+      color: var(--labs-text);
+      border: 1px solid rgba(109, 246, 255, 0.6);
+      box-shadow: inset 0 0 0 1px rgba(124, 92, 255, 0.1);
+    }
+
+    .labs-hero {
+      background: radial-gradient(circle at top right, rgba(124, 92, 255, 0.2), transparent 45%),
+        radial-gradient(circle at 15% 50%, rgba(109, 246, 255, 0.22), transparent 50%);
+      padding-top: 6rem;
+    }
+
+    .labs-hero__layout {
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+    }
+
+    .labs-hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.15);
+      border: 1px solid rgba(124, 92, 255, 0.4);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .labs-hero__lead {
+      color: var(--labs-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .labs-hero__panel {
+      background: var(--labs-surface);
+      border: 1px solid var(--labs-border);
+      border-radius: var(--labs-radius-lg);
+      padding: 2rem;
+      box-shadow: var(--labs-shadow);
+    }
+
+    .labs-hero__panel h3 {
+      margin-bottom: 1rem;
+    }
+
+    .labs-hero__quicklinks {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1.5rem 0 0;
+    }
+
+    .labs-hero__quicklinks a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      border-radius: var(--labs-radius-sm);
+      border: 1px solid rgba(109, 246, 255, 0.25);
+      background: rgba(11, 14, 26, 0.7);
+      color: var(--labs-text);
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .labs-hero__quicklinks a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(109, 246, 255, 0.6);
+    }
+
+    .labs-hero__stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .labs-stat {
+      background: rgba(14, 18, 34, 0.8);
+      border-radius: var(--labs-radius-md);
+      padding: 1.2rem;
+      border: 1px solid rgba(124, 92, 255, 0.25);
+    }
+
+    .labs-stat strong {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--labs-accent);
+    }
+
+    .labs-section-header {
+      max-width: 720px;
+      margin-bottom: 2.5rem;
+    }
+
+    .labs-section-eyebrow {
+      display: inline-block;
+      color: var(--labs-highlight);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .labs-overview {
+      background: rgba(10, 12, 22, 0.6);
+      border-top: 1px solid rgba(124, 92, 255, 0.1);
+      border-bottom: 1px solid rgba(124, 92, 255, 0.1);
+    }
+
+    .labs-overview__grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .labs-overview__card {
+      background: var(--labs-card);
+      border-radius: var(--labs-radius-md);
+      padding: 1.6rem;
+      border: 1px solid rgba(124, 92, 255, 0.2);
+      box-shadow: 0 24px 60px rgba(9, 12, 24, 0.4);
+    }
+
+    .labs-overview__card h3 {
+      margin-top: 0.4rem;
+    }
+
+    .labs-pillars {
+      gap: 1.5rem;
+    }
+
+    .labs-pillar {
+      background: var(--labs-card);
+      border: 1px solid rgba(124, 92, 255, 0.18);
+      border-radius: var(--labs-radius-md);
+      padding: 1.8rem;
+    }
+
+    .labs-showcase {
+      position: relative;
+    }
+
+    .labs-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .labs-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      background: var(--labs-card);
+      border: 1px solid rgba(124, 92, 255, 0.2);
+      border-radius: var(--labs-radius-lg);
+      padding: 2rem;
+      box-shadow: var(--labs-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .labs-card__media {
+      width: 100%;
+      max-width: 180px;
+      aspect-ratio: 1;
+      border-radius: 26px;
+      padding: 0.35rem;
+      background: linear-gradient(140deg, rgba(109, 246, 255, 0.5), rgba(124, 92, 255, 0.45));
+      box-shadow: 0 18px 40px rgba(109, 246, 255, 0.2);
+    }
+
+    .labs-card__image {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .labs-card__content {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .labs-card__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .labs-card__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.2);
+      color: var(--labs-text);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .labs-card__summary {
+      color: var(--labs-muted);
+    }
+
+    .labs-card__watermark {
+      opacity: 0.15;
+    }
+
+    .labs-card__list li {
+      color: var(--labs-muted);
+    }
+
+    .labs-accordion__summary {
+      background: rgba(11, 14, 26, 0.7);
+      border-radius: 12px;
+    }
+
+    .labs-rollout__grid {
+      gap: 2rem;
+    }
+
+    .labs-rollout__item {
+      background: rgba(13, 17, 31, 0.7);
+      border-radius: var(--labs-radius-sm);
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(124, 92, 255, 0.18);
+    }
+
+    .labs-roadmap {
+      background: var(--labs-surface-strong);
+      border-radius: var(--labs-radius-lg);
+      border: 1px solid rgba(109, 246, 255, 0.2);
+      box-shadow: var(--labs-shadow);
+    }
+
+    .labs-briefing__card,
+    .labs-briefing__snapshot {
+      background: rgba(12, 15, 28, 0.85);
+      border: 1px solid rgba(124, 92, 255, 0.18);
+      border-radius: var(--labs-radius-md);
+      box-shadow: 0 16px 50px rgba(8, 10, 18, 0.35);
+    }
+
+    .labs-briefing__icon {
+      color: var(--labs-highlight);
+    }
+
+    @media (min-width: 960px) {
+      .labs-card {
+        grid-template-columns: 200px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .labs-card__media {
+        max-width: 200px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .labs-nav__menu-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+
+      .labs-nav__cta {
+        margin-top: 0;
+      }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -312,7 +686,7 @@
     <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
   <!-- End Apple PWA + Safari enhancements -->
 </head>
-<body class="theme-dark brand-exempt">
+<body class="theme-dark brand-exempt labs-theme">
   <header class="labs-nav" role="banner">
     <div class="labs-nav__inner container max-width-adaptive-lg">
       <a href="index.html" class="labs-nav__brand">
@@ -370,12 +744,17 @@
         <ul class="labs-nav__list">
           <li><a href="index.html">Home</a></li>
           <li><a href="#introduction"><i class="ph ph-sparkle" aria-hidden="true"></i><span>Introduction</span></a></li>
+          <li><a href="#overview"><i class="ph ph-planet" aria-hidden="true"></i><span>Overview</span></a></li>
           <li><a href="#briefing"><i class="ph ph-chart-scatter" aria-hidden="true"></i><span>Briefing</span></a></li>
           <li><a href="#philosophy"><i class="ph ph-compass" aria-hidden="true"></i><span>Philosophy</span></a></li>
           <li><a href="#catalog" class="is-active" aria-current="page"><i class="ph ph-crown" aria-hidden="true"></i><span>Catalog</span></a></li>
           <li><a href="#coming-soon"><i class="ph ph-scan" aria-hidden="true"></i><span>Coming Soon</span></a></li>
           <li><a href="contact.html"><i class="ph ph-envelope" aria-hidden="true"></i><span>Contact</span></a></li>
         </ul>
+        <div class="labs-nav__cta">
+          <a class="btn btn--labs-secondary" href="#briefing"><i class="ph ph-clipboard-text"></i>Read the briefing</a>
+          <a class="btn btn--labs-primary" href="contact.html"><i class="ph ph-phone"></i>Start a build</a>
+        </div>
       </div>
     </nav>
   </header>
@@ -388,17 +767,71 @@
           <h1>Innovation. Intelligence. Integrity.</h1>
           <p class="labs-hero__lead">A Division of Daren Prince Publishing</p>
           <p>Crown Labs is the experimental and development division of Daren Prince Publishing, the creative force behind a growing network of intelligent technologies, digital platforms, and human centered innovations.</p>
-          <p>This is where ideas evolve into living systems. Within these walls, advanced AI models, logic hardened data engines, and real time emergency technologies are designed, tested, and refined with precision and purpose. Every project begins with one belief: true intelligence starts with intention, and technology should always serve humanity.</p>
-          <p>Crown Labs is the core laboratory behind all major Daren Prince Publishing ventures, including CrownCode.ai, CrownCode Intelligence Suite, Crown SOS, Operation Phoenix, AiCherryPie, Pic Detective, JustUs.chat, and Game On. It is the intersection of behavioral science, machine learning, and creative engineering, a space where technology learns to feel, to adapt, and to protect.</p>
-          <p>This division represents the heart of Daren Prince Publishing. It blends creativity, logic, and moral intelligence into one unified vision that drives every brand forward.</p>
+          <p>Within these walls, advanced AI models, logic hardened data engines, and real time emergency technologies are designed, tested, and refined with precision and purpose. Every project begins with one belief: true intelligence starts with intention, and technology should always serve humanity.</p>
+          <p>Crown Labs is the core laboratory behind all major Daren Prince Publishing ventures, including CrownCode.ai, CrownCode Intelligence Suite, Crown SOS, Operation Phoenix, AiCherryPie, Pic Detective, JustUs.chat, and Game On.</p>
           <div class="labs-hero__cta">
             <a class="btn btn--labs-primary" href="#catalog"><i class="ph ph-rocket"></i>Explore the project catalog</a>
+            <a class="btn btn--labs-secondary" href="#overview"><i class="ph ph-compass-rose"></i>See the lab overview</a>
+          </div>
+          <div class="labs-hero__stats">
+            <div class="labs-stat">
+              <strong>8</strong>
+              <span>Active initiatives</span>
+            </div>
+            <div class="labs-stat">
+              <strong>4</strong>
+              <span>Launches in flight</span>
+            </div>
+            <div class="labs-stat">
+              <strong>24/7</strong>
+              <span>Safety-grade mindset</span>
+            </div>
           </div>
         </div>
+        <aside class="labs-hero__panel" aria-label="Crown Labs quick navigation">
+          <h3>Lab navigation</h3>
+          <p>Navigate the experience by mission stage. Each section includes status, capabilities, and the next evolution for the Crown ecosystem.</p>
+          <div class="labs-hero__quicklinks">
+            <a href="#overview"><span>Overview & signals</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+            <a href="#briefing"><span>Executive briefing</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+            <a href="#catalog"><span>Project catalog</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+            <a href="#coming-soon"><span>Launch runway</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          </div>
+        </aside>
       </div>
     </section>
 
-
+    <section class="labs-overview padding-y-xl" id="overview">
+      <div class="container max-width-adaptive-lg">
+        <header class="labs-section-header">
+          <span class="labs-section-eyebrow">Lab Overview</span>
+          <h2>High-definition signals for every Crown Labs build.</h2>
+          <p>We track the ecosystem by mission category so teams can immediately see what is active, what is incubating, and what is ready for launch partnerships.</p>
+        </header>
+        <div class="labs-overview__grid">
+          <article class="labs-overview__card">
+            <span class="labs-section-eyebrow">Intelligence Systems</span>
+            <h3>Decision engines with emotional fidelity.</h3>
+            <p>Behavioral intelligence, pattern decoding, and adaptive learning models align CrownCode.ai and the Intelligence Suite to deepen clarity and reduce risk.</p>
+          </article>
+          <article class="labs-overview__card">
+            <span class="labs-section-eyebrow">Safety Networks</span>
+            <h3>Protection-first infrastructure.</h3>
+            <p>Crown SOS and JustUs.chat deliver encrypted, rapid-response experiences where safety, consent, and accountability are never optional.</p>
+          </article>
+          <article class="labs-overview__card">
+            <span class="labs-section-eyebrow">Human Recovery</span>
+            <h3>Systems that stabilize and rebuild.</h3>
+            <p>Operation Phoenix and companion tools provide recovery scaffolding, resilience playbooks, and measurable momentum.</p>
+          </article>
+          <article class="labs-overview__card">
+            <span class="labs-section-eyebrow">Creative Integrity</span>
+            <h3>Authenticity engines for creators.</h3>
+            <p>AiCherryPie and Pic Detective guard the emotional and factual truth behind every creative output.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
     <section class="labs-philosophy padding-y-xl" id="philosophy">
       <div class="container max-width-adaptive-lg">
@@ -435,389 +868,469 @@
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-code"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-code"></i></span>
-            <div class="labs-card__header">
-              <h3>CrownCode.ai</h3>
-              <p class="labs-card__summary">CrownCode.ai is the foundation of the Crown ecosystem, powering modular intelligence engines across every Crown Labs build.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for CrownCode.ai">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>It serves as the advanced intelligence engine development platform where analytical frameworks, modular AI tools, and logic hardened data systems are built, trained, and deployed for the entire network.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
+                <span class="labs-card__tag">AI Engine</span>
+                <span class="labs-card__tag">Internal</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>CrownCode.ai</h3>
+                <p class="labs-card__summary">CrownCode.ai is the foundation of the Crown ecosystem, powering modular intelligence engines across every Crown Labs build.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>It serves as the advanced intelligence engine development platform where analytical frameworks, modular AI tools, and logic hardened data systems are built, trained, and deployed for the entire network.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Development and training of specialized intelligence engines</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Secure architecture for modular integration</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>SCSS and JS framework for rapid application builds</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Central data and analytics infrastructure</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Collaboration environment for adaptive AI design</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Development and training of specialized intelligence engines</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Secure architecture for modular integration</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>SCSS and JS framework for rapid application builds</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Central data and analytics infrastructure</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Collaboration environment for adaptive AI design</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To push the boundaries of applied artificial intelligence with precision, creativity, and human awareness.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To push the boundaries of applied artificial intelligence with precision, creativity, and human awareness.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-chart-line-up"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-chart-line-up"></i></span>
-            <div class="labs-card__header">
-              <h3>CrownCode Intelligence Suite</h3>
-              <p class="labs-card__summary">The CrownCode Intelligence Suite decodes human patterns with forensic precision to reveal motives, deception, and emotional states.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for CrownCode Intelligence Suite">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>Built from the evolution of Dr. Prince Mode, this environment fuses behavioral science, psychological intelligence, and emotional resonance modeling to reconstruct narratives and decode deception dynamics.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
+                <span class="labs-card__tag">Intelligence</span>
+                <span class="labs-card__tag">Analytics</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>CrownCode Intelligence Suite</h3>
+                <p class="labs-card__summary">The CrownCode Intelligence Suite decodes human patterns with forensic precision to reveal motives, deception, and emotional states.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>Built from the evolution of Dr. Prince Mode, this environment fuses behavioral science, psychological intelligence, and emotional resonance modeling to reconstruct narratives and decode deception dynamics.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Behavioral and psychological profiling</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Narrative and motive reconstruction</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Trauma response and emotional resonance tracking</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Deception pattern detection with OSINT correlation</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Advanced visualization and reporting tools</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Behavioral and psychological profiling</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Narrative and motive reconstruction</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Trauma response and emotional resonance tracking</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Deception pattern detection with OSINT correlation</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Advanced visualization and reporting tools</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To bring clarity where confusion lives and truth where deception hides by turning raw data into decisive intelligence.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To bring clarity where confusion lives and truth where deception hides by turning raw data into decisive intelligence.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-siren"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-siren"></i></span>
-            <div class="labs-card__header">
-              <h3>Crown SOS</h3>
-              <p class="labs-card__summary">Crown SOS transforms every smartphone into a safety lifeline with instant, encrypted SOS broadcasts.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Crown SOS">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>Users create custom trigger gestures, voice commands, or inactivity timers that immediately deliver audio, video, medical intel, and live coordinates to trusted contacts or designated responders.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
+                <span class="labs-card__tag">Safety</span>
+                <span class="labs-card__tag">Mobile + Web</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>Crown SOS</h3>
+                <p class="labs-card__summary">Crown SOS transforms every smartphone into a safety lifeline with instant, encrypted SOS broadcasts.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>Users create custom trigger gestures, voice commands, or inactivity timers that immediately deliver audio, video, medical intel, and live coordinates to trusted contacts or designated responders.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Custom trigger gestures, voice commands, or inactivity timers</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted transmission of live media and coordinates</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Smart safety profiles with medical details and ICE contacts</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Private network alerts for family, teams, or security groups</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with CrownCode.ai and JustUs.chat</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Custom trigger gestures, voice commands, or inactivity timers</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted transmission of live media and coordinates</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Smart safety profiles with medical details and ICE contacts</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Private network alerts for family, teams, or security groups</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with CrownCode.ai and JustUs.chat</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To combine technology, trust, and rapid response so help arrives the instant someone needs it.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To combine technology, trust, and rapid response so help arrives the instant someone needs it.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-flame"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-flame"></i></span>
-            <div class="labs-card__header">
-              <h3>Operation Phoenix</h3>
-              <p class="labs-card__summary">Operation Phoenix delivers a stability, recovery, and reinvention framework built to defeat crisis and rebuild strength.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Operation Phoenix">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>Created to combat homelessness and acute instability, the framework evolved from survival system to empowerment blueprint rooted in the Unshakeable philosophy of rebuilding from within.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In production</span>
+                <span class="labs-card__tag">Recovery</span>
+                <span class="labs-card__tag">Curriculum</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>Operation Phoenix</h3>
+                <p class="labs-card__summary">Operation Phoenix delivers a stability, recovery, and reinvention framework built to defeat crisis and rebuild strength.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>Created to combat homelessness and acute instability, the framework evolved from survival system to empowerment blueprint rooted in the Unshakeable philosophy of rebuilding from within.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Stability modules covering shelter, budgeting, boundaries, and safety</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Emotional recovery lessons grounded in Unshakeable principles</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Journaling and daily reflection exercises</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Progress tracking and accountability systems</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Personal growth challenges to rebuild confidence and control</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Stability modules covering shelter, budgeting, boundaries, and safety</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Emotional recovery lessons grounded in Unshakeable principles</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Journaling and daily reflection exercises</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Progress tracking and accountability systems</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Personal growth challenges to rebuild confidence and control</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To help people reclaim stability, rebuild identity, and rise unshakeable with structure, awareness, and self leadership.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To help people reclaim stability, rebuild identity, and rise unshakeable with structure, awareness, and self leadership.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-ice-cream"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-ice-cream"></i></span>
-            <div class="labs-card__header">
-              <h3>AiCherryPie</h3>
-              <p class="labs-card__summary">AiCherryPie humanizes AI generated text so every deliverable feels natural, emotive, and unmistakably human.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for AiCherryPie">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>The engine strips mechanical phrasing, restores emotional rhythm, and preserves author identity so AI-assisted writing reads raw, real, and alive.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
+                <span class="labs-card__tag">Creative</span>
+                <span class="labs-card__tag">Tone engine</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>AiCherryPie</h3>
+                <p class="labs-card__summary">AiCherryPie humanizes AI generated text so every deliverable feels natural, emotive, and unmistakably human.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>The engine strips mechanical phrasing, restores emotional rhythm, and preserves author identity so AI-assisted writing reads raw, real, and alive.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Removes robotic phrasing and repetitive structures</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Preserves writer identity and emotional rhythm</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reconstructs tone and flow for believability</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Enforces the “Write Like You Bleed” directive from Daren Prince Publishing</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Removes robotic phrasing and repetitive structures</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Preserves writer identity and emotional rhythm</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reconstructs tone and flow for believability</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Enforces the “Write Like You Bleed” directive from Daren Prince Publishing</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To restore humanity to written expression and bring emotion back to the modern voice.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To restore humanity to written expression and bring emotion back to the modern voice.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>
-            <div class="labs-card__header">
-              <h3>Pic Detective</h3>
-              <p class="labs-card__summary">Pic Detective safeguards creators with visual intelligence that validates imagery and exposes manipulation.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Pic Detective">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>The toolkit combines anomaly detection, source tracing, and pattern recognition to authenticate images for investigators, journalists, and creative teams.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Prototype</span>
+                <span class="labs-card__tag">Verification</span>
+                <span class="labs-card__tag">Image AI</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>Pic Detective</h3>
+                <p class="labs-card__summary">Pic Detective safeguards creators with visual intelligence that validates imagery and exposes manipulation.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>The toolkit combines anomaly detection, source tracing, and pattern recognition to authenticate images for investigators, journalists, and creative teams.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Metadata and EXIF inspection</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reverse image and similarity searches</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Visual clustering and reference organization</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Exportable authenticity reports</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Metadata and EXIF inspection</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reverse image and similarity searches</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Visual clustering and reference organization</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Exportable authenticity reports</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To make truth visible by confirming what is real in a digital world that blurs the line.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To make truth visible by confirming what is real in a digital world that blurs the line.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-chat-circle"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-chat-circle"></i></span>
-            <div class="labs-card__header">
-              <h3>JustUs.chat</h3>
-              <p class="labs-card__summary">JustUs.chat keeps conversations private, temporary, and accountable for teams, families, and support circles.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for JustUs.chat">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>The platform enables real, temporary conversations that self-delete after use, preserving confidentiality while keeping trusted circles connected.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
+                <span class="labs-card__tag">Comms</span>
+                <span class="labs-card__tag">Secure rooms</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>JustUs.chat</h3>
+                <p class="labs-card__summary">JustUs.chat keeps conversations private, temporary, and accountable for teams, families, and support circles.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>The platform enables real, temporary conversations that self-delete after use, preserving confidentiality while keeping trusted circles connected.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Temporary chat rooms that delete automatically</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted text and voice messages</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Invite only access for trusted users</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Optional SOS integration for emergency escalation</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Temporary chat rooms that delete automatically</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted text and voice messages</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Invite only access for trusted users</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Optional SOS integration for emergency escalation</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To restore privacy, safety, and honesty to digital communication.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To restore privacy, safety, and honesty to digital communication.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
           <article class="card labs-card">
             <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-game-controller"></i></span>
             <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-game-controller"></i></span>
-            <div class="labs-card__header">
-              <h3>Game On!</h3>
-              <p class="labs-card__summary">Game On! is the flagship author brand anchoring the Game On relationship intelligence series and its global reach.</p>
+            <div class="labs-card__media">
+              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Game On!">
             </div>
-            <div class="labs-card__accordion">
-              <details class="labs-accordion labs-accordion--details">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Details</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p>The brand hub centralizes the catalog for <em>Game On: Master the Conversation and Win Her Heart</em> and prepares the runway for future releases across print, digital, and experiential channels.</p>
+            <div class="labs-card__content">
+              <div class="labs-card__meta">
+                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
+                <span class="labs-card__tag">Brand</span>
+                <span class="labs-card__tag">Media</span>
+              </div>
+              <div class="labs-card__header">
+                <h3>Game On!</h3>
+                <p class="labs-card__summary">Game On! is the flagship author brand anchoring the Game On relationship intelligence series and its global reach.</p>
+              </div>
+              <div class="labs-card__accordion">
+                <details class="labs-accordion labs-accordion--details">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Details</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p>The brand hub centralizes the catalog for <em>Game On: Master the Conversation and Win Her Heart</em> and prepares the runway for future releases across print, digital, and experiential channels.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--features">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Core Features</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <ul class="labs-card__list">
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>A+ content experiences and global vendor listings</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Media kits and press resources</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Interactive 3D book viewer</span></li>
-                      <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with Crown Labs systems</span></li>
-                    </ul>
+                </details>
+                <details class="labs-accordion labs-accordion--features">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Core Features</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <ul class="labs-card__list">
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>A+ content experiences and global vendor listings</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Media kits and press resources</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Interactive 3D book viewer</span></li>
+                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with Crown Labs systems</span></li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-              <details class="labs-accordion labs-accordion--mission">
-                <summary class="labs-accordion__summary">
-                  <span class="labs-accordion__label">Mission</span>
-                  <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                </summary>
-                <div class="labs-accordion__content">
-                  <div class="labs-accordion__body">
-                    <p class="labs-card__mission">To redefine communication, confidence, and connection for the modern world.</p>
+                </details>
+                <details class="labs-accordion labs-accordion--mission">
+                  <summary class="labs-accordion__summary">
+                    <span class="labs-accordion__label">Mission</span>
+                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
+                  </summary>
+                  <div class="labs-accordion__content">
+                    <div class="labs-accordion__body">
+                      <p class="labs-card__mission">To redefine communication, confidence, and connection for the modern world.</p>
+                    </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              </div>
             </div>
           </article>
         </div>
