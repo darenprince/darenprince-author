@@ -4,14 +4,14 @@
 
 .btn--labs-primary {
   @include button-base(
-    color-mix(in srgb, #{$lime-green} 85%, #{$bright-green}),
-    $black,
-    color-mix(in srgb, #{$lime-green} 70%, #{$bright-green}),
-    $black,
+    color-mix(in srgb, #{$deep-green} 78%, #{$charcoal}),
+    $white,
+    color-mix(in srgb, #{$deep-green} 65%, #{$charcoal}),
+    $white,
     1px,
-    color-mix(in srgb, #{$lime-green} 65%, transparent),
-    0 18px 30px rgba(18, 255, 169, 0.25),
-    0 20px 35px rgba(18, 255, 169, 0.35)
+    color-mix(in srgb, #{$lime-green} 45%, #{$charcoal}),
+    0 18px 30px rgba(0, 0, 0, 0.35),
+    0 20px 35px rgba(0, 0, 0, 0.45)
   );
   --btn-radius: 999px;
   --btn-padding-x: 1.9rem;
