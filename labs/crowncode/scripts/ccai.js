@@ -15,6 +15,7 @@ const briefLoader = document.getElementById('ccai-brief-loader')
 const accessModal = document.getElementById('ccai-access-modal')
 const gateModal = document.getElementById('ccai-gate')
 const warningModal = document.getElementById('ccai-warning-modal')
+const betaModal = document.getElementById('ccai-beta-modal')
 const securityToast = document.getElementById('ccai-security-toast')
 const securityToastText = document.getElementById('ccai-security-text')
 const accessForm = document.getElementById('ccai-access-form')
@@ -33,6 +34,13 @@ const gateTriggers = document.querySelectorAll('[data-gate-trigger]')
 const modalCloseButtons = document.querySelectorAll('[data-modal-close]')
 const inquiryForm = document.getElementById('ccai-inquiry-form')
 const inquirySuccess = document.getElementById('ccai-inquiry-success')
+const betaForm = document.getElementById('ccai-beta-form')
+const betaSuccess = document.getElementById('ccai-beta-success')
+const betaTriggers = document.querySelectorAll('[data-beta-trigger]')
+const animatedSections = document.querySelectorAll('[data-ccai-animate]')
+const preloadedImages = document.querySelectorAll(
+  '.ccai-feature-banner__image img, .ccai-app-suite__grid img'
+)
 
 const state = {
   gateInput: '',
@@ -225,6 +233,16 @@ function initializeInquiryForm() {
   })
 }
 
+function initializeBetaForm() {
+  if (!betaForm || !betaSuccess) return
+  betaForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    betaSuccess.hidden = false
+    betaForm.reset()
+    showSecurityToast('Beta intake submitted')
+  })
+}
+
 function initializeEventListeners() {
   accessTriggers.forEach((trigger) => {
     trigger.addEventListener('click', openAccessFlow)
@@ -238,13 +256,22 @@ function initializeEventListeners() {
     })
   })
 
+  betaTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      if (betaSuccess) {
+        betaSuccess.hidden = true
+      }
+      openModal(betaModal)
+    })
+  })
+
   modalCloseButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const modal = button.closest('.usa-modal')
       closeModal(modal)
     })
   })
-  ;[gateModal, accessModal, warningModal].forEach((modal) => {
+  ;[gateModal, accessModal, warningModal, betaModal].forEach((modal) => {
     modal?.addEventListener('click', (event) => {
       if (event.target === modal) {
         closeModal(modal)
@@ -337,8 +364,59 @@ function initializeLoaders() {
   })
 }
 
+function initializeAnimations() {
+  if (!animatedSections.length) return
+
+  if (prefersReducedMotion.matches || typeof IntersectionObserver !== 'function') {
+    animatedSections.forEach((section) => section.classList.add('is-visible'))
+    return
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-visible')
+        obs.unobserve(entry.target)
+      })
+    },
+    { threshold: 0.2 }
+  )
+
+  animatedSections.forEach((section) => observer.observe(section))
+}
+
+function initializePreloadedImages() {
+  if (!preloadedImages.length) return
+
+  preloadedImages.forEach((image) => {
+    if (image.complete) {
+      image.classList.add('is-loaded')
+      return
+    }
+
+    image.addEventListener(
+      'load',
+      () => {
+        image.classList.add('is-loaded')
+      },
+      { once: true }
+    )
+    image.addEventListener(
+      'error',
+      () => {
+        image.classList.add('is-loaded')
+      },
+      { once: true }
+    )
+  })
+}
+
 parseStoredAccess()
 initializeInquiryForm()
+initializeBetaForm()
 initializeEventListeners()
 initializeLoaders()
+initializeAnimations()
+initializePreloadedImages()
 updateGateDisplay()
