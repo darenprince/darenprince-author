@@ -1,1652 +1,577 @@
 <!DOCTYPE html>
-<html data-site-root="darenprince-author" lang="en">
+<html lang="en">
 <head>
-    <script>
-      (function () {
-        const html = document.documentElement;
-        const explicitRoot = html.getAttribute('data-site-root');
-        const host = window.location.hostname || '';
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
-        let prefix = '';
-        if (normalizedExplicit) {
-          prefix = '/' + normalizedExplicit;
-        } else if (host.endsWith('.github.io') && pathSegments.length) {
-          prefix = '/' + pathSegments[0];
-        }
-        const firstSegment = pathSegments[0] || '';
-        const shouldUsePrefix =
-          Boolean(prefix) &&
-          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
-        if (!shouldUsePrefix || prefix === '/') {
-          html.dataset.assetPrefix = '';
-          return;
-        }
-        if (prefix.endsWith('/')) {
-          prefix = prefix.slice(0, -1);
-        }
-        html.dataset.assetPrefix = prefix;
-        const URL_ATTRS = new Map([
-          ['A', ['href']],
-          ['LINK', ['href']],
-          ['SCRIPT', ['src']],
-          ['IMG', ['src', 'srcset']],
-          ['SOURCE', ['src', 'srcset']],
-          ['VIDEO', ['src', 'poster']],
-          ['AUDIO', ['src']],
-          ['IFRAME', ['src']],
-          ['USE', ['href', 'xlink:href']],
-          ['FORM', ['action']],
-        ]);
-        const shouldIgnore = (value) =>
-          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
-        const resolve = (value) => {
-          if (!value || shouldIgnore(value)) return value;
-          if (value === prefix || value.startsWith(prefix + '/')) {
-            return value;
-          }
-          if (value.startsWith('/')) {
-            return prefix + value;
-          }
-          return value;
-        };
-        const patchSrcset = (value) =>
-          value
-            .split(',')
-            .map((chunk) => {
-              const parts = chunk.trim().split(/\s+/);
-              if (!parts.length || !parts[0]) {
-                return chunk;
-              }
-              parts[0] = resolve(parts[0]);
-              return parts.join(' ');
-            })
-            .join(', ');
-        const patchNode = (node) => {
-          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
-          const attrs = URL_ATTRS.get(node.tagName);
-          if (!attrs) return;
-          for (const attr of attrs) {
-            const current = node.getAttribute(attr);
-            if (!current) continue;
-            if (attr === 'srcset') {
-              const next = patchSrcset(current);
-              if (next !== current) {
-                node.setAttribute(attr, next);
-              }
-              continue;
-            }
-            const next = resolve(current);
-            if (next === current) continue;
-            if (node.tagName === 'SCRIPT' && attr === 'src') {
-              const replacement = document.createElement('script');
-              node.getAttributeNames().forEach((name) => {
-                if (name === 'src') return;
-                replacement.setAttribute(name, node.getAttribute(name));
-              });
-              replacement.src = next;
-              if (node.parentNode) {
-                node.parentNode.insertBefore(replacement, node.nextSibling);
-              } else {
-                document.head.appendChild(replacement);
-              }
-              node.remove();
-            } else {
-              node.setAttribute(attr, next);
-            }
-          }
-        };
-        const patchSubtree = (root) => {
-          if (!root || !root.querySelectorAll) return;
-          URL_ATTRS.forEach((_, tag) => {
-            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
-          });
-        };
-        const observer = new MutationObserver((records) => {
-          records.forEach((record) => {
-            record.addedNodes.forEach((added) => {
-              if (added.nodeType === Node.ELEMENT_NODE) {
-                patchNode(added);
-                if (added.querySelectorAll) {
-                  added.querySelectorAll('*').forEach(patchNode);
-                }
-              }
-            });
-          });
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        const finalize = () => {
-          patchSubtree(document);
-          observer.disconnect();
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', finalize, { once: true });
-        } else {
-          finalize();
-        }
-      })();
-    </script>
-
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crown Labs | Innovation. Intelligence. Integrity.</title>
-  <meta name="description" content="Discover Crown Labs, the experimental division of Daren Prince Publishing designing AI engines, emergency technologies, and human-centered platforms that serve and protect.">
-  <meta property="og:title" content="Crown Labs | Innovation. Intelligence. Integrity.">
-  <meta property="og:description" content="Explore Crown Labs projects including CrownCode.ai, CrownCode Intelligence Suite, Crown SOS, Operation Phoenix, AiCherryPie, Pic Detective, JustUs.chat, and Game On!">
-  <meta property="og:image" content="https://darenprince.com/assets/images/og-daren-prince.png">
-  <meta property="og:image:secure_url" content="https://darenprince.com/assets/images/og-daren-prince.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1366">
-  <meta property="og:image:height" content="767">
-  <meta property="og:image:alt" content="Crown Labs applications collage">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://darenprince.com/labs">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Crown Labs | Innovation. Intelligence. Integrity.">
-  <meta name="twitter:description" content="Go inside Crown Labs, the experimental engine of Daren Prince Publishing, and review every active and upcoming build.">
-  <meta name="twitter:image" content="https://darenprince.com/assets/images/og-daren-prince.png">
-  <meta name="twitter:image:alt" content="Crown Labs applications collage">
-  <link rel="canonical" href="https://darenprince.com/labs">
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crown Labs | Corporate AI Security Research</title>
+  <meta name="description" content="Crown Labs is a corporate security + AI research firm delivering intelligence, defense, and future-forward innovation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --labs-bg: #0a0c18;
-      --labs-surface: rgba(18, 23, 40, 0.92);
-      --labs-surface-strong: rgba(28, 36, 60, 0.96);
-      --labs-card: rgba(16, 20, 38, 0.9);
-      --labs-border: rgba(126, 145, 255, 0.16);
-      --labs-glow: rgba(124, 92, 255, 0.35);
-      --labs-accent: #6df6ff;
-      --labs-accent-strong: #7c5cff;
-      --labs-highlight: #f5e553;
-      --labs-text: #f5f7ff;
-      --labs-muted: #b2bbd8;
-      --labs-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-      --labs-radius-lg: 32px;
-      --labs-radius-md: 20px;
-      --labs-radius-sm: 14px;
+      color-scheme: dark;
+      --bg: #070a12;
+      --bg-soft: #0d1220;
+      --panel: rgba(12, 17, 31, 0.9);
+      --panel-strong: rgba(18, 26, 46, 0.96);
+      --stroke: rgba(120, 140, 255, 0.2);
+      --glow: rgba(109, 230, 255, 0.32);
+      --accent: #6df6ff;
+      --accent-2: #7c5cff;
+      --accent-3: #f1e66f;
+      --text: #f8f9ff;
+      --muted: #b2bdd6;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      font-size: 16px;
     }
 
-    body.labs-theme {
-      background: radial-gradient(circle at top, rgba(124, 92, 255, 0.25), transparent 40%),
-        radial-gradient(circle at 20% 20%, rgba(109, 246, 255, 0.25), transparent 45%),
-        var(--labs-bg);
-      color: var(--labs-text);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .labs-page {
-      background: transparent;
-    }
-
-    .labs-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(8, 10, 20, 0.88);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(124, 92, 255, 0.25);
-      box-shadow: 0 12px 40px rgba(7, 10, 18, 0.35);
-    }
-
-    .labs-nav__brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .labs-nav__wordmark {
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-
-    .labs-nav__toggle {
-      border-radius: 999px;
-      background: rgba(124, 92, 255, 0.14);
-      border: 1px solid rgba(124, 92, 255, 0.35);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    .labs-nav__toggle:hover {
-      transform: translateY(-1px);
-      border-color: rgba(124, 92, 255, 0.6);
-    }
-
-    .labs-nav__menu {
-      background: rgba(8, 10, 20, 0.92);
-      border-top: 1px solid rgba(124, 92, 255, 0.2);
-    }
-
-    .labs-nav__list a {
-      color: var(--labs-text);
-      opacity: 0.78;
-      transition: opacity 0.2s ease, color 0.2s ease;
-    }
-
-    .labs-nav__list a:hover,
-    .labs-nav__list a.is-active {
-      opacity: 1;
-      color: var(--labs-accent);
-    }
-
-    .labs-nav__cta {
+    body {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(124, 92, 255, 0.25), transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(109, 246, 255, 0.2), transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(109, 246, 255, 0.12), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
+      overflow-x: hidden;
     }
 
-    .btn--labs-primary {
-      background: linear-gradient(120deg, var(--labs-accent-strong), var(--labs-accent));
-      color: #090b14;
-      border: none;
-      box-shadow: 0 16px 40px rgba(109, 246, 255, 0.3);
+    .app {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
     }
 
-    .btn--labs-secondary {
-      background: transparent;
-      color: var(--labs-text);
-      border: 1px solid rgba(109, 246, 255, 0.6);
-      box-shadow: inset 0 0 0 1px rgba(124, 92, 255, 0.1);
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      padding: 28px 24px;
+      background: linear-gradient(160deg, rgba(12, 17, 31, 0.98), rgba(8, 10, 20, 0.98));
+      border-right: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      transition: transform 0.4s ease;
+      z-index: 20;
     }
 
-    .labs-hero {
-      background: radial-gradient(circle at top right, rgba(124, 92, 255, 0.2), transparent 45%),
-        radial-gradient(circle at 15% 50%, rgba(109, 246, 255, 0.22), transparent 50%);
-      padding-top: 6rem;
+    .sidebar.is-collapsed {
+      transform: translateX(-100%);
     }
 
-    .labs-hero__layout {
-      display: grid;
-      gap: 2.5rem;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    .brand {
+      display: flex;
       align-items: center;
+      gap: 14px;
     }
 
-    .labs-hero__eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(124, 92, 255, 0.15);
-      border: 1px solid rgba(124, 92, 255, 0.4);
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
+    .brand__mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 35% 20%, var(--accent), transparent 55%),
+        linear-gradient(135deg, rgba(124, 92, 255, 0.9), rgba(9, 12, 24, 0.9));
+      border: 1px solid rgba(109, 246, 255, 0.35);
+      box-shadow: 0 0 20px rgba(109, 246, 255, 0.45);
     }
 
-    .labs-hero__lead {
-      color: var(--labs-muted);
-      font-weight: 600;
-      text-transform: uppercase;
+    .brand__text h1 {
+      font-size: 1.15rem;
       letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .labs-hero__panel {
-      background: var(--labs-surface);
-      border: 1px solid var(--labs-border);
-      border-radius: var(--labs-radius-lg);
-      padding: 2rem;
-      box-shadow: var(--labs-shadow);
+    .brand__text p {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
-    .labs-hero__panel h3 {
-      margin-bottom: 1rem;
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .labs-hero__quicklinks {
-      display: grid;
-      gap: 0.75rem;
-      margin: 1.5rem 0 0;
-    }
-
-    .labs-hero__quicklinks a {
-      display: inline-flex;
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: rgba(17, 23, 42, 0.55);
+      font-size: 0.95rem;
+      display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.7rem 1rem;
-      border-radius: var(--labs-radius-sm);
-      border: 1px solid rgba(109, 246, 255, 0.25);
-      background: rgba(11, 14, 26, 0.7);
-      color: var(--labs-text);
-      text-decoration: none;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: all 0.25s ease;
     }
 
-    .labs-hero__quicklinks a:hover {
-      transform: translateY(-2px);
-      border-color: rgba(109, 246, 255, 0.6);
+    .nav a span {
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-family: "IBM Plex Mono", monospace;
     }
 
-    .labs-hero__stats {
+    .nav a:hover {
+      border-color: rgba(109, 246, 255, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(109, 246, 255, 0.25);
+      background: rgba(17, 24, 45, 0.85);
+    }
+
+    .sidebar__footer {
+      margin-top: auto;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(124, 92, 255, 0.25);
+      background: rgba(14, 20, 38, 0.7);
+    }
+
+    .sidebar__footer h3 {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .sidebar__footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .main {
+      margin-left: 280px;
+      width: 100%;
+      padding: 32px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      transition: margin-left 0.4s ease;
+    }
+
+    .main.is-expanded {
+      margin-left: 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(10, 14, 26, 0.7);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(14px);
+    }
+
+    .toggle {
+      background: rgba(124, 92, 255, 0.12);
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle:hover {
+      background: rgba(124, 92, 255, 0.3);
+      box-shadow: 0 0 16px rgba(124, 92, 255, 0.4);
+    }
+
+    .hero {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      align-items: center;
     }
 
-    .labs-stat {
-      background: rgba(14, 18, 34, 0.8);
-      border-radius: var(--labs-radius-md);
-      padding: 1.2rem;
+    .hero__card {
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(109, 246, 255, 0.2);
+      box-shadow: var(--shadow);
+    }
+
+    .hero__eyebrow {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      margin-bottom: 14px;
+    }
+
+    .hero__title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero__subtitle {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.02rem;
+      margin-bottom: 24px;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(109, 246, 255, 0.2), rgba(124, 92, 255, 0.35));
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn--ghost {
+      background: transparent;
+      border-color: rgba(109, 246, 255, 0.4);
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 18px rgba(109, 246, 255, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .hero__panel {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(140deg, rgba(15, 22, 45, 0.95), rgba(9, 12, 24, 0.92));
       border: 1px solid rgba(124, 92, 255, 0.25);
     }
 
-    .labs-stat strong {
-      display: block;
-      font-size: 1.8rem;
-      color: var(--labs-accent);
+    .hero__panel h3 {
+      font-size: 1.1rem;
+      margin-bottom: 18px;
     }
 
-    .labs-section-header {
-      max-width: 720px;
-      margin-bottom: 2.5rem;
-    }
-
-    .labs-section-eyebrow {
-      display: inline-block;
-      color: var(--labs-highlight);
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .labs-overview {
-      background: rgba(10, 12, 22, 0.6);
-      border-top: 1px solid rgba(124, 92, 255, 0.1);
-      border-bottom: 1px solid rgba(124, 92, 255, 0.1);
-    }
-
-    .labs-overview__grid {
+    .hero__panel ul {
+      list-style: none;
       display: grid;
-      gap: 2rem;
+      gap: 14px;
+    }
+
+    .hero__panel li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(18, 26, 46, 0.7);
+      border: 1px solid rgba(109, 246, 255, 0.15);
+    }
+
+    .hero__panel span {
+      color: var(--accent-3);
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 
-    .labs-overview__card {
-      background: var(--labs-card);
-      border-radius: var(--labs-radius-md);
-      padding: 1.6rem;
+    .card {
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: var(--panel-strong);
       border: 1px solid rgba(124, 92, 255, 0.2);
-      box-shadow: 0 24px 60px rgba(9, 12, 24, 0.4);
-    }
-
-    .labs-overview__card h3 {
-      margin-top: 0.4rem;
-    }
-
-    .labs-pillars {
-      gap: 1.5rem;
-    }
-
-    .labs-pillar {
-      background: var(--labs-card);
-      border: 1px solid rgba(124, 92, 255, 0.18);
-      border-radius: var(--labs-radius-md);
-      padding: 1.8rem;
-    }
-
-    .labs-showcase {
-      position: relative;
-    }
-
-    .labs-grid {
-      display: grid;
-      gap: 2rem;
-    }
-
-    .labs-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.5rem;
-      background: var(--labs-card);
-      border: 1px solid rgba(124, 92, 255, 0.2);
-      border-radius: var(--labs-radius-lg);
-      padding: 2rem;
-      box-shadow: var(--labs-shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .labs-card__media {
-      width: 100%;
-      max-width: 180px;
-      aspect-ratio: 1;
-      border-radius: 26px;
-      padding: 0.35rem;
-      background: linear-gradient(140deg, rgba(109, 246, 255, 0.5), rgba(124, 92, 255, 0.45));
-      box-shadow: 0 18px 40px rgba(109, 246, 255, 0.2);
-    }
-
-    .labs-card__image {
-      width: 100%;
-      height: 100%;
-      border-radius: 22px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .labs-card__content {
-      display: grid;
-      gap: 1.25rem;
-    }
-
-    .labs-card__meta {
+      min-height: 180px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .labs-card__tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(124, 92, 255, 0.2);
-      color: var(--labs-text);
-      font-size: 0.75rem;
+    .card h4 {
+      font-size: 1.02rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .section__title {
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
     }
 
-    .labs-card__summary {
-      color: var(--labs-muted);
+    .intel {
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      background: linear-gradient(120deg, rgba(109, 246, 255, 0.08), rgba(124, 92, 255, 0.16));
+      border: 1px solid rgba(109, 246, 255, 0.3);
     }
 
-    .labs-card__watermark {
-      opacity: 0.15;
+    .intel__grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 16px;
     }
 
-    .labs-card__list li {
-      color: var(--labs-muted);
+    .intel__item {
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(10, 15, 30, 0.75);
+      border: 1px solid rgba(109, 246, 255, 0.15);
     }
 
-    .labs-accordion__summary {
-      background: rgba(11, 14, 26, 0.7);
-      border-radius: 12px;
+    .intel__item strong {
+      display: block;
+      margin-bottom: 6px;
     }
 
-    .labs-rollout__grid {
-      gap: 2rem;
+    .intel__item span {
+      font-size: 0.8rem;
+      color: var(--muted);
     }
 
-    .labs-rollout__item {
-      background: rgba(13, 17, 31, 0.7);
-      border-radius: var(--labs-radius-sm);
-      padding: 1rem 1.2rem;
-      border: 1px solid rgba(124, 92, 255, 0.18);
+    footer {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: rgba(10, 14, 25, 0.6);
+      border: 1px solid rgba(109, 246, 255, 0.18);
+      font-size: 0.85rem;
+      color: var(--muted);
     }
 
-    .labs-roadmap {
-      background: var(--labs-surface-strong);
-      border-radius: var(--labs-radius-lg);
-      border: 1px solid rgba(109, 246, 255, 0.2);
-      box-shadow: var(--labs-shadow);
-    }
-
-    .labs-briefing__card,
-    .labs-briefing__snapshot {
-      background: rgba(12, 15, 28, 0.85);
-      border: 1px solid rgba(124, 92, 255, 0.18);
-      border-radius: var(--labs-radius-md);
-      box-shadow: 0 16px 50px rgba(8, 10, 18, 0.35);
-    }
-
-    .labs-briefing__icon {
-      color: var(--labs-highlight);
-    }
-
-    @media (min-width: 960px) {
-      .labs-card {
-        grid-template-columns: 200px minmax(0, 1fr);
-        align-items: start;
+    @media (max-width: 980px) {
+      .sidebar {
+        transform: translateX(-100%);
       }
 
-      .labs-card__media {
-        max-width: 200px;
+      .sidebar.is-open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .main.is-expanded {
+        margin-left: 0;
       }
     }
 
-    @media (min-width: 1024px) {
-      .labs-nav__menu-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
+    @media (max-width: 640px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
-      .labs-nav__cta {
-        margin-top: 0;
+      .hero__actions {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
   </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Crown Labs projects",
-    "description": "Status snapshot for software and playbooks being developed by Daren Prince.",
-    "url": "https://darenprince.com/labs",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "CrownCode.ai",
-          "applicationCategory": "DeveloperApplication",
-          "operatingSystem": "Web",
-          "softwareVersion": "Internal",
-          "description": "Advanced intelligence engine development platform powering modular AI tooling across the Crown ecosystem."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "CrownCode Intelligence Suite",
-          "applicationCategory": "AnalyticsApplication",
-          "operatingSystem": "Web",
-          "softwareVersion": "Internal",
-          "description": "Behavioral and forensic intelligence environment decoding human patterns, motives, and deception dynamics."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "Crown SOS",
-          "applicationCategory": "SafetyApplication",
-          "operatingSystem": "Mobile, Web",
-          "softwareVersion": "In development",
-          "description": "Real time emergency and accountability app delivering encrypted media, medical intel, and location data to trusted responders."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "item": {
-          "@type": "CreativeWork",
-          "name": "Operation Phoenix",
-          "creativeWorkStatus": "In production",
-          "description": "Stability, recovery, and reinvention framework guiding individuals from crisis to self leadership."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 5,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "AiCherryPie",
-          "applicationCategory": "CreativeApplication",
-          "operatingSystem": "Web",
-          "softwareVersion": "In development",
-          "description": "AI humanization and proofreading engine restoring authentic tone, rhythm, and emotional resonance to generated text."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 6,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "Pic Detective",
-          "applicationCategory": "ImageProcessingApplication",
-          "operatingSystem": "Web",
-          "softwareVersion": "Prototype",
-          "description": "Visual intelligence suite verifying imagery authenticity through metadata inspection and pattern recognition."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 7,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "JustUs.chat",
-          "applicationCategory": "SocialNetworkingApplication",
-          "operatingSystem": "Web",
-          "softwareVersion": "In development",
-          "description": "Private communication platform delivering temporary, encrypted rooms for honest, accountable conversation."
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 8,
-        "item": {
-          "@type": "CreativeWorkSeries",
-          "name": "Game On!",
-          "description": "Author platform and relationship intelligence brand housing Game On titles, media, and interactive experiences."
-        }
-      }
-    ]
-  }
-  </script>
-  <!-- Apple touch icons and startup images -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
-    <link rel="manifest" href="/assets/icons/generated/site.webmanifest">
-    <link rel="mask-icon" href="/assets/icons/generated/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="apple-mobile-web-app-title" content="Daren Prince">
-    <meta name="application-name" content="Daren Prince">
-    <meta name="msapplication-TileColor" content="transparent">
-    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
-    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
-  <!-- End Apple PWA + Safari enhancements -->
 </head>
-<body class="theme-dark brand-exempt labs-theme">
-  <header class="labs-nav" role="banner">
-    <div class="labs-nav__inner container max-width-adaptive-lg">
-      <a href="index.html" class="labs-nav__brand">
-        <span class="labs-nav__glyph" aria-hidden="true">
-          <svg
-            width="32"
-            height="32"
-            viewBox="190.17 299.25 643.86 888.66"
-            preserveAspectRatio="xMidYMid meet"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <defs>
-              <linearGradient
-                id="labsGlyphGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0" stop-color="#7C5CFF" />
-                <stop offset="0.52" stop-color="#5EF0FF" />
-                <stop offset="1" stop-color="#B7FF5E" />
-              </linearGradient>
-            </defs>
-            <g
-              transform="translate(0,1536) scale(0.1,-0.1)"
-              fill="url(#labsGlyphGradient)"
-              stroke="none"
-            >
-              <path
-                d="M5025 12357 c-117 -39 -198 -110 -248 -215 -29 -61 -32 -76 -32 -162 0 -82 4 -103 27 -153 35 -74 114 -157 178 -187 50 -23 50 -23 50 -1190 0 -1166 0 -1166 -44 -1197 -24 -17 -56 -52 -71 -77 -27 -46 -27 -46 -346 -46 -175 0 -319 2 -319 5 0 3 29 111 65 239 36 128 65 251 65 272 0 38 -11 50 -497 536 -498 497 -498 497 -481 540 24 61 24 202 0 266 -61 160 -212 260 -378 250 -302 -19 -469 -374 -287 -612 100 -131 280 -190 427 -140 48 17 48 17 503 -438 l454 -454 -181 -649 c-248 -890 -323 -1148 -371 -1268 -67 -169 -55 -149 -962 -1737 -297 -520 -555 -977 -573 -1016 -71 -153 -113 -366 -100 -514 28 -343 232 -659 516 -804 123 -63 232 -99 350 -115 64 -9 654 -12 2400 -9 2315 3 2315 3 2413 31 255 72 416 178 560 372 228 306 261 728 85 1080 -35 70 -328 585 -548 965 -191 330 -717 1253 -798 1400 -168 308 -169 310 -442 1300 -100 360 -199 721 -222 803 -41 147 -41 147 13 205 29 31 234 240 454 464 400 407 400 407 450 392 75 -23 195 -15 267 18 80 37 151 107 191 187 30 61 32 73 32 166 0 86 -4 107 -26 155 -40 84 -99 144 -182 185 -91 45 -167 54 -257 31 -226 -58 -350 -278 -278 -492 23 -71 23 -71 -465 -565 -269 -272 -493 -505 -498 -518 -7 -17 -4 -45 10 -95 218 -790 297 -1076 386 -1406 130 -484 159 -571 239 -730 114 -225 715 -1283 1425 -2505 46 -80 95 -219 110 -315 26 -159 4 -318 -62 -454 -109 -225 -262 -350 -501 -411 -96 -24 -96 -24 -2333 -20 -1231 3 -2283 7 -2338 10 -113 5 -179 22 -280 72 -149 75 -263 177 -324 293 -43 80 -90 229 -97 309 -7 71 7 200 31 297 23 91 -18 17 750 1364 490 859 787 1392 821 1472 18 43 49 128 68 190 51 167 316 1123 316 1142 0 14 33 16 355 16 355 0 355 0 374 -38 69 -136 255 -196 393 -129 65 32 121 90 151 156 29 65 30 179 0 242 -24 53 -85 124 -122 144 -26 13 -26 13 -29 1182 -3 1168 -3 1168 63 1202 105 54 172 148 196 277 29 159 -66 335 -221 408 -53 25 -80 31 -150 33 -52 2 -101 -2 -125 -10z"
-              />
-              <path
-                d="M3665 6420 c-139 -16 -236 -41 -267 -69 -15 -14 -186 -303 -379 -641 -193 -338 -402 -701 -465 -807 -63 -105 -124 -217 -136 -250 -25 -72 -35 -208 -19 -285 27 -129 122 -260 235 -323 125 -70 -35 -65 2171 -64 1094 1 2141 4 2326 8 335 6 335 6 411 43 195 97 303 292 284 515 -11 130 -11 131 -310 648 -560 969 -539 935 -577 935 -10 0 -66 -20 -123 -44 -300 -128 -600 -186 -906 -173 -313 14 -564 75 -972 238 -517 206 -972 302 -1273 269z"
-              />
-            </g>
-          </svg>
-        </span>
-        <span class="labs-nav__wordmark">
-          <span class="labs-nav__wordmark-crown">CROWN</span>
-          <span class="labs-nav__wordmark-divider" aria-hidden="true"></span>
-          <span class="labs-nav__wordmark-labs">LABS</span>
-        </span>
-      </a>
-      <button class="labs-nav__toggle" type="button" aria-expanded="false" aria-controls="labs-nav-menu" aria-label="Toggle navigation">
-        <span class="labs-nav__toggle-line"></span>
-        <span class="labs-nav__toggle-line"></span>
-      </button>
-    </div>
-    <nav class="labs-nav__menu" id="labs-nav-menu" aria-label="Primary">
-      <div class="labs-nav__menu-inner container max-width-adaptive-lg">
-        <ul class="labs-nav__list">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="#introduction"><i class="ph ph-sparkle" aria-hidden="true"></i><span>Introduction</span></a></li>
-          <li><a href="#overview"><i class="ph ph-planet" aria-hidden="true"></i><span>Overview</span></a></li>
-          <li><a href="#briefing"><i class="ph ph-chart-scatter" aria-hidden="true"></i><span>Briefing</span></a></li>
-          <li><a href="#philosophy"><i class="ph ph-compass" aria-hidden="true"></i><span>Philosophy</span></a></li>
-          <li><a href="#catalog" class="is-active" aria-current="page"><i class="ph ph-crown" aria-hidden="true"></i><span>Catalog</span></a></li>
-          <li><a href="#coming-soon"><i class="ph ph-scan" aria-hidden="true"></i><span>Coming Soon</span></a></li>
-          <li><a href="contact.html"><i class="ph ph-envelope" aria-hidden="true"></i><span>Contact</span></a></li>
-        </ul>
-        <div class="labs-nav__cta">
-          <a class="btn btn--labs-secondary" href="#briefing"><i class="ph ph-clipboard-text"></i>Read the briefing</a>
-          <a class="btn btn--labs-primary" href="contact.html"><i class="ph ph-phone"></i>Start a build</a>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand__mark" aria-hidden="true"></div>
+        <div class="brand__text">
+          <h1>Crown Labs</h1>
+          <p>Corporate Security AI</p>
         </div>
       </div>
-    </nav>
-  </header>
 
-  <main class="labs-page">
-    <section class="labs-hero padding-y-xl" id="introduction">
-      <div class="container max-width-adaptive-lg labs-hero__layout">
+      <nav class="nav">
+        <a href="#overview">Overview <span>01</span></a>
+        <a href="#capabilities">Capabilities <span>02</span></a>
+        <a href="#research">Research Pods <span>03</span></a>
+        <a href="#intel">Intel Matrix <span>04</span></a>
+        <a href="#contact">Contact <span>05</span></a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <h3>Signal Status</h3>
+        <p>Operational across global security stacks, AI pipelines, and mission analytics.</p>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <header class="topbar">
         <div>
-          <span class="labs-hero__eyebrow">Crown Labs</span>
-          <h1>Innovation. Intelligence. Integrity.</h1>
-          <p class="labs-hero__lead">A Division of Daren Prince Publishing</p>
-          <p>Crown Labs is the experimental and development division of Daren Prince Publishing, the creative force behind a growing network of intelligent technologies, digital platforms, and human centered innovations.</p>
-          <p>Within these walls, advanced AI models, logic hardened data engines, and real time emergency technologies are designed, tested, and refined with precision and purpose. Every project begins with one belief: true intelligence starts with intention, and technology should always serve humanity.</p>
-          <p>Crown Labs is the core laboratory behind all major Daren Prince Publishing ventures, including CrownCode.ai, CrownCode Intelligence Suite, Crown SOS, Operation Phoenix, AiCherryPie, Pic Detective, JustUs.chat, and Game On.</p>
-          <div class="labs-hero__cta">
-            <a class="btn btn--labs-primary" href="#catalog"><i class="ph ph-rocket"></i>Explore the project catalog</a>
-            <a class="btn btn--labs-secondary" href="#overview"><i class="ph ph-compass-rose"></i>See the lab overview</a>
-          </div>
-          <div class="labs-hero__stats">
-            <div class="labs-stat">
-              <strong>8</strong>
-              <span>Active initiatives</span>
-            </div>
-            <div class="labs-stat">
-              <strong>4</strong>
-              <span>Launches in flight</span>
-            </div>
-            <div class="labs-stat">
-              <strong>24/7</strong>
-              <span>Safety-grade mindset</span>
-            </div>
+          <h2>Corporate, Hi-Tech, Security &amp; AI Research Firm</h2>
+          <p class="hero__subtitle">Apple precision. Microsoft scale. Black-ops discretion. Crown Labs delivers intelligence, defense, and futuristic product development.</p>
+        </div>
+        <button class="toggle" type="button" id="toggle">Toggle Menu</button>
+      </header>
+
+      <section class="hero" id="overview">
+        <div class="hero__card">
+          <div class="hero__eyebrow">Secure Innovation</div>
+          <h3 class="hero__title">Crown Labs is the executive R&amp;D arm for advanced security, AI, and threat intelligence.</h3>
+          <p class="hero__subtitle">
+            We architect cyber-defense ecosystems, autonomous intelligence engines, and human-centered digital systems. We fuse high-tech design with
+            mission-ready resilience.
+          </p>
+          <div class="hero__actions">
+            <a class="btn" href="#contact">Request Briefing</a>
+            <a class="btn btn--ghost" href="#research">View Research</a>
           </div>
         </div>
-        <aside class="labs-hero__panel" aria-label="Crown Labs quick navigation">
-          <h3>Lab navigation</h3>
-          <p>Navigate the experience by mission stage. Each section includes status, capabilities, and the next evolution for the Crown ecosystem.</p>
-          <div class="labs-hero__quicklinks">
-            <a href="#overview"><span>Overview & signals</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-            <a href="#briefing"><span>Executive briefing</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-            <a href="#catalog"><span>Project catalog</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-            <a href="#coming-soon"><span>Launch runway</span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="labs-overview padding-y-xl" id="overview">
-      <div class="container max-width-adaptive-lg">
-        <header class="labs-section-header">
-          <span class="labs-section-eyebrow">Lab Overview</span>
-          <h2>High-definition signals for every Crown Labs build.</h2>
-          <p>We track the ecosystem by mission category so teams can immediately see what is active, what is incubating, and what is ready for launch partnerships.</p>
-        </header>
-        <div class="labs-overview__grid">
-          <article class="labs-overview__card">
-            <span class="labs-section-eyebrow">Intelligence Systems</span>
-            <h3>Decision engines with emotional fidelity.</h3>
-            <p>Behavioral intelligence, pattern decoding, and adaptive learning models align CrownCode.ai and the Intelligence Suite to deepen clarity and reduce risk.</p>
-          </article>
-          <article class="labs-overview__card">
-            <span class="labs-section-eyebrow">Safety Networks</span>
-            <h3>Protection-first infrastructure.</h3>
-            <p>Crown SOS and JustUs.chat deliver encrypted, rapid-response experiences where safety, consent, and accountability are never optional.</p>
-          </article>
-          <article class="labs-overview__card">
-            <span class="labs-section-eyebrow">Human Recovery</span>
-            <h3>Systems that stabilize and rebuild.</h3>
-            <p>Operation Phoenix and companion tools provide recovery scaffolding, resilience playbooks, and measurable momentum.</p>
-          </article>
-          <article class="labs-overview__card">
-            <span class="labs-section-eyebrow">Creative Integrity</span>
-            <h3>Authenticity engines for creators.</h3>
-            <p>AiCherryPie and Pic Detective guard the emotional and factual truth behind every creative output.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="labs-philosophy padding-y-xl" id="philosophy">
-      <div class="container max-width-adaptive-lg">
-        <header class="labs-section-header">
-          <span class="labs-section-eyebrow">Philosophy</span>
-          <h2>Crown Labs is built on three guiding principles.</h2>
-          <p>These principles define the identity of Daren Prince Publishing’s technology division and shape the future of every creation that carries the Crown name.</p>
-        </header>
-        <div class="labs-pillars">
-          <div class="labs-pillar labs-pillar--innovation">
-            <h3><i class="ph ph-lightbulb"></i>Innovation</h3>
-            <p>We imagine beyond convention and build solutions that challenge mediocrity.</p>
-          </div>
-          <div class="labs-pillar labs-pillar--intelligence">
-            <h3><i class="ph ph-brain"></i>Intelligence</h3>
-            <p>We design systems that learn, reason, and understand the emotional context of the human experience.</p>
-          </div>
-          <div class="labs-pillar labs-pillar--integrity">
-            <h3><i class="ph ph-shield-check"></i>Integrity</h3>
-            <p>We ensure that every product, process, and partnership is rooted in honesty, accountability, and purpose.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="labs-showcase padding-y-xl" id="catalog">
-      <div class="container max-width-adaptive-lg">
-        <header class="labs-section-header">
-          <span class="labs-section-eyebrow">Crown Labs Project Catalog</span>
-          <h2>Active systems engineered inside Crown Labs.</h2>
-          <p>Every build begins with intention and is guided by human centered intelligence. Explore the platforms, engines, and frameworks powering the Crown ecosystem.</p>
-        </header>
-        <div class="labs-grid">
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-code"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-code"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for CrownCode.ai">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
-                <span class="labs-card__tag">AI Engine</span>
-                <span class="labs-card__tag">Internal</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>CrownCode.ai</h3>
-                <p class="labs-card__summary">CrownCode.ai is the foundation of the Crown ecosystem, powering modular intelligence engines across every Crown Labs build.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>It serves as the advanced intelligence engine development platform where analytical frameworks, modular AI tools, and logic hardened data systems are built, trained, and deployed for the entire network.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Development and training of specialized intelligence engines</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Secure architecture for modular integration</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>SCSS and JS framework for rapid application builds</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Central data and analytics infrastructure</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Collaboration environment for adaptive AI design</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To push the boundaries of applied artificial intelligence with precision, creativity, and human awareness.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-chart-line-up"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-chart-line-up"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for CrownCode Intelligence Suite">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
-                <span class="labs-card__tag">Intelligence</span>
-                <span class="labs-card__tag">Analytics</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>CrownCode Intelligence Suite</h3>
-                <p class="labs-card__summary">The CrownCode Intelligence Suite decodes human patterns with forensic precision to reveal motives, deception, and emotional states.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>Built from the evolution of Dr. Prince Mode, this environment fuses behavioral science, psychological intelligence, and emotional resonance modeling to reconstruct narratives and decode deception dynamics.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Behavioral and psychological profiling</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Narrative and motive reconstruction</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Trauma response and emotional resonance tracking</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Deception pattern detection with OSINT correlation</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Advanced visualization and reporting tools</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To bring clarity where confusion lives and truth where deception hides by turning raw data into decisive intelligence.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-siren"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-siren"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Crown SOS">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
-                <span class="labs-card__tag">Safety</span>
-                <span class="labs-card__tag">Mobile + Web</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>Crown SOS</h3>
-                <p class="labs-card__summary">Crown SOS transforms every smartphone into a safety lifeline with instant, encrypted SOS broadcasts.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>Users create custom trigger gestures, voice commands, or inactivity timers that immediately deliver audio, video, medical intel, and live coordinates to trusted contacts or designated responders.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Custom trigger gestures, voice commands, or inactivity timers</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted transmission of live media and coordinates</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Smart safety profiles with medical details and ICE contacts</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Private network alerts for family, teams, or security groups</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with CrownCode.ai and JustUs.chat</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To combine technology, trust, and rapid response so help arrives the instant someone needs it.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-flame"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-flame"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Operation Phoenix">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In production</span>
-                <span class="labs-card__tag">Recovery</span>
-                <span class="labs-card__tag">Curriculum</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>Operation Phoenix</h3>
-                <p class="labs-card__summary">Operation Phoenix delivers a stability, recovery, and reinvention framework built to defeat crisis and rebuild strength.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>Created to combat homelessness and acute instability, the framework evolved from survival system to empowerment blueprint rooted in the Unshakeable philosophy of rebuilding from within.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Stability modules covering shelter, budgeting, boundaries, and safety</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Emotional recovery lessons grounded in Unshakeable principles</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Journaling and daily reflection exercises</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Progress tracking and accountability systems</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Personal growth challenges to rebuild confidence and control</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To help people reclaim stability, rebuild identity, and rise unshakeable with structure, awareness, and self leadership.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-ice-cream"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-ice-cream"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for AiCherryPie">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
-                <span class="labs-card__tag">Creative</span>
-                <span class="labs-card__tag">Tone engine</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>AiCherryPie</h3>
-                <p class="labs-card__summary">AiCherryPie humanizes AI generated text so every deliverable feels natural, emotive, and unmistakably human.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>The engine strips mechanical phrasing, restores emotional rhythm, and preserves author identity so AI-assisted writing reads raw, real, and alive.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Removes robotic phrasing and repetitive structures</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Preserves writer identity and emotional rhythm</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reconstructs tone and flow for believability</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Enforces the “Write Like You Bleed” directive from Daren Prince Publishing</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To restore humanity to written expression and bring emotion back to the modern voice.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Pic Detective">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Prototype</span>
-                <span class="labs-card__tag">Verification</span>
-                <span class="labs-card__tag">Image AI</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>Pic Detective</h3>
-                <p class="labs-card__summary">Pic Detective safeguards creators with visual intelligence that validates imagery and exposes manipulation.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>The toolkit combines anomaly detection, source tracing, and pattern recognition to authenticate images for investigators, journalists, and creative teams.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Metadata and EXIF inspection</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Reverse image and similarity searches</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Visual clustering and reference organization</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Exportable authenticity reports</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To make truth visible by confirming what is real in a digital world that blurs the line.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-chat-circle"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-chat-circle"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for JustUs.chat">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>In development</span>
-                <span class="labs-card__tag">Comms</span>
-                <span class="labs-card__tag">Secure rooms</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>JustUs.chat</h3>
-                <p class="labs-card__summary">JustUs.chat keeps conversations private, temporary, and accountable for teams, families, and support circles.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>The platform enables real, temporary conversations that self-delete after use, preserving confidentiality while keeping trusted circles connected.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Temporary chat rooms that delete automatically</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Encrypted text and voice messages</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Invite only access for trusted users</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Optional SOS integration for emergency escalation</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To restore privacy, safety, and honesty to digital communication.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-          <article class="card labs-card">
-            <span class="labs-card__icon" aria-hidden="true"><i class="ph ph-game-controller"></i></span>
-            <span class="labs-card__watermark" aria-hidden="true"><i class="ph ph-game-controller"></i></span>
-            <div class="labs-card__media">
-              <img class="labs-card__image" src="/assets/images/placeholders/crown-labs-app-icon-placeholder.svg" alt="Non-binary placeholder icon for Game On!">
-            </div>
-            <div class="labs-card__content">
-              <div class="labs-card__meta">
-                <span class="labs-card__tag"><i class="ph ph-activity" aria-hidden="true"></i>Active</span>
-                <span class="labs-card__tag">Brand</span>
-                <span class="labs-card__tag">Media</span>
-              </div>
-              <div class="labs-card__header">
-                <h3>Game On!</h3>
-                <p class="labs-card__summary">Game On! is the flagship author brand anchoring the Game On relationship intelligence series and its global reach.</p>
-              </div>
-              <div class="labs-card__accordion">
-                <details class="labs-accordion labs-accordion--details">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Details</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p>The brand hub centralizes the catalog for <em>Game On: Master the Conversation and Win Her Heart</em> and prepares the runway for future releases across print, digital, and experiential channels.</p>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--features">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Core Features</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <ul class="labs-card__list">
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>A+ content experiences and global vendor listings</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Media kits and press resources</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Interactive 3D book viewer</span></li>
-                        <li><span class="labs-card__bullet" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Seamless integration with Crown Labs systems</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                <details class="labs-accordion labs-accordion--mission">
-                  <summary class="labs-accordion__summary">
-                    <span class="labs-accordion__label">Mission</span>
-                    <span class="labs-accordion__chevron" aria-hidden="true"><i class="ph ph-caret-down"></i></span>
-                  </summary>
-                  <div class="labs-accordion__content">
-                    <div class="labs-accordion__body">
-                      <p class="labs-card__mission">To redefine communication, confidence, and connection for the modern world.</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="labs-rollout padding-y-xl" id="coming-soon">
-      <div class="container max-width-adaptive-lg labs-rollout__grid">
-        <div>
-          <span class="labs-section-eyebrow">Coming Soon</span>
-          <h2>Next evolutions in the Crown Labs ecosystem.</h2>
-          <ul class="labs-rollout__list">
-            <li class="labs-rollout__item">
-              <span class="labs-rollout__item-title">Crown Labs Design System</span>
-              <p class="labs-rollout__item-description">A complete SCSS and component architecture unifying all Crown Labs products.</p>
-            </li>
-            <li class="labs-rollout__item">
-              <span class="labs-rollout__item-title">Operation Phoenix App Suite</span>
-              <p class="labs-rollout__item-description">A dedicated dashboard for mobile and desktop that tracks progress, goals, and growth.</p>
-            </li>
-            <li class="labs-rollout__item">
-              <span class="labs-rollout__item-title">Crown SOS Pro</span>
-              <p class="labs-rollout__item-description">A professional grade version of Crown SOS for first responders, private security, and corporate safety teams.</p>
-            </li>
-            <li class="labs-rollout__item">
-              <span class="labs-rollout__item-title">Creator Intelligence Stack</span>
-              <p class="labs-rollout__item-description">A connected creative suite combining AiCherryPie, Pic Detective, and author analytics for creators and publishers.</p>
-            </li>
+        <div class="hero__panel">
+          <h3>Active Signals</h3>
+          <ul>
+            <li>Global Threat Surface <span>99.996%</span></li>
+            <li>AI Model Integrity <span>Secure</span></li>
+            <li>Quantum Risk Monitor <span>Green</span></li>
+            <li>Ops Response SLA <span>3 min</span></li>
           </ul>
         </div>
-        <aside class="labs-roadmap" aria-label="Mission statement" id="closing">
-          <h3>Mission</h3>
-          <p>Crown Labs is the innovation core of Daren Prince Publishing. It is where technology meets intention and artificial intelligence becomes emotionally intelligent. Every system, app, and framework developed here is built with one purpose — to protect, to connect, and to elevate human potential.</p>
-          <p>Crown Labs is not just creating the future. It is making the future feel human.</p>
-          <a class="btn btn--labs-primary" href="contact.html"><i class="ph ph-phone"></i>Connect with Crown Labs</a>
-        </aside>
-      </div>
-    </section>
-    <section class="labs-briefing padding-y-xl" id="briefing">
-      <div class="container max-width-adaptive-lg">
-        <header class="labs-section-header">
-          <span class="labs-section-eyebrow">Executive Briefing</span>
-          <h2>Summary for engineers, designers, and intelligent collaborators.</h2>
-          <p>Use this snapshot to align on Crown Labs’ mandate, emotional tone, and delivery standards before you concept, code, or generate assets.</p>
-        </header>
-        <div class="labs-briefing__intro">
-          <div class="labs-briefing__summary">
-            <h3>The mandate</h3>
-            <p>Crown Labs prototypes, pressure tests, and orchestrates every intelligent experience for Daren Prince Publishing. Every release must elevate safety, empathy, and self sovereignty while proving that advanced systems can still feel human.</p>
-            <ul class="labs-briefing__list">
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Design intelligence that protects before it dazzles and earns trust in crisis-grade scenarios.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Fuse behavioral science, machine learning, and creative engineering to translate data into action.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Build modular systems that can be shared across the Crown ecosystem without sacrificing identity.</span></li>
-            </ul>
+      </section>
+
+      <section class="section" id="capabilities">
+        <h3 class="section__title">Capabilities</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>Autonomous Security Mesh</h4>
+            <p>Distributed sensors, adaptive encryption, and predictive anomaly detection across enterprise-grade networks.</p>
           </div>
-          <aside class="labs-briefing__snapshot" aria-label="Operating snapshot">
-            <h3>Operating snapshot</h3>
-            <dl class="labs-briefing__facts">
-              <div class="labs-briefing__fact">
-                <dt>Core directive</dt>
-                <dd>Human-centered intelligence that safeguards, stabilizes, and empowers.</dd>
-              </div>
-              <div class="labs-briefing__fact">
-                <dt>Primary arenas</dt>
-                <dd>Protective tech, recovery frameworks, relational intelligence, and creative authenticity.</dd>
-              </div>
-              <div class="labs-briefing__fact">
-                <dt>Emotional tone</dt>
-                <dd>Calm authority, empathetic precision, resilient optimism.</dd>
-              </div>
-              <div class="labs-briefing__fact">
-                <dt>Experience promise</dt>
-                <dd>Every touchpoint should leave people feeling safer, seen, and in control.</dd>
-              </div>
-            </dl>
-          </aside>
+          <div class="card">
+            <h4>Intelligence Orchestration</h4>
+            <p>Unified AI control planes that fuse satellite, cyber, and human intelligence into decisive action.</p>
+          </div>
+          <div class="card">
+            <h4>Zero-Trust Architecture</h4>
+            <p>Layered authentication, behavioral biometrics, and continuous verification without slowing operations.</p>
+          </div>
+          <div class="card">
+            <h4>Defense UX Systems</h4>
+            <p>Command-grade interfaces with cinematic clarity, built for rapid cognition and strategic decisions.</p>
+          </div>
         </div>
-        <div class="labs-briefing__grid">
-          <article class="labs-briefing__card">
-            <h4>Portfolio pillars</h4>
-            <p>The lab stewards an ecosystem of applications and playbooks that ladder up to five unified pillars.</p>
-            <ul class="labs-briefing__list">
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Intelligence Engines:</strong> CrownCode.ai, CrownCode Intelligence Suite.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Safety & Accountability:</strong> Crown SOS, Crown SOS Pro (in development).</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Recovery & Reinvention:</strong> Operation Phoenix, Unshakeable curriculum.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Creative Authenticity:</strong> AiCherryPie, Creator Intelligence Stack.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Trust & Communication:</strong> Pic Detective, JustUs.chat, Game On! brand.</span></li>
-            </ul>
-          </article>
-          <article class="labs-briefing__card">
-            <h4>Experience principles</h4>
-            <p>Every build must reinforce the feeling that the Crown network protects first and evolves with the user.</p>
-            <ul class="labs-briefing__list">
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Protect before you delight:</strong> prioritize clarity, safety states, and recovery paths.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Emotional fidelity:</strong> interface language must be trauma-aware, direct, and compassionate.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Radical clarity:</strong> surface next steps, outcomes, and accountability in plain language.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Adaptive intelligence:</strong> architect modular systems that learn and respond in real time.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Proof of care:</strong> demonstrate stewardship with receipts, logs, and rituals that build trust.</span></li>
-            </ul>
-          </article>
-          <article class="labs-briefing__card">
-            <h4>Brand voice & tone</h4>
-            <p>The voice is confident, psychology-backed, and anchored in moral intelligence.</p>
-            <ul class="labs-briefing__list">
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Speak with calm command—no fluff, no panic, just actionable assurance.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Blend scientific rigor with human storytelling; cite cause and effect, then connect to emotion.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Lean into luminous contrasts—aurora gradients, charcoal typography, and selective neon glows.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span>Affirm agency: every message should remind people they are seen, capable, and supported.</span></li>
-            </ul>
-          </article>
-          <article class="labs-briefing__card">
-            <h4>Collaboration cues</h4>
-            <p>Keep cross-functional teams aligned when briefing humans or AI partners.</p>
-            <ul class="labs-briefing__list">
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Design:</strong> Lead with dark-mode layouts, luminous gradients, and soft-focus depth.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Engineering:</strong> Build with modular SCSS tokens, resilient state handling, and audit-ready logging.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Data & AI:</strong> Train models on behavioral ethics, ensure outputs preserve context and consent.</span></li>
-              <li><span class="labs-briefing__icon" aria-hidden="true"><i class="ph ph-crown"></i></span><span><strong>Content:</strong> Deliver narratives that are direct, compassionate, and momentum-driven.</span></li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
-          <li><a href="components.html">Components</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="labs.html" class="active">Labs</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">YouTube</a></li>
-        </ul>
-      </div>
-      <div>
-        <p>&copy; 2025 Daren Prince. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+      <section class="section" id="research">
+        <h3 class="section__title">Research Pods</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>Project AURORA</h4>
+            <p>AI-led incident response with autonomous containment and policy enforcement.</p>
+          </div>
+          <div class="card">
+            <h4>Sentinel Fabric</h4>
+            <p>Edge-based sensing network coordinating cloud intelligence at sub-second latency.</p>
+          </div>
+          <div class="card">
+            <h4>Ops Blackglass</h4>
+            <p>Classified intelligence visualization layered with encryption and dynamic redaction.</p>
+          </div>
+          <div class="card">
+            <h4>Helios Genome</h4>
+            <p>Secure AI knowledge graph powering next-generation corporate strategy engines.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="intel" id="intel">
+        <h3 class="section__title">Intel Matrix</h3>
+        <p class="hero__subtitle">Real-time intelligence, aggregated and ranked by operational relevance.</p>
+        <div class="intel__grid">
+          <div class="intel__item">
+            <strong>Threat Forecasting</strong>
+            <span>24/7 deep signal monitoring with autonomous countermeasures.</span>
+          </div>
+          <div class="intel__item">
+            <strong>Secure AI Fabric</strong>
+            <span>Model audits, adversarial defense, and policy-locked datasets.</span>
+          </div>
+          <div class="intel__item">
+            <strong>Quantum Readiness</strong>
+            <span>Post-quantum encryption with rapid migration planning.</span>
+          </div>
+          <div class="intel__item">
+            <strong>Executive Red Team</strong>
+            <span>Elite simulations to harden leadership, process, and infrastructure.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <h3 class="section__title">Contact</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>Briefing Channel</h4>
+            <p>Secure onboarding for enterprise clients, research partners, and mission stakeholders.</p>
+            <p><strong>ops@crownlabs.ai</strong></p>
+          </div>
+          <div class="card">
+            <h4>Command Centers</h4>
+            <p>New York · London · Singapore · Dubai</p>
+            <p>Encrypted video or on-site strategy sessions.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Crown Labs © 2024</span>
+        <span>Confidential. High-security. AI-first defense engineering.</span>
+      </footer>
+    </main>
+  </div>
+
   <script>
-    (() => {
-      const nav = document.querySelector('.labs-nav');
-      if (nav) {
-        requestAnimationFrame(() => nav.classList.add('is-ready'));
+    const toggle = document.getElementById('toggle');
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+
+    toggle.addEventListener('click', () => {
+      const isMobile = window.innerWidth <= 980;
+      if (isMobile) {
+        sidebar.classList.toggle('is-open');
+      } else {
+        sidebar.classList.toggle('is-collapsed');
+        main.classList.toggle('is-expanded');
       }
-
-      const toggle = nav?.querySelector('.labs-nav__toggle');
-      const menu = nav?.querySelector('.labs-nav__menu');
-      if (!toggle || !menu) return;
-
-      const menuInner = menu.querySelector('.labs-nav__menu-inner');
-
-      const refreshMenuHeight = () => {
-        if (window.innerWidth >= 1024) {
-          menu.style.removeProperty('--labs-nav-open-height');
-          return;
-        }
-        const nextHeight = menuInner?.scrollHeight || menu.scrollHeight;
-        if (nextHeight) {
-          menu.style.setProperty('--labs-nav-open-height', `${nextHeight}px`);
-        }
-      };
-
-      const setExpanded = (expanded) => {
-        if (expanded) {
-          refreshMenuHeight();
-        }
-        toggle.setAttribute('aria-expanded', String(expanded));
-        menu.classList.toggle('is-open', expanded);
-        if (!expanded) {
-          refreshMenuHeight();
-        }
-      };
-
-      toggle.addEventListener('click', () => {
-        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-        setExpanded(!isExpanded);
-      });
-
-      menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => setExpanded(false));
-      });
-
-      const handleResize = () => {
-        if (window.innerWidth >= 1024) {
-          setExpanded(false);
-          menu.style.removeProperty('--labs-nav-open-height');
-        } else {
-          refreshMenuHeight();
-        }
-      };
-
-      window.addEventListener('resize', handleResize);
-      refreshMenuHeight();
-    })();
+    });
   </script>
-  <script>
-    (() => {
-      const accordions = document.querySelectorAll('.labs-accordion');
-      if (!accordions.length) return;
-
-      const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
-
-      accordions.forEach((details) => {
-        const summary = details.querySelector('summary');
-        const content = details.querySelector('.labs-accordion__content');
-        if (!summary || !content) return;
-
-        const clearAnimationState = () => {
-          content.style.transition = '';
-          details.removeAttribute('data-animating');
-        };
-
-        const openAccordion = () => {
-          details.setAttribute('data-animating', 'opening');
-          details.setAttribute('open', '');
-
-          const targetHeight = content.scrollHeight;
-
-          content.style.height = '0px';
-          content.style.opacity = '0';
-          content.style.transform = 'translateY(-0.35rem)';
-
-          requestAnimationFrame(() => {
-            content.style.transition = `height 0.45s ${EASING}, opacity 0.4s ease, transform 0.4s ease`;
-            content.style.height = `${targetHeight}px`;
-            content.style.opacity = '1';
-            content.style.transform = 'translateY(0)';
-          });
-
-          const onEnd = (event) => {
-            if (event.propertyName !== 'height') return;
-            content.removeEventListener('transitionend', onEnd);
-            clearAnimationState();
-            content.style.height = '';
-            content.style.opacity = '';
-            content.style.transform = '';
-          };
-
-          content.addEventListener('transitionend', onEnd);
-        };
-
-        const closeAccordion = () => {
-          details.setAttribute('data-animating', 'closing');
-          const startHeight = content.scrollHeight;
-
-          content.style.height = `${startHeight}px`;
-
-          requestAnimationFrame(() => {
-            content.style.transition = `height 0.4s ${EASING}, opacity 0.3s ease, transform 0.35s ease`;
-            content.style.height = '0px';
-            content.style.opacity = '0';
-            content.style.transform = 'translateY(-0.35rem)';
-          });
-
-          const onEnd = (event) => {
-            if (event.propertyName !== 'height') return;
-            content.removeEventListener('transitionend', onEnd);
-            details.removeAttribute('open');
-            clearAnimationState();
-            content.style.height = '';
-            content.style.opacity = '';
-            content.style.transform = '';
-            summary.focus();
-          };
-
-          content.addEventListener('transitionend', onEnd);
-        };
-
-        const handleToggle = (event) => {
-          event.preventDefault();
-          if (details.dataset.animating) return;
-
-          if (details.open) {
-            closeAccordion();
-          } else {
-            openAccordion();
-          }
-        };
-
-        summary.addEventListener('click', handleToggle);
-        summary.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            handleToggle(event);
-          }
-        });
-
-        if (!details.open) {
-          content.style.height = '0px';
-          content.style.opacity = '0';
-          content.style.transform = 'translateY(-0.35rem)';
-        }
-      });
-    })();
-  </script>
-  <script type="module" src="/js/ui.js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="/js/profile-dropdown.js"></script>
-  <script src="/js/theme-toggle.js"></script>
-  <script type="module" src="/js/main.js"></script>
 </body>
 </html>
