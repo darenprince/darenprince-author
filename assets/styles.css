@@ -10013,14 +10013,14 @@ body.is-preloading {
 }
 
 .btn--labs-primary {
-  --btn-bg: color-mix(in srgb, var(--color-lime) 85%, var(--color-bright));
-  --btn-color: var(--color-black);
-  --btn-hover-bg: color-mix(in srgb, var(--color-lime) 70%, var(--color-bright));
-  --btn-hover-color: var(--color-black);
+  --btn-bg: color-mix(in srgb, var(--color-primary) 78%, var(--color-charcoal));
+  --btn-color: var(--color-white);
+  --btn-hover-bg: color-mix(in srgb, var(--color-primary) 65%, var(--color-charcoal));
+  --btn-hover-color: var(--color-white);
   --btn-border-width: 1px;
-  --btn-border-color: color-mix(in srgb, var(--color-lime) 65%, transparent);
-  --btn-shadow: 0 18px 30px rgba(18, 255, 169, 0.25);
-  --btn-hover-shadow: 0 20px 35px rgba(18, 255, 169, 0.35);
+  --btn-border-color: color-mix(in srgb, var(--color-lime) 45%, var(--color-charcoal));
+  --btn-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+  --btn-hover-shadow: 0 20px 35px rgba(0, 0, 0, 0.45);
   display: inline-flex;
   align-items: center;
   justify-content: center;
