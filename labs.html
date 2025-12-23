@@ -1882,7 +1882,7 @@
           });
 
           const onEnd = (event) => {
-            if (event.propertyName != 'height') return;
+            if (event.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
             clearAnimationState();
             content.style.height = '';
