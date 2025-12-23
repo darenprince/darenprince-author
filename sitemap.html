@@ -198,46 +198,168 @@
   <!-- End Apple PWA + Safari enhancements -->
 </head>
 <body class="theme-dark">
-  <main class="container max-width-adaptive-lg padding-y-lg">
-    <h1>Site Map</h1>
-    <nav aria-label="Site Map">
-      <ul class="sitemap-list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="book.html">Book</a></li>
-        <li><a href="meet-daren-prince.html">Meet Daren</a></li>
-        <li><a href="press.html">Press</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="dashboard.html">Dashboard</a>
-          <ul>
-            <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
-          </ul>
-        </li>
-        <li>Account
-          <ul>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="reset-password.html">Reset Password</a></li>
-            <li><a href="verify-email.html">Verify Email</a></li>
-          </ul>
-        </li>
-        <li>Resources
-          <ul>
-            <li><a href="components.html">Components</a></li>
-            <li><a href="style-classes.html">Style Classes</a></li>
-            <li><a href="themes.html">Themes</a></li>
-            <li><a href="image-index.html">Image Index</a></li>
-            <li><a href="pages/search.html">Search</a></li>
-          </ul>
-        </li>
-        <li>Demos
-          <ul>
-            <li><a href="All-heroes-demos.html">All Heroes Demos</a></li>
-            <li><a href="brandon.html">Brandon</a></li>
-            <li><a href="shhh.html">Secret</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </main>
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+      <li><a href="index.html"><i class="ph ph-user-plus"></i>Collabs</a></li>
+      <li><a href="index.html#support-the-author"><i class="ph ph-hand-heart"></i>Support the Author</a></li>
+      <li><a href="admin-dashboard.html"><i class="ph ph-gear"></i>Developers</a></li>
+      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="#"><i class="ph ph-facebook-logo"></i></a>
+        <a href="#"><i class="ph ph-instagram-logo"></i></a>
+        <a href="#"><i class="ph ph-youtube-logo"></i></a>
+        <a href="#"><i class="ph ph-tiktok-logo"></i></a>
+      </li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+  <div class="site-wrap">
+    <header class="site-header padding-y-sm js-sticky-nav">
+      <div class="container max-width-adaptive-lg flex items-center justify-between">
+        <a href="index.html" class="logo">
+          <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+        </a>
+        <div class="nav-btn-group flex items-center gap-sm">
+          <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
+          <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
+          <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
+        </div>
+      </div>
+      <div class="search-bar js-search-bar" hidden>
+        <form class="search-form flex items-center">
+          <input type="search" placeholder="search site" />
+          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+        </form>
+      </div>
+      <div class="profile-dropdown js-profile-dropdown" hidden>
+        <div class="profile-info">
+          <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+          <span class="profile-name">Guest</span>
+        </div>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Account</a></li>
+          <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+        </ul>
+      </div>
+    </header>
+    <main class="container max-width-adaptive-lg padding-y-lg">
+      <h1>Site Map</h1>
+      <nav aria-label="Site Map">
+        <ul class="sitemap-list">
+          <li>Core Pages
+            <ul>
+              <li><a href="index.html">Home (Index)</a></li>
+              <li><a href="home.html">Home (Alt)</a></li>
+              <li><a href="book.html">Book</a></li>
+              <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+              <li><a href="press.html">Press</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="promotion-tools.html">Promotion Tools</a></li>
+              <li><a href="themes.html">Themes</a></li>
+              <li><a href="loaders.html">Loaders</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="style-classes.html">Style Classes</a></li>
+              <li><a href="image-index.html">Image Index</a></li>
+              <li><a href="pages/search.html">Search</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="911.html">911</a></li>
+              <li><a href="hxd.html">HXD Landing</a></li>
+              <li><a href="hotag.html">Hotag</a></li>
+              <li><a href="iconifty.html">Iconifty</a></li>
+              <li><a href="sitemap.html">Site Map</a></li>
+            </ul>
+          </li>
+          <li>Account
+            <ul>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="reset-password.html">Reset Password</a></li>
+              <li><a href="verify-email.html">Verify Email</a></li>
+              <li><a href="member/index.html">Member Portal</a></li>
+            </ul>
+          </li>
+          <li>Admin
+            <ul>
+              <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+              <li><a href="admin-user-management.html">Admin User Management</a></li>
+            </ul>
+          </li>
+          <li>Demos
+            <ul>
+              <li><a href="All-heroes-demos.html">All Heroes Demos</a></li>
+              <li><a href="brandon.html">Brandon</a></li>
+              <li><a href="shhh.html">Secret</a></li>
+              <li><a href="components/book-details-tab-demo.html">Book Details Tab Demo</a></li>
+            </ul>
+          </li>
+          <li>Brands
+            <ul>
+              <li>HXD
+                <ul>
+                  <li><a href="hxd/index.html">HXD Home</a></li>
+                  <li><a href="hxd/games.html">HXD Games</a></li>
+                  <li><a href="hxd/playlist.html">HXD Playlist</a></li>
+                  <li><a href="hxd/backstage.html">HXD Backstage</a></li>
+                  <li><a href="hxd/vault.html">HXD Vault</a></li>
+                  <li><a href="hxd/calendar.html">HXD Calendar</a></li>
+                  <li><a href="hxd/404.html">HXD 404</a></li>
+                </ul>
+              </li>
+              <li>Picdetective
+                <ul>
+                  <li><a href="Picdetective/index.html">Picdetective Home</a></li>
+                  <li><a href="Picdetective/analysis.html">Picdetective Analysis</a></li>
+                  <li><a href="Picdetective/summary.html">Picdetective Summary</a></li>
+                  <li><a href="Picdetective/privacy.html">Picdetective Privacy</a></li>
+                  <li><a href="Picdetective/reset.html">Picdetective Reset</a></li>
+                </ul>
+              </li>
+              <li><a href="labs/crowncode/index.html">Crowncode</a></li>
+              <li><a href="Newcolorclass/canva-swatches.ALL.generated.html">New Color Class Swatches</a></li>
+              <li><a href="References-ignore/MegaMenu/index.html">Mega Menu Reference</a></li>
+            </ul>
+          </li>
+          <li>Docs
+            <ul>
+              <li><a href="docs/style-guide.html">Style Guide</a></li>
+              <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
+            </ul>
+          </li>
+          <li>Labs
+            <ul>
+              <li><a href="labs.html">Labs Index</a></li>
+            </ul>
+          </li>
+          <li>Partials
+            <ul>
+              <li><a href="partials/book-3d.html">Book 3D Partial</a></li>
+              <li><a href="partials/book-toolbar.html">Book Toolbar Partial</a></li>
+            </ul>
+          </li>
+          <li>Assets
+            <ul>
+              <li><a href="assets/images/index.html">Image Asset Index</a></li>
+            </ul>
+          </li>
+          <li>Tests
+            <ul>
+              <li><a href="test/test.html">Test Page</a></li>
+              <li><a href="test/layout-debug.html">Layout Debug</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
@@ -267,11 +389,15 @@
       </div>
     </div>
   </footer>
+  </div>
+  <script type="module" src="/js/ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/main.js"></script>
   <script type="module" src="/js/seo-indexing.js"></script>
 </body>
 </html>
-
-
 
 
 
