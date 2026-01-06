@@ -20,7 +20,7 @@
       <a href="#products">Products</a>
       <a href="#frameworks">Frameworks</a>
       <a href="#books">Books &amp; IP</a>
-      <a href="#revenue">Revenue &amp; Valuation</a>
+      <a href="#revenue">Financials</a>
       <a href="#status">Status</a>
       <a href="#ethics">Ethics</a>
     </nav>
@@ -32,7 +32,7 @@
       <div class="hero-text">
         <p class="eyebrow">CrownCode.ai product studio</p>
         <h1 id="hero-title">Crown Labs</h1>
-        <p class="subtitle">Crown Labs is the product studio under CrownCode.ai. Products do not need to interlock.</p>
+        <p class="subtitle">Independent builds with a shared bar for truth-first messaging, privacy defaults, and commercial discipline.</p>
         <div class="stat-strip" id="stat-strip" aria-live="polite"></div>
       </div>
       <div class="hero-card" id="hero-card"></div>
@@ -104,8 +104,8 @@
 
     <section id="revenue" class="section" aria-labelledby="revenue-title">
       <div class="section-header">
-        <h2 id="revenue-title">Revenue &amp; Valuation</h2>
-        <p class="lede">Illustrative ranges based on current product intent. Toggle scenarios and products to explore upside and timing.</p>
+        <h2 id="revenue-title">Financials</h2>
+        <p class="lede">Year-by-year projections with valuation bands, tuned to Apple-like clarity and focus on the essentials.</p>
       </div>
       <div class="chart-controls" aria-label="Revenue scenario controls">
         <div class="scenario-toggle" role="group" aria-label="Scenario toggle">
@@ -115,6 +115,31 @@
         </div>
         <div class="product-toggle" id="chart-product-toggle" aria-label="Select products"></div>
         <button id="copy-chart" class="ghost-btn" type="button">Copy chart data (JSON)</button>
+      </div>
+      <div class="financial-overview">
+        <div class="financial-grid" id="financial-highlights" aria-live="polite"></div>
+        <div class="projection-table" aria-live="polite">
+          <div class="table-header">
+            <div>
+              <p class="eyebrow">Selected portfolio</p>
+              <h3>Revenue by Year (Base, with range)</h3>
+            </div>
+            <div class="scenario-pill" id="scenario-pill">Base case</div>
+          </div>
+          <div class="table-wrapper compact">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Year</th>
+                  <th scope="col">Base</th>
+                  <th scope="col">Range</th>
+                  <th scope="col">Implied valuation</th>
+                </tr>
+              </thead>
+              <tbody id="projection-body"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="charts">
         <div class="chart-card">
@@ -135,8 +160,8 @@
         </div>
       </div>
       <div class="disclaimers" role="note">
-        <p>Illustrative ranges, not guarantees.</p>
-        <p>Dependent on distribution, adoption, pricing, execution.</p>
+        <p>Illustrative ranges based on current GTM intent.</p>
+        <p>Assumes disciplined distribution, retention, and pricing execution.</p>
         <p>Not investment advice.</p>
       </div>
     </section>
