@@ -85,6 +85,25 @@ body {
   flex-wrap: wrap;
   gap: 12px;
 }
+.cta-btn {
+  background: linear-gradient(120deg, #7ce6ff, #a78bfa);
+  color: #0c0f16;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(124, 230, 255, 0.25);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.cta-btn:hover,
+.cta-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(167, 139, 250, 0.32);
+  outline: none;
+}
 .nav-links a {
   color: var(--text);
   text-decoration: none;
@@ -208,6 +227,87 @@ body {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.projection-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.projection-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.projection-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.projection-note {
+  margin: 0;
+  color: var(--muted);
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+.metric {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.metric-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+}
+.metric-value {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.ops-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(247, 190, 109, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.ops-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.ops-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.ops-list li {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.ops-list li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.ops-list span {
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.ops-list p {
+  margin: 0;
 }
 .how-to {
   border: 1px solid var(--border);
@@ -539,6 +639,86 @@ body {
   gap: 8px;
   color: var(--muted);
 }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 120;
+}
+.modal[hidden] {
+  display: none;
+}
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+}
+.modal__content {
+  position: relative;
+  width: min(720px, 92vw);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.modal__lede {
+  margin-top: 6px;
+  color: var(--muted);
+}
+.modal__form {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+.modal__form label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
+.modal__form input,
+.modal__form select,
+.modal__form textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+}
+.modal__form input:focus,
+.modal__form select:focus,
+.modal__form textarea:focus {
+  outline: 1px solid var(--accent);
+  box-shadow: 0 0 0 4px rgba(124, 230, 255, 0.15);
+}
+.modal__submit {
+  width: fit-content;
+}
+.alert.success {
+  margin-top: 4px;
+  border: 1px solid rgba(124, 230, 255, 0.5);
+  background: rgba(124, 230, 255, 0.08);
+  color: #e8faff;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
 .footer {
   padding: 18px 24px;
   border-top: 1px solid var(--border);
