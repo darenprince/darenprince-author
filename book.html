@@ -298,7 +298,31 @@
   </nav>
   <main>
     <h1 style="display:none;">Game On! Master the Conversation & Win Her Heart</h1>
-    <section class="book-section padding-y-xl">
+
+    <section class="book-hero padding-y-xl">
+      <div class="container max-width-adaptive-lg grid gap-lg items-center">
+        <div class="stack gap-sm">
+          <p class="text-gradient-lime-deep">Confidence without gimmicks</p>
+          <h2 class="styledh1">Game On! Master the Conversation &amp; Win Her Heart</h2>
+          <p class="text-md">
+            A bold, psychology-backed roadmap for real attraction, deeper conversations, and lasting connection. Skip the games
+            and use the same tools top performers lean on to lead with confidence.
+          </p>
+          <div class="flex gap-sm flex-wrap">
+            <a class="btn grad-kelly-green throb" href="#book-viewer">Explore the 3D book</a>
+            <a class="btn btn--primary" href="#purchase-options">Get your copy</a>
+          </div>
+        </div>
+        <div class="panel radius-md bg-contrast-lower padding-md shadow-md">
+          <p class="text-sm text-uppercase letter-spacing-md">New 2025 edition</p>
+          <p class="text-md">
+            Paperback, Kindle, and audiobook all in one place—plus a 360° look at the design before you buy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="book-viewer" class="book-section padding-y-xl">
       <div class="book-block container max-width-adaptive-lg">
         <div class="book-preview">
           <div class="book-media">
@@ -369,19 +393,27 @@
             </nav>
 
             <!-- Book 3D viewer -->
-                <div class="book-3d-container" style="--book-bg: url('/assets/images/3d-book-bg-1.png');">
-              <div class="book-3d-viewer">
+            <div class="book-3d-container">
+              <div id="book-3d-viewer" class="book-3d-viewer">
                 <div class="book-loader"></div>
                 <div class="rotate-hint" aria-hidden="true">
                   <img src="/assets/images/360rotate.png" alt="" />
                 </div>
-                <div class="book" id="book">
-                  <div class="face front"></div>
-                  <div class="face spine"></div>
-                  <div class="face back"></div>
+                <div class="scene">
+                  <div class="book" id="book">
+                    <div class="face front"></div>
+                    <div class="face back"></div>
+                    <div class="face spine"></div>
+                    <div class="face pages"></div>
+                    <div class="face top"></div>
+                    <div class="face bottom"></div>
+                  </div>
+                  <div class="shadow"></div>
                 </div>
               </div>
-              <button class="book-3d-close" id="book-close" aria-label="Close expanded view" hidden>&times;</button>
+              <button class="book-3d-close" id="book-close" aria-label="Close expanded view" hidden>
+                &times;
+              </button>
             </div>
             <div class="cover-zoom-modal" id="cover-zoom" hidden>
               <div class="cover-zoom-content">
@@ -397,7 +429,7 @@
         </div>
       </div>
       <div class="book-block container max-width-adaptive-lg">
-        <div class="purchase-box">
+        <div class="purchase-box" id="purchase-options">
           <div class="buy-controls">
             <h3 class="step-header step-one styledh1"><span class="text-gradient-lime-deep">Your move.</span><br><span class="text-gradient-gray-light">Select a format.</span></h3>
             <div class="format-options step-one">
