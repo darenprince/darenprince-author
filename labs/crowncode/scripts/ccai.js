@@ -353,12 +353,12 @@ function initializeBetaForm() {
     event.preventDefault()
     betaSuccess.hidden = false
     const focus = betaRoleField?.value ?? 'beta'
-    const focusCopy =
-      focus === 'developer'
-        ? 'developer build partner track'
-        : focus === 'research'
-          ? 'research and analytics track'
-          : 'beta testing track'
+    const focusCopyMap = {
+      developer: 'developer build partner track',
+      research: 'research and analytics track',
+      beta: 'beta testing track',
+    }
+    const focusCopy = focusCopyMap[focus] ?? 'beta testing track'
     betaSuccessText.textContent = `Request received for the ${focusCopy}. Beta briefing packet will follow shortly.`
     betaForm.reset()
     showSecurityToast('Beta intake submitted')
