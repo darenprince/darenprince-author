@@ -57,10 +57,41 @@ body {
   text-decoration: none;
 }
 .nav-logo {
-  height: 42px;
-  width: auto;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
-  display: block;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 30px rgba(0, 0, 0, 0.28);
+}
+.nav-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #9ad6ff, #bba7ff);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 10px 25px rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  color: var(--bg);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.nav-text {
+  display: grid;
+  gap: 2px;
+  font-size: 0.95rem;
+}
+.nav-text .eyebrow {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
 }
 .nav-links {
   display: flex;
