@@ -80,8 +80,6 @@ html.ccai-modal-open body {
 .ccai-nav__cta {
   padding-inline: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 189, 227, 0.25);
-  background: linear-gradient(135deg, var(--ccai-primary), #4ac7f5);
-  color: #04101b;
 }
 
 .usa-nav__secondary .usa-button.ccai-nav__cta {
@@ -370,27 +368,6 @@ html.ccai-modal-open body {
   margin-block: 1rem;
 }
 
-.ccai-projection-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-}
-
-.ccai-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(0, 189, 227, 0.12);
-  border: 1px solid rgba(154, 209, 255, 0.45);
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
 .ccai-metric {
   padding: 0.85rem 1rem;
   border: 1px solid rgba(154, 209, 255, 0.35);
@@ -426,10 +403,6 @@ html.ccai-modal-open body {
   color: rgba(233, 241, 255, 0.82);
 }
 
-.ccai-projection__note {
-  margin-bottom: 0;
-}
-
 .ccai-ops-card .usa-card__body {
   color: rgba(233, 241, 255, 0.88);
 }
@@ -447,8 +420,4 @@ html.ccai-modal-open body {
 
 #ccai-ops-indicator[data-state='elevated'] {
   color: #f9c642;
-}
-
-#ccai-ops-indicator {
-  background: rgba(7, 18, 31, 0.7);
 }
