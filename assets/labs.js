@@ -738,6 +738,90 @@ function aggregateRevenue(products, scenario, field) {
   return years.map((i) => products.reduce((sum, p) => sum + p.revenue[scenario][field][i], 0))
 }
 
+function renderFinancialHighlights(
+  selected,
+  scenario,
+  revenueMin,
+  revenueBase,
+  revenueMax,
+  multiple
+) {
+  const container = document.getElementById('financial-highlights')
+  const labels = ['Year 1', 'Year 2', 'Year 3']
+  const cagr = calculateCagr(revenueBase)
+  const topProduct = selected.reduce((prev, curr) => {
+    const prevValue = prev ? prev.revenue[scenario].base[2] : 0
+    const currValue = curr.revenue[scenario].base[2]
+    return currValue > prevValue ? curr : prev
+  }, null)
+
+  const cards = [
+    {
+      label: 'Year 1 base revenue',
+      value: formatCurrency(revenueBase[0]),
+      hint: `Range ${formatCurrency(revenueMin[0])}–${formatCurrency(revenueMax[0])}`,
+    },
+    {
+      label: 'Year 3 base revenue',
+      value: formatCurrency(revenueBase[2]),
+      hint: `Range ${formatCurrency(revenueMin[2])}–${formatCurrency(revenueMax[2])}`,
+    },
+    {
+      label: '3-year CAGR (base)',
+      value: `${(cagr * 100).toFixed(1)}%`,
+      hint: 'Assumes consistent retention + pricing execution',
+    },
+    {
+      label: 'Top Year 3 driver',
+      value: topProduct ? topProduct.name : 'No selection',
+      hint: topProduct
+        ? `Year 3 base: ${formatCurrency(topProduct.revenue[scenario].base[2])}`
+        : 'Select at least one product',
+    },
+    {
+      label: 'Year 3 valuation band',
+      value: `${formatCurrency(revenueBase[2] * multiple.min)}–${formatCurrency(revenueBase[2] * multiple.max)}`,
+      hint: `${labels[2]} revenue × ${multiple.min}–${multiple.max}x`,
+    },
+  ]
+
+  container.innerHTML = cards
+    .map(
+      (card) => `
+      <article class="finance-card">
+        <p class="eyebrow">${card.label}</p>
+        <strong>${card.value}</strong>
+        <span class="hint">${card.hint}</span>
+      </article>
+    `
+    )
+    .join('')
+}
+
+function renderProjectionTable(labels, revenueMin, revenueBase, revenueMax, multiple, scenario) {
+  const body = document.getElementById('projection-body')
+  const rows = labels
+    .map((label, idx) => {
+      const base = revenueBase[idx]
+      const min = revenueMin[idx]
+      const max = revenueMax[idx]
+      const valuation = base * multiple.base
+      return `
+        <tr>
+          <td>${label}</td>
+          <td>${formatCurrency(base)}</td>
+          <td>${formatCurrency(min)} – ${formatCurrency(max)}</td>
+          <td>${formatCurrency(valuation)}</td>
+        </tr>
+      `
+    })
+    .join('')
+
+  body.innerHTML = rows
+  const pill = document.getElementById('scenario-pill')
+  pill.textContent = `${scenario[0].toUpperCase()}${scenario.slice(1)} case`
+}
+
 function drawAreaChart(containerId, dataPoints, labels, colors) {
   const svgNS = 'http://www.w3.org/2000/svg'
   const width = 800
@@ -980,6 +1064,9 @@ function renderRevenueCharts(data, scenario) {
     '#f7be6d',
     '#a78bfa',
   ])
+
+  renderFinancialHighlights(selected, scenario, revenueMin, revenueBase, revenueMax, multiple)
+  renderProjectionTable(labels, revenueMin, revenueBase, revenueMax, multiple, scenario)
 
   const perProductSeries = selected.map((p) => ({
     name: p.name,
