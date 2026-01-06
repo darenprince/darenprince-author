@@ -511,6 +511,68 @@
   margin-top: 2rem;
 }
 
+.ccai-page .usa-logo__text a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #f7fbff;
+  text-decoration: none;
+}
+
+.ccai-page .ccai-site-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.ccai-page .ccai-logo-text {
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ccai-page .site-footer {
+  background: linear-gradient(135deg, #0b1d31, #08182a);
+  color: #f7fbff;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--ccai-border);
+}
+
+.ccai-page .site-footer .container {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+.ccai-page .site-footer .footer-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: start;
+}
+
+.ccai-page .site-footer .footer-logo {
+  width: 140px;
+  margin-bottom: 1rem;
+}
+
+.ccai-page .site-footer a {
+  color: var(--ccai-accent);
+  text-decoration: none;
+}
+
+.ccai-page .site-footer a:hover {
+  color: #ffffff;
+}
+
+.ccai-page .site-footer .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ccai-loader,
   .ccai-brief-loader {
