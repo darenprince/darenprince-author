@@ -37,16 +37,130 @@ const inquirySuccess = document.getElementById('ccai-inquiry-success')
 const betaForm = document.getElementById('ccai-beta-form')
 const betaSuccess = document.getElementById('ccai-beta-success')
 const betaTriggers = document.querySelectorAll('[data-beta-trigger]')
+const betaRoleField = document.getElementById('beta-focus')
+const betaSuccessText = document.getElementById('ccai-beta-success-text')
 const animatedSections = document.querySelectorAll('[data-ccai-animate]')
 const preloadedImages = document.querySelectorAll(
   '.ccai-feature-banner__image img, .ccai-app-suite__grid img'
 )
+const projectionTriggers = document.querySelectorAll('[data-projection-trigger]')
+const projectionFields = document.querySelectorAll('[data-projection-value]')
+const operationsFields = document.querySelectorAll('[data-operations-value]')
+const opsIndicator = document.getElementById('ccai-ops-indicator')
+
+const PROJECTION_SCENARIOS = {
+  baseline: {
+    note: 'Baseline lab build with steady ARR growth, manageable burn, and focus on developer traction.',
+    metrics: {
+      arr: 1800000,
+      margin: 0.62,
+      burn: 95000,
+      runway: 14,
+      velocity: 18,
+      reliability: 0.995,
+    },
+    trends: {
+      arr: 'up',
+      margin: 'up',
+      burn: 'down',
+      runway: 'up',
+      velocity: 'up',
+      reliability: 'up',
+    },
+    operations: {
+      frontend:
+        'Design system release train locked to 2-week cadence with hero, beta, and security modals unified.',
+      backend:
+        'API gateway hardened with signed builds, audit logging, and per-environment secrets rotation.',
+      infrastructure:
+        'Single-region cloud with automated backups and load balancer health checks every 60 seconds.',
+      health: 'Stable / green',
+    },
+  },
+  accelerated: {
+    note: 'Enterprise lift with larger seat counts, stronger unit economics, and aggressive hiring for full-stack squads.',
+    metrics: {
+      arr: 3700000,
+      margin: 0.69,
+      burn: 145000,
+      runway: 18,
+      velocity: 26,
+      reliability: 0.997,
+    },
+    trends: {
+      arr: 'up',
+      margin: 'up',
+      burn: 'up',
+      runway: 'up',
+      velocity: 'up',
+      reliability: 'up',
+    },
+    operations: {
+      frontend:
+        'Multi-squad delivery with parallel feature flags and lab minisite refreshes every sprint.',
+      backend:
+        'Zero-downtime migrations, contract testing, and signed artifact provenance via SBOM exports.',
+      infrastructure:
+        'Active-active regions with WAF rules, autoscaling, and quarterly chaos drills.',
+      health: 'Scaling / blue',
+    },
+  },
+  field: {
+    note: 'Government and NGO field deployments prioritizing resilience, compliance, and on-prem controls.',
+    metrics: {
+      arr: 5200000,
+      margin: 0.58,
+      burn: 160000,
+      runway: 21,
+      velocity: 24,
+      reliability: 0.999,
+    },
+    trends: {
+      arr: 'up',
+      margin: 'steady',
+      burn: 'up',
+      runway: 'up',
+      velocity: 'steady',
+      reliability: 'up',
+    },
+    operations: {
+      frontend:
+        'USWDS patterns hardened for FIPS environments with offline-ready intake workflows.',
+      backend:
+        'Isolated enclave deployments, hardware-backed keys, and mandatory audit event streaming.',
+      infrastructure: 'Multi-AZ plus on-prem replication with 24/7 observability runbooks.',
+      health: 'Mission-grade / gold',
+    },
+  },
+}
+
+const PROJECTION_META = {
+  arr: (value) => `${formatCurrency(value)} ARR`,
+  margin: (value) => `${formatPercent(value)} gross margin`,
+  burn: (value) => `${formatCurrency(value)}/mo burn`,
+  runway: (value) => `${value} months runway`,
+  velocity: (value) => `${value} story points / sprint`,
+  reliability: (value) => `${formatPercent(value)} reliability`,
+}
 
 const state = {
   gateInput: '',
   gateUnlocked: false,
   toastTimer: null,
   storedClearanceId: null,
+  activeProjection: 'baseline',
+}
+
+function formatCurrency(value) {
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  })
+}
+
+function formatPercent(value) {
+  return `${Math.round(value * 100)}%`
 }
 
 function refreshScrollLock() {
@@ -234,13 +348,82 @@ function initializeInquiryForm() {
 }
 
 function initializeBetaForm() {
-  if (!betaForm || !betaSuccess) return
+  if (!betaForm || !betaSuccess || !betaSuccessText) return
   betaForm.addEventListener('submit', (event) => {
     event.preventDefault()
     betaSuccess.hidden = false
+    const focus = betaRoleField?.value ?? 'beta'
+    const focusCopyMap = {
+      developer: 'developer build partner track',
+      research: 'research and analytics track',
+      beta: 'beta testing track',
+    }
+    const focusCopy = focusCopyMap[focus] ?? 'beta testing track'
+    betaSuccessText.textContent = `Request received for the ${focusCopy}. Beta briefing packet will follow shortly.`
     betaForm.reset()
     showSecurityToast('Beta intake submitted')
+    if (betaRoleField) {
+      betaRoleField.value = focus
+    }
   })
+}
+
+function renderProjection(scenarioKey = state.activeProjection) {
+  state.activeProjection = scenarioKey in PROJECTION_SCENARIOS ? scenarioKey : 'baseline'
+  const scenario = PROJECTION_SCENARIOS[state.activeProjection]
+
+  projectionTriggers.forEach((trigger) => {
+    trigger.dataset.state =
+      trigger.dataset.projectionTrigger === state.activeProjection ? 'active' : ''
+  })
+
+  projectionFields.forEach((field) => {
+    const metricKey = field.dataset.projectionValue
+    const rawValue = scenario.metrics?.[metricKey]
+    const formatter = PROJECTION_META[metricKey]
+    if (typeof formatter === 'function') {
+      field.textContent = formatter(rawValue)
+    }
+    const trend = scenario.trends?.[metricKey]
+    const trendTarget = field.closest('[data-trend]')
+    if (trendTarget) {
+      trendTarget.dataset.trend = trend ?? ''
+    }
+  })
+
+  operationsFields.forEach((field) => {
+    const key = field.dataset.operationsValue
+    const value = scenario.operations?.[key]
+    if (value !== undefined) {
+      field.textContent = value
+    }
+  })
+
+  if (opsIndicator) {
+    const healthCopy = scenario.operations?.health || ''
+    opsIndicator.dataset.state = healthCopy.toLowerCase().includes('mission')
+      ? 'elevated'
+      : 'steady'
+  }
+
+  const note = document.getElementById('ccai-projection-note')
+  if (note) {
+    note.textContent = scenario.note
+  }
+}
+
+function initializeFinancialControls() {
+  if (!projectionTriggers.length || !projectionFields.length) return
+
+  projectionTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const nextScenario = trigger.dataset.projectionTrigger
+      renderProjection(nextScenario)
+      showSecurityToast('Projection view updated')
+    })
+  })
+
+  renderProjection(state.activeProjection)
 }
 
 function initializeEventListeners() {
@@ -260,6 +443,10 @@ function initializeEventListeners() {
     trigger.addEventListener('click', () => {
       if (betaSuccess) {
         betaSuccess.hidden = true
+      }
+      if (betaRoleField) {
+        const focus = trigger.dataset.betaRole || 'beta'
+        betaRoleField.value = focus
       }
       openModal(betaModal)
     })
@@ -415,6 +602,7 @@ function initializePreloadedImages() {
 parseStoredAccess()
 initializeInquiryForm()
 initializeBetaForm()
+initializeFinancialControls()
 initializeEventListeners()
 initializeLoaders()
 initializeAnimations()
