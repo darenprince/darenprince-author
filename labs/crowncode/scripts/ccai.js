@@ -270,6 +270,7 @@ function parseStoredAccess() {
     if (!stored) return
     const parsed = JSON.parse(stored)
     if (parsed?.verified) {
+      state.gateUnlocked = true
       state.storedClearanceId = parsed.clearanceId
       revealBrief(parsed.clearanceId, false)
     }
@@ -286,6 +287,7 @@ function persistClearance(clearanceId) {
   }
   sessionStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify(payload))
   state.storedClearanceId = clearanceId
+  state.gateUnlocked = true
 }
 
 function generateClearanceId() {
