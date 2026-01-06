@@ -280,6 +280,16 @@
               </a>
             </li>
           </ul>
+          <div class="usa-nav__secondary ccai-nav__secondary">
+            <button
+              type="button"
+              class="usa-button usa-button--accent-warm ccai-nav__cta"
+              data-beta-trigger
+              data-beta-role="developer"
+            >
+              Apply as dev or beta tester
+            </button>
+          </div>
         </div>
       </nav>
     </header>
@@ -700,6 +710,97 @@
         </div>
       </section>
 
+      <section
+        class="usa-section usa-dark-background ccai-animate-in ccai-financials"
+        aria-labelledby="financial-heading"
+        data-ccai-animate
+      >
+        <div class="grid-container">
+          <div class="ccai-section-header">
+            <p class="ccai-section-header__eyebrow">Financial Ops</p>
+            <h2 id="financial-heading" class="margin-0">Financial projections + full-stack readiness</h2>
+          </div>
+          <div class="ccai-projection-controls" role="group" aria-label="Financial scenarios">
+            <button type="button" class="usa-button usa-button--outline" data-projection-trigger="baseline">
+              Baseline build program
+            </button>
+            <button type="button" class="usa-button usa-button--outline" data-projection-trigger="accelerated">
+              Accelerated enterprise lift
+            </button>
+            <button type="button" class="usa-button usa-button--outline" data-projection-trigger="field">
+              Field-ready government ops
+            </button>
+          </div>
+          <div class="grid-row grid-gap-lg">
+            <div class="tablet:grid-col-7">
+              <div class="usa-summary-box usa-summary-box--dark ccai-financials__box" role="region" aria-labelledby="financial-metrics-heading">
+                <div class="usa-summary-box__body">
+                  <h3 class="usa-summary-box__heading" id="financial-metrics-heading">Capital + revenue plan</h3>
+                  <div class="ccai-projection-meta" aria-live="polite">
+                    <span class="ccai-pill" id="ccai-projection-label">Baseline build program</span>
+                    <p class="ccai-projection__note" id="ccai-projection-note"></p>
+                  </div>
+                  <div class="ccai-metric-grid">
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Annual recurring revenue</p>
+                      <p class="ccai-metric__value" data-projection-value="arr"></p>
+                    </div>
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Gross margin</p>
+                      <p class="ccai-metric__value" data-projection-value="margin"></p>
+                    </div>
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Monthly burn</p>
+                      <p class="ccai-metric__value" data-projection-value="burn"></p>
+                    </div>
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Runway</p>
+                      <p class="ccai-metric__value" data-projection-value="runway"></p>
+                    </div>
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Velocity</p>
+                      <p class="ccai-metric__value" data-projection-value="velocity"></p>
+                    </div>
+                    <div class="ccai-metric" data-trend>
+                      <p class="ccai-metric__label">Reliability</p>
+                      <p class="ccai-metric__value" data-projection-value="reliability"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tablet:grid-col-5">
+              <div class="usa-card ccai-ops-card" data-ccai-animate>
+                <div class="usa-card__container">
+                  <header class="usa-card__header">
+                    <h3 class="usa-card__heading">Full-stack operations</h3>
+                  </header>
+                  <div class="usa-card__body">
+                    <ul class="usa-list">
+                      <li>
+                        <strong>Frontend delivery</strong>
+                        <span class="ccai-ops__value" data-operations-value="frontend"></span>
+                      </li>
+                      <li>
+                        <strong>Backend pipeline</strong>
+                        <span class="ccai-ops__value" data-operations-value="backend"></span>
+                      </li>
+                      <li>
+                        <strong>Infrastructure posture</strong>
+                        <span class="ccai-ops__value" data-operations-value="infrastructure"></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="usa-card__footer ccai-ops__footer" id="ccai-ops-indicator" role="status" aria-live="polite">
+                    Ops health: <span data-operations-value="health"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="usa-section usa-dark-background ccai-animate-in" aria-labelledby="inquiry-heading" data-ccai-animate>
         <div class="grid-container">
           <div class="ccai-section-header">
@@ -819,6 +920,12 @@
             <input class="usa-input" id="beta-email" name="email" type="email" autocomplete="email" required />
             <label class="usa-label" for="beta-role">Operational role</label>
             <input class="usa-input" id="beta-role" name="role" autocomplete="organization-title" />
+            <label class="usa-label" for="beta-focus">Program track</label>
+            <select class="usa-select" id="beta-focus" name="focus">
+              <option value="beta">Beta tester (feedback and resilience drills)</option>
+              <option value="developer">Developer build partner</option>
+              <option value="research">Research and analytics partner</option>
+            </select>
             <label class="usa-label" for="beta-notes">Testing focus</label>
             <textarea class="usa-textarea" id="beta-notes" name="notes" rows="4" required></textarea>
             <div class="usa-button-group margin-top-2">
@@ -827,7 +934,7 @@
             </div>
             <div class="usa-alert usa-alert--success margin-top-2" id="ccai-beta-success" hidden>
               <div class="usa-alert__body">
-                <p class="usa-alert__text">Request received. Beta briefing packet will follow shortly.</p>
+                <p class="usa-alert__text" id="ccai-beta-success-text">Request received. Beta briefing packet will follow shortly.</p>
               </div>
             </div>
           </form>
