@@ -71,6 +71,21 @@ html.ccai-modal-open body {
   outline-offset: 2px;
 }
 
+.ccai-nav__secondary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ccai-nav__cta {
+  padding-inline: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 189, 227, 0.25);
+}
+
+.usa-nav__secondary .usa-button.ccai-nav__cta {
+  margin: 0;
+}
+
 .ccai-page .usa-section {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
   border-block: 1px solid rgba(255, 255, 255, 0.02);
@@ -245,14 +260,16 @@ html.ccai-modal-open body {
 }
 
 .ccai-page .usa-form .usa-input,
-.ccai-page .usa-form .usa-textarea {
+.ccai-page .usa-form .usa-textarea,
+.ccai-page .usa-form .usa-select {
   background: rgba(7, 18, 31, 0.88);
   color: #f7fbff;
   border-color: var(--ccai-border);
 }
 
 .ccai-page .usa-form .usa-input:focus,
-.ccai-page .usa-form .usa-textarea:focus {
+.ccai-page .usa-form .usa-textarea:focus,
+.ccai-page .usa-form .usa-select:focus {
   outline: 3px solid var(--ccai-accent);
   outline-offset: 1px;
 }
@@ -308,4 +325,99 @@ html.ccai-modal-open body {
 .ccai-page .usa-identifier__contact a:hover,
 .ccai-page .usa-identifier__contact a:focus {
   color: #fff;
+}
+
+.ccai-financials {
+  position: relative;
+  overflow: hidden;
+}
+
+.ccai-financials::before {
+  content: '';
+  position: absolute;
+  inset: 1rem 2rem auto 2rem;
+  height: 240px;
+  background: radial-gradient(circle at 20% 20%, rgba(0, 189, 227, 0.2), transparent 50%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.ccai-financials__box {
+  position: relative;
+  z-index: 1;
+}
+
+.ccai-projection-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ccai-projection-controls [data-state='active'] {
+  background: var(--ccai-primary);
+  color: #fff;
+  border-color: var(--ccai-primary);
+  box-shadow: 0 12px 30px rgba(0, 189, 227, 0.25);
+}
+
+.ccai-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+.ccai-metric {
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(154, 209, 255, 0.35);
+  border-radius: 0.6rem;
+  background: rgba(7, 18, 31, 0.65);
+}
+
+.ccai-metric[data-trend='up'] {
+  border-color: rgba(46, 133, 64, 0.65);
+  box-shadow: 0 6px 16px rgba(46, 133, 64, 0.2);
+}
+
+.ccai-metric[data-trend='down'] {
+  border-color: rgba(201, 45, 18, 0.65);
+  box-shadow: 0 6px 16px rgba(201, 45, 18, 0.18);
+}
+
+.ccai-metric__label {
+  font-size: 0.9rem;
+  color: rgba(233, 241, 255, 0.8);
+  margin: 0;
+}
+
+.ccai-metric__value {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.ccai-projection__note {
+  margin: 0;
+  color: rgba(233, 241, 255, 0.82);
+}
+
+.ccai-ops-card .usa-card__body {
+  color: rgba(233, 241, 255, 0.88);
+}
+
+.ccai-ops__value {
+  display: block;
+  margin-top: 0.35rem;
+  color: #fff;
+}
+
+.ccai-ops__footer {
+  border-top: 1px solid rgba(154, 209, 255, 0.18);
+  color: #9ad1ff;
+}
+
+#ccai-ops-indicator[data-state='elevated'] {
+  color: #f9c642;
 }
