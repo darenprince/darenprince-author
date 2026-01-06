@@ -741,6 +741,26 @@ body.theme-light {
   display: grid;
   gap: 0.25rem;
 }
+.site-footer .footer-labs-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  margin-top: 0.25rem;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.site-footer .footer-labs-link .footer-labs-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px;
+}
 
 body.theme-dark .site-footer a,
 body.theme-light .site-footer a {

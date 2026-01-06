@@ -4,7 +4,7 @@ const crownData = {
       id: 'crowncode-intelligence-suite',
       name: 'CrownCode Intelligence Suite',
       taglines: ['Decision-grade intelligence with full operational context'],
-      status: 'Nearing Stage 1 Beta · Round 1 testing',
+      status: 'Beta',
       category: 'Intelligence / Multimodal analysis / Forensic-capable',
       truth:
         'Evidence-layered analysis with credential-abstracted context and trauma-aware reporting.',
@@ -67,7 +67,7 @@ const crownData = {
       id: 'justus',
       name: 'JustUs.chat',
       taglines: ['Click → Chat → Vanish'],
-      status: 'PROTOTYPED',
+      status: 'Prototype',
       category: 'Privacy-first chat',
       truth:
         'No accounts, no retention by design, self-destructing rooms with burn-it termination.',
@@ -112,7 +112,7 @@ const crownData = {
       id: 'crown-sos',
       name: 'Crown SOS',
       taglines: ['When chaos strikes, Crown SOS answers.'],
-      status: 'Prototype complete · Beta testing',
+      status: 'Beta',
       category: 'Safety / Evidence capture',
       truth:
         'Custom triggers capture proof-of-life signals, live video/audio, and device data for trusted contacts.',
@@ -201,7 +201,7 @@ const crownData = {
       id: 'crown-watchtower',
       name: 'Crown WatchTower',
       taglines: ['Signal intelligence for the edges.'],
-      status: 'PROTOTYPED',
+      status: 'Prototype',
       category: 'Network security / signal intelligence',
       truth:
         'Environment mapping with Bluetooth and signal scanning, device fingerprinting, and MAC correlation.',
@@ -246,7 +246,7 @@ const crownData = {
       id: 'lumilogix',
       name: 'LumiLogix',
       taglines: ['Emotionally intelligent marketing engine'],
-      status: 'PROTOTYPED — awaiting marketing finalization',
+      status: 'Prototype',
       category: 'Marketing intelligence',
       truth:
         'Working prototype with emotion and archetype modules; GTM narrative still pending finalization.',
@@ -293,7 +293,7 @@ const crownData = {
       id: 'ai-cherry-pie',
       name: 'AI Cherry Pie',
       taglines: ['Removes AI writing fingerprints; rebuilds human cadence.'],
-      status: 'APP STORE READY — awaiting developer licensing',
+      status: 'App Store Ready',
       category: 'Creator utility',
       truth:
         'Humanizes AI writing so creators, brands, and writers avoid AI fingerprints while keeping their voice.',
@@ -330,7 +330,7 @@ const crownData = {
       id: 'pic-detective',
       name: 'Pic Detective',
       taglines: ['Image analysis as evidence-rich environment.'],
-      status: 'APP STORE READY — awaiting developer licensing',
+      status: 'App Store Ready',
       category: 'Imaging intelligence',
       truth: 'Inventories, condition notes, and context signals with structured report exports.',
       summary:
@@ -370,7 +370,7 @@ const crownData = {
       id: 'hotag',
       name: 'HoTag',
       taglines: ['Satirical DTC parody brand'],
-      status: 'Active concept with mockups & packaging',
+      status: 'Concept',
       category: 'DTC parody',
       truth:
         'Device mockups and packaging are built; viral ad concept ready. Tone stays playful and satirical.',
@@ -423,7 +423,7 @@ const crownData = {
     },
     {
       name: "Children's Book IP",
-      status: 'In development',
+      status: 'In Development',
       details:
         'Teaches why responding matters and how to say no kindly without people-pleasing; versions for ages 5–6 and 7–9; audiobook and illustration readiness included.',
     },
@@ -555,7 +555,7 @@ function buildStats(data) {
 function renderFilters(data) {
   const statusFilter = document.getElementById('status-filter')
   const categoryFilter = document.getElementById('category-filter')
-  const statuses = ['All', 'Prototyped', 'Beta', 'App Store Ready', 'Concept', 'Published']
+  const statuses = ['All', 'Prototype', 'Beta', 'App Store Ready', 'Concept', 'Published']
   statusFilter.innerHTML = statuses
     .map((s) => `<option value="${s.toLowerCase()}">${s}</option>`)
     .join('')
