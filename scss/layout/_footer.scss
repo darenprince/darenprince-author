@@ -1,5 +1,5 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
 
 .site-footer {
   background: var(--footer-gradient);
@@ -29,7 +29,9 @@
   a {
     color: $accent;
     text-decoration: none;
-    &:hover { color: $contrast-high; }
+    &:hover {
+      color: $contrast-high;
+    }
   }
 
   .footer-links {
@@ -38,6 +40,27 @@
     margin: 0;
     display: grid;
     gap: $spacing-xxs;
+  }
+
+  .footer-labs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xxs $spacing-xs;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: $spacing-xxs;
+    width: fit-content;
+
+    .footer-labs-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: $radius-md;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px;
+    }
   }
 }
 
