@@ -435,19 +435,87 @@ const crownData = {
   },
 }
 
+const projectionScenarios = {
+  conservative: {
+    label: 'Conservative lab pacing',
+    note: 'Tight burn with deliberate hiring, prioritizing evidence and security reviews before expansion.',
+    metrics: {
+      arr: 1200000,
+      margin: 0.58,
+      burn: 85000,
+      runway: 15,
+      velocity: 16,
+      reliability: 0.993,
+    },
+    operations: {
+      frontend:
+        'Single-team delivery with weekly drops and unified design tokens across the minisite.',
+      backend:
+        'API gateway hardened with audit logging and rotation of environment secrets every sprint.',
+      infrastructure: 'Single-region cloud with backups, health checks, and change controls.',
+      health: 'Stable / green',
+    },
+  },
+  base: {
+    label: 'Base scaling plan',
+    note: 'Balanced feature velocity with revenue lift from core products and early enterprise pilots.',
+    metrics: {
+      arr: 2800000,
+      margin: 0.63,
+      burn: 120000,
+      runway: 18,
+      velocity: 22,
+      reliability: 0.996,
+    },
+    operations: {
+      frontend:
+        'Parallel squads shipping labs, dev intake, and beta modals with accessibility sweeps.',
+      backend: 'Zero-downtime migrations, contract testing, and signed artifacts for every deploy.',
+      infrastructure: 'Active-active regions with WAF, autoscaling, and monthly chaos drills.',
+      health: 'Scaling / blue',
+    },
+  },
+  aggressive: {
+    label: 'Aggressive enterprise lift',
+    note: 'Expanded squads, heavier enterprise workload, and resilience tooling for on-prem and field teams.',
+    metrics: {
+      arr: 4200000,
+      margin: 0.6,
+      burn: 165000,
+      runway: 20,
+      velocity: 28,
+      reliability: 0.998,
+    },
+    operations: {
+      frontend:
+        'Multi-lab releases with experimentation flags and rapid theming for partner environments.',
+      backend:
+        'Dedicated reliability lane, SBOM exports, and stricter auth hardening for partner sandboxes.',
+      infrastructure: 'Multi-region failover plus edge caching and 24/7 observability runbooks.',
+      health: 'Mission-grade / gold',
+    },
+  },
+}
+
+const projectionFields = document.querySelectorAll('[data-projection-value]')
+const operationsFields = document.querySelectorAll('[data-operations-value]')
+const projectionLabel = document.getElementById('projection-label')
+const projectionNote = document.getElementById('projection-note')
+
 function formatMillions(value) {
   return `${value.toFixed(2)}M`
 }
 
 function formatCurrency(value) {
-  return `$${value.toFixed(2)}M`
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  })
 }
 
-function calculateCagr(values) {
-  if (!values.length || values[0] === 0) return 0
-  const years = values.length - 1
-  const cagr = Math.pow(values[values.length - 1] / values[0], 1 / years) - 1
-  return cagr
+function formatPercent(value) {
+  return `${Math.round(value * 100)}%`
 }
 
 function buildStats(data) {
@@ -1013,6 +1081,34 @@ function renderRevenueCharts(data, scenario) {
   drawTimeline('timeline-chart', milestones)
 }
 
+function updateProjectionScenario(scenarioKey) {
+  if (!projectionFields.length && !operationsFields.length) return
+  const scenario = projectionScenarios[scenarioKey] ?? projectionScenarios.base
+  if (projectionLabel) projectionLabel.textContent = scenario.label
+  if (projectionNote) projectionNote.textContent = scenario.note
+
+  const metricFormatters = {
+    arr: (value) => `${formatCurrency(value)} ARR`,
+    margin: (value) => `${formatPercent(value)} gross margin`,
+    burn: (value) => `${formatCurrency(value)}/mo burn`,
+    runway: (value) => `${value} months runway`,
+    velocity: (value) => `${value} story points / sprint`,
+    reliability: (value) => `${formatPercent(value)} reliability`,
+  }
+
+  projectionFields.forEach((field) => {
+    const key = field.dataset.projectionValue
+    const value = scenario.metrics[key]
+    const formatter = metricFormatters[key] ?? ((v) => v)
+    field.textContent = value != null ? formatter(value) : '—'
+  })
+
+  operationsFields.forEach((field) => {
+    const opKey = field.dataset.operationsValue
+    field.textContent = scenario.operations[opKey] ?? '—'
+  })
+}
+
 function attachFilters(data) {
   const filters = { status: 'all', category: 'all', search: '' }
   const statusFilter = document.getElementById('status-filter')
@@ -1040,15 +1136,26 @@ function attachFilters(data) {
 function attachScenarioToggle(data) {
   let scenario = 'base'
   const buttons = document.querySelectorAll('[data-scenario]')
+  const syncState = () => {
+    buttons.forEach((b) => {
+      const active = b.dataset.scenario === scenario
+      b.classList.toggle('active', active)
+      b.setAttribute('aria-pressed', active ? 'true' : 'false')
+    })
+  }
+
   buttons.forEach((btn) =>
     btn.addEventListener('click', () => {
-      buttons.forEach((b) => b.classList.remove('active'))
-      btn.classList.add('active')
       scenario = btn.dataset.scenario
+      syncState()
       renderRevenueCharts(data, scenario)
+      updateProjectionScenario(scenario)
     })
   )
+
+  syncState()
   renderRevenueCharts(data, scenario)
+  updateProjectionScenario(scenario)
 }
 
 function attachCopyChart(data) {
@@ -1107,6 +1214,55 @@ function attachScrollSpy() {
   sections.forEach(({ target }) => observer.observe(target))
 }
 
+function attachBetaModal() {
+  const modal = document.getElementById('beta-modal')
+  const openTrigger = document.getElementById('beta-dev-cta')
+  const form = document.getElementById('beta-form')
+  const success = document.getElementById('beta-success')
+  const successText = document.getElementById('beta-success-text')
+  const trackField = document.getElementById('beta-track')
+  if (!modal || !openTrigger || !form) return
+
+  const closeButtons = modal.querySelectorAll('[data-modal-close]')
+  const close = () => {
+    modal.hidden = true
+    modal.classList.remove('open')
+  }
+  const open = () => {
+    modal.hidden = false
+    modal.classList.add('open')
+    success?.setAttribute('hidden', 'true')
+    const firstField = form.querySelector('input, select, textarea')
+    if (firstField) {
+      firstField.focus({ preventScroll: true })
+    }
+  }
+
+  openTrigger.addEventListener('click', open)
+  closeButtons.forEach((btn) => btn.addEventListener('click', close))
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal || event.target.classList.contains('modal__backdrop')) {
+      close()
+    }
+  })
+  modal.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') close()
+  })
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const track = trackField?.value || 'beta'
+    const name = form.elements.name?.value || 'your team'
+    if (successText) {
+      const trackLabel =
+        track === 'developer' ? 'developer build' : track === 'research' ? 'research' : 'beta'
+      successText.textContent = `Request received. ${trackLabel} intake packet queued for ${name}.`
+    }
+    if (success) success.hidden = false
+    form.reset()
+  })
+}
+
 function init() {
   buildStats(crownData)
   renderFilters(crownData)
@@ -1123,6 +1279,8 @@ function init() {
   attachCopyChart(crownData)
   attachNavToggle()
   attachScrollSpy()
+  updateProjectionScenario('base')
+  attachBetaModal()
 }
 
 document.addEventListener('DOMContentLoaded', init)
