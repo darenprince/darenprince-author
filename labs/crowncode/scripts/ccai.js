@@ -369,8 +369,8 @@ function initializeBetaForm() {
 }
 
 function renderProjection(scenarioKey = state.activeProjection) {
-  const scenario = PROJECTION_SCENARIOS[scenarioKey] ?? PROJECTION_SCENARIOS.baseline
   state.activeProjection = scenarioKey in PROJECTION_SCENARIOS ? scenarioKey : 'baseline'
+  const scenario = PROJECTION_SCENARIOS[state.activeProjection]
 
   projectionTriggers.forEach((trigger) => {
     trigger.dataset.state =
