@@ -20,23 +20,26 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
   <link rel="stylesheet" href="assets/labs.css">
 </head>
-<body>
+<body class="theme-dark">
   <header class="top-nav" aria-label="Crown Labs navigation">
     <a href="labs.html" class="nav-brand" aria-label="Crown Labs home">
       <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
+      <span>Crown Labs</span>
     </a>
     <nav class="nav-links" id="primary-navigation" aria-label="Section navigation">
       <a href="#overview">Overview</a>
-      <a href="#products">Products</a>
+      <a href="#portfolio">Portfolio</a>
       <a href="#frameworks">Frameworks</a>
       <a href="#books">Books &amp; IP</a>
-      <a href="#revenue">Financials</a>
       <a href="#status">Status</a>
       <a href="#ethics">Ethics</a>
     </nav>
-    <button class="cta-btn" id="beta-dev-cta" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
-      Apply: Dev or Beta Tester
-    </button>
+    <div class="nav-actions">
+      <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
+      <button class="cta-btn" id="beta-dev-cta" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
+        Apply: Dev / Beta Tester
+      </button>
+    </div>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">☰</button>
   </header>
 
@@ -45,64 +48,78 @@
       <div class="hero-text">
         <p class="eyebrow">CrownCode.ai product studio</p>
         <h1 id="hero-title">Crown Labs</h1>
-        <p class="subtitle">Independent builds with a shared bar for truth-first messaging, privacy defaults, and commercial discipline.</p>
+        <p class="subtitle">Independent builds with truth-first messaging, privacy defaults, and commercial discipline.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#portfolio">See the portfolio</a>
+          <button class="ghost-btn" id="hero-apply" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
+            Apply: Dev / Beta Tester
+          </button>
+        </div>
         <div class="stat-strip" id="stat-strip" aria-live="polite"></div>
       </div>
-      <div class="hero-card" id="hero-card"></div>
+      <div class="hero-card" aria-label="Crown Labs snapshot">
+        <div class="hero-card__content" id="hero-card"></div>
+      </div>
     </section>
 
     <section id="overview" class="section" aria-labelledby="overview-title">
       <div class="section-header">
-        <h2 id="overview-title">Overview</h2>
-        <p class="lede">Crown Labs builds, tests, and positions independent products with transparent status signals, rapid experimentation, and truth-first messaging.</p>
+        <h2 id="overview-title">Crown Labs Product Studio</h2>
+        <p class="lede">A focused portfolio of independent products that ship with clarity on readiness, limits, and next gates.</p>
       </div>
       <div class="overview-grid">
-        <p class="body">Crown Labs operates as a nimble studio inside CrownCode.ai, keeping each concept self-contained while sharing a discipline of evidence-backed positioning, privacy-forward defaults, and blunt clarity about what exists today versus what is still forming.</p>
+        <p class="body">Every product lives on its own timeline, but all of them share the same discipline: plain-language truth, privacy-first defaults where appropriate, and zero hype. This page is the operating dashboard for what exists now.</p>
         <div class="how-to">
-          <h3>How to read this page</h3>
+          <h3>How to read this portfolio</h3>
           <ul>
-            <li>Products are independent</li>
-            <li>Status labels are literal</li>
-            <li>Revenue/valuation charts show illustrative ranges only (not promises)</li>
+            <li>Status labels are literal and enforced.</li>
+            <li>Product notes call out what a product is not.</li>
+            <li>Next gates show the single milestone that moves a product forward.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section id="products" class="section" aria-labelledby="products-title">
+    <section id="portfolio" class="section" aria-labelledby="portfolio-title">
       <div class="section-header">
-        <h2 id="products-title">Products Index</h2>
-        <p class="lede">Scan the portfolio, filter by status or category, and jump into deep detail for each product.</p>
+        <h2 id="portfolio-title">Product Portfolio</h2>
+        <p class="lede">Scan what exists, filter by readiness, and expand details without losing the high-level view.</p>
       </div>
-      <div class="filters" aria-label="Product filters">
-        <label>
-          <span>Status</span>
-          <select id="status-filter" name="status-filter"></select>
-        </label>
-        <label>
-          <span>Category</span>
-          <select id="category-filter" name="category-filter"></select>
-        </label>
-        <label class="search-label">
-          <span>Search</span>
-          <input type="search" id="search-input" name="search" placeholder="Search by name or truth" aria-label="Search products">
-        </label>
+      <div class="filters" id="portfolio-filters" aria-label="Product filters">
+        <div class="filter-header">
+          <h3>Filter &amp; search</h3>
+          <button class="ghost-btn" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-panel">Filters</button>
+        </div>
+        <div class="filter-panel" id="filter-panel">
+          <label>
+            <span>Status</span>
+            <select id="status-filter" name="status-filter"></select>
+          </label>
+          <label>
+            <span>Category</span>
+            <select id="category-filter" name="category-filter"></select>
+          </label>
+          <label class="search-label">
+            <span>Search</span>
+            <input type="search" id="search-input" name="search" placeholder="Search name, tagline, keywords" aria-label="Search products">
+          </label>
+          <label>
+            <span>Sort</span>
+            <select id="sort-filter" name="sort-filter" aria-label="Sort products">
+              <option value="ready">Most ready first</option>
+              <option value="strategic">Most strategic first</option>
+              <option value="alpha">Alphabetical</option>
+            </select>
+          </label>
+        </div>
       </div>
       <div id="product-grid" class="card-grid" aria-live="polite"></div>
-    </section>
-
-    <section id="product-details" class="section" aria-labelledby="product-details-title">
-      <div class="section-header">
-        <h2 id="product-details-title">Product Details</h2>
-        <p class="lede">Each product has its own rules, audience, and readiness level. Expand to read what it does and what it refuses to claim.</p>
-      </div>
-      <div id="product-accordion" class="accordion-stack"></div>
     </section>
 
     <section id="frameworks" class="section" aria-labelledby="frameworks-title">
       <div class="section-header">
         <h2 id="frameworks-title">Frameworks</h2>
-        <p class="lede">Public-facing frameworks that express Crown Labs thinking.</p>
+        <p class="lede">Smaller systems that guide product and brand direction.</p>
       </div>
       <div id="framework-list" class="frameworks"></div>
     </section>
@@ -110,145 +127,26 @@
     <section id="books" class="section" aria-labelledby="books-title">
       <div class="section-header">
         <h2 id="books-title">Books &amp; IP</h2>
-        <p class="lede">Published work and in-flight IP with audience clarity.</p>
+        <p class="lede">Published and in-progress IP that anchors the voice behind the portfolio.</p>
       </div>
       <div id="books-grid" class="card-grid"></div>
     </section>
 
-    <section id="revenue" class="section" aria-labelledby="revenue-title">
-      <div class="section-header">
-        <h2 id="revenue-title">Financials</h2>
-        <p class="lede">Year-by-year projections with valuation bands, tuned to Apple-like clarity and focus on the essentials.</p>
-      </div>
-      <div class="projection-layout" aria-live="polite">
-        <div class="projection-card">
-          <div class="projection-meta">
-            <span class="pill" id="projection-label">Base scenario</span>
-            <p class="projection-note" id="projection-note"></p>
-          </div>
-          <div class="metric-grid">
-            <div class="metric" data-trend>
-              <p class="metric-label">Annual recurring revenue</p>
-              <p class="metric-value" data-projection-value="arr"></p>
-            </div>
-            <div class="metric" data-trend>
-              <p class="metric-label">Gross margin</p>
-              <p class="metric-value" data-projection-value="margin"></p>
-            </div>
-            <div class="metric" data-trend>
-              <p class="metric-label">Monthly burn</p>
-              <p class="metric-value" data-projection-value="burn"></p>
-            </div>
-            <div class="metric" data-trend>
-              <p class="metric-label">Runway</p>
-              <p class="metric-value" data-projection-value="runway"></p>
-            </div>
-            <div class="metric" data-trend>
-              <p class="metric-label">Velocity</p>
-              <p class="metric-value" data-projection-value="velocity"></p>
-            </div>
-            <div class="metric" data-trend>
-              <p class="metric-label">Reliability</p>
-              <p class="metric-value" data-projection-value="reliability"></p>
-            </div>
-          </div>
-        </div>
-        <div class="ops-card" role="status" aria-live="polite">
-          <div class="ops-card__header">
-            <p class="eyebrow">Full-stack operations</p>
-            <strong id="ops-health" data-operations-value="health"></strong>
-          </div>
-          <ul class="ops-list">
-            <li>
-              <span>Frontend delivery</span>
-              <p data-operations-value="frontend"></p>
-            </li>
-            <li>
-              <span>Backend pipeline</span>
-              <p data-operations-value="backend"></p>
-            </li>
-            <li>
-              <span>Infrastructure posture</span>
-              <p data-operations-value="infrastructure"></p>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="chart-controls" aria-label="Revenue scenario controls">
-        <div class="scenario-toggle" role="group" aria-label="Scenario toggle">
-          <button class="pill" data-scenario="conservative">Conservative</button>
-          <button class="pill active" data-scenario="base">Base</button>
-          <button class="pill" data-scenario="aggressive">Aggressive</button>
-        </div>
-        <div class="product-toggle" id="chart-product-toggle" aria-label="Select products"></div>
-        <button id="copy-chart" class="ghost-btn" type="button">Copy chart data (JSON)</button>
-      </div>
-      <div class="financial-overview">
-        <div class="financial-grid" id="financial-highlights" aria-live="polite"></div>
-        <div class="projection-table" aria-live="polite">
-          <div class="table-header">
-            <div>
-              <p class="eyebrow">Selected portfolio</p>
-              <h3>Revenue by Year (Base, with range)</h3>
-            </div>
-            <div class="scenario-pill" id="scenario-pill">Base case</div>
-          </div>
-          <div class="table-wrapper compact">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Year</th>
-                  <th scope="col">Base</th>
-                  <th scope="col">Range</th>
-                  <th scope="col">Implied valuation</th>
-                </tr>
-              </thead>
-              <tbody id="projection-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="charts">
-        <div class="chart-card">
-          <h3>Portfolio Revenue Range by Year (Year 1–3)</h3>
-          <div class="chart" id="portfolio-revenue-chart" role="img" aria-label="Portfolio revenue range chart"></div>
-        </div>
-        <div class="chart-card">
-          <h3>Portfolio Valuation Range by Year (Year 1–3)</h3>
-          <div class="chart" id="portfolio-valuation-chart" role="img" aria-label="Portfolio valuation range chart"></div>
-        </div>
-        <div class="chart-card">
-          <h3>Per-Product Revenue Lines (Year 1–3)</h3>
-          <div class="chart" id="per-product-chart" role="img" aria-label="Per-product revenue chart"></div>
-        </div>
-        <div class="chart-card">
-          <h3>Timeline Milestones (0–36 months)</h3>
-          <div class="chart timeline" id="timeline-chart" role="img" aria-label="Product milestone timeline"></div>
-        </div>
-      </div>
-      <div class="disclaimers" role="note">
-        <p>Illustrative ranges based on current GTM intent.</p>
-        <p>Assumes disciplined distribution, retention, and pricing execution.</p>
-        <p>Not investment advice.</p>
-      </div>
-    </section>
-
     <section id="status" class="section" aria-labelledby="status-title">
       <div class="section-header">
-        <h2 id="status-title">Status Table</h2>
-        <p class="lede">Literal definitions of each status and the next gate to clear.</p>
+        <h2 id="status-title">Status definitions</h2>
+        <p class="lede">Truth labels used across every Crown Labs product.</p>
       </div>
       <div class="table-wrapper">
-        <table>
+        <table class="status-table">
           <thead>
             <tr>
-              <th scope="col">Product</th>
               <th scope="col">Status</th>
               <th scope="col">What it means</th>
-              <th scope="col">Next step / gate</th>
+              <th scope="col">Next gate</th>
             </tr>
           </thead>
-          <tbody id="status-body"></tbody>
+          <tbody id="status-table"></tbody>
         </table>
       </div>
     </section>
@@ -256,88 +154,70 @@
     <section id="ethics" class="section" aria-labelledby="ethics-title">
       <div class="section-header">
         <h2 id="ethics-title">Ethics &amp; Limits</h2>
+        <p class="lede">Hard boundaries that keep the work honest.</p>
       </div>
-      <div class="ethics">
-        <p>Privacy-first products: no retention by design where applicable, with credential-abstracted analysis options.</p>
-        <p>Analytical tools are not therapy or diagnosis and are positioned as decision-support only.</p>
-        <p>Nothing here is medical or legal advice; users remain responsible for their choices.</p>
+      <div class="ethics-grid">
+        <div class="ethics-card">
+          <h3>Privacy-first defaults</h3>
+          <p>Products that handle sensitive inputs default to minimal retention, clear consent, and transparent control.</p>
+        </div>
+        <div class="ethics-card">
+          <h3>Decision-support only</h3>
+          <p>No product positions itself as medical, legal, or therapy advice. Outputs are support signals, not directives.</p>
+        </div>
+        <div class="ethics-card">
+          <h3>No retention by design</h3>
+          <p>Where applicable, products avoid storing data. If retention is required, it is explicit, scoped, and documented.</p>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="modal" id="beta-modal" role="dialog" aria-modal="true" aria-labelledby="beta-modal-title" hidden>
-    <div class="modal__backdrop" data-modal-close aria-label="Close intake modal"></div>
-    <div class="modal__content">
-      <button class="modal__close" type="button" data-modal-close aria-label="Close modal">×</button>
-      <p class="eyebrow">Crown Labs intake</p>
-      <h3 id="beta-modal-title">Apply as developer or beta tester</h3>
-      <p class="modal__lede">Tell us where you add the most value. We route developer build partners and beta testers to the right track.</p>
-      <form id="beta-form" class="modal__form">
+  <div class="modal" id="beta-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content" role="document">
+      <div class="modal__header">
+        <h2 id="modal-title">Apply: Dev / Beta Tester</h2>
+        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>✕</button>
+      </div>
+      <form id="intake-form" class="modal__form" novalidate>
         <label>
-          <span>Full name</span>
-          <input type="text" name="name" autocomplete="name" required />
+          <span>Name</span>
+          <input type="text" name="name" required>
         </label>
         <label>
-          <span>Work email</span>
-          <input type="email" name="email" autocomplete="email" required />
+          <span>Email</span>
+          <input type="email" name="email" required>
         </label>
         <label>
-          <span>Role / focus</span>
-          <input type="text" name="role" autocomplete="organization-title" />
+          <span>Role / Focus</span>
+          <input type="text" name="role" required>
         </label>
         <label>
-          <span>Program track</span>
-          <select name="track" id="beta-track">
-            <option value="developer">Developer build partner</option>
-            <option value="beta">Beta tester</option>
-            <option value="research">Research + analytics partner</option>
+          <span>Track</span>
+          <select name="track" required>
+            <option value="">Select a track</option>
+            <option value="Dev partner">Dev partner</option>
+            <option value="Beta tester">Beta tester</option>
+            <option value="Research/analytics">Research/analytics</option>
           </select>
         </label>
-        <label>
-          <span>What you want to test or build</span>
-          <textarea name="notes" rows="4" required></textarea>
+        <label class="full">
+          <span>Message</span>
+          <textarea name="message" rows="4" required></textarea>
         </label>
-        <button type="submit" class="cta-btn modal__submit">Submit intake</button>
-        <div class="alert success" id="beta-success" role="status" hidden>
-          <p id="beta-success-text">Request received. Expect an onboarding packet shortly.</p>
+        <div class="form-actions">
+          <button class="primary-btn" type="submit">Submit request</button>
+          <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
         </div>
       </form>
+      <div class="modal__success" id="form-success" hidden>
+        <h3>Request received.</h3>
+        <p>We’ll follow up with next steps.</p>
+        <button class="ghost-btn" type="button" data-close-modal>Close</button>
+      </div>
     </div>
   </div>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
-        <a href="labs.html" class="footer-labs-link">
-          <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo" />
-          <span>Visit Crown Labs</span>
-        </a>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
-          <li><a href="components.html">Components</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">YouTube</a></li>
-        </ul>
-      </div>
-      <div>
-        <p>&copy; 2025 Daren Prince. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
 
   <script src="assets/labs.js"></script>
 </body>
