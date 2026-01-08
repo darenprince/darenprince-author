@@ -22,17 +22,16 @@
 </head>
 <body class="theme-dark">
   <header class="top-nav" aria-label="Crown Labs navigation">
-    <a href="labs.html" class="nav-brand" aria-label="Crown Labs home">
+    <a href="labs.html" class="nav-logo-link" aria-label="Crown Labs home">
       <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
-      <span>Crown Labs</span>
     </a>
     <nav class="nav-links" id="primary-navigation" aria-label="Section navigation">
-      <a href="#overview">Overview</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#frameworks">Frameworks</a>
-      <a href="#books">Books &amp; IP</a>
-      <a href="#status">Status</a>
-      <a href="#ethics">Ethics</a>
+      <a href="#overview"><span class="noun-icon" data-icon="compass" aria-hidden="true"></span>Overview</a>
+      <a href="#portfolio"><span class="noun-icon" data-icon="grid" aria-hidden="true"></span>Portfolio</a>
+      <a href="#frameworks"><span class="noun-icon" data-icon="framework" aria-hidden="true"></span>Frameworks</a>
+      <a href="#books"><span class="noun-icon" data-icon="book" aria-hidden="true"></span>Books &amp; IP</a>
+      <a href="#status"><span class="noun-icon" data-icon="status" aria-hidden="true"></span>Status</a>
+      <a href="#ethics"><span class="noun-icon" data-icon="shield" aria-hidden="true"></span>Ethics</a>
     </nav>
     <div class="nav-actions">
       <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
@@ -46,9 +45,16 @@
   <main id="top" class="page">
     <section id="hero" class="hero" aria-labelledby="hero-title">
       <div class="hero-text">
-        <p class="eyebrow">CrownCode.ai product studio</p>
-        <h1 id="hero-title">Crown Labs</h1>
-        <p class="subtitle">Independent builds with truth-first messaging, privacy defaults, and commercial discipline.</p>
+        <p class="eyebrow">Crown Labs</p>
+        <h1 id="hero-title">Where Intelligence Becomes Power</h1>
+        <p class="subtitle">We don’t build apps. We build systems that see, think, and respond.</p>
+        <p class="hero-lede">
+          Crown Labs is a research and development studio creating next-generation technology at the intersection of
+          artificial intelligence, security, psychology, and human behavior. Our work is designed for people who
+          operate ahead of the curve — founders, creators, analysts, and builders who need tools that actually work in
+          the real world.
+        </p>
+        <p class="hero-lede hero-lede--strong">This is not experimental tech for show. This is applied intelligence.</p>
         <div class="hero-actions">
           <a class="primary-btn" href="#portfolio">See the portfolio</a>
           <button class="ghost-btn" id="hero-apply" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
@@ -64,13 +70,61 @@
 
     <section id="overview" class="section" aria-labelledby="overview-title">
       <div class="section-header">
-        <h2 id="overview-title">Crown Labs Product Studio</h2>
-        <p class="lede">A focused portfolio of independent products that ship with clarity on readiness, limits, and next gates.</p>
+        <h2 id="overview-title">Crown Labs</h2>
+        <p class="lede">Systems that think. Platforms that protect. Tools that amplify truth.</p>
       </div>
       <div class="overview-grid">
-        <p class="body">Every product lives on its own timeline, but all of them share the same discipline: plain-language truth, privacy-first defaults where appropriate, and zero hype. This page is the operating dashboard for what exists now.</p>
-        <div class="how-to">
-          <h3>How to read this portfolio</h3>
+        <div class="overview-card">
+          <h3><span class="noun-icon" data-icon="spark" aria-hidden="true"></span>What We Build</h3>
+          <p>
+            Systems that think. Platforms that protect. Tools that amplify truth. At Crown Labs, every product starts
+            with one question: How does this give the user more clarity, control, or leverage?
+          </p>
+          <p>
+            Our portfolio spans AI intelligence engines, privacy-first communication platforms, security and surveillance
+            systems, emotionally intelligent marketing engines, and human-centric interaction frameworks.
+          </p>
+        </div>
+        <div class="overview-card">
+          <h3><span class="noun-icon" data-icon="signal" aria-hidden="true"></span>Our Philosophy</h3>
+          <p>Signal over noise. Function over flash. Truth over comfort.</p>
+          <ul>
+            <li>Reduce chaos, not add to it.</li>
+            <li>Reveal patterns, not hide them.</li>
+            <li>Protect users, not exploit them.</li>
+            <li>Feel human — not mechanical.</li>
+          </ul>
+        </div>
+        <div class="overview-card">
+          <h3><span class="noun-icon" data-icon="crown" aria-hidden="true"></span>Built for Those Who Move Differently</h3>
+          <p>Crown Labs isn’t for everyone — and that’s intentional. Our work is for:</p>
+          <ul>
+            <li>Builders who value depth over virality.</li>
+            <li>Operators who need reliability under pressure.</li>
+            <li>Creators who want leverage, not validation.</li>
+            <li>Thinkers who understand that intelligence is power.</li>
+          </ul>
+        </div>
+        <div class="overview-card">
+          <h3><span class="noun-icon" data-icon="check" aria-hidden="true"></span>The Crown Labs Standard</h3>
+          <ul>
+            <li>Purpose-driven design.</li>
+            <li>Privacy and user control by default.</li>
+            <li>Intelligence grounded in psychology and reality.</li>
+            <li>Clean, modern, dark-mode-first interfaces.</li>
+            <li>Built to scale — technically and ethically.</li>
+          </ul>
+        </div>
+        <div class="overview-card">
+          <h3><span class="noun-icon" data-icon="lab" aria-hidden="true"></span>Explore the Lab</h3>
+          <p>
+            This is an active laboratory. Projects evolve. Systems expand. Capabilities compound. Some tools are public.
+            Some are private. Some are still being forged.
+          </p>
+          <p>Welcome to Crown Labs. Build smarter. See clearer. Rule your domain.</p>
+        </div>
+        <div class="overview-card how-to">
+          <h3><span class="noun-icon" data-icon="guide" aria-hidden="true"></span>How to read this portfolio</h3>
           <ul>
             <li>Status labels are literal and enforced.</li>
             <li>Product notes call out what a product is not.</li>
@@ -82,12 +136,12 @@
 
     <section id="portfolio" class="section" aria-labelledby="portfolio-title">
       <div class="section-header">
-        <h2 id="portfolio-title">Product Portfolio</h2>
+        <h2 id="portfolio-title"><span class="noun-icon" data-icon="grid" aria-hidden="true"></span>Product Portfolio</h2>
         <p class="lede">Scan what exists, filter by readiness, and expand details without losing the high-level view.</p>
       </div>
       <div class="filters" id="portfolio-filters" aria-label="Product filters">
         <div class="filter-header">
-          <h3>Filter &amp; search</h3>
+          <h3><span class="noun-icon" data-icon="filter" aria-hidden="true"></span>Filter &amp; search</h3>
           <button class="ghost-btn" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-panel">Filters</button>
         </div>
         <div class="filter-panel" id="filter-panel">
@@ -118,7 +172,7 @@
 
     <section id="frameworks" class="section" aria-labelledby="frameworks-title">
       <div class="section-header">
-        <h2 id="frameworks-title">Frameworks</h2>
+        <h2 id="frameworks-title"><span class="noun-icon" data-icon="framework" aria-hidden="true"></span>Frameworks</h2>
         <p class="lede">Smaller systems that guide product and brand direction.</p>
       </div>
       <div id="framework-list" class="frameworks"></div>
@@ -126,7 +180,7 @@
 
     <section id="books" class="section" aria-labelledby="books-title">
       <div class="section-header">
-        <h2 id="books-title">Books &amp; IP</h2>
+        <h2 id="books-title"><span class="noun-icon" data-icon="book" aria-hidden="true"></span>Books &amp; IP</h2>
         <p class="lede">Published and in-progress IP that anchors the voice behind the portfolio.</p>
       </div>
       <div id="books-grid" class="card-grid"></div>
@@ -134,7 +188,7 @@
 
     <section id="status" class="section" aria-labelledby="status-title">
       <div class="section-header">
-        <h2 id="status-title">Status definitions</h2>
+        <h2 id="status-title"><span class="noun-icon" data-icon="status" aria-hidden="true"></span>Status definitions</h2>
         <p class="lede">Truth labels used across every Crown Labs product.</p>
       </div>
       <div class="table-wrapper">
@@ -153,7 +207,7 @@
 
     <section id="ethics" class="section" aria-labelledby="ethics-title">
       <div class="section-header">
-        <h2 id="ethics-title">Ethics &amp; Limits</h2>
+        <h2 id="ethics-title"><span class="noun-icon" data-icon="shield" aria-hidden="true"></span>Ethics &amp; Limits</h2>
         <p class="lede">Hard boundaries that keep the work honest.</p>
       </div>
       <div class="ethics-grid">
@@ -219,6 +273,7 @@
     </div>
   </div>
 
+  <script src="assets/noun-icons.js"></script>
   <script src="assets/labs.js"></script>
 </body>
 </html>
