@@ -33,10 +33,20 @@
       <a href="#status"><span class="noun-icon" data-icon="status" aria-hidden="true"></span>Status</a>
       <a href="#financials"><span class="noun-icon" data-icon="signal" aria-hidden="true"></span>Financials</a>
       <a href="#ethics"><span class="noun-icon" data-icon="shield" aria-hidden="true"></span>Ethics</a>
+      <a href="#contact" class="nav-extra"><span class="noun-icon" data-icon="chat" aria-hidden="true"></span>Contact</a>
     </nav>
     <div class="nav-actions">
+      <button class="nav-link-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
       <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
-      <button class="cta-btn" id="beta-dev-cta" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
+      <a class="ghost-btn ghost-btn--icon" href="/login.html" aria-label="Login">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3a5 5 0 1 1 0 10a5 5 0 0 1 0-10Zm0 12c4.42 0 8 2.01 8 4.5V21H4v-1.5c0-2.49 3.58-4.5 8-4.5Z"></path>
+          </svg>
+        </span>
+        Login
+      </a>
+      <button class="cta-btn" id="beta-dev-cta" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
         Apply: Dev / Beta Tester
       </button>
     </div>
@@ -58,7 +68,8 @@
         <p class="hero-lede hero-lede--strong">This is not experimental tech for show. This is applied intelligence.</p>
         <div class="hero-actions">
           <a class="primary-btn" href="#portfolio">See the portfolio</a>
-          <button class="ghost-btn" id="hero-apply" type="button" aria-haspopup="dialog" aria-controls="beta-modal">
+          <button class="ghost-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
+          <button class="ghost-btn" id="hero-apply" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
             Apply: Dev / Beta Tester
           </button>
         </div>
@@ -66,6 +77,71 @@
       </div>
       <div class="hero-card" aria-label="Crown Labs snapshot">
         <div class="hero-card__content" id="hero-card"></div>
+      </div>
+    </section>
+
+    <section class="highlight-strip" aria-label="Crown Labs highlights">
+      <div class="highlight-grid">
+        <article class="highlight-card">
+          <div class="highlight-header">
+            <span class="noun-icon" data-icon="signal" aria-hidden="true"></span>
+            <h3>Most ready first</h3>
+          </div>
+          <p>Portfolio sequencing is readiness shows, not hype cycles.</p>
+          <div class="highlight-mark">
+            <div class="infographic-placeholder infographic-placeholder--mini" aria-hidden="true">
+              <span style="height: 35%"></span>
+              <span style="height: 58%"></span>
+              <span style="height: 42%"></span>
+              <span style="height: 75%"></span>
+            </div>
+          </div>
+        </article>
+        <article class="highlight-card">
+          <div class="highlight-header">
+            <span class="noun-icon" data-icon="check" aria-hidden="true"></span>
+            <h3>Single gate to advance</h3>
+          </div>
+          <p>Each product lists the one milestone that unlocks the next phase.</p>
+          <div class="highlight-mark">
+            <div class="infographic-placeholder infographic-placeholder--mini" aria-hidden="true">
+              <span style="height: 48%"></span>
+              <span style="height: 65%"></span>
+              <span style="height: 32%"></span>
+              <span style="height: 70%"></span>
+            </div>
+          </div>
+        </article>
+        <article class="highlight-card">
+          <div class="highlight-header">
+            <span class="noun-icon" data-icon="status" aria-hidden="true"></span>
+            <h3>Truth-labeled status</h3>
+          </div>
+          <p>Status labels reflect reality, not marketing narratives.</p>
+          <div class="highlight-mark">
+            <div class="infographic-placeholder infographic-placeholder--mini" aria-hidden="true">
+              <span style="height: 28%"></span>
+              <span style="height: 52%"></span>
+              <span style="height: 64%"></span>
+              <span style="height: 40%"></span>
+            </div>
+          </div>
+        </article>
+        <article class="highlight-card">
+          <div class="highlight-header">
+            <span class="noun-icon" data-icon="shield" aria-hidden="true"></span>
+            <h3>Privacy-by-design</h3>
+          </div>
+          <p>Retention is minimal, consent is explicit, protection is default.</p>
+          <div class="highlight-mark">
+            <div class="infographic-placeholder infographic-placeholder--mini" aria-hidden="true">
+              <span style="height: 58%"></span>
+              <span style="height: 40%"></span>
+              <span style="height: 68%"></span>
+              <span style="height: 35%"></span>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -206,7 +282,7 @@
       </div>
     </section>
 
-    <section id="financials" class="section" aria-labelledby="financials-title">
+    <section id="financials" class="section financials" aria-labelledby="financials-title">
       <div class="section-header">
         <h2 id="financials-title"><span class="noun-icon" data-icon="signal" aria-hidden="true"></span>Financial &amp; Growth Projections (Investor View)</h2>
         <p class="lede">
@@ -245,11 +321,11 @@
           <p class="muted">This supports staggered revenue activation rather than a single launch moment.</p>
         </div>
       </div>
-      <div class="section-header">
+      <div class="section-header section-header--tight">
         <h3>Three-year revenue projections (portfolio)</h3>
         <p class="lede">Annualized totals by scenario.</p>
       </div>
-      <div class="table-wrapper">
+      <div class="table-wrapper table-wrapper--scroll table-wrapper--projections">
         <table class="status-table">
           <thead>
             <tr>
@@ -281,7 +357,7 @@
           </tbody>
         </table>
       </div>
-      <div class="overview-grid">
+      <div class="overview-grid assumptions-grid">
         <div class="overview-card">
           <h3>Conservative assumptions</h3>
           <ul>
@@ -311,9 +387,22 @@
           </ul>
         </div>
       </div>
-      <div class="overview-grid">
+      <div class="overview-grid financials-duo">
         <div class="overview-card">
           <h3>Revenue mix evolution</h3>
+          <div class="infographic-placeholder infographic-placeholder--wide" aria-hidden="true">
+            <span style="height: 45%"></span>
+            <span style="height: 60%"></span>
+            <span style="height: 38%"></span>
+            <span style="height: 70%"></span>
+            <span style="height: 55%"></span>
+            <span style="height: 78%"></span>
+          </div>
+          <div class="placeholder-legend" aria-hidden="true">
+            <span></span>Subscriptions
+            <span></span>Licensing
+            <span></span>IP &amp; Books
+          </div>
           <p class="muted">Year 1</p>
           <ul>
             <li>Subscriptions: ~55%</li>
@@ -330,6 +419,19 @@
         </div>
         <div class="overview-card">
           <h3>Operating cost profile (estimated)</h3>
+          <div class="infographic-placeholder infographic-placeholder--wide" aria-hidden="true">
+            <span style="height: 62%"></span>
+            <span style="height: 45%"></span>
+            <span style="height: 55%"></span>
+            <span style="height: 38%"></span>
+            <span style="height: 70%"></span>
+            <span style="height: 48%"></span>
+          </div>
+          <div class="placeholder-legend" aria-hidden="true">
+            <span></span>Infra
+            <span></span>Dev
+            <span></span>G&amp;A
+          </div>
           <p class="muted">Year 1</p>
           <ul>
             <li>Infrastructure &amp; hosting: 10–12%</li>
@@ -436,47 +538,233 @@
     <div class="modal__overlay" data-close-modal></div>
     <div class="modal__content" role="document">
       <div class="modal__header">
-        <h2 id="modal-title">Apply: Dev / Beta Tester</h2>
+        <div>
+          <p class="eyebrow">Join Crown Labs Access</p>
+          <h2 id="modal-title">Crown Labs Access</h2>
+          <p class="modal-subtitle">Choose your lane, understand the signal, and request access with clarity.</p>
+        </div>
         <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>✕</button>
+      </div>
+      <div class="modal__tabs" role="tablist" aria-label="Access roles">
+        <button class="tab-btn is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-beta" data-tab="beta">
+          Beta Tester
+        </button>
+        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-developer" data-tab="developer">
+          Developer
+        </button>
+        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-partner" data-tab="partner">
+          Partner / Investor
+        </button>
+      </div>
+      <div class="tab-panels">
+        <section class="tab-panel is-active" id="tab-beta" role="tabpanel">
+          <div class="tab-panel__grid">
+            <div>
+              <h3>What you get</h3>
+              <ul>
+                <li>Early access to applied intelligence builds</li>
+                <li>Direct signal-sharing with the Crown Labs team</li>
+                <li>Priority visibility on beta milestones</li>
+              </ul>
+            </div>
+            <div>
+              <h3>What we need</h3>
+              <ul>
+                <li>Real usage feedback with context</li>
+                <li>Scenario validation and edge cases</li>
+                <li>Clear notes on friction points</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Estimated time</h3>
+              <p>2–3 hours per month reminding us what matters most.</p>
+            </div>
+          </div>
+          <p class="tab-disclaimer">Status labels are literal.</p>
+        </section>
+        <section class="tab-panel" id="tab-developer" role="tabpanel">
+          <div class="tab-panel__grid">
+            <div>
+              <h3>What you get</h3>
+              <ul>
+                <li>Technical briefs, data flows, and integration notes</li>
+                <li>Direct access to roadmap assumptions</li>
+                <li>Early platform documentation</li>
+              </ul>
+            </div>
+            <div>
+              <h3>What we need</h3>
+              <ul>
+                <li>Build feedback on stability and edge cases</li>
+                <li>Fast communication loops</li>
+                <li>Honest signal on scalability</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Estimated time</h3>
+              <p>4–6 hours per month during active build windows.</p>
+            </div>
+          </div>
+          <p class="tab-disclaimer">Status labels are literal.</p>
+        </section>
+        <section class="tab-panel" id="tab-partner" role="tabpanel">
+          <div class="tab-panel__grid">
+            <div>
+              <h3>What you get</h3>
+              <ul>
+                <li>Portfolio-ready briefing documents</li>
+                <li>Access to roadmap and readiness scoring logic</li>
+                <li>Priority updates on gates and milestones</li>
+              </ul>
+            </div>
+            <div>
+              <h3>What we need</h3>
+              <ul>
+                <li>Aligned expectations and strategic insight</li>
+                <li>Clear signal on market positioning</li>
+                <li>Respect for the Crown Labs operating rhythm</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Estimated time</h3>
+              <p>1–2 hours per quarter for structured check-ins.</p>
+            </div>
+          </div>
+          <p class="tab-disclaimer">Status labels are literal.</p>
+        </section>
       </div>
       <form id="intake-form" class="modal__form" novalidate>
         <label>
-          <span>Name</span>
-          <input type="text" name="name" required>
+          <span>Full name</span>
+          <input type="text" name="name" autocomplete="name" required>
         </label>
         <label>
           <span>Email</span>
-          <input type="email" name="email" required>
+          <input type="email" name="email" autocomplete="email" required>
         </label>
         <label>
-          <span>Role / Focus</span>
-          <input type="text" name="role" required>
+          <span>Role</span>
+          <input type="text" name="role" id="role-field" readonly>
         </label>
         <label>
-          <span>Track</span>
-          <select name="track" required>
-            <option value="">Select a track</option>
-            <option value="Dev partner">Dev partner</option>
-            <option value="Beta tester">Beta tester</option>
-            <option value="Research/analytics">Research/analytics</option>
+          <span>Experience level</span>
+          <select name="experience" required>
+            <option value="">Select level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
           </select>
         </label>
+        <fieldset class="chip-field full">
+          <legend>Interests</legend>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="CrownCode Intelligence Suite">
+            <span>CrownCode</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="CrownCam">
+            <span>CrownCam</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="Crown SOS">
+            <span>Crown SOS</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="Presence Architect">
+            <span>Presence Architect</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="JustUs.chat">
+            <span>JustUs.chat</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="LumiLogix">
+            <span>LumiLogix</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="Game On">
+            <span>Game On</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="interests" value="Couples Connection Playground">
+            <span>Couples Connection Playground</span>
+          </label>
+        </fieldset>
         <label class="full">
-          <span>Message</span>
-          <textarea name="message" rows="4" required></textarea>
+          <span>Note (optional)</span>
+          <textarea name="message" rows="4"></textarea>
         </label>
-        <div class="form-actions">
+        <label class="consent full">
+          <input type="checkbox" name="consent" required>
+          <span>I understand this is pre-release and may change.</span>
+        </label>
+        <div class="form-actions full">
           <button class="primary-btn" type="submit">Submit request</button>
           <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
         </div>
       </form>
       <div class="modal__success" id="form-success" hidden>
         <h3>Request received.</h3>
-        <p>We’ll follow up with next steps.</p>
+        <p>We’ll follow up with next steps and a readiness update within 72 hours.</p>
         <button class="ghost-btn" type="button" data-close-modal>Close</button>
       </div>
     </div>
   </div>
+
+  <div class="modal modal--product" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content" role="document">
+      <div class="modal__header">
+        <h2 id="product-modal-title">Product brief</h2>
+        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>✕</button>
+      </div>
+      <div class="modal__body" id="product-modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer" id="contact">
+    <div class="footer-grid">
+      <div>
+        <h3>Crown Labs</h3>
+        <p class="muted">Applied intelligence systems.</p>
+        <p class="footer-note">Status labels are literal.</p>
+      </div>
+      <div>
+        <h4>Product links</h4>
+        <ul>
+          <li><a href="#portfolio">CrownCode Intelligence Suite</a></li>
+          <li><a href="#portfolio">CrownCam</a></li>
+          <li><a href="#portfolio">Crown SOS</a></li>
+          <li><a href="#portfolio">Presence Architect</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Books &amp; IP</h4>
+        <ul>
+          <li><a href="#books">Game On</a></li>
+          <li><a href="#books">Unshakeable</a></li>
+          <li><a href="#books">Couples Connection Playground</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:daren.prince@gmail.com">daren.prince@gmail.com</a></li>
+          <li>Pineville, LA</li>
+          <li>Business inquiries</li>
+          <li><a href="#">Press / Investor packet</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Crown Labs. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="assets/noun-icons.js"></script>
   <script src="assets/labs.js"></script>
