@@ -716,6 +716,8 @@ const dom = {
   filterToggle: document.getElementById('filter-toggle'),
   filterPanel: document.getElementById('filter-panel'),
   pagePreloader: document.getElementById('page-preloader'),
+  signalChartTemplate: document.getElementById('signal-chart-template'),
+  infographicBarsTemplate: document.getElementById('infographic-bars-template'),
 }
 
 const formatCount = (value, label, icon) => ({ value, label, icon })
@@ -822,42 +824,58 @@ const renderSignalChart = (values = []) => {
     })
     .join(' ')
   const areaPoints = `0,40 ${points} 100,40`
-  return `
-    <div class="signal-chart" role="img" aria-label="Revenue signal trend with values ${bars.join(', ')}">
-      <svg class="signal-chart__svg" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgba(255, 59, 59, 0.6)" />
-            <stop offset="100%" stop-color="rgba(255, 59, 59, 0)" />
-          </linearGradient>
-        </defs>
-        <polygon class="signal-area" points="${areaPoints}" fill="url(#${gradientId})" />
-        <polyline class="signal-line" points="${points}" />
-        ${bars
-          .map((val, index) => {
-            const x = (index / (bars.length - 1)) * 100
-            const y = 40 - (val / max) * 30 - 5
-            return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.8"></circle>`
-          })
-          .join('')}
-      </svg>
-      <div class="signal-chart__stats">
-        <span class="signal-trend ${trendUp ? 'signal-trend--up' : 'signal-trend--down'}">${trendIcon}${trendLabel}</span>
-        <span>Low <strong>${min}</strong></span>
-        <span>Avg <strong>${avg}</strong></span>
-        <span>High <strong>${max}</strong></span>
-      </div>
-    </div>
-  `
+
+  if (!dom.signalChartTemplate) {
+    return ''
+  }
+
+  const chart = dom.signalChartTemplate.content.firstElementChild.cloneNode(true)
+  const svg = chart.querySelector('.signal-chart__svg')
+  const gradient = svg.querySelector('linearGradient')
+  const area = chart.querySelector('.signal-area')
+  const line = chart.querySelector('.signal-line')
+  const pointsGroup = chart.querySelector('.signal-points')
+  const trend = chart.querySelector('.signal-trend')
+  const trendIconEl = chart.querySelector('.signal-trend-icon')
+  const trendLabelEl = chart.querySelector('.signal-trend-label')
+  const lowStat = chart.querySelector('.signal-stat--low strong')
+  const avgStat = chart.querySelector('.signal-stat--avg strong')
+  const highStat = chart.querySelector('.signal-stat--high strong')
+
+  chart.setAttribute('aria-label', `Revenue signal trend with values ${bars.join(', ')}`)
+  gradient.id = gradientId
+  area.setAttribute('points', areaPoints)
+  area.setAttribute('fill', `url(#${gradientId})`)
+  line.setAttribute('points', points)
+  pointsGroup.innerHTML = bars
+    .map((val, index) => {
+      const x = (index / (bars.length - 1)) * 100
+      const y = 40 - (val / max) * 30 - 5
+      return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.8" style="--point-index:${index};"></circle>`
+    })
+    .join('')
+
+  trend.classList.toggle('signal-trend--up', trendUp)
+  trend.classList.toggle('signal-trend--down', !trendUp)
+  trendIconEl.innerHTML = trendIcon
+  trendLabelEl.textContent = trendLabel
+  lowStat.textContent = min
+  avgStat.textContent = avg
+  highStat.textContent = max
+
+  return chart.outerHTML
 }
 
-const renderInfographicBars = (heights = [30, 48, 42, 66, 55, 70]) => `
-  <div class="infographic-placeholder" aria-hidden="true">
-    ${heights
-      .map((height, index) => `<span style="height:${height}%; --bar-index:${index};"></span>`)
-      .join('')}
-  </div>
-`
+const renderInfographicBars = (heights = [30, 48, 42, 66, 55, 70]) => {
+  if (!dom.infographicBarsTemplate) {
+    return ''
+  }
+  const container = dom.infographicBarsTemplate.content.firstElementChild.cloneNode(true)
+  container.innerHTML = heights
+    .map((height, index) => `<span style="height:${height}%; --bar-index:${index};"></span>`)
+    .join('')
+  return container.outerHTML
+}
 
 const renderHeroStats = () => {
   const total = portfolioData.products.length
