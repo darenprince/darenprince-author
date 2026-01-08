@@ -1,6 +1,6 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 
 .site-header {
   background: var(--header-gradient);
@@ -9,8 +9,9 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba($lime-green, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba($lime-green, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(16px);
 
   .container {
     display: flex;
@@ -28,16 +29,29 @@
 .nav-btn-group {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 0.35rem;
 }
 
 .nav-toggle {
-  background: transparent;
-  border: 0;
-  width: 1.5rem;
-  height: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
   position: relative;
   color: $icon;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition;
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.18);
+    outline: none;
+  }
+
   span,
   &::before,
   &::after {
@@ -49,28 +63,48 @@
     background: currentColor;
     transition: $transition;
   }
-  span { top: 50%; transform: translateY(-50%); }
-  &::before { top: 0; }
-  &::after { bottom: 0; }
+  span {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
 
   &.is-open {
-    span { opacity: 0; }
-    &::before { top: 50%; transform: rotate(45deg); }
-    &::after { bottom: 50%; transform: rotate(-45deg); }
+    span {
+      opacity: 0;
+    }
+    &::before {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+    &::after {
+      bottom: 50%;
+      transform: rotate(-45deg);
+    }
   }
 }
 
-
-
 .site-nav {
-  display: none;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
 
   &.is-visible {
-    display: block;
-    max-height: 200px;
+    max-height: 320px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .nav-list {
@@ -80,15 +114,26 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
-    background: var(--header-gradient);
+    background: rgba(16, 20, 25, 0.82);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.25);
 
     a {
       color: $icon;
       text-decoration: none;
       font-weight: 600;
+      padding: 0.55rem 0.65rem;
+      border-radius: 12px;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
 
       &:hover {
         color: $accent;
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(2px);
       }
     }
   }
@@ -101,12 +146,28 @@
 
   .site-nav {
     display: block;
+    max-height: none;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
 
     .nav-list {
       flex-direction: row;
       gap: $spacing-lg;
       background: transparent;
       padding: 0;
+      border: 0;
+      box-shadow: none;
+
+      a {
+        padding: 0.4rem 0.65rem;
+        border-radius: 999px;
+
+        &:hover {
+          transform: none;
+          background: rgba(255, 255, 255, 0.12);
+        }
+      }
     }
   }
 }
