@@ -753,6 +753,42 @@
     </div>
   </footer>
 
+  <template id="infographic-bars-template">
+    <div class="infographic-placeholder" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </template>
+
+  <template id="signal-chart-template">
+    <div class="signal-chart" role="img" aria-label="">
+      <svg class="signal-chart__svg" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="signal-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255, 59, 59, 0.6)" />
+            <stop offset="100%" stop-color="rgba(255, 59, 59, 0)" />
+          </linearGradient>
+        </defs>
+        <polygon class="signal-area" points=""></polygon>
+        <polyline class="signal-line" points=""></polyline>
+        <g class="signal-points"></g>
+      </svg>
+      <div class="signal-chart__stats">
+        <span class="signal-trend">
+          <span class="signal-trend-icon"></span>
+          <span class="signal-trend-label"></span>
+        </span>
+        <span class="signal-stat signal-stat--low">Low <strong></strong></span>
+        <span class="signal-stat signal-stat--avg">Avg <strong></strong></span>
+        <span class="signal-stat signal-stat--high">High <strong></strong></span>
+      </div>
+    </div>
+  </template>
+
   <script src="assets/labs.js"></script>
 </body>
 </html>
