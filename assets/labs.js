@@ -665,6 +665,7 @@ const iconMap = {
   status: 'activity',
   timer: 'timer',
   trend: 'trend-up',
+  trendDown: 'trend-down',
   users: 'users',
 }
 
@@ -714,6 +715,7 @@ const dom = {
   navLinks: document.getElementById('primary-navigation'),
   filterToggle: document.getElementById('filter-toggle'),
   filterPanel: document.getElementById('filter-panel'),
+  pagePreloader: document.getElementById('page-preloader'),
 }
 
 const formatCount = (value, label, icon) => ({ value, label, icon })
@@ -758,27 +760,93 @@ const animateCounts = (container = document) => {
   })
 }
 
+let revealObserver
+
+const setupRevealAnimations = () => {
+  const elements = document.querySelectorAll('.reveal')
+  if (!elements.length) return
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((el) => el.classList.add('is-visible'))
+    return
+  }
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          revealObserver.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.12 }
+  )
+  elements.forEach((el) => revealObserver.observe(el))
+}
+
+const registerRevealTargets = (root = document) => {
+  if (!revealObserver) {
+    setupRevealAnimations()
+    return
+  }
+  root.querySelectorAll('.reveal').forEach((el) => {
+    if (!el.classList.contains('is-visible')) {
+      revealObserver.observe(el)
+    }
+  })
+}
+
+const hidePagePreloader = () => {
+  if (!dom.pagePreloader) return
+  dom.pagePreloader.setAttribute('aria-hidden', 'true')
+  dom.pagePreloader.classList.add('is-hidden')
+  window.setTimeout(() => {
+    dom.pagePreloader?.remove()
+  }, 400)
+}
+
 const renderSignalChart = (values = []) => {
   const bars = values.length ? values : [18, 24, 30, 28, 36, 42, 38]
   const max = Math.max(...bars, 1)
   const min = Math.min(...bars)
   const avg = Math.round(bars.reduce((sum, val) => sum + val, 0) / bars.length)
+  const gradientId = `signal-gradient-${Math.random().toString(36).slice(2, 8)}`
+  const trendDelta = bars[bars.length - 1] - bars[0]
+  const trendUp = trendDelta >= 0
+  const trendLabel = trendUp ? 'Rising' : 'Cooling'
+  const trendIcon = trendUp ? iconMarkup('trend') : iconMarkup('trendDown')
+  const points = bars
+    .map((val, index) => {
+      const x = (index / (bars.length - 1)) * 100
+      const y = 40 - (val / max) * 30 - 5
+      return `${x.toFixed(2)},${y.toFixed(2)}`
+    })
+    .join(' ')
+  const areaPoints = `0,40 ${points} 100,40`
   return `
     <div class="signal-chart" role="img" aria-label="Revenue signal trend with values ${bars.join(', ')}">
-      ${bars
-        .map(
-          (val, index) => `
-            <span style="height:${Math.max(18, (val / max) * 100)}%; --bar-index:${index};" data-value="${val}">
-              <em>${val}</em>
-            </span>
-          `
-        )
-        .join('')}
-    </div>
-    <div class="signal-chart-meta">
-      <span>Low <strong>${min}</strong></span>
-      <span>Avg <strong>${avg}</strong></span>
-      <span>High <strong>${max}</strong></span>
+      <svg class="signal-chart__svg" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255, 59, 59, 0.6)" />
+            <stop offset="100%" stop-color="rgba(255, 59, 59, 0)" />
+          </linearGradient>
+        </defs>
+        <polygon class="signal-area" points="${areaPoints}" fill="url(#${gradientId})" />
+        <polyline class="signal-line" points="${points}" />
+        ${bars
+          .map((val, index) => {
+            const x = (index / (bars.length - 1)) * 100
+            const y = 40 - (val / max) * 30 - 5
+            return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.8"></circle>`
+          })
+          .join('')}
+      </svg>
+      <div class="signal-chart__stats">
+        <span class="signal-trend ${trendUp ? 'signal-trend--up' : 'signal-trend--down'}">${trendIcon}${trendLabel}</span>
+        <span>Low <strong>${min}</strong></span>
+        <span>Avg <strong>${avg}</strong></span>
+        <span>High <strong>${max}</strong></span>
+      </div>
     </div>
   `
 }
@@ -807,7 +875,7 @@ const renderHeroStats = () => {
   dom.statStrip.innerHTML = stats
     .map(
       (stat) => `
-        <div class="stat-card">
+        <div class="stat-card reveal">
           ${iconMarkup(stat.icon)}
           <div class="eyebrow">${stat.label}</div>
           <div class="stat-value" data-count="${stat.value}">0</div>
@@ -837,6 +905,7 @@ const renderHeroStats = () => {
   `
 
   animateCounts(dom.statStrip)
+  registerRevealTargets(dom.statStrip)
 }
 
 const buildFilters = () => {
@@ -928,7 +997,7 @@ const renderProducts = () => {
           : ''
 
       return `
-        <article class="product-card" data-status="${product.status}" data-category="${product.category}" data-product-id="${product.id}">
+        <article class="product-card reveal" data-status="${product.status}" data-category="${product.category}" data-product-id="${product.id}">
           <div class="product-header">
             <div class="product-icon" data-fallback="${product.name}">
               <img src="assets/brand/products/${product.id}.png" alt="${product.name} icon" loading="lazy">
@@ -954,7 +1023,7 @@ const renderProducts = () => {
           <div class="signal-panel">
             <div class="signal-label">
               <span>Revenue signal</span>
-              ${iconMarkup('framework')}
+              ${iconMarkup('signal')}
             </div>
             <div class="signal-meta">
               <strong>${product.value}</strong>
@@ -983,6 +1052,7 @@ const renderProducts = () => {
   }
 
   animateCounts(dom.productGrid)
+  registerRevealTargets(dom.productGrid)
 
   document.querySelectorAll('.product-icon img').forEach((img) => {
     img.addEventListener('error', () => {
@@ -1028,7 +1098,7 @@ const renderFrameworks = () => {
   dom.frameworkList.innerHTML = portfolioData.frameworks
     .map(
       (framework) => `
-      <div class="framework-card">
+      <div class="framework-card reveal">
         <div class="card-header">
           ${iconMarkup('framework')}
           <div class="product-tags">
@@ -1044,6 +1114,8 @@ const renderFrameworks = () => {
     `
     )
     .join('')
+
+  registerRevealTargets(dom.frameworkList)
 }
 
 const renderBooks = () => {
@@ -1060,7 +1132,7 @@ const renderBooks = () => {
           : `<a class="ghost-btn ghost-btn--small" href="${book.actionHref || '#'}">${book.actionLabel}</a>`
         : ''
       return `
-      <div class="book-card">
+      <div class="book-card reveal">
         <div class="book-cover ${book.cover ? 'has-cover' : 'is-fallback'}">
           ${coverMarkup}
         </div>
@@ -1079,6 +1151,8 @@ const renderBooks = () => {
     `
     })
     .join('')
+
+  registerRevealTargets(dom.booksGrid)
 
   document.querySelectorAll('.book-cover img').forEach((img) => {
     img.addEventListener('error', () => {
@@ -1193,7 +1267,7 @@ const renderProductModal = (product) => {
         <div class="signal-panel">
           <div class="signal-label">
             <span>Revenue signal</span>
-            ${iconMarkup('framework')}
+            ${iconMarkup('signal')}
           </div>
           <div class="signal-meta">
             <strong>${product.value}</strong>
@@ -1340,4 +1414,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupThemeToggle()
   setupNav()
   setupFiltersToggle()
+  setupRevealAnimations()
+  hidePagePreloader()
 })

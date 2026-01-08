@@ -100,21 +100,21 @@
   .footer-labs-link {
     display: inline-flex;
     align-items: center;
-    gap: $spacing-xs;
-    padding: $spacing-xxs $spacing-xs;
-    border: 1px solid $border;
-    border-radius: $border-radius;
-    background: rgba(255, 255, 255, 0.05);
+    gap: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
     margin-top: $spacing-xxs;
     width: fit-content;
 
     .footer-labs-logo {
-      width: 42px;
-      height: 42px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
-      border-radius: $border-radius;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 4px;
+      border-radius: 0;
+      background: none;
+      padding: 0;
     }
   }
 
