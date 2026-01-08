@@ -637,7 +637,36 @@ const portfolioData = {
   ],
 }
 
-const nounIcons = window.nounIcons || {}
+const iconMap = {
+  alert: 'warning-circle',
+  audio: 'waveform',
+  bolt: 'lightning',
+  book: 'book',
+  box: 'package',
+  calendar: 'calendar',
+  camera: 'camera',
+  chat: 'chat-circle-text',
+  check: 'check-circle',
+  compass: 'compass',
+  crown: 'crown-simple',
+  eye: 'eye',
+  filter: 'faders',
+  framework: 'tree-structure',
+  grid: 'squares-four',
+  guide: 'map-trifold',
+  heart: 'heart',
+  lab: 'flask',
+  lock: 'lock',
+  map: 'map-trifold',
+  network: 'network',
+  shield: 'shield-check',
+  signal: 'chart-line-up',
+  spark: 'sparkle',
+  status: 'activity',
+  timer: 'timer',
+  trend: 'trend-up',
+  users: 'users',
+}
 
 const statusOrder = {
   Live: 5,
@@ -689,8 +718,10 @@ const dom = {
 
 const formatCount = (value, label, icon) => ({ value, label, icon })
 
-const iconMarkup = (icon) =>
-  nounIcons[icon] ? `<span class="noun-icon" aria-hidden="true">${nounIcons[icon]}</span>` : ''
+const iconMarkup = (icon) => {
+  const iconName = iconMap[icon]
+  return iconName ? `<i class="ph ph-${iconName} icon-inline" aria-hidden="true"></i>` : ''
+}
 
 const getInitials = (name = '') =>
   name
@@ -700,12 +731,30 @@ const getInitials = (name = '') =>
     .slice(0, 3)
     .toUpperCase()
 
-const hydrateNounIcons = () => {
-  document.querySelectorAll('[data-icon]').forEach((el) => {
-    const iconName = el.dataset.icon
-    if (nounIcons[iconName]) {
-      el.innerHTML = nounIcons[iconName]
+const animateCounts = (container = document) => {
+  container.querySelectorAll('[data-count]').forEach((el) => {
+    const target = Number(el.dataset.count)
+    if (Number.isNaN(target)) {
+      return
     }
+    const suffix = el.dataset.suffix || ''
+    const prefix = el.dataset.prefix || ''
+    const duration = 1200
+    let start = null
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp
+      const progress = Math.min((timestamp - start) / duration, 1)
+      const value = Math.round(target * progress)
+      el.textContent = `${prefix}${value}${suffix}`
+      if (progress < 1) {
+        requestAnimationFrame(step)
+      } else {
+        el.textContent = `${prefix}${target}${suffix}`
+      }
+    }
+
+    requestAnimationFrame(step)
   })
 }
 
@@ -718,8 +767,8 @@ const renderSignalChart = (values = []) => {
     <div class="signal-chart" role="img" aria-label="Revenue signal trend with values ${bars.join(', ')}">
       ${bars
         .map(
-          (val) => `
-            <span style="height:${Math.max(18, (val / max) * 100)}%" data-value="${val}">
+          (val, index) => `
+            <span style="height:${Math.max(18, (val / max) * 100)}%; --bar-index:${index};" data-value="${val}">
               <em>${val}</em>
             </span>
           `
@@ -736,7 +785,9 @@ const renderSignalChart = (values = []) => {
 
 const renderInfographicBars = (heights = [30, 48, 42, 66, 55, 70]) => `
   <div class="infographic-placeholder" aria-hidden="true">
-    ${heights.map((height) => `<span style="height:${height}%"></span>`).join('')}
+    ${heights
+      .map((height, index) => `<span style="height:${height}%; --bar-index:${index};"></span>`)
+      .join('')}
   </div>
 `
 
@@ -759,7 +810,7 @@ const renderHeroStats = () => {
         <div class="stat-card">
           ${iconMarkup(stat.icon)}
           <div class="eyebrow">${stat.label}</div>
-          <div style="font-size:1.6rem; font-weight:600;">${stat.value}</div>
+          <div class="stat-value" data-count="${stat.value}">0</div>
         </div>
       `
     )
@@ -784,6 +835,8 @@ const renderHeroStats = () => {
       <p>Most ready first, then most strategic. Each product lists the single gate to advance.</p>
     </div>
   `
+
+  animateCounts(dom.statStrip)
 }
 
 const buildFilters = () => {
@@ -865,7 +918,7 @@ const renderProducts = () => {
           <div class="readiness">
             <div class="readiness-header">
               <span>Readiness score</span>
-              <strong>${product.readiness}%</strong>
+              <strong class="count-up" data-count="${product.readiness}" data-suffix="%">0%</strong>
             </div>
             <div class="readiness-bar" role="progressbar" aria-valuenow="${product.readiness}" aria-valuemin="0" aria-valuemax="100">
               <span style="width:${product.readiness}%"></span>
@@ -928,6 +981,8 @@ const renderProducts = () => {
   if (!filtered.length) {
     dom.productGrid.innerHTML = '<p>No products match the current filters.</p>'
   }
+
+  animateCounts(dom.productGrid)
 
   document.querySelectorAll('.product-icon img').forEach((img) => {
     img.addEventListener('error', () => {
@@ -1118,7 +1173,7 @@ const renderProductModal = (product) => {
         <div class="readiness">
           <div class="readiness-header">
             <span>Readiness score</span>
-            <strong>${product.readiness}%</strong>
+            <strong class="count-up" data-count="${product.readiness}" data-suffix="%">0%</strong>
           </div>
           <div class="readiness-bar" role="progressbar" aria-valuenow="${product.readiness}" aria-valuemin="0" aria-valuemax="100">
             <span style="width:${product.readiness}%"></span>
@@ -1188,6 +1243,7 @@ const openProductModal = (productId) => {
   if (!product || !dom.productModal) return
   dom.productModalTitle.textContent = product.name
   dom.productModalBody.innerHTML = renderProductModal(product)
+  animateCounts(dom.productModalBody)
   openModal(dom.productModal)
 }
 
@@ -1273,7 +1329,6 @@ const setupFiltersToggle = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  hydrateNounIcons()
   buildFilters()
   renderHeroStats()
   renderProducts()
