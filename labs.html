@@ -22,39 +22,59 @@
   <link rel="stylesheet" href="assets/labs.css">
 </head>
 <body class="theme-dark">
+  <div class="page-preloader" id="page-preloader" aria-hidden="false">
+    <div class="preloader-spinner" aria-hidden="true"></div>
+  </div>
   <header class="top-nav" aria-label="Crown Labs navigation">
-    <a href="labs.html" class="nav-logo-link" aria-label="Crown Labs home">
-      <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
-    </a>
-    <nav class="nav-links" id="primary-navigation" aria-label="Section navigation">
-      <a href="#overview"><i class="ph ph-compass icon-inline" aria-hidden="true"></i>Overview</a>
-      <a href="#portfolio"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Portfolio</a>
-      <a href="#frameworks"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</a>
-      <a href="#books"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books &amp; IP</a>
-      <a href="#status"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status</a>
-      <a href="#financials"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Financials</a>
-      <a href="#ethics"><i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>Ethics</a>
-      <a href="#contact" class="nav-extra"><i class="ph ph-chat-circle-text icon-inline" aria-hidden="true"></i>Contact</a>
-    </nav>
-    <div class="nav-actions">
-      <button class="nav-link-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
-      <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
-      <a class="ghost-btn ghost-btn--icon" href="/login.html" aria-label="Login">
-        <span class="nav-icon" aria-hidden="true"><i class="ph ph-user-circle icon-inline"></i></span>
-        Login
+    <div class="nav-main">
+      <a href="labs.html" class="nav-logo-link" aria-label="Crown Labs home">
+        <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
       </a>
-      <button class="cta-btn" id="beta-dev-cta" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
-        Apply: Dev / Beta Tester
+      <nav class="nav-links" id="primary-navigation" aria-label="Section navigation">
+        <a href="#overview"><i class="ph ph-compass icon-inline" aria-hidden="true"></i>Overview</a>
+        <a href="#portfolio"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Portfolio</a>
+        <a href="#frameworks"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</a>
+        <a href="#books"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books &amp; IP</a>
+        <a href="#status"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status</a>
+        <a href="#financials"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Financials</a>
+        <a href="#ethics"><i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>Ethics</a>
+        <a href="#contact" class="nav-extra"><i class="ph ph-chat-circle-text icon-inline" aria-hidden="true"></i>Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="nav-link-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
+        <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
+        <a class="ghost-btn ghost-btn--icon" href="/login.html" aria-label="Login">
+          <span class="nav-icon" aria-hidden="true"><i class="ph ph-user-circle icon-inline"></i></span>
+          Login
+        </a>
+        <button class="cta-btn" id="beta-dev-cta" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
+          Apply: Dev / Beta Tester
+        </button>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+        <i class="ph ph-list icon-inline" aria-hidden="true"></i>
       </button>
     </div>
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
-      <i class="ph ph-list icon-inline" aria-hidden="true"></i>
-    </button>
+    <div class="nav-toolbar" role="toolbar" aria-label="Crown Labs toolbar">
+      <div class="toolbar-group">
+        <span class="toolbar-label">Lab console</span>
+        <a class="toolbar-chip" href="#portfolio"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Portfolio</a>
+        <a class="toolbar-chip" href="#frameworks"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</a>
+        <a class="toolbar-chip" href="#books"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books</a>
+      </div>
+      <div class="toolbar-group">
+        <a class="toolbar-chip toolbar-chip--ghost" href="#status"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status</a>
+        <a class="toolbar-chip toolbar-chip--ghost" href="#financials"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Investor</a>
+        <button class="toolbar-chip toolbar-chip--accent" type="button" data-open-modal data-modal-tab="beta">
+          <i class="ph ph-sparkle icon-inline" aria-hidden="true"></i>Request access
+        </button>
+      </div>
+    </div>
   </header>
 
   <main id="top" class="page">
     <section id="hero" class="hero" aria-labelledby="hero-title">
-      <div class="hero-text">
+      <div class="hero-text reveal">
         <p class="eyebrow">Crown Labs</p>
         <h1 id="hero-title">Where Intelligence Becomes Power</h1>
         <p class="subtitle">We don’t build apps. We build systems that see, think, and respond.</p>
@@ -78,7 +98,7 @@
           <div class="preloader-card"></div>
         </div>
       </div>
-      <div class="hero-card" aria-label="Crown Labs snapshot">
+      <div class="hero-card reveal" aria-label="Crown Labs snapshot">
         <div class="hero-card__content" id="hero-card">
           <div class="preloader-card preloader-card--tall"></div>
         </div>
@@ -87,28 +107,28 @@
 
     <section class="highlight-strip" aria-label="Crown Labs highlights">
       <div class="highlight-grid">
-        <article class="highlight-card">
+        <article class="highlight-card reveal">
           <div class="highlight-header">
             <i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>
             <h3>Most ready first</h3>
           </div>
           <p>Portfolio sequencing is readiness shows, not hype cycles.</p>
         </article>
-        <article class="highlight-card">
+        <article class="highlight-card reveal">
           <div class="highlight-header">
             <i class="ph ph-check-circle icon-inline" aria-hidden="true"></i>
             <h3>Single gate to advance</h3>
           </div>
           <p>Each product lists the one milestone that unlocks the next phase.</p>
         </article>
-        <article class="highlight-card">
+        <article class="highlight-card reveal">
           <div class="highlight-header">
             <i class="ph ph-activity icon-inline" aria-hidden="true"></i>
             <h3>Truth-labeled status</h3>
           </div>
           <p>Status labels reflect reality, not marketing narratives.</p>
         </article>
-        <article class="highlight-card">
+        <article class="highlight-card reveal">
           <div class="highlight-header">
             <i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>
             <h3>Privacy-by-design</h3>
@@ -119,12 +139,12 @@
     </section>
 
     <section id="overview" class="section" aria-labelledby="overview-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="overview-title">Crown Labs</h2>
         <p class="lede">Systems that think. Platforms that protect. Tools that amplify truth.</p>
       </div>
       <div class="overview-grid">
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3><i class="ph ph-sparkle icon-inline" aria-hidden="true"></i>What We Build</h3>
           <p>
             Systems that think. Platforms that protect. Tools that amplify truth. At Crown Labs, every product starts
@@ -135,7 +155,7 @@
             systems, emotionally intelligent marketing engines, and human-centric interaction frameworks.
           </p>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Our Philosophy</h3>
           <p>Signal over noise. Function over flash. Truth over comfort.</p>
           <ul>
@@ -145,7 +165,7 @@
             <li>Feel human — not mechanical.</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3><i class="ph ph-crown-simple icon-inline" aria-hidden="true"></i>Built for Those Who Move Differently</h3>
           <p>Crown Labs isn’t for everyone — and that’s intentional. Our work is for:</p>
           <ul>
@@ -155,7 +175,7 @@
             <li>Thinkers who understand that intelligence is power.</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3><i class="ph ph-check-circle icon-inline" aria-hidden="true"></i>The Crown Labs Standard</h3>
           <ul>
             <li>Purpose-driven design.</li>
@@ -165,7 +185,7 @@
             <li>Built to scale — technically and ethically.</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3><i class="ph ph-flask icon-inline" aria-hidden="true"></i>Explore the Lab</h3>
           <p>
             This is an active laboratory. Projects evolve. Systems expand. Capabilities compound. Some tools are public.
@@ -173,7 +193,7 @@
           </p>
           <p>Welcome to Crown Labs. Build smarter. See clearer. Rule your domain.</p>
         </div>
-        <div class="overview-card how-to">
+        <div class="overview-card how-to reveal">
           <h3><i class="ph ph-map-trifold icon-inline" aria-hidden="true"></i>How to read this portfolio</h3>
           <ul>
             <li>Status labels are literal and enforced.</li>
@@ -185,11 +205,11 @@
     </section>
 
     <section id="portfolio" class="section" aria-labelledby="portfolio-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="portfolio-title"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Product Portfolio</h2>
         <p class="lede">Scan what exists, filter by readiness, and expand details without losing the high-level view.</p>
       </div>
-      <div class="filters" id="portfolio-filters" aria-label="Product filters">
+      <div class="filters reveal" id="portfolio-filters" aria-label="Product filters">
         <div class="filter-header">
           <h3><i class="ph ph-faders icon-inline" aria-hidden="true"></i>Filter &amp; search</h3>
           <button class="ghost-btn" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-panel">Filters</button>
@@ -225,7 +245,7 @@
     </section>
 
     <section id="frameworks" class="section" aria-labelledby="frameworks-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="frameworks-title"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</h2>
         <p class="lede">Smaller systems that guide product and brand direction.</p>
       </div>
@@ -236,7 +256,7 @@
     </section>
 
     <section id="books" class="section" aria-labelledby="books-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="books-title"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books &amp; IP</h2>
         <p class="lede">Published and in-progress IP that anchors the voice behind the portfolio.</p>
       </div>
@@ -247,7 +267,7 @@
     </section>
 
     <section id="status" class="section" aria-labelledby="status-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="status-title"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status definitions</h2>
         <p class="lede">Truth labels used across every Crown Labs product.</p>
       </div>
@@ -272,7 +292,7 @@
     </section>
 
     <section id="financials" class="section financials" aria-labelledby="financials-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="financials-title"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Financial &amp; Growth Projections (Investor View)</h2>
         <p class="lede">
           Scope: Portfolio-level projections based on current asset status · Methodology: Conservative, Base, and Upside
@@ -280,7 +300,7 @@
         </p>
       </div>
       <div class="overview-grid">
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Portfolio composition (relevant to financials)</h3>
           <p class="muted">Revenue-generating categories:</p>
           <ul>
@@ -298,7 +318,7 @@
             <li>Combination of recurring and transactional revenue</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Current asset stage distribution</h3>
           <ul>
             <li>App Store ready: 2</li>
@@ -310,7 +330,7 @@
           <p class="muted">This supports staggered revenue activation rather than a single launch moment.</p>
         </div>
       </div>
-      <div class="section-header section-header--tight">
+      <div class="section-header section-header--tight reveal">
         <h3>Three-year revenue projections (portfolio)</h3>
         <p class="lede">Annualized totals by scenario.</p>
       </div>
@@ -347,7 +367,7 @@
         </table>
       </div>
       <div class="overview-grid assumptions-grid">
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Conservative assumptions</h3>
           <ul>
             <li>No breakout product</li>
@@ -357,7 +377,7 @@
             <li>Conservative conversion rates</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Base assumptions</h3>
           <ul>
             <li>Successful launches of app-ready products</li>
@@ -366,7 +386,7 @@
             <li>Moderate reinvestment of cash flow</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Upside assumptions</h3>
           <ul>
             <li>Multiple products scale concurrently</li>
@@ -377,7 +397,7 @@
         </div>
       </div>
       <div class="overview-grid financials-duo">
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Revenue mix evolution</h3>
           <p class="muted">Year 1</p>
           <ul>
@@ -393,7 +413,7 @@
           </ul>
           <p class="muted">Trend: Higher margin, lower churn revenue increases over time.</p>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Operating cost profile (estimated)</h3>
           <p class="muted">Year 1</p>
           <ul>
@@ -412,7 +432,7 @@
         </div>
       </div>
       <div class="overview-grid">
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Valuation implications (illustrative)</h3>
           <p class="muted">Applied blended multiples by category:</p>
           <ul>
@@ -445,7 +465,7 @@
             </table>
           </div>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Capital efficiency</h3>
           <ul>
             <li>Initial capital requirements are low relative to asset base</li>
@@ -462,7 +482,7 @@
             <li>Portfolio-level acquisition</li>
           </ul>
         </div>
-        <div class="overview-card">
+        <div class="overview-card reveal">
           <h3>Investor takeaway</h3>
           <ul>
             <li>Assets already exist</li>
@@ -476,20 +496,20 @@
     </section>
 
     <section id="ethics" class="section" aria-labelledby="ethics-title">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 id="ethics-title"><i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>Ethics &amp; Limits</h2>
         <p class="lede">Hard boundaries that keep the work honest.</p>
       </div>
       <div class="ethics-grid">
-        <div class="ethics-card">
+        <div class="ethics-card reveal">
           <h3>Privacy-first defaults</h3>
           <p>Products that handle sensitive inputs default to minimal retention, clear consent, and transparent control.</p>
         </div>
-        <div class="ethics-card">
+        <div class="ethics-card reveal">
           <h3>Decision-support only</h3>
           <p>No product positions itself as medical, legal, or therapy advice. Outputs are support signals, not directives.</p>
         </div>
-        <div class="ethics-card">
+        <div class="ethics-card reveal">
           <h3>No retention by design</h3>
           <p>Where applicable, products avoid storing data. If retention is required, it is explicit, scoped, and documented.</p>
         </div>
