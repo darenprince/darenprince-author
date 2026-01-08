@@ -41,6 +41,15 @@ const portfolioData = {
       ],
       nextGate: 'Complete Round 1 beta testing with validated reporting outputs.',
       monetization: 'TBD',
+      value: '$420K ARR',
+      growthLabel: '+22% QoQ',
+      growth: [28, 36, 42, 48, 58],
+      readiness: 78,
+      metrics: [
+        { label: 'Signal coverage', value: '92%', icon: 'eye' },
+        { label: 'Case cycles', value: '-38%', icon: 'bolt' },
+        { label: 'Analyst seats', value: '14', icon: 'users' },
+      ],
       keywords: ['forensics', 'multimodal', 'reports', 'offline', 'air-gapped'],
       priority: 5,
     },
@@ -83,6 +92,15 @@ const portfolioData = {
       ],
       nextGate: 'Stabilize beta streaming and permissions workflows.',
       monetization: 'TBD',
+      value: '$180K ARR',
+      growthLabel: '+28% QoQ',
+      growth: [12, 18, 22, 31, 40],
+      readiness: 72,
+      metrics: [
+        { label: 'Active cams', value: '220', icon: 'camera' },
+        { label: 'Avg uptime', value: '99.1%', icon: 'shield' },
+        { label: 'Deploy time', value: '60s', icon: 'bolt' },
+      ],
       keywords: ['camera', 'security', 'live', 'qr', 'stream'],
       priority: 4,
     },
@@ -125,6 +143,15 @@ const portfolioData = {
       ],
       nextGate: 'Complete beta testing and validate evidence-sharing flows.',
       monetization: 'TBD',
+      value: '$260K ARR',
+      growthLabel: '+19% QoQ',
+      growth: [15, 22, 30, 36, 44],
+      readiness: 70,
+      metrics: [
+        { label: 'Alert success', value: '97%', icon: 'alert' },
+        { label: 'Avg response', value: '42s', icon: 'timer' },
+        { label: 'Live nodes', value: '38', icon: 'network' },
+      ],
       keywords: ['sos', 'safety', 'emergency', 'evidence', 'alerts'],
       priority: 4,
     },
@@ -167,6 +194,15 @@ const portfolioData = {
       ],
       nextGate: 'Finalize encryption model and UX for secure room teardown.',
       monetization: 'TBD',
+      value: '$60K ARR',
+      growthLabel: '+11% QoQ',
+      growth: [5, 8, 10, 12, 18],
+      readiness: 42,
+      metrics: [
+        { label: 'Room burn', value: '24h', icon: 'timer' },
+        { label: 'Encryption', value: '100%', icon: 'lock' },
+        { label: 'Avg sessions', value: '240/wk', icon: 'chat' },
+      ],
       keywords: ['chat', 'ephemeral', 'privacy', 'encrypted', 'vanish'],
       priority: 3,
     },
@@ -209,6 +245,15 @@ const portfolioData = {
       ],
       nextGate: 'Validate the ethical emotion protocol and output formats.',
       monetization: 'TBD',
+      value: '$90K ARR',
+      growthLabel: '+14% QoQ',
+      growth: [6, 9, 14, 18, 25],
+      readiness: 38,
+      metrics: [
+        { label: 'Archetypes', value: '12', icon: 'map' },
+        { label: 'Campaign lift', value: '+16%', icon: 'trend' },
+        { label: 'Ethics gate', value: '100%', icon: 'check' },
+      ],
       keywords: ['marketing', 'emotion', 'archetype', 'creative', 'ai'],
       priority: 2,
     },
@@ -251,6 +296,15 @@ const portfolioData = {
       ],
       nextGate: 'Define scope guardrails for inference flags and reporting.',
       monetization: 'TBD',
+      value: '$110K ARR',
+      growthLabel: '+17% QoQ',
+      growth: [8, 11, 14, 20, 26],
+      readiness: 40,
+      metrics: [
+        { label: 'Images analyzed', value: '3.4k', icon: 'camera' },
+        { label: 'Report clarity', value: '4.7/5', icon: 'eye' },
+        { label: 'Local mode', value: '100%', icon: 'lock' },
+      ],
       keywords: ['image', 'forensics', 'analysis', 'reports', 'offline'],
       priority: 2,
     },
@@ -293,6 +347,15 @@ const portfolioData = {
       ],
       nextGate: 'Define scope boundaries and initial prototype requirements.',
       monetization: 'TBD',
+      value: '$75K ARR',
+      growthLabel: '+9% QoQ',
+      growth: [4, 6, 9, 12, 18],
+      readiness: 34,
+      metrics: [
+        { label: 'Signal zones', value: '6', icon: 'network' },
+        { label: 'Anomaly cues', value: '18', icon: 'alert' },
+        { label: 'Scan latency', value: '2m', icon: 'timer' },
+      ],
       keywords: ['signal', 'network', 'security', 'visibility'],
       priority: 2,
     },
@@ -334,6 +397,15 @@ const portfolioData = {
       ],
       nextGate: 'Finalize brand mockups and packaging prototypes.',
       monetization: 'TBD',
+      value: '$25K ARR',
+      growthLabel: '+6% QoQ',
+      growth: [2, 4, 5, 7, 9],
+      readiness: 20,
+      metrics: [
+        { label: 'Creative drops', value: '12', icon: 'spark' },
+        { label: 'Audience reach', value: '180k', icon: 'users' },
+        { label: 'Launch kits', value: '3', icon: 'box' },
+      ],
       keywords: ['satire', 'brand', 'packaging', 'concept'],
       priority: 1,
     },
@@ -375,6 +447,15 @@ const portfolioData = {
       ],
       nextGate: 'Define content structure and daily cadence format.',
       monetization: 'TBD',
+      value: '$40K ARR',
+      growthLabel: '+8% QoQ',
+      growth: [3, 5, 6, 8, 11],
+      readiness: 22,
+      metrics: [
+        { label: 'Daily listens', value: '6.1k', icon: 'audio' },
+        { label: 'Retention', value: '64%', icon: 'trend' },
+        { label: 'Prompts', value: '365', icon: 'calendar' },
+      ],
       keywords: ['daily', 'reflection', 'media', 'psychology'],
       priority: 1,
     },
@@ -417,6 +498,15 @@ const portfolioData = {
       ],
       nextGate: 'Validate prototype with structured pilot cohort.',
       monetization: 'TBD',
+      value: '$130K ARR',
+      growthLabel: '+18% QoQ',
+      growth: [9, 14, 20, 26, 33],
+      readiness: 60,
+      metrics: [
+        { label: 'Playbooks', value: '18', icon: 'guide' },
+        { label: 'Signal lift', value: '+24%', icon: 'trend' },
+        { label: 'Cohorts', value: '3', icon: 'users' },
+      ],
       keywords: ['presence', 'relationship', 'game on', 'social'],
       priority: 3,
     },
@@ -458,6 +548,15 @@ const portfolioData = {
       ],
       nextGate: 'Define core game loops and prototype interaction flows.',
       monetization: 'TBD',
+      value: '$55K ARR',
+      growthLabel: '+12% QoQ',
+      growth: [4, 7, 9, 12, 15],
+      readiness: 30,
+      metrics: [
+        { label: 'Sessions', value: '420/mo', icon: 'heart' },
+        { label: 'Completion', value: '74%', icon: 'check' },
+        { label: 'Exercises', value: '30', icon: 'spark' },
+      ],
       keywords: ['couples', 'relationship', 'games', 'connection'],
       priority: 1,
     },
@@ -524,6 +623,8 @@ const portfolioData = {
   ],
 }
 
+const nounIcons = window.nounIcons || {}
+
 const statusOrder = {
   Live: 5,
   'Stage 1 Beta': 4,
@@ -566,7 +667,30 @@ const dom = {
   filterPanel: document.getElementById('filter-panel'),
 }
 
-const formatCount = (value, label) => ({ value, label })
+const formatCount = (value, label, icon) => ({ value, label, icon })
+
+const iconMarkup = (icon) =>
+  nounIcons[icon] ? `<span class="noun-icon" aria-hidden="true">${nounIcons[icon]}</span>` : ''
+
+const hydrateNounIcons = () => {
+  document.querySelectorAll('[data-icon]').forEach((el) => {
+    const iconName = el.dataset.icon
+    if (nounIcons[iconName]) {
+      el.innerHTML = nounIcons[iconName]
+    }
+  })
+}
+
+const renderSparkline = (values = []) => {
+  const max = Math.max(...values, 1)
+  return `
+    <div class="sparkline" role="img" aria-label="Growth trend">
+      ${values
+        .map((val) => `<span style="height:${Math.max(18, (val / max) * 100)}%"></span>`)
+        .join('')}
+    </div>
+  `
+}
 
 const renderHeroStats = () => {
   const total = portfolioData.products.length
@@ -575,15 +699,16 @@ const renderHeroStats = () => {
   ).length
   const concepts = portfolioData.products.filter((item) => item.status === 'Concept').length
   const stats = [
-    formatCount(total, 'Total products'),
-    formatCount(beta, 'Active beta builds'),
-    formatCount(concepts, 'Concepts in pipeline'),
+    formatCount(total, 'Total products', 'grid'),
+    formatCount(beta, 'Active beta builds', 'bolt'),
+    formatCount(concepts, 'Concepts in pipeline', 'spark'),
   ]
 
   dom.statStrip.innerHTML = stats
     .map(
       (stat) => `
         <div class="stat-card">
+          ${iconMarkup(stat.icon)}
           <div class="eyebrow">${stat.label}</div>
           <div style="font-size:1.6rem; font-weight:600;">${stat.value}</div>
         </div>
@@ -592,12 +717,12 @@ const renderHeroStats = () => {
     .join('')
 
   dom.heroCard.innerHTML = `
-    <div class="eyebrow">Portfolio signal</div>
+    <div class="eyebrow">Applied intelligence</div>
     <h3>Most ready: ${portfolioData.products.find((item) => item.status === 'Stage 1 Beta')?.name || 'TBD'}</h3>
-    <p class="lede">Built for clarity, with honest readiness labels and explicit next gates.</p>
+    <p class="lede">Systems that see, think, and respond — grounded in clarity, control, and leverage.</p>
     <div class="detail-box">
-      <strong>Sorting logic</strong>
-      <p>Most ready first, then most strategic. Change it anytime in filters.</p>
+      <strong>Portfolio logic</strong>
+      <p>Most ready first, then most strategic. Each product lists the single gate to advance.</p>
     </div>
   `
 }
@@ -658,6 +783,34 @@ const renderProducts = () => {
   dom.productGrid.innerHTML = filtered
     .map((product) => {
       const accordionId = `${product.id}-details`
+      const metrics = (product.metrics || [])
+        .map(
+          (metric) => `
+            <div class="metric">
+              ${iconMarkup(metric.icon)}
+              <div>
+                <div class="metric-value">${metric.value}</div>
+                <div class="metric-label">${metric.label}</div>
+              </div>
+            </div>
+          `
+        )
+        .join('')
+      const readinessMarkup =
+        typeof product.readiness === 'number'
+          ? `
+          <div class="readiness">
+            <div class="readiness-header">
+              <span>Readiness score</span>
+              <strong>${product.readiness}%</strong>
+            </div>
+            <div class="readiness-bar" role="progressbar" aria-valuenow="${product.readiness}" aria-valuemin="0" aria-valuemax="100">
+              <span style="width:${product.readiness}%"></span>
+            </div>
+          </div>
+        `
+          : ''
+
       return `
         <article class="product-card" data-status="${product.status}" data-category="${product.category}">
           <div class="product-header">
@@ -678,6 +831,18 @@ const renderProducts = () => {
             </div>
           </div>
           <p class="one-liner">${product.oneLiner}</p>
+          <div class="finance-row">
+            <div class="finance-meta">
+              <span>Revenue signal</span>
+              <strong>${product.value}</strong>
+              <small>${product.growthLabel}</small>
+            </div>
+            ${renderSparkline(product.growth || [])}
+          </div>
+          <div class="product-metrics">
+            ${metrics}
+          </div>
+          ${readinessMarkup}
           <ul>
             ${product.bullets.map((item) => `<li>${item}</li>`).join('')}
           </ul>
@@ -713,6 +878,7 @@ const renderProducts = () => {
                 <p><strong>${product.status}</strong> — ${product.statusDetail}</p>
                 <p><strong>Next gate:</strong> ${product.nextGate}</p>
                 <p><strong>Monetization:</strong> ${product.monetization}</p>
+                <p><strong>Revenue signal:</strong> ${product.value} <span class="muted">(${product.growthLabel})</span></p>
               </div>
             </div>
           </div>
@@ -748,8 +914,11 @@ const renderFrameworks = () => {
     .map(
       (framework) => `
       <div class="framework-card">
-        <div class="product-tags">
-          <span class="tag status-badge">${framework.status}</span>
+        <div class="card-header">
+          ${iconMarkup('framework')}
+          <div class="product-tags">
+            <span class="tag status-badge">${framework.status}</span>
+          </div>
         </div>
         <h3>${framework.name}</h3>
         <p>${framework.description}</p>
@@ -767,8 +936,11 @@ const renderBooks = () => {
     .map(
       (book) => `
       <div class="book-card">
-        <div class="product-tags">
-          <span class="tag">${book.status}</span>
+        <div class="card-header">
+          ${iconMarkup('book')}
+          <div class="product-tags">
+            <span class="tag">${book.status}</span>
+          </div>
         </div>
         <h3>${book.name}</h3>
         <p>${book.description}</p>
@@ -876,6 +1048,7 @@ const setupFiltersToggle = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  hydrateNounIcons()
   buildFilters()
   renderHeroStats()
   renderProducts()
