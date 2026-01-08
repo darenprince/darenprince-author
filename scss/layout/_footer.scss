@@ -48,7 +48,7 @@
     gap: $spacing-xs;
     padding: $spacing-xxs $spacing-xs;
     border: 1px solid $border;
-    border-radius: $radius-md;
+    border-radius: $border-radius;
     background: rgba(255, 255, 255, 0.05);
     margin-top: $spacing-xxs;
     width: fit-content;
@@ -57,7 +57,7 @@
       width: 42px;
       height: 42px;
       object-fit: contain;
-      border-radius: $radius-md;
+      border-radius: $border-radius;
       background: rgba(255, 255, 255, 0.08);
       padding: 4px;
     }

@@ -1,8 +1,30 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 .testimonials {
   padding: $spacing-xl 0;
+
+  .section-heading-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, #{$white} 70%, transparent);
+  }
+
+  .section-heading {
+    margin: 0;
+  }
+
+  .section-lede {
+    margin: 0;
+    color: color-mix(in srgb, #{$white} 75%, transparent);
+  }
 
   .testimonial-grid {
     display: grid;
@@ -19,6 +41,8 @@
     padding: $spacing-lg;
     text-align: center;
     border-radius: $border-radius;
+    border: 1px solid color-mix(in srgb, #{$white} 8%, transparent);
+    box-shadow: 0 16px 40px rgba($black, 0.35);
 
     img {
       border-radius: 50%;
@@ -35,6 +59,14 @@
     cite {
       font-style: normal;
       font-weight: 600;
+    }
+
+    .testimonial-rating {
+      display: inline-flex;
+      gap: 0.25rem;
+      margin-bottom: $spacing-sm;
+      color: color-mix(in srgb, #{$mint-green} 75%, #{$white} 25%);
+      font-size: 0.9rem;
     }
   }
 }
