@@ -16,14 +16,42 @@
 
   .footer-grid {
     display: grid;
-    gap: $spacing-md;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-lg;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     align-items: start;
   }
 
   .footer-logo {
     width: 120px;
     margin-bottom: 1rem;
+  }
+
+  .footer-brand {
+    display: grid;
+    gap: $spacing-sm;
+  }
+
+  .footer-tagline {
+    color: $text-muted;
+    line-height: 1.6;
+  }
+
+  .footer-socials {
+    display: grid;
+    gap: $spacing-xxs;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-xs;
+      color: $contrast-high;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+    }
   }
 
   a {
@@ -40,6 +68,33 @@
     margin: 0;
     display: grid;
     gap: $spacing-xxs;
+  }
+
+  .footer-signup {
+    display: grid;
+    gap: $spacing-xs;
+
+    form {
+      display: grid;
+      gap: $spacing-xs;
+    }
+
+    input {
+      border-radius: $border-radius;
+      border: 1px solid $border;
+      padding: $spacing-xs $spacing-sm;
+      background: rgba(255, 255, 255, 0.08);
+      color: $contrast-high;
+    }
+
+    button {
+      justify-content: center;
+    }
+  }
+
+  .footer-note {
+    color: $text-muted;
+    margin: 0;
   }
 
   .footer-labs-link {
@@ -61,6 +116,22 @@
       background: rgba(255, 255, 255, 0.08);
       padding: 4px;
     }
+  }
+
+  .footer-bottom {
+    margin-top: $spacing-lg;
+    border-top: 1px solid $border;
+  }
+
+  .footer-bottom-inner {
+    width: min(100%, 1200px);
+    margin: 0 auto;
+    padding: $spacing-md clamp($spacing-md, 5vw, $spacing-xl) 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-sm;
   }
 }
 
