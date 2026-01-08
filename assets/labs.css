@@ -8,6 +8,13 @@
   --border: #242833;
   --accent: #ff3b3b;
   --accent-strong: #e51f1f;
+  --status-concept: #8f9dff;
+  --status-prototype: #46d4c5;
+  --status-beta: #f5c15b;
+  --status-stage: #ff8a4c;
+  --status-live: #4ade80;
+  --status-published: #6ee7ff;
+  --status-progress: #f59eaf;
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
   --radius: 14px;
   --radius-sm: 10px;
@@ -65,13 +72,38 @@ img {
   gap: 1rem;
   height: 64px;
   padding: 0 var(--spacing);
-  background: rgba(11, 12, 14, 0.92);
+  background: linear-gradient(180deg, rgba(22, 24, 30, 0.96), rgba(11, 12, 14, 0.88));
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
 }
 
 body.theme-light .top-nav {
-  background: rgba(247, 248, 250, 0.92);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 248, 250, 0.86));
+}
+
+.top-nav::before,
+.top-nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.top-nav::before {
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 59, 59, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 50%, rgba(91, 143, 255, 0.14), transparent 60%);
+  opacity: 0.6;
+  animation: navGlow 12s ease-in-out infinite;
+}
+
+.top-nav::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  opacity: 0.2;
 }
 
 .nav-logo-link {
@@ -79,6 +111,8 @@ body.theme-light .top-nav {
   align-items: center;
   height: 100%;
   padding: 0.4rem 0;
+  position: relative;
+  z-index: 1;
 }
 
 .nav-logo {
@@ -91,6 +125,8 @@ body.theme-light .top-nav {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 .nav-extra {
@@ -102,12 +138,43 @@ body.theme-light .top-nav {
   align-items: center;
   gap: 0.4rem;
   font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  position: relative;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -0.35rem;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: translateX(-50%);
+  transition: width 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.nav-links a:hover::after {
+  width: 70%;
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 
 .nav-link-btn {
@@ -117,6 +184,7 @@ body.theme-light .top-nav {
   font-weight: 500;
   cursor: pointer;
   padding: 0.4rem 0.2rem;
+  transition: color 0.2s ease;
 }
 
 .nav-link-btn:hover {
@@ -148,6 +216,18 @@ body.theme-light .top-nav {
   color: var(--text);
   padding: 0.4rem 0.6rem;
   border-radius: var(--radius-sm);
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes navGlow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
 }
 
 .hero {
@@ -586,9 +666,61 @@ body.theme-light .top-nav {
 }
 
 .status-badge {
-  background: rgba(255, 59, 59, 0.12);
-  border-color: rgba(255, 59, 59, 0.4);
-  color: var(--accent);
+  --status-color: var(--accent);
+  --status-bg: rgba(255, 59, 59, 0.12);
+  --status-border: rgba(255, 59, 59, 0.4);
+  background: var(--status-bg);
+  border-color: var(--status-border);
+  color: var(--status-color);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.status-badge[data-status='Concept'] {
+  --status-color: var(--status-concept);
+  --status-bg: rgba(143, 157, 255, 0.16);
+  --status-border: rgba(143, 157, 255, 0.45);
+}
+
+.status-badge[data-status='Prototype'] {
+  --status-color: var(--status-prototype);
+  --status-bg: rgba(70, 212, 197, 0.16);
+  --status-border: rgba(70, 212, 197, 0.45);
+}
+
+.status-badge[data-status='Beta'] {
+  --status-color: var(--status-beta);
+  --status-bg: rgba(245, 193, 91, 0.18);
+  --status-border: rgba(245, 193, 91, 0.45);
+}
+
+.status-badge[data-status='Stage 1 Beta'] {
+  --status-color: var(--status-stage);
+  --status-bg: rgba(255, 138, 76, 0.18);
+  --status-border: rgba(255, 138, 76, 0.45);
+}
+
+.status-badge[data-status='Live'] {
+  --status-color: var(--status-live);
+  --status-bg: rgba(74, 222, 128, 0.18);
+  --status-border: rgba(74, 222, 128, 0.45);
+}
+
+.status-badge[data-status='Published'] {
+  --status-color: var(--status-published);
+  --status-bg: rgba(110, 231, 255, 0.18);
+  --status-border: rgba(110, 231, 255, 0.45);
+}
+
+.status-badge[data-status='In progress'] {
+  --status-color: var(--status-progress);
+  --status-bg: rgba(245, 158, 175, 0.18);
+  --status-border: rgba(245, 158, 175, 0.45);
+}
+
+.status-badge--table {
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
 }
 
 .product-card h3 {
@@ -657,6 +789,7 @@ body.theme-light .top-nav {
 }
 
 .signal-chart span {
+  position: relative;
   width: 8px;
   border-radius: 6px;
   background: var(--accent);
@@ -666,9 +799,34 @@ body.theme-light .top-nav {
     opacity 0.2s ease;
 }
 
+.signal-chart span em {
+  position: absolute;
+  bottom: calc(100% + 0.2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-style: normal;
+  color: var(--text);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
 .product-card:hover .signal-chart span {
   transform: translateY(-2px);
   opacity: 1;
+}
+
+.signal-chart-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.signal-chart-meta strong {
+  color: var(--text);
 }
 
 .product-metrics {
