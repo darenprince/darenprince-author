@@ -340,6 +340,18 @@ body:not(.brand-exempt) a:is(.btn, .btn-b, [class*='btn--']):focus {
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .styledh1 {
   font-family: 'League Spartan', sans-serif;
   text-transform: uppercase;
@@ -719,13 +731,36 @@ body.theme-light {
 }
 .site-footer .footer-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   align-items: start;
 }
 .site-footer .footer-logo {
   width: 120px;
   margin-bottom: 1rem;
+}
+.site-footer .footer-brand {
+  display: grid;
+  gap: 0.75rem;
+}
+.site-footer .footer-tagline {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+.site-footer .footer-socials {
+  display: grid;
+  gap: 0.25rem;
+}
+.site-footer .footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-contrast-high);
+}
+.site-footer .footer-socials img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
 }
 .site-footer a {
   color: var(--color-accent);
@@ -740,6 +775,28 @@ body.theme-light {
   margin: 0;
   display: grid;
   gap: 0.25rem;
+}
+.site-footer .footer-signup {
+  display: grid;
+  gap: 0.5rem;
+}
+.site-footer .footer-signup form {
+  display: grid;
+  gap: 0.5rem;
+}
+.site-footer .footer-signup input {
+  border-radius: 0.6875rem;
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-contrast-high);
+}
+.site-footer .footer-signup button {
+  justify-content: center;
+}
+.site-footer .footer-note {
+  color: var(--color-text-muted);
+  margin: 0;
 }
 .site-footer .footer-labs-link {
   display: inline-flex;
@@ -759,6 +816,20 @@ body.theme-light {
   border-radius: 0.6875rem;
   background: rgba(255, 255, 255, 0.08);
   padding: 4px;
+}
+.site-footer .footer-bottom {
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+.site-footer .footer-bottom-inner {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 5vw, 3rem) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 body.theme-dark .site-footer a,
