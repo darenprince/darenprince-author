@@ -37,6 +37,83 @@
     z-index: 1;
   }
 
+  .hero-content {
+    position: relative;
+    z-index: 6;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .hero-copy {
+    max-width: 34rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    border-radius: 1.5rem;
+    border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
+    background: color-mix(in srgb, #{$black} 78%, transparent);
+    backdrop-filter: blur(10px);
+    text-align: left;
+    box-shadow: 0 24px 80px rgba($black, 0.45);
+    pointer-events: auto;
+
+    @media (min-width: 48rem) {
+      margin-right: auto;
+    }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: color-mix(in srgb, #{$white} 70%, transparent);
+  }
+
+  .hero-subtitle {
+    margin-bottom: $spacing-lg;
+    color: color-mix(in srgb, #{$white} 80%, transparent);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+  }
+
+  .hero-highlights {
+    display: grid;
+    gap: $spacing-sm;
+    font-size: 0.85rem;
+    color: color-mix(in srgb, #{$white} 75%, transparent);
+
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .hero-highlight {
+    padding: 0.65rem 0.8rem;
+    border-radius: 0.9rem;
+    background: color-mix(in srgb, #{$black} 60%, transparent);
+    border: 1px solid color-mix(in srgb, #{$white} 10%, transparent);
+  }
+
+  .hero-highlight__label {
+    display: block;
+    font-weight: 600;
+    color: $white;
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-highlight__value {
+    display: block;
+    font-size: 0.8rem;
+  }
+
   .hero-video {
     position: absolute;
     top: 0;
@@ -160,6 +237,13 @@
       display: flex;
       justify-content: center;
       pointer-events: none;
+    }
+
+    .hero-copy h1 {
+      display: block;
+      opacity: 1;
+      margin-bottom: $spacing-md;
+      font-size: clamp(2rem, 4vw, 2.75rem);
     }
 
     .hero-media {
