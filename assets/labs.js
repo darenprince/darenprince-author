@@ -712,11 +712,24 @@ const hydrateNounIcons = () => {
 const renderSignalChart = (values = []) => {
   const bars = values.length ? values : [18, 24, 30, 28, 36, 42, 38]
   const max = Math.max(...bars, 1)
+  const min = Math.min(...bars)
+  const avg = Math.round(bars.reduce((sum, val) => sum + val, 0) / bars.length)
   return `
-    <div class="signal-chart" role="img" aria-label="Revenue signal trend">
+    <div class="signal-chart" role="img" aria-label="Revenue signal trend with values ${bars.join(', ')}">
       ${bars
-        .map((val) => `<span style="height:${Math.max(18, (val / max) * 100)}%"></span>`)
+        .map(
+          (val) => `
+            <span style="height:${Math.max(18, (val / max) * 100)}%" data-value="${val}">
+              <em>${val}</em>
+            </span>
+          `
+        )
         .join('')}
+    </div>
+    <div class="signal-chart-meta">
+      <span>Low <strong>${min}</strong></span>
+      <span>Avg <strong>${avg}</strong></span>
+      <span>High <strong>${max}</strong></span>
     </div>
   `
 }
@@ -875,7 +888,7 @@ const renderProducts = () => {
             <div>
               <h3>${product.name}</h3>
               <div class="product-tags">
-                <span class="tag status-badge">${product.status}</span>
+                <span class="tag status-badge" data-status="${product.status}">${product.status}</span>
                 ${categoryPills.map((pill) => `<span class="tag">${pill}</span>`).join('')}
               </div>
             </div>
@@ -964,7 +977,7 @@ const renderFrameworks = () => {
         <div class="card-header">
           ${iconMarkup('framework')}
           <div class="product-tags">
-            <span class="tag status-badge">${framework.status}</span>
+            <span class="tag status-badge" data-status="${framework.status}">${framework.status}</span>
           </div>
         </div>
         <h3>${framework.name}</h3>
@@ -1000,7 +1013,7 @@ const renderBooks = () => {
           <div class="card-header">
             ${iconMarkup('book')}
             <div class="product-tags">
-              <span class="tag">${book.status}</span>
+              <span class="tag status-badge" data-status="${book.status}">${book.status}</span>
             </div>
           </div>
           <h3>${book.name}</h3>
@@ -1028,7 +1041,7 @@ const renderStatusTable = () => {
     .map(
       (status) => `
         <tr>
-          <th scope="row">${status.name}</th>
+          <th scope="row"><span class="status-badge status-badge--table" data-status="${status.name}">${status.name}</span></th>
           <td>${status.meaning}</td>
           <td>${status.nextGate}</td>
         </tr>
@@ -1118,7 +1131,7 @@ const renderProductModal = (product) => {
     <div class="product-modal__grid">
       <div class="product-modal__summary">
         <div class="product-tags">
-          <span class="tag status-badge">${product.status}</span>
+          <span class="tag status-badge" data-status="${product.status}">${product.status}</span>
           <span class="tag">${product.categoryLabel}</span>
         </div>
         <p>${product.tagline}</p>
