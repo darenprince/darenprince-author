@@ -577,21 +577,35 @@ const portfolioData = {
       bullets: ['Boundary clarity', 'Reset scripts', 'Momentum cues'],
     },
   ],
+  // Cover paths to drop in if needed:
+  // assets/images/unshakeable-cover.png
+  // assets/images/couples-connection-playground-cover.png
   books: [
     {
       name: 'Game On! Master the Conversation & Win Her Heart',
       status: 'Published',
       description: 'Published title anchored in Game On principles and conversational clarity.',
+      cover: 'assets/images/game-on-main-cover.png',
+      actionLabel: 'Buy book',
+      actionHref: 'book.html',
     },
     {
       name: 'Unshakeable',
       status: 'In progress',
       description: 'In-progress manuscript focused on resilience and steadiness under pressure.',
+      cover: '',
+      actionLabel: 'Get updates',
+      actionType: 'modal',
+      actionTab: 'beta',
     },
     {
       name: 'Couples Connection Playground',
       status: 'Concept',
       description: 'Paid upsell concept under Game On, focused on interactive connection tools.',
+      cover: '',
+      actionLabel: 'Join waitlist',
+      actionType: 'modal',
+      actionTab: 'beta',
     },
   ],
   statuses: [
@@ -657,9 +671,15 @@ const dom = {
   booksGrid: document.getElementById('books-grid'),
   statusTable: document.getElementById('status-table'),
   modal: document.getElementById('beta-modal'),
+  productModal: document.getElementById('product-modal'),
+  productModalBody: document.getElementById('product-modal-body'),
+  productModalTitle: document.getElementById('product-modal-title'),
   intakeForm: document.getElementById('intake-form'),
   formSuccess: document.getElementById('form-success'),
   formNote: document.getElementById('form-note'),
+  roleField: document.getElementById('role-field'),
+  tabButtons: document.querySelectorAll('.tab-btn'),
+  tabPanels: document.querySelectorAll('.tab-panel'),
   themeToggle: document.getElementById('theme-toggle'),
   navToggle: document.querySelector('.nav-toggle'),
   navLinks: document.getElementById('primary-navigation'),
@@ -672,6 +692,14 @@ const formatCount = (value, label, icon) => ({ value, label, icon })
 const iconMarkup = (icon) =>
   nounIcons[icon] ? `<span class="noun-icon" aria-hidden="true">${nounIcons[icon]}</span>` : ''
 
+const getInitials = (name = '') =>
+  name
+    .split(' ')
+    .map((word) => word[0])
+    .join('')
+    .slice(0, 3)
+    .toUpperCase()
+
 const hydrateNounIcons = () => {
   document.querySelectorAll('[data-icon]').forEach((el) => {
     const iconName = el.dataset.icon
@@ -681,16 +709,23 @@ const hydrateNounIcons = () => {
   })
 }
 
-const renderSparkline = (values = []) => {
-  const max = Math.max(...values, 1)
+const renderSignalChart = (values = []) => {
+  const bars = values.length ? values : [18, 24, 30, 28, 36, 42, 38]
+  const max = Math.max(...bars, 1)
   return `
-    <div class="sparkline" role="img" aria-label="Growth trend">
-      ${values
+    <div class="signal-chart" role="img" aria-label="Revenue signal trend">
+      ${bars
         .map((val) => `<span style="height:${Math.max(18, (val / max) * 100)}%"></span>`)
         .join('')}
     </div>
   `
 }
+
+const renderInfographicBars = (heights = [30, 48, 42, 66, 55, 70]) => `
+  <div class="infographic-placeholder" aria-hidden="true">
+    ${heights.map((height) => `<span style="height:${height}%"></span>`).join('')}
+  </div>
+`
 
 const renderHeroStats = () => {
   const total = portfolioData.products.length
@@ -698,6 +733,7 @@ const renderHeroStats = () => {
     ['Beta', 'Stage 1 Beta'].includes(item.status)
   ).length
   const concepts = portfolioData.products.filter((item) => item.status === 'Concept').length
+  const heroProduct = portfolioData.products.find((item) => item.status === 'Stage 1 Beta')
   const stats = [
     formatCount(total, 'Total products', 'grid'),
     formatCount(beta, 'Active beta builds', 'bolt'),
@@ -717,10 +753,20 @@ const renderHeroStats = () => {
     .join('')
 
   dom.heroCard.innerHTML = `
-    <div class="eyebrow">Applied intelligence</div>
-    <h3>Most ready: ${portfolioData.products.find((item) => item.status === 'Stage 1 Beta')?.name || 'TBD'}</h3>
-    <p class="lede">Systems that see, think, and respond — grounded in clarity, control, and leverage.</p>
-    <div class="detail-box">
+    <div class="hero-insight__header">
+      <span class="eyebrow">Applied intelligence</span>
+      <span class="badge">Most ready</span>
+    </div>
+    <h3>${heroProduct?.name || 'CrownCode Intelligence Suite'}</h3>
+    <p class="lede">CrownCode Intelligence Suite is the most-ready system in the portfolio right now.</p>
+    ${renderInfographicBars([28, 40, 55, 62, 48, 70])}
+    <span class="infographic-caption">Readiness signal (portfolio-weighted)</span>
+    <div class="hero-metrics">
+      <span class="metric-chip">Stage: ${heroProduct?.status || 'Stage 1 Beta'}</span>
+      <span class="metric-chip">Focus: ${heroProduct?.categoryLabel || 'Forensics / Analytics'}</span>
+      <span class="metric-chip">Next gate: ${heroProduct?.statusDetail || 'Round 1 testers'}</span>
+    </div>
+    <div class="hero-callout">
       <strong>Portfolio logic</strong>
       <p>Most ready first, then most strategic. Each product lists the single gate to advance.</p>
     </div>
@@ -782,7 +828,6 @@ const renderProducts = () => {
 
   dom.productGrid.innerHTML = filtered
     .map((product) => {
-      const accordionId = `${product.id}-details`
       const metrics = (product.metrics || [])
         .map(
           (metric) => `
@@ -796,6 +841,11 @@ const renderProducts = () => {
           `
         )
         .join('')
+      const initials = getInitials(product.name)
+      const mediaSrc = product.media || `assets/brand/products/${product.id}-hero.png`
+      const categoryPills = Array.from(
+        new Set([product.categoryLabel, product.category].filter(Boolean))
+      )
       const readinessMarkup =
         typeof product.readiness === 'number'
           ? `
@@ -812,7 +862,7 @@ const renderProducts = () => {
           : ''
 
       return `
-        <article class="product-card" data-status="${product.status}" data-category="${product.category}">
+        <article class="product-card" data-status="${product.status}" data-category="${product.category}" data-product-id="${product.id}">
           <div class="product-header">
             <div class="product-icon" data-fallback="${product.name}">
               <img src="assets/brand/products/${product.id}.png" alt="${product.name} icon" loading="lazy">
@@ -826,18 +876,25 @@ const renderProducts = () => {
               <h3>${product.name}</h3>
               <div class="product-tags">
                 <span class="tag status-badge">${product.status}</span>
-                <span class="tag">${product.categoryLabel}</span>
+                ${categoryPills.map((pill) => `<span class="tag">${pill}</span>`).join('')}
               </div>
             </div>
           </div>
+          <div class="card-media" data-fallback="${initials}">
+            <img src="${mediaSrc}" alt="${product.name} preview" loading="lazy">
+            <div class="media-placeholder">${initials}</div>
+          </div>
           <p class="one-liner">${product.oneLiner}</p>
-          <div class="finance-row">
-            <div class="finance-meta">
+          <div class="signal-panel">
+            <div class="signal-label">
               <span>Revenue signal</span>
+              ${iconMarkup('framework')}
+            </div>
+            <div class="signal-meta">
               <strong>${product.value}</strong>
               <small>${product.growthLabel}</small>
             </div>
-            ${renderSparkline(product.growth || [])}
+            ${renderSignalChart(product.growth || [])}
           </div>
           <div class="product-metrics">
             ${metrics}
@@ -846,41 +903,9 @@ const renderProducts = () => {
           <ul>
             ${product.bullets.map((item) => `<li>${item}</li>`).join('')}
           </ul>
-          <button class="ghost-btn" type="button" data-accordion="${accordionId}" aria-expanded="false" aria-controls="${accordionId}">
-            Open details
-          </button>
-          <div class="accordion" id="${accordionId}">
-            <div class="detail-grid">
-              <div>
-                <h4>What it is</h4>
-                ${product.whatItIs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
-              </div>
-              <div>
-                <h4>Who it’s for</h4>
-                <ul>
-                  ${product.whoFor.map((item) => `<li>${item}</li>`).join('')}
-                </ul>
-              </div>
-              <div>
-                <h4>Core capabilities</h4>
-                <ul>
-                  ${product.capabilities.map((item) => `<li>${item}</li>`).join('')}
-                </ul>
-              </div>
-              <div class="detail-box">
-                <h4>What it is NOT</h4>
-                <ul>
-                  ${product.not.map((item) => `<li>${item}</li>`).join('')}
-                </ul>
-              </div>
-              <div class="detail-box">
-                <h4>Current status</h4>
-                <p><strong>${product.status}</strong> — ${product.statusDetail}</p>
-                <p><strong>Next gate:</strong> ${product.nextGate}</p>
-                <p><strong>Monetization:</strong> ${product.monetization}</p>
-                <p><strong>Revenue signal:</strong> ${product.value} <span class="muted">(${product.growthLabel})</span></p>
-              </div>
-            </div>
+          <div class="product-footer">
+            <span class="muted">Next gate: ${product.nextGate}</span>
+            <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">View brief</button>
           </div>
         </article>
       `
@@ -891,20 +916,42 @@ const renderProducts = () => {
     dom.productGrid.innerHTML = '<p>No products match the current filters.</p>'
   }
 
-  document.querySelectorAll('[data-accordion]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const target = document.getElementById(button.dataset.accordion)
-      const isOpen = target.classList.contains('is-open')
-      target.classList.toggle('is-open')
-      button.setAttribute('aria-expanded', String(!isOpen))
-      button.textContent = isOpen ? 'Open details' : 'Close details'
-    })
-  })
-
   document.querySelectorAll('.product-icon img').forEach((img) => {
     img.addEventListener('error', () => {
       const parent = img.closest('.product-icon')
       parent.classList.add('is-fallback')
+    })
+  })
+
+  document.querySelectorAll('.card-media img').forEach((img) => {
+    img.addEventListener('error', () => {
+      const parent = img.closest('.card-media')
+      if (parent) {
+        parent.classList.add('is-fallback')
+      }
+    })
+  })
+
+  document.querySelectorAll('.product-card').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      const target = event.target
+      if (target.closest('[data-open-product]')) {
+        return
+      }
+      const productId = card.dataset.productId
+      if (productId) {
+        openProductModal(productId)
+      }
+    })
+  })
+
+  document.querySelectorAll('[data-open-product]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation()
+      const productId = button.dataset.openProduct
+      if (productId) {
+        openProductModal(productId)
+      }
     })
   })
 }
@@ -933,21 +980,47 @@ const renderFrameworks = () => {
 
 const renderBooks = () => {
   dom.booksGrid.innerHTML = portfolioData.books
-    .map(
-      (book) => `
+    .map((book) => {
+      const initials = getInitials(book.name)
+      const coverMarkup = `
+          ${book.cover ? `<img src="${book.cover}" alt="${book.name} cover" loading="lazy">` : ''}
+          <div class="cover-placeholder"><strong>${initials}</strong><small>Cover pending</small></div>
+        `
+      const actionMarkup = book.actionLabel
+        ? book.actionType === 'modal'
+          ? `<button class="ghost-btn ghost-btn--small" type="button" data-open-modal data-modal-tab="${book.actionTab || 'beta'}" data-interest="${book.name}">${book.actionLabel}</button>`
+          : `<a class="ghost-btn ghost-btn--small" href="${book.actionHref || '#'}">${book.actionLabel}</a>`
+        : ''
+      return `
       <div class="book-card">
-        <div class="card-header">
-          ${iconMarkup('book')}
-          <div class="product-tags">
-            <span class="tag">${book.status}</span>
-          </div>
+        <div class="book-cover ${book.cover ? 'has-cover' : 'is-fallback'}">
+          ${coverMarkup}
         </div>
-        <h3>${book.name}</h3>
-        <p>${book.description}</p>
+        <div class="book-meta">
+          <div class="card-header">
+            ${iconMarkup('book')}
+            <div class="product-tags">
+              <span class="tag">${book.status}</span>
+            </div>
+          </div>
+          <h3>${book.name}</h3>
+          <p>${book.description}</p>
+          <div class="book-actions">${actionMarkup}</div>
+        </div>
       </div>
     `
-    )
+    })
     .join('')
+
+  document.querySelectorAll('.book-cover img').forEach((img) => {
+    img.addEventListener('error', () => {
+      const parent = img.closest('.book-cover')
+      if (parent) {
+        parent.classList.remove('has-cover')
+        parent.classList.add('is-fallback')
+      }
+    })
+  })
 }
 
 const renderStatusTable = () => {
@@ -964,43 +1037,180 @@ const renderStatusTable = () => {
     .join('')
 }
 
+const tabLabels = {
+  beta: 'Beta Tester',
+  developer: 'Developer',
+  partner: 'Partner / Investor',
+}
+
+const setActiveTab = (tabId = 'beta') => {
+  dom.tabButtons.forEach((button) => {
+    const isActive = button.dataset.tab === tabId
+    button.classList.toggle('is-active', isActive)
+    button.setAttribute('aria-selected', String(isActive))
+  })
+  dom.tabPanels.forEach((panel) => {
+    panel.classList.toggle('is-active', panel.id === `tab-${tabId}`)
+  })
+  if (dom.roleField) {
+    dom.roleField.value = tabLabels[tabId] || 'Beta Tester'
+  }
+}
+
+const resetIntakeForm = () => {
+  dom.intakeForm.reset()
+  dom.intakeForm.hidden = false
+  dom.formSuccess.hidden = true
+  dom.formNote.textContent = ''
+  setActiveTab('beta')
+}
+
+const openModal = (modal) => {
+  if (!modal) return
+  modal.classList.add('is-open')
+  modal.setAttribute('aria-hidden', 'false')
+  const firstInput = modal.querySelector('input, select, textarea, button')
+  if (firstInput) {
+    firstInput.focus()
+  }
+}
+
+const closeModal = (modal) => {
+  if (!modal) return
+  modal.classList.remove('is-open')
+  modal.setAttribute('aria-hidden', 'true')
+  if (modal === dom.modal) {
+    resetIntakeForm()
+  }
+}
+
+const openBetaModal = (tabId = 'beta', interest = '') => {
+  resetIntakeForm()
+  setActiveTab(tabId)
+  if (interest) {
+    const interestInputs = dom.intakeForm.querySelectorAll('input[name="interests"]')
+    interestInputs.forEach((input) => {
+      if (input.value.toLowerCase() === interest.toLowerCase()) {
+        input.checked = true
+      }
+    })
+  }
+  openModal(dom.modal)
+}
+
+const renderProductModal = (product) => {
+  const readinessMarkup =
+    typeof product.readiness === 'number'
+      ? `
+        <div class="readiness">
+          <div class="readiness-header">
+            <span>Readiness score</span>
+            <strong>${product.readiness}%</strong>
+          </div>
+          <div class="readiness-bar" role="progressbar" aria-valuenow="${product.readiness}" aria-valuemin="0" aria-valuemax="100">
+            <span style="width:${product.readiness}%"></span>
+          </div>
+        </div>
+      `
+      : ''
+
+  return `
+    <div class="product-modal__grid">
+      <div class="product-modal__summary">
+        <div class="product-tags">
+          <span class="tag status-badge">${product.status}</span>
+          <span class="tag">${product.categoryLabel}</span>
+        </div>
+        <p>${product.tagline}</p>
+        <div class="signal-panel">
+          <div class="signal-label">
+            <span>Revenue signal</span>
+            ${iconMarkup('framework')}
+          </div>
+          <div class="signal-meta">
+            <strong>${product.value}</strong>
+            <small>${product.growthLabel}</small>
+          </div>
+          ${renderSignalChart(product.growth || [])}
+        </div>
+        ${readinessMarkup}
+      </div>
+      <div class="detail-grid">
+        <div>
+          <h4>What it is</h4>
+          ${product.whatItIs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+        </div>
+        <div>
+          <h4>Who it’s for</h4>
+          <ul>
+            ${product.whoFor.map((item) => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+        <div>
+          <h4>Core capabilities</h4>
+          <ul>
+            ${product.capabilities.map((item) => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="detail-box">
+          <h4>What it is NOT</h4>
+          <ul>
+            ${product.not.map((item) => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="detail-box">
+          <h4>Current status</h4>
+          <p><strong>${product.status}</strong> — ${product.statusDetail}</p>
+          <p><strong>Next gate:</strong> ${product.nextGate}</p>
+          <p><strong>Monetization:</strong> ${product.monetization}</p>
+          <p><strong>Revenue signal:</strong> ${product.value} <span class="muted">(${product.growthLabel})</span></p>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+const openProductModal = (productId) => {
+  const product = portfolioData.products.find((item) => item.id === productId)
+  if (!product || !dom.productModal) return
+  dom.productModalTitle.textContent = product.name
+  dom.productModalBody.innerHTML = renderProductModal(product)
+  openModal(dom.productModal)
+}
+
 const attachFilters = () => {
   ;[dom.statusFilter, dom.categoryFilter, dom.searchInput, dom.sortFilter].forEach((el) => {
     el.addEventListener('input', renderProducts)
   })
 }
 
-const openModal = () => {
-  dom.modal.classList.add('is-open')
-  dom.modal.setAttribute('aria-hidden', 'false')
-  const firstInput = dom.modal.querySelector('input, select, textarea, button')
-  if (firstInput) {
-    firstInput.focus()
-  }
-}
-
-const closeModal = () => {
-  dom.modal.classList.remove('is-open')
-  dom.modal.setAttribute('aria-hidden', 'true')
-  dom.intakeForm.reset()
-  dom.intakeForm.hidden = false
-  dom.formSuccess.hidden = true
-  dom.formNote.textContent = ''
-}
-
 const setupModal = () => {
-  document.querySelectorAll('[aria-controls="beta-modal"]').forEach((button) => {
-    button.addEventListener('click', openModal)
+  document.querySelectorAll('[data-open-modal]').forEach((button) => {
+    button.addEventListener('click', () => {
+      openBetaModal(button.dataset.modalTab || 'beta', button.dataset.interest || '')
+    })
   })
 
-  dom.modal.querySelectorAll('[data-close-modal]').forEach((button) => {
-    button.addEventListener('click', closeModal)
+  document.querySelectorAll('[data-close-modal]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal')
+      closeModal(modal)
+    })
   })
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && dom.modal.classList.contains('is-open')) {
-      closeModal()
+    if (event.key === 'Escape') {
+      const openModalEl = document.querySelector('.modal.is-open')
+      if (openModalEl) {
+        closeModal(openModalEl)
+      }
     }
+  })
+
+  dom.tabButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      setActiveTab(button.dataset.tab)
+    })
   })
 
   dom.intakeForm.addEventListener('submit', (event) => {
@@ -1013,6 +1223,8 @@ const setupModal = () => {
     dom.intakeForm.hidden = true
     dom.formSuccess.hidden = false
   })
+
+  setActiveTab('beta')
 }
 
 const setupThemeToggle = () => {
