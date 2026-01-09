@@ -711,8 +711,8 @@ const dom = {
   tabButtons: document.querySelectorAll('.tab-btn'),
   tabPanels: document.querySelectorAll('.tab-panel'),
   themeToggle: document.getElementById('theme-toggle'),
-  navToggle: document.querySelector('.nav-toggle'),
-  navLinks: document.getElementById('primary-navigation'),
+  megaMenu: document.getElementById('mega-menu'),
+  megaToggles: document.querySelectorAll('[data-mega-toggle]'),
   filterToggle: document.getElementById('filter-toggle'),
   filterPanel: document.getElementById('filter-panel'),
   pagePreloader: document.getElementById('page-preloader'),
@@ -1405,10 +1405,24 @@ const setupThemeToggle = () => {
 }
 
 const setupNav = () => {
-  if (!dom.navToggle) return
-  dom.navToggle.addEventListener('click', () => {
-    const isOpen = dom.navLinks.classList.toggle('is-open')
-    dom.navToggle.setAttribute('aria-expanded', String(isOpen))
+  if (!dom.megaMenu || dom.megaToggles.length === 0) return
+  const toggleMenu = () => {
+    const isOpen = dom.megaMenu.classList.toggle('is-open')
+    dom.megaToggles.forEach((toggle) => toggle.setAttribute('aria-expanded', String(isOpen)))
+  }
+
+  dom.megaToggles.forEach((toggle) => {
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation()
+      toggleMenu()
+    })
+  })
+
+  document.addEventListener('click', (event) => {
+    if (!dom.megaMenu.classList.contains('is-open')) return
+    if (dom.megaMenu.contains(event.target)) return
+    dom.megaMenu.classList.remove('is-open')
+    dom.megaToggles.forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'))
   })
 }
 

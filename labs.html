@@ -27,19 +27,18 @@
   </div>
   <header class="top-nav" aria-label="Crown Labs navigation">
     <div class="nav-main">
-      <a href="labs.html" class="nav-logo-link" aria-label="Crown Labs home">
-        <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
-      </a>
-      <nav class="nav-links" id="primary-navigation" aria-label="Section navigation">
-        <a href="#overview"><i class="ph ph-compass icon-inline" aria-hidden="true"></i>Overview</a>
-        <a href="#portfolio"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Portfolio</a>
-        <a href="#frameworks"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</a>
-        <a href="#books"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books &amp; IP</a>
-        <a href="#status"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status</a>
-        <a href="#financials"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Financials</a>
-        <a href="#ethics"><i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>Ethics</a>
-        <a href="#contact" class="nav-extra"><i class="ph ph-chat-circle-text icon-inline" aria-hidden="true"></i>Contact</a>
-      </nav>
+      <div class="nav-brand">
+        <button class="mega-toggle" type="button" data-mega-toggle aria-expanded="false" aria-controls="mega-menu-panel">
+          <span class="mega-logo">
+            <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="nav-logo" />
+          </span>
+          <span class="mega-brand">
+            <span class="mega-title">Crown Labs</span>
+            <span class="mega-subtitle">Applied intelligence studio</span>
+          </span>
+          <span class="mega-icon" aria-hidden="true"><i class="ph ph-sparkle icon-inline"></i></span>
+        </button>
+      </div>
       <div class="nav-actions">
         <button class="nav-link-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
         <button class="ghost-btn" id="theme-toggle" type="button" aria-pressed="false">Light mode</button>
@@ -51,23 +50,92 @@
           Apply: Dev / Beta Tester
         </button>
       </div>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <button class="nav-toggle" type="button" data-mega-toggle aria-label="Toggle navigation" aria-expanded="false" aria-controls="mega-menu-panel">
         <i class="ph ph-list icon-inline" aria-hidden="true"></i>
       </button>
     </div>
-    <div class="nav-toolbar" role="toolbar" aria-label="Crown Labs toolbar">
-      <div class="toolbar-group">
-        <span class="toolbar-label">Lab console</span>
-        <a class="toolbar-chip" href="#portfolio"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i>Portfolio</a>
-        <a class="toolbar-chip" href="#frameworks"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i>Frameworks</a>
-        <a class="toolbar-chip" href="#books"><i class="ph ph-book icon-inline" aria-hidden="true"></i>Books</a>
-      </div>
-      <div class="toolbar-group">
-        <a class="toolbar-chip toolbar-chip--ghost" href="#status"><i class="ph ph-activity icon-inline" aria-hidden="true"></i>Status</a>
-        <a class="toolbar-chip toolbar-chip--ghost" href="#financials"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i>Investor</a>
-        <button class="toolbar-chip toolbar-chip--accent" type="button" data-open-modal data-modal-tab="beta">
-          <i class="ph ph-sparkle icon-inline" aria-hidden="true"></i>Request access
-        </button>
+    <div class="mega-menu" id="mega-menu">
+      <div class="mega-menu-panel" id="mega-menu-panel" aria-label="Crown Labs mega menu">
+        <div class="mega-section">
+          <div class="mega-section-header">
+            <i class="ph ph-compass icon-inline" aria-hidden="true"></i>
+            <span>Explore the Lab</span>
+          </div>
+          <a class="mega-link" href="#overview">
+            <span class="mega-link-icon"><i class="ph ph-compass icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Overview</span>
+              <span class="mega-link-subtitle">Mission, philosophy, and the Lab standard.</span>
+            </span>
+          </a>
+          <a class="mega-link" href="#portfolio">
+            <span class="mega-link-icon"><i class="ph ph-squares-four icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Portfolio</span>
+              <span class="mega-link-subtitle">See what ships now and what’s next.</span>
+            </span>
+          </a>
+          <a class="mega-link" href="#frameworks">
+            <span class="mega-link-icon"><i class="ph ph-tree-structure icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Frameworks</span>
+              <span class="mega-link-subtitle">The systems intelligence behind each build.</span>
+            </span>
+          </a>
+        </div>
+        <div class="mega-section">
+          <div class="mega-section-header">
+            <i class="ph ph-book icon-inline" aria-hidden="true"></i>
+            <span>Knowledge &amp; IP</span>
+          </div>
+          <a class="mega-link" href="#books">
+            <span class="mega-link-icon"><i class="ph ph-book-open-text icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Books &amp; IP</span>
+              <span class="mega-link-subtitle">Published insight and upcoming releases.</span>
+            </span>
+          </a>
+          <a class="mega-link" href="#status">
+            <span class="mega-link-icon"><i class="ph ph-activity icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Live status</span>
+              <span class="mega-link-subtitle">Truth-labeled readiness updates.</span>
+            </span>
+          </a>
+          <a class="mega-link" href="#financials">
+            <span class="mega-link-icon"><i class="ph ph-chart-line-up icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Financials</span>
+              <span class="mega-link-subtitle">Progress metrics for aligned partners.</span>
+            </span>
+          </a>
+        </div>
+        <div class="mega-section">
+          <div class="mega-section-header">
+            <i class="ph ph-shield-check icon-inline" aria-hidden="true"></i>
+            <span>Ethics &amp; Access</span>
+          </div>
+          <a class="mega-link" href="#ethics">
+            <span class="mega-link-icon"><i class="ph ph-shield-check icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Ethics</span>
+              <span class="mega-link-subtitle">Privacy-first, human-centered guardrails.</span>
+            </span>
+          </a>
+          <a class="mega-link" href="#contact">
+            <span class="mega-link-icon"><i class="ph ph-chat-circle-text icon-inline" aria-hidden="true"></i></span>
+            <span class="mega-link-text">
+              <span class="mega-link-title">Contact</span>
+              <span class="mega-link-subtitle">Start a conversation with the Lab.</span>
+            </span>
+          </a>
+          <div class="mega-cta">
+            <p>Early access is selective. Apply if you build with intent.</p>
+            <button class="cta-btn" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
+              Apply: Dev / Beta Tester
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
