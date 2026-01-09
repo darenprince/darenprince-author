@@ -882,6 +882,14 @@ const animateCounts = (container = document) => {
   })
 }
 
+const resetCounts = (container = document) => {
+  container.querySelectorAll('[data-count]').forEach((el) => {
+    const suffix = el.dataset.suffix || ''
+    const prefix = el.dataset.prefix || ''
+    el.textContent = `${prefix}0${suffix}`
+  })
+}
+
 let revealObserver
 
 const setupRevealAnimations = () => {
@@ -894,7 +902,13 @@ const setupRevealAnimations = () => {
   revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting)
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          animateCounts(entry.target)
+        } else {
+          entry.target.classList.remove('is-visible')
+          resetCounts(entry.target)
+        }
       })
     },
     { threshold: 0.12 }

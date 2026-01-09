@@ -302,8 +302,8 @@ body:not(.brand-exempt) a:is(.btn, .btn-b, [class*='btn--']):focus {
 }
 
 .padding-y-xl {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 2.75rem;
+  padding-bottom: 2.75rem;
 }
 
 .margin-bottom-sm {
@@ -6303,18 +6303,18 @@ input:checked + .toggle-slider::before {
 }
 .book-toolbar {
   position: fixed;
-  left: 4px;
+  left: 0;
   top: 50%;
   z-index: 3;
   opacity: 0;
-  transform: translate(-120%, -50%);
+  transform: translate(-110%, -50%);
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
 }
 .book-toolbar.visible {
   opacity: 1;
-  transform: translateY(-50%);
+  transform: translate(0, -50%);
 }
 
 @media (min-width: 768px) {
@@ -6986,10 +6986,30 @@ input:checked + .toggle-slider::before {
 }
 
 .book-section {
-  margin-top: 3rem;
+  margin-top: 2.75rem;
 }
 .book-section .book-block + .book-block {
-  margin-top: 3rem;
+  margin-top: 2.75rem;
+}
+
+.book-primary-layout {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.book-primary-layout .book-experience {
+  display: flex;
+  justify-content: center;
+}
+@media (min-width: 1024px) {
+  .book-primary-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    gap: 2.75rem;
+    align-items: start;
+  }
+  .book-primary-layout .book-experience {
+    justify-content: flex-start;
+  }
 }
 
 .book-preview {
@@ -7021,6 +7041,11 @@ input:checked + .toggle-slider::before {
 @media (min-width: 768px) {
   .purchase-box {
     max-width: 260px;
+  }
+}
+@media (min-width: 1024px) {
+  .purchase-box {
+    max-width: 320px;
   }
 }
 .purchase-box .buy-controls {

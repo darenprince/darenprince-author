@@ -511,18 +511,24 @@ body.theme-light .mega-logo {
 .hero-text h1 {
   font-size: clamp(2.5rem, 4vw, 4rem);
   margin: 0 0 0.6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
   font-size: 1.1rem;
   color: var(--muted);
   max-width: 520px;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
 .hero-lede {
   margin: 0.8rem 0 0;
   color: var(--muted);
   max-width: 560px;
+  line-height: 1.7;
 }
 
 .hero-lede--strong {
@@ -861,6 +867,26 @@ body.theme-light .mega-logo {
 .lede {
   color: var(--muted);
   max-width: 720px;
+}
+
+.tone-panel {
+  background: linear-gradient(120deg, rgba(120, 115, 245, 0.12), rgba(12, 20, 32, 0));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.7rem 0.95rem;
+  border-radius: 12px;
+}
+
+.tone-list li {
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+}
+
+.tone-list li:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tone-list li:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .muted {
