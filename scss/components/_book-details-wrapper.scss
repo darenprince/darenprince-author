@@ -3,10 +3,31 @@
 @use '../base/mixins' as *;
 
 .book-section {
-  margin-top: $spacing-xl;
+  margin-top: $spacing-xl - 0.25rem;
 
   .book-block + .book-block {
-    margin-top: $spacing-xl;
+    margin-top: $spacing-xl - 0.25rem;
+  }
+}
+
+.book-primary-layout {
+  display: grid;
+  gap: $spacing-lg;
+  align-items: center;
+
+  .book-experience {
+    display: flex;
+    justify-content: center;
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    gap: $spacing-xl;
+    align-items: start;
+
+    .book-experience {
+      justify-content: flex-start;
+    }
   }
 }
 
@@ -39,6 +60,10 @@
 
   @include respond-to(md) {
     max-width: 260px;
+  }
+
+  @include respond-to(lg) {
+    max-width: 320px;
   }
 
   .buy-controls {
