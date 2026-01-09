@@ -491,15 +491,10 @@
 
         <!-- 2. Get the Book Section -->
         <section id="book-viewer" class="book-section">
-          <div class="book-experience">
-            <!-- Book control toolbar -->
-            <nav class="book-toolbar book-rail visible" aria-label="Book controls">
-                  <span class="book-rail__badge" aria-hidden="true">
-                    <svg class="book-rail__badge-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="12" cy="12" r="8" />
-                      <line x1="16" y1="16" x2="21" y2="21" />
-                    </svg>
-                  </span>
+          <div class="book-block container max-width-adaptive-lg book-primary-layout">
+            <div class="book-experience">
+              <!-- Book control toolbar -->
+              <nav class="book-toolbar book-rail" aria-label="Book controls">
                   <ul class="book-rail__list">
                     <li class="book-rail__item">
                       <button
@@ -643,56 +638,55 @@
                       <polyline points="18 17 13 12 18 7" />
                     </svg>
                   </button>
-            </nav>
-            <div class="book-3d-container">
-              <div id="book-3d-viewer" class="book-3d-viewer">
-                    <div class="book-loader"></div>
-                    <div class="rotate-hint" aria-hidden="true">
-                      <img src="/assets/images/360rotate.png" alt="" />
-                    </div>
-                    <div class="scene">
-                      <div class="book" id="book">
-                        <div class="face front"></div>
-                        <div class="face back"></div>
-                        <div class="face spine"></div>
-                        <div class="face pages"></div>
-                        <div class="face top"></div>
-                        <div class="face bottom"></div>
+              </nav>
+              <div class="book-3d-container">
+                <div id="book-3d-viewer" class="book-3d-viewer">
+                      <div class="book-loader"></div>
+                      <div class="rotate-hint" aria-hidden="true">
+                        <img src="/assets/images/360rotate.png" alt="" />
                       </div>
-                      <div class="shadow"></div>
-                    </div>
+                      <div class="scene">
+                        <div class="book" id="book">
+                          <div class="face front"></div>
+                          <div class="face back"></div>
+                          <div class="face spine"></div>
+                          <div class="face pages"></div>
+                          <div class="face top"></div>
+                          <div class="face bottom"></div>
+                        </div>
+                        <div class="shadow"></div>
+                      </div>
+                </div>
+                <button
+                  class="book-3d-close"
+                  id="book-close"
+                  aria-label="Close expanded view"
+                  hidden
+                >
+                  &times;
+                </button>
               </div>
-              <button
-                class="book-3d-close"
-                id="book-close"
-                aria-label="Close expanded view"
-                hidden
-              >
-                &times;
-              </button>
-            </div>
-            <div class="cover-zoom-modal" id="cover-zoom" hidden>
-              <div class="cover-zoom-content">
-                <button class="close-btn" id="close-cover-zoom"><i class="ph ph-x"></i></button>
-                <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover" />
-                <div class="thumbnails">
-                  <img
-                    src="/assets/images/book-front.jpg"
-                    data-full="/assets/images/book-front.jpg"
-                    class="active"
-                    alt="Front cover"
-                  />
-                  <img
-                    src="/assets/images/book-back.jpg"
-                    data-full="/assets/images/book-back.jpg"
-                    alt="Back cover"
-                  />
+              <div class="cover-zoom-modal" id="cover-zoom" hidden>
+                <div class="cover-zoom-content">
+                  <button class="close-btn" id="close-cover-zoom"><i class="ph ph-x"></i></button>
+                  <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover" />
+                  <div class="thumbnails">
+                    <img
+                      src="/assets/images/book-front.jpg"
+                      data-full="/assets/images/book-front.jpg"
+                      class="active"
+                      alt="Front cover"
+                    />
+                    <img
+                      src="/assets/images/book-back.jpg"
+                      data-full="/assets/images/book-back.jpg"
+                      alt="Back cover"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="book-block container max-width-adaptive-lg">
             <div class="purchase-box" id="purchase-options">
               <div class="buy-controls">
                 <h3 class="step-header step-one styledh1">
@@ -1084,7 +1078,6 @@
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
-
 
 
 
