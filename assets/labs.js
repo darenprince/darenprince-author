@@ -841,7 +841,6 @@ const dom = {
   filterPanel: document.getElementById('filter-panel'),
   pagePreloader: document.getElementById('page-preloader'),
   signalChartTemplate: document.getElementById('signal-chart-template'),
-  infographicBarsTemplate: document.getElementById('infographic-bars-template'),
 }
 
 const formatCount = (value, label, icon) => ({ value, label, icon })
@@ -999,17 +998,6 @@ const renderSignalChart = (values = []) => {
   return chart.outerHTML
 }
 
-const renderInfographicBars = (heights = [30, 48, 42, 66, 55, 70]) => {
-  if (!dom.infographicBarsTemplate) {
-    return ''
-  }
-  const container = dom.infographicBarsTemplate.content.firstElementChild.cloneNode(true)
-  container.innerHTML = heights
-    .map((height, index) => `<span style="height:${height}%; --bar-index:${index};"></span>`)
-    .join('')
-  return container.outerHTML
-}
-
 const renderHeroStats = () => {
   const total = portfolioData.products.length
   const beta = portfolioData.products.filter((item) =>
@@ -1042,8 +1030,20 @@ const renderHeroStats = () => {
     </div>
     <h3>${heroProduct?.name || 'CrownCode Intelligence Suite'}</h3>
     <p class="lede">The flagship system leading the portfolio’s readiness curve.</p>
-    ${renderInfographicBars([28, 40, 55, 62, 48, 70])}
-    <span class="infographic-caption">Readiness signal (portfolio-weighted)</span>
+    <div class="hero-readiness">
+      <div>
+        <span class="eyebrow">Readiness</span>
+        <strong>${heroProduct?.status || 'Stage 1 Beta'}</strong>
+      </div>
+      <div>
+        <span class="eyebrow">Focus</span>
+        <strong>${heroProduct?.categoryLabel || 'Flagship Intelligence Platform'}</strong>
+      </div>
+      <div>
+        <span class="eyebrow">Next gate</span>
+        <strong>${heroProduct?.statusDetail || 'Stage 1 beta readiness'}</strong>
+      </div>
+    </div>
     <div class="hero-metrics">
       <span class="metric-chip">Stage: ${heroProduct?.status || 'Stage 1 Beta'}</span>
       <span class="metric-chip">Focus: ${heroProduct?.categoryLabel || 'Flagship Intelligence Platform'}</span>
