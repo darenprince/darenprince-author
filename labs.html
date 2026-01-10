@@ -40,7 +40,7 @@
         </button>
       </div>
       <div class="nav-actions">
-        <button class="nav-link-btn nav-link-btn--icon" type="button" data-open-modal data-modal-tab="beta">
+        <button class="nav-link-btn nav-link-btn--icon" type="button" data-open-notifications aria-haspopup="dialog" aria-controls="notifications-modal">
           <span class="nav-icon" aria-hidden="true"><i class="ph ph-bell icon-inline"></i></span>
           Get notifications
         </button>
@@ -504,7 +504,9 @@
           <i class="ph ph-x" aria-hidden="true"></i>
         </button>
       </div>
-      <form id="access-form" class="modal__form" novalidate>
+      <form id="access-form" class="modal__form" name="labs-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/labs.html" novalidate>
+        <input type="hidden" name="form-name" value="labs-access">
+        <input type="text" name="bot-field" hidden>
         <label>
           <span>Full name</span>
           <input type="text" name="name" autocomplete="name" required>
@@ -545,6 +547,66 @@
     </div>
   </div>
 
+  <div class="modal" id="notifications-modal" role="dialog" aria-modal="true" aria-labelledby="notifications-title" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content" role="document">
+      <div class="modal__header">
+        <div>
+          <p class="eyebrow">Crown Labs Signals</p>
+          <h2 id="notifications-title">Get notifications</h2>
+          <p class="modal-subtitle">Choose the updates you want to receive from Crown Labs.</p>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>
+          <i class="ph ph-x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <form id="notifications-form" class="modal__form" name="labs-notifications" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/labs.html" novalidate>
+        <input type="hidden" name="form-name" value="labs-notifications">
+        <input type="text" name="bot-field" hidden>
+        <label>
+          <span>Full name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <fieldset class="chip-field full">
+          <legend>Signal types</legend>
+          <label class="chip">
+            <input type="checkbox" name="signals" value="Product launches" required>
+            <span>Product launches</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="signals" value="Beta openings">
+            <span>Beta openings</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="signals" value="Framework drops">
+            <span>Framework drops</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="signals" value="Partner briefings">
+            <span>Partner briefings</span>
+          </label>
+        </fieldset>
+        <label class="consent full">
+          <input type="checkbox" name="consent" required>
+          <span>I agree to receive updates from Crown Labs.</span>
+        </label>
+        <div class="form-actions full">
+          <button class="primary-btn" type="submit">Subscribe</button>
+          <p class="form-note" id="notifications-note" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div class="modal__success" id="notifications-success" hidden>
+        <h3>Subscription confirmed.</h3>
+        <p>We’ll keep you updated as new signals drop.</p>
+        <button class="ghost-btn" type="button" data-close-modal>Close</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="labs-login-modal" role="dialog" aria-modal="true" aria-labelledby="labs-login-title" aria-hidden="true">
     <div class="modal__overlay" data-close-modal></div>
     <div class="modal__content" role="document">
@@ -557,7 +619,9 @@
           <i class="ph ph-x" aria-hidden="true"></i>
         </button>
       </div>
-      <form id="labs-login-form" class="modal__form" novalidate>
+      <form id="labs-login-form" class="modal__form" name="labs-login" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/labs.html" data-redirect="/dashboard.html" novalidate>
+        <input type="hidden" name="form-name" value="labs-login">
+        <input type="text" name="bot-field" hidden>
         <label class="full">
           <span>Work email</span>
           <input type="email" name="login-email" required placeholder="you@company.com">
@@ -685,7 +749,9 @@
           <p class="tab-disclaimer">Status labels are literal.</p>
         </section>
       </div>
-      <form id="intake-form" class="modal__form" novalidate>
+      <form id="intake-form" class="modal__form" name="labs-beta-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/labs.html" novalidate>
+        <input type="hidden" name="form-name" value="labs-beta-access">
+        <input type="text" name="bot-field" hidden>
         <label>
           <span>Full name</span>
           <input type="text" name="name" autocomplete="name" required>
