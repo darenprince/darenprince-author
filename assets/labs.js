@@ -821,12 +821,16 @@ const dom = {
   booksGrid: document.getElementById('books-grid'),
   statusTable: document.getElementById('status-table'),
   modal: document.getElementById('beta-modal'),
+  userAccessModal: document.getElementById('user-access-modal'),
   productModal: document.getElementById('product-modal'),
   productModalBody: document.getElementById('product-modal-body'),
   productModalTitle: document.getElementById('product-modal-title'),
   intakeForm: document.getElementById('intake-form'),
   formSuccess: document.getElementById('form-success'),
   formNote: document.getElementById('form-note'),
+  accessForm: document.getElementById('access-form'),
+  accessSuccess: document.getElementById('access-success'),
+  accessNote: document.getElementById('access-note'),
   roleField: document.getElementById('role-field'),
   tabButtons: document.querySelectorAll('.tab-btn'),
   tabPanels: document.querySelectorAll('.tab-panel'),
@@ -1354,6 +1358,18 @@ const resetIntakeForm = () => {
   setActiveTab('beta')
 }
 
+const resetAccessForm = () => {
+  if (!dom.accessForm) return
+  dom.accessForm.reset()
+  dom.accessForm.hidden = false
+  if (dom.accessSuccess) {
+    dom.accessSuccess.hidden = true
+  }
+  if (dom.accessNote) {
+    dom.accessNote.textContent = ''
+  }
+}
+
 const openModal = (modal) => {
   if (!modal) return
   modal.classList.add('is-open')
@@ -1370,6 +1386,9 @@ const closeModal = (modal) => {
   modal.setAttribute('aria-hidden', 'true')
   if (modal === dom.modal) {
     resetIntakeForm()
+  }
+  if (modal === dom.userAccessModal) {
+    resetAccessForm()
   }
 }
 
@@ -1485,6 +1504,13 @@ const setupModal = () => {
     })
   })
 
+  document.querySelectorAll('[data-open-user-access]').forEach((button) => {
+    button.addEventListener('click', () => {
+      resetAccessForm()
+      openModal(dom.userAccessModal)
+    })
+  })
+
   document.querySelectorAll('[data-close-modal]').forEach((button) => {
     button.addEventListener('click', () => {
       const modal = button.closest('.modal')
@@ -1517,6 +1543,23 @@ const setupModal = () => {
     dom.intakeForm.hidden = true
     dom.formSuccess.hidden = false
   })
+
+  if (dom.accessForm) {
+    dom.accessForm.addEventListener('submit', (event) => {
+      event.preventDefault()
+      if (!dom.accessForm.checkValidity()) {
+        if (dom.accessNote) {
+          dom.accessNote.textContent = 'Please complete all required fields with a valid email.'
+        }
+        dom.accessForm.reportValidity()
+        return
+      }
+      dom.accessForm.hidden = true
+      if (dom.accessSuccess) {
+        dom.accessSuccess.hidden = false
+      }
+    })
+  }
 
   setActiveTab('beta')
 }
