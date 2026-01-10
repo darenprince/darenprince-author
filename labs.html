@@ -40,18 +40,21 @@
         </button>
       </div>
       <div class="nav-actions">
-        <button class="nav-link-btn" type="button" data-open-modal data-modal-tab="beta">Get updates</button>
+        <button class="nav-link-btn nav-link-btn--icon" type="button" data-open-modal data-modal-tab="beta">
+          <span class="nav-icon" aria-hidden="true"><i class="ph ph-bell icon-inline"></i></span>
+          Get notifications
+        </button>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">
           <span class="theme-toggle__icon" data-mode="light" aria-hidden="true"><i class="ph ph-sun icon-inline"></i></span>
           <span class="theme-toggle__icon" data-mode="dark" aria-hidden="true"><i class="ph ph-moon icon-inline"></i></span>
           <span class="theme-toggle__thumb" aria-hidden="true"></span>
         </button>
-        <a class="ghost-btn ghost-btn--icon" href="/login.html" aria-label="Login">
+        <button class="ghost-btn ghost-btn--icon" type="button" data-open-user-access aria-haspopup="dialog" aria-controls="user-access-modal">
           <span class="nav-icon" aria-hidden="true"><i class="ph ph-user-circle icon-inline"></i></span>
-          Login
-        </a>
+          User access
+        </button>
         <button class="cta-btn" id="beta-dev-cta" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
-          Apply: Dev / Beta Tester
+          Beta Testers
         </button>
       </div>
       <button class="nav-toggle" type="button" data-mega-toggle aria-label="Toggle navigation" aria-expanded="false" aria-controls="mega-menu-panel">
@@ -136,7 +139,7 @@
           <div class="mega-cta">
             <p>Early access is selective. Apply if you build with intent.</p>
             <button class="cta-btn" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
-              Apply: Dev / Beta Tester
+              Beta Testers
             </button>
           </div>
         </div>
@@ -162,7 +165,7 @@
         </p>
         <div class="hero-actions">
           <a class="primary-btn" href="#portfolio">See the portfolio</a>
-          <button class="ghost-btn" type="button" data-open-modal data-modal-tab="beta">Become a Beta Tester</button>
+          <button class="ghost-btn" type="button" data-open-modal data-modal-tab="beta">Beta Testers</button>
           <button class="ghost-btn" type="button" data-open-modal data-modal-tab="developer" aria-haspopup="dialog" aria-controls="beta-modal">
             Become A Crown Labs Developer
           </button>
@@ -470,6 +473,60 @@
       </div>
     </section>
   </main>
+
+  <div class="modal" id="user-access-modal" role="dialog" aria-modal="true" aria-labelledby="user-access-title" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content" role="document">
+      <div class="modal__header">
+        <div>
+          <p class="eyebrow">Crown Labs Portal</p>
+          <h2 id="user-access-title">User access gate</h2>
+          <p class="modal-subtitle">Confirm your identity and request secure access to member-only updates.</p>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>
+          <i class="ph ph-x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <form id="access-form" class="modal__form" novalidate>
+        <label>
+          <span>Full name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>
+          <span>Organization (optional)</span>
+          <input type="text" name="organization" autocomplete="organization">
+        </label>
+        <label>
+          <span>Access intent</span>
+          <select name="intent" required>
+            <option value="">Select one</option>
+            <option value="Product updates">Product updates</option>
+            <option value="Partnership inquiry">Partnership inquiry</option>
+            <option value="Press access">Press access</option>
+            <option value="Investor access">Investor access</option>
+          </select>
+        </label>
+        <label class="consent full">
+          <input type="checkbox" name="consent" required>
+          <span>I agree to receive secure access instructions via email.</span>
+        </label>
+        <div class="form-actions full">
+          <button class="primary-btn" type="submit">Request access</button>
+          <p class="form-note" id="access-note" role="status" aria-live="polite"></p>
+        </div>
+        <p class="muted">Already approved? <a href="/login.html">Go to login</a>.</p>
+      </form>
+      <div class="modal__success" id="access-success" hidden>
+        <h3>Access request received.</h3>
+        <p>We’ll respond with next steps within 72 hours.</p>
+        <button class="ghost-btn" type="button" data-close-modal>Close</button>
+      </div>
+    </div>
+  </div>
 
   <div class="modal" id="beta-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal__overlay" data-close-modal></div>
