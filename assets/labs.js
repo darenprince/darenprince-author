@@ -1050,6 +1050,8 @@ const renderHeroStats = () => {
       <p>Every product lists the single milestone that advances its next phase.</p>
     </div>
   `
+  dom.heroCard.classList.add('is-ready')
+  dom.heroCard.closest('.hero-card')?.classList.add('hero-card--ready')
 
   animateCounts(dom.statStrip)
   registerRevealTargets(dom.statStrip)
