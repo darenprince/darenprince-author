@@ -822,6 +822,7 @@ const dom = {
   statusTable: document.getElementById('status-table'),
   modal: document.getElementById('beta-modal'),
   userAccessModal: document.getElementById('user-access-modal'),
+  labsLoginModal: document.getElementById('labs-login-modal'),
   productModal: document.getElementById('product-modal'),
   productModalBody: document.getElementById('product-modal-body'),
   productModalTitle: document.getElementById('product-modal-title'),
@@ -831,6 +832,9 @@ const dom = {
   accessForm: document.getElementById('access-form'),
   accessSuccess: document.getElementById('access-success'),
   accessNote: document.getElementById('access-note'),
+  labsLoginForm: document.getElementById('labs-login-form'),
+  labsLoginSuccess: document.getElementById('labs-login-success'),
+  labsLoginNote: document.getElementById('labs-login-note'),
   roleField: document.getElementById('role-field'),
   tabButtons: document.querySelectorAll('.tab-btn'),
   tabPanels: document.querySelectorAll('.tab-panel'),
@@ -1148,6 +1152,7 @@ const renderProducts = () => {
           </div>
         `
           : ''
+      const detailId = `details-${product.id}`
 
       return `
         <article class="product-card reveal" data-status="${product.status}" data-category="${product.category}" data-product-id="${product.id}">
@@ -1168,32 +1173,40 @@ const renderProducts = () => {
               </div>
             </div>
           </div>
-          <div class="card-media" data-fallback="${initials}">
-            <img src="${mediaSrc}" alt="${product.name} preview" loading="lazy">
-            <div class="media-placeholder">${initials}</div>
-          </div>
           <p class="one-liner">${product.oneLiner}</p>
-          <div class="signal-panel">
-            <div class="signal-label">
-              <span>Valuation signal</span>
-              ${iconMarkup('signal')}
+          <div class="product-details" id="${detailId}">
+            <div class="card-media" data-fallback="${initials}">
+              <img src="${mediaSrc}" alt="${product.name} preview" loading="lazy">
+              <div class="media-placeholder">${initials}</div>
             </div>
-            <div class="signal-meta">
-              <strong>${product.value}</strong>
-              <small>${product.growthLabel}</small>
+            <div class="signal-panel">
+              <div class="signal-label">
+                <span>Valuation signal</span>
+                ${iconMarkup('signal')}
+              </div>
+              <div class="signal-meta">
+                <strong>${product.value}</strong>
+                <small>${product.growthLabel}</small>
+              </div>
+              ${renderSignalChart(product.growth || [])}
             </div>
-            ${renderSignalChart(product.growth || [])}
+            <div class="product-metrics">
+              ${metrics}
+            </div>
+            ${readinessMarkup}
+            <ul>
+              ${product.bullets.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
           </div>
-          <div class="product-metrics">
-            ${metrics}
-          </div>
-          ${readinessMarkup}
-          <ul>
-            ${product.bullets.map((item) => `<li>${item}</li>`).join('')}
-          </ul>
           <div class="product-footer">
             <span class="muted">Next gate: ${product.nextGate}</span>
-            <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">View brief</button>
+            <div class="product-ctas">
+              <button class="ghost-btn ghost-btn--small" type="button" data-toggle-details aria-expanded="false" aria-controls="${detailId}">Expand details</button>
+              <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">View brief</button>
+              <button class="primary-btn primary-btn--small" type="button" data-open-modal data-modal-tab="beta" data-interest="${product.name}">
+                Request access
+              </button>
+            </div>
           </div>
         </article>
       `
@@ -1226,13 +1239,24 @@ const renderProducts = () => {
   document.querySelectorAll('.product-card').forEach((card) => {
     card.addEventListener('click', (event) => {
       const target = event.target
-      if (target.closest('[data-open-product]')) {
+      if (target.closest('button, a')) {
         return
       }
       const productId = card.dataset.productId
       if (productId) {
         openProductModal(productId)
       }
+    })
+  })
+
+  document.querySelectorAll('[data-toggle-details]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation()
+      const card = button.closest('.product-card')
+      if (!card) return
+      const isExpanded = card.classList.toggle('is-expanded')
+      button.setAttribute('aria-expanded', String(isExpanded))
+      button.textContent = isExpanded ? 'Collapse details' : 'Expand details'
     })
   })
 
@@ -1263,6 +1287,11 @@ const renderFrameworks = () => {
         <ul>
           ${framework.bullets.map((item) => `<li>${item}</li>`).join('')}
         </ul>
+        <div class="card-actions">
+          <button class="ghost-btn ghost-btn--small" type="button" data-open-modal data-modal-tab="developer" data-interest="${framework.name}">
+            Request framework brief
+          </button>
+        </div>
       </div>
     `
     )
@@ -1282,8 +1311,8 @@ const renderBooks = () => {
       const actionMarkup = book.actionLabel
         ? book.actionType === 'modal'
           ? `<button class="ghost-btn ghost-btn--small" type="button" data-open-modal data-modal-tab="${book.actionTab || 'beta'}" data-interest="${book.name}">${book.actionLabel}</button>`
-          : `<a class="ghost-btn ghost-btn--small" href="${book.actionHref || '#'}">${book.actionLabel}</a>`
-        : ''
+          : `<a class="ghost-btn ghost-btn--small" href="${book.actionHref || 'mailto:labs@darenprince.com'}">${book.actionLabel}</a>`
+        : `<button class="ghost-btn ghost-btn--small" type="button" data-open-modal data-modal-tab="beta" data-interest="${book.name}">Request updates</button>`
       return `
       <div class="book-card reveal">
         <div class="book-cover ${book.cover ? 'has-cover' : 'is-fallback'}">
@@ -1372,6 +1401,18 @@ const resetAccessForm = () => {
   }
 }
 
+const resetLabsLoginForm = () => {
+  if (!dom.labsLoginForm) return
+  dom.labsLoginForm.reset()
+  dom.labsLoginForm.hidden = false
+  if (dom.labsLoginSuccess) {
+    dom.labsLoginSuccess.hidden = true
+  }
+  if (dom.labsLoginNote) {
+    dom.labsLoginNote.textContent = ''
+  }
+}
+
 const openModal = (modal) => {
   if (!modal) return
   modal.classList.add('is-open')
@@ -1391,6 +1432,12 @@ const closeModal = (modal) => {
   }
   if (modal === dom.userAccessModal) {
     resetAccessForm()
+  }
+  if (modal === dom.labsLoginModal) {
+    resetLabsLoginForm()
+  }
+  if (modal === dom.productModal) {
+    modal.classList.remove('is-fullscreen')
   }
 }
 
@@ -1490,6 +1537,12 @@ const openProductModal = (productId) => {
   dom.productModalTitle.textContent = product.name
   dom.productModalBody.innerHTML = renderProductModal(product)
   animateCounts(dom.productModalBody)
+  const fullscreenToggle = dom.productModal.querySelector('[data-toggle-fullscreen]')
+  if (fullscreenToggle) {
+    fullscreenToggle.setAttribute('aria-pressed', 'false')
+    fullscreenToggle.innerHTML =
+      '<i class="ph ph-arrows-out icon-inline" aria-hidden="true"></i>Full screen'
+  }
   openModal(dom.productModal)
 }
 
@@ -1513,6 +1566,13 @@ const setupModal = () => {
     })
   })
 
+  document.querySelectorAll('[data-open-labs-login]').forEach((button) => {
+    button.addEventListener('click', () => {
+      resetLabsLoginForm()
+      openModal(dom.labsLoginModal)
+    })
+  })
+
   document.querySelectorAll('[data-close-modal]').forEach((button) => {
     button.addEventListener('click', () => {
       const modal = button.closest('.modal')
@@ -1527,6 +1587,18 @@ const setupModal = () => {
         closeModal(openModalEl)
       }
     }
+  })
+
+  document.querySelectorAll('[data-toggle-fullscreen]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal')
+      if (!modal) return
+      const isFull = modal.classList.toggle('is-fullscreen')
+      button.setAttribute('aria-pressed', String(isFull))
+      button.innerHTML = isFull
+        ? '<i class="ph ph-arrows-in icon-inline" aria-hidden="true"></i>Exit full screen'
+        : '<i class="ph ph-arrows-out icon-inline" aria-hidden="true"></i>Full screen'
+    })
   })
 
   dom.tabButtons.forEach((button) => {
@@ -1559,6 +1631,23 @@ const setupModal = () => {
       dom.accessForm.hidden = true
       if (dom.accessSuccess) {
         dom.accessSuccess.hidden = false
+      }
+    })
+  }
+
+  if (dom.labsLoginForm) {
+    dom.labsLoginForm.addEventListener('submit', (event) => {
+      event.preventDefault()
+      if (!dom.labsLoginForm.checkValidity()) {
+        if (dom.labsLoginNote) {
+          dom.labsLoginNote.textContent = 'Please enter a valid email and password.'
+        }
+        dom.labsLoginForm.reportValidity()
+        return
+      }
+      dom.labsLoginForm.hidden = true
+      if (dom.labsLoginSuccess) {
+        dom.labsLoginSuccess.hidden = false
       }
     })
   }
