@@ -405,6 +405,12 @@ body.theme-light .mega-logo {
   transition: color 0.2s ease;
 }
 
+.nav-link-btn--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .nav-link-btn:hover {
   color: var(--text);
 }
