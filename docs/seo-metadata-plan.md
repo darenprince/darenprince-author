@@ -1,5 +1,4 @@
-SEO Metadata Plan for Daren Prince Author Site
---------------------------------------------------
+## SEO Metadata Plan for Daren Prince Author Site
 
 This file contains SEO-optimized metadata, structured data, Open Graph tags, and H1 recommendations for all pages listed in the site navigation.
 
@@ -7,8 +6,18 @@ All pages will use this OG image: assets/images/og-image.jpg
 
 Structured data follows the schema.org specifications.
 
----
+## Global metadata requirements
 
+- Always include `<link rel="canonical" href="https://darenprince.com/...">`.
+- Add `<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">` on indexable pages.
+- Set `<meta name="author" content="Daren Prince">` on every page.
+- Add `<meta property="og:site_name" content="darenprince.com">`.
+- Use JSON-LD that matches the page intent:
+  - Homepage: `Organization`, `Person`, and `WebSite` schema.
+  - Blog/article pages: `BlogPosting` plus `BreadcrumbList`.
+  - Marketing/utility pages: `WebPage` plus `BreadcrumbList`.
+
+---
 
 ==============================
 PAGE: Homepage (index.html)
@@ -50,6 +59,7 @@ PAGE: Homepage (index.html)
 </script>
 
 Notes:
+
 - Replace absolute URLs with actual domain in production.
 - Ensure image at assets/images/og-image.jpg is optimized to 1200x630 for best OG rendering.
 
@@ -100,6 +110,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
 </script>
 
 Notes:
+
 - Be sure the Amazon product URL matches the live Kindle ASIN page.
 - OG image must be pre-cropped to 1200x630px minimum for rich previews.
 - Consider duplicating this block per book format (hardcover, audiobook) for A/B testing or micro-landing.
@@ -151,6 +162,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
 </script>
 
 Notes:
+
 - Replace ISBN and price once finalized.
 - Ensure canonical URL and OG image are fully functional prior to launch.
 - Add preorder or email waitlist CTA above the fold.
@@ -195,6 +207,7 @@ PAGE: Meet Daren Prince (/about)
 </script>
 
 Notes:
+
 - Use `profile` OG type for author identity pages.
 - Consider embedding a personal quote or video message in hero section.
 
@@ -239,6 +252,7 @@ PAGE: Press & Media (/media)
 </script>
 
 Notes:
+
 - Include downloadable PDF press kit, image previews, and media contact email.
 - Add `<link rel="canonical" href="https://darenprince.com/media">` to head for SEO.
 
@@ -281,6 +295,7 @@ PAGE: Swag (/swag)
 </script>
 
 Notes:
+
 - Integrate Printful, Shopify, or Teespring platform for actual product management.
 - Ensure product images have proper alt text and JSON-LD schema if dynamically loaded.
 
@@ -322,6 +337,7 @@ PAGE: Blog (/blog)
 </script>
 
 Notes:
+
 - Apply BlogPosting schema to individual posts under `/blog/[slug]`.
 - Include `author`, `headline`, `datePublished`, and `image` fields on post pages.
 - Support category/tags for SEO-rich structure: Confidence, Dating, Breakups, Narcissism, etc.
@@ -364,6 +380,7 @@ PAGE: Collaborations (/collabs)
 </script>
 
 Notes:
+
 - Consider embedding an affiliate form or Calendly scheduler.
 - Make use of CTAs like “Pitch a Collab” or “Become an Affiliate” with tracking links.
 
@@ -406,6 +423,7 @@ PAGE: Contact (/contact)
 </script>
 
 Notes:
+
 - Make sure your contact form includes name, email, and message fields.
 - Validate entries and ensure mobile responsiveness for best experience.
 - Avoid CAPTCHA if possible—keep UX friction low.
@@ -444,6 +462,7 @@ SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
 </script>
 
 Instructions:
+
 - Replace `headline`, `description`, and `image` as needed per blog post
 - Ensure `datePublished` and `dateModified` reflect ISO 8601 format (YYYY-MM-DD)
 - Replace URL in `mainEntityOfPage` with the actual post URL
