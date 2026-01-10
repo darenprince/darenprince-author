@@ -44,6 +44,10 @@
           <span class="nav-icon" aria-hidden="true"><i class="ph ph-bell icon-inline"></i></span>
           Get notifications
         </button>
+        <button class="ghost-btn ghost-btn--icon" type="button" data-open-labs-login aria-haspopup="dialog" aria-controls="labs-login-modal">
+          <span class="nav-icon" aria-hidden="true"><i class="ph ph-lock-key icon-inline"></i></span>
+          Lab login
+        </button>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">
           <span class="theme-toggle__icon" data-mode="light" aria-hidden="true"><i class="ph ph-sun icon-inline"></i></span>
           <span class="theme-toggle__icon" data-mode="dark" aria-hidden="true"><i class="ph ph-moon icon-inline"></i></span>
@@ -528,6 +532,45 @@
     </div>
   </div>
 
+  <div class="modal" id="labs-login-modal" role="dialog" aria-modal="true" aria-labelledby="labs-login-title" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content" role="document">
+      <div class="modal__header">
+        <div>
+          <h2 id="labs-login-title">Crown Labs Login</h2>
+          <p class="modal-subtitle">Sign in to access internal dashboards, intelligence briefs, and live launches.</p>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>
+          <i class="ph ph-x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <form id="labs-login-form" class="modal__form" novalidate>
+        <label class="full">
+          <span>Work email</span>
+          <input type="email" name="login-email" required placeholder="you@company.com">
+        </label>
+        <label class="full">
+          <span>Password</span>
+          <input type="password" name="login-password" required placeholder="Enter your password">
+        </label>
+        <label class="consent full">
+          <input type="checkbox" name="remember" checked>
+          Remember this device
+        </label>
+        <div class="form-actions full">
+          <button class="cta-btn" type="submit">Log in</button>
+          <a class="ghost-btn" href="reset-password.html">Forgot password?</a>
+        </div>
+        <p class="form-note full" id="labs-login-note"></p>
+      </form>
+      <div class="modal__success" id="labs-login-success" hidden>
+        <h3>Access granted.</h3>
+        <p class="muted">We’ll route you to the secure Crown Labs workspace now.</p>
+        <button class="ghost-btn" type="button" data-close-modal>Continue</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="beta-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal__overlay" data-close-modal></div>
     <div class="modal__content" role="document">
@@ -724,9 +767,15 @@
     <div class="modal__content" role="document">
       <div class="modal__header">
         <h2 id="product-modal-title">Product brief</h2>
-        <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>
-          <i class="ph ph-x" aria-hidden="true"></i>
-        </button>
+        <div class="modal__header-actions">
+          <button class="ghost-btn ghost-btn--small" type="button" data-toggle-fullscreen aria-pressed="false">
+            <i class="ph ph-arrows-out icon-inline" aria-hidden="true"></i>
+            Full screen
+          </button>
+          <button class="icon-btn" type="button" aria-label="Close modal" data-close-modal>
+            <i class="ph ph-x" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
       <div class="modal__body" id="product-modal-body"></div>
     </div>
@@ -766,16 +815,16 @@
           <li><a class="footer-email" href="mailto:labs@darenprince.com">labs@darenprince.com</a></li>
           <li>Pineville, LA</li>
           <li>Business inquiries</li>
-          <li><a href="#">Press / Investor packet</a></li>
+          <li><a href="press.html">Press / Investor packet</a></li>
         </ul>
         <div class="footer-social">
-          <a href="#" aria-label="Crown Labs on X">
+          <a href="https://x.com" aria-label="Crown Labs on X" target="_blank" rel="noopener">
             <i class="ph ph-x-logo icon-inline" aria-hidden="true"></i>
           </a>
-          <a href="#" aria-label="Crown Labs on Instagram">
+          <a href="https://www.instagram.com" aria-label="Crown Labs on Instagram" target="_blank" rel="noopener">
             <i class="ph ph-instagram-logo icon-inline" aria-hidden="true"></i>
           </a>
-          <a href="#" aria-label="Crown Labs on LinkedIn">
+          <a href="https://www.linkedin.com" aria-label="Crown Labs on LinkedIn" target="_blank" rel="noopener">
             <i class="ph ph-linkedin-logo icon-inline" aria-hidden="true"></i>
           </a>
         </div>
@@ -784,8 +833,8 @@
     <div class="footer-bottom">
       <span>© 2024 Crown Labs. All rights reserved.</span>
       <div class="footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+        <a href="#ethics">Privacy</a>
+        <a href="#financials">Terms</a>
         <a href="#top">Back to top</a>
       </div>
     </div>
