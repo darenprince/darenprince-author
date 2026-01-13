@@ -469,7 +469,8 @@ const renderProducts = () => {
             <span class="muted">Next gate: ${product.nextGate}</span>
             <div class="product-ctas">
               <button class="ghost-btn ghost-btn--small" type="button" data-toggle-details aria-expanded="false" aria-controls="${detailId}">Expand details</button>
-              <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">View brief</button>
+              <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">Quick view</button>
+              <a class="ghost-btn ghost-btn--small" href="/labs/products/${product.id}.html">Full page</a>
               <button class="primary-btn primary-btn--small" type="button" data-open-modal data-modal-tab="beta" data-interest="${product.name}">
                 Request access
               </button>
