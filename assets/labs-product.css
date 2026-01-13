@@ -1,0 +1,222 @@
+:root {
+  color-scheme: dark;
+}
+
+body.product-page {
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.08), transparent 45%), #07090f;
+  color: #f8fafc;
+}
+
+.product-page .top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem clamp(1.5rem, 3vw, 3.5rem);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(7, 9, 15, 0.85);
+  z-index: 10;
+}
+
+.product-page .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.product-page .nav-brand img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.product-page .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.product-page main {
+  padding: 2.5rem clamp(1.5rem, 3vw, 4rem) 5rem;
+  display: grid;
+  gap: 3rem;
+}
+
+.product-hero {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: center;
+}
+
+.product-hero h1 {
+  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
+  margin-bottom: 0.75rem;
+}
+
+.product-hero .hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.product-hero .tag {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.product-hero .hero-image {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 24px;
+  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+}
+
+.product-hero .hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
+.panel-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.panel-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.panel-card h3 {
+  margin: 0;
+}
+
+.panel-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.section-block {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.section-block h2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.section-block p {
+  color: rgba(226, 232, 240, 0.85);
+  line-height: 1.7;
+}
+
+.access-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.access-form label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.access-form input,
+.access-form textarea,
+.access-form select {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  color: inherit;
+}
+
+.access-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-note {
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.85rem;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  cursor: pointer;
+  padding: 0;
+}
+
+.theme-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background: #f8fafc;
+  border-radius: 999px;
+  transition: transform 0.3s ease;
+}
+
+body.theme-light {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+body.theme-light .product-page .top-nav {
+  background: rgba(248, 250, 252, 0.9);
+}
+
+body.theme-light .panel-card,
+body.theme-light .product-hero .hero-image {
+  background: rgba(241, 245, 249, 0.9);
+}
+
+body.theme-light .access-form input,
+body.theme-light .access-form textarea,
+body.theme-light .access-form select {
+  background: rgba(226, 232, 240, 0.9);
+}
+
+body.theme-light .theme-toggle__thumb {
+  transform: translateX(22px);
+}
