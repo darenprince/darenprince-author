@@ -898,37 +898,38 @@ const attachFilters = () => {
 }
 
 const setupModal = () => {
-  document.querySelectorAll('[data-open-modal]').forEach((button) => {
-    button.addEventListener('click', () => {
-      openBetaModal(button.dataset.modalTab || 'beta', button.dataset.interest || '')
-    })
-  })
+  document.addEventListener('click', (event) => {
+    const modalTrigger = event.target.closest('[data-open-modal]')
+    if (modalTrigger) {
+      openBetaModal(modalTrigger.dataset.modalTab || 'beta', modalTrigger.dataset.interest || '')
+      return
+    }
 
-  document.querySelectorAll('[data-open-user-access]').forEach((button) => {
-    button.addEventListener('click', () => {
+    const accessTrigger = event.target.closest('[data-open-user-access]')
+    if (accessTrigger) {
       resetAccessForm()
       openModal(dom.userAccessModal)
-    })
-  })
+      return
+    }
 
-  document.querySelectorAll('[data-open-labs-login]').forEach((button) => {
-    button.addEventListener('click', () => {
+    const loginTrigger = event.target.closest('[data-open-labs-login]')
+    if (loginTrigger) {
       resetLabsLoginForm()
       openModal(dom.labsLoginModal)
-    })
-  })
+      return
+    }
 
-  document.querySelectorAll('[data-open-notifications]').forEach((button) => {
-    button.addEventListener('click', () => {
+    const notificationsTrigger = event.target.closest('[data-open-notifications]')
+    if (notificationsTrigger) {
       openNotificationsModal()
-    })
-  })
+      return
+    }
 
-  document.querySelectorAll('[data-close-modal]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const modal = button.closest('.modal')
+    const closeTrigger = event.target.closest('[data-close-modal]')
+    if (closeTrigger) {
+      const modal = closeTrigger.closest('.modal')
       closeModal(modal)
-    })
+    }
   })
 
   document.addEventListener('keydown', (event) => {
