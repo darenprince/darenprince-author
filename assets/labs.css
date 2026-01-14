@@ -280,7 +280,7 @@ body.theme-light .mega-logo {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 0;
+  z-index: 60;
 }
 
 .mega-menu-panel {
@@ -295,6 +295,9 @@ body.theme-light .mega-logo {
   transform: translateY(-12px);
   opacity: 0;
   pointer-events: none;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
