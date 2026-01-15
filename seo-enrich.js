@@ -2,7 +2,7 @@
 /**
  * # seo-enrich.js
  *
- * Static site SEO enhancer tailored for Netlify builds. The script traverses
+ * Static site SEO enhancer tailored for GitHub Pages builds. The script traverses
  * generated HTML files, injects missing metadata, and produces sitemap/robots
  * artefacts without relying on external services or image generation.
  *
@@ -18,9 +18,9 @@
  *   `SITE_ENV=preview`, the robots file disallows crawling.
  *
  * ## Why no OG image manipulation?
- * Netlify already serves static assets directly, so this tool simply reuses any
+ * GitHub Pages serves static assets directly, so this tool simply reuses any
  * existing `og:image` tag or an optional `--fallback-og` URL. It never appends
- * Netlify transformation parameters (`nf_resize`, etc.) to social images to keep
+ * CDN transformation parameters (`nf_resize`, etc.) to social images to keep
  * share cards deterministic and cache-friendly.
  *
  * ## Usage

@@ -45,11 +45,4 @@ dist
 *.tmp
 EOF
 
-# === Netlify Configuration ===
-cat <<EOF > netlify.toml
-[build]
-  publish = "./"
-  command = "sass scss/styles.scss assets/styles.css"
-EOF
-
 echo "✅ Full project structure scaffolded successfully."
