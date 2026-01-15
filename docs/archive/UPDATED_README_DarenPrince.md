@@ -1,8 +1,8 @@
-
 # 🖥️ Daren Prince Author Platform & Website
+
 ⚠️ **Legacy:** This file is kept for historical reference. For the latest information see `docs/README.md`.
 
-Welcome to the official development repository for **Daren M. Prince**, bestselling author of *Game On! Master the Conversation & Win Her Heart*. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
+Welcome to the official development repository for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
 
 ---
 
@@ -14,7 +14,7 @@ This project is built to:
 - Deliver his message with confidence, clarity, and brand consistency
 - Powerfully reflect the Game On! brand identity (fonts, colors, energy, language)
 - Support future expansions like courses, member access, podcasting, affiliate integration, and more
-- Be deployed lightning-fast via Netlify with clean modular SCSS and prompt-driven component builds via OpenAI Codex
+- Be deployed via GitHub Pages with clean modular SCSS and prompt-driven component builds via OpenAI Codex
 
 ---
 
@@ -22,8 +22,8 @@ This project is built to:
 
 - **Framework**: Pure HTML + Modular SCSS (CodyHouse-style system)
 - **Dark Mode Default**: Site is styled with dark mode as the baseline
-- **Build Tools**: Node, npm, Netlify CLI
-- **Auto Deployment**: Netlify CI/CD connected to GitHub main branch
+- **Build Tools**: Node, npm
+- **Auto Deployment**: GitHub Pages connected to the GitHub main branch
 - **Prompt Engine**: Codex by OpenAI powers real-time generation of components, prompts, and site logic
 
 ---
@@ -37,6 +37,7 @@ This project is driven by AI collaboration through OpenAI’s Codex:
 - Brand-aware personality definitions in `docs/AGENTS.md`
 
 ⚠️ All prompts, component logic, and layout flow must follow the official strategy and never deviate from:
+
 - Brand fonts
 - HEX color values
 - REM-based spacing logic
@@ -49,12 +50,14 @@ This project is driven by AI collaboration through OpenAI’s Codex:
 Brand identity is governed by the **Game On! Press Kit** (stored in `/assets/brand/`).
 
 **Official Fonts:**
+
 - League Spartan (Primary Headline)
 - Futura (Secondary Headline / Navigation)
 - Knockout Welterweight (Accents & Stylized Labels)
 - Helvetica Now (Body, System, Utility)
 
 **Color Palette:**
+
 - `#FDFDFD` White
 - `#D5D5D5` Light Gray
 - `#B8BAB7` Medium Gray
@@ -81,7 +84,7 @@ Design must follow clean, bold, masculine UI logic with large readable typograph
 📄 index.html       # Homepage
 📄 components.html  # Master demo sheet for all UI components
 📄 setup.sh         # Local setup script
-📄 netlify.toml     # Redirect and build config
+📄 CNAME            # GitHub Pages custom domain
 ```
 
 ---
@@ -118,6 +121,7 @@ This brand does not tolerate fluff, gimmicks, or generic advice.
 **Tone = Confident + Real + Psychology-backed + Emotionally intelligent**
 
 Approved language includes:
+
 - “Master the conversation”
 - “Authentic attraction”
 - “Magnetic energy”
@@ -132,18 +136,19 @@ All public content, meta descriptions, button text, and landing copy must reflec
 ## 🚀 Deployment & Development
 
 Build Tools:
+
 ```bash
 npm run build   # one-time SCSS compilation
 npm run watch   # live watching and compiling
 ```
 
-Local Preview (via Netlify CLI):
+Local Preview (via Python):
+
 ```bash
-npm install -g netlify-cli
-netlify dev
+PORT=8080 ./scripts/start_dev.sh
 ```
 
-Deployment: Push to `main` auto-deploys via Netlify CI/CD.
+Deployment: Push to `main` to publish via GitHub Pages.
 
 ---
 

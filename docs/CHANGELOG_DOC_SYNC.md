@@ -23,6 +23,6 @@
 - Authored `docs/SITE_STRUCTURE.md` to document the actual directory tree, page inventory, and module map.
 - Published `docs/STYLE_GUIDE.md` consolidating tokens, typography, spacing, and heading usage reality checks.
 - Compiled `docs/UI_COMPONENTS.md` mapping every SCSS partial to markup hooks and JavaScript controllers.
-- Documented build lifecycle in `docs/BUILD_PIPELINE.md`, including npm scripts, Netlify config, and search/index caveats.
+- Documented build lifecycle in `docs/BUILD_PIPELINE.md`, including npm scripts, GitHub Pages config, and search/index caveats.
 - Published the data platform migration plan in `docs/data-platform-migration.md`.
 - Logged search index gap (missing `/content/`) and H1 inconsistencies for follow-up in the audit report.

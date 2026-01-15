@@ -693,7 +693,7 @@ const resetNotificationsForm = () => {
   }
 }
 
-const submitNetlifyForm = async (form) => {
+const submitAccessForm = async (form) => {
   const formData = new FormData(form)
   const body = new URLSearchParams(formData).toString()
   const response = await fetch(form.action || '/', {
@@ -729,7 +729,7 @@ const handleFormSubmit = async ({
     noteEl.textContent = 'Submitting…'
   }
   try {
-    await submitNetlifyForm(form)
+    await submitAccessForm(form)
     form.hidden = true
     if (successEl) {
       successEl.hidden = false

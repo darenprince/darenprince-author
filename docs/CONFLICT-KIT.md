@@ -1,6 +1,6 @@
 # Conflict Kit Quick Start
 
-The Conflict Kit keeps Netlify deploys from `main` smooth, even when multiple features land simultaneously. Use this cheat sheet before and during every rebase or patch apply.
+The Conflict Kit keeps GitHub Pages deploys from `main` smooth, even when multiple features land simultaneously. Use this cheat sheet before and during every rebase or patch apply.
 
 ## 1. Configure Git Once
 

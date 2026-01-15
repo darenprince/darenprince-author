@@ -240,6 +240,33 @@ window.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('input', handleLiveUpdates)
   form.addEventListener('change', handleLiveUpdates)
 
+  const resolveEndpoint = () => {
+    const datasetEndpoint = form.dataset.endpoint?.trim()
+    if (datasetEndpoint) return datasetEndpoint
+    const action = form.getAttribute('action')?.trim()
+    return action || ''
+  }
+
+  const openMailClient = (payload) => {
+    const mailTo = resolveEndpoint() || 'mailto:press@darenprince.com'
+    const subject = `Contact request: ${payload.topic || 'General inquiry'}`
+    const bodyLines = [
+      `Name: ${payload.name || '—'}`,
+      `Email: ${payload.email || '—'}`,
+      `Urgency: ${payload.urgency || 'standard'}`,
+      `Timeline: ${payload.timeline || '—'}`,
+      `Channel: ${payload.channel || '—'}`,
+      `Objective: ${payload.objective || '—'}`,
+      '',
+      payload.message || '',
+    ]
+    const params = new URLSearchParams({
+      subject,
+      body: bodyLines.join('\n'),
+    })
+    window.location.href = `${mailTo}?${params.toString()}`
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     const submitBtn = form.querySelector('button[type="submit"]')
@@ -257,8 +284,21 @@ window.addEventListener('DOMContentLoaded', () => {
     submitBtn.textContent = 'Sending...'
     setStatus(statusEl, 'Routing your submission...', 'muted')
 
+    const endpoint = resolveEndpoint()
+
     try {
-      const res = await fetch('/.netlify/functions/send-email', {
+      if (!endpoint || endpoint.startsWith('mailto:')) {
+        openMailClient(payload)
+        setStatus(statusEl, 'Opening your mail client...', 'info')
+        GameOnUI.showToast('Opening your mail client...', 'info')
+        localStorage.removeItem(DRAFT_KEY)
+        form.reset()
+        renderQuality(collectPayload(false))
+        updateCharCount()
+        return
+      }
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

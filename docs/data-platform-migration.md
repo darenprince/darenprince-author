@@ -14,7 +14,7 @@ The legacy database integration has been removed. This document outlines the mil
 
 - `js/auth-service.js` returns `null` and surfaces the global downtime message.
 - Login, dashboard, admin console, and verification pages display migration notices instead of breaking.
-- Legacy database-specific scripts, docs, and Netlify functions have been removed.
+- Legacy database-specific scripts, docs, and serverless utilities have been removed.
 
 ## 🗺️ Migration Phases
 
@@ -28,7 +28,7 @@ The legacy database integration has been removed. This document outlines the mil
    - Reintroduce realtime messaging with event emitters that degrade gracefully when offline.
 3. **Environment Wiring**
    - Update `.env` (see `.env.example`) with provider URL, public key, and admin key.
-   - Sync Netlify env vars and secrets; avoid bundling private keys into the client build.
+   - Sync GitHub secrets and environment variables; avoid bundling private keys into the client build.
    - Add health checks to CI to confirm credentials before deploying protected routes.
 4. **Feature Re-enablement**
    - Re-enable login and verification flows once session APIs pass manual QA.
@@ -45,10 +45,10 @@ The legacy database integration has been removed. This document outlines the mil
 ## 📬 Owners & Next Steps
 
 - **Primary:** Ops + Engineering
-- **Support:** Netlify deployment owners, content team for announcement copy
+- **Support:** GitHub Pages deployment owners, content team for announcement copy
 
 **Immediate actions**
 
-- Lock down Netlify env access while credentials are rotated.
+- Lock down GitHub repository secrets while credentials are rotated.
 - Prototype candidate provider adapters in a separate branch.
 - Draft member communication outlining expected downtime and benefits.
