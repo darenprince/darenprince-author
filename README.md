@@ -4,7 +4,7 @@ _Last updated: 2025-02-14_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
-- **Live Site:** [darenprince.netlify.app](https://darenprince.netlify.app)
+- **Live Site:** [www.darenprince.com](https://www.darenprince.com)
 - **Documentation Folder:** [`/docs`](./docs/)
 - **Game On! Press Kit:** [`/assets/brand/`](./assets/brand/)
 
@@ -30,10 +30,10 @@ This project exists to:
 | Styles        | Modular Sass in `scss/` compiled to `assets/styles.css` via Dart Sass (dark mode by default)                                     |
 | JavaScript    | Vanilla ES modules in `/js` plus Minisearch worker in `/src/search`                                                              |
 | Data platform | Authentication and storage provider under migration (see [`docs/data-platform-migration.md`](./docs/data-platform-migration.md)) |
-| Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md)), Netlify CLI                                    |
+| Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md))                                                 |
 | Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                                                            |
 
-> **Reality Check:** Netlify’s build command only runs Sass compilation and environment generation. Run `npm run build:search` and `npm run generate:images` locally before committing if you need refreshed search or image manifests.
+> **Reality Check:** GitHub Pages serves exactly what is committed to `main`. Run `npm run build` locally before committing so search indexes, image manifests, and compiled CSS stay in sync.
 >
 > **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build` or `npm run watch`.
 
@@ -114,14 +114,14 @@ _Adding a new token_
 📄 index.html       # Homepage
 📄 components.html  # Master demo sheet for UI components
 📄 setup.sh         # Local setup script
-📄 netlify.toml     # Redirect and build config
+📄 CNAME            # GitHub Pages custom domain binding
 ```
 
 **Apple icon workflow**
 
 - Favicons, Apple touch icons, and launch screens are generated from `assets/icons/icon-master.PNG` via `scripts/generate-icons.mjs`.
 - Run `npm run generate:icons` whenever the master icon changes to refresh `/assets/icons/generated` and inline head snippets.
-- Netlify executes the same script during deploys (`netlify.toml` build command) so committed HTML stays in sync.
+- GitHub Pages serves committed HTML/assets, so keep generated artifacts updated before pushing.
 
 ---
 
@@ -193,20 +193,19 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
-./scripts/start_dev.sh     # watch files & launch Netlify dev server
+./scripts/start_dev.sh     # watch files & launch local static server
 npm run build              # build search → icons → images → Sass
-npm run watch              # watch Sass and run Netlify dev
+npm run watch              # watch Sass and rebuild CSS
 npm test                   # run Vitest suite
 ```
 
-Local preview with Netlify CLI:
+Local preview with Python:
 
 ```bash
-npm install -g netlify-cli
-netlify dev
+PORT=8080 ./scripts/start_dev.sh
 ```
 
-Pushing to `main` triggers Netlify CI/CD. Environment variables can now be managed directly in Netlify without additional integrations.
+Pushing to `main` publishes the GitHub Pages site. GitHub Pages serves from the repo root, so commits must include generated artifacts.
 
 ### Pull request previews on GitHub Pages
 
@@ -216,10 +215,10 @@ Pushing to `main` triggers Netlify CI/CD. Environment variables can now be manag
 - The workflow skips forked pull requests until upstream support lands in the action; local branches within this repo receive previews automatically.
 - Closing a pull request automatically removes its preview, keeping the `gh-pages` branch tidy.
 
-### Dashboard Access on Netlify
+### Dashboard Access on GitHub Pages
 
 1. Deploy the site and review `/login.html` to confirm migration messaging is visible.
-2. Disable access toggles in Netlify until the new provider is wired up.
+2. Confirm **Settings → Pages** is pointed at `main` (root) or your configured branch.
 3. Track progress in [`docs/data-platform-migration.md`](./docs/data-platform-migration.md).
 
 ---

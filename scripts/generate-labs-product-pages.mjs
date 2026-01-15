@@ -152,7 +152,7 @@ const template = ({
     <section id="access" class="section-block">
       <h2>Request access</h2>
       <p>Tell the Lab what you need, the timeline, and the environment you operate in. We respond with the next step and a controlled access plan.</p>
-      <form class="access-form" name="${id}-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/labs/products/${id}.html">
+      <form class="access-form" name="${id}-access" method="POST" action="/labs/products/${id}.html">
         <input type="hidden" name="form-name" value="${id}-access">
         <input type="hidden" name="product" value="${name}">
         <label>

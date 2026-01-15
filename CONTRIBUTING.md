@@ -6,8 +6,8 @@ Thanks for helping keep the site healthy. This guide summarizes the day-to-day w
 
 - Always branch from the up-to-date default branch: `git checkout main && git fetch origin && git rebase origin/main`.
 - Use focused feature branches (e.g. `feat/...`, `fix/...`, `chore/...`). Rebase your branch onto `main` before opening a PR to keep history linear.
-- Confirm CI/CD is green before requesting review. Netlify deploys from `main`, so merged commits should be release-ready.
-- Never commit generated artifacts (anything in `dist/`, `build/`, `assets/image-manifest.json`, compiled CSS/JS bundles, or files that end with `.min.*`). Rebuild locally after merges instead.
+- Confirm CI/CD is green before requesting review. GitHub Pages deploys from `main`, so merged commits should be release-ready.
+- Commit generated artifacts that are required for GitHub Pages (for example `assets/styles.css`, `assets/image-manifest.json`, and `public/search/*.json`). Avoid committing temporary build outputs (`dist/`, `build/`, or files ending with `.min.*`) unless explicitly requested.
 
 ## Formatting & Tooling
 
@@ -40,4 +40,4 @@ Thanks for helping keep the site healthy. This guide summarizes the day-to-day w
 - ✅ No generated/minified artifacts staged.
 - ✅ Branch rebased on the latest `main` before pushing.
 
-By following these guardrails, we minimize merge conflicts, keep the commit history tidy, and ensure Netlify deploys stay predictable. Thank you for contributing!
+By following these guardrails, we minimize merge conflicts, keep the commit history tidy, and ensure GitHub Pages deploys stay predictable. Thank you for contributing!

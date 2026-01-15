@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { execSync } from 'node:child_process'
 
-const SITE = 'https://darenprince.netlify.app'
+const SITE = 'https://www.darenprince.com'
 
 function curlStatus(url: string): number {
   const output = execSync(`curl -s -o /dev/null -w "%{http_code}" ${url}`, {
@@ -10,11 +10,11 @@ function curlStatus(url: string): number {
   return Number(output.trim())
 }
 
-describe('netlify rules', () => {
+describe('public site', () => {
   it('serves the homepage', () => {
     const status = curlStatus(SITE)
     if (status === 503) {
-      console.warn('Netlify site returned 503 (service unavailable); skipping assertion.')
+      console.warn('Public site returned 503 (service unavailable); skipping assertion.')
       return
     }
     expect(status).toBe(200)
@@ -23,7 +23,7 @@ describe('netlify rules', () => {
   it('returns 404 for missing paths', () => {
     const status = curlStatus(`${SITE}/__missing-test`)
     if (status === 503) {
-      console.warn('Netlify site returned 503 (service unavailable); skipping assertion.')
+      console.warn('Public site returned 503 (service unavailable); skipping assertion.')
       return
     }
     expect(status).toBe(404)

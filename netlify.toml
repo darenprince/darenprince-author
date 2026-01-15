@@ -1,5 +1,0 @@
-[build]
-  publish = "./"
-  command = "npm run build && npm run postprocess:seo"
-[[plugins]]
-  package = "@netlify/plugin-emails"

@@ -24,8 +24,7 @@ Use this as a quick reference when navigating the repository or onboarding colla
 ├── scss/                       # Modular Sass (tokens, base, layout, components, utilities)
 ├── scripts/                    # Node utilities (icon generation, image manifest, setup scripts)
 ├── src/                        # Search worker + Minisearch build scripts
-├── tests/                      # Vitest suites (redirect rules, OG image automation)
-├── netlify/                    # Netlify Functions (contact email handler)
+├── tests/                      # Vitest suites (public site smoke checks, OG image automation)
 └── package.json                # npm scripts + dependencies
 ```
 
@@ -47,18 +46,18 @@ Use this as a quick reference when navigating the repository or onboarding colla
 - `generate-icons.mjs` — builds favicons, Apple touch icons, and startup images.
 - `generate-image-manifest.js` — catalogues imagery for internal reference tools.
 - `local_setup.sh` — bootstraps dependencies and runs an initial Sass build.
-- `start_dev.sh` — kicks off the watch task and launches `netlify dev`.
+- `start_dev.sh` — kicks off the watch task and launches a local static server.
 
 ### `/docs/`
 
-- `BUILD_PIPELINE.md` — npm scripts, Netlify configuration, deployment checklist.
+- `BUILD_PIPELINE.md` — npm scripts, GitHub Pages configuration, deployment checklist.
 - `SITE_STRUCTURE.md` — page inventory, module mapping, migration state for auth surfaces.
 - `data-platform-migration.md` — roadmap for reintroducing authentication + database features.
 - `STYLE_GUIDE.md`, `UI_COMPONENTS.md`, `FILE_STRUCTURE.md` (this doc) — brand and component references.
 
 ### `/tests/`
 
-- `netlify-rules.spec.ts` — validates redirect rules and headers.
+- `tests/public-site.spec.ts` — validates public site availability checks.
 - `og-image.spec.ts` — ensures Open Graph automation builds as expected.
 
 ## Generated artifacts
@@ -67,4 +66,4 @@ Use this as a quick reference when navigating the repository or onboarding colla
 - `assets/image-manifest.json` — output of `npm run generate:images`.
 - `public/search/*.json` — Minisearch payloads from `npm run build:search`.
 
-> **Reality Check:** With the data platform offline, no scripts should attempt to read or write runtime credentials. Keep `.env` limited to SendGrid and analytics keys until the new provider is ready.
+> **Reality Check:** With the data platform offline, no scripts should attempt to read or write runtime credentials. Keep `.env` limited to analytics keys and automation endpoints until the new provider is ready.
