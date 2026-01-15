@@ -105,7 +105,7 @@ This map captures the current layout of the repository, the active pages, and th
 
 ## Testing footprint
 
-- `tests/netlify-rules.spec.ts` — Verifies redirect and headers logic.
+- `tests/public-site.spec.ts` — Verifies public site availability checks.
 - `tests/og-image.spec.ts` — Ensures Open Graph automation runs without regressions.
 
 > **Reality Check:** The legacy `member/` templates are not protected. Wire the future auth guard or document them as prototypes before exposing links to production users.

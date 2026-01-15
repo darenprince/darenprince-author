@@ -1,7 +1,6 @@
-
 ==================================================
-        AUTHOR WEBSITE MASTER STRATEGY
- Comprehensive Design, Coding, Copy & Deployment
+AUTHOR WEBSITE MASTER STRATEGY
+Comprehensive Design, Coding, Copy & Deployment
 ==================================================
 
 📌 PROJECT SCOPE:
@@ -106,23 +105,26 @@ PHASE 3: SCSS, SPACING & STRUCTURE STRATEGY
 
 📁 SCSS FOLDER STRUCTURE:
 /scss/
-  ├── main.scss
-  ├── base/          (resets, typography, variables)
-  ├── components/    (buttons, hero, book-card, etc.)
-  ├── layout/        (grid, container, spacing)
-  ├── utilities/     (helper classes, visibility)
+├── main.scss
+├── base/ (resets, typography, variables)
+├── components/ (buttons, hero, book-card, etc.)
+├── layout/ (grid, container, spacing)
+├── utilities/ (helper classes, visibility)
 
 ✅ SPACING SYSTEM (Mobile-First, REM Units)
+
 - Use a consistent spacing scale:
   0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem, 5rem
 - Margin/Padding/Gap rules apply sitewide
 - Use layout utility classes: .margin-top-md, .gap-lg, etc.
 
 ✅ RESPONSIVE SYSTEM
+
 - Mobile-first media queries
 - Layout breakpoints at: 480px, 768px, 1024px, 1440px
 
 -✅ TYPOGRAPHY
+
 - Headings: Use default CodyHouse font stack (e.g., H1 = 3.2rem)
 - Body: sans-serif (Helvetica Now or system font)
 - Line height, letter spacing defined for legibility
@@ -132,11 +134,13 @@ PHASE 4: COMPONENT LIBRARY PLAN
 ==================================================
 
 Each reusable component should:
+
 - Be defined in /components
 - Use modular SCSS
 - Accept class modifiers where needed (e.g., .btn--primary, .card--highlight)
 
 Component List:
+
 - ✅ Sticky Navigation
 - ✅ Hero Section
 - ✅ Book Grid + Book Cards
@@ -152,18 +156,21 @@ Component List:
 PHASE 5: DEPLOYMENT, PERFORMANCE & SEO
 ==================================================
 
-🚀 Netlify Hosting:
-- Connect GitHub repo for automatic CI/CD
-- Set up custom domain (via Netlify dashboard)
-- Configure `netlify.toml` with redirect and 404 rules
+🚀 GitHub Pages Hosting:
+
+- Connect GitHub repo for automatic Pages publishing
+- Set up custom domain (via GitHub Pages settings)
+- Keep `CNAME` aligned with the active domain
 
 📈 Performance:
+
 - Compress all assets
 - Lazy load images and embeds
 - Use SVGs and webp where possible
 - Bundle JS and minify CSS
 
 🔎 SEO:
+
 - Write custom meta tags for each page
 - Use Open Graph tags and Twitter cards
 - Add site title and descriptions
@@ -177,13 +184,14 @@ PHASE 6: FUTURE GROWTH & MONETIZATION
 - Connect ConvertKit/Mailchimp for list building
 - Add MemberSpace or Outseta for protected content
 - Enable podcast or YouTube embed support
-- Add CMS later (Netlify CMS, Sanity) if needed
+- Add CMS later (Decap CMS, Sanity) if needed
 
 ==================================================
 COMMITMENT TO CONSISTENCY & QUALITY
 ==================================================
 
 Every layout, button, heading, and image must:
+
 - Follow exact spacing and style rules
 - Be coded cleanly using SCSS modules
 - Be documented in MASTER_PLAN.txt

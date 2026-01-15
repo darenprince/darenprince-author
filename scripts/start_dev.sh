@@ -1,12 +1,15 @@
 #!/bin/bash
-# start_dev.sh - Watch SCSS and launch Netlify dev server
+# start_dev.sh - Watch SCSS and launch a local static server
 
-command -v netlify >/dev/null || { echo "Netlify CLI required"; exit 1; }
+command -v python3 >/dev/null || { echo "Python 3 required"; exit 1; }
+
+PORT=${PORT:-8080}
 
 npm run watch &
-NETLIFY_PID=$!
-trap 'kill $NETLIFY_PID' EXIT
+WATCH_PID=$!
+trap 'kill $WATCH_PID' EXIT
 
-netlify dev
+echo "Serving at http://localhost:${PORT}"
+python3 -m http.server "${PORT}"
 
 wait

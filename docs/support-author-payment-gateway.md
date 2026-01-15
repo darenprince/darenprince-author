@@ -29,11 +29,11 @@ Implement a frictionless "Support the Author" experience using Stripe's Buy Butt
 ## 5. Analytics & Testing
 
 - **Event instrumentation:** Fire custom analytics events (Amplitude/GTM) on button impression, hover, click, and successful completion using Stripe’s `session.created` webhook payloads.
-- **A/B testing:** Experiment with button copy, placement, and suggested amounts using feature flags (e.g., LaunchDarkly) or Netlify split testing.
+- **A/B testing:** Experiment with button copy, placement, and suggested amounts using feature flags (e.g., LaunchDarkly) or a dedicated experimentation platform.
 
 ## 6. Backend & Operations
 
-- **Webhook listener:** Deploy a Netlify function (or the future data provider's edge runtime) to capture `checkout.session.completed`, then tag supporters in the CRM, send personalized thank-you emails, and trigger fulfillment (e.g., downloadable bonuses).
+- **Webhook listener:** Deploy a serverless endpoint (or the future data provider's edge runtime) to capture `checkout.session.completed`, then tag supporters in the CRM, send personalized thank-you emails, and trigger fulfillment (e.g., downloadable bonuses).
 - **Security best practices:** Store the publishable key client-side only; keep secret keys within environment variables for serverless functions. Rotate keys periodically and enforce TLS on all endpoints.
 - **Refund & support flow:** Document a playbook for customer support, including how to issue refunds or resend receipts directly from Stripe Dashboard.
 
@@ -48,5 +48,5 @@ Implement a frictionless "Support the Author" experience using Stripe's Buy Butt
 **Next Steps:**
 
 1. Build the reusable support button component and SCSS partial.
-2. Wire up the Netlify webhook (or upcoming data platform listener) to capture Stripe events.
+2. Wire up the webhook listener (or upcoming data platform listener) to capture Stripe events.
 3. Craft analytics dashboards to monitor conversion, retention, and A/B outcomes.
