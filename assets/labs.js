@@ -205,7 +205,9 @@ const hidePagePreloader = () => {
   dom.pagePreloader.setAttribute('aria-hidden', 'true')
   dom.pagePreloader.classList.add('is-hidden')
   window.setTimeout(() => {
-    dom.pagePreloader?.remove()
+    if (dom.pagePreloader) {
+      dom.pagePreloader.remove()
+    }
   }, 400)
 }
 
@@ -299,26 +301,26 @@ const renderHeroStats = () => {
       <span class="eyebrow">Flagship intelligence</span>
       <span class="badge">Most ready</span>
     </div>
-    <h3>${heroProduct?.name || 'CrownCode Intelligence Suite'}</h3>
+    <h3>${heroProduct ? heroProduct.name : 'CrownCode Intelligence Suite'}</h3>
     <p class="lede">The flagship system leading the portfolio’s readiness curve.</p>
     <div class="hero-readiness">
       <div>
         <span class="eyebrow">Readiness</span>
-        <strong>${heroProduct?.status || 'Stage 1 Beta'}</strong>
+        <strong>${heroProduct ? heroProduct.status : 'Stage 1 Beta'}</strong>
       </div>
       <div>
         <span class="eyebrow">Focus</span>
-        <strong>${heroProduct?.categoryLabel || 'Flagship Intelligence Platform'}</strong>
+        <strong>${heroProduct ? heroProduct.categoryLabel : 'Flagship Intelligence Platform'}</strong>
       </div>
       <div>
         <span class="eyebrow">Next gate</span>
-        <strong>${heroProduct?.statusDetail || 'Stage 1 beta readiness'}</strong>
+        <strong>${heroProduct ? heroProduct.statusDetail : 'Stage 1 beta readiness'}</strong>
       </div>
     </div>
     <div class="hero-metrics">
-      <span class="metric-chip">Stage: ${heroProduct?.status || 'Stage 1 Beta'}</span>
-      <span class="metric-chip">Focus: ${heroProduct?.categoryLabel || 'Flagship Intelligence Platform'}</span>
-      <span class="metric-chip">Next gate: ${heroProduct?.statusDetail || 'Stage 1 beta readiness'}</span>
+      <span class="metric-chip">Stage: ${heroProduct ? heroProduct.status : 'Stage 1 Beta'}</span>
+      <span class="metric-chip">Focus: ${heroProduct ? heroProduct.categoryLabel : 'Flagship Intelligence Platform'}</span>
+      <span class="metric-chip">Next gate: ${heroProduct ? heroProduct.statusDetail : 'Stage 1 beta readiness'}</span>
     </div>
     <div class="hero-callout">
       <strong>Portfolio discipline</strong>
@@ -326,7 +328,10 @@ const renderHeroStats = () => {
     </div>
   `
   dom.heroCard.classList.add('is-ready')
-  dom.heroCard.closest('.hero-card')?.classList.add('hero-card--ready')
+  const heroCardWrapper = dom.heroCard.closest('.hero-card')
+  if (heroCardWrapper) {
+    heroCardWrapper.classList.add('hero-card--ready')
+  }
 
   animateCounts(dom.statStrip)
   registerRevealTargets(dom.statStrip)
