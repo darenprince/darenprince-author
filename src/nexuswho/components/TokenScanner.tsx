@@ -52,7 +52,7 @@ const TokenScanner = ({ onScan }: TokenScannerProps) => {
   return (
     <div className="glass-panel p-6">
       <div className="flex items-center gap-3">
-        <QrCode size={24} className="text-emerald-300" />
+        <QrCode size={24} className="text-sky-300" />
         <div>
           <h3 className="text-lg font-semibold">Scan Token</h3>
           <p className="text-sm text-slate-400">Use your camera to restore a Nexus Who payload.</p>

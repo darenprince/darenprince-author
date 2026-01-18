@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ShieldLock, Sparkle, Timer } from 'phosphor-react'
+import { Shield, Sparkle, Timer } from 'phosphor-react'
 import QuestionCard from '../components/QuestionCard'
 import ProgressBar from '../components/ProgressBar'
 import { QUESTIONS } from '../data/questions'
@@ -72,7 +72,7 @@ const Quiz = () => {
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
-            <ShieldLock size={24} className="text-emerald-300" />
+            <Shield size={24} className="text-sky-300" />
             <div>
               <h2 className="text-xl font-semibold">One attempt per session</h2>
               <p className="text-sm text-slate-400">
@@ -115,7 +115,7 @@ const Quiz = () => {
         <div className="flex flex-col gap-4">
           <div className="glass-panel p-6">
             <div className="flex items-center gap-3">
-              <Sparkle size={20} className="text-emerald-300" />
+              <Sparkle size={20} className="text-sky-300" />
               <div>
                 <h3 className="text-lg font-semibold">Session Guidance</h3>
                 <p className="text-sm text-slate-400">
@@ -137,7 +137,7 @@ const Quiz = () => {
           </div>
           <div className="glass-panel p-6">
             <div className="flex items-center gap-3">
-              <Timer size={20} className="text-emerald-300" />
+              <Timer size={20} className="text-sky-300" />
               <div>
                 <h3 className="text-lg font-semibold">Answer Scale</h3>
                 <p className="text-sm text-slate-400">

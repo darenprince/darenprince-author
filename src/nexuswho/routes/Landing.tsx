@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
-  ChartRadar,
+  ChartPie,
   Gauge,
   QrCode,
-  ShieldLock,
+  Shield,
   Sparkle,
   Target,
   TrendUp,
@@ -20,7 +20,7 @@ const Landing = () => {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-sm uppercase tracking-[0.3em] text-emerald-200"
+            className="text-sm uppercase tracking-[0.3em] text-fuchsia-200"
           >
             Vibe Prism
           </motion.p>
@@ -30,7 +30,7 @@ const Landing = () => {
             transition={{ delay: 0.1 }}
             className="mt-4 text-4xl font-semibold text-slate-50 md:text-5xl"
           >
-            A full-scale signal mirror for the vibe you bring into every room.
+            See your vibe glow back at you in under six minutes.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -38,7 +38,7 @@ const Landing = () => {
             transition={{ delay: 0.2 }}
             className="mt-4 text-base text-slate-300"
           >
-            Nexus Who is the flagship minisite for Vibe Prism. Answer 32 calibrated questions to
+            Nexus Who is the flagship minisite for Vibe Prism. Answer 32 fast, feel-good prompts to
             reveal your social style, unlock momentum insights, and generate a private token you can
             restore on demand.
           </motion.p>
@@ -48,7 +48,7 @@ const Landing = () => {
               Start the quiz
             </Link>
             <Link to="/restore" className="button-secondary">
-              <ShieldLock size={20} />
+              <Shield size={20} />
               Restore a profile
             </Link>
           </div>
@@ -68,7 +68,7 @@ const Landing = () => {
         <div className="glass-panel p-6">
           <div className="grid gap-4">
             <div className="flex items-start gap-3">
-              <ChartRadar size={24} className="text-emerald-300" />
+              <ChartPie size={24} className="text-sky-300" />
               <div>
                 <h3 className="text-lg font-semibold">Balanced insights</h3>
                 <p className="text-sm text-slate-400">
@@ -77,7 +77,7 @@ const Landing = () => {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Gauge size={24} className="text-emerald-300" />
+              <Gauge size={24} className="text-sky-300" />
               <div>
                 <h3 className="text-lg font-semibold">Momentum score</h3>
                 <p className="text-sm text-slate-400">
@@ -86,7 +86,7 @@ const Landing = () => {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <QrCode size={24} className="text-emerald-300" />
+              <QrCode size={24} className="text-sky-300" />
               <div>
                 <h3 className="text-lg font-semibold">Portable profile</h3>
                 <p className="text-sm text-slate-400">
@@ -138,11 +138,11 @@ const Landing = () => {
             {[
               { label: 'Presence', icon: UsersThree, copy: 'How visible and central you feel.' },
               { label: 'Strategy', icon: Target, copy: 'How intentional your moves are.' },
-              { label: 'Composure', icon: ShieldLock, copy: 'How calm you stay under pressure.' },
+              { label: 'Composure', icon: Shield, copy: 'How calm you stay under pressure.' },
               { label: 'Guidance', icon: TrendUp, copy: 'How you direct group energy.' },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-3">
-                <item.icon size={20} className="text-emerald-300" />
+                <item.icon size={20} className="text-sky-300" />
                 <div>
                   <p className="text-sm font-semibold text-slate-100">{item.label}</p>
                   <p className="text-xs text-slate-400">{item.copy}</p>
