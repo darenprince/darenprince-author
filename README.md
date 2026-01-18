@@ -60,6 +60,8 @@ npm run build
 
 > **SEO note:** Update the metadata in `nexuswho.html`, then run `npm run postprocess:seo` with `DOMAIN` set so canonical URLs, sitemap entries, and structured data reflect the latest quiz messaging.
 
+> **Routing note:** GitHub Pages supports both `/nexuswho.html` and `/nexuswho/` (a lightweight redirect) so links can stay clean without breaking the bundle path.
+
 ### PIN handling (temporary)
 
 The decoder PIN is currently embedded in the client for demo purposes. Swap to a hashed PIN by:
