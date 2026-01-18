@@ -16,6 +16,18 @@ export default defineConfig({
         entryFileNames: 'nexuswho-assets/[name].js',
         chunkFileNames: 'nexuswho-assets/[name].js',
         assetFileNames: 'nexuswho-assets/[name][extname]',
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+              return 'charts'
+            }
+            if (id.includes('html5-qrcode')) {
+              return 'scanner'
+            }
+            return 'vendor'
+          }
+          return undefined
+        },
       },
     },
   },

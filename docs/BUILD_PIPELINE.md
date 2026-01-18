@@ -27,6 +27,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - `CNAME` maps the custom domain. Keep it updated if the domain changes.
 - Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
 - When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
+- Netlify is no longer used. All deploys are committed artifacts published by GitHub Pages.
 - Authentication and database credentials can stay empty until the new provider is selected (see [`docs/data-platform-migration.md`](./data-platform-migration.md)).
 
 ## Local development workflow
@@ -64,6 +65,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Populate `.env` (local) with analytics keys and any third-party automation endpoints.
 - [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
+- [ ] Confirm `nexuswho.html` metadata reflects the current Vibe Prism positioning before pushing.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
 - [ ] Push to `main` (GitHub Pages auto-publish).
 - [ ] After deploy, confirm migration messaging is visible on auth surfaces.

@@ -89,7 +89,7 @@ const Result = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-16">
-      <div className="flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-fuchsia-200">
+      <div className="flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-pink-200">
         <Sparkle size={18} />
         Vibe Prism Results
       </div>

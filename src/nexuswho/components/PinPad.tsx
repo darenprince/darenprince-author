@@ -87,7 +87,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
             key={digit}
             type="button"
             onClick={() => handleDigit(digit)}
-            className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-fuchsia-400/40"
+            className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-sky-300/50"
           >
             {digit}
           </button>
@@ -102,7 +102,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
         <button
           type="button"
           onClick={() => handleDigit('0')}
-          className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-fuchsia-400/40"
+          className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-sky-300/50"
         >
           0
         </button>

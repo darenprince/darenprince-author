@@ -20,7 +20,7 @@ const Landing = () => {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-sm uppercase tracking-[0.3em] text-fuchsia-200"
+            className="text-sm uppercase tracking-[0.3em] text-pink-200"
           >
             Vibe Prism
           </motion.p>
@@ -30,7 +30,7 @@ const Landing = () => {
             transition={{ delay: 0.1 }}
             className="mt-4 text-4xl font-semibold text-slate-50 md:text-5xl"
           >
-            See your vibe glow back at you in under six minutes.
+            See your personality sparkle back at you in under six minutes.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -38,9 +38,9 @@ const Landing = () => {
             transition={{ delay: 0.2 }}
             className="mt-4 text-base text-slate-300"
           >
-            Nexus Who is the flagship minisite for Vibe Prism. Answer 32 fast, feel-good prompts to
-            reveal your social style, unlock momentum insights, and generate a private token you can
-            restore on demand.
+            Nexus Who is a fun, public personality quiz for Vibe Prism. Answer 32 fast, feel-good
+            prompts to reveal your social style, get playful insights, and generate a private token
+            you can restore on demand.
           </motion.p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/quiz" className="button-primary">
@@ -55,8 +55,8 @@ const Landing = () => {
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
               { label: 'Questions', value: '32' },
-              { label: 'Persona Bands', value: '3' },
-              { label: 'Signals Measured', value: '4' },
+              { label: 'Personality Modes', value: '3' },
+              { label: 'Vibe Traits', value: '4' },
             ].map((stat) => (
               <div key={stat.label} className="stat-card">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{stat.label}</p>
@@ -100,24 +100,24 @@ const Landing = () => {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="section-title">How the signal gets built</p>
+          <p className="section-title">How the quiz feels</p>
           <p className="section-lead">
-            Each section of the quiz is engineered to surface micro-decisions, composure, and
-            directional energy.
+            Each section is designed to feel light, intuitive, and a little magical while still
+            surfacing your natural rhythm.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               {
                 title: 'Pulse',
-                copy: 'Time-based responses capture your instinctive tempo.',
+                copy: 'Quick taps catch your instinctive tempo.',
               },
               {
                 title: 'Balance',
-                copy: 'Reversed items measure stability under tension.',
+                copy: 'Surprise flips keep the quiz playful and honest.',
               },
               {
                 title: 'Integrity',
-                copy: 'Built-in flags detect masking and halo bias.',
+                copy: 'Gentle checks keep the vibe consistent.',
               },
             ].map((card) => (
               <div key={card.title} className="glass-panel p-5">
@@ -128,18 +128,18 @@ const Landing = () => {
           </div>
         </div>
         <div className="glass-panel p-6">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Signal Spectrum</p>
-          <h3 className="mt-2 text-xl font-semibold text-slate-50">Four traits, one profile.</h3>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Personality Spectrum</p>
+          <h3 className="mt-2 text-xl font-semibold text-slate-50">Four traits, one vibe.</h3>
           <p className="mt-3 text-sm text-slate-400">
-            Presence, Strategy, Composure, and Guidance form the core of the Vibe Prism scoring
-            engine.
+            Presence, Strategy, Composure, and Guidance form the core of the Vibe Prism personality
+            map.
           </p>
           <div className="mt-6 space-y-4">
             {[
-              { label: 'Presence', icon: UsersThree, copy: 'How visible and central you feel.' },
+              { label: 'Presence', icon: UsersThree, copy: 'How visible and expressive you feel.' },
               { label: 'Strategy', icon: Target, copy: 'How intentional your moves are.' },
-              { label: 'Composure', icon: Shield, copy: 'How calm you stay under pressure.' },
-              { label: 'Guidance', icon: TrendUp, copy: 'How you direct group energy.' },
+              { label: 'Composure', icon: Shield, copy: 'How steady you stay when things shift.' },
+              { label: 'Guidance', icon: TrendUp, copy: 'How you steer the group vibe.' },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-3">
                 <item.icon size={20} className="text-sky-300" />
@@ -154,10 +154,9 @@ const Landing = () => {
       </section>
 
       <section>
-        <p className="section-title">What you unlock</p>
+        <p className="section-title">What you discover</p>
         <p className="section-lead">
-          The minisite is designed as a full-scale profile hub you can share with your team or keep
-          private.
+          A friendly, shareable profile you can keep to yourself or pass along with a QR token.
         </p>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {[
@@ -195,12 +194,12 @@ const Landing = () => {
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="glass-panel p-6">
           <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Who it is for</p>
-          <h3 className="mt-2 text-xl font-semibold">Designed for focused leaders.</h3>
+          <h3 className="mt-2 text-xl font-semibold">Designed for curious humans.</h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-300">
             {[
-              'Founders who want to calibrate presence before a pitch.',
-              'Teams decoding momentum and friction in collaboration.',
-              'Creators tracking how their energy lands across audiences.',
+              'Friends comparing the way they show up socially.',
+              'Teams looking for a fun, low-stakes read on group energy.',
+              'Creators curious about how their vibe lands with audiences.',
             ].map((item) => (
               <li key={item} className="list-item">
                 {item}

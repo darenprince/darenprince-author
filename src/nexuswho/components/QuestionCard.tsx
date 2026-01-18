@@ -46,7 +46,7 @@ const QuestionCard = ({ question, sequence, total, onAnswer }: QuestionCardProps
             initial="hidden"
             animate="visible"
             onClick={() => onAnswer(index)}
-            className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-left text-sm font-medium text-slate-100 transition hover:border-fuchsia-400/40 hover:bg-fuchsia-500/10"
+            className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-left text-sm font-medium text-slate-100 transition hover:border-sky-300/50 hover:bg-sky-500/10"
           >
             <span>{label}</span>
             <span className="text-xs text-slate-400">{index}</span>
