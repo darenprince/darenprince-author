@@ -18,12 +18,13 @@
   .book-experience {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   @include respond-to(lg) {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: $spacing-xl;
-    align-items: start;
+    align-items: center;
 
     .book-experience {
       justify-content: flex-start;
@@ -46,24 +47,28 @@
 
 .purchase-box {
   background: $surface;
-  padding: $spacing-lg $spacing-md;
+  padding: $spacing-xl $spacing-lg;
   border-radius: $border-radius;
   width: 100%;
   max-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-inline: auto;
+  border: 1px solid color-mix(in srgb, $lime-green 18%, transparent);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
 
   [hidden] {
     display: none !important;
   }
 
   @include respond-to(md) {
-    max-width: 260px;
+    max-width: 420px;
   }
 
   @include respond-to(lg) {
-    max-width: 320px;
+    max-width: 440px;
+    align-self: center;
   }
 
   .buy-controls {
