@@ -56,9 +56,9 @@ npm run dev
 npm run build
 ```
 
-> **Note:** `npm run build` now refreshes the static site assets _and_ outputs the Nexus Who bundle (`nexuswho.html` + `nexuswho-assets/`) for GitHub Pages. The legacy static site build is still available via `npm run build:site`.
+> **Note:** `npm run build` refreshes the static site assets _and_ outputs the Nexus Who bundle (`nexuswho.html` + `nexuswho-assets/`) for GitHub Pages. The source HTML lives at `src/nexuswho/index.html` and is copied into `nexuswho.html` before Vite runs.
 
-> **SEO note:** Update the metadata in `nexuswho.html`, then run `npm run postprocess:seo` with `DOMAIN` set so canonical URLs, sitemap entries, and structured data reflect the latest quiz messaging.
+> **SEO note:** Update the metadata in `src/nexuswho/index.html`, then run `npm run postprocess:seo` with `DOMAIN` set so canonical URLs, sitemap entries, and structured data reflect the latest quiz messaging.
 
 > **Routing note:** GitHub Pages supports both `/nexuswho.html` and `/nexuswho/` (a lightweight redirect) so links can stay clean without breaking the bundle path.
 
