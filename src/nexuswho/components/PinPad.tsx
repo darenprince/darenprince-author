@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { ShieldLock } from 'phosphor-react'
+import { Shield } from 'phosphor-react'
 
 const DEV_EMBEDDED_PIN = '55486423'
 
@@ -69,7 +69,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
   return (
     <div className="glass-panel p-6">
       <div className="flex items-center gap-3">
-        <ShieldLock size={28} className="text-emerald-300" />
+        <Shield size={28} className="text-sky-300" />
         <div>
           <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Nexus Who Access</p>
           <h2 className="text-xl font-semibold">Enter 8-digit PIN</h2>
@@ -87,7 +87,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
             key={digit}
             type="button"
             onClick={() => handleDigit(digit)}
-            className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-emerald-400/40"
+            className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-fuchsia-400/40"
           >
             {digit}
           </button>
@@ -102,7 +102,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
         <button
           type="button"
           onClick={() => handleDigit('0')}
-          className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-emerald-400/40"
+          className="rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-fuchsia-400/40"
         >
           0
         </button>
