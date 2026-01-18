@@ -40,6 +40,10 @@ const Result = () => {
   const [data, setData] = useState<{
     band: string
     scores: { N: number; M: number; P: number; MD: number }
+    dtiBase: number
+    dtiFinal: number
+    archetype: string
+    integrity: number
   } | null>(null)
   const [error, setError] = useState(false)
 
@@ -64,12 +68,16 @@ const Result = () => {
         }
         setData({
           band: parts[3],
+          dtiBase: Number(parts[4]),
+          dtiFinal: Number(parts[5]),
           scores: {
             N: Number(parts[6]),
             M: Number(parts[7]),
             P: Number(parts[8]),
             MD: Number(parts[9]),
           },
+          integrity: Number(parts[10]),
+          archetype: parts[11],
         })
       } catch {
         setError(true)
@@ -107,7 +115,14 @@ const AsyncResult = ({
   token,
   error,
 }: {
-  data: { band: string; scores: { N: number; M: number; P: number; MD: number } } | null
+  data: {
+    band: string
+    scores: { N: number; M: number; P: number; MD: number }
+    dtiBase: number
+    dtiFinal: number
+    archetype: string
+    integrity: number
+  } | null
   token: string
   error: boolean
 }) => {
@@ -156,6 +171,20 @@ const AsyncResult = ({
           </div>
         </div>
         <p className="mt-4 text-sm text-slate-300">{persona.description}</p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Momentum</p>
+            <p className="mt-2 text-lg font-semibold text-slate-50">{data.dtiFinal}</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Integrity</p>
+            <p className="mt-2 text-lg font-semibold text-slate-50">{data.integrity}</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Archetype</p>
+            <p className="mt-2 text-sm font-semibold text-slate-50">{data.archetype}</p>
+          </div>
+        </div>
         <div className="mt-6 h-64">
           <Radar
             data={radarData}
@@ -176,6 +205,30 @@ const AsyncResult = ({
         </div>
       </motion.div>
       <div className="flex flex-col gap-6">
+        <div className="glass-panel p-6">
+          <h3 className="text-lg font-semibold">Profile Readout</h3>
+          <p className="mt-2 text-sm text-slate-400">
+            Base DTI: {data.dtiBase} → Final DTI: {data.dtiFinal}
+          </p>
+          <div className="mt-4 grid gap-2 text-sm text-slate-300">
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Presence</span>
+              <span>{data.scores.N}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Strategy</span>
+              <span>{data.scores.M}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Composure</span>
+              <span>{data.scores.P}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Guidance</span>
+              <span>{data.scores.MD}</span>
+            </div>
+          </div>
+        </div>
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
             <QrCode size={22} className="text-emerald-300" />
@@ -199,6 +252,20 @@ const AsyncResult = ({
           <Link to="/restore" className="button-secondary mt-4">
             Restore Profile
           </Link>
+        </div>
+        <div className="glass-panel p-6">
+          <h3 className="text-lg font-semibold">Next actions</h3>
+          <ul className="mt-3 space-y-2 text-sm text-slate-300">
+            {[
+              'Save your QR token to a secure note.',
+              'Share the persona name with your team.',
+              'Use the decoder to review trait-level insights.',
+            ].map((item) => (
+              <li key={item} className="list-item">
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
