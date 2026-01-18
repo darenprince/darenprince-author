@@ -6,6 +6,11 @@ All pages will use this OG image: assets/images/og-image.jpg
 
 Structured data follows the schema.org specifications.
 
+## Deployment notes (GitHub Pages)
+
+- Run `npm run postprocess:seo` with `DOMAIN` set before committing so canonical URLs, Open Graph data, JSON-LD, sitemap, and robots.txt stay aligned with production metadata.
+- GitHub Pages ships committed HTML and metadata, so treat SEO output as a build artifact.
+
 ## Global metadata requirements
 
 - Always include `<link rel="canonical" href="https://darenprince.com/...">`.

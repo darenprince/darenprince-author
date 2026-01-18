@@ -37,14 +37,32 @@
   }
 
   .footer-socials {
-    display: grid;
-    gap: $spacing-xxs;
+    display: flex;
+    gap: $spacing-xs;
+    flex-wrap: nowrap;
+    align-items: center;
 
     a {
       display: inline-flex;
       align-items: center;
-      gap: $spacing-xs;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
       color: $contrast-high;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+
+      &:hover,
+      &:focus-visible {
+        border-color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-1px);
+      }
     }
 
     img {
@@ -70,25 +88,89 @@
     gap: $spacing-xxs;
   }
 
+  .footer-collapse {
+    border-radius: $border-radius;
+    border: 1px solid $border;
+    background: rgba(255, 255, 255, 0.04);
+    padding: $spacing-xs $spacing-sm;
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      color: $contrast-high;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+
+    summary::after {
+      content: '+';
+      font-size: 1.1rem;
+      line-height: 1;
+      color: $accent;
+    }
+
+    &[open] summary::after {
+      content: '–';
+    }
+  }
+
+  .footer-collapse-grid {
+    display: grid;
+    gap: $spacing-sm;
+    padding-top: $spacing-sm;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
   .footer-signup {
     display: grid;
     gap: $spacing-xs;
 
     form {
       display: grid;
-      gap: $spacing-xs;
+      gap: $spacing-sm;
     }
 
     input {
-      border-radius: $border-radius;
-      border: 1px solid $border;
-      padding: $spacing-xs $spacing-sm;
-      background: rgba(255, 255, 255, 0.08);
+      border-radius: calc(#{$border-radius} + 6px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: $spacing-sm $spacing-md;
+      background: rgba(7, 10, 6, 0.55);
       color: $contrast-high;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 0 0 3px rgba(141, 214, 121, 0.2);
     }
 
     button {
+      border-radius: calc(#{$border-radius} + 6px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(135deg, var(--color-bright), var(--color-primary));
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
       justify-content: center;
+    }
+
+    button:hover,
+    button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+      filter: brightness(1.05);
     }
   }
 
