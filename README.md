@@ -33,9 +33,42 @@ This project exists to:
 | Build tooling | Node 20+, npm scripts (see [`docs/BUILD_PIPELINE.md`](./docs/BUILD_PIPELINE.md))                                                 |
 | Search        | Minisearch index built from `/content/**/*.md` and `/pages/**/*.html`                                                            |
 
-> **Reality Check:** GitHub Pages serves exactly what is committed to `main`. Run `npm run build` locally before committing so search indexes, image manifests, and compiled CSS stay in sync.
+> **Reality Check:** GitHub Pages serves exactly what is committed to `main`. Run `npm run build:site` locally before committing so search indexes, image manifests, and compiled CSS stay in sync.
 >
-> **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build` or `npm run watch`.
+> **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build:site` or `npm run watch`.
+
+---
+
+## 🧪 Vibe Prism (nexuswho.html)
+
+The **Vibe Prism** web app lives at `nexuswho.html` and is a fully client-side React + TypeScript experience powered by Vite. It includes a hidden forensic decoder called “Nexus Who” that is protected by a temporary PIN keypad.
+
+**Local development**
+
+```bash
+npm install
+npm run dev
+```
+
+**Production build (static)**
+
+```bash
+npm run build
+```
+
+> **Note:** The legacy static site build is still available via `npm run build:site`.
+
+### PIN handling (temporary)
+
+The decoder PIN is currently embedded in the client for demo purposes. Swap to a hashed PIN by:
+
+1. Storing a hash (SHA-256 or bcrypt) in code or a secure config file.
+2. Hashing the entered PIN in-browser and comparing against the stored hash.
+3. Removing the raw `DEV_EMBEDDED_PIN` constant from the UI.
+
+### Client-side limitations
+
+This app is **100% client-side** with no server validation. Tokens can be copied or replayed, and local/session storage can be cleared by the user. Treat results as advisory and avoid using them for high-stakes decisions without server-side verification.
 
 ---
 
@@ -96,7 +129,7 @@ _Adding a new token_
 
 1. Declare `--color-name` in `_css-vars.scss`.
 2. Map it in `_colors.scss` (`$name: var(--color-name);`).
-3. Run `npm run build` to refresh the compiled CSS.
+3. Run `npm run build:site` to refresh the compiled CSS.
 
 > Do not edit existing tokens unless explicitly requested. Prefer adding new variables or utility classes.
 
@@ -194,7 +227,7 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
 ./scripts/start_dev.sh     # watch files & launch local static server
-npm run build              # build search → icons → images → Sass
+npm run build:site         # build search → icons → images → Sass
 npm run watch              # watch Sass and rebuild CSS
 npm test                   # run Vitest suite
 ```
