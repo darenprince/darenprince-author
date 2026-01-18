@@ -66,6 +66,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
 - [ ] Confirm `nexuswho.html` metadata reflects the current Vibe Prism positioning before pushing.
+- [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
 - [ ] Push to `main` (GitHub Pages auto-publish).
 - [ ] After deploy, confirm migration messaging is visible on auth surfaces.

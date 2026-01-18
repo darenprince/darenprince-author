@@ -39,8 +39,12 @@
   .footer-socials {
     display: flex;
     gap: $spacing-xs;
+    flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: thin;
 
     a {
       display: inline-flex;
@@ -109,14 +113,15 @@
     }
 
     summary::after {
-      content: '+';
+      content: '\e3d4';
+      font-family: 'Phosphor';
       font-size: 1.1rem;
       line-height: 1;
       color: $accent;
     }
 
     &[open] summary::after {
-      content: '–';
+      content: '\e32a';
     }
   }
 

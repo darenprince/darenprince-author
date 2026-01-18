@@ -750,8 +750,12 @@ body.theme-light {
 .site-footer .footer-socials {
   display: flex;
   gap: 0.5rem;
+  flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 .site-footer .footer-socials a {
   display: inline-flex;
@@ -812,13 +816,14 @@ body.theme-light {
   display: none;
 }
 .site-footer .footer-collapse summary::after {
-  content: '+';
+  content: '\e3d4';
+  font-family: 'Phosphor';
   font-size: 1.1rem;
   line-height: 1;
   color: var(--color-accent);
 }
 .site-footer .footer-collapse[open] summary::after {
-  content: '–';
+  content: '\e32a';
 }
 .site-footer .footer-collapse-grid {
   display: grid;
