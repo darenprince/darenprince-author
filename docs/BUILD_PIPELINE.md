@@ -28,6 +28,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
 - When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
 - Netlify is no longer used. All deploys are committed artifacts published by GitHub Pages.
+- Keep `/nexuswho/` redirect (`nexuswho/index.html`) pointing to `nexuswho.html` so clean URLs keep working.
 - Authentication and database credentials can stay empty until the new provider is selected (see [`docs/data-platform-migration.md`](./data-platform-migration.md)).
 
 ## Local development workflow
@@ -67,6 +68,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
 - [ ] Confirm `nexuswho.html` metadata reflects the current Vibe Prism positioning before pushing.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
+- [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
 - [ ] Push to `main` (GitHub Pages auto-publish).
 - [ ] After deploy, confirm migration messaging is visible on auth surfaces.
