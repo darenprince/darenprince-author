@@ -14,11 +14,11 @@ const SiteHeader = () => {
     <header className="sticky top-0 z-40 border-b border-white/5 bg-slate-950/70 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-200">
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-fuchsia-400/30 bg-fuchsia-500/10 text-fuchsia-200">
             <Sparkle size={18} />
           </span>
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">Vibe Prism</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-fuchsia-200">Vibe Prism</p>
             <p className="text-sm font-semibold text-slate-50">Nexus Who Minisite</p>
           </div>
         </Link>

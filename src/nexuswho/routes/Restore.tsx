@@ -1,15 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  ChartRadar,
-  Gauge,
-  QrCode,
-  ShieldLock,
-  WarningTriangle,
-  Eye,
-  EyeSlash,
-  Download,
-} from 'phosphor-react'
+import { ChartPie, Gauge, QrCode, Shield, Warning, Eye, EyeSlash, Download } from 'phosphor-react'
 import { Bar, Line, Radar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -54,8 +45,8 @@ interface DecodedPayload {
 }
 
 const bandStyles: Record<string, string> = {
-  GREEN: 'bg-emerald-500/10 text-emerald-200 border-emerald-400/30',
-  YELLOW: 'bg-amber-500/10 text-amber-200 border-amber-400/30',
+  GREEN: 'bg-sky-500/10 text-sky-200 border-sky-400/30',
+  YELLOW: 'bg-violet-500/10 text-violet-200 border-violet-400/30',
   RED: 'bg-rose-500/10 text-rose-200 border-rose-400/30',
 }
 
@@ -264,7 +255,7 @@ const Restore = () => {
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
-            <ShieldLock size={22} className="text-emerald-300" />
+            <Shield size={22} className="text-sky-300" />
             <div>
               <h3 className="text-lg font-semibold">Decoder Status</h3>
               <p className="text-sm text-slate-400">
@@ -275,7 +266,7 @@ const Restore = () => {
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
               <span>Session</span>
-              <span className="text-emerald-200">Unlocked</span>
+              <span className="text-sky-200">Unlocked</span>
             </div>
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
               <span>Storage</span>
@@ -306,7 +297,7 @@ const Restore = () => {
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
-            <ShieldLock size={22} className="text-emerald-300" />
+            <Shield size={22} className="text-sky-300" />
             <div>
               <h3 className="text-lg font-semibold">Paste Token</h3>
               <p className="text-sm text-slate-400">
@@ -372,7 +363,7 @@ const Restore = () => {
 
           <section className="glass-panel p-6">
             <div className="flex items-center gap-3">
-              <WarningTriangle size={22} className="text-rose-300" />
+              <Warning size={22} className="text-rose-300" />
               <div>
                 <h2 className="text-xl font-semibold">Overrides & Safety Triggers</h2>
                 <p className="text-sm text-slate-400">
@@ -392,7 +383,7 @@ const Restore = () => {
                   transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
                   className="flex items-center gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3"
                 >
-                  <WarningTriangle size={18} className="text-rose-300" />
+                  <Warning size={18} className="text-rose-300" />
                   <span className="text-sm text-rose-100">{trigger}</span>
                 </motion.div>
               ))}
@@ -410,7 +401,7 @@ const Restore = () => {
 
           <section className="glass-panel p-6">
             <div className="flex items-center gap-3">
-              <ChartRadar size={22} className="text-emerald-300" />
+              <ChartPie size={22} className="text-sky-300" />
               <div>
                 <h2 className="text-xl font-semibold">Trait Analysis</h2>
                 <p className="text-sm text-slate-400">Weighted trait intensities.</p>
@@ -495,7 +486,7 @@ const Restore = () => {
               {decoded.maskFlags.length > 0 ? (
                 <EyeSlash size={22} className="text-amber-300" />
               ) : (
-                <Eye size={22} className="text-emerald-300" />
+                <Eye size={22} className="text-sky-300" />
               )}
               <div>
                 <h2 className="text-xl font-semibold">Integrity & Masking</h2>
@@ -587,7 +578,7 @@ const Restore = () => {
                         )}
                         {question.safetyTrigger && (
                           <span className="badge gap-2 border border-rose-400/40 bg-rose-500/10 text-rose-200">
-                            <WarningTriangle size={12} />
+                            <Warning size={12} />
                             Safety Trigger
                           </span>
                         )}

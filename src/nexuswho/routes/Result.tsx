@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChartRadar, QrCode, Sparkle } from 'phosphor-react'
+import { ChartPie, QrCode, Sparkle } from 'phosphor-react'
 import { Radar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -89,7 +89,7 @@ const Result = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-16">
-      <div className="flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-emerald-200">
+      <div className="flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-fuchsia-200">
         <Sparkle size={18} />
         Vibe Prism Results
       </div>
@@ -164,7 +164,7 @@ const AsyncResult = ({
         className="glass-panel p-6"
       >
         <div className="flex items-center gap-3">
-          <ChartRadar size={24} className="text-emerald-300" />
+          <ChartPie size={24} className="text-sky-300" />
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Persona</p>
             <h2 className="text-2xl font-semibold text-slate-50">{persona.name}</h2>
@@ -231,7 +231,7 @@ const AsyncResult = ({
         </div>
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
-            <QrCode size={22} className="text-emerald-300" />
+            <QrCode size={22} className="text-sky-300" />
             <div>
               <h3 className="text-lg font-semibold">Private QR token</h3>
               <p className="text-sm text-slate-400">

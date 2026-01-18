@@ -9,7 +9,7 @@ const ProgressBar = ({ value }: ProgressBarProps) => {
   return (
     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
       <motion.div
-        className="h-full bg-gradient-to-r from-emerald-500/40 via-emerald-400/50 to-emerald-300/60"
+        className="h-full bg-gradient-to-r from-fuchsia-500/40 via-sky-400/50 to-violet-300/60"
         initial={{ width: 0 }}
         animate={{ width: `${value}%` }}
         transition={{ duration: 0.4 }}
