@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ShieldLock } from 'phosphor-react'
+import { ShieldLock, Sparkle, Timer } from 'phosphor-react'
 import QuestionCard from '../components/QuestionCard'
 import ProgressBar from '../components/ProgressBar'
 import { QUESTIONS } from '../data/questions'
@@ -95,22 +95,77 @@ const Quiz = () => {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16">
-      <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-16">
+      <div className="flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.3em] text-slate-400">
         <span>Vibe Prism — quiz flow</span>
         <span>
           {currentIndex + 1} / {questions.length}
         </span>
       </div>
       <ProgressBar value={progress} />
-      <motion.div layout>
-        <QuestionCard
-          question={questions[currentIndex]}
-          sequence={currentIndex + 1}
-          total={questions.length}
-          onAnswer={handleAnswer}
-        />
-      </motion.div>
+      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <motion.div layout>
+          <QuestionCard
+            question={questions[currentIndex]}
+            sequence={currentIndex + 1}
+            total={questions.length}
+            onAnswer={handleAnswer}
+          />
+        </motion.div>
+        <div className="flex flex-col gap-4">
+          <div className="glass-panel p-6">
+            <div className="flex items-center gap-3">
+              <Sparkle size={20} className="text-emerald-300" />
+              <div>
+                <h3 className="text-lg font-semibold">Session Guidance</h3>
+                <p className="text-sm text-slate-400">
+                  Answer quickly, but stay honest. The system listens for clarity.
+                </p>
+              </div>
+            </div>
+            <ul className="mt-4 space-y-2 text-sm text-slate-300">
+              {[
+                'No backtracking once you move forward.',
+                'Response timing shapes integrity scores.',
+                'Your token is stored on this device only.',
+              ].map((item) => (
+                <li key={item} className="list-item">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="glass-panel p-6">
+            <div className="flex items-center gap-3">
+              <Timer size={20} className="text-emerald-300" />
+              <div>
+                <h3 className="text-lg font-semibold">Answer Scale</h3>
+                <p className="text-sm text-slate-400">
+                  Score 0-3 based on how true each statement feels.
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 grid gap-2 text-sm text-slate-300">
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>0</span>
+                <span className="text-slate-400">Not me</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>1</span>
+                <span className="text-slate-400">Rarely true</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>2</span>
+                <span className="text-slate-400">Often true</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>3</span>
+                <span className="text-slate-400">Always true</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
