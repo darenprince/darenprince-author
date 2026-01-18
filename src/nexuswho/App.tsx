@@ -16,7 +16,7 @@ const pageVariants = {
 
 const App = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-950 via-indigo-950 to-fuchsia-950 text-slate-100">
       <SiteHeader />
       <motion.main
         variants={pageVariants}
