@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2025-02-14_
+_Last updated: 2026-01-18_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -59,6 +59,20 @@ npm run build
 > **Note:** `npm run build` refreshes the static site assets _and_ outputs the Nexus Who bundle (`nexuswho.html` + `nexuswho-assets/`) for GitHub Pages. The source HTML lives at `src/nexuswho/index.html` and is copied into `nexuswho.html` before Vite runs.
 
 > **SEO note:** Update the metadata in `src/nexuswho/index.html`, then run `npm run postprocess:seo` with `DOMAIN` set so canonical URLs, sitemap entries, and structured data reflect the latest quiz messaging.
+
+---
+
+## 🚀 Deployment (GitHub Pages)
+
+GitHub Pages is the only hosting target. Netlify is no longer used.
+
+**Preflight checklist**
+
+1. Update page metadata or copy as needed (titles, descriptions, Open Graph tags, JSON-LD).
+2. Run `npm run deploy` with `DOMAIN` set to the production URL (for canonical URLs + sitemap).
+3. Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`, `nexuswho-assets/*`).
+
+> **Reality Check:** GitHub Pages serves committed assets only. Always regenerate metadata and SEO output before pushing to `main`.
 
 > **Routing note:** GitHub Pages supports both `/nexuswho.html` and `/nexuswho/` (a lightweight redirect) so links can stay clean without breaking the bundle path.
 

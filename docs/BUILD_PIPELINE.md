@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2025-02-20_
+_Last updated: 2026-01-18_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -50,6 +50,12 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 4. Commit `public/search/index.json` and `public/search/docs.json`.
 
 > **Reality Check:** Until `/content/` is populated, `build:search` logs “Indexed 0 documents.” Ship content before showcasing search.
+
+## Metadata & SEO refresh
+
+1. Update page-level metadata (titles, descriptions, Open Graph tags, JSON-LD) in the source HTML.
+2. Run `npm run postprocess:seo` with `DOMAIN` set to the production URL so canonical links, sitemap entries, and structured data stay aligned with GitHub Pages output.
+3. Commit the refreshed HTML, `sitemap.xml`, `robots.txt`, and any updated JSON-LD blocks so GitHub Pages serves the latest metadata.
 
 ## Image management
 
