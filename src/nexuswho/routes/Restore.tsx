@@ -251,12 +251,57 @@ const Restore = () => {
             Nexus Who — forensic decoder
           </p>
           <h1 className="mt-3 text-3xl font-semibold">Restore & Decode</h1>
+          <p className="mt-2 text-sm text-slate-400">
+            Paste a token or scan your QR to rebuild the full report in seconds.
+          </p>
         </div>
         <button type="button" onClick={handleExport} className="button-secondary">
           <Download size={18} />
           Download Report
         </button>
       </div>
+
+      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="glass-panel p-6">
+          <div className="flex items-center gap-3">
+            <ShieldLock size={22} className="text-emerald-300" />
+            <div>
+              <h3 className="text-lg font-semibold">Decoder Status</h3>
+              <p className="text-sm text-slate-400">
+                Your session is authenticated for secure profile restoration.
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 text-sm text-slate-300">
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Session</span>
+              <span className="text-emerald-200">Unlocked</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Storage</span>
+              <span className="text-slate-300">Local only</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+              <span>Report</span>
+              <span className="text-slate-300">Full forensic</span>
+            </div>
+          </div>
+        </div>
+        <div className="glass-panel p-6">
+          <h3 className="text-lg font-semibold">Decode checklist</h3>
+          <ul className="mt-4 space-y-2 text-sm text-slate-300">
+            {[
+              'Use the most recent token for accurate scores.',
+              'Scan in a well-lit space for best QR results.',
+              'Export a PDF if you need to share the report.',
+            ].map((item) => (
+              <li key={item} className="list-item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="glass-panel p-6">
