@@ -1,8 +1,12 @@
 # Support the Author Payment Gateway Implementation Plan
 
+## Status (Paused)
+
+The public-facing "Support the Author" / "Fuel Up" donation experience has been removed from the live pages because the embed is currently broken. Any future donation rollout should restart from a clean implementation with verified Stripe assets, updated copy, and working fallbacks before reintroducing it to navigation or the sitemap.
+
 ## Overview
 
-Implement a frictionless "Support the Author" experience using Stripe's Buy Button while maintaining flexibility for future donation tiers and membership upgrades. The plan below covers technical integration, UX considerations, and operational readiness so the gateway feels native to the Daren Prince experience.
+Implement a frictionless "Support the Author" experience using Stripe's Buy Button while maintaining flexibility for future donation tiers and membership upgrades. The plan below covers technical integration, UX considerations, and operational readiness so the gateway feels native to the Daren Prince experience once re-enabled.
 
 ## 1. Stripe Buy Button Integration
 
@@ -45,8 +49,8 @@ Implement a frictionless "Support the Author" experience using Stripe's Buy Butt
 
 ---
 
-**Next Steps:**
+**Next Steps (when re-enabled):**
 
-1. Build the reusable support button component and SCSS partial.
+1. Rebuild the reusable support button component and SCSS partial after the Stripe assets are confirmed.
 2. Wire up the webhook listener (or upcoming data platform listener) to capture Stripe events.
 3. Craft analytics dashboards to monitor conversion, retention, and A/B outcomes.
