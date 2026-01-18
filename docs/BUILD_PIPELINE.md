@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2025-02-14_
+_Last updated: 2025-02-20_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -58,7 +58,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 - `npm test` — Vitest suites covering public site smoke checks and asset helpers.
 - `npm run build` — Quick smoke test (watch for Sass deprecation warnings when upgrading Dart Sass).
-- `npm run postprocess:seo` — Validate canonical URLs, JSON-LD, robots.txt, and sitemap output.
+- `npm run postprocess:seo` — Validate canonical URLs, JSON-LD, robots.txt, and sitemap output (GitHub Pages serves the committed output).
 
 ## Deployment checklist
 
