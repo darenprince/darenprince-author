@@ -56,7 +56,7 @@ npm run dev
 npm run build
 ```
 
-> **Note:** The legacy static site build is still available via `npm run build:site`.
+> **Note:** `npm run build` now refreshes the static site assets _and_ outputs the Nexus Who bundle (`nexuswho.html` + `nexuswho-assets/`) for GitHub Pages. The legacy static site build is still available via `npm run build:site`.
 
 ### PIN handling (temporary)
 
