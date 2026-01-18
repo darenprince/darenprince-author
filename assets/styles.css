@@ -744,7 +744,7 @@ body.theme-light {
   gap: 0.75rem;
 }
 .site-footer .footer-tagline {
-  color: var(--color-text-muted);
+  color: var(--color-muted);
   line-height: 1.6;
 }
 .site-footer .footer-socials {
@@ -795,7 +795,7 @@ body.theme-light {
   justify-content: center;
 }
 .site-footer .footer-note {
-  color: var(--color-text-muted);
+  color: var(--color-muted);
   margin: 0;
 }
 .site-footer .footer-labs-link {
@@ -7004,7 +7004,7 @@ input:checked + .toggle-slider::before {
 @media (min-width: 1024px) {
   .book-primary-layout {
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
-    gap: 2.75rem;
+    gap: 3rem;
     align-items: start;
   }
   .book-primary-layout .book-experience {

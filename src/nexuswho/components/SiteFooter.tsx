@@ -9,33 +9,33 @@ const SiteFooter = () => {
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.9fr_0.9fr]">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-fuchsia-400/30 bg-fuchsia-500/10 text-fuchsia-200">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-sky-300/30 bg-sky-400/15 text-sky-200">
                 <Sparkle size={18} />
               </span>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-fuchsia-200">Vibe Prism</p>
-                <p className="text-sm font-semibold text-slate-50">Nexus Who Intelligence Lab</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-pink-200">Vibe Prism</p>
+                <p className="text-sm font-semibold text-slate-50">Nexus Who Vibe Lab</p>
               </div>
             </div>
             <p className="text-sm text-slate-400">
-              Built for insight-forward teams and creators who want to understand the energy they
-              bring into every room. Private by design, calm by default.
+              A playful personality quiz for people who want to understand the energy they bring
+              into every room. Light, fun, and private by design.
             </p>
           </div>
           <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Core Pillars</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Vibe Highlights</p>
             <ul className="space-y-2 text-sm text-slate-300">
               <li className="flex items-center gap-2">
                 <TrendUp size={16} className="text-sky-300" />
-                Momentum-aware personality mapping
+                Mood-friendly personality mapping
               </li>
               <li className="flex items-center gap-2">
                 <Target size={16} className="text-sky-300" />
-                Precision archetypes with clear next steps
+                Signature archetypes with playful cues
               </li>
               <li className="flex items-center gap-2">
                 <ShieldCheck size={16} className="text-sky-300" />
-                Integrity signals baked into every score
+                Private-by-default results you control
               </li>
             </ul>
           </div>

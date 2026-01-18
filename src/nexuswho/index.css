@@ -29,7 +29,7 @@ body {
 }
 
 .button-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-fuchsia-500/20 px-6 py-3 text-sm font-semibold text-fuchsia-100 transition hover:bg-fuchsia-500/30;
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-sky-400/25 px-6 py-3 text-sm font-semibold text-sky-100 transition hover:bg-sky-400/40;
 }
 
 .button-secondary {
@@ -41,15 +41,15 @@ body {
 }
 
 .nav-link {
-  @apply text-xs uppercase tracking-[0.3em] text-slate-300 transition hover:text-fuchsia-200;
+  @apply text-xs uppercase tracking-[0.3em] text-slate-300 transition hover:text-pink-200;
 }
 
 .nav-link-active {
-  @apply text-fuchsia-200;
+  @apply text-pink-200;
 }
 
 .section-title {
-  @apply text-xs uppercase tracking-[0.3em] text-fuchsia-200;
+  @apply text-xs uppercase tracking-[0.3em] text-pink-200;
 }
 
 .section-lead {
@@ -62,7 +62,7 @@ body {
 
 .list-item::before {
   content: '•';
-  color: #f472b6;
+  color: #f9a8d4;
 }
 
 .muted {
