@@ -27,12 +27,24 @@ const h = () =>
                 className: 'text-sm uppercase tracking-[0.3em] text-pink-200',
                 children: 'Vibe Prism',
               }),
-              e.jsx(t.h1, {
+              e.jsxs(t.h1, {
                 initial: { opacity: 0, y: 10 },
                 animate: { opacity: 1, y: 0 },
                 transition: { delay: 0.1 },
                 className: 'mt-4 text-4xl font-semibold text-slate-50 md:text-5xl',
-                children: 'See your personality sparkle back at you in under six minutes.',
+                children: [
+                  'See your personality',
+                  ' ',
+                  e.jsxs('span', {
+                    className: 'hero-shimmer',
+                    children: [
+                      'sparkle back at you',
+                      e.jsx('span', { className: 'hero-sparkle', 'aria-hidden': 'true' }),
+                    ],
+                  }),
+                  ' ',
+                  'in under six minutes.',
+                ],
               }),
               e.jsx(t.p, {
                 initial: { opacity: 0, y: 10 },

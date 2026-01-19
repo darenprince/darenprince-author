@@ -17,26 +17,30 @@ const pageVariants = {
 
 const App = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-950 via-sky-950 to-pink-950 text-slate-100">
-      <SiteHeader />
-      <motion.main
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        className="flex-1"
-      >
-        <Suspense fallback={<div className="mx-auto w-full max-w-5xl px-6 py-16">Loading…</div>}>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/restore" element={<Restore />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </motion.main>
-      <SiteFooter />
+    <div className="nexuswho-shell">
+      <div className="nexuswho-aurora" aria-hidden="true" />
+      <div className="nexuswho-sparkle-field" aria-hidden="true" />
+      <div className="relative z-10 flex min-h-screen flex-col text-slate-100">
+        <SiteHeader />
+        <motion.main
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="flex-1"
+        >
+          <Suspense fallback={<div className="mx-auto w-full max-w-5xl px-6 py-16">Loading…</div>}>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/quiz" element={<Quiz />} />
+              <Route path="/result" element={<Result />} />
+              <Route path="/restore" element={<Restore />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </motion.main>
+        <SiteFooter />
+      </div>
     </div>
   )
 }

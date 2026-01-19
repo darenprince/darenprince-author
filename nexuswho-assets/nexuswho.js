@@ -16,15 +16,15 @@ const __vite__mapDeps = (
 ) => i.map((i) => d[i])
 import {
   j as e,
-  S as b,
+  S as v,
   T as w,
   a as k,
   b as _,
   L as f,
   N as E,
-  R as p,
-  m as R,
-  r as z,
+  R as h,
+  m as z,
+  r as R,
   c as L,
   d as u,
   e as P,
@@ -66,37 +66,37 @@ const q = 'modulepreload',
     return new URL(o, a).href
   },
   g = {},
-  y = function (a, c, d) {
+  j = function (a, c, d) {
     let t = Promise.resolve()
     if (c && c.length > 0) {
       const i = document.getElementsByTagName('link'),
         r = document.querySelector('meta[property=csp-nonce]'),
-        j = (r == null ? void 0 : r.nonce) || (r == null ? void 0 : r.getAttribute('nonce'))
+        y = (r == null ? void 0 : r.nonce) || (r == null ? void 0 : r.getAttribute('nonce'))
       t = Promise.allSettled(
         c.map((n) => {
           if (((n = A(n, d)), n in g)) return
           g[n] = !0
-          const m = n.endsWith('.css'),
-            N = m ? '[rel="stylesheet"]' : ''
+          const x = n.endsWith('.css'),
+            b = x ? '[rel="stylesheet"]' : ''
           if (!!d)
-            for (let x = i.length - 1; x >= 0; x--) {
-              const h = i[x]
-              if (h.href === n && (!m || h.rel === 'stylesheet')) return
+            for (let m = i.length - 1; m >= 0; m--) {
+              const p = i[m]
+              if (p.href === n && (!x || p.rel === 'stylesheet')) return
             }
-          else if (document.querySelector(`link[href="${n}"]${N}`)) return
+          else if (document.querySelector(`link[href="${n}"]${b}`)) return
           const l = document.createElement('link')
           if (
-            ((l.rel = m ? 'stylesheet' : q),
-            m || (l.as = 'script'),
+            ((l.rel = x ? 'stylesheet' : q),
+            x || (l.as = 'script'),
             (l.crossOrigin = ''),
             (l.href = n),
-            j && l.setAttribute('nonce', j),
+            y && l.setAttribute('nonce', y),
             document.head.appendChild(l),
-            m)
+            x)
           )
-            return new Promise((x, h) => {
-              ;(l.addEventListener('load', x),
-                l.addEventListener('error', () => h(new Error(`Unable to preload CSS for ${n}`))))
+            return new Promise((m, p) => {
+              ;(l.addEventListener('load', m),
+                l.addEventListener('error', () => p(new Error(`Unable to preload CSS for ${n}`))))
             })
         })
       )
@@ -128,7 +128,7 @@ const q = 'modulepreload',
                       e.jsx('span', {
                         className:
                           'flex h-10 w-10 items-center justify-center rounded-2xl border border-sky-300/30 bg-sky-400/15 text-sky-200',
-                        children: e.jsx(b, { size: 18 }),
+                        children: e.jsx(v, { size: 18 }),
                       }),
                       e.jsxs('div', {
                         children: [
@@ -249,7 +249,7 @@ const q = 'modulepreload',
               e.jsx('span', {
                 className:
                   'flex h-10 w-10 items-center justify-center rounded-2xl border border-sky-300/30 bg-sky-400/15 text-sky-200',
-                children: e.jsx(b, { size: 18 }),
+                children: e.jsx(v, { size: 18 }),
               }),
               e.jsxs('div', {
                 children: [
@@ -290,13 +290,13 @@ const q = 'modulepreload',
         ],
       }),
     }),
-  D = p.lazy(() => y(() => import('./Landing.js'), __vite__mapDeps([0, 1, 2]), import.meta.url)),
-  B = p.lazy(() => y(() => import('./Quiz.js'), __vite__mapDeps([3, 1, 2, 4, 5]), import.meta.url)),
-  C = p.lazy(() =>
-    y(() => import('./Result.js'), __vite__mapDeps([6, 1, 2, 7, 5]), import.meta.url)
+  D = h.lazy(() => j(() => import('./Landing.js'), __vite__mapDeps([0, 1, 2]), import.meta.url)),
+  B = h.lazy(() => j(() => import('./Quiz.js'), __vite__mapDeps([3, 1, 2, 4, 5]), import.meta.url)),
+  C = h.lazy(() =>
+    j(() => import('./Result.js'), __vite__mapDeps([6, 1, 2, 7, 5]), import.meta.url)
   ),
-  H = p.lazy(() =>
-    y(() => import('./Restore.js'), __vite__mapDeps([8, 1, 2, 7, 4, 5]), import.meta.url)
+  H = h.lazy(() =>
+    j(() => import('./Restore.js'), __vite__mapDeps([8, 1, 2, 7, 4, 5]), import.meta.url)
   ),
   W = {
     initial: { opacity: 0, y: 16 },
@@ -305,35 +305,41 @@ const q = 'modulepreload',
   },
   $ = () =>
     e.jsxs('div', {
-      className:
-        'flex min-h-screen flex-col bg-gradient-to-br from-slate-950 via-sky-950 to-pink-950 text-slate-100',
+      className: 'nexuswho-shell',
       children: [
-        e.jsx(I, {}),
-        e.jsx(R.main, {
-          variants: W,
-          initial: 'initial',
-          animate: 'animate',
-          exit: 'exit',
-          className: 'flex-1',
-          children: e.jsx(z.Suspense, {
-            fallback: e.jsx('div', {
-              className: 'mx-auto w-full max-w-5xl px-6 py-16',
-              children: 'Loading…',
+        e.jsx('div', { className: 'nexuswho-aurora', 'aria-hidden': 'true' }),
+        e.jsx('div', { className: 'nexuswho-sparkle-field', 'aria-hidden': 'true' }),
+        e.jsxs('div', {
+          className: 'relative z-10 flex min-h-screen flex-col text-slate-100',
+          children: [
+            e.jsx(I, {}),
+            e.jsx(z.main, {
+              variants: W,
+              initial: 'initial',
+              animate: 'animate',
+              exit: 'exit',
+              className: 'flex-1',
+              children: e.jsx(R.Suspense, {
+                fallback: e.jsx('div', {
+                  className: 'mx-auto w-full max-w-5xl px-6 py-16',
+                  children: 'Loading…',
+                }),
+                children: e.jsxs(L, {
+                  children: [
+                    e.jsx(u, { path: '/', element: e.jsx(D, {}) }),
+                    e.jsx(u, { path: '/quiz', element: e.jsx(B, {}) }),
+                    e.jsx(u, { path: '/result', element: e.jsx(C, {}) }),
+                    e.jsx(u, { path: '/restore', element: e.jsx(H, {}) }),
+                    e.jsx(u, { path: '*', element: e.jsx(P, { to: '/', replace: !0 }) }),
+                  ],
+                }),
+              }),
             }),
-            children: e.jsxs(L, {
-              children: [
-                e.jsx(u, { path: '/', element: e.jsx(D, {}) }),
-                e.jsx(u, { path: '/quiz', element: e.jsx(B, {}) }),
-                e.jsx(u, { path: '/result', element: e.jsx(C, {}) }),
-                e.jsx(u, { path: '/restore', element: e.jsx(H, {}) }),
-                e.jsx(u, { path: '*', element: e.jsx(P, { to: '/', replace: !0 }) }),
-              ],
-            }),
-          }),
+            e.jsx(V, {}),
+          ],
         }),
-        e.jsx(V, {}),
       ],
     }),
-  v = document.getElementById('root')
-if (!v) throw new Error('Root container missing')
-S(v).render(e.jsx(p.StrictMode, { children: e.jsx(O, { children: e.jsx($, {}) }) }))
+  N = document.getElementById('root')
+if (!N) throw new Error('Root container missing')
+S(N).render(e.jsx(h.StrictMode, { children: e.jsx(O, { children: e.jsx($, {}) }) }))

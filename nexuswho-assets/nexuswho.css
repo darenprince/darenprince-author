@@ -373,11 +373,17 @@ video {
 .visible {
   visibility: visible;
 }
+.relative {
+  position: relative;
+}
 .sticky {
   position: sticky;
 }
 .top-0 {
   top: 0;
+}
+.z-10 {
+  z-index: 10;
 }
 .z-40 {
   z-index: 40;
@@ -400,6 +406,9 @@ video {
 }
 .mt-4 {
   margin-top: 1rem;
+}
+.mt-5 {
+  margin-top: 1.25rem;
 }
 .mt-6 {
   margin-top: 1.5rem;
@@ -603,9 +612,6 @@ video {
 .bg-white\/5 {
   background-color: #ffffff0d;
 }
-.bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -614,27 +620,14 @@ video {
   --tw-gradient-to: rgb(244 114 182 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
-.from-slate-950 {
-  --tw-gradient-from: #020617 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(2 6 23 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
 .via-sky-300\/60 {
   --tw-gradient-to: rgb(125 211 252 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops:
     var(--tw-gradient-from), rgb(125 211 252 / 0.6) var(--tw-gradient-via-position),
     var(--tw-gradient-to);
 }
-.via-sky-950 {
-  --tw-gradient-to: rgb(8 47 73 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops:
-    var(--tw-gradient-from), #082f49 var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
 .to-emerald-200\/70 {
   --tw-gradient-to: rgb(167 243 208 / 0.7) var(--tw-gradient-to-position);
-}
-.to-pink-950 {
-  --tw-gradient-to: #500724 var(--tw-gradient-to-position);
 }
 .p-3 {
   padding: 0.75rem;
@@ -854,6 +847,81 @@ body {
   margin: 0;
   min-height: 100vh;
 }
+.nexuswho-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #020617, #0b1120 45%, #150b1f);
+  color: #e2e8f0;
+}
+.nexuswho-aurora {
+  position: absolute;
+  top: -30%;
+  right: -30%;
+  bottom: -30%;
+  left: -30%;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(56, 189, 248, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(244, 114, 182, 0.35), transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.25), transparent 50%);
+  animation: auroraShift 18s ease-in-out infinite;
+  filter: blur(2px);
+  opacity: 0.7;
+}
+.nexuswho-aurora:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.25), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(236, 72, 153, 0.25), transparent 45%),
+    radial-gradient(circle at 60% 20%, rgba(167, 139, 250, 0.2), transparent 45%);
+  animation: auroraPulse 14s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+.nexuswho-sparkle-field {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
+    radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.4), transparent 40%),
+    radial-gradient(1px 1px at 35% 80%, rgba(255, 255, 255, 0.35), transparent 40%),
+    radial-gradient(1px 1px at 85% 75%, rgba(255, 255, 255, 0.45), transparent 40%);
+  animation: sparkleDrift 22s linear infinite;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.hero-shimmer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(120deg, #f472b6, #7dd3fc, #f9a8d4);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmerSweep 3.5s ease-in-out infinite;
+}
+.hero-sparkle {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.65rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, #fffffff2, #fff0);
+  box-shadow:
+    0 0 12px #7dd3fce6,
+    0 0 20px #f472b6b3;
+  animation: sparklePulse 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
 .glass-panel {
   border-radius: 1rem;
   border-width: 1px;
@@ -1000,6 +1068,59 @@ body {
 .muted {
   --tw-text-opacity: 1;
   color: rgb(148 163 184 / var(--tw-text-opacity, 1));
+}
+@keyframes auroraShift {
+  0%,
+  to {
+    transform: translate3d(-2%, -2%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, 3%, 0) scale(1.05);
+  }
+}
+@keyframes auroraPulse {
+  0%,
+  to {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+@keyframes sparkleDrift {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes shimmerSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0% 50%;
+  }
+}
+@keyframes sparklePulse {
+  0%,
+  to {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 .hover\:border-sky-300\/50:hover {
   border-color: #7dd3fc80;
