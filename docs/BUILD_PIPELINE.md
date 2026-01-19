@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2025-02-20_
+_Last updated: 2025-02-22_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -20,6 +20,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 | `postprocess:seo`    | `node seo-enrich.js --root . --domain $DOMAIN`                                                         | Canonical URLs, metadata, structured data, sitemap, robots.                                       | Requires `DOMAIN` env var for canonical URLs.                                                                                |
 
 > **Reality Check:** GitHub Pages only serves what is committed to the repo. Run `npm run build` locally before pushing so search indexes, icon bundles, image manifests, and the Nexus Who bundle stay fresh.
+
+> **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
 
 ## GitHub Pages configuration
 
