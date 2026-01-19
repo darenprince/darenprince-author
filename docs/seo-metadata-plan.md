@@ -10,6 +10,7 @@ Structured data follows the schema.org specifications.
 
 - Run `npm run postprocess:seo` with `DOMAIN` set before committing so canonical URLs, Open Graph data, JSON-LD, sitemap, and robots.txt stay aligned with production metadata.
 - GitHub Pages ships committed HTML and metadata, so treat SEO output as a build artifact.
+- Keep the homepage `<h1>` in the markup even if the hero uses shimmering or cinematic styling, so search engines always have a primary headline.
 
 ## Global metadata requirements
 
