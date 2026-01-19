@@ -70,6 +70,45 @@ Notes:
 - Ensure image at assets/images/og-image.jpg is optimized to 1200x630 for best OG rendering.
 
 ==============================
+PAGE: Vibe Prism / Nexus Who (nexuswho.html)
+==============================
+
+<title>Vibe Prism — Personality Spark Quiz</title>
+
+<meta name="description" content="Vibe Prism is a fast, feel-good personality quiz that mirrors your vibe and saves a private Nexus Who profile.">
+<h1>Vibe Prism — See your personality sparkle.</h1>
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Vibe Prism — Personality Spark Quiz">
+<meta property="og:description" content="Take a quick 32-question personality quiz to see your vibe shimmer back, then save a private token to restore your profile anytime.">
+<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://darenprince.com/nexuswho.html">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vibe Prism — Personality Spark Quiz">
+<meta name="twitter:description" content="A fast, cinematic personality quiz with a private Nexus Who profile token.">
+<meta name="twitter:image" content="assets/images/og-image.jpg">
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Vibe Prism — Personality Spark Quiz",
+  "url": "https://darenprince.com/nexuswho.html",
+  "description": "Vibe Prism is a fast, feel-good personality quiz that mirrors your vibe and saves a private Nexus Who profile.",
+  "breadcrumb": "https://darenprince.com/nexuswho.html"
+}
+</script>
+
+Notes:
+
+- Keep the animated hero headline in `<h1>` markup to preserve SEO while the shimmer effect runs on the styling layer.
+- Confirm `src/nexuswho/index.html` metadata matches the copy above before running `npm run postprocess:seo`.
+
+==============================
 PAGE: Game On! Book Landing Page (/books/game-on)
 ==============================
 

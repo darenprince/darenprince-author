@@ -35,7 +35,6 @@ const QuestionCard = ({ question, sequence, total, onAnswer }: QuestionCardProps
         <span className="rounded-full bg-white/10 px-3 py-1">Vibe Prism</span>
       </div>
       <h2 className="mt-4 text-2xl font-semibold text-slate-50">{question.text}</h2>
-      <p className="mt-2 text-sm text-slate-400">{question.rationale}</p>
       <div className="mt-6 grid gap-3">
         {ANSWER_LABELS.map((label, index) => (
           <motion.button
@@ -49,7 +48,6 @@ const QuestionCard = ({ question, sequence, total, onAnswer }: QuestionCardProps
             className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-left text-sm font-medium text-slate-100 transition hover:border-sky-300/50 hover:bg-sky-500/10"
           >
             <span>{label}</span>
-            <span className="text-xs text-slate-400">{index}</span>
           </motion.button>
         ))}
       </div>
