@@ -391,100 +391,116 @@
         <!-- 1. Hero Section -->
         <section
           id="autoZoomHero"
-          class="hero hero-auto-zoom hero--video text-center is-loading is-image-active"
+          class="hero hero-auto-zoom hero--video is-loading is-image-active"
           data-video-id="1120030283"
         >
-          <div class="hero-media">
-            <div class="hero-image-layer js-hero-image" role="presentation">
-              <img
-                src="/assets/images/heroposter1.png"
-                alt="Cover art for the Game On! trailer"
-                
-              />
-            </div>
-            <div class="hero-video-layer js-hero-video" aria-hidden="true">
-              <div class="hero-video-layer__frame">
-                <div class="hero-video-layer__player" id="heroVideoFrame"></div>
-                <button
-                  class="hero-overlay-icon hero-overlay-icon--fullscreen js-hero-fullscreen"
-                  type="button"
-                  aria-label="Enter fullscreen"
-                >
-                  <i class="ph ph-arrows-out" aria-hidden="true"></i>
-                </button>
-                <button
-                  class="hero-mute-btn js-hero-mute"
-                  type="button"
-                  aria-label="Unmute trailer audio"
-                >
-                  <i class="ph ph-speaker-high"></i>
-                  <span>TURN ON SOUND</span>
-                </button>
-                <div class="hero-video-progress" aria-hidden="true">
-                  <span class="hero-video-progress__track">
-                    <span class="hero-video-progress__fill js-hero-progress-fill"></span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <button
-              class="hero-play-overlay js-hero-play"
-              type="button"
-              aria-label="Play the Game On! book trailer"
-              aria-live="polite"
-            >
-              <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
-                <span class="hero-play-overlay__progress-fill"></span>
-              </span>
-              <span
-                class="hero-play-overlay__icon ph ph-play-circle"
-                aria-hidden="true"
-              ></span>
-            </button>
-            <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
-              <div class="hero-video-pause-overlay__center">
-                <button class="hero-video-btn hero-video-btn--primary js-hero-resume" type="button">
-                  <i class="ph ph-play-circle" aria-hidden="true"></i>
-                  <span>Resume</span>
-                </button>
-                <div class="hero-video-pause-overlay__stack">
-                  <button class="hero-video-btn js-hero-restart" type="button">
-                    <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
-                    <span>Restart</span>
-                  </button>
-                  <button
-                    class="hero-video-btn hero-video-btn--charcoal js-hero-hide"
-                    type="button"
-                  >
-                    <i class="ph ph-eye-slash" aria-hidden="true"></i>
-                    <span>Hide Video</span>
-                  </button>
-                </div>
-              </div>
-              <div class="hero-video-pause-overlay__actions">
-                <button
-                  class="hero-video-icon-btn js-hero-airplay"
-                  type="button"
-                  aria-label="Picture in Picture"
-                >
-                  <i class="ph ph-picture-in-picture" aria-hidden="true"></i>
-                </button>
-                <button
-                  class="hero-video-icon-btn js-hero-close"
-                  type="button"
-                  aria-label="Close trailer"
-                >
-                  <i class="ph ph-x" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-          </div>
           <div class="container max-width-adaptive-lg hero-content">
-            <h1 style="display: none">Daren Prince | Author. Strategist. Storyteller.</h1>
-            <a href="#book-3d-viewer" class="btn grad-kelly-green hero-cta throb">
-              <strong>Get The Book</strong>
-              <i class="ph ph-arrow-down hero-cta__icon" aria-hidden="true"></i>
-            </a>
+            <div class="hero-layout">
+              <div class="hero-copy">
+                <span class="hero-eyebrow">Daren Prince · Game On!</span>
+                <h1 style="display: none">Daren Prince | Author. Strategist. Storyteller.</h1>
+                <h2 class="hero-title">
+                  A bold, real-world playbook for magnetic connection.
+                </h2>
+                <p class="hero-subtitle">
+                  Watch the trailer, then dive into the tactics, scripts, and psychology that made
+                  <em>Game On!</em> a five-star favorite.
+                </p>
+                <div class="hero-actions">
+                  <button class="btn btn--outline btn--lg js-hero-play-trigger" type="button">
+                    <span>Watch trailer</span>
+                    <i class="ph ph-play-circle" aria-hidden="true"></i>
+                  </button>
+                  <a class="btn btn--primary btn--lg" href="#book-viewer">
+                    <span>Explore books</span>
+                    <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="hero-media">
+                <div class="hero-image-layer js-hero-image" role="presentation">
+                  <img
+                    src="/assets/images/heroposter1.png"
+                    alt="Cover art for the Game On! trailer"
+                  />
+                </div>
+                <div class="hero-video-layer js-hero-video" aria-hidden="true">
+                  <div class="hero-video-layer__frame">
+                    <div class="hero-video-layer__player" id="heroVideoFrame"></div>
+                    <button
+                      class="hero-overlay-icon hero-overlay-icon--fullscreen js-hero-fullscreen"
+                      type="button"
+                      aria-label="Enter fullscreen"
+                    >
+                      <i class="ph ph-arrows-out" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      class="hero-mute-btn js-hero-mute"
+                      type="button"
+                      aria-label="Unmute trailer audio"
+                    >
+                      <i class="ph ph-speaker-high"></i>
+                      <span>TURN ON SOUND</span>
+                    </button>
+                    <div class="hero-video-progress" aria-hidden="true">
+                      <span class="hero-video-progress__track">
+                        <span class="hero-video-progress__fill js-hero-progress-fill"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="hero-play-overlay js-hero-play"
+                  type="button"
+                  aria-label="Play the Game On! book trailer"
+                  aria-live="polite"
+                >
+                  <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
+                  <span class="hero-play-overlay__progress-fill"></span>
+                  <span
+                    class="hero-play-overlay__icon ph ph-play-circle"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
+                  <div class="hero-video-pause-overlay__center">
+                    <button class="hero-video-btn hero-video-btn--primary js-hero-resume" type="button">
+                      <i class="ph ph-play-circle" aria-hidden="true"></i>
+                      <span>Resume</span>
+                    </button>
+                    <div class="hero-video-pause-overlay__stack">
+                      <button class="hero-video-btn js-hero-restart" type="button">
+                        <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+                        <span>Restart</span>
+                      </button>
+                      <button
+                        class="hero-video-btn hero-video-btn--charcoal js-hero-hide"
+                        type="button"
+                      >
+                        <i class="ph ph-eye-slash" aria-hidden="true"></i>
+                        <span>Hide Video</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="hero-video-pause-overlay__actions">
+                    <button
+                      class="hero-video-icon-btn js-hero-airplay"
+                      type="button"
+                      aria-label="Picture in Picture"
+                    >
+                      <i class="ph ph-picture-in-picture" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      class="hero-video-icon-btn js-hero-close"
+                      type="button"
+                      aria-label="Close trailer"
+                    >
+                      <i class="ph ph-x" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -718,85 +734,10 @@
                   <div class="store-selector-wrapper">
                     <select class="store-selector"></select>
                   </div>
-                  <button class="btn grad-lemon-lime buy-now">
+                  <button class="btn btn--primary buy-now">
                     Shop <strong class="store-name"></strong> <i class="ph ph-arrow-right"></i>
                   </button>
                   <div class="selected-store-logo"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="book-block container max-width-adaptive-lg">
-            <div class="book-accordion accordion">
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="true">
-                  <span>Description</span><i class="ph ph-caret-down accordion-icon"></i>
-                </button>
-                <div class="accordion-panel">
-                  <p>
-                    No gimmicks. No games. Just real results. <strong>Game On!</strong> is not
-                    another gimmicky guide — it’s a real-world roadmap to magnetic connection.
-                    <br /><br />
-                    Bold, emotionally intelligent, and psychology-backed, this 5-star bestseller
-                    gives you step-by-step guidance to approach women confidently, flirt with charm,
-                    and build meaningful, lasting relationships. Whether you're navigating dating
-                    apps or real-world sparks, <strong>Game On!</strong> helps you level up your
-                    confidence and communication. <br /><br />
-                    <strong>Bonus Content:</strong> Daily Connection Rituals, a 30-Day Confidence
-                    Challenge, and Conflict Resolution Tools.
-                  </p>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="false">
-                  <span>Who This Book Is For</span><i class="ph ph-caret-down accordion-icon"></i>
-                </button>
-                <div class="accordion-panel" hidden>
-                  <ul>
-                    <li>Men who want to stop overthinking and start connecting</li>
-                    <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
-                    <li>Dudes ready to level up their confidence and attract real women</li>
-                    <li>Anyone who wants to master communication and spark real connection</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="false">
-                  <span>Book Details</span><i class="ph ph-caret-down accordion-icon"></i>
-                </button>
-                <div class="accordion-panel" hidden>
-                  <div class="book-details">
-                    <table class="book-specs">
-                      <tr>
-                        <th>ISBN-13</th>
-                        <td>9798303844407</td>
-                      </tr>
-                      <tr>
-                        <th>ISBN-10</th>
-                        <td>9798303844407</td>
-                      </tr>
-                      <tr>
-                        <th>Publisher</th>
-                        <td>Independently Published</td>
-                      </tr>
-                      <tr>
-                        <th>Publish Date</th>
-                        <td>December 2024</td>
-                      </tr>
-                      <tr>
-                        <th>Dimensions</th>
-                        <td>9 x 6 x 0.54 inches</td>
-                      </tr>
-                      <tr>
-                        <th>Shipping Weight</th>
-                        <td>0.77 pounds</td>
-                      </tr>
-                      <tr>
-                        <th>Page Count</th>
-                        <td>258</td>
-                      </tr>
-                    </table>
-                  </div>
                 </div>
               </div>
             </div>
@@ -820,18 +761,118 @@
                   conversation. The same precision that powers <em>Game On!</em> shows up in his
                   coaching labs, fatherhood, and fire-side interviews.
                 </p>
-                <a
-                  href="meet-daren-prince.html"
-                  class="btn grad-kelly-green author-spotlight-card__cta"
+                <a href="meet-daren-prince.html" class="btn btn--outline author-spotlight-card__cta"
                   >Read the full bio</a
                 >
               </div>
             </article>
           </div>
+          <div class="book-block container max-width-adaptive-lg">
+            <div class="book-accordion accordion">
+              <div class="accordion-item">
+                <button class="accordion-trigger" aria-expanded="true">
+                  <span class="accordion-title"
+                    ><i class="ph ph-text-align-left" aria-hidden="true"></i> Description</span
+                  ><i class="ph ph-caret-down accordion-icon"></i>
+                </button>
+                <div class="accordion-panel">
+                  <p>
+                    No gimmicks. No games. Just real results. <strong>Game On!</strong> is not
+                    another gimmicky guide — it’s a real-world roadmap to magnetic connection.
+                    <br /><br />
+                    Bold, emotionally intelligent, and psychology-backed, this 5-star bestseller
+                    gives you step-by-step guidance to approach women confidently, flirt with charm,
+                    and build meaningful, lasting relationships. Whether you're navigating dating
+                    apps or real-world sparks, <strong>Game On!</strong> helps you level up your
+                    confidence and communication. <br /><br />
+                    <strong>Bonus Content:</strong> Daily Connection Rituals, a 30-Day Confidence
+                    Challenge, and Conflict Resolution Tools.
+                  </p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-trigger" aria-expanded="true">
+                  <span class="accordion-title"
+                    ><i class="ph ph-users-three" aria-hidden="true"></i> Who This Book Is For</span
+                  ><i class="ph ph-caret-down accordion-icon"></i>
+                </button>
+                <div class="accordion-panel">
+                  <ul>
+                    <li>Men who want to stop overthinking and start connecting</li>
+                    <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
+                    <li>Dudes ready to level up their confidence and attract real women</li>
+                    <li>Anyone who wants to master communication and spark real connection</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-trigger" aria-expanded="false">
+                  <span class="accordion-title"
+                    ><i class="ph ph-book-open-text" aria-hidden="true"></i> Book Details</span
+                  ><i class="ph ph-caret-down accordion-icon"></i>
+                </button>
+                <div class="accordion-panel" hidden>
+                  <div class="book-details">
+                    <div class="book-details-grid">
+                      <div class="book-details-item">
+                        <i class="ph ph-barcode" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">ISBN-13</span>
+                          <span class="book-details-value">9798303844407</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-hash" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">ISBN-10</span>
+                          <span class="book-details-value">9798303844407</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-buildings" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">Publisher</span>
+                          <span class="book-details-value">Independently Published</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-calendar" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">Publish Date</span>
+                          <span class="book-details-value">December 2024</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-ruler" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">Dimensions</span>
+                          <span class="book-details-value">9 x 6 x 0.54 inches</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-scales" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">Shipping Weight</span>
+                          <span class="book-details-value">0.77 pounds</span>
+                        </div>
+                      </div>
+                      <div class="book-details-item">
+                        <i class="ph ph-book" aria-hidden="true"></i>
+                        <div>
+                          <span class="book-details-label">Page Count</span>
+                          <span class="book-details-value">258</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- 3. Bookstore Links Section -->
-        <section class="bookstore-logos padding-y-xl">
+        <section class="bookstore-logos bookstore-logos--strip padding-y-xl">
           <div class="container max-width-adaptive-lg">
             <h3 class="section-heading text-center margin-bottom-lg">Available At</h3>
             <div class="store-logos">
@@ -1047,8 +1088,6 @@
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
-
-
 
 
 
