@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2025-02-14_
+_Last updated: 2026-01-19_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -36,6 +36,8 @@ This project exists to:
 > **Reality Check:** GitHub Pages serves exactly what is committed to `main`. Run `npm run build:site` locally before committing so search indexes, image manifests, and compiled CSS stay in sync.
 >
 > **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build:site` or `npm run watch`.
+>
+> **SEO + metadata:** Before deploying, run `npm run deploy` with `DOMAIN` set so `seo-enrich.js` refreshes canonical URLs, structured data, and sitemap output for GitHub Pages.
 
 ---
 
