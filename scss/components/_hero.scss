@@ -8,7 +8,7 @@
   background-color: var(--gray-900);
   --hero-aurora-primary: rgba(74, 255, 210, 0.45);
   --hero-aurora-secondary: rgba(98, 155, 255, 0.35);
-  --hero-aurora-tertiary: rgba(170, 110, 255, 0.35);
+  --hero-aurora-tertiary: rgba(80, 200, 255, 0.35);
   padding: 0;
   margin-top: -0.75rem;
   min-height: 100vh;
@@ -48,7 +48,7 @@
         120deg,
         rgba(30, 120, 90, 0.2),
         rgba(30, 40, 90, 0.1),
-        rgba(90, 60, 140, 0.25)
+        rgba(30, 110, 130, 0.25)
       );
     opacity: 0.75;
     filter: blur(18px) saturate(1.2);
