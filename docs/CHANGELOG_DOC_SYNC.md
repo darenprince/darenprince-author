@@ -2,6 +2,10 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-01-19 — Hero trailer cleanup sync
+
+- Logged the hero overlay and play-button cleanup guidance in the build pipeline doc to keep GitHub Pages styling and metadata workflows aligned.
+
 ## 2025-02-14 — Full documentation realignment
 
 - Rebuilt the site audit report with fresh metrics, mismatch matrix, and backlog checkpoints.
