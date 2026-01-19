@@ -23,6 +23,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 > **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in cool cyan/blue tones (avoid purple) and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
 
+> **Hero trailer note:** Keep the video hero overlay neutral (no extra color casts) and preserve the play-overlay markup structure (spinner + icon + progress bar) so the CTA remains clickable and aligned after Sass builds for GitHub Pages.
+
 ## GitHub Pages configuration
 
 - Configure **Settings → Pages** to publish from `main` (root) or your preferred Pages branch.
