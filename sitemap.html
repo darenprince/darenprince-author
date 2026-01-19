@@ -253,12 +253,20 @@
         </ul>
       </div>
     </header>
-    <main class="container max-width-adaptive-lg padding-y-lg">
-      <h1>Site Map</h1>
-      <nav aria-label="Site Map">
-        <ul class="sitemap-list">
-          <li>Core Pages
-            <ul>
+    <main class="sitemap-page padding-y-lg">
+      <div class="container max-width-adaptive-lg">
+        <header class="sitemap-hero">
+          <span class="sitemap-eyebrow">Site Index</span>
+          <h1>Site Map</h1>
+          <p>
+            A clean overview of every live surface, brand experiment, and internal tool running on
+            the Daren Prince platform.
+          </p>
+        </header>
+        <nav class="sitemap-grid" aria-label="Site Map">
+          <section class="sitemap-card">
+            <h2><i class="ph ph-house"></i> Core Pages</h2>
+            <ul class="sitemap-links">
               <li><a href="index.html">Home (Index)</a></li>
               <li><a href="home.html">Home (Alt)</a></li>
               <li><a href="book.html">Book</a></li>
@@ -279,86 +287,97 @@
               <li><a href="iconifty.html">Iconifty</a></li>
               <li><a href="sitemap.html">Site Map</a></li>
             </ul>
-          </li>
-          <li>Account
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-user-circle"></i> Account</h2>
+            <ul class="sitemap-links">
               <li><a href="login.html">Login</a></li>
               <li><a href="reset-password.html">Reset Password</a></li>
               <li><a href="verify-email.html">Verify Email</a></li>
               <li><a href="member/index.html">Member Portal</a></li>
             </ul>
-          </li>
-          <li>Admin
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-gear"></i> Admin</h2>
+            <ul class="sitemap-links">
               <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
               <li><a href="admin-user-management.html">Admin User Management</a></li>
             </ul>
-          </li>
-          <li>Demos
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-monitor-play"></i> Demos</h2>
+            <ul class="sitemap-links">
               <li><a href="All-heroes-demos.html">All Heroes Demos</a></li>
               <li><a href="brandon.html">Brandon</a></li>
               <li><a href="shhh.html">Secret</a></li>
               <li><a href="components/book-details-tab-demo.html">Book Details Tab Demo</a></li>
             </ul>
-          </li>
-          <li>Brands
-            <ul>
-              <li>HXD
-                <ul>
-                  <li><a href="hxd/index.html">HXD Home</a></li>
-                  <li><a href="hxd/games.html">HXD Games</a></li>
-                  <li><a href="hxd/playlist.html">HXD Playlist</a></li>
-                  <li><a href="hxd/backstage.html">HXD Backstage</a></li>
-                  <li><a href="hxd/vault.html">HXD Vault</a></li>
-                  <li><a href="hxd/calendar.html">HXD Calendar</a></li>
-                  <li><a href="hxd/404.html">HXD 404</a></li>
-                </ul>
-              </li>
-              <li>Picdetective
-                <ul>
-                  <li><a href="Picdetective/index.html">Picdetective Home</a></li>
-                  <li><a href="Picdetective/analysis.html">Picdetective Analysis</a></li>
-                  <li><a href="Picdetective/summary.html">Picdetective Summary</a></li>
-                  <li><a href="Picdetective/privacy.html">Picdetective Privacy</a></li>
-                  <li><a href="Picdetective/reset.html">Picdetective Reset</a></li>
-                </ul>
-              </li>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-stack"></i> Brands</h2>
+            <div class="sitemap-subgroup">
+              <h3>HXD</h3>
+              <ul class="sitemap-links">
+                <li><a href="hxd/index.html">HXD Home</a></li>
+                <li><a href="hxd/games.html">HXD Games</a></li>
+                <li><a href="hxd/playlist.html">HXD Playlist</a></li>
+                <li><a href="hxd/backstage.html">HXD Backstage</a></li>
+                <li><a href="hxd/vault.html">HXD Vault</a></li>
+                <li><a href="hxd/calendar.html">HXD Calendar</a></li>
+                <li><a href="hxd/404.html">HXD 404</a></li>
+              </ul>
+            </div>
+            <div class="sitemap-subgroup">
+              <h3>Picdetective</h3>
+              <ul class="sitemap-links">
+                <li><a href="Picdetective/index.html">Picdetective Home</a></li>
+                <li><a href="Picdetective/analysis.html">Picdetective Analysis</a></li>
+                <li><a href="Picdetective/summary.html">Picdetective Summary</a></li>
+                <li><a href="Picdetective/privacy.html">Picdetective Privacy</a></li>
+                <li><a href="Picdetective/reset.html">Picdetective Reset</a></li>
+              </ul>
+            </div>
+            <ul class="sitemap-links">
               <li><a href="labs/crowncode/index.html">Crowncode</a></li>
               <li><a href="Newcolorclass/canva-swatches.ALL.generated.html">New Color Class Swatches</a></li>
               <li><a href="References-ignore/MegaMenu/index.html">Mega Menu Reference</a></li>
             </ul>
-          </li>
-          <li>Docs
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-books"></i> Docs</h2>
+            <ul class="sitemap-links">
               <li><a href="docs/style-guide.html">Style Guide</a></li>
               <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
             </ul>
-          </li>
-          <li>Labs
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-flask"></i> Labs</h2>
+            <ul class="sitemap-links">
               <li><a href="labs.html">Labs Index</a></li>
             </ul>
-          </li>
-          <li>Partials
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-brackets-curly"></i> Partials</h2>
+            <ul class="sitemap-links">
               <li><a href="partials/book-3d.html">Book 3D Partial</a></li>
               <li><a href="partials/book-toolbar.html">Book Toolbar Partial</a></li>
             </ul>
-          </li>
-          <li>Assets
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-image"></i> Assets</h2>
+            <ul class="sitemap-links">
               <li><a href="assets/images/index.html">Image Asset Index</a></li>
             </ul>
-          </li>
-          <li>Tests
-            <ul>
+          </section>
+          <section class="sitemap-card">
+            <h2><i class="ph ph-test-tube"></i> Tests</h2>
+            <ul class="sitemap-links">
               <li><a href="test/test.html">Test Page</a></li>
               <li><a href="test/layout-debug.html">Layout Debug</a></li>
             </ul>
-          </li>
-        </ul>
-      </nav>
+          </section>
+        </nav>
+      </div>
     </main>
       <footer class="site-footer">
     <div class="container footer-grid">
@@ -463,7 +482,6 @@
   <script type="module" src="/js/seo-indexing.js"></script>
 </body>
 </html>
-
 
 
 

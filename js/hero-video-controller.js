@@ -12,6 +12,7 @@
 
     const videoLayer = hero.querySelector('.js-hero-video')
     const playOverlay = hero.querySelector('.js-hero-play')
+    const playTriggers = hero.querySelectorAll('.js-hero-play-trigger')
     const muteButton = hero.querySelector('.js-hero-mute')
     const pauseOverlay = hero.querySelector('.js-hero-pause-overlay')
     const resumeBtn = hero.querySelector('.js-hero-resume')
@@ -398,22 +399,30 @@
       })
     }
 
+    const startPlayback = () => {
+      hero.classList.remove('has-video-error')
+      resetEndTransition()
+      hasAutoScrolled = false
+      hero.classList.add('is-video-active')
+      hero.classList.remove('is-image-active')
+      pauseReason = null
+      setLoading(true)
+      setBufferProgress(0)
+      hidePlayOverlay()
+      player.play().catch((error) => {
+        setLoading(false)
+        showPlayOverlay()
+        console.warn('Vimeo play error:', error)
+      })
+    }
+
     if (playOverlay) {
-      playOverlay.addEventListener('click', () => {
-        hero.classList.remove('has-video-error')
-        resetEndTransition()
-        hasAutoScrolled = false
-        hero.classList.add('is-video-active')
-        hero.classList.remove('is-image-active')
-        pauseReason = null
-        setLoading(true)
-        setBufferProgress(0)
-        hidePlayOverlay()
-        player.play().catch((error) => {
-          setLoading(false)
-          showPlayOverlay()
-          console.warn('Vimeo play error:', error)
-        })
+      playOverlay.addEventListener('click', startPlayback)
+    }
+
+    if (playTriggers.length) {
+      playTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', startPlayback)
       })
     }
 

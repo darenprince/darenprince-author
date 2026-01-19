@@ -28,6 +28,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - Configure **Settings → Pages** to publish from `main` (root) or your preferred Pages branch.
 - `CNAME` maps the custom domain. Keep it updated if the domain changes.
 - Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
+- Keep the `data-site-root` attribute + asset-prefix patcher script in HTML files for GitHub Pages subdirectory deployments (`<user>.github.io/<repo>/`). This ensures `/assets` references resolve during local previews and production.
 - When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
 - Netlify is no longer used. All deploys are committed artifacts published by GitHub Pages.
 - Keep `/nexuswho/` redirect (`nexuswho/index.html`) pointing to `nexuswho.html` so clean URLs keep working.

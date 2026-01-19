@@ -181,14 +181,38 @@ body.menu-open {
   gap: $spacing-md;
 }
 
+.bookstore-logos--strip {
+  background: $black;
+  border-block: 1px solid color-mix(in srgb, $white 10%, transparent);
+
+  .section-heading {
+    color: $white;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
 .store-logos a {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius;
+  background: color-mix(in srgb, $gray-900 85%, transparent);
+  border: 1px solid color-mix(in srgb, $white 10%, transparent);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, $lime-green 45%, transparent);
+  }
 }
 
 .store-logos img {
-  max-height: 48px;
+  max-height: 52px;
   height: auto;
   width: auto;
   border-radius: $border-radius;
