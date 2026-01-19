@@ -30,7 +30,12 @@ const Landing = () => {
             transition={{ delay: 0.1 }}
             className="mt-4 text-4xl font-semibold text-slate-50 md:text-5xl"
           >
-            See your personality sparkle back at you in under six minutes.
+            See your personality{' '}
+            <span className="hero-shimmer">
+              sparkle back at you
+              <span className="hero-sparkle" aria-hidden="true" />
+            </span>{' '}
+            in under six minutes.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 10 }}

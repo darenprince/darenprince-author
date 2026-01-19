@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Shield, Sparkle, Timer } from 'phosphor-react'
+import { ListChecks, Shield, Sparkle } from 'phosphor-react'
 import QuestionCard from '../components/QuestionCard'
 import ProgressBar from '../components/ProgressBar'
 import { QUESTIONS } from '../data/questions'
@@ -12,12 +12,13 @@ import { hasAttempt, saveToken, setAttempt } from '../utils/storage'
 const Quiz = () => {
   const navigate = useNavigate()
   const [lockedOut, setLockedOut] = useState(false)
+  const [hasStarted, setHasStarted] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [responses, setResponses] = useState<
     { questionId: number; answer: number; rtMs: number }[]
   >([])
   const sessionIdRef = useRef<string>(crypto.randomUUID())
-  const startRef = useRef<number>(performance.now())
+  const startRef = useRef<number>(0)
 
   useEffect(() => {
     setLockedOut(hasAttempt())
@@ -25,7 +26,12 @@ const Quiz = () => {
 
   const questions = useMemo(() => shuffleQuestions(QUESTIONS), [])
 
-  const progress = ((currentIndex + 1) / questions.length) * 100
+  const progress = hasStarted ? ((currentIndex + 1) / questions.length) * 100 : 0
+
+  const handleStart = () => {
+    setHasStarted(true)
+    startRef.current = performance.now()
+  }
 
   const handleAnswer = async (answer: number) => {
     const question = questions[currentIndex]
@@ -98,19 +104,46 @@ const Quiz = () => {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-16">
       <div className="flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.3em] text-slate-400">
         <span>Vibe Prism — quiz flow</span>
-        <span>
-          {currentIndex + 1} / {questions.length}
-        </span>
+        <span>{hasStarted ? `${currentIndex + 1} / ${questions.length}` : 'Ready'}</span>
       </div>
       <ProgressBar value={progress} />
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <motion.div layout>
-          <QuestionCard
-            question={questions[currentIndex]}
-            sequence={currentIndex + 1}
-            total={questions.length}
-            onAnswer={handleAnswer}
-          />
+          {hasStarted ? (
+            <QuestionCard
+              question={questions[currentIndex]}
+              sequence={currentIndex + 1}
+              total={questions.length}
+              onAnswer={handleAnswer}
+            />
+          ) : (
+            <div className="glass-panel p-6">
+              <div className="flex items-center gap-3">
+                <Sparkle size={22} className="text-sky-300" />
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-50">Before you begin</h2>
+                  <p className="text-sm text-slate-400">
+                    Read the quick notes below. The session begins when you press start.
+                  </p>
+                </div>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm text-slate-300">
+                {[
+                  'Go with your first instinct for each prompt.',
+                  'One pass only, with no backtracking.',
+                  'Your profile token stays on this device.',
+                ].map((item) => (
+                  <li key={item} className="list-item">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <button type="button" onClick={handleStart} className="button-primary mt-6">
+                <Sparkle size={18} />
+                Start the quiz
+              </button>
+            </div>
+          )}
         </motion.div>
         <div className="flex flex-col gap-4">
           <div className="glass-panel p-6">
@@ -119,15 +152,15 @@ const Quiz = () => {
               <div>
                 <h3 className="text-lg font-semibold">Session Guidance</h3>
                 <p className="text-sm text-slate-400">
-                  Answer quickly, but stay honest. The system listens for clarity.
+                  Stay honest and stay present. Let your instincts lead.
                 </p>
               </div>
             </div>
             <ul className="mt-4 space-y-2 text-sm text-slate-300">
               {[
                 'No backtracking once you move forward.',
-                'Response timing shapes integrity scores.',
-                'Your token is stored on this device only.',
+                'Keep the pace that feels natural to you.',
+                'Your token stays on this device only.',
               ].map((item) => (
                 <li key={item} className="list-item">
                   {item}
@@ -137,31 +170,23 @@ const Quiz = () => {
           </div>
           <div className="glass-panel p-6">
             <div className="flex items-center gap-3">
-              <Timer size={20} className="text-sky-300" />
+              <ListChecks size={20} className="text-sky-300" />
               <div>
-                <h3 className="text-lg font-semibold">Answer Scale</h3>
+                <h3 className="text-lg font-semibold">Answer Choices</h3>
                 <p className="text-sm text-slate-400">
-                  Score 0-3 based on how true each statement feels.
+                  Choose the response that feels closest to you.
                 </p>
               </div>
             </div>
             <div className="mt-4 grid gap-2 text-sm text-slate-300">
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-                <span>0</span>
-                <span className="text-slate-400">Not me</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-                <span>1</span>
-                <span className="text-slate-400">Rarely true</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-                <span>2</span>
-                <span className="text-slate-400">Often true</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-                <span>3</span>
-                <span className="text-slate-400">Always true</span>
-              </div>
+              {['Not me', 'Rarely me', 'Often me', 'Definitely me'].map((label) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2"
+                >
+                  <span className="text-slate-100">{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

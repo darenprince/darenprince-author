@@ -9247,7 +9247,7 @@ function y2(e, t, n) {
 function v2(e, t) {
   ;(e == null || e.v7_startTransition, e == null || e.v7_relativeSplatPath)
 }
-function gx(e) {
+function g6(e) {
   let { to: t, replace: n, state: r, relative: i } = e
   Lr() || Y(!1)
   let { future: o, static: s } = L.useContext(wt),
@@ -9296,7 +9296,7 @@ function E2(e) {
         L.createElement(Ps.Provider, { children: n, value: k })
       )
 }
-function yx(e) {
+function y6(e) {
   let { children: t, location: n } = e
   return o2(ma(t), n)
 }
@@ -9400,7 +9400,7 @@ try {
 const C2 = L.createContext({ isTransitioning: !1 }),
   T2 = 'startTransition',
   Mf = v0[T2]
-function vx(e) {
+function v6(e) {
   let { basename: t, children: n, future: r, window: i } = e,
     o = L.useRef()
   o.current == null && (o.current = jy({ window: i, v5Compat: !0 }))
@@ -9471,7 +9471,7 @@ const M2 =
       Jo({}, h, { href: v || E, onClick: k || o ? r : p, ref: n, target: l })
     )
   }),
-  kx = L.forwardRef(function (t, n) {
+  k6 = L.forwardRef(function (t, n) {
     let {
         'aria-current': r = 'page',
         caseSensitive: i = !1,
@@ -14986,7 +14986,7 @@ class nE extends Qm {
 }
 const rE = (e, t) => (Ou(e) ? new nE(t) : new tE(t, { allowProjection: e !== L.Fragment })),
   iE = Av({ ...Tk, ...Y4, ...N4, ...Q4 }, rE),
-  xx = H2(iE)
+  x6 = H2(iE)
 var oE = L.createContext({ color: 'currentColor', size: '1em', weight: 'regular', mirrored: !1 }),
   Te = function (t, n, r) {
     var i = r.get(t)
@@ -16159,6 +16159,338 @@ An.set('bold', function (e) {
   return f.createElement(
     f.Fragment,
     null,
+    f.createElement('line', {
+      x1: '136',
+      y1: '128',
+      x2: '216',
+      y2: '128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('line', {
+      x1: '136',
+      y1: '64',
+      x2: '216',
+      y2: '64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('line', {
+      x1: '136',
+      y1: '192',
+      x2: '216',
+      y2: '192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('polyline', {
+      points: '92 48 57.3 80 40 64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('polyline', {
+      points: '92 112 57.3 144 40 128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('polyline', {
+      points: '92 176 57.3 208 40 192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    })
+  )
+})
+An.set('duotone', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('line', {
+      x1: '128',
+      y1: '128',
+      x2: '216',
+      y2: '128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '64',
+      x2: '216',
+      y2: '64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '192',
+      x2: '216',
+      y2: '192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 48 57.3 80 40 64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 112 57.3 144 40 128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 176 57.3 208 40 192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    })
+  )
+})
+An.set('fill', function () {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM86.6,42.1l-29.3,27-11.9-11A8,8,0,0,0,34.6,69.9l17.3,16A8,8,0,0,0,57.3,88a8.2,8.2,0,0,0,5.5-2.1l34.6-32A8,8,0,1,0,86.6,42.1Zm0,64-29.3,27-11.9-11a8,8,0,1,0-10.8,11.8l17.3,16a8,8,0,0,0,5.4,2.1,8.2,8.2,0,0,0,5.5-2.1l34.6-32a8,8,0,1,0-10.8-11.8Zm0,64-29.3,27-11.9-11a8,8,0,1,0-10.8,11.8l17.3,16a8,8,0,0,0,5.4,2.1,8.2,8.2,0,0,0,5.5-2.1l34.6-32a8,8,0,0,0-10.8-11.8Z',
+    })
+  )
+})
+An.set('light', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('line', {
+      x1: '128',
+      y1: '128',
+      x2: '216',
+      y2: '128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '64',
+      x2: '216',
+      y2: '64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '192',
+      x2: '216',
+      y2: '192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('polyline', {
+      points: '92 48 57.3 80 40 64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('polyline', {
+      points: '92 112 57.3 144 40 128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('polyline', {
+      points: '92 176 57.3 208 40 192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    })
+  )
+})
+An.set('thin', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('line', {
+      x1: '128',
+      y1: '128',
+      x2: '216',
+      y2: '128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '64',
+      x2: '216',
+      y2: '64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '192',
+      x2: '216',
+      y2: '192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('polyline', {
+      points: '92 48 57.3 80 40 64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('polyline', {
+      points: '92 112 57.3 144 40 128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('polyline', {
+      points: '92 176 57.3 208 40 192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    })
+  )
+})
+An.set('regular', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('line', {
+      x1: '128',
+      y1: '128',
+      x2: '216',
+      y2: '128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '64',
+      x2: '216',
+      y2: '64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '128',
+      y1: '192',
+      x2: '216',
+      y2: '192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 48 57.3 80 40 64',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 112 57.3 144 40 128',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '92 176 57.3 208 40 192',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    })
+  )
+})
+var gE = function (t, n) {
+    return Te(t, n, An)
+  },
+  yE = L.forwardRef(function (e, t) {
+    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: gE }))
+  })
+yE.displayName = 'ListChecks'
+var Rn = new Map()
+Rn.set('bold', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
     f.createElement('rect', {
       x: '48',
       y: '48',
@@ -16227,7 +16559,7 @@ An.set('bold', function (e) {
     })
   )
 })
-An.set('duotone', function (e) {
+Rn.set('duotone', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -16334,7 +16666,7 @@ An.set('duotone', function (e) {
     })
   )
 })
-An.set('fill', function () {
+Rn.set('fill', function () {
   return f.createElement(
     f.Fragment,
     null,
@@ -16352,310 +16684,81 @@ An.set('fill', function () {
     })
   )
 })
-An.set('light', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('rect', {
-      x: '48',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('rect', {
-      x: '48',
-      y: '144',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('rect', {
-      x: '144',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('line', {
-      x1: '144',
-      y1: '144',
-      x2: '144',
-      y2: '176',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('polyline', {
-      points: '144 208 176 208 176 144',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('line', {
-      x1: '176',
-      y1: '160',
-      x2: '208',
-      y2: '160',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('line', {
-      x1: '208',
-      y1: '192',
-      x2: '208',
-      y2: '208',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    })
-  )
-})
-An.set('thin', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('rect', {
-      x: '48',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('rect', {
-      x: '48',
-      y: '144',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('rect', {
-      x: '144',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('line', {
-      x1: '144',
-      y1: '144',
-      x2: '144',
-      y2: '176',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('polyline', {
-      points: '144 208 176 208 176 144',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('line', {
-      x1: '176',
-      y1: '160',
-      x2: '208',
-      y2: '160',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('line', {
-      x1: '208',
-      y1: '192',
-      x2: '208',
-      y2: '208',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    })
-  )
-})
-An.set('regular', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('rect', {
-      x: '48',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('rect', {
-      x: '48',
-      y: '144',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('rect', {
-      x: '144',
-      y: '48',
-      width: '64',
-      height: '64',
-      rx: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('line', {
-      x1: '144',
-      y1: '144',
-      x2: '144',
-      y2: '176',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('polyline', {
-      points: '144 208 176 208 176 144',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('line', {
-      x1: '176',
-      y1: '160',
-      x2: '208',
-      y2: '160',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('line', {
-      x1: '208',
-      y1: '192',
-      x2: '208',
-      y2: '208',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    })
-  )
-})
-var gE = function (t, n) {
-    return Te(t, n, An)
-  },
-  yE = L.forwardRef(function (e, t) {
-    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: gE }))
-  })
-yE.displayName = 'QrCode'
-var Rn = new Map()
-Rn.set('bold', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '24',
-    })
-  )
-})
-Rn.set('duotone', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
-      opacity: '0.2',
-    }),
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    })
-  )
-})
-Rn.set('fill', function () {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('path', {
-      d: 'M208,40H48A16,16,0,0,0,32,56v58.7c0,89.4,75.8,119.1,91,124.1a16,16,0,0,0,10,0c15.2-5,91-34.7,91-124.1V56A16,16,0,0,0,208,40Z',
-    })
-  )
-})
 Rn.set('light', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+    f.createElement('rect', {
+      x: '48',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('rect', {
+      x: '48',
+      y: '144',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('rect', {
+      x: '144',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('line', {
+      x1: '144',
+      y1: '144',
+      x2: '144',
+      y2: '176',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('polyline', {
+      points: '144 208 176 208 176 144',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('line', {
+      x1: '176',
+      y1: '160',
+      x2: '208',
+      y2: '160',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('line', {
+      x1: '208',
+      y1: '192',
+      x2: '208',
+      y2: '208',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -16668,8 +16771,77 @@ Rn.set('thin', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+    f.createElement('rect', {
+      x: '48',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('rect', {
+      x: '48',
+      y: '144',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('rect', {
+      x: '144',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('line', {
+      x1: '144',
+      y1: '144',
+      x2: '144',
+      y2: '176',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('polyline', {
+      points: '144 208 176 208 176 144',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('line', {
+      x1: '176',
+      y1: '160',
+      x2: '208',
+      y2: '160',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('line', {
+      x1: '208',
+      y1: '192',
+      x2: '208',
+      y2: '208',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -16682,8 +16854,77 @@ Rn.set('regular', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('path', {
-      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+    f.createElement('rect', {
+      x: '48',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('rect', {
+      x: '48',
+      y: '144',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('rect', {
+      x: '144',
+      y: '48',
+      width: '64',
+      height: '64',
+      rx: '8',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '144',
+      y1: '144',
+      x2: '144',
+      y2: '176',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '144 208 176 208 176 144',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '176',
+      y1: '160',
+      x2: '208',
+      y2: '160',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('line', {
+      x1: '208',
+      y1: '192',
+      x2: '208',
+      y2: '208',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -16698,7 +16939,7 @@ var vE = function (t, n) {
   kE = L.forwardRef(function (e, t) {
     return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: vE }))
   })
-kE.displayName = 'Shield'
+kE.displayName = 'QrCode'
 var jn = new Map()
 jn.set('bold', function (e) {
   return f.createElement(
@@ -16706,14 +16947,6 @@ jn.set('bold', function (e) {
     null,
     f.createElement('path', {
       d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '24',
-    }),
-    f.createElement('polyline', {
-      points: '172 104 113.3 160 84 132',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -16737,14 +16970,6 @@ jn.set('duotone', function (e) {
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
       strokeWidth: '16',
-    }),
-    f.createElement('polyline', {
-      points: '172 104 113.3 160 84 132',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
     })
   )
 })
@@ -16753,7 +16978,7 @@ jn.set('fill', function () {
     f.Fragment,
     null,
     f.createElement('path', {
-      d: 'M208,40H48A16,16,0,0,0,32,56v58.7c0,89.4,75.8,119.1,91,124.1a16,16,0,0,0,10,0c15.2-5,91-34.7,91-124.1V56A16,16,0,0,0,208,40Zm-30.5,69.8-58.6,56a8.1,8.1,0,0,1-5.6,2.2,7.9,7.9,0,0,1-5.5-2.2l-29.3-28a8,8,0,1,1,11-11.6l23.8,22.7,53.2-50.7a8,8,0,0,1,11,11.6Z',
+      d: 'M208,40H48A16,16,0,0,0,32,56v58.7c0,89.4,75.8,119.1,91,124.1a16,16,0,0,0,10,0c15.2-5,91-34.7,91-124.1V56A16,16,0,0,0,208,40Z',
     })
   )
 })
@@ -16763,14 +16988,6 @@ jn.set('light', function (e) {
     null,
     f.createElement('path', {
       d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('polyline', {
-      points: '172 104 113.3 160 84 132',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -16790,6 +17007,121 @@ jn.set('thin', function (e) {
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
       strokeWidth: '8',
+    })
+  )
+})
+jn.set('regular', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    })
+  )
+})
+var EE = function (t, n) {
+    return Te(t, n, jn)
+  },
+  xE = L.forwardRef(function (e, t) {
+    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: EE }))
+  })
+xE.displayName = 'Shield'
+var _n = new Map()
+_n.set('bold', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    }),
+    f.createElement('polyline', {
+      points: '172 104 113.3 160 84 132',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '24',
+    })
+  )
+})
+_n.set('duotone', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      opacity: '0.2',
+    }),
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('polyline', {
+      points: '172 104 113.3 160 84 132',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    })
+  )
+})
+_n.set('fill', function () {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M208,40H48A16,16,0,0,0,32,56v58.7c0,89.4,75.8,119.1,91,124.1a16,16,0,0,0,10,0c15.2-5,91-34.7,91-124.1V56A16,16,0,0,0,208,40Zm-30.5,69.8-58.6,56a8.1,8.1,0,0,1-5.6,2.2,7.9,7.9,0,0,1-5.5-2.2l-29.3-28a8,8,0,1,1,11-11.6l23.8,22.7,53.2-50.7a8,8,0,0,1,11,11.6Z',
+    })
+  )
+})
+_n.set('light', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('polyline', {
+      points: '172 104 113.3 160 84 132',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    })
+  )
+})
+_n.set('thin', function (e) {
+  return f.createElement(
+    f.Fragment,
+    null,
+    f.createElement('path', {
+      d: 'M40,114.7V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58.7c0,84-71.3,111.8-85.5,116.5a7.2,7.2,0,0,1-5,0C111.3,226.5,40,198.7,40,114.7Z',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
     }),
     f.createElement('polyline', {
       points: '172 104 113.3 160 84 132',
@@ -16801,7 +17133,7 @@ jn.set('thin', function (e) {
     })
   )
 })
-jn.set('regular', function (e) {
+_n.set('regular', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -16823,15 +17155,15 @@ jn.set('regular', function (e) {
     })
   )
 })
-var EE = function (t, n) {
-    return Te(t, n, jn)
+var wE = function (t, n) {
+    return Te(t, n, _n)
   },
-  xE = L.forwardRef(function (e, t) {
-    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: EE }))
+  LE = L.forwardRef(function (e, t) {
+    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: wE }))
   })
-xE.displayName = 'ShieldCheck'
-var _n = new Map()
-_n.set('bold', function (e) {
+LE.displayName = 'ShieldCheck'
+var Fn = new Map()
+Fn.set('bold', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -16889,7 +17221,7 @@ _n.set('bold', function (e) {
     })
   )
 })
-_n.set('duotone', function (e) {
+Fn.set('duotone', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -16951,7 +17283,7 @@ _n.set('duotone', function (e) {
     })
   )
 })
-_n.set('fill', function () {
+Fn.set('fill', function () {
   return f.createElement(
     f.Fragment,
     null,
@@ -16960,7 +17292,7 @@ _n.set('fill', function () {
     })
   )
 })
-_n.set('light', function (e) {
+Fn.set('light', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -17018,7 +17350,7 @@ _n.set('light', function (e) {
     })
   )
 })
-_n.set('thin', function (e) {
+Fn.set('thin', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -17076,7 +17408,7 @@ _n.set('thin', function (e) {
     })
   )
 })
-_n.set('regular', function (e) {
+Fn.set('regular', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -17134,15 +17466,15 @@ _n.set('regular', function (e) {
     })
   )
 })
-var wE = function (t, n) {
-    return Te(t, n, _n)
+var SE = function (t, n) {
+    return Te(t, n, Fn)
   },
-  LE = L.forwardRef(function (e, t) {
-    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: wE }))
+  PE = L.forwardRef(function (e, t) {
+    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: SE }))
   })
-LE.displayName = 'Sparkle'
-var Fn = new Map()
-Fn.set('bold', function (e) {
+PE.displayName = 'Sparkle'
+var Dn = new Map()
+Dn.set('bold', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -17175,7 +17507,7 @@ Fn.set('bold', function (e) {
     })
   )
 })
-Fn.set('duotone', function (e) {
+Dn.set('duotone', function (e) {
   return f.createElement(
     f.Fragment,
     null,
@@ -17209,7 +17541,7 @@ Fn.set('duotone', function (e) {
     })
   )
 })
-Fn.set('fill', function () {
+Dn.set('fill', function () {
   return f.createElement(
     f.Fragment,
     null,
@@ -17218,229 +17550,31 @@ Fn.set('fill', function () {
     })
   )
 })
-Fn.set('light', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('line', {
-      x1: '128',
-      y1: '128',
-      x2: '224',
-      y2: '32',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('path', {
-      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
-    f.createElement('path', {
-      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    })
-  )
-})
-Fn.set('thin', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('line', {
-      x1: '128',
-      y1: '128',
-      x2: '224',
-      y2: '32',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('path', {
-      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
-    f.createElement('path', {
-      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    })
-  )
-})
-Fn.set('regular', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('line', {
-      x1: '128',
-      y1: '128',
-      x2: '224',
-      y2: '32',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('path', {
-      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('path', {
-      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    })
-  )
-})
-var SE = function (t, n) {
-    return Te(t, n, Fn)
-  },
-  PE = L.forwardRef(function (e, t) {
-    return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: SE }))
-  })
-PE.displayName = 'Target'
-var Dn = new Map()
-Dn.set('bold', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('circle', {
-      cx: '128',
-      cy: '140',
-      r: '88',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '24',
-    }),
-    f.createElement('line', {
-      x1: '128',
-      y1: '140',
-      x2: '161.9',
-      y2: '106.1',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '24',
-    }),
-    f.createElement('line', {
-      x1: '104',
-      y1: '12',
-      x2: '152',
-      y2: '12',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '24',
-    })
-  )
-})
-Dn.set('duotone', function (e) {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('circle', { cx: '128', cy: '128', r: '88', opacity: '0.2' }),
-    f.createElement('circle', {
-      cx: '128',
-      cy: '128',
-      r: '88',
-      fill: 'none',
-      stroke: e,
-      strokeMiterlimit: '10',
-      strokeWidth: '16',
-    }),
-    f.createElement('line', {
-      x1: '128',
-      y1: '128',
-      x2: '167.6',
-      y2: '88.4',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    }),
-    f.createElement('line', {
-      x1: '104',
-      y1: '8',
-      x2: '152',
-      y2: '8',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '16',
-    })
-  )
-})
-Dn.set('fill', function () {
-  return f.createElement(
-    f.Fragment,
-    null,
-    f.createElement('path', { d: 'M104,16h48a8,8,0,0,0,0-16H104a8,8,0,0,0,0,16Z' }),
-    f.createElement('path', {
-      d: 'M128,32a96,96,0,1,0,96,96A96.2,96.2,0,0,0,128,32Zm45.3,62.1-39.6,39.6a8.2,8.2,0,0,1-11.4,0,8.1,8.1,0,0,1,0-11.4l39.6-39.6a8.1,8.1,0,1,1,11.4,11.4Z',
-    })
-  )
-})
 Dn.set('light', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('circle', {
-      cx: '128',
-      cy: '128',
-      r: '88',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '12',
-    }),
     f.createElement('line', {
       x1: '128',
       y1: '128',
-      x2: '167.6',
-      y2: '88.4',
+      x2: '224',
+      y2: '32',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
       strokeWidth: '12',
     }),
-    f.createElement('line', {
-      x1: '104',
-      y1: '8',
-      x2: '152',
-      y2: '8',
+    f.createElement('path', {
+      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '12',
+    }),
+    f.createElement('path', {
+      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -17453,32 +17587,27 @@ Dn.set('thin', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('circle', {
-      cx: '128',
-      cy: '128',
-      r: '88',
-      fill: 'none',
-      stroke: e,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeWidth: '8',
-    }),
     f.createElement('line', {
       x1: '128',
       y1: '128',
-      x2: '167.6',
-      y2: '88.4',
+      x2: '224',
+      y2: '32',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
       strokeWidth: '8',
     }),
-    f.createElement('line', {
-      x1: '104',
-      y1: '8',
-      x2: '152',
-      y2: '8',
+    f.createElement('path', {
+      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '8',
+    }),
+    f.createElement('path', {
+      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -17491,31 +17620,27 @@ Dn.set('regular', function (e) {
   return f.createElement(
     f.Fragment,
     null,
-    f.createElement('circle', {
-      cx: '128',
-      cy: '128',
-      r: '88',
-      fill: 'none',
-      stroke: e,
-      strokeMiterlimit: '10',
-      strokeWidth: '16',
-    }),
     f.createElement('line', {
       x1: '128',
       y1: '128',
-      x2: '167.6',
-      y2: '88.4',
+      x2: '224',
+      y2: '32',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
       strokeWidth: '16',
     }),
-    f.createElement('line', {
-      x1: '104',
-      y1: '8',
-      x2: '152',
-      y2: '8',
+    f.createElement('path', {
+      d: 'M195.9,60.1a96.2,96.2,0,1,0,18.7,26.5',
+      fill: 'none',
+      stroke: e,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '16',
+    }),
+    f.createElement('path', {
+      d: 'M161.9,94.1a47.9,47.9,0,1,0,14,31.2',
       fill: 'none',
       stroke: e,
       strokeLinecap: 'round',
@@ -17530,7 +17655,7 @@ var CE = function (t, n) {
   TE = L.forwardRef(function (e, t) {
     return f.createElement(xe, Object.assign({ ref: t }, e, { renderPath: CE }))
   })
-TE.displayName = 'Timer'
+TE.displayName = 'Target'
 var Vn = new Map()
 Vn.set('bold', function (e) {
   return f.createElement(
@@ -18492,7 +18617,7 @@ function qE(e) {
 }
 const kl = (e) => (e <= 0.0031308 ? e * 12.92 : Math.pow(e, 1 / 2.4) * 1.055 - 0.055),
   In = (e) => (e <= 0.04045 ? e / 12.92 : Math.pow((e + 0.055) / 1.055, 2.4))
-function ex(e, t, n) {
+function e6(e, t, n) {
   const r = In(ct(e.r)),
     i = In(ct(e.g)),
     o = In(ct(e.b))
@@ -18526,7 +18651,7 @@ function Qd(e) {
     t
   )
 }
-function tx(e) {
+function t6(e) {
   return e.charAt(0) === 'r' ? JE(e) : ZE(e)
 }
 class Da {
@@ -18534,7 +18659,7 @@ class Da {
     if (t instanceof Da) return t
     const n = typeof t
     let r
-    ;(n === 'object' ? (r = Qd(t)) : n === 'string' && (r = WE(t) || GE(t) || tx(t)),
+    ;(n === 'object' ? (r = Qd(t)) : n === 'string' && (r = WE(t) || GE(t) || t6(t)),
       (this._rgb = r),
       (this._valid = !!r))
   }
@@ -18576,7 +18701,7 @@ class Da {
     return this
   }
   interpolate(t, n) {
-    return (t && (this._rgb = ex(this._rgb, t._rgb, n)), this)
+    return (t && (this._rgb = e6(this._rgb, t._rgb, n)), this)
   }
   clone() {
     return new Da(this.rgb)
@@ -18617,18 +18742,18 @@ class Da {
     return (YE(this._rgb, t), this)
   }
 }
-var nx = Object.defineProperty,
+var n6 = Object.defineProperty,
   ss = Object.getOwnPropertySymbols,
   Jm = Object.prototype.hasOwnProperty,
   qm = Object.prototype.propertyIsEnumerable,
   bd = (e, t, n) =>
-    t in e ? nx(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : (e[t] = n),
+    t in e ? n6(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : (e[t] = n),
   Gd = (e, t) => {
     for (var n in t || (t = {})) Jm.call(t, n) && bd(e, n, t[n])
     if (ss) for (var n of ss(t)) qm.call(t, n) && bd(e, n, t[n])
     return e
   },
-  rx = (e, t) => {
+  r6 = (e, t) => {
     var n = {}
     for (var r in e) Jm.call(e, r) && t.indexOf(r) < 0 && (n[r] = e[r])
     if (e != null && ss) for (var r of ss(e)) t.indexOf(r) < 0 && qm.call(e, r) && (n[r] = e[r])
@@ -19151,20 +19276,20 @@ var Hr = kn
  * @license qrcode.react
  * Copyright (c) Paul O'Shannessy
  * SPDX-License-Identifier: ISC
- */ var ix = {
+ */ var i6 = {
     L: Hr.QrCode.Ecc.LOW,
     M: Hr.QrCode.Ecc.MEDIUM,
     Q: Hr.QrCode.Ecc.QUARTILE,
     H: Hr.QrCode.Ecc.HIGH,
   },
-  ox = 128,
-  sx = 'L',
-  lx = '#FFFFFF',
-  ax = '#000000',
-  ux = !1,
+  o6 = 128,
+  s6 = 'L',
+  l6 = '#FFFFFF',
+  a6 = '#000000',
+  u6 = !1,
   e0 = 4,
-  cx = 0.1
-function fx(e, t = 0) {
+  c6 = 0.1
+function f6(e, t = 0) {
   const n = []
   return (
     e.forEach(function (r, i) {
@@ -19187,18 +19312,18 @@ function fx(e, t = 0) {
     n.join('')
   )
 }
-function dx(e, t) {
+function d6(e, t) {
   return e
     .slice()
     .map((n, r) =>
       r < t.y || r >= t.y + t.h ? n : n.map((i, o) => (o < t.x || o >= t.x + t.w ? i : !1))
     )
 }
-function hx(e, t, n, r) {
+function h6(e, t, n, r) {
   if (r == null) return null
   const i = n ? e0 : 0,
     o = e.length + i * 2,
-    s = Math.floor(t * cx),
+    s = Math.floor(t * c6),
     a = o / t,
     l = (r.width || s) * a,
     u = (r.height || s) * a,
@@ -19214,7 +19339,7 @@ function hx(e, t, n, r) {
   }
   return { x: c, y: d, h: u, w: l, excavation: h }
 }
-var px = (function () {
+var p6 = (function () {
   try {
     new Path2D().addPath(new Path2D())
   } catch {
@@ -19222,19 +19347,19 @@ var px = (function () {
   }
   return !0
 })()
-function wx(e) {
+function w6(e) {
   const t = e,
     {
       value: n,
-      size: r = ox,
-      level: i = sx,
-      bgColor: o = lx,
-      fgColor: s = ax,
-      includeMargin: a = ux,
+      size: r = o6,
+      level: i = s6,
+      bgColor: o = l6,
+      fgColor: s = a6,
+      includeMargin: a = u6,
       style: l,
       imageSettings: u,
     } = t,
-    c = rx(t, [
+    c = r6(t, [
       'value',
       'size',
       'level',
@@ -19253,13 +19378,13 @@ function wx(e) {
       const p = h.current,
         g = p.getContext('2d')
       if (!g) return
-      let x = Hr.QrCode.encodeText(n, ix[i]).getModules()
+      let x = Hr.QrCode.encodeText(n, i6[i]).getModules()
       const w = a ? e0 : 0,
         P = x.length + w * 2,
-        T = hx(x, r, a, u),
+        T = h6(x, r, a, u),
         S = y.current,
         D = T != null && S !== null && S.complete && S.naturalHeight !== 0 && S.naturalWidth !== 0
-      D && T.excavation != null && (x = dx(x, T.excavation))
+      D && T.excavation != null && (x = d6(x, T.excavation))
       const R = window.devicePixelRatio || 1
       p.height = p.width = r * R
       const $ = (r / P) * R
@@ -19267,8 +19392,8 @@ function wx(e) {
         (g.fillStyle = o),
         g.fillRect(0, 0, P, P),
         (g.fillStyle = s),
-        px
-          ? g.fill(new Path2D(fx(x, w)))
+        p6
+          ? g.fill(new Path2D(f6(x, w)))
           : x.forEach(function (qe, lt) {
               qe.forEach(function (Jt, Oi) {
                 Jt && g.fillRect(Oi + w, lt + w, 1, 1)
@@ -19306,28 +19431,28 @@ export {
   uE as D,
   hE as E,
   mE as G,
-  vx as H,
+  v6 as H,
   R2 as L,
-  kx as N,
-  yE as Q,
+  k6 as N,
+  kE as Q,
   f as R,
-  LE as S,
+  PE as S,
   AE as T,
   jE as U,
   FE as W,
-  PE as a,
-  xE as b,
-  yx as c,
+  TE as a,
+  LE as b,
+  y6 as c,
   k2 as d,
-  gx as e,
+  g6 as e,
   Ry as f,
-  kE as g,
+  xE as g,
   lE as h,
-  TE as i,
+  yE as i,
   El as j,
-  wx as k,
+  w6 as k,
   fE as l,
-  xx as m,
+  x6 as m,
   L as r,
   m1 as u,
 }
