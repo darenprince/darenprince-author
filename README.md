@@ -70,7 +70,7 @@ GitHub Pages is the only hosting target. Netlify is no longer used.
 
 1. Update page metadata or copy as needed (titles, descriptions, Open Graph tags, JSON-LD).
 2. Run `npm run deploy` with `DOMAIN` set to the production URL (for canonical URLs + sitemap).
-3. Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`, `nexuswho-assets/*`).
+3. Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`, `nexuswho-assets/*`, `sitemap.xml`, `robots.txt`, and any updated HTML files).
 
 > **Reality Check:** GitHub Pages serves committed assets only. Always regenerate metadata and SEO output before pushing to `main`.
 
