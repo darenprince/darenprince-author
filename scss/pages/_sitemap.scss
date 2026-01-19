@@ -1,0 +1,111 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+@use '../tokens/colors' as *;
+
+.sitemap-page {
+  background: color-mix(in srgb, $gray-900 85%, transparent);
+
+  .sitemap-hero {
+    text-align: left;
+    padding: $spacing-lg;
+    border-radius: $border-radius;
+    background: color-mix(in srgb, $black 70%, transparent);
+    border: 1px solid color-mix(in srgb, $white 10%, transparent);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    margin-bottom: $spacing-lg;
+  }
+
+  .sitemap-eyebrow {
+    display: inline-flex;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    color: color-mix(in srgb, $white 65%, transparent);
+  }
+
+  h1 {
+    margin: $spacing-xs 0 $spacing-sm;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+  }
+
+  p {
+    margin: 0;
+    color: color-mix(in srgb, $white 75%, transparent);
+  }
+}
+
+.sitemap-grid {
+  display: grid;
+  gap: $spacing-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sitemap-card {
+  background: color-mix(in srgb, $black 65%, transparent);
+  border-radius: $border-radius;
+  padding: $spacing-md;
+  border: 1px solid color-mix(in srgb, $white 12%, transparent);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  display: grid;
+  gap: $spacing-sm;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: 1.1rem;
+    margin: 0;
+
+    i {
+      color: $lime-green;
+      font-size: 1.2rem;
+    }
+  }
+
+  h3 {
+    margin: $spacing-sm 0 0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, $white 70%, transparent);
+  }
+}
+
+.sitemap-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+
+  a {
+    color: color-mix(in srgb, $white 85%, transparent);
+    text-decoration: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    width: fit-content;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      color: $white;
+      background: color-mix(in srgb, $lime-green 25%, transparent);
+    }
+  }
+}
+
+.sitemap-subgroup {
+  display: grid;
+  gap: $spacing-xs;
+  padding-top: $spacing-xs;
+}
