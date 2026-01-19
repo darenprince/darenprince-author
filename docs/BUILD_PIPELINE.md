@@ -54,6 +54,12 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 > **Reality Check:** Until `/content/` is populated, `build:search` logs “Indexed 0 documents.” Ship content before showcasing search.
 
+## Metadata & SEO refresh
+
+1. Update page-level metadata (titles, descriptions, Open Graph tags, JSON-LD) in the source HTML.
+2. Run `npm run postprocess:seo` with `DOMAIN` set to the production URL so canonical links, sitemap entries, and structured data stay aligned with GitHub Pages output.
+3. Commit the refreshed HTML, `sitemap.xml`, `robots.txt`, and any updated JSON-LD blocks so GitHub Pages serves the latest metadata.
+
 ## Image management
 
 - `scripts/generate-image-manifest.js` should run after adding/removing assets; the manifest powers `image-index.html` and admin tooling.
