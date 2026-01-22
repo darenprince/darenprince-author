@@ -33,7 +33,7 @@ PAGE: Homepage (index.html)
 <title>Daren Prince | Author of Game On! & Unshakeable | Confidence, Healing & Real Connection</title>
 
 <meta name="description" content="Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bestselling books.">
-<h1>Daren Prince | Author. Strategist. Storyteller.</h1>
+<h1>Command the room. Create real connection.</h1>
 
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Daren Prince | Author of Game On! & Unshakeable">
