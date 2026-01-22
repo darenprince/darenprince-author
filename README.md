@@ -64,6 +64,8 @@ npm run build
 
 > **Routing note:** GitHub Pages supports both `/nexuswho.html` and `/nexuswho/` (a lightweight redirect) so links can stay clean without breaking the bundle path.
 
+> **Results UX:** The results screen now surfaces the full profile token in a code snippet with a one-click copy button and toast confirmation. The forensic decoder also includes archetype explanations alongside the snapshot metrics.
+
 ### PIN handling (temporary)
 
 The decoder PIN is currently embedded in the client for demo purposes. Swap to a hashed PIN by:
