@@ -126,6 +126,30 @@ const AsyncResult = ({
   token: string
   error: boolean
 }) => {
+  const [toasts, setToasts] = useState<
+    Array<{ id: string; message: string; tone: 'success' | 'error' }>
+  >([])
+
+  const pushToast = (message: string, tone: 'success' | 'error' = 'success') => {
+    const id =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`
+    setToasts((prev) => [...prev, { id, message, tone }])
+    window.setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id))
+    }, 2600)
+  }
+
+  const handleCopyToken = async () => {
+    try {
+      await navigator.clipboard.writeText(token)
+      pushToast('Token copied to clipboard.', 'success')
+    } catch (err) {
+      pushToast('Copy failed. Select the token and copy manually.', 'error')
+    }
+  }
+
   if (error || !data) {
     return (
       <div className="glass-panel p-6">
@@ -156,119 +180,151 @@ const AsyncResult = ({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-        className="glass-panel p-6"
-      >
-        <div className="flex items-center gap-3">
-          <ChartPie size={24} className="text-sky-300" />
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Persona</p>
-            <h2 className="text-2xl font-semibold text-slate-50">{persona.name}</h2>
+    <>
+      <div className="fixed right-6 top-6 z-50 flex flex-col gap-2">
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className={`rounded-xl border px-4 py-3 text-sm shadow-xl ${
+              toast.tone === 'success'
+                ? 'border-emerald-400/30 bg-emerald-500/10 text-emerald-100'
+                : 'border-rose-400/30 bg-rose-500/10 text-rose-100'
+            }`}
+          >
+            {toast.message}
           </div>
-        </div>
-        <p className="mt-4 text-sm text-slate-300">{persona.description}</p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Momentum</p>
-            <p className="mt-2 text-lg font-semibold text-slate-50">{data.dtiFinal}</p>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Integrity</p>
-            <p className="mt-2 text-lg font-semibold text-slate-50">{data.integrity}</p>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Archetype</p>
-            <p className="mt-2 text-sm font-semibold text-slate-50">{data.archetype}</p>
-          </div>
-        </div>
-        <div className="mt-6 h-64">
-          <Radar
-            data={radarData}
-            options={{
-              scales: {
-                r: {
-                  ticks: { display: false },
-                  grid: { color: 'rgba(148, 163, 184, 0.2)' },
-                  pointLabels: { color: 'rgba(226, 232, 240, 0.8)' },
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                },
-              },
-              plugins: { legend: { display: false } },
-              animation: { duration: 800 },
-            }}
-          />
-        </div>
-      </motion.div>
-      <div className="flex flex-col gap-6">
-        <div className="glass-panel p-6">
-          <h3 className="text-lg font-semibold">Profile Readout</h3>
-          <p className="mt-2 text-sm text-slate-400">
-            Base DTI: {data.dtiBase} → Final DTI: {data.dtiFinal}
-          </p>
-          <div className="mt-4 grid gap-2 text-sm text-slate-300">
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-              <span>Presence</span>
-              <span>{data.scores.N}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-              <span>Strategy</span>
-              <span>{data.scores.M}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-              <span>Composure</span>
-              <span>{data.scores.P}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
-              <span>Guidance</span>
-              <span>{data.scores.MD}</span>
-            </div>
-          </div>
-        </div>
-        <div className="glass-panel p-6">
+        ))}
+      </div>
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-3">
-            <QrCode size={22} className="text-sky-300" />
+            <ChartPie size={24} className="text-sky-300" />
             <div>
-              <h3 className="text-lg font-semibold">Private QR token</h3>
-              <p className="text-sm text-slate-400">
-                Store this token to restore your profile later.
-              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Persona</p>
+              <h2 className="text-2xl font-semibold text-slate-50">{persona.name}</h2>
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-center rounded-xl border border-white/10 bg-slate-900/60 p-4">
-            <QRCodeCanvas value={token} size={160} bgColor="#0f172a" fgColor="#e2e8f0" />
+          <p className="mt-4 text-sm text-slate-300">{persona.description}</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Momentum</p>
+              <p className="mt-2 text-lg font-semibold text-slate-50">{data.dtiFinal}</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Integrity</p>
+              <p className="mt-2 text-lg font-semibold text-slate-50">{data.integrity}</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3">
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Archetype</p>
+              <p className="mt-2 text-sm font-semibold text-slate-50">{data.archetype}</p>
+            </div>
           </div>
-          <p className="mt-4 text-xs text-slate-500">Token preview: {token.slice(0, 32)}...</p>
-        </div>
-        <div className="glass-panel p-6">
-          <h3 className="text-lg font-semibold">Need the full profile?</h3>
-          <p className="mt-2 text-sm text-slate-400">
-            Restore your profile with the secure decoder.
-          </p>
-          <Link to="/restore" className="button-secondary mt-4">
-            Restore Profile
-          </Link>
-        </div>
-        <div className="glass-panel p-6">
-          <h3 className="text-lg font-semibold">Next actions</h3>
-          <ul className="mt-3 space-y-2 text-sm text-slate-300">
-            {[
-              'Save your QR token to a secure note.',
-              'Share the persona name with your team.',
-              'Use the decoder to review trait-level insights.',
-            ].map((item) => (
-              <li key={item} className="list-item">
-                {item}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-6 h-64">
+            <Radar
+              data={radarData}
+              options={{
+                scales: {
+                  r: {
+                    ticks: { display: false },
+                    grid: { color: 'rgba(148, 163, 184, 0.2)' },
+                    pointLabels: { color: 'rgba(226, 232, 240, 0.8)' },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                  },
+                },
+                plugins: { legend: { display: false } },
+                animation: { duration: 800 },
+              }}
+            />
+          </div>
+        </motion.div>
+        <div className="flex flex-col gap-6">
+          <div className="glass-panel p-6">
+            <h3 className="text-lg font-semibold">Profile Readout</h3>
+            <p className="mt-2 text-sm text-slate-400">
+              Base DTI: {data.dtiBase} → Final DTI: {data.dtiFinal}
+            </p>
+            <div className="mt-4 grid gap-2 text-sm text-slate-300">
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>Presence</span>
+                <span>{data.scores.N}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>Strategy</span>
+                <span>{data.scores.M}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>Composure</span>
+                <span>{data.scores.P}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2">
+                <span>Guidance</span>
+                <span>{data.scores.MD}</span>
+              </div>
+            </div>
+          </div>
+          <div className="glass-panel p-6">
+            <div className="flex items-center gap-3">
+              <QrCode size={22} className="text-sky-300" />
+              <div>
+                <h3 className="text-lg font-semibold">Private QR token</h3>
+                <p className="text-sm text-slate-400">
+                  Store this token to restore your profile later.
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 flex items-center justify-center rounded-xl border border-white/10 bg-slate-900/60 p-4">
+              <QRCodeCanvas value={token} size={160} bgColor="#0f172a" fgColor="#e2e8f0" />
+            </div>
+            <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-slate-900/60">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-3 py-2">
+                <span className="text-xs uppercase tracking-[0.3em] text-slate-400">
+                  Full token
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyToken}
+                  className="button-secondary text-xs"
+                >
+                  Copy token
+                </button>
+              </div>
+              <pre className="max-h-40 overflow-auto whitespace-pre-wrap break-all p-3 text-xs text-slate-200">
+                <code>{token}</code>
+              </pre>
+            </div>
+          </div>
+          <div className="glass-panel p-6">
+            <h3 className="text-lg font-semibold">Need the full profile?</h3>
+            <p className="mt-2 text-sm text-slate-400">
+              Restore your profile with the secure decoder.
+            </p>
+            <Link to="/restore" className="button-secondary mt-4">
+              Restore Profile
+            </Link>
+          </div>
+          <div className="glass-panel p-6">
+            <h3 className="text-lg font-semibold">Next actions</h3>
+            <ul className="mt-3 space-y-2 text-sm text-slate-300">
+              {[
+                'Save your QR token to a secure note.',
+                'Share the persona name with your team.',
+                'Use the decoder to review trait-level insights.',
+              ].map((item) => (
+                <li key={item} className="list-item">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

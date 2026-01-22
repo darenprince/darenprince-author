@@ -56,6 +56,39 @@ const maskFlagDescriptions: Record<string, string> = {
   halo: 'Response pattern suggests overly idealized self-presentation.',
 }
 
+const archetypeExplanations: Record<string, { label: string; description: string }> = {
+  APX: {
+    label: 'Apex Strategist',
+    description:
+      'High psychopathy and Machiavellian scores signal a calculated, high-control profile that prioritizes outcomes over relational cost.',
+  },
+  PUP: {
+    label: 'Pressure Operator',
+    description:
+      'Strong Machiavellian + MD pairing suggests strategic influence, persuasive pacing, and a focus on leverage in group dynamics.',
+  },
+  EGO: {
+    label: 'Ego Beacon',
+    description:
+      'Narcissism-forward readout indicates visibility seeking, status awareness, and heightened sensitivity to reputation.',
+  },
+  SMR: {
+    label: 'Social Mirrorer',
+    description:
+      'Balanced N + M scores show adaptive social calibration, reading the room before applying influence.',
+  },
+  LOW: {
+    label: 'Low Signal',
+    description:
+      'Sub-45 trait strengths point to a low-intensity profile with minimal dominance or manipulation imprint.',
+  },
+  DRM: {
+    label: 'Drift Resonator',
+    description:
+      'Mixed traits without dominant spikes suggest a flexible, situational pattern that shifts with context.',
+  },
+}
+
 const Restore = () => {
   const [unlocked, setUnlocked] = useState(sessionStorage.getItem('VP_DECODE_UNLOCK') === '1')
   const [tokenInput, setTokenInput] = useState(getToken() ?? '')
@@ -179,6 +212,10 @@ const Restore = () => {
 
     return { radarData, barData, lineData }
   }, [decoded])
+
+  const archetypeInsight = decoded
+    ? (archetypeExplanations[decoded.archetype] ?? archetypeExplanations.DRM)
+    : null
 
   const handleExport = () => {
     if (!decoded) {
@@ -359,6 +396,15 @@ const Restore = () => {
                 <p className="mt-2 text-lg font-semibold">{decoded.integrity}</p>
               </div>
             </div>
+            {archetypeInsight && (
+              <div className="mt-4 rounded-xl border border-white/10 bg-slate-900/60 p-4">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
+                  Archetype explanation
+                </p>
+                <p className="mt-2 text-lg font-semibold">{archetypeInsight.label}</p>
+                <p className="mt-2 text-sm text-slate-300">{archetypeInsight.description}</p>
+              </div>
+            )}
           </section>
 
           <section className="glass-panel p-6">
