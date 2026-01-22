@@ -23,7 +23,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 > **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in cool cyan/blue tones (avoid purple) and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
 >
-> **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
+> **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries. If the homepage trailer changes, update `data-video-id` and `data-video-url` in `index.html` so the Vimeo fallback remains accurate.
 
 ## GitHub Pages configuration
 

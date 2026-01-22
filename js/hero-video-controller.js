@@ -2,17 +2,45 @@
   const initHeroVideo = () => {
     const hero = document.querySelector('#autoZoomHero.hero--video')
     if (!hero) return
-    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) return
 
     const videoId = parseInt(hero.dataset.videoId || '', 10)
     if (!videoId) return
+
+    const playOverlay = hero.querySelector('.js-hero-play')
+    const playTriggers = hero.querySelectorAll('.js-hero-play-trigger')
+    const fallbackUrl = hero.dataset.videoUrl || `https://vimeo.com/${videoId}`
+    const handleFallbackPlayback = (event) => {
+      if (event && typeof event.preventDefault === 'function') {
+        event.preventDefault()
+      }
+      window.open(fallbackUrl, '_blank', 'noopener')
+    }
+    const bindFallbackPlayback = () => {
+      if (playOverlay) {
+        playOverlay.addEventListener('click', handleFallbackPlayback)
+      }
+      if (playTriggers.length) {
+        playTriggers.forEach((trigger) => {
+          if (trigger.tagName === 'A') {
+            trigger.setAttribute('href', fallbackUrl)
+            trigger.setAttribute('target', '_blank')
+            trigger.setAttribute('rel', 'noopener')
+            return
+          }
+          trigger.addEventListener('click', handleFallbackPlayback)
+        })
+      }
+    }
+
+    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) {
+      bindFallbackPlayback()
+      return
+    }
 
     const frame = hero.querySelector('.hero-video-layer__player')
     if (!frame) return
 
     const videoLayer = hero.querySelector('.js-hero-video')
-    const playOverlay = hero.querySelector('.js-hero-play')
-    const playTriggers = hero.querySelectorAll('.js-hero-play-trigger')
     const muteButton = hero.querySelector('.js-hero-mute')
     const pauseOverlay = hero.querySelector('.js-hero-pause-overlay')
     const resumeBtn = hero.querySelector('.js-hero-resume')
