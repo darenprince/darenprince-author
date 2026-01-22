@@ -2,9 +2,16 @@
 @use '../tokens/colors' as *;
 .hero {
   position: relative;
-  background-image: url('images/heroposter1.png');
+  background-image:
+    linear-gradient(
+      160deg,
+      rgba(5, 9, 16, 0.92) 0%,
+      rgba(5, 9, 16, 0.6) 55%,
+      rgba(5, 9, 16, 0.9) 100%
+    ),
+    url('images/Hero-bg.PNG');
   background-size: cover;
-  background-position: top center;
+  background-position: center;
   background-color: var(--gray-900);
   padding: 0;
   margin-top: -0.75rem;
@@ -20,7 +27,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba($black, 0.72) 0%, rgba($black, 0.2) 100%);
+    background:
+      radial-gradient(circle at 20% 20%, rgba(108, 232, 255, 0.18), transparent 45%),
+      radial-gradient(circle at 80% 10%, rgba(78, 170, 255, 0.12), transparent 40%);
     z-index: 0;
     pointer-events: none;
   }
@@ -46,14 +55,14 @@
   }
 
   .hero-copy {
-    max-width: 36rem;
-    padding: clamp(1.5rem, 4vw, 2.25rem);
-    border-radius: 1.5rem;
-    border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
-    background: color-mix(in srgb, #{$black} 82%, transparent);
+    max-width: 38rem;
+    padding: clamp(1.6rem, 4vw, 2.4rem);
+    border-radius: 1.6rem;
+    border: 1px solid color-mix(in srgb, #{$white} 14%, transparent);
+    background: color-mix(in srgb, #{$black} 78%, transparent);
     backdrop-filter: blur(10px);
     text-align: left;
-    box-shadow: 0 24px 80px rgba($black, 0.45);
+    box-shadow: 0 24px 80px rgba($black, 0.5);
     pointer-events: auto;
 
     @media (min-width: 48rem) {
@@ -73,26 +82,26 @@
 
   .hero-kicker {
     margin: 0.5rem 0 0.85rem;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: color-mix(in srgb, #{$white} 55%, transparent);
+    letter-spacing: 0.22em;
+    color: color-mix(in srgb, #{$white} 60%, transparent);
   }
 
   .hero-title {
     position: relative;
     display: block;
-    font-size: clamp(2.1rem, 4.3vw, 3.4rem);
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
     margin-bottom: $spacing-md;
     animation:
       slide-in 0.6s ease-out forwards,
-      hero-text-sparkle 5.5s ease-in-out infinite;
+      hero-text-sparkle 6s ease-in-out infinite;
     opacity: 0;
     color: $white;
     text-shadow:
-      0 0 12px rgba($white, 0.22),
-      0 0 32px rgba($lime-green, 0.3);
+      0 0 12px rgba($white, 0.24),
+      0 0 36px rgba(108, 232, 255, 0.3);
 
     &::after {
       content: '';
@@ -118,9 +127,9 @@
     .hero-title {
       background: linear-gradient(
         120deg,
-        rgba(255, 255, 255, 0.95),
-        rgba(140, 214, 121, 0.85),
-        #ffffff
+        rgba(255, 255, 255, 0.98),
+        rgba(108, 232, 255, 0.85),
+        rgba(255, 255, 255, 0.92)
       );
       -webkit-background-clip: text;
       background-clip: text;
@@ -130,8 +139,8 @@
 
   .hero-subtitle {
     margin-bottom: $spacing-lg;
-    color: color-mix(in srgb, #{$white} 80%, transparent);
-    font-size: 1.15rem;
+    color: color-mix(in srgb, #{$white} 82%, transparent);
+    font-size: 1.1rem;
     line-height: 1.6;
     animation: fade-in 0.8s ease-out forwards;
     opacity: 0;
@@ -154,34 +163,34 @@
     }
   }
 
-  .hero-highlights {
+  .hero-proof {
     display: grid;
     gap: $spacing-sm;
     font-size: 0.85rem;
-    color: color-mix(in srgb, #{$white} 75%, transparent);
+    color: color-mix(in srgb, #{$white} 76%, transparent);
 
     @media (min-width: 48rem) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .hero-highlight {
-    padding: 0.65rem 0.8rem;
-    border-radius: 0.9rem;
-    background: color-mix(in srgb, #{$black} 60%, transparent);
-    border: 1px solid color-mix(in srgb, #{$white} 10%, transparent);
+  .hero-proof__item {
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.95rem;
+    background: color-mix(in srgb, #{$black} 58%, transparent);
+    border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
   }
 
-  .hero-highlight__label {
+  .hero-proof__label {
     display: block;
     font-weight: 600;
     color: $white;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
-  .hero-highlight__value {
+  .hero-proof__value {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .hero-video {
@@ -195,7 +204,7 @@
     iframe {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       pointer-events: none;
     }
   }
@@ -293,7 +302,7 @@
 
     .hero-title {
       margin-bottom: $spacing-md;
-      font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+      font-size: clamp(2.4rem, 4.2vw, 3.6rem);
       color: $white;
     }
 
@@ -315,6 +324,9 @@
       justify-content: center;
       overflow: hidden;
       padding-block: clamp(1.75rem, 6vh, 3.5rem);
+      border-radius: 1.5rem;
+      background: color-mix(in srgb, #{$black} 50%, transparent);
+      border: 1px solid color-mix(in srgb, #{$white} 10%, transparent);
     }
 
     .hero-media__badge {
@@ -341,7 +353,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0) 45%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 55%);
       pointer-events: none;
       z-index: 3;
     }
@@ -369,8 +381,8 @@
         width: var(--hero-media-inline-size);
         max-height: var(--hero-media-max-height);
         aspect-ratio: 9 / 16;
-        object-fit: cover;
-        object-position: top center;
+        object-fit: contain;
+        object-position: center;
         display: block;
         transform: scale(var(--hero-scale, 1));
         transition: transform 0.6s ease;
@@ -402,8 +414,8 @@
 
       iframe {
         border: 0;
-        object-fit: cover;
-        object-position: top center;
+        object-fit: contain;
+        object-position: center;
         pointer-events: none;
       }
     }
@@ -489,7 +501,7 @@
       width: 5.75rem;
       height: 5.75rem;
       border-radius: 50%;
-      border: 3px solid var(--color-lime);
+      border: 3px solid color-mix(in srgb, #6fe3ff 70%, var(--color-white));
       background: rgba(0, 0, 0, 0.5);
       color: var(--color-white);
       display: flex;
@@ -518,7 +530,7 @@
         inset: 0;
         border-radius: 50%;
         border: 4px solid transparent;
-        border-top-color: var(--color-lime);
+        border-top-color: #6fe3ff;
         animation: hero-spinner 1.1s linear infinite;
         opacity: 0;
         z-index: 1;
@@ -544,8 +556,8 @@
         width: var(--hero-buffer-progress, 0%);
         background: linear-gradient(
           90deg,
-          var(--color-lime),
-          color-mix(in srgb, var(--color-lime) 55%, var(--color-white))
+          #6fe3ff,
+          color-mix(in srgb, #6fe3ff 55%, var(--color-white))
         );
         transition: width 0.25s ease;
       }
@@ -818,13 +830,13 @@
       }
 
       &--primary {
-        background: var(--color-lime);
+        background: #6fe3ff;
         color: var(--gray-900);
         border-color: transparent;
 
         &:hover,
         &:focus {
-          background: color-mix(in srgb, var(--color-lime) 85%, var(--gray-900));
+          background: color-mix(in srgb, #6fe3ff 85%, var(--gray-900));
           color: var(--gray-900);
         }
       }
@@ -913,11 +925,11 @@
   0%,
   100% {
     transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 0 color-mix(in srgb, $lime-green 0%, transparent);
+    box-shadow: 0 0 0 color-mix(in srgb, #6fe3ff 0%, transparent);
   }
   50% {
     transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 0 0 0.75rem color-mix(in srgb, $lime-green 50%, transparent);
+    box-shadow: 0 0 0.75rem color-mix(in srgb, #6fe3ff 50%, transparent);
   }
 }
 
@@ -952,12 +964,12 @@
   100% {
     text-shadow:
       0 0 12px rgba(255, 255, 255, 0.25),
-      0 0 32px rgba(140, 214, 121, 0.35);
+      0 0 32px rgba(108, 232, 255, 0.35);
   }
   50% {
     text-shadow:
       0 0 18px rgba(255, 255, 255, 0.55),
-      0 0 42px rgba(140, 214, 121, 0.55);
+      0 0 42px rgba(108, 232, 255, 0.55);
   }
 }
 
@@ -972,23 +984,23 @@
   100% {
     transform: translate(-50%, 0);
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0 color-mix(in srgb, var(--color-lime) 0%, transparent);
+    box-shadow: 0 0 0 color-mix(in srgb, #6fe3ff 0%, transparent);
   }
   8% {
-    border-color: color-mix(in srgb, var(--color-lime) 55%, transparent);
-    box-shadow: 0 0 0.8rem color-mix(in srgb, var(--color-lime) 60%, transparent);
+    border-color: color-mix(in srgb, #6fe3ff 55%, transparent);
+    box-shadow: 0 0 0.8rem color-mix(in srgb, #6fe3ff 60%, transparent);
   }
   18% {
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0.15rem color-mix(in srgb, var(--color-lime) 15%, transparent);
+    box-shadow: 0 0 0.15rem color-mix(in srgb, #6fe3ff 15%, transparent);
   }
   32% {
-    border-color: color-mix(in srgb, var(--color-lime) 55%, transparent);
-    box-shadow: 0 0 1rem color-mix(in srgb, var(--color-lime) 70%, transparent);
+    border-color: color-mix(in srgb, #6fe3ff 55%, transparent);
+    box-shadow: 0 0 1rem color-mix(in srgb, #6fe3ff 70%, transparent);
   }
   46% {
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0.2rem color-mix(in srgb, var(--color-lime) 20%, transparent);
+    box-shadow: 0 0 0.2rem color-mix(in srgb, #6fe3ff 20%, transparent);
   }
 }
 
@@ -999,16 +1011,16 @@
     text-shadow: none;
   }
   8% {
-    color: var(--color-lime);
-    text-shadow: 0 0 0.55rem color-mix(in srgb, var(--color-lime) 65%, transparent);
+    color: #6fe3ff;
+    text-shadow: 0 0 0.55rem color-mix(in srgb, #6fe3ff 65%, transparent);
   }
   18% {
     color: var(--color-white);
     text-shadow: none;
   }
   32% {
-    color: var(--color-lime);
-    text-shadow: 0 0 0.7rem color-mix(in srgb, var(--color-lime) 75%, transparent);
+    color: #6fe3ff;
+    text-shadow: 0 0 0.7rem color-mix(in srgb, #6fe3ff 75%, transparent);
   }
   46% {
     color: var(--color-white);
