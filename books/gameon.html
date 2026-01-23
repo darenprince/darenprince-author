@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+  <head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game On! Master the Conversation &amp; Win Her Heart – Daren M. Prince</title>
+    <meta
+      name="description"
+      content="Game On! Master the Conversation & Win Her Heart by Daren M. Prince – a five-star relationship playbook for men who want real confidence, real connection, and real results."
+    />
+    <meta name="author" content="Daren Prince" />
+    <meta
+      name="robots"
+      content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    />
+    <meta property="og:site_name" content="darenprince.com" />
+    <meta property="og:title" content="Game On! Master the Conversation & Win Her Heart" />
+    <meta
+      property="og:description"
+      content="A five-star relationship playbook for men who want real confidence, real connection, and real results."
+    />
+    <meta property="og:image" content="https://darenprince.com/assets/images/og-daren-prince.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://darenprince.com/assets/images/og-daren-prince.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1366" />
+    <meta property="og:image:height" content="767" />
+    <meta
+      property="og:image:alt"
+      content="Portrait of Daren Prince with Game On! and Unshakeable book covers"
+    />
+    <meta property="og:type" content="book" />
+    <meta property="og:url" content="https://darenprince.com/books/gameon" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Game On! Master the Conversation & Win Her Heart" />
+    <meta
+      name="twitter:description"
+      content="A five-star relationship playbook for men who want real confidence, real connection, and real results."
+    />
+    <meta name="twitter:image" content="https://darenprince.com/assets/images/og-daren-prince.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Portrait of Daren Prince with Game On! and Unshakeable book covers"
+    />
+    <link rel="canonical" href="https://darenprince.com/books/gameon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": "Game On! Master the Conversation & Win Her Heart",
+        "author": {
+          "@type": "Person",
+          "name": "Daren Prince"
+        },
+        "image": "https://darenprince.com/assets/images/og-daren-prince.png",
+        "bookFormat": "https://schema.org/EBook",
+        "isbn": "9798303844407",
+        "offers": {
+          "@type": "Offer",
+          "price": "5.99",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.amazon.com/Game-Master-Conversation-Heart-Relationships-ebook/dp/B0DQHLK4G2"
+        },
+        "description": "Game On! is the men’s playbook for mastering authentic flirting, emotional connection, and confident dating. Real strategies, no games."
+      }
+    </script>
+    <style>
+      :root {
+        --gameon-bg-main: #070a06;
+        --gameon-bg-alt: #101310;
+        --gameon-bg-soft: #151815;
+        --gameon-text-main: #fdfdfd;
+        --gameon-text-muted: #d5d5d5;
+        --gameon-accent: #87bd72;
+        --gameon-accent-deep: #456f3a;
+        --gameon-accent-mid: #6da667;
+        --gameon-border-soft: #2a2d2a;
+        --gameon-shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.5);
+        --gameon-radius-lg: 18px;
+        --gameon-radius-md: 12px;
+        --gameon-radius-pill: 999px;
+        --gameon-max-width: 1120px;
+        --gameon-transition-fast: 0.2s ease;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .gameon-landing {
+        color: var(--gameon-text-main);
+        background: radial-gradient(circle at top, #1b2218 0, #070a06 48%, #000 100%);
+        padding-bottom: 4rem;
+      }
+
+      .gameon-landing * {
+        box-sizing: border-box;
+      }
+
+      .gameon-landing img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .gameon-landing a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .gameon-landing .page-inner {
+        width: 100%;
+        max-width: var(--gameon-max-width);
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+
+      .gameon-landing .hero {
+        padding-top: 1.5rem;
+        padding-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+        gap: 2.5rem;
+        align-items: center;
+      }
+
+      .gameon-landing .hero-badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .gameon-landing .hero-badge {
+        border-radius: var(--gameon-radius-pill);
+        border: 1px solid rgba(135, 189, 114, 0.7);
+        padding: 0.3rem 0.8rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--gameon-accent);
+        background: radial-gradient(circle at top left, rgba(135, 189, 114, 0.16), rgba(7, 10, 6, 0.9));
+      }
+
+      .gameon-landing .hero-kicker {
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gameon-accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .gameon-landing .hero-title {
+        font-size: clamp(2.1rem, 3.2vw, 2.7rem);
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 0.6rem;
+      }
+
+      .gameon-landing .hero-subtitle {
+        font-size: 1rem;
+        color: var(--gameon-text-muted);
+        max-width: 34rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .gameon-landing .hero-cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .gameon-landing .hero-note {
+        font-size: 0.8rem;
+        color: var(--gameon-text-muted);
+        opacity: 0.85;
+        max-width: 30rem;
+      }
+
+      .gameon-landing .hero-cover-wrap {
+        position: relative;
+        justify-self: flex-end;
+      }
+
+      .gameon-landing .hero-cover-card {
+        border-radius: 28px;
+        padding: 1rem;
+        background: radial-gradient(circle at top, #1e261d, #070a06);
+        box-shadow: var(--gameon-shadow-soft);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gameon-landing .hero-cover-inner {
+        border-radius: 22px;
+        padding: 0.9rem;
+        border: 1px solid rgba(135, 189, 114, 0.18);
+        background: linear-gradient(135deg, rgba(135, 189, 114, 0.15), rgba(7, 10, 6, 0.95));
+      }
+
+      .gameon-landing .hero-cover-img {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(135, 189, 114, 0.25);
+        background: #000;
+        aspect-ratio: 3 / 4.5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gameon-text-muted);
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 0;
+      }
+
+      .gameon-landing .hero-cover-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gameon-landing .hero-cover-caption {
+        margin-top: 0.75rem;
+        font-size: 0.78rem;
+        color: var(--gameon-text-muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .gameon-landing .hero-stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.72rem;
+        color: var(--gameon-accent);
+      }
+
+      .gameon-landing .star-icon {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        background: radial-gradient(circle at 30% 0, #fff9b8 0, #ffd84a 40%, #a07a1a 100%);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 216, 74, 0.5);
+      }
+
+      .gameon-landing .hero-ribbon {
+        position: absolute;
+        top: 10px;
+        right: -58px;
+        transform: rotate(30deg);
+        background: linear-gradient(135deg, #ffd84a, #ffb347);
+        color: #2b1800;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 0.25rem 3.5rem;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+      }
+
+      .gameon-landing .retailer-strip {
+        margin: 0 auto 2.5rem;
+        padding: 0.9rem 1rem;
+        border-radius: var(--gameon-radius-pill);
+        border: 1px solid rgba(135, 189, 114, 0.2);
+        background: linear-gradient(
+          to right,
+          rgba(135, 189, 114, 0.06),
+          rgba(7, 10, 6, 0.95),
+          rgba(135, 189, 114, 0.04)
+        );
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.85rem;
+        font-size: 0.8rem;
+        color: var(--gameon-text-muted);
+      }
+
+      .gameon-landing .retailer-strip span {
+        opacity: 0.85;
+      }
+
+      .gameon-landing .retailer-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gameon-landing .retailer-pill {
+        border-radius: var(--gameon-radius-pill);
+        border: 1px solid rgba(213, 213, 213, 0.2);
+        padding: 0.35rem 0.85rem;
+        font-size: 0.78rem;
+        color: #fdfdfd;
+        background: rgba(11, 14, 11, 0.85);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .gameon-landing .retailer-pill img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .gameon-landing section {
+        margin-bottom: 3rem;
+      }
+
+      .gameon-landing .section-heading {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+
+      .gameon-landing .section-subtitle {
+        font-size: 0.9rem;
+        color: var(--gameon-text-muted);
+        max-width: 32rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .gameon-landing .two-col {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+        gap: 2.25rem;
+        align-items: flex-start;
+      }
+
+      .gameon-landing .card {
+        border-radius: var(--gameon-radius-lg);
+        background: linear-gradient(145deg, rgba(16, 19, 16, 0.98), rgba(7, 10, 6, 1));
+        border: 1px solid var(--gameon-border-soft);
+        box-shadow: var(--gameon-shadow-soft);
+        padding: 1.4rem 1.6rem;
+      }
+
+      .gameon-landing .card-soft {
+        border-radius: var(--gameon-radius-lg);
+        background: rgba(11, 14, 11, 0.9);
+        border: 1px solid rgba(135, 189, 114, 0.1);
+        padding: 1.4rem 1.6rem;
+      }
+
+      .gameon-landing .pill-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: var(--gameon-radius-pill);
+        border: 1px solid rgba(135, 189, 114, 0.4);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--gameon-accent);
+        margin-bottom: 0.75rem;
+      }
+
+      .gameon-landing .pill-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0, #c2e9c1 0, #6da667 37%, #0a1b06 100%);
+        box-shadow: 0 0 14px rgba(135, 189, 114, 0.9);
+      }
+
+      .gameon-landing .list-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.7rem;
+        font-size: 0.9rem;
+      }
+
+      .gameon-landing .list-item {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+      }
+
+      .gameon-landing .list-bullet {
+        margin-top: 0.35rem;
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--gameon-accent-mid);
+        flex-shrink: 0;
+      }
+
+      .gameon-landing .list-item strong {
+        font-weight: 600;
+        color: #fdfdfd;
+      }
+
+      .gameon-landing .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1rem;
+      }
+
+      .gameon-landing .achievement-card {
+        border-radius: var(--gameon-radius-md);
+        padding: 1rem 1.1rem;
+        background: rgba(7, 10, 6, 0.96);
+        border: 1px solid rgba(135, 189, 114, 0.25);
+        font-size: 0.86rem;
+        color: var(--gameon-text-muted);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gameon-landing .achievement-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, rgba(135, 189, 114, 0.18), transparent 60%);
+        opacity: 0.85;
+        pointer-events: none;
+      }
+
+      .gameon-landing .achievement-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: var(--gameon-text-main);
+      }
+
+      .gameon-landing .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+
+      .gameon-landing .review-card {
+        border-radius: var(--gameon-radius-md);
+        background: rgba(11, 14, 11, 0.98);
+        border: 1px solid rgba(135, 189, 114, 0.22);
+        padding: 1rem 1.1rem 1.05rem;
+        font-size: 0.85rem;
+        position: relative;
+      }
+
+      .gameon-landing .review-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .gameon-landing .review-name {
+        font-weight: 600;
+        font-size: 0.86rem;
+      }
+
+      .gameon-landing .review-location {
+        font-size: 0.75rem;
+        color: var(--gameon-text-muted);
+      }
+
+      .gameon-landing .review-badges {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.7rem;
+        color: var(--gameon-accent);
+      }
+
+      .gameon-landing .review-stars-mini {
+        display: inline-flex;
+        gap: 2px;
+      }
+
+      .gameon-landing .star-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background: radial-gradient(circle at 30% 0, #fff9b8 0, #ffd84a 45%, #8d6d17 100%);
+      }
+
+      .gameon-landing .review-body {
+        font-size: 0.82rem;
+        color: var(--gameon-text-muted);
+        margin-bottom: 0.45rem;
+      }
+
+      .gameon-landing .review-bottom-line {
+        font-size: 0.75rem;
+        color: var(--gameon-accent-mid);
+        opacity: 0.9;
+      }
+
+      .gameon-landing .editorial-quote {
+        font-size: 0.9rem;
+        color: var(--gameon-text-muted);
+        border-left: 3px solid var(--gameon-accent-mid);
+        padding-left: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .gameon-landing .editorial-source {
+        font-size: 0.8rem;
+        color: var(--gameon-text-muted);
+        opacity: 0.8;
+      }
+
+      .gameon-landing .author-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .gameon-landing .author-image-wrap {
+        border-radius: 24px;
+        border: 1px solid rgba(135, 189, 114, 0.25);
+        background: radial-gradient(circle at top, #1f261e, #050705);
+        padding: 0.9rem;
+        box-shadow: var(--gameon-shadow-soft);
+      }
+
+      .gameon-landing .author-image-wrap img {
+        border-radius: 18px;
+        border: 1px solid rgba(135, 189, 114, 0.28);
+        width: 100%;
+        height: auto;
+      }
+
+      .gameon-landing .author-tag {
+        font-size: 0.78rem;
+        color: var(--gameon-accent-mid);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        margin-bottom: 0.5rem;
+      }
+
+      .gameon-landing .author-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+      }
+
+      .gameon-landing .author-bio {
+        font-size: 0.9rem;
+        color: var(--gameon-text-muted);
+      }
+
+      .gameon-landing .cta {
+        text-align: center;
+        padding: 2.5rem 1.2rem 0;
+        border-top: 1px solid rgba(135, 189, 114, 0.15);
+        margin-top: 1.5rem;
+      }
+
+      .gameon-landing .cta-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
+
+      .gameon-landing .cta-text {
+        font-size: 0.92rem;
+        color: var(--gameon-text-muted);
+        max-width: 28rem;
+        margin: 0 auto 1.3rem;
+      }
+
+      .gameon-landing .cta-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+      }
+
+      .gameon-landing .cta-note {
+        font-size: 0.78rem;
+        color: var(--gameon-text-muted);
+        opacity: 0.8;
+      }
+
+      .gameon-landing .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.25rem;
+        border-radius: var(--gameon-radius-pill);
+        font-size: 0.86rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: transform var(--gameon-transition-fast), box-shadow var(--gameon-transition-fast),
+          border-color var(--gameon-transition-fast), background var(--gameon-transition-fast),
+          color var(--gameon-transition-fast);
+        white-space: nowrap;
+      }
+
+      .gameon-landing .btn-primary {
+        background: linear-gradient(135deg, var(--gameon-accent-mid), var(--gameon-accent));
+        color: #041003;
+        box-shadow: 0 14px 35px rgba(135, 189, 114, 0.45);
+      }
+
+      .gameon-landing .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 45px rgba(135, 189, 114, 0.55);
+      }
+
+      .gameon-landing .btn-ghost {
+        border-color: rgba(135, 189, 114, 0.5);
+        color: var(--gameon-text-muted);
+        background: rgba(7, 10, 6, 0.1);
+      }
+
+      .gameon-landing .btn-ghost:hover {
+        border-color: rgba(135, 189, 114, 0.9);
+        color: var(--gameon-text-main);
+        background: rgba(7, 10, 6, 0.4);
+      }
+
+      .gameon-landing .gameon-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .gameon-landing .gameon-logo img {
+        width: 130px;
+        height: auto;
+      }
+
+      @media (max-width: 900px) {
+        .gameon-landing .hero {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .gameon-landing .hero-cover-wrap {
+          justify-self: center;
+          order: -1;
+          max-width: 320px;
+          width: 100%;
+        }
+        .gameon-landing .two-col,
+        .gameon-landing .author-layout {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (max-width: 780px) {
+        .gameon-landing .retailer-strip {
+          border-radius: 18px;
+        }
+
+        .gameon-landing .page-inner {
+          padding-inline: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .gameon-landing .hero-title {
+          font-size: 1.9rem;
+        }
+        .gameon-landing .hero-cover-card {
+          padding: 0.8rem;
+        }
+        .gameon-landing .hero-cover-inner {
+          padding: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="theme-dark">
+    <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+      <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
+        <i class="ph ph-x"></i>
+      </button>
+      <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+      <ul class="mega-menu-list">
+        <li>
+          <a href="/index.html"><i class="ph ph-house"></i>Home</a>
+        </li>
+        <li>
+          <a href="/book.html"><i class="ph ph-book"></i>Books</a>
+        </li>
+        <li>
+          <a href="/meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a>
+        </li>
+        <li>
+          <a href="/press.html"><i class="ph ph-camera"></i>Media</a>
+        </li>
+        <li>
+          <a href="/index.html"><i class="ph ph-t-shirt"></i>Swag</a>
+        </li>
+        <li>
+          <a href="/index.html"><i class="ph ph-newspaper"></i>Blog</a>
+        </li>
+        <li>
+          <a href="/index.html"><i class="ph ph-user-plus"></i>Collabs</a>
+        </li>
+        <li></li>
+        <li>
+          <a href="/admin-dashboard.html"><i class="ph ph-gear"></i>Developers</a>
+        </li>
+        <li>
+          <a href="/contact.html"><i class="ph ph-chat-circle"></i>Contact</a>
+        </li>
+        <li class="social-row">
+          <a href="#" aria-label="Follow on Facebook"><i class="ph ph-facebook-logo"></i></a>
+          <a href="#" aria-label="Follow on Instagram"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" aria-label="Follow on YouTube"><i class="ph ph-youtube-logo"></i></a>
+          <a href="#" aria-label="Follow on TikTok"><i class="ph ph-tiktok-logo"></i></a>
+        </li>
+        <li>
+          <button class="auth-btn logout-btn js-auth-toggle">
+            <i class="ph ph-sign-out"></i> Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="menu-overlay js-menu-overlay"></div>
+    <div class="site-wrap">
+      <header class="site-header padding-y-sm js-sticky-nav">
+        <div class="container max-width-adaptive-lg flex items-center justify-between">
+          <a href="/index.html" class="logo">
+            <img
+              src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png"
+              alt="Daren Prince"
+            />
+          </a>
+          <div class="nav-btn-group flex items-center gap-sm">
+            <button class="nav-icon-btn js-search-toggle" aria-label="Search">
+              <i class="ph ph-magnifying-glass"></i>
+            </button>
+            <button
+              class="nav-icon-btn nav-icon-btn--static js-theme-toggle"
+              aria-label="Toggle theme"
+            >
+              <i class="ph ph-moon"></i>
+            </button>
+            <button class="nav-icon-btn js-profile-toggle" aria-label="Account">
+              <i class="ph ph-user"></i>
+            </button>
+            <button class="hamburger-btn js-menu-toggle" aria-label="Menu">
+              <i class="ph ph-list"></i>
+            </button>
+          </div>
+        </div>
+        <div class="search-bar js-search-bar" hidden>
+          <form class="search-form flex items-center">
+            <input type="search" placeholder="search site" />
+            <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+          </form>
+        </div>
+        <div class="profile-dropdown js-profile-dropdown" hidden>
+          <div class="profile-info">
+            <img
+              src="/assets/images/daren-prince-profile-sm.jpg"
+              alt="Avatar"
+              class="profile-avatar"
+            />
+            <span class="profile-name">Guest</span>
+          </div>
+          <ul>
+            <li><a href="/dashboard.html">Dashboard</a></li>
+            <li><a href="/login.html">Account</a></li>
+            <li>
+              <button class="auth-btn logout-btn js-auth-toggle">
+                <i class="ph ph-sign-out"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </header>
+
+      <main class="gameon-landing">
+        <div class="page-inner">
+          <section class="hero" id="top">
+            <div class="hero-content">
+              <div class="hero-badge-row">
+                <div class="hero-badge">★★★★★ 5-Star Rated</div>
+                <div class="hero-badge">Amazon Top 100</div>
+              </div>
+              <div class="hero-kicker">A Playbook for Modern Men</div>
+              <div class="gameon-logo">
+                <img
+                  src="/assets/images/game-on-logo-limewhite-neon.png"
+                  alt="Game On! logo"
+                />
+              </div>
+              <h1 class="hero-title">Master the Conversation.<br />Win Her Heart. Without the Games.</h1>
+              <p class="hero-subtitle">
+                <em>Game On!</em> is the men’s relationship guide that actually respects women, your time,
+                and your intelligence. No cheesy lines, no manipulation — just emotionally intelligent,
+                practical tools for real connection.
+              </p>
+              <div class="hero-cta-row">
+                <a class="btn btn-primary" href="#buy">Get Your Copy</a>
+                <a class="btn btn-ghost" href="#reviews">Read the Reviews</a>
+              </div>
+              <p class="hero-note">
+                Rated 5.0 across Amazon, Apple Books, Google Play, Goodreads, and Books-A-Million. An
+                indie breakout for men who are done with gimmicks and ready for the real thing.
+              </p>
+            </div>
+
+            <div class="hero-cover-wrap">
+              <div class="hero-cover-card">
+                <div class="hero-ribbon">Amazon Top 100</div>
+                <div class="hero-cover-inner">
+                  <div class="hero-cover-img">
+                    <img src="/assets/images/game-on-main-cover.png" alt="Game On! book cover" />
+                  </div>
+                  <div class="hero-cover-caption">
+                    <div>
+                      <div class="hero-stars">
+                        <span class="star-icon"></span>
+                        <span>5.0 / 5.0 &nbsp;•&nbsp; All major platforms</span>
+                      </div>
+                      <div style="font-size: 0.75rem; color: var(--gameon-text-muted); margin-top: 0.15rem;">
+                        Men’s relationship guide • 248 pages • Paperback, hardcover, ebook, audiobook
+                      </div>
+                    </div>
+                    <div style="text-align: right; font-size: 0.72rem; color: var(--gameon-text-muted);">
+                      by <strong>Daren M. Prince</strong><br />
+                      Louisiana, USA
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="retailer-strip" id="buy">
+            <span>Available at:</span>
+            <div class="retailer-logos">
+              <span class="retailer-pill">Amazon</span>
+              <span class="retailer-pill">Apple Books</span>
+              <span class="retailer-pill">Google Play</span>
+              <span class="retailer-pill">Books-A-Million</span>
+              <span class="retailer-pill">ThriftBooks</span>
+              <span class="retailer-pill">Waterstones</span>
+            </div>
+          </div>
+
+          <section id="about" class="two-col">
+            <div>
+              <div class="pill-label">
+                <span class="pill-dot"></span> About the Book
+              </div>
+              <h2 class="section-heading">Finally, a dating book that doesn’t treat you — or her — like a game.</h2>
+              <p class="section-subtitle">
+                <em>Game On! Master the Conversation &amp; Win Her Heart</em> is a relationship playbook for
+                men who want real confidence, real connection, and real results — without pretending to
+                be someone they’re not.
+              </p>
+              <div class="card-soft">
+                <p style="font-size: 0.9rem; color: var(--gameon-text-muted);">
+                  Blending personal experience, real psychology, and practical conversation tools, Daren
+                  M. Prince walks you through how attraction actually works — emotionally, not just
+                  physically. You’ll learn how to show up grounded, confident, and fully yourself, while
+                  creating a space where women feel safe, seen, and genuinely drawn to you.
+                </p>
+                <br />
+                <p style="font-size: 0.9rem; color: var(--gameon-text-muted);">
+                  This isn’t about scripted lines or fake “alpha” energy. It’s about understanding your
+                  own patterns, reading the room, communicating with honesty, and building something that
+                  actually lasts.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="card">
+                <h3 style="font-size: 1rem; margin-bottom: 0.4rem;">Who this book is for</h3>
+                <div class="list-grid">
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      Men who overthink every text, call, or first move — and end up frozen instead of
+                      flirting.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      Men who are tired of surface-level “pickup advice” and want something honest,
+                      grounded, and real.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      Men recovering from breakups, toxic relationships, or codependency who want to
+                      rebuild from a healthier place.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      Men already in relationships who want to deepen connection, communication, and
+                      attraction with their partner.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="learn">
+            <div class="pill-label">
+              <span class="pill-dot"></span> What You’ll Learn
+            </div>
+            <h2 class="section-heading">Inside the Playbook: Skills You Actually Use in Real Life</h2>
+            <p class="section-subtitle">
+              <em>Game On!</em> is structured like a playbook — simple, actionable “plays” you can run in
+              real conversations, messages, and moments that matter.
+            </p>
+
+            <div class="two-col">
+              <div class="card-soft">
+                <div class="list-grid">
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Conversation Flow:</strong> How to start, sustain, and deepen conversations
+                      without awkward silences or forcing it.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Attraction &amp; Emotion:</strong> What actually makes women feel drawn to you —
+                      emotionally, not just visually.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Texting &amp; Timing:</strong> How often to text, what to say, and how to stop
+                      second-guessing every word.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Confidence without Ego:</strong> How to be strong and decisive without becoming
+                      cold, controlling, or performative.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-soft">
+                <div class="list-grid">
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Boundaries &amp; Respect:</strong> How to set standards and boundaries without
+                      blowing things up or shutting down.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Emotional Self-Awareness:</strong> Spot your own patterns — neediness, anxiety,
+                      over-giving — and reset them.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Repair &amp; Conflict:</strong> Tools to navigate miscommunication, pulls away, or
+                      emotional distance.
+                    </div>
+                  </div>
+                  <div class="list-item">
+                    <span class="list-bullet"></span>
+                    <div>
+                      <strong>Daily Connection Rituals:</strong> Simple habits that build trust, safety, and
+                      attraction over time.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="achievements">
+            <div class="pill-label">
+              <span class="pill-dot"></span> Achievements
+            </div>
+            <h2 class="section-heading">A Rare 5-Star Consensus Across Every Major Platform</h2>
+            <p class="section-subtitle">
+              It’s one thing to get good reviews on one retailer. It’s another to maintain a perfect
+              score across all of them. <em>Game On!</em> has done exactly that.
+            </p>
+
+            <div class="achievements-grid">
+              <div class="achievement-card">
+                <div class="achievement-title">Unanimous ★★★★★ Ratings</div>
+                <p>
+                  Five-star average on Amazon, Apple Books, Google Play, Goodreads, and Books-A-Million —
+                  with no negative ratings on any major platform.
+                </p>
+              </div>
+              <div class="achievement-card">
+                <div class="achievement-title">Amazon Top 100 Bestseller</div>
+                <p>
+                  Broke into the Amazon Top 100 in multiple Self-Help categories, including Emotions,
+                  Communication &amp; Social Skills, and Self-Esteem.
+                </p>
+              </div>
+              <div class="achievement-card">
+                <div class="achievement-title">Verified BAM Reviews</div>
+                <p>
+                  5.0 rating and “Would recommend to a friend” from verified Books-A-Million customers
+                  across Illinois, Texas, Louisiana, Georgia, and Chicago.
+                </p>
+              </div>
+              <div class="achievement-card">
+                <div class="achievement-title">Global Availability</div>
+                <p>
+                  Distributed through Amazon, Apple, Google, Books-A-Million, ThriftBooks, Waterstones,
+                  Bookshop.org, and international retailers in India and beyond.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="reviews">
+            <div class="pill-label">
+              <span class="pill-dot"></span> Reader Reviews
+            </div>
+            <h2 class="section-heading">What Readers Are Saying</h2>
+            <p class="section-subtitle">
+              Real reviews from real readers — not bots, not fluff. These are verified voices from
+              Books-A-Million, Apple, Google, Amazon, and beyond.
+            </p>
+
+            <div class="reviews-grid">
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Always-ADAM</div>
+                    <div class="review-location">Libertyville, IL • Books-A-Million</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “Other books oversimplify and leave you confused. This one explains exactly how to
+                  apply what you learn — surprisingly useful.”
+                </div>
+                <div class="review-bottom-line">★ “Yes, I would recommend this to a friend.”</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Jose Martinez</div>
+                    <div class="review-location">Corpus Christi, TX • Books-A-Million</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “Not manipulative. Not sketchy. Straightforward and useful. A different league from
+                  the other books I've read.”
+                </div>
+                <div class="review-bottom-line">★ “Yes, I would recommend this to a friend.”</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Maymay16</div>
+                    <div class="review-location">Louisiana • Books-A-Million</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “Like getting advice from a guy friend who gets it — without the cringe. Honest and
+                  actually helpful.”
+                </div>
+                <div class="review-bottom-line">★ “Yes, I would recommend this to a friend.”</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Apple Books Reviewer</div>
+                    <div class="review-location">Apple Books</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “I read it in one day and highlighted half of it. Incredibly enlightening and way
+                  more thoughtful than I expected.”
+                </div>
+                <div class="review-bottom-line">★ 5.0 on Apple Books</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Google Play Listener</div>
+                    <div class="review-location">Google Play Audiobook</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “A++ audiobook. Didn’t want to get out of the truck. Real-world advice, not cheesy
+                  theory.”
+                </div>
+                <div class="review-bottom-line">★ 5.0 on Google Play</div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div>
+                    <div class="review-name">Amazon Reviewer</div>
+                    <div class="review-location">Amazon</div>
+                  </div>
+                  <div class="review-badges">
+                    <div class="review-stars-mini">
+                      <span class="star-dot"></span><span class="star-dot"></span><span class="star-dot"></span
+                      ><span class="star-dot"></span><span class="star-dot"></span>
+                    </div>
+                    <span>Verified</span>
+                  </div>
+                </div>
+                <div class="review-body">
+                  “A refreshing guide for modern men. Bold, insightful, and genuinely helpful. Finally
+                  — a dating book that isn’t cringe.”
+                </div>
+                <div class="review-bottom-line">★ 5.0 on Amazon</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="editorial">
+            <div class="pill-label">
+              <span class="pill-dot"></span> Editorial Praise
+            </div>
+            <h2 class="section-heading">Editorial-Style Summary</h2>
+            <p class="section-subtitle">
+              A trade-style, media-grade take on what makes <em>Game On!</em> stand out.
+            </p>
+
+            <div class="card">
+              <p class="editorial-quote">
+                “A refreshingly sincere and emotionally intelligent guide that cuts through the noise
+                of modern dating advice. Prince delivers actionable strategies rooted in honesty,
+                vulnerability, and grounded confidence — earning him a rare cross-platform five-star
+                consensus. A standout debut and an important new voice in men’s personal development.”
+              </p>
+              <div class="editorial-source">
+                — Publishers Weekly–style media summary (unofficial), for press and promotional use
+              </div>
+            </div>
+          </section>
+
+          <section id="author">
+            <div class="pill-label">
+              <span class="pill-dot"></span> About the Author
+            </div>
+            <h2 class="section-heading">About Daren M. Prince</h2>
+
+            <div class="author-layout">
+              <div>
+                <div class="author-tag">Author • Coach • Storyteller</div>
+                <div class="author-name">Daren M. Prince</div>
+                <p class="author-bio">
+                  Daren M. Prince is an author, entrepreneur, and communication strategist from
+                  Louisiana. After years of navigating his own patterns with codependency, heartbreak,
+                  and rebuilding, he turned that experience into frameworks that help men show up with
+                  more truth, calm, and confidence in their relationships.
+                </p>
+                <br />
+                <p class="author-bio">
+                  With a background that spans technology, design, and years of reading people as a DJ,
+                  Prince blends emotional intelligence with real-world practicality. His work focuses on
+                  grounded masculinity, self-awareness, and connection that feels real — not
+                  performative.
+                </p>
+                <br />
+                <p class="author-bio">
+                  <em>Game On! Master the Conversation &amp; Win Her Heart</em> is his breakout relationship
+                  guide — already a five-star success across all major reading platforms and an emerging
+                  staple for men who are done with games and ready to build something real.
+                </p>
+              </div>
+
+              <div class="author-image-wrap">
+                <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Daren M. Prince" />
+              </div>
+            </div>
+          </section>
+
+          <section class="cta">
+            <h2 class="cta-title">Ready to Level Up Your Conversations &amp; Connection?</h2>
+            <p class="cta-text">
+              Start reading <em>Game On!</em> today and give yourself the tools to stop overthinking,
+              communicate clearly, and build the kind of connection you actually want.
+            </p>
+
+            <div class="cta-buttons">
+              <a href="#" class="btn btn-primary">Buy on Amazon</a>
+              <a href="#" class="btn btn-ghost">Apple Books</a>
+              <a href="#" class="btn btn-ghost">Google Play</a>
+              <a href="#" class="btn btn-ghost">Books-A-Million</a>
+            </div>
+
+            <div class="cta-note">
+              Also available at ThriftBooks, Waterstones, Bookshop.org, and select international
+              retailers.
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="container footer-grid">
+          <div class="footer-brand">
+            <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
+            <p class="footer-tagline">
+              Confident, psychology-backed storytelling, systems, and tools for real transformation.
+            </p>
+            <div class="footer-socials">
+              <a href="#" aria-label="Follow on Facebook">
+                <img src="/assets/icons/facebook-32.png" alt="" />
+                <span class="sr-only">Facebook</span>
+              </a>
+              <a href="#" aria-label="Follow on X">
+                <img src="/assets/icons/twitter-x-32.png" alt="" />
+                <span class="sr-only">X (Twitter)</span>
+              </a>
+              <a href="#" aria-label="Follow on YouTube">
+                <img src="/assets/icons/youtube-32.png" alt="" />
+                <span class="sr-only">YouTube</span>
+              </a>
+              <a href="#" aria-label="Follow on TikTok">
+                <img src="/assets/icons/tiktok-32.png" alt="" />
+                <span class="sr-only">TikTok</span>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul class="footer-links">
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/book.html">Book</a></li>
+              <li><a href="/meet-daren-prince.html">Meet Daren</a></li>
+              <li><a href="/press.html">Press</a></li>
+              <li><a href="/contact.html">Contact</a></li>
+              <li><a href="/sitemap.html">Site Index</a></li>
+            </ul>
+          </div>
+          <details class="footer-collapse">
+            <summary>Creator &amp; Platform Links</summary>
+            <div class="footer-collapse-grid">
+              <div>
+                <h4>Creator Tools</h4>
+                <ul class="footer-links">
+                  <li><a href="/components.html">Components</a></li>
+                  <li><a href="/themes.html">Themes</a></li>
+                  <li><a href="/style-classes.html">Style Classes</a></li>
+                  <li><a href="/loaders.html">Loaders</a></li>
+                  <li><a href="/promotion-tools.html">Promotion Tools</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Developer Docs</h4>
+                <ul class="footer-links">
+                  <li><a href="/iconifty.html">Iconify</a></li>
+                  <li><a href="/docs/style-guide.html">Style Guide</a></li>
+                  <li><a href="/docs/buttons-demo.html">Buttons Demo</a></li>
+                  <li><a href="/style-classes.html">Utility Classes</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Account</h4>
+                <ul class="footer-links">
+                  <li><a href="/login.html">Login</a></li>
+                  <li><a href="/dashboard.html">Dashboard</a></li>
+                  <li><a href="/reset-password.html">Reset Password</a></li>
+                  <li><a href="/verify-email.html">Verify Email</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Admin</h4>
+                <ul class="footer-links">
+                  <li><a href="/admin-dashboard.html">Admin Dashboard</a></li>
+                  <li><a href="/admin-user-management.html">User Management</a></li>
+                </ul>
+              </div>
+            </div>
+          </details>
+          <div class="footer-signup">
+            <h4>Mailing List</h4>
+            <p class="footer-note">Join for drops, tools, and private updates.</p>
+            <form action="#" method="post">
+              <label for="footer-email-gameon" class="sr-only">Email address</label>
+              <input
+                id="footer-email-gameon"
+                name="email"
+                type="email"
+                placeholder="you@email.com"
+                required
+              />
+              <button type="submit" class="primary-btn">Join the List</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-bottom-inner">
+            <span>© 2025 Daren Prince. All rights reserved.</span>
+            <a href="/labs.html" class="footer-labs-link">
+              <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo" />
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="/js/ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="module" src="/js/profile-dropdown.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
