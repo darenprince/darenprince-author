@@ -69,6 +69,7 @@ Notes:
 
 - Replace absolute URLs with actual domain in production.
 - Ensure image at assets/images/og-image.jpg is optimized to 1200x630 for best OG rendering.
+- Keep the homepage H1 text intact and only apply shine animations via background-clip so metadata crawlers still read the full headline.
 
 ==============================
 PAGE: Vibe Prism / Nexus Who (nexuswho.html)
