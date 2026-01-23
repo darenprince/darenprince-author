@@ -5146,9 +5146,7 @@ input:checked + .toggle-slider::before {
   overflow: hidden;
   padding-block: clamp(2.5rem, 6vh, 3.5rem);
   border-radius: 1.5rem;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(95, 214, 255, 0.15), transparent 55%),
-    color-mix(in srgb, var(--color-black) 55%, transparent);
+  background: color-mix(in srgb, var(--color-black) 55%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
 }
 .hero.hero--video .hero-media__badge {
@@ -5216,7 +5214,7 @@ input:checked + .toggle-slider::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(0.35rem, 2vh, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) clamp(4.25rem, 14vh, 5rem);
+  padding: clamp(0.75rem, 2.6vh, 1.65rem) clamp(0.5rem, 2vw, 1.5rem) clamp(2.1rem, 7vh, 2.6rem);
   transition:
     opacity 0.6s ease,
     visibility 0.6s ease;
@@ -5270,7 +5268,7 @@ input:checked + .toggle-slider::before {
   }
   .hero.hero--video .hero-image-layer,
   .hero.hero--video .hero-video-layer {
-    padding: clamp(0.5rem, 2.5vh, 1.25rem) clamp(0.5rem, 3vw, 1.25rem) clamp(3rem, 10vh, 4rem);
+    padding: clamp(0.75rem, 3vh, 1.35rem) clamp(0.5rem, 3vw, 1.25rem) clamp(1.8rem, 6vh, 2.5rem);
   }
 }
 .hero.hero--video .hero-video-layer__player {
@@ -5997,6 +5995,118 @@ input:checked + .toggle-slider::before {
   margin-bottom: 0.75rem;
   color: color-mix(in srgb, var(--color-mint) 75%, var(--color-white) 25%);
   font-size: 0.9rem;
+}
+
+.go-reviews {
+  padding: clamp(2.75rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
+  color: var(--color-white);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--color-black), 0.55) 0%,
+    rgba(var(--color-black), 0) 100%
+  );
+}
+.go-reviews__label,
+.go-reviews__title,
+.go-reviews__subtitle,
+.go-reviews__grid {
+  max-width: 72rem;
+  margin-inline: auto;
+}
+.go-reviews__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--color-white) 70%, transparent);
+}
+.go-reviews__label-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 0.35rem rgba(var(--color-accent), 0.15);
+}
+.go-reviews__title {
+  margin: 0.75rem 0 0.5rem;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 600;
+  color: var(--color-white);
+}
+.go-reviews__title em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+.go-reviews__subtitle {
+  margin: 0 0 2rem;
+  color: color-mix(in srgb, var(--color-white) 75%, transparent);
+  font-size: 1rem;
+  max-width: 48rem;
+}
+.go-reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.go-reviews__card {
+  padding: 1rem;
+  border-radius: 1.25rem;
+  background: rgba(var(--color-black), 0.75);
+  border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+  box-shadow: 0 1.5rem 3rem rgba(var(--color-black), 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 100%;
+}
+.go-reviews__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+.go-reviews__name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.go-reviews__location {
+  color: color-mix(in srgb, var(--color-white) 60%, transparent);
+  font-size: 0.8rem;
+}
+.go-reviews__badges {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-white) 70%, transparent);
+}
+.go-reviews__stars {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+.go-reviews__star-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0.4rem rgba(var(--color-accent), 0.45);
+}
+.go-reviews__body {
+  color: color-mix(in srgb, var(--color-white) 80%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+.go-reviews__bottom-line {
+  margin-top: auto;
+  color: var(--color-white);
+  font-size: 0.85rem;
 }
 
 .downloads {
@@ -11735,6 +11845,10 @@ body.menu-open .menu-overlay {
   color: var(--color-white);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-size: 0.85rem;
+}
+.bookstore-logos--strip .store-logos {
+  margin-top: 0.75rem;
 }
 
 .store-logos a {
