@@ -26,7 +26,13 @@ async function initGallery() {
       img.loading = 'lazy'
       wrapper.appendChild(img)
 
-      img.addEventListener('click', () => openModal(img.src, img.alt))
+      img.addEventListener('click', () => {
+        gallery.querySelectorAll('.img-item.is-active').forEach((item) => {
+          item.classList.remove('is-active')
+        })
+        wrapper.classList.add('is-active')
+        openModal(img.src, img.alt)
+      })
 
       const codeBox = document.createElement('div')
       codeBox.className = 'code-box'
