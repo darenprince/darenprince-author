@@ -15,6 +15,7 @@
     const playTriggers = hero.querySelectorAll('.js-hero-play-trigger')
     const muteButton = hero.querySelector('.js-hero-mute')
     const pauseOverlay = hero.querySelector('.js-hero-pause-overlay')
+    const heroMedia = hero.querySelector('.hero-media')
     const resumeBtn = hero.querySelector('.js-hero-resume')
     const restartBtn = hero.querySelector('.js-hero-restart')
     const closeBtn = hero.querySelector('.js-hero-close')
@@ -421,8 +422,19 @@
     }
 
     if (playTriggers.length) {
+      const scrollHeroMediaIntoView = () => {
+        if (!heroMedia) return
+        const isMobile = window.matchMedia('(max-width: 48rem)').matches
+        if (!isMobile) return
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        heroMedia.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' })
+      }
+
       playTriggers.forEach((trigger) => {
-        trigger.addEventListener('click', startPlayback)
+        trigger.addEventListener('click', () => {
+          scrollHeroMediaIntoView()
+          startPlayback()
+        })
       })
     }
 
