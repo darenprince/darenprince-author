@@ -27,7 +27,7 @@
     const player = new window.Vimeo.Player(frame, {
       id: videoId,
       autopause: false,
-      autoplay: true,
+      autoplay: false,
       background: false,
       controls: false,
       muted: true,
@@ -241,6 +241,8 @@
       .ready()
       .then(() => {
         hero.classList.add('is-video-ready')
+        setLoading(false)
+        showPlayOverlay()
         player
           .getDuration()
           .then((duration) => {
@@ -249,11 +251,6 @@
             }
           })
           .catch(() => {})
-        return player.play().catch((error) => {
-          setLoading(false)
-          showPlayOverlay()
-          console.warn('Vimeo autoplay prevented:', error)
-        })
       })
       .catch((error) => {
         console.error('Vimeo player ready error:', error)

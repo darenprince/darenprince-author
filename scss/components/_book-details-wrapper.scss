@@ -65,6 +65,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    order: 2;
+  }
+
+  .purchase-box {
+    order: 1;
   }
 
   @include respond-to(lg) {
@@ -74,6 +79,11 @@
 
     .book-experience {
       justify-content: flex-start;
+      order: 0;
+    }
+
+    .purchase-box {
+      order: 0;
     }
   }
 }
