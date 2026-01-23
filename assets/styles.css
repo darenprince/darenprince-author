@@ -4910,35 +4910,36 @@ input:checked + .toggle-slider::before {
     0 0 12px rgba(var(--color-white), 0.24),
     0 0 36px rgba(108, 232, 255, 0.3);
 }
-.hero .hero-title::after {
-  content: '';
-  position: absolute;
-  inset: -25% -20%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.15) 35%,
-    rgba(255, 255, 255, 0.85) 50%,
-    rgba(255, 255, 255, 0.2) 65%,
-    transparent 100%
-  );
-  mix-blend-mode: screen;
-  opacity: 0.75;
-  transform: translateX(-40%);
-  animation: hero-text-shine 6s ease-in-out infinite;
-  pointer-events: none;
-}
 @supports (-webkit-background-clip: text) or (background-clip: text) {
   .hero .hero-title {
-    background: linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.98),
-      rgba(108, 232, 255, 0.85),
-      rgba(255, 255, 255, 0.92)
-    );
+    background:
+      linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(108, 232, 255, 0.85),
+        rgba(255, 255, 255, 0.92)
+      ),
+      linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 35%,
+        rgba(255, 255, 255, 0.95) 50%,
+        rgba(255, 255, 255, 0.2) 65%,
+        transparent 100%
+      );
+    background-size:
+      100% 100%,
+      220% 100%;
+    background-position:
+      0 0,
+      -160% 0;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    animation:
+      slide-in 0.6s ease-out forwards,
+      hero-text-sparkle 6s ease-in-out infinite,
+      hero-text-shine 6s ease-in-out infinite;
   }
 }
 .hero .hero-subtitle {
@@ -5253,7 +5254,7 @@ input:checked + .toggle-slider::before {
   opacity: 1;
 }
 .hero.hero--video .hero-image-layer img {
-  width: var(--hero-media-inline-size);
+  width: min(100%, var(--hero-media-inline-size));
   max-height: var(--hero-media-max-height);
   aspect-ratio: 9/16;
   object-fit: contain;
@@ -5271,7 +5272,7 @@ input:checked + .toggle-slider::before {
 }
 .hero.hero--video .hero-video-layer__frame {
   position: relative;
-  width: var(--hero-media-inline-size);
+  width: min(100%, var(--hero-media-inline-size));
   aspect-ratio: 9/16;
   border-radius: 0.6875rem;
   overflow: hidden;
@@ -5289,6 +5290,16 @@ input:checked + .toggle-slider::before {
   object-fit: contain;
   object-position: center;
   pointer-events: none;
+}
+@media (max-width: 48rem) {
+  .hero.hero--video .hero-media {
+    min-height: max(28rem, var(--hero-media-max-height) + 2.5rem);
+    padding-block: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .hero.hero--video .hero-image-layer,
+  .hero.hero--video .hero-video-layer {
+    padding: clamp(0.5rem, 2.5vh, 1.25rem) clamp(0.5rem, 3vw, 1.25rem) clamp(3rem, 10vh, 4rem);
+  }
 }
 .hero.hero--video .hero-video-layer__player {
   position: relative;
@@ -5721,15 +5732,19 @@ input:checked + .toggle-slider::before {
 }
 @keyframes hero-text-shine {
   0% {
-    transform: translateX(-55%);
-    opacity: 0.3;
+    background-position:
+      0 0,
+      -160% 0;
   }
   45% {
-    opacity: 0.95;
+    background-position:
+      0 0,
+      0% 0;
   }
   100% {
-    transform: translateX(55%);
-    opacity: 0.2;
+    background-position:
+      0 0,
+      160% 0;
   }
 }
 @keyframes hero-text-sparkle {
