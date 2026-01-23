@@ -307,7 +307,7 @@
     --hero-media-max-width: min(88vw, 26rem);
     --hero-media-inline-size: min(
       var(--hero-media-max-width),
-      calc(var(--hero-media-max-height) * 0.5625)
+      calc(var(--hero-media-max-height) * 1.7778)
     );
     --hero-playback-progress: 0%;
     padding: clamp(0.75rem, 4vh, 2.5rem) clamp(1.25rem, 5vw, 3.25rem) clamp(6.5rem, 18vh, 7.5rem);
@@ -317,7 +317,7 @@
       --hero-media-max-width: min(56vw, 28rem);
       --hero-media-inline-size: min(
         var(--hero-media-max-width),
-        calc(var(--hero-media-max-height) * 0.5625)
+        calc(var(--hero-media-max-height) * 1.7778)
       );
     }
 
@@ -326,7 +326,7 @@
       --hero-media-max-width: min(42vw, 30rem);
       --hero-media-inline-size: min(
         var(--hero-media-max-width),
-        calc(var(--hero-media-max-height) * 0.5625)
+        calc(var(--hero-media-max-height) * 1.7778)
       );
     }
 
@@ -423,42 +423,6 @@
       color: $white;
     }
 
-    .hero-media__footer {
-      position: absolute;
-      bottom: clamp(1rem, 4vh, 1.75rem);
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: 999px;
-      background: rgba($black, 0.6);
-      border: 1px solid color-mix(in srgb, #{$white} 16%, transparent);
-      z-index: 5;
-    }
-
-    .hero-media__stat {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.2rem;
-      min-width: 6.5rem;
-    }
-
-    .hero-media__stat-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: color-mix(in srgb, #{$white} 60%, transparent);
-    }
-
-    .hero-media__stat-value {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: $white;
-    }
-
     .hero-media::after {
       content: '';
       position: absolute;
@@ -490,7 +454,7 @@
       img {
         width: min(100%, var(--hero-media-inline-size));
         max-height: var(--hero-media-max-height);
-        aspect-ratio: 9 / 16;
+        aspect-ratio: 16 / 9;
         object-fit: contain;
         object-position: center;
         display: block;
@@ -510,7 +474,7 @@
     .hero-video-layer__frame {
       position: relative;
       width: min(100%, var(--hero-media-inline-size));
-      aspect-ratio: 9 / 16;
+      aspect-ratio: 16 / 9;
       border-radius: $border-radius;
       overflow: hidden;
       box-shadow:
