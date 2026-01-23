@@ -61,7 +61,7 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: rgba($black, 0.75);
+    background: rgba($black, 0.2);
     border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
     box-shadow: 0 1.5rem 3rem rgba($black, 0.4);
     display: flex;
@@ -80,7 +80,7 @@
 
   &__name {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
 
   &__location {
@@ -121,7 +121,7 @@
 
   &__bottom-line {
     margin-top: auto;
-    color: $white;
+    color: #f4d35e;
     font-size: 0.85rem;
   }
 }

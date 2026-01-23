@@ -21,7 +21,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 > **Reality Check:** GitHub Pages only serves what is committed to the repo. Run `npm run build` locally before pushing so search indexes, icon bundles, image manifests, and the Nexus Who bundle stay fresh.
 
-> **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in cool cyan/blue tones (avoid purple), ensure the headline shine is clipped to the text (no overlay rectangles), and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
+> **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in signature green tones (avoid purple), ensure the headline shine is clipped to the text (no overlay rectangles), and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
 >
 > **Hero trailer reminder:** The homepage trailer is landscape (16:9). Keep the frame set to a containment fit so the video does not crop when you adjust the hero layout, and verify the CTA play button scrolls to the trailer on mobile when JavaScript hooks change.
 >
