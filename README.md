@@ -35,6 +35,8 @@ This project exists to:
 
 > **Reality Check:** GitHub Pages serves exactly what is committed to `main`. Run `npm run build:site` locally before committing so search indexes, image manifests, and compiled CSS stay in sync.
 >
+> **Deployment source of truth:** The site is deployed only via GitHub Pages (Netlify is retired). Keep build artifacts and SEO metadata updated before every push.
+>
 > **USWDS Sass modules:** The Sass build passes `--load-path=node_modules/@uswds/uswds/packages` so that components under `scss/` can `@use` and `@forward` USWDS packages directly. Keep the `@uswds/uswds` dependency installed before running `npm run build:site` or `npm run watch`.
 >
 > **SEO + metadata:** Before deploying, run `npm run deploy` with `DOMAIN` set so `seo-enrich.js` refreshes canonical URLs, structured data, and sitemap output for GitHub Pages.
