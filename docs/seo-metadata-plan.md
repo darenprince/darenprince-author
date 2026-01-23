@@ -163,6 +163,57 @@ Notes:
 - Consider duplicating this block per book format (hardcover, audiobook) for A/B testing or micro-landing.
 
 ==============================
+PAGE: Game On! Test Landing Page (/books/gameon.html)
+==============================
+
+<title>Game On! Master the Conversation & Win Her Heart – Daren M. Prince</title>
+
+<meta name="description" content="Game On! Master the Conversation & Win Her Heart by Daren M. Prince – a five-star relationship playbook for men who want real confidence, real connection, and real results.">
+<h1>Master the Conversation. Win Her Heart. Without the Games.</h1>
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Game On! Master the Conversation & Win Her Heart">
+<meta property="og:description" content="A five-star relationship playbook for men who want real confidence, real connection, and real results.">
+<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://darenprince.com/books/gameon">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Game On! Master the Conversation & Win Her Heart">
+<meta name="twitter:description" content="A five-star relationship playbook for men who want real confidence, real connection, and real results.">
+<meta name="twitter:image" content="assets/images/og-image.jpg">
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Game On! Master the Conversation & Win Her Heart",
+  "author": {
+    "@type": "Person",
+    "name": "Daren Prince"
+  },
+  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "bookFormat": "https://schema.org/EBook",
+  "isbn": "9798303844407",
+  "offers": {
+    "@type": "Offer",
+    "price": "5.99",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://www.amazon.com/Game-Master-Conversation-Heart-Relationships-ebook/dp/B0DQHLK4G2"
+  },
+  "description": "Game On! is the men’s playbook for mastering authentic flirting, emotional connection, and confident dating. Real strategies, no games."
+}
+</script>
+
+Notes:
+
+- Keep the canonical URL at `/books/gameon` to align with GitHub Pages output.
+- Re-run `npm run postprocess:seo` when this test page becomes a permanent surface so the sitemap includes it.
+
+==============================
 PAGE: Unshakeable Book Landing Page (/books/unshakeable)
 ==============================
 

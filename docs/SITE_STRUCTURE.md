@@ -10,6 +10,7 @@ This map captures the current layout of the repository, the active pages, and th
 | --------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | `/index.html`                                                         | Public landing page                 | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`.                          |
 | `/book.html`                                                          | Book detail surface                 | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`. |
+| `/books/gameon.html`                                                  | Game On! test landing page          | Marketing-first long-form landing page using the global nav/footer and inline scoped styles.                                 |
 | `/components.html`                                                    | Component gallery & docs            | Component navigation driven by `js/main.js` and `js/ui.js`.                                                                  |
 | `/style-classes.html`                                                 | Token & utility showcase            | Demonstrates helper classes from `scss/utilities/`.                                                                          |
 | `/dashboard.html`                                                     | Member dashboard                    | Displays migration messaging and disables forms via `js/dashboard.js`.                                                       |
@@ -35,6 +36,7 @@ This map captures the current layout of the repository, the active pages, and th
 | ---------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
 | `index.html`                 | Marketing homepage             | `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`, `scss/components/_hero.scss`, `_testimonials.scss`.           |
 | `book.html`                  | Game On! detail page           | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`, `scss/components/_book-tabs.scss`, `_book-3d.scss`. |
+| `books/gameon.html`          | Game On! test landing page     | Inline scoped styles + shared nav/footer from `assets/styles.css`; anchors within the page.                           |
 | `components.html`            | Component documentation        | `js/main.js`, `js/ui.js`, `scss/layout/_component-nav.scss`, `scss/components/_component-docs.scss`.                  |
 | `style-classes.html`         | Utility gallery                | `scss/utilities/_helpers.scss`, `_gradients.scss`.                                                                    |
 | `login.html`                 | Member login/create account    | `js/auth.js`, `js/password-strength.js`, `scss/components/_login.scss`, `_forms.scss`.                                |
