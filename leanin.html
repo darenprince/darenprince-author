@@ -454,7 +454,7 @@
 
         /* Cover Page */
         .cover {
-            background: linear-gradient(135deg, #4d82f7 0%, #3d5afe 40%, #6f2da8 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             color: white;
             padding: 100px 60px;
             text-align: center;
@@ -464,8 +464,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            animation: gradient-shift 18s ease infinite;
-            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+            background-size: 400% 400%;
         }
 
         .cover::before {
@@ -1235,6 +1235,18 @@
         }
 
         @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes gradient {
             0% {
                 background-position: 0% 50%;
             }
