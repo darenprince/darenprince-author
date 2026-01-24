@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Crown Psychology - Therapeutic Workbook</title>
     <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
     <meta name="robots" content="index, follow">
@@ -33,10 +33,12 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
             line-height: 1.7;
             color: #1a1a2e;
-            background: #f8f9fa;
+            background: linear-gradient(180deg, #fbfcff 0%, #f1f4ff 100%);
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-text-size-adjust: 100%;
         }
 
         body.is-locked {
@@ -177,14 +179,23 @@
             box-shadow: 0 20px 40px rgba(26, 26, 46, 0.2);
             padding: 16px;
             min-width: 220px;
-            display: none;
+            display: flex;
             flex-direction: column;
             gap: 8px;
             z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transform-origin: top right;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
         }
 
         .menu-panel.is-open {
-            display: flex;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .menu-greeting {
@@ -1149,8 +1160,9 @@
                 font-size: 16px;
             }
             .menu-panel {
-                right: auto;
-                left: 0;
+                right: 0;
+                left: auto;
+                width: min(240px, calc(100vw - 32px));
             }
         }
 
@@ -2191,6 +2203,28 @@
                 closeMenu();
             }
         });
+
+        document.addEventListener(
+            'gesturestart',
+            (event) => {
+                event.preventDefault();
+            },
+            { passive: false }
+        );
+        document.addEventListener(
+            'gesturechange',
+            (event) => {
+                event.preventDefault();
+            },
+            { passive: false }
+        );
+        document.addEventListener(
+            'gestureend',
+            (event) => {
+                event.preventDefault();
+            },
+            { passive: false }
+        );
 
         const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
         revealItems.forEach((item) => item.classList.add('reveal', 'is-visible'));
