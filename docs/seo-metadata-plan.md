@@ -116,6 +116,7 @@ PAGE: Lean In Therapeutic Workbook (leanin.html)
 
 <title>Crown Psychology - Therapeutic Workbook</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Daren Prince">
@@ -135,6 +136,7 @@ PAGE: Lean In Therapeutic Workbook (leanin.html)
 Notes:
 
 - Keep clinical workbook pages indexable only when they are intended for public access.
+- Maintain the viewport meta lock to prevent pinch-to-zoom on iOS/iPadOS during worksheet editing.
 - Preserve the worksheet PDF download actions so user-entered responses can be printed and saved.
 
 ==============================
