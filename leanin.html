@@ -128,15 +128,18 @@
             text-align: right;
             font-size: 13px;
             line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 8px;
+            margin-top: 6px;
             justify-content: flex-end;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .header-menu {
@@ -804,6 +807,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
+            gap: 18px;
             padding: 20px;
             z-index: 2000;
         }
@@ -820,7 +825,7 @@
 
         .gate-brand {
             position: relative;
-            margin-bottom: 22px;
+            margin-bottom: 0;
         }
 
         .gate-brand img {
@@ -1108,16 +1113,40 @@
                 padding: 14px 22px;
             }
             .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 16px;
             }
             .header-patient {
-                width: 100%;
-                text-align: left;
+                margin-left: auto;
+                width: auto;
+                text-align: right;
             }
             .header-actions {
-                justify-content: flex-start;
+                justify-content: flex-end;
+                margin-top: 4px;
+                gap: 8px;
+            }
+            .header-actions .quick-action {
+                padding: 6px 10px;
+                font-size: 0;
+            }
+            .header-actions .quick-action span {
+                font-size: 18px;
+            }
+            .menu-toggle {
+                padding: 6px 10px;
+                font-size: 0;
+            }
+            .menu-toggle .menu-text {
+                display: none;
+            }
+            .menu-toggle .material-symbols-outlined {
+                font-size: 18px;
+            }
+            .logo-text {
+                font-size: 16px;
             }
             .menu-panel {
                 right: auto;
@@ -1205,7 +1234,8 @@
                     </button>
                     <div class="header-menu">
                         <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
-                            <span class="material-symbols-outlined">menu</span> Menu
+                            <span class="material-symbols-outlined">menu</span>
+                            <span class="menu-text">Menu</span>
                         </button>
                         <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
                             <div class="menu-greeting">Hi Haley! 🫶</div>
