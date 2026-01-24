@@ -264,11 +264,16 @@
         align-items: center;
       }
 
+      .gameon-landing .hero-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
       .gameon-landing .hero-badge-row {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-bottom: 1rem;
       }
 
       .gameon-landing .hero-badge {
@@ -287,28 +292,69 @@
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--gameon-accent);
-        margin-bottom: 0.5rem;
       }
 
       .gameon-landing .hero-title {
-        font-size: clamp(2.1rem, 3.2vw, 2.7rem);
+        font-size: clamp(2.2rem, 3.6vw, 3rem);
         font-weight: 800;
         line-height: 1.15;
-        margin-bottom: 0.6rem;
       }
 
       .gameon-landing .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.05rem;
         color: var(--gameon-text-muted);
-        max-width: 34rem;
-        margin-bottom: 1.5rem;
+        max-width: 36rem;
+      }
+
+      .gameon-landing .hero-points {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .gameon-landing .hero-point {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        font-size: 0.95rem;
+        color: var(--gameon-text-muted);
+      }
+
+      .gameon-landing .hero-point span {
+        display: inline-flex;
+        width: 0.55rem;
+        height: 0.55rem;
+        margin-top: 0.4rem;
+        border-radius: 50%;
+        background: var(--gameon-accent);
+        box-shadow: 0 0 12px rgba(135, 189, 114, 0.6);
+        flex-shrink: 0;
       }
 
       .gameon-landing .hero-cta-row {
         display: flex;
         flex-wrap: wrap;
         gap: 0.85rem;
-        margin-bottom: 1.25rem;
+        margin-top: 0.25rem;
+      }
+
+      .gameon-landing .hero-metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .gameon-landing .hero-metric {
+        padding: 0.45rem 0.85rem;
+        border-radius: var(--gameon-radius-pill);
+        border: 1px solid rgba(135, 189, 114, 0.25);
+        background: rgba(7, 10, 6, 0.6);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--gameon-text-muted);
       }
 
       .gameon-landing .hero-note {
@@ -787,6 +833,9 @@
           max-width: 320px;
           width: 100%;
         }
+        .gameon-landing .hero-metrics {
+          justify-content: center;
+        }
         .gameon-landing .two-col,
         .gameon-landing .author-layout {
           grid-template-columns: minmax(0, 1fr);
@@ -926,6 +975,7 @@
               <div class="hero-badge-row">
                 <div class="hero-badge">★★★★★ 5-Star Rated</div>
                 <div class="hero-badge">Amazon Top 100</div>
+                <div class="hero-badge">Bestselling Relationship Guide</div>
               </div>
               <div class="hero-kicker">A Playbook for Modern Men</div>
               <div class="gameon-logo">
@@ -934,19 +984,38 @@
                   alt="Game On! logo"
                 />
               </div>
-              <h1 class="hero-title">Master the Conversation.<br />Win Her Heart. Without the Games.</h1>
+              <h1 class="hero-title">Real confidence. Real connection. No games.</h1>
               <p class="hero-subtitle">
-                <em>Game On!</em> is the men’s relationship guide that actually respects women, your time,
-                and your intelligence. No cheesy lines, no manipulation — just emotionally intelligent,
-                practical tools for real connection.
+                <em>Game On!</em> is the relationship guide for men who want authentic attraction and
+                meaningful dating. It replaces manipulation with emotional intelligence so your
+                conversations feel natural, grounded, and honest.
               </p>
+              <ul class="hero-points">
+                <li class="hero-point">
+                  <span></span>
+                  Build conversation flow that sparks curiosity without scripted lines.
+                </li>
+                <li class="hero-point">
+                  <span></span>
+                  Learn confidence cues that make women feel safe, seen, and respected.
+                </li>
+                <li class="hero-point">
+                  <span></span>
+                  Create momentum from the first hello to a real connection.
+                </li>
+              </ul>
               <div class="hero-cta-row">
                 <a class="btn btn-primary" href="#buy">Get Your Copy</a>
                 <a class="btn btn-ghost" href="#reviews">Read the Reviews</a>
               </div>
+              <div class="hero-metrics">
+                <div class="hero-metric">248 pages</div>
+                <div class="hero-metric">Print + Ebook + Audio</div>
+                <div class="hero-metric">5.0 Avg Rating</div>
+              </div>
               <p class="hero-note">
-                Rated 5.0 across Amazon, Apple Books, Google Play, Goodreads, and Books-A-Million. An
-                indie breakout for men who are done with gimmicks and ready for the real thing.
+                Rated 5.0 across Amazon, Apple Books, Google Play, Goodreads, and Books-A-Million. Built
+                for men who want respectful, confident dating that actually lasts.
               </p>
             </div>
 
