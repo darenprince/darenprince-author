@@ -188,7 +188,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `dashboard.html` — member dashboard placeholder with migration messaging.
 - `admin-user-management.html` — admin console backed by the `admin-users` edge function.
 - `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
-- `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a full-workbook pulldown navigation menu that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
+- `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
 
 ---
 
