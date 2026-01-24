@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-02-07_
+_Last updated: 2026-01-23_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -26,6 +26,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 > **Hero trailer reminder:** The homepage trailer is landscape (16:9). Keep the frame set to a containment fit so the video does not crop when you adjust the hero layout, and verify the CTA play button scrolls to the trailer on mobile when JavaScript hooks change.
 >
 > **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
+>
+> **Book pages:** Keep JSON-LD (`<script type="application/ld+json">`) aligned with hero updates on `/books/*.html` before publishing.
 
 ## GitHub Pages configuration
 
