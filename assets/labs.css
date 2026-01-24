@@ -872,16 +872,14 @@ body.theme-light .mega-logo {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .section-header {

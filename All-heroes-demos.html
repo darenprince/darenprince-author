@@ -251,32 +251,43 @@
       document.getElementById(id).classList.add('active');
     }
 
-    // Scroll-Triggered Video Activation
     const videoHero = document.getElementById('scrollVideoHero');
     const video = document.getElementById('videoBg');
-    window.addEventListener('scroll', () => {
-      if (videoHero.classList.contains('active')) {
-        const trigger = window.innerHeight / 3;
-        if (window.scrollY > trigger) {
-          videoHero.classList.add('loaded');
-          if (video.paused) {
-            video.play();
-            videoHero.classList.add('playing');
-          }
-        }
-      }
-    });
-
-    // Auto-Scaling Hero Shrink
     const autoHero = document.getElementById('autoScaleHero');
-    window.addEventListener('scroll', () => {
-      if (autoHero.classList.contains('active')) {
-        const max = window.innerHeight;
-        const scrollTop = window.scrollY;
-        const newHeight = Math.max(max - scrollTop, 200);
-        autoHero.style.height = `${newHeight}px`;
+
+    const activateScrollVideoHero = () => {
+      if (!videoHero) return;
+      videoHero.classList.add('loaded');
+      if (video && video.paused) {
+        const playPromise = video.play();
+        if (playPromise?.catch) {
+          playPromise.catch(() => {});
+        }
+        videoHero.classList.add('playing');
       }
-    });
+    };
+
+    const resetAutoHero = () => {
+      if (!autoHero) return;
+      autoHero.style.removeProperty('height');
+    };
+
+    const syncHeroStates = () => {
+      if (videoHero?.classList.contains('active')) {
+        activateScrollVideoHero();
+      }
+      if (autoHero?.classList.contains('active')) {
+        resetAutoHero();
+      }
+    };
+
+    const originalShowHero = showHero;
+    showHero = function (id) {
+      originalShowHero(id);
+      syncHeroStates();
+    };
+
+    syncHeroStates();
   </script>
       <footer class="site-footer">
     <div class="container footer-grid">
@@ -375,7 +386,6 @@
   <script type="module" src="/js/seo-indexing.js"></script>
 </body>
 </html>
-
 
 
 

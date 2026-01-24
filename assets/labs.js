@@ -156,48 +156,16 @@ const animateCounts = (container = document) => {
   })
 }
 
-const resetCounts = (container = document) => {
-  container.querySelectorAll('[data-count]').forEach((el) => {
-    const suffix = el.dataset.suffix || ''
-    const prefix = el.dataset.prefix || ''
-    el.textContent = `${prefix}0${suffix}`
-  })
-}
-
-let revealObserver
-
 const setupRevealAnimations = () => {
   const elements = document.querySelectorAll('.reveal')
   if (!elements.length) return
-  if (!('IntersectionObserver' in window)) {
-    elements.forEach((el) => el.classList.add('is-visible'))
-    return
-  }
-  revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-          animateCounts(entry.target)
-        } else {
-          entry.target.classList.remove('is-visible')
-          resetCounts(entry.target)
-        }
-      })
-    },
-    { threshold: 0.12 }
-  )
-  elements.forEach((el) => revealObserver.observe(el))
+  elements.forEach((el) => el.classList.add('is-visible'))
+  animateCounts(document)
 }
 
 const registerRevealTargets = (root = document) => {
-  if (!revealObserver) {
-    setupRevealAnimations()
-    return
-  }
-  root.querySelectorAll('.reveal').forEach((el) => {
-    revealObserver.observe(el)
-  })
+  root.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'))
+  animateCounts(root)
 }
 
 const hidePagePreloader = () => {
