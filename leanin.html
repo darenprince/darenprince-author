@@ -33,7 +33,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
             line-height: 1.7;
             color: #1a1a2e;
-            background: linear-gradient(180deg, #fbfcff 0%, #f1f4ff 100%);
+            background: linear-gradient(140deg, #e2f0ff 0%, #f1e6ff 48%, #e1fbff 100%);
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
@@ -69,7 +69,8 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: linear-gradient(180deg, rgba(248, 250, 255, 0.94) 0%, rgba(236, 241, 255, 0.96) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.12);
         }
 
         /* Material Icons */
@@ -89,6 +90,7 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
+            overflow: visible;
         }
 
         .header-logo {
@@ -147,6 +149,109 @@
         .header-menu {
             position: relative;
             margin-left: 16px;
+        }
+
+        .workbook-nav {
+            position: static;
+        }
+
+        .workbook-toggle {
+            border: none;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .workbook-toggle:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+        }
+
+        .workbook-panel {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 241, 255, 0.98) 100%);
+            border-radius: 20px;
+            box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
+            padding: 20px 24px 24px;
+            z-index: 210;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        }
+
+        .workbook-panel.is-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .workbook-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: #2b2b4b;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .workbook-panel-subtitle {
+            font-size: 12px;
+            color: #5e5e7c;
+            font-weight: 500;
+        }
+
+        .workbook-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px 18px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .workbook-link-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .workbook-link-title {
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #6a63f1;
+            font-weight: 700;
+        }
+
+        .workbook-link {
+            color: #1a1a2e;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 6px 8px;
+            border-radius: 10px;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .workbook-link:hover {
+            background: rgba(106, 99, 241, 0.12);
+            transform: translateX(4px);
         }
 
         .menu-toggle {
@@ -1244,6 +1349,12 @@
                     <button class="quick-action" type="button" id="quickWorksheets">
                         <span class="material-symbols-outlined">edit_note</span> Worksheets
                     </button>
+                    <div class="workbook-nav">
+                        <button class="workbook-toggle" type="button" id="workbookToggle" aria-expanded="false" aria-controls="workbookPanel">
+                            <span class="material-symbols-outlined">menu_book</span>
+                            <span class="menu-text">Workbook</span>
+                        </button>
+                    </div>
                     <div class="header-menu">
                         <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
                             <span class="material-symbols-outlined">menu</span>
@@ -1259,10 +1370,55 @@
                     </div>
                 </div>
             </div>
+            <div class="workbook-panel" id="workbookPanel" role="menu" aria-hidden="true">
+                <div class="workbook-panel-header">
+                    <div>
+                        <div>Workbook Navigation</div>
+                        <div class="workbook-panel-subtitle">Jump to any section or worksheet</div>
+                    </div>
+                    <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+                </div>
+                <div class="workbook-links">
+                    <div class="workbook-link-group">
+                        <div class="workbook-link-title">Start Here</div>
+                        <a class="workbook-link" href="#cover">Cover</a>
+                        <a class="workbook-link" href="#table-of-contents">Table of contents</a>
+                    </div>
+                    <div class="workbook-link-group">
+                        <div class="workbook-link-title">Foundations</div>
+                        <a class="workbook-link" href="#section-01">01 · Why You're Reading This</a>
+                        <a class="workbook-link" href="#section-02">02 · What You're Dealing With</a>
+                        <a class="workbook-link" href="#section-03">03 · Grief &amp; Attachment</a>
+                        <a class="workbook-link" href="#section-04">04 · Fearful–Avoidant Pattern</a>
+                    </div>
+                    <div class="workbook-link-group">
+                        <div class="workbook-link-title">Healing Path</div>
+                        <a class="workbook-link" href="#section-05">05 · What "Lean In" Means</a>
+                        <a class="workbook-link" href="#section-06">06 · Working Understanding</a>
+                        <a class="workbook-link" href="#section-07">07 · What Healing Looks Like</a>
+                        <a class="workbook-link" href="#section-08">08 · Daily Tools for Stability</a>
+                        <a class="workbook-link" href="#section-09">09 · Scripts for Hard Moments</a>
+                        <a class="workbook-link" href="#section-10">10 · Emotional Clearing Meditation</a>
+                    </div>
+                    <div class="workbook-link-group">
+                        <div class="workbook-link-title">Worksheets</div>
+                        <a class="workbook-link" href="#section-11">11 · Therapeutic Workbook</a>
+                        <a class="workbook-link" href="#worksheet-1">Worksheet 1 · Emotional Check-In</a>
+                        <a class="workbook-link" href="#worksheet-2">Worksheet 2 · Avoidance Pattern Map</a>
+                        <a class="workbook-link" href="#worksheet-3">Worksheet 3 · Post-Intimacy Panic Map</a>
+                        <a class="workbook-link" href="#worksheet-4">Worksheet 4 · Grief Processing</a>
+                        <a class="workbook-link" href="#worksheet-5">Worksheet 5 · Emotional Safety Statements</a>
+                    </div>
+                    <div class="workbook-link-group">
+                        <div class="workbook-link-title">Close</div>
+                        <a class="workbook-link" href="#section-12">12 · Final Note</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Cover Page -->
-        <div class="cover">
+        <div class="cover" id="cover">
             <div class="cover-content">
                 <div class="cover-icon">
                     <span class="material-symbols-outlined">favorite</span>
@@ -1729,7 +1885,7 @@
                 </div>
                 <p class="worksheet-note">Your entries auto-save on this device. Use “Download worksheets PDF” for a printable copy.</p>
 
-                <div class="worksheet">
+                <div class="worksheet" id="worksheet-1">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_one</span></div>
                         <h3>WORKSHEET 1 — Emotional Check-In</h3>
@@ -1750,7 +1906,7 @@
                     <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
                 </div>
 
-                <div class="worksheet">
+                <div class="worksheet" id="worksheet-2">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_two</span></div>
                         <h3>WORKSHEET 2 — Avoidance Pattern Map</h3>
@@ -1774,7 +1930,7 @@
                     <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
                 </div>
 
-                <div class="worksheet">
+                <div class="worksheet" id="worksheet-3">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_3</span></div>
                         <h3>WORKSHEET 3 — Post-Intimacy Panic Map</h3>
@@ -1795,7 +1951,7 @@
                     <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
                 </div>
 
-                <div class="worksheet">
+                <div class="worksheet" id="worksheet-4">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_4</span></div>
                         <h3>WORKSHEET 4 — Grief Processing</h3>
@@ -1816,7 +1972,7 @@
                     <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
                 </div>
 
-                <div class="worksheet">
+                <div class="worksheet" id="worksheet-5">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_5</span></div>
                         <h3>WORKSHEET 5 — Emotional Safety Statements</h3>
@@ -1926,6 +2082,8 @@
         const menuArchive = document.getElementById('menuArchive');
         const menuAllSections = document.getElementById('menuAllSections');
         const menuLogout = document.getElementById('menuLogout');
+        const workbookToggle = document.getElementById('workbookToggle');
+        const workbookPanel = document.getElementById('workbookPanel');
 
         const unlockWorkbook = () => {
             gateOverlay.style.display = 'none';
@@ -2140,19 +2298,46 @@
             menuToggle.setAttribute('aria-expanded', 'false');
         };
 
+        const closeWorkbookPanel = () => {
+            if (!workbookPanel || !workbookToggle) {
+                return;
+            }
+            workbookPanel.classList.remove('is-open');
+            workbookPanel.setAttribute('aria-hidden', 'true');
+            workbookToggle.setAttribute('aria-expanded', 'false');
+        };
+
         const toggleMenu = () => {
             if (!menuPanel || !menuToggle) {
                 return;
             }
+            closeWorkbookPanel();
             const isOpen = menuPanel.classList.toggle('is-open');
             menuPanel.setAttribute('aria-hidden', String(!isOpen));
             menuToggle.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        const toggleWorkbookPanel = () => {
+            if (!workbookPanel || !workbookToggle) {
+                return;
+            }
+            closeMenu();
+            const isOpen = workbookPanel.classList.toggle('is-open');
+            workbookPanel.setAttribute('aria-hidden', String(!isOpen));
+            workbookToggle.setAttribute('aria-expanded', String(isOpen));
         };
 
         if (menuToggle) {
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
                 toggleMenu();
+            });
+        }
+
+        if (workbookToggle) {
+            workbookToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                toggleWorkbookPanel();
             });
         }
 
@@ -2198,9 +2383,29 @@
             closeMenu();
         });
 
+        document.addEventListener('click', (event) => {
+            if (!workbookPanel || !workbookToggle) {
+                return;
+            }
+            if (workbookPanel.contains(event.target) || workbookToggle.contains(event.target)) {
+                return;
+            }
+            closeWorkbookPanel();
+        });
+
+        if (workbookPanel) {
+            workbookPanel.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target instanceof HTMLAnchorElement) {
+                    closeWorkbookPanel();
+                }
+            });
+        }
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 closeMenu();
+                closeWorkbookPanel();
             }
         });
 
