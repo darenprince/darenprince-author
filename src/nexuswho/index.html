@@ -22,23 +22,123 @@
     <link rel="canonical" href="https://www.darenprince.com/nexuswho.html" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0b1220" />
+    <style>
+      .nexuswho-hero {
+        position: relative;
+        overflow: hidden;
+      }
+      .nexuswho-hero__bg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .nexuswho-hero__bg::before {
+        content: "";
+        position: absolute;
+        inset: -35%;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.35), transparent 55%),
+          radial-gradient(circle at 80% 0%, rgba(56, 189, 248, 0.25), transparent 55%),
+          radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.22), transparent 60%);
+        filter: blur(10px);
+        animation: nexuswhoGlow 18s ease-in-out infinite alternate;
+      }
+      .nexuswho-hero__bg::after {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background: linear-gradient(
+          130deg,
+          rgba(147, 51, 234, 0.25),
+          rgba(59, 130, 246, 0.15),
+          rgba(236, 72, 153, 0.18)
+        );
+        opacity: 0.5;
+        mix-blend-mode: screen;
+        animation: nexuswhoShift 22s linear infinite;
+      }
+      .nexuswho-hero__orb {
+        position: absolute;
+        border-radius: 999px;
+        opacity: 0.65;
+        mix-blend-mode: screen;
+        animation: nexuswhoFloat 16s ease-in-out infinite;
+      }
+      .nexuswho-hero__orb--one {
+        width: 320px;
+        height: 320px;
+        left: -80px;
+        top: -120px;
+        background: radial-gradient(circle at 30% 30%, rgba(236, 72, 153, 0.55), transparent 65%);
+      }
+      .nexuswho-hero__orb--two {
+        width: 260px;
+        height: 260px;
+        right: -90px;
+        top: 20%;
+        background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.5), transparent 65%);
+        animation-delay: -6s;
+      }
+      .nexuswho-hero__orb--three {
+        width: 240px;
+        height: 240px;
+        left: 15%;
+        bottom: -140px;
+        background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.5), transparent 65%);
+        animation-delay: -10s;
+      }
+      @keyframes nexuswhoGlow {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(8%, -6%, 0) scale(1.05);
+        }
+      }
+      @keyframes nexuswhoShift {
+        0% {
+          transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        100% {
+          transform: translate3d(5%, -5%, 0) rotate(20deg);
+        }
+      }
+      @keyframes nexuswhoFloat {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(30px, -25px, 0);
+        }
+      }
+    </style>
   </head>
   <body class="bg-slate-950 text-slate-100">
     <div id="root">
       <main class="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-6 py-16">
-        <section class="w-full rounded-3xl border border-white/10 bg-slate-900/40 p-8 shadow-2xl shadow-slate-950/40">
-          <p class="text-xs uppercase tracking-[0.3em] text-pink-200">Nexus Who</p>
-          <h1 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Vibe Prism is loading...</h1>
-          <p class="mt-4 text-sm text-slate-300">
-            If this screen doesn’t change in a few seconds, the app bundle isn’t loading. This usually
-            happens when the <code>nexuswho-assets/</code> folder is missing from the GitHub Pages
-            deploy or the path is incorrect.
-          </p>
-          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-300">
-            <li>Confirm <code>nexuswho-assets/</code> is committed alongside <code>nexuswho.html</code>.</li>
-            <li>Open <code>nexuswho-assets/nexuswho.js</code> directly to verify the bundle is reachable.</li>
-            <li>Use <code>/nexuswho.html</code> or <code>/nexuswho/</code> for GitHub Pages routing.</li>
-          </ul>
+        <section
+          class="nexuswho-hero w-full rounded-3xl border border-white/10 bg-slate-900/40 p-8 shadow-2xl shadow-slate-950/40"
+        >
+          <div class="nexuswho-hero__bg" aria-hidden="true">
+            <span class="nexuswho-hero__orb nexuswho-hero__orb--one"></span>
+            <span class="nexuswho-hero__orb nexuswho-hero__orb--two"></span>
+            <span class="nexuswho-hero__orb nexuswho-hero__orb--three"></span>
+          </div>
+          <div class="relative z-10">
+            <p class="text-xs uppercase tracking-[0.3em] text-pink-200">Nexus Who</p>
+            <h1 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Vibe Prism is loading...</h1>
+            <p class="mt-4 text-sm text-slate-300">
+              If this screen doesn’t change in a few seconds, the app bundle isn’t loading. This usually
+              happens when the <code>nexuswho-assets/</code> folder is missing from the GitHub Pages
+              deploy or the path is incorrect.
+            </p>
+            <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-300">
+              <li>Confirm <code>nexuswho-assets/</code> is committed alongside <code>nexuswho.html</code>.</li>
+              <li>Open <code>nexuswho-assets/nexuswho.js</code> directly to verify the bundle is reachable.</li>
+              <li>Use <code>/nexuswho.html</code> or <code>/nexuswho/</code> for GitHub Pages routing.</li>
+            </ul>
+          </div>
         </section>
       </main>
     </div>
