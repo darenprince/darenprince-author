@@ -25,6 +25,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Hero trailer reminder:** The homepage trailer is landscape (16:9). Keep the frame set to a containment fit so the video does not crop when you adjust the hero layout, and verify the CTA play button scrolls to the trailer on mobile when JavaScript hooks change.
 >
+> **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggers—GitHub Pages should load complete sections right away.
+>
 > **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
 
 ## GitHub Pages configuration

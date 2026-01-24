@@ -80,7 +80,6 @@ function initSmartAppBanner() {
 
   body.appendChild(banner)
 
-  const revealThreshold = 120
   let hasRevealed = false
 
   const revealBanner = () => {
@@ -90,23 +89,11 @@ function initSmartAppBanner() {
     banner.classList.add('smart-app-banner--visible')
   }
 
-  const scrollRevealHandler = () => {
-    if (window.scrollY > revealThreshold) {
-      revealBanner()
-      window.removeEventListener('scroll', scrollRevealHandler)
-    }
-  }
-
-  if (window.scrollY > revealThreshold) {
-    window.requestAnimationFrame(revealBanner)
-  } else {
-    window.addEventListener('scroll', scrollRevealHandler, { passive: true })
-  }
+  window.requestAnimationFrame(revealBanner)
 
   const closeButton = banner.querySelector('.smart-app-banner__close')
   closeButton?.addEventListener('click', () => {
     persistSmartAppBannerDismissal()
-    window.removeEventListener('scroll', scrollRevealHandler)
     banner.classList.remove('smart-app-banner--visible')
     banner.classList.add('smart-app-banner--hidden')
     window.setTimeout(() => {
@@ -117,7 +104,6 @@ function initSmartAppBanner() {
   const ctaButton = banner.querySelector('.smart-app-banner__cta')
   ctaButton?.addEventListener('click', () => {
     persistSmartAppBannerDismissal()
-    window.removeEventListener('scroll', scrollRevealHandler)
   })
 }
 
