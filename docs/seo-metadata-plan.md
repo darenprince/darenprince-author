@@ -2,7 +2,7 @@
 
 This file contains SEO-optimized metadata, structured data, Open Graph tags, and H1 recommendations for all pages listed in the site navigation.
 
-All pages will use this OG image: assets/images/og-image.jpg
+All pages will use this OG image: assets/images/og-image.jpg (except clinical workbook pages like `leanin.html`, which use the CrownCode icon).
 
 Structured data follows the schema.org specifications.
 
@@ -109,6 +109,33 @@ Notes:
 
 - Keep the animated hero headline in `<h1>` markup to preserve SEO while the shimmer effect runs on the styling layer.
 - Confirm `src/nexuswho/index.html` metadata matches the copy above before running `npm run postprocess:seo`.
+
+==============================
+PAGE: Lean In Therapeutic Workbook (leanin.html)
+==============================
+
+<title>Crown Psychology - Therapeutic Workbook</title>
+
+<meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Daren Prince">
+<link rel="canonical" href="https://www.darenprince.com/leanin.html">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Crown Psychology - Therapeutic Workbook">
+<meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support, with printable worksheets.">
+<meta property="og:image" content="https://www.darenprince.com/crowncode_red_3d_icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.darenprince.com/leanin.html">
+<meta property="og:site_name" content="darenprince.com">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+
+Notes:
+
+- Keep clinical workbook pages indexable only when they are intended for public access.
+- Preserve the worksheet PDF download actions so user-entered responses can be printed and saved.
 
 ==============================
 PAGE: Game On! Book Landing Page (/books/game-on)
