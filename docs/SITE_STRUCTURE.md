@@ -1,6 +1,6 @@
 # 🗺 Site Structure & Content Sources
 
-_Last updated: 2025-02-14_
+_Last updated: 2026-02-18_
 
 This map captures the current layout of the repository, the active pages, and the supporting modules. Use it as the starting point before creating new surfaces or wiring automation.
 
@@ -18,6 +18,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `/admin-user-management.html`                                         | Operations command console          | Shows downtime notice via `js/admin-user-console.js`.                                                                        |
 | `/login.html`, `/reset-password.html`, `/verify-email.html`           | Auth flows                          | Use `js/auth.js`, `js/password-strength.js`; all rely on `js/auth-service.js` placeholders for now.                          |
 | `/contact.html`, `/press.html`, `/meet-daren-prince.html`             | Marketing pages                     | Share the CodyHouse layout, hero modules, and theme toggle controls.                                                         |
+| `/leanin.html`                                                        | Lean In therapeutic workbook        | Gated via a lightweight in-page credential modal; includes SEO metadata and noindex directives.                              |
 | `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos         | Keep behind auth or update before shipping.                                                                                  |
 | `/member/`                                                            | Legacy member shell                 | Currently ungated—treat as prototype until new auth is wired in.                                                             |
 | `/assets/`                                                            | Compiled CSS/JS, imagery, press kit | `assets/styles.css` is generated from `scss/styles.scss`; JS modules live under `/js`.                                       |
@@ -48,6 +49,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `contact.html`               | Contact CTA page               | Relies on hero, form, and CTA partials.                                                                               |
 | `press.html`                 | Press kit distribution         | `scss/components/_press-page.scss`, `_downloads.scss`, `_viewer.scss`.                                                |
 | `meet-daren-prince.html`     | Bio narrative                  | `scss/components/_bio-page.scss`, `.styledh1` utilities.                                                              |
+| `leanin.html`                | Lean In workbook               | Standalone HTML with modal credential gate + print-to-PDF action.                                                     |
 | `image-index.html`           | Internal image manifest viewer | `js/image-index.js`, `scss/components/_viewer.scss`.                                                                  |
 | `All-heroes-demos.html`      | Experimental hero set          | `js/hero-demos.js`, `scss/components/_hero-demos.scss`.                                                               |
 | `pages/search.html`          | Search results shell           | `src/js/search-results.js`, `scss/components/_search.scss`.                                                           |
