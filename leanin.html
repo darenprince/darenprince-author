@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crown Psychology - Therapeutic Workbook</title>
-    <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support.">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Daren Prince">
+    <link rel="canonical" href="https://www.darenprince.com/leanin.html">
+    <meta name="theme-color" content="#6a63f1">
     <meta property="og:title" content="Crown Psychology - Therapeutic Workbook">
-    <meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support.">
+    <meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support, with printable worksheets.">
+    <meta property="og:site_name" content="darenprince.com">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.darenprince.com/leanin.html">
+    <meta property="og:image" content="https://www.darenprince.com/crowncode_red_3d_icon.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -65,13 +71,13 @@
         .logo-icon {
             width: 50px;
             height: 50px;
-            background: white;
-            border-radius: 12px;
+            background: transparent;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 32px;
-            color: #667eea;
+            color: #ffffff;
         }
 
         .logo-text {
@@ -95,6 +101,40 @@
             text-align: right;
             font-size: 13px;
             line-height: 1.4;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            border: none;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+        }
+
+        .quick-action span {
+            font-size: 18px;
         }
 
         /* Footer */
@@ -136,6 +176,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            animation: gradient-shift 18s ease infinite;
+            background-size: 200% 200%;
         }
 
         .cover::before {
@@ -166,6 +208,7 @@
             justify-content: center;
             margin: 0 auto 30px;
             font-size: 64px;
+            animation: float 6s ease-in-out infinite;
         }
 
         .cover-title {
@@ -195,6 +238,7 @@
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.2);
             line-height: 1.3;
+            animation: glow 5s ease-in-out infinite;
         }
 
         .cover-patient {
@@ -532,7 +576,8 @@
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             resize: vertical;
-            background: white;
+            background: #fafbff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .worksheet-input:focus {
@@ -632,6 +677,7 @@
             gap: 10px;
             z-index: 1000;
             transition: all 0.3s ease;
+            animation: pulse 3.2s ease-in-out infinite;
         }
 
         .download-button:hover {
@@ -725,11 +771,164 @@
             min-height: 18px;
         }
 
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            padding: 30px 40px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(10, 10, 40, 0.35);
+        }
+
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #fff;
+            margin: 0 auto 16px;
+            animation: spin 1s linear infinite;
+        }
+
+        .save-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 26, 46, 0.9);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 999px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1500;
+        }
+
+        .save-toast.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .worksheet-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0 40px;
+        }
+
+        .worksheet-note {
+            font-size: 13px;
+            color: #4a4a68;
+            margin: -20px 0 30px;
+        }
+
+        .worksheet-toolbar button {
+            background: #1a1a2e;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .worksheet-toolbar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
         @media print {
             body {
                 background: white;
             }
-            .download-button {
+            .download-button,
+            .header-actions,
+            .worksheet-toolbar,
+            .save-toast,
+            .preloader {
                 display: none;
             }
             .header {
@@ -755,6 +954,18 @@
                 bottom: 20px;
                 padding: 14px 22px;
             }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .header-patient {
+                width: 100%;
+                text-align: left;
+            }
+            .header-actions {
+                justify-content: flex-start;
+            }
         }
 
         /* Smooth scroll */
@@ -764,6 +975,16 @@
     </style>
 </head>
 <body>
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="preloader-card">
+            <div class="preloader-spinner"></div>
+            <strong>Preparing your Lean In workbook...</strong>
+            <div style="font-size: 13px; margin-top: 8px;">Breathe in, breathe out — you're almost there.</div>
+        </div>
+    </div>
+    <div class="save-toast" id="saveToast" role="status" aria-live="polite">
+        <span class="material-symbols-outlined">cloud_done</span> Progress saved
+    </div>
     <div class="gate-overlay" id="gateOverlay" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
         <div class="gate-modal">
             <h2 id="gateTitle">Secure Access</h2>
@@ -799,6 +1020,17 @@
             <div class="header-patient">
                 <div style="font-weight: 600;">Patient: Hayley H.</div>
                 <div style="opacity: 0.8; margin-top: 3px;">Session One</div>
+                <div class="header-actions" aria-label="Quick actions">
+                    <button class="quick-action" type="button" id="quickSave">
+                        <span class="material-symbols-outlined">save</span> Save
+                    </button>
+                    <button class="quick-action" type="button" id="quickDownload">
+                        <span class="material-symbols-outlined">download</span> PDF
+                    </button>
+                    <button class="quick-action" type="button" id="quickWorksheets">
+                        <span class="material-symbols-outlined">edit_note</span> Worksheets
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1257,6 +1489,19 @@
                     </div>
                 </div>
 
+                <div class="worksheet-toolbar" aria-label="Worksheet actions">
+                    <button type="button" id="saveWorksheets">
+                        <span class="material-symbols-outlined">save</span> Save progress
+                    </button>
+                    <button type="button" id="downloadWorksheets">
+                        <span class="material-symbols-outlined">download</span> Download worksheets PDF
+                    </button>
+                    <button type="button" id="clearWorksheets">
+                        <span class="material-symbols-outlined">refresh</span> Clear entries
+                    </button>
+                </div>
+                <p class="worksheet-note">Your entries auto-save on this device. Use “Download worksheets PDF” for a printable copy.</p>
+
                 <div class="worksheet">
                     <div class="worksheet-header">
                         <div class="worksheet-icon"><span class="material-symbols-outlined">looks_one</span></div>
@@ -1429,12 +1674,22 @@
         const AUTH_USER = 'hholden';
         const AUTH_PASS = 'L3@n1n143';
         const AUTH_KEY = 'leanin-authenticated';
+        const WORKSHEET_KEY = 'leanin-worksheet-entries';
 
         const gateOverlay = document.getElementById('gateOverlay');
         const gateForm = document.getElementById('gateForm');
         const gateError = document.getElementById('gateError');
         const gateUsername = document.getElementById('gateUsername');
         const gatePassword = document.getElementById('gatePassword');
+        const preloader = document.getElementById('preloader');
+        const saveToast = document.getElementById('saveToast');
+        const worksheetInputs = Array.from(document.querySelectorAll('.worksheet-input'));
+        const quickSave = document.getElementById('quickSave');
+        const quickDownload = document.getElementById('quickDownload');
+        const quickWorksheets = document.getElementById('quickWorksheets');
+        const saveWorksheets = document.getElementById('saveWorksheets');
+        const downloadWorksheets = document.getElementById('downloadWorksheets');
+        const clearWorksheets = document.getElementById('clearWorksheets');
 
         const unlockWorkbook = () => {
             gateOverlay.style.display = 'none';
@@ -1471,7 +1726,97 @@
             gatePassword.focus();
         });
 
+        const showToast = () => {
+            saveToast.classList.add('is-visible');
+            window.setTimeout(() => {
+                saveToast.classList.remove('is-visible');
+            }, 2200);
+        };
+
+        const getStoredWorksheetData = () => {
+            try {
+                return JSON.parse(localStorage.getItem(WORKSHEET_KEY)) || {};
+            } catch (error) {
+                return {};
+            }
+        };
+
+        const saveWorksheetData = (showFeedback = true) => {
+            const payload = {};
+            worksheetInputs.forEach((input, index) => {
+                payload[index] = input.value;
+            });
+            localStorage.setItem(WORKSHEET_KEY, JSON.stringify(payload));
+            if (showFeedback) {
+                showToast();
+            }
+        };
+
+        const loadWorksheetData = () => {
+            const payload = getStoredWorksheetData();
+            worksheetInputs.forEach((input, index) => {
+                if (payload[index]) {
+                    input.value = payload[index];
+                }
+            });
+        };
+
+        const clearWorksheetData = () => {
+            worksheetInputs.forEach((input) => {
+                input.value = '';
+            });
+            localStorage.removeItem(WORKSHEET_KEY);
+            showToast();
+        };
+
+        worksheetInputs.forEach((input) => {
+            input.addEventListener('input', () => saveWorksheetData(false));
+        });
+
+        if (quickSave) {
+            quickSave.addEventListener('click', () => saveWorksheetData(true));
+        }
+        if (quickDownload) {
+            quickDownload.addEventListener('click', () => downloadPDF());
+        }
+        if (quickWorksheets) {
+            quickWorksheets.addEventListener('click', () => {
+                document.getElementById('section-11').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+        if (saveWorksheets) {
+            saveWorksheets.addEventListener('click', () => saveWorksheetData(true));
+        }
+        if (downloadWorksheets) {
+            downloadWorksheets.addEventListener('click', () => downloadPDF());
+        }
+        if (clearWorksheets) {
+            clearWorksheets.addEventListener('click', () => clearWorksheetData());
+        }
+
+        const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
+        revealItems.forEach((item) => item.classList.add('reveal'));
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        revealItems.forEach((item) => observer.observe(item));
+
+        window.addEventListener('load', () => {
+            loadWorksheetData();
+            preloader.classList.add('hidden');
+        });
+
         function downloadPDF() {
+            saveWorksheetData(false);
             window.print();
         }
     </script>
