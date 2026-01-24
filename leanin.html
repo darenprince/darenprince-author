@@ -1023,14 +1023,14 @@
         }
 
         .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            opacity: 1;
+            transform: none;
+            transition: none;
         }
 
         .reveal.is-visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
         @keyframes spin {
@@ -2193,20 +2193,7 @@
         });
 
         const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
-        revealItems.forEach((item) => item.classList.add('reveal'));
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            },
-            { threshold: 0.2 }
-        );
-
-        revealItems.forEach((item) => observer.observe(item));
+        revealItems.forEach((item) => item.classList.add('reveal', 'is-visible'));
 
         const worksheetSection = document.getElementById('section-11');
         if (worksheetSection) {
