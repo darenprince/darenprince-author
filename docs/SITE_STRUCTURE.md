@@ -1,33 +1,33 @@
 # 🗺 Site Structure & Content Sources
 
-_Last updated: 2026-02-18_
+_Last updated: 2026-02-20_
 
 This map captures the current layout of the repository, the active pages, and the supporting modules. Use it as the starting point before creating new surfaces or wiring automation.
 
 ## Root directory overview
 
-| Path                                                                  | Purpose                             | Notes                                                                                                                        |
-| --------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `/index.html`                                                         | Public landing page                 | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`.                          |
-| `/book.html`                                                          | Book detail surface                 | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`. |
-| `/books/gameon.html`                                                  | Game On! test landing page          | Marketing-first long-form landing page using the global nav/footer and inline scoped styles.                                 |
-| `/components.html`                                                    | Component gallery & docs            | Component navigation driven by `js/main.js` and `js/ui.js`.                                                                  |
-| `/style-classes.html`                                                 | Token & utility showcase            | Demonstrates helper classes from `scss/utilities/`.                                                                          |
-| `/dashboard.html`                                                     | Member dashboard                    | Displays migration messaging and disables forms via `js/dashboard.js`.                                                       |
-| `/admin-dashboard.html`                                               | Operator overview                   | Links to admin tooling; uses shared dashboard cards.                                                                         |
-| `/admin-user-management.html`                                         | Operations command console          | Shows downtime notice via `js/admin-user-console.js`.                                                                        |
-| `/login.html`, `/reset-password.html`, `/verify-email.html`           | Auth flows                          | Use `js/auth.js`, `js/password-strength.js`; all rely on `js/auth-service.js` placeholders for now.                          |
-| `/contact.html`, `/press.html`, `/meet-daren-prince.html`             | Marketing pages                     | Share the CodyHouse layout, hero modules, and theme toggle controls.                                                         |
-| `/leanin.html`                                                        | Lean In therapeutic workbook        | Gated via a lightweight in-page credential modal; includes SEO metadata and noindex directives.                              |
-| `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos         | Keep behind auth or update before shipping.                                                                                  |
-| `/member/`                                                            | Legacy member shell                 | Currently ungated—treat as prototype until new auth is wired in.                                                             |
-| `/assets/`                                                            | Compiled CSS/JS, imagery, press kit | `assets/styles.css` is generated from `scss/styles.scss`; JS modules live under `/js`.                                       |
-| `/scss/`                                                              | Sass source                         | `scss/styles.scss` imports base, layout, component, theme, and utility layers.                                               |
-| `/js/`                                                                | Browser modules                     | Theme toggle, auth placeholders, book demos, admin tooling, UI helpers.                                                      |
-| `/src/`                                                               | Search worker + build scripts       | `src/search/build-index.mjs` constructs Minisearch payloads.                                                                 |
-| `/scripts/`                                                           | Node helpers                        | Icon builder, image manifest tooling, setup scripts.                                                                         |
-| `/docs/`                                                              | Documentation & prompts             | Build notes, migration plan, style references.                                                                               |
-| `/tests/`                                                             | Vitest suites                       | Cover redirect logic and asset helpers.                                                                                      |
+| Path                                                                  | Purpose                             | Notes                                                                                                                         |
+| --------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `/index.html`                                                         | Public landing page                 | Hero rail, testimonials, contact CTA; loads `js/main.js`, `js/hero-demos.js`, `js/theme-toggle.js`.                           |
+| `/book.html`                                                          | Book detail surface                 | Tabbed format selector, trailer modal, 3D viewer; requires `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js`.  |
+| `/books/gameon.html`                                                  | Game On! test landing page          | Marketing-first long-form landing page using the global nav/footer and inline scoped styles.                                  |
+| `/components.html`                                                    | Component gallery & docs            | Component navigation driven by `js/main.js` and `js/ui.js`.                                                                   |
+| `/style-classes.html`                                                 | Token & utility showcase            | Demonstrates helper classes from `scss/utilities/`.                                                                           |
+| `/dashboard.html`                                                     | Member dashboard                    | Displays migration messaging and disables forms via `js/dashboard.js`.                                                        |
+| `/admin-dashboard.html`                                               | Operator overview                   | Links to admin tooling; uses shared dashboard cards.                                                                          |
+| `/admin-user-management.html`                                         | Operations command console          | Shows downtime notice via `js/admin-user-console.js`.                                                                         |
+| `/login.html`, `/reset-password.html`, `/verify-email.html`           | Auth flows                          | Use `js/auth.js`, `js/password-strength.js`; all rely on `js/auth-service.js` placeholders for now.                           |
+| `/contact.html`, `/press.html`, `/meet-daren-prince.html`             | Marketing pages                     | Share the CodyHouse layout, hero modules, and theme toggle controls.                                                          |
+| `/leanin.html`                                                        | Lean In therapeutic workbook        | Gated via a lightweight in-page credential modal with persistent login, autosave, and local session archiving for worksheets. |
+| `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos         | Keep behind auth or update before shipping.                                                                                   |
+| `/member/`                                                            | Legacy member shell                 | Currently ungated—treat as prototype until new auth is wired in.                                                              |
+| `/assets/`                                                            | Compiled CSS/JS, imagery, press kit | `assets/styles.css` is generated from `scss/styles.scss`; JS modules live under `/js`.                                        |
+| `/scss/`                                                              | Sass source                         | `scss/styles.scss` imports base, layout, component, theme, and utility layers.                                                |
+| `/js/`                                                                | Browser modules                     | Theme toggle, auth placeholders, book demos, admin tooling, UI helpers.                                                       |
+| `/src/`                                                               | Search worker + build scripts       | `src/search/build-index.mjs` constructs Minisearch payloads.                                                                  |
+| `/scripts/`                                                           | Node helpers                        | Icon builder, image manifest tooling, setup scripts.                                                                          |
+| `/docs/`                                                              | Documentation & prompts             | Build notes, migration plan, style references.                                                                                |
+| `/tests/`                                                             | Vitest suites                       | Cover redirect logic and asset helpers.                                                                                       |
 
 > **Reality Check:** The search builder expects Markdown in `/content/`, but that directory is absent. Until content is seeded, `public/search/index.json` and `docs.json` remain empty and the live search UI has nothing to show.
 
@@ -49,7 +49,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `contact.html`               | Contact CTA page               | Relies on hero, form, and CTA partials.                                                                               |
 | `press.html`                 | Press kit distribution         | `scss/components/_press-page.scss`, `_downloads.scss`, `_viewer.scss`.                                                |
 | `meet-daren-prince.html`     | Bio narrative                  | `scss/components/_bio-page.scss`, `.styledh1` utilities.                                                              |
-| `leanin.html`                | Lean In workbook               | Standalone HTML with modal credential gate + print-to-PDF action.                                                     |
+| `leanin.html`                | Lean In workbook               | Standalone HTML with modal credential gate, persistent login, autosave, session archive, and print-to-PDF action.     |
 | `image-index.html`           | Internal image manifest viewer | `js/image-index.js`, `scss/components/_viewer.scss`.                                                                  |
 | `All-heroes-demos.html`      | Experimental hero set          | `js/hero-demos.js`, `scss/components/_hero-demos.scss`.                                                               |
 | `pages/search.html`          | Search results shell           | `src/js/search-results.js`, `scss/components/_search.scss`.                                                           |
