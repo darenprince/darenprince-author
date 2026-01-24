@@ -81,16 +81,35 @@
         /* Header */
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px 40px;
+            padding: 16px 32px 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 12px;
             color: white;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
             overflow: visible;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-bottom {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 12px 0 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            margin: 0 -32px;
+            padding-left: 32px;
+            padding-right: 32px;
         }
 
         .header-logo {
@@ -141,7 +160,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 6px;
             justify-content: flex-end;
             flex-wrap: nowrap;
         }
@@ -193,6 +211,10 @@
             transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
         }
 
+        .workbook-panel.is-flashing {
+            animation: workbook-panel-glow 1.8s ease-in-out;
+        }
+
         .workbook-panel.is-open {
             opacity: 1;
             visibility: visible;
@@ -210,6 +232,25 @@
             margin-bottom: 12px;
         }
 
+        .workbook-panel-close {
+            border: none;
+            background: rgba(106, 99, 241, 0.12);
+            color: #3a3470;
+            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .workbook-panel-close:hover {
+            background: rgba(106, 99, 241, 0.2);
+            transform: scale(1.05);
+        }
+
         .workbook-panel-subtitle {
             font-size: 12px;
             color: #5e5e7c;
@@ -220,9 +261,24 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px 18px;
-            max-height: 320px;
-            overflow-y: auto;
+            max-height: min(52vh, 440px);
+            overflow-y: scroll;
             padding-right: 6px;
+            scrollbar-gutter: stable;
+        }
+
+        .workbook-links::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .workbook-links::-webkit-scrollbar-track {
+            background: rgba(106, 99, 241, 0.08);
+            border-radius: 999px;
+        }
+
+        .workbook-links::-webkit-scrollbar-thumb {
+            background: rgba(106, 99, 241, 0.4);
+            border-radius: 999px;
         }
 
         .workbook-link-group {
@@ -360,6 +416,11 @@
             box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
         }
 
+        .workbook-toggle.is-flashing {
+            animation: workbook-toggle-flash 1.6s ease-in-out 2;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+        }
+
         .quick-action span {
             font-size: 18px;
         }
@@ -393,7 +454,7 @@
 
         /* Cover Page */
         .cover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4d82f7 0%, #3d5afe 40%, #6f2da8 100%);
             color: white;
             padding: 100px 60px;
             text-align: center;
@@ -1194,6 +1255,31 @@
             }
         }
 
+        @keyframes workbook-panel-glow {
+            0%,
+            100% {
+                box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
+            }
+            50% {
+                box-shadow: 0 24px 55px rgba(102, 126, 234, 0.45);
+            }
+        }
+
+        @keyframes workbook-toggle-flash {
+            0% {
+                transform: translateY(0);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+            }
+            50% {
+                transform: translateY(-3px);
+                box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+            }
+            100% {
+                transform: translateY(0);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
         @media print {
             body {
                 background: white;
@@ -1229,10 +1315,15 @@
                 padding: 14px 22px;
             }
             .header {
-                flex-direction: row;
-                align-items: center;
-                gap: 12px;
-                padding: 14px 16px;
+                gap: 10px;
+                padding: 12px 16px 0;
+            }
+            .header-top {
+                align-items: flex-start;
+            }
+            .header-bottom {
+                margin: 0 -16px;
+                padding: 10px 16px 12px;
             }
             .header-patient {
                 margin-left: auto;
@@ -1241,7 +1332,6 @@
             }
             .header-actions {
                 justify-content: flex-end;
-                margin-top: 4px;
                 gap: 8px;
             }
             .header-actions .quick-action {
@@ -1327,18 +1417,22 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="header-logo">
-                <div class="logo-icon">
-                    <span class="material-symbols-outlined">psychiatry</span>
+            <div class="header-top">
+                <div class="header-logo">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">psychiatry</span>
+                    </div>
+                    <div>
+                        <div class="logo-text">Crown Psychology</div>
+                        <div class="logo-subtitle">CrownCode Intelligence Suite</div>
+                    </div>
                 </div>
-                <div>
-                    <div class="logo-text">Crown Psychology</div>
-                    <div class="logo-subtitle">CrownCode Intelligence Suite</div>
+                <div class="header-patient">
+                    <div style="font-weight: 600;">Patient: Hayley H.</div>
+                    <div style="opacity: 0.8; margin-top: 3px;">Session One</div>
                 </div>
             </div>
-            <div class="header-patient">
-                <div style="font-weight: 600;">Patient: Hayley H.</div>
-                <div style="opacity: 0.8; margin-top: 3px;">Session One</div>
+            <div class="header-bottom">
                 <div class="header-actions" aria-label="Quick actions">
                     <button class="quick-action" type="button" id="quickSave">
                         <span class="material-symbols-outlined">save</span> Save
@@ -1376,7 +1470,9 @@
                         <div>Workbook Navigation</div>
                         <div class="workbook-panel-subtitle">Jump to any section or worksheet</div>
                     </div>
-                    <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+                    <button class="workbook-panel-close" type="button" id="workbookClose" aria-label="Close workbook navigation">
+                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                    </button>
                 </div>
                 <div class="workbook-links">
                     <div class="workbook-link-group">
@@ -2084,10 +2180,13 @@
         const menuLogout = document.getElementById('menuLogout');
         const workbookToggle = document.getElementById('workbookToggle');
         const workbookPanel = document.getElementById('workbookPanel');
+        const workbookClose = document.getElementById('workbookClose');
+        let workbookHintShown = false;
 
         const unlockWorkbook = () => {
             gateOverlay.style.display = 'none';
             document.body.classList.remove('is-locked');
+            requestWorkbookHint();
         };
 
         const lockWorkbook = () => {
@@ -2128,6 +2227,26 @@
             } catch (error) {
                 // ignore sessionStorage failures
             }
+        };
+
+        const requestWorkbookHint = () => {
+            if (workbookHintShown || !workbookPanel || !workbookToggle) {
+                return;
+            }
+            workbookHintShown = true;
+            workbookToggle.classList.add('is-flashing');
+            window.setTimeout(() => {
+                if (!workbookPanel) {
+                    return;
+                }
+                workbookPanel.classList.add('is-open', 'is-flashing');
+                workbookPanel.setAttribute('aria-hidden', 'false');
+                workbookToggle.setAttribute('aria-expanded', 'true');
+                window.setTimeout(() => {
+                    workbookToggle.classList.remove('is-flashing');
+                    closeWorkbookPanel();
+                }, 2400);
+            }, 400);
         };
 
         const hasSession = getAuthState();
@@ -2298,14 +2417,15 @@
             menuToggle.setAttribute('aria-expanded', 'false');
         };
 
-        const closeWorkbookPanel = () => {
+        function closeWorkbookPanel() {
             if (!workbookPanel || !workbookToggle) {
                 return;
             }
             workbookPanel.classList.remove('is-open');
+            workbookPanel.classList.remove('is-flashing');
             workbookPanel.setAttribute('aria-hidden', 'true');
             workbookToggle.setAttribute('aria-expanded', 'false');
-        };
+        }
 
         const toggleMenu = () => {
             if (!menuPanel || !menuToggle) {
@@ -2338,6 +2458,12 @@
             workbookToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
                 toggleWorkbookPanel();
+            });
+        }
+
+        if (workbookClose) {
+            workbookClose.addEventListener('click', () => {
+                closeWorkbookPanel();
             });
         }
 
@@ -2453,6 +2579,9 @@
         window.addEventListener('load', () => {
             scheduleWorksheetInit();
             preloader.classList.add('hidden');
+            if (hasSession) {
+                requestWorkbookHint();
+            }
         });
 
         function downloadPDF() {
