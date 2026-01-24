@@ -68,6 +68,8 @@ npm run build
 
 > **Routing note:** GitHub Pages supports both `/nexuswho.html` and `/nexuswho/` (a lightweight redirect) so links can stay clean without breaking the bundle path.
 
+> **Hero background note:** The Nexus Who fallback hero now includes an animated prism background inspired by the CodePen reference. Update the inline styles in `src/nexuswho/index.html`, then re-run `npm run build` so the generated `nexuswho.html` stays in sync for GitHub Pages.
+
 > **Results UX:** The results screen now surfaces the full profile token in a code snippet with a one-click copy button and toast confirmation. The forensic decoder also includes archetype explanations alongside the snapshot metrics.
 
 ### PIN handling (temporary)
