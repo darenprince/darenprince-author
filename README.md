@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-01-19_
+_Last updated: 2026-02-20_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -188,6 +188,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `dashboard.html` — member dashboard placeholder with migration messaging.
 - `admin-user-management.html` — admin console backed by the `admin-users` edge function.
 - `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
+- `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, and local session archive support.
 
 ---
 

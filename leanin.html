@@ -31,10 +31,34 @@
             line-height: 1.7;
             color: #1a1a2e;
             background: #f8f9fa;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         body.is-locked {
             overflow: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            inset: -20%;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.35;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.18), transparent 55%),
+                radial-gradient(circle at 80% 30%, rgba(118, 75, 162, 0.16), transparent 55%),
+                radial-gradient(circle at 50% 80%, rgba(109, 162, 255, 0.18), transparent 60%);
+            animation: ambient-shift 24s ease-in-out infinite;
+        }
+
+        body::after {
+            opacity: 0.25;
+            filter: blur(10px);
+            animation-duration: 32s;
         }
 
         .container {
@@ -110,6 +134,87 @@
             margin-top: 8px;
             justify-content: flex-end;
             flex-wrap: wrap;
+        }
+
+        .header-menu {
+            position: relative;
+            margin-left: 16px;
+        }
+
+        .menu-toggle {
+            border: none;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(26, 26, 46, 0.2);
+            padding: 16px;
+            min-width: 220px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 200;
+        }
+
+        .menu-panel.is-open {
+            display: flex;
+        }
+
+        .menu-greeting {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1a2e;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(26, 26, 46, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .menu-item {
+            border: none;
+            background: #f4f5ff;
+            color: #1a1a2e;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background: #e7e9ff;
+            transform: translateX(2px);
+        }
+
+        .menu-item.danger {
+            background: rgba(255, 95, 95, 0.15);
+            color: #b02b2b;
+        }
+
+        .menu-item.danger:hover {
+            background: rgba(255, 95, 95, 0.25);
         }
 
         .quick-action {
@@ -521,6 +626,8 @@
             margin: 30px 0;
             border-radius: 20px;
             border: 2px dashed #ff9a76;
+            content-visibility: auto;
+            contain-intrinsic-size: 720px;
         }
 
         .worksheet-header {
@@ -706,6 +813,14 @@
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
             text-align: center;
+        }
+
+        .gate-logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            display: block;
+            filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.35));
         }
 
         .gate-modal h2 {
@@ -966,11 +1081,27 @@
             .header-actions {
                 justify-content: flex-start;
             }
+            .menu-panel {
+                right: auto;
+                left: 0;
+            }
         }
 
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
+        }
+
+        @keyframes ambient-shift {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+            50% {
+                transform: translate3d(4%, -2%, 0) scale(1.04);
+            }
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
         }
     </style>
 </head>
@@ -983,10 +1114,12 @@
         </div>
     </div>
     <div class="save-toast" id="saveToast" role="status" aria-live="polite">
-        <span class="material-symbols-outlined">cloud_done</span> Progress saved
+        <span class="material-symbols-outlined">cloud_done</span>
+        <span id="saveToastText">Progress saved</span>
     </div>
     <div class="gate-overlay" id="gateOverlay" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
         <div class="gate-modal">
+            <img class="gate-logo" src="crowncode_red_3d_icon.png" alt="CrownCode logo">
             <h2 id="gateTitle">Secure Access</h2>
             <p>Enter your credentials to continue to the Lean In workbook.</p>
             <form id="gateForm" autocomplete="off">
@@ -1030,6 +1163,18 @@
                     <button class="quick-action" type="button" id="quickWorksheets">
                         <span class="material-symbols-outlined">edit_note</span> Worksheets
                     </button>
+                    <div class="header-menu">
+                        <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
+                            <span class="material-symbols-outlined">menu</span> Menu
+                        </button>
+                        <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
+                            <div class="menu-greeting">Hi Haley! 🫶</div>
+                            <button class="menu-item" type="button" id="menuSave">Save progress</button>
+                            <button class="menu-item" type="button" id="menuArchive">Session archive</button>
+                            <button class="menu-item" type="button" id="menuAllSections">All sections</button>
+                            <button class="menu-item danger" type="button" id="menuLogout">Logout</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1057,7 +1202,7 @@
         <!-- Content -->
         <div class="content">
             <!-- Table of Contents -->
-            <div class="toc">
+            <div class="toc" id="table-of-contents">
                 <div class="toc-header">
                     <div class="toc-icon"><span class="material-symbols-outlined">list</span></div>
                     <h2>Table of Contents</h2>
@@ -1675,6 +1820,7 @@
         const AUTH_PASS = 'L3@n1n143';
         const AUTH_KEY = 'leanin-authenticated';
         const WORKSHEET_KEY = 'leanin-worksheet-entries';
+        const ARCHIVE_KEY = 'leanin-worksheet-archive';
 
         const gateOverlay = document.getElementById('gateOverlay');
         const gateForm = document.getElementById('gateForm');
@@ -1683,13 +1829,21 @@
         const gatePassword = document.getElementById('gatePassword');
         const preloader = document.getElementById('preloader');
         const saveToast = document.getElementById('saveToast');
-        const worksheetInputs = Array.from(document.querySelectorAll('.worksheet-input'));
+        const saveToastText = document.getElementById('saveToastText');
+        let worksheetInputs = [];
+        let worksheetsReady = false;
         const quickSave = document.getElementById('quickSave');
         const quickDownload = document.getElementById('quickDownload');
         const quickWorksheets = document.getElementById('quickWorksheets');
         const saveWorksheets = document.getElementById('saveWorksheets');
         const downloadWorksheets = document.getElementById('downloadWorksheets');
         const clearWorksheets = document.getElementById('clearWorksheets');
+        const menuToggle = document.getElementById('menuToggle');
+        const menuPanel = document.getElementById('menuPanel');
+        const menuSave = document.getElementById('menuSave');
+        const menuArchive = document.getElementById('menuArchive');
+        const menuAllSections = document.getElementById('menuAllSections');
+        const menuLogout = document.getElementById('menuLogout');
 
         const unlockWorkbook = () => {
             gateOverlay.style.display = 'none';
@@ -1701,7 +1855,42 @@
             document.body.classList.add('is-locked');
         };
 
-        const hasSession = sessionStorage.getItem(AUTH_KEY) === 'true';
+        const getAuthState = () => {
+            try {
+                return localStorage.getItem(AUTH_KEY) === 'true';
+            } catch (error) {
+                return sessionStorage.getItem(AUTH_KEY) === 'true';
+            }
+        };
+
+        const setAuthState = (value) => {
+            const stored = value ? 'true' : 'false';
+            try {
+                localStorage.setItem(AUTH_KEY, stored);
+            } catch (error) {
+                // ignore localStorage failures
+            }
+            try {
+                sessionStorage.setItem(AUTH_KEY, stored);
+            } catch (error) {
+                // ignore sessionStorage failures
+            }
+        };
+
+        const clearAuthState = () => {
+            try {
+                localStorage.removeItem(AUTH_KEY);
+            } catch (error) {
+                // ignore localStorage failures
+            }
+            try {
+                sessionStorage.removeItem(AUTH_KEY);
+            } catch (error) {
+                // ignore sessionStorage failures
+            }
+        };
+
+        const hasSession = getAuthState();
         if (hasSession) {
             unlockWorkbook();
         } else {
@@ -1715,7 +1904,7 @@
             const enteredPass = gatePassword.value;
 
             if (enteredUser === AUTH_USER && enteredPass === AUTH_PASS) {
-                sessionStorage.setItem(AUTH_KEY, 'true');
+                setAuthState(true);
                 gateError.textContent = '';
                 unlockWorkbook();
                 return;
@@ -1726,11 +1915,40 @@
             gatePassword.focus();
         });
 
-        const showToast = () => {
+        const showToast = (message = 'Progress saved') => {
+            if (saveToastText) {
+                saveToastText.textContent = message;
+            }
             saveToast.classList.add('is-visible');
             window.setTimeout(() => {
                 saveToast.classList.remove('is-visible');
             }, 2200);
+        };
+
+        const initWorksheets = () => {
+            if (worksheetsReady) {
+                return;
+            }
+            worksheetInputs = Array.from(document.querySelectorAll('.worksheet-input'));
+            if (!worksheetInputs.length) {
+                return;
+            }
+            worksheetsReady = true;
+            loadWorksheetData();
+            worksheetInputs.forEach((input) => {
+                input.addEventListener('input', () => saveWorksheetData(false));
+            });
+        };
+
+        const scheduleWorksheetInit = () => {
+            if (worksheetsReady) {
+                return;
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(() => initWorksheets(), { timeout: 2000 });
+                return;
+            }
+            window.setTimeout(() => initWorksheets(), 1500);
         };
 
         const getStoredWorksheetData = () => {
@@ -1742,36 +1960,72 @@
         };
 
         const saveWorksheetData = (showFeedback = true) => {
-            const payload = {};
-            worksheetInputs.forEach((input, index) => {
-                payload[index] = input.value;
-            });
+            if (!worksheetsReady) {
+                initWorksheets();
+            }
+            if (!worksheetInputs.length) {
+                return;
+            }
+            const payload = getWorksheetPayload();
             localStorage.setItem(WORKSHEET_KEY, JSON.stringify(payload));
             if (showFeedback) {
-                showToast();
+                showToast('Progress saved');
             }
         };
 
-        const loadWorksheetData = () => {
+        function loadWorksheetData() {
+            if (!worksheetInputs.length) {
+                return;
+            }
             const payload = getStoredWorksheetData();
             worksheetInputs.forEach((input, index) => {
                 if (payload[index]) {
                     input.value = payload[index];
                 }
             });
-        };
+        }
 
         const clearWorksheetData = () => {
+            if (!worksheetsReady) {
+                initWorksheets();
+            }
             worksheetInputs.forEach((input) => {
                 input.value = '';
             });
             localStorage.removeItem(WORKSHEET_KEY);
-            showToast();
+            showToast('Worksheet cleared');
         };
 
-        worksheetInputs.forEach((input) => {
-            input.addEventListener('input', () => saveWorksheetData(false));
-        });
+        const getWorksheetPayload = () => {
+            const payload = {};
+            worksheetInputs.forEach((input, index) => {
+                payload[index] = input.value;
+            });
+            return payload;
+        };
+
+        const archiveWorksheetData = () => {
+            if (!worksheetsReady) {
+                initWorksheets();
+            }
+            if (!worksheetInputs.length) {
+                return;
+            }
+            const archiveEntry = {
+                savedAt: new Date().toISOString(),
+                entries: getWorksheetPayload(),
+            };
+            const archive = (() => {
+                try {
+                    return JSON.parse(localStorage.getItem(ARCHIVE_KEY)) || [];
+                } catch (error) {
+                    return [];
+                }
+            })();
+            archive.unshift(archiveEntry);
+            localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive.slice(0, 12)));
+            showToast('Session archived');
+        };
 
         if (quickSave) {
             quickSave.addEventListener('click', () => saveWorksheetData(true));
@@ -1781,6 +2035,7 @@
         }
         if (quickWorksheets) {
             quickWorksheets.addEventListener('click', () => {
+                initWorksheets();
                 document.getElementById('section-11').scrollIntoView({ behavior: 'smooth' });
             });
         }
@@ -1793,6 +2048,79 @@
         if (clearWorksheets) {
             clearWorksheets.addEventListener('click', () => clearWorksheetData());
         }
+
+        const closeMenu = () => {
+            if (!menuPanel || !menuToggle) {
+                return;
+            }
+            menuPanel.classList.remove('is-open');
+            menuPanel.setAttribute('aria-hidden', 'true');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        };
+
+        const toggleMenu = () => {
+            if (!menuPanel || !menuToggle) {
+                return;
+            }
+            const isOpen = menuPanel.classList.toggle('is-open');
+            menuPanel.setAttribute('aria-hidden', String(!isOpen));
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                toggleMenu();
+            });
+        }
+
+        if (menuSave) {
+            menuSave.addEventListener('click', () => {
+                saveWorksheetData(true);
+                closeMenu();
+            });
+        }
+
+        if (menuArchive) {
+            menuArchive.addEventListener('click', () => {
+                archiveWorksheetData();
+                closeMenu();
+            });
+        }
+
+        if (menuAllSections) {
+            menuAllSections.addEventListener('click', () => {
+                document.getElementById('table-of-contents').scrollIntoView({ behavior: 'smooth' });
+                closeMenu();
+            });
+        }
+
+        if (menuLogout) {
+            menuLogout.addEventListener('click', () => {
+                clearAuthState();
+                lockWorkbook();
+                gateUsername.value = '';
+                gatePassword.value = '';
+                gateUsername.focus();
+                closeMenu();
+            });
+        }
+
+        document.addEventListener('click', (event) => {
+            if (!menuPanel || !menuToggle) {
+                return;
+            }
+            if (menuPanel.contains(event.target) || menuToggle.contains(event.target)) {
+                return;
+            }
+            closeMenu();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
 
         const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
         revealItems.forEach((item) => item.classList.add('reveal'));
@@ -1810,8 +2138,24 @@
 
         revealItems.forEach((item) => observer.observe(item));
 
+        const worksheetSection = document.getElementById('section-11');
+        if (worksheetSection) {
+            const worksheetObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            initWorksheets();
+                            worksheetObserver.disconnect();
+                        }
+                    });
+                },
+                { rootMargin: '200px' }
+            );
+            worksheetObserver.observe(worksheetSection);
+        }
+
         window.addEventListener('load', () => {
-            loadWorksheetData();
+            scheduleWorksheetInit();
             preloader.classList.add('hidden');
         });
 
