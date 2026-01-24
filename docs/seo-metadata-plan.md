@@ -2,7 +2,7 @@
 
 This file contains SEO-optimized metadata, structured data, Open Graph tags, and H1 recommendations for all pages listed in the site navigation.
 
-All pages will use this OG image: assets/images/og-image.jpg (except clinical workbook pages like `leanin.html`, which use the CrownCode icon).
+All pages will use this OG image: assets/images/og-image.jpg (except clinical workbook pages like `leanin.html`, which use `/assets/images/IMG_8952.png`).
 
 Structured data follows the schema.org specifications.
 
@@ -125,7 +125,7 @@ PAGE: Lean In Therapeutic Workbook (leanin.html)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Crown Psychology - Therapeutic Workbook">
 <meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support, with printable worksheets.">
-<meta property="og:image" content="https://www.darenprince.com/crowncode_red_3d_icon.png">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/IMG_8952.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.darenprince.com/leanin.html">
 <meta property="og:site_name" content="darenprince.com">
