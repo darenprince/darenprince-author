@@ -138,6 +138,7 @@ Notes:
 - Keep clinical workbook pages indexable only when they are intended for public access.
 - Maintain the viewport meta lock to prevent pinch-to-zoom on iOS/iPadOS during worksheet editing.
 - Preserve the worksheet PDF download actions so user-entered responses can be printed and saved.
+- The Lean In gate mirrors the three-screen mobile login UI with interactive view toggles and a dark-mode variant; keep the `gateForm` identifiers intact so access logic remains functional alongside the new visuals.
 
 ==============================
 PAGE: Game On! Book Landing Page (/books/game-on)
