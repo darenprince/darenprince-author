@@ -193,6 +193,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `admin-user-management.html` — admin console backed by the `admin-users` edge function.
 - `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
 - `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
+- `ots.html` — Duck Calls one-time secret cockpit with OneTimeSecret API status checks, secure secret creation, and one-time retrieval workflow (client-only, GitHub Pages ready).
 
 ---
 
