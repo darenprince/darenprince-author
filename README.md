@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-03-02_
+_Last updated: 2026-03-05_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -42,6 +42,8 @@ This project exists to:
 > **SEO + metadata:** Before deploying, run `npm run deploy` with `DOMAIN` set so `seo-enrich.js` refreshes canonical URLs, structured data, and sitemap output for GitHub Pages.
 >
 > **Standalone pages:** Visual updates for standalone pages like `leanin.html` are applied inline (including the animated cover gradient). Keep metadata and canonical URLs aligned, and rerun `npm run deploy` so SEO outputs stay current for GitHub Pages.
+>
+> **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
 ---
 

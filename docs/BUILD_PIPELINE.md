@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-02-07_
+_Last updated: 2026-03-05_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -28,6 +28,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 > **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggers—GitHub Pages should load complete sections right away.
 >
 > **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
+>
+> **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 
 ## GitHub Pages configuration
 
@@ -77,6 +79,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
 - [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
+- [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
