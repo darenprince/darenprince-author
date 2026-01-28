@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const explicitRoot = html.getAttribute('data-site-root');
+      const host = window.location.hostname || '';
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+      let prefix = '';
+      if (normalizedExplicit) {
+        prefix = '/' + normalizedExplicit;
+      } else if (host.endsWith('.github.io') && pathSegments.length) {
+        prefix = '/' + pathSegments[0];
+      }
+      const firstSegment = pathSegments[0] || '';
+      const shouldUsePrefix =
+        Boolean(prefix) &&
+        (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+      if (!shouldUsePrefix || prefix === '/') {
+        html.dataset.assetPrefix = '';
+        return;
+      }
+      if (prefix.endsWith('/')) {
+        prefix = prefix.slice(0, -1);
+      }
+      html.dataset.assetPrefix = prefix;
+      const URL_ATTRS = new Map([
+        ['A', ['href']],
+        ['LINK', ['href']],
+        ['SCRIPT', ['src']],
+        ['IMG', ['src', 'srcset']],
+        ['SOURCE', ['src', 'srcset']],
+        ['VIDEO', ['src', 'poster']],
+        ['AUDIO', ['src']],
+        ['IFRAME', ['src']],
+        ['USE', ['href', 'xlink:href']],
+        ['FORM', ['action']],
+      ]);
+      const shouldIgnore = (value) =>
+        !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+      const resolve = (value) => {
+        if (!value || shouldIgnore(value)) return value;
+        if (value === prefix || value.startsWith(prefix + '/')) {
+          return value;
+        }
+        if (value.startsWith('/')) {
+          return prefix + value;
+        }
+        return value;
+      };
+      const patchSrcset = (value) =>
+        value
+          .split(',')
+          .map((chunk) => {
+            const parts = chunk.trim().split(/\s+/);
+            if (!parts.length || !parts[0]) {
+              return chunk;
+            }
+            parts[0] = resolve(parts[0]);
+            return parts.join(' ');
+          })
+          .join(', ');
+      const patchNode = (node) => {
+        if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+        const attrs = URL_ATTRS.get(node.tagName);
+        if (!attrs) return;
+        for (const attr of attrs) {
+          const current = node.getAttribute(attr);
+          if (!current) continue;
+          if (attr === 'srcset') {
+            const next = patchSrcset(current);
+            if (next !== current) {
+              node.setAttribute(attr, next);
+            }
+            continue;
+          }
+          const next = resolve(current);
+          if (next === current) continue;
+          if (node.tagName === 'SCRIPT' && attr === 'src') {
+            const replacement = document.createElement('script');
+            node.getAttributeNames().forEach((name) => {
+              if (name === 'src') return;
+              replacement.setAttribute(name, node.getAttribute(name));
+            });
+            replacement.src = next;
+            if (node.parentNode) {
+              node.parentNode.insertBefore(replacement, node.nextSibling);
+            } else {
+              document.head.appendChild(replacement);
+            }
+            node.remove();
+          } else {
+            node.setAttribute(attr, next);
+          }
+        }
+      };
+      const patchSubtree = (root) => {
+        if (!root || !root.querySelectorAll) return;
+        URL_ATTRS.forEach((_, tag) => {
+          root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+        });
+      };
+      const observer = new MutationObserver((records) => {
+        records.forEach((record) => {
+          record.addedNodes.forEach((added) => {
+            if (added.nodeType === Node.ELEMENT_NODE) {
+              patchNode(added);
+              if (added.querySelectorAll) {
+                added.querySelectorAll('*').forEach(patchNode);
+              }
+            }
+          });
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      const finalize = () => {
+        patchSubtree(document);
+        observer.disconnect();
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', finalize, { once: true });
+      } else {
+        finalize();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duck Calls | One-Time Secret Messaging</title>
+  <meta
+    name="description"
+    content="Duck Calls is a one-time secret message platform powered by OneTimeSecret. Generate self-destructing links, verify API status, and retrieve secrets securely in one client-only cockpit."
+  />
+  <meta property="og:title" content="Duck Calls | One-Time Secret Messaging" />
+  <meta
+    property="og:description"
+    content="Create self-destructing links, validate OneTimeSecret status, and retrieve secrets once with the Duck Calls client-only platform."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.darenprince.com/ots.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Duck Calls | One-Time Secret Messaging" />
+  <meta
+    name="twitter:description"
+    content="Create self-destructing links, validate OneTimeSecret status, and retrieve secrets once with the Duck Calls client-only platform."
+  />
+  <meta name="theme-color" content="#0c0f12" />
+  <link rel="canonical" href="https://www.darenprince.com/ots.html" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <!-- Apple PWA + Safari enhancements -->
+  <!-- Smart App banner is rendered by js/main.js -->
+  <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png" />
+  <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Daren Prince" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Daren Prince" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body.theme-dark {
+      background: radial-gradient(circle at top, #1c2329, #0b0f12 50%, #050607 100%);
+      color: #f2f5f7;
+    }
+
+    .duck-hero {
+      padding: 6rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .duck-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(13, 201, 97, 0.12), rgba(16, 45, 35, 0.8));
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .duck-hero__grid {
+      position: relative;
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+    }
+
+    .duck-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(141, 222, 121, 0.15);
+      border: 1px solid rgba(141, 222, 121, 0.4);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #baf7a3;
+    }
+
+    .duck-hero h1 {
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      margin: 1rem 0;
+    }
+
+    .duck-hero p {
+      font-size: 1.1rem;
+      color: #c9d3d9;
+      line-height: 1.7;
+    }
+
+    .duck-hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .duck-btn {
+      background: linear-gradient(120deg, #6da667, #8cd679);
+      border: none;
+      color: #0a0e0c;
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .duck-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(124, 214, 121, 0.25);
+    }
+
+    .duck-btn--ghost {
+      background: transparent;
+      border: 1px solid rgba(175, 198, 185, 0.4);
+      color: #f2f5f7;
+    }
+
+    .duck-panel {
+      background: rgba(8, 11, 14, 0.82);
+      border-radius: 24px;
+      border: 1px solid rgba(141, 222, 121, 0.15);
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    .duck-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .duck-form label {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9fb1bb;
+      margin-bottom: 0.4rem;
+    }
+
+    .duck-form input,
+    .duck-form textarea,
+    .duck-form select {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(167, 194, 177, 0.2);
+      background: rgba(13, 17, 20, 0.9);
+      color: #f2f5f7;
+    }
+
+    .duck-form textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .duck-form .input-row {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .duck-status {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      background: rgba(21, 28, 33, 0.7);
+      border: 1px solid rgba(141, 222, 121, 0.2);
+      color: #d4e4dc;
+      word-break: break-word;
+    }
+
+    .duck-status.is-error {
+      border-color: rgba(255, 107, 107, 0.4);
+      color: #ffbdbd;
+    }
+
+    .duck-output {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .duck-output code {
+      display: block;
+      padding: 0.7rem 1rem;
+      background: rgba(8, 12, 15, 0.9);
+      border-radius: 10px;
+      border: 1px solid rgba(141, 222, 121, 0.15);
+      font-size: 0.9rem;
+      color: #b9f2c2;
+      overflow-wrap: anywhere;
+    }
+
+    .duck-meta {
+      color: #9fb1bb;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .duck-steps {
+      margin: 3rem 0 1rem;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .duck-step {
+      padding: 1.5rem;
+      border-radius: 20px;
+      border: 1px solid rgba(141, 222, 121, 0.2);
+      background: rgba(9, 13, 15, 0.8);
+    }
+
+    .duck-step span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(141, 222, 121, 0.2);
+      color: #baf7a3;
+      font-weight: 700;
+    }
+
+    .duck-step h3 {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .duck-step p {
+      color: #a7b5bf;
+    }
+
+    .duck-footer {
+      padding: 3rem 0;
+      border-top: 1px solid rgba(141, 222, 121, 0.12);
+      margin-top: 4rem;
+      color: #9fb1bb;
+    }
+
+    .duck-footer a {
+      color: #baf7a3;
+    }
+
+    .duck-inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .duck-copy {
+      background: rgba(141, 222, 121, 0.18);
+      border: 1px solid rgba(141, 222, 121, 0.4);
+      color: #e4ffe1;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .duck-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(141, 222, 121, 0.3);
+      color: #c4f1c0;
+      font-size: 0.8rem;
+      background: rgba(8, 12, 15, 0.6);
+    }
+  </style>
+</head>
+<body class="theme-dark">
+  <main>
+    <section class="duck-hero">
+      <div class="container max-width-adaptive-lg">
+        <div class="duck-hero__grid">
+          <div>
+            <span class="duck-badge"><i class="ph ph-duotone ph-eye"></i> Duck Calls</span>
+            <h1>One-time secrets. Zero traces. Pure control.</h1>
+            <p>
+              Duck Calls is your client-only command deck for OneTimeSecret. Create self-destructing
+              messages, retrieve them exactly once, and validate API status across regions with
+              zero backend infrastructure.
+            </p>
+            <div class="duck-hero__actions">
+              <a class="duck-btn" href="#create">
+                Launch Secret Flow <i class="ph ph-arrow-right"></i>
+              </a>
+              <a class="duck-btn duck-btn--ghost" href="https://docs.onetimesecret.com/en/rest-api/">
+                Review API Docs
+              </a>
+            </div>
+          </div>
+          <div class="duck-panel">
+            <h2>API Quick Check</h2>
+            <p class="duck-meta">
+              Verify your OneTimeSecret region before you ship a link. Choose the region, test the
+              status endpoint, and confirm that your data locality is aligned.
+            </p>
+            <div class="duck-form">
+              <label for="status-region">Region base</label>
+              <select id="status-region">
+                <option value="https://us.onetimesecret.com/api" selected>US (us.onetimesecret.com)</option>
+                <option value="https://eu.onetimesecret.com/api">EU (eu.onetimesecret.com)</option>
+                <option value="https://onetimesecret.com/api">Default (legacy)</option>
+              </select>
+              <div class="duck-inline-actions">
+                <button class="duck-btn" id="status-check" type="button">
+                  Check Status <i class="ph ph-pulse"></i>
+                </button>
+                <span class="duck-pill">POST /v1/share</span>
+                <span class="duck-pill">POST /v1/secret</span>
+              </div>
+            </div>
+            <div class="duck-status" id="status-output" aria-live="polite">
+              Status: Ready for command input.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container max-width-adaptive-lg" id="create">
+      <div class="duck-steps">
+        <div class="duck-step">
+          <span>1</span>
+          <h3>Transmit the secret</h3>
+          <p>Send your sensitive message to the OneTimeSecret API.</p>
+        </div>
+        <div class="duck-step">
+          <span>2</span>
+          <h3>Capture the share key</h3>
+          <p>Duck Calls returns the secret key + metadata for your vault.</p>
+        </div>
+        <div class="duck-step">
+          <span>3</span>
+          <h3>One view only</h3>
+          <p>Recipient views it once. The secret is gone for good.</p>
+        </div>
+      </div>
+
+      <div class="duck-grid">
+        <div class="duck-panel">
+          <h2>Create a One-Time Secret</h2>
+          <p class="duck-meta">
+            Works with authenticated or anonymous access. Keep your API token private when
+            possible. If you use authentication, Duck Calls uses Basic Auth in-browser only.
+          </p>
+          <form class="duck-form" id="create-form">
+            <label for="api-base">API base URL</label>
+            <select id="api-base">
+              <option value="https://us.onetimesecret.com/api" selected>US (recommended)</option>
+              <option value="https://eu.onetimesecret.com/api">EU</option>
+              <option value="https://onetimesecret.com/api">Default (legacy)</option>
+            </select>
+
+            <div class="input-row" style="margin-top: 1rem;">
+              <div>
+                <label for="auth-user">Username (email)</label>
+                <input
+                  id="auth-user"
+                  type="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  value="daren.prince@gmail.com"
+                />
+              </div>
+              <div>
+                <label for="auth-token">API token</label>
+                <input id="auth-token" type="password" placeholder="API token" autocomplete="off" />
+              </div>
+            </div>
+            <label style="margin-top: 0.8rem;">
+              <input id="auth-toggle" type="checkbox" checked /> Use authenticated access (default:
+              daren.prince@gmail.com)
+            </label>
+
+            <label for="secret-message" style="margin-top: 1rem;">Secret message</label>
+            <textarea id="secret-message" placeholder="Drop the secret, credentials, or message."></textarea>
+
+            <div class="input-row" style="margin-top: 1rem;">
+              <div>
+                <label for="secret-passphrase">Passphrase (optional)</label>
+                <input id="secret-passphrase" type="text" placeholder="Extra lock" />
+              </div>
+              <div>
+                <label for="secret-ttl">TTL</label>
+                <input id="secret-ttl" type="number" min="60" value="3600" />
+              </div>
+              <div>
+                <label for="secret-ttl-unit">TTL Unit</label>
+                <select id="secret-ttl-unit">
+                  <option value="seconds" selected>Seconds</option>
+                  <option value="minutes">Minutes</option>
+                  <option value="hours">Hours</option>
+                  <option value="days">Days</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="duck-inline-actions">
+              <button class="duck-btn" type="submit">
+                Create Secret <i class="ph ph-lock-key"></i>
+              </button>
+              <button class="duck-btn duck-btn--ghost" type="reset">
+                Reset
+              </button>
+            </div>
+          </form>
+          <div class="duck-status" id="create-status" aria-live="polite">
+            Waiting for payload.
+          </div>
+          <div class="duck-output" id="create-output"></div>
+        </div>
+
+        <div class="duck-panel">
+          <h2>Retrieve a Secret</h2>
+          <p class="duck-meta">
+            Only one retrieval attempt is allowed per secret key. If a passphrase was set, include
+            it to unlock the payload.
+          </p>
+          <form class="duck-form" id="retrieve-form">
+            <label for="retrieve-base">API base URL</label>
+            <select id="retrieve-base">
+              <option value="https://us.onetimesecret.com/api" selected>US (recommended)</option>
+              <option value="https://eu.onetimesecret.com/api">EU</option>
+              <option value="https://onetimesecret.com/api">Default (legacy)</option>
+            </select>
+
+            <label for="secret-key" style="margin-top: 1rem;">Secret key</label>
+            <input id="secret-key" type="text" placeholder="Paste secret key" />
+
+            <label for="retrieve-passphrase" style="margin-top: 1rem;">Passphrase (if required)</label>
+            <input id="retrieve-passphrase" type="text" placeholder="Passphrase" />
+
+            <div class="duck-inline-actions">
+              <button class="duck-btn" type="submit">
+                Reveal Once <i class="ph ph-eye"></i>
+              </button>
+              <button class="duck-btn duck-btn--ghost" type="reset">
+                Clear
+              </button>
+            </div>
+          </form>
+          <div class="duck-status" id="retrieve-status" aria-live="polite">
+            Ready to decrypt.
+          </div>
+          <div class="duck-output" id="retrieve-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container max-width-adaptive-lg" style="margin-top: 3rem;">
+      <div class="duck-panel">
+        <h2>Security Briefing</h2>
+        <p class="duck-meta">
+          Duck Calls is fully client-side for GitHub Pages deployment. Secrets and API credentials
+          remain in your browser session only. For production workflows, prefer authenticated
+          requests and region-specific endpoints.
+        </p>
+        <ul class="duck-meta" style="margin-top: 1rem; padding-left: 1.2rem;">
+          <li>Use region endpoints (<strong>us</strong> or <strong>eu</strong>) for data locality.</li>
+          <li>Never reuse secret keys — each one is burned after a single read.</li>
+          <li>Passphrases are optional but recommended for high-sensitivity data.</li>
+          <li>TTL is set in seconds per OneTimeSecret API documentation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="duck-footer">
+      <div class="container max-width-adaptive-lg">
+        <p>
+          Duck Calls is powered by OneTimeSecret and tailored for the Daren Prince platform. Visit
+          the official <a href="https://docs.onetimesecret.com/en/rest-api/">REST API docs</a> for
+          the latest endpoint guidance.
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const statusOutput = document.getElementById('status-output');
+    const statusRegion = document.getElementById('status-region');
+    const statusButton = document.getElementById('status-check');
+    const createForm = document.getElementById('create-form');
+    const createStatus = document.getElementById('create-status');
+    const createOutput = document.getElementById('create-output');
+    const retrieveForm = document.getElementById('retrieve-form');
+    const retrieveStatus = document.getElementById('retrieve-status');
+    const retrieveOutput = document.getElementById('retrieve-output');
+
+    const authToggle = document.getElementById('auth-toggle');
+    const authUser = document.getElementById('auth-user');
+    const authToken = document.getElementById('auth-token');
+
+    const withBase = (base, path) => `${base.replace(/\/$/, '')}${path}`;
+
+    const buildHeaders = () => {
+      const headers = new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+      if (authToggle.checked && authUser.value && authToken.value) {
+        const encoded = btoa(`${authUser.value}:${authToken.value}`);
+        headers.set('Authorization', `Basic ${encoded}`);
+      }
+      return headers;
+    };
+
+    const setStatus = (node, message, isError = false) => {
+      node.textContent = message;
+      node.classList.toggle('is-error', isError);
+    };
+
+    const syncAuthState = () => {
+      const enabled = authToggle.checked;
+      authUser.disabled = !enabled;
+      authToken.disabled = !enabled;
+      authUser.setAttribute('aria-disabled', String(!enabled));
+      authToken.setAttribute('aria-disabled', String(!enabled));
+    };
+
+    const renderOutput = (container, payload) => {
+      container.innerHTML = '';
+      if (!payload) return;
+
+      const fields = Array.isArray(payload) ? payload : [payload];
+      fields.forEach(({ label, value, copyable }) => {
+        const wrapper = document.createElement('div');
+        const code = document.createElement('code');
+        code.textContent = `${label}: ${value}`;
+        wrapper.appendChild(code);
+        if (copyable) {
+          const copyButton = document.createElement('button');
+          copyButton.type = 'button';
+          copyButton.className = 'duck-copy';
+          copyButton.textContent = 'Copy';
+          copyButton.addEventListener('click', async () => {
+            await navigator.clipboard.writeText(value);
+            copyButton.textContent = 'Copied';
+            setTimeout(() => {
+              copyButton.textContent = 'Copy';
+            }, 1200);
+          });
+          wrapper.appendChild(copyButton);
+        }
+        container.appendChild(wrapper);
+      });
+    };
+
+    statusButton.addEventListener('click', async () => {
+      setStatus(statusOutput, 'Checking status...', false);
+      try {
+        const response = await fetch(withBase(statusRegion.value, '/v1/status'), {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error(`Status ${response.status}`);
+        }
+        const data = await response.json();
+        setStatus(statusOutput, `Status: ${data.status || 'unknown'}`);
+      } catch (error) {
+        setStatus(statusOutput, `Unable to reach API. ${error.message}`, true);
+      }
+    });
+
+    authToggle.addEventListener('change', syncAuthState);
+    syncAuthState();
+
+    createForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      createOutput.innerHTML = '';
+      const apiBase = document.getElementById('api-base').value;
+      const secret = document.getElementById('secret-message').value.trim();
+      const passphrase = document.getElementById('secret-passphrase').value.trim();
+      const ttlValue = Number(document.getElementById('secret-ttl').value) || 0;
+      const ttlUnit = document.getElementById('secret-ttl-unit').value;
+
+      if (!secret) {
+        setStatus(createStatus, 'Secret message is required.', true);
+        return;
+      }
+
+      const unitMultiplier = {
+        seconds: 1,
+        minutes: 60,
+        hours: 3600,
+        days: 86400,
+      };
+      const ttl = ttlValue * unitMultiplier[ttlUnit];
+
+      const body = new URLSearchParams({
+        secret,
+        ttl: String(ttl || 3600),
+      });
+      if (passphrase) {
+        body.set('passphrase', passphrase);
+      }
+
+      setStatus(createStatus, 'Sending to OneTimeSecret...', false);
+
+      try {
+        const response = await fetch(withBase(apiBase, '/v1/share'), {
+          method: 'POST',
+          headers: buildHeaders(),
+          body,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.message || 'Request failed');
+        }
+
+        const shareBase = apiBase.replace(/\/api\/?$/, '');
+        const shareUrl = data.secret_key ? `${shareBase}/secret/${data.secret_key}` : 'Unavailable';
+
+        renderOutput(createOutput, [
+          { label: 'Share URL', value: shareUrl, copyable: true },
+          { label: 'Secret key', value: data.secret_key || 'Unavailable', copyable: true },
+          { label: 'Metadata key', value: data.metadata_key || 'Unavailable', copyable: true },
+          { label: 'TTL (seconds)', value: data.ttl || String(ttl), copyable: false },
+        ]);
+        setStatus(createStatus, 'Secret link generated. Share it once.', false);
+      } catch (error) {
+        setStatus(createStatus, `Failed to create secret. ${error.message}`, true);
+      }
+    });
+
+    retrieveForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      retrieveOutput.innerHTML = '';
+      const apiBase = document.getElementById('retrieve-base').value;
+      const secretKey = document.getElementById('secret-key').value.trim();
+      const passphrase = document.getElementById('retrieve-passphrase').value.trim();
+
+      if (!secretKey) {
+        setStatus(retrieveStatus, 'Secret key is required.', true);
+        return;
+      }
+
+      const body = new URLSearchParams();
+      if (passphrase) {
+        body.set('passphrase', passphrase);
+      }
+
+      setStatus(retrieveStatus, 'Retrieving secret...', false);
+
+      try {
+        const response = await fetch(withBase(apiBase, `/v1/secret/${secretKey}`), {
+          method: 'POST',
+          headers: new Headers({
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          }),
+          body,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.message || 'Request failed');
+        }
+
+        const secretValue = data.value || data.secret || data.secret_value || 'Secret retrieved';
+        renderOutput(retrieveOutput, [
+          { label: 'Secret', value: secretValue, copyable: true },
+          { label: 'Secret key', value: data.secret_key || secretKey, copyable: true },
+          { label: 'Metadata key', value: data.metadata_key || 'Unavailable', copyable: true },
+          { label: 'Passphrase required', value: String(data.passphrase_required ?? 'unknown') },
+        ]);
+        setStatus(retrieveStatus, 'Secret unlocked. It will not be retrievable again.', false);
+      } catch (error) {
+        setStatus(retrieveStatus, `Unable to retrieve secret. ${error.message}`, true);
+      }
+    });
+  </script>
+</body>
+</html>
