@@ -2,6 +2,10 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-01-24 — Lean In auth UI sync
+
+- Documented the updated Lean In login screen visuals, toggles, and dark-mode variant while preserving access gate identifiers in the SEO/metadata plan.
+
 ## 2025-02-14 — Full documentation realignment
 
 - Rebuilt the site audit report with fresh metrics, mismatch matrix, and backlog checkpoints.
