@@ -163,7 +163,17 @@
   </script>
   <style>
 
-    .image-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .image-toolbar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+    .image-search { flex:1 1 240px; }
+    .image-search input { width:100%; }
+    .image-zoom-controls { display:none; align-items:center; gap:.75rem; padding:.5rem .75rem; border-radius:999px; background:#1b1c1b; border:1px solid rgba(255,255,255,.08); }
+    .image-zoom-controls label { font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; }
+    .image-zoom-controls input[type="range"] { width:180px; }
+    .image-zoom-value { font-size:.85rem; color:rgba(255,255,255,.7); min-width:3.5rem; text-align:right; }
+    @media (min-width: 768px) {
+      .image-zoom-controls { display:flex; }
+    }
+    .image-grid { --image-grid-size:220px; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; }
     .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
     .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
     .image-grid img:active { transform:scale(1.1); }
@@ -297,7 +307,17 @@
     <main class="padding-y-xl">
       <div class="container">
         <h1 class="section-heading text-center margin-bottom-lg">Image Index</h1>
-        <input type="search" id="image-search" class="margin-bottom-md" placeholder="Search images" />
+        <div class="image-toolbar">
+          <div class="image-search">
+            <label class="sr-only" for="image-search">Search images</label>
+            <input type="search" id="image-search" placeholder="Search images" />
+          </div>
+          <div class="image-zoom-controls" aria-label="Image zoom controls">
+            <label for="image-zoom">Zoom</label>
+            <input type="range" id="image-zoom" min="140" max="360" step="10" value="220" data-default="220" />
+            <span id="image-zoom-value" class="image-zoom-value">100%</span>
+          </div>
+        </div>
       </div>
       <div id="gallery" class="image-grid"></div>
     </main>
@@ -401,8 +421,6 @@
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
-
-
 
 
 
