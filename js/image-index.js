@@ -3,8 +3,28 @@ async function initGallery() {
   const images = await resp.json()
   const gallery = document.getElementById('gallery')
   const searchInput = document.getElementById('image-search')
+  const zoomInput = document.getElementById('image-zoom')
+  const zoomValue = document.getElementById('image-zoom-value')
   let current = images
   const assetPrefix = (document.documentElement.dataset.assetPrefix || '').replace(/\/+$/g, '')
+  const zoomConfig = {
+    min: zoomInput ? Number(zoomInput.min) || 140 : 140,
+    max: zoomInput ? Number(zoomInput.max) || 360 : 360,
+    defaultValue: zoomInput ? Number(zoomInput.dataset.default || zoomInput.value || 220) : 220,
+  }
+
+  function setZoom(value) {
+    const clamped = Math.min(zoomConfig.max, Math.max(zoomConfig.min, value))
+    gallery.style.setProperty('--image-grid-size', `${clamped}px`)
+    if (zoomInput) {
+      zoomInput.value = String(clamped)
+    }
+    if (zoomValue) {
+      const percent = Math.round((clamped / zoomConfig.defaultValue) * 100)
+      zoomValue.textContent = `${percent}%`
+    }
+    return clamped
+  }
 
   function buildUrl(assetPath) {
     const normalizedPrefix = assetPrefix.replace(/^\/+/g, '')
@@ -81,6 +101,45 @@ async function initGallery() {
     current = images.filter((p) => p.toLowerCase().includes(term))
     render(current)
   })
+
+  if (zoomInput) {
+    setZoom(Number(zoomInput.value) || zoomConfig.defaultValue)
+    zoomInput.addEventListener('input', (event) => {
+      setZoom(Number(event.target.value))
+    })
+  } else {
+    setZoom(zoomConfig.defaultValue)
+  }
+
+  let pinchStartDistance = null
+  let pinchStartZoom = null
+  const getDistance = (touches) => {
+    const [first, second] = touches
+    return Math.hypot(second.clientX - first.clientX, second.clientY - first.clientY)
+  }
+  const onTouchStart = (event) => {
+    if (event.touches.length !== 2) return
+    pinchStartDistance = getDistance(event.touches)
+    pinchStartZoom = zoomInput ? Number(zoomInput.value) : zoomConfig.defaultValue
+  }
+  const onTouchMove = (event) => {
+    if (event.touches.length !== 2 || pinchStartDistance === null) return
+    const nextDistance = getDistance(event.touches)
+    if (!nextDistance) return
+    event.preventDefault()
+    const scale = nextDistance / pinchStartDistance
+    const nextValue = (pinchStartZoom || zoomConfig.defaultValue) * scale
+    setZoom(nextValue)
+  }
+  const onTouchEnd = () => {
+    if (pinchStartDistance === null) return
+    pinchStartDistance = null
+    pinchStartZoom = null
+  }
+  gallery.addEventListener('touchstart', onTouchStart, { passive: true })
+  gallery.addEventListener('touchmove', onTouchMove, { passive: false })
+  gallery.addEventListener('touchend', onTouchEnd)
+  gallery.addEventListener('touchcancel', onTouchEnd)
 
   render(current)
 }
