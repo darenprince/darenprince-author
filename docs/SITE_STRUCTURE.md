@@ -21,6 +21,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `/leanin.html`                                                        | Lean In therapeutic workbook        | Gated via a lightweight in-page credential modal with persistent login, autosave, local session archiving, and a full-workbook pulldown nav. |
 | `/home.html`, `/brandon.html`, `/shhh.html`, `/All-heroes-demos.html` | Prototypes / archived demos         | Keep behind auth or update before shipping.                                                                                                  |
 | `/ots.html`                                                           | Duck Calls one-time secret cockpit  | Client-side OneTimeSecret UI with status check, secret creation, and retrieval flow.                                                         |
+| `/sitemap.html`                                                       | Site index                          | Flex-wrapped navigation cards with grouped brand and tool links.                                                                             |
 | `/member/`                                                            | Legacy member shell                 | Currently ungated—treat as prototype until new auth is wired in.                                                                             |
 | `/assets/`                                                            | Compiled CSS/JS, imagery, press kit | `assets/styles.css` is generated from `scss/styles.scss`; JS modules live under `/js`.                                                       |
 | `/scss/`                                                              | Sass source                         | `scss/styles.scss` imports base, layout, component, theme, and utility layers.                                                               |
@@ -56,6 +57,7 @@ This map captures the current layout of the repository, the active pages, and th
 | `All-heroes-demos.html`      | Experimental hero set          | `js/hero-demos.js`, `scss/components/_hero-demos.scss`.                                                                                                                    |
 | `pages/search.html`          | Search results shell           | `src/js/search-results.js`, `scss/components/_search.scss`.                                                                                                                |
 | `member/index.html`          | Legacy member dashboard        | Uses global CSS but lacks current auth guard.                                                                                                                              |
+| `sitemap.html`               | Site index                     | `scss/pages/_sitemap.scss` flex layout and grouped link cards.                                                                                                             |
 
 ## Sass modules
 
