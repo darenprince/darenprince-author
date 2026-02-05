@@ -35,10 +35,16 @@
 }
 
 .sitemap-grid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: $spacing-lg;
+  column-count: 1;
+  column-gap: $spacing-lg;
+
+  @include respond-to(md) {
+    column-count: 2;
+  }
+
+  @include respond-to(lg) {
+    column-count: 3;
+  }
 }
 
 .sitemap-card {
@@ -50,10 +56,9 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
-  flex: 1 1 17rem;
-  min-width: 15rem;
-  max-width: 24rem;
-  align-self: stretch;
+  width: 100%;
+  margin: 0 0 $spacing-lg;
+  break-inside: avoid;
 
   h2 {
     display: flex;
