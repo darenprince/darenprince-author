@@ -466,7 +466,7 @@
 
     .format-btn {
       width: 100%;
-      background: transparent;
+      background: color-mix(in srgb, var(--color-black, #000) 88%, transparent);
       border: 2px solid var(--color-accent);
       color: var(--color-muted);
       padding: var(--space-sm) 0;
@@ -528,9 +528,14 @@
     border: 2px solid var(--color-accent);
     border-radius: var(--radius-md);
     padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xs);
-    background: transparent;
+    background: color-mix(in srgb, var(--color-black, #000) 88%, transparent);
     color: var(--color-contrast-high);
     text-align-last: center;
+
+    option {
+      color: #fff;
+      background: #090d14;
+    }
   }
 
   .buy-now {
