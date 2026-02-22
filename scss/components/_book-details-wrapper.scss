@@ -27,7 +27,7 @@
     justify-content: space-between;
     align-items: center;
     padding: $spacing-md $spacing-lg;
-    background: transparent;
+    background: color-mix(in srgb, $black 88%, transparent);
     color: $white;
 
     .accordion-title {
@@ -182,7 +182,7 @@
 
     .format-btn {
       width: 100%;
-      background: transparent;
+      background: color-mix(in srgb, $black 88%, transparent);
       border: 2px solid $lime-green;
       color: var(--color-muted);
       padding: $spacing-sm 0;
@@ -244,9 +244,14 @@
     border: 2px solid $lime-green;
     border-radius: $border-radius;
     padding: $spacing-xs $spacing-xl $spacing-xs $spacing-xs;
-    background: transparent;
+    background: color-mix(in srgb, $black 88%, transparent);
     color: $contrast-high;
     text-align-last: center;
+
+    option {
+      color: $white;
+      background: color-mix(in srgb, $black 92%, transparent);
+    }
   }
 
   .buy-now {
