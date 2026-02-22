@@ -145,11 +145,11 @@
     />
     <meta
       property="og:image"
-      content="https://darenprince.com/assets/images/og-daren-prince.png"
+      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
     />
     <meta
       property="og:image:secure_url"
-      content="https://darenprince.com/assets/images/og-daren-prince.png"
+      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1366" />
@@ -168,7 +168,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://darenprince.com/assets/images/og-daren-prince.png"
+      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
     />
     <meta
       name="twitter:image:alt"
@@ -195,7 +195,7 @@
         "@type": "Person",
         "name": "Daren Prince",
         "url": "https://darenprince.com",
-        "image": "https://darenprince.com/assets/images/og-daren-prince.png",
+        "image": "https://www.darenprince.com/assets/images/og-daren-prince.png",
         "sameAs": [
           "https://www.amazon.com/author/darenprince",
           "https://www.goodreads.com/author/show/53671567.Daren_Prince"
@@ -394,14 +394,26 @@
           class="hero hero-auto-zoom hero--video is-loading is-image-active"
           data-video-id="1120030283"
         >
-          <div class="container max-width-adaptive-lg hero-content">
+          <div class="hero-content">
             <div class="hero-layout">
               <div class="hero-copy">
                 <div class="hero-intro">
                   <span class="hero-eyebrow">Daren M. Prince · Author & Strategist</span>
                   <p class="hero-kicker">No gimmicks. No games. Just real results.</p>
                 </div>
-                <h1 class="hero-title">A real-world roadmap to magnetic connection.</h1>
+                <h1 class="hero-title">
+                  <span class="sr-only">Level Up Your Dating Game</span>
+                  <img
+                    class="hero-title-art hero-title-art--desktop"
+                    src="https://www.darenprince.com/assets/images/levelup2.png"
+                    alt="Level Up Your Dating Game"
+                  />
+                  <img
+                    class="hero-title-art hero-title-art--mobile"
+                    src="https://www.darenprince.com/assets/images/levelup.png"
+                    alt="Level Up Your Dating Game"
+                  />
+                </h1>
                 <p class="hero-subtitle">
                   Bold, psychology-backed guidance to approach with confidence, flirt with charm, and build
                   meaningful, lasting relationships.
@@ -429,8 +441,8 @@
                 <div class="hero-media__frame">
                   <div class="hero-image-layer js-hero-image" role="presentation">
                     <img
-                      src="/assets/images/heroposter1.png"
-                      alt="Cover art for the Game On! trailer"
+                      src="https://www.darenprince.com/assets/images/gameonallformats.png"
+                      alt="Game On! in all available formats"
                     />
                   </div>
                   <div class="hero-video-layer js-hero-video" aria-hidden="true">
@@ -464,12 +476,8 @@
                     aria-label="Play the Game On! book trailer"
                     aria-live="polite"
                   >
-                    <span class="hero-play-overlay__spinner" aria-hidden="true"></span>
-                    <span class="hero-play-overlay__progress-fill"></span>
-                    <span
-                      class="hero-play-overlay__icon ph ph-play-circle"
-                      aria-hidden="true"
-                    ></span>
+                    <span class="hero-play-overlay__icon ph ph-play-circle" aria-hidden="true"></span>
+                    <span class="hero-play-overlay__label">Play Trailer</span>
                   </button>
                   <div class="hero-video-pause-overlay js-hero-pause-overlay" hidden>
                     <div class="hero-video-pause-overlay__center">
@@ -1063,7 +1071,6 @@
         <!-- 3. Bookstore Links Section -->
         <section class="bookstore-logos bookstore-logos--strip padding-y-xl">
           <div class="container max-width-adaptive-lg">
-            <h3 class="section-heading text-center margin-bottom-lg">Available At</h3>
             <div class="store-logos">
               <a
                 href="#book-viewer"
@@ -1099,6 +1106,18 @@
                   loading="lazy"
                   src="/assets/logos/googleplay.png"
                   alt="Google Play Logo"
+                  onerror="this.closest('a').style.display='none'"
+              /></a>
+              <a
+                href="#book-viewer"
+                class="store-logo-link"
+                data-format="ebook"
+                data-store="Goodreads"
+                ><img
+                  class="store-logo"
+                  loading="lazy"
+                  src="/assets/logos/goodreads.png"
+                  alt="Goodreads Logo"
                   onerror="this.closest('a').style.display='none'"
               /></a>
               <a
@@ -1277,6 +1296,9 @@
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
+
+
+
 
 
 
