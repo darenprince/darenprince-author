@@ -9,13 +9,13 @@
       rgba(5, 9, 16, 0.6) 55%,
       rgba(5, 9, 16, 0.9) 100%
     ),
-    url('images/Hero-bg.PNG');
+    url('https://www.darenprince.com/assets/images/hero-poster-bg-blank.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center bottom;
   background-color: var(--gray-900);
   padding: 0;
   margin-top: -0.75rem;
-  min-height: 100vh;
+  min-height: clamp(42rem, 84vh, 58rem);
   max-width: 100vw;
   text-align: left;
   overflow: hidden;
@@ -35,14 +35,12 @@
     pointer-events: none;
   }
 
-  .container {
-    z-index: 3;
-  }
-
   .hero-content {
     position: relative;
     z-index: 6;
-    width: 100%;
+    width: min(100%, 86rem);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2rem);
     display: flex;
     justify-content: center;
     pointer-events: auto;
@@ -57,16 +55,7 @@
 
   .hero-copy {
     max-width: 42rem;
-    padding: clamp(1.6rem, 4vw, 2.6rem);
-    border-radius: 1.6rem;
-    border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
-    background:
-      linear-gradient(140deg, rgba(7, 14, 26, 0.92), rgba(8, 20, 32, 0.72)),
-      color-mix(in srgb, #{$black} 80%, transparent);
-    backdrop-filter: blur(14px);
-    box-shadow:
-      0 24px 80px rgba($black, 0.55),
-      0 0 0 1px rgba(111, 227, 255, 0.08);
+    padding: clamp(0.25rem, 1.25vw, 0.85rem) 0;
     pointer-events: auto;
 
     @media (min-width: 48rem) {
@@ -148,6 +137,31 @@
     }
   }
 
+  .hero-title-art {
+    display: none;
+    max-width: min(100%, 34rem);
+    height: auto;
+  }
+
+  .hero-title-art--desktop {
+    display: block;
+  }
+
+  .hero-title-art--mobile {
+    display: none;
+  }
+
+  @media (max-width: 47.99rem) {
+    .hero-title-art--desktop {
+      display: none;
+    }
+
+    .hero-title-art--mobile {
+      display: block;
+      max-width: min(100%, 20rem);
+    }
+  }
+
   .hero-subtitle {
     margin-top: 1rem;
     margin-bottom: $spacing-lg;
@@ -173,6 +187,10 @@
         justify-content: center;
       }
     }
+  }
+
+  .hero-actions .btn--primary {
+    color: color-mix(in srgb, #0a1f15 88%, #3a5a49);
   }
 
   .hero-signal-grid {
@@ -307,17 +325,17 @@
     --hero-media-max-width: min(88vw, 26rem);
     --hero-media-inline-size: min(
       var(--hero-media-max-width),
-      calc(var(--hero-media-max-height) * 1.7778)
+      calc(var(--hero-media-max-height) * 0.5625)
     );
     --hero-playback-progress: 0%;
-    padding: clamp(0.75rem, 4vh, 2.5rem) clamp(1.25rem, 5vw, 3.25rem) clamp(6.5rem, 18vh, 7.5rem);
+    padding: clamp(0.25rem, 1.4vh, 0.9rem) clamp(1rem, 4.5vw, 3rem) clamp(2rem, 6vh, 3rem);
 
     @media (min-width: 48rem) {
       --hero-media-max-height: min(88vh, 52rem);
       --hero-media-max-width: min(56vw, 28rem);
       --hero-media-inline-size: min(
         var(--hero-media-max-width),
-        calc(var(--hero-media-max-height) * 1.7778)
+        calc(var(--hero-media-max-height) * 0.5625)
       );
     }
 
@@ -348,17 +366,33 @@
       color: $white;
     }
 
+    .hero-copy {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+      max-width: none;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
     .hero-layout {
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
 
       @media (min-width: 64rem) {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 32rem));
+        justify-content: center;
+        align-items: stretch;
       }
     }
 
     .hero-media {
       width: 100%;
+      height: 100%;
       position: relative;
       display: flex;
       align-items: center;
@@ -370,14 +404,20 @@
     .hero-media__frame {
       position: relative;
       width: min(100%, var(--hero-media-inline-size));
-      aspect-ratio: 16 / 9;
-      border-radius: 1.5rem;
-      overflow: hidden;
-      background: color-mix(in srgb, #{$black} 55%, transparent);
-      border: 1px solid color-mix(in srgb, #{$white} 12%, transparent);
-      box-shadow:
-        0 1.75rem 3.75rem rgba($black, 0.5),
-        0 0 2.75rem rgba($black, 0.2);
+      aspect-ratio: 9 / 16;
+      min-height: clamp(24rem, 62vh, 38rem);
+      border-radius: 0;
+      overflow: visible;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+
+      @media (min-width: 64rem) {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+        min-height: clamp(28rem, 64vh, 42rem);
+      }
     }
 
     .hero-media__badge {
@@ -387,14 +427,14 @@
       gap: 0.5rem;
       padding: 0.5rem 0.85rem;
       border-radius: 999px;
-      background: rgba($black, 0.65);
-      border: 1px solid color-mix(in srgb, #{$white} 18%, transparent);
+      background: transparent;
+      border: 1px solid color-mix(in srgb, #{$white} 28%, transparent);
       color: $white;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       z-index: 5;
-      box-shadow: 0 1rem 2rem rgba($black, 0.35);
+      box-shadow: none;
     }
 
     .hero-media__rail {
@@ -430,15 +470,6 @@
       color: $white;
     }
 
-    .hero-media__frame::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 55%);
-      pointer-events: none;
-      z-index: 3;
-    }
-
     .hero-image-layer,
     .hero-video-layer {
       position: absolute;
@@ -461,9 +492,9 @@
       img {
         width: 100%;
         height: 100%;
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-        object-position: center;
+        aspect-ratio: auto;
+        object-fit: contain;
+        object-position: center bottom;
         display: block;
         transform: scale(var(--hero-scale, 1));
         transition: transform 0.6s ease;
@@ -480,7 +511,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 9 / 16;
       border-radius: inherit;
       overflow: hidden;
       box-shadow: none;
@@ -584,71 +615,39 @@
 
     .hero-play-overlay {
       position: absolute;
-      top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: 5.75rem;
-      height: 5.75rem;
-      border-radius: 50%;
-      border: 3px solid color-mix(in srgb, #{$lime-green} 70%, var(--color-white));
-      background: rgba(0, 0, 0, 0.5);
+      bottom: clamp(0.85rem, 3vh, 1.35rem);
+      transform: translateX(-50%);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(9, 13, 20, 0.86);
       color: var(--color-white);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.25rem;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
       cursor: pointer;
       z-index: 6;
       transition:
         opacity 0.3s ease,
         transform 0.3s ease;
-      box-shadow: 0 0 1.5rem rgba($black, 0.35);
+      box-shadow: 0 0.75rem 1.75rem rgba($black, 0.32);
 
       &:hover,
       &:focus {
-        transform: translate(-50%, -50%) scale(1.08);
+        transform: translateX(-50%) translateY(-1px);
       }
 
       &__icon {
-        font-size: 2.35rem;
-        z-index: 2;
+        font-size: 1.2rem;
       }
 
-      &__spinner {
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        border: 4px solid transparent;
-        border-top-color: $lime-green;
-        animation: hero-spinner 1.1s linear infinite;
-        opacity: 0;
-        z-index: 1;
-      }
-
-      &__progress-bar {
-        position: absolute;
-        left: 50%;
-        bottom: -1.3rem;
-        transform: translateX(-50%);
-        width: 150%;
-        height: 0.4rem;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.18);
-        overflow: hidden;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      &__progress-fill {
-        display: block;
-        height: 100%;
-        width: var(--hero-buffer-progress, 0%);
-        background: linear-gradient(
-          90deg,
-          #{$lime-green},
-          color-mix(in srgb, #{$lime-green} 55%, var(--color-white))
-        );
-        transition: width 0.25s ease;
+      &__label {
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
       }
 
       &.is-hidden {
@@ -689,18 +688,6 @@
       }
     }
 
-    &.is-loading {
-      .hero-play-overlay {
-        &__spinner {
-          opacity: 1;
-        }
-
-        &__progress-bar {
-          opacity: 1;
-        }
-      }
-    }
-
     &.is-video-active {
       .hero-play-overlay {
         opacity: 0;
@@ -709,6 +696,7 @@
     }
 
     .hero-video-progress {
+      display: none;
       position: absolute;
       left: 50%;
       bottom: clamp(0.35rem, 1.25vh, 0.85rem);

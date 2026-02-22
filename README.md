@@ -304,3 +304,13 @@ Protected under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/).
 ---
 
 Built with 🔥 by Daren Prince & OpenAI Codex
+
+## 404 + Social Metadata Standards
+
+- `404.html` is now a custom branded not-found page for GitHub Pages routing fallback.
+- Public OG/Twitter metadata has been standardized to `https://www.darenprince.com/assets/images/og-daren-prince.png` for consistent social sharing.
+- Homepage hero assets now reference hosted CDN files for background, mockup, and stylized title art (desktop/mobile variants).
+- Homepage hero content is intentionally outside the grid container, uses a portrait-first trailer frame, and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`) to stay GitHub Pages friendly without Netlify rewrites.
+- Desktop hero now renders content directly on the page background (no glass card containers around copy/media), while preserving matched two-column sizing and portrait-first video behavior.
+- Hero vertical spacing is tightened while keeping the background anchored to the bottom (`background-position: center bottom`) so cropping occurs from the top side and the bottom remains visible.
+- Hero mockup artwork in the right media area now uses `object-fit: contain` to prevent right-edge clipping.
