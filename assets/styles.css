@@ -5163,6 +5163,16 @@ input:checked + .toggle-slider::before {
     align-items: stretch;
   }
 }
+.hero.hero--video .hero-actions--below-trailer {
+  width: 100%;
+  margin: 0;
+  justify-content: center;
+}
+@media (min-width: 64rem) {
+  .hero.hero--video .hero-actions--below-trailer {
+    grid-column: 1/-1;
+  }
+}
 .hero.hero--video .hero-media {
   width: 100%;
   height: 100%;
@@ -5183,6 +5193,10 @@ input:checked + .toggle-slider::before {
   background: transparent;
   border: 0;
   box-shadow: none;
+  transition:
+    width 0.45s ease,
+    min-height 0.45s ease,
+    aspect-ratio 0.45s ease;
 }
 @media (min-width: 64rem) {
   .hero.hero--video .hero-media__frame {
@@ -5310,6 +5324,24 @@ input:checked + .toggle-slider::before {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.hero.hero--video.is-image-active .hero-media {
+  gap: clamp(0.45rem, 1.6vh, 0.8rem);
+}
+.hero.hero--video.is-image-active .hero-media__frame {
+  width: min(100%, clamp(18rem, 78vw, 31rem));
+  min-height: clamp(18rem, 48vh, 28rem);
+  aspect-ratio: 1.12/1;
+}
+@media (min-width: 64rem) {
+  .hero.hero--video.is-image-active .hero-media__frame {
+    width: min(100%, 32rem);
+    min-height: clamp(20rem, 46vh, 30rem);
+    aspect-ratio: 1.08/1;
+  }
+}
+.hero.hero--video.is-image-active .hero-image-layer img {
+  transform: scale(calc(var(--hero-scale, 1) * 1.06));
 }
 .hero.hero--video.is-video-ready .hero-video-layer {
   pointer-events: auto;
