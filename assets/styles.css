@@ -4954,12 +4954,18 @@ input:checked + .toggle-slider::before {
   }
 }
 @media (max-width: 47.99rem) {
+  .hero .hero-title {
+    width: 100vw;
+    max-width: none;
+    margin-inline: calc(50% - 50vw);
+  }
   .hero .hero-title-art--desktop {
     display: none;
   }
   .hero .hero-title-art--mobile {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    max-width: none;
   }
 }
 .hero .hero-subtitle {

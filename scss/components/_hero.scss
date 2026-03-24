@@ -164,13 +164,20 @@
   }
 
   @media (max-width: 47.99rem) {
+    .hero-title {
+      width: 100vw;
+      max-width: none;
+      margin-inline: calc(50% - 50vw);
+    }
+
     .hero-title-art--desktop {
       display: none;
     }
 
     .hero-title-art--mobile {
       display: block;
-      max-width: 100%;
+      width: 100%;
+      max-width: none;
     }
   }
 
