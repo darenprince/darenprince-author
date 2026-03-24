@@ -4808,9 +4808,9 @@ input:checked + .toggle-slider::before {
   background-image:
     linear-gradient(
       160deg,
-      rgba(5, 9, 16, 0.92) 0%,
-      rgba(5, 9, 16, 0.6) 55%,
-      rgba(5, 9, 16, 0.9) 100%
+      rgba(5, 9, 16, 0.45) 0%,
+      rgba(5, 9, 16, 0.2) 55%,
+      rgba(5, 9, 16, 0.4) 100%
     ),
     url('https://www.darenprince.com/assets/images/hero-poster-bg-blank.jpg');
   background-size: cover;
@@ -4832,8 +4832,8 @@ input:checked + .toggle-slider::before {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(108, 232, 255, 0.18), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(78, 170, 255, 0.12), transparent 40%);
+    radial-gradient(circle at 20% 20%, rgba(108, 232, 255, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(78, 170, 255, 0.05), transparent 40%);
   z-index: 0;
   pointer-events: none;
 }
@@ -4934,8 +4934,8 @@ input:checked + .toggle-slider::before {
 }
 .hero .hero-title-art {
   display: none;
-  max-width: min(100%, 34rem);
-  width: auto;
+  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 .hero .hero-title-art--desktop {
