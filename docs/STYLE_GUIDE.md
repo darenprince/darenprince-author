@@ -57,13 +57,11 @@ See `scss/tokens/_css-vars.scss` for the full list of 77 tokens, including gradi
 
 Use this treatment for high-emphasis split headlines (like the format selector card): emphasis line in brand green and supporting line in white.
 
-| Class                       | Color token         | Purpose                                                  |
-| --------------------------- | ------------------- | -------------------------------------------------------- |
-| `.brand-heading`            | `--color-white`     | Base heading wrapper, keeps whole block white by default |
-| `.brand-heading__emphasis`  | `--brand-green-500` | First/priority phrase (green emphasis)                   |
-| `.brand-heading__base`      | `--color-white`     | Secondary phrase in white                                |
-| `.text-gradient-lime-deep`  | `--brand-green-500` | Legacy alias retained for backwards compatibility        |
-| `.text-gradient-gray-light` | `--color-white`     | Legacy alias retained for backwards compatibility        |
+| Class                      | Color token         | Purpose                                                  |
+| -------------------------- | ------------------- | -------------------------------------------------------- |
+| `.brand-heading`           | `--color-white`     | Base heading wrapper, keeps whole block white by default |
+| `.brand-heading__emphasis` | `--brand-green-500` | First/priority phrase (green emphasis)                   |
+| `.brand-heading__base`     | `--color-white`     | Secondary phrase in white                                |
 
 ```html
 <h3 class="step-header styledh1 brand-heading">
@@ -75,7 +73,7 @@ Use this treatment for high-emphasis split headlines (like the format selector c
 **Guardrails**
 
 - Keep emphasis to one concise phrase (2–5 words) to preserve contrast and hierarchy.
-- Do not reintroduce gradients for this pattern; solid white + green is the canonical treatment.
+- Do not use gradient helper classes for heading text; solid white + green is the canonical treatment.
 - If you need inline emphasis inside body copy, use `.brand-heading__emphasis` directly without converting the full block to uppercase.
 
 ### Scale & rhythm

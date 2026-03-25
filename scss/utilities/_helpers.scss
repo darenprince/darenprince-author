@@ -109,16 +109,6 @@
   display: inline-block;
 }
 
-// Legacy gradient utility classes now map to fixed brand colors so heading
-// treatments stay consistent across the site.
-.text-gradient-lime-deep {
-  color: var(--brand-green-500);
-}
-
-.text-gradient-gray-light {
-  color: var(--color-white);
-}
-
 // Border utility
 .border-thin-46683C {
   border: 1px solid rgba(70, 104, 60, 0.6);

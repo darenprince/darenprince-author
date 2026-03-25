@@ -107,7 +107,7 @@ Use the selector-format heading pattern as the default for dark surfaces:
 
 Implementation notes:
 
-- Legacy classes `.text-gradient-lime-deep` and `.text-gradient-gray-light` are now compatibility aliases to the same green/white colors.
+- Use only `.brand-heading__emphasis` and `.brand-heading__base` for split heading colors.
 - Prefer semantic heading levels (`h1`…`h6`) and apply the utility classes only for visual treatment.
 
 ## Authoring checklist
