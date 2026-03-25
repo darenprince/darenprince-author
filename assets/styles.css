@@ -358,22 +358,29 @@ body:not(.brand-exempt) a:is(.btn, .btn-b, [class*='btn--']):focus {
   font-size: 1.667rem;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.brand-heading {
+  color: var(--color-white);
+}
+
+.brand-heading__emphasis {
+  color: var(--brand-green-500);
+  display: inline-block;
+}
+
+.brand-heading__base {
+  color: var(--color-white);
+  display: inline-block;
 }
 
 .text-gradient-lime-deep {
-  background: linear-gradient(135deg, #6fbc5c, #488635);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  color: var(--brand-green-500);
 }
 
 .text-gradient-gray-light {
-  background: linear-gradient(135deg, #d5d5d5, #fdfdfd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-white);
 }
 
 .border-thin-46683C {
