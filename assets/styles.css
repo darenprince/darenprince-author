@@ -375,14 +375,6 @@ body:not(.brand-exempt) a:is(.btn, .btn-b, [class*='btn--']):focus {
   display: inline-block;
 }
 
-.text-gradient-lime-deep {
-  color: var(--brand-green-500);
-}
-
-.text-gradient-gray-light {
-  color: var(--color-white);
-}
-
 .border-thin-46683C {
   border: 1px solid rgba(70, 104, 60, 0.6);
   border-radius: 0.6875rem;

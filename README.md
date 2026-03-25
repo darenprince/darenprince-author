@@ -139,7 +139,7 @@ Design principles: bold, dark-mode-first, generous spacing, masculine energy, no
 
 - Split headings now use a white base with green emphasis (matching the selector-format module).
 - Use `.brand-heading` + `.brand-heading__emphasis` + `.brand-heading__base` for new work.
-- Legacy `.text-gradient-lime-deep` / `.text-gradient-gray-light` classes are mapped to the same green/white palette for backward compatibility.
+- Avoid legacy gradient heading classes in new markup; use semantic brand heading utilities only.
 
 **Tokens & Variables**
 
