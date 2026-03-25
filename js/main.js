@@ -108,6 +108,12 @@ function initSmartAppBanner() {
 }
 
 function initNavigationAndAuth() {
+  const assetPrefix = document.documentElement?.dataset?.assetPrefix || ''
+  const prefixedPath = (path) => (path.startsWith('/') ? `${assetPrefix}${path}` : path)
+  const openSiteSearch = (query) => {
+    const target = `${prefixedPath('/pages/search.html')}?q=${encodeURIComponent(query)}`
+    window.location.href = target
+  }
   const indexingRule = applyIndexingMeta()
   if (indexingRule) {
     console.debug(
@@ -215,8 +221,7 @@ function initNavigationAndAuth() {
     e.preventDefault()
     const query = searchForm.querySelector('input[type="search"]').value.trim()
     if (query) {
-      const url = `https://www.google.com/search?q=site:darenprince.com+${encodeURIComponent(query)}`
-      window.open(url, '_blank')
+      openSiteSearch(query)
     }
   })
 
@@ -260,8 +265,7 @@ function initNavigationAndAuth() {
       e.preventDefault()
       const query = form.querySelector('input[type="search"]').value.trim()
       if (query) {
-        const url = `https://www.google.com/search?q=site:darenprince.com+${encodeURIComponent(query)}`
-        window.open(url, '_blank')
+        openSiteSearch(query)
       }
     })
 

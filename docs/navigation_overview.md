@@ -76,6 +76,6 @@ Adjust the list per page (e.g., dashboards also load `js/auth-guard.js` and `js/
 1. **Forgotten rebuilds** — Edits in `scss/` require `npm run build` to regenerate `assets/styles.css`.
 2. **Menu markup drift** — Each HTML page has its own copy of the menu. Update all surfaces or extract a partial before shipping wide changes.
 3. **Auth provider offline** — With the migration placeholder active, `js/profile-dropdown.js` keeps the login route and tooltip messaging instead of exposing broken buttons.
-4. **Stale search assets** — Desktop search modal opens a Google fallback when Minisearch payloads are empty; seed `/content/` before demoing on-site search.
+4. **Stale search assets** — Header and modal search now route to `/pages/search.html` (on-site Minisearch). Seed `/content/` and run `npm run build:search` before demoing so results are not empty.
 
 Keep these notes handy when adjusting navigation behavior or styling.
