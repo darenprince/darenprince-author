@@ -63,7 +63,7 @@
   .hero-layout {
     width: 100%;
     display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: clamp(0.9rem, 2.6vw, 2rem);
     align-items: center;
   }
 
@@ -109,7 +109,7 @@
     position: relative;
     display: block;
     font-size: clamp(2.4rem, 4.6vw, 3.6rem);
-    margin-bottom: $spacing-md;
+    margin-bottom: clamp(0.4rem, 1.4vw, 0.8rem);
     animation:
       slide-in 0.6s ease-out forwards,
       hero-text-sparkle 6s ease-in-out infinite;
@@ -198,11 +198,11 @@
   }
 
   .hero-subtitle {
-    margin-top: 1rem;
-    margin-bottom: $spacing-lg;
+    margin-top: 0.45rem;
+    margin-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
     color: color-mix(in srgb, #{$white} 82%, transparent);
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.42;
     animation: fade-in 0.8s ease-out 0.2s forwards;
     opacity: 0;
   }
@@ -211,7 +211,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: $spacing-sm;
-    margin-bottom: $spacing-lg;
+    margin-bottom: clamp(0.8rem, 2.4vh, 1.35rem);
     animation: fade-in 0.8s ease-out 0.35s forwards;
     opacity: 0;
 
@@ -398,7 +398,7 @@
     }
 
     .hero-title {
-      margin-bottom: $spacing-md;
+      margin-bottom: clamp(0.35rem, 1.2vw, 0.75rem);
       font-size: clamp(2.4rem, 4.2vw, 3.6rem);
       color: $white;
     }
@@ -419,6 +419,7 @@
     .hero-layout {
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
+      gap: clamp(0.8rem, 2.2vw, 1.6rem);
 
       @media (min-width: 64rem) {
         grid-template-columns: repeat(2, minmax(0, 32rem));
@@ -611,25 +612,25 @@
       }
 
       .hero-media__frame {
-        width: min(100%, clamp(18rem, 78vw, 31rem));
-        min-height: clamp(18rem, 48vh, 28rem);
+        width: min(100%, clamp(20rem, 84vw, 35rem));
+        min-height: clamp(20rem, 56vh, 32rem);
         aspect-ratio: 1.12 / 1;
 
         @media (min-width: 64rem) {
-          width: min(100%, 32rem);
-          min-height: clamp(20rem, 46vh, 30rem);
+          width: min(100%, 36rem);
+          min-height: clamp(22rem, 52vh, 34rem);
           aspect-ratio: 1.08 / 1;
         }
       }
 
       .hero-image-layer img {
-        transform: scale(calc(var(--hero-scale, 1) * 1.06));
+        transform: scale(calc(var(--hero-scale, 1) * 1.1));
       }
 
       @media (max-width: 63.99rem) {
         .hero-media__frame {
           width: 100%;
-          min-height: clamp(13rem, 58vw, 24rem);
+          min-height: clamp(15rem, 66vw, 28rem);
           aspect-ratio: 16 / 9;
         }
       }
