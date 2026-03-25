@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-03-05_
+_Last updated: 2026-03-25_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -134,6 +134,12 @@ Brand identity is governed by the Game On! press assets and CodyHouse-inspired S
 - `#C2E9C1` Mint Green
 
 Design principles: bold, dark-mode-first, generous spacing, masculine energy, no gimmicks.
+
+**Heading Standard (2026 update)**
+
+- Split headings now use a white base with green emphasis (matching the selector-format module).
+- Use `.brand-heading` + `.brand-heading__emphasis` + `.brand-heading__base` for new work.
+- Avoid legacy gradient heading classes in new markup; use semantic brand heading utilities only.
 
 **Tokens & Variables**
 
