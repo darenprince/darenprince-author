@@ -5,10 +5,10 @@
 .c-search {
   position: relative;
   input[type='search'] {
-    height: 44px;
+    height: 48px;
     width: 100%;
-    border-radius: $border-radius;
-    padding: 0 12px;
+    border-radius: 0.85rem;
+    padding: 0 14px;
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
     background: linear-gradient(
       to bottom,
@@ -20,7 +20,9 @@
     &:focus {
       outline: none;
       border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
-      box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent),
+        0 0 0 5px color-mix(in srgb, #{$lime-green} 14%, transparent);
     }
   }
 }
@@ -38,19 +40,21 @@
     color-mix(in srgb, #{$surface} 92%, white),
     color-mix(in srgb, #{$surface} 90%, black)
   );
-  border-radius: $border-radius;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
   z-index: 20;
+  padding: 0.4rem;
   &[hidden] {
     display: none;
   }
 }
 
 .c-search__item {
-  padding: 12px 14px;
+  padding: 0.7rem 0.85rem;
   display: grid;
-  gap: 6px;
+  gap: 0.25rem;
   cursor: pointer;
+  border-radius: 0.7rem;
   &:hover {
     background: color-mix(in srgb, var(--brand-green-500) 15%, transparent);
   }
@@ -58,6 +62,46 @@
     background: color-mix(in srgb, var(--brand-green-500) 30%, transparent);
     border-left: 3px solid var(--brand-green-500);
   }
+}
+
+.c-search__title {
+  font-weight: 600;
+}
+
+.c-search__meta {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--color-contrast-high) 72%, transparent);
+}
+
+.c-search__group {
+  padding: 0.25rem;
+}
+
+.c-search__group h4 {
+  margin: 0.35rem 0.25rem 0.55rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: color-mix(in srgb, var(--color-contrast-high) 64%, transparent);
+}
+
+.c-search__group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.c-search__choice {
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+
+.c-search__choice:hover,
+.c-search__choice.is-active {
+  background: color-mix(in srgb, var(--brand-green-500) 20%, transparent);
 }
 
 .c-search__all {
