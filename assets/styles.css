@@ -4837,6 +4837,19 @@ input:checked + .toggle-slider::before {
   z-index: 0;
   pointer-events: none;
 }
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: -20% -10%;
+  background:
+    radial-gradient(circle at 15% 75%, rgba(56, 180, 255, 0.2), transparent 38%),
+    radial-gradient(circle at 85% 35%, rgba(88, 214, 163, 0.14), transparent 34%);
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  animation: hero-aurora 16s ease-in-out infinite alternate;
+  z-index: 1;
+  pointer-events: none;
+}
 .hero .hero-content {
   position: relative;
   z-index: 6;
@@ -4857,6 +4870,8 @@ input:checked + .toggle-slider::before {
   max-width: 42rem;
   padding: clamp(0.25rem, 1.25vw, 0.85rem) 0;
   pointer-events: auto;
+  animation: hero-copy-rise 0.8s ease-out forwards;
+  opacity: 0;
 }
 @media (min-width: 48rem) {
   .hero .hero-copy {
@@ -4974,7 +4989,7 @@ input:checked + .toggle-slider::before {
   color: color-mix(in srgb, var(--color-white) 82%, transparent);
   font-size: 1.1rem;
   line-height: 1.6;
-  animation: fade-in 0.8s ease-out forwards;
+  animation: fade-in 0.8s ease-out 0.2s forwards;
   opacity: 0;
 }
 .hero .hero-actions {
@@ -4982,6 +4997,8 @@ input:checked + .toggle-slider::before {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 2rem;
+  animation: fade-in 0.8s ease-out 0.35s forwards;
+  opacity: 0;
 }
 @media (max-width: 40rem) {
   .hero .hero-actions {
@@ -5715,6 +5732,23 @@ input:checked + .toggle-slider::before {
   opacity: 1;
 }
 
+@keyframes hero-copy-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .hero * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 @keyframes fade-in {
   to {
     opacity: 1;
@@ -8486,10 +8520,10 @@ body.is-preloading {
   position: relative;
 }
 .c-search input[type='search'] {
-  height: 44px;
+  height: 48px;
   width: 100%;
-  border-radius: 0.6875rem;
-  padding: 0 12px;
+  border-radius: 0.85rem;
+  padding: 0 14px;
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   background: linear-gradient(
     to bottom,
@@ -8502,7 +8536,9 @@ body.is-preloading {
 .c-search input[type='search']:focus {
   outline: none;
   border-color: color-mix(in srgb, var(--color-lime) 60%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-lime) 60%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-lime) 60%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--color-lime) 14%, transparent);
 }
 
 .c-search__dropdown {
@@ -8518,19 +8554,21 @@ body.is-preloading {
     color-mix(in srgb, var(--color-surface) 92%, white),
     color-mix(in srgb, var(--color-surface) 90%, black)
   );
-  border-radius: 0.6875rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
   z-index: 20;
+  padding: 0.4rem;
 }
 .c-search__dropdown[hidden] {
   display: none;
 }
 
 .c-search__item {
-  padding: 12px 14px;
+  padding: 0.7rem 0.85rem;
   display: grid;
-  gap: 6px;
+  gap: 0.25rem;
   cursor: pointer;
+  border-radius: 0.7rem;
 }
 .c-search__item:hover {
   background: color-mix(in srgb, var(--brand-green-500) 15%, transparent);
@@ -8538,6 +8576,46 @@ body.is-preloading {
 .c-search__item.is-active {
   background: color-mix(in srgb, var(--brand-green-500) 30%, transparent);
   border-left: 3px solid var(--brand-green-500);
+}
+
+.c-search__title {
+  font-weight: 600;
+}
+
+.c-search__meta {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--color-contrast-high) 72%, transparent);
+}
+
+.c-search__group {
+  padding: 0.25rem;
+}
+
+.c-search__group h4 {
+  margin: 0.35rem 0.25rem 0.55rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: color-mix(in srgb, var(--color-contrast-high) 64%, transparent);
+}
+
+.c-search__group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.c-search__choice {
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+
+.c-search__choice:hover,
+.c-search__choice.is-active {
+  background: color-mix(in srgb, var(--brand-green-500) 20%, transparent);
 }
 
 .c-search__all {
