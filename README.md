@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-03-25_
+_Last updated: 2026-03-26_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -44,6 +44,8 @@ This project exists to:
 > **Standalone pages:** Visual updates for standalone pages like `leanin.html` are applied inline (including the animated cover gradient). Keep metadata and canonical URLs aligned, and rerun `npm run deploy` so SEO outputs stay current for GitHub Pages.
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
+
+> **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
 ---
 
@@ -202,6 +204,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
 - `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
 - `ots.html` — Duck Calls one-time secret cockpit with OneTimeSecret API status checks, secure secret creation, and one-time retrieval workflow (client-only, GitHub Pages ready).
+- `updated-hero.html` — classified hero concept library with cinematic, product, story/trust, and conversion split demos (fully animated, GitHub Pages-ready static page with SEO metadata).
 
 ---
 
