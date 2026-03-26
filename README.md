@@ -319,7 +319,7 @@ Built with 🔥 by Daren Prince & OpenAI Codex
 - `404.html` is now a custom branded not-found page for GitHub Pages routing fallback.
 - Public OG/Twitter metadata has been standardized to `https://www.darenprince.com/assets/images/og-daren-prince.png` for consistent social sharing.
 - Homepage hero assets now reference hosted CDN files for background, mockup, and stylized title art (desktop/mobile variants).
-- Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`) to stay GitHub Pages friendly without Netlify rewrites.
+- Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`), with trailer playback triggered from the CTA row and descriptive copy positioned beneath the media placeholder for cleaner GitHub Pages-ready rendering.
 - Desktop hero now renders content directly on the page background (no glass card containers around copy/media), while preserving matched two-column sizing and responsive video behavior.
 - On mobile/tablet breakpoints, the hero title artwork and pre-play trailer frame now expand to full width so the top visual treatment fills the available viewport space.
 - Hero vertical spacing is tightened while keeping the background anchored to the bottom (`background-position: center bottom`) so cropping occurs from the top side and the bottom remains visible.
