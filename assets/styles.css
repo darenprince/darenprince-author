@@ -4991,6 +4991,11 @@ input:checked + .toggle-slider::before {
   animation: fade-in 0.8s ease-out 0.2s forwards;
   opacity: 0;
 }
+.hero .hero-subtitle--media {
+  width: min(100%, 46rem);
+  margin: clamp(0.55rem, 2vh, 1rem) auto 0;
+  text-align: center;
+}
 .hero .hero-actions {
   display: flex;
   flex-wrap: wrap;
