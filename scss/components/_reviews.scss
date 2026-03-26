@@ -38,6 +38,12 @@
     font-size: clamp(1.9rem, 3.4vw, 2.6rem);
     font-weight: 600;
     color: $white;
+    line-height: 1.08;
+
+    .brand-heading__emphasis,
+    .brand-heading__base {
+      line-height: inherit;
+    }
 
     em {
       font-style: italic;

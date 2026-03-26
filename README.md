@@ -141,6 +141,7 @@ Design principles: bold, dark-mode-first, generous spacing, masculine energy, no
 
 - Split headings now use a white base with green emphasis (matching the selector-format module).
 - Use `.brand-heading` + `.brand-heading__emphasis` + `.brand-heading__base` for new work.
+- Homepage section headers (including Reader Reviews + contact CTA) now follow this split-heading treatment; keep new section headings aligned with the same pattern.
 - Avoid legacy gradient heading classes in new markup; use semantic brand heading utilities only.
 
 **Tokens & Variables**
