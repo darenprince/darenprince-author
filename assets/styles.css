@@ -6125,6 +6125,11 @@ input:checked + .toggle-slider::before {
   font-size: clamp(1.9rem, 3.4vw, 2.6rem);
   font-weight: 600;
   color: var(--color-white);
+  line-height: 1.08;
+}
+.go-reviews__title .brand-heading__emphasis,
+.go-reviews__title .brand-heading__base {
+  line-height: inherit;
 }
 .go-reviews__title em {
   font-style: italic;
