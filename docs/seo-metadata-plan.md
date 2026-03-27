@@ -2,7 +2,7 @@
 
 This file contains SEO-optimized metadata, structured data, Open Graph tags, and H1 recommendations for all pages listed in the site navigation.
 
-All pages will use this OG image: assets/images/og-image.jpg (except clinical workbook pages like `leanin.html`, which use `/assets/images/IMG_8952.png`).
+All pages will use this OG image: https://www.darenprince.com/assets/images/og-daren-prince.png (except clinical workbook pages like `leanin.html`, which use `/assets/images/IMG_8952.png`).
 
 Structured data follows the schema.org specifications.
 
@@ -38,7 +38,7 @@ PAGE: Homepage (index.html)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Daren Prince | Author of Game On! & Unshakeable">
 <meta property="og:description" content="Official author site of Daren Prince. Explore books on connection, healing, and confidence.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/">
 
@@ -46,7 +46,7 @@ PAGE: Homepage (index.html)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Daren Prince | Author of Game On! & Unshakeable">
 <meta name="twitter:description" content="Explore Daren Prince’s bestselling books and breakthrough tools for confidence and connection.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -55,7 +55,7 @@ PAGE: Homepage (index.html)
   "@type": "Person",
   "name": "Daren Prince",
   "url": "https://darenprince.com",
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
     "https://www.goodreads.com/author/show/53671567.Daren_Prince"
@@ -68,7 +68,7 @@ PAGE: Homepage (index.html)
 Notes:
 
 - Replace absolute URLs with actual domain in production.
-- Ensure image at assets/images/og-image.jpg is optimized to 1200x630 for best OG rendering.
+- Ensure image at https://www.darenprince.com/assets/images/og-daren-prince.png is optimized to 1200x630 for best OG rendering.
 - Keep the homepage H1 text intact and only apply shine animations via background-clip so metadata crawlers still read the full headline.
 
 ==============================
@@ -83,7 +83,7 @@ PAGE: Vibe Prism / Nexus Who (nexuswho.html)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Vibe Prism — Personality Spark Quiz">
 <meta property="og:description" content="Take a quick 32-question personality quiz to see your vibe shimmer back, then save a private token to restore your profile anytime.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/nexuswho.html">
 
@@ -91,7 +91,7 @@ PAGE: Vibe Prism / Nexus Who (nexuswho.html)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Vibe Prism — Personality Spark Quiz">
 <meta name="twitter:description" content="A fast, cinematic personality quiz with a private Nexus Who profile token.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -152,7 +152,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Game On! by Daren Prince">
 <meta property="og:description" content="Discover the psychology-backed men's playbook for real attraction and conversation mastery.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://darenprince.com/books/game-on">
 
@@ -160,7 +160,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Game On! by Daren Prince">
 <meta name="twitter:description" content="Learn how to spark real connection, master confidence, and win her heart with no gimmicks.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -172,7 +172,7 @@ PAGE: Game On! Book Landing Page (/books/game-on)
     "@type": "Person",
     "name": "Daren Prince"
   },
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "bookFormat": "https://schema.org/EBook",
   "isbn": "9798303844407",
   "offers": {
@@ -204,7 +204,7 @@ PAGE: Game On! Test Landing Page (/books/gameon.html)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Game On! Master the Conversation & Win Her Heart">
 <meta property="og:description" content="A five-star relationship playbook for men who want real confidence, real connection, and real results.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://darenprince.com/books/gameon">
 
@@ -212,7 +212,7 @@ PAGE: Game On! Test Landing Page (/books/gameon.html)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Game On! Master the Conversation & Win Her Heart">
 <meta name="twitter:description" content="A five-star relationship playbook for men who want real confidence, real connection, and real results.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -224,7 +224,7 @@ PAGE: Game On! Test Landing Page (/books/gameon.html)
     "@type": "Person",
     "name": "Daren Prince"
   },
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "bookFormat": "https://schema.org/EBook",
   "isbn": "9798303844407",
   "offers": {
@@ -255,7 +255,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Unshakeable by Daren Prince">
 <meta property="og:description" content="The bold guide to overcoming toxic relationships and reclaiming your strength. Coming soon.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://darenprince.com/books/unshakeable">
 
@@ -263,7 +263,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Unshakeable by Daren Prince">
 <meta name="twitter:description" content="A powerful, real-world roadmap to healing from narcissistic abuse and emotional manipulation.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -275,7 +275,7 @@ PAGE: Unshakeable Book Landing Page (/books/unshakeable)
     "@type": "Person",
     "name": "Daren Prince"
   },
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "bookFormat": "https://schema.org/EBook",
   "isbn": "TBD",
   "offers": {
@@ -307,7 +307,7 @@ PAGE: Meet Daren Prince (/about)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Meet Daren Prince">
 <meta property="og:description" content="Author. Strategist. Real talker. Learn how Daren turned pain into purpose—and how he helps others master confidence and connection.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://darenprince.com/about">
 
@@ -315,7 +315,7 @@ PAGE: Meet Daren Prince (/about)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Meet Daren Prince">
 <meta name="twitter:description" content="Discover the story behind the author of Game On! and Unshakeable. Learn how Daren Prince turned struggle into strength.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -324,7 +324,7 @@ PAGE: Meet Daren Prince (/about)
   "@type": "Person",
   "name": "Daren Prince",
   "url": "https://darenprince.com/about",
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "jobTitle": "Author, Communication Strategist",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
@@ -351,7 +351,7 @@ PAGE: Press & Media (/media)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Press & Media | Daren Prince">
 <meta property="og:description" content="Get press materials, headshots, and media inquiries for Daren Prince—author of Game On! and Unshakeable.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/media">
 
@@ -359,7 +359,7 @@ PAGE: Press & Media (/media)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Daren Prince | Press Kit & Media Info">
 <meta name="twitter:description" content="Download official press kit, author bio, and media assets for Daren Prince. Book him for podcasts, interviews, or speaking events.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -368,7 +368,7 @@ PAGE: Press & Media (/media)
   "@type": "Person",
   "name": "Daren Prince",
   "url": "https://darenprince.com",
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "sameAs": [
     "https://www.amazon.com/author/darenprince",
     "https://www.goodreads.com/author/show/53671567.Daren_Prince"
@@ -396,7 +396,7 @@ PAGE: Swag (/swag)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Game On! Swag">
 <meta property="og:description" content="Shop high-vibe apparel inspired by Daren Prince's bestselling book Game On! Shirts, hoodies, and more.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/swag">
 
@@ -404,7 +404,7 @@ PAGE: Swag (/swag)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Game On! Swag by Daren Prince">
 <meta name="twitter:description" content="Confidence, real talk, and style. Grab Game On! gear that says what you stand for.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -412,7 +412,7 @@ PAGE: Swag (/swag)
   "@context": "https://schema.org",
   "@type": "Store",
   "name": "Game On! Swag",
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "url": "https://darenprince.com/swag",
   "description": "Shop bold, conversation-sparking apparel based on the bestselling book Game On! by Daren Prince. Confidence never goes out of style.",
   "brand": {
@@ -439,7 +439,7 @@ PAGE: Blog (/blog)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="The Game On! Blog by Daren Prince">
 <meta property="og:description" content="Unfiltered takes on dating, connection, and confidence. Read the latest insights from Daren Prince.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/blog">
 
@@ -447,7 +447,7 @@ PAGE: Blog (/blog)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Game On! Blog">
 <meta name="twitter:description" content="New articles weekly on real connection, emotional resilience, and dating without bullshit.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -482,7 +482,7 @@ PAGE: Collaborations (/collabs)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Collaborate with Daren Prince">
 <meta property="og:description" content="From affiliate partnerships to guest appearances, Daren Prince is open to bold, aligned collaborations. Reach out today.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/collabs">
 
@@ -490,7 +490,7 @@ PAGE: Collaborations (/collabs)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Partner with Daren Prince">
 <meta name="twitter:description" content="Explore affiliate and content partnerships with Daren Prince—bestselling author, strategist, and coach.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -524,7 +524,7 @@ PAGE: Contact (/contact)
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Contact Daren Prince">
 <meta property="og:description" content="Reach out to Daren Prince for media, coaching, or collab opportunities. He reads every message.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/contact">
 
@@ -532,7 +532,7 @@ PAGE: Contact (/contact)
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact Daren Prince">
 <meta name="twitter:description" content="Have a question, request, or idea? Send a message directly to Daren Prince.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -570,7 +570,7 @@ SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
   },
   "headline": "Blog Post Title Goes Here",
   "description": "Short summary of the post (around 150–200 characters).",
-  "image": "https://darenprince.com/assets/images/og-image.jpg",
+  "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "author": {
     "@type": "Person",
     "name": "Daren Prince",
@@ -581,7 +581,7 @@ SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
     "name": "Daren Prince",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://darenprince.com/assets/images/og-image.jpg"
+      "url": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png"
     }
   },
   "datePublished": "2025-07-31",
