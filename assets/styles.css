@@ -564,14 +564,16 @@ body.theme-light {
   }
 }
 .site-header {
-  background: var(--header-gradient);
+  background: linear-gradient(130deg, rgba(6, 11, 10, 0.84), rgba(16, 24, 20, 0.68));
   color: var(--color-icon);
   padding-block: 0.5rem;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(var(--color-lime), 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(var(--color-lime), 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
 }
 .site-header .container {
   display: flex;
@@ -648,7 +650,7 @@ body.theme-light {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  background: var(--header-gradient);
+  background: linear-gradient(130deg, rgba(6, 11, 10, 0.84), rgba(16, 24, 20, 0.68));
 }
 .site-nav .nav-list a {
   color: var(--color-icon);
@@ -6133,7 +6135,7 @@ input:checked + .toggle-slider::before {
 }
 .go-reviews__title em {
   font-style: italic;
-  color: var(--color-accent);
+  color: inherit;
 }
 .go-reviews__subtitle {
   margin: 0 0 2rem;
@@ -6149,9 +6151,14 @@ input:checked + .toggle-slider::before {
 .go-reviews__card {
   padding: 1rem;
   border-radius: 1.25rem;
-  background: rgba(var(--color-black), 0.2);
-  border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
-  box-shadow: 0 1.5rem 3rem rgba(var(--color-black), 0.4);
+  background: linear-gradient(
+    160deg,
+    rgba(var(--color-black), 0.58) 0%,
+    rgba(var(--color-black), 0.42) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
+  box-shadow: 0 1.75rem 3.2rem rgba(var(--color-black), 0.5);
+  backdrop-filter: blur(8px) saturate(120%);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;

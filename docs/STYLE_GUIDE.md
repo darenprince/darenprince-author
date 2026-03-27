@@ -1,6 +1,6 @@
 # 🎨 Style Guide & Token Catalog
 
-_Last updated: 2026-03-25_
+_Last updated: 2026-03-27_
 
 This guide mirrors the design tokens, typography rules, utilities, and heading usage that actually compile from `scss/`. Treat it as the source of truth when adjusting visuals or reviewing brand compliance.
 
@@ -75,6 +75,8 @@ Use this treatment for high-emphasis split headlines (like the format selector c
 - Keep emphasis to one concise phrase (2–5 words) to preserve contrast and hierarchy.
 - Do not use gradient helper classes for heading text; solid white + green is the canonical treatment.
 - If you need inline emphasis inside body copy, use `.brand-heading__emphasis` directly without converting the full block to uppercase.
+- Reviews heading exception: in `index.html` reviews, keep only `Game On!` green while surrounding words stay white (`About <span class="brand-heading__emphasis">Game On!</span>`).
+- Apply split heading markup (`brand-heading__emphasis` + `brand-heading__base`) across author-facing pages for consistent hierarchy.
 
 ### Scale & rhythm
 
@@ -117,6 +119,8 @@ Key helper classes from `scss/utilities/_helpers.scss`:
 - `.btn-xs` → `.btn-xl`, `.btn-fw` — button sizing utilities.
 
 `scss/utilities/_gradients.scss` provides `.grad-lemon-lime`, `.grad-charcoal-mint`, `.grad-light-container`, `.grad-dark-main`, and related classes for backgrounds.
+
+Sticky header baseline now uses a glass treatment (translucent dark gradient + backdrop blur) in `scss/layout/_header.scss`; keep contrast strong enough for nav icons on dark mode.
 
 ## Heading usage audit
 
