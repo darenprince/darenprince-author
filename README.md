@@ -231,7 +231,7 @@ _What to do next_
 2. Run `npm run build:search` to regenerate `public/search/index.json` and `docs.json`.
 3. `src/js/search.js` powers auto-complete; `src/js/search-results.js` renders search results.
 
-> The repository ships empty search payloads because `/content/` is not tracked. Seed content before demoing search.
+> `npm run build:search` now indexes Markdown in `/content/` plus production HTML surfaces (root pages + curated nested app directories), so search works in production even before `/content/` is populated.
 
 ---
 
@@ -317,7 +317,7 @@ Built with 🔥 by Daren Prince & OpenAI Codex
 
 ## 404 + Social Metadata Standards
 
-- `404.html` is now a custom branded not-found page for GitHub Pages routing fallback.
+- `404.html` now uses the full header toolbar + mega menu + footer shell and auto-redirects to `/index.html` after 6 seconds with a live progress bar, plus `Back to Safety` and `Site Index` actions.
 - Public OG/Twitter metadata has been standardized to `https://www.darenprince.com/assets/images/og-daren-prince.png` for consistent social sharing.
 - Homepage hero assets now reference hosted CDN files for background, mockup, and stylized title art (desktop/mobile variants).
 - Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`), with trailer playback triggered from the CTA row and descriptive copy positioned beneath the media placeholder for cleaner GitHub Pages-ready rendering.
