@@ -7,6 +7,19 @@ function prefixedPath(path) {
   return `${getAssetPrefix()}${path}`
 }
 
+function escapeHtml(value = '') {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+function safeSnippet(value = '') {
+  return escapeHtml(value).replace(/\b([A-Za-z0-9_-]{2,})\b/g, '$1')
+}
+
 const worker = new Worker(prefixedPath('/src/search/worker.js'), { type: 'module' })
 let params = new URLSearchParams(location.search)
 let q = params.get('q') || ''
@@ -22,11 +35,16 @@ const resultsList = document.getElementById('results')
 const summary = document.querySelector('.summary')
 const pager = document.querySelector('.pager')
 
+if (!Number.isFinite(page) || page < 1) page = 1
+
 input.value = q
 filterButtons.forEach((btn) => {
   if (btn.dataset.filter === category) btn.classList.add('is-active')
-  btn.addEventListener('click', (e) => {
+  btn.addEventListener('click', () => {
     category = btn.dataset.filter
+    page = 1
+    filterButtons.forEach((node) => node.classList.remove('is-active'))
+    btn.classList.add('is-active')
     update()
   })
 })
@@ -34,6 +52,7 @@ filterButtons.forEach((btn) => {
 sortSelect.value = sort
 sortSelect.addEventListener('change', () => {
   sort = sortSelect.value
+  page = 1
   update()
 })
 
@@ -44,9 +63,29 @@ document.querySelector('.search-bar').addEventListener('submit', (e) => {
   update()
 })
 
-function update() {
-  params = new URLSearchParams({ q, category, sort, page })
-  history.pushState({}, '', `?${params.toString()}`)
+window.addEventListener('popstate', () => {
+  params = new URLSearchParams(location.search)
+  q = params.get('q') || ''
+  category = params.get('category') || 'all'
+  sort = params.get('sort') || 'relevance'
+  page = parseInt(params.get('page') || '1', 10)
+  input.value = q
+  update(true)
+})
+
+function update(fromHistory = false) {
+  const nextParams = new URLSearchParams()
+  if (q) nextParams.set('q', q)
+  if (category !== 'all') nextParams.set('category', category)
+  if (sort !== 'relevance') nextParams.set('sort', sort)
+  if (page > 1) nextParams.set('page', String(page))
+
+  if (!fromHistory) {
+    const query = nextParams.toString()
+    const nextUrl = query ? `?${query}` : location.pathname
+    history.pushState({}, '', nextUrl)
+  }
+
   worker.postMessage({
     type: 'search',
     q,
@@ -65,29 +104,38 @@ worker.addEventListener('message', (e) => {
 
 function render(data) {
   resultsList.innerHTML = ''
+  pager.innerHTML = ''
+
   if (!q) {
     summary.textContent = 'Start typing to search across pages and content.'
     return
   }
+
   if (!data.results.length) {
     summary.textContent = 'No results found. Try different keywords.'
     return
   }
+
   summary.textContent = `${data.total} results · ${Math.round(data.tookMs)}ms`
   data.results.forEach((r) => {
     const li = document.createElement('li')
     li.className = 'result'
     const href = r.url?.startsWith('/') ? prefixedPath(r.url) : r.url
-    li.innerHTML = `<a href="${href}"><h3>${r.title}</h3><p class="snippet">${r.snippet}</p><div class="meta"><span class="chip">${r.category || 'Page'}</span></div></a>`
+    li.innerHTML = `<a href="${escapeHtml(href || '#')}"><h3>${escapeHtml(
+      r.title || 'Untitled'
+    )}</h3><p class="snippet">${safeSnippet(r.snippet || '')}</p><div class="meta"><span class="chip">${escapeHtml(
+      r.category || 'Page'
+    )}</span></div></a>`
     resultsList.appendChild(li)
   })
+
   renderPager(data.total)
 }
 
 function renderPager(total) {
   const pages = Math.ceil(total / limit)
-  pager.innerHTML = ''
   if (pages <= 1) return
+
   if (page > 1) {
     const prev = document.createElement('a')
     prev.href = '#'
@@ -100,6 +148,12 @@ function renderPager(total) {
     })
     pager.appendChild(prev)
   }
+
+  const indicator = document.createElement('span')
+  indicator.className = 'pager__status'
+  indicator.textContent = `Page ${page} of ${pages}`
+  pager.appendChild(indicator)
+
   if (page < pages) {
     const next = document.createElement('a')
     next.href = '#'

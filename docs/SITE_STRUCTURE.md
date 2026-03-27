@@ -111,7 +111,7 @@ This map captures the current layout of the repository, the active pages, and th
 3. Minisearch index + document store are written to `public/search/index.json` and `public/search/docs.json`.
 4. `src/js/search.js` consumes the JSON, with keyboard navigation and “View all results” linking to `/search`.
 
-> **Reality Check:** Without `/content/`, the build logs “Indexed 0 documents” and ships empty JSON files. Address this before marketing the search feature.
+> **Reality Check:** The build now indexes tracked HTML surfaces by default; add `/content/` Markdown to improve depth and semantic relevance for editorial campaigns.
 
 ## Testing footprint
 

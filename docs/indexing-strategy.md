@@ -28,7 +28,7 @@ The goal is to surface public marketing pages while keeping prototypes, auth flo
 - Default directive is `index, follow` unless a path is explicitly listed in the noindex configuration arrays inside `js/seo-indexing.js`.
 - `seo-enrich.js` reinforces canonical URLs, JSON-LD schema, and sitemap entries during the build so crawlers get consistent metadata across HTML outputs.
 
-> **Reality Check:** The Minisearch results page (`/pages/search.html`) is indexable, but the repo ships empty payloads until `/content/` is populated. Seed content before promoting on-site search in SEO campaigns.
+> **Reality Check:** The Minisearch results page (`/pages/search.html`) is indexable and now ships with indexed HTML surfaces by default; add `/content/` Markdown to expand long-form query coverage.
 
 ## Updating the rules
 
