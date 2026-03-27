@@ -5369,15 +5369,15 @@ input:checked + .toggle-slider::before {
   gap: clamp(0.45rem, 1.6vh, 0.8rem);
 }
 .hero.hero--video.is-image-active .hero-media__frame {
-  width: min(100%, clamp(20rem, 84vw, 35rem));
-  min-height: clamp(20rem, 56vh, 32rem);
-  aspect-ratio: 1.12/1;
+  width: min(100%, clamp(22rem, 88vw, 38rem));
+  min-height: clamp(22rem, 60vh, 36rem);
+  aspect-ratio: 1.18/1;
 }
 @media (min-width: 64rem) {
   .hero.hero--video.is-image-active .hero-media__frame {
-    width: min(100%, 36rem);
-    min-height: clamp(22rem, 52vh, 34rem);
-    aspect-ratio: 1.08/1;
+    width: min(100%, 39rem);
+    min-height: clamp(24rem, 56vh, 38rem);
+    aspect-ratio: 1.14/1;
   }
 }
 .hero.hero--video.is-image-active .hero-image-layer img {
@@ -5386,7 +5386,7 @@ input:checked + .toggle-slider::before {
 @media (max-width: 63.99rem) {
   .hero.hero--video.is-image-active .hero-media__frame {
     width: 100%;
-    min-height: clamp(15rem, 66vw, 28rem);
+    min-height: clamp(17rem, 72vw, 31rem);
     aspect-ratio: 16/9;
   }
 }
@@ -6061,12 +6061,16 @@ input:checked + .toggle-slider::before {
   }
 }
 .testimonials .card {
-  background: var(--color-black);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-primary) 34%, var(--color-black) 66%),
+    color-mix(in srgb, var(--color-charcoal) 58%, var(--color-black) 42%)
+  );
   padding: 2rem;
   text-align: center;
   border-radius: 0.6875rem;
-  border: 1px solid color-mix(in srgb, var(--color-white) 8%, transparent);
-  box-shadow: 0 16px 40px rgba(var(--color-black), 0.35);
+  border: 1px solid color-mix(in srgb, var(--color-mint) 26%, transparent);
+  box-shadow: 0 18px 44px rgba(var(--color-black), 0.42);
 }
 .testimonials .card img {
   border-radius: 50%;

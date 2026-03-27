@@ -39,6 +39,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - Keep the `data-site-root` attribute + asset-prefix patcher script in HTML files for GitHub Pages subdirectory deployments (`<user>.github.io/<repo>/`). This ensures `/assets` references resolve during local previews and production.
 - When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
 - Netlify is no longer used. All deploys are committed artifacts published by GitHub Pages.
+- Pull requests with visual changes must include both desktop and mobile screenshots.
+- Keep browser chrome customizations aligned to brand green (favicons, manifest theme colors, and tile colors) and ensure OG/Twitter sharing images are committed and deployable.
 - Keep `/nexuswho/` redirect (`nexuswho/index.html`) pointing to `nexuswho.html` so clean URLs keep working.
 - Treat `src/nexuswho/index.html` as the source of truth for Nexus Who metadata and fallback copy.
 - Authentication and database credentials can stay empty until the new provider is selected (see [`docs/data-platform-migration.md`](./data-platform-migration.md)).
