@@ -1,16 +1,18 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 
 .site-header {
-  background: var(--header-gradient);
+  background: linear-gradient(130deg, rgba(6, 11, 10, 0.84), rgba(16, 24, 20, 0.68));
   color: $icon;
   padding-block: $spacing-xs;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba($lime-green, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba($lime-green, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
 
   .container {
     display: flex;
@@ -49,18 +51,31 @@
     background: currentColor;
     transition: $transition;
   }
-  span { top: 50%; transform: translateY(-50%); }
-  &::before { top: 0; }
-  &::after { bottom: 0; }
+  span {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
 
   &.is-open {
-    span { opacity: 0; }
-    &::before { top: 50%; transform: rotate(45deg); }
-    &::after { bottom: 50%; transform: rotate(-45deg); }
+    span {
+      opacity: 0;
+    }
+    &::before {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+    &::after {
+      bottom: 50%;
+      transform: rotate(-45deg);
+    }
   }
 }
-
-
 
 .site-nav {
   display: none;
@@ -80,7 +95,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
-    background: var(--header-gradient);
+    background: linear-gradient(130deg, rgba(6, 11, 10, 0.84), rgba(16, 24, 20, 0.68));
 
     a {
       color: $icon;
