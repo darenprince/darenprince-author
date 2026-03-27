@@ -35,7 +35,7 @@
 
   &__title {
     margin: $spacing-sm 0 $spacing-xs;
-    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
     font-weight: 600;
     color: $white;
     line-height: 1.08;
@@ -67,7 +67,7 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: linear-gradient(160deg, rgba($black, 0.58) 0%, rgba($black, 0.42) 100%);
+    background: linear-gradient(160deg, rgba($black, 0.72) 0%, rgba($black, 0.56) 100%);
     border: 1px solid color-mix(in srgb, #{$white} 18%, transparent);
     box-shadow: 0 1.75rem 3.2rem rgba($black, 0.5);
     backdrop-filter: blur(8px) saturate(120%);
