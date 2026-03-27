@@ -1,30 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-site-root="darenprince-author" lang="en">
 <head>
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const explicitRoot = html.getAttribute('data-site-root');
+      const host = window.location.hostname || '';
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+      let prefix = '';
+      if (normalizedExplicit) {
+        prefix = '/' + normalizedExplicit;
+      } else if (host.endsWith('.github.io') && pathSegments.length) {
+        prefix = '/' + pathSegments[0];
+      }
+      const firstSegment = pathSegments[0] || '';
+      const shouldUsePrefix =
+        Boolean(prefix) &&
+        (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+      if (!shouldUsePrefix || prefix === '/') {
+        html.dataset.assetPrefix = '';
+        return;
+      }
+      if (prefix.endsWith('/')) {
+        prefix = prefix.slice(0, -1);
+      }
+      html.dataset.assetPrefix = prefix;
+      const URL_ATTRS = new Map([
+        ['A', ['href']],
+        ['LINK', ['href']],
+        ['SCRIPT', ['src']],
+        ['IMG', ['src', 'srcset']],
+        ['SOURCE', ['src', 'srcset']],
+        ['VIDEO', ['src', 'poster']],
+        ['AUDIO', ['src']],
+        ['IFRAME', ['src']],
+        ['USE', ['href', 'xlink:href']],
+        ['FORM', ['action']],
+      ]);
+      const shouldIgnore = (value) =>
+        !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+      const resolve = (value) => {
+        if (!value || shouldIgnore(value)) return value;
+        if (value === prefix || value.startsWith(prefix + '/')) {
+          return value;
+        }
+        if (value.startsWith('/')) {
+          return prefix + value;
+        }
+        return value;
+      };
+      const patchSrcset = (value) =>
+        value
+          .split(',')
+          .map((chunk) => {
+            const parts = chunk.trim().split(/\s+/);
+            if (!parts.length || !parts[0]) {
+              return chunk;
+            }
+            parts[0] = resolve(parts[0]);
+            return parts.join(' ');
+          })
+          .join(', ');
+      const patchNode = (node) => {
+        if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+        const attrs = URL_ATTRS.get(node.tagName);
+        if (!attrs) return;
+        for (const attr of attrs) {
+          const current = node.getAttribute(attr);
+          if (!current) continue;
+          if (attr === 'srcset') {
+            const next = patchSrcset(current);
+            if (next !== current) {
+              node.setAttribute(attr, next);
+            }
+            continue;
+          }
+          const next = resolve(current);
+          if (next === current) continue;
+          if (node.tagName === 'SCRIPT' && attr === 'src') {
+            const replacement = document.createElement('script');
+            node.getAttributeNames().forEach((name) => {
+              if (name === 'src') return;
+              replacement.setAttribute(name, node.getAttribute(name));
+            });
+            replacement.src = next;
+            if (node.parentNode) {
+              node.parentNode.insertBefore(replacement, node.nextSibling);
+            } else {
+              document.head.appendChild(replacement);
+            }
+            node.remove();
+          } else {
+            node.setAttribute(attr, next);
+          }
+        }
+      };
+      const patchSubtree = (root) => {
+        if (!root || !root.querySelectorAll) return;
+        URL_ATTRS.forEach((_, tag) => {
+          root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+        });
+      };
+      const observer = new MutationObserver((records) => {
+        records.forEach((record) => {
+          record.addedNodes.forEach((added) => {
+            if (added.nodeType === Node.ELEMENT_NODE) {
+              patchNode(added);
+              if (added.querySelectorAll) {
+                added.querySelectorAll('*').forEach(patchNode);
+              }
+            }
+          });
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      const finalize = () => {
+        patchSubtree(document);
+        observer.disconnect();
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', finalize, { once: true });
+      } else {
+        finalize();
+      }
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 | Daren Prince</title>
-  <meta name="description" content="Page not found on DarenPrince.com." />
+  <title>404 | Page Not Found | Daren Prince</title>
+  <meta name="description" content="This page moved, expired, or never existed. Use the site index or return to safety." />
   <meta property="og:title" content="404 | Daren Prince" />
-  <meta property="og:description" content="The page you requested could not be found." />
+  <meta property="og:description" content="The page you requested could not be found. Browse the site index or head back home." />
   <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="404 | Daren Prince" />
   <meta name="twitter:description" content="The page you requested could not be found." />
   <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
+  <meta name="theme-color" content="#456f3a" />
   <link rel="canonical" href="https://www.darenprince.com/404.html" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png" />
   <link rel="stylesheet" href="/assets/styles.css" />
-  <style>
-    body { margin: 0; min-height: 100vh; background: #050910; color: #fff; display: grid; place-items: center; font-family: 'Inter', system-ui, sans-serif; }
-    .not-found { width: min(94vw, 1100px); text-align: center; padding: 2rem 1rem; }
-    .not-found img { width: 100%; max-width: 900px; border-radius: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
-    .not-found a { color: #a3ff12; font-weight: 700; text-decoration: none; }
-  </style>
 </head>
 <body class="theme-dark">
-  <main class="not-found">
-    <img src="/ChatGPT%20Image%20Jan%208,%202026,%2012_10_30%20PM.png" alt="Custom Daren Prince 404 illustration" />
-    <p><a href="/index.html">Return to homepage</a></p>
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+    <ul class="mega-menu-list">
+      <li><a href="/index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="/book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="/meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="/press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="/contact.html"><i class="ph ph-chat-circle"></i>Contact</a></li>
+      <li><a href="/sitemap.html"><i class="ph ph-list-bullets"></i>Site Index</a></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+
+  <header class="site-header padding-y-sm js-sticky-nav">
+    <div class="container max-width-adaptive-lg flex items-center justify-between">
+      <a href="/index.html" class="logo">
+        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince" />
+      </a>
+      <div class="nav-btn-group flex items-center gap-sm">
+        <a href="/pages/search.html" class="nav-icon-btn" aria-label="Search"><i class="ph ph-magnifying-glass"></i></a>
+        <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
+        <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="not-found-page">
+    <section class="not-found-panel">
+      <p class="not-found-kicker">Error 404</p>
+      <h1>That page is off the map.</h1>
+      <p>
+        We’ll route you back to the homepage automatically. You can also jump to safety now or browse the full site index.
+      </p>
+
+      <div class="redirect-progress" role="status" aria-live="polite">
+        <p class="redirect-progress__label" data-redirect-status>Redirecting home in 6s…</p>
+        <div class="redirect-progress__track" aria-hidden="true">
+          <span class="redirect-progress__fill" data-redirect-progress-fill></span>
+        </div>
+      </div>
+
+      <div class="not-found-actions">
+        <button type="button" class="primary-btn" data-back-safety>Back to Safety</button>
+        <a class="secondary-btn" data-site-index href="/sitemap.html">Site Index</a>
+      </div>
+
+      <figure class="not-found-art">
+        <img src="/ChatGPT%20Image%20Jan%208,%202026,%2012_10_30%20PM.png" alt="Daren Prince branded 404 artwork" />
+      </figure>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
+        <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/book.html">Book</a></li>
+          <li><a href="/meet-daren-prince.html">Meet Daren</a></li>
+          <li><a href="/press.html">Press</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/sitemap.html">Site Index</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/src/js/404-redirect.js"></script>
 </body>
 </html>

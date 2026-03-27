@@ -62,7 +62,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 3. Run `npm run postprocess:seo` with `DOMAIN` set to confirm metadata and sitemap output.
 4. Commit `public/search/index.json` and `public/search/docs.json`.
 
-> **Reality Check:** Until `/content/` is populated, `build:search` logs “Indexed 0 documents.” Ship content before showcasing search.
+> **Reality Check:** `build:search` now indexes tracked HTML surfaces even when `/content/` is empty, but you should still add Markdown content for richer long-form relevance.
 
 ## Image management
 
