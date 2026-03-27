@@ -618,14 +618,14 @@
       }
 
       .hero-media__frame {
-        width: min(100%, clamp(20rem, 84vw, 35rem));
-        min-height: clamp(20rem, 56vh, 32rem);
-        aspect-ratio: 1.12 / 1;
+        width: min(100%, clamp(22rem, 88vw, 38rem));
+        min-height: clamp(22rem, 60vh, 36rem);
+        aspect-ratio: 1.18 / 1;
 
         @media (min-width: 64rem) {
-          width: min(100%, 36rem);
-          min-height: clamp(22rem, 52vh, 34rem);
-          aspect-ratio: 1.08 / 1;
+          width: min(100%, 39rem);
+          min-height: clamp(24rem, 56vh, 38rem);
+          aspect-ratio: 1.14 / 1;
         }
       }
 
@@ -636,7 +636,7 @@
       @media (max-width: 63.99rem) {
         .hero-media__frame {
           width: 100%;
-          min-height: clamp(15rem, 66vw, 28rem);
+          min-height: clamp(17rem, 72vw, 31rem);
           aspect-ratio: 16 / 9;
         }
       }

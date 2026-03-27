@@ -37,12 +37,16 @@
   }
 
   .card {
-    background: $black;
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, #{$deep-green} 34%, #{$black} 66%),
+      color-mix(in srgb, #{$charcoal} 58%, #{$black} 42%)
+    );
     padding: $spacing-lg;
     text-align: center;
     border-radius: $border-radius;
-    border: 1px solid color-mix(in srgb, #{$white} 8%, transparent);
-    box-shadow: 0 16px 40px rgba($black, 0.35);
+    border: 1px solid color-mix(in srgb, #{$mint-green} 26%, transparent);
+    box-shadow: 0 18px 44px rgba($black, 0.42);
 
     img {
       border-radius: 50%;
