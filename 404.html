@@ -1,30 +1,209 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 | Daren Prince</title>
-  <meta name="description" content="Page not found on DarenPrince.com." />
-  <meta property="og:title" content="404 | Daren Prince" />
-  <meta property="og:description" content="The page you requested could not be found." />
-  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="404 | Daren Prince" />
-  <meta name="twitter:description" content="The page you requested could not be found." />
-  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
-  <link rel="canonical" href="https://www.darenprince.com/404.html" />
-  <link rel="stylesheet" href="/assets/styles.css" />
-  <style>
-    body { margin: 0; min-height: 100vh; background: #050910; color: #fff; display: grid; place-items: center; font-family: 'Inter', system-ui, sans-serif; }
-    .not-found { width: min(94vw, 1100px); text-align: center; padding: 2rem 1rem; }
-    .not-found img { width: 100%; max-width: 900px; border-radius: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
-    .not-found a { color: #a3ff12; font-weight: 700; text-decoration: none; }
-  </style>
-</head>
-<body class="theme-dark">
-  <main class="not-found">
-    <img src="/ChatGPT%20Image%20Jan%208,%202026,%2012_10_30%20PM.png" alt="Custom Daren Prince 404 illustration" />
-    <p><a href="/index.html">Return to homepage</a></p>
-  </main>
-</body>
+<!doctype html>
+<html data-site-root="darenprince-author" lang="en">
+  <head>
+    <script>
+      ;(function () {
+        const html = document.documentElement
+        const explicitRoot = html.getAttribute('data-site-root')
+        const host = window.location.hostname || ''
+        const pathSegments = window.location.pathname.split('/').filter(Boolean)
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : ''
+        let prefix = ''
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0]
+        }
+        const firstSegment = pathSegments[0] || ''
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io')
+            ? Boolean(pathSegments.length)
+            : firstSegment === normalizedExplicit)
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = ''
+          return
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1)
+        }
+        html.dataset.assetPrefix = prefix
+      })()
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 | Lost Page Recovery | Daren Prince</title>
+    <meta
+      name="description"
+      content="The page you requested was not found. Return safely to the Daren Prince homepage or browse the complete site index."
+    />
+    <meta property="og:title" content="404 | Lost Page Recovery | Daren Prince" />
+    <meta
+      property="og:description"
+      content="This route is unavailable. Use Back to Safety or Site Index to continue exploring DarenPrince.com."
+    />
+    <meta
+      property="og:image"
+      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.darenprince.com/404.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="404 | Lost Page Recovery | Daren Prince" />
+    <meta
+      name="twitter:description"
+      content="This route is unavailable. Use Back to Safety or Site Index to continue exploring DarenPrince.com."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
+    />
+    <link rel="canonical" href="https://www.darenprince.com/404.html" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css"
+    />
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/icons/generated/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/icons/generated/favicon-32x32.png"
+    />
+    <meta name="theme-color" content="#7edc1f" />
+  </head>
+  <body class="theme-dark not-found-page">
+    <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+      <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
+        <i class="ph ph-x"></i>
+      </button>
+      <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+      <ul class="mega-menu-list">
+        <li>
+          <a href="/index.html"><i class="ph ph-house"></i>Home</a>
+        </li>
+        <li>
+          <a href="/book.html"><i class="ph ph-book"></i>Books</a>
+        </li>
+        <li>
+          <a href="/meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a>
+        </li>
+        <li>
+          <a href="/press.html"><i class="ph ph-camera"></i>Media</a>
+        </li>
+        <li>
+          <a href="/contact.html"><i class="ph ph-envelope"></i>Contact</a>
+        </li>
+        <li>
+          <a href="/sitemap.html"><i class="ph ph-tree-structure"></i>Site Index</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="menu-overlay js-menu-overlay"></div>
+
+    <div class="site-wrap">
+      <header class="site-header padding-y-sm js-sticky-nav">
+        <div class="container max-width-adaptive-lg flex items-center justify-between">
+          <a href="/index.html" class="logo">
+            <img
+              src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png"
+              alt="Daren Prince"
+            />
+          </a>
+          <div class="nav-btn-group flex items-center gap-sm">
+            <button class="nav-icon-btn js-search-toggle" aria-label="Search">
+              <i class="ph ph-magnifying-glass"></i>
+            </button>
+            <button
+              class="nav-icon-btn nav-icon-btn--static js-theme-toggle"
+              aria-label="Toggle theme"
+            >
+              <i class="ph ph-moon"></i>
+            </button>
+            <button class="nav-icon-btn js-profile-toggle" aria-label="Account">
+              <i class="ph ph-user"></i>
+            </button>
+            <button class="hamburger-btn js-menu-toggle" aria-label="Menu">
+              <i class="ph ph-list"></i>
+            </button>
+          </div>
+        </div>
+        <div class="search-bar js-search-bar" hidden>
+          <form class="search-form flex items-center">
+            <input type="search" placeholder="search site" />
+            <button type="submit" class="search-submit">
+              <i class="ph ph-magnifying-glass"></i>
+            </button>
+          </form>
+        </div>
+      </header>
+
+      <main class="not-found-main padding-y-xl">
+        <section class="container max-width-adaptive-lg">
+          <article class="not-found-card">
+            <img
+              src="/ChatGPT%20Image%20Jan%208,%202026,%2012_10_30%20PM.png"
+              alt="Stylized digital recovery tunnel for page not found"
+              class="not-found-hero"
+            />
+            <div class="not-found-copy">
+              <p class="not-found-eyebrow">404: Route Lost</p>
+              <h1>We couldn’t find that page.</h1>
+              <p>
+                Redirecting you to home in <strong data-countdown>6</strong> seconds. You can also
+                jump manually below.
+              </p>
+              <div class="not-found-progress" aria-hidden="true">
+                <span class="not-found-progress__bar" data-progress-bar></span>
+              </div>
+              <p class="sr-only" aria-live="polite" data-progress-announcer>
+                Redirecting to homepage in 6 seconds.
+              </p>
+              <div class="not-found-actions">
+                <a href="/index.html" class="primary-btn" id="back-to-safety">Back to Safety</a>
+                <a href="/sitemap.html" class="outline-btn">Site Index</a>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="container footer-grid">
+          <div class="footer-brand">
+            <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
+            <p class="footer-tagline">
+              Confident, psychology-backed storytelling, systems, and tools for real transformation.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul class="footer-links">
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/book.html">Book</a></li>
+              <li><a href="/press.html">Press</a></li>
+              <li><a href="/contact.html">Contact</a></li>
+              <li><a href="/sitemap.html">Site Index</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/js/404-redirect.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="module" src="/js/profile-dropdown.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/seo-indexing.js"></script>
+  </body>
 </html>
