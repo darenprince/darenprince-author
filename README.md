@@ -202,7 +202,7 @@ Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPO
 - `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
 - `dashboard.html` — member dashboard placeholder with migration messaging.
 - `admin-user-management.html` — admin console backed by the `admin-users` edge function.
-- `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
+- `pages/search.html` — Production-ready Minisearch results shell with SEO metadata, mega-menu toolbar, and hardened rendering (requires seeded `/content/`).
 - `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
 - `ots.html` — Duck Calls one-time secret cockpit with OneTimeSecret API status checks, secure secret creation, and one-time retrieval workflow (client-only, GitHub Pages ready).
 - `updated-hero.html` — classified hero concept library with cinematic, product, story/trust, and conversion split demos (fully animated, GitHub Pages-ready static page with SEO metadata).
@@ -318,6 +318,7 @@ Built with 🔥 by Daren Prince & OpenAI Codex
 ## 404 + Social Metadata Standards
 
 - `404.html` is now a custom branded not-found page for GitHub Pages routing fallback.
+- 404 recovery now includes the standard header toolbar, mega menu, site footer, six-second animated redirect progress bar, and quick actions for **Back to Safety** (`/index.html`) and **Site Index** (`/sitemap.html`).
 - Public OG/Twitter metadata has been standardized to `https://www.darenprince.com/assets/images/og-daren-prince.png` for consistent social sharing.
 - Homepage hero assets now reference hosted CDN files for background, mockup, and stylized title art (desktop/mobile variants).
 - Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`), with trailer playback triggered from the CTA row and descriptive copy positioned beneath the media placeholder for cleaner GitHub Pages-ready rendering.

@@ -8858,6 +8858,71 @@ body.is-preloading {
   cursor: pointer;
 }
 
+.not-found-main {
+  min-height: clamp(460px, 70vh, 760px);
+}
+
+.not-found-card {
+  display: grid;
+  gap: 1.25rem;
+  background: linear-gradient(140deg, rgba(12, 18, 31, 0.95), rgba(7, 12, 20, 0.9));
+  border: 1px solid rgba(126, 220, 31, 0.35);
+  border-radius: 1rem;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+
+.not-found-hero {
+  width: 100%;
+  border-radius: 0.85rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.not-found-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #7edc1f;
+  font-weight: 700;
+}
+
+.not-found-progress {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.not-found-progress__bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #5faa10, #9eff2b);
+  transition: width 100ms linear;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.not-found-page .outline-btn {
+  border-color: #7edc1f;
+  color: #d4ff9f;
+}
+
+.not-found-page .outline-btn:hover,
+.not-found-page .outline-btn:focus-visible {
+  background: rgba(126, 220, 31, 0.16);
+}
+
+@media (min-width: 64rem) {
+  .not-found-card {
+    grid-template-columns: 1.25fr 1fr;
+    align-items: center;
+  }
+}
 .login-container,
 .verify-container,
 .reset-container {
