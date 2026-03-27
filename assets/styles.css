@@ -4995,7 +4995,7 @@ input:checked + .toggle-slider::before {
 }
 .hero .hero-subtitle--media {
   width: min(100%, 46rem);
-  margin: clamp(0.55rem, 2vh, 1rem) auto 0;
+  margin: clamp(0.35rem, 1.4vh, 0.75rem) auto 0;
   text-align: center;
 }
 .hero .hero-actions {
@@ -5205,7 +5205,7 @@ input:checked + .toggle-slider::before {
 }
 .hero.hero--video .hero-actions--below-trailer {
   width: 100%;
-  margin: 0;
+  margin: clamp(0.5rem, 1.8vh, 0.9rem) 0 0;
   justify-content: center;
 }
 @media (min-width: 64rem) {
@@ -6124,7 +6124,7 @@ input:checked + .toggle-slider::before {
 }
 .go-reviews__title {
   margin: 0.75rem 0 0.5rem;
-  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
   font-weight: 600;
   color: var(--color-white);
   line-height: 1.08;
@@ -6153,8 +6153,8 @@ input:checked + .toggle-slider::before {
   border-radius: 1.25rem;
   background: linear-gradient(
     160deg,
-    rgba(var(--color-black), 0.58) 0%,
-    rgba(var(--color-black), 0.42) 100%
+    rgba(var(--color-black), 0.72) 0%,
+    rgba(var(--color-black), 0.56) 100%
   );
   border: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
   box-shadow: 0 1.75rem 3.2rem rgba(var(--color-black), 0.5);
