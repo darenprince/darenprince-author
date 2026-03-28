@@ -45,6 +45,8 @@ This project exists to:
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
+> **Crown Labs page:** `labs.html` now pins its browser chrome to brand green and references stable favicon assets under `assets/icons/` with explicit OG/Twitter sharing metadata. Keep those image/icon references deployable for GitHub Pages before every push.
+
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
 ---
