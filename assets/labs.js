@@ -78,6 +78,7 @@ const dom = {
   categoryFilter: document.getElementById('category-filter'),
   searchInput: document.getElementById('search-input'),
   sortFilter: document.getElementById('sort-filter'),
+  filterSummary: document.getElementById('filter-summary'),
   statStrip: document.getElementById('stat-strip'),
   heroCard: document.getElementById('hero-card'),
   frameworkList: document.getElementById('framework-list'),
@@ -443,7 +444,7 @@ const renderProducts = () => {
             <div class="product-ctas">
               <button class="ghost-btn ghost-btn--small" type="button" data-toggle-details aria-expanded="false" aria-controls="${detailId}">Expand details</button>
               <button class="ghost-btn ghost-btn--small" type="button" data-open-product="${product.id}">Quick view</button>
-              <a class="ghost-btn ghost-btn--small" href="/labs/products/${product.id}.html">Full page</a>
+              <a class="ghost-btn ghost-btn--small" href="labs/products/${product.id}.html">Full page</a>
               <button class="primary-btn primary-btn--small" type="button" data-open-modal data-modal-tab="beta" data-interest="${product.name}">
                 Request access
               </button>
@@ -456,6 +457,24 @@ const renderProducts = () => {
 
   if (!filtered.length) {
     dom.productGrid.innerHTML = '<p>No products match the current filters.</p>'
+  }
+
+  if (dom.filterSummary) {
+    const activeFilters = []
+    if (statusValue !== 'All') activeFilters.push(`Status: ${statusValue}`)
+    if (categoryValue !== 'All') activeFilters.push(`Category: ${categoryValue}`)
+    if (query) activeFilters.push(`Query: “${query}”`)
+    const summaryLabel = activeFilters.length
+      ? `${filtered.length} result${filtered.length === 1 ? '' : 's'} · ${activeFilters.join(' · ')}`
+      : `${filtered.length} products shown · All filters active`
+    dom.filterSummary.innerHTML = `
+      <p>${summaryLabel}</p>
+      <button class="ghost-btn ghost-btn--small" type="button" data-clear-filters ${
+        activeFilters.length ? '' : 'disabled'
+      }>
+        Clear filters
+      </button>
+    `
   }
 
   animateCounts(dom.productGrid)
@@ -508,6 +527,16 @@ const renderProducts = () => {
       if (productId) {
         openProductModal(productId)
       }
+    })
+  })
+
+  document.querySelectorAll('[data-clear-filters]').forEach((button) => {
+    button.addEventListener('click', () => {
+      dom.statusFilter.value = 'All'
+      dom.categoryFilter.value = 'All'
+      dom.searchInput.value = ''
+      dom.sortFilter.value = 'ready'
+      renderProducts()
     })
   })
 }
