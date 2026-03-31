@@ -67,11 +67,15 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: linear-gradient(165deg, rgba($black, 0.9) 0%, rgba($black, 0.78) 100%);
+    background: linear-gradient(
+      165deg,
+      color-mix(in srgb, #{$black} 90%, transparent) 0%,
+      color-mix(in srgb, #{$black} 78%, transparent) 100%
+    );
     border: 1px solid color-mix(in srgb, #{$white} 14%, transparent);
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, #{$white} 8%, transparent),
-      0 1.9rem 3.4rem rgba($black, 0.62);
+      0 1.9rem 3.4rem color-mix(in srgb, #{$black} 62%, transparent);
     backdrop-filter: blur(10px) saturate(105%);
     display: flex;
     flex-direction: column;
