@@ -3,16 +3,15 @@ import {
   m as t,
   L as a,
   S as i,
-  g as l,
-  h as r,
+  h as l,
+  i as r,
   G as n,
   Q as c,
   U as o,
   a as d,
   T as m,
 } from './vendor.js'
-import './scanner.js'
-const h = () =>
+const p = () =>
   e.jsxs('div', {
     className: 'mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 py-16',
     children: [
@@ -374,4 +373,4 @@ const h = () =>
       }),
     ],
   })
-export { h as default }
+export { p as default }

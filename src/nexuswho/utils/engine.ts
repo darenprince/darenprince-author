@@ -53,6 +53,13 @@ const TRAIT_WEIGHTS: Record<TraitKey, number> = {
   MD: 1.3,
 }
 
+const RISK_THRESHOLDS = {
+  bandYellowMin: 32,
+  bandRedMin: 58,
+  psychopathyHigh: 64,
+  manipulationDoctrineHigh: 76,
+}
+
 export const computeScores = (
   questions: Question[],
   responses: ResponseRecord[]
@@ -130,8 +137,13 @@ export const computeScores = (
     })
     .filter((item): item is string => Boolean(item))
 
-  if (scores.P > 75 && scores.MD > 60) {
-    safetyTriggers.push('Trait combination: P > 75 and MD > 60')
+  if (
+    scores.P > RISK_THRESHOLDS.psychopathyHigh &&
+    scores.MD > RISK_THRESHOLDS.manipulationDoctrineHigh
+  ) {
+    safetyTriggers.push(
+      `Trait combination: Psychopathy > ${RISK_THRESHOLDS.psychopathyHigh} and Manipulation Doctrine > ${RISK_THRESHOLDS.manipulationDoctrineHigh}`
+    )
   }
 
   const safetyOverrides: SafetyOverrides = {
@@ -140,9 +152,9 @@ export const computeScores = (
   }
 
   let band: 'GREEN' | 'YELLOW' | 'RED' = 'GREEN'
-  if (dtiFinal >= 60 || safetyOverrides.triggered) {
+  if (dtiFinal >= RISK_THRESHOLDS.bandRedMin || safetyOverrides.triggered) {
     band = 'RED'
-  } else if (dtiFinal >= 35) {
+  } else if (dtiFinal >= RISK_THRESHOLDS.bandYellowMin) {
     band = 'YELLOW'
   }
 

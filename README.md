@@ -78,6 +78,10 @@ npm run build
 
 > **Results UX:** The results screen now surfaces the full profile token in a code snippet with a one-click copy button and toast confirmation. The forensic decoder also includes archetype explanations alongside the snapshot metrics.
 
+> **Decoder reporting update:** The Nexus Who report now includes an editorial summary, explicit trait names (Narcissism, Machiavellianism, Psychopathy, Manipulation Doctrine), calibrated trait thresholds, and per-question selected answer text for clearer interpretation.
+
+> **Brand chrome + social metadata:** Nexus Who uses brand-green browser chrome (`theme-color`) and relies on deployable OG/Twitter images referenced from committed assets so GitHub Pages previews remain stable.
+
 ### PIN handling (temporary)
 
 The decoder PIN is currently embedded in the client for demo purposes. Swap to a hashed PIN by:
