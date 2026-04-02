@@ -1,7 +1,6 @@
-import { r as o, j as e, S as j, L as m, m as N, h as f, Q as y, k as v } from './vendor.js'
+import { r as o, j as e, S as j, L as m, m as N, i as f, Q as y, l as v } from './vendor.js'
 import { R as w, C as k, a as C, P as R, L as S, i as P, p as E } from './charts.js'
 import { g as D, d as M, s as T } from './storage.js'
-import './scanner.js'
 k.register(C, R, S, P, E)
 const z = ['Presence', 'Strategy', 'Composure', 'Guidance'],
   g = {
@@ -18,7 +17,7 @@ const z = ['Presence', 'Strategy', 'Composure', 'Guidance'],
       description: 'You bring sharp intensity and strong direction when stakes rise.',
     },
   },
-  Q = () => {
+  I = () => {
     const s = D(),
       [r, c] = o.useState(null),
       [i, l] = o.useState(!1)
@@ -390,4 +389,4 @@ const z = ['Presence', 'Strategy', 'Composure', 'Guidance'],
       ],
     })
   }
-export { Q as default }
+export { I as default }

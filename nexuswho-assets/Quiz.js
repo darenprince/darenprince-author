@@ -1,14 +1,13 @@
-import { j as e, m as w, u as T, r as m, g as z, L as E, S as P, i as I } from './vendor.js'
-import { A as C, Q as A } from './questions.js'
-import { h as L, s as $, b as B, a as F, c as Q } from './storage.js'
-import './scanner.js'
-const G = {
+import { j as e, m as v, u as I, r as x, h as $, L as A, S as P, k as z } from './vendor.js'
+import { A as H, Q as T } from './questions.js'
+import { h as L, s as C, b as B, a as F, c as Q } from './storage.js'
+const Y = {
     hidden: { opacity: 0, y: 12 },
-    visible: (r) => ({ opacity: 1, y: 0, transition: { delay: 0.08 * r } }),
+    visible: (i) => ({ opacity: 1, y: 0, transition: { delay: 0.08 * i } }),
   },
-  U = ({ question: r, sequence: l, total: o, onAnswer: d }) =>
+  G = ({ question: i, sequence: l, total: o, onAnswer: d }) =>
     e.jsxs(
-      w.div,
+      v.div,
       {
         initial: { opacity: 0, y: 16 },
         animate: { opacity: 1, y: 0 },
@@ -27,16 +26,16 @@ const G = {
               }),
             ],
           }),
-          e.jsx('h2', { className: 'mt-4 text-2xl font-semibold text-slate-50', children: r.text }),
+          e.jsx('h2', { className: 'mt-4 text-2xl font-semibold text-slate-50', children: i.text }),
           e.jsx('div', {
             className: 'mt-6 grid gap-3',
-            children: C.map((h, c) =>
+            children: H.map((h, c) =>
               e.jsx(
-                w.button,
+                v.button,
                 {
                   type: 'button',
                   custom: c,
-                  variants: G,
+                  variants: Y,
                   initial: 'hidden',
                   animate: 'visible',
                   onClick: () => d(c),
@@ -50,72 +49,77 @@ const G = {
           }),
         ],
       },
-      r.id
+      i.id
     ),
-  V = ({ value: r }) =>
+  U = ({ value: i }) =>
     e.jsx('div', {
       className: 'h-2 w-full overflow-hidden rounded-full bg-white/10',
-      children: e.jsx(w.div, {
+      children: e.jsx(v.div, {
         className: 'h-full bg-gradient-to-r from-pink-400/50 via-sky-300/60 to-emerald-200/70',
         initial: { width: 0 },
-        animate: { width: `${r}%` },
+        animate: { width: `${i}%` },
         transition: { duration: 0.4 },
       }),
     }),
-  W = (r) => {
-    const l = [...r]
+  V = (i) => {
+    const l = [...i]
     for (let o = l.length - 1; o > 0; o -= 1) {
       const d = Math.floor(Math.random() * (o + 1))
       ;[l[o], l[d]] = [l[d], l[o]]
     }
     return l
   },
-  R = (r) => Math.min(100, Math.max(0, Math.round(r))),
-  Y = { N: 1, M: 1.2, P: 1.4, MD: 1.3 },
-  H = (r, l) => {
+  D = (i) => Math.min(100, Math.max(0, Math.round(i))),
+  W = { N: 1, M: 1.2, P: 1.4, MD: 1.3 },
+  g = { bandYellowMin: 32, bandRedMin: 58, psychopathyHigh: 64, manipulationDoctrineHigh: 76 },
+  _ = (i, l) => {
     const o = { N: 0, M: 0, P: 0, MD: 0 },
       d = { N: 0, M: 0, P: 0, MD: 0 },
       h = new Map(l.map((t) => [t.questionId, t]))
     let c = !1,
-      y = !1,
-      j = 0
-    r.forEach((t) => {
+      j = !1,
+      N = 0
+    i.forEach((t) => {
       const n = h.get(t.id)
       if (!n) return
-      const u = t.reverse ? 3 - n.answer : n.answer
-      ;((o[t.trait] += u),
+      const p = t.reverse ? 3 - n.answer : n.answer
+      ;((o[t.trait] += p),
         (d[t.trait] += 1),
-        (j += n.answer),
+        (N += n.answer),
         n.rtMs < 450 && n.answer >= 2 && (c = !0),
-        t.lieTrap && n.answer >= 2 && (y = !0))
+        t.lieTrap && n.answer >= 2 && (j = !0))
     })
-    const v = j / l.length >= 2.7,
+    const b = N / l.length >= 2.7,
       s = Object.keys(o).reduce(
         (t, n) => {
-          const u = d[n] * 3,
-            S = (u > 0 ? (o[n] / u) * 100 : 0) * Y[n]
-          return ((t[n] = R(S)), t)
+          const p = d[n] * 3,
+            R = (p > 0 ? (o[n] / p) * 100 : 0) * W[n]
+          return ((t[n] = D(R)), t)
         },
         { N: 0, M: 0, P: 0, MD: 0 }
       ),
-      x = { masking: c, contradictions: y, halo: v },
-      N = Object.values(x).filter(Boolean).length,
-      b = Math.max(70, 100 - N * 10),
+      m = { masking: c, contradictions: j, halo: b },
+      w = Object.values(m).filter(Boolean).length,
+      M = Math.max(70, 100 - w * 10),
       k = 0.9 * s.N + 1.1 * s.M + 1.3 * s.P,
-      i = R(k / 3),
-      f = N >= 2 ? R(i * 1.25) : i,
-      g = r
+      r = D(k / 3),
+      f = w >= 2 ? D(r * 1.25) : r,
+      y = i
         .filter((t) => t.safetyTrigger)
         .map((t) => {
           const n = h.get(t.id)
           return n && n.answer >= 2 ? `Q${t.id}: ${t.text}` : null
         })
         .filter((t) => !!t)
-    s.P > 75 && s.MD > 60 && g.push('Trait combination: P > 75 and MD > 60')
-    const p = { triggered: g.length > 0, triggers: g }
+    s.P > g.psychopathyHigh &&
+      s.MD > g.manipulationDoctrineHigh &&
+      y.push(
+        `Trait combination: Psychopathy > ${g.psychopathyHigh} and Manipulation Doctrine > ${g.manipulationDoctrineHigh}`
+      )
+    const u = { triggered: y.length > 0, triggers: y }
     let a = 'GREEN'
-    f >= 60 || p.triggered ? (a = 'RED') : f >= 35 && (a = 'YELLOW')
-    const M =
+    f >= g.bandRedMin || u.triggered ? (a = 'RED') : f >= g.bandYellowMin && (a = 'YELLOW')
+    const S =
       s.P >= 70 && s.M >= 70
         ? 'APX'
         : s.M >= 70 && s.MD >= 70
@@ -129,43 +133,43 @@ const G = {
                 : 'DRM'
     return {
       scores: s,
-      dtiBase: i,
+      dtiBase: r,
       dtiFinal: f,
       band: a,
-      archetype: M,
-      integrity: b,
-      integrityFlags: x,
-      safetyOverrides: p,
+      archetype: S,
+      integrity: M,
+      integrityFlags: m,
+      safetyOverrides: u,
     }
   },
   X = () => {
-    const r = T(),
-      [l, o] = m.useState(!1),
-      [d, h] = m.useState(!1),
-      [c, y] = m.useState(0),
-      [j, O] = m.useState([]),
-      v = m.useRef(crypto.randomUUID()),
-      s = m.useRef(0)
-    m.useEffect(() => {
+    const i = I(),
+      [l, o] = x.useState(!1),
+      [d, h] = x.useState(!1),
+      [c, j] = x.useState(0),
+      [N, O] = x.useState([]),
+      b = x.useRef(crypto.randomUUID()),
+      s = x.useRef(0)
+    x.useEffect(() => {
       o(L())
     }, [])
-    const x = m.useMemo(() => W(A), []),
-      N = d ? ((c + 1) / x.length) * 100 : 0,
-      b = () => {
+    const m = x.useMemo(() => V(T), []),
+      w = d ? ((c + 1) / m.length) * 100 : 0,
+      M = () => {
         ;(h(!0), (s.current = performance.now()))
       },
-      k = async (i) => {
-        const f = x[c],
-          g = Math.round(performance.now() - s.current),
-          p = [...j, { questionId: f.id, answer: i, rtMs: g }]
-        if ((O(p), c === x.length - 1)) {
-          const a = H(A, p),
-            M = JSON.stringify(p),
+      k = async (r) => {
+        const f = m[c],
+          y = Math.round(performance.now() - s.current),
+          u = [...N, { questionId: f.id, answer: r, rtMs: y }]
+        if ((O(u), c === m.length - 1)) {
+          const a = _(T, u),
+            S = JSON.stringify(u),
             t = `masking:${a.integrityFlags.masking};contradictions:${a.integrityFlags.contradictions};halo:${a.integrityFlags.halo}`,
             n = a.safetyOverrides.triggers.join('~') || 'none',
-            u = [
+            p = [
               'VP1',
-              v.current,
+              b.current,
               new Date().toISOString(),
               a.band,
               a.dtiBase.toString(),
@@ -178,14 +182,14 @@ const G = {
               a.archetype,
               t,
               n,
-              M,
+              S,
             ].join('|'),
-            D = (await $(u)).slice(0, 8),
-            S = B(`${u}|${D}`)
-          ;(F(S), Q(), r('/result'))
+            E = (await C(p)).slice(0, 8),
+            R = B(`${p}|${E}`)
+          ;(F(R), Q(), i('/result'))
           return
         }
-        ;(y((a) => a + 1), (s.current = performance.now()))
+        ;(j((a) => a + 1), (s.current = performance.now()))
       }
     return l
       ? e.jsx('div', {
@@ -196,7 +200,7 @@ const G = {
               e.jsxs('div', {
                 className: 'flex items-center gap-3',
                 children: [
-                  e.jsx(z, { size: 24, className: 'text-sky-300' }),
+                  e.jsx($, { size: 24, className: 'text-sky-300' }),
                   e.jsxs('div', {
                     children: [
                       e.jsx('h2', {
@@ -215,12 +219,12 @@ const G = {
               e.jsxs('div', {
                 className: 'mt-6 flex flex-wrap gap-3',
                 children: [
-                  e.jsx(E, {
+                  e.jsx(A, {
                     to: '/result',
                     className: 'button-primary',
                     children: 'View results',
                   }),
-                  e.jsx(E, {
+                  e.jsx(A, {
                     to: '/restore',
                     className: 'button-secondary',
                     children: 'Restore profile',
@@ -238,17 +242,17 @@ const G = {
                 'flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.3em] text-slate-400',
               children: [
                 e.jsx('span', { children: 'Vibe Prism — quiz flow' }),
-                e.jsx('span', { children: d ? `${c + 1} / ${x.length}` : 'Ready' }),
+                e.jsx('span', { children: d ? `${c + 1} / ${m.length}` : 'Ready' }),
               ],
             }),
-            e.jsx(V, { value: N }),
+            e.jsx(U, { value: w }),
             e.jsxs('div', {
               className: 'grid gap-6 lg:grid-cols-[1.2fr_0.8fr]',
               children: [
-                e.jsx(w.div, {
+                e.jsx(v.div, {
                   layout: !0,
                   children: d
-                    ? e.jsx(U, { question: x[c], sequence: c + 1, total: x.length, onAnswer: k })
+                    ? e.jsx(G, { question: m[c], sequence: c + 1, total: m.length, onAnswer: k })
                     : e.jsxs('div', {
                         className: 'glass-panel p-6',
                         children: [
@@ -277,11 +281,11 @@ const G = {
                               'Go with your first instinct for each prompt.',
                               'One pass only, with no backtracking.',
                               'Your profile token stays on this device.',
-                            ].map((i) => e.jsx('li', { className: 'list-item', children: i }, i)),
+                            ].map((r) => e.jsx('li', { className: 'list-item', children: r }, r)),
                           }),
                           e.jsxs('button', {
                             type: 'button',
-                            onClick: b,
+                            onClick: M,
                             className: 'button-primary mt-6',
                             children: [e.jsx(P, { size: 18 }), 'Start the quiz'],
                           }),
@@ -319,7 +323,7 @@ const G = {
                             'No backtracking once you move forward.',
                             'Keep the pace that feels natural to you.',
                             'Your token stays on this device only.',
-                          ].map((i) => e.jsx('li', { className: 'list-item', children: i }, i)),
+                          ].map((r) => e.jsx('li', { className: 'list-item', children: r }, r)),
                         }),
                       ],
                     }),
@@ -329,7 +333,7 @@ const G = {
                         e.jsxs('div', {
                           className: 'flex items-center gap-3',
                           children: [
-                            e.jsx(I, { size: 20, className: 'text-sky-300' }),
+                            e.jsx(z, { size: 20, className: 'text-sky-300' }),
                             e.jsxs('div', {
                               children: [
                                 e.jsx('h3', {
@@ -346,7 +350,7 @@ const G = {
                         }),
                         e.jsx('div', {
                           className: 'mt-4 grid gap-2 text-sm text-slate-300',
-                          children: ['Not me', 'Rarely me', 'Often me', 'Definitely me'].map((i) =>
+                          children: ['Not me', 'Rarely me', 'Often me', 'Definitely me'].map((r) =>
                             e.jsx(
                               'div',
                               {
@@ -354,10 +358,10 @@ const G = {
                                   'flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2',
                                 children: e.jsx('span', {
                                   className: 'text-slate-100',
-                                  children: i,
+                                  children: r,
                                 }),
                               },
-                              i
+                              r
                             )
                           ),
                         }),
