@@ -434,6 +434,9 @@ video {
 .flex {
   display: flex;
 }
+.inline-flex {
+  display: inline-flex;
+}
 .grid {
   display: grid;
 }
@@ -455,6 +458,9 @@ video {
 .h-64 {
   height: 16rem;
 }
+.h-8 {
+  height: 2rem;
+}
 .h-full {
   height: 100%;
 }
@@ -466,6 +472,9 @@ video {
 }
 .w-10 {
   width: 2.5rem;
+}
+.w-8 {
+  width: 2rem;
 }
 .w-full {
   width: 100%;
@@ -586,6 +595,9 @@ video {
 .border-amber-400\/40 {
   border-color: #fbbf2466;
 }
+.border-emerald-300\/60 {
+  border-color: #6ee7b799;
+}
 .border-emerald-400\/30 {
   border-color: #34d3994d;
 }
@@ -610,11 +622,17 @@ video {
 .border-white\/10 {
   border-color: #ffffff1a;
 }
+.border-white\/15 {
+  border-color: #ffffff26;
+}
 .border-white\/5 {
   border-color: #ffffff0d;
 }
 .bg-amber-500\/10 {
   background-color: #f59e0b1a;
+}
+.bg-emerald-400\/20 {
+  background-color: #34d39933;
 }
 .bg-emerald-500\/10 {
   background-color: #10b9811a;
@@ -627,6 +645,9 @@ video {
 }
 .bg-sky-500\/10 {
   background-color: #0ea5e91a;
+}
+.bg-slate-800\/70 {
+  background-color: #1e293bb3;
 }
 .bg-slate-900\/40 {
   background-color: #0f172a66;
@@ -765,6 +786,9 @@ video {
 .uppercase {
   text-transform: uppercase;
 }
+.tracking-\[0\.25em\] {
+  letter-spacing: 0.25em;
+}
 .tracking-\[0\.2em\] {
   letter-spacing: 0.2em;
 }
@@ -790,6 +814,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(209 250 229 / var(--tw-text-opacity, 1));
 }
+.text-emerald-200 {
+  --tw-text-opacity: 1;
+  color: rgb(167 243 208 / var(--tw-text-opacity, 1));
+}
 .text-pink-200 {
   --tw-text-opacity: 1;
   color: rgb(251 207 232 / var(--tw-text-opacity, 1));
@@ -805,6 +833,10 @@ video {
 .text-rose-300 {
   --tw-text-opacity: 1;
   color: rgb(253 164 175 / var(--tw-text-opacity, 1));
+}
+.text-sky-100 {
+  --tw-text-opacity: 1;
+  color: rgb(224 242 254 / var(--tw-text-opacity, 1));
 }
 .text-sky-200 {
   --tw-text-opacity: 1;
@@ -845,6 +877,12 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+.opacity-90 {
+  opacity: 0.9;
+}
+.opacity-95 {
+  opacity: 0.95;
 }
 .shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
@@ -913,10 +951,7 @@ body {
 }
 .nexuswho-aurora {
   position: absolute;
-  top: -30%;
-  right: -30%;
-  bottom: -30%;
-  left: -30%;
+  inset: -30%;
   background:
     radial-gradient(circle at 15% 25%, rgba(56, 189, 248, 0.35), transparent 45%),
     radial-gradient(circle at 85% 15%, rgba(244, 114, 182, 0.35), transparent 40%),
@@ -928,10 +963,7 @@ body {
 .nexuswho-aurora:after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   background:
     radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.25), transparent 50%),
     radial-gradient(circle at 70% 70%, rgba(236, 72, 153, 0.25), transparent 45%),
@@ -941,10 +973,7 @@ body {
 }
 .nexuswho-sparkle-field {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   background-image:
     radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
     radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.4), transparent 40%),
