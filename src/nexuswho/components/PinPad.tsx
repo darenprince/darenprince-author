@@ -21,7 +21,10 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
 
   const locked = lockUntil !== null && lockUntil > Date.now()
 
-  const masked = useMemo(() => '•'.repeat(pin.length).padEnd(8, '•'), [pin])
+  const pinSlots = useMemo(
+    () => Array.from({ length: 8 }, (_, index) => (index < pin.length ? '•' : '◦')),
+    [pin]
+  )
 
   const handleDigit = (digit: string) => {
     if (locked || pin.length >= 8) {
@@ -76,8 +79,21 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-lg tracking-[0.3em]">
-        <span>{masked}</span>
+      <div className="mt-6 flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3">
+        <div className="flex items-center gap-2 text-xl">
+          {pinSlots.map((slot, index) => (
+            <span
+              key={`${slot}-${index}`}
+              className={
+                slot === '•'
+                  ? 'inline-flex h-8 w-8 items-center justify-center rounded-full border border-emerald-300/60 bg-emerald-400/20 text-emerald-100'
+                  : 'inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-slate-800/70 text-slate-500'
+              }
+            >
+              {slot}
+            </span>
+          ))}
+        </div>
         {locked && <span className="text-xs uppercase tracking-[0.3em] text-rose-300">Locked</span>}
       </div>
 
