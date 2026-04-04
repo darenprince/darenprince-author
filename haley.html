@@ -6,7 +6,7 @@
   <title>Haley Clinical Report | Priority Care Snapshot</title>
   <meta name="description" content="Comprehensive, quick-scan clinical report with urgent risk summary, action plan, and full documentation." />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#0f7a4b" />
+  <meta name="theme-color" content="#11162a" />
   <link rel="canonical" href="https://www.darenprince.com/haley.html" />
 
   <meta property="og:type" content="website" />
@@ -27,54 +27,64 @@
 
   <style>
     :root{
-      --bg:#05150d;
-      --panel:#0d2218;
-      --panel-2:#113023;
-      --text:#effff5;
-      --muted:#b4dac4;
-      --line:#26543f;
-      --accent:#52db98;
-      --accent-2:#88f4bf;
-      --danger:#ff9191;
-      --warn:#ffd27d;
-      --ok:#9cf1bd;
+      --bg:#090d19;
+      --panel:#121a31;
+      --panel-2:#1a2442;
+      --text:#f3f7ff;
+      --muted:#afbad7;
+      --line:#2c3a67;
+      --accent:#79a9ff;
+      --accent-2:#96c4ff;
+      --danger:#ff8da7;
+      --warn:#ffd58b;
+      --ok:#9fc0ff;
+      --critical:#ff6f90;
       --base-size:18px;
       --radius:18px;
       --shadow:0 14px 32px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(1000px 700px at 0% 0%, rgba(82,219,152,.18), transparent 40%),var(--bg);color:var(--text);font-size:var(--base-size);line-height:1.6}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(1000px 700px at 0% 0%, rgba(121,169,255,.18), transparent 40%),var(--bg);color:var(--text);font-size:var(--base-size);line-height:1.6}
     a{color:var(--accent)}
-    .pin-lock{position:fixed;inset:0;z-index:99;background:rgba(3,10,7,.94);display:grid;place-items:center;padding:16px}
+    .pin-lock{position:fixed;inset:0;z-index:99;background:rgba(5,9,20,.95);display:grid;place-items:center;padding:16px}
     .pin-card{max-width:460px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
     .pin-card h1{margin:0 0 8px;font-size:1.4rem}
     .pin-help{margin:0 0 12px;color:var(--muted)}
-    .pin-input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#06140d;color:var(--text);font-size:1rem;letter-spacing:.35em;text-align:center}
-    .pin-btn{margin-top:12px;width:100%;padding:11px;border-radius:12px;border:1px solid var(--accent);background:#0f7a4b;color:#fff;font-weight:700;cursor:pointer}
+    .pin-input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0d1429;color:var(--text);font-size:1rem;letter-spacing:.35em;text-align:center}
+    .pin-btn{margin-top:12px;width:100%;padding:11px;border-radius:12px;border:1px solid var(--accent);background:#345ab2;color:#fff;font-weight:700;cursor:pointer}
     .pin-err{margin-top:8px;color:var(--danger);min-height:1.2em}
     .site{display:none;max-width:1500px;margin:0 auto;padding:20px;grid-template-columns:300px minmax(0,1fr);gap:20px}
     .site.unlocked{display:grid}
-    .sidebar,.card,.hero{background:rgba(13,34,24,.93);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .sidebar,.card,.hero{background:rgba(18,26,49,.93);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
     .sidebar{position:sticky;top:14px;align-self:start;padding:16px;max-height:calc(100vh - 30px);overflow:auto}
     .hero,.card{padding:22px}
     .hero h2{margin:0 0 6px;font-size:2rem}
     .hero p{margin:0;color:var(--muted)}
-    .toc a{display:block;padding:8px 10px;border-radius:10px;color:var(--text);text-decoration:none}
-    .toc a:hover{background:rgba(82,219,152,.1)}
+    .toc a{display:block;padding:8px 10px;border-radius:10px;color:var(--text);text-decoration:none;border:1px solid transparent;transition:.2s}
+    .toc a:hover,.toc a.active{background:rgba(121,169,255,.14);border-color:#4a63a5}
+    .legend{display:grid;gap:8px;margin:14px 0 8px}
+    .legend small{display:flex;align-items:center;gap:8px;color:var(--muted)}
+    .dot{display:inline-block;width:11px;height:11px;border-radius:50%}
+    .dot-critical{background:var(--critical)}
+    .dot-high{background:#ffb07d}
+    .dot-moderate{background:var(--accent)}
     .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
     .kpi{padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03)}
     .kpi b{display:block}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #3c7a5b;border-radius:999px;background:rgba(156,241,189,.12);font-size:.86rem;margin-bottom:12px}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #4f6298;border-radius:999px;background:rgba(121,169,255,.12);font-size:.86rem;margin-bottom:12px}
     .grid{display:grid;gap:18px;margin-top:18px}
     .alert,.warning,.ok{padding:14px;border-radius:12px;margin-top:12px}
     .alert{background:rgba(255,145,145,.12);border-left:4px solid var(--danger)}
     .warning{background:rgba(255,210,125,.12);border-left:4px solid var(--warn)}
-    .ok{background:rgba(156,241,189,.12);border-left:4px solid var(--ok)}
+    .ok{background:rgba(159,192,255,.12);border-left:4px solid var(--ok)}
     table{width:100%;border-collapse:collapse;margin-top:10px}
     th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-    th{background:rgba(82,219,152,.15)}
-    .meter{height:9px;background:#153123;border-radius:999px;overflow:hidden}
-    .meter span{display:block;height:100%;background:linear-gradient(90deg,#52db98,#88f4bf)}
+    th{background:rgba(121,169,255,.15)}
+    .meter{height:9px;background:#1a2442;border-radius:999px;overflow:hidden}
+    .meter span{display:block;height:100%;background:linear-gradient(90deg,#6a8ce8,#9e79ff)}
+    .section-jump{position:sticky;top:0;z-index:20;background:rgba(9,13,25,.92);backdrop-filter:blur(8px);padding:10px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px}
+    .section-jump a{font-size:.84rem;padding:5px 10px;border-radius:999px;background:#1b2749;text-decoration:none;color:#dbe7ff;border:1px solid #314781}
+    .section-jump a:hover{background:#243765}
     .topline{display:flex;align-items:center;gap:10px}
     @media (max-width:1020px){.site{grid-template-columns:1fr}.sidebar{position:relative;top:0;max-height:none}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:680px){body{font-size:16px}.kpis{grid-template-columns:1fr}}
@@ -95,6 +105,11 @@
     <aside class="sidebar">
       <h3>Haley Clinical Report</h3>
       <p style="color:var(--muted)">Quick scan + full detail navigation.</p>
+      <div class="legend" aria-label="Risk color legend">
+        <small><span class="dot dot-critical"></span>Critical immediate risk</small>
+        <small><span class="dot dot-high"></span>High concern</small>
+        <small><span class="dot dot-moderate"></span>Moderate concern</small>
+      </div>
       <nav class="toc">
         <a href="#summary">Summary</a>
         <a href="#urgent">Urgency</a>
@@ -109,6 +124,13 @@
     </aside>
 
     <main>
+      <div class="section-jump" aria-label="Quick section jump">
+        <a href="#summary">Summary</a>
+        <a href="#urgent">Urgency</a>
+        <a href="#risks">Risk levels</a>
+        <a href="#actions">Action checklist</a>
+        <a href="#handoff">ER handoff</a>
+      </div>
       <section class="hero">
         <span class="badge"><iconify-icon icon="mdi:alert-circle"></iconify-icon> Not a diagnosis · rapid review aid</span>
         <h2>Comprehensive Clinical Report for Haley</h2>
@@ -153,11 +175,11 @@
 
         <section id="risks" class="card">
           <div class="topline"><iconify-icon icon="mdi:pulse"></iconify-icon><h3>Top risks ranked</h3></div>
-          <p><b>1) Blood clot (DVT/PE)</b></p><div class="meter"><span style="width:96%"></span></div>
-          <p><b>2) Stimulant-related cardiomyopathy / heart failure</b></p><div class="meter"><span style="width:90%"></span></div>
-          <p><b>3) Kidney injury progression</b></p><div class="meter"><span style="width:82%"></span></div>
-          <p><b>4) Rhabdomyolysis</b></p><div class="meter"><span style="width:74%"></span></div>
-          <p><b>5) Cellulitis or pseudocellulitis</b></p><div class="meter"><span style="width:66%"></span></div>
+          <p><b>1) Blood clot (DVT/PE) · Critical</b></p><div class="meter"><span style="width:96%"></span></div>
+          <p><b>2) Stimulant-related cardiomyopathy / heart failure · Critical</b></p><div class="meter"><span style="width:90%"></span></div>
+          <p><b>3) Kidney injury progression · High</b></p><div class="meter"><span style="width:82%"></span></div>
+          <p><b>4) Rhabdomyolysis · High</b></p><div class="meter"><span style="width:74%"></span></div>
+          <p><b>5) Cellulitis or pseudocellulitis · Moderate</b></p><div class="meter"><span style="width:66%"></span></div>
         </section>
 
         <section id="plain" class="card">
@@ -204,7 +226,7 @@
 
         <section id="handoff" class="card">
           <div class="topline"><iconify-icon icon="mdi:ambulance"></iconify-icon><h3>ER handoff text</h3></div>
-          <pre style="white-space:pre-wrap;background:#08170f;border:1px solid var(--line);border-radius:12px;padding:14px">23-year-old female with progressive bilateral lower-extremity swelling involving legs/feet, plus bilateral knee/thigh redness/swelling; intermittent shortness of breath, fatigue, poor oral intake, dehydration, daily alcohol use, active amphetamine use, and smoking. Prior labs: WBC 12.9, creatinine 1.23, eGFR 62, BUN 22, urine protein + microscopic blood, mild liver enzyme elevation, macrocytosis.
+          <pre style="white-space:pre-wrap;background:#111a34;border:1px solid var(--line);border-radius:12px;padding:14px">23-year-old female with progressive bilateral lower-extremity swelling involving legs/feet, plus bilateral knee/thigh redness/swelling; intermittent shortness of breath, fatigue, poor oral intake, dehydration, daily alcohol use, active amphetamine use, and smoking. Prior labs: WBC 12.9, creatinine 1.23, eGFR 62, BUN 22, urine protein + microscopic blood, mild liver enzyme elevation, macrocytosis.
 
 Please rule out DVT/PE, stimulant-related cardiomyopathy or heart failure, pulmonary hypertension, worsening kidney injury, rhabdomyolysis, and true cellulitis versus pseudocellulitis.</pre>
         </section>
@@ -239,6 +261,23 @@ Please rule out DVT/PE, stimulant-related cardiomyopathy or heart failure, pulmo
     pinInput.addEventListener('keydown', (e) => {
       if(e.key === 'Enter') unlock();
     });
+
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const sectionNodes = tocLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const onScroll = () => {
+      let activeId = '';
+      sectionNodes.forEach((section) => {
+        if (window.scrollY >= section.offsetTop - 140) activeId = section.id;
+      });
+      tocLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   </script>
 </body>
 </html>
