@@ -49,6 +49,8 @@ This project exists to:
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
+> **Haley clinical mini-site:** `haley.html` is a standalone, GitHub Pages-ready clinical briefing page with brand-green browser chrome, deployable favicon/social image metadata, and a client-side PIN gate for controlled access. Keep social/favicons as committed repository assets (no Netlify runtime dependencies).
+
 ---
 
 ## 🧪 Vibe Prism (nexuswho.html)

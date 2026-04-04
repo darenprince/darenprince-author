@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haley Clinical Report | Priority Care Snapshot</title>
+  <meta name="description" content="Comprehensive, quick-scan clinical report with urgent risk summary, action plan, and full documentation." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0f7a4b" />
+  <link rel="canonical" href="https://www.darenprince.com/haley.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Haley Clinical Report" />
+  <meta property="og:description" content="Urgent quick-view summary + full documentation for care handoff." />
+  <meta property="og:url" content="https://www.darenprince.com/haley.html" />
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Haley Clinical Report" />
+  <meta name="twitter:description" content="Urgent quick-view summary + full documentation for care handoff." />
+  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-image.jpg" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-master.PNG" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-master.PNG" />
+
+  <script defer src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#05150d;
+      --panel:#0d2218;
+      --panel-2:#113023;
+      --text:#effff5;
+      --muted:#b4dac4;
+      --line:#26543f;
+      --accent:#52db98;
+      --accent-2:#88f4bf;
+      --danger:#ff9191;
+      --warn:#ffd27d;
+      --ok:#9cf1bd;
+      --base-size:18px;
+      --radius:18px;
+      --shadow:0 14px 32px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(1000px 700px at 0% 0%, rgba(82,219,152,.18), transparent 40%),var(--bg);color:var(--text);font-size:var(--base-size);line-height:1.6}
+    a{color:var(--accent)}
+    .pin-lock{position:fixed;inset:0;z-index:99;background:rgba(3,10,7,.94);display:grid;place-items:center;padding:16px}
+    .pin-card{max-width:460px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+    .pin-card h1{margin:0 0 8px;font-size:1.4rem}
+    .pin-help{margin:0 0 12px;color:var(--muted)}
+    .pin-input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#06140d;color:var(--text);font-size:1rem;letter-spacing:.35em;text-align:center}
+    .pin-btn{margin-top:12px;width:100%;padding:11px;border-radius:12px;border:1px solid var(--accent);background:#0f7a4b;color:#fff;font-weight:700;cursor:pointer}
+    .pin-err{margin-top:8px;color:var(--danger);min-height:1.2em}
+    .site{display:none;max-width:1500px;margin:0 auto;padding:20px;grid-template-columns:300px minmax(0,1fr);gap:20px}
+    .site.unlocked{display:grid}
+    .sidebar,.card,.hero{background:rgba(13,34,24,.93);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .sidebar{position:sticky;top:14px;align-self:start;padding:16px;max-height:calc(100vh - 30px);overflow:auto}
+    .hero,.card{padding:22px}
+    .hero h2{margin:0 0 6px;font-size:2rem}
+    .hero p{margin:0;color:var(--muted)}
+    .toc a{display:block;padding:8px 10px;border-radius:10px;color:var(--text);text-decoration:none}
+    .toc a:hover{background:rgba(82,219,152,.1)}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+    .kpi{padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03)}
+    .kpi b{display:block}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #3c7a5b;border-radius:999px;background:rgba(156,241,189,.12);font-size:.86rem;margin-bottom:12px}
+    .grid{display:grid;gap:18px;margin-top:18px}
+    .alert,.warning,.ok{padding:14px;border-radius:12px;margin-top:12px}
+    .alert{background:rgba(255,145,145,.12);border-left:4px solid var(--danger)}
+    .warning{background:rgba(255,210,125,.12);border-left:4px solid var(--warn)}
+    .ok{background:rgba(156,241,189,.12);border-left:4px solid var(--ok)}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{background:rgba(82,219,152,.15)}
+    .meter{height:9px;background:#153123;border-radius:999px;overflow:hidden}
+    .meter span{display:block;height:100%;background:linear-gradient(90deg,#52db98,#88f4bf)}
+    .topline{display:flex;align-items:center;gap:10px}
+    @media (max-width:1020px){.site{grid-template-columns:1fr}.sidebar{position:relative;top:0;max-height:none}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:680px){body{font-size:16px}.kpis{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="pin-lock" id="pinLock" aria-live="polite">
+    <div class="pin-card">
+      <h1><iconify-icon icon="mdi:shield-lock"></iconify-icon> Secure Access</h1>
+      <p class="pin-help">Enter 4-digit PIN to unlock this report.</p>
+      <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••" aria-label="PIN" />
+      <button class="pin-btn" id="unlockBtn">Unlock Report</button>
+      <div class="pin-err" id="pinErr"></div>
+    </div>
+  </div>
+
+  <div class="site" id="site">
+    <aside class="sidebar">
+      <h3>Haley Clinical Report</h3>
+      <p style="color:var(--muted)">Quick scan + full detail navigation.</p>
+      <nav class="toc">
+        <a href="#summary">Summary</a>
+        <a href="#urgent">Urgency</a>
+        <a href="#data">Known data</a>
+        <a href="#risks">Top risks</a>
+        <a href="#plain">Plain English</a>
+        <a href="#actions">Next actions</a>
+        <a href="#selfcare">Self care</a>
+        <a href="#tests">Tests</a>
+        <a href="#handoff">ER handoff</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <span class="badge"><iconify-icon icon="mdi:alert-circle"></iconify-icon> Not a diagnosis · rapid review aid</span>
+        <h2>Comprehensive Clinical Report for Haley</h2>
+        <p>Digestible emergency-focused summary with detailed documentation and handoff-ready language.</p>
+        <div class="kpis">
+          <div class="kpi"><small>Most urgent concern</small><b>Possible clot / heart strain / kidney worsening</b></div>
+          <div class="kpi"><small>Highest risk pattern</small><b>Leg swelling + shortness of breath</b></div>
+          <div class="kpi"><small>Recommended timing</small><b>Same-day ER evaluation</b></div>
+          <div class="kpi"><small>Do now</small><b>Do not wait this out at home</b></div>
+        </div>
+      </section>
+
+      <div class="grid">
+        <section id="summary" class="card">
+          <div class="topline"><iconify-icon icon="mdi:file-document-outline"></iconify-icon><h3>Executive summary</h3></div>
+          <p>Concerning combined pattern: progressive bilateral leg/foot swelling, red swollen knees/thighs, intermittent shortness of breath, fatigue, poor intake/dehydration, and prior kidney/liver/urine abnormalities.</p>
+          <div class="alert"><b>Bottom line:</b> Swelling + breathing symptoms together require same-day emergency assessment.</div>
+        </section>
+
+        <section id="urgent" class="card">
+          <div class="topline"><iconify-icon icon="mdi:clock-alert-outline"></iconify-icon><h3>Why this is urgent</h3></div>
+          <ul>
+            <li>Possible DVT/PE red-flag pairing.</li>
+            <li>Amphetamine use increases risk for cardiac and renal injury.</li>
+            <li>Prior renal markers showed potential dysfunction.</li>
+            <li>Bilateral redness can mimic cellulitis; may be systemic.</li>
+          </ul>
+          <div class="warning">Prior normal exams do not rule out current deterioration.</div>
+        </section>
+
+        <section id="data" class="card">
+          <div class="topline"><iconify-icon icon="mdi:database-outline"></iconify-icon><h3>Known data reviewed</h3></div>
+          <table>
+            <tr><th>Finding</th><th>Interpretation</th></tr>
+            <tr><td>WBC 12.9</td><td>Non-specific inflammation/infection signal.</td></tr>
+            <tr><td>Creatinine 1.23, eGFR 62, BUN 22</td><td>Mild kidney dysfunction/injury concern.</td></tr>
+            <tr><td>Urine protein + RBCs</td><td>Possible renal-level process.</td></tr>
+            <tr><td>AST/ALT/ALP mild elevation</td><td>Liver chemistry abnormalities need follow-up.</td></tr>
+            <tr><td>MCV 101.7</td><td>Macrocytosis pattern.</td></tr>
+          </table>
+        </section>
+
+        <section id="risks" class="card">
+          <div class="topline"><iconify-icon icon="mdi:pulse"></iconify-icon><h3>Top risks ranked</h3></div>
+          <p><b>1) Blood clot (DVT/PE)</b></p><div class="meter"><span style="width:96%"></span></div>
+          <p><b>2) Stimulant-related cardiomyopathy / heart failure</b></p><div class="meter"><span style="width:90%"></span></div>
+          <p><b>3) Kidney injury progression</b></p><div class="meter"><span style="width:82%"></span></div>
+          <p><b>4) Rhabdomyolysis</b></p><div class="meter"><span style="width:74%"></span></div>
+          <p><b>5) Cellulitis or pseudocellulitis</b></p><div class="meter"><span style="width:66%"></span></div>
+        </section>
+
+        <section id="plain" class="card">
+          <div class="topline"><iconify-icon icon="mdi:account-voice"></iconify-icon><h3>Plain English for Haley</h3></div>
+          <p>The symptom pattern may reflect a dangerous internal cause, not only skin-level inflammation. Because leg swelling and breathing symptoms are occurring together, ER evaluation is the safe path now.</p>
+        </section>
+
+        <section id="actions" class="card">
+          <div class="topline"><iconify-icon icon="mdi:clipboard-check-outline"></iconify-icon><h3>Next actions</h3></div>
+          <ol>
+            <li>Go to ER with clot and chest-testing capability.</li>
+            <li>State: progressive swelling + intermittent shortness of breath.</li>
+            <li>Provide prior labs and symptom timeline.</li>
+            <li>Disclose stimulant/alcohol/smoking exposure.</li>
+            <li>Ask to rule out clot, heart strain, and kidney injury first.</li>
+          </ol>
+        </section>
+
+        <section id="selfcare" class="card">
+          <div class="topline"><iconify-icon icon="mdi:heart-pulse"></iconify-icon><h3>Self care while getting help</h3></div>
+          <div class="ok">Harm reduction only. Not a substitute for emergency care.</div>
+          <ul>
+            <li>Stop amphetamines immediately.</li>
+            <li>Avoid alcohol.</li>
+            <li>Avoid NSAIDs unless clinician-approved.</li>
+            <li>Avoid aggressive fluid loading if breathing worsens.</li>
+            <li>Avoid compression wraps until clot is excluded.</li>
+          </ul>
+        </section>
+
+        <section id="tests" class="card">
+          <div class="topline"><iconify-icon icon="mdi:test-tube"></iconify-icon><h3>Tests to request</h3></div>
+          <table>
+            <tr><th>Test</th><th>Purpose</th></tr>
+            <tr><td>Pulse ox + full vitals</td><td>Immediate stability check.</td></tr>
+            <tr><td>ECG + chest imaging</td><td>Cardiopulmonary evaluation.</td></tr>
+            <tr><td>BNP/NT-proBNP</td><td>Heart failure strain marker.</td></tr>
+            <tr><td>D-dimer ± CT-PE protocol</td><td>PE pathway.</td></tr>
+            <tr><td>Bilateral venous duplex</td><td>DVT detection.</td></tr>
+            <tr><td>CMP + renal panel + CK</td><td>Kidney/rhabdomyolysis check.</td></tr>
+            <tr><td>Urinalysis + protein quantification</td><td>Renal process clarification.</td></tr>
+          </table>
+        </section>
+
+        <section id="handoff" class="card">
+          <div class="topline"><iconify-icon icon="mdi:ambulance"></iconify-icon><h3>ER handoff text</h3></div>
+          <pre style="white-space:pre-wrap;background:#08170f;border:1px solid var(--line);border-radius:12px;padding:14px">23-year-old female with progressive bilateral lower-extremity swelling involving legs/feet, plus bilateral knee/thigh redness/swelling; intermittent shortness of breath, fatigue, poor oral intake, dehydration, daily alcohol use, active amphetamine use, and smoking. Prior labs: WBC 12.9, creatinine 1.23, eGFR 62, BUN 22, urine protein + microscopic blood, mild liver enzyme elevation, macrocytosis.
+
+Please rule out DVT/PE, stimulant-related cardiomyopathy or heart failure, pulmonary hypertension, worsening kidney injury, rhabdomyolysis, and true cellulitis versus pseudocellulitis.</pre>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const CORRECT_PIN = '1203';
+    const pinLock = document.getElementById('pinLock');
+    const site = document.getElementById('site');
+    const pinInput = document.getElementById('pinInput');
+    const pinErr = document.getElementById('pinErr');
+
+    function unlock(){
+      if(pinInput.value === CORRECT_PIN){
+        sessionStorage.setItem('haley-unlocked', '1');
+        pinLock.style.display = 'none';
+        site.classList.add('unlocked');
+        pinErr.textContent = '';
+      } else {
+        pinErr.textContent = 'Incorrect PIN. Please try again.';
+      }
+    }
+
+    if(sessionStorage.getItem('haley-unlocked') === '1'){
+      pinLock.style.display = 'none';
+      site.classList.add('unlocked');
+    }
+
+    document.getElementById('unlockBtn').addEventListener('click', unlock);
+    pinInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') unlock();
+    });
+  </script>
+</body>
+</html>
