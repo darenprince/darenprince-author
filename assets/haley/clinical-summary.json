@@ -1,0 +1,37 @@
+{
+  "patient_alias": "Haley",
+  "priority": "same-day emergency evaluation",
+  "critical_pattern": [
+    "progressive bilateral lower extremity edema",
+    "intermittent shortness of breath",
+    "bilateral knee/thigh redness and swelling"
+  ],
+  "major_risks": [
+    "DVT/PE",
+    "stimulant-related cardiomyopathy or heart failure",
+    "worsening kidney injury",
+    "rhabdomyolysis",
+    "cellulitis vs pseudocellulitis"
+  ],
+  "prior_labs": {
+    "wbc": 12.9,
+    "creatinine": 1.23,
+    "egfr": 62,
+    "bun": 22,
+    "urinalysis": ["proteinuria", "microscopic hematuria"],
+    "liver": ["AST 57", "ALT 54", "alk phos 126"],
+    "cbc_pattern": "macrocytosis"
+  },
+  "recommended_er_workup": [
+    "pulse oximetry and full vitals",
+    "ECG + chest X-ray",
+    "BNP or NT-proBNP",
+    "D-dimer pathway and CT chest if indicated",
+    "bilateral venous duplex ultrasound",
+    "CMP/renal panel",
+    "creatine kinase",
+    "troponin",
+    "urinalysis with microscopy and protein quantification",
+    "echocardiogram if indicated"
+  ]
+}
