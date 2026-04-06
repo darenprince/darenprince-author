@@ -71,11 +71,59 @@ function describe(imagePath) {
   return `${titled} — ${subject} (${ext}).`
 }
 
+function getTags(imagePath) {
+  const lower = imagePath.toLowerCase()
+  const tags = new Set()
+
+  if (lower.includes('heroposter1')) {
+    tags.add('game on')
+    tags.add('hero')
+    tags.add('book promo')
+    tags.add('psychology of real connection')
+  }
+  if (lower.includes('crownicon')) {
+    tags.add('crown labs')
+    tags.add('app icon')
+    tags.add('favicon')
+    tags.add('squircle')
+  }
+  if (lower.includes('905437ad-6656-4ad8-b5a6-cf08f6199f27')) {
+    tags.add('crowncode.ai')
+    tags.add('intelligence suite')
+    tags.add('official seal')
+    tags.add('white logo')
+  }
+  if (lower.includes('07e3bf89-7e81-46e4-bc13-3e0112a9b922')) {
+    tags.add('crowncode.ai')
+    tags.add('3d icon')
+    tags.add('app listing')
+  }
+  if (lower.includes('img_6265')) {
+    tags.add('3d modal background')
+    tags.add('viewer backdrop')
+    tags.add('texture')
+  }
+  if (lower.includes('/assets/images/og-') || lower.includes('/og-image')) {
+    tags.add('social sharing')
+    tags.add('open graph')
+    tags.add('twitter card')
+  }
+  if (lower.includes('favicon') || lower.includes('/icons/generated')) {
+    tags.add('favicon')
+  }
+
+  const ext = path.extname(lower).replace('.', '')
+  if (ext) tags.add(ext)
+
+  return Array.from(tags)
+}
+
 const images = walk(root)
   .sort((a, b) => a.localeCompare(b))
   .map((imagePath) => ({
     path: imagePath,
     description: describe(imagePath),
+    tags: getTags(imagePath),
   }))
 
 writeFileSync(path.join(assetsDir, 'image-manifest.json'), JSON.stringify(images, null, 2))

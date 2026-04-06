@@ -54,7 +54,7 @@ async function initGallery() {
     gallery.innerHTML = ''
     let visibleCount = list.length
 
-    list.forEach(({ path, description }) => {
+    list.forEach(({ path, description, tags = [] }) => {
       const fullUrl = buildUrl(path)
       const wrapper = document.createElement('article')
       wrapper.className = 'img-item'
@@ -86,7 +86,10 @@ async function initGallery() {
       const pathEl = document.createElement('p')
       pathEl.className = 'img-path'
       pathEl.textContent = path
-      meta.append(descriptionEl, pathEl)
+      const tagsEl = document.createElement('p')
+      tagsEl.className = 'img-path'
+      tagsEl.textContent = tags.length ? `Tags: ${tags.join(', ')}` : ''
+      meta.append(descriptionEl, pathEl, tagsEl)
 
       const codeBox = document.createElement('div')
       codeBox.className = 'code-box'
@@ -144,8 +147,8 @@ async function initGallery() {
     if (!term) {
       current = images
     } else {
-      current = images.filter(({ path, description }) => {
-        const haystack = `${path} ${description}`.toLowerCase()
+      current = images.filter(({ path, description, tags = [] }) => {
+        const haystack = `${path} ${description} ${tags.join(' ')}`.toLowerCase()
         return haystack.includes(term)
       })
     }

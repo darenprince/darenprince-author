@@ -326,9 +326,9 @@ Built with 🔥 by Daren Prince & OpenAI Codex
 ## 404 + Social Metadata Standards
 
 - `404.html` now uses the full header toolbar + mega menu + footer shell and auto-redirects to `/index.html` after 6 seconds with a live progress bar, plus `Back to Safety` and `Site Index` actions.
-- Public OG/Twitter metadata has been standardized to `https://www.darenprince.com/assets/images/og-daren-prince.png` for consistent social sharing.
+- Public OG/Twitter metadata now points to `https://www.darenprince.com/assets/images/heroposter1.png` for current Game On campaign sharing.
 - Homepage hero assets now reference hosted CDN files for background, mockup, and stylized title art (desktop/mobile variants).
-- Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Play the trailer`, `Get the playbook`, `Press kit`), with trailer playback triggered from the CTA row and descriptive copy positioned beneath the media placeholder for cleaner GitHub Pages-ready rendering.
+- Homepage hero content is intentionally outside the grid container and relies on `/js/hero-video-controller.js` CTA hooks (`Trailer`, `Buy Now`) with audio-on playback behavior and campaign copy aligned to “Learn the psychology of real connection.”
 - Desktop hero now renders content directly on the page background (no glass card containers around copy/media), while preserving matched two-column sizing and responsive video behavior.
 - On mobile/tablet breakpoints, the hero title artwork and pre-play trailer frame now expand to full width so the top visual treatment fills the available viewport space.
 - Hero vertical spacing is tightened while keeping the background anchored to the bottom (`background-position: center bottom`) so cropping occurs from the top side and the bottom remains visible.

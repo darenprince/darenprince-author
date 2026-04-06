@@ -30,7 +30,7 @@
       autoplay: false,
       background: false,
       controls: false,
-      muted: true,
+      muted: false,
       loop: false,
       responsive: true,
       portrait: false,
