@@ -168,11 +168,11 @@
     "id": "38d0b7538c9232cbe24ab72db75364ae",
     "url": "/labs/",
     "title": "Crown Labs | CrownCode.ai Product Studio",
-    "description": "",
+    "description": "Crown Labs is the CrownCode.ai applied intelligence studio shipping evidence-ready platforms across security, forensics, behavioral systems, and creative technology.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Applied Intelligence Studio for Real-World Product Outcomes Meet the Founder & Chief Architect — Daren Prince Architect of the Crown Labs stack Behavioral and intelligence focus Evidence-ready execution Portfolio-level leverage Executive Overview What This Portfolio Represents Design Intent Portfolio Structure Execution Discipline Portfolio Status What you’ll see Product Portfolio Filter & search Frameworks Books & IP Status definitions Portfolio Valuation & Net Worth Statement As-is portfolio valuation Projected valuation (completed) Projected annual revenue (all products combined) Portfolio statement Closing statement Next moves (optional) Ethics & Limits Privacy-first defaults Decision-support only No retention by design User access gate Access request received. Get notifications Subscription confirmed. Crown Labs Login Access granted. Apply for Access What you get What we need Estimated time What you get What we need Estimated time What you get What we need Estimated time Request received. Product brief Crown Labs",
+    "headings": "Applied Intelligence Studio for Real-World Product Outcomes Meet the Founder & Chief Architect — Daren Prince Architect of the Crown Labs stack Behavioral and intelligence focus Evidence-ready execution Portfolio-level leverage Executive Overview What This Portfolio\n              Represents Design Intent Portfolio Structure Execution Discipline Portfolio Status What you’ll see Product Portfolio Filter & search Frameworks Books & IP Status definitions Portfolio Valuation\n            & Net Worth Statement As-is portfolio valuation Projected valuation (completed) Projected annual revenue (all products combined) Portfolio statement Closing statement Next moves (optional) Ethics & Limits Privacy-first defaults Decision-support only No retention by design User access gate Access request received. Get notifications Subscription confirmed. Crown Labs Login Access granted. Apply for Access What you get What we need Estimated time What you get What we need Estimated time What you get What we need Estimated time Request received. Product brief Crown Labs",
     "content": "Crown Labs Applied intelligence studio Get notifications Lab login User access Beta Testers Explore the Lab Overview Mission, philosophy, and the Lab standard. Portfolio See what ships now and what’s next. Frameworks The systems intelligence behind each build. Knowledge & IP Books & IP Published insight and upcoming releases. Live status Truth-labeled readiness updates. Financials Progress metrics"
   },
   {
@@ -183,8 +183,8 @@
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Level Up Your Dating Game What Readers Are Saying\n            About Game On! Your move.Select a format. Choose A Store: Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n              Let's Connect.",
-    "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Collabs Developers Contact Logout Guest Dashboard Account Logout Level Up Your Dating Game TURN ON SOUND Resume Restart Hide Video Bold, psychology-backed guidance to approach with confidence, flirt with charm, and build meaningful, lasting relationships. Play the trailer Get the playbook Press kit Reader Reviews Wh"
+    "headings": "Level Up Your Dating Game What Readers Are Saying\n            About Game On! Choose A Store: Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n              Let's Connect.",
+    "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Collabs Developers Contact Logout Guest Dashboard Account Logout Level Up Your Dating Game SOUND Resume Restart Hide Video Learn the psychology of real connection. Trailer Buy Now Reader Reviews What Readers Are Saying About Game On! Real reviews from real readers — verified across Books-A-Million, Apple Books, Goog"
   },
   {
     "id": "b9139ae6d43870f68ed5fc25fc4672d2",
@@ -195,7 +195,7 @@
     "category": "",
     "tags": [],
     "headings": "Image Index",
-    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index Search images Zoom 100% Confident, psychology-backed storytelling, systems, and tools for real transformation. Facebook X"
+    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% Confident, psychology-backed storytelling, systems, and tools for real transformation. F"
   },
   {
     "id": "557bbdea7a20d92738ca55dd7d4e29b1",
@@ -240,6 +240,17 @@
     "tags": [],
     "headings": "Stop Getting Played.Start Leading. Words From ReadersWho Stopped Settling Download the AssetsYou Need",
     "content": "Home Books Meet Daren Media Swag Blog Collabs Developers Contact Logout Guest Dashboard Account Logout Daren Prince · Relationship Strategist Stop Getting Played.Start Leading. Bold, psychology-backed guidance for boundaries, attraction, and self-respect — built for people who are done with mixed signals. Get The Book Book Daren to Speak Tactical playbook Scripts, standards, and mindset resets Rea"
+  },
+  {
+    "id": "eb30b07a9b8ca474bf469126bd7538ae",
+    "url": "/haley/",
+    "title": "Haley Clinical Report | Priority Care Snapshot",
+    "description": "Comprehensive, quick-scan clinical report with urgent risk summary, action plan, and full documentation.",
+    "date": null,
+    "category": "",
+    "tags": [],
+    "headings": "Secure Access Haley Clinical Report Comprehensive Clinical Report for Haley Executive summary Why this is urgent Known data reviewed Top risks ranked Plain English for Haley Next actions Self care while getting help Tests to request ER handoff text",
+    "content": "Secure Access Enter 4-digit PIN to unlock this report. Unlock Report Haley Clinical Report Quick scan + full detail navigation. Critical immediate risk High concern Moderate concern Summary Urgency Known data Top risks Plain English Next actions Self care Tests ER handoff Summary Urgency Risk levels Action checklist ER handoff Not a diagnosis · rapid review aid Comprehensive Clinical Report for Ha"
   },
   {
     "id": "676d9b17169a9e9f4ac263e6b5040e70",
