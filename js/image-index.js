@@ -37,10 +37,10 @@ async function initGallery() {
     return clamped
   }
 
-  function updateCount(list) {
+  function updateCount(total) {
     if (!resultCount) return
-    const suffix = list.length === 1 ? 'image' : 'images'
-    resultCount.textContent = `${list.length} ${suffix}`
+    const suffix = total === 1 ? 'image' : 'images'
+    resultCount.textContent = `${total} ${suffix}`
   }
 
   function buildUrl(assetPath) {
@@ -52,6 +52,7 @@ async function initGallery() {
 
   function render(list) {
     gallery.innerHTML = ''
+    let visibleCount = list.length
 
     list.forEach(({ path, description }) => {
       const fullUrl = buildUrl(path)
@@ -62,6 +63,11 @@ async function initGallery() {
       img.src = fullUrl
       img.alt = description
       img.loading = 'lazy'
+      img.addEventListener('error', () => {
+        wrapper.remove()
+        visibleCount = Math.max(0, visibleCount - 1)
+        updateCount(visibleCount)
+      })
       wrapper.appendChild(img)
 
       img.addEventListener('click', () => {
@@ -74,13 +80,13 @@ async function initGallery() {
 
       const meta = document.createElement('div')
       meta.className = 'img-meta'
-const descriptionEl = document.createElement('p');
-      descriptionEl.className = 'img-description';
-      descriptionEl.textContent = description;
-      const pathEl = document.createElement('p');
-      pathEl.className = 'img-path';
-      pathEl.textContent = path;
-      meta.append(descriptionEl, pathEl);
+      const descriptionEl = document.createElement('p')
+      descriptionEl.className = 'img-description'
+      descriptionEl.textContent = description
+      const pathEl = document.createElement('p')
+      pathEl.className = 'img-path'
+      pathEl.textContent = path
+      meta.append(descriptionEl, pathEl)
 
       const codeBox = document.createElement('div')
       codeBox.className = 'code-box'
@@ -105,7 +111,7 @@ const descriptionEl = document.createElement('p');
       gallery.appendChild(wrapper)
     })
 
-    updateCount(list)
+    updateCount(visibleCount)
   }
 
   function openModal(src, alt) {
