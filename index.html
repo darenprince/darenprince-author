@@ -143,13 +143,10 @@
       property="og:description"
       content="Official author site of Daren Prince. Explore books on connection, healing, and confidence."
     />
-    <meta
-      property="og:image"
-      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
-    />
+    <meta property="og:image" content="https://www.darenprince.com/assets/images/heroposter1.png" />
     <meta
       property="og:image:secure_url"
-      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
+      content="https://www.darenprince.com/assets/images/heroposter1.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1366" />
@@ -168,7 +165,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://www.darenprince.com/assets/images/og-daren-prince.png"
+      content="https://www.darenprince.com/assets/images/heroposter1.png"
     />
     <meta
       name="twitter:image:alt"
@@ -213,7 +210,7 @@
       <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
       <meta name="mobile-web-app-capable" content="yes">
       <meta name="theme-color" content="#456f3a">
-      <meta name="application-name" content="Daren Prince">
+      <meta name="application-name" content="Crown Labs">
       <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
       <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
       <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
@@ -227,7 +224,7 @@
       <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
       <meta name="apple-mobile-web-app-capable" content="yes">
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-      <meta name="apple-mobile-web-app-title" content="Daren Prince">
+      <meta name="apple-mobile-web-app-title" content="Crown Labs">
       <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
       <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
       <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
@@ -267,7 +264,6 @@
       <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
       <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
     <!-- End Apple PWA + Safari enhancements -->
-    <link rel="icon" type="image/png" href="labs/crowncode/icons/crowncode-fav.png" />
   </head>
   <body class="theme-dark">
     <div class="gameon-preloader" data-preloader role="status" aria-live="polite">
@@ -415,8 +411,8 @@
                 <div class="hero-media__frame">
                   <div class="hero-image-layer js-hero-image" role="presentation">
                     <img
-                      src="https://www.darenprince.com/assets/images/gameonallformats.png"
-                      alt="Game On! in all available formats"
+                      src="https://www.darenprince.com/assets/images/heroposter1.png"
+                      alt="Game On! promo art with the line Learn the psychology of real connection"
                     />
                   </div>
                   <div class="hero-video-layer js-hero-video" aria-hidden="true">
@@ -432,10 +428,10 @@
                       <button
                         class="hero-mute-btn js-hero-mute"
                         type="button"
-                        aria-label="Unmute trailer audio"
+                        aria-label="Trailer audio controls"
                       >
                         <i class="ph ph-speaker-high"></i>
-                        <span>TURN ON SOUND</span>
+                        <span>SOUND</span>
                       </button>
                       <div class="hero-video-progress" aria-hidden="true">
                         <span class="hero-video-progress__track">
@@ -486,22 +482,17 @@
                   </div>
                 </div>
                 <p class="hero-subtitle hero-subtitle--media">
-                  Bold, psychology-backed guidance to approach with confidence, flirt with charm, and build
-                  meaningful, lasting relationships.
+                  Learn the psychology of real connection.
                 </p>
               </div>
               <div class="hero-actions hero-actions--below-trailer">
                 <button class="btn btn--outline btn--lg js-hero-play-trigger" type="button">
-                  <span>Play the trailer</span>
                   <i class="ph ph-play-circle" aria-hidden="true"></i>
+                  <span>Trailer</span>
                 </button>
                 <a class="btn btn--primary btn--lg" href="#book-viewer">
-                  <span>Get the playbook</span>
-                  <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn--ghost btn--lg" href="press.html">
-                  <span>Press kit</span>
-                  <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                  <i class="ph ph-shopping-cart" aria-hidden="true"></i>
+                  <span>Buy Now</span>
                 </a>
               </div>
             </div>
@@ -691,8 +682,32 @@
         <section id="book-viewer" class="book-section">
           <div class="book-block container max-width-adaptive-lg book-primary-layout">
             <div class="book-experience">
-              <!-- Book control toolbar -->
-              <nav class="book-toolbar book-rail" aria-label="Book controls">
+              <div class="format-hero-panel">
+                <img
+                  id="format-hero-image"
+                  class="format-hero-panel__image"
+                  src="/assets/images/heroposter1.png"
+                  alt="Game On! book promo poster with the line Learn the psychology of real connection"
+                />
+                <button
+                  type="button"
+                  id="open-book-3d-modal"
+                  class="format-hero-panel__trigger"
+                  aria-label="Open 3D viewer"
+                >
+                  <img
+                    src="/assets/images/07E3BF89-7E81-46E4-BC13-3E0112A9B922.png"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <span>3D</span>
+                </button>
+              </div>
+              <div class="book-3d-modal" id="book-3d-modal" hidden>
+                <div class="book-3d-modal__backdrop" id="book-3d-backdrop"></div>
+                <div class="book-3d-modal__dialog" role="dialog" aria-modal="true" aria-label="3D book viewer">
+                  <!-- Book control toolbar -->
+                  <nav class="book-toolbar book-rail" aria-label="Book controls">
                   <ul class="book-rail__list">
                     <li class="book-rail__item">
                       <button
@@ -836,8 +851,8 @@
                       <polyline points="18 17 13 12 18 7" />
                     </svg>
                   </button>
-              </nav>
-              <div class="book-3d-container">
+                  </nav>
+                  <div class="book-3d-container">
                 <div id="book-3d-viewer" class="book-3d-viewer">
                       <div class="book-loader"></div>
                       <div class="rotate-hint" aria-hidden="true">
@@ -855,14 +870,11 @@
                         <div class="shadow"></div>
                       </div>
                 </div>
-                <button
-                  class="book-3d-close"
-                  id="book-close"
-                  aria-label="Close expanded view"
-                  hidden
-                >
+                    <button class="book-3d-close" id="book-close" aria-label="Close 3D viewer">
                   &times;
                 </button>
+                  </div>
+                </div>
               </div>
               <div class="cover-zoom-modal" id="cover-zoom" hidden>
                 <div class="cover-zoom-content">
@@ -887,12 +899,6 @@
 
             <div class="purchase-box" id="purchase-options">
               <div class="buy-controls">
-                <h3 class="step-header step-one styledh1 brand-heading">
-                  <span class="brand-heading__emphasis">Your move.</span><br /><span
-                    class="brand-heading__base"
-                    >Select a format.</span
-                  >
-                </h3>
                 <div class="format-options step-one">
                   <div class="format-option">
                     <i class="ph ph-megaphone format-icon"></i>
@@ -1172,6 +1178,10 @@
               For media, interviews, or reader messages, contact:
               <a href="mailto:press@darenprince.com">press@darenprince.com</a>
             </p>
+            <a class="btn btn--primary btn--lg contact-desk-cta" href="/hxd/backstage.html">
+              <i class="ph ph-briefcase"></i>
+              <span>Daren’s Desk</span>
+            </a>
           </div>
         </section>
       </main>
@@ -1285,4 +1295,5 @@
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
+
 
