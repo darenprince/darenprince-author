@@ -74,10 +74,13 @@ async function initGallery() {
 
       const meta = document.createElement('div')
       meta.className = 'img-meta'
-      meta.innerHTML = `
-        <p class="img-description">${description}</p>
-        <p class="img-path">${path}</p>
-      `
+const descriptionEl = document.createElement('p');
+      descriptionEl.className = 'img-description';
+      descriptionEl.textContent = description;
+      const pathEl = document.createElement('p');
+      pathEl.className = 'img-path';
+      pathEl.textContent = path;
+      meta.append(descriptionEl, pathEl);
 
       const codeBox = document.createElement('div')
       codeBox.className = 'code-box'
