@@ -166,6 +166,7 @@
     .image-toolbar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
     .image-search { flex:1 1 240px; }
     .image-search input { width:100%; }
+    .image-result-count { margin:0; font-size:.9rem; letter-spacing:.02em; color:#9ac08f; }
     .image-zoom-controls { display:none; align-items:center; gap:.75rem; padding:.5rem .75rem; border-radius:999px; background:#1b1c1b; border:1px solid rgba(255,255,255,.08); }
     .image-zoom-controls label { font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; }
     .image-zoom-controls input[type="range"] { width:180px; }
@@ -177,8 +178,11 @@
     .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
     .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
     .image-grid img:active { transform:scale(1.1); }
-    .img-item { display:flex; flex-direction:column; gap:.5rem; }
-    .code-box { display:flex; align-items:center; gap:.5rem; background:#3B3C3B; padding:.25rem .5rem; border-radius:4px; font-size:.875rem; }
+    .img-item { display:flex; flex-direction:column; gap:.65rem; background:#111311; border:1px solid rgba(69,111,58,.35); border-radius:12px; padding:.75rem; box-shadow:0 8px 20px rgba(0,0,0,.28); }
+    .img-meta { display:grid; gap:.3rem; }
+    .img-description { margin:0; font-size:.85rem; color:#d5f0cd; line-height:1.35; }
+    .img-path { margin:0; font-size:.72rem; color:rgba(255,255,255,.62); overflow-wrap:anywhere; }
+    .code-box { display:flex; align-items:center; gap:.5rem; background:#253223; padding:.35rem .5rem; border-radius:6px; font-size:.875rem; border:1px solid rgba(69,111,58,.35); }
     .code-box code { flex:1; overflow-wrap:anywhere; max-height:0; opacity:0; overflow:hidden; transition:max-height .2s ease, opacity .2s ease; }
     .img-item.is-active .code-box code { max-height:6rem; opacity:1; }
     .code-box .btn { padding:.25rem .5rem; font-size:.75rem; }
@@ -308,6 +312,7 @@
       <div class="container">
         <h1 class="section-heading text-center margin-bottom-lg">Image Index</h1>
         <div class="image-toolbar">
+          <p id="image-result-count" class="image-result-count" aria-live="polite">0 images</p>
           <div class="image-search">
             <label class="sr-only" for="image-search">Search images</label>
             <input type="search" id="image-search" placeholder="Search images" />
