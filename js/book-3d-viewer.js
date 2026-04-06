@@ -11,8 +11,12 @@ const addToCartBtn = document.getElementById('add-to-cart')
 const bookToolbar = document.querySelector('.book-toolbar')
 const purchaseOptions = document.getElementById('purchase-options')
 const closeBtn = document.getElementById('book-close')
+const open3dModalBtn = document.getElementById('open-book-3d-modal')
+const book3dModal = document.getElementById('book-3d-modal')
+const book3dBackdrop = document.getElementById('book-3d-backdrop')
 let rotateHintTimeout
 let toolbarObserver
+let hasInitializedSpin = false
 
 const SNAP_FRONT = 18
 const SNAP_BACK = 199
@@ -137,6 +141,7 @@ function initialSpin() {
     () => {
       book.style.transition = 'transform 0.6s ease'
       autoInterval = startAutoRotate()
+      hasInitializedSpin = true
     },
     { once: true }
   )
@@ -144,7 +149,9 @@ function initialSpin() {
 
 applyRotation(rotation)
 
-if ('IntersectionObserver' in window) {
+if (book3dModal) {
+  hasInitializedSpin = false
+} else if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries, obs) => {
     if (entries[0].isIntersecting) {
       obs.disconnect()
@@ -265,6 +272,13 @@ addToCartBtn?.addEventListener('click', () => {
 })
 
 closeBtn?.addEventListener('click', () => {
+  if (book3dModal) {
+    book3dModal.setAttribute('hidden', '')
+    document.body.classList.remove('book-modal-open')
+    clearInterval(autoInterval)
+    clearTimeout(pauseTimeout)
+    return
+  }
   bookContainer?.classList.remove('fullscreen')
   closeBtn.setAttribute('hidden', '')
   bookToolbar?.removeAttribute('hidden')
@@ -274,3 +288,23 @@ closeBtn?.addEventListener('click', () => {
 
 setupToolbarObserver()
 window.matchMedia('(max-width: 767px)').addEventListener('change', setupToolbarObserver)
+
+function openBookModal() {
+  if (!book3dModal) return
+  book3dModal.removeAttribute('hidden')
+  document.body.classList.add('book-modal-open')
+  if (!hasInitializedSpin) {
+    initialSpin()
+    if (rotateHint) showRotateHint()
+  } else {
+    resetAutoRotate()
+  }
+}
+
+open3dModalBtn?.addEventListener('click', openBookModal)
+book3dBackdrop?.addEventListener('click', () => closeBtn?.click())
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && book3dModal && !book3dModal.hasAttribute('hidden')) {
+    closeBtn?.click()
+  }
+})

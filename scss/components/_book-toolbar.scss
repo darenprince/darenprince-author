@@ -18,6 +18,19 @@
   }
 }
 
+.book-3d-modal .book-toolbar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 4;
+  opacity: 1;
+  transform: translate(-110%, -50%);
+}
+
+.book-3d-modal .book-toolbar.visible {
+  transform: translate(-92%, -50%);
+}
+
 @media (min-width: 768px) {
   .book-media {
     position: relative;

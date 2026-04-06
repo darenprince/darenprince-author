@@ -8,7 +8,7 @@ import { globby } from 'globby';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
-const MASTER_ICON = path.join(ROOT_DIR, 'assets', 'icons', 'icon-master.PNG');
+const MASTER_ICON = path.join(ROOT_DIR, 'app icons', 'crownicon.PNG');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'assets', 'icons', 'generated');
 const SNIPPET_PATH = path.join(OUTPUT_DIR, 'icon-head.html');
 const PUBLIC_PATH = '/assets/icons/generated';
@@ -25,9 +25,9 @@ async function ensureMasterIcon() {
 function buildFaviconsConfig() {
   return {
     path: PUBLIC_PATH,
-    appName: 'Daren Prince',
-    appShortName: 'Daren Prince',
-    appDescription: 'Official website for author Daren Prince.',
+    appName: 'Crown Labs',
+    appShortName: 'Crown Labs',
+    appDescription: 'Umbrella Crown Labs and Daren Prince publishing ecosystem.',
     developerName: 'Daren Prince',
     developerURL: 'https://darenprince.com',
     dir: 'auto',
