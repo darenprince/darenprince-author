@@ -63,7 +63,7 @@ Use this as a quick reference when navigating the repository or onboarding colla
 ## Generated artifacts
 
 - `assets/styles.css` — compiled CSS. Run `npm run build` or `npm run watch` after editing Sass.
-- `assets/image-manifest.json` — output of `npm run generate:images` (repo-wide imagery list).
+- `assets/image-manifest.json` — output of `npm run generate:images` (repo-wide imagery catalog with descriptions).
 - `public/search/*.json` — Minisearch payloads from `npm run build:search`.
 
 > **Reality Check:** With the data platform offline, no scripts should attempt to read or write runtime credentials. Keep `.env` limited to analytics keys and automation endpoints until the new provider is ready.
