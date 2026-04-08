@@ -45,7 +45,7 @@ This project exists to:
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
-> **Crown Labs page:** `labs.html` and `labs/products/*.html` now follow the refactored Daren-Labs information architecture (portfolio cards, status KPIs, and standardized product briefs), use deployable social metadata (`labs/assets/labs-opengraph.svg`), and ship a dedicated Labs favicon (`labs/assets/labs-favicon.svg`) for GitHub Pages previews. Keep these assets committed and referenced with repository paths (no Netlify runtime dependencies).
+> **Crown Labs page:** `labs.html` now ships a premium long-form narrative (hero, brand intro, why Crown Labs exists, featured and secondary ecosystem products, platform architecture, differentiators, founder vision, and CTA), while `labs/products/*.html` remains the product brief library. The page uses deployable social metadata (`labs/assets/labs-opengraph.svg`) plus a dedicated Labs favicon (`labs/assets/labs-favicon.svg`) for GitHub Pages previews. Keep these assets committed and referenced with repository paths (no Netlify runtime dependencies).
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
