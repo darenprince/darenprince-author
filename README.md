@@ -177,8 +177,8 @@ _Adding a new token_
 📁 /member/         # Gated content area (future)
 📁 /docs/           # Prompts, logic, visual guides, build notes, audits
 📁 /pages/          # Additional static page entries (e.g., search results)
-📄 labs.html        # Primary homepage (Crown Labs)
-📄 index.html       # Root redirect to labs.html
+📄 index.html       # Primary homepage (Daren Prince Author)
+📄 labs.html        # Crown Labs landing page
 📄 components.html  # Master demo sheet for UI components
 📄 setup.sh         # Local setup script
 📄 CNAME            # GitHub Pages custom domain binding
@@ -206,8 +206,8 @@ _Adding a new token_
 
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
-- `labs.html` — primary public landing page (Crown Labs experience with product, framework, and status modules).
-- `index.html` — lightweight redirect to `labs.html` for GitHub Pages root traffic.
+- `index.html` — primary public author landing page (books, media, and brand story).
+- `labs.html` — Crown Labs experience with product, framework, and status modules.
 - `book.html` — tabbed format selector with trailer modal and 3D viewer.
 - `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
 - `dashboard.html` — member dashboard placeholder with migration messaging.
