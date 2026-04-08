@@ -32,7 +32,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 >
-> **Crown Labs reminder:** `labs.html` now uses direct favicon assets from `/assets/icons/` (not generated-only paths) plus explicit OG/Twitter metadata with the Crown Labs social image. Keep these references live and committed for GitHub Pages.
+> **Crown Labs reminder:** `labs/index.html` is generated from `darenprince/Daren-Labs/artifacts/crown-labs/` (`npm run build:labs`) and uses direct favicon assets from `/assets/icons/` plus explicit OG/Twitter metadata with the Crown Labs social image. Keep these references live and committed for GitHub Pages.
 
 ## GitHub Pages configuration
 
@@ -82,11 +82,12 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 - [ ] Populate `.env` (local) with analytics keys and any third-party automation endpoints.
 - [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
+- [ ] Run `npm run build:labs` to rebuild the artifact-backed Crown Labs app into `/labs/`.
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
 - [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
-- [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
+- [ ] Confirm `labs/index.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).

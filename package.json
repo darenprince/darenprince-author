@@ -15,13 +15,14 @@
     "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass; husky install",
     "deploy": "npm run build && npm run postprocess:seo",
-    "deploy:github-pages": "DOMAIN=${DOMAIN:-https://www.darenprince.com} npm run deploy",
+    "deploy:github-pages": "DOMAIN=${DOMAIN:-https://www.darenprince.com} npm run build && npm run build:labs && npm run postprocess:seo",
     "postprocess:assets": "node optimize-images.js --root .",
     "postprocess:seo": "node seo-enrich.js --root . --domain $DOMAIN",
     "fetch:noun-icons": "node scripts/fetch-noun-icons.mjs",
     "format": "prettier --write .",
     "lint:buttons": "node scripts/check-button-variants.mjs",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "build:labs": "npm --prefix darenprince/Daren-Labs/artifacts/crown-labs install && npm --prefix darenprince/Daren-Labs/artifacts/crown-labs run build"
   },
   "devDependencies": {
     "@sendgrid/mail": "^8.1.6",
