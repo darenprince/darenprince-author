@@ -45,7 +45,7 @@ This project exists to:
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
-> **Crown Labs page:** `labs/index.html` now pins its browser chrome to brand green and references stable favicon assets under `assets/icons/` with explicit OG/Twitter sharing metadata. Keep those image/icon references deployable for GitHub Pages before every push.
+> **Crown Labs page:** `labs.html` is now the primary Crown Labs landing page (with `index.html` and `/labs/` redirecting into it), pins browser chrome to brand green, and references stable favicon assets under `assets/icons/` with explicit OG/Twitter sharing metadata. Keep those image/icon references deployable for GitHub Pages before every push.
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
@@ -177,7 +177,8 @@ _Adding a new token_
 📁 /member/         # Gated content area (future)
 📁 /docs/           # Prompts, logic, visual guides, build notes, audits
 📁 /pages/          # Additional static page entries (e.g., search results)
-📄 index.html       # Homepage
+📄 labs.html        # Primary homepage (Crown Labs)
+📄 index.html       # Root redirect to labs.html
 📄 components.html  # Master demo sheet for UI components
 📄 setup.sh         # Local setup script
 📄 CNAME            # GitHub Pages custom domain binding
@@ -205,7 +206,8 @@ _Adding a new token_
 
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
-- `index.html` — hero rail, featured book CTA, testimonials, contact capture.
+- `labs.html` — primary public landing page (Crown Labs experience with product, framework, and status modules).
+- `index.html` — lightweight redirect to `labs.html` for GitHub Pages root traffic.
 - `book.html` — tabbed format selector with trailer modal and 3D viewer.
 - `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
 - `dashboard.html` — member dashboard placeholder with migration messaging.

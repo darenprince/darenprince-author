@@ -32,7 +32,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 >
-> **Crown Labs reminder:** `labs/index.html` now uses direct favicon assets from `/assets/icons/` (not generated-only paths) plus explicit OG/Twitter metadata with the Crown Labs social image. Keep these references live and committed for GitHub Pages.
+> **Crown Labs reminder:** `labs.html` is now the canonical Crown Labs landing page (with redirect stubs in `index.html` and `labs/index.html`). Keep its direct favicon assets (`/assets/icons/`) plus explicit OG/Twitter metadata live and committed for GitHub Pages.
 
 ## GitHub Pages configuration
 
@@ -86,7 +86,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
-- [ ] Confirm `labs/index.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
+- [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links), valid OG/Twitter social image URLs, and that `index.html` + `labs/index.html` redirects still target `labs.html`.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
