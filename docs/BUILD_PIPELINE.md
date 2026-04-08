@@ -86,7 +86,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
-- [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links), valid OG/Twitter social image URLs, and that `index.html` + `labs/index.html` redirects still target `labs.html`.
+- [ ] Confirm `index.html` is the primary author homepage (no redirect), and `labs/index.html` still redirects cleanly to `labs.html`.
+- [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
