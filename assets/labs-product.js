@@ -1,23 +1,11 @@
 const themeToggle = document.getElementById('theme-toggle')
-
 const setTheme = (mode) => {
-  if (mode === 'light') {
-    document.body.classList.add('theme-light')
-    themeToggle?.setAttribute('aria-pressed', 'true')
-  } else {
-    document.body.classList.remove('theme-light')
-    themeToggle?.setAttribute('aria-pressed', 'false')
-  }
-}
-
-const storedTheme = localStorage.getItem('labs-theme')
-if (storedTheme) {
-  setTheme(storedTheme)
-}
-
-themeToggle?.addEventListener('click', () => {
-  const isLight = document.body.classList.toggle('theme-light')
-  const mode = isLight ? 'light' : 'dark'
-  themeToggle.setAttribute('aria-pressed', String(isLight))
+  const light = mode === 'light'
+  document.body.classList.toggle('theme-light', light)
+  themeToggle?.setAttribute('aria-pressed', String(light))
   localStorage.setItem('labs-theme', mode)
-})
+}
+setTheme(localStorage.getItem('labs-theme') || 'dark')
+themeToggle?.addEventListener('click', () =>
+  setTheme(document.body.classList.contains('theme-light') ? 'dark' : 'light')
+)
