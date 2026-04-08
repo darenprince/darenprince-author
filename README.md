@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-03-26_
+_Last updated: 2026-04-08_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -45,7 +45,7 @@ This project exists to:
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
-> **Crown Labs page:** `labs.html` is now the primary Crown Labs landing page (with `index.html` and `/labs/` redirecting into it), pins browser chrome to brand green, and references stable favicon assets under `assets/icons/` with explicit OG/Twitter sharing metadata. Keep those image/icon references deployable for GitHub Pages before every push.
+> **Crown Labs page:** `labs.html` and `labs/products/*.html` now follow the refactored Daren-Labs information architecture (portfolio cards, status KPIs, and standardized product briefs), use deployable social metadata (`labs/assets/labs-opengraph.svg`), and ship a dedicated Labs favicon (`labs/assets/labs-favicon.svg`) for GitHub Pages previews. Keep these assets committed and referenced with repository paths (no Netlify runtime dependencies).
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 

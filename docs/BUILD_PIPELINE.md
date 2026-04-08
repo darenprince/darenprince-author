@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-03-27_
+_Last updated: 2026-04-08_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -32,7 +32,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 >
-> **Crown Labs reminder:** `labs.html` is now the canonical Crown Labs landing page (with redirect stubs in `index.html` and `labs/index.html`). Keep its direct favicon assets (`/assets/icons/`) plus explicit OG/Twitter metadata live and committed for GitHub Pages.
+> **Crown Labs reminder:** `labs.html` and generated `labs/products/*.html` are now aligned to the Daren-Labs portfolio model. Keep Labs-specific social assets (`labs/assets/labs-opengraph.svg`) and favicon (`labs/assets/labs-favicon.svg`) committed, and regenerate product pages with `node scripts/generate-labs-product-pages.mjs` whenever `assets/labs-data.json` changes.
 
 ## GitHub Pages configuration
 

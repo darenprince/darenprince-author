@@ -35,29 +35,33 @@ const template = ({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${name} | Crown Labs</title>
   <meta name="description" content="${tagline}">
-  <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
-  <link rel="stylesheet" href="/assets/labs.css">
-  <link rel="stylesheet" href="/assets/labs-product.css">
+  <meta name="theme-color" content="#0a7a57">
+  <link rel="canonical" href="https://www.darenprince.com/labs/products/${id}.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="${name} | Crown Labs">
+  <meta property="og:description" content="${oneLiner}">
+  <meta property="og:url" content="https://www.darenprince.com/labs/products/${id}.html">
+  <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${name} | Crown Labs">
+  <meta name="twitter:description" content="${oneLiner}">
+  <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg">
+  <link rel="icon" type="image/svg+xml" href="../assets/labs-favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/generated/favicon-32x32.png">
+  <link rel="stylesheet" href="../../assets/labs-product.css">
 </head>
 <body class="theme-dark product-page">
   <header class="top-nav">
     <div class="nav-brand">
-      <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+      <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
       <div>
         <strong>${name}</strong>
         <div class="footer-note">${categoryLabel || category}</div>
       </div>
     </div>
     <div class="nav-actions">
-      <a class="back-link" href="/labs.html#portfolio">
-        <i class="ph ph-arrow-left icon-inline" aria-hidden="true"></i>
-        Back to portfolio
-      </a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">
-        <span class="theme-toggle__thumb" aria-hidden="true"></span>
-      </button>
+      <a class="back-link" href="../../labs.html#portfolio">Back to portfolio</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">Theme</button>
     </div>
   </header>
 
@@ -73,12 +77,8 @@ const template = ({
         <p>${oneLiner}</p>
         <div class="access-actions">
           <a class="primary-btn" href="#access">Request access</a>
-          <a class="ghost-btn" href="/labs.html#portfolio">Explore all products</a>
-          <a class="ghost-btn" href="mailto:labs@darenprince.com">Email the Lab</a>
+          <a class="ghost-btn" href="../../labs.html#portfolio">Explore all products</a>
         </div>
-      </div>
-      <div class="hero-image">
-        <img src="/assets/brand/products/${id}-hero.png" alt="${name} preview" loading="lazy" onerror="this.style.display='none'">
       </div>
     </section>
 
@@ -109,17 +109,11 @@ const template = ({
     <section class="panel-grid">
       <div class="panel-card">
         <h3>Key outcomes</h3>
-        <ul>
-          ${bullets.map((item) => `<li>${item}</li>`).join('')}
-        </ul>
+        <ul>${bullets.map((item) => `<li>${item}</li>`).join('')}</ul>
       </div>
       <div class="panel-card">
         <h3>Performance metrics</h3>
-        <ul>
-          ${metrics
-            .map((metric) => `<li><strong>${metric.label}:</strong> ${metric.value}</li>`)
-            .join('')}
-        </ul>
+        <ul>${metrics.map((metric) => `<li><strong>${metric.label}:</strong> ${metric.value}</li>`).join('')}</ul>
       </div>
     </section>
 
@@ -131,53 +125,35 @@ const template = ({
     <section class="panel-grid">
       <div class="panel-card">
         <h3>Who it’s for</h3>
-        <ul>
-          ${whoFor.map((item) => `<li>${item}</li>`).join('')}
-        </ul>
+        <ul>${whoFor.map((item) => `<li>${item}</li>`).join('')}</ul>
       </div>
       <div class="panel-card">
         <h3>Core capabilities</h3>
-        <ul>
-          ${capabilities.map((item) => `<li>${item}</li>`).join('')}
-        </ul>
+        <ul>${capabilities.map((item) => `<li>${item}</li>`).join('')}</ul>
       </div>
       <div class="panel-card">
         <h3>What it is NOT</h3>
-        <ul>
-          ${not.map((item) => `<li>${item}</li>`).join('')}
-        </ul>
+        <ul>${not.map((item) => `<li>${item}</li>`).join('')}</ul>
       </div>
     </section>
 
     <section id="access" class="section-block">
       <h2>Request access</h2>
-      <p>Tell the Lab what you need, the timeline, and the environment you operate in. We respond with the next step and a controlled access plan.</p>
-      <form class="access-form" name="${id}-access" method="POST" action="/labs/products/${id}.html">
+      <p>Tell the Lab what you need, timeline, and environment. We reply with controlled next steps.</p>
+      <form class="access-form" name="${id}-access" method="POST" action="./${id}.html">
         <input type="hidden" name="form-name" value="${id}-access">
         <input type="hidden" name="product" value="${name}">
-        <label>
-          Your name
-          <input type="text" name="name" required>
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required>
-        </label>
-        <label>
-          Role / organization
-          <input type="text" name="role">
-        </label>
-        <label>
-          What do you need?
-          <textarea name="message" required></textarea>
-        </label>
+        <label>Your name<input type="text" name="name" required></label>
+        <label>Email<input type="email" name="email" required></label>
+        <label>Role / organization<input type="text" name="role"></label>
+        <label>What do you need?<textarea name="message" required></textarea></label>
         <button class="primary-btn" type="submit">Send request</button>
       </form>
-      <p class="footer-note">Prefer a direct channel? Email <a href="mailto:labs@darenprince.com">labs@darenprince.com</a>.</p>
+      <p class="footer-note">Direct channel: <a href="mailto:labs@darenprince.com">labs@darenprince.com</a></p>
     </section>
   </main>
 
-  <script src="/assets/labs-product.js"></script>
+  <script src="../../assets/labs-product.js"></script>
 </body>
 </html>
 `
