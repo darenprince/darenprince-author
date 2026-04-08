@@ -2,33 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Crown Labs | Product Portfolio</title>
     <meta
       name="description"
-      content="Crown Labs is the advanced innovation and intelligence company built by Daren Prince, creating a connected ecosystem across AI, security, forensics, communication, and growth systems."
+      content="Crown Labs • A Division of Daren Prince Publishing. Innovation. Intelligence. Integrity. Explore the Crown Labs product portfolio."
     />
+    <meta name="theme-color" content="#070b14" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#05070f" />
-    <meta name="author" content="Daren Prince" />
-    <title>Crown Labs | Advanced Innovation and Intelligence</title>
     <link rel="canonical" href="https://www.darenprince.com/labs.html" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Crown Labs | Advanced Innovation and Intelligence" />
+    <meta property="og:title" content="Crown Labs | Product Portfolio" />
     <meta
       property="og:description"
-      content="Explore the Crown Labs ecosystem across CrownCode, CrownCam, LumiLogix, AiCherryPie, Pic Detective, Crown SOS, JustUs.chat, and Game On platforms."
+      content="Innovation. Intelligence. Integrity. Explore Crown Labs products and readiness status."
     />
     <meta property="og:url" content="https://www.darenprince.com/labs.html" />
-    <meta property="og:site_name" content="Crown Labs" />
     <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
-    <meta property="og:image:alt" content="Crown Labs social preview" />
+    <meta property="og:image:alt" content="Crown Labs product portfolio" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Crown Labs | Advanced Innovation and Intelligence" />
+    <meta name="twitter:title" content="Crown Labs | Product Portfolio" />
     <meta
       name="twitter:description"
-      content="A premium innovation company building applied intelligence, security, communication, and behavior-aware systems for real world outcomes."
+      content="The experimental and development division of Daren Prince Publishing."
     />
     <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
 
@@ -38,222 +36,95 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/labs.css" />
   </head>
-  <body class="crown-labs-page" id="top">
-    <div class="labs-shell" aria-hidden="true">
-      <div class="labs-orb labs-orb--one"></div>
-      <div class="labs-orb labs-orb--two"></div>
-      <div class="labs-grid"></div>
-    </div>
+  <body id="top">
+    <div class="scroll-progress" aria-hidden="true"></div>
 
     <header class="labs-header">
-      <div class="labs-container">
-        <a class="labs-logo-link" href="#top" aria-label="Crown Labs home">
-          <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="labs-logo" />
+      <div class="header-redline"></div>
+      <div class="header-inner">
+        <a href="#top" class="logo-link" aria-label="Crown Labs home">
+          <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="logo" />
         </a>
-
-        <button class="labs-menu-toggle" type="button" aria-expanded="false" aria-controls="labs-nav">
-          Menu
-        </button>
-
-        <nav id="labs-nav" class="labs-nav" aria-label="Primary">
-          <a href="#intro">About</a>
-          <a href="#products">Products</a>
-          <a href="#platform">Platform</a>
-          <a href="#difference">Why Crown Labs</a>
-          <a href="#founder">Founder</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">☰</button>
       </div>
+      <nav id="site-menu" class="site-menu" aria-label="Site menu">
+        <a href="#portfolio">Product Portfolio</a>
+        <a href="#founder">About</a>
+        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Beta%20Testers">Beta Testers</a>
+      </nav>
     </header>
 
-    <main>
-      <section class="hero-section labs-container" aria-labelledby="hero-title">
-        <div class="hero-content">
-          <p class="hero-kicker">Crown Labs</p>
-          <h1 id="hero-title">Advanced innovation and intelligence for high stakes real world execution.</h1>
-          <p class="hero-subtitle">
-            Crown Labs combines practical AI, security engineering, behavioral insight, and premium
-            design to build systems people can trust when decisions matter.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#products">Explore the ecosystem</a>
-            <a class="btn btn-secondary" href="#contact">Request strategic access</a>
-          </div>
-        </div>
-        <aside class="hero-panel" aria-label="Crown Labs intelligence pillars">
-          <h2>Intelligence pillars</h2>
-          <ul>
-            <li>Applied AI analytics and workflow automation</li>
-            <li>Security monitoring and forensic clarity</li>
-            <li>Human behavior and communication systems</li>
-            <li>Founder-led product discipline and delivery</li>
-          </ul>
-        </aside>
-      </section>
-
-      <section id="intro" class="labs-section labs-container" aria-labelledby="intro-title">
-        <div class="section-heading">
-          <p class="section-kicker">Brand intro</p>
-          <h2 id="intro-title">Crown Labs is the innovation arm behind a connected product ecosystem.</h2>
-        </div>
-        <p class="section-lede">
-          Every product inside Crown Labs is part of a coordinated strategy, not a disconnected set
-          of experiments. The portfolio spans intelligence operations, security visibility, digital
-          forensics, emotionally intelligent growth systems, and secure communication products.
+    <main class="container">
+      <section class="hero" id="founder">
+        <p class="kicker">Crown Labs • A Division of Daren Prince Publishing</p>
+        <h1>Innovation.<br />Intelligence.<br /><span>Integrity.</span></h1>
+        <p class="lead">The experimental and development division of Daren Prince Publishing.</p>
+        <p>
+          Crown Labs is the creative force behind a growing network of intelligent technologies, digital
+          platforms, and human-centered innovations. This is where ideas evolve into living systems.
         </p>
-      </section>
-
-      <section class="labs-section labs-container" aria-labelledby="why-title">
-        <div class="section-heading">
-          <p class="section-kicker">Why Crown Labs exists</p>
-          <h2 id="why-title">Most teams separate technology from human behavior. Crown Labs builds where they intersect.</h2>
-        </div>
-        <div class="two-column-copy">
-          <p>
-            The market is full of tools that look polished but fail under pressure. Crown Labs was
-            built to close that gap by designing systems that are intelligent, secure, and useful in
-            practical conditions.
-          </p>
-          <p>
-            This means faster deployment, clearer insight, stronger decision support, and a product
-            standard designed for operators, founders, creators, and mission-driven teams.
-          </p>
-        </div>
-      </section>
-
-      <section id="products" class="labs-section labs-container" aria-labelledby="products-title">
-        <div class="section-heading">
-          <p class="section-kicker">Featured products</p>
-          <h2 id="products-title">Flagship platforms driving the Crown Labs ecosystem.</h2>
-        </div>
-
-        <div class="featured-grid">
-          <article class="product-card product-card--featured">
-            <h3>CrownCode Intelligence Suite</h3>
-            <p>
-              Intelligence-grade analytics for behavioral analysis, investigative workflows, and
-              evidence-ready reporting. Built to transform fragmented data into clear action.
-            </p>
-          </article>
-          <article class="product-card product-card--featured">
-            <h3>CrownCam</h3>
-            <p>
-              A browser-based camera control center with rapid setup, live viewing, and premium
-              multi-location oversight designed for modern security operations.
-            </p>
-          </article>
-          <article class="product-card product-card--featured">
-            <h3>LumiLogix</h3>
-            <p>
-              An emotionally intelligent marketing engine that maps audience psychology, campaign
-              momentum, and message performance to improve growth quality.
-            </p>
-          </article>
-        </div>
-
-        <div class="section-heading section-heading--tight">
-          <p class="section-kicker">Ecosystem products</p>
-          <h3>Secondary platforms with focused strategic roles.</h3>
-        </div>
-
-        <div class="secondary-grid">
-          <article class="product-card">
-            <h4>AiCherryPie</h4>
-            <p>Humanization and writing refinement engine that removes robotic AI patterns.</p>
-          </article>
-          <article class="product-card">
-            <h4>Pic Detective</h4>
-            <p>Image intelligence and visual forensics platform for validation, review, and analysis.</p>
-          </article>
-          <article class="product-card">
-            <h4>Crown SOS</h4>
-            <p>Crisis response and emergency coordination concept for time-sensitive environments.</p>
-          </article>
-          <article class="product-card">
-            <h4>JustUs.chat</h4>
-            <p>Secure communication experience designed for trust, clarity, and sensitive conversations.</p>
-          </article>
-          <article class="product-card">
-            <h4>Game On ecosystem</h4>
-            <p>
-              Relationship intelligence products and communication frameworks rooted in psychology,
-              signal detection, and authentic human connection.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section id="platform" class="labs-section labs-container" aria-labelledby="platform-title">
-        <div class="section-heading">
-          <p class="section-kicker">Platform architecture</p>
-          <h2 id="platform-title">One innovation umbrella. Multiple products. Shared intelligence layer.</h2>
-        </div>
-        <div class="platform-grid">
-          <article>
-            <h3>Shared design language</h3>
-            <p>Consistent interaction models, premium UI standards, and unified trust signals.</p>
-          </article>
-          <article>
-            <h3>Data and signal intelligence</h3>
-            <p>Cross-product learnings improve analysis quality, workflow speed, and decision confidence.</p>
-          </article>
-          <article>
-            <h3>Deployment discipline</h3>
-            <p>Built for phased rollout, operator feedback loops, and measurable business outcomes.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="difference" class="labs-section labs-container" aria-labelledby="difference-title">
-        <div class="section-heading">
-          <p class="section-kicker">What makes Crown Labs different</p>
-          <h2 id="difference-title">Cinematic presentation backed by serious product intent.</h2>
-        </div>
-        <ul class="difference-list">
-          <li>Founder-led direction with technical and strategic accountability.</li>
-          <li>Behavior-aware product strategy, not surface-level automation.</li>
-          <li>Security, intelligence, and communication products designed to work together.</li>
-          <li>A premium brand standard that reflects trust, precision, and execution.</li>
-        </ul>
-      </section>
-
-      <section id="founder" class="labs-section labs-container" aria-labelledby="founder-title">
-        <div class="section-heading">
-          <p class="section-kicker">Founder vision</p>
-          <h2 id="founder-title">Built by Daren Prince for teams that need clarity, leverage, and control.</h2>
-        </div>
-        <p class="section-lede">
-          Crown Labs reflects a founder with technical depth, creative range, and real world grit.
-          The mission is to build products that stay elegant under pressure and useful in high trust
-          environments where weak systems fail.
-        </p>
-      </section>
-
-      <section id="contact" class="labs-section labs-section--cta labs-container" aria-labelledby="contact-title">
-        <div class="section-heading">
-          <p class="section-kicker">Call to action</p>
-          <h2 id="contact-title">Partner with Crown Labs</h2>
-        </div>
-        <p class="section-lede">
-          Crown Labs is expanding across enterprise intelligence, security applications, and
-          behavior-focused communication systems.
+        <p class="belief">
+          Every project begins with one belief: true intelligence starts with intention, and technology should
+          always serve humanity.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Inquiry">Start the conversation</a>
-          <a class="btn btn-secondary" href="./sitemap.html">Explore all Crown surfaces</a>
+          <a href="#portfolio" class="btn btn-primary">See the portfolio →</a>
+          <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Beta%20Testers" class="btn btn-secondary">Beta Testers</a>
         </div>
+        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Developer" class="btn btn-wide">Become A Crown Labs Developer</a>
+      </section>
+
+      <section class="stats" aria-label="Portfolio statistics">
+        <article><h3>Total products</h3><p>12</p></article>
+        <article><h3>Active in beta</h3><p>4</p></article>
+        <article><h3>Concepts in lab</h3><p>8</p></article>
+      </section>
+
+      <section id="portfolio" class="portfolio-head">
+        <h2>Product Portfolio</h2>
+        <p>Scan what exists, filter by readiness, and expand details without losing the high-level view.</p>
+      </section>
+
+      <section class="portfolio-card">
+        <div class="badges"><span class="badge stage">Stage 1 Beta</span><span class="badge focus">Intelligence</span></div>
+        <h3>CrownCode Intelligence Suite</h3>
+        <p class="sub">Flagship Intelligence Platform</p>
+        <p>
+          A multimodal AI intelligence suite that documents, correlates, profiles, forecasts, and explains
+          evidence-grade insights.
+        </p>
+        <h4>Core capabilities</h4>
+        <ul>
+          <li>Multimodal intelligence extraction across text, image, audio, video, and metadata</li>
+          <li>Predictive behavioral modeling and psychological threat assessment</li>
+          <li>Evidence-grade reporting with audit trails and chain-of-custody</li>
+        </ul>
+        <div class="next-gate">
+          <h4>Next gate</h4>
+          <p>Complete Stage 1 beta with validated evidence-ready reporting.</p>
+        </div>
+      </section>
+
+      <section class="portfolio-card">
+        <div class="badges"><span class="badge beta">Beta</span><span class="badge security">Security</span></div>
+        <h3>CrownCam</h3>
+        <p class="sub">Security & Situational Awareness</p>
+        <p>
+          A browser-based security camera platform that turns any device into an intelligent, real-time
+          surveillance system.
+        </p>
       </section>
     </main>
 
-    <footer class="labs-footer">
-      <div class="labs-container">
-        <p>© <span id="labs-year"></span> Crown Labs. Built by Daren Prince.</p>
-      </div>
+    <a class="scroll-top" href="#top" aria-label="Back to top">↑</a>
+
+    <footer class="footer">
+      <p>© <span id="labs-year"></span> Crown Labs • Daren Prince Publishing</p>
     </footer>
 
     <script src="assets/labs.js" defer></script>

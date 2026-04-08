@@ -30,3 +30,9 @@
 - Documented build lifecycle in `docs/BUILD_PIPELINE.md`, including npm scripts, GitHub Pages config, and search/index caveats.
 - Published the data platform migration plan in `docs/data-platform-migration.md`.
 - Logged search index gap (missing `/content/`) and H1 inconsistencies for follow-up in the audit report.
+
+## 2026-04-08 — Crown Labs source-of-truth sync (GitHub Pages)
+
+- Replaced the Crown Labs public page implementation with the user-approved reference layout/copy to match the provided source experience.
+- Confirmed `labs.html` keeps GitHub Pages-ready absolute/relative metadata, favicon, social card, and canonical tags for deployment.
+- Synced supporting front-end assets (`assets/labs.css`, `assets/labs.js`) to preserve the new mobile-first UI behavior (menu, progress bar, scroll-to-top).
