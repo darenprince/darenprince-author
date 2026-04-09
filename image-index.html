@@ -171,12 +171,16 @@
     .image-zoom-controls label { font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; }
     .image-zoom-controls input[type="range"] { width:180px; }
     .image-zoom-value { font-size:.85rem; color:rgba(255,255,255,.7); min-width:3.5rem; text-align:right; }
+    .image-columns-controls { display:flex; align-items:center; gap:.55rem; padding:.45rem .65rem; border-radius:999px; background:#1b1c1b; border:1px solid rgba(255,255,255,.08); }
+    .image-columns-controls label { font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.82); }
+    .image-columns-controls select { min-width:4.25rem; background:#0f110f; color:#f4fff1; border:1px solid rgba(69,111,58,.6); border-radius:999px; padding:.3rem .6rem; font-size:.82rem; }
     @media (min-width: 768px) {
       .image-zoom-controls { display:flex; }
+      .image-columns-controls { display:none; }
     }
-    .image-grid { --image-grid-size:220px; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; }
+    .image-grid { --image-grid-size:220px; --image-grid-columns-mobile:4; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; }
     @media (max-width: 768px) {
-      .image-grid { --image-grid-size:90px; grid-template-columns:repeat(4, minmax(0, 1fr)); }
+      .image-grid { --image-grid-size:90px; grid-template-columns:repeat(var(--image-grid-columns-mobile), minmax(0, 1fr)); }
     }
     .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
     .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
@@ -185,9 +189,7 @@
     .img-meta { display:grid; gap:.3rem; }
     .img-description { margin:0; font-size:.85rem; color:#d5f0cd; line-height:1.35; }
     .img-path { margin:0; font-size:.72rem; color:rgba(255,255,255,.62); overflow-wrap:anywhere; }
-    .code-box { display:flex; align-items:center; gap:.5rem; background:#253223; padding:.35rem .5rem; border-radius:6px; font-size:.875rem; border:1px solid rgba(69,111,58,.35); }
-    .code-box code { flex:1; overflow-wrap:anywhere; max-height:0; opacity:0; overflow:hidden; transition:max-height .2s ease, opacity .2s ease; }
-    .img-item.is-active .code-box code { max-height:6rem; opacity:1; }
+    .code-box { display:flex; justify-content:flex-end; background:#253223; padding:.35rem .5rem; border-radius:6px; font-size:.875rem; border:1px solid rgba(69,111,58,.35); }
     .code-box .btn { padding:.25rem .5rem; font-size:.75rem; }
     .img-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; z-index:1000; }
 
@@ -340,6 +342,15 @@
             <label for="image-zoom">Zoom</label>
             <input type="range" id="image-zoom" min="84" max="360" step="10" value="220" data-default="220" />
             <span id="image-zoom-value" class="image-zoom-value">100%</span>
+          </div>
+          <div class="image-columns-controls" aria-label="Image column selector">
+            <label for="image-columns">Columns</label>
+            <select id="image-columns">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+            </select>
           </div>
         </div>
       </div>
