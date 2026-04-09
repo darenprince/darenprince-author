@@ -167,13 +167,13 @@
   {
     "id": "38d0b7538c9232cbe24ab72db75364ae",
     "url": "/labs/",
-    "title": "Crown Labs | CrownCode.ai Product Studio",
-    "description": "Crown Labs is the CrownCode.ai applied intelligence studio shipping evidence-ready platforms across security, forensics, behavioral systems, and creative technology.",
+    "title": "Crown Labs | Product Portfolio",
+    "description": "Crown Labs • A Division of Daren Prince Publishing. Innovation. Intelligence. Integrity. Explore the Crown Labs product portfolio.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Applied Intelligence Studio for Real-World Product Outcomes Meet the Founder & Chief Architect — Daren Prince Architect of the Crown Labs stack Behavioral and intelligence focus Evidence-ready execution Portfolio-level leverage Executive Overview What This Portfolio\n              Represents Design Intent Portfolio Structure Execution Discipline Portfolio Status What you’ll see Product Portfolio Filter & search Frameworks Books & IP Status definitions Portfolio Valuation\n            & Net Worth Statement As-is portfolio valuation Projected valuation (completed) Projected annual revenue (all products combined) Portfolio statement Closing statement Next moves (optional) Ethics & Limits Privacy-first defaults Decision-support only No retention by design User access gate Access request received. Get notifications Subscription confirmed. Crown Labs Login Access granted. Apply for Access What you get What we need Estimated time What you get What we need Estimated time What you get What we need Estimated time Request received. Product brief Crown Labs",
-    "content": "Crown Labs Applied intelligence studio Get notifications Lab login User access Beta Testers Explore the Lab Overview Mission, philosophy, and the Lab standard. Portfolio See what ships now and what’s next. Frameworks The systems intelligence behind each build. Knowledge & IP Books & IP Published insight and upcoming releases. Live status Truth-labeled readiness updates. Financials Progress metrics"
+    "headings": "Innovation.Intelligence.Integrity. Total products Active in beta Concepts in lab Product Portfolio CrownCode Intelligence Suite CrownCam",
+    "content": "☰ Product Portfolio About Beta Testers Crown Labs • A Division of Daren Prince Publishing Innovation.Intelligence.Integrity. The experimental and development division of Daren Prince Publishing. Crown Labs is the creative force behind a growing network of intelligent technologies, digital platforms, and human-centered innovations. This is where ideas evolve into living systems. Every project begin"
   },
   {
     "id": "c4ed76445457453148fa5c4b0ca77f5a",
@@ -195,7 +195,7 @@
     "category": "",
     "tags": [],
     "headings": "Image Index",
-    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% Confident, psychology-backed storytelling, systems, and tools for real transformation. F"
+    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% On mobile: pinch to adjust image density (up to 4 columns). Confident, psychology-backed"
   },
   {
     "id": "557bbdea7a20d92738ca55dd7d4e29b1",

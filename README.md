@@ -238,7 +238,7 @@ _What to do next_
 ## 🔍 Search Workflow
 
 1. Add Markdown to `/content/` (front matter optional) or static pages under `/pages/`.
-2. Run `npm run build:search` to regenerate `public/search/index.json` and `docs.json`.
+2. Run `npm run build:search` to regenerate both `public/search/*.json` and root-level `search/*.json` (GitHub Pages-ready static fallback).
 3. `src/js/search.js` powers auto-complete; `src/js/search-results.js` renders search results.
 
 > `npm run build:search` now indexes Markdown in `/content/` plus production HTML surfaces (root pages + curated nested app directories), so search works in production even before `/content/` is populated.

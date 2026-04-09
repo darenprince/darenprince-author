@@ -18,9 +18,18 @@ async function initGallery() {
   let current = images
 
   const zoomConfig = {
-    min: zoomInput ? Number(zoomInput.min) || 140 : 140,
+    min: zoomInput ? Number(zoomInput.min) || 80 : 80,
     max: zoomInput ? Number(zoomInput.max) || 360 : 360,
     defaultValue: zoomInput ? Number(zoomInput.dataset.default || zoomInput.value || 220) : 220,
+  }
+
+  function setMobileColumns(zoom) {
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      const columns = zoom <= 95 ? 4 : zoom <= 125 ? 3 : 2
+      gallery.style.setProperty('--image-grid-columns-mobile', String(columns))
+      return
+    }
+    gallery.style.removeProperty('--image-grid-columns-mobile')
   }
 
   function setZoom(value) {
@@ -33,6 +42,8 @@ async function initGallery() {
       const percent = Math.round((clamped / zoomConfig.defaultValue) * 100)
       zoomValue.textContent = `${percent}%`
     }
+
+    setMobileColumns(clamped)
 
     return clamped
   }
@@ -121,7 +132,15 @@ async function initGallery() {
     const modal = document.createElement('div')
     modal.className = 'img-modal'
     modal.tabIndex = -1
-    modal.innerHTML = `<span class="close" aria-label="Close image preview">&times;</span><img src="${src}" alt="${alt}">`
+    modal.innerHTML = `
+      <div class="img-modal__dialog" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button type="button" class="img-modal__close" aria-label="Close image preview">
+          <i class="ph ph-x" aria-hidden="true"></i>
+          <span>Close</span>
+        </button>
+        <img src="${src}" alt="${alt}">
+      </div>
+    `
 
     const remove = () => {
       modal.remove()
@@ -133,7 +152,7 @@ async function initGallery() {
     }
 
     document.addEventListener('keydown', onKey)
-    modal.querySelector('.close').addEventListener('click', remove)
+    modal.querySelector('.img-modal__close').addEventListener('click', remove)
     modal.addEventListener('click', (event) => {
       if (event.target === modal) remove()
     })
@@ -197,6 +216,9 @@ async function initGallery() {
   gallery.addEventListener('touchmove', onTouchMove, { passive: false })
   gallery.addEventListener('touchend', onTouchEnd)
   gallery.addEventListener('touchcancel', onTouchEnd)
+  window.addEventListener('resize', () => {
+    setMobileColumns(zoomInput ? Number(zoomInput.value) : zoomConfig.defaultValue)
+  })
 
   render(current)
 }
