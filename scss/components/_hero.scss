@@ -213,6 +213,20 @@
     text-align: center;
   }
 
+  .hero-subtitle--styled {
+    color: $white;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
+    margin-bottom: clamp(0.9rem, 2.6vh, 1.5rem);
+    text-transform: uppercase;
+
+    .hero-subtitle__line {
+      display: block;
+    }
+  }
+
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
