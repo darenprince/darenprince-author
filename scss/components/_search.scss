@@ -66,6 +66,9 @@
 
 .c-search__title {
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .c-search__meta {
@@ -107,6 +110,14 @@
 .c-search__all {
   text-align: center;
   font-weight: 600;
+}
+
+.c-search__item--empty {
+  cursor: default;
+
+  &:hover {
+    background: transparent;
+  }
 }
 
 .c-search__dropdown mark {
@@ -170,11 +181,14 @@
 .search-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background:
+    radial-gradient(circle at 50% 8%, rgba(79, 145, 99, 0.18), rgba(0, 0, 0, 0.78) 58%),
+    rgba(0, 0, 0, 0.7);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(8px);
 
   &.is-visible {
     display: flex;
@@ -183,37 +197,46 @@
 
 .search-modal {
   background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$black} 92%, white),
-    color-mix(in srgb, #{$black} 90%, black)
+    170deg,
+    color-mix(in srgb, #{$black} 90%, #1a3527),
+    color-mix(in srgb, #{$black} 94%, #09110d)
   );
-  border-radius: $border-radius;
-  padding: $spacing-lg;
-  max-width: 500px;
+  border-radius: 1.05rem;
+  border: 1px solid color-mix(in srgb, #{$border} 58%, transparent);
+  padding: clamp(1rem, 2.8vw, 1.4rem);
+  max-width: 560px;
   width: 90%;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 1.25rem 2.5rem rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   .search-form {
     display: flex;
     width: 100%;
+    gap: 0.5rem;
   }
 
   input[type='search'] {
     flex-grow: 1;
-    padding: $spacing-xs $spacing-sm;
+    min-height: 3rem;
+    padding: 0.72rem 1rem;
     background: linear-gradient(
       to bottom,
       color-mix(in srgb, #{$surface} 92%, white),
       color-mix(in srgb, #{$surface} 90%, black)
     );
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-right: 0;
-    border-radius: $border-radius 0 0 $border-radius;
+    border-radius: 0.85rem;
     color: $contrast-high;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
     &:focus {
       border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
-      box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent),
+        0 0 0 4px color-mix(in srgb, #{$lime-green} 15%, transparent);
       outline: none;
     }
   }
@@ -221,21 +244,52 @@
   .search-submit {
     @include button-base($deep-green);
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-left: 0;
-    border-radius: 0 $border-radius $border-radius 0;
-    --btn-padding-y: #{$spacing-xs};
-    --btn-padding-x: #{$spacing-sm};
+    border-radius: 0.85rem;
+    min-width: 3rem;
+    --btn-padding-y: 0.7rem;
+    --btn-padding-x: 0.86rem;
     --btn-min-height: auto;
+  }
+
+  .search-modal__quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.8rem;
+  }
+
+  .search-modal__hint {
+    color: color-mix(in srgb, #{$white} 68%, transparent);
+    font-size: 0.78rem;
+    margin-top: 0.5rem;
+  }
+
+  .search-modal__quick {
+    border: 1px solid color-mix(in srgb, #{$border} 65%, transparent);
+    border-radius: 999px;
+    padding: 0.34rem 0.72rem;
+    background: color-mix(in srgb, #{$surface} 90%, #173625);
+    color: color-mix(in srgb, #{$white} 92%, transparent);
+    font-size: 0.78rem;
+    cursor: pointer;
   }
 
   .search-close {
     position: absolute;
-    top: $spacing-xs;
-    right: $spacing-xs;
+    top: 0.55rem;
+    right: 0.55rem;
     background: none;
     border: none;
     color: $white;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: color-mix(in srgb, #{$white} 10%, transparent);
+    }
   }
 }

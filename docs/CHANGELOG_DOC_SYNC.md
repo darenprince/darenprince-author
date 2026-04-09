@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-09 — Navigation UX modernization + hero motion polish
+
+- Refined header search UX with updated modal styling, quick-search chips, improved placeholders/labels, and polished mobile search bar controls.
+- Upgraded member dropdown styling/behavior with icon-first actions and a guest-safe profile placeholder avatar icon.
+- Added a global back-to-top circular arrow button, tuned hero tagline spacing + CTA alignment, and switched hero zoom behavior to a slow in/out loop suitable for GitHub Pages static deployment.
+
 ## 2026-04-09 — Hero subtitle size + image offset tweak
 
 - Increased the homepage hero subtitle clamp values so the supporting line reads larger across mobile and desktop breakpoints.

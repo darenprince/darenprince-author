@@ -209,8 +209,8 @@
     font-size: clamp(1.65rem, 3.6vw, 2.55rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
-    margin-top: clamp(0.2rem, 0.85vh, 0.55rem);
-    margin-bottom: clamp(0.45rem, 1.4vh, 0.95rem);
+    margin-top: clamp(0.1rem, 0.45vh, 0.3rem);
+    margin-bottom: clamp(0.22rem, 0.9vh, 0.55rem);
     text-transform: uppercase;
     text-shadow:
       0 0 10px rgba($black, 0.52),
@@ -242,6 +242,13 @@
   }
 
   .hero-actions--below-trailer {
+    justify-content: flex-end;
+    gap: clamp(0.55rem, 1.5vw, 1rem);
+
+    .btn--buy {
+      margin-left: auto;
+    }
+
     @media (max-width: 40rem) {
       flex-direction: row;
       flex-wrap: nowrap;
@@ -459,7 +466,7 @@
     .hero-actions--below-trailer {
       width: 100%;
       margin: clamp(0.5rem, 1.8vh, 0.9rem) 0 0;
-      justify-content: center;
+      justify-content: flex-end;
 
       @media (min-width: 64rem) {
         grid-column: 1 / -1;
@@ -579,6 +586,7 @@
         transform: scale(var(--hero-scale, 1));
         transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         will-change: transform;
+        animation: hero-bg-breathe 22s ease-in-out infinite;
       }
     }
 
@@ -1104,6 +1112,16 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hero-bg-breathe {
+  0%,
+  100% {
+    transform: scale(calc(var(--hero-scale, 1) * 0.99));
+  }
+  50% {
+    transform: scale(calc(var(--hero-scale, 1) * 1.04));
   }
 }
 
