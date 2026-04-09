@@ -67,7 +67,7 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: color-mix(in srgb, var(--gray-600) 82%, transparent);
+    background: var(--grad-charcoal-lime);
     color: var(--light-container-text);
     border: 1px solid color-mix(in srgb, var(--color-primary) 78%, transparent);
     box-shadow:
@@ -80,6 +80,10 @@
     min-height: 100%;
   }
 
+  &__card.grad-charcoal-lime {
+    background: var(--grad-charcoal-lime);
+  }
+
   &__header {
     display: flex;
     align-items: flex-start;
@@ -89,8 +93,9 @@
   }
 
   &__name {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.05rem;
+    color: color-mix(in srgb, var(--light-container-text) 86%, white);
   }
 
   &__location {
@@ -131,7 +136,7 @@
 
   &__bottom-line {
     margin-top: auto;
-    color: color-mix(in srgb, var(--light-container-accent) 78%, #6f5a21);
+    color: color-mix(in srgb, var(--color-accent) 82%, #ffe86b);
     font-size: 0.85rem;
   }
 }

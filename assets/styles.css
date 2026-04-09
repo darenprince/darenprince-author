@@ -5556,6 +5556,12 @@ input:checked + .toggle-slider::before {
   background: rgba(22, 22, 22, 0.78);
   transform: translate(-1px, -2px);
 }
+.hero.hero--video .hero-overlay-icon--close {
+  right: clamp(1rem, 3.5vw, 1.85rem);
+}
+.hero.hero--video .hero-overlay-icon--fullscreen {
+  right: clamp(3.85rem, 8.4vw, 5.1rem);
+}
 .hero.hero--video.is-video-active .hero-play-overlay {
   opacity: 0;
   pointer-events: none;
@@ -6217,7 +6223,7 @@ input:checked + .toggle-slider::before {
 .go-reviews__card {
   padding: 1rem;
   border-radius: 1.25rem;
-  background: color-mix(in srgb, var(--gray-600) 82%, transparent);
+  background: var(--grad-charcoal-lime);
   color: var(--light-container-text);
   border: 1px solid color-mix(in srgb, var(--color-primary) 78%, transparent);
   box-shadow:
@@ -6229,6 +6235,9 @@ input:checked + .toggle-slider::before {
   gap: 0.75rem;
   min-height: 100%;
 }
+.go-reviews__card.grad-charcoal-lime {
+  background: var(--grad-charcoal-lime);
+}
 .go-reviews__header {
   display: flex;
   align-items: flex-start;
@@ -6237,8 +6246,9 @@ input:checked + .toggle-slider::before {
   font-size: 0.85rem;
 }
 .go-reviews__name {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.05rem;
+  color: color-mix(in srgb, var(--light-container-text) 86%, white);
 }
 .go-reviews__location {
   color: color-mix(in srgb, var(--light-container-text) 72%, white);
@@ -6273,7 +6283,7 @@ input:checked + .toggle-slider::before {
 }
 .go-reviews__bottom-line {
   margin-top: auto;
-  color: color-mix(in srgb, var(--light-container-accent) 78%, #6f5a21);
+  color: color-mix(in srgb, var(--color-accent) 82%, #ffe86b);
   font-size: 0.85rem;
 }
 
@@ -6455,13 +6465,15 @@ body.book-modal-open {
   background: color-mix(in srgb, var(--color-white) 24%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-white) 42%, transparent);
   color: var(--color-white);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 2;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   line-height: 1;
+  padding: 0;
+  text-align: center;
   backdrop-filter: blur(8px);
 }
 
