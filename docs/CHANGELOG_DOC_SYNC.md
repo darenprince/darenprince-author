@@ -36,3 +36,9 @@
 - Replaced the Crown Labs public page implementation with the user-approved reference layout/copy to match the provided source experience.
 - Confirmed `labs.html` keeps GitHub Pages-ready absolute/relative metadata, favicon, social card, and canonical tags for deployment.
 - Synced supporting front-end assets (`assets/labs.css`, `assets/labs.js`) to preserve the new mobile-first UI behavior (menu, progress bar, scroll-to-top).
+
+## 2026-04-09 — Home visual refresh (GitHub Pages-safe assets)
+
+- Updated the global body background to the new branded site texture image and kept a dark overlay for readability.
+- Swapped the homepage hero/social image to `gameonallformats.png`, tuned hero crop/scale for a larger visual treatment, and updated print/front/back merchandising imagery references.
+- Refined the `Daren’s Desk` CTA variant to remove white icon/text treatment and use a brand-mint button style that preserves contrast on dark backgrounds.
