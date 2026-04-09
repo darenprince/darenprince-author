@@ -5,6 +5,7 @@
   background-image: url('https://www.darenprince.com/IMG_4939.jpeg');
   background-size: cover;
   background-position: center bottom;
+  background-attachment: fixed;
   background-color: var(--gray-900);
   padding: 0;
   margin-top: -0.75rem;
@@ -21,8 +22,21 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.18) 100%);
+    background:
+      radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.22) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.34) 100%);
     z-index: 1;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 35%, transparent 52%, rgba(0, 0, 0, 0.38) 100%),
+      radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0) 48%, rgba(0, 0, 0, 0.24) 100%);
+    z-index: 2;
     pointer-events: none;
   }
 
@@ -48,7 +62,7 @@
     max-width: 42rem;
     padding: clamp(0.25rem, 1.25vw, 0.85rem) 0;
     pointer-events: auto;
-    animation: hero-copy-rise 0.8s ease-out forwards;
+    animation: hero-copy-rise 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
 
     @media (min-width: 48rem) {
@@ -88,7 +102,7 @@
     font-size: clamp(2.4rem, 4.6vw, 3.6rem);
     margin-bottom: clamp(0.4rem, 1.4vw, 0.8rem);
     animation:
-      slide-in 0.6s ease-out forwards,
+      slide-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
       hero-text-sparkle 6s ease-in-out infinite;
     opacity: 0;
     color: $white;
@@ -180,7 +194,7 @@
     color: color-mix(in srgb, #{$white} 82%, transparent);
     font-size: 1.05rem;
     line-height: 1.42;
-    animation: fade-in 0.8s ease-out 0.2s forwards;
+    animation: fade-in 1s ease-out 0.25s forwards;
     opacity: 0;
   }
 
@@ -192,12 +206,16 @@
 
   .hero-subtitle--styled {
     color: $white;
-    font-size: clamp(1.3rem, 2.9vw, 2rem);
+    font-size: clamp(1.45rem, 3.15vw, 2.25rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
     margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
     margin-bottom: clamp(0.9rem, 2.6vh, 1.5rem);
     text-transform: uppercase;
+    text-shadow:
+      0 0 10px rgba($black, 0.52),
+      0 0 22px rgba($black, 0.48),
+      0 0 44px rgba($black, 0.35);
 
     .hero-subtitle__line {
       display: block;
@@ -209,7 +227,7 @@
     flex-wrap: wrap;
     gap: $spacing-sm;
     margin-bottom: clamp(0.8rem, 2.4vh, 1.35rem);
-    animation: fade-in 0.8s ease-out 0.35s forwards;
+    animation: fade-in 1s ease-out 0.4s forwards;
     opacity: 0;
 
     @media (max-width: 40rem) {
@@ -546,7 +564,8 @@
         object-position: center 18%;
         display: block;
         transform: scale(var(--hero-scale, 1));
-        transition: transform 0.6s ease;
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
       }
     }
 
@@ -690,6 +709,10 @@
       .hero-image-layer {
         opacity: 1;
       }
+    }
+
+    @media (max-width: 63.99rem), (prefers-reduced-motion: reduce) {
+      background-attachment: scroll;
     }
 
     .hero-play-overlay {

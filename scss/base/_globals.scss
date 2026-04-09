@@ -1,5 +1,5 @@
-@use "variables" as *;
-@use "../tokens/colors" as *;
+@use 'variables' as *;
+@use '../tokens/colors' as *;
 
 :root {
   --nav-height: 80px;
@@ -8,6 +8,18 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-height);
+}
+
+.home-scroll-snap {
+  @media (min-width: 64rem) {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: var(--nav-height);
+
+    > section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
 }
 .container {
   width: min(90%, 1200px);
@@ -59,5 +71,7 @@ html {
 }
 
 body.theme-fade {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
