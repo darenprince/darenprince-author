@@ -290,11 +290,33 @@
       </ul>
     </div>
   </header>
-
-    </ul>
-  </nav>
+  <div class="media-drawer js-media-drawer" hidden>
+    <div class="media-drawer__overlay js-media-drawer-overlay"></div>
+    <aside class="media-drawer__panel" aria-label="Media page sections">
+      <div class="media-drawer__header">
+        <h2><i class="ph ph-compass"></i> Media Navigation</h2>
+        <button class="media-drawer__close js-media-drawer-close" aria-label="Close media navigation">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <nav aria-label="Media sections">
+        <ul class="media-drawer__list">
+          <li><a href="#press-hero"><i class="ph ph-flag-banner"></i>Overview</a></li>
+          <li><a href="#press-kit-viewer"><i class="ph ph-file-pdf"></i>Press Kit Preview</a></li>
+          <li><a href="#media-topics"><i class="ph ph-chat-teardrop-text"></i>Story Angles</a></li>
+          <li><a href="#media-downloads"><i class="ph ph-download-simple"></i>Downloads</a></li>
+          <li><a href="#media-headshots"><i class="ph ph-image-square"></i>Headshots</a></li>
+          <li><a href="#media-contact"><i class="ph ph-phone-call"></i>Media Contact</a></li>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+  <button class="media-drawer-trigger js-media-drawer-trigger" aria-label="Open media section navigation">
+    <i class="ph ph-list"></i>
+    <span>Media Sections</span>
+  </button>
   <main>
-    <section class="press-hero padding-y-xl">
+    <section id="press-hero" class="press-hero padding-y-xl">
       <div class="container max-width-adaptive-lg press-hero__grid">
         <div>
           <span class="press-tag"><i class="ph ph-camera"></i> Official Media Room</span>
@@ -312,30 +334,6 @@
             <li><i class="ph ph-microphone"></i> Featured on relationship podcasts, livestreams, and community summits.</li>
             <li><i class="ph ph-book"></i> Next release <em>Unshakable</em> delivers a roadmap for breaking free from toxic relationships.</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="media-topics" class="press-topics">
-      <div class="container max-width-adaptive-lg">
-        <h2 class="margin-bottom-md styledh1 brand-heading"><span class="brand-heading__emphasis">Producer Ready</span><br><span class="brand-heading__base">Story Angles</span></h2>
-        <div class="press-topics__grid">
-          <article class="press-topic">
-            <h3>From DJ Booth to Bestseller</h3>
-            <p>How two decades behind the decks shaped Daren’s understanding of rhythm, presence, and connection in relationships.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Confidence without the Games</h3>
-            <p>Real tools that help men rebuild trust in themselves after manipulation and narcissistic abuse.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Healing That Sticks</h3>
-            <p>Why <em>Unshakable</em> blends psychology with grounded practice so recovery turns into long term resilience.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Fatherhood in Real Time</h3>
-            <p>Balancing book launches, reader communities, and raising his son DJ while staying rooted in presence.</p>
-          </article>
         </div>
       </div>
     </section>
@@ -368,7 +366,31 @@
       </div>
     </section>
 
-    <section class="press-downloads">
+    <section id="media-topics" class="press-topics">
+      <div class="container max-width-adaptive-lg">
+        <h2 class="margin-bottom-md styledh1 brand-heading"><span class="brand-heading__emphasis">Producer Ready</span><br><span class="brand-heading__base">Story Angles</span></h2>
+        <div class="press-topics__grid">
+          <article class="press-topic">
+            <h3>From DJ Booth to Bestseller</h3>
+            <p>How two decades behind the decks shaped Daren’s understanding of rhythm, presence, and connection in relationships.</p>
+          </article>
+          <article class="press-topic">
+            <h3>Confidence without the Games</h3>
+            <p>Real tools that help men rebuild trust in themselves after manipulation and narcissistic abuse.</p>
+          </article>
+          <article class="press-topic">
+            <h3>Healing That Sticks</h3>
+            <p>Why <em>Unshakable</em> blends psychology with grounded practice so recovery turns into long term resilience.</p>
+          </article>
+          <article class="press-topic">
+            <h3>Fatherhood in Real Time</h3>
+            <p>Balancing book launches, reader communities, and raising his son DJ while staying rooted in presence.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="media-downloads" class="press-downloads">
       <div class="container max-width-adaptive-lg">
         <h2 class="margin-bottom-md">Downloadable Assets</h2>
         <div class="press-downloads__grid">
@@ -394,7 +416,7 @@
       </div>
     </section>
 
-    <section class="press-headshots">
+    <section id="media-headshots" class="press-headshots">
       <div class="container max-width-adaptive-lg">
         <h2 class="margin-bottom-md">Headshot Gallery</h2>
         <div class="press-headshots__grid">
@@ -410,7 +432,7 @@
       </div>
     </section>
 
-    <section class="press-contact">
+    <section id="media-contact" class="press-contact">
       <div class="container max-width-adaptive-lg press-contact__grid">
         <div>
           <h2>Media Contact</h2>
@@ -528,6 +550,48 @@
   <script type="module" src="/js/profile-dropdown.js"></script>
   <script src="/js/theme-toggle.js"></script>
   <script type="module" src="/js/main.js"></script>
+  <script>
+    (() => {
+      const drawer = document.querySelector('.js-media-drawer');
+      const trigger = document.querySelector('.js-media-drawer-trigger');
+      const closeButton = document.querySelector('.js-media-drawer-close');
+      const overlay = document.querySelector('.js-media-drawer-overlay');
+      if (!drawer || !trigger || !closeButton || !overlay) return;
+
+      const closeDrawer = () => {
+        drawer.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        setTimeout(() => {
+          if (!drawer.classList.contains('is-open')) drawer.hidden = true;
+        }, 260);
+      };
+
+      const openDrawer = () => {
+        drawer.hidden = false;
+        requestAnimationFrame(() => {
+          drawer.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        });
+      };
+
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.addEventListener('click', () => {
+        if (drawer.classList.contains('is-open')) {
+          closeDrawer();
+          return;
+        }
+        openDrawer();
+      });
+      closeButton.addEventListener('click', closeDrawer);
+      overlay.addEventListener('click', closeDrawer);
+      drawer.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeDrawer);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+      });
+    })();
+  </script>
 </body>
 </html>
 
