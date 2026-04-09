@@ -5013,6 +5013,18 @@ input:checked + .toggle-slider::before {
   margin: clamp(0.35rem, 1.4vh, 0.75rem) auto 0;
   text-align: center;
 }
+.hero .hero-subtitle--styled {
+  color: var(--color-white);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
+  margin-bottom: clamp(0.9rem, 2.6vh, 1.5rem);
+  text-transform: uppercase;
+}
+.hero .hero-subtitle--styled .hero-subtitle__line {
+  display: block;
+}
 .hero .hero-actions {
   display: flex;
   flex-wrap: wrap;
