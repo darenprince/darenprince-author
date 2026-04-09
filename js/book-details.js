@@ -26,7 +26,8 @@ const formatHeroImages = {
   audio: '/assets/images/heroposter2.png',
   ebook:
     '/assets/images/Copy of CASE_LAMINATE_6.000x9.000_256_BW_WHITE_en_US.pdf (14.343 x 10.416 in).png',
-  print: '/assets/images/game-on-main-cover.png',
+  print:
+    'https://www.darenprince.com/assets/images/Daren%20Prince%20%20Official%20Site%20of%20the%20Author.png',
 }
 
 const storeData = {
