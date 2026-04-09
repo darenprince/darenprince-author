@@ -55,11 +55,24 @@ function renderList(items, query) {
     return
   }
 
+  if (!items.length && query) {
+    dropdown.innerHTML = `
+      <div class="c-search__item c-search__item--empty" role="status" aria-live="polite">
+        <span class="c-search__title">No quick matches</span>
+        <span class="c-search__meta">Press Enter to see full results for "${escapeHtml(query)}".</span>
+      </div>
+      <div class="c-search__item c-search__all" role="option" id="s-all" data-all="true">View all results</div>
+    `
+    dropdown.hidden = false
+    input.setAttribute('aria-expanded', 'true')
+    return
+  }
+
   const list = items
     .map((item, i) => {
       const meta = [item.category, item.description].filter(Boolean).join(' · ')
       return `<div class="c-search__item" role="option" id="s-${i}" data-url="${item.url}" data-index="${i}">
-        <span class="c-search__title">${escapeHtml(item.title || 'Untitled')}</span>
+        <span class="c-search__title"><i class="ph ph-magnifying-glass" aria-hidden="true"></i>${escapeHtml(item.title || 'Untitled')}</span>
         ${meta ? `<span class="c-search__meta">${escapeHtml(meta)}</span>` : ''}
       </div>`
     })

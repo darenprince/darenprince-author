@@ -183,7 +183,7 @@
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Level Up Your Dating Game What Readers Are Saying\n            About Game On! Choose A Store: Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n              Let's Connect.",
+    "headings": "Level Up Your Dating Game What Readers Are Saying\n            About Game On! Your move\n                  select a format Choose A Store: Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n              Let's Connect.",
     "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Collabs Developers Contact Logout Guest Dashboard Account Logout Level Up Your Dating Game SOUND Resume Restart Hide Video Learn the psychology of real connection Trailer Buy Now Reader Reviews What Readers Are Saying About Game On! Real reviews from real readers — verified across Books-A-Million, Apple Books, Googl"
   },
   {
@@ -195,7 +195,7 @@
     "category": "",
     "tags": [],
     "headings": "Image Index",
-    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% Confident, psychology-backed storytelling, systems, and tools for real transformation. F"
+    "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Developers Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% Columns 1 2 3 4 Confident, psychology-backed storytelling, systems, and tools for real t"
   },
   {
     "id": "557bbdea7a20d92738ca55dd7d4e29b1",
