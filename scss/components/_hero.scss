@@ -206,7 +206,7 @@
 
   .hero-subtitle--styled {
     color: $white;
-    font-size: clamp(1.45rem, 3.15vw, 2.25rem);
+    font-size: clamp(1.65rem, 3.6vw, 2.55rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
     margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
@@ -561,7 +561,7 @@
         height: 100%;
         aspect-ratio: auto;
         object-fit: cover;
-        object-position: center 18%;
+        object-position: center 24%;
         display: block;
         transform: scale(var(--hero-scale, 1));
         transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
