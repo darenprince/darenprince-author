@@ -97,7 +97,9 @@ body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  background: radial-gradient(circle, rgb(75, 75, 75), rgb(59, 59, 59), rgb(32, 32, 32));
+  background-image:
+    linear-gradient(180deg, rgba(8, 12, 9, 0.74), rgba(8, 12, 9, 0.9)),
+    url('https://www.darenprince.com/assets/images/sitebg/bc72a06c02787be02a3d838d93bcd82b.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1187,6 +1189,19 @@ body:not(.brand-exempt) .btn--xl {
   --btn-min-height: 3.5rem;
   --btn-gap: 0.65rem;
   --btn-font-weight: 600;
+}
+body:not(.brand-exempt) .contact-desk-cta {
+  --btn-bg: color-mix(in srgb, var(--color-mint) 92%, var(--color-white));
+  --btn-color: var(--color-primary);
+  --btn-hover-bg: color-mix(in srgb, var(--color-mint) 72%, var(--color-white));
+  --btn-hover-color: var(--color-black);
+  --btn-shadow: 0 10px 26px rgba(7, 10, 6, 0.22);
+  --btn-hover-shadow: 0 12px 30px rgba(7, 10, 6, 0.28);
+  --btn-border-width: 1px;
+  --btn-border-color: color-mix(in srgb, var(--color-primary) 42%, transparent);
+}
+body:not(.brand-exempt) .contact-desk-cta i {
+  color: inherit;
 }
 body:not(.brand-exempt) .btn--primary,
 body:not(.brand-exempt) .btn--primary-b,
@@ -5313,8 +5328,8 @@ input:checked + .toggle-slider::before {
   width: 100%;
   height: 100%;
   aspect-ratio: auto;
-  object-fit: contain;
-  object-position: center bottom;
+  object-fit: cover;
+  object-position: center 18%;
   display: block;
   transform: scale(var(--hero-scale, 1));
   transition: transform 0.6s ease;
@@ -5381,7 +5396,7 @@ input:checked + .toggle-slider::before {
   }
 }
 .hero.hero--video.is-image-active .hero-image-layer img {
-  transform: scale(calc(var(--hero-scale, 1) * 1.1));
+  transform: scale(calc(var(--hero-scale, 1) * 1.18));
 }
 @media (max-width: 63.99rem) {
   .hero.hero--video.is-image-active .hero-media__frame {
@@ -6334,8 +6349,9 @@ input:checked + .toggle-slider::before {
   display: block;
   width: 100%;
   min-height: 20rem;
-  max-height: 80vh;
+  max-height: 85vh;
   object-fit: cover;
+  object-position: center 18%;
 }
 .format-hero-panel__trigger {
   position: absolute;

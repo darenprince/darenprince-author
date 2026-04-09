@@ -51,8 +51,9 @@
     display: block;
     width: 100%;
     min-height: 20rem;
-    max-height: 80vh;
+    max-height: 85vh;
     object-fit: cover;
+    object-position: center 18%;
   }
 
   &__trigger {

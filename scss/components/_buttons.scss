@@ -209,6 +209,21 @@
     @include btn-size($size, $settings);
   }
 
+  .contact-desk-cta {
+    --btn-bg: color-mix(in srgb, #{$mint-green} 92%, #{$white});
+    --btn-color: #{$deep-green};
+    --btn-hover-bg: color-mix(in srgb, #{$mint-green} 72%, #{$white});
+    --btn-hover-color: #{$black};
+    --btn-shadow: 0 10px 26px rgba(7, 10, 6, 0.22);
+    --btn-hover-shadow: 0 12px 30px rgba(7, 10, 6, 0.28);
+    --btn-border-width: 1px;
+    --btn-border-color: color-mix(in srgb, #{$deep-green} 42%, transparent);
+
+    i {
+      color: inherit;
+    }
+  }
+
   $primary-variant: (
     bg: $lime-green,
     text: $black,
