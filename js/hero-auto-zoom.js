@@ -3,46 +3,42 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!hero) return
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const baseScale = prefersReduced ? 1 : 1.01
-  const maxScale = prefersReduced ? baseScale : 1.14
-  let targetScale = baseScale
-  let currentScale = baseScale
+  const maxScale = prefersReduced ? baseScale : 1.08
+  const loopMs = 18000
   let rafId = null
+  let startTime = 0
 
-  hero.style.setProperty('--hero-scale', baseScale)
+  const animateZoomLoop = (timestamp) => {
+    if (!startTime) {
+      startTime = timestamp
+    }
+    const elapsed = (timestamp - startTime) % loopMs
+    const phase = (elapsed / loopMs) * Math.PI * 2
+    const oscillation = (Math.sin(phase - Math.PI / 2) + 1) / 2
+    const scale = baseScale + (maxScale - baseScale) * oscillation
+    hero.style.setProperty('--hero-scale', scale.toFixed(4))
+    rafId = window.requestAnimationFrame(animateZoomLoop)
+  }
 
-  const easeScale = () => {
-    const diff = targetScale - currentScale
-    if (Math.abs(diff) < 0.0015) {
-      currentScale = targetScale
-      hero.style.setProperty('--hero-scale', currentScale.toFixed(4))
-      rafId = null
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'hidden') {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId)
+        rafId = null
+      }
       return
     }
-
-    currentScale += diff * 0.12
-    hero.style.setProperty('--hero-scale', currentScale.toFixed(4))
-    rafId = window.requestAnimationFrame(easeScale)
-  }
-
-  const updateScaleByScroll = () => {
-    if (prefersReduced) return
-
-    const rect = hero.getBoundingClientRect()
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1
-    const progress = Math.min(
-      1,
-      Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height * 0.8))
-    )
-    targetScale = baseScale + (maxScale - baseScale) * progress
-
-    if (!rafId) {
-      rafId = window.requestAnimationFrame(easeScale)
+    if (!prefersReduced && !rafId) {
+      startTime = 0
+      rafId = window.requestAnimationFrame(animateZoomLoop)
     }
   }
 
-  updateScaleByScroll()
-  window.addEventListener('scroll', updateScaleByScroll, { passive: true })
-  window.addEventListener('resize', updateScaleByScroll)
+  hero.style.setProperty('--hero-scale', baseScale.toFixed(4))
+  if (!prefersReduced) {
+    rafId = window.requestAnimationFrame(animateZoomLoop)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+  }
 
   const isVideoHero = hero.classList.contains('hero--video')
   const cta = hero.querySelector('.hero-cta')

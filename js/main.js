@@ -5,6 +5,7 @@ import { logAuthWarning } from './auth-logger.js'
 const APPLE_BOOKS_URL =
   'https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900'
 const SMART_APP_BANNER_DISMISS_KEY = 'darenprince.smartAppBanner.dismissed'
+const SEARCH_SUGGESTIONS = ['Game On', 'Unshakeable', 'Press', 'Crown Labs', 'Contact']
 
 function hasDismissedSmartAppBanner() {
   try {
@@ -127,6 +128,7 @@ function initNavigationAndAuth() {
   const authToggle = document.querySelector('.js-auth-toggle')
   const searchToggle = document.querySelector('.js-search-toggle')
   const searchBar = document.querySelector('.js-search-bar')
+  const topSearchInput = searchBar?.querySelector('input[type="search"]')
   let searchModal
   const modalOverlay = document.getElementById('demo-modal')
   const componentSelect = document.querySelector('.component-nav__select')
@@ -183,8 +185,7 @@ function initNavigationAndAuth() {
       } else if (searchBar) {
         if (searchBar.hasAttribute('hidden')) {
           searchBar.removeAttribute('hidden')
-          const input = searchBar.querySelector('input[type="search"]')
-          if (input) input.focus()
+          if (topSearchInput) topSearchInput.focus()
         } else {
           searchBar.setAttribute('hidden', '')
         }
@@ -209,11 +210,15 @@ function initNavigationAndAuth() {
           openSearchModal()
         } else if (searchBar) {
           searchBar.removeAttribute('hidden')
-          const input = searchBar.querySelector('input[type="search"]')
-          if (input) input.focus()
+          if (topSearchInput) topSearchInput.focus()
         }
       }
     })
+  }
+
+  if (topSearchInput) {
+    topSearchInput.placeholder = 'Search books, media, and tools...'
+    topSearchInput.setAttribute('aria-label', 'Search the Daren Prince site')
   }
 
   const searchForm = searchBar?.querySelector('form')
@@ -248,9 +253,16 @@ function initNavigationAndAuth() {
       <div class="search-modal">
         <button class="search-close" aria-label="Close search">&times;</button>
         <form class="search-form flex items-center">
-          <input type="search" placeholder="search site" />
-          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+          <input type="search" placeholder="Search books, pages, and resources..." aria-label="Search the Daren Prince site" />
+          <button type="submit" class="search-submit" aria-label="Run search"><i class="ph ph-magnifying-glass"></i></button>
         </form>
+        <div class="search-modal__quick-actions" role="group" aria-label="Popular searches">
+          ${SEARCH_SUGGESTIONS.map(
+            (term) =>
+              `<button type="button" class="search-modal__quick" data-search-term="${term}">${term}</button>`
+          ).join('')}
+        </div>
+        <p class="search-modal__hint">Tip: Press <kbd>/</kbd> to open search from anywhere.</p>
       </div>`
     document.body.appendChild(overlay)
 
@@ -261,12 +273,21 @@ function initNavigationAndAuth() {
     })
 
     const form = overlay.querySelector('form')
+    const input = overlay.querySelector('input[type="search"]')
     form.addEventListener('submit', function (e) {
       e.preventDefault()
       const query = form.querySelector('input[type="search"]').value.trim()
       if (query) {
         openSiteSearch(query)
       }
+    })
+    overlay.addEventListener('click', (event) => {
+      const quickBtn = event.target.closest('.search-modal__quick')
+      if (!quickBtn) return
+      const term = quickBtn.dataset.searchTerm?.trim()
+      if (!term) return
+      if (input) input.value = term
+      openSiteSearch(term)
     })
 
     return overlay
@@ -312,9 +333,32 @@ function initNavigationAndAuth() {
   logAuthWarning('main.auth', 'Auth provider integration pending')
 }
 
+function initBackToTopButton() {
+  if (document.querySelector('.back-to-top')) return
+  const button = document.createElement('button')
+  button.type = 'button'
+  button.className = 'back-to-top'
+  button.setAttribute('aria-label', 'Back to top')
+  button.innerHTML = '<i class="ph ph-arrow-up" aria-hidden="true"></i>'
+  document.body.appendChild(button)
+
+  const toggleVisibility = () => {
+    const isVisible = window.scrollY > 420
+    button.classList.toggle('is-visible', isVisible)
+  }
+
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  })
+
+  toggleVisibility()
+  window.addEventListener('scroll', toggleVisibility, { passive: true })
+}
+
 function initExperience() {
   initSmartAppBanner()
   initNavigationAndAuth()
+  initBackToTopButton()
 }
 
 if (document.readyState === 'loading') {
