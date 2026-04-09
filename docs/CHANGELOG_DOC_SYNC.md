@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-09 — Hero subtitle size + image offset tweak
+
+- Increased the homepage hero subtitle clamp values so the supporting line reads larger across mobile and desktop breakpoints.
+- Nudged the hero image crop downward by updating `object-position` to keep the top visual sitting slightly lower without breaking the GitHub Pages static asset flow.
+- Confirmed the change is CSS-only and remains compatible with the existing GitHub Pages deployment/build process (`assets/styles.css` committed artifact).
+
 ## 2026-01-24 — Lean In auth UI sync
 
 - Documented the updated Lean In login screen visuals, toggles, and dark-mode variant while preserving access gate identifiers in the SEO/metadata plan.
