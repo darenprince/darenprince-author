@@ -42,3 +42,9 @@
 - Updated the global body background to the new branded site texture image and kept a dark overlay for readability.
 - Swapped the homepage hero/social image to `gameonallformats.png`, tuned hero crop/scale for a larger visual treatment, and updated print/front/back merchandising imagery references.
 - Refined the `Daren’s Desk` CTA variant to remove white icon/text treatment and use a brand-mint button style that preserves contrast on dark backgrounds.
+
+## 2026-04-09 — Hero CTA + heading style-guide alignment
+
+- Restyled the homepage `Trailer` hero CTA to use `btn-combo-17` from the style guide Complimentary Combos set for visual parity with documented button recipes.
+- Converted the hero supporting line to white `styledh1` treatment and split the copy into two explicit lines: “Learn the psychology” / “of real connection.”
+- Rebuilt compiled CSS via the standard GitHub Pages pipeline (`npm run build:site`) so deployment assets stay in sync with source SCSS updates.
