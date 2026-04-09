@@ -13,6 +13,7 @@ const rootDir = path.resolve(__dirname, '../../')
 const contentDir = path.join(rootDir, 'content')
 const pagesDir = path.join(rootDir, 'pages')
 const publicDir = path.join(rootDir, 'public/search')
+const staticDir = path.join(rootDir, 'search')
 
 const stopwordsPath = path.join(__dirname, 'stopwords.en.txt')
 const synonymsPath = path.join(__dirname, 'synonyms.json')
@@ -163,8 +164,11 @@ async function build() {
   const docsOut = docs.map(({ storedContent, ...rest }) => ({ ...rest, content: storedContent }))
 
   if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true })
+  if (!fs.existsSync(staticDir)) fs.mkdirSync(staticDir, { recursive: true })
   fs.writeFileSync(path.join(publicDir, 'docs.json'), JSON.stringify(docsOut))
   fs.writeFileSync(path.join(publicDir, 'index.json'), JSON.stringify(miniSearch.toJSON()))
+  fs.writeFileSync(path.join(staticDir, 'docs.json'), JSON.stringify(docsOut))
+  fs.writeFileSync(path.join(staticDir, 'index.json'), JSON.stringify(miniSearch.toJSON()))
 
   const docsSize = Buffer.byteLength(JSON.stringify(docsOut))
   const indexSize = Buffer.byteLength(JSON.stringify(miniSearch.toJSON()))
