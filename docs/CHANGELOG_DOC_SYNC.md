@@ -48,3 +48,9 @@
 - Restyled the homepage `Trailer` hero CTA to use `btn-combo-17` from the style guide Complimentary Combos set for visual parity with documented button recipes.
 - Converted the hero supporting line to white `styledh1` treatment and split the copy into two explicit lines: “Learn the psychology” / “of real connection.”
 - Rebuilt compiled CSS via the standard GitHub Pages pipeline (`npm run build:site`) so deployment assets stay in sync with source SCSS updates.
+
+## 2026-04-09 — Homepage hero visual polish
+
+- Removed the heavy hero fade overlays and replaced them with a subtle vignette so the hero image stays crisp while maintaining depth.
+- Increased top spacing above the hero media, enlarged hero support text, tightened line spacing, and locked “of real connection” to the second line.
+- Updated button icon inheritance so icons now always match each button’s text color tokens across CTA variants.

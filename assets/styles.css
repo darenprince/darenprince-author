@@ -1721,6 +1721,18 @@ body:not(.brand-exempt) .btn--outline-b:disabled {
 body:not(.brand-exempt) .btn--outline-b {
   --btn-font-weight: 700;
 }
+body:not(.brand-exempt) .btn i,
+body:not(.brand-exempt) .primary-btn i,
+body:not(.brand-exempt) .btn svg,
+body:not(.brand-exempt) .primary-btn svg,
+body:not(.brand-exempt) [class*='btn--'] i,
+body:not(.brand-exempt) [class*='btn--'] svg,
+body:not(.brand-exempt) .btn-b i,
+body:not(.brand-exempt) .btn-b svg {
+  color: currentColor;
+  fill: currentColor;
+  stroke: currentColor;
+}
 body:not(.brand-exempt) .btn--ghost,
 body:not(.brand-exempt) .btn--ghost-b {
   --btn-bg: transparent;
@@ -4821,14 +4833,7 @@ input:checked + .toggle-slider::before {
 
 .hero {
   position: relative;
-  background-image:
-    linear-gradient(
-      160deg,
-      rgba(5, 9, 16, 0.45) 0%,
-      rgba(5, 9, 16, 0.2) 55%,
-      rgba(5, 9, 16, 0.4) 100%
-    ),
-    url('https://www.darenprince.com/IMG_4939.jpeg');
+  background-image: url('https://www.darenprince.com/IMG_4939.jpeg');
   background-size: cover;
   background-position: center bottom;
   background-color: var(--gray-900);
@@ -4847,22 +4852,7 @@ input:checked + .toggle-slider::before {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(108, 232, 255, 0.08), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(78, 170, 255, 0.05), transparent 40%);
-  z-index: 0;
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: -20% -10%;
-  background:
-    radial-gradient(circle at 15% 75%, rgba(56, 180, 255, 0.2), transparent 38%),
-    radial-gradient(circle at 85% 35%, rgba(88, 214, 163, 0.14), transparent 34%);
-  mix-blend-mode: screen;
-  opacity: 0.75;
-  animation: hero-aurora 16s ease-in-out infinite alternate;
+  background: radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.18) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -5015,8 +5005,8 @@ input:checked + .toggle-slider::before {
 }
 .hero .hero-subtitle--styled {
   color: var(--color-white);
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  line-height: 1.08;
+  font-size: clamp(1.3rem, 2.9vw, 2rem);
+  line-height: 1.02;
   letter-spacing: -0.02em;
   margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
   margin-bottom: clamp(0.9rem, 2.6vh, 1.5rem);
@@ -5167,7 +5157,7 @@ input:checked + .toggle-slider::before {
     calc(var(--hero-media-max-height) * 0.5625)
   );
   --hero-playback-progress: 0%;
-  padding: clamp(0.25rem, 1.4vh, 0.9rem) clamp(1rem, 4.5vw, 3rem) clamp(2rem, 6vh, 3rem);
+  padding: clamp(0.55rem, 2vh, 1.15rem) clamp(1rem, 4.5vw, 3rem) clamp(2rem, 6vh, 3rem);
 }
 @media (min-width: 48rem) {
   .hero.hero--video {
