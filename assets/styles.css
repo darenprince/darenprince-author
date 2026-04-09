@@ -5032,8 +5032,8 @@ input:checked + .toggle-slider::before {
   font-size: clamp(1.65rem, 3.6vw, 2.55rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
-  margin-top: clamp(0.45rem, 1.5vh, 0.9rem);
-  margin-bottom: clamp(0.9rem, 2.6vh, 1.5rem);
+  margin-top: clamp(0.2rem, 0.85vh, 0.55rem);
+  margin-bottom: clamp(0.45rem, 1.4vh, 0.95rem);
   text-transform: uppercase;
   text-shadow:
     0 0 10px rgba(var(--color-black), 0.52),
@@ -5059,6 +5059,17 @@ input:checked + .toggle-slider::before {
   .hero .hero-actions .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+@media (max-width: 40rem) {
+  .hero .hero-actions--below-trailer {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .hero .hero-actions--below-trailer .btn {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
   }
 }
 .hero .hero-actions .btn--primary {
@@ -6206,13 +6217,13 @@ input:checked + .toggle-slider::before {
 .go-reviews__card {
   padding: 1rem;
   border-radius: 1.25rem;
-  background: var(--grad-light-container);
+  background: color-mix(in srgb, var(--gray-600) 82%, transparent);
   color: var(--light-container-text);
-  border: 1px solid var(--light-container-border);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 78%, transparent);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-white) 55%, transparent),
-    0 1.25rem 2.6rem color-mix(in srgb, var(--color-black) 38%, transparent);
-  backdrop-filter: blur(10px) saturate(105%);
+    inset 0 1px 0 color-mix(in srgb, var(--color-white) 22%, transparent),
+    0 1.25rem 2.6rem color-mix(in srgb, var(--color-black) 30%, transparent);
+  backdrop-filter: blur(8px) saturate(95%);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -6438,17 +6449,25 @@ body.book-modal-open {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
-  background: var(--color-charcoal);
-  border: 1px solid color-mix(in srgb, var(--color-charcoal) 90%, black);
+  background: color-mix(in srgb, var(--color-white) 24%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-white) 42%, transparent);
   color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 2;
+  font-size: 1.4rem;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+}
+
+.book-3d-modal .book-3d-close {
+  display: flex;
+  z-index: 5;
 }
 
 .book-3d-viewer {
@@ -6781,6 +6800,7 @@ body.book-modal-open {
   text-align: center;
   color: var(--color-accent);
   font-weight: 700;
+  margin: 0;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
@@ -6951,16 +6971,16 @@ body.book-modal-open {
 }
 
 .book-3d-modal .book-toolbar {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 0;
+  left: clamp(0.25rem, 1.2vw, 0.75rem);
   z-index: 4;
   opacity: 1;
-  transform: translate(-110%, -50%);
+  transform: translate(0, -50%);
 }
 
 .book-3d-modal .book-toolbar.visible {
-  transform: translate(-92%, -50%);
+  transform: translate(0, -50%);
 }
 
 @media (min-width: 768px) {
