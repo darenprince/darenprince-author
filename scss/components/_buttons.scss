@@ -273,6 +273,17 @@
     @include bold-variant('.btn--#{$name}');
   }
 
+  .btn,
+  [class*='btn--'],
+  .btn-b {
+    i,
+    svg {
+      color: currentColor;
+      fill: currentColor;
+      stroke: currentColor;
+    }
+  }
+
   .btn--ghost {
     @include button-base(
       transparent,
