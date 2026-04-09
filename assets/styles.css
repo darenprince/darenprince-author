@@ -6436,19 +6436,29 @@ body.book-modal-open {
 
 .book-3d-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 2rem;
-  height: 2rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  background: var(--color-charcoal);
-  border: 1px solid color-mix(in srgb, var(--color-charcoal) 90%, black);
-  color: var(--color-white);
+  background: color-mix(in srgb, #fff 90%, #39ff14 10%);
+  border: 1px solid color-mix(in srgb, #39ff14 45%, #fff);
+  color: #0a1308;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 2;
+  font-size: 2rem;
+  line-height: 1;
+  z-index: 1300;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.75),
+    0 8px 20px rgba(0, 0, 0, 0.45);
+}
+.book-3d-close:hover,
+.book-3d-close:focus-visible {
+  background: color-mix(in srgb, #39ff14 30%, #fff);
+  color: #061005;
 }
 
 .book-3d-viewer {
@@ -6938,7 +6948,7 @@ body.book-modal-open {
   position: fixed;
   left: 0;
   top: 50%;
-  z-index: 3;
+  z-index: 1200;
   opacity: 0;
   transform: translate(-110%, -50%);
   transition:
@@ -6951,28 +6961,18 @@ body.book-modal-open {
 }
 
 .book-3d-modal .book-toolbar {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 0;
-  z-index: 4;
+  z-index: 1200;
   opacity: 1;
-  transform: translate(-110%, -50%);
+  transform: translate(0, -50%);
 }
 
 .book-3d-modal .book-toolbar.visible {
-  transform: translate(-92%, -50%);
+  transform: translate(0, -50%);
 }
 
-@media (min-width: 768px) {
-  .book-media {
-    position: relative;
-  }
-  .book-toolbar {
-    position: absolute;
-    left: -68px;
-    top: 50%;
-  }
-}
 .book-rail {
   --radius-rail: 12px;
   --radius-btn: 10px;

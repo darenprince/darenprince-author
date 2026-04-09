@@ -111,19 +111,30 @@ body.book-modal-open {
 
 .book-3d-close {
   position: absolute;
-  top: $spacing-md;
-  right: $spacing-md;
-  width: 2rem;
-  height: 2rem;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  background: $charcoal;
-  border: 1px solid color-mix(in srgb, var(--color-charcoal) 90%, black);
-  color: $white;
+  background: color-mix(in srgb, #fff 90%, #39ff14 10%);
+  border: 1px solid color-mix(in srgb, #39ff14 45%, #fff);
+  color: #0a1308;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 2;
+  font-size: 2rem;
+  line-height: 1;
+  z-index: 1300;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.75),
+    0 8px 20px rgba(0, 0, 0, 0.45);
+
+  &:hover,
+  &:focus-visible {
+    background: color-mix(in srgb, #39ff14 30%, #fff);
+    color: #061005;
+  }
 }
 
 .book-3d-viewer {
