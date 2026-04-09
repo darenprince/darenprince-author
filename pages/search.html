@@ -111,16 +111,21 @@
         <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince" />
       </a>
       <div class="c-search" data-search>
-        <input
-          id="site-search"
-          type="search"
-          placeholder="Search the site"
-          autocomplete="off"
-          role="combobox"
-          aria-expanded="false"
-          aria-controls="search-listbox"
-          aria-autocomplete="list"
-        />
+        <form class="c-search__form" aria-label="Search the site">
+          <input
+            id="site-search"
+            type="search"
+            placeholder="Search the site"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="search-listbox"
+            aria-autocomplete="list"
+          />
+          <button type="submit" class="search-submit" aria-label="Submit search">
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          </button>
+        </form>
         <div id="search-listbox" class="c-search__dropdown" role="listbox" hidden></div>
       </div>
       <div class="nav-btn-group flex items-center gap-sm">

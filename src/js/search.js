@@ -59,6 +59,7 @@ function renderList(items, query) {
       )
       .join('')}</ul></div>`
     dropdown.hidden = false
+    dropdown.classList.add('is-open')
     input.setAttribute('aria-expanded', 'true')
     return
   }
@@ -76,10 +77,12 @@ function renderList(items, query) {
     list +
     `<div class="c-search__item c-search__all" role="option" id="s-all" data-all="true">View all results</div>`
   dropdown.hidden = false
+  dropdown.classList.add('is-open')
   input.setAttribute('aria-expanded', 'true')
 }
 
 function close() {
+  dropdown.classList.remove('is-open')
   dropdown.hidden = true
   input.setAttribute('aria-expanded', 'false')
   input.removeAttribute('aria-activedescendant')
@@ -165,6 +168,7 @@ function setActive(items) {
 export function initSearch() {
   const container = document.querySelector('[data-search]')
   if (!container) return
+  const form = container.querySelector('form')
   input = container.querySelector('input')
   dropdown = container.querySelector('.c-search__dropdown')
 
@@ -194,6 +198,14 @@ export function initSearch() {
       saveRecent(term)
       goToResults(term)
     }
+  })
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const query = input.value.trim()
+    if (!query) return
+    saveRecent(query)
+    window.dispatchEvent(new CustomEvent('search:submit', { detail: { q: query } }))
+    goToResults(query)
   })
   worker.postMessage({ type: 'warmup' })
 }

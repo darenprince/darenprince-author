@@ -8658,6 +8658,9 @@ body.is-preloading {
 .c-search {
   position: relative;
 }
+.c-search .c-search__form {
+  position: relative;
+}
 .c-search input[type='search'] {
   height: 48px;
   width: 100%;
@@ -8734,6 +8737,9 @@ body.is-preloading {
 }
 .c-search__dropdown[hidden] {
   display: none;
+}
+.c-search__dropdown.is-open {
+  animation: searchDropdownIn 0.18s ease both;
 }
 
 .c-search__item {
@@ -8971,6 +8977,16 @@ body.search-modal-open {
   overflow: hidden;
 }
 
+@keyframes searchDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .login-container,
 .verify-container,
 .reset-container {
