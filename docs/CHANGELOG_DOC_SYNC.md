@@ -54,3 +54,9 @@
 - Removed the heavy hero fade overlays and replaced them with a subtle vignette so the hero image stays crisp while maintaining depth.
 - Increased top spacing above the hero media, enlarged hero support text, tightened line spacing, and locked “of real connection” to the second line.
 - Updated button icon inheritance so icons now always match each button’s text color tokens across CTA variants.
+
+## 2026-04-09 — Hero motion + readability pass
+
+- Increased homepage hero subtitle scale and added a soft black glow lift so supporting copy stays visible over mixed-image regions.
+- Added a subtle hero background vignette treatment and fixed-attachment behavior on desktop, with mobile/reduced-motion fallback to standard scroll behavior.
+- Added scroll-linked hero image zoom easing plus desktop-only section snap scrolling on the homepage for smoother transitions between story blocks.
