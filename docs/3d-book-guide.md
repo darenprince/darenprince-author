@@ -1,10 +1,22 @@
-# 📕 3D Book Cover Component
+# 📕 3D Book Viewer + Print Overlay
 
-This component creates a rotating 3D book using only HTML and SCSS. It is based on the open source [3D Book Image CSS Generator](https://github.com/scastiel/3d-book-image-css-generator).
+This component creates a rotating 3D book using HTML, SCSS, and a small toolbar controller in JavaScript. The base rendering approach is inspired by the open source [3D Book Image CSS Generator](https://github.com/scastiel/3d-book-image-css-generator).
 
-## Usage
+## Current Controls (book.html)
 
-1. Include the markup:
+- **Front / Back snap** rotates the 3D model to the matching side.
+- **Print Front / Print Back** opens the print image overlay and pre-selects the matching cover image.
+- **360°** runs a full rotation.
+- **Buy** scrolls directly to purchase options.
+- **Close X (white/lime)** appears as an overlay button when the 3D view is expanded in modal/fullscreen context.
+- Toolbar rail is pinned to the **left side of the viewport** and vertically centered.
+
+## Deployment Notes
+
+- Build CSS with `npm run build:site` before deployment.
+- Production deployment target is **GitHub Pages** (`npm run deploy:github-pages`), not Netlify.
+
+## Legacy Basic Markup Example
 
 ```html
 <section class="book-preview">
@@ -14,9 +26,9 @@ This component creates a rotating 3D book using only HTML and SCSS. It is based 
 </section>
 ```
 
-2. The SCSS partial is located at `scss/components/_book.scss` and imported in `scss/styles.scss`. Compile styles with `npm run build`.
+The current production styles are maintained in `scss/components/_book-3d.scss` and `scss/components/_book-toolbar.scss`, imported via `scss/styles.scss`.
 
-3. Customize variables at the top of `_book.scss` to adjust rotation, thickness, or colors. The `$book-bg-color` variable defaults to `transparent` and no shadows are applied.
+Update JS behavior in `js/book-3d-viewer.js` when adding toolbar tools, snap behavior, or overlay states.
 
 ## Creating Covers
 
@@ -25,4 +37,4 @@ This component creates a rotating 3D book using only HTML and SCSS. It is based 
 - Adjust component variables if you need a different size or thickness.
 - Rebuild the CSS and commit changes.
 
-The effect works without JavaScript and respects the dark mode design system.
+The enhanced viewer uses JavaScript for interaction and remains aligned with dark-mode-first site branding.
