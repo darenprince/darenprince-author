@@ -4,6 +4,8 @@ const book = document.getElementById('book')
 const rotate360 = document.getElementById('rotate-360')
 const snapFrontBtn = document.getElementById('snap-front')
 const snapBackBtn = document.getElementById('snap-back')
+const printFrontBtn = document.getElementById('print-front')
+const printBackBtn = document.getElementById('print-back')
 const bookViewer = document.querySelector('.book-3d-viewer')
 const bookContainer = document.querySelector('.book-3d-container')
 const rotateHint = document.querySelector('.rotate-hint')
@@ -227,6 +229,16 @@ snapBackBtn?.addEventListener('click', () => {
   snapTo(SNAP_BACK)
 })
 
+printFrontBtn?.addEventListener('click', () => {
+  snapTo(SNAP_FRONT)
+  openPrintOverlay('front')
+})
+
+printBackBtn?.addEventListener('click', () => {
+  snapTo(SNAP_BACK)
+  openPrintOverlay('back')
+})
+
 rotate360?.addEventListener('click', () => {
   clearInterval(autoInterval)
   clearTimeout(pauseTimeout)
@@ -248,9 +260,21 @@ const zoomModal = document.getElementById('cover-zoom')
 const closeZoom = document.getElementById('close-cover-zoom')
 const zoomFull = document.getElementById('zoom-full')
 const zoomThumbs = document.querySelectorAll('.thumbnails img')
+const FRONT_IMAGE = '/assets/images/book-front.jpg'
+const BACK_IMAGE = '/assets/images/book-back.jpg'
+
+function openPrintOverlay(view = 'front') {
+  if (!zoomModal || !zoomFull) return
+  const targetImage = view === 'back' ? BACK_IMAGE : FRONT_IMAGE
+  zoomModal.removeAttribute('hidden')
+  zoomFull.src = targetImage
+  zoomThumbs.forEach((thumb) => {
+    thumb.classList.toggle('active', thumb.dataset.full === targetImage)
+  })
+}
 
 zoomBtn?.addEventListener('click', () => {
-  zoomModal?.removeAttribute('hidden')
+  openPrintOverlay('front')
 })
 
 closeZoom?.addEventListener('click', () => {
@@ -275,6 +299,7 @@ closeBtn?.addEventListener('click', () => {
   if (book3dModal) {
     book3dModal.setAttribute('hidden', '')
     document.body.classList.remove('book-modal-open')
+    closeBtn?.setAttribute('hidden', '')
     clearInterval(autoInterval)
     clearTimeout(pauseTimeout)
     return
@@ -292,6 +317,7 @@ window.matchMedia('(max-width: 767px)').addEventListener('change', setupToolbarO
 function openBookModal() {
   if (!book3dModal) return
   book3dModal.removeAttribute('hidden')
+  closeBtn?.removeAttribute('hidden')
   document.body.classList.add('book-modal-open')
   if (!hasInitializedSpin) {
     initialSpin()

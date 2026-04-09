@@ -5,7 +5,7 @@
   position: fixed;
   left: 0;
   top: 50%;
-  z-index: 3;
+  z-index: 1200;
   opacity: 0;
   transform: translate(-110%, -50%);
   transition:
@@ -19,28 +19,16 @@
 }
 
 .book-3d-modal .book-toolbar {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 0;
-  z-index: 4;
+  z-index: 1200;
   opacity: 1;
-  transform: translate(-110%, -50%);
+  transform: translate(0, -50%);
 }
 
 .book-3d-modal .book-toolbar.visible {
-  transform: translate(-92%, -50%);
-}
-
-@media (min-width: 768px) {
-  .book-media {
-    position: relative;
-  }
-
-  .book-toolbar {
-    position: absolute;
-    left: -68px;
-    top: 50%;
-  }
+  transform: translate(0, -50%);
 }
 
 // Book control rail visual styles
