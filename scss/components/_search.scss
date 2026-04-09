@@ -8,7 +8,7 @@
     height: 48px;
     width: 100%;
     border-radius: 0.85rem;
-    padding: 0 14px;
+    padding: 0 48px 0 14px;
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
     background: linear-gradient(
       to bottom,
@@ -23,6 +23,36 @@
       box-shadow:
         0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent),
         0 0 0 5px color-mix(in srgb, #{$lime-green} 14%, transparent);
+    }
+  }
+
+  .search-submit {
+    position: absolute;
+    right: 0.45rem;
+    top: 0.45rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, #{$lime-green} 50%, #{$border});
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$deep-green} 80%, white),
+      color-mix(in srgb, #{$deep-green} 88%, black)
+    );
+    color: $white;
+    display: grid;
+    place-items: center;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease,
+      border-color 0.2s ease;
+    &:hover,
+    &:focus-visible {
+      border-color: color-mix(in srgb, #{$lime-green} 75%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, #{$lime-green} 20%, transparent);
+    }
+    &:active {
+      transform: scale(0.96);
     }
   }
 }
@@ -44,6 +74,11 @@
   box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
   z-index: 20;
   padding: 0.4rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
   &[hidden] {
     display: none;
   }
@@ -115,12 +150,12 @@
 
 .search-results {
   .search-bar {
-    display: flex;
-    gap: 8px;
+    display: block;
+    position: relative;
     input {
-      flex: 1;
+      width: 100%;
       height: 44px;
-      padding: 0 12px;
+      padding: 0 52px 0 12px;
       border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
       border-radius: $border-radius;
       background: linear-gradient(
@@ -137,12 +172,21 @@
       }
     }
     button {
-      @include button-base($medium-green);
+      position: absolute;
+      right: 0.38rem;
+      top: 0.38rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
       border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-      --btn-radius: #{$border-radius};
-      --btn-padding-y: 0.5rem;
-      --btn-padding-x: 1rem;
-      --btn-min-height: auto;
+      color: $white;
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, #{$deep-green} 80%, white),
+        color-mix(in srgb, #{$deep-green} 88%, black)
+      );
     }
   }
   .results {
@@ -171,13 +215,21 @@
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease;
 
   &.is-visible {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 }
 
@@ -193,23 +245,35 @@
   width: 90%;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(12px) scale(0.98);
+  opacity: 0;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
+
+  .search-modal-overlay.is-visible & {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 
   .search-form {
-    display: flex;
+    display: block;
+    width: 100%;
+    position: relative;
+    margin-top: $spacing-md;
     width: 100%;
   }
 
   input[type='search'] {
-    flex-grow: 1;
-    padding: $spacing-xs $spacing-sm;
+    width: 100%;
+    padding: $spacing-xs 2.85rem $spacing-xs $spacing-sm;
     background: linear-gradient(
       to bottom,
       color-mix(in srgb, #{$surface} 92%, white),
       color-mix(in srgb, #{$surface} 90%, black)
     );
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-right: 0;
-    border-radius: $border-radius 0 0 $border-radius;
+    border-radius: $border-radius;
     color: $contrast-high;
     &:focus {
       border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
@@ -219,13 +283,32 @@
   }
 
   .search-submit {
-    @include button-base($deep-green);
-    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-left: 0;
-    border-radius: 0 $border-radius $border-radius 0;
-    --btn-padding-y: #{$spacing-xs};
-    --btn-padding-x: #{$spacing-sm};
-    --btn-min-height: auto;
+    position: absolute;
+    right: 0.38rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, #{$lime-green} 40%, #{$border});
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, #{$deep-green} 80%, white),
+      color-mix(in srgb, #{$deep-green} 88%, black)
+    );
+    color: $white;
+    display: grid;
+    place-items: center;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.2s ease;
+    &:hover,
+    &:focus-visible {
+      box-shadow: 0 0 0 3px color-mix(in srgb, #{$lime-green} 20%, transparent);
+    }
+    &:active {
+      transform: translateY(-50%) scale(0.96);
+    }
   }
 
   .search-close {
@@ -238,4 +321,8 @@
     font-size: 1.25rem;
     cursor: pointer;
   }
+}
+
+body.search-modal-open {
+  overflow: hidden;
 }
