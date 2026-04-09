@@ -66,3 +66,10 @@
 - Increased homepage hero subtitle scale and added a soft black glow lift so supporting copy stays visible over mixed-image regions.
 - Added a subtle hero background vignette treatment and fixed-attachment behavior on desktop, with mobile/reduced-motion fallback to standard scroll behavior.
 - Added scroll-linked hero image zoom easing plus desktop-only section snap scrolling on the homepage for smoother transitions between story blocks.
+
+## 2026-04-09 — Search UX refresh + GitHub Pages deployment alignment
+
+- Reworked site-search controls in the search modal/dropdown/results UI so submit is now a right-justified magnifying-glass icon seated inside each search field (removed standalone text button treatment).
+- Polished search interactions with smoother modal/dropdown transitions, improved icon-button hover/focus affordances, and body scroll locking while the modal is open.
+- Fixed search input handling edge cases (safe recent-search parsing, keyboard guard rails when no options are present, Enter-key consistency) to reduce runtime errors and accidental double submits.
+- Confirmed this search update remains compatible with the existing GitHub Pages build/deploy flow and current favicon/social metadata paths used by `pages/search.html`.

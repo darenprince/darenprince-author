@@ -14,8 +14,16 @@ const worker = new Worker(SEARCH_WORKER_URL, { type: 'module' })
 let results = []
 let activeIndex = -1
 let dropdown, input
-let recent = JSON.parse(localStorage.getItem('recent-searches') || '[]')
+let recent = []
 const trending = ['book', 'relationship coaching', 'nexus who', 'crown sos']
+
+try {
+  const parsed = JSON.parse(localStorage.getItem('recent-searches') || '[]')
+  recent = Array.isArray(parsed) ? parsed : []
+} catch (error) {
+  recent = []
+  console.debug('[search] Unable to parse recent searches', error)
+}
 
 function saveRecent(term) {
   term = term.trim()
@@ -74,6 +82,7 @@ function renderList(items, query) {
 function close() {
   dropdown.hidden = true
   input.setAttribute('aria-expanded', 'false')
+  input.removeAttribute('aria-activedescendant')
   activeIndex = -1
 }
 
@@ -101,14 +110,17 @@ worker.addEventListener('message', (e) => {
 function onKeyDown(e) {
   const items = dropdown.querySelectorAll('[role="option"]')
   if (e.key === 'ArrowDown') {
+    if (!items.length) return
     e.preventDefault()
     activeIndex = (activeIndex + 1) % items.length
     setActive(items)
   } else if (e.key === 'ArrowUp') {
+    if (!items.length) return
     e.preventDefault()
     activeIndex = (activeIndex - 1 + items.length) % items.length
     setActive(items)
   } else if (e.key === 'Enter') {
+    e.preventDefault()
     if (activeIndex >= 0 && items[activeIndex]) {
       const item = items[activeIndex]
       if (item.dataset.all) {

@@ -230,6 +230,7 @@ function initNavigationAndAuth() {
       searchModal = createSearchModal()
     }
     searchModal.classList.add('is-visible')
+    document.body.classList.add('search-modal-open')
     const input = searchModal.querySelector('input[type="search"]')
     if (input) input.focus()
   }
@@ -237,6 +238,7 @@ function initNavigationAndAuth() {
   function closeSearchModal() {
     if (searchModal) {
       searchModal.classList.remove('is-visible')
+      document.body.classList.remove('search-modal-open')
       searchToggle.focus()
     }
   }
@@ -247,9 +249,11 @@ function initNavigationAndAuth() {
     overlay.innerHTML = `
       <div class="search-modal">
         <button class="search-close" aria-label="Close search">&times;</button>
-        <form class="search-form flex items-center">
-          <input type="search" placeholder="search site" />
-          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+        <form class="search-form" aria-label="Site search">
+          <input type="search" placeholder="Search site" />
+          <button type="submit" class="search-submit" aria-label="Submit search">
+            <i class="ph ph-magnifying-glass"></i>
+          </button>
         </form>
       </div>`
     document.body.appendChild(overlay)
