@@ -11,11 +11,12 @@ The `press.html` page centralizes every media ready asset for Daren Prince. It b
 ## Content Sections
 
 1. **Press Hero:** Uses the charcoal lime gradient, highlights quick facts, and routes to the downloadable press kit or inbox.
-2. **Producer Angles:** Card grid with four ready made story angles for pitches.
-3. **Press Kit Viewer:** Implements the shared `.viewer` pattern with toolbar actions for download, fullscreen, and print.
+2. **Press Kit Viewer (Moved Up):** Now sits directly after the hero to keep the preview visible sooner and avoid fold clipping on mobile screenshots.
+3. **Producer Angles:** Card grid with four ready made story angles for pitches.
 4. **Downloadable Assets:** Three card grid covering the press kit PDF, headshots, and brand graphics.
 5. **Headshot Gallery:** Curated gallery with two approved professional headshots and production-ready captions.
 6. **Media Contact:** Contact details plus a CTA back to the Meet Daren bio for additional facts.
+7. **Media Section Drawer Nav:** Slide out section navigation with icon labeled links for quick jumps between media page anchors.
 
 ## Key Assets
 
@@ -27,7 +28,8 @@ The `press.html` page centralizes every media ready asset for Daren Prince. It b
 
 - Dedicated partial: `scss/components/_press-page.scss` (imported in `scss/styles.scss`).
 - Buttons reuse `.grad-kelly-green`, `.btn--accent`, and `.btn--subtle` variants already defined.
-- Viewer styling comes from `scss/components/_viewer.scss`; the press partial layers layout spacing.
+- Viewer styling comes from `scss/components/_viewer.scss`; the press partial layers layout spacing and a slightly elevated placement for faster access.
+- The in-page media drawer uses a branded dark gradient panel, mint accent borders, and icon-first anchors to match existing site header controls.
 
 ## Future Enhancements
 
