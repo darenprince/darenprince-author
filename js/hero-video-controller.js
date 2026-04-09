@@ -407,11 +407,15 @@
       setLoading(true)
       setBufferProgress(0)
       hidePlayOverlay()
-      player.play().catch((error) => {
-        setLoading(false)
-        showPlayOverlay()
-        console.warn('Vimeo play error:', error)
-      })
+      player
+        .setMuted(false)
+        .then(() => player.setVolume(1))
+        .then(() => player.play())
+        .catch((error) => {
+          setLoading(false)
+          showPlayOverlay()
+          console.warn('Vimeo play error:', error)
+        })
     }
 
     if (playOverlay) {

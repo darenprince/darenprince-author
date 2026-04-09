@@ -119,13 +119,15 @@ body.book-modal-open {
   background: color-mix(in srgb, #{$white} 24%, transparent);
   border: 1px solid color-mix(in srgb, #{$white} 42%, transparent);
   color: $white;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 2;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   line-height: 1;
+  padding: 0;
+  text-align: center;
   backdrop-filter: blur(8px);
 }
 
