@@ -12,6 +12,7 @@ async function initGallery() {
   const searchInput = document.getElementById('image-search')
   const zoomInput = document.getElementById('image-zoom')
   const zoomValue = document.getElementById('image-zoom-value')
+  const columnsSelect = document.getElementById('image-columns')
   const resultCount = document.getElementById('image-result-count')
   const assetPrefix = (document.documentElement.dataset.assetPrefix || '').replace(/\/+$/g, '')
 
@@ -43,6 +44,14 @@ async function initGallery() {
       zoomValue.textContent = `${percent}%`
     }
 
+    return clamped
+  }
+
+  function setMobileColumns(columns) {
+    const parsed = Number(columns)
+    const clamped = Math.min(4, Math.max(1, Number.isFinite(parsed) ? parsed : 4))
+    gallery.style.setProperty('--image-grid-columns-mobile', String(clamped))
+    if (columnsSelect) columnsSelect.value = String(clamped)
     return clamped
   }
 
@@ -103,9 +112,6 @@ async function initGallery() {
       const codeBox = document.createElement('div')
       codeBox.className = 'code-box'
 
-      const code = document.createElement('code')
-      code.textContent = fullUrl
-
       const btn = document.createElement('button')
       btn.className = 'btn btn-sm btn--primary'
       btn.textContent = 'Copy URL'
@@ -118,7 +124,7 @@ async function initGallery() {
         })
       })
 
-      codeBox.append(code, btn)
+      codeBox.append(btn)
       wrapper.append(meta, codeBox)
       gallery.appendChild(wrapper)
     })
@@ -188,6 +194,15 @@ async function initGallery() {
     window.addEventListener('resize', syncZoomBoundsForViewport, { passive: true })
   } else {
     setZoom(zoomConfig.defaultValue)
+  }
+
+  if (columnsSelect) {
+    setMobileColumns(columnsSelect.value || 4)
+    columnsSelect.addEventListener('change', (event) => {
+      setMobileColumns(event.target.value)
+    })
+  } else {
+    setMobileColumns(4)
   }
 
   let pinchStartDistance = null
