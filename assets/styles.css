@@ -6206,15 +6206,12 @@ input:checked + .toggle-slider::before {
 .go-reviews__card {
   padding: 1rem;
   border-radius: 1.25rem;
-  background: linear-gradient(
-    165deg,
-    color-mix(in srgb, var(--color-black) 90%, transparent) 0%,
-    color-mix(in srgb, var(--color-black) 78%, transparent) 100%
-  );
-  border: 1px solid color-mix(in srgb, var(--color-white) 14%, transparent);
+  background: var(--grad-light-container);
+  color: var(--light-container-text);
+  border: 1px solid var(--light-container-border);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-white) 8%, transparent),
-    0 1.9rem 3.4rem color-mix(in srgb, var(--color-black) 62%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--color-white) 55%, transparent),
+    0 1.25rem 2.6rem color-mix(in srgb, var(--color-black) 38%, transparent);
   backdrop-filter: blur(10px) saturate(105%);
   display: flex;
   flex-direction: column;
@@ -6233,7 +6230,7 @@ input:checked + .toggle-slider::before {
   font-size: 1.05rem;
 }
 .go-reviews__location {
-  color: color-mix(in srgb, var(--color-white) 60%, transparent);
+  color: color-mix(in srgb, var(--light-container-text) 72%, white);
   font-size: 0.8rem;
 }
 .go-reviews__badges {
@@ -6244,7 +6241,7 @@ input:checked + .toggle-slider::before {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  color: color-mix(in srgb, var(--light-container-text) 70%, white);
 }
 .go-reviews__stars {
   display: inline-flex;
@@ -6254,18 +6251,18 @@ input:checked + .toggle-slider::before {
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 0.4rem rgba(var(--color-accent), 0.45);
+  background: var(--light-container-accent);
+  box-shadow: 0 0 0.4rem color-mix(in srgb, var(--light-container-accent) 45%, transparent);
 }
 .go-reviews__body {
-  color: color-mix(in srgb, var(--color-white) 80%, transparent);
+  color: color-mix(in srgb, var(--light-container-text) 88%, white);
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
 }
 .go-reviews__bottom-line {
   margin-top: auto;
-  color: #f4d35e;
+  color: color-mix(in srgb, var(--light-container-accent) 78%, #6f5a21);
   font-size: 0.85rem;
 }
 
