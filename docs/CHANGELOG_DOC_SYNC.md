@@ -73,3 +73,4 @@
 - Polished search interactions with smoother modal/dropdown transitions, improved icon-button hover/focus affordances, and body scroll locking while the modal is open.
 - Fixed search input handling edge cases (safe recent-search parsing, keyboard guard rails when no options are present, Enter-key consistency) to reduce runtime errors and accidental double submits.
 - Confirmed this search update remains compatible with the existing GitHub Pages build/deploy flow and current favicon/social metadata paths used by `pages/search.html`.
+- Added a reusable rerun task doc at `docs/tasks/search-rerun-task-2026-04-09.md` so the exact prompt/instructions can be executed again in a fresh task with a concrete acceptance checklist.
