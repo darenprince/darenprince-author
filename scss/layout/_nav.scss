@@ -7,14 +7,17 @@
   top: 100%;
   left: 0;
   width: 100%;
-  padding: $spacing-sm $spacing-md;
+  padding: clamp(0.7rem, 2vw, 1rem) clamp(0.85rem, 2.6vw, 1.4rem);
   background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, #{$black} 92%, white),
-    color-mix(in srgb, #{$black} 90%, black)
+    180deg,
+    color-mix(in srgb, #{$black} 94%, #0f2018) 0%,
+    color-mix(in srgb, #{$black} 88%, #0f281d) 100%
   );
-  border-top: 1px solid $border;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-top: 1px solid color-mix(in srgb, #{$border} 58%, transparent);
+  box-shadow:
+    0 0.6rem 1.5rem rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
   z-index: 1000;
 
   @include respond-to(md) {
@@ -24,34 +27,40 @@
   .search-form {
     display: flex;
     width: 100%;
+    gap: 0.45rem;
   }
 
   input[type='search'] {
     flex-grow: 1;
-    padding: $spacing-xs $spacing-sm;
+    min-height: 2.9rem;
+    padding: 0.72rem 1rem;
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, #{$surface} 92%, white),
-      color-mix(in srgb, #{$surface} 90%, black)
+      color-mix(in srgb, #{$surface} 92%, #173625),
+      color-mix(in srgb, #{$surface} 87%, #0b140f)
     );
-    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-right: 0;
-    border-radius: $border-radius 0 0 $border-radius;
+    border: 1px solid color-mix(in srgb, #{$border} 55%, transparent);
+    border-radius: 0.85rem;
     color: $contrast-high;
+    transition:
+      border-color 0.22s ease,
+      box-shadow 0.22s ease,
+      transform 0.22s ease;
     &:focus {
       border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
       box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
       outline: none;
+      transform: translateY(-1px);
     }
   }
 
   .search-submit {
     @include button-base($deep-green);
     border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-left: 0;
-    border-radius: 0 $border-radius $border-radius 0;
-    --btn-padding-y: #{$spacing-xs};
-    --btn-padding-x: #{$spacing-sm};
+    border-radius: 0.85rem;
+    min-width: 2.9rem;
+    --btn-padding-y: 0.65rem;
+    --btn-padding-x: 0.8rem;
     --btn-min-height: auto;
   }
 }
@@ -60,30 +69,47 @@
   position: absolute;
   right: 1rem;
   top: calc(100% + #{$spacing-xs});
-  background-color: $surface;
-  border: 1px solid $border;
-  border-radius: $border-radius;
-  width: 200px;
-  padding: $spacing-sm;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(
+    170deg,
+    color-mix(in srgb, #{$surface} 94%, #1e4030),
+    color-mix(in srgb, #{$surface} 90%, #0f1913)
+  );
+  border: 1px solid color-mix(in srgb, #{$border} 58%, transparent);
+  border-radius: 1rem;
+  width: min(90vw, 16rem);
+  padding: 0.9rem;
+  box-shadow:
+    0 1.2rem 2.4rem rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   z-index: 9999;
+  backdrop-filter: blur(14px);
 
   .profile-info {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    margin-bottom: $spacing-sm;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid color-mix(in srgb, #{$border} 56%, transparent);
 
     img {
-      width: 40px;
-      height: 40px;
+      width: 2.4rem;
+      height: 2.4rem;
       border-radius: 50%;
       object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.28);
+
+      &.is-placeholder {
+        object-fit: contain;
+      }
     }
   }
 
   .profile-name {
     font-weight: 600;
+    color: color-mix(in srgb, #{$white} 94%, transparent);
   }
 
   ul {
@@ -92,19 +118,36 @@
     padding: 0;
 
     li {
-      margin: $spacing-xxs 0;
+      margin: 0.2rem 0;
 
-      a {
+      a,
+      .auth-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.48rem;
+        padding: 0.5rem 0.55rem;
+        border-radius: 0.65rem;
         color: $white;
         text-decoration: none;
+        border: 0;
+        background: transparent;
+        font-weight: 500;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.2s ease;
 
         &:hover {
-          color: $bright-green;
+          color: color-mix(in srgb, #{$white} 94%, #{$bright-green});
+          background: color-mix(in srgb, #{$bright-green} 14%, transparent);
+          transform: translateX(2px);
         }
       }
 
       button.logout-btn {
         cursor: pointer;
+        justify-content: flex-start;
       }
     }
   }

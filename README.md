@@ -100,7 +100,7 @@ This app is **100% client-side** with no server validation. Tokens can be copied
 
 ## 🧭 Navigation, Theme & UI Utilities
 
-- `js/main.js` manages the mega menu, search toggle, auth defaults, and routes header/mobile search submissions into the on-site Minisearch results page (`/pages/search.html`) with GitHub Pages asset-prefix support.
+- `js/main.js` manages the mega menu, modernized search overlays (including quick-search chips), auth defaults, a global back-to-top arrow button, and routes header/mobile search submissions into the on-site Minisearch results page (`/pages/search.html`) with GitHub Pages asset-prefix support.
 - `js/theme-toggle.js` wires the dark/light switch. Marketing pages ship with the toggle; admin utilities may omit it to save space.
 - `js/profile-dropdown.js` toggles the profile menu and routes visitors to login while auth is offline.
 - `js/ui.js` exposes toast + progress helpers:
