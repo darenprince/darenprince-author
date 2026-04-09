@@ -144,6 +144,7 @@ Sticky header baseline now uses a glass treatment (translucent dark gradient + b
 - Primary CTA palette: `$deep-green` → `$medium-green` gradient.
 - Secondary/light containers: `.grad-light-container` background with `.btn-md` sizing.
 - Outline approach: wrap content in `.container--border` and use `.btn-outline` modifiers.
+- Reader review cards on `index.html` now use the same light container recipe (`--grad-light-container`, `--light-container-border`, `--light-container-text`) to mirror the style-guide login sample container treatment.
 
 ## Forms & Inputs
 

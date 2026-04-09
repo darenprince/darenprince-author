@@ -67,15 +67,12 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: linear-gradient(
-      165deg,
-      color-mix(in srgb, #{$black} 90%, transparent) 0%,
-      color-mix(in srgb, #{$black} 78%, transparent) 100%
-    );
-    border: 1px solid color-mix(in srgb, #{$white} 14%, transparent);
+    background: var(--grad-light-container);
+    color: var(--light-container-text);
+    border: 1px solid var(--light-container-border);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, #{$white} 8%, transparent),
-      0 1.9rem 3.4rem color-mix(in srgb, #{$black} 62%, transparent);
+      inset 0 1px 0 color-mix(in srgb, #{$white} 55%, transparent),
+      0 1.25rem 2.6rem color-mix(in srgb, #{$black} 38%, transparent);
     backdrop-filter: blur(10px) saturate(105%);
     display: flex;
     flex-direction: column;
@@ -97,7 +94,7 @@
   }
 
   &__location {
-    color: color-mix(in srgb, #{$white} 60%, transparent);
+    color: color-mix(in srgb, var(--light-container-text) 72%, white);
     font-size: 0.8rem;
   }
 
@@ -109,7 +106,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: color-mix(in srgb, #{$white} 70%, transparent);
+    color: color-mix(in srgb, var(--light-container-text) 70%, white);
   }
 
   &__stars {
@@ -121,12 +118,12 @@
     width: 0.35rem;
     height: 0.35rem;
     border-radius: 50%;
-    background: $accent;
-    box-shadow: 0 0 0.4rem rgba($accent, 0.45);
+    background: var(--light-container-accent);
+    box-shadow: 0 0 0.4rem color-mix(in srgb, var(--light-container-accent) 45%, transparent);
   }
 
   &__body {
-    color: color-mix(in srgb, #{$white} 80%, transparent);
+    color: color-mix(in srgb, var(--light-container-text) 88%, white);
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
@@ -134,7 +131,7 @@
 
   &__bottom-line {
     margin-top: auto;
-    color: #f4d35e;
+    color: color-mix(in srgb, var(--light-container-accent) 78%, #6f5a21);
     font-size: 0.85rem;
   }
 }
