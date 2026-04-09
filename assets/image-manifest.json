@@ -1,5 +1,19 @@
 [
   {
+    "path": "3CDFD294-60F1-40E2-8BA9-8E06E5CE0876.png",
+    "description": "3CDFD294 60F1 40E2 8BA9 8E06E5CE0876 — site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "89B65A69-4FEC-4B19-8691-87FB664C35B5.png",
+    "description": "89B65A69 4FEC 4B19 8691 87FB664C35B5 — site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
     "path": "app icons/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
     "description": "B93001C0 650C 4E55 AF4D 04A402D582FF — icon mark (PNG).",
     "tags": [
@@ -1872,6 +1886,41 @@
     ]
   },
   {
+    "path": "F2BC6FA3-3989-4F22-A6C2-3607ABC1EB1E.png",
+    "description": "F2BC6FA3 3989 4F22 A6C2 3607ABC1EB1E — site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "IMG_0362.png",
+    "description": "IMG 0362 — site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "IMG_4932.jpeg",
+    "description": "IMG 4932 — site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
+    "path": "IMG_4935.jpeg",
+    "description": "IMG 4935 — site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
+    "path": "IMG_4939.jpeg",
+    "description": "IMG 4939 — site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
     "path": "IMG_7488.jpeg",
     "description": "IMG 7488 — site image asset (JPEG).",
     "tags": [
@@ -1897,6 +1946,21 @@
     "description": "Crown Labs Logo — brand logo treatment (PNG).",
     "tags": [
       "png"
+    ]
+  },
+  {
+    "path": "labs/assets/labs-favicon.svg",
+    "description": "Labs Favicon — icon mark (SVG).",
+    "tags": [
+      "favicon",
+      "svg"
+    ]
+  },
+  {
+    "path": "labs/assets/labs-opengraph.svg",
+    "description": "Labs Opengraph — labs promotional visual (SVG).",
+    "tags": [
+      "svg"
     ]
   },
   {

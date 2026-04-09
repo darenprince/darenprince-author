@@ -142,13 +142,13 @@
   <meta property="og:image:height" content="767">
   <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://darenprince.com/image-index">
+  <meta property="og:url" content="https://www.darenprince.com/image-index.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Image Index | Daren Prince">
   <meta name="twitter:description" content="Quickly browse and copy image assets from Daren Prince's site.">
   <meta name="twitter:image" content="https://www.darenprince.com/assets/images/heroposter1.png">
   <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
-  <link rel="canonical" href="https://darenprince.com/image-index">
+  <link rel="canonical" href="https://www.darenprince.com/image-index.html">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
@@ -157,7 +157,7 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Image Index",
-    "url": "https://darenprince.com/image-index",
+    "url": "https://www.darenprince.com/image-index.html",
     "description": "Browse a searchable catalog of images from Daren Prince's official site."
   }
   </script>
@@ -175,6 +175,9 @@
       .image-zoom-controls { display:flex; }
     }
     .image-grid { --image-grid-size:220px; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; }
+    @media (max-width: 768px) {
+      .image-grid { --image-grid-size:90px; grid-template-columns:repeat(4, minmax(0, 1fr)); }
+    }
     .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
     .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
     .image-grid img:active { transform:scale(1.1); }
@@ -190,7 +193,23 @@
 
     .img-modal img { max-width:80vw; max-height:80vh; border-radius:8px; }
 
-    .img-modal .close { position:absolute; top:1rem; right:1rem; font-size:2rem; color:#fff; cursor:pointer; }
+    .img-modal .close {
+      position:absolute;
+      top:1rem;
+      right:1rem;
+      width:2.5rem;
+      height:2.5rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(10,10,10,.8);
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.75rem;
+      line-height:1;
+      cursor:pointer;
+    }
   </style>
   <!-- Apple PWA + Safari enhancements -->
     <!-- Smart App banner is rendered by js/main.js -->
@@ -319,7 +338,7 @@
           </div>
           <div class="image-zoom-controls" aria-label="Image zoom controls">
             <label for="image-zoom">Zoom</label>
-            <input type="range" id="image-zoom" min="140" max="360" step="10" value="220" data-default="220" />
+            <input type="range" id="image-zoom" min="84" max="360" step="10" value="220" data-default="220" />
             <span id="image-zoom-value" class="image-zoom-value">100%</span>
           </div>
         </div>
@@ -426,7 +445,6 @@
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
-
 
 
 
