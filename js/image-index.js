@@ -18,9 +18,18 @@ async function initGallery() {
   let current = images
 
   const zoomConfig = {
-    min: zoomInput ? Number(zoomInput.min) || 140 : 140,
+    min: zoomInput ? Number(zoomInput.min) || 84 : 84,
     max: zoomInput ? Number(zoomInput.max) || 360 : 360,
     defaultValue: zoomInput ? Number(zoomInput.dataset.default || zoomInput.value || 220) : 220,
+  }
+  const baseZoomMin = zoomConfig.min
+
+  function getMobileMinColumnWidth() {
+    const viewportWidth = Math.max(window.innerWidth || 0, 320)
+    const gridGap = 16
+    const mobileColumns = 4
+    const calculated = Math.floor((viewportWidth - gridGap * (mobileColumns - 1)) / mobileColumns)
+    return Math.max(84, Math.min(120, calculated))
   }
 
   function setZoom(value) {
@@ -121,7 +130,12 @@ async function initGallery() {
     const modal = document.createElement('div')
     modal.className = 'img-modal'
     modal.tabIndex = -1
-    modal.innerHTML = `<span class="close" aria-label="Close image preview">&times;</span><img src="${src}" alt="${alt}">`
+    modal.innerHTML = `
+      <button type="button" class="close" aria-label="Close image preview">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img src="${src}" alt="${alt}">
+    `
 
     const remove = () => {
       modal.remove()
@@ -157,8 +171,21 @@ async function initGallery() {
   })
 
   if (zoomInput) {
-    setZoom(Number(zoomInput.value) || zoomConfig.defaultValue)
+    const syncZoomBoundsForViewport = () => {
+      const mobileMin = getMobileMinColumnWidth()
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        zoomConfig.min = mobileMin
+      } else {
+        zoomConfig.min = baseZoomMin
+      }
+
+      zoomInput.min = String(Math.round(zoomConfig.min))
+      setZoom(Number(zoomInput.value) || zoomConfig.defaultValue)
+    }
+
+    syncZoomBoundsForViewport()
     zoomInput.addEventListener('input', (event) => setZoom(Number(event.target.value)))
+    window.addEventListener('resize', syncZoomBoundsForViewport, { passive: true })
   } else {
     setZoom(zoomConfig.defaultValue)
   }
