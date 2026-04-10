@@ -313,12 +313,14 @@
   }
 
   .press-viewer__frame {
-    width: 100%;
-    height: clamp(420px, 60vw, 720px);
+    width: min(100%, calc(88vh * 8.5 / 11));
+    max-width: 960px;
+    aspect-ratio: 8.5 / 11;
     border-radius: $border-radius;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
     background: color-mix(in srgb, $gray-900 92%, transparent);
     overflow: hidden;
+    margin: 0 auto;
 
     object {
       width: 100%;
