@@ -28,7 +28,7 @@ The `press.html` page centralizes every media ready asset for Daren Prince. It b
 
 - Dedicated partial: `scss/components/_press-page.scss` (imported in `scss/styles.scss`).
 - Buttons reuse `.grad-kelly-green`, `.btn--accent`, and `.btn--subtle` variants already defined.
-- Viewer styling comes from `scss/components/_viewer.scss`; the press partial layers layout spacing and a slightly elevated placement for faster access.
+- Press kit preview frame is locked to the US Letter ratio (`8.5 / 11`) so embedded PDF previews keep consistent proportions instead of clipping across viewport sizes.
 - The in-page media drawer uses a branded dark gradient panel, mint accent borders, and icon-first anchors to match existing site header controls.
 
 ## Future Enhancements
