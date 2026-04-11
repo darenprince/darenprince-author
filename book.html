@@ -331,7 +331,7 @@
           </p>
         </div>
         <div class="grid gap-md book-collection-grid">
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/rooted-cover.svg" alt="Rooted book cover mockup">
             </figure>
@@ -342,11 +342,11 @@
               anchor identity, and become unshakable in who they are.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/too-much-cover.svg" alt="Too Much book cover mockup">
             </figure>
@@ -357,11 +357,11 @@
               a path back to self-worth, clarity, and emotional freedom.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/game-on-cover.svg" alt="Game On book cover mockup">
             </figure>
@@ -372,11 +372,11 @@
               communicate with emotional intelligence, and build attraction with authenticity.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/codependency-cover.svg" alt="F star codependency terminated book cover mockup">
             </figure>
@@ -387,11 +387,11 @@
               and stop abandoning themselves to keep everyone else comfortable.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/unshakeable-cover.svg" alt="Unshakable book cover mockup">
             </figure>
@@ -402,11 +402,11 @@
               restore self-trust, and rebuild their voice from a place of strength.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card">
+          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/power-of-choice-cover.svg" alt="The Power of Choice book cover mockup">
             </figure>
@@ -417,7 +417,7 @@
               and the mindset shifts that support lasting freedom.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle" href="#book-viewer">View details</a>
+              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
               <a class="btn btn--primary" href="#purchase-options">Buy now</a>
             </div>
           </article>
@@ -427,8 +427,13 @@
 
     <section id="book-viewer" class="book-section padding-y-xl section-divider">
       <div class="book-block container max-width-adaptive-lg">
+        <div class="book-viewer-stage" id="book-viewer-stage">
         <div class="book-preview">
           <div class="book-media">
+            <div class="book-preview__intro">
+              <p class="eyebrow">Game On 3D Viewer</p>
+              <h3>Rotate the official Game On cover.</h3>
+            </div>
             <!-- Book control toolbar -->
             <nav class="book-toolbar book-rail visible" aria-label="Book controls">
               <ul class="book-rail__list">
@@ -480,6 +485,15 @@
                     <span class="book-rail__label">Buy</span>
                   </button>
                 </li>
+                <li class="book-rail__item">
+                  <button id="open-book-details" class="book-rail__btn" data-tool="details" aria-label="Book details" title="Book details">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <span class="book-rail__label">Details</span>
+                  </button>
+                </li>
               </ul>
               <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -524,9 +538,30 @@
             </div>
           </div>
         </div>
+        <aside class="book-details-drawer" id="book-details-drawer" aria-live="polite">
+          <div class="book-details-drawer__content">
+            <p class="eyebrow">Game On Details</p>
+            <h3>The full playbook at a glance.</h3>
+            <p>
+              Master confident communication, authentic attraction, and emotional intelligence with a
+              practical roadmap built for real conversations—not scripted lines.
+            </p>
+            <ul>
+              <li>258 pages of actionable dating communication frameworks.</li>
+              <li>Paperback, ebook, and audiobook options in one flow.</li>
+              <li>Proven reader traction with Top 100 Kindle category momentum.</li>
+            </ul>
+            <div class="book-details-drawer__actions">
+              <button type="button" class="btn btn--primary" id="drawer-shop-now">Open purchasing</button>
+              <button type="button" class="btn btn--subtle" id="close-book-details">Back to cover</button>
+            </div>
+          </div>
+        </aside>
+        </div>
       </div>
       <div class="book-block container max-width-adaptive-lg">
         <div class="purchase-box" id="purchase-options">
+          <p class="eyebrow">Game On Purchasing</p>
           <div class="buy-controls">
             <h3 class="step-header step-one styledh1 brand-heading"><span class="brand-heading__emphasis">Your move.</span><br><span class="brand-heading__base">Select a format.</span></h3>
             <div class="format-options step-one">
