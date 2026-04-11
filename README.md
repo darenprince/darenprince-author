@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-04-08_
+_Last updated: 2026-04-11_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -207,6 +207,7 @@ _Adding a new token_
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
 - `index.html` — primary public author landing page (books, media, and brand story).
+- `contact.html` — modern author contact page with reader/media/speaking pathways, validated form handling, and GitHub Pages-safe metadata/social tags.
 - `labs.html` — Crown Labs experience with product, framework, and status modules.
 - `book.html` — tabbed format selector with trailer modal and 3D viewer.
 - `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
