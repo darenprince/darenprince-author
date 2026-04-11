@@ -246,3 +246,56 @@ document.querySelectorAll('.store-logo-link').forEach((link) => {
     }, 300)
   })
 })
+
+const bookCards = document.querySelectorAll('[data-book-entry]')
+if ('IntersectionObserver' in window && bookCards.length) {
+  const entryObserver = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-visible')
+        obs.unobserve(entry.target)
+      })
+    },
+    { threshold: 0.3, rootMargin: '0px 0px -10% 0px' }
+  )
+
+  bookCards.forEach((card) => entryObserver.observe(card))
+} else {
+  bookCards.forEach((card) => card.classList.add('is-visible'))
+}
+
+const viewerStage = document.getElementById('book-viewer-stage')
+const openDetailsBtn = document.getElementById('open-book-details')
+const closeDetailsBtn = document.getElementById('close-book-details')
+const drawerShopNowBtn = document.getElementById('drawer-shop-now')
+const detailsTriggers = document.querySelectorAll('.js-book-details-trigger')
+const purchaseOptionsSection = document.getElementById('purchase-options')
+
+function openBookDetailsDrawer() {
+  if (!viewerStage) return
+  viewerStage.classList.add('is-details-open')
+}
+
+function closeBookDetailsDrawer() {
+  viewerStage?.classList.remove('is-details-open')
+}
+
+openDetailsBtn?.addEventListener('click', (event) => {
+  event.preventDefault()
+  openBookDetailsDrawer()
+})
+
+closeDetailsBtn?.addEventListener('click', () => {
+  closeBookDetailsDrawer()
+})
+
+detailsTriggers.forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    setTimeout(() => openBookDetailsDrawer(), 220)
+  })
+})
+
+drawerShopNowBtn?.addEventListener('click', () => {
+  purchaseOptionsSection?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
