@@ -940,6 +940,48 @@
     ]
   },
   {
+    "path": "assets/images/books/codependency-cover.svg",
+    "description": "Codependency Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
+    "path": "assets/images/books/game-on-cover.svg",
+    "description": "Game On Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
+    "path": "assets/images/books/power-of-choice-cover.svg",
+    "description": "Power Of Choice Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
+    "path": "assets/images/books/rooted-cover.svg",
+    "description": "Rooted Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
+    "path": "assets/images/books/too-much-cover.svg",
+    "description": "Too Much Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
+    "path": "assets/images/books/unshakeable-cover.svg",
+    "description": "Unshakeable Cover — book cover or publication visual (SVG).",
+    "tags": [
+      "svg"
+    ]
+  },
+  {
     "path": "assets/images/C9979D08-3570-4242-AB5D-3E8FF808CAC3.png",
     "description": "C9979D08 3570 4242 AB5D 3E8FF808CAC3 — core site image asset (PNG).",
     "tags": [

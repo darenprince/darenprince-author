@@ -234,6 +234,7 @@ function initNavigationAndAuth() {
     if (!searchModal) {
       searchModal = createSearchModal()
     }
+    document.body.classList.add('is-search-modal-open')
     searchModal.classList.add('is-visible')
     const input = searchModal.querySelector('input[type="search"]')
     if (input) input.focus()
@@ -242,6 +243,7 @@ function initNavigationAndAuth() {
   function closeSearchModal() {
     if (searchModal) {
       searchModal.classList.remove('is-visible')
+      document.body.classList.remove('is-search-modal-open')
       searchToggle.focus()
     }
   }
