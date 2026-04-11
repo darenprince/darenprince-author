@@ -36,6 +36,16 @@
   position: relative;
   border: 1px solid color-mix(in srgb, $white 8%, transparent);
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+
+  &.is-visible {
+    opacity: 1;
+    animation: book-card-entry 0.95s cubic-bezier(0.2, 0.65, 0.2, 1) both;
+  }
 }
 
 .paperback-mockup {
@@ -110,6 +120,87 @@
     flex: 1 1 auto;
     min-width: 120px;
     text-align: center;
+  }
+}
+
+.book-viewer-stage {
+  display: grid;
+  gap: $spacing-md;
+  align-items: start;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+    gap: $spacing-lg;
+  }
+
+  .book-preview {
+    transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  &.is-details-open {
+    .book-preview {
+      transform: translateX(-7%);
+    }
+
+    .book-details-drawer {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+  }
+}
+
+.book-preview__intro {
+  text-align: center;
+  margin-bottom: $spacing-sm;
+}
+
+.book-details-drawer {
+  border-radius: $border-radius;
+  border: 1px solid color-mix(in srgb, $lime-green 24%, transparent);
+  background: color-mix(in srgb, $black 90%, transparent);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease,
+    transform 0.5s ease;
+
+  &__content {
+    padding: $spacing-lg;
+    display: grid;
+    gap: $spacing-sm;
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+  }
+}
+
+@keyframes book-card-entry {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-15deg) rotateZ(-2deg) scale(0.95);
+  }
+  45% {
+    transform: perspective(1000px) rotateY(10deg) rotateZ(1deg) scale(1);
+  }
+  70% {
+    transform: perspective(1000px) rotateY(-4deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(0deg) scale(1.01);
   }
 }
 
