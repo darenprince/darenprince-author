@@ -14,8 +14,26 @@ const worker = new Worker(SEARCH_WORKER_URL, { type: 'module' })
 let results = []
 let activeIndex = -1
 let dropdown, input
-let recent = JSON.parse(localStorage.getItem('recent-searches') || '[]')
+let recent = []
 const trending = ['book', 'relationship coaching', 'nexus who', 'crown sos']
+let isSubmitting = false
+
+function readRecentSearches() {
+  try {
+    const raw = localStorage.getItem('recent-searches')
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed
+      .map((item) => String(item || '').trim())
+      .filter(Boolean)
+      .slice(0, 6)
+  } catch {
+    return []
+  }
+}
+
+recent = readRecentSearches()
 
 function saveRecent(term) {
   term = term.trim()
@@ -91,6 +109,7 @@ function close() {
 }
 
 function onInput() {
+  isSubmitting = false
   const q = input.value.trim()
   if (!q) {
     renderList([], '')
@@ -114,23 +133,31 @@ worker.addEventListener('message', (e) => {
 function onKeyDown(e) {
   const items = dropdown.querySelectorAll('[role="option"]')
   if (e.key === 'ArrowDown') {
+    if (!items.length) return
     e.preventDefault()
     activeIndex = (activeIndex + 1) % items.length
     setActive(items)
   } else if (e.key === 'ArrowUp') {
+    if (!items.length) return
     e.preventDefault()
     activeIndex = (activeIndex - 1 + items.length) % items.length
     setActive(items)
   } else if (e.key === 'Enter') {
+    e.preventDefault()
+    if (isSubmitting) return
     if (activeIndex >= 0 && items[activeIndex]) {
       const item = items[activeIndex]
       if (item.dataset.all) {
-        window.dispatchEvent(
-          new CustomEvent('search:submit', { detail: { q: input.value.trim() } })
-        )
-        goToResults(input.value.trim())
+        const query = input.value.trim()
+        if (!query) return
+        isSubmitting = true
+        saveRecent(query)
+        window.dispatchEvent(new CustomEvent('search:submit', { detail: { q: query } }))
+        goToResults(query)
       } else if (item.dataset.url) {
-        saveRecent(input.value.trim())
+        const query = input.value.trim()
+        if (query) saveRecent(query)
+        isSubmitting = true
         window.dispatchEvent(
           new CustomEvent('search:selected', { detail: { id: item.dataset.index } })
         )
@@ -144,9 +171,11 @@ function onKeyDown(e) {
         close()
       }
     } else if (input.value.trim()) {
-      saveRecent(input.value.trim())
-      window.dispatchEvent(new CustomEvent('search:submit', { detail: { q: input.value.trim() } }))
-      goToResults(input.value.trim())
+      const query = input.value.trim()
+      isSubmitting = true
+      saveRecent(query)
+      window.dispatchEvent(new CustomEvent('search:submit', { detail: { q: query } }))
+      goToResults(query)
     }
   } else if (e.key === 'Escape') {
     close()
@@ -176,6 +205,7 @@ export function initSearch() {
     if (!container.contains(e.target)) close()
   })
   dropdown.addEventListener('click', (event) => {
+    isSubmitting = false
     const option = event.target.closest('[role="option"]')
     if (!option) return
     if (option.dataset.all) {

@@ -126,12 +126,12 @@
 
 .search-results {
   .search-bar {
-    display: flex;
-    gap: 8px;
+    position: relative;
+    display: block;
     input {
-      flex: 1;
+      width: 100%;
       height: 44px;
-      padding: 0 12px;
+      padding: 0 2.9rem 0 12px;
       border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
       border-radius: $border-radius;
       background: linear-gradient(
@@ -148,12 +148,27 @@
       }
     }
     button {
-      @include button-base($medium-green);
-      border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-      --btn-radius: #{$border-radius};
-      --btn-padding-y: 0.5rem;
-      --btn-padding-x: 1rem;
-      --btn-min-height: auto;
+      position: absolute;
+      top: 50%;
+      right: 0.45rem;
+      transform: translateY(-50%);
+      width: 2.1rem;
+      height: 2.1rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: color-mix(in srgb, #{$white} 74%, transparent);
+      cursor: pointer;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+
+      &:hover,
+      &:focus-visible {
+        background: color-mix(in srgb, #{$lime-green} 18%, transparent);
+        color: $lime-green;
+        outline: none;
+      }
     }
   }
   .results {
@@ -184,14 +199,22 @@
   background:
     radial-gradient(circle at 50% 8%, rgba(79, 145, 99, 0.18), rgba(0, 0, 0, 0.78) 58%),
     rgba(0, 0, 0, 0.7);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.24s ease,
+    visibility 0.24s ease;
 
   &.is-visible {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 }
 
@@ -207,20 +230,25 @@
   max-width: 560px;
   width: 90%;
   position: relative;
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  transition:
+    transform 0.28s ease,
+    opacity 0.24s ease;
   box-shadow:
     0 1.25rem 2.5rem rgba(0, 0, 0, 0.42),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   .search-form {
-    display: flex;
+    display: block;
     width: 100%;
-    gap: 0.5rem;
+    position: relative;
   }
 
   input[type='search'] {
-    flex-grow: 1;
+    width: 100%;
     min-height: 3rem;
-    padding: 0.72rem 1rem;
+    padding: 0.72rem 2.9rem 0.72rem 1rem;
     background: linear-gradient(
       to bottom,
       color-mix(in srgb, #{$surface} 92%, white),
@@ -242,13 +270,27 @@
   }
 
   .search-submit {
-    @include button-base($deep-green);
-    border: 1px solid color-mix(in srgb, #{$border} 60%, transparent);
-    border-radius: 0.85rem;
-    min-width: 3rem;
-    --btn-padding-y: 0.7rem;
-    --btn-padding-x: 0.86rem;
-    --btn-min-height: auto;
+    position: absolute;
+    top: 50%;
+    right: 0.45rem;
+    transform: translateY(-50%);
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: color-mix(in srgb, #{$white} 78%, transparent);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, #{$lime-green} 18%, transparent);
+      color: $lime-green;
+      outline: none;
+    }
   }
 
   .search-modal__quick-actions {
@@ -292,4 +334,13 @@
       background: color-mix(in srgb, #{$white} 10%, transparent);
     }
   }
+}
+
+.search-modal-overlay.is-visible .search-modal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+body.is-search-modal-open {
+  overflow: hidden;
 }
