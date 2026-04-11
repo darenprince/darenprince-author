@@ -748,6 +748,13 @@
     ]
   },
   {
+    "path": "assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg",
+    "description": "041D9198 C3A3 4B32 8321 C7E0B5C6F621 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
     "path": "assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png",
     "description": "05320CFA 0D08 4630 B4D0 40FF84B542D3 — core site image asset (PNG).",
     "tags": [
@@ -767,6 +774,13 @@
   {
     "path": "assets/images/0C09C716-0473-4C63-9233-A428B6E82F5D.png",
     "description": "0C09C716 0473 4C63 9233 A428B6E82F5D — core site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "assets/images/12AC1A26-295F-4A11-BF6C-49C8576DC05A.png",
+    "description": "12AC1A26 295F 4A11 BF6C 49C8576DC05A — core site image asset (PNG).",
     "tags": [
       "png"
     ]
@@ -811,6 +825,13 @@
     "description": "46BD1A8C A2F4 4CE2 B6C8 FDC3BD89DAD4 — core site image asset (PNG).",
     "tags": [
       "png"
+    ]
+  },
+  {
+    "path": "assets/images/4845D1B4-0A5A-4910-97C7-36E1ABBFB2B8.jpeg",
+    "description": "4845D1B4 0A5A 4910 97C7 36E1ABBFB2B8 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
     ]
   },
   {
@@ -874,6 +895,13 @@
     "description": "8AFD6649 62F8 4C57 BCB5 8EABE7BCA3CD — core site image asset (PNG).",
     "tags": [
       "png"
+    ]
+  },
+  {
+    "path": "assets/images/97FFB3B6-7814-4855-9C2C-A4693D0CA8CB.jpeg",
+    "description": "97FFB3B6 7814 4855 9C2C A4693D0CA8CB — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
     ]
   },
   {
@@ -1203,8 +1231,57 @@
     ]
   },
   {
+    "path": "assets/images/IMG_0237.jpeg",
+    "description": "IMG 0237 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
     "path": "assets/images/IMG_0267.png",
     "description": "IMG 0267 — core site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0284.jpeg",
+    "description": "IMG 0284 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0287.jpeg",
+    "description": "IMG 0287 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0288.jpeg",
+    "description": "IMG 0288 — core site image asset (JPEG).",
+    "tags": [
+      "jpeg"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0290.png",
+    "description": "IMG 0290 — core site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0307.png",
+    "description": "IMG 0307 — core site image asset (PNG).",
+    "tags": [
+      "png"
+    ]
+  },
+  {
+    "path": "assets/images/IMG_0308.png",
+    "description": "IMG 0308 — core site image asset (PNG).",
     "tags": [
       "png"
     ]

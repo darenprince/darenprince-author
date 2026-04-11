@@ -8,6 +8,14 @@
 - Scoped the behavior to primary content mains and excluded app-like layouts (`.console-main`, `.hero-section`, `.emergency-main`, `.not-found-page`) to avoid noisy nested UI dividers.
 - Compiled updated stylesheet artifacts (`assets/styles.css` + sourcemap) through the existing GitHub Pages pipeline so deployment output remains in sync.
 
+## 2026-04-11 — Books page simplification + hero image source update (GitHub Pages-safe)
+
+- Simplified `book.html` by removing the embedded 3D viewer, toolbar controls, format selector, and accordion stack from the books overview page.
+- Added a hero-image placeholder treatment in the books hero panel with top-aligned headline copy and a lower-third centered CTA.
+- Refined books collection spacing and introduced visual gradient dividers between adjacent book cards for clearer section rhythm.
+- Updated homepage hero background image source to `https://www.darenprince.com/IMG_4935.jpeg` in SCSS and rebuilt compiled CSS for GitHub Pages deployment parity.
+- Re-generated the image manifest index (`assets/image-manifest.json`) to keep image indexing metadata current.
+
 ## 2026-04-09 — Navigation UX modernization + hero motion polish
 
 - Refined header search UX with updated modal styling, quick-search chips, improved placeholders/labels, and polished mobile search bar controls.
