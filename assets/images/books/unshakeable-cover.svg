@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1350" viewBox="0 0 900 1350" role="img" aria-labelledby="t d">
+  <title id="t">Unshakable cover</title><desc id="d">Book cover for Unshakable: Break Free From Narcissistic Manipulation</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#122031"/><stop offset="1" stop-color="#080d16"/></linearGradient></defs>
+  <rect width="900" height="1350" fill="url(#bg)"/>
+  <text x="80" y="260" fill="#f4b161" font-size="112" font-family="Arial Black, Arial, sans-serif">UNSHAKABLE</text>
+  <text x="80" y="335" fill="#f7d8ad" font-size="34" font-family="Arial, sans-serif">BREAK FREE FROM NARCISSISTIC MANIPULATION</text>
+  <rect x="80" y="395" width="740" height="3" fill="#f4b161" opacity=".6"/>
+  <text x="80" y="1160" fill="#f8d7b0" font-size="56" font-family="Arial, sans-serif">DAREN M. PRINCE</text>
+</svg>
