@@ -308,15 +308,18 @@
             and use the same tools top performers lean on to lead with confidence.
           </p>
           <div class="flex gap-sm flex-wrap">
-            <a class="btn grad-kelly-green throb" href="#book-viewer">Explore the 3D book</a>
-            <a class="btn btn--primary" href="#purchase-options">Get your copy</a>
+            <a class="btn grad-kelly-green throb" href="/books/gameon.html">Explore book page</a>
+            <a class="btn btn--primary" href="#book-collection">See the collection</a>
           </div>
         </div>
-        <div class="panel radius-md bg-contrast-lower padding-md shadow-md">
-          <p class="text-sm text-uppercase letter-spacing-md">New 2025 edition</p>
-          <p class="text-md">
-            Paperback, Kindle, and audiobook all in one place—plus a 360° look at the design before you buy.
-          </p>
+        <div class="book-hero-placeholder panel radius-md shadow-md">
+          <div class="book-hero-placeholder__headline">
+            <p class="text-sm text-uppercase letter-spacing-md">Hero image placeholder</p>
+            <h3>Game On visual drops here</h3>
+          </div>
+          <div class="book-hero-placeholder__cta">
+            <a class="btn btn--primary" href="/books/gameon.html">Get your copy</a>
+          </div>
         </div>
       </div>
     </section>
@@ -330,7 +333,7 @@
             Every title is built to help readers break old patterns, reclaim personal power, and move with grounded confidence in real life.
           </p>
         </div>
-        <div class="grid gap-md book-collection-grid">
+        <div class="grid gap-md book-collection-grid book-collection-list">
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/rooted-cover.svg" alt="Rooted book cover mockup">
@@ -342,8 +345,8 @@
               anchor identity, and become unshakable in who they are.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
@@ -357,8 +360,8 @@
               a path back to self-worth, clarity, and emotional freedom.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
@@ -372,8 +375,8 @@
               communicate with emotional intelligence, and build attraction with authenticity.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
@@ -387,8 +390,8 @@
               and stop abandoning themselves to keep everyone else comfortable.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
@@ -402,8 +405,8 @@
               restore self-trust, and rebuild their voice from a place of strength.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
           <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
@@ -417,8 +420,8 @@
               and the mindset shifts that support lasting freedom.
             </p>
             <div class="book-card-cta-row">
-              <a class="btn btn--subtle js-book-details-trigger" href="#book-viewer">View details</a>
-              <a class="btn btn--primary" href="#purchase-options">Buy now</a>
+              <a class="btn btn--subtle" href="/books/gameon.html">View details</a>
+              <a class="btn btn--primary" href="/books/gameon.html#buy">Buy now</a>
             </div>
           </article>
         </div>
@@ -427,205 +430,16 @@
 
     <section id="book-viewer" class="book-section padding-y-xl section-divider">
       <div class="book-block container max-width-adaptive-lg">
-        <div class="book-viewer-stage" id="book-viewer-stage">
-        <div class="book-preview">
-          <div class="book-media">
-            <div class="book-preview__intro">
-              <p class="eyebrow">Game On 3D Viewer</p>
-              <h3>Rotate the official Game On cover.</h3>
-            </div>
-            <!-- Book control toolbar -->
-            <nav class="book-toolbar book-rail visible" aria-label="Book controls">
-              <ul class="book-rail__list">
-                <li class="book-rail__item">
-                  <button id="zoom-cover" class="book-rail__btn" data-tool="zoom" aria-label="Zoom" title="Zoom">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <circle cx="11" cy="11" r="8"/>
-                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                      <line x1="11" y1="8" x2="11" y2="14"/>
-                      <line x1="8" y1="11" x2="14" y2="11"/>
-                    </svg>
-                    <span class="book-rail__label">Zoom</span>
-                  </button>
-                </li>
-                <li class="book-rail__item">
-                  <button id="snap-front" class="book-rail__btn" data-tool="front" aria-label="Front" title="Front">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                    </svg>
-                    <span class="book-rail__label">Front</span>
-                  </button>
-                </li>
-                <li class="book-rail__item">
-                  <button id="snap-back" class="book-rail__btn" data-tool="back" aria-label="Back" title="Back">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                    </svg>
-                    <span class="book-rail__label">Back</span>
-                  </button>
-                </li>
-                <li class="book-rail__item">
-                  <button id="rotate-360" class="book-rail__btn" data-tool="spin360" aria-label="Rotate 360 degrees" title="Rotate 360 degrees">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <polyline points="23 4 23 10 17 10"/>
-                      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                    </svg>
-                    <span class="book-rail__label">360°</span>
-                  </button>
-                </li>
-                <li class="book-rail__item">
-                  <button id="add-to-cart" class="book-rail__btn" data-tool="buy" aria-label="Buy" title="Buy">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <circle cx="9" cy="21" r="1"/>
-                      <circle cx="20" cy="21" r="1"/>
-                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                    </svg>
-                    <span class="book-rail__label">Buy</span>
-                  </button>
-                </li>
-                <li class="book-rail__item">
-                  <button id="open-book-details" class="book-rail__btn" data-tool="details" aria-label="Book details" title="Book details">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                    </svg>
-                    <span class="book-rail__label">Details</span>
-                  </button>
-                </li>
-              </ul>
-              <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="11 17 6 12 11 7"/>
-                  <polyline points="18 17 13 12 18 7"/>
-                </svg>
-              </button>
-            </nav>
-
-            <!-- Book 3D viewer -->
-            <div class="book-3d-container">
-              <div id="book-3d-viewer" class="book-3d-viewer">
-                <div class="book-loader"></div>
-                <div class="rotate-hint" aria-hidden="true">
-                  <img src="/assets/images/360rotate.png" alt="" />
-                </div>
-                <div class="scene">
-                  <div class="book" id="book">
-                    <div class="face front"></div>
-                    <div class="face back"></div>
-                    <div class="face spine"></div>
-                    <div class="face pages"></div>
-                    <div class="face top"></div>
-                    <div class="face bottom"></div>
-                  </div>
-                  <div class="shadow"></div>
-                </div>
-              </div>
-              <button class="book-3d-close" id="book-close" aria-label="Close expanded view" hidden>
-                &times;
-              </button>
-            </div>
-            <div class="cover-zoom-modal" id="cover-zoom" hidden>
-              <div class="cover-zoom-content">
-                <button class="close-btn" id="close-cover-zoom"><i class="ph ph-x"></i></button>
-                <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover">
-                <div class="thumbnails">
-                  <img src="/assets/images/book-front.jpg" data-full="/assets/images/book-front.jpg" class="active" alt="Front cover">
-                  <img src="/assets/images/book-back.jpg" data-full="/assets/images/book-back.jpg" alt="Back cover">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <aside class="book-details-drawer" id="book-details-drawer" aria-live="polite">
-          <div class="book-details-drawer__content">
-            <p class="eyebrow">Game On Details</p>
-            <h3>The full playbook at a glance.</h3>
-            <p>
-              Master confident communication, authentic attraction, and emotional intelligence with a
-              practical roadmap built for real conversations—not scripted lines.
-            </p>
-            <ul>
-              <li>258 pages of actionable dating communication frameworks.</li>
-              <li>Paperback, ebook, and audiobook options in one flow.</li>
-              <li>Proven reader traction with Top 100 Kindle category momentum.</li>
-            </ul>
-            <div class="book-details-drawer__actions">
-              <button type="button" class="btn btn--primary" id="drawer-shop-now">Open purchasing</button>
-              <button type="button" class="btn btn--subtle" id="close-book-details">Back to cover</button>
-            </div>
-          </div>
-        </aside>
-        </div>
-      </div>
-      <div class="book-block container max-width-adaptive-lg">
-        <div class="purchase-box" id="purchase-options">
-          <p class="eyebrow">Game On Purchasing</p>
-          <div class="buy-controls">
-            <h3 class="step-header step-one styledh1 brand-heading"><span class="brand-heading__emphasis">Your move.</span><br><span class="brand-heading__base">Select a format.</span></h3>
-            <div class="format-options step-one">
-              <div class="format-option">
-                <i class="ph ph-megaphone format-icon"></i>
-                <button class="format-btn" data-format="audio">AUDIO</button>
-              </div>
-              <div class="format-option">
-                <i class="ph ph-device-tablet format-icon"></i>
-                <button class="format-btn" data-format="ebook">DIGITAL</button>
-              </div>
-              <div class="format-option">
-                <i class="ph ph-book format-icon"></i>
-                <button class="format-btn" data-format="print">PRINT</button>
-              </div>
-            </div>
-            <div class="store-step" hidden>
-              <p class="selected-format-note"><strong id="selected-format">Format</strong> (<a href="#" id="change-format">Change Format</a>)</p>
-              <h3 class="step-header">Choose A Store:</h3>
-              <div class="store-selector-wrapper">
-                <select class="store-selector"></select>
-              </div>
-              <button class="btn btn--primary buy-now">Shop <strong class="store-name"></strong> <i class="ph ph-arrow-right"></i></button>
-              <div class="selected-store-logo"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="book-block container max-width-adaptive-lg">
-        <div class="book-accordion accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ph ph-caret-down accordion-icon"></i></button>
-            <div class="accordion-panel">
-              <p>No gimmicks. No games. Just real results. <em>Game On!</em> is not another gimmicky “pickup artist” guide – it’s a real-world roadmap for authentic, magnetic connection. This 5-star Amazon bestseller cracked the Top 100 Kindle charts, proving that modern men are ready to ditch the mind games and get real.</p>
-              <p>Bold, playful, and grounded in real psychology, <em>Game On!</em> cuts through the nonsense to show you how to master the conversation, spark genuine attraction, and build connections that actually last.</p>
-              <p>Packed with humor, actionable exercises, and expert insights, <em>Game On!</em> helps you become the man who naturally attracts respect and interest. You’ll learn to confidently approach women, truly listen and understand, and express yourself with authenticity and emotional intelligence – all key ingredients for real attraction and lasting love.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false"><span>Who This Book Is For</span><i class="ph ph-caret-down accordion-icon"></i></button>
-            <div class="accordion-panel" hidden>
-              <ul>
-                <li>Men who want to stop overthinking and start connecting</li>
-                <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
-                <li>Dudes ready to level up their confidence and attract real women</li>
-                <li>Anyone who wants to master communication and spark real connection</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false"><span>Book Details</span><i class="ph ph-caret-down accordion-icon"></i></button>
-            <div class="accordion-panel" hidden>
-              <div class="book-details">
-                <table class="book-specs">
-                  <tr><th>ISBN-13</th><td>9798303844407</td></tr>
-                  <tr><th>ISBN-10</th><td>9798303844407</td></tr>
-                  <tr><th>Publisher</th><td>Independently Published</td></tr>
-                  <tr><th>Publish Date</th><td>December 2024</td></tr>
-                  <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
-                  <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
-                  <tr><th>Page Count</th><td>258</td></tr>
-                </table>
-              </div>
-            </div>
+        <div class="panel radius-md bg-contrast-lower padding-lg shadow-md stack gap-sm book-cta-panel">
+          <p class="brand-heading__emphasis">Want the full Game On experience?</p>
+          <h3 class="styledh1">Visit the dedicated Game On page</h3>
+          <p class="text-md">
+            We removed the embedded 3D viewer and format selector from this page for a cleaner books overview.
+            Use the full book page for deep details and format-specific purchase options.
+          </p>
+          <div class="flex gap-sm flex-wrap">
+            <a class="btn btn--primary" href="/books/gameon.html">Open Game On page</a>
+            <a class="btn btn--subtle" href="/books/gameon.html#buy">Jump to purchase options</a>
           </div>
         </div>
       </div>
@@ -731,8 +545,6 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script type="module" src="/js/profile-dropdown.js"></script>
   <script src="/js/theme-toggle.js"></script>
-  <script src="/js/book-details.js"></script>
-  <script type="module" src="/js/book-3d-viewer.js"></script>
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
