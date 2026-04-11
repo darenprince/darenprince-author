@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const hero = document.getElementById('autoZoomHero')
   if (!hero) return
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const baseScale = prefersReduced ? 1 : 1.01
-  const maxScale = prefersReduced ? baseScale : 1.08
-  const loopMs = 18000
+  const baseScale = prefersReduced ? 1 : 1.05
+  const maxScale = prefersReduced ? baseScale : 1.2
+  const loopMs = 12000
   let rafId = null
   let startTime = 0
 

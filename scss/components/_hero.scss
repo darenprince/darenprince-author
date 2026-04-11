@@ -400,7 +400,7 @@
       calc(var(--hero-media-max-height) * 0.5625)
     );
     --hero-playback-progress: 0%;
-    padding: clamp(0.55rem, 2vh, 1.15rem) clamp(1rem, 4.5vw, 3rem) clamp(2rem, 6vh, 3rem);
+    padding: clamp(0.85rem, 2.4vh, 1.45rem) clamp(1rem, 4.5vw, 3rem) clamp(2rem, 6vh, 3rem);
 
     @media (min-width: 48rem) {
       --hero-media-max-height: min(88vh, 52rem);
@@ -586,7 +586,7 @@
         transform: scale(var(--hero-scale, 1));
         transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         will-change: transform;
-        animation: hero-bg-breathe 22s ease-in-out infinite;
+        animation: hero-bg-breathe 16s ease-in-out infinite alternate;
       }
     }
 
@@ -661,7 +661,7 @@
       }
 
       .hero-image-layer img {
-        transform: scale(calc(var(--hero-scale, 1) * 1.18));
+        transform: scale(calc(var(--hero-scale, 1) * 1.28));
       }
 
       @media (max-width: 63.99rem) {
@@ -1118,10 +1118,10 @@
 @keyframes hero-bg-breathe {
   0%,
   100% {
-    transform: scale(calc(var(--hero-scale, 1) * 0.99));
+    transform: scale(calc(var(--hero-scale, 1) * 1.02));
   }
   50% {
-    transform: scale(calc(var(--hero-scale, 1) * 1.04));
+    transform: scale(calc(var(--hero-scale, 1) * 1.12));
   }
 }
 
