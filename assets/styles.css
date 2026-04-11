@@ -6576,7 +6576,8 @@ body.book-modal-open {
 .book-3d-viewer {
   --book-width: 240px;
   --book-height: 360px;
-  --book-depth: 30px;
+  --book-depth: 28px;
+  --edge-fix: 1px;
   --viewer-size: var(--book-height);
   --hint-size: 150px;
   position: relative;
@@ -6688,6 +6689,7 @@ body.book-modal-open {
   transform-style: preserve-3d;
   transition: transform 0.6s ease;
   cursor: grab;
+  transform-origin: center center;
 }
 .book-3d-viewer .face {
   position: absolute;
@@ -6696,6 +6698,7 @@ body.book-modal-open {
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  backface-visibility: hidden;
 }
 .book-3d-viewer .face::before {
   content: '';
@@ -6747,7 +6750,7 @@ body.book-modal-open {
   width: var(--book-depth);
   height: var(--book-height);
   left: calc(var(--book-width) / 2 - var(--book-depth) / 2);
-  transform: rotateY(-90deg) translateZ(calc(var(--book-width) / 2));
+  transform: rotateY(-90deg) translateZ(calc(var(--book-width) / 2 - var(--edge-fix)));
   background-image: url('../assets/books/gameon/gameonspread.jpg');
   background-position: center center;
   background-size: calc(var(--book-width) * 2 + var(--book-depth)) 100%;
@@ -6763,8 +6766,14 @@ body.book-modal-open {
   width: var(--book-depth);
   height: var(--book-height);
   left: calc(var(--book-width) / 2 - var(--book-depth) / 2);
-  transform: rotateY(90deg) translateZ(calc(var(--book-width) / 2));
-  background-image: url('../assets/images/paperside.jpg');
+  transform: rotateY(90deg) translateZ(calc(var(--book-width) / 2 - var(--edge-fix)));
+  background-image: repeating-linear-gradient(
+    180deg,
+    #f6f2e6 0px,
+    #f3efe2 1px,
+    #e3ddcc 2px,
+    #f6f2e6 3px
+  );
   background-position: center center;
 }
 .book-3d-viewer .pages::after {
@@ -7786,6 +7795,15 @@ body.book-modal-open {
   position: relative;
   border: 1px solid color-mix(in srgb, var(--color-white) 8%, transparent);
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+.book-collection-card.is-visible {
+  opacity: 1;
+  animation: book-card-entry 0.95s cubic-bezier(0.2, 0.65, 0.2, 1) both;
 }
 
 .paperback-mockup {
@@ -7858,6 +7876,79 @@ body.book-modal-open {
   text-align: center;
 }
 
+.book-viewer-stage {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .book-viewer-stage {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+    gap: 2rem;
+  }
+}
+.book-viewer-stage .book-preview {
+  transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.book-viewer-stage.is-details-open .book-preview {
+  transform: translateX(-7%);
+}
+.book-viewer-stage.is-details-open .book-details-drawer {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.book-preview__intro {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.book-details-drawer {
+  border-radius: 0.6875rem;
+  border: 1px solid color-mix(in srgb, var(--color-lime) 24%, transparent);
+  background: color-mix(in srgb, var(--color-black) 90%, transparent);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease,
+    transform 0.5s ease;
+}
+.book-details-drawer__content {
+  padding: 2rem;
+  display: grid;
+  gap: 0.75rem;
+}
+.book-details-drawer__content ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+.book-details-drawer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@keyframes book-card-entry {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-15deg) rotateZ(-2deg) scale(0.95);
+  }
+  45% {
+    transform: perspective(1000px) rotateY(10deg) rotateZ(1deg) scale(1);
+  }
+  70% {
+    transform: perspective(1000px) rotateY(-4deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(0deg) scale(1.01);
+  }
+}
 .book-section {
   margin-top: 2.75rem;
 }
