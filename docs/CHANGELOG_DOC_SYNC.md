@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-11 — Global section divider lines (GitHub Pages-safe)
+
+- Added subtle horizontal separator lines between adjacent top-level `<section>` blocks inside `<main>` across public pages to match the requested visual rhythm.
+- Scoped the behavior to primary content mains and excluded app-like layouts (`.console-main`, `.hero-section`, `.emergency-main`, `.not-found-page`) to avoid noisy nested UI dividers.
+- Compiled updated stylesheet artifacts (`assets/styles.css` + sourcemap) through the existing GitHub Pages pipeline so deployment output remains in sync.
+
 ## 2026-04-09 — Navigation UX modernization + hero motion polish
 
 - Refined header search UX with updated modal styling, quick-search chips, improved placeholders/labels, and polished mobile search bar controls.

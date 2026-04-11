@@ -145,6 +145,44 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.main-content-separators > section + section,
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
+  > section
+  + section {
+  position: relative;
+}
+.main-content-separators > section + section::before,
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
+  > section
+  + section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: clamp(1rem, 4vw, 2.5rem);
+  right: clamp(1rem, 4vw, 2.5rem);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--color-white) 24%, transparent) 16%,
+    color-mix(in srgb, var(--color-white) 42%, transparent) 50%,
+    color-mix(in srgb, var(--color-white) 24%, transparent) 84%,
+    transparent 100%
+  );
+  opacity: 0.48;
+  pointer-events: none;
+}
+.main-content-separators > section.section-divider + section::before,
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
+  > section.section-divider
+  + section::before,
+.main-content-separators > section + section.section-divider::before,
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
+  > section
+  + section.section-divider::before {
+  display: none;
+}
+
 @media (min-width: 64rem) {
   .home-scroll-snap {
     scroll-snap-type: y proximity;
