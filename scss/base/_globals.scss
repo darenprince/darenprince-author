@@ -14,6 +14,40 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.main-content-separators {
+  > section + section {
+    position: relative;
+  }
+
+  > section + section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: clamp(1rem, 4vw, 2.5rem);
+    right: clamp(1rem, 4vw, 2.5rem);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, #{$white} 24%, transparent) 16%,
+      color-mix(in srgb, #{$white} 42%, transparent) 50%,
+      color-mix(in srgb, #{$white} 24%, transparent) 84%,
+      transparent 100%
+    );
+    opacity: 0.48;
+    pointer-events: none;
+  }
+
+  > section.section-divider + section::before,
+  > section + section.section-divider::before {
+    display: none;
+  }
+}
+
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page) {
+  @extend .main-content-separators;
+}
+
 .home-scroll-snap {
   @media (min-width: 64rem) {
     scroll-snap-type: y proximity;
