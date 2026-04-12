@@ -1,7 +1,15 @@
-.grad-green { background: var(--grad-green); }
-.grad-gray { background: var(--grad-gray); }
-.grad-gray-top { background: var(--grad-gray-top); }
-.grad-gray-light { background: var(--grad-gray-light); }
+.grad-green {
+  background: var(--grad-green);
+}
+.grad-gray {
+  background: var(--grad-gray);
+}
+.grad-gray-top {
+  background: var(--grad-gray-top);
+}
+.grad-gray-light {
+  background: var(--grad-gray-light);
+}
 .grad-lemon-lime {
   background: var(--grad-lemon-lime);
   color: var(--lemon-lime-text);
@@ -37,11 +45,77 @@
   color: var(--kelly-green-text);
   border: 1px solid var(--kelly-green-border);
 }
+
+.btn.grad-lemon-lime,
+.btn.grad-lemon-lime-stroke,
+.btn.grad-charcoal-lime,
+.btn.grad-charcoal-mint,
+.btn.grad-booger-snow,
+.btn.grad-cash-cloud,
+.btn.grad-kelly-green {
+  --btn-bg: transparent;
+  --btn-hover-bg: transparent;
+}
+
+.btn.grad-lemon-lime {
+  --btn-bg: var(--grad-lemon-lime);
+  --btn-color: var(--lemon-lime-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--lemon-lime-border);
+}
+
+.btn.grad-lemon-lime-stroke {
+  --btn-bg: var(--grad-lemon-lime-stroke);
+  --btn-color: var(--lemon-lime-stroke-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--lemon-lime-stroke-border);
+}
+
+.btn.grad-charcoal-lime {
+  --btn-bg: var(--grad-charcoal-lime);
+  --btn-color: var(--charcoal-lime-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--charcoal-lime-border);
+}
+
+.btn.grad-charcoal-mint {
+  --btn-bg: var(--grad-charcoal-mint);
+  --btn-color: var(--charcoal-mint-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--charcoal-mint-border);
+}
+
+.btn.grad-booger-snow {
+  --btn-bg: var(--grad-booger-snow);
+  --btn-color: var(--booger-snow-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--booger-snow-border);
+}
+
+.btn.grad-cash-cloud {
+  --btn-bg: var(--grad-cash-cloud);
+  --btn-color: var(--cash-cloud-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--cash-cloud-border);
+}
+
+.btn.grad-kelly-green {
+  --btn-bg: var(--grad-kelly-green);
+  --btn-color: var(--kelly-green-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--kelly-green-border);
+}
 .grad-light-container {
   background: var(--grad-light-container);
   color: var(--light-container-text);
   border: 1px solid var(--light-container-border);
 }
-.grad-light-nav { background: var(--light-nav-gradient); }
-.grad-light-footer { background: var(--light-footer-gradient); }
-.grad-dark-main { background: var(--dark-main-gradient); }
+.grad-light-nav {
+  background: var(--light-nav-gradient);
+}
+.grad-light-footer {
+  background: var(--light-footer-gradient);
+}
+.grad-dark-main {
+  background: var(--dark-main-gradient);
+}
