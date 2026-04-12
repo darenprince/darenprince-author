@@ -9,6 +9,13 @@
 - Refined the homepage format selector module styling to feel modern and cohesive: card stack now joins flush with shared edge corners, and format option controls now use elevated dark-gradient treatments with stronger hover/focus states.
 - Recompiled deployable CSS artifacts (`assets/styles.css` + sourcemap) via `npm run build:site` so GitHub Pages serves the latest visual system changes.
 
+## 2026-04-12 — Books listing de-containerization + kicker vertical rhythm cleanup (GitHub Pages-safe)
+
+- Updated `book.html` books collection markup so listings render directly on the page background (no panel/container card shells) while preserving section hierarchy and CTA functionality.
+- Refined books listing styling in `scss/components/_book-details-wrapper.scss` to a single-column editorial flow with subtle divider lines between entries instead of boxed cards.
+- Tightened top/bottom vertical padding around books-page section kickers for cleaner spacing consistency in hero, collection intro, and each listing entry.
+- Recompiled static stylesheet artifacts via `npm run build:site` so GitHub Pages deploys the updated books-page layout exactly as authored.
+
 ## 2026-04-12 — Books page hero, cover assets, and motion polish (GitHub Pages-safe)
 
 - Replaced `book.html` hero placeholder with the live all-books image (`IMG_0287.jpeg`), updated hero copy/CTA to “Explore books,” and added smooth-scroll targeting to the first listing card.
