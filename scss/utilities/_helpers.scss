@@ -153,6 +153,24 @@
   );
 }
 
+.section-kicker--charcoal-lime {
+  color: color-mix(in srgb, var(--color-lime) 82%, var(--color-white));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-charcoal) 94%, transparent),
+    color-mix(in srgb, var(--gray-800) 88%, transparent)
+  );
+}
+
+.section-kicker--black-gray {
+  color: color-mix(in srgb, var(--gray-200) 94%, var(--color-white));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-black) 96%, transparent),
+    color-mix(in srgb, var(--gray-900) 88%, transparent)
+  );
+}
+
 // Border utility
 .border-thin-46683C {
   border: 1px solid rgba(70, 104, 60, 0.6);

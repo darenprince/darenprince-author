@@ -32,17 +32,45 @@
         overflow: auto;
       }
       .component {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
       }
       .component-example {
-        margin-bottom: 1rem;
+        margin-bottom: 1.1rem;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 0.75rem;
       }
       nav.style-guide-nav {
         display: flex;
         flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1.5rem 0 2rem;
+      }
+      .style-guide-surface {
+        padding: 1.1rem;
+        border-radius: 0.65rem;
+        background: linear-gradient(160deg, rgba(14, 17, 15, 0.88), rgba(8, 10, 8, 0.94));
+        box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
+      }
+      .style-guide-full-bleed {
+        margin-inline: calc(50% - 50vw);
+        width: 100vw;
+        padding: clamp(3rem, 9vw, 5.5rem) clamp(1rem, 5vw, 4rem);
+        background:
+          radial-gradient(circle at 15% 15%, rgba(95, 128, 88, 0.2), transparent 45%),
+          linear-gradient(145deg, #171a18 0%, #0c0e0d 100%);
+      }
+      .style-guide-full-bleed__inner {
+        max-width: 78rem;
+        margin: 0 auto;
+      }
+      .style-guide-kicker-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+      .style-guide-spaced {
+        display: grid;
         gap: 1rem;
       }
     </style>
@@ -122,6 +150,7 @@
         <nav class="style-guide-nav">
           <a href="#colors">Colors</a>
           <a href="#typography">Typography</a>
+          <a href="#sections">Sections</a>
           <a href="#buttons">Buttons</a>
           <a href="#utilities">Utilities</a>
           <a href="#containers">Containers</a>
@@ -191,14 +220,48 @@
 &lt;/h2&gt;</code></pre>
         </section>
 
+        <section id="sections" class="component">
+          <h2>Section patterns + kickers</h2>
+          <div class="component-example style-guide-kicker-row">
+            <p class="section-kicker section-kicker--green">Section kicker green</p>
+            <p class="section-kicker section-kicker--white">Section kicker white</p>
+            <p class="section-kicker section-kicker--combo">Section kicker combo</p>
+            <p class="section-kicker section-kicker--charcoal-lime">Charcoal / lime text</p>
+            <p class="section-kicker section-kicker--black-gray">Black / gray text</p>
+          </div>
+          <div class="style-guide-full-bleed section-divider">
+            <div class="style-guide-full-bleed__inner style-guide-spaced">
+              <p class="section-kicker section-kicker--charcoal-lime">Featured section pattern</p>
+              <h2 class="styledh1">Full-width section with divider + dark charcoal gradient</h2>
+              <p>
+                This module demonstrates a no-container band with the section divider treatment,
+                kicker, heading, and supporting text for hero-grade transitions.
+              </p>
+              <div class="component-example">
+                <button class="btn btn--primary">
+                  <i class="ph ph-rocket-launch"></i> Primary action
+                </button>
+                <button class="btn btn--subtle">
+                  <i class="ph ph-book-open-text"></i> Secondary action
+                </button>
+              </div>
+            </div>
+          </div>
+          <pre><code>&lt;section class="section-divider style-guide-full-bleed"&gt;...&lt;/section&gt;</code></pre>
+        </section>
+
         <section id="buttons" class="component">
           <h2>Buttons</h2>
           <div class="component-example">
-            <button class="btn">.btn</button>
-            <button class="btn btn--primary">.btn.btn--primary</button>
-            <button class="btn btn--secondary">.btn.btn--secondary</button>
-            <button class="btn btn--accent">.btn.btn--accent</button>
-            <button class="btn btn--ghost">.btn.btn--ghost</button>
+            <button class="btn"><i class="ph ph-arrow-up-right"></i> .btn</button>
+            <button class="btn btn--primary">
+              <i class="ph ph-lightning"></i> .btn.btn--primary
+            </button>
+            <button class="btn btn--secondary">
+              <i class="ph ph-star-four"></i> .btn.btn--secondary
+            </button>
+            <button class="btn btn--accent"><i class="ph ph-sparkle"></i> .btn.btn--accent</button>
+            <button class="btn btn--ghost"><i class="ph ph-compass"></i> .btn.btn--ghost</button>
             <button class="icon-btn"><i class="ph ph-check"></i></button>
             <button class="icon-btn--ghost"><i class="ph ph-check"></i></button>
             <button class="icon-btn--text"><i class="ph ph-plus"></i> Add</button>
@@ -206,16 +269,31 @@
             <button class="nav-icon-btn nav-icon-btn--static"><i class="ph ph-house"></i></button>
             <button class="hamburger-btn"><i class="ph ph-list"></i></button>
             <button class="auth-btn"><i class="ph ph-user"></i> Login</button>
+            <button class="close-pill-btn" aria-label="Close"><i class="ph ph-x"></i></button>
           </div>
           <h3>Gradient Buttons</h3>
           <div class="component-example">
-            <button class="btn grad-lemon-lime">.grad-lemon-lime</button>
-            <button class="btn grad-lemon-lime-stroke">.grad-lemon-lime-stroke</button>
-            <button class="btn grad-charcoal-lime">.grad-charcoal-lime</button>
-            <button class="btn grad-charcoal-mint">.grad-charcoal-mint</button>
-            <button class="btn grad-booger-snow">.grad-booger-snow</button>
-            <button class="btn grad-cash-cloud">.grad-cash-cloud</button>
-            <button class="btn grad-kelly-green">.grad-kelly-green</button>
+            <button class="btn grad-lemon-lime">
+              <i class="ph ph-arrow-up-right"></i> .grad-lemon-lime
+            </button>
+            <button class="btn grad-lemon-lime-stroke">
+              <i class="ph ph-arrow-up-right"></i> .grad-lemon-lime-stroke
+            </button>
+            <button class="btn grad-charcoal-lime">
+              <i class="ph ph-arrow-up-right"></i> .grad-charcoal-lime
+            </button>
+            <button class="btn grad-charcoal-mint">
+              <i class="ph ph-arrow-up-right"></i> .grad-charcoal-mint
+            </button>
+            <button class="btn grad-booger-snow">
+              <i class="ph ph-arrow-up-right"></i> .grad-booger-snow
+            </button>
+            <button class="btn grad-cash-cloud">
+              <i class="ph ph-arrow-up-right"></i> .grad-cash-cloud
+            </button>
+            <button class="btn grad-kelly-green">
+              <i class="ph ph-arrow-up-right"></i> .grad-kelly-green
+            </button>
           </div>
           <h3>Gray & Black Variations</h3>
           <div class="component-example">
@@ -343,9 +421,18 @@
 
         <section id="cards" class="component">
           <h2>Card</h2>
-          <div class="card component-example">
+          <div class="card component-example style-guide-surface">
+            <p class="section-kicker section-kicker--black-gray">Card Kicker</p>
             <h3>Card Title</h3>
             <p>Card content rides here.</p>
+            <div class="component-example">
+              <button class="btn btn--primary btn-sm">
+                <i class="ph ph-hand-pointing"></i> Take action
+              </button>
+              <button class="close-pill-btn" aria-label="Close card">
+                <i class="ph ph-x"></i>
+              </button>
+            </div>
           </div>
           <pre><code>&lt;div class="card"&gt;...&lt;/div&gt;</code></pre>
         </section>
@@ -394,10 +481,4 @@
     <script src="/js/style-guide.js" type="module"></script>
   </body>
 </html>
-
-
-
-
-
-
 
