@@ -3,9 +3,9 @@
    Author: Daren Prince
    Description: Tabbed layout with preview, description, trailer, and locked content
    ======================================= */
-@use "../base/variables" as *;
-@use "../base/mixins" as *;
-@use "../tokens/colors" as *;
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+@use '../tokens/colors' as *;
 
 .book-details {
   padding: $spacing-xl 0;
@@ -17,7 +17,7 @@
     position: sticky;
     top: 0;
     background-color: $charcoal;
-    padding: $spacing-sm $spacing-md;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 2.2vw, 1.4rem);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,7 +26,7 @@
 
     .buy-controls {
       display: flex;
-      gap: $spacing-xs;
+      gap: $spacing-sm;
       align-items: center;
 
       select {
@@ -48,14 +48,15 @@
   .tab-nav {
     display: flex;
     justify-content: center;
-    gap: $spacing-sm;
-    margin: $spacing-lg 0;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    margin: clamp(1.5rem, 3vw, 2.4rem) 0;
+    flex-wrap: wrap;
 
     button {
       background: transparent;
       color: $white;
       border: 2px solid $bright-green;
-      padding: $spacing-xs $spacing-md;
+      padding: clamp(0.45rem, 1.8vw, 0.7rem) clamp(0.95rem, 2.2vw, 1.3rem);
       border-radius: $border-radius;
       cursor: pointer;
       transition: $transition;
@@ -70,19 +71,23 @@
   }
 
   [role='tabpanel'] {
-    margin-bottom: $spacing-lg;
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+
+    > * + * {
+      margin-top: clamp(0.85rem, 2.2vw, 1.35rem);
+    }
   }
 
   .preview-toggle {
     display: flex;
     justify-content: center;
-    gap: $spacing-xs;
-    margin-bottom: $spacing-md;
+    gap: $spacing-sm;
+    margin-bottom: clamp(1rem, 2.2vw, 1.4rem);
 
     button {
       background: $medium-gray;
       color: $black;
-      padding: $spacing-xs $spacing-sm;
+      padding: clamp(0.45rem, 1.6vw, 0.6rem) clamp(0.75rem, 2vw, 1rem);
       border: none;
       border-radius: $border-radius;
       cursor: pointer;
@@ -116,8 +121,9 @@
     width: 100%;
     border-collapse: collapse;
 
-    th, td {
-      padding: $spacing-xs;
+    th,
+    td {
+      padding: clamp(0.55rem, 1.7vw, 0.8rem);
       border: 1px solid $border;
     }
 
@@ -140,7 +146,7 @@
 
   .locked-preview {
     text-align: center;
-    padding: $spacing-lg;
+    padding: clamp(1.4rem, 3.2vw, 2.1rem);
     background: $charcoal;
     border-radius: $border-radius;
 
