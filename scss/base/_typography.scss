@@ -32,7 +32,8 @@ h6 {
 }
 
 p {
-  margin: 0 0 $spacing-md;
+  margin: 0 0 clamp(#{$spacing-md}, 2.2vw, #{$spacing-lg});
+  line-height: 1.7;
 }
 
 a {
