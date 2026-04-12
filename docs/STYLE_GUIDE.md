@@ -70,6 +70,8 @@ Use iOS-glass-inspired ultra-thin stroke treatment:
 
 - Ensure balanced vertical spacing around book images and supporting copy.
 - Book card title + summary + CTA stack should keep consistent rhythm.
+- Apply rhythm guardrails for `section-kicker/pill -> heading -> paragraph` stacks so cards never collapse into tight vertical spacing.
+- Minimum spacing target between pill/heading/copy in cards and containers is now `clamp(0.7rem, 1.9vw, 1.05rem)`.
 - CTA row in each card should include icons and remain legible at mobile sizes.
 - Book listing cards should use subtle style variations by title/theme (background gradients and kicker color pairings).
 - Listing animations should begin and settle in the flatter resting pose for more stable readability.
