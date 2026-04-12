@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-12 — Style guide spacing, gradient parity, and format selector card flow (GitHub Pages-safe)
+
+- Tightened `docs/style-guide.html` spacing rhythm around section kickers/full-bleed demos, reduced code-block card font sizing, and restored the dark charcoal full-width gradient treatment (green background tint removed).
+- Updated gradient utility behavior so `.btn.grad-*` classes now drive button token variables directly, restoring named gradient visuals in the style guide instead of flattened green fills.
+- Refined the homepage format selector module styling to feel modern and cohesive: card stack now joins flush with shared edge corners, and format option controls now use elevated dark-gradient treatments with stronger hover/focus states.
+- Recompiled deployable CSS artifacts (`assets/styles.css` + sourcemap) via `npm run build:site` so GitHub Pages serves the latest visual system changes.
+
 ## 2026-04-12 — Books page hero, cover assets, and motion polish (GitHub Pages-safe)
 
 - Replaced `book.html` hero placeholder with the live all-books image (`IMG_0287.jpeg`), updated hero copy/CTA to “Explore books,” and added smooth-scroll targeting to the first listing card.

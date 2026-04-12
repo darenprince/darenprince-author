@@ -650,6 +650,66 @@ body:not(.brand-exempt) .btn-fw {
   border: 1px solid var(--kelly-green-border);
 }
 
+.btn.grad-lemon-lime,
+.btn.grad-lemon-lime-stroke,
+.btn.grad-charcoal-lime,
+.btn.grad-charcoal-mint,
+.btn.grad-booger-snow,
+.btn.grad-cash-cloud,
+.btn.grad-kelly-green {
+  --btn-bg: transparent;
+  --btn-hover-bg: transparent;
+}
+
+.btn.grad-lemon-lime {
+  --btn-bg: var(--grad-lemon-lime);
+  --btn-color: var(--lemon-lime-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--lemon-lime-border);
+}
+
+.btn.grad-lemon-lime-stroke {
+  --btn-bg: var(--grad-lemon-lime-stroke);
+  --btn-color: var(--lemon-lime-stroke-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--lemon-lime-stroke-border);
+}
+
+.btn.grad-charcoal-lime {
+  --btn-bg: var(--grad-charcoal-lime);
+  --btn-color: var(--charcoal-lime-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--charcoal-lime-border);
+}
+
+.btn.grad-charcoal-mint {
+  --btn-bg: var(--grad-charcoal-mint);
+  --btn-color: var(--charcoal-mint-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--charcoal-mint-border);
+}
+
+.btn.grad-booger-snow {
+  --btn-bg: var(--grad-booger-snow);
+  --btn-color: var(--booger-snow-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--booger-snow-border);
+}
+
+.btn.grad-cash-cloud {
+  --btn-bg: var(--grad-cash-cloud);
+  --btn-color: var(--cash-cloud-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--cash-cloud-border);
+}
+
+.btn.grad-kelly-green {
+  --btn-bg: var(--grad-kelly-green);
+  --btn-color: var(--kelly-green-text);
+  --btn-border-width: 1px;
+  --btn-border-color: var(--kelly-green-border);
+}
+
 .grad-light-container {
   background: var(--grad-light-container);
   color: var(--light-container-text);
@@ -7084,6 +7144,7 @@ body.book-modal-open {
   margin-inline: auto;
   border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+  margin-top: 0;
 }
 .purchase-box [hidden] {
   display: none !important;
@@ -7112,8 +7173,8 @@ body.book-modal-open {
   transform: translateY(-10px);
 }
 .purchase-box .format-options {
-  display: flex;
-  gap: var(--space-sm);
+  display: grid;
+  gap: var(--space-xs);
   justify-content: center;
   transition:
     opacity 0.3s ease,
@@ -7126,25 +7187,56 @@ body.book-modal-open {
   transform: translateY(-10px);
 }
 .purchase-box .format-option {
-  flex: 1;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: var(--space-xxs);
+  justify-content: center;
+  gap: var(--space-xs);
+  border-radius: calc(var(--radius-md) - var(--space-xxs));
+  padding: var(--space-xxs);
+  background: color-mix(in srgb, var(--color-black, #000) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 26%, transparent);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.purchase-box .format-option:focus-within,
+.purchase-box .format-option:hover {
+  border-color: color-mix(in srgb, var(--color-mint, #c2e9c1) 74%, transparent);
+  background: color-mix(in srgb, var(--color-black, #000) 68%, var(--color-primary) 32%);
 }
 .purchase-box .format-option .format-icon {
-  color: var(--color-accent);
-  font-size: 1.5rem;
+  color: color-mix(in srgb, var(--color-mint, #c2e9c1) 90%, var(--color-white));
+  font-size: 1.1rem;
+  pointer-events: none;
 }
 .purchase-box .format-option .format-btn {
   width: 100%;
-  background: color-mix(in srgb, var(--color-black, #000) 88%, transparent);
-  border: 2px solid var(--color-accent);
-  color: var(--color-muted);
-  padding: var(--space-sm) 0;
-  border-radius: var(--radius-md);
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--color-black, #000) 84%, var(--gray-900, #161616)),
+    color-mix(in srgb, var(--color-primary, #456f3a) 40%, var(--color-black, #000) 60%)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-mint, #c2e9c1) 55%, transparent);
+  color: var(--color-white);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: calc(var(--radius-md) - var(--space-xs));
   cursor: pointer;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  min-height: 2.5rem;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+.purchase-box .format-option .format-btn:hover,
+.purchase-box .format-option .format-btn:focus-visible {
+  border-color: color-mix(in srgb, var(--color-mint, #c2e9c1) 90%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-mint, #c2e9c1) 24%, transparent);
+  transform: translateY(-1px);
 }
 .purchase-box .store-step {
   display: flex;
@@ -7214,6 +7306,18 @@ body.book-modal-open {
 }
 .purchase-box .selected-store-logo img {
   max-height: 40px;
+}
+
+.book-primary-layout .book-experience .format-hero-panel {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.book-primary-layout .purchase-box {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
 }
 
 @media (min-width: 48rem) {
@@ -8365,7 +8469,7 @@ body.book-modal-open {
 
 .book-primary-layout {
   display: grid;
-  gap: 2rem;
+  gap: 0;
   align-items: center;
 }
 .book-primary-layout .book-experience {
@@ -8417,6 +8521,7 @@ body.book-modal-open {
   margin-inline: auto;
   border: 1px solid color-mix(in srgb, var(--color-lime) 18%, transparent);
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+  margin-top: 0;
 }
 .purchase-box [hidden] {
   display: none !important;
@@ -8455,8 +8560,8 @@ body.book-modal-open {
   transform: translateY(-10px);
 }
 .purchase-box .format-options {
-  display: flex;
-  gap: 0.75rem;
+  display: grid;
+  gap: 0.5rem;
   justify-content: center;
   transition:
     opacity 0.3s ease,
@@ -8469,25 +8574,56 @@ body.book-modal-open {
   transform: translateY(-10px);
 }
 .purchase-box .format-option {
-  flex: 1;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: calc(0.6875rem - 0.25rem);
+  padding: 0.25rem;
+  background: color-mix(in srgb, var(--color-black) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-lime) 26%, transparent);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.purchase-box .format-option:focus-within,
+.purchase-box .format-option:hover {
+  border-color: color-mix(in srgb, var(--color-mint) 74%, transparent);
+  background: color-mix(in srgb, var(--color-black) 68%, var(--color-primary) 32%);
 }
 .purchase-box .format-option .format-icon {
-  color: var(--color-lime);
-  font-size: 1.5rem;
+  color: color-mix(in srgb, var(--color-mint) 90%, var(--color-white));
+  font-size: 1.1rem;
+  pointer-events: none;
 }
 .purchase-box .format-option .format-btn {
   width: 100%;
-  background: color-mix(in srgb, var(--color-black) 88%, transparent);
-  border: 2px solid var(--color-lime);
-  color: var(--color-muted);
-  padding: 0.75rem 0;
-  border-radius: 0.6875rem;
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--color-black) 84%, var(--gray-900)),
+    color-mix(in srgb, var(--color-primary) 40%, var(--color-black) 60%)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-mint) 55%, transparent);
+  color: var(--color-white);
+  padding: 0.5rem 0.75rem;
+  border-radius: calc(0.6875rem - 0.5rem);
   cursor: pointer;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  min-height: 2.5rem;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+.purchase-box .format-option .format-btn:hover,
+.purchase-box .format-option .format-btn:focus-visible {
+  border-color: color-mix(in srgb, var(--color-mint) 90%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-mint) 24%, transparent);
+  transform: translateY(-1px);
 }
 .purchase-box .store-step {
   display: flex;
@@ -8557,6 +8693,18 @@ body.book-modal-open {
 }
 .purchase-box .selected-store-logo img {
   max-height: 40px;
+}
+
+.book-primary-layout .book-experience .format-hero-panel {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.book-primary-layout .purchase-box {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
 }
 
 .book-details-grid {
