@@ -65,7 +65,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
-  margin-block: $spacing-lg;
+  margin-block: clamp(#{$spacing-lg}, 4vw, #{$spacing-xl});
 }
 
 .container--spaced {
@@ -112,7 +112,26 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
 }
 
 .main-content {
-  padding: $spacing-lg 0;
+  padding: clamp(#{$spacing-lg}, 4vw, #{$spacing-xl}) 0;
+}
+
+main section {
+  padding-block: clamp(1.35rem, 3.2vw, 2.6rem);
+}
+
+.stack-lg > * + *,
+.stack-md > * + * {
+  margin-top: clamp(0.95rem, 2vw, 1.55rem);
+}
+
+.stack-lg > * + * {
+  margin-top: clamp(1.2rem, 2.8vw, 2rem);
+}
+
+.container :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.card :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead),
+.book-details [role='tabpanel'] :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
+  margin-top: clamp(0.55rem, 1.5vw, 0.9rem);
 }
 
 body.theme-fade {

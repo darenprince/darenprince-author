@@ -1,10 +1,14 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
 .card {
   background-color: $charcoal;
   color: $white;
-  padding: $spacing-md;
+  padding: clamp(#{$spacing-md}, 2.8vw, #{$spacing-lg});
   border-radius: $border-radius;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-  margin-bottom: $spacing-md;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  margin-bottom: clamp(#{$spacing-md}, 2.4vw, #{$spacing-lg});
+
+  > * + * {
+    margin-top: clamp(0.75rem, 1.8vw, 1.15rem);
+  }
 }

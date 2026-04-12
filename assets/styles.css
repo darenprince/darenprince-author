@@ -203,7 +203,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   width: min(90%, 1200px);
   margin-left: auto;
   margin-right: auto;
-  margin-block: 2rem;
+  margin-block: clamp(2rem, 4vw, 3rem);
 }
 
 .container--spaced {
@@ -246,7 +246,29 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
 }
 
 .main-content {
-  padding: 2rem 0;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+main section {
+  padding-block: clamp(1.35rem, 3.2vw, 2.6rem);
+}
+
+.stack-lg > * + *,
+.stack-md > * + * {
+  margin-top: clamp(0.95rem, 2vw, 1.55rem);
+}
+
+.stack-lg > * + * {
+  margin-top: clamp(1.2rem, 2.8vw, 2rem);
+}
+
+.container :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.container--spaced :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.container--border :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.container--light :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.card :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead),
+.book-details [role='tabpanel'] :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
+  margin-top: clamp(0.55rem, 1.5vw, 0.9rem);
 }
 
 body.theme-fade {
@@ -335,7 +357,8 @@ h6 {
 }
 
 p {
-  margin: 0 0 1rem;
+  margin: 0 0 clamp(1rem, 2.2vw, 2rem);
+  line-height: 1.7;
 }
 
 a {
@@ -5080,10 +5103,13 @@ input.invalid {
 .card {
   background-color: var(--color-charcoal);
   color: var(--color-white);
-  padding: 1rem;
+  padding: clamp(1rem, 2.8vw, 2rem);
   border-radius: 0.6875rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  margin-bottom: 1rem;
+  margin-bottom: clamp(1rem, 2.4vw, 2rem);
+}
+.card > * + * {
+  margin-top: clamp(0.75rem, 1.8vw, 1.15rem);
 }
 
 .modal-overlay {
@@ -7639,7 +7665,7 @@ body.book-modal-open {
   position: sticky;
   top: 0;
   background-color: var(--color-charcoal);
-  padding: 0.75rem 1rem;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 2.2vw, 1.4rem);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7648,7 +7674,7 @@ body.book-modal-open {
 }
 .book-details .sticky-purchase-bar .buy-controls {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: center;
 }
 .book-details .sticky-purchase-bar .buy-controls select {
@@ -7666,14 +7692,15 @@ body.book-modal-open {
 .book-details .tab-nav {
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
-  margin: 2rem 0;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin: clamp(1.5rem, 3vw, 2.4rem) 0;
+  flex-wrap: wrap;
 }
 .book-details .tab-nav button {
   background: transparent;
   color: var(--color-white);
   border: 2px solid var(--color-bright);
-  padding: 0.5rem 1rem;
+  padding: clamp(0.45rem, 1.8vw, 0.7rem) clamp(0.95rem, 2.2vw, 1.3rem);
   border-radius: 0.6875rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -7685,18 +7712,21 @@ body.book-modal-open {
   color: var(--color-black);
 }
 .book-details [role='tabpanel'] {
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+.book-details [role='tabpanel'] > * + * {
+  margin-top: clamp(0.85rem, 2.2vw, 1.35rem);
 }
 .book-details .preview-toggle {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: clamp(1rem, 2.2vw, 1.4rem);
 }
 .book-details .preview-toggle button {
   background: var(--color-muted);
   color: var(--color-black);
-  padding: 0.5rem 0.75rem;
+  padding: clamp(0.45rem, 1.6vw, 0.6rem) clamp(0.75rem, 2vw, 1rem);
   border: none;
   border-radius: 0.6875rem;
   cursor: pointer;
@@ -7726,7 +7756,7 @@ body.book-modal-open {
 }
 .book-details .book-specs th,
 .book-details .book-specs td {
-  padding: 0.5rem;
+  padding: clamp(0.55rem, 1.7vw, 0.8rem);
   border: 1px solid var(--color-border);
 }
 .book-details .book-specs th {
@@ -7744,7 +7774,7 @@ body.book-modal-open {
 }
 .book-details .locked-preview {
   text-align: center;
-  padding: 2rem;
+  padding: clamp(1.4rem, 3.2vw, 2.1rem);
   background: var(--color-charcoal);
   border-radius: 0.6875rem;
 }
