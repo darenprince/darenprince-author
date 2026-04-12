@@ -152,6 +152,8 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   > section
   + section {
   position: relative;
+  margin-top: clamp(0.85rem, 2.4vw, 1.75rem);
+  padding-top: clamp(1.1rem, 3vw, 2rem);
 }
 .main-content-separators > section + section::before,
 main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
@@ -159,7 +161,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   + section::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: clamp(-0.55rem, -1.4vw, -1rem);
   left: clamp(1rem, 4vw, 2.5rem);
   right: clamp(1rem, 4vw, 2.5rem);
   height: 1px;
@@ -250,7 +252,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
 }
 
 main section {
-  padding-block: clamp(1.35rem, 3.2vw, 2.6rem);
+  padding-block: clamp(1.9rem, 4.2vw, 3.6rem);
 }
 
 .stack-lg > * + *,
@@ -268,7 +270,7 @@ main section {
 .container--light :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
 .card :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead),
 .book-details [role='tabpanel'] :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
-  margin-top: clamp(0.55rem, 1.5vw, 0.9rem);
+  margin-top: clamp(0.75rem, 1.8vw, 1.15rem);
 }
 
 :is(
@@ -281,7 +283,7 @@ main section {
   )
   :is(.section-kicker, .eyebrow, .chip, .pill)
   + :is(h1, h2, h3, h4, h5, h6) {
-  margin-top: clamp(0.7rem, 1.9vw, 1rem);
+  margin-top: clamp(0.9rem, 2.1vw, 1.25rem);
 }
 
 :is(
@@ -294,7 +296,7 @@ main section {
   )
   :is(h1, h2, h3, h4, h5, h6)
   + :is(p, .text-sm, .text-md, .lead) {
-  margin-top: clamp(0.7rem, 1.9vw, 1.05rem);
+  margin-top: clamp(0.95rem, 2.2vw, 1.3rem);
 }
 
 body.theme-fade {
@@ -8136,6 +8138,18 @@ body.book-modal-open {
   display: none;
 }
 
+.books-main .section-divider {
+  padding-block: clamp(2rem, 6vw, 4rem);
+}
+.books-main .book-hero {
+  padding-top: 0;
+  padding-bottom: clamp(2.25rem, 6vw, 4.5rem);
+}
+.books-main #book-collection {
+  padding-top: clamp(2.75rem, 7vw, 5rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
 .book-collection-grid {
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
@@ -8144,6 +8158,7 @@ body.book-modal-open {
 .book-collection-shell {
   width: min(1080px, 100% - clamp(2rem, 7vw, 7rem));
   margin-inline: auto;
+  gap: clamp(1.35rem, 3.5vw, 2.4rem);
 }
 
 .book-hero {
@@ -8185,11 +8200,11 @@ body.book-modal-open {
 }
 
 .book-collection-list {
-  padding-top: clamp(1.25rem, 3.2vw, 2rem);
-  padding-bottom: clamp(1.25rem, 3.2vw, 2rem);
+  padding-top: clamp(1.9rem, 4vw, 3rem);
+  padding-bottom: clamp(1.9rem, 4vw, 3rem);
 }
 .book-collection-list .book-collection-card {
-  padding: clamp(1.35rem, 2.7vw, 1.85rem) 0;
+  padding: clamp(1.8rem, 3.4vw, 2.5rem) 0;
 }
 .book-collection-list .book-collection-card + .book-collection-card {
   position: relative;
@@ -8274,12 +8289,12 @@ body.book-modal-open {
   animation: book-cover-attention 0.95s ease;
 }
 .book-collection-card > * + * {
-  margin-top: clamp(0.72rem, 2vw, 1.1rem);
+  margin-top: clamp(1rem, 2.4vw, 1.5rem);
 }
 
 .paperback-mockup {
   width: min(220px, 100%);
-  margin: 0 auto clamp(0.9rem, 2vw, 1.2rem);
+  margin: 0 auto clamp(1.3rem, 2.8vw, 1.85rem);
   padding-block: clamp(0.45rem, 1.5vw, 0.75rem);
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.5));
   position: relative;
