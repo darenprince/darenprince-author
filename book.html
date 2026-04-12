@@ -135,19 +135,19 @@
     <meta name="description" content="Explore all books by Daren Prince. Six transformative titles on confidence, healing, identity, recovery, and real connection.">
     <meta property="og:title" content="Books by Daren Prince">
     <meta property="og:description" content="Browse all six books by Daren Prince with modern, mobile-first browsing and direct purchase links.">
-    <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1366">
-    <meta property="og:image:height" content="767">
-    <meta property="og:image:alt" content="Daren Prince books collection cover art">
+    <meta property="og:image" content="https://www.darenprince.com/assets/images/IMG_0287.jpeg">
+    <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/IMG_0287.jpeg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="2048">
+    <meta property="og:image:height" content="1365">
+    <meta property="og:image:alt" content="All six Daren Prince books displayed together in one hero image">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://darenprince.com/book.html">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Books by Daren Prince">
     <meta name="twitter:description" content="Explore six books by Daren Prince on confidence, healing, identity, and meaningful relationships.">
-    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta name="twitter:image:alt" content="Daren Prince books collection cover art">
+    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/IMG_0287.jpeg">
+    <meta name="twitter:image:alt" content="All six Daren Prince books displayed together in one hero image">
     <link rel="canonical" href="https://darenprince.com/book.html">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
@@ -289,33 +289,26 @@
   <main>
     <h1 style="display:none;">Books by Daren Prince</h1>
 
-    <section class="book-hero padding-y-xl section-divider section-divider--hero">
-      <div class="container max-width-adaptive-lg grid gap-lg items-center">
-        <div class="stack gap-sm">
-          <p class="brand-heading__emphasis">Books by Daren Prince</p>
-          <h2 class="styledh1">Six titles for confidence, healing, identity, and connection</h2>
-          <p class="text-md">
-            A production-ready collection of six books that blend direct storytelling with practical tools for emotional resilience,
-            recovery, identity, and healthier relationships.
-          </p>
-          <div class="flex gap-sm flex-wrap">
-            <a class="btn btn--primary" href="#book-collection">Browse all six books</a>
-            <button class="btn btn--subtle js-share-trigger" type="button" aria-label="Share this books page"><i class="ph ph-share-network"></i> Share</button>
-          </div>
-        </div>
-        <div class="book-hero-placeholder panel radius-md shadow-md">
-          <div class="book-hero-placeholder__headline book-hero-placeholder__headline--overlay">
-            <p class="text-sm text-uppercase letter-spacing-md">Hero image placeholder</p>
-            <h3>Books hero image headline overlays at top</h3>
-          </div>
-          <div class="book-hero-placeholder__cta book-hero-placeholder__cta--lower-third">
-            <a class="btn btn--primary" href="#book-collection">Explore collection</a>
+    <section class="book-hero section-divider section-divider--hero" aria-labelledby="books-hero-title">
+      <div class="book-hero__media" role="img" aria-label="All six Daren Prince books grouped together" title="Books by Daren Prince"></div>
+      <div class="book-hero__overlay">
+        <div class="container max-width-adaptive-lg">
+          <div class="book-hero__copy stack gap-sm">
+            <p class="brand-heading__emphasis">Books by Daren Prince</p>
+            <h2 id="books-hero-title" class="styledh1">Six titles for confidence, healing, identity, and connection</h2>
+            <p class="text-md">
+              Explore all six books designed to help you build confidence, heal emotional patterns, and create healthier relationships in real life.
+            </p>
+            <div class="flex gap-sm flex-wrap">
+              <a class="btn btn--primary js-books-scroll-cta" href="#book-collection" aria-label="Explore books and jump to the first book listing">Explore books</a>
+              <button class="btn btn--subtle js-share-trigger" type="button" aria-label="Share this books page"><i class="ph ph-share-network"></i> Share</button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="padding-y-lg section-divider" id="book-collection">
+    <section class="padding-y-lg section-divider book-listing-section" id="book-collection">
       <div class="container max-width-adaptive-lg stack gap-md">
         <div class="stack gap-xxs">
           <p class="brand-heading__emphasis">Explore the collection</p>
@@ -325,7 +318,7 @@
           </p>
         </div>
         <div class="grid gap-md book-collection-grid book-collection-list">
-          <article class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
+          <article id="book-rooted" class="panel radius-md bg-contrast-lower padding-md shadow-md stack gap-xs book-collection-card" data-book-entry>
             <figure class="paperback-mockup">
               <img src="/assets/images/books/rooted-cover.svg" alt="Rooted book cover mockup">
             </figure>

@@ -28,6 +28,49 @@
   }
 }
 
+.book-hero {
+  position: relative;
+  margin-top: calc(var(--nav-height, 80px) * -1);
+  padding-top: var(--nav-height, 80px);
+  min-height: clamp(420px, 68vh, 760px);
+  overflow: clip;
+
+  &__media {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.5) 2%, rgba(0, 0, 0, 0.72) 82%),
+      url('../assets/images/IMG_0287.jpeg') center 20% / cover no-repeat;
+  }
+
+  &__overlay {
+    position: relative;
+    z-index: 1;
+    min-height: inherit;
+    display: grid;
+    align-items: end;
+    padding-block: clamp(3rem, 8vw, 5.25rem) clamp(2.25rem, 7vw, 4rem);
+  }
+
+  &__copy {
+    max-width: min(700px, 100%);
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: 1px solid color-mix(in srgb, $white 14%, transparent);
+    border-radius: calc($border-radius + 2px);
+    background: linear-gradient(155deg, rgba(6, 10, 7, 0.76), rgba(4, 8, 5, 0.92));
+    backdrop-filter: blur(2px);
+  }
+
+  .text-md {
+    margin: 0;
+  }
+}
+
+.book-listing-section {
+  padding-top: clamp(3rem, 7vw, 5.5rem);
+  padding-bottom: clamp(3rem, 8vw, 6rem);
+}
+
 .book-collection-grid {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   row-gap: clamp(1.25rem, 2.8vw, 2rem);
@@ -119,13 +162,15 @@
     box-shadow 0.35s ease,
     border-color 0.35s ease;
 
-  &:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, $lime-green 40%, transparent);
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.36);
+  &:hover,
+  &.is-emphasized {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, $lime-green 48%, transparent);
+    box-shadow: 0 20px 34px rgba(0, 0, 0, 0.38);
   }
 
-  &.is-visible {
+  &.is-visible,
+  &.is-emphasized {
     animation: book-card-entry 0.95s cubic-bezier(0.2, 0.65, 0.2, 1) both;
   }
 }
@@ -184,7 +229,8 @@
   }
 }
 
-.book-collection-card:hover .paperback-mockup {
+.book-collection-card:hover .paperback-mockup,
+.book-collection-card.is-emphasized .paperback-mockup {
   transform: translateY(-4px) scale(1.015);
 
   img {
