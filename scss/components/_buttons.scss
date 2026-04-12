@@ -276,10 +276,7 @@
       :has(i, svg)
     ) {
     &::after {
-      content: '↗';
-      font-size: 0.95em;
-      margin-left: 0.1rem;
-      line-height: 1;
+      content: '';
     }
   }
 
@@ -358,6 +355,30 @@
     --btn-min-height: 3rem;
     width: var(--btn-min-height);
     height: var(--btn-min-height);
+  }
+
+  .close-pill-btn {
+    @include button-base(
+      $black,
+      $white,
+      color-mix(in srgb, #{$black} 82%, #{$gray-900}),
+      $white,
+      1px,
+      color-mix(in srgb, #{$white} 18%, transparent)
+    );
+    --btn-padding-x: 0;
+    --btn-padding-y: 0;
+    --btn-gap: 0;
+    --btn-line-height: 1;
+    --btn-min-height: 1.65rem;
+    --btn-radius: 50%;
+    width: var(--btn-min-height);
+    height: var(--btn-min-height);
+
+    i,
+    svg {
+      font-size: 0.8rem;
+    }
   }
 
   .icon-btn--text {

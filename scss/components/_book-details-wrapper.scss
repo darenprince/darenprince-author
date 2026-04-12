@@ -30,7 +30,7 @@
 
 .book-collection-grid {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  row-gap: clamp(1.25rem, 2.8vw, 2rem);
+  gap: clamp(1.3rem, 2.8vw, 2rem);
 }
 
 .book-hero {
@@ -76,8 +76,8 @@
 }
 
 .book-collection-list {
-  padding-top: clamp(0.9rem, 2.4vw, 1.4rem);
-  padding-bottom: clamp(0.9rem, 2.4vw, 1.4rem);
+  padding-top: clamp(1.75rem, 4vw, 2.8rem);
+  padding-bottom: clamp(1.75rem, 4vw, 2.8rem);
 
   .book-collection-card {
     padding: clamp(1.1rem, 2.7vw, 1.6rem);
@@ -155,7 +155,7 @@
   position: relative;
   border: 0;
   border-radius: calc($border-radius + 2px);
-  background: linear-gradient(165deg, rgba(18, 24, 20, 0.92), rgba(10, 14, 11, 0.88));
+  background: linear-gradient(160deg, rgba(18, 24, 20, 0.94), rgba(10, 14, 11, 0.9));
   overflow: hidden;
   opacity: 1;
   transform: none;
@@ -175,6 +175,45 @@
       0 16px 30px rgba(0, 0, 0, 0.36);
   }
 
+  &:nth-child(3n + 1) {
+    background: linear-gradient(160deg, rgba(17, 23, 19, 0.94), rgba(9, 13, 11, 0.9));
+  }
+
+  &:nth-child(3n + 2) {
+    background: linear-gradient(160deg, rgba(26, 28, 21, 0.94), rgba(12, 14, 11, 0.9));
+    box-shadow:
+      inset 0 0 0 0.5px color-mix(in srgb, $lime-green 20%, transparent),
+      0 8px 18px rgba(0, 0, 0, 0.28);
+  }
+
+  &:nth-child(3n + 3) {
+    background: linear-gradient(160deg, rgba(16, 18, 20, 0.94), rgba(9, 11, 13, 0.9));
+  }
+
+  &.book-collection-card--identity {
+    background: linear-gradient(160deg, rgba(21, 31, 25, 0.94), rgba(11, 16, 13, 0.9));
+  }
+
+  &.book-collection-card--memoir {
+    background: linear-gradient(160deg, rgba(25, 24, 24, 0.94), rgba(13, 12, 12, 0.9));
+  }
+
+  &.book-collection-card--dating {
+    background: linear-gradient(160deg, rgba(27, 32, 20, 0.94), rgba(14, 16, 11, 0.9));
+  }
+
+  &.book-collection-card--boundaries {
+    background: linear-gradient(160deg, rgba(19, 22, 30, 0.94), rgba(11, 13, 16, 0.9));
+  }
+
+  &.book-collection-card--recovery {
+    background: linear-gradient(160deg, rgba(24, 22, 29, 0.94), rgba(12, 11, 15, 0.9));
+  }
+
+  &.book-collection-card--purpose {
+    background: linear-gradient(160deg, rgba(26, 27, 24, 0.94), rgba(13, 14, 12, 0.9));
+  }
+
   &.is-visible {
     animation: book-card-entry 0.95s cubic-bezier(0.2, 0.65, 0.2, 1) both;
   }
@@ -186,8 +225,8 @@
 
 .paperback-mockup {
   width: min(220px, 100%);
-  margin: 0 auto $spacing-md;
-  padding-block: clamp(0.3rem, 1.2vw, 0.55rem);
+  margin: 0 auto clamp(0.9rem, 2vw, 1.2rem);
+  padding-block: clamp(0.45rem, 1.5vw, 0.75rem);
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.5));
   position: relative;
   perspective: 1100px;
@@ -199,7 +238,7 @@
     display: block;
     border-radius: 6px;
     border: 0;
-    transform: rotateY(-20deg) rotateX(4deg) translateZ(2px);
+    transform: rotateY(-8deg) rotateX(1deg) translateZ(1px);
     transform-origin: left center;
     transition:
       transform 0.36s ease,
@@ -244,25 +283,25 @@
   transform: translateY(-4px) scale(1.015);
 
   img {
-    transform: rotateY(-12deg) rotateX(2deg) translateZ(4px);
+    transform: rotateY(-18deg) rotateX(3deg) translateZ(4px);
   }
 }
 
 @keyframes book-cover-attention {
   0% {
-    transform: rotateY(-20deg) rotateX(4deg) translateZ(2px) scale(1);
+    transform: rotateY(-8deg) rotateX(1deg) translateZ(1px) scale(1);
   }
   45% {
-    transform: rotateY(-7deg) rotateX(1deg) translateZ(6px) scale(1.03);
+    transform: rotateY(-18deg) rotateX(3deg) translateZ(6px) scale(1.03);
   }
   100% {
-    transform: rotateY(-20deg) rotateX(4deg) translateZ(2px) scale(1);
+    transform: rotateY(-8deg) rotateX(1deg) translateZ(1px) scale(1);
   }
 }
 
 .book-card-cta-row {
   margin-top: auto;
-  padding-top: clamp(0.3rem, 0.9vw, 0.55rem);
+  padding-top: clamp(0.6rem, 1.2vw, 0.85rem);
   display: flex;
   flex-wrap: wrap;
   gap: clamp(0.55rem, 1.4vw, 0.8rem);
@@ -276,12 +315,13 @@
 }
 
 .book-collection-card > h3 {
-  margin-top: 0.1rem;
-  margin-bottom: 0.3rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.45rem;
 }
 
 .book-collection-card > p.text-sm {
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.55rem;
+  color: color-mix(in srgb, $white 84%, transparent);
 }
 
 .book-viewer-stage {
@@ -351,25 +391,26 @@
 @keyframes book-card-entry {
   0% {
     opacity: 0;
-    transform: perspective(1000px) rotateY(-15deg) rotateZ(-2deg) scale(0.95);
+    transform: perspective(1000px) rotateY(-3deg) rotateZ(0deg) scale(0.97);
   }
   45% {
-    transform: perspective(1000px) rotateY(10deg) rotateZ(1deg) scale(1);
+    transform: perspective(1000px) rotateY(11deg) rotateZ(1deg) scale(1);
   }
   70% {
-    transform: perspective(1000px) rotateY(-4deg) scale(1.02);
+    transform: perspective(1000px) rotateY(-8deg) scale(1.01);
   }
   100% {
     opacity: 1;
-    transform: perspective(1000px) rotateY(0deg) scale(1.01);
+    transform: perspective(1000px) rotateY(-1deg) scale(1);
   }
 }
 
 .book-section {
-  margin-top: $spacing-xl - 0.25rem;
+  margin-top: $spacing-xl + 0.35rem;
+  padding-block: clamp(1.6rem, 4vw, 2.6rem);
 
   .book-block + .book-block {
-    margin-top: $spacing-xl - 0.25rem;
+    margin-top: $spacing-xl;
   }
 }
 
