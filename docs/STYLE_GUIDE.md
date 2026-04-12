@@ -1,164 +1,112 @@
-# 🎨 Style Guide & Token Catalog
+# 🎨 Unified Style Guide & Component Library
 
-_Last updated: 2026-03-27_
+_Last updated: 2026-04-12_
 
-This guide mirrors the design tokens, typography rules, utilities, and heading usage that actually compile from `scss/`. Treat it as the source of truth when adjusting visuals or reviewing brand compliance.
+This is the single source of truth for design tokens, components, CTA behavior, container styling, navigation rules, and release readiness for the Daren Prince site.
 
-## Color system
+## 1) Core visual system
 
-### Core palette (CSS custom properties)
+### Color + themes
 
-| Token               | Value                             | Usage                                   |
-| ------------------- | --------------------------------- | --------------------------------------- |
-| `--gray-50`         | `#FDFDFD`                         | Light UI accents, gradient stops        |
-| `--gray-100`        | `#D5D5D5`                         | Light surfaces, light theme backgrounds |
-| `--gray-200`        | `#B8BAB7`                         | Body copy on dark, secondary borders    |
-| `--gray-600`        | `#313132`                         | Dark gradients, surface shading         |
-| `--gray-700`        | `#2F2F2F`                         | Card backgrounds                        |
-| `--gray-800`        | `#212121`                         | Primary surface color in dark mode      |
-| `--gray-900`        | `#161616`                         | Hero/footer gradients                   |
-| `--brand-green-700` | `#456F3A`                         | Primary CTAs                            |
-| `--brand-green-600` | `#6DA667`                         | CTA hover/focus                         |
-| `--brand-green-500` | `#87BD72`                         | Highlights, accent text                 |
-| `--brand-green-400` | `#8CD679`                         | Accent gradients                        |
-| `--brand-green-200` | `#C2E9C1`                         | Light backgrounds                       |
-| `--color-charcoal`  | `#3B3C3B`                         | Neutral dark text                       |
-| `--color-muted`     | `#B8BAB7`                         | Paragraphs, muted labels                |
-| `--color-black`     | `#070A06`                         | Headlines on light                      |
-| `--color-white`     | `#FDFDFD`                         | Headlines on dark                       |
-| `--color-surface`   | `#212121`                         | Dark container background               |
-| `--color-icon`      | `#E6E6E6`                         | Icon strokes                            |
-| `--color-border`    | `rgba(255, 255, 255, 0.10)`       | Card borders                            |
-| `--color-accent`    | `#8CD679`                         | Accent tags, icons                      |
-| `--color-success`   | `#87BD72`                         | Success alerts                          |
-| `--color-danger`    | `#e03131`                         | Error alerts                            |
-| `--focus-ring`      | `0 0 0 3px rgba(135,189,114,.35)` | Accessible focus halo                   |
+- Token source: `scss/tokens/_css-vars.scss` and `scss/tokens/_colors.scss`.
+- Dark mode is default.
+- Dark backgrounds should remain charcoal/black-forward (minimal green tint).
+- Light theme remains optional and token-driven.
 
-See `scss/tokens/_css-vars.scss` for the full list of 77 tokens, including gradient presets for lemon-lime, charcoal-mint, and light container treatments.
+### Typography
 
-### Theme overrides
+- Base stack: Helvetica Neue / Arial.
+- Headline utility `.styledh1` supports variable-font fallback (`InterVariable`, `Inter`) with weight-axis settings.
+- Split headline system for major headings:
+  - `.brand-heading`
+  - `.brand-heading__emphasis` (green text only)
+  - `.brand-heading__base` (white text)
 
-`.theme-light` overrides the grayscale ramp, borders, and gradients for the optional light theme. Ensure `.theme-dark` remains the default root class.
+## 2) Heading rules (critical)
 
-### Sass bindings
+### Large headline usage
 
-`scss/tokens/_colors.scss` maps each CSS variable to a Sass variable so mixins and components inherit updates automatically.
+Use split-heading markup for hero and section headlines. **Do not put pill containers on H1/H2 hero headline lines.**
 
-> **Reality Check:** Modify tokens in `scss/tokens/_css-vars.scss` and rerun `npm run build`. Editing `assets/styles.css` directly will be overwritten on the next compile.
+### Small-title pill usage (new standard)
 
-## Typography
+Use pill containers only for small labels / eyebrow text:
 
-### Typeface stack
+- `.section-kicker`
+- `.section-kicker--green`
+- `.section-kicker--white`
+- `.section-kicker--combo`
 
-- Base font: `'Helvetica Neue', Arial, sans-serif` for headings and body copy (`scss/base/_variables.scss`).
-- Accent utility: `.styledh1` applies `'League Spartan', sans-serif` for hero statements, but the font is not bundled—load it via web fonts or accept Helvetica fallback.
+Allowed: compact labels, metadata tags, section micro-titles.
+Not allowed: page/hero headline text.
 
-### Selector-format heading system (site standard)
+## 3) Buttons + CTAs
 
-Use this treatment for high-emphasis split headlines (like the format selector card): emphasis line in brand green and supporting line in white.
+- Base button system lives in `scss/components/_buttons.scss` via `button-base` mixin.
+- All CTA buttons must include an icon:
+  - Preferred: explicit `<i>` or `<svg>` in markup.
+  - Fallback: auto icon decoration on key CTA variants.
+- Deprecated (do not use): low-contrast line/outline CTA styles with white text that reduce readability.
+- Outline variants must maintain clear text/icon contrast.
 
-| Class                      | Color token         | Purpose                                                  |
-| -------------------------- | ------------------- | -------------------------------------------------------- |
-| `.brand-heading`           | `--color-white`     | Base heading wrapper, keeps whole block white by default |
-| `.brand-heading__emphasis` | `--brand-green-500` | First/priority phrase (green emphasis)                   |
-| `.brand-heading__base`     | `--color-white`     | Secondary phrase in white                                |
+## 4) Containers, cards, and stroke treatment
 
-```html
-<h3 class="step-header styledh1 brand-heading">
-  <span class="brand-heading__emphasis">Your move.</span><br />
-  <span class="brand-heading__base">Select a format.</span>
-</h3>
-```
+Use iOS-glass-inspired ultra-thin stroke treatment:
 
-**Guardrails**
+- Prefer `box-shadow: inset 0 0 0 0.5px ...` over visible heavy borders.
+- Keep ambient outer shadow subtle and layered.
+- Applies to cards, nav containers, dropdowns, and framed sections.
 
-- Keep emphasis to one concise phrase (2–5 words) to preserve contrast and hierarchy.
-- Do not use gradient helper classes for heading text; solid white + green is the canonical treatment.
-- If you need inline emphasis inside body copy, use `.brand-heading__emphasis` directly without converting the full block to uppercase.
-- Reviews heading exception: in `index.html` reviews, keep only `Game On!` green while surrounding words stay white (`About <span class="brand-heading__emphasis">Game On!</span>`).
-- Apply split heading markup (`brand-heading__emphasis` + `brand-heading__base`) across author-facing pages for consistent hierarchy.
+## 5) Navigation + menus
 
-### Scale & rhythm
+- No production `href="#"` placeholders in mega menus or primary navigation.
+- Social/menu icons must include `aria-label`.
+- Header top bar should preserve charcoal-black identity, not green-tinted black.
 
-| Element   | Size                                          | Notes                            |
-| --------- | --------------------------------------------- | -------------------------------- |
-| `h1`      | `2.25rem`                                     | Bold 700 weight, 1.2 line height |
-| `h2`      | `1.75rem`                                     |                                  |
-| `h3`      | `1.5rem`                                      |                                  |
-| `h4`      | `1.25rem`                                     |                                  |
-| `h5`      | `1rem`                                        |                                  |
-| `h6`      | `0.875rem`                                    |                                  |
-| Paragraph | Base line height `1.6`, `margin-bottom: 1rem` |                                  |
+## 6) Books page polish standards
 
-Links default to the muted gray and transition to bright green on hover/focus.
+- Ensure balanced vertical spacing around book images and supporting copy.
+- Book card title + summary + CTA stack should keep consistent rhythm.
+- CTA row in each card should include icons and remain legible at mobile sizes.
 
-### Spacing scale & motion
+## 7) GitHub Pages deployment baseline
 
-| Token            | Value                  |
-| ---------------- | ---------------------- |
-| `$spacing-xxs`   | `0.25rem`              |
-| `$spacing-xs`    | `0.5rem`               |
-| `$spacing-sm`    | `0.75rem`              |
-| `$spacing-md`    | `1rem`                 |
-| `$spacing-lg`    | `2rem`                 |
-| `$spacing-xl`    | `3rem`                 |
-| `$border-radius` | `0.6875rem`            |
-| `$transition`    | `all 0.2s ease-in-out` |
+- Deployment target: GitHub Pages.
+- Use `npm run deploy:github-pages` for release pipeline.
+- Preserve path-prefix compatibility (`data-site-root` + prefix bootstrap behavior).
 
-Breakpoints: `sm 480px`, `md 768px`, `lg 1024px`, `xl 1280px`. Use `@include respond-to(md)` for responsive adjustments.
+## 8) SEO / metadata / sharing assets
 
-## Utilities
+Each production page should include:
 
-Key helper classes from `scss/utilities/_helpers.scss`:
+- Title + meta description + canonical.
+- Open Graph title/description/image.
+- Twitter card metadata and image.
+- Generated favicon/touch assets from `/assets/icons/generated/`.
 
-- `.flex`, `.items-center`, `.justify-between`, `.justify-center` — layout helpers.
-- `.gap-sm`, `.gap-md`, `.spacing-y-*` — consistent spacing without inline styles.
-- `.padding-*`, `.margin-bottom-*`, `.max-width-adaptive-lg` — section framing.
-- `.text-center`, `.text-lg`, `.text-xxxl` — typographic tweaks.
-- `.styledh1`, `.brand-heading`, `.brand-heading__emphasis`, `.brand-heading__base` — heading treatments.
-- `.btn-xs` → `.btn-xl`, `.btn-fw` — button sizing utilities.
+## 9) Unified component reference (authoring map)
 
-`scss/utilities/_gradients.scss` provides `.grad-lemon-lime`, `.grad-charcoal-mint`, `.grad-light-container`, `.grad-dark-main`, and related classes for backgrounds.
+- Layout: `scss/layout/` (`_header.scss`, `_nav.scss`, `_footer.scss`, `_grid.scss`).
+- Core components: `scss/components/` (`_buttons.scss`, `_forms.scss`, `_cards.scss`, `_modals.scss`, `_alerts.scss`, `_icons.scss`).
+- Storytelling modules: `_hero.scss`, `_banner.scss`, `_testimonials.scss`, `_downloads.scss`, `_viewer.scss`.
+- Book stack: `_book.scss`, `_book-3d.scss`, `_book-toolbar.scss`, `_book-tabs.scss`, `_book-details-wrapper.scss`.
+- Utility system: `scss/utilities/_helpers.scss`, `scss/utilities/_gradients.scss`.
 
-Sticky header baseline now uses a glass treatment (translucent dark gradient + backdrop blur) in `scss/layout/_header.scss`; keep contrast strong enough for nav icons on dark mode.
+## 10) Remediation plan for site-wide consistency
 
-## Heading usage audit
+1. **Foundation pass**: normalize dark surfaces + token cleanup.
+2. **Stroke pass**: replace heavy borders with ultra-thin glass shadows.
+3. **Heading pass**: move pill treatment to small labels only.
+4. **CTA pass**: enforce icon CTAs and remove low-contrast styles.
+5. **Navigation pass**: remove placeholder links and verify mega-menu targets.
+6. **Page polish pass**: fix spacing inconsistencies (books, cards, forms, menus).
+7. **Release hardening**: lint, build, test, and metadata/social QA for GitHub Pages.
 
-| Page                    | H1 treatment                                             | Notes                                                                               |
-| ----------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `index.html`            | Hidden H1 (`style="display:none;"`) containing SEO title | Visual hero uses `.styledh1` on `<h3>` tags; expose a visible H1 for accessibility. |
-| `book.html`             | Hidden H1 for SEO                                        | Format selector uses `.styledh1` on `<h3>`; add a visible H1 in the hero stack.     |
-| `All-heroes-demos.html` | Multiple visible H1 elements                             | Reduce to a single page-level H1 and cascade with H2/H3 for each demo.              |
-| `login.html`            | Visible H1 “Member Login”                                | Aligns with the scale.                                                              |
-| `dashboard.html`        | No H1; topmost heading is `.greeting` (`h3`)             | Add a dashboard-level H1 for semantic structure.                                    |
-| `admin-dashboard.html`  | Visible H1 “Operator Command Center”                     | Correct structure.                                                                  |
-| `press.html`            | Visible H1 “Press & Media Resources”                     | Matches brand tone.                                                                 |
-| `contact.html`          | Visible H1 “Let’s Talk About It”                         | Uses spacing utilities.                                                             |
-| `member/index.html`     | Visible H1 “Member Dashboard”                            | Prototype only; lacks auth guard.                                                   |
+## 11) Engineering checklist
 
-> **Reality Check:** Brand guidance expects a visible, singular H1 per page. Update hidden or duplicate headings before major launches.
-
-## Buttons & CTAs
-
-- Generated via `@include button-base($bg, $text, $hover)` from `scss/base/_mixins.scss`.
-- Primary CTA palette: `$deep-green` → `$medium-green` gradient.
-- Secondary/light containers: `.grad-light-container` background with `.btn-md` sizing.
-- Outline approach: wrap content in `.container--border` and use `.btn-outline` modifiers.
-- Reader review cards on `index.html` now use the same light container recipe (`--grad-light-container`, `--light-container-border`, `--light-container-text`) to mirror the style-guide login sample container treatment.
-
-## Forms & Inputs
-
-- Forms leverage `scss/components/_forms.scss` and `_login.scss` for dark-mode inputs, inset shadows, and focus rings.
-- Password strength meter from `scss/components/_password-strength.scss` pairs with `js/password-strength.js` for live validation.
-
-## Reality checks & guardrails
-
-> **Reality Check:** When introducing new gradients or spacers, add tokens first (`scss/tokens/_css-vars.scss` → `_colors.scss`) before referencing them in components.
-
-> **Reality Check:** `.styledh1` assumes League Spartan is available. Include the font via Google Fonts or self-hosting if you rely on that look in production.
-
-## Implementation checklist
-
-- [ ] Add or update tokens in `scss/tokens/_css-vars.scss` and import them in `scss/tokens/_colors.scss`.
-- [ ] Document any new component styles in `docs/UI_COMPONENTS.md`.
-- [ ] Audit heading hierarchy whenever a new page is introduced.
+- [ ] Token updates made in `scss/tokens/` before component edits.
+- [ ] New component styles imported by `scss/styles.scss`.
+- [ ] Headline hierarchy and kicker usage validated.
+- [ ] CTA contrast + icon presence validated.
+- [ ] No placeholder links in nav/menus/footers.
+- [ ] Build/test checks run before commit.
