@@ -133,6 +133,60 @@ function initNavigationAndAuth() {
   const modalOverlay = document.getElementById('demo-modal')
   const componentSelect = document.querySelector('.component-nav__select')
 
+  const syncDeskLinkToContact = () => {
+    const deskAnchors = Array.from(document.querySelectorAll('a')).filter((anchor) => {
+      const text = (anchor.textContent || '').toLowerCase()
+      const href = anchor.getAttribute('href') || ''
+      return (
+        text.includes('daren’s desk') ||
+        text.includes("daren's desk") ||
+        href.includes('hxd/backstage')
+      )
+    })
+
+    deskAnchors.forEach((anchor) => {
+      anchor.setAttribute('href', '/contact.html')
+      const icon = anchor.querySelector('i')
+      if (icon) {
+        icon.className = 'ph ph-envelope-simple'
+      }
+    })
+  }
+
+  const initNativeShare = () => {
+    const shareTriggers = Array.from(document.querySelectorAll('.js-share-trigger'))
+    if (!shareTriggers.length) return
+
+    shareTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', async () => {
+        const sharePayload = {
+          title: document.title,
+          text:
+            document.querySelector('meta[name="description"]')?.content || 'Check out this page.',
+          url: window.location.href,
+        }
+
+        if (navigator.share) {
+          try {
+            await navigator.share(sharePayload)
+            return
+          } catch (error) {
+            if (error?.name === 'AbortError') return
+          }
+        }
+
+        try {
+          await navigator.clipboard.writeText(sharePayload.url)
+          if (window.GameOnUI?.showToast) {
+            window.GameOnUI.showToast('Link copied to clipboard.', 'info')
+          }
+        } catch {
+          window.prompt('Copy this link:', sharePayload.url)
+        }
+      })
+    })
+  }
+
   // ---------------------------
   // menu + search event binding
   // ---------------------------
@@ -157,6 +211,9 @@ function initNavigationAndAuth() {
       }
     })
   }
+
+  syncDeskLinkToContact()
+  initNativeShare()
 
   if (megaMenu && menuCloses.length) {
     menuCloses.forEach((closeButton) => {

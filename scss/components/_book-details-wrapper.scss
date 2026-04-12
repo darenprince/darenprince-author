@@ -35,7 +35,7 @@
 
 .book-collection-list {
   .book-collection-card {
-    padding: clamp(1rem, 2.2vw, 1.4rem);
+    padding: clamp(1.1rem, 2.7vw, 1.6rem);
   }
 
   .book-collection-card + .book-collection-card {
@@ -46,17 +46,18 @@
       position: absolute;
       left: clamp(0.8rem, 2vw, 1.2rem);
       right: clamp(0.8rem, 2vw, 1.2rem);
-      top: -0.65rem;
-      height: 2px;
+      top: -0.75rem;
+      height: 3px;
       background: linear-gradient(
-        90deg,
+        105deg,
         transparent,
-        color-mix(in srgb, $lime-green 65%, transparent) 30%,
-        color-mix(in srgb, $white 20%, transparent) 50%,
-        color-mix(in srgb, $lime-green 65%, transparent) 70%,
+        color-mix(in srgb, $lime-green 68%, transparent) 22%,
+        color-mix(in srgb, $white 26%, transparent) 50%,
+        color-mix(in srgb, $lime-green 68%, transparent) 78%,
         transparent
       );
-      opacity: 0.85;
+      opacity: 0.92;
+      box-shadow: 0 0 12px color-mix(in srgb, $lime-green 45%, transparent);
       pointer-events: none;
     }
   }
@@ -78,10 +79,25 @@
     margin: 0.25rem 0 0;
   }
 
+  &__headline--overlay {
+    display: grid;
+    align-content: start;
+    min-height: 38%;
+    border-radius: calc($border-radius - 2px);
+    padding: clamp(0.7rem, 2vw, 1rem);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
+  }
+
   &__cta {
     display: flex;
     justify-content: center;
     padding-top: clamp(0.75rem, 2vw, 1rem);
+  }
+
+  &__cta--lower-third {
+    min-height: 30%;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -92,16 +108,24 @@
 
 .book-collection-card {
   position: relative;
-  border: 1px solid color-mix(in srgb, $white 8%, transparent);
+  border: 1px solid color-mix(in srgb, $white 12%, transparent);
+  border-radius: calc($border-radius + 2px);
+  background: linear-gradient(165deg, rgba(18, 24, 20, 0.92), rgba(10, 14, 11, 0.88));
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(18px);
+  opacity: 1;
+  transform: none;
   transition:
-    opacity 0.45s ease,
-    transform 0.45s ease;
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, $lime-green 40%, transparent);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.36);
+  }
 
   &.is-visible {
-    opacity: 1;
     animation: book-card-entry 0.95s cubic-bezier(0.2, 0.65, 0.2, 1) both;
   }
 }
@@ -172,12 +196,13 @@
   margin-top: auto;
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-xs;
+  gap: clamp(0.55rem, 1.4vw, 0.8rem);
 
   .btn {
     flex: 1 1 auto;
     min-width: 120px;
     text-align: center;
+    min-height: 44px;
   }
 }
 
