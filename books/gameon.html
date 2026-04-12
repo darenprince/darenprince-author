@@ -230,8 +230,23 @@
 
       .gameon-landing {
         color: var(--gameon-text-main);
-        background: radial-gradient(circle at top, #1b2218 0, #070a06 48%, #000 100%);
+        background: transparent;
         padding-bottom: 4rem;
+        position: relative;
+        isolation: isolate;
+      }
+
+      .gameon-landing::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(180deg, rgba(8, 12, 9, 0.74), rgba(8, 12, 9, 0.9)),
+          url('https://www.darenprince.com/assets/images/sitebg/bc72a06c02787be02a3d838d93bcd82b.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
       }
 
       .gameon-landing * {

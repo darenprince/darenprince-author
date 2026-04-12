@@ -2,6 +2,14 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-12 — Books page hero, cover assets, and motion polish (GitHub Pages-safe)
+
+- Replaced `book.html` hero placeholder with the live all-books image (`IMG_0287.jpeg`), updated hero copy/CTA to “Explore books,” and added smooth-scroll targeting to the first listing card.
+- Swapped all six books grid cover image sources to the new production image URLs provided for Rooted, Power of Choice, Game On, Unshakable, Too Much, and F\*ck Codependency.
+- Added scroll + hover attention motion for each book card/cover and increased top/bottom spacing around the 3D cover listing block to improve rhythm/legibility.
+- Applied pill-style green heading treatment updates for `brand-heading__emphasis` utility usage and restored the universal site background image treatment on `books/gameon.html`.
+- Recompiled site styles via `npm run build:site` so `assets/styles.css` remains synchronized for GitHub Pages deployment.
+
 ## 2026-04-11 — Global section divider lines (GitHub Pages-safe)
 
 - Added subtle horizontal separator lines between adjacent top-level `<section>` blocks inside `<main>` across public pages to match the requested visual rhythm.
