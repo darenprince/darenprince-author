@@ -2,6 +2,15 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-12 — Books page cleanup + global top-nav share control (GitHub Pages-safe)
+
+- Removed the redundant books collection intro block and in-hero share button from `book.html` so the page flows directly from hero CTA into listings.
+- Updated `js/main.js` to inject a top-nav share icon (`.js-share-trigger`) on every page that has the standard header nav button group, keeping native share/copy fallback behavior centralized.
+- Refined books cover presentation in `scss/components/_book-details-wrapper.scss` with a subtle transparent gray diagonal gradient backing, a light stroke frame, and reduced image corner radius for cleaner 3D card polish.
+- Fixed mega-menu divider noise by suppressing the divider on the logout list row in `scss/style.scss`.
+- Increased global back-to-top button size slightly in `scss/base/_globals.scss`.
+- Recompiled deployable stylesheet artifacts (`assets/styles.css` + sourcemap) via `npm run build:site` so GitHub Pages serves the latest visual/menu updates.
+
 ## 2026-04-12 — Global spacing/padding breathing room pass (GitHub Pages-safe)
 
 - Expanded global section/container vertical rhythm in `scss/base/_globals.scss` with responsive padding and stack utilities so content blocks no longer feel cramped.

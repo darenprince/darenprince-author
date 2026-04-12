@@ -88,6 +88,10 @@
     padding-bottom: 0;
   }
 
+  li:has(.logout-btn) {
+    border-bottom: none;
+  }
+
   .social-row {
     border-bottom: none;
   }
