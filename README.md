@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-04-11_
+_Last updated: 2026-04-12_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -50,6 +50,8 @@ This project exists to:
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
 > **Haley clinical mini-site:** `haley.html` is a standalone, GitHub Pages-ready clinical briefing page with brand-green browser chrome, deployable favicon/social image metadata, and a client-side PIN gate for controlled access. Keep social/favicons as committed repository assets (no Netlify runtime dependencies).
+
+> **Books page refresh:** `book.html` now ships a full six-book collection layout (without embedded Game On-only sections), gradient separators, responsive card spacing, native/mobile share support (`.js-share-trigger` via `js/main.js`), and a contact-routed Daren’s Desk CTA. Keep metadata + JSON-LD collection schema aligned and run `npm run generate:images` after image changes so GitHub Pages search/image manifests stay current.
 
 ---
 
