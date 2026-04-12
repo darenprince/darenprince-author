@@ -234,11 +234,11 @@
   );
 
   $outline-variant: (
-    bg: transparent,
-    text: $lime-green,
-    hover-bg: color-mix(in srgb, #{$lime-green} 12%, transparent),
+    bg: color-mix(in srgb, #{$mint-green} 20%, #{$black}),
+    text: $white,
+    hover-bg: color-mix(in srgb, #{$mint-green} 28%, #{$black}),
     border-width: 1px,
-    border-color: color-mix(in srgb, #{$lime-green} 60%, transparent),
+    border-color: color-mix(in srgb, #{$lime-green} 40%, transparent),
   );
 
   $btn-variants: (
@@ -266,6 +266,20 @@
       color: currentColor;
       fill: currentColor;
       stroke: currentColor;
+    }
+  }
+
+  .btn:is(.btn--primary, .btn--forest, .btn--charcoal, .btn--outline, .cta-btn):not(.icon-btn):not(
+      :has(i, svg)
+    ),
+  .btn-b:is(.btn--primary-b, .btn--forest-b, .btn--charcoal-b, .btn--outline-b):not(.icon-btn):not(
+      :has(i, svg)
+    ) {
+    &::after {
+      content: '↗';
+      font-size: 0.95em;
+      margin-left: 0.1rem;
+      line-height: 1;
     }
   }
 
