@@ -101,7 +101,15 @@
 
 .brand-heading__emphasis {
   color: var(--brand-green-500);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.85rem 0.31rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--brand-green-500) 45%, transparent);
+  background: color-mix(in srgb, var(--brand-green-500) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #000 25%, transparent);
+  line-height: 1;
 }
 
 .brand-heading__base {
