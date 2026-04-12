@@ -51,7 +51,7 @@ This project exists to:
 
 > **Haley clinical mini-site:** `haley.html` is a standalone, GitHub Pages-ready clinical briefing page with brand-green browser chrome, deployable favicon/social image metadata, and a client-side PIN gate for controlled access. Keep social/favicons as committed repository assets (no Netlify runtime dependencies).
 
-> **Books page refresh:** `book.html` now ships a full six-book collection layout (without embedded Game On-only sections), gradient separators, responsive card spacing, native/mobile share support (`.js-share-trigger` via `js/main.js`), and a contact-routed Daren’s Desk CTA. Keep metadata + JSON-LD collection schema aligned and run `npm run generate:images` after image changes so GitHub Pages search/image manifests stay current.
+> **Books page refresh:** `book.html` now ships a full-width hero that uses `/assets/images/IMG_0287.jpeg` (all six books), updated OG/Twitter metadata for that image, a smooth-scroll “Explore books” CTA that jumps to the first listing, and repeatable scroll/hover emphasis animations for each 3D cover card. Keep metadata + JSON-LD collection schema aligned and run `npm run generate:images` after image changes so GitHub Pages search/image manifests stay current.
 
 ---
 

@@ -250,20 +250,36 @@ document.querySelectorAll('.store-logo-link').forEach((link) => {
 const bookCards = document.querySelectorAll('[data-book-entry]')
 if ('IntersectionObserver' in window && bookCards.length) {
   const entryObserver = new IntersectionObserver(
-    (entries, obs) => {
+    (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        entry.target.classList.add('is-visible')
-        obs.unobserve(entry.target)
+        const card = entry.target
+        if (entry.isIntersecting) {
+          card.classList.add('is-visible', 'is-emphasized')
+          return
+        }
+        card.classList.remove('is-emphasized')
       })
     },
-    { threshold: 0.3, rootMargin: '0px 0px -10% 0px' }
+    { threshold: 0.45, rootMargin: '-8% 0px -8% 0px' }
   )
 
-  bookCards.forEach((card) => entryObserver.observe(card))
+  bookCards.forEach((card) => {
+    entryObserver.observe(card)
+    card.addEventListener('mouseenter', () => card.classList.add('is-emphasized'))
+    card.addEventListener('mouseleave', () => card.classList.remove('is-emphasized'))
+    card.addEventListener('focusin', () => card.classList.add('is-emphasized'))
+    card.addEventListener('focusout', () => card.classList.remove('is-emphasized'))
+  })
 } else {
   bookCards.forEach((card) => card.classList.add('is-visible'))
 }
+
+const booksScrollCta = document.querySelector('.js-books-scroll-cta')
+booksScrollCta?.addEventListener('click', (event) => {
+  event.preventDefault()
+  const firstBook = document.getElementById('book-rooted')
+  firstBook?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
 
 const viewerStage = document.getElementById('book-viewer-stage')
 const openDetailsBtn = document.getElementById('open-book-details')

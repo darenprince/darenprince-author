@@ -12,24 +12,17 @@ body.theme-dark {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: radial-gradient(
-      circle,
-      rgba(75, 75, 75, 1),
-      rgba(59, 59, 59, 1),
-      rgba(32, 32, 32, 1)
-    );
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background:
+      linear-gradient(150deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.88)),
+      url('../assets/images/IMG_6265.JPG') center/cover no-repeat;
     will-change: transform;
     transform: translateZ(0);
   }
 
   @media (max-width: 768px) {
     &::before {
-      background-size: auto 120%;
+      background-size: auto 148%;
       background-position: center top;
-      background-color: rgba(0, 0, 0, 0.9);
     }
   }
 
