@@ -134,6 +134,20 @@ main section {
   margin-top: clamp(0.55rem, 1.5vw, 0.9rem);
 }
 
+// Vertical rhythm guardrails for pill/kicker + heading + copy patterns.
+// Prevents cramped text stacks on cards and section intros across pages.
+:is(.container, .card, .book-collection-card)
+  :is(.section-kicker, .eyebrow, .chip, .pill)
+  + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: clamp(0.7rem, 1.9vw, 1rem);
+}
+
+:is(.container, .card, .book-collection-card)
+  :is(h1, h2, h3, h4, h5, h6)
+  + :is(p, .text-sm, .text-md, .lead) {
+  margin-top: clamp(0.7rem, 1.9vw, 1.05rem);
+}
+
 body.theme-fade {
   transition:
     background-color 0.3s ease,
