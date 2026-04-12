@@ -36,6 +36,8 @@ Use pill containers only for small labels / eyebrow text:
 - `.section-kicker--green`
 - `.section-kicker--white`
 - `.section-kicker--combo`
+- `.section-kicker--charcoal-lime`
+- `.section-kicker--black-gray`
 
 Allowed: compact labels, metadata tags, section micro-titles.
 Not allowed: page/hero headline text.
@@ -43,9 +45,10 @@ Not allowed: page/hero headline text.
 ## 3) Buttons + CTAs
 
 - Base button system lives in `scss/components/_buttons.scss` via `button-base` mixin.
-- All CTA buttons must include an icon:
+- All CTA buttons must include a Phosphor icon (no emoji glyphs):
   - Preferred: explicit `<i>` or `<svg>` in markup.
   - Fallback: auto icon decoration on key CTA variants.
+- Compact dismiss action standard: `.close-pill-btn` (small black circle with white `x` icon).
 - Deprecated (do not use): low-contrast line/outline CTA styles with white text that reduce readability.
 - Outline variants must maintain clear text/icon contrast.
 
@@ -68,6 +71,8 @@ Use iOS-glass-inspired ultra-thin stroke treatment:
 - Ensure balanced vertical spacing around book images and supporting copy.
 - Book card title + summary + CTA stack should keep consistent rhythm.
 - CTA row in each card should include icons and remain legible at mobile sizes.
+- Book listing cards should use subtle style variations by title/theme (background gradients and kicker color pairings).
+- Listing animations should begin and settle in the flatter resting pose for more stable readability.
 
 ## 7) GitHub Pages deployment baseline
 
