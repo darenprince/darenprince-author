@@ -27,12 +27,12 @@
 
   .cta-btn--outline {
     @include button-base(
-      transparent,
-      $bright-green,
-      color-mix(in srgb, $bright-green 14%, transparent),
-      $bright-green,
-      2px,
-      $bright-green,
+      color-mix(in srgb, $mint-green 16%, $black),
+      $white,
+      color-mix(in srgb, $mint-green 24%, $black),
+      $white,
+      1px,
+      color-mix(in srgb, $lime-green 45%, transparent),
       none
     );
     --btn-font-weight: 700;
