@@ -162,6 +162,7 @@
   }
   </script>
   <style>
+    html, body { max-width:100%; overflow-x:clip; }
 
     .image-toolbar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
     .image-search { flex:1 1 240px; }
@@ -178,16 +179,16 @@
       .image-zoom-controls { display:flex; }
       .image-columns-controls { display:none; }
     }
-    .image-grid { --image-grid-size:220px; --image-grid-columns-mobile:4; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; }
+    .image-grid { --image-grid-size:220px; --image-grid-columns-mobile:4; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; width:100%; max-width:100%; }
     @media (max-width: 768px) {
       .image-grid { --image-grid-size:90px; grid-template-columns:repeat(var(--image-grid-columns-mobile), minmax(0, 1fr)); }
     }
     .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
     .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
     .image-grid img:active { transform:scale(1.1); }
-    .img-item { display:flex; flex-direction:column; gap:.65rem; background:#111311; border:1px solid rgba(69,111,58,.35); border-radius:12px; padding:.75rem; box-shadow:0 8px 20px rgba(0,0,0,.28); }
-    .img-meta { display:grid; gap:.3rem; }
-    .img-description { margin:0; font-size:.85rem; color:#d5f0cd; line-height:1.35; }
+    .img-item { display:flex; flex-direction:column; gap:.65rem; background:#111311; border:1px solid rgba(69,111,58,.35); border-radius:12px; padding:.75rem; box-shadow:0 8px 20px rgba(0,0,0,.28); min-width:0; }
+    .img-meta { display:grid; gap:.3rem; min-width:0; }
+    .img-description { margin:0; font-size:.85rem; color:#d5f0cd; line-height:1.35; overflow-wrap:anywhere; word-break:break-word; }
     .img-path { margin:0; font-size:.72rem; color:rgba(255,255,255,.62); overflow-wrap:anywhere; }
     .code-box { display:flex; justify-content:flex-end; background:#253223; padding:.35rem .5rem; border-radius:6px; font-size:.875rem; border:1px solid rgba(69,111,58,.35); }
     .code-box .btn { padding:.25rem .5rem; font-size:.75rem; }
@@ -456,7 +457,6 @@
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
-
 
 
 
