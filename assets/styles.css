@@ -271,6 +271,32 @@ main section {
   margin-top: clamp(0.55rem, 1.5vw, 0.9rem);
 }
 
+:is(
+    .container,
+    .container--spaced,
+    .container--border,
+    .container--light,
+    .card,
+    .book-collection-card
+  )
+  :is(.section-kicker, .eyebrow, .chip, .pill)
+  + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: clamp(0.7rem, 1.9vw, 1rem);
+}
+
+:is(
+    .container,
+    .container--spaced,
+    .container--border,
+    .container--light,
+    .card,
+    .book-collection-card
+  )
+  :is(h1, h2, h3, h4, h5, h6)
+  + :is(p, .text-sm, .text-md, .lead) {
+  margin-top: clamp(0.7rem, 1.9vw, 1.05rem);
+}
+
 body.theme-fade {
   transition:
     background-color 0.3s ease,
@@ -8228,6 +8254,8 @@ body.book-modal-open {
 
 .book-collection-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -8244,6 +8272,9 @@ body.book-modal-open {
 }
 .book-collection-card.is-in-view .paperback-mockup img {
   animation: book-cover-attention 0.95s ease;
+}
+.book-collection-card > * + * {
+  margin-top: clamp(0.72rem, 2vw, 1.1rem);
 }
 
 .paperback-mockup {
@@ -8319,7 +8350,7 @@ body.book-modal-open {
 }
 .book-card-cta-row {
   margin-top: auto;
-  padding-top: clamp(0.6rem, 1.2vw, 0.85rem);
+  padding-top: clamp(0.9rem, 2.2vw, 1.35rem);
   display: flex;
   flex-wrap: wrap;
   gap: clamp(0.55rem, 1.4vw, 0.8rem);
@@ -8332,13 +8363,13 @@ body.book-modal-open {
 }
 
 .book-collection-card > h3 {
-  margin-top: 0;
-  margin-bottom: 0.45rem;
+  margin: 0;
 }
 
 .book-collection-card > p.text-sm {
-  margin-bottom: 0.55rem;
+  margin: 0;
   color: color-mix(in srgb, var(--color-white) 84%, transparent);
+  line-height: 1.65;
 }
 
 .book-hero__content .section-kicker,
