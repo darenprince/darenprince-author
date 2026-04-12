@@ -157,6 +157,8 @@
 
 .book-collection-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -175,6 +177,10 @@
 
   &.is-in-view .paperback-mockup img {
     animation: book-cover-attention 0.95s ease;
+  }
+
+  > * + * {
+    margin-top: clamp(0.72rem, 2vw, 1.1rem);
   }
 }
 
@@ -256,7 +262,7 @@
 
 .book-card-cta-row {
   margin-top: auto;
-  padding-top: clamp(0.6rem, 1.2vw, 0.85rem);
+  padding-top: clamp(0.9rem, 2.2vw, 1.35rem);
   display: flex;
   flex-wrap: wrap;
   gap: clamp(0.55rem, 1.4vw, 0.8rem);
@@ -270,13 +276,13 @@
 }
 
 .book-collection-card > h3 {
-  margin-top: 0;
-  margin-bottom: 0.45rem;
+  margin: 0;
 }
 
 .book-collection-card > p.text-sm {
-  margin-bottom: 0.55rem;
+  margin: 0;
   color: color-mix(in srgb, $white 84%, transparent);
+  line-height: 1.65;
 }
 
 .book-hero__content .section-kicker,
