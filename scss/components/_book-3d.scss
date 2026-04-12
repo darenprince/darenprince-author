@@ -499,6 +499,7 @@ body.book-modal-open {
   margin-inline: auto;
   border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+  margin-top: 0;
 
   [hidden] {
     display: none !important;
@@ -530,8 +531,8 @@ body.book-modal-open {
   }
 
   .format-options {
-    display: flex;
-    gap: var(--space-sm);
+    display: grid;
+    gap: var(--space-xs);
     justify-content: center;
     transition:
       opacity 0.3s ease,
@@ -545,26 +546,59 @@ body.book-modal-open {
   }
 
   .format-option {
-    flex: 1;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: var(--space-xxs);
+    justify-content: center;
+    gap: var(--space-xs);
+    border-radius: calc(var(--radius-md) - var(--space-xxs));
+    padding: var(--space-xxs);
+    background: color-mix(in srgb, var(--color-black, #000) 76%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 26%, transparent);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+
+    &:focus-within,
+    &:hover {
+      border-color: color-mix(in srgb, var(--color-mint, #c2e9c1) 74%, transparent);
+      background: color-mix(in srgb, var(--color-black, #000) 68%, var(--color-primary) 32%);
+    }
 
     .format-icon {
-      color: var(--color-accent);
-      font-size: 1.5rem;
+      color: color-mix(in srgb, var(--color-mint, #c2e9c1) 90%, var(--color-white));
+      font-size: 1.1rem;
+      pointer-events: none;
     }
 
     .format-btn {
       width: 100%;
-      background: color-mix(in srgb, var(--color-black, #000) 88%, transparent);
-      border: 2px solid var(--color-accent);
-      color: var(--color-muted);
-      padding: var(--space-sm) 0;
-      border-radius: var(--radius-md);
+      background: linear-gradient(
+        130deg,
+        color-mix(in srgb, var(--color-black, #000) 84%, var(--gray-900, #161616)),
+        color-mix(in srgb, var(--color-primary, #456f3a) 40%, var(--color-black, #000) 60%)
+      );
+      border: 1px solid color-mix(in srgb, var(--color-mint, #c2e9c1) 55%, transparent);
+      color: var(--color-white);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: calc(var(--radius-md) - var(--space-xs));
       cursor: pointer;
       text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      min-height: 2.5rem;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+
+      &:hover,
+      &:focus-visible {
+        border-color: color-mix(in srgb, var(--color-mint, #c2e9c1) 90%, transparent);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-mint, #c2e9c1) 24%, transparent);
+        transform: translateY(-1px);
+      }
     }
   }
 
@@ -647,6 +681,18 @@ body.book-modal-open {
       max-height: 40px;
     }
   }
+}
+
+.book-primary-layout .book-experience .format-hero-panel {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.book-primary-layout .purchase-box {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
 }
 
 @media (min-width: 48rem) {

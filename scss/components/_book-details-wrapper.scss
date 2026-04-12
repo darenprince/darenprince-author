@@ -462,7 +462,7 @@
 
 .book-primary-layout {
   display: grid;
-  gap: $spacing-lg;
+  gap: 0;
   align-items: center;
 
   .book-experience {
@@ -517,6 +517,7 @@
   margin-inline: auto;
   border: 1px solid color-mix(in srgb, $lime-green 18%, transparent);
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+  margin-top: 0;
 
   [hidden] {
     display: none !important;
@@ -557,8 +558,8 @@
   }
 
   .format-options {
-    display: flex;
-    gap: $spacing-sm;
+    display: grid;
+    gap: $spacing-xs;
     justify-content: center;
     transition:
       opacity 0.3s ease,
@@ -573,26 +574,59 @@
   }
 
   .format-option {
-    flex: 1;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: $spacing-xxs;
+    justify-content: center;
+    gap: $spacing-xs;
+    border-radius: calc(#{$border-radius} - #{$spacing-xxs});
+    padding: $spacing-xxs;
+    background: color-mix(in srgb, $black 76%, transparent);
+    border: 1px solid color-mix(in srgb, $lime-green 26%, transparent);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+
+    &:focus-within,
+    &:hover {
+      border-color: color-mix(in srgb, $mint-green 74%, transparent);
+      background: color-mix(in srgb, $black 68%, $deep-green 32%);
+    }
 
     .format-icon {
-      color: $lime-green;
-      font-size: 1.5rem;
+      color: color-mix(in srgb, $mint-green 90%, $white);
+      font-size: 1.1rem;
+      pointer-events: none;
     }
 
     .format-btn {
       width: 100%;
-      background: color-mix(in srgb, $black 88%, transparent);
-      border: 2px solid $lime-green;
-      color: var(--color-muted);
-      padding: $spacing-sm 0;
-      border-radius: $border-radius;
+      background: linear-gradient(
+        130deg,
+        color-mix(in srgb, $black 84%, $gray-900),
+        color-mix(in srgb, $deep-green 40%, $black 60%)
+      );
+      border: 1px solid color-mix(in srgb, $mint-green 55%, transparent);
+      color: $white;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: calc(#{$border-radius} - #{$spacing-xs});
       cursor: pointer;
       text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      min-height: 2.5rem;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+
+      &:hover,
+      &:focus-visible {
+        border-color: color-mix(in srgb, $mint-green 90%, transparent);
+        box-shadow: 0 0 0 2px color-mix(in srgb, $mint-green 24%, transparent);
+        transform: translateY(-1px);
+      }
     }
   }
 
@@ -675,6 +709,18 @@
       max-height: 40px;
     }
   }
+}
+
+.book-primary-layout .book-experience .format-hero-panel {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.book-primary-layout .purchase-box {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
 }
 
 .book-details-grid {
