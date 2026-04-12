@@ -133,6 +133,21 @@ function initNavigationAndAuth() {
   const modalOverlay = document.getElementById('demo-modal')
   const componentSelect = document.querySelector('.component-nav__select')
 
+  const ensureTopNavShareButton = () => {
+    const navButtonGroup = document.querySelector('.nav-btn-group')
+    if (!navButtonGroup || navButtonGroup.querySelector('.js-share-trigger')) return
+
+    const shareButton = document.createElement('button')
+    shareButton.className = 'nav-icon-btn js-share-trigger'
+    shareButton.type = 'button'
+    shareButton.setAttribute('aria-label', 'Share this page')
+    shareButton.innerHTML = '<i class="ph ph-share-network"></i>'
+    navButtonGroup.insertBefore(
+      shareButton,
+      navButtonGroup.querySelector('.js-menu-toggle') || null
+    )
+  }
+
   const syncDeskLinkToContact = () => {
     const deskAnchors = Array.from(document.querySelectorAll('a')).filter((anchor) => {
       const text = (anchor.textContent || '').toLowerCase()
@@ -213,6 +228,7 @@ function initNavigationAndAuth() {
   }
 
   syncDeskLinkToContact()
+  ensureTopNavShareButton()
   initNativeShare()
 
   if (megaMenu && menuCloses.length) {
