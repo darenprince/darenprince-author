@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-12 — Global spacing/padding breathing room pass (GitHub Pages-safe)
+
+- Expanded global section/container vertical rhythm in `scss/base/_globals.scss` with responsive padding and stack utilities so content blocks no longer feel cramped.
+- Increased paragraph spacing/line-height in `scss/base/_typography.scss` and expanded card interior spacing in `scss/components/_cards.scss` for improved readability.
+- Refined `scss/components/_book-tabs.scss` tab/nav/toggle/table spacing and sticky purchase bar padding to reduce crowding across controls and panel content.
+- Recompiled deployable stylesheet artifacts (`assets/styles.css` + sourcemap) via `npm run build:site` so GitHub Pages serves the updated spacing system.
+
 ## 2026-04-12 — Style guide spacing, gradient parity, and format selector card flow (GitHub Pages-safe)
 
 - Tightened `docs/style-guide.html` spacing rhythm around section kickers/full-bleed demos, reduced code-block card font sizing, and restored the dark charcoal full-width gradient treatment (green background tint removed).
