@@ -1,5 +1,7 @@
 # Button System Overview
 
+> Consolidation note (2026-04-12): use `docs/STYLE_GUIDE.md` as the primary style + component source of truth. This file remains a detailed button implementation reference.
+
 The author platform now exposes a centralized button system defined in `scss/components/_buttons.scss`. Buttons share a structural mixin that applies layout, animation, and accessibility treatments while variants configure theme-specific tokens through CSS custom properties.
 
 ## Quick Start

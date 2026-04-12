@@ -3,6 +3,8 @@
 
 :root {
   --nav-height: 80px;
+  --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 26%, transparent);
+  --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 14%, transparent);
 }
 
 html {
@@ -81,14 +83,16 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
 .container--border {
   @extend .container;
   padding: $spacing-lg;
-  border: 1px solid $border;
+  border: 0;
   background: linear-gradient(
     to bottom,
     color-mix(in srgb, #{$surface} 92%, white),
     color-mix(in srgb, #{$surface} 90%, black)
   );
   border-radius: $border-radius;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    var(--glass-stroke-strong),
+    0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .container--light {
@@ -96,8 +100,11 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   padding: $spacing-lg;
   background: var(--grad-light-container);
   color: var(--light-container-text);
-  border: 1px solid var(--light-container-border);
+  border: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    var(--glass-stroke-soft),
+    0 2px 4px rgba(0, 0, 0, 0.1);
 
   .accent {
     color: var(--light-container-accent);
@@ -120,7 +127,7 @@ body.theme-fade {
   bottom: clamp(0.95rem, 2.5vw, 1.5rem);
   width: 2.85rem;
   height: 2.85rem;
-  border: 1px solid color-mix(in srgb, #{$border} 62%, transparent);
+  border: 0;
   border-radius: 999px;
   background: linear-gradient(
     170deg,
@@ -130,7 +137,9 @@ body.theme-fade {
   color: $white;
   display: grid;
   place-items: center;
-  box-shadow: 0 0.85rem 1.6rem rgba(0, 0, 0, 0.35);
+  box-shadow:
+    var(--glass-stroke-soft),
+    0 0.85rem 1.6rem rgba(0, 0, 0, 0.35);
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px) scale(0.94);

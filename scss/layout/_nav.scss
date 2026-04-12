@@ -10,11 +10,12 @@
   padding: clamp(0.7rem, 2vw, 1rem) clamp(0.85rem, 2.6vw, 1.4rem);
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, #{$black} 94%, #0f2018) 0%,
-    color-mix(in srgb, #{$black} 88%, #0f281d) 100%
+    color-mix(in srgb, #{$black} 96%, #1a1a1b) 0%,
+    color-mix(in srgb, #{$black} 90%, #232326) 100%
   );
-  border-top: 1px solid color-mix(in srgb, #{$border} 58%, transparent);
+  border-top: 0;
   box-shadow:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.14),
     0 0.6rem 1.5rem rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
@@ -39,7 +40,7 @@
       color-mix(in srgb, #{$surface} 92%, #173625),
       color-mix(in srgb, #{$surface} 87%, #0b140f)
     );
-    border: 1px solid color-mix(in srgb, #{$border} 55%, transparent);
+    border: 0;
     border-radius: 0.85rem;
     color: $contrast-high;
     transition:
@@ -48,7 +49,9 @@
       transform 0.22s ease;
     &:focus {
       border-color: color-mix(in srgb, #{$lime-green} 60%, transparent);
-      box-shadow: 0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
+      box-shadow:
+        inset 0 0 0 0.5px color-mix(in srgb, #{$white} 16%, transparent),
+        0 0 0 1px color-mix(in srgb, #{$lime-green} 60%, transparent);
       outline: none;
       transform: translateY(-1px);
     }
@@ -85,14 +88,15 @@
   top: calc(100% + #{$spacing-xs});
   background: linear-gradient(
     170deg,
-    color-mix(in srgb, #{$surface} 94%, #1e4030),
-    color-mix(in srgb, #{$surface} 90%, #0f1913)
+    color-mix(in srgb, #{$surface} 96%, #1f1f21),
+    color-mix(in srgb, #{$surface} 92%, #111113)
   );
-  border: 1px solid color-mix(in srgb, #{$border} 58%, transparent);
+  border: 0;
   border-radius: 1rem;
   width: min(90vw, 16rem);
   padding: 0.9rem;
   box-shadow:
+    inset 0 0 0 0.5px color-mix(in srgb, #{$white} 17%, transparent),
     0 1.2rem 2.4rem rgba(0, 0, 0, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   z-index: 9999;

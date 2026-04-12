@@ -1,5 +1,7 @@
 # 🧩 UI Component Reference
 
+> Consolidation note (2026-04-12): canonical guidance now lives in `docs/STYLE_GUIDE.md`. Keep this file as a secondary inventory/crosswalk only.
+
 _Last updated: 2026-03-25_
 
 This reference links every Sass partial, markup hook, and JavaScript controller powering the CodyHouse-inspired UI system. Use it to keep implementation and documentation aligned.
