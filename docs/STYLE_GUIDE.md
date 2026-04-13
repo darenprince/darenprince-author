@@ -66,6 +66,8 @@ Use iOS-glass-inspired ultra-thin stroke treatment:
 - Social/menu icons must include `aria-label`.
 - Header top bar should preserve charcoal-black identity, not green-tinted black.
 - Main header toolbar should use masked `backdrop-filter` layering (`.site-header::before`) so blur strength remains stable while preserving icon/text legibility.
+- Slide-out mega menu and profile dropdown should use the same masked frosted layering with slightly lower opacity and darker radial shading for visual consistency.
+- Mega menu close control standard: circular black surface at ~50% opacity, no stroke.
 
 ## 6) Books page polish standards
 

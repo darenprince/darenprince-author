@@ -350,9 +350,15 @@
 
   .menu-close-btn {
     @extend .icon-btn--ghost;
-    --btn-border-color: color-mix(in srgb, #{$deep-green} 85%, transparent);
-    --btn-border-width: 2px;
+    --btn-border-color: transparent;
+    --btn-border-width: 0;
+    --btn-bg: rgba(0, 0, 0, 0.5);
+    --btn-hover-bg: rgba(0, 0, 0, 0.64);
+    --btn-color: #{$white};
+    --btn-hover-color: #{$white};
+    --btn-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
     --btn-min-height: 3rem;
+    --btn-radius: 50%;
     width: var(--btn-min-height);
     height: var(--btn-min-height);
   }
@@ -435,7 +441,17 @@
   }
 
   .menu-open .hamburger-btn {
-    box-shadow: 0 0 8px color-mix(in srgb, #{$lime-green} 50%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, #{$lime-green} 42%, transparent);
+    animation: menu-green-glow 1.1s ease-in-out infinite alternate;
+  }
+
+  @keyframes menu-green-glow {
+    from {
+      box-shadow: 0 0 3px color-mix(in srgb, #{$lime-green} 32%, transparent);
+    }
+    to {
+      box-shadow: 0 0 6px color-mix(in srgb, #{$lime-green} 42%, transparent);
+    }
   }
 
   .auth-btn {
