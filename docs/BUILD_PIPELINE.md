@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-04-08_
+_Last updated: 2026-04-13_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -9,6 +9,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 | Script                | Command                                                                                                | Purpose                                                                                                                                                                | Notes                                                                                                                        |
 | --------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
 | `build:search`        | `node ./src/search/build-index.mjs`                                                                    | Build Minisearch index + docs payload (`public/search/*.json`).                                                                                                        | Requires Markdown under `/content/`; currently indexes 0 docs until content exists.                                          |
+| `sync:shared-shell`   | `node scripts/sync-shared-shell.mjs`                                                                   | Rehydrates shared header/footer partials into core author pages before build/deploy.                                                                                   | Uses `partials/site-header.html` + `partials/site-footer.html` as the single source of truth.                                |
 | `generate:icons`      | `node scripts/generate-icons.mjs`                                                                      | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
 | `generate:images`     | `node scripts/generate-image-manifest.js`                                                              | Catalog repo imagery (`**/*.{png,jpg,jpeg,gif,svg,webp}`; excludes node_modules/build artifacts) into `assets/image-manifest.json` as `{ path, description }` entries. | Powers `image-index.html` and press tooling with copy-ready URLs.                                                            |
 | `build`               | `npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build`                           | Full local build (static site + Vibe Prism bundle).                                                                                                                    | Copies `src/nexuswho/index.html` → `nexuswho.html`, then Vite outputs `nexuswho.html` + `nexuswho-assets/` at the repo root. |
@@ -29,6 +30,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 > **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggers—GitHub Pages should load complete sections right away.
 >
 > **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
+>
+> **Shared-shell reminder:** When editing global nav, search/login controls, or footer links/forms, update `partials/site-header.html` and/or `partials/site-footer.html`, then run `npm run sync:shared-shell` (or `npm run build:site`, which now runs it automatically).
 >
 > **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 >
