@@ -216,6 +216,12 @@
     visibility: visible;
     pointer-events: auto;
   }
+
+  &.is-hiding {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .search-modal {
@@ -318,20 +324,31 @@
 
   .search-close {
     position: absolute;
-    top: 0.55rem;
-    right: 0.55rem;
+    top: 0.62rem;
+    right: 0.62rem;
     background: none;
-    border: none;
+    border: 1px solid color-mix(in srgb, #{$border} 64%, transparent);
     color: $white;
-    font-size: 1.35rem;
+    font-size: 0.82rem;
+    line-height: 1;
     cursor: pointer;
-    width: 2rem;
-    height: 2rem;
+    width: 1.35rem;
+    height: 1.35rem;
     border-radius: 999px;
-    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background: color-mix(in srgb, #{$white} 10%, transparent);
+      border-color: color-mix(in srgb, #{$white} 34%, transparent);
+      transform: translateY(-1px);
+      outline: none;
     }
   }
 }
@@ -339,6 +356,11 @@
 .search-modal-overlay.is-visible .search-modal {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+.search-modal-overlay.is-hiding .search-modal {
+  opacity: 0;
+  transform: translateY(-18px) scale(0.985);
 }
 
 body.is-search-modal-open {
