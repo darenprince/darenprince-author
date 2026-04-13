@@ -131,6 +131,7 @@ function initNavigationAndAuth() {
   const searchBar = document.querySelector('.js-search-bar')
   const topSearchInput = searchBar?.querySelector('input[type="search"]')
   let searchModal
+  let previousFocusTarget = null
   const modalOverlay = document.getElementById('demo-modal')
   const componentSelect = document.querySelector('.component-nav__select')
 
@@ -308,7 +309,9 @@ function initNavigationAndAuth() {
     if (!searchModal) {
       searchModal = createSearchModal()
     }
+    previousFocusTarget = document.activeElement
     searchModal.classList.remove('is-hiding')
+    searchModal.removeAttribute('aria-hidden')
     document.body.classList.add('is-search-modal-open')
     searchModal.classList.add('is-visible')
     const input = searchModal.querySelector('input[type="search"]')
@@ -319,11 +322,17 @@ function initNavigationAndAuth() {
     if (searchModal) {
       searchModal.classList.remove('is-visible')
       searchModal.classList.add('is-hiding')
+      searchModal.setAttribute('aria-hidden', 'true')
       window.setTimeout(() => {
         if (!searchModal || searchModal.classList.contains('is-visible')) return
         searchModal.classList.remove('is-hiding')
         document.body.classList.remove('is-search-modal-open')
-        searchToggle?.focus()
+        if (previousFocusTarget instanceof HTMLElement) {
+          previousFocusTarget.focus()
+          previousFocusTarget = null
+        } else {
+          searchToggle?.focus()
+        }
       }, SEARCH_MODAL_CLOSE_MS)
     }
   }
@@ -331,9 +340,10 @@ function initNavigationAndAuth() {
   function createSearchModal() {
     const overlay = document.createElement('div')
     overlay.className = 'search-modal-overlay'
+    overlay.setAttribute('aria-hidden', 'true')
     overlay.innerHTML = `
       <div class="search-modal">
-        <button class="search-close" aria-label="Close search"><i class="ph ph-x" aria-hidden="true"></i></button>
+        <button class="search-close" type="button" aria-label="Close search">&times;</button>
         <form class="search-form flex items-center">
           <input type="search" placeholder="Search books, pages, and resources..." aria-label="Search the Daren Prince site" />
           <button type="submit" class="search-submit" aria-label="Run search"><i class="ph ph-magnifying-glass"></i></button>
