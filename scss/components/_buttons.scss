@@ -429,6 +429,11 @@
     --btn-hover-bg: transparent;
   }
 
+  .nav-icon-btn--share {
+    --btn-color: color-mix(in srgb, #{$white} 92%, #{$lime-green});
+    --btn-hover-color: #{$lime-green};
+  }
+
   .hamburger-btn {
     @extend .nav-icon-btn;
     --btn-border-width: 2px;
@@ -443,6 +448,32 @@
   .menu-open .hamburger-btn {
     box-shadow: 0 0 6px color-mix(in srgb, #{$lime-green} 42%, transparent);
     animation: menu-green-glow 1.1s ease-in-out infinite alternate;
+  }
+
+  @media (max-width: 37.5rem) {
+    .nav-icon-btn,
+    .hamburger-btn {
+      --btn-min-height: 2.5rem;
+
+      i {
+        font-size: 1.18rem;
+      }
+    }
+
+    .nav-icon-btn--share {
+      position: fixed;
+      right: 0.85rem;
+      bottom: max(0.95rem, env(safe-area-inset-bottom));
+      z-index: 160;
+      --btn-min-height: 2.65rem;
+      --btn-bg: color-mix(in srgb, #{$black} 84%, #12281c);
+      --btn-hover-bg: color-mix(in srgb, #{$black} 76%, #163724);
+      --btn-border-width: 1px;
+      --btn-border-color: color-mix(in srgb, #{$lime-green} 48%, transparent);
+      --btn-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
   }
 
   @keyframes menu-green-glow {
