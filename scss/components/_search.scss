@@ -324,16 +324,17 @@
 
   .search-close {
     position: absolute;
-    top: 0.62rem;
-    right: 0.62rem;
+    top: 0.56rem;
+    right: 0.56rem;
     background: none;
     border: 1px solid color-mix(in srgb, #{$border} 64%, transparent);
     color: $white;
-    font-size: 0.82rem;
+    font-size: 0.72rem;
+    font-weight: 700;
     line-height: 1;
     cursor: pointer;
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 1.2rem;
+    height: 1.2rem;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
@@ -360,7 +361,7 @@
 
 .search-modal-overlay.is-hiding .search-modal {
   opacity: 0;
-  transform: translateY(-18px) scale(0.985);
+  transform: translateY(-32px) scale(0.98);
 }
 
 body.is-search-modal-open {

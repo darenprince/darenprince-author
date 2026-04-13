@@ -51,16 +51,20 @@
   .logo {
     display: inline-flex;
     align-items: center;
+    flex: 1 1 auto;
     flex-shrink: 0;
-    min-width: 0;
+    min-width: 12rem;
     max-width: min(48vw, 300px);
+    padding-inline-end: $spacing-xs;
 
     img {
       display: block;
       width: auto;
       max-width: 100%;
       height: clamp(34px, 4.1vw, 46px);
+      max-height: 46px;
       object-fit: contain;
+      object-position: left center;
     }
   }
 }
