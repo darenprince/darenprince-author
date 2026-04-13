@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-13 — Shared shell refactor + search modal close motion (GitHub Pages-safe)
+
+- Refactored core author-platform pages (`index.html`, `home.html`, `book.html`, `meet-daren-prince.html`, `contact.html`, and `login.html`) to mount shared header/footer snippets through `js/site-shell.js`, reducing drift in nav/search/login/footer markup across pages.
+- Updated header styles in `scss/layout/_header.scss` so the Daren Prince logo no longer compresses at tight widths.
+- Enhanced the desktop search overlay close interaction in `js/main.js` + `scss/components/_search.scss` with a compact close control and slide-up hide transition.
+- Preserved GitHub Pages deployment compatibility by keeping static paths and build-script expectations unchanged.
+
 ## 2026-04-12 — Books page cleanup + global top-nav share control (GitHub Pages-safe)
 
 - Removed the redundant books collection intro block and in-hero share button from `book.html` so the page flows directly from hero CTA into listings.
