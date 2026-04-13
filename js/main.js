@@ -6,6 +6,7 @@ const APPLE_BOOKS_URL =
   'https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900'
 const SMART_APP_BANNER_DISMISS_KEY = 'darenprince.smartAppBanner.dismissed'
 const SEARCH_SUGGESTIONS = ['Game On', 'Unshakeable', 'Press', 'Crown Labs', 'Contact']
+const SEARCH_MODAL_CLOSE_MS = 230
 
 function hasDismissedSmartAppBanner() {
   try {
@@ -307,6 +308,7 @@ function initNavigationAndAuth() {
     if (!searchModal) {
       searchModal = createSearchModal()
     }
+    searchModal.classList.remove('is-hiding')
     document.body.classList.add('is-search-modal-open')
     searchModal.classList.add('is-visible')
     const input = searchModal.querySelector('input[type="search"]')
@@ -316,8 +318,13 @@ function initNavigationAndAuth() {
   function closeSearchModal() {
     if (searchModal) {
       searchModal.classList.remove('is-visible')
-      document.body.classList.remove('is-search-modal-open')
-      searchToggle.focus()
+      searchModal.classList.add('is-hiding')
+      window.setTimeout(() => {
+        if (!searchModal || searchModal.classList.contains('is-visible')) return
+        searchModal.classList.remove('is-hiding')
+        document.body.classList.remove('is-search-modal-open')
+        searchToggle?.focus()
+      }, SEARCH_MODAL_CLOSE_MS)
     }
   }
 
@@ -326,7 +333,7 @@ function initNavigationAndAuth() {
     overlay.className = 'search-modal-overlay'
     overlay.innerHTML = `
       <div class="search-modal">
-        <button class="search-close" aria-label="Close search">&times;</button>
+        <button class="search-close" aria-label="Close search"><i class="ph ph-x" aria-hidden="true"></i></button>
         <form class="search-form flex items-center">
           <input type="search" placeholder="Search books, pages, and resources..." aria-label="Search the Daren Prince site" />
           <button type="submit" class="search-submit" aria-label="Run search"><i class="ph ph-magnifying-glass"></i></button>
