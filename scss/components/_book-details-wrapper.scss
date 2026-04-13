@@ -30,7 +30,7 @@
 
 .books-main {
   .section-divider {
-    padding-block: clamp(2rem, 6vw, 4rem);
+    padding-block: 0;
   }
 
   .book-hero {
@@ -102,7 +102,9 @@
   padding-bottom: clamp(1.9rem, 4vw, 3rem);
 
   .book-collection-card {
-    padding: clamp(1.8rem, 3.4vw, 2.5rem) 0;
+    padding: clamp(1.8rem, 3.4vw, 2.5rem) clamp(1rem, 2.4vw, 1.8rem);
+    border-radius: clamp(0.85rem, 2vw, 1.15rem);
+    background: linear-gradient(180deg, rgba(12, 14, 12, 0.9) 0%, rgba(8, 10, 8, 0.7) 100%);
   }
 
   .book-collection-card + .book-collection-card {
@@ -127,6 +129,30 @@
       pointer-events: none;
     }
   }
+}
+
+.book-collection-card--identity {
+  background: linear-gradient(180deg, rgba(16, 32, 22, 0.88) 0%, rgba(8, 12, 9, 0.72) 100%);
+}
+
+.book-collection-card--memoir {
+  background: linear-gradient(180deg, rgba(28, 28, 30, 0.9) 0%, rgba(13, 13, 14, 0.75) 100%);
+}
+
+.book-collection-card--dating {
+  background: linear-gradient(180deg, rgba(24, 40, 22, 0.9) 0%, rgba(10, 14, 9, 0.74) 100%);
+}
+
+.book-collection-card--boundaries {
+  background: linear-gradient(180deg, rgba(35, 24, 24, 0.9) 0%, rgba(16, 10, 10, 0.74) 100%);
+}
+
+.book-collection-card--recovery {
+  background: linear-gradient(180deg, rgba(17, 24, 34, 0.9) 0%, rgba(8, 12, 16, 0.74) 100%);
+}
+
+.book-collection-card--purpose {
+  background: linear-gradient(180deg, rgba(26, 31, 22, 0.9) 0%, rgba(10, 14, 10, 0.74) 100%);
 }
 
 .book-hero-placeholder {
@@ -204,27 +230,21 @@
 .paperback-mockup {
   width: min(220px, 100%);
   margin: 0 auto clamp(1.3rem, 2.8vw, 1.85rem);
-  padding: clamp(0.38rem, 1.3vw, 0.62rem);
+  padding: 0;
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.5));
   position: relative;
   perspective: 1100px;
   transition: transform 0.32s ease;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, $white 14%, transparent);
-  background: linear-gradient(
-    138deg,
-    rgba(166, 171, 178, 0.18) 0%,
-    rgba(118, 123, 130, 0.12) 36%,
-    rgba(62, 66, 72, 0.06) 64%,
-    rgba(30, 33, 38, 0.2) 100%
-  );
+  border-radius: 0;
+  border: 0;
+  background: transparent;
 
   img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 4px;
-    border: 1px solid color-mix(in srgb, $white 18%, transparent);
+    border-radius: 6px;
+    border: 0;
     transform: rotateY(-8deg) rotateX(1deg) translateZ(1px);
     transform-origin: left center;
     transition:
@@ -236,33 +256,9 @@
       -8px 14px 22px rgba(0, 0, 0, 0.2);
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    right: -9px;
-    width: 12px;
-    border-radius: 0 3px 3px 0;
-    background: linear-gradient(180deg, #f7f5ee 0%, #ddd8ca 50%, #f6f4ec 100%);
-    transform: rotateY(-20deg);
-    transform-origin: left center;
-    box-shadow: inset 0 0 0 1px rgba(20, 20, 20, 0.12);
-  }
-
+  &::before,
   &::after {
-    content: '';
-    position: absolute;
-    inset: 6% 6% 8%;
-    border-radius: 6px;
-    background: radial-gradient(
-      circle at 24% 20%,
-      color-mix(in srgb, $white 22%, transparent),
-      transparent 45%
-    );
-    mix-blend-mode: screen;
-    opacity: 0.4;
-    pointer-events: none;
+    content: none;
   }
 }
 

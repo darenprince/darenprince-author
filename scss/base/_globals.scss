@@ -20,7 +20,7 @@ body {
   > section + section {
     position: relative;
     margin-top: clamp(0.85rem, 2.4vw, 1.75rem);
-    padding-top: clamp(1.1rem, 3vw, 2rem);
+    padding-top: 0;
   }
 
   > section + section::before {
