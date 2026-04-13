@@ -5,8 +5,9 @@
 ## 2026-04-13 — Shared shell refactor + search modal close motion (GitHub Pages-safe)
 
 - Refactored core author-platform pages (`index.html`, `home.html`, `book.html`, `meet-daren-prince.html`, `contact.html`, and `login.html`) to mount shared header/footer snippets through `js/site-shell.js`, reducing drift in nav/search/login/footer markup across pages.
+- Extended the shared shell rollout to `press.html` and `sitemap.html` so header/search/login/footer behavior stays centralized and consistent across more high-traffic pages.
 - Updated header styles in `scss/layout/_header.scss` so the Daren Prince logo no longer compresses at tight widths.
-- Enhanced the desktop search overlay close interaction in `js/main.js` + `scss/components/_search.scss` with a compact close control and slide-up hide transition.
+- Enhanced the desktop search overlay close interaction in `js/main.js` + `scss/components/_search.scss` with a compact close control, stronger slide-up hide transition, and improved focus restoration after close.
 - Preserved GitHub Pages deployment compatibility by keeping static paths and build-script expectations unchanged.
 
 ## 2026-04-12 — Books page cleanup + global top-nav share control (GitHub Pages-safe)
