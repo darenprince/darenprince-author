@@ -1,0 +1,43 @@
+<header class="site-header padding-y-sm js-sticky-nav">
+  <div class="container max-width-adaptive-lg flex items-center justify-between">
+    <a href="index.html" class="logo" aria-label="Daren Prince Home">
+      <img
+        src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png"
+        alt="Daren Prince"
+      />
+    </a>
+    <div class="nav-btn-group flex items-center gap-sm">
+      <button class="nav-icon-btn js-search-toggle" aria-label="Search">
+        <i class="ph ph-magnifying-glass"></i>
+      </button>
+      <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme">
+        <i class="ph ph-moon"></i>
+      </button>
+      <button class="nav-icon-btn js-profile-toggle" aria-label="Account">
+        <i class="ph ph-user"></i>
+      </button>
+      <button class="hamburger-btn js-menu-toggle" aria-label="Menu">
+        <i class="ph ph-list"></i>
+      </button>
+    </div>
+  </div>
+  <div class="search-bar js-search-bar" hidden>
+    <form class="search-form flex items-center">
+      <input type="search" placeholder="search site" />
+      <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+    </form>
+  </div>
+  <div class="profile-dropdown js-profile-dropdown" hidden>
+    <div class="profile-info">
+      <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar" />
+      <span class="profile-name">Guest</span>
+    </div>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li>
+        <button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button>
+      </li>
+    </ul>
+  </div>
+</header>
