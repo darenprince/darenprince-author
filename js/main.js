@@ -255,16 +255,7 @@ function initNavigationAndAuth() {
 
   if (searchToggle) {
     searchToggle.addEventListener('click', function () {
-      if (window.matchMedia('(min-width: 768px)').matches) {
-        openSearchModal()
-      } else if (searchBar) {
-        if (searchBar.hasAttribute('hidden')) {
-          searchBar.removeAttribute('hidden')
-          if (topSearchInput) topSearchInput.focus()
-        } else {
-          searchBar.setAttribute('hidden', '')
-        }
-      }
+      openSearchModal()
     })
 
     document.addEventListener('keydown', function (event) {
@@ -281,12 +272,7 @@ function initNavigationAndAuth() {
       }
       if (event.key === '/' && document.activeElement === document.body) {
         event.preventDefault()
-        if (window.matchMedia('(min-width: 768px)').matches) {
-          openSearchModal()
-        } else if (searchBar) {
-          searchBar.removeAttribute('hidden')
-          if (topSearchInput) topSearchInput.focus()
-        }
+        openSearchModal()
       }
     })
   }
@@ -381,6 +367,57 @@ function initNavigationAndAuth() {
       if (input) input.value = term
       openSiteSearch(term)
     })
+
+    let touchStartY = 0
+    let touchStartX = 0
+    let isTrackingTouch = false
+    const SWIPE_CLOSE_THRESHOLD = 72
+    const SWIPE_CLOSE_LOCK = 40
+    const modalPanel = overlay.querySelector('.search-modal')
+
+    overlay.addEventListener(
+      'touchstart',
+      (event) => {
+        if (!event.touches?.length) return
+        const touch = event.touches[0]
+        touchStartY = touch.clientY
+        touchStartX = touch.clientX
+        isTrackingTouch = true
+      },
+      { passive: true }
+    )
+
+    overlay.addEventListener(
+      'touchmove',
+      (event) => {
+        if (!isTrackingTouch || !event.touches?.length) return
+        const touch = event.touches[0]
+        const deltaY = touch.clientY - touchStartY
+        const deltaX = Math.abs(touch.clientX - touchStartX)
+        if (Math.abs(deltaY) > SWIPE_CLOSE_LOCK && deltaX < 64 && modalPanel) {
+          modalPanel.style.transform = `translateY(${Math.max(deltaY, 0)}px) scale(0.985)`
+        }
+      },
+      { passive: true }
+    )
+
+    overlay.addEventListener(
+      'touchend',
+      (event) => {
+        if (!isTrackingTouch || !event.changedTouches?.length) return
+        const touch = event.changedTouches[0]
+        const deltaY = touch.clientY - touchStartY
+        const deltaX = Math.abs(touch.clientX - touchStartX)
+        isTrackingTouch = false
+        if (modalPanel) {
+          modalPanel.style.transform = ''
+        }
+        if (deltaY > SWIPE_CLOSE_THRESHOLD && deltaX < 64) {
+          closeSearchModal()
+        }
+      },
+      { passive: true }
+    )
 
     return overlay
   }

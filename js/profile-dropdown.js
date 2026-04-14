@@ -16,6 +16,8 @@ function initProfileDropdown() {
   const toggle = document.querySelector('.js-profile-toggle')
   const dropdown = document.querySelector('.js-profile-dropdown')
   if (!toggle || !dropdown) return
+  if (toggle.dataset.dropdownBound === 'true') return
+  toggle.dataset.dropdownBound = 'true'
 
   const avatarImg = dropdown.querySelector('.profile-avatar')
   const nameEl = dropdown.querySelector('.profile-name')
@@ -28,14 +30,33 @@ function initProfileDropdown() {
   prefixIcon(accountLink, 'ph-user-circle')
   prefixIcon(logoutEl, 'ph-sign-in')
 
-  toggle.addEventListener('click', () => {
-    dropdown.hidden = !dropdown.hidden
+  const setDropdownState = (isOpen) => {
+    dropdown.hidden = !isOpen
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
+  }
+
+  toggle.setAttribute('aria-expanded', 'false')
+
+  toggle.addEventListener('click', (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setDropdownState(dropdown.hidden)
   })
 
   document.addEventListener('click', (e) => {
     if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
-      dropdown.hidden = true
+      setDropdownState(false)
     }
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setDropdownState(false)
+    }
+  })
+
+  dropdown.addEventListener('click', (event) => {
+    event.stopPropagation()
   })
 
   if (logoutEl) {
