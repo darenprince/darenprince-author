@@ -137,7 +137,6 @@ textarea {
   --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 26%, transparent);
   --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 14%, transparent);
   --section-space-y: clamp(1.25rem, 3.2vw, 2.35rem);
-  --divider-inline-gutter: clamp(1rem, 4vw, 2.5rem);
 }
 
 html {
@@ -164,7 +163,8 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   content: '';
   position: absolute;
   top: calc(var(--section-space-y) * -0.5);
-  inset-inline: var(--divider-inline-gutter);
+  left: clamp(1rem, 4vw, 2.5rem);
+  right: clamp(1rem, 4vw, 2.5rem);
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -306,10 +306,29 @@ body.theme-fade {
     color 0.3s ease;
 }
 
-.back-to-top {
+.floating-action-stack {
   position: fixed;
   right: clamp(0.9rem, 2.5vw, 1.4rem);
   bottom: clamp(0.95rem, 2.5vw, 1.5rem);
+  display: grid;
+  gap: 0.6rem;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.94);
+  transition: all 0.24s ease;
+}
+
+.floating-action-stack.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.floating-action-btn,
+.back-to-top {
+  position: static;
   width: 3rem;
   height: 3rem;
   border: 0;
@@ -325,28 +344,35 @@ body.theme-fade {
   box-shadow:
     var(--glass-stroke-soft),
     0 0.85rem 1.6rem rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px) scale(0.94);
-  pointer-events: none;
-  transition: all 0.24s ease;
-  z-index: 1000;
-}
-
-.back-to-top.is-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  transform: none;
   pointer-events: auto;
+  transition: all 0.24s ease;
+}
+
+.floating-share-btn {
+  --btn-border-width: 1px;
+  --btn-border-color: color-mix(in srgb, var(--color-lime) 40%, transparent);
+}
+
+.floating-share-btn,
+.back-to-top {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  .floating-action-stack,
+  .floating-action-stack.is-visible {
+    transform: none;
+  }
+  .floating-action-btn,
   .back-to-top {
     transition: opacity 0.2s ease;
-    transform: none;
   }
 }
 h1,
@@ -5401,11 +5427,35 @@ input:checked + .toggle-slider::before {
   justify-content: center;
   pointer-events: auto;
 }
+.hero .hero-content::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  top: clamp(15rem, 36vh, 24rem);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 6, 5, 0.16) 0%,
+      rgba(2, 6, 5, 0.68) 34%,
+      rgba(2, 6, 5, 0.86) 100%
+    ),
+    radial-gradient(120% 80% at 50% 0%, rgba(122, 255, 183, 0.12), transparent 60%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(8px) saturate(108%);
+  -webkit-backdrop-filter: blur(8px) saturate(108%);
+  pointer-events: none;
+  z-index: 0;
+}
 .hero .hero-layout {
   width: 100%;
   display: grid;
   gap: clamp(0.9rem, 2.6vw, 2rem);
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 .hero .hero-copy {
   max-width: 42rem;
@@ -5525,6 +5575,8 @@ input:checked + .toggle-slider::before {
   }
 }
 .hero .hero-subtitle {
+  position: relative;
+  z-index: 1;
   margin-top: 0.45rem;
   margin-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
   color: color-mix(in srgb, var(--color-white) 82%, transparent);
@@ -5555,6 +5607,8 @@ input:checked + .toggle-slider::before {
   display: block;
 }
 .hero .hero-actions {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -8249,7 +8303,7 @@ body.book-modal-open {
 .section-divider::before {
   content: '';
   position: absolute;
-  inset-inline: var(--divider-inline-gutter);
+  inset-inline: max(1rem, 4vw);
   top: 0;
   height: 1px;
   background: linear-gradient(
@@ -12897,7 +12951,7 @@ body.is-search-modal-open {
   right: 0;
   width: 100%;
   max-width: 260px;
-  height: 100%;
+  height: 100dvh;
   background: radial-gradient(
     150% 120% at 12% 0%,
     rgba(12, 26, 17, 0.24) 0%,
@@ -12905,7 +12959,8 @@ body.is-search-modal-open {
     rgba(7, 7, 8, 0.9) 100%
   );
   box-shadow: -10px 0 34px rgba(0, 0, 0, 0.3);
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 1.1rem;
+  box-sizing: border-box;
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
@@ -12933,7 +12988,7 @@ body.is-search-modal-open {
   content: '';
   position: absolute;
   inset: 0;
-  height: 200%;
+  height: 100%;
   pointer-events: none;
   z-index: -1;
   backdrop-filter: blur(13px) saturate(125%);

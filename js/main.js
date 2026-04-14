@@ -135,21 +135,6 @@ function initNavigationAndAuth() {
   const modalOverlay = document.getElementById('demo-modal')
   const componentSelect = document.querySelector('.component-nav__select')
 
-  const ensureTopNavShareButton = () => {
-    const navButtonGroup = document.querySelector('.nav-btn-group')
-    if (!navButtonGroup || navButtonGroup.querySelector('.js-share-trigger')) return
-
-    const shareButton = document.createElement('button')
-    shareButton.className = 'nav-icon-btn nav-icon-btn--share js-share-trigger'
-    shareButton.type = 'button'
-    shareButton.setAttribute('aria-label', 'Share this page')
-    shareButton.innerHTML = '<i class="ph ph-share-network"></i>'
-    navButtonGroup.insertBefore(
-      shareButton,
-      navButtonGroup.querySelector('.js-menu-toggle') || null
-    )
-  }
-
   const syncDeskLinkToContact = () => {
     const deskAnchors = Array.from(document.querySelectorAll('a')).filter((anchor) => {
       const text = (anchor.textContent || '').toLowerCase()
@@ -230,7 +215,6 @@ function initNavigationAndAuth() {
   }
 
   syncDeskLinkToContact()
-  ensureTopNavShareButton()
   initNativeShare()
 
   if (megaMenu && menuCloses.length) {
@@ -463,16 +447,68 @@ function initNavigationAndAuth() {
 }
 
 function initBackToTopButton() {
-  if (document.querySelector('.back-to-top')) return
-  const button = document.createElement('button')
-  button.type = 'button'
-  button.className = 'back-to-top'
-  button.setAttribute('aria-label', 'Back to top')
-  button.innerHTML = '<i class="ph ph-arrow-up" aria-hidden="true"></i>'
-  document.body.appendChild(button)
+  let stack = document.querySelector('.floating-action-stack')
+  if (!stack) {
+    stack = document.createElement('div')
+    stack.className = 'floating-action-stack'
+    stack.setAttribute('aria-label', 'Quick page actions')
+    document.body.appendChild(stack)
+  }
+
+  let shareButton = stack.querySelector('.floating-share-btn')
+  if (!shareButton) {
+    shareButton = document.createElement('button')
+    shareButton.type = 'button'
+    shareButton.className =
+      'floating-action-btn floating-share-btn nav-icon-btn--share js-share-trigger'
+    shareButton.setAttribute('aria-label', 'Share this page')
+    shareButton.innerHTML = '<i class="ph ph-share-network" aria-hidden="true"></i>'
+    stack.appendChild(shareButton)
+  }
+
+  let button = stack.querySelector('.back-to-top')
+  if (!button) {
+    button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'floating-action-btn back-to-top'
+    button.setAttribute('aria-label', 'Back to top')
+    button.innerHTML = '<i class="ph ph-arrow-up" aria-hidden="true"></i>'
+    stack.appendChild(button)
+  }
+
+  if (!shareButton.dataset.shareBound) {
+    shareButton.dataset.shareBound = 'true'
+    shareButton.addEventListener('click', async () => {
+      const sharePayload = {
+        title: document.title,
+        text: document.querySelector('meta[name="description"]')?.content || 'Check out this page.',
+        url: window.location.href,
+      }
+
+      if (navigator.share) {
+        try {
+          await navigator.share(sharePayload)
+          return
+        } catch (error) {
+          if (error?.name === 'AbortError') return
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(sharePayload.url)
+        if (window.GameOnUI?.showToast) {
+          window.GameOnUI.showToast('Link copied to clipboard.', 'info')
+        }
+      } catch {
+        window.prompt('Copy this link:', sharePayload.url)
+      }
+    })
+  }
 
   const toggleVisibility = () => {
     const isVisible = window.scrollY > 420
+    stack.classList.toggle('is-visible', isVisible)
+    shareButton.classList.toggle('is-visible', isVisible)
     button.classList.toggle('is-visible', isVisible)
   }
 

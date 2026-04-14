@@ -157,10 +157,29 @@ body.theme-fade {
     color 0.3s ease;
 }
 
-.back-to-top {
+.floating-action-stack {
   position: fixed;
   right: clamp(0.9rem, 2.5vw, 1.4rem);
   bottom: clamp(0.95rem, 2.5vw, 1.5rem);
+  display: grid;
+  gap: 0.6rem;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.94);
+  transition: all 0.24s ease;
+}
+
+.floating-action-stack.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.floating-action-btn,
+.back-to-top {
+  position: static;
   width: 3rem;
   height: 3rem;
   border: 0;
@@ -176,19 +195,22 @@ body.theme-fade {
   box-shadow:
     var(--glass-stroke-soft),
     0 0.85rem 1.6rem rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px) scale(0.94);
-  pointer-events: none;
-  transition: all 0.24s ease;
-  z-index: 1000;
-}
-
-.back-to-top.is-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  transform: none;
   pointer-events: auto;
+  transition: all 0.24s ease;
+}
+
+.floating-share-btn {
+  --btn-border-width: 1px;
+  --btn-border-color: color-mix(in srgb, #{$lime-green} 40%, transparent);
+}
+
+.floating-share-btn,
+.back-to-top {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -196,8 +218,13 @@ body.theme-fade {
     scroll-behavior: auto;
   }
 
+  .floating-action-stack,
+  .floating-action-stack.is-visible {
+    transform: none;
+  }
+
+  .floating-action-btn,
   .back-to-top {
     transition: opacity 0.2s ease;
-    transform: none;
   }
 }
