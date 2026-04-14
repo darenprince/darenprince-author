@@ -507,10 +507,11 @@ function initBackToTopButton() {
   }
 
   const toggleVisibility = () => {
-    const isVisible = window.scrollY > 420
-    stack.classList.toggle('is-visible', isVisible)
-    shareButton.classList.toggle('is-visible', isVisible)
-    button.classList.toggle('is-visible', isVisible)
+    const showShare = true
+    const showBackToTop = window.scrollY > 280
+    stack.classList.toggle('is-visible', showShare || showBackToTop)
+    shareButton.classList.toggle('is-visible', showShare)
+    button.classList.toggle('is-visible', showBackToTop)
   }
 
   button.addEventListener('click', () => {
