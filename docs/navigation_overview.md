@@ -91,4 +91,10 @@ Adjust the list per page (e.g., dashboards also load `js/auth-guard.js` and `js/
 3. **Auth provider offline** — With the migration placeholder active, `js/profile-dropdown.js` keeps the login route and tooltip messaging instead of exposing broken buttons.
 4. **Stale search assets** — Header and modal search now route to `/pages/search.html` (on-site Minisearch). Seed `/content/` and run `npm run build:search` before demoing so results are not empty.
 
+## 6. Current mega-menu baseline (April 14, 2026)
+
+- Public mega-menu variants no longer include the legacy **Collabs** and **Developers** links.
+- Top-level primary links now focus on Home, Books, Meet Daren, Media, Swag, Blog, Site Map, and Contact destinations to reduce dead-end navigation paths.
+- The old `components.html` reference to `/js/mobile-nav.js` was removed to avoid a runtime 404 script fetch.
+
 Keep these notes handy when adjusting navigation behavior or styling.

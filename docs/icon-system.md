@@ -53,9 +53,7 @@ Use this mapping to keep navigation and core UI consistent across all Crown surf
 | Media / Press        | `ph-camera`           |
 | Swag / Shop          | `ph-t-shirt`          |
 | Blog / News          | `ph-newspaper`        |
-| Collabs              | `ph-user-plus`        |
 | Support              | `ph-hand-heart`       |
-| Developers           | `ph-gear`             |
 | Contact              | `ph-envelope`         |
 | Search               | `ph-magnifying-glass` |
 | Menu                 | `ph-list`             |
