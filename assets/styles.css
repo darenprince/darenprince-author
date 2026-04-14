@@ -136,6 +136,7 @@ textarea {
   --nav-height: 80px;
   --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 26%, transparent);
   --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 14%, transparent);
+  --section-space-y: clamp(1.25rem, 3.2vw, 2.35rem);
 }
 
 html {
@@ -152,8 +153,8 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   > section
   + section {
   position: relative;
-  margin-top: clamp(0.85rem, 2.4vw, 1.75rem);
-  padding-top: 0;
+  margin-top: var(--section-space-y);
+  padding-top: var(--section-space-y);
 }
 .main-content-separators > section + section::before,
 main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page)
@@ -161,7 +162,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   + section::before {
   content: '';
   position: absolute;
-  top: clamp(-0.55rem, -1.4vw, -1rem);
+  top: calc(var(--section-space-y) * -0.5);
   left: clamp(1rem, 4vw, 2.5rem);
   right: clamp(1rem, 4vw, 2.5rem);
   height: 1px;
@@ -2568,7 +2569,8 @@ body:not(.brand-exempt) .menu-open .hamburger-btn {
   body:not(.brand-exempt) .nav-icon-btn--share {
     position: fixed;
     right: 0.85rem;
-    bottom: max(0.95rem, env(safe-area-inset-bottom));
+    top: 30vh;
+    bottom: auto;
     z-index: 160;
     --btn-min-height: 2.65rem;
     --btn-bg: color-mix(in srgb, var(--color-black) 84%, #12281c);
@@ -8242,6 +8244,7 @@ body.book-modal-open {
 
 .section-divider {
   position: relative;
+  padding-block: var(--section-space-y);
 }
 .section-divider::before {
   content: '';
@@ -8265,20 +8268,28 @@ body.book-modal-open {
 }
 
 .books-main .section-divider {
-  padding-block: 0;
+  padding-block: clamp(1rem, 2.6vw, 1.75rem);
 }
 .books-main .book-hero {
   padding-top: 0;
-  padding-bottom: clamp(2.25rem, 6vw, 4.5rem);
+  padding-bottom: clamp(1rem, 2.5vw, 1.75rem);
 }
 .books-main #book-collection {
-  padding-top: clamp(2.75rem, 7vw, 5rem);
-  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  padding-top: clamp(1rem, 2.6vw, 2rem);
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 
 .book-collection-grid {
   grid-template-columns: minmax(0, 1fr);
-  gap: 0;
+  gap: clamp(0.9rem, 2.2vw, 1.4rem);
+}
+
+body.books-page {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: calc(var(--nav-height) + 1rem);
+}
+body.books-page .books-main > section {
+  scroll-snap-align: start;
 }
 
 .book-collection-shell {
@@ -9989,17 +10000,17 @@ body.is-preloading {
 }
 .search-modal .search-close {
   position: absolute;
-  top: 0.56rem;
-  right: 0.56rem;
-  background: none;
-  border: 1px solid color-mix(in srgb, var(--color-border) 64%, transparent);
-  color: var(--color-white);
-  font-size: 0.72rem;
+  top: 0.7rem;
+  right: 0.7rem;
+  background: color-mix(in srgb, var(--color-black) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 74%, transparent);
+  color: color-mix(in srgb, var(--color-white) 94%, transparent);
+  font-size: 0.84rem;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;

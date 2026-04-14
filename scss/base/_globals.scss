@@ -5,6 +5,7 @@
   --nav-height: 80px;
   --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 26%, transparent);
   --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 14%, transparent);
+  --section-space-y: clamp(1.25rem, 3.2vw, 2.35rem);
 }
 
 html {
@@ -19,14 +20,14 @@ body {
 .main-content-separators {
   > section + section {
     position: relative;
-    margin-top: clamp(0.85rem, 2.4vw, 1.75rem);
-    padding-top: 0;
+    margin-top: var(--section-space-y);
+    padding-top: var(--section-space-y);
   }
 
   > section + section::before {
     content: '';
     position: absolute;
-    top: clamp(-0.55rem, -1.4vw, -1rem);
+    top: calc(var(--section-space-y) * -0.5);
     left: clamp(1rem, 4vw, 2.5rem);
     right: clamp(1rem, 4vw, 2.5rem);
     height: 1px;
