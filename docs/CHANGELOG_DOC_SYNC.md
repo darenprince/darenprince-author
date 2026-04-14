@@ -2,6 +2,15 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-14 — Homepage conversion rail merge + featured books swiper + metadata/nav cleanup (GitHub Pages-safe)
+
+- Updated `index.html` so format-selection heading/buttons now live inside the same hero media card as the dynamic format image, reducing split attention and improving conversion flow.
+- Added a new touch-swipable featured books strip on the homepage that links directly to `book.html` anchor sections (`#book-rooted`, `#book-too-much`, etc.) using the same cover assets as the books collection.
+- Removed stale mega-menu links for **Collabs** and **Developers** across public HTML surfaces to keep navigation aligned with live destinations.
+- Refreshed homepage metadata/social footprint (robots directives, Twitter site/creator tags, and expanded JSON-LD `sameAs`) while preserving GitHub Pages static compatibility.
+- Removed the broken `components.html` reference to `/js/mobile-nav.js` to eliminate a known client-side 404.
+- Rebuilt deployable artifacts via `npm run build:site` (including `assets/styles.css`, search docs/index JSON, generated icon assets, and image manifest) to keep GitHub Pages output synchronized.
+
 ## 2026-04-14 — Mega menu scroll fix + hero glass strip + grouped floating share/back-to-top controls (GitHub Pages-safe)
 
 - Fixed excess dead-space scrolling at the bottom of the slide-in mega menu by tightening menu height/padding handling and constraining the decorative blur layer to menu bounds in `scss/style.scss`.
