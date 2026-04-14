@@ -137,6 +137,7 @@ textarea {
   --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 26%, transparent);
   --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 14%, transparent);
   --section-space-y: clamp(1.25rem, 3.2vw, 2.35rem);
+  --divider-inline-gutter: clamp(1rem, 4vw, 2.5rem);
 }
 
 html {
@@ -163,8 +164,7 @@ main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-p
   content: '';
   position: absolute;
   top: calc(var(--section-space-y) * -0.5);
-  left: clamp(1rem, 4vw, 2.5rem);
-  right: clamp(1rem, 4vw, 2.5rem);
+  inset-inline: var(--divider-inline-gutter);
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -8249,7 +8249,7 @@ body.book-modal-open {
 .section-divider::before {
   content: '';
   position: absolute;
-  inset-inline: max(1rem, 4vw);
+  inset-inline: var(--divider-inline-gutter);
   top: 0;
   height: 1px;
   background: linear-gradient(

@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-14 — Search page shell parity + section-divider alignment (GitHub Pages-safe)
+
+- Refactored `pages/search.html` to use the same shared shell structure as `index.html` (`data-shared-header` + `data-shared-footer`) and restored the full mega-menu/link set with login action parity.
+- Added missing shared UI script loading on search (`js/site-shell.js`, `js/profile-dropdown.js`, `js/theme-toggle.js`) so header toolbar, account controls, and login routing behavior match the homepage implementation.
+- Normalized global divider inset math in `assets/styles.css` with a shared `--divider-inline-gutter` token so gradient section divider lines align consistently across section transitions.
+- Kept deployment/static path behavior GitHub Pages compatible (`/assets`, `/js`, `/pages/search.html`) with no Netlify dependencies.
+
 ## 2026-04-13 — Shared shell refactor + search modal close motion (GitHub Pages-safe)
 
 - Refactored core author-platform pages (`index.html`, `home.html`, `book.html`, `meet-daren-prince.html`, `contact.html`, and `login.html`) to mount shared header/footer snippets through `js/site-shell.js`, reducing drift in nav/search/login/footer markup across pages.
