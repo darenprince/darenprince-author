@@ -823,6 +823,139 @@ body.books-page {
   }
 }
 
+.format-hero-panel {
+  display: grid;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: color-mix(in srgb, $black 62%, $deep-green 38%);
+
+  &__top {
+    display: grid;
+    gap: $spacing-xxs;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, $mint-green 84%, $white);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  &__heading {
+    margin: 0;
+    line-height: 1.08;
+  }
+
+  &__options {
+    display: grid;
+    gap: $spacing-xs;
+    z-index: 1;
+  }
+
+  .format-option {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    border-radius: calc(#{$border-radius} - #{$spacing-xxs});
+    padding: $spacing-xxs;
+    background: color-mix(in srgb, $black 76%, transparent);
+    border: 1px solid color-mix(in srgb, $lime-green 26%, transparent);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+
+    &:focus-within,
+    &:hover {
+      border-color: color-mix(in srgb, $mint-green 74%, transparent);
+      background: color-mix(in srgb, $black 68%, $deep-green 32%);
+    }
+  }
+
+  .format-icon {
+    color: color-mix(in srgb, $mint-green 90%, $white);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+
+  .format-btn {
+    width: 100%;
+    background: linear-gradient(
+      130deg,
+      color-mix(in srgb, $black 84%, $gray-900),
+      color-mix(in srgb, $deep-green 40%, $black 60%)
+    );
+    border: 1px solid color-mix(in srgb, $mint-green 55%, transparent);
+    color: $white;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: calc(#{$border-radius} - #{$spacing-xs});
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    min-height: 2.5rem;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      border-color 0.18s ease;
+
+    &:hover,
+    &:focus-visible {
+      border-color: color-mix(in srgb, $mint-green 90%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, $mint-green 24%, transparent);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.featured-books-strip {
+  background: color-mix(in srgb, $deep-green 34%, $black 66%);
+  border: 1px solid color-mix(in srgb, $lime-green 24%, transparent);
+  border-radius: $border-radius;
+  padding: $spacing-md;
+  display: grid;
+  gap: $spacing-sm;
+}
+
+.featured-books-strip__header h3,
+.featured-book-card h4,
+.featured-books-strip__links {
+  margin: 0;
+}
+
+.featured-books-strip__rail {
+  display: grid;
+  gap: $spacing-sm;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(13rem, 16rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding-bottom: $spacing-xs;
+  -webkit-overflow-scrolling: touch;
+}
+
+.featured-book-card {
+  scroll-snap-align: start;
+  background: color-mix(in srgb, $black 78%, transparent);
+  border: 1px solid color-mix(in srgb, $mint-green 28%, transparent);
+  border-radius: calc(#{$border-radius} - #{$spacing-xs});
+  padding: $spacing-xs;
+  display: grid;
+  gap: $spacing-xs;
+
+  img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: calc(#{$border-radius} - #{$spacing-sm});
+  }
+}
+
 .book-primary-layout .book-experience .format-hero-panel {
   margin-bottom: 0;
   border-bottom-left-radius: 0;

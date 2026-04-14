@@ -53,6 +53,8 @@ This project exists to:
 
 > **Books page refresh:** `book.html` now ships a full six-book collection layout (without embedded Game On-only sections), balanced section spacing, smoother section snap scrolling, refined listing gaps, native/mobile share support (`.js-share-trigger` via `js/main.js`), and a contact-routed Daren’s Desk CTA. Keep metadata + JSON-LD collection schema aligned and run `npm run generate:images` after image changes so GitHub Pages search/image manifests stay current.
 >
+> **Homepage conversion rail refresh:** `index.html` now merges format selection controls directly into the dynamic format-image card and adds a touch-swipable featured books strip that deep-links to anchor sections on `book.html`. Keep `scss/components/_book-details-wrapper.scss` and `assets/styles.css` in sync by running `npm run build:site` before commit.
+>
 > **Search modal UX:** Site search now opens as an overlay on desktop and mobile, includes a larger explicit close control, and supports touch swipe-down dismiss behavior for mobile ergonomics while remaining GitHub Pages-safe (no runtime dependencies).
 
 ---
