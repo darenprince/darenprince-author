@@ -4,6 +4,7 @@
 
 .section-divider {
   position: relative;
+  padding-block: var(--section-space-y);
 
   &::before {
     content: '';
@@ -30,23 +31,32 @@
 
 .books-main {
   .section-divider {
-    padding-block: 0;
+    padding-block: clamp(1rem, 2.6vw, 1.75rem);
   }
 
   .book-hero {
     padding-top: 0;
-    padding-bottom: clamp(2.25rem, 6vw, 4.5rem);
+    padding-bottom: clamp(1rem, 2.5vw, 1.75rem);
   }
 
   #book-collection {
-    padding-top: clamp(2.75rem, 7vw, 5rem);
-    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    padding-top: clamp(1rem, 2.6vw, 2rem);
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
   }
 }
 
 .book-collection-grid {
   grid-template-columns: minmax(0, 1fr);
-  gap: 0;
+  gap: clamp(0.9rem, 2.2vw, 1.4rem);
+}
+
+body.books-page {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: calc(var(--nav-height) + 1rem);
+
+  .books-main > section {
+    scroll-snap-align: start;
+  }
 }
 
 .book-collection-shell {

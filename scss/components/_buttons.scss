@@ -463,7 +463,8 @@
     .nav-icon-btn--share {
       position: fixed;
       right: 0.85rem;
-      bottom: max(0.95rem, env(safe-area-inset-bottom));
+      top: 30vh;
+      bottom: auto;
       z-index: 160;
       --btn-min-height: 2.65rem;
       --btn-bg: color-mix(in srgb, #{$black} 84%, #12281c);

@@ -324,17 +324,17 @@
 
   .search-close {
     position: absolute;
-    top: 0.56rem;
-    right: 0.56rem;
-    background: none;
-    border: 1px solid color-mix(in srgb, #{$border} 64%, transparent);
-    color: $white;
-    font-size: 0.72rem;
+    top: 0.7rem;
+    right: 0.7rem;
+    background: color-mix(in srgb, #{$black} 58%, transparent);
+    border: 1px solid color-mix(in srgb, #{$border} 74%, transparent);
+    color: color-mix(in srgb, #{$white} 94%, transparent);
+    font-size: 0.84rem;
     font-weight: 700;
     line-height: 1;
     cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
