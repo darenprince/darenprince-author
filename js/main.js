@@ -312,6 +312,7 @@ function initNavigationAndAuth() {
     overlay.className = 'search-modal-overlay'
     overlay.setAttribute('aria-hidden', 'true')
     overlay.innerHTML = `
+      <img class="search-modal-brand" src="/assets/logos/logo-footer-white.png" alt="Daren Prince" />
       <div class="search-modal">
         <button class="search-close" type="button" aria-label="Close search">&times;</button>
         <form class="search-form flex items-center">

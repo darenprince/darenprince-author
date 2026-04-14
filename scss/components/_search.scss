@@ -211,6 +211,18 @@
     opacity 0.24s ease,
     visibility 0.24s ease;
 
+  .search-modal-brand {
+    position: absolute;
+    top: clamp(8vh, 12vh, 16vh);
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(84px, 10vw, 132px);
+    height: auto;
+    opacity: 0.92;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+    pointer-events: none;
+  }
+
   &.is-visible {
     opacity: 1;
     visibility: visible;
