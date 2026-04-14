@@ -49,6 +49,29 @@
     display: flex;
     justify-content: center;
     pointer-events: auto;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      top: clamp(15rem, 36vh, 24rem);
+      background:
+        linear-gradient(
+          180deg,
+          rgba(2, 6, 5, 0.16) 0%,
+          rgba(2, 6, 5, 0.68) 34%,
+          rgba(2, 6, 5, 0.86) 100%
+        ),
+        radial-gradient(120% 80% at 50% 0%, rgba(122, 255, 183, 0.12), transparent 60%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(8px) saturate(108%);
+      -webkit-backdrop-filter: blur(8px) saturate(108%);
+      pointer-events: none;
+      z-index: 0;
+    }
   }
 
   .hero-layout {
@@ -56,6 +79,8 @@
     display: grid;
     gap: clamp(0.9rem, 2.6vw, 2rem);
     align-items: center;
+    position: relative;
+    z-index: 1;
   }
 
   .hero-copy {
@@ -189,6 +214,8 @@
   }
 
   .hero-subtitle {
+    position: relative;
+    z-index: 1;
     margin-top: 0.45rem;
     margin-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
     color: color-mix(in srgb, #{$white} 82%, transparent);
@@ -223,6 +250,8 @@
   }
 
   .hero-actions {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     gap: $spacing-sm;

@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-14 — Mega menu scroll fix + hero glass strip + grouped floating share/back-to-top controls (GitHub Pages-safe)
+
+- Fixed excess dead-space scrolling at the bottom of the slide-in mega menu by tightening menu height/padding handling and constraining the decorative blur layer to menu bounds in `scss/style.scss`.
+- Restored a share overlay control and refactored floating quick actions so share + back-to-top render together as a bottom-right grouped stack from `js/main.js` + `scss/base/_globals.scss`.
+- Added a full-width dark glass strip behind hero copy/CTA content down to the bottom edge of the hero section in `scss/components/_hero.scss` to improve contrast while preserving background media.
+- Kept all updates static-site compatible for GitHub Pages deployment and avoided Netlify-specific behavior.
+
 ## 2026-04-14 — Search page shell parity + section-divider alignment (GitHub Pages-safe)
 
 - Refactored `pages/search.html` to use the same shared shell structure as `index.html` (`data-shared-header` + `data-shared-footer`) and restored the full mega-menu/link set with login action parity.
