@@ -1,6 +1,6 @@
 # Navigation Code Overview
 
-_Last updated: 2025-02-14_
+_Last updated: 2026-04-13_
 
 This guide summarizes the navigation system (mega menu, header icons, profile dropdown) with accurate file references. For icon usage standards, see `docs/icon-system.md`.
 
@@ -31,6 +31,12 @@ Most public pages (`index.html`, `book.html`, `login.html`, `contact.html`, etc.
 
 Admin utilities such as `admin-user-management.html` omit the theme toggle button to maximize usable width but otherwise follow the same pattern.
 
+### Mobile behavior (April 2026 update)
+
+- The top icon cluster now scales down on narrow viewports (`<= 600px`) to prevent clipping when logo + actions share one row.
+- The share action (`.js-share-trigger`) is still injected by `js/main.js`, but it uses `nav-icon-btn--share` and becomes a floating quick action button on mobile instead of consuming header width.
+- Desktop/tablet behavior remains unchanged (share icon stays in the top-right action cluster).
+
 ## 2. SCSS sources
 
 Navigation styles compile from:
@@ -44,7 +50,7 @@ Run `npm run build` (or the `watch` script) after editing any of these partials.
 
 ## 3. JavaScript behavior
 
-- `js/main.js` — toggles the mega menu (`.js-menu-toggle`, `.js-menu-close`, `.js-menu-overlay`), handles the auth button default state, and launches the desktop search modal.
+- `js/main.js` — toggles the mega menu (`.js-menu-toggle`, `.js-menu-close`, `.js-menu-overlay`), handles the auth button default state, injects the header share action, and launches the desktop search modal.
 - `js/profile-dropdown.js` — controls the avatar dropdown and routes users to login while auth is offline.
 - `js/theme-toggle.js` — switches `.theme-dark`/`.theme-light` and persists the choice in `localStorage`.
 - `js/search.js` (from `src/js/`) — powers the autocomplete dropdown in pages that include the `[data-search]` widget.
