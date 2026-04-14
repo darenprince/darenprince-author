@@ -1,6 +1,6 @@
 # Navigation Code Overview
 
-_Last updated: 2026-04-13_
+_Last updated: 2026-04-14_
 
 This guide summarizes the navigation system (mega menu, header icons, profile dropdown) with accurate file references. For icon usage standards, see `docs/icon-system.md`.
 
@@ -37,12 +37,19 @@ Admin utilities such as `admin-user-management.html` omit the theme toggle butto
 - The share action (`.js-share-trigger`) is still injected by `js/main.js`, but it uses `nav-icon-btn--share` and becomes a floating quick action button on mobile instead of consuming header width.
 - Desktop/tablet behavior remains unchanged (share icon stays in the top-right action cluster).
 
+### Share overlay behavior (April 14, 2026)
+
+- The floating quick-action stack is initialized by `js/main.js` on pages that load the main shell scripts.
+- The share action is now always visible so every page has a persistent share affordance, while the back-to-top button still appears only after scrolling.
+- This restores the prior “share overlay” experience across short and long pages without requiring per-page markup edits.
+
 ## 2. SCSS sources
 
 Navigation styles compile from:
 
 - `scss/layout/_header.scss` — header layout, sticky behavior, icon button styling.
 - `scss/layout/_nav.scss` — mega menu, overlay, search bar, profile dropdown wrappers.
+- `scss/style.scss` — mega menu glassmorphism polish (gradient stroke, refined separators, active icon/link color alignment).
 - `scss/components/_profile-dropdown.scss` — dropdown panel styling.
 - `scss/styles.scss` — Sass entry point (imports all partials, including `scss/style.scss` legacy mega menu tweaks).
 
