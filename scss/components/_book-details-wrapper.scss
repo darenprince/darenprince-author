@@ -520,6 +520,9 @@ body.books-page {
 .book-section {
   margin-top: $spacing-xl + 0.35rem;
   padding-block: clamp(1.6rem, 4vw, 2.6rem);
+  background: linear-gradient(180deg, rgba(17, 18, 20, 0.95) 0%, rgba(12, 13, 15, 0.76) 100%);
+  border-top: 1px solid color-mix(in srgb, $white 10%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, $white 8%, transparent);
 
   .book-block + .book-block {
     margin-top: $spacing-xl;
@@ -827,7 +830,12 @@ body.books-page {
   display: grid;
   gap: $spacing-sm;
   padding: $spacing-md;
-  background: color-mix(in srgb, $black 62%, $deep-green 38%);
+  border-radius: clamp(1rem, 2vw, 1.35rem);
+  background: linear-gradient(145deg, rgba(17, 19, 22, 0.95), rgba(11, 12, 14, 0.88));
+  border: 1px solid color-mix(in srgb, $white 13%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, $white 16%, transparent),
+    0 1.1rem 2.2rem rgba(0, 0, 0, 0.34);
 
   &__top {
     display: grid;
@@ -838,7 +846,7 @@ body.books-page {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: color-mix(in srgb, $mint-green 84%, $white);
+    color: color-mix(in srgb, $white 84%, $accent);
     font-size: 0.78rem;
     font-weight: 700;
   }
@@ -849,55 +857,57 @@ body.books-page {
   }
 
   &__options {
-    display: grid;
-    gap: $spacing-xs;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
+    justify-content: space-between;
     z-index: 1;
   }
 
   .format-option {
-    width: 100%;
+    width: auto;
+    flex: 1 1 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: $spacing-xs;
-    border-radius: calc(#{$border-radius} - #{$spacing-xxs});
-    padding: $spacing-xxs;
-    background: color-mix(in srgb, $black 76%, transparent);
-    border: 1px solid color-mix(in srgb, $lime-green 26%, transparent);
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.2rem 0.35rem;
+    background: color-mix(in srgb, $black 84%, #16181d);
+    border: 1px solid color-mix(in srgb, $white 16%, transparent);
     transition:
       border-color 0.2s ease,
       background 0.2s ease;
 
     &:focus-within,
     &:hover {
-      border-color: color-mix(in srgb, $mint-green 74%, transparent);
-      background: color-mix(in srgb, $black 68%, $deep-green 32%);
+      border-color: color-mix(in srgb, $accent 72%, transparent);
+      background: color-mix(in srgb, $black 76%, #191c22);
     }
   }
 
   .format-icon {
-    color: color-mix(in srgb, $mint-green 90%, $white);
-    font-size: 1.1rem;
+    color: color-mix(in srgb, $white 92%, transparent);
+    font-size: 0.95rem;
     pointer-events: none;
   }
 
   .format-btn {
-    width: 100%;
-    background: linear-gradient(
-      130deg,
-      color-mix(in srgb, $black 84%, $gray-900),
-      color-mix(in srgb, $deep-green 40%, $black 60%)
-    );
-    border: 1px solid color-mix(in srgb, $mint-green 55%, transparent);
-    color: $white;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: calc(#{$border-radius} - #{$spacing-xs});
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    background: linear-gradient(130deg, rgba(11, 13, 15, 0.96), rgba(22, 25, 30, 0.92));
+    border: 1px solid color-mix(in srgb, $accent 78%, transparent);
+    color: color-mix(in srgb, $white 96%, transparent);
+    padding: 0.46rem 0.7rem;
+    border-radius: 999px;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     font-weight: 700;
-    min-height: 2.5rem;
+    font-size: 0.8rem;
+    min-height: 2rem;
     transition:
       transform 0.18s ease,
       box-shadow 0.18s ease,
@@ -905,16 +915,16 @@ body.books-page {
 
     &:hover,
     &:focus-visible {
-      border-color: color-mix(in srgb, $mint-green 90%, transparent);
-      box-shadow: 0 0 0 2px color-mix(in srgb, $mint-green 24%, transparent);
+      border-color: color-mix(in srgb, $accent 92%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, $accent 22%, transparent);
       transform: translateY(-1px);
     }
   }
 }
 
 .featured-books-strip {
-  background: color-mix(in srgb, $deep-green 34%, $black 66%);
-  border: 1px solid color-mix(in srgb, $lime-green 24%, transparent);
+  background: linear-gradient(150deg, rgba(20, 22, 25, 0.96), rgba(11, 12, 14, 0.88));
+  border: 1px solid color-mix(in srgb, $white 12%, transparent);
   border-radius: $border-radius;
   padding: $spacing-md;
   display: grid;
@@ -935,24 +945,87 @@ body.books-page {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   padding-bottom: $spacing-xs;
   -webkit-overflow-scrolling: touch;
 }
 
 .featured-book-card {
   scroll-snap-align: start;
-  background: color-mix(in srgb, $black 78%, transparent);
-  border: 1px solid color-mix(in srgb, $mint-green 28%, transparent);
-  border-radius: calc(#{$border-radius} - #{$spacing-xs});
+  background: linear-gradient(165deg, rgba(21, 23, 27, 0.98), rgba(12, 13, 15, 0.9));
+  border: 1px solid color-mix(in srgb, $white 14%, transparent);
+  border-radius: clamp(1rem, 2vw, 1.25rem);
   padding: $spacing-xs;
   display: grid;
   gap: $spacing-xs;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, $white 12%, transparent),
+    0 0.95rem 1.8rem rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+  animation: featured-card-rise 0.55s ease both;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, $accent 62%, transparent);
+  }
 
   img {
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: calc(#{$border-radius} - #{$spacing-sm});
+    border-radius: clamp(0.82rem, 1.5vw, 1rem);
+  }
+}
+
+.featured-book-card:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.featured-book-card:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.featured-book-card:nth-child(4) {
+  animation-delay: 0.18s;
+}
+.featured-book-card:nth-child(5) {
+  animation-delay: 0.24s;
+}
+.featured-book-card:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+@keyframes featured-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.featured-book-card--cta {
+  align-content: center;
+  background: linear-gradient(155deg, rgba(5, 6, 8, 0.98), rgba(18, 20, 24, 0.9));
+
+  h4 {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+
+    span {
+      display: block;
+      color: color-mix(in srgb, $accent 78%, $white);
+    }
+  }
+
+  p {
+    margin: 0;
+    color: color-mix(in srgb, $white 72%, transparent);
+    font-size: 0.9rem;
   }
 }
 
