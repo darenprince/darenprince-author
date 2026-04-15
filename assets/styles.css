@@ -924,8 +924,8 @@ body.theme-light {
   display: block;
   width: auto;
   max-width: 100%;
-  height: clamp(38px, 4.6vw, 54px);
-  max-height: 54px;
+  height: clamp(42px, 5vw, 60px);
+  max-height: 60px;
   object-fit: contain;
   object-position: left center;
 }
@@ -953,7 +953,7 @@ body.theme-light {
     padding-inline-end: 0.25rem;
   }
   .site-header .logo img {
-    height: clamp(34px, 8.2vw, 46px);
+    height: clamp(38px, 8.8vw, 52px);
   }
   .nav-btn-group {
     gap: 0.12rem;
@@ -2430,7 +2430,7 @@ body:not(.brand-exempt) .menu-close-btn {
   --btn-color: var(--color-white);
   --btn-hover-color: var(--color-white);
   --btn-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
-  --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
+  --btn-min-height: clamp(3.05rem, 3.8vw, 3.45rem);
   --btn-radius: 50%;
   width: var(--btn-min-height);
   height: var(--btn-min-height);
@@ -2543,7 +2543,7 @@ body:not(.brand-exempt) .hamburger-btn {
   --btn-padding-y: 0;
   --btn-gap: 0;
   --btn-line-height: 1;
-  --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
+  --btn-min-height: clamp(3.05rem, 3.8vw, 3.45rem);
   width: var(--btn-min-height);
   height: var(--btn-min-height);
 }
@@ -2567,7 +2567,7 @@ body:not(.brand-exempt) .hamburger-btn:disabled {
 }
 body:not(.brand-exempt) .nav-icon-btn i,
 body:not(.brand-exempt) .hamburger-btn i {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
 }
 body:not(.brand-exempt) .nav-icon-btn.is-active,
 body:not(.brand-exempt) .is-active.hamburger-btn {
@@ -2597,11 +2597,11 @@ body:not(.brand-exempt) .menu-open .hamburger-btn {
 @media (max-width: 37.5rem) {
   body:not(.brand-exempt) .nav-icon-btn,
   body:not(.brand-exempt) .hamburger-btn {
-    --btn-min-height: clamp(2.5rem, 7.4vw, 2.9rem);
+    --btn-min-height: clamp(2.75rem, 8vw, 3.1rem);
   }
   body:not(.brand-exempt) .nav-icon-btn i,
   body:not(.brand-exempt) .hamburger-btn i {
-    font-size: clamp(1.18rem, 3.8vw, 1.32rem);
+    font-size: clamp(1.28rem, 4.1vw, 1.42rem);
   }
   body:not(.brand-exempt) .nav-icon-btn--share {
     position: fixed;
