@@ -44,6 +44,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: clamp(0.4rem, 1.4vw, 1.2rem);
     margin-block: 0;
     padding-block: $spacing-xxs;
   }
@@ -51,18 +52,18 @@
   .logo {
     display: inline-flex;
     align-items: center;
-    flex: 1 1 auto;
-    flex-shrink: 0;
-    min-width: 12rem;
-    max-width: min(48vw, 300px);
+    flex: 1 1 60%;
+    flex-shrink: 1;
+    min-width: min(13.5rem, 48vw);
+    max-width: min(58vw, 380px);
     padding-inline-end: $spacing-xs;
 
     img {
       display: block;
       width: auto;
       max-width: 100%;
-      height: clamp(34px, 4.1vw, 46px);
-      max-height: 46px;
+      height: clamp(38px, 4.6vw, 54px);
+      max-height: 54px;
       object-fit: contain;
       object-position: left center;
     }
@@ -72,8 +73,10 @@
 .nav-btn-group {
   display: flex;
   align-items: center;
-  gap: $spacing-xxs;
-  padding: 0.22rem;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  gap: clamp(0.12rem, 0.5vw, 0.34rem);
+  padding: clamp(0.15rem, 0.45vw, 0.3rem);
   border-radius: 999px;
   background: rgba(15, 15, 16, 0.42);
   box-shadow:
@@ -86,12 +89,12 @@
 @media (max-width: 37.5rem) {
   .site-header {
     .logo {
-      min-width: 8.75rem;
-      max-width: 42vw;
+      min-width: 9.75rem;
+      max-width: 52vw;
       padding-inline-end: $spacing-xxs;
 
       img {
-        height: clamp(30px, 7.2vw, 40px);
+        height: clamp(34px, 8.2vw, 46px);
       }
     }
   }
