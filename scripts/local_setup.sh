@@ -15,6 +15,6 @@ if ! command -v sass >/dev/null 2>&1; then
 fi
 
 # compile initial stylesheet
-npx sass scss/styles.scss assets/styles.css
+npm run styles:build
 
 echo "Project dependencies installed and styles compiled."

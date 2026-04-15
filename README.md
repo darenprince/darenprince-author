@@ -22,6 +22,13 @@ This project exists to:
 
 ---
 
+## 🚨 CSS/SCSS Troubleshooting (Why style edits can seem ignored)
+
+- **Only one SCSS entrypoint is deployable:** `scss/styles.scss` compiles to `assets/styles.css`.
+- **Edit deployable Sass in `scss/` only** (`scss/styles.scss` is the active entrypoint).
+- **Use `npm run dev`** to run Vite and Sass watch together, or run `npm run styles:build` before committing.
+- If you edit SCSS but do not rebuild `assets/styles.css`, GitHub Pages will continue serving the previous committed CSS.
+
 ## 🔧 Stack Overview
 
 | Layer         | Details                                                                                                                          |
