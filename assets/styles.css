@@ -6850,18 +6850,33 @@ input:checked + .toggle-slider::before {
   color: color-mix(in srgb, white 82%, #ced5de);
 }
 .go-reviews__location {
-  color: color-mix(in srgb, var(--light-container-text) 72%, white);
+  color: color-mix(in srgb, #c7d8ff 74%, white);
   font-size: 0.8rem;
 }
 .go-reviews__badges {
+  position: relative;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.35rem;
+  padding: 0.25rem 0.15rem 0.25rem 0.9rem;
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--light-container-text) 70%, white);
+  isolation: isolate;
+}
+.go-reviews__badges::before {
+  content: '';
+  position: absolute;
+  top: -0.35rem;
+  right: -1rem;
+  bottom: -0.35rem;
+  width: calc(100% + 1.6rem);
+  border-radius: 999px 0 0 999px;
+  background: color-mix(in srgb, #ffe487 10%, transparent);
+  z-index: -1;
+  pointer-events: none;
 }
 .go-reviews__stars {
   display: inline-flex;
@@ -6869,11 +6884,11 @@ input:checked + .toggle-slider::before {
 }
 .go-reviews__star {
   font-size: 0.68rem;
-  color: color-mix(in srgb, var(--light-container-accent) 75%, #fff2b8);
-  text-shadow: 0 0 0.4rem color-mix(in srgb, var(--light-container-accent) 45%, transparent);
+  color: #ffd74f;
+  text-shadow: 0 0 0.4rem color-mix(in srgb, #ffd74f 45%, transparent);
 }
 .go-reviews__body {
-  color: color-mix(in srgb, var(--light-container-text) 92%, white);
+  color: color-mix(in srgb, var(--light-container-text) 82%, white);
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
