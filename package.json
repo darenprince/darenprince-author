@@ -8,7 +8,7 @@
     "build:search": "node ./src/search/build-index.mjs",
     "generate:images": "node scripts/generate-image-manifest.js",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "build:site": "npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run generate:images && npm run styles:build",
+    "build:site": "npm run check:github-pages && npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run generate:images && npm run styles:build",
     "build": "npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build",
     "preview": "vite preview",
     "watch": "npm run generate:icons && npm run generate:images && npm run styles:watch",
@@ -24,7 +24,8 @@
     "lint-staged": "lint-staged",
     "build:labs": "node scripts/generate-labs-product-pages.mjs",
     "styles:build": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
-    "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch"
+    "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch",
+    "check:github-pages": "node scripts/check-github-pages-readiness.mjs"
   },
   "devDependencies": {
     "@sendgrid/mail": "^8.1.6",

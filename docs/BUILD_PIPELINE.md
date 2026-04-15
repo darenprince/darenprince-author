@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-04-14_
+_Last updated: 2026-04-15_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -11,6 +11,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 | `build:search`        | `node ./src/search/build-index.mjs`                                          | Build Minisearch index + docs payload (`public/search/*.json`).                                                                                                        | Requires Markdown under `/content/`; currently indexes 0 docs until content exists.                                          |
 | `generate:icons`      | `node scripts/generate-icons.mjs`                                            | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
 | `generate:images`     | `node scripts/generate-image-manifest.js`                                    | Catalog repo imagery (`**/*.{png,jpg,jpeg,gif,svg,webp}`; excludes node_modules/build artifacts) into `assets/image-manifest.json` as `{ path, description }` entries. | Powers `image-index.html` and press tooling with copy-ready URLs.                                                            |
+| `check:github-pages`  | `node scripts/check-github-pages-readiness.mjs`                              | Validate deployment surfaces for GitHub Pages readiness (favicon links, OG/Twitter social image tags, brand-aligned `theme-color`, no Netlify references).             | Run after HTML head edits to catch metadata regressions before deploy.                                                       |
 | `build`               | `npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build` | Full local build (static site + Vibe Prism bundle).                                                                                                                    | Copies `src/nexuswho/index.html` → `nexuswho.html`, then Vite outputs `nexuswho.html` + `nexuswho-assets/` at the repo root. |
 | `watch`               | `npm run generate:icons && npm run generate:images && npm run styles:watch`  | Rebuild CSS/icons on file changes.                                                                                                                                     | Run alongside `./scripts/start_dev.sh` during development.                                                                   |
 | `test`                | `vitest run`                                                                 | Run public-site smoke checks and asset helper unit tests.                                                                                                              | Requires Node 18+.                                                                                                           |
@@ -21,6 +22,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 | `postprocess:seo`     | `node seo-enrich.js --root . --domain $DOMAIN`                               | Canonical URLs, metadata, structured data, sitemap, robots.                                                                                                            | Requires `DOMAIN` env var for canonical URLs.                                                                                |
 
 > **Reality Check:** GitHub Pages only serves what is committed to the repo. Run `npm run build` locally before pushing so search indexes, icon bundles, image manifests, and the Nexus Who bundle stay fresh.
+
+> **Readiness gate:** `build:site` now begins with `npm run check:github-pages` so metadata, favicon references, social image paths, and browser theme colors stay aligned with GitHub Pages deployment requirements.
 
 > **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in signature green tones (avoid purple), ensure the headline shine is clipped to the text (no overlay rectangles), and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
 >

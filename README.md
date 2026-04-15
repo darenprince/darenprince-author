@@ -281,7 +281,8 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 ```bash
 ./scripts/local_setup.sh   # install deps and compile once
 ./scripts/start_dev.sh     # watch files & launch local static server
-npm run build:site         # build search → icons → images → Sass
+npm run check:github-pages # verify GitHub Pages metadata/icons/social assets
+npm run build:site         # readiness check → search → icons → images → Sass
 npm run watch              # watch Sass and rebuild CSS
 npm test                   # run Vitest suite
 ```
