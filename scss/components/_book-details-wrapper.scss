@@ -873,18 +873,10 @@ body.books-page {
     justify-content: center;
     gap: 0.35rem;
     border-radius: 999px;
-    padding: 0.2rem 0.35rem;
-    background: color-mix(in srgb, $black 84%, #16181d);
-    border: 1px solid color-mix(in srgb, $white 16%, transparent);
-    transition:
-      border-color 0.2s ease,
-      background 0.2s ease;
-
-    &:focus-within,
-    &:hover {
-      border-color: color-mix(in srgb, $accent 72%, transparent);
-      background: color-mix(in srgb, $black 76%, #191c22);
-    }
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
   }
 
   .format-icon {
