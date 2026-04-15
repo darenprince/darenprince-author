@@ -56,15 +56,15 @@
       inset-inline: clamp(0.45rem, 2.4vw, 1.2rem);
       bottom: 0;
       top: auto;
-      height: clamp(6.2rem, 14vh, 9.4rem);
+      height: clamp(9.6rem, 19vh, 12.2rem);
       border-top-left-radius: 1.25rem;
       border-top-right-radius: 1.25rem;
       background:
         linear-gradient(
           180deg,
-          rgba(2, 6, 5, 0.16) 0%,
-          rgba(2, 6, 5, 0.68) 34%,
-          rgba(2, 6, 5, 0.86) 100%
+          rgba(2, 6, 5, 0.22) 0%,
+          rgba(2, 6, 5, 0.72) 34%,
+          rgba(2, 6, 5, 0.88) 100%
         ),
         radial-gradient(120% 80% at 50% 0%, rgba(178, 190, 210, 0.1), transparent 60%);
       box-shadow:
