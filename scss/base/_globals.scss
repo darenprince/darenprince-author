@@ -27,7 +27,7 @@ body {
   > section + section::before {
     content: '';
     position: absolute;
-    top: calc(var(--section-space-y) * -0.5);
+    top: 0;
     left: clamp(1.5rem, 5vw, 3.5rem);
     right: clamp(1.5rem, 5vw, 3.5rem);
     height: 1px;
