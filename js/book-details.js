@@ -21,6 +21,7 @@ const formatDisplay = document.getElementById('selected-format')
 const changeFormat = document.getElementById('change-format')
 const storeNameSpan = document.querySelector('.store-name')
 const formatHeroImage = document.getElementById('format-hero-image')
+const purchaseBox = document.getElementById('purchase-options')
 
 const formatHeroImages = {
   audio: '/assets/images/heroposter2.png',
@@ -191,6 +192,7 @@ formatButtons.forEach((btn) => {
     })
     storeStep?.removeAttribute('hidden')
     storeStep?.classList.add('visible')
+    purchaseBox?.removeAttribute('hidden')
     const format = btn.dataset.format || ''
     formatDisplay.textContent = btn.textContent.trim()
     if (formatHeroImage && formatHeroImages[format]) {
@@ -208,6 +210,7 @@ changeFormat?.addEventListener('click', (e) => {
   })
   storeStep?.classList.remove('visible')
   storeStep?.setAttribute('hidden', '')
+  purchaseBox?.setAttribute('hidden', '')
   logoContainer.innerHTML = ''
   buyButton?.setAttribute('disabled', 'true')
 })
