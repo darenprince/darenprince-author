@@ -163,19 +163,20 @@ body.books-page {
 
   .book-collection-card {
     padding: clamp(1.8rem, 3.4vw, 2.5rem) clamp(1rem, 2.4vw, 1.8rem);
-    border-radius: clamp(0.85rem, 2vw, 1.15rem);
+    border-radius: clamp(0.55rem, 1.4vw, 0.75rem);
     background: linear-gradient(180deg, rgba(12, 14, 12, 0.9) 0%, rgba(8, 10, 8, 0.7) 100%);
   }
 
   .book-collection-card + .book-collection-card {
     position: relative;
+    margin-top: clamp(1.2rem, 2.6vw, 1.7rem);
 
     &::before {
       content: '';
       position: absolute;
       left: 0;
       right: 0;
-      top: 0;
+      top: -0.55rem;
       height: 1px;
       background: linear-gradient(
         105deg,
@@ -288,7 +289,7 @@ body.books-page {
 }
 
 .paperback-mockup {
-  width: min(220px, 100%);
+  width: min(242px, 100%);
   margin: 0 auto clamp(1.3rem, 2.8vw, 1.85rem);
   padding: 0;
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.5));
@@ -303,7 +304,7 @@ body.books-page {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 6px;
+    border-radius: 4px;
     border: 0;
     transform: rotateY(-8deg) rotateX(1deg) translateZ(1px);
     transform-origin: left center;
@@ -915,15 +916,26 @@ body.books-page {
 }
 
 .featured-books-strip {
-  background: linear-gradient(150deg, rgba(20, 22, 25, 0.96), rgba(11, 12, 14, 0.88));
-  border: 1px solid color-mix(in srgb, $white 12%, transparent);
-  border-radius: $border-radius;
-  padding: $spacing-md;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   display: grid;
-  gap: $spacing-sm;
+  gap: clamp(0.7rem, 2vw, 1rem);
 }
 
-.featured-books-strip__header h3,
+.featured-books-strip__headline {
+  width: min(100%, var(--max-width-lg));
+  margin: 0 auto clamp(0.35rem, 1vw, 0.6rem);
+}
+
+.featured-books-strip__subhead {
+  margin: 0;
+  color: color-mix(in srgb, $white 80%, transparent);
+  font-size: clamp(0.94rem, 1.6vw, 1rem);
+}
+
+.featured-books-strip__subhead,
 .featured-book-card h4,
 .featured-books-strip__links {
   margin: 0;
@@ -946,7 +958,7 @@ body.books-page {
   scroll-snap-align: start;
   background: linear-gradient(165deg, rgba(21, 23, 27, 0.98), rgba(12, 13, 15, 0.9));
   border: 1px solid color-mix(in srgb, $white 14%, transparent);
-  border-radius: clamp(1rem, 2vw, 1.25rem);
+  border-radius: clamp(0.7rem, 1.6vw, 0.9rem);
   padding: $spacing-xs;
   display: grid;
   gap: $spacing-xs;
@@ -966,9 +978,9 @@ body.books-page {
 
   img {
     width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: clamp(0.82rem, 1.5vw, 1rem);
+    height: auto;
+    object-fit: contain;
+    border-radius: clamp(0.45rem, 1.1vw, 0.6rem);
   }
 }
 
