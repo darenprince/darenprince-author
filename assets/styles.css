@@ -907,24 +907,25 @@ body.theme-light {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: clamp(0.4rem, 1.4vw, 1.2rem);
   margin-block: 0;
   padding-block: 0.25rem;
 }
 .site-header .logo {
   display: inline-flex;
   align-items: center;
-  flex: 1 1 auto;
-  flex-shrink: 0;
-  min-width: 12rem;
-  max-width: min(48vw, 300px);
+  flex: 1 1 60%;
+  flex-shrink: 1;
+  min-width: min(13.5rem, 48vw);
+  max-width: min(58vw, 380px);
   padding-inline-end: 0.5rem;
 }
 .site-header .logo img {
   display: block;
   width: auto;
   max-width: 100%;
-  height: clamp(34px, 4.1vw, 46px);
-  max-height: 46px;
+  height: clamp(38px, 4.6vw, 54px);
+  max-height: 54px;
   object-fit: contain;
   object-position: left center;
 }
@@ -932,8 +933,10 @@ body.theme-light {
 .nav-btn-group {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.22rem;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  gap: clamp(0.12rem, 0.5vw, 0.34rem);
+  padding: clamp(0.15rem, 0.45vw, 0.3rem);
   border-radius: 999px;
   background: rgba(15, 15, 16, 0.42);
   box-shadow:
@@ -945,12 +948,12 @@ body.theme-light {
 
 @media (max-width: 37.5rem) {
   .site-header .logo {
-    min-width: 8.75rem;
-    max-width: 42vw;
+    min-width: 9.75rem;
+    max-width: 52vw;
     padding-inline-end: 0.25rem;
   }
   .site-header .logo img {
-    height: clamp(30px, 7.2vw, 40px);
+    height: clamp(34px, 8.2vw, 46px);
   }
   .nav-btn-group {
     gap: 0.12rem;
@@ -2427,7 +2430,7 @@ body:not(.brand-exempt) .menu-close-btn {
   --btn-color: var(--color-white);
   --btn-hover-color: var(--color-white);
   --btn-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
-  --btn-min-height: 3rem;
+  --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
   --btn-radius: 50%;
   width: var(--btn-min-height);
   height: var(--btn-min-height);
@@ -2540,7 +2543,7 @@ body:not(.brand-exempt) .hamburger-btn {
   --btn-padding-y: 0;
   --btn-gap: 0;
   --btn-line-height: 1;
-  --btn-min-height: 3rem;
+  --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
   width: var(--btn-min-height);
   height: var(--btn-min-height);
 }
@@ -2594,11 +2597,11 @@ body:not(.brand-exempt) .menu-open .hamburger-btn {
 @media (max-width: 37.5rem) {
   body:not(.brand-exempt) .nav-icon-btn,
   body:not(.brand-exempt) .hamburger-btn {
-    --btn-min-height: 2.5rem;
+    --btn-min-height: clamp(2.5rem, 7.4vw, 2.9rem);
   }
   body:not(.brand-exempt) .nav-icon-btn i,
   body:not(.brand-exempt) .hamburger-btn i {
-    font-size: 1.18rem;
+    font-size: clamp(1.18rem, 3.8vw, 1.32rem);
   }
   body:not(.brand-exempt) .nav-icon-btn--share {
     position: fixed;

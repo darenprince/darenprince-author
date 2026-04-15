@@ -357,7 +357,7 @@
     --btn-color: #{$white};
     --btn-hover-color: #{$white};
     --btn-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
-    --btn-min-height: 3rem;
+    --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
     --btn-radius: 50%;
     width: var(--btn-min-height);
     height: var(--btn-min-height);
@@ -410,7 +410,7 @@
     --btn-padding-y: 0;
     --btn-gap: 0;
     --btn-line-height: 1;
-    --btn-min-height: 3rem;
+    --btn-min-height: clamp(2.85rem, 3.4vw, 3.25rem);
     width: var(--btn-min-height);
     height: var(--btn-min-height);
 
@@ -453,10 +453,10 @@
   @media (max-width: 37.5rem) {
     .nav-icon-btn,
     .hamburger-btn {
-      --btn-min-height: 2.5rem;
+      --btn-min-height: clamp(2.5rem, 7.4vw, 2.9rem);
 
       i {
-        font-size: 1.18rem;
+        font-size: clamp(1.18rem, 3.8vw, 1.32rem);
       }
     }
 
