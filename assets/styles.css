@@ -5443,7 +5443,8 @@ input:checked + .toggle-slider::before {
   position: absolute;
   inset-inline: clamp(0.45rem, 2.4vw, 1.2rem);
   bottom: 0;
-  top: clamp(29rem, 72vh, 42rem);
+  top: auto;
+  height: clamp(6.2rem, 14vh, 9.4rem);
   border-top-left-radius: 1.25rem;
   border-top-right-radius: 1.25rem;
   background:
@@ -9111,17 +9112,10 @@ body.books-page .books-main > section {
   justify-content: center;
   gap: 0.35rem;
   border-radius: 999px;
-  padding: 0.2rem 0.35rem;
-  background: color-mix(in srgb, var(--color-black) 84%, #16181d);
-  border: 1px solid color-mix(in srgb, var(--color-white) 16%, transparent);
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-.format-hero-panel .format-option:focus-within,
-.format-hero-panel .format-option:hover {
-  border-color: color-mix(in srgb, var(--color-accent) 72%, transparent);
-  background: color-mix(in srgb, var(--color-black) 76%, #191c22);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 .format-hero-panel .format-icon {
   color: color-mix(in srgb, var(--color-white) 92%, transparent);
