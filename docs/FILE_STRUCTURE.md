@@ -46,7 +46,8 @@ Use this as a quick reference when navigating the repository or onboarding colla
 - `generate-icons.mjs` — builds favicons, Apple touch icons, and startup images.
 - `generate-image-manifest.js` — catalogues repo-wide imagery for internal reference tools.
 - `local_setup.sh` — bootstraps dependencies and runs an initial Sass build.
-- `start_dev.sh` — kicks off the watch task and launches a local static server.
+- `dev.sh` — unified dev launcher that runs Sass watch and Vite together.
+- `start_dev.sh` — optional static preview runner (watch task + Python server).
 
 ### `/docs/`
 

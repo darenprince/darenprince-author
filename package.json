@@ -4,14 +4,14 @@
   "description": "Author platform and website for Daren M. Prince.",
   "license": "CC-BY-NC-4.0",
   "scripts": {
-    "dev": "node scripts/prepare-nexuswho-html.mjs && vite --host",
+    "dev": "./scripts/dev.sh",
     "build:search": "node ./src/search/build-index.mjs",
     "generate:images": "node scripts/generate-image-manifest.js",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "build:site": "npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run generate:images && sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
+    "build:site": "npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run generate:images && npm run styles:build",
     "build": "npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build",
     "preview": "vite preview",
-    "watch": "npm run generate:icons && npm run generate:images && sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch",
+    "watch": "npm run generate:icons && npm run generate:images && npm run styles:watch",
     "test": "vitest run",
     "prepare": "command -v sass >/dev/null 2>&1 || npm install --no-save sass; husky install",
     "deploy": "npm run build && npm run postprocess:seo",
@@ -22,7 +22,9 @@
     "format": "prettier --write .",
     "lint:buttons": "node scripts/check-button-variants.mjs",
     "lint-staged": "lint-staged",
-    "build:labs": "node scripts/generate-labs-product-pages.mjs"
+    "build:labs": "node scripts/generate-labs-product-pages.mjs",
+    "styles:build": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
+    "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch"
   },
   "devDependencies": {
     "@sendgrid/mail": "^8.1.6",
