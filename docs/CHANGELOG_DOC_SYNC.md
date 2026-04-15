@@ -2,6 +2,14 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-15 — Books cards padding + responsive flex grid + detail modal + connect CTA (GitHub Pages-safe)
+
+- Updated `book.html` collection card markup to add explicit **View details** triggers, click/tap cover-to-open interactions, and a new bottom “Stay connected” section with CTA + mailing list form.
+- Added a new full-screen-on-mobile books detail modal template in `book.html` (Apple Books-inspired rail/card feel) with front/back cover thumbnail switching and CTA actions cloned from each card state.
+- Refined books page styles in `scss/components/_book-details-wrapper.scss` for larger card padding, expanded title/description rhythm, responsive flex behavior (1-up mobile, 2-up tablet, 3-up desktop), connect-section presentation, and modal surface polish.
+- Updated `js/book-page.js` to power modal open/close behavior, dynamic content injection from each book card, front/back cover swapping, and notify fallback action wiring.
+- Rebuilt deployable stylesheet artifacts with `npm run styles:build` so GitHub Pages serves the updated books experience without runtime dependencies.
+
 ## 2026-04-15 — Homepage rail centering + format selector flow + login routing fix (GitHub Pages-safe)
 
 - Updated `index.html` featured books strip to use style-guide heading treatment, centered card content, and rail spacer cards so swipe snapping centers each title in the viewport.
