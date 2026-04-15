@@ -599,7 +599,6 @@
                     <span class="brand-heading__emphasis">select a format</span>
                   </h3>
                 </div>
-                <img id="format-hero-image" class="format-hero-panel__image" src="https://www.darenprince.com/assets/images/Daren%20Prince%20%20Official%20Site%20of%20the%20Author.png" alt="Game On! print edition promo poster">
                 <div class="format-options step-one format-hero-panel__options" aria-label="Format selection">
                   <div class="format-option">
                     <i class="ph ph-megaphone format-icon"></i>
@@ -614,6 +613,7 @@
                     <button class="format-btn" data-format="print">PRINT</button>
                   </div>
                 </div>
+                <img id="format-hero-image" class="format-hero-panel__image" src="https://www.darenprince.com/assets/images/Daren%20Prince%20%20Official%20Site%20of%20the%20Author.png" alt="Game On! print edition promo poster">
                 <button type="button" id="open-book-3d-modal" class="format-hero-panel__trigger" aria-label="Open 3D viewer">
                   <img src="/assets/images/07E3BF89-7E81-46E4-BC13-3E0112A9B922.png" alt="" aria-hidden="true">
                   <span>3D</span>
@@ -677,12 +677,6 @@
                       </button>
                     </li>
                   </ul>
-                  <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <polyline points="11 17 6 12 11 7"></polyline>
-                      <polyline points="18 17 13 12 18 7"></polyline>
-                    </svg>
-                  </button>
                   </nav>
                   <div class="book-3d-container">
                 <div id="book-3d-viewer" class="book-3d-viewer">
@@ -735,10 +729,14 @@
               </div>
             </div>
           </div>
-          <h3 class="featured-books-strip__headline section-kicker section-kicker--charcoal-lime" id="featured-books-heading">Upcoming Book</h3>
+          <h3 class="featured-books-strip__headline step-header styledh1 brand-heading" id="featured-books-heading">
+            <span class="brand-heading__base">Featured books</span><br>
+            <span class="brand-heading__emphasis">Swipe and center each title</span>
+          </h3>
           <section class="featured-books-strip book-block container max-width-adaptive-lg" aria-labelledby="featured-books-heading">
               <p class="featured-books-strip__subhead">Swipe through the library and jump to each title</p>
               <div class="featured-books-strip__rail" role="list" aria-label="Featured books">
+                <article class="featured-book-card featured-book-card--spacer" role="presentation" aria-hidden="true"></article>
                 <article class="featured-book-card" role="listitem">
                   <img src="https://www.darenprince.com/assets/images/IMG_0237.jpeg" alt="Rooted cover" loading="lazy">
                   <h4>Rooted</h4>
@@ -750,8 +748,8 @@
                   <a href="book.html#book-too-much" class="btn btn--subtle">View book</a>
                 </article>
                 <article class="featured-book-card" role="listitem">
-                  <img src="https://www.darenprince.com/assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg" alt="F*CK Codependency Terminated cover" loading="lazy">
-                  <h4>F*CK Codependency Terminated.</h4>
+                  <img src="https://www.darenprince.com/assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg" alt="F*CK Codependency cover" loading="lazy">
+                  <h4>F*CK Codependency</h4>
                   <a href="book.html#book-codependency" class="btn btn--subtle">View book</a>
                 </article>
                 <article class="featured-book-card" role="listitem">
@@ -769,6 +767,7 @@
                   <p>Discover every release, previews, and launch updates.</p>
                   <a href="book.html" class="btn btn--outline">Explore <i class="ph ph-arrow-right"></i></a>
                 </article>
+                <article class="featured-book-card featured-book-card--spacer" role="presentation" aria-hidden="true"></article>
               </div>
               <p class="featured-books-strip__links">
                 Also available on
@@ -949,4 +948,3 @@
 
 
 </body></html>
-

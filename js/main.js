@@ -276,7 +276,7 @@ function initNavigationAndAuth() {
   let loginHandler
   if (authToggle) {
     loginHandler = function () {
-      window.location.href = '/login.html'
+      window.location.href = prefixedPath('/login.html')
     }
     authToggle.innerHTML = '<i class="ph ph-key"></i> Log In'
     authToggle.addEventListener('click', loginHandler)
