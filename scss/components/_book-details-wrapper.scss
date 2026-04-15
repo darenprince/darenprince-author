@@ -927,12 +927,14 @@ body.books-page {
 .featured-books-strip__headline {
   width: min(100%, var(--max-width-lg));
   margin: 0 auto clamp(0.35rem, 1vw, 0.6rem);
+  text-align: center;
 }
 
 .featured-books-strip__subhead {
   margin: 0;
   color: color-mix(in srgb, $white 80%, transparent);
   font-size: clamp(0.94rem, 1.6vw, 1rem);
+  text-align: center;
 }
 
 .featured-books-strip__subhead,
@@ -951,17 +953,20 @@ body.books-page {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding-bottom: $spacing-xs;
+  padding-inline: clamp(0.5rem, 2vw, 1rem);
   -webkit-overflow-scrolling: touch;
 }
 
 .featured-book-card {
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   background: linear-gradient(165deg, rgba(21, 23, 27, 0.98), rgba(12, 13, 15, 0.9));
   border: 1px solid color-mix(in srgb, $white 14%, transparent);
   border-radius: clamp(0.7rem, 1.6vw, 0.9rem);
   padding: $spacing-xs;
   display: grid;
   gap: $spacing-xs;
+  justify-items: center;
+  text-align: center;
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, $white 12%, transparent),
     0 0.95rem 1.8rem rgba(0, 0, 0, 0.3);
@@ -982,6 +987,13 @@ body.books-page {
     object-fit: contain;
     border-radius: clamp(0.45rem, 1.1vw, 0.6rem);
   }
+}
+
+.featured-book-card--spacer {
+  width: clamp(2.5rem, 11vw, 4.75rem);
+  min-height: 100%;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .featured-book-card:nth-child(2) {
@@ -1035,14 +1047,10 @@ body.books-page {
 
 .book-primary-layout .book-experience .format-hero-panel {
   margin-bottom: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .book-primary-layout .purchase-box {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-top: 0;
+  border-top: 1px solid color-mix(in srgb, $white 13%, transparent);
 }
 
 .book-details-grid {

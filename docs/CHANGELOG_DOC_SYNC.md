@@ -2,6 +2,14 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-15 — Homepage rail centering + format selector flow + login routing fix (GitHub Pages-safe)
+
+- Updated `index.html` featured books strip to use style-guide heading treatment, centered card content, and rail spacer cards so swipe snapping centers each title in the viewport.
+- Reordered homepage format selector controls so CTA format buttons render directly beneath “Select a format,” then the hero image below, matching the requested conversion flow.
+- Removed the extra compact-toggle control from the landing-page 3D toolbar UI and restored rounded lower corners + top border continuity for the format selection container pair.
+- Fixed login action routing in `js/main.js` to use the GitHub Pages-aware asset prefix helper (`prefixedPath('/login.html')`) so login works correctly on project-subpath deployments.
+- Renamed all visible `F*CK Codependency Terminated.` references to `F*CK Codependency` across homepage/books content and related cover metadata to keep naming consistent site-wide.
+
 ## 2026-04-14 — Homepage conversion rail merge + featured books swiper + metadata/nav cleanup (GitHub Pages-safe)
 
 - Updated `index.html` so format-selection heading/buttons now live inside the same hero media card as the dynamic format image, reducing split attention and improving conversion flow.

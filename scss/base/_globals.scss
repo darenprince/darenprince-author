@@ -20,8 +20,8 @@ body {
 .main-content-separators {
   > section + section {
     position: relative;
-    margin-top: var(--section-space-y);
-    padding-top: 0;
+    margin-top: 0;
+    padding-top: var(--section-space-y);
   }
 
   > section + section::before {
