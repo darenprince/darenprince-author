@@ -197,7 +197,7 @@
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 8%, rgba(79, 145, 99, 0.18), rgba(0, 0, 0, 0.78) 58%),
+    radial-gradient(circle at 50% 8%, rgba(146, 156, 178, 0.12), rgba(0, 0, 0, 0.78) 58%),
     rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
@@ -213,7 +213,7 @@
 
   .search-modal-brand {
     position: absolute;
-    top: clamp(8vh, 12vh, 16vh);
+    top: clamp(16vh, 21vh, 26vh);
     left: 50%;
     transform: translateX(-50%);
     width: clamp(84px, 10vw, 132px);
@@ -239,8 +239,8 @@
 .search-modal {
   background: linear-gradient(
     170deg,
-    color-mix(in srgb, #{$black} 90%, #1a3527),
-    color-mix(in srgb, #{$black} 94%, #09110d)
+    color-mix(in srgb, #{$black} 92%, #25272c),
+    color-mix(in srgb, #{$black} 94%, #121317)
   );
   border-radius: 1.05rem;
   border: 1px solid color-mix(in srgb, #{$border} 58%, transparent);

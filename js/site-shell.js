@@ -17,6 +17,9 @@ const sharedHeaderMarkup = `
       <button class="nav-icon-btn js-profile-toggle" aria-label="Account">
         <i class="ph ph-user"></i>
       </button>
+      <button class="nav-icon-btn nav-icon-btn--share js-share-trigger" aria-label="Share this page">
+        <i class="ph ph-share-network"></i>
+      </button>
       <button class="hamburger-btn js-menu-toggle" aria-label="Menu">
         <i class="ph ph-list"></i>
       </button>
@@ -142,3 +145,5 @@ document.querySelectorAll('[data-shared-header]').forEach((node) => {
 document.querySelectorAll('[data-shared-footer]').forEach((node) => {
   node.outerHTML = sharedFooterMarkup()
 })
+
+document.dispatchEvent(new CustomEvent('site-shell:ready'))

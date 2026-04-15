@@ -36,6 +36,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Books surfaces reminder:** `book.html` now includes coming-soon CTA states (with notify modal triggers) and in-page anchor navigation. After touching Book UI or Game On landing styles, run `npm run build:site` so `assets/styles.css` is GitHub Pages-ready and the latest metadata + sharing assets remain deployable.
 
+> **Homepage UX reminder:** `index.html` now relies on iOS-styled format pills, neutral charcoal card surfaces, review card slide-in states, and a scroll-gated Apple Books smart banner (shown only after the hero is passed on Apple devices). Rebuild SCSS + JS bundles with `npm run build:site` after homepage UI changes so GitHub Pages ships the exact interaction behavior.
+
 ## GitHub Pages configuration
 
 - Configure **Settings → Pages** to publish from `main` (root) or your preferred Pages branch.
