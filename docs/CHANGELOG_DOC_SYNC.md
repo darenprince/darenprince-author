@@ -1,3 +1,9 @@
+## 2026-04-15 — GitHub Pages readiness gate for metadata/icons/social assets
+
+- Added `scripts/check-github-pages-readiness.mjs` to audit deployable HTML surfaces for GitHub Pages compatibility checks (favicon links present, OG/Twitter image tags present, asset paths resolvable, brand-aligned `theme-color`, and no Netlify references).
+- Wired the new `check:github-pages` npm script into `build:site` so deploy builds fail early when metadata/asset regressions are introduced.
+- Updated root deployment docs to include the readiness gate and command usage in local workflows.
+
 # 🗒️ Documentation Sync Changelog
 
 > Tracks documentation updates made during the 2025-02-14 audit.
