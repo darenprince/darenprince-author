@@ -55,7 +55,8 @@
       position: absolute;
       inset-inline: clamp(0.45rem, 2.4vw, 1.2rem);
       bottom: 0;
-      top: clamp(29rem, 72vh, 42rem);
+      top: auto;
+      height: clamp(6.2rem, 14vh, 9.4rem);
       border-top-left-radius: 1.25rem;
       border-top-right-radius: 1.25rem;
       background:
