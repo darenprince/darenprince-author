@@ -98,3 +98,5 @@ if (document.readyState === 'loading') {
 } else {
   initProfileDropdown()
 }
+
+document.addEventListener('site-shell:ready', initProfileDropdown)

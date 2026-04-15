@@ -31,6 +31,17 @@ function isStandaloneExperience() {
   return isDisplayModeStandalone || window.navigator?.standalone === true
 }
 
+function isAppleDevice() {
+  const ua = window.navigator?.userAgent || ''
+  const platform = window.navigator?.platform || ''
+  const maxTouchPoints = Number(window.navigator?.maxTouchPoints || 0)
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(ua) ||
+    (/Mac/i.test(platform) && maxTouchPoints > 1) ||
+    /Macintosh/i.test(ua)
+  return isIOS
+}
+
 function buildSmartAppBanner() {
   const banner = document.createElement('aside')
   banner.className = 'smart-app-banner'
@@ -74,39 +85,50 @@ function initSmartAppBanner() {
     return
   }
 
-  const banner = buildSmartAppBanner()
-  const body = document.body
-  if (!banner || !body) {
+  if (!isAppleDevice()) {
     return
   }
 
-  body.appendChild(banner)
+  const heroSection = document.getElementById('autoZoomHero')
+  if (!heroSection) return
 
-  let hasRevealed = false
+  let hasTriggeredFromScroll = false
+  const revealBannerAfterHeroScroll = () => {
+    if (hasTriggeredFromScroll) return
+    const heroBottom = heroSection.getBoundingClientRect().bottom
+    if (heroBottom > 0) return
+    hasTriggeredFromScroll = true
 
-  const revealBanner = () => {
-    if (hasRevealed) return
-    hasRevealed = true
-    banner.classList.remove('smart-app-banner--hidden')
-    banner.classList.add('smart-app-banner--visible')
+    const banner = buildSmartAppBanner()
+    const body = document.body
+    if (!banner || !body) return
+    body.appendChild(banner)
+
+    window.requestAnimationFrame(() => {
+      banner.classList.remove('smart-app-banner--hidden')
+      banner.classList.add('smart-app-banner--visible')
+    })
+
+    const closeButton = banner.querySelector('.smart-app-banner__close')
+    closeButton?.addEventListener('click', () => {
+      persistSmartAppBannerDismissal()
+      banner.classList.remove('smart-app-banner--visible')
+      banner.classList.add('smart-app-banner--hidden')
+      window.setTimeout(() => {
+        banner.remove()
+      }, 360)
+    })
+
+    const ctaButton = banner.querySelector('.smart-app-banner__cta')
+    ctaButton?.addEventListener('click', () => {
+      persistSmartAppBannerDismissal()
+    })
+
+    window.removeEventListener('scroll', revealBannerAfterHeroScroll)
   }
 
-  window.requestAnimationFrame(revealBanner)
-
-  const closeButton = banner.querySelector('.smart-app-banner__close')
-  closeButton?.addEventListener('click', () => {
-    persistSmartAppBannerDismissal()
-    banner.classList.remove('smart-app-banner--visible')
-    banner.classList.add('smart-app-banner--hidden')
-    window.setTimeout(() => {
-      banner.remove()
-    }, 360)
-  })
-
-  const ctaButton = banner.querySelector('.smart-app-banner__cta')
-  ctaButton?.addEventListener('click', () => {
-    persistSmartAppBannerDismissal()
-  })
+  window.addEventListener('scroll', revealBannerAfterHeroScroll, { passive: true })
+  revealBannerAfterHeroScroll()
 }
 
 function initNavigationAndAuth() {
@@ -189,6 +211,28 @@ function initNavigationAndAuth() {
     })
   }
 
+  const initReviewCardAnimations = () => {
+    const reviewCards = Array.from(document.querySelectorAll('.go-reviews__card'))
+    if (!reviewCards.length) return
+
+    reviewCards.forEach((card, index) => {
+      card.style.setProperty('--review-delay', `${Math.min(index * 70, 280)}ms`)
+    })
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          entry.target.classList.add('is-visible')
+          obs.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -8% 0px' }
+    )
+
+    reviewCards.forEach((card) => observer.observe(card))
+  }
+
   // ---------------------------
   // menu + search event binding
   // ---------------------------
@@ -216,6 +260,7 @@ function initNavigationAndAuth() {
 
   syncDeskLinkToContact()
   initNativeShare()
+  initReviewCardAnimations()
 
   if (megaMenu && menuCloses.length) {
     menuCloses.forEach((closeButton) => {

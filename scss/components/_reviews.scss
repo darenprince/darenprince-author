@@ -67,7 +67,7 @@
   &__card {
     padding: $spacing-md;
     border-radius: 1.25rem;
-    background: var(--grad-charcoal-lime);
+    background: linear-gradient(160deg, rgba(30, 31, 35, 0.95), rgba(18, 19, 22, 0.88));
     color: var(--light-container-text);
     border: 1px solid color-mix(in srgb, var(--color-primary) 78%, transparent);
     box-shadow:
@@ -78,10 +78,20 @@
     flex-direction: column;
     gap: $spacing-sm;
     min-height: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.45s ease var(--review-delay, 0ms),
+      transform 0.45s ease var(--review-delay, 0ms);
+
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &__card.grad-charcoal-lime {
-    background: var(--grad-charcoal-lime);
+    background: linear-gradient(160deg, rgba(30, 31, 35, 0.95), rgba(18, 19, 22, 0.88));
   }
 
   &__header {
@@ -95,7 +105,7 @@
   &__name {
     font-weight: 500;
     font-size: 1.05rem;
-    color: color-mix(in srgb, var(--light-container-text) 86%, white);
+    color: color-mix(in srgb, white 82%, #ced5de);
   }
 
   &__location {
@@ -119,16 +129,14 @@
     gap: 0.2rem;
   }
 
-  &__star-dot {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: var(--light-container-accent);
-    box-shadow: 0 0 0.4rem color-mix(in srgb, var(--light-container-accent) 45%, transparent);
+  &__star {
+    font-size: 0.68rem;
+    color: color-mix(in srgb, var(--light-container-accent) 75%, #fff2b8);
+    text-shadow: 0 0 0.4rem color-mix(in srgb, var(--light-container-accent) 45%, transparent);
   }
 
   &__body {
-    color: color-mix(in srgb, var(--light-container-text) 88%, white);
+    color: color-mix(in srgb, var(--light-container-text) 92%, white);
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
@@ -136,7 +144,7 @@
 
   &__bottom-line {
     margin-top: auto;
-    color: color-mix(in srgb, var(--color-accent) 82%, #ffe86b);
+    color: #d7c972;
     font-size: 0.85rem;
   }
 }

@@ -79,7 +79,7 @@
     "13": [5, 8, 133, 1, 1],
     "14": [4, 64, 827, 1, 1],
     "15": [5, 15, 131, 1, 1],
-    "16": [12, 42, 302, 1, 1],
+    "16": [12, 42, 310, 1, 1],
     "17": [5, 2, 84, 1, 1],
     "18": [5, 11, 476, 1, 1],
     "19": [3, 1, 5, 1, 1],
@@ -122,7 +122,7 @@
     "56": [2, 213, 2342, 1, 1],
     "57": [2, 213, 2342, 1, 1]
   },
-  "averageFieldLength": [4.4655172413793105, 27.93103448275862, 267.1896551724138, 1, 1],
+  "averageFieldLength": [4.4655172413793105, 27.93103448275862, 267.32758620689657, 1, 1],
   "storedFields": {
     "0": {
       "title": "Verify Email - Daren Prince",
@@ -151,7 +151,7 @@
     "3": {
       "title": "Style Classes",
       "url": "/style-classes/",
-      "description": "",
+      "description": "Documentation coming soon.",
       "date": null,
       "category": "",
       "tags": []
@@ -159,7 +159,7 @@
     "4": {
       "title": "Site Map | Daren Prince",
       "url": "/sitemap/",
-      "description": "",
+      "description": "A clean overview of every live surface, brand experiment, and internal tool running on the Daren Prince platform.",
       "date": null,
       "category": "",
       "tags": []
@@ -223,7 +223,7 @@
     "12": {
       "title": "Account Access - Daren Prince",
       "url": "/login/",
-      "description": "",
+      "description": "Forgot password?",
       "date": null,
       "category": "",
       "tags": []
@@ -255,7 +255,7 @@
     "16": {
       "title": "Daren Prince | Author of Game On! & Unshakeable | Confidence, Healing & Real Connection",
       "url": "/",
-      "description": "Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bestselling books.",
+      "description": "Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bests...",
       "date": null,
       "category": "",
       "tags": []
@@ -295,7 +295,7 @@
     "21": {
       "title": "Daren Prince - Author",
       "url": "/home/",
-      "description": "",
+      "description": "Bold, psychology-backed guidance for boundaries, attraction, and self-respect — built for people who are done with mixed signals.",
       "date": null,
       "category": "",
       "tags": []
@@ -327,7 +327,7 @@
     "25": {
       "title": "UI Components",
       "url": "/components/",
-      "description": "",
+      "description": "Scroll the page to see a static background parallax effect in action.",
       "date": null,
       "category": "",
       "tags": []
@@ -359,7 +359,7 @@
     "29": {
       "title": "Admin Dashboard",
       "url": "/admin-dashboard/",
-      "description": "",
+      "description": "Developer Command",
       "date": null,
       "category": "",
       "tags": []
@@ -1643,7 +1643,7 @@
           "11": 1,
           "14": 2,
           "15": 1,
-          "16": 6,
+          "16": 5,
           "17": 1,
           "18": 3,
           "24": 1,
@@ -2307,8 +2307,8 @@
     ["relentless", { "2": { "30": 1 } }],
     ["relevance", { "2": { "29": 1 } }],
     ["relevant", { "2": { "24": 1 } }],
-    ["releases", { "1": { "27": 1 }, "2": { "27": 1, "29": 3 } }],
-    ["release", { "1": { "25": 1 }, "2": { "8": 1, "11": 1, "14": 1, "25": 1, "52": 1 } }],
+    ["releases", { "1": { "27": 1 }, "2": { "16": 1, "27": 1, "29": 3 } }],
+    ["release", { "1": { "25": 1 }, "2": { "8": 1, "11": 1, "14": 1, "16": 1, "25": 1, "52": 1 } }],
     ["reload", { "2": { "10": 1 } }],
     ["requiring", { "2": { "42": 1, "45": 1, "47": 1, "56": 1, "57": 1 } }],
     ["require", { "2": { "22": 1 } }],
@@ -2790,7 +2790,7 @@
     ["uploadarea", { "2": { "18": 3 } }],
     ["uploaded", { "2": { "18": 2, "55": 1 } }],
     ["upload", { "2": { "18": 7, "23": 1, "52": 1, "53": 1, "56": 1, "57": 1 } }],
-    ["upcoming", { "2": { "11": 1, "27": 1, "29": 2, "52": 1 } }],
+    ["upcoming", { "2": { "11": 1, "16": 1, "27": 1, "29": 2, "52": 1 } }],
     [
       "up",
       {
@@ -2816,6 +2816,7 @@
           "5": 1,
           "6": 2,
           "7": 2,
+          "16": 1,
           "17": 1,
           "23": 1,
           "24": 1,
@@ -3023,7 +3024,7 @@
           "1": 1,
           "7": 5,
           "11": 13,
-          "16": 6,
+          "16": 5,
           "24": 1,
           "25": 5,
           "27": 2,
@@ -3602,7 +3603,7 @@
       "launch",
       {
         "1": { "7": 1 },
-        "2": { "1": 1, "7": 4, "8": 1, "9": 1, "11": 1, "27": 1, "29": 2, "51": 1 }
+        "2": { "1": 1, "7": 4, "8": 1, "9": 1, "11": 1, "16": 1, "27": 1, "29": 2, "51": 1 }
       }
     ],
     ["laughing", { "2": { "20": 1 } }],
@@ -5370,7 +5371,7 @@
           "8": 3,
           "11": 7,
           "14": 1,
-          "16": 9,
+          "16": 8,
           "17": 1,
           "21": 3,
           "23": 1,
@@ -5624,6 +5625,7 @@
           "7": 1,
           "11": 4,
           "15": 1,
+          "16": 1,
           "25": 1,
           "26": 1,
           "29": 1,
@@ -5743,6 +5745,7 @@
           "6": 1,
           "7": 1,
           "13": 1,
+          "16": 2,
           "17": 1,
           "23": 1,
           "25": 3,
@@ -6221,7 +6224,7 @@
     ["fearful", { "1": { "14": 1 }, "2": { "14": 4 } }],
     ["featuring", { "2": { "7": 1 } }],
     ["features", { "2": { "7": 1, "8": 1, "24": 1 } }],
-    ["featured", { "2": { "7": 1, "8": 1, "16": 1 } }],
+    ["featured", { "2": { "7": 1, "8": 1 } }],
     ["feature", { "1": { "52": 1 }, "2": { "1": 1, "8": 1, "52": 1 } }],
     ["feedback", { "2": { "52": 4 } }],
     ["feed", { "1": { "32": 1 }, "2": { "32": 3 } }],
@@ -7870,7 +7873,7 @@
       {
         "0": { "16": 1 },
         "1": { "7": 2, "11": 2, "16": 1 },
-        "2": { "7": 4, "11": 13, "16": 5, "24": 1, "25": 6, "27": 2, "41": 1, "50": 1 }
+        "2": { "7": 4, "11": 13, "16": 4, "24": 1, "25": 6, "27": 2, "41": 1, "50": 1 }
       }
     ],
     ["onerror", { "2": { "18": 1 } }],
@@ -8839,6 +8842,7 @@
     ["prepend", { "2": { "5": 1 } }],
     ["previous", { "2": { "56": 1, "57": 1 } }],
     ["previewimg", { "2": { "18": 6 } }],
+    ["previews", { "2": { "16": 1 } }],
     ["preview", { "1": { "8": 1, "18": 1 }, "2": { "7": 2, "8": 3, "11": 1, "18": 5, "25": 6 } }],
     ["preventdefaults", { "2": { "18": 2 } }],
     ["preventdefault", { "2": { "5": 7, "6": 1, "9": 2, "14": 4, "18": 1 } }],
@@ -11107,12 +11111,13 @@
     ["dispatch", { "2": { "32": 5 } }],
     ["displays", { "2": { "52": 1, "56": 1, "57": 1 } }],
     ["display", { "2": { "2": 1, "13": 3, "14": 2, "22": 2, "25": 1, "56": 4, "57": 4 } }],
-    ["discoloration", { "2": { "56": 1, "57": 1 } }],
-    ["discomfort", { "2": { "56": 1, "57": 1 } }],
-    ["disconnect", { "2": { "14": 1, "56": 1, "57": 1 } }],
     ["discreet", { "2": { "38": 1 } }],
     ["discipline", { "2": { "30": 1, "56": 1, "57": 1 } }],
     ["disclose", { "2": { "22": 1 } }],
+    ["discoloration", { "2": { "56": 1, "57": 1 } }],
+    ["discomfort", { "2": { "56": 1, "57": 1 } }],
+    ["discover", { "2": { "16": 1 } }],
+    ["disconnect", { "2": { "14": 1, "56": 1, "57": 1 } }],
     ["district", { "2": { "32": 10 } }],
     ["districts", { "2": { "32": 1 } }],
     ["distribution", { "2": { "1": 1, "46": 2, "51": 2, "52": 1 } }],
