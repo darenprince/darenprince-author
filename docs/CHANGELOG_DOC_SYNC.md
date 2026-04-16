@@ -2,6 +2,19 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-16 — Homepage featured rail upcoming spine + books-card iOS radius + hero image preloader (GitHub Pages-safe)
+
+- Updated `index.html` featured rail copy and structure to:
+  - add an offset “coming soon” spine card ahead of the first featured title,
+  - change the heading treatment to `FEATURED & UPCOMING BOOKS` + `BY DAREN PRINCE`,
+  - and style the CTA copy as “explore” (white) + “the books” (green) with staggered reveal styling.
+- Updated `scss/components/_book-details-wrapper.scss` for:
+  - square-cropped cover images with rounded corners (featured rail + books listing covers + format hero image),
+  - stronger iOS-like rounded card radii on `book.html` listing containers,
+  - and stricter vertical snapping behavior while scrolling books-page sections/cards.
+- Added a hero-image-local preloader layer and title-art float/zoom motion polish on the index hero using `index.html`, `scss/components/_hero.scss`, and `js/hero-auto-zoom.js` so the hero media presents cleanly until image load completes.
+- Rebuilt deployable stylesheet artifacts with `npm run styles:build` so GitHub Pages serves the updated visual system without runtime build dependencies.
+
 ## 2026-04-15 — Books cards padding + responsive flex grid + detail modal + connect CTA (GitHub Pages-safe)
 
 - Updated `book.html` collection card markup to add explicit **View details** triggers, click/tap cover-to-open interactions, and a new bottom “Stay connected” section with CTA + mailing list form.
