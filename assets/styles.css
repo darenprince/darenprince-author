@@ -9360,10 +9360,10 @@ body.books-page .books-main > section {
   width: auto;
   flex: 1 1 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   border-radius: 999px;
   padding: 0;
   background: transparent;
@@ -9372,11 +9372,12 @@ body.books-page .books-main > section {
 }
 .format-hero-panel .format-icon {
   color: color-mix(in srgb, var(--color-white) 92%, transparent);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
+  line-height: 1;
   pointer-events: none;
 }
 .format-hero-panel .format-btn {
-  width: auto;
+  width: 100%;
   min-width: 0;
   flex: 1 1 auto;
   background: linear-gradient(130deg, rgba(11, 13, 15, 0.96), rgba(22, 25, 30, 0.92));
@@ -9400,6 +9401,27 @@ body.books-page .books-main > section {
   border-color: color-mix(in srgb, var(--color-accent) 92%, transparent);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 22%, transparent);
   transform: translateY(-1px);
+}
+
+.featured-books-shell {
+  width: min(100%, var(--max-width-lg));
+  margin: 0 auto clamp(1.3rem, 3.8vw, 2.4rem);
+  padding: clamp(1.1rem, 2.5vw, 1.5rem) clamp(0.65rem, 2.3vw, 1.2rem);
+  border-top: 1px solid color-mix(in srgb, var(--color-white) 15%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-white) 15%, transparent);
+  background:
+    radial-gradient(
+      circle at 20% 15%,
+      color-mix(in srgb, var(--color-accent) 12%, transparent) 0%,
+      transparent 57%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      color-mix(in srgb, var(--color-white) 7%, transparent) 0%,
+      transparent 52%
+    ),
+    linear-gradient(180deg, rgba(26, 29, 34, 0.82), rgba(21, 24, 28, 0.72));
+  border-radius: clamp(1rem, 2vw, 1.4rem);
 }
 
 .featured-books-strip {
@@ -9470,9 +9492,9 @@ body.books-page .books-main > section {
 }
 .featured-book-card img {
   width: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 2/3;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: clamp(0.75rem, 1.6vw, 1rem);
 }
 
