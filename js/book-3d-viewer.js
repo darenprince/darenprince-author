@@ -9,7 +9,7 @@ const bookContainer = document.querySelector('.book-3d-container')
 const rotateHint = document.querySelector('.rotate-hint')
 const addToCartBtn = document.getElementById('add-to-cart')
 const bookToolbar = document.querySelector('.book-toolbar')
-const purchaseOptions = document.getElementById('purchase-options')
+const bookViewerSection = document.getElementById('book-viewer')
 const closeBtn = document.getElementById('book-close')
 const open3dModalBtn = document.getElementById('open-book-3d-modal')
 const book3dModal = document.getElementById('book-3d-modal')
@@ -268,7 +268,7 @@ zoomThumbs.forEach((img) => {
 })
 
 addToCartBtn?.addEventListener('click', () => {
-  purchaseOptions?.scrollIntoView({ behavior: 'smooth' })
+  bookViewerSection?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 })
 
 closeBtn?.addEventListener('click', () => {
