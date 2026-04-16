@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const hero = document.getElementById('autoZoomHero')
   if (!hero) return
+  const heroImageLayer = hero.querySelector('.js-hero-image')
+  const heroImage = heroImageLayer?.querySelector('img')
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const baseScale = prefersReduced ? 1 : 1.05
   const maxScale = prefersReduced ? baseScale : 1.2
@@ -35,6 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   hero.style.setProperty('--hero-scale', baseScale.toFixed(4))
+
+  if (heroImageLayer && heroImage) {
+    const markHeroImageReady = () => {
+      heroImageLayer.classList.add('is-ready')
+    }
+
+    if (heroImage.complete) {
+      markHeroImageReady()
+    } else {
+      heroImage.addEventListener('load', markHeroImageReady, { once: true })
+      heroImage.addEventListener('error', markHeroImageReady, { once: true })
+    }
+  }
+
   if (!prefersReduced) {
     rafId = window.requestAnimationFrame(animateZoomLoop)
     document.addEventListener('visibilitychange', handleVisibilityChange)
