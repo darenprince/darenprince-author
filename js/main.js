@@ -566,6 +566,11 @@ function initBookCoverPresentationFixes() {
   style.textContent = `
     .featured-books-shell {
       border-radius: 10px !important;
+      padding-top: clamp(0.75rem, 1.8vw, 1.25rem) !important;
+    }
+
+    .featured-books-strip__headline {
+      margin-top: 0 !important;
     }
 
     .featured-book-card img,
@@ -682,6 +687,17 @@ function initBookCoverPresentationFixes() {
     }
 
     @media (max-width: 47.99rem) {
+      html,
+      body {
+        scroll-snap-type: y proximity;
+        scroll-padding-top: 5.25rem;
+      }
+
+      .home-scroll-snap > section {
+        scroll-snap-align: start;
+        scroll-snap-stop: normal;
+      }
+
       .featured-books-shell {
         width: 100vw !important;
         max-width: none !important;
@@ -709,10 +725,15 @@ function initBookCoverPresentationFixes() {
         padding-right: 1rem !important;
         padding-bottom: 0.9rem !important;
         scroll-padding-inline: 50% !important;
+        scroll-snap-type: x mandatory !important;
+        overscroll-behavior-x: contain !important;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
       }
 
       .featured-book-card {
         flex: 0 0 clamp(15rem, 72vw, 17rem) !important;
+        scroll-snap-align: center !important;
       }
 
       .featured-book-card--upcoming-spine {
@@ -723,6 +744,7 @@ function initBookCoverPresentationFixes() {
         padding-left: 0.15rem !important;
         padding-right: 0.15rem !important;
         justify-items: end !important;
+        scroll-snap-align: start !important;
       }
 
       .featured-book-card__coming-vertical {
