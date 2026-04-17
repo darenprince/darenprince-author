@@ -1,1 +1,313 @@
-REPLACED_INDEX_WITH_ADDED_SCRIPT
+<!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      Daren Prince | Author of Game On! &amp; Unshakeable | Confidence, Healing &amp; Real Connection
+    </title>
+    <meta name="description" content="Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bests...">
+    <meta property="og:title" content="Daren Prince | Author of Game On! &amp; Unshakeable | Confidence, Healing &amp; Real Connection">
+    <meta property="og:description" content="Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bests...">
+    <meta property="og:image" content="https://www.darenprince.com/assets/images/gameonallformats.png">
+    <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/gameonallformats.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1366">
+    <meta property="og:image:height" content="767">
+    <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.darenprince.com/">
+    <meta property="og:site_name" content="Daren Prince Official Site">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="author" content="Daren Prince">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Daren Prince | Author of Game On! &amp; Unshakeable | Confidence, Healing &amp; Real Connection">
+    <meta name="twitter:description" content="Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bests...">
+    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/gameonallformats.png">
+    <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+    <meta name="twitter:site" content="@darenprince">
+    <meta name="twitter:creator" content="@darenprince">
+    <link rel="canonical" href="https://www.darenprince.com/">
+    <link rel="alternate" hreflang="en-us" href="https://darenprince.com/">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+    <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Daren Prince",
+        "url": "https://darenprince.com",
+        "image": "https://www.darenprince.com/assets/images/og-daren-prince.png",
+        "sameAs": [
+          "https://www.darenprince.com",
+          "https://x.com/darenprince",
+          "https://www.instagram.com/darenprince",
+          "https://www.amazon.com/author/darenprince",
+          "https://www.goodreads.com/author/show/53671567.Daren_Prince"
+        ],
+        "jobTitle": "Author, Communication Strategist",
+        "description": "Daren Prince is the author of Game On! and Unshakeable, offering emotionally intelligent guidance for dating, healing, and self-confidence."
+      }
+    </script>
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+  
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.darenprince.com#organization",
+  "name": "Daren Prince Official Site",
+  "url": "https://www.darenprince.com"
+}</script>
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://www.darenprince.com#author",
+  "name": "Daren Prince",
+  "url": "https://www.darenprince.com"
+}</script>
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.darenprince.com#website",
+  "name": "Daren Prince Official Site",
+  "url": "https://www.darenprince.com",
+  "publisher": {
+    "@id": "https://www.darenprince.com#organization"
+  },
+  "author": {
+    "@id": "https://www.darenprince.com#author"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.darenprince.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}</script></head>
+  <body class="theme-dark">
+    <div class="gameon-preloader" data-preloader="" role="status" aria-live="polite">
+      <span class="gameon-preloader__sr-only">Preparing the Daren Prince author experience</span>
+      <img class="gameon-preloader__logo" src="/assets/logos/logo-footer-white.png" alt="" aria-hidden="true">
+      <div class="gameon-preloader__meter" aria-hidden="true">
+        <span class="loader" role="presentation"></span>
+      </div>
+    </div>
+    <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+      <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
+        <i class="ph ph-x"></i>
+      </button>
+      <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+      <ul class="mega-menu-list">
+        <li><a href="index.html" class="active"><i class="ph ph-house"></i>Home</a></li>
+        <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+        <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+        <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+        <li><a href="contact.html"><i class="ph ph-chat-circle"></i>Contact</a></li>
+      </ul>
+    </nav>
+    <div class="menu-overlay js-menu-overlay"></div>
+    <div class="site-wrap">
+      <div data-shared-header=""></div>
+      <main class="home-scroll-snap">
+        <section id="autoZoomHero" class="hero hero-auto-zoom hero--video is-loading is-image-active" data-video-id="1120030283">
+          <div class="hero-content">
+            <div class="hero-layout">
+              <div class="hero-copy">
+                <h1 class="hero-title">
+                  <span class="sr-only">Level Up Your Dating Game</span>
+                  <img class="hero-title-art hero-title-art--desktop" src="https://www.darenprince.com/assets/images/levelup2.png" alt="Level Up Your Dating Game">
+                  <img class="hero-title-art hero-title-art--mobile" src="https://www.darenprince.com/assets/images/levelup.png" alt="Level Up Your Dating Game">
+                </h1>
+              </div>
+              <div class="hero-media">
+                <div class="hero-media__frame">
+                  <div class="hero-image-layer js-hero-image" role="presentation">
+                    <img src="https://www.darenprince.com/assets/images/gameonallformats.png" alt="Game On! promo art with the line Learn the psychology of real connection">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="go-reviews">
+          <div class="go-reviews__label"><span class="go-reviews__label-dot"></span>Reader Reviews</div>
+          <h2 class="go-reviews__title styledh1 brand-heading"><span class="brand-heading__emphasis">What Readers Are Saying</span></h2>
+          <div class="go-reviews__grid"></div>
+        </section>
+        <section id="book-viewer" class="book-section">
+          <div class="featured-books-shell">
+            <h3 class="featured-books-strip__headline step-header styledh1 brand-heading" id="featured-books-heading">
+              <span class="brand-heading__base">FEATURED &amp; UPCOMING</span><br>
+              <span class="brand-heading__emphasis">BY DAREN PRINCE</span>
+            </h3>
+            <section class="featured-books-strip book-block container max-width-adaptive-lg" aria-labelledby="featured-books-heading">
+              <p class="featured-books-strip__subhead">Swipe through the library and jump to each title</p>
+              <div class="featured-books-strip__rail" role="list" aria-label="Featured books">
+                <article class="featured-book-card featured-book-card--upcoming-spine" role="listitem" aria-label="Coming soon books">
+                  <p class="featured-book-card__coming-line">coming soon</p>
+                  <span class="featured-book-card__coming-vertical" aria-hidden="true">COMING SOON</span>
+                </article>
+                <article class="featured-book-card" role="listitem">
+                  <img src="https://www.darenprince.com/assets/images/IMG_0237.jpeg" alt="Rooted cover" loading="lazy">
+                  <h4>Rooted</h4>
+                  <a href="book.html#book-rooted" class="btn btn--subtle">View book</a>
+                </article>
+                <article class="featured-book-card" role="listitem">
+                  <img src="https://www.darenprince.com/assets/images/12AC1A26-295F-4A11-BF6C-49C8576DC05A.png" alt="Too Much cover" loading="lazy">
+                  <h4>Too Much</h4>
+                  <a href="book.html#book-too-much" class="btn btn--subtle">View book</a>
+                </article>
+                <article class="featured-book-card" role="listitem">
+                  <img src="https://www.darenprince.com/assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg" alt="F*CK Codependency cover" loading="lazy">
+                  <h4>F*CK Codependency</h4>
+                  <a href="book.html#book-codependency" class="btn btn--subtle">View book</a>
+                </article>
+                <article class="featured-book-card" role="listitem">
+                  <img src="https://www.darenprince.com/assets/images/4845D1B4-0A5A-4910-97C7-36E1ABBFB2B8.jpeg" alt="Unshakeable cover" loading="lazy">
+                  <h4>Unshakeable</h4>
+                  <a href="book.html#book-unshakable" class="btn btn--subtle">View book</a>
+                </article>
+                <article class="featured-book-card" role="listitem">
+                  <img src="https://www.darenprince.com/assets/images/IMG_0284.jpeg" alt="The Power of Choice cover" loading="lazy">
+                  <h4>The Power of Choice</h4>
+                  <a href="book.html#book-power-choice" class="btn btn--subtle">View book</a>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+      <div data-shared-footer=""></div>
+    </div>
+    <script type="module" src="/js/site-shell.js"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body></html>
