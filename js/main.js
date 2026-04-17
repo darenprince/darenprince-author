@@ -565,7 +565,7 @@ function initBookCoverPresentationFixes() {
   style.id = 'book-cover-presentation-fixes'
   style.textContent = `
     .featured-books-shell {
-      border-radius: 6px !important;
+      border-radius: 10px !important;
     }
 
     .featured-book-card img,
@@ -605,6 +605,80 @@ function initBookCoverPresentationFixes() {
 
     .featured-book-card__coming-line {
       display: none !important;
+    }
+
+    @media (min-width: 48rem) {
+      .featured-books-shell {
+        max-width: min(100%, 1180px) !important;
+        padding-left: clamp(1rem, 2.2vw, 1.65rem) !important;
+        padding-right: clamp(1rem, 2.2vw, 1.65rem) !important;
+      }
+
+      .featured-books-strip__rail {
+        gap: 1rem !important;
+        padding-left: 0.35rem !important;
+        padding-right: 0.35rem !important;
+        padding-bottom: 1rem !important;
+        scroll-padding-inline: 1.25rem !important;
+      }
+
+      .featured-book-card {
+        border-color: rgba(255, 255, 255, 0.12) !important;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          0 14px 28px rgba(0, 0, 0, 0.24) !important;
+        transition:
+          transform 0.24s ease,
+          border-color 0.24s ease,
+          box-shadow 0.24s ease,
+          background 0.24s ease !important;
+      }
+
+      .featured-book-card:hover,
+      .featured-book-card:focus-within {
+        transform: translateY(-6px) !important;
+        border-color: rgba(140, 214, 121, 0.42) !important;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          0 18px 34px rgba(0, 0, 0, 0.32),
+          0 0 0 1px rgba(140, 214, 121, 0.08) !important;
+        background: linear-gradient(165deg, rgba(25, 28, 32, 0.98), rgba(13, 15, 18, 0.94)) !important;
+      }
+
+      .featured-book-card--upcoming-spine {
+        width: clamp(4.9rem, 6vw, 5.65rem) !important;
+        min-width: clamp(4.9rem, 6vw, 5.65rem) !important;
+        margin-inline-start: 0 !important;
+        padding-left: 0.2rem !important;
+        padding-right: 0.15rem !important;
+        justify-items: end !important;
+      }
+
+      .featured-book-card__coming-vertical {
+        margin-left: 0.45rem !important;
+        font-size: clamp(1.1rem, 1.5vw, 1.42rem) !important;
+      }
+
+      .featured-books-strip::before,
+      .featured-books-strip::after {
+        content: '';
+        position: absolute;
+        top: 4.3rem;
+        bottom: 3.5rem;
+        width: 1.4rem;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .featured-books-strip::before {
+        left: 0;
+        background: linear-gradient(90deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
+      }
+
+      .featured-books-strip::after {
+        right: 0;
+        background: linear-gradient(270deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
+      }
     }
 
     @media (max-width: 47.99rem) {
