@@ -598,8 +598,13 @@ function initBookCoverPresentationFixes() {
     }
 
     .featured-books-rail-overlay,
-    .featured-books-rail-indicator {
+    .featured-books-rail-indicator,
+    .featured-books-rail-edge {
       display: none;
+    }
+
+    .featured-book-card__coming-line {
+      display: none !important;
     }
 
     @media (max-width: 47.99rem) {
@@ -641,8 +646,13 @@ function initBookCoverPresentationFixes() {
         width: 5.15rem !important;
         min-width: 5.15rem !important;
         margin-inline-start: 0 !important;
-        padding-left: 0.35rem !important;
-        padding-right: 0.35rem !important;
+        padding-left: 0.15rem !important;
+        padding-right: 0.15rem !important;
+        justify-items: end !important;
+      }
+
+      .featured-book-card__coming-vertical {
+        margin-left: 0.55rem !important;
       }
 
       .featured-books-rail-overlay {
@@ -663,8 +673,8 @@ function initBookCoverPresentationFixes() {
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
         pointer-events: none;
         opacity: 0.95;
-        transition: opacity 0.22s ease, transform 0.22s ease;
-        z-index: 2;
+        transition: opacity 0.28s ease, transform 0.28s ease;
+        z-index: 3;
       }
 
       .featured-books-rail-overlay.is-hidden {
@@ -693,6 +703,32 @@ function initBookCoverPresentationFixes() {
         background: rgba(140, 214, 121, 0.95);
         box-shadow: 0 0 0 4px rgba(140, 214, 121, 0.12);
         transform: scale(1.08);
+      }
+
+      .featured-books-rail-edge {
+        position: absolute;
+        top: 0;
+        bottom: 0.9rem;
+        width: 1rem;
+        display: block;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.92;
+        transition: opacity 0.24s ease;
+      }
+
+      .featured-books-rail-edge--left {
+        left: 0;
+        background: linear-gradient(90deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
+      }
+
+      .featured-books-rail-edge--right {
+        right: 0;
+        background: linear-gradient(270deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
+      }
+
+      .featured-books-rail-edge.is-dim {
+        opacity: 0.15;
       }
     }
   `
@@ -742,10 +778,31 @@ function initFeaturedBooksRailEnhancements() {
     rail.insertAdjacentElement('afterend', indicator)
   }
 
+  let leftEdge = strip.querySelector('.featured-books-rail-edge--left')
+  if (!leftEdge) {
+    leftEdge = document.createElement('div')
+    leftEdge.className = 'featured-books-rail-edge featured-books-rail-edge--left is-dim'
+    leftEdge.setAttribute('aria-hidden', 'true')
+    strip.appendChild(leftEdge)
+  }
+
+  let rightEdge = strip.querySelector('.featured-books-rail-edge--right')
+  if (!rightEdge) {
+    rightEdge = document.createElement('div')
+    rightEdge.className = 'featured-books-rail-edge featured-books-rail-edge--right'
+    rightEdge.setAttribute('aria-hidden', 'true')
+    strip.appendChild(rightEdge)
+  }
+
   const dots = Array.from(indicator.querySelectorAll('.featured-books-rail-indicator-dot'))
   const mobileQuery = window.matchMedia('(max-width: 47.99rem)')
-
   const isMobile = () => mobileQuery.matches
+  let hasDismissedSwipeHint = false
+
+  const dismissSwipeHint = () => {
+    hasDismissedSwipeHint = true
+    overlay.classList.add('is-hidden')
+  }
 
   const centerCard = (card, smooth = false) => {
     if (!card) return
@@ -756,12 +813,26 @@ function initFeaturedBooksRailEnhancements() {
     })
   }
 
+  const positionEdgeShadows = () => {
+    if (!isMobile()) return
+    const top = `${rail.offsetTop}px`
+    const height = `${rail.offsetHeight}px`
+    leftEdge.style.top = top
+    rightEdge.style.top = top
+    leftEdge.style.height = height
+    rightEdge.style.height = height
+  }
+
   const updateRailState = () => {
     if (!isMobile()) {
       overlay.classList.add('is-hidden')
+      leftEdge.classList.add('is-dim')
+      rightEdge.classList.add('is-dim')
       dots.forEach((dot, index) => dot.classList.toggle('is-active', index === 0))
       return
     }
+
+    positionEdgeShadows()
 
     const railCenter = rail.scrollLeft + rail.clientWidth / 2
     let activeIndex = 0
@@ -781,8 +852,17 @@ function initFeaturedBooksRailEnhancements() {
     })
 
     const maxScrollLeft = rail.scrollWidth - rail.clientWidth
+    const nearStart = rail.scrollLeft < 10
     const nearEnd = maxScrollLeft - rail.scrollLeft < 24
-    overlay.classList.toggle('is-hidden', nearEnd)
+
+    leftEdge.classList.toggle('is-dim', nearStart)
+    rightEdge.classList.toggle('is-dim', nearEnd)
+
+    if (hasDismissedSwipeHint || nearEnd) {
+      overlay.classList.add('is-hidden')
+    } else {
+      overlay.classList.remove('is-hidden')
+    }
   }
 
   let hasCenteredInitialCard = false
@@ -800,11 +880,15 @@ function initFeaturedBooksRailEnhancements() {
   rail.addEventListener(
     'scroll',
     () => {
+      if (rail.scrollLeft > 14) dismissSwipeHint()
       updateRailState()
       hasCenteredInitialCard = true
     },
     { passive: true }
   )
+
+  rail.addEventListener('touchstart', dismissSwipeHint, { passive: true })
+  rail.addEventListener('pointerdown', dismissSwipeHint, { passive: true })
 
   const handleViewportChange = () => {
     if (!isMobile()) {
