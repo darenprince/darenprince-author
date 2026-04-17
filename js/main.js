@@ -233,10 +233,6 @@ function initNavigationAndAuth() {
     reviewCards.forEach((card) => observer.observe(card))
   }
 
-  // ---------------------------
-  // menu + search event binding
-  // ---------------------------
-
   const setMenuState = (shouldOpen) => {
     document.body.classList.toggle('menu-open', shouldOpen)
     megaMenu?.classList.toggle('is-active', shouldOpen)
@@ -272,7 +268,6 @@ function initNavigationAndAuth() {
     menuOverlay.addEventListener('click', () => setMenuState(false))
   }
 
-  // default auth toggle -> login
   let loginHandler
   if (authToggle) {
     loginHandler = function () {
@@ -452,10 +447,6 @@ function initNavigationAndAuth() {
     return overlay
   }
 
-  // ---------------------------
-  // Demo modal + component nav
-  // ---------------------------
-
   if (modalOverlay) {
     const openBtn = document.querySelector('.js-open-modal')
     const closeBtn = modalOverlay.querySelector('.js-close-modal')
@@ -488,7 +479,6 @@ function initNavigationAndAuth() {
     return
   }
 
-  // Placeholder for future auth provider integration.
   logAuthWarning('main.auth', 'Auth provider integration pending')
 }
 
@@ -575,6 +565,16 @@ function initBookCoverPresentationFixes() {
   style.id = 'book-cover-presentation-fixes'
   style.textContent = `
     .featured-books-shell {
+      border-radius: 6px !important;
+    }
+
+    .featured-book-card img,
+    .paperback-mockup img,
+    .book-cover-trigger img,
+    .paperback-mockup,
+    .book-cover-trigger,
+    .featured-book-card .book-cover-trigger,
+    .featured-book-card figure {
       border-radius: 0 !important;
     }
 
@@ -592,13 +592,244 @@ function initBookCoverPresentationFixes() {
     .book-cover-trigger {
       overflow: visible !important;
     }
+
+    .featured-books-strip {
+      position: relative;
+    }
+
+    .featured-books-rail-overlay,
+    .featured-books-rail-indicator {
+      display: none;
+    }
+
+    @media (max-width: 47.99rem) {
+      .featured-books-shell {
+        width: 100vw !important;
+        max-width: none !important;
+        margin-left: calc(50% - 50vw) !important;
+        margin-right: calc(50% - 50vw) !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .featured-books-strip__headline,
+      .featured-books-strip__subhead,
+      .featured-books-strip__links {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      .featured-books-strip__rail {
+        display: flex !important;
+        gap: 0.9rem !important;
+        grid-auto-flow: initial !important;
+        grid-auto-columns: unset !important;
+        width: 100% !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 0.9rem !important;
+        scroll-padding-inline: 50% !important;
+      }
+
+      .featured-book-card {
+        flex: 0 0 clamp(15rem, 72vw, 17rem) !important;
+      }
+
+      .featured-book-card--upcoming-spine {
+        flex: 0 0 5.15rem !important;
+        width: 5.15rem !important;
+        min-width: 5.15rem !important;
+        margin-inline-start: 0 !important;
+        padding-left: 0.35rem !important;
+        padding-right: 0.35rem !important;
+      }
+
+      .featured-books-rail-overlay {
+        position: absolute;
+        right: 0.85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.55rem 0.7rem 0.55rem 1.15rem;
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: linear-gradient(90deg, rgba(5, 7, 8, 0) 0%, rgba(5, 7, 8, 0.2) 20%, rgba(5, 7, 8, 0.88) 55%, rgba(5, 7, 8, 0.95) 100%);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        pointer-events: none;
+        opacity: 0.95;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+        z-index: 2;
+      }
+
+      .featured-books-rail-overlay.is-hidden {
+        opacity: 0;
+        transform: translateY(-50%) translateX(8px);
+      }
+
+      .featured-books-rail-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0 1rem 0.55rem;
+      }
+
+      .featured-books-rail-indicator-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.24);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+        transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .featured-books-rail-indicator-dot.is-active {
+        background: rgba(140, 214, 121, 0.95);
+        box-shadow: 0 0 0 4px rgba(140, 214, 121, 0.12);
+        transform: scale(1.08);
+      }
+    }
   `
 
   document.head.appendChild(style)
 }
 
+function initFeaturedBooksRailEnhancements() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+
+  const rail = document.querySelector('.featured-books-strip__rail')
+  if (!rail || rail.dataset.mobileEnhanced === 'true') return
+
+  const strip = rail.closest('.featured-books-strip')
+  if (!strip) return
+
+  rail.dataset.mobileEnhanced = 'true'
+
+  const allCards = Array.from(rail.querySelectorAll('.featured-book-card'))
+  const trackableCards = allCards.filter(
+    (card) => !card.classList.contains('featured-book-card--upcoming-spine')
+  )
+
+  if (!trackableCards.length) return
+
+  let overlay = strip.querySelector('.featured-books-rail-overlay')
+  if (!overlay) {
+    overlay = document.createElement('div')
+    overlay.className = 'featured-books-rail-overlay'
+    overlay.setAttribute('aria-hidden', 'true')
+    overlay.innerHTML = '<span>Swipe</span><i class="ph ph-arrow-right"></i>'
+    strip.appendChild(overlay)
+  }
+
+  let indicator = strip.querySelector('.featured-books-rail-indicator')
+  if (!indicator) {
+    indicator = document.createElement('div')
+    indicator.className = 'featured-books-rail-indicator'
+    indicator.setAttribute('aria-hidden', 'true')
+
+    trackableCards.forEach(() => {
+      const dot = document.createElement('span')
+      dot.className = 'featured-books-rail-indicator-dot'
+      indicator.appendChild(dot)
+    })
+
+    rail.insertAdjacentElement('afterend', indicator)
+  }
+
+  const dots = Array.from(indicator.querySelectorAll('.featured-books-rail-indicator-dot'))
+  const mobileQuery = window.matchMedia('(max-width: 47.99rem)')
+
+  const isMobile = () => mobileQuery.matches
+
+  const centerCard = (card, smooth = false) => {
+    if (!card) return
+    const targetLeft = card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2
+    rail.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: smooth ? 'smooth' : 'auto',
+    })
+  }
+
+  const updateRailState = () => {
+    if (!isMobile()) {
+      overlay.classList.add('is-hidden')
+      dots.forEach((dot, index) => dot.classList.toggle('is-active', index === 0))
+      return
+    }
+
+    const railCenter = rail.scrollLeft + rail.clientWidth / 2
+    let activeIndex = 0
+    let closestDistance = Number.POSITIVE_INFINITY
+
+    trackableCards.forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2
+      const distance = Math.abs(cardCenter - railCenter)
+      if (distance < closestDistance) {
+        closestDistance = distance
+        activeIndex = index
+      }
+    })
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === activeIndex)
+    })
+
+    const maxScrollLeft = rail.scrollWidth - rail.clientWidth
+    const nearEnd = maxScrollLeft - rail.scrollLeft < 24
+    overlay.classList.toggle('is-hidden', nearEnd)
+  }
+
+  let hasCenteredInitialCard = false
+
+  const ensureInitialPosition = () => {
+    if (!isMobile() || hasCenteredInitialCard) return
+
+    window.requestAnimationFrame(() => {
+      centerCard(trackableCards[0], false)
+      updateRailState()
+      hasCenteredInitialCard = true
+    })
+  }
+
+  rail.addEventListener(
+    'scroll',
+    () => {
+      updateRailState()
+      hasCenteredInitialCard = true
+    },
+    { passive: true }
+  )
+
+  const handleViewportChange = () => {
+    if (!isMobile()) {
+      hasCenteredInitialCard = false
+    }
+    ensureInitialPosition()
+    updateRailState()
+  }
+
+  if (typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', handleViewportChange)
+  } else if (typeof mobileQuery.addListener === 'function') {
+    mobileQuery.addListener(handleViewportChange)
+  }
+
+  window.addEventListener('resize', handleViewportChange, { passive: true })
+  window.addEventListener('orientationchange', handleViewportChange, { passive: true })
+
+  ensureInitialPosition()
+  updateRailState()
+}
+
 function initExperience() {
   initBookCoverPresentationFixes()
+  initFeaturedBooksRailEnhancements()
   initSmartAppBanner()
   initNavigationAndAuth()
   initBackToTopButton()
