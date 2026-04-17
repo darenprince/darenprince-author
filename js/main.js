@@ -567,7 +567,38 @@ function initBackToTopButton() {
   window.addEventListener('scroll', toggleVisibility, { passive: true })
 }
 
+function initBookCoverPresentationFixes() {
+  if (typeof document === 'undefined') return
+  if (document.getElementById('book-cover-presentation-fixes')) return
+
+  const style = document.createElement('style')
+  style.id = 'book-cover-presentation-fixes'
+  style.textContent = `
+    .featured-books-shell {
+      border-radius: 0 !important;
+    }
+
+    .featured-book-card img,
+    .paperback-mockup img,
+    .book-cover-trigger img {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: auto !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    .paperback-mockup,
+    .book-cover-trigger {
+      overflow: visible !important;
+    }
+  `
+
+  document.head.appendChild(style)
+}
+
 function initExperience() {
+  initBookCoverPresentationFixes()
   initSmartAppBanner()
   initNavigationAndAuth()
   initBackToTopButton()
