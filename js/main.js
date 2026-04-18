@@ -148,6 +148,28 @@ function initNavigationAndAuth() {
   const megaMenu = document.querySelector('.js-mega-menu')
   const menuOverlay = document.querySelector('.js-menu-overlay')
   const menuCloses = Array.from(document.querySelectorAll('.js-menu-close'))
+  const ensureMegaMenuThemeToggle = () => {
+    if (!megaMenu) return
+    const menuList = megaMenu.querySelector('.mega-menu-list')
+    if (!menuList || menuList.querySelector('.js-theme-toggle')) return
+
+    const logoutItem = menuList.querySelector('.js-auth-toggle')?.closest('li')
+    const item = document.createElement('li')
+    item.className = 'mega-menu-theme-item'
+    item.innerHTML =
+      '<button class="auth-btn auth-btn--theme js-theme-toggle" type="button" aria-label="Toggle theme"><i class="ph ph-moon"></i><span>Dark theme active</span></button>'
+
+    if (logoutItem) {
+      menuList.insertBefore(item, logoutItem)
+    } else {
+      menuList.appendChild(item)
+    }
+
+    document.dispatchEvent(new CustomEvent('site-shell:ready'))
+  }
+
+  ensureMegaMenuThemeToggle()
+
   const authToggle = document.querySelector('.js-auth-toggle')
   const searchToggle = document.querySelector('.js-search-toggle')
   const searchBar = document.querySelector('.js-search-bar')

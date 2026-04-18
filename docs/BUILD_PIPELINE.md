@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-04-14_
+_Last updated: 2026-04-17_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -37,6 +37,8 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 > **Books surfaces reminder:** `book.html` now includes coming-soon CTA states (with notify modal triggers) and in-page anchor navigation. After touching Book UI or Game On landing styles, run `npm run build:site` so `assets/styles.css` is GitHub Pages-ready and the latest metadata + sharing assets remain deployable.
 
 > **Homepage UX reminder:** `index.html` now relies on iOS-styled format pills, neutral charcoal card surfaces, review card slide-in states, and a scroll-gated Apple Books smart banner (shown only after the hero is passed on Apple devices). Rebuild SCSS + JS bundles with `npm run build:site` after homepage UI changes so GitHub Pages ships the exact interaction behavior.
+
+> **Theme UX reminder:** The homepage now defaults to dark mode on each load, keeps the share action in the header toolbar, and renders the dark/light toggle inside the mega menu. After nav or menu updates, verify both controls on desktop + mobile and run `npm run build:site` so GitHub Pages deploys synced JS/CSS behavior.
 
 ## GitHub Pages configuration
 
@@ -99,6 +101,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
 - [ ] Confirm `index.html` is the primary author homepage (no redirect), and `labs/index.html` still redirects cleanly to `labs.html`.
+- [ ] Confirm homepage nav behavior: header toolbar share button works, mega-menu theme toggle works, and the first paint defaults to dark mode.
 - [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
