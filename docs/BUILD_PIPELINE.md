@@ -11,6 +11,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 | `build:search`        | `node ./src/search/build-index.mjs`                                          | Build Minisearch index + docs payload (`public/search/*.json`).                                                                                                        | Requires Markdown under `/content/`; currently indexes 0 docs until content exists.                                          |
 | `generate:icons`      | `node scripts/generate-icons.mjs`                                            | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
 | `generate:images`     | `node scripts/generate-image-manifest.js`                                    | Catalog repo imagery (`**/*.{png,jpg,jpeg,gif,svg,webp}`; excludes node_modules/build artifacts) into `assets/image-manifest.json` as `{ path, description }` entries. | Powers `image-index.html` and press tooling with copy-ready URLs.                                                            |
+| `lint:metadata`       | `node scripts/check-deploy-metadata.mjs`                                     | Validate deploy-critical metadata and social asset references (OG/Twitter images, favicons, Apple icon, and `theme-color`) on key public pages.                        | Fails fast if GitHub Pages would ship missing metadata assets or non-brand browser chrome colors.                            |
 | `build`               | `npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build` | Full local build (static site + Vibe Prism bundle).                                                                                                                    | Copies `src/nexuswho/index.html` → `nexuswho.html`, then Vite outputs `nexuswho.html` + `nexuswho-assets/` at the repo root. |
 | `watch`               | `npm run generate:icons && npm run generate:images && npm run styles:watch`  | Rebuild CSS/icons on file changes.                                                                                                                                     | Run alongside `./scripts/start_dev.sh` during development.                                                                   |
 | `test`                | `vitest run`                                                                 | Run public-site smoke checks and asset helper unit tests.                                                                                                              | Requires Node 18+.                                                                                                           |
@@ -90,6 +91,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 - `npm test` — Vitest suites covering public site smoke checks and asset helpers.
 - `npm run build` — Quick smoke test (watch for Sass deprecation warnings when upgrading Dart Sass).
+- `npm run lint:metadata` — Verifies deployable metadata/social imagery and brand `theme-color` coverage on primary public pages.
 - `npm run postprocess:seo` — Validate canonical URLs, JSON-LD, robots.txt, and sitemap output (GitHub Pages serves the committed output).
 
 ## Deployment checklist
@@ -98,6 +100,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
 - [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
 - [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
+- [ ] Run `npm run lint:metadata` and resolve any missing/invalid favicon, OG/Twitter image, or `theme-color` references.
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
 - [ ] Confirm `index.html` is the primary author homepage (no redirect), and `labs/index.html` still redirects cleanly to `labs.html`.
