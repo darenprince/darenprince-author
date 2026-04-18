@@ -1,7 +1,6 @@
-@use "../base/variables" as *;
-@use "../tokens/colors" as *;
-@use "../base/mixins" as *;
-
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
 
 .accordion {
   border: 1px solid $border;
@@ -28,7 +27,7 @@
       border: 0;
       border-radius: 0;
       transition: $transition;
-      
+
       .accordion-icon {
         transition: transform 0.3s;
       }
@@ -48,7 +47,15 @@
   }
 }
 
-.accordion-panel[hidden] { display: none; }
+.book-accordion.accordion {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.accordion-panel[hidden] {
+  display: none;
+}
 
 // open state styles
 .accordion-trigger[aria-expanded='true'] {
@@ -60,4 +67,9 @@
   color: $white;
   border-left: 1px solid $border;
   border-right: 1px solid $border;
+}
+
+.book-accordion .accordion-trigger[aria-expanded='true'] + .accordion-panel {
+  border-left: 0;
+  border-right: 0;
 }
