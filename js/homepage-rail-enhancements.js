@@ -225,7 +225,11 @@ function initFeaturedRailModal() {
   }
 
   rail.querySelectorAll('.featured-book-card').forEach((card) => {
-    if (card.classList.contains('featured-book-card--upcoming-spine') || card.classList.contains('featured-book-card--cta')) return
+    if (
+      card.classList.contains('featured-book-card--upcoming-spine') ||
+      card.classList.contains('featured-book-card--cta')
+    )
+      return
     const key = inferBookKey(card)
     if (!key || !FEATURED_BOOKS[key]) return
     const img = card.querySelector('img')
@@ -256,30 +260,34 @@ function initDividerSnap() {
   if (!mobile.matches) return
 
   const findMarkers = () =>
-    Array.from(document.querySelectorAll('.section-divider, .books-gradient-divider, [class*="divider"]')).filter(
-      (el) => el.offsetParent !== null
-    )
+    Array.from(
+      document.querySelectorAll('.section-divider, .books-gradient-divider, [class*="divider"]')
+    ).filter((el) => el.offsetParent !== null)
 
   let snapTimer = 0
   let bounceTimer = 0
   let snapping = false
+  let lastScrollY = window.scrollY
+  let lastScrollDirection = 1
 
   const runSnap = () => {
     if (snapping) return
     const markers = findMarkers()
     if (!markers.length) return
 
-    const threshold = window.innerHeight * 0.27
+    const threshold = window.innerHeight * 0.4
+    const resistancePx = 12
     const candidates = markers
       .map((el) => ({ el, top: el.getBoundingClientRect().top }))
-      .filter((entry) => entry.top >= 0 && entry.top <= threshold)
-      .sort((a, b) => a.top - b.top)
+      .filter((entry) => entry.top >= -threshold * 0.2 && entry.top <= threshold)
+      .sort((a, b) => Math.abs(a.top) - Math.abs(b.top))
 
     const target = candidates[0]
     if (!target) return
 
-    const finalTop = Math.max(0, window.scrollY + target.top - 6)
-    const overshootTop = Math.max(0, finalTop - 16)
+    const targetWithResistance = target.top - resistancePx * lastScrollDirection
+    const finalTop = Math.max(0, window.scrollY + targetWithResistance)
+    const overshootTop = Math.max(0, finalTop - 10)
     snapping = true
     window.scrollTo({ top: overshootTop, behavior: 'smooth' })
     clearTimeout(bounceTimer)
@@ -293,8 +301,14 @@ function initDividerSnap() {
 
   const scheduleSnap = () => {
     if (snapping) return
+    const currentY = window.scrollY
+    const delta = currentY - lastScrollY
+    if (Math.abs(delta) > 1) {
+      lastScrollDirection = delta >= 0 ? 1 : -1
+      lastScrollY = currentY
+    }
     clearTimeout(snapTimer)
-    snapTimer = window.setTimeout(runSnap, 120)
+    snapTimer = window.setTimeout(runSnap, 140)
   }
 
   window.addEventListener('scroll', scheduleSnap, { passive: true })
