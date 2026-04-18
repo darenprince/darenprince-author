@@ -9735,24 +9735,26 @@ body.books-page .books-main > section {
 }
 
 .author-spotlight-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  padding: 2rem;
+  min-height: clamp(28rem, 62vw, 36rem);
+  padding: 0;
   border-radius: 0.6875rem;
   background: color-mix(in srgb, var(--gray-900) 88%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-lime) 18%, transparent);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
 }
 @media (min-width: 768px) {
   .author-spotlight-card {
-    grid-template-columns: minmax(0, 180px) 1fr;
-    align-items: center;
+    min-height: clamp(30rem, 56vw, 38rem);
   }
 }
 .author-spotlight-card__media {
+  flex: 1 1 50%;
   position: relative;
-  border-radius: 0.4375rem;
-  overflow: hidden;
+  min-height: clamp(14rem, 30vw, 18rem);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 .author-spotlight-card__media img {
@@ -9764,7 +9766,9 @@ body.books-page .books-main > section {
 .author-spotlight-card__content {
   display: flex;
   flex-direction: column;
+  flex: 1 1 50%;
   gap: 0.75rem;
+  padding: 2rem;
 }
 .author-spotlight-card__tag {
   display: inline-flex;

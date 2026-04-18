@@ -1472,23 +1472,25 @@ body.books-page {
 }
 
 .author-spotlight-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: $spacing-md;
-  padding: $spacing-lg;
+  min-height: clamp(28rem, 62vw, 36rem);
+  padding: 0;
   border-radius: $border-radius;
   background: color-mix(in srgb, $gray-900 88%, transparent);
   border: 1px solid color-mix(in srgb, $lime-green 18%, transparent);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
 
   @include respond-to(md) {
-    grid-template-columns: minmax(0, 180px) 1fr;
-    align-items: center;
+    min-height: clamp(30rem, 56vw, 38rem);
   }
 
   &__media {
+    flex: 1 1 50%;
     position: relative;
-    border-radius: calc($border-radius - $spacing-xxs);
-    overflow: hidden;
+    min-height: clamp(14rem, 30vw, 18rem);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 
     img {
@@ -1502,7 +1504,9 @@ body.books-page {
   &__content {
     display: flex;
     flex-direction: column;
+    flex: 1 1 50%;
     gap: $spacing-sm;
+    padding: $spacing-lg;
   }
 
   &__tag {
