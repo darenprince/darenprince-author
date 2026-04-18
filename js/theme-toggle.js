@@ -1,5 +1,4 @@
 ;(function () {
-  var toggleBtn = document.querySelector('.js-theme-toggle')
   var body = document.body
   var themeAwareLogoConfigs = [
     {
@@ -19,15 +18,22 @@
     },
   ]
 
+  function getToggleButtons() {
+    return Array.from(document.querySelectorAll('.js-theme-toggle'))
+  }
+
   function setIcon(theme) {
-    if (!toggleBtn) return
-    if (theme === 'dark') {
-      toggleBtn.innerHTML = '<i class="ph ph-moon"></i>'
-      toggleBtn.style.color = 'var(--color-success)'
-    } else {
-      toggleBtn.innerHTML = '<i class="ph ph-sun"></i>'
-      toggleBtn.style.color = '#FFD700'
-    }
+    var toggleButtons = getToggleButtons()
+    if (!toggleButtons.length) return
+
+    toggleButtons.forEach(function (button) {
+      var icon = theme === 'dark' ? 'ph-moon' : 'ph-sun'
+      var label = theme === 'dark' ? 'Dark theme active' : 'Light theme active'
+      button.innerHTML = '<i class="ph ' + icon + '"></i><span>' + label + '</span>'
+      button.style.color = theme === 'dark' ? 'var(--color-success)' : '#FFD700'
+      button.setAttribute('aria-label', 'Toggle theme')
+      button.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false')
+    })
   }
 
   function updateLogos(theme) {
@@ -52,14 +58,33 @@
     updateLogos(theme)
   }
 
-  var saved = localStorage.getItem('theme') || 'dark'
-  apply(saved)
-
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', function () {
-      var newTheme = body.classList.contains('theme-dark') ? 'light' : 'dark'
-      localStorage.setItem('theme', newTheme)
-      apply(newTheme)
+  function bindButtons() {
+    getToggleButtons().forEach(function (button) {
+      if (button.dataset.themeBound === 'true') return
+      button.dataset.themeBound = 'true'
+      button.addEventListener('click', function () {
+        var newTheme = body.classList.contains('theme-dark') ? 'light' : 'dark'
+        localStorage.setItem('theme', newTheme)
+        apply(newTheme)
+      })
     })
   }
+
+  function initializeThemeToggle() {
+    var defaultTheme = 'dark'
+    apply(defaultTheme)
+    bindButtons()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeThemeToggle, { once: true })
+  } else {
+    initializeThemeToggle()
+  }
+
+  document.addEventListener('site-shell:ready', function () {
+    bindButtons()
+    var activeTheme = body.classList.contains('theme-light') ? 'light' : 'dark'
+    setIcon(activeTheme)
+  })
 })()
