@@ -21,6 +21,7 @@ The `meet-daren-prince.html` page introduces Daren’s story, credentials, and p
 8. **Call to Action Row:** Booking details plus a teaser card for the upcoming email waitlist.
 
 Each block sits inside `.container.max-width-adaptive-lg` wrappers and leans on responsive grids defined in `scss/components/_bio-page.scss`.
+Section-level content headings also use the shared `styledh1` style-guide class to keep bio and press page typography visually aligned.
 
 ## Metadata & Structured Data
 
