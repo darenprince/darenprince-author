@@ -740,41 +740,57 @@ body.books-page {
 
 .book-accordion {
   display: grid;
-  gap: $spacing-md;
+  gap: clamp(0.72rem, 1.8vw, 1rem);
 
   .accordion-item {
-    border-radius: $border-radius;
-    border: 1px solid color-mix(in srgb, $white 10%, transparent);
-    background: color-mix(in srgb, $gray-900 85%, transparent);
+    border-radius: clamp(0.95rem, 2vw, 1.2rem);
+    border: 1px solid transparent;
+    background:
+      linear-gradient(145deg, rgba(14, 18, 14, 0.88), rgba(8, 10, 8, 0.72)),
+      linear-gradient(135deg, color-mix(in srgb, $accent 25%, transparent), transparent);
     overflow: hidden;
-    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 0 0 0 0.5px color-mix(in srgb, $white 12%, transparent),
+      0 14px 30px rgba(0, 0, 0, 0.28);
   }
 
   .accordion-trigger {
     width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-md $spacing-lg;
-    background: color-mix(in srgb, $black 88%, transparent);
+    padding: clamp(0.82rem, 2vw, 1rem) clamp(0.95rem, 2.5vw, 1.2rem);
+    background: color-mix(in srgb, $black 90%, transparent);
     color: $white;
+    border: 0;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, $black 80%, $accent 20%);
+      color: color-mix(in srgb, $white 94%, $accent 6%);
+    }
 
     .accordion-title {
       display: inline-flex;
       align-items: center;
       gap: $spacing-xs;
-      font-size: 1.05rem;
+      font-size: clamp(0.95rem, 1.8vw, 1.03rem);
       font-weight: 600;
 
       i {
         color: $lime-green;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
     }
   }
 
   .accordion-panel {
-    padding: 0 $spacing-lg $spacing-lg;
+    padding: 0 clamp(0.95rem, 2.5vw, 1.2rem) clamp(0.95rem, 2.4vw, 1.2rem);
     color: color-mix(in srgb, $white 80%, transparent);
+    background: linear-gradient(180deg, rgba(11, 13, 12, 0.72), rgba(8, 10, 8, 0.84));
 
     ul {
       display: grid;
@@ -782,6 +798,12 @@ body.books-page {
       padding-left: $spacing-lg;
     }
   }
+}
+
+.book-accordion--inline {
+  margin-top: clamp(0.95rem, 2.2vw, 1.25rem);
+  width: 100%;
+  max-width: min(40rem, 100%);
 }
 
 .book-primary-layout {
@@ -1224,12 +1246,14 @@ body.books-page {
   grid-auto-columns: minmax(13rem, 16rem);
   overflow-x: auto;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding-bottom: $spacing-xs;
   padding-inline: clamp(0.65rem, 2.2vw, 1.25rem);
   scroll-padding-inline: clamp(40vw, 50vw, 52vw);
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
 }
 
 .featured-book-card {
@@ -1249,6 +1273,7 @@ body.books-page {
     transform 0.2s ease,
     border-color 0.2s ease;
   animation: featured-card-rise 0.55s ease both;
+  touch-action: pan-y pinch-zoom;
 
   &:hover,
   &:focus-within {
@@ -1262,6 +1287,35 @@ body.books-page {
     height: auto;
     object-fit: contain;
     border-radius: clamp(0.75rem, 1.6vw, 1rem);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .book-collection-shell {
+    width: calc(100% - clamp(1.1rem, 5vw, 1.75rem));
+  }
+
+  .book-collection-list {
+    max-height: min(74vh, 44rem);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y proximity;
+    padding-right: 0.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, $lime-green 70%, transparent) transparent;
+
+    &::-webkit-scrollbar {
+      width: 0.35rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: color-mix(in srgb, $lime-green 60%, transparent);
+    }
+  }
+
+  .book-collection-card {
+    scroll-snap-align: start;
   }
 }
 

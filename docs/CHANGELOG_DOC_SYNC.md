@@ -2,6 +2,14 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Index accordion relocation + mobile vertical rail behavior fixes (GitHub Pages-safe)
+
+- Moved the homepage long-form book details accordion stack directly below the format-selection controls in `index.html` so description/details now appear immediately after format choice.
+- Set long-form accordion sections to start collapsed by default and refreshed accordion styling in `scss/components/_book-details-wrapper.scss` with a cleaner modern dark-glass treatment while removing visible heavy outer strokes.
+- Updated featured-books rail touch ergonomics (`scss/components/_book-details-wrapper.scss`) to better allow vertical page scrolling on mobile when interacting with cards in the index featured rail.
+- Added a mobile-focused vertical rail treatment for `book.html` listing cards via `scss/components/_book-details-wrapper.scss` and prevented desktop section snap scripting from hijacking mobile gestures in `js/book-page.js`.
+- Rebuilt `assets/styles.css` via `npm run styles:build` so static GitHub Pages deploy output matches source changes.
+
 ## 2026-04-18 — Homepage format selector unwrap + centered heading + subtle 3D overlay trigger
 
 - Removed the old outer wrapper card around the homepage format selector stack in `index.html` so the heading, format pills, and image now render as direct section content (no extra enclosing card shell).

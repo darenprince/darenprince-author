@@ -9048,42 +9048,63 @@ body.books-page .books-main > section {
 
 .book-accordion {
   display: grid;
-  gap: 1rem;
+  gap: clamp(0.72rem, 1.8vw, 1rem);
 }
 .book-accordion .accordion-item {
-  border-radius: 0.6875rem;
-  border: 1px solid color-mix(in srgb, var(--color-white) 10%, transparent);
-  background: color-mix(in srgb, var(--gray-900) 85%, transparent);
+  border-radius: clamp(0.95rem, 2vw, 1.2rem);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(145deg, rgba(14, 18, 14, 0.88), rgba(8, 10, 8, 0.72)),
+    linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 25%, transparent), transparent);
   overflow: hidden;
-  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 0 0 0.5px color-mix(in srgb, var(--color-white) 12%, transparent),
+    0 14px 30px rgba(0, 0, 0, 0.28);
 }
 .book-accordion .accordion-trigger {
   width: 100%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: color-mix(in srgb, var(--color-black) 88%, transparent);
+  padding: clamp(0.82rem, 2vw, 1rem) clamp(0.95rem, 2.5vw, 1.2rem);
+  background: color-mix(in srgb, var(--color-black) 90%, transparent);
   color: var(--color-white);
+  border: 0;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+.book-accordion .accordion-trigger:hover,
+.book-accordion .accordion-trigger:focus-visible {
+  background: color-mix(in srgb, var(--color-black) 80%, var(--color-accent) 20%);
+  color: color-mix(in srgb, var(--color-white) 94%, var(--color-accent) 6%);
 }
 .book-accordion .accordion-trigger .accordion-title {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.03rem);
   font-weight: 600;
 }
 .book-accordion .accordion-trigger .accordion-title i {
   color: var(--color-lime);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 .book-accordion .accordion-panel {
-  padding: 0 2rem 2rem;
+  padding: 0 clamp(0.95rem, 2.5vw, 1.2rem) clamp(0.95rem, 2.4vw, 1.2rem);
   color: color-mix(in srgb, var(--color-white) 80%, transparent);
+  background: linear-gradient(180deg, rgba(11, 13, 12, 0.72), rgba(8, 10, 8, 0.84));
 }
 .book-accordion .accordion-panel ul {
   display: grid;
   gap: 0.5rem;
   padding-left: 2rem;
+}
+
+.book-accordion--inline {
+  margin-top: clamp(0.95rem, 2.2vw, 1.25rem);
+  width: 100%;
+  max-width: min(40rem, 100%);
 }
 
 .book-primary-layout {
@@ -9501,12 +9522,14 @@ body.books-page .books-main > section {
   grid-auto-columns: minmax(13rem, 16rem);
   overflow-x: auto;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding-bottom: 0.5rem;
   padding-inline: clamp(0.65rem, 2.2vw, 1.25rem);
   scroll-padding-inline: 50vw;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
 }
 
 .featured-book-card {
@@ -9526,6 +9549,7 @@ body.books-page .books-main > section {
     transform 0.2s ease,
     border-color 0.2s ease;
   animation: featured-card-rise 0.55s ease both;
+  touch-action: pan-y pinch-zoom;
 }
 .featured-book-card:hover,
 .featured-book-card:focus-within {
@@ -9540,6 +9564,30 @@ body.books-page .books-main > section {
   border-radius: clamp(0.75rem, 1.6vw, 1rem);
 }
 
+@media (max-width: 47.99rem) {
+  .book-collection-shell {
+    width: calc(100% - clamp(1.1rem, 5vw, 1.75rem));
+  }
+  .book-collection-list {
+    max-height: min(74vh, 44rem);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y proximity;
+    padding-right: 0.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-lime) 70%, transparent) transparent;
+  }
+  .book-collection-list::-webkit-scrollbar {
+    width: 0.35rem;
+  }
+  .book-collection-list::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-lime) 60%, transparent);
+  }
+  .book-collection-card {
+    scroll-snap-align: start;
+  }
+}
 .featured-book-card--upcoming-spine {
   position: relative;
   width: clamp(4.6rem, 13vw, 5.8rem);
