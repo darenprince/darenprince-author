@@ -25,9 +25,9 @@ async function ensureMasterIcon() {
 function buildFaviconsConfig() {
   return {
     path: PUBLIC_PATH,
-    appName: 'Crown Labs',
-    appShortName: 'Crown Labs',
-    appDescription: 'Umbrella Crown Labs and Daren Prince publishing ecosystem.',
+    appName: 'Daren Prince Official Site',
+    appShortName: 'Daren Prince',
+    appDescription: 'Official author platform for Daren Prince books, media, and resources.',
     developerName: 'Daren Prince',
     developerURL: 'https://darenprince.com',
     dir: 'auto',
