@@ -8,6 +8,12 @@
 - Added `scripts/check-deploy-metadata.mjs` and `npm run lint:metadata` to enforce deploy-ready favicon, Apple icon, OG image, Twitter image, and `theme-color` tags across key public pages before build/deploy.
 - Updated build/documentation guidance (`README.md`, `docs/BUILD_PIPELINE.md`) so GitHub Pages deployment explicitly includes metadata/social-asset validation and branded browser-chrome requirements.
 
+## 2026-04-18 — Homepage featured books rail background refresh + heading spacing polish (GitHub Pages-safe)
+
+- Updated featured books rail styling in `scss/components/_book-details-wrapper.scss` to layer the requested production background image (`/assets/images/sitebg/cbad6b12cb5c4ba29d1a55a3f2685a6a.jpg`) beneath the section overlays for the homepage index rail.
+- Increased top padding on the featured books shell so the `FEATURED & UPCOMING / BY DAREN PRINCE` heading has clearer breathing room above it.
+- Synced `assets/styles.css` with the same featured-rail background + spacing updates so the change is deploy-ready for GitHub Pages static hosting.
+
 ## 2026-04-18 — Featured rail full-bleed + tighter section snapping refinements (GitHub Pages-safe)
 
 - Updated homepage rail behavior (`js/main.js`) so the featured books shell/strip runs full-bleed to the viewport edges instead of staying constrained inside the previous centered max-width container.
