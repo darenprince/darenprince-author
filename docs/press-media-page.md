@@ -27,6 +27,7 @@ The `press.html` page centralizes every media ready asset for Daren Prince. It b
 ## Styling Notes
 
 - Dedicated partial: `scss/components/_press-page.scss` (imported in `scss/styles.scss`).
+- Section-level headings now use the shared `styledh1` treatment from the style guide so all primary content bands use the same branded heading system as the rest of the site.
 - Buttons reuse `.grad-kelly-green`, `.btn--accent`, and `.btn--subtle` variants already defined.
 - Press kit preview frame is locked to the US Letter ratio (`8.5 / 11`) so embedded PDF previews keep consistent proportions instead of clipping across viewport sizes.
 - The in-page media drawer uses a branded dark gradient panel, mint accent borders, and icon-first anchors to match existing site header controls.
