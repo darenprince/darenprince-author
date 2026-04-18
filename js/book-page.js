@@ -150,6 +150,8 @@ if (detailModal && cardDetailTriggers.length) {
 function initBookListingSnapRail() {
   const isBooksPage = document.body.classList.contains('books-page')
   if (!isBooksPage) return
+  const mobileQuery = window.matchMedia('(max-width: 47.99rem)')
+  if (mobileQuery.matches) return
 
   const sections = Array.from(document.querySelectorAll('.books-main > section[id]')).filter(
     (section) => section.offsetParent !== null
