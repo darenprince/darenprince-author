@@ -9408,6 +9408,7 @@ body.books-page .books-main > section {
   width: min(100%, var(--max-width-lg));
   margin: 0 auto clamp(1.3rem, 3.8vw, 2.4rem);
   padding: clamp(1.6rem, 3.8vw, 2.35rem) clamp(0.65rem, 2.3vw, 1.2rem);
+  padding-top: clamp(2.2rem, 5vw, 3rem);
   border-top: 1px solid color-mix(in srgb, var(--color-white) 15%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--color-white) 15%, transparent);
   background:
