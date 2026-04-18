@@ -592,7 +592,6 @@ function initBookCoverPresentationFixes() {
       margin-left: calc(50% - 50vw) !important;
       margin-right: calc(50% - 50vw) !important;
       border-radius: 0 !important;
-      padding-top: clamp(0.75rem, 1.8vw, 1.25rem) !important;
     }
 
     .featured-books-strip {
