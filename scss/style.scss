@@ -206,6 +206,22 @@
     font-weight: 600;
     cursor: pointer;
   }
+
+  .auth-btn--theme {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    margin-top: 0.35rem;
+
+    span {
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+    }
+
+    i {
+      color: var(--color-success);
+    }
+  }
 }
 
 /* === THEME TOGGLE ROW === */
