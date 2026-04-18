@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Homepage featured-rail deployment fix + metadata deploy checks (GitHub Pages-safe)
+
+- Wired `index.html` to load `js/homepage-rail-enhancements.js` directly so featured-rail motion + modal interactions now execute in production (not just in source control).
+- Added `scripts/check-deploy-metadata.mjs` and `npm run lint:metadata` to enforce deploy-ready favicon, Apple icon, OG image, Twitter image, and `theme-color` tags across key public pages before build/deploy.
+- Updated build/documentation guidance (`README.md`, `docs/BUILD_PIPELINE.md`) so GitHub Pages deployment explicitly includes metadata/social-asset validation and branded browser-chrome requirements.
+
 ## 2026-04-18 — Featured rail full-bleed + tighter section snapping refinements (GitHub Pages-safe)
 
 - Updated homepage rail behavior (`js/main.js`) so the featured books shell/strip runs full-bleed to the viewport edges instead of staying constrained inside the previous centered max-width container.
