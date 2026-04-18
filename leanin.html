@@ -1,2884 +1,2884 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Crown Psychology - Therapeutic Workbook</title>
-    <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="Daren Prince">
-    <link rel="canonical" href="https://www.darenprince.com/leanin.html">
-    <meta name="theme-color" content="#6a63f1">
-    <meta property="og:title" content="Crown Psychology - Therapeutic Workbook">
-    <meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support, with printable worksheets.">
-    <meta property="og:site_name" content="darenprince.com">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.darenprince.com/leanin.html">
-    <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta property="og:image:alt" content="Crown Psychology Lean In workbook preview">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta name="twitter:image:alt" content="Crown Psychology Lean In workbook preview">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: #1a1a2e;
-            background: linear-gradient(140deg, #e2f0ff 0%, #f1e6ff 48%, #e1fbff 100%);
-            position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
-            touch-action: manipulation;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body.is-locked {
-            overflow: hidden;
-        }
-
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            inset: -20%;
-            pointer-events: none;
-            z-index: -2;
-            opacity: 0.35;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.18), transparent 55%),
-                radial-gradient(circle at 80% 30%, rgba(118, 75, 162, 0.16), transparent 55%),
-                radial-gradient(circle at 50% 80%, rgba(109, 162, 255, 0.18), transparent 60%);
-            animation: ambient-shift 24s ease-in-out infinite;
-        }
-
-        body::after {
-            opacity: 0.25;
-            filter: blur(10px);
-            animation-duration: 32s;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: linear-gradient(180deg, rgba(248, 250, 255, 0.94) 0%, rgba(236, 241, 255, 0.96) 100%);
-            border: 1px solid rgba(102, 126, 234, 0.12);
-        }
-
-        /* Material Icons */
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 16px 32px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
-            overflow: visible;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-bottom {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 12px 0 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-            margin: 0 -32px;
-            padding-left: 32px;
-            padding-right: 32px;
-        }
-
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: transparent;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: #ffffff;
-        }
-
-        .logo-text {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .logo-subtitle {
-            font-size: 11px;
-            opacity: 0.9;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-
-        .header-patient {
-            text-align: right;
-            font-size: 13px;
-            line-height: 1.4;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-        }
-
-        .header-menu {
-            position: relative;
-            margin-left: 16px;
-        }
-
-        .workbook-nav {
-            position: static;
-        }
-
-        .workbook-toggle {
-            border: none;
-            background: rgba(255, 255, 255, 0.18);
-            color: #fff;
-            border-radius: 999px;
-            padding: 8px 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .workbook-toggle:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
-        }
-
-        .workbook-panel {
-            position: absolute;
-            top: calc(100% + 12px);
-            left: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 241, 255, 0.98) 100%);
-            border-radius: 20px;
-            box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
-            padding: 20px 24px 24px;
-            z-index: 210;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-8px);
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-        }
-
-        .workbook-panel.is-flashing {
-            animation: workbook-panel-glow 1.8s ease-in-out;
-        }
-
-        .workbook-panel.is-open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .workbook-panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            color: #2b2b4b;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .workbook-panel-close {
-            border: none;
-            background: rgba(106, 99, 241, 0.12);
-            color: #3a3470;
-            border-radius: 12px;
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .workbook-panel-close:hover {
-            background: rgba(106, 99, 241, 0.2);
-            transform: scale(1.05);
-        }
-
-        .workbook-panel-subtitle {
-            font-size: 12px;
-            color: #5e5e7c;
-            font-weight: 500;
-        }
-
-        .workbook-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px 18px;
-            max-height: min(52vh, 440px);
-            overflow-y: scroll;
-            padding-right: 6px;
-            scrollbar-gutter: stable;
-        }
-
-        .workbook-links::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .workbook-links::-webkit-scrollbar-track {
-            background: rgba(106, 99, 241, 0.08);
-            border-radius: 999px;
-        }
-
-        .workbook-links::-webkit-scrollbar-thumb {
-            background: rgba(106, 99, 241, 0.4);
-            border-radius: 999px;
-        }
-
-        .workbook-link-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .workbook-link-title {
-            font-size: 12px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #6a63f1;
-            font-weight: 700;
-        }
-
-        .workbook-link {
-            color: #1a1a2e;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            padding: 6px 8px;
-            border-radius: 10px;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .workbook-link:hover {
-            background: rgba(106, 99, 241, 0.12);
-            transform: translateX(4px);
-        }
-
-        .menu-toggle {
-            border: none;
-            background: rgba(255, 255, 255, 0.18);
-            color: #fff;
-            border-radius: 999px;
-            padding: 8px 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .menu-toggle:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
-        }
-
-        .menu-panel {
-            position: absolute;
-            top: calc(100% + 12px);
-            right: 0;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(26, 26, 46, 0.2);
-            padding: 16px;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 200;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-8px);
-            transform-origin: top right;
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-        }
-
-        .menu-panel.is-open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .menu-greeting {
-            font-weight: 600;
-            font-size: 14px;
-            color: #1a1a2e;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(26, 26, 46, 0.1);
-            margin-bottom: 8px;
-        }
-
-        .menu-item {
-            border: none;
-            background: #f4f5ff;
-            color: #1a1a2e;
-            border-radius: 12px;
-            padding: 10px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .menu-item:hover {
-            background: #e7e9ff;
-            transform: translateX(2px);
-        }
-
-        .menu-item.danger {
-            background: rgba(255, 95, 95, 0.15);
-            color: #b02b2b;
-        }
-
-        .menu-item.danger:hover {
-            background: rgba(255, 95, 95, 0.25);
-        }
-
-        .quick-action {
-            border: none;
-            background: rgba(255, 255, 255, 0.18);
-            color: #fff;
-            border-radius: 999px;
-            padding: 8px 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .quick-action:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
-        }
-
-        .workbook-toggle.is-flashing {
-            animation: workbook-toggle-flash 1.6s ease-in-out 2;
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .quick-action span {
-            font-size: 18px;
-        }
-
-        /* Footer */
-        .footer {
-            background: #1a1a2e;
-            color: white;
-            padding: 30px 40px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .footer-links {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            opacity: 0.7;
-        }
-
-        /* Cover Page */
-        .cover {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            color: white;
-            padding: 100px 60px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            animation: gradient 15s ease infinite;
-            background-size: 400% 400%;
-        }
-
-        .cover::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
-        }
-
-        .cover-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .cover-icon {
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 64px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .cover-title {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-
-        .cover-subtitle {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            font-weight: 300;
-            line-height: 1.4;
-        }
-
-        .cover-session {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 40px 0 20px;
-            padding: 20px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            line-height: 1.3;
-            animation: glow 5s ease-in-out infinite;
-        }
-
-        .cover-patient {
-            font-size: 16px;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            line-height: 1.4;
-        }
-
-        /* Content */
-        .content {
-            padding: 60px;
-        }
-
-        /* Table of Contents */
-        .toc {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 10%);
-            padding: 50px;
-            margin: 40px 0;
-            border-radius: 20px;
-            border: 1px solid #e1e8ed;
-        }
-
-        .toc-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .toc-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .toc h2 {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .toc-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .toc-item {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e1e8ed;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .toc-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-
-        .toc-number {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .toc-text {
-            font-weight: 500;
-            color: #2d3748;
-            line-height: 1.3;
-        }
-
-        /* Sections */
-        .section {
-            margin: 80px 0;
-            page-break-inside: avoid;
-            scroll-margin-top: 80px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .section-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            flex-shrink: 0;
-        }
-
-        .section-title-group h2 {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin: 0;
-            line-height: 1.1;
-        }
-
-        .section-number {
-            font-size: 14px;
-            color: #667eea;
-            font-weight: 600;
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
-
-        p {
-            margin-bottom: 20px;
-            font-size: 16px;
-            line-height: 1.8;
-        }
-
-        /* Info Cards */
-        .info-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 35px;
-            margin: 30px 0;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(240, 147, 251, 0.3);
-        }
-
-        .info-card p {
-            font-size: 18px;
-            font-weight: 500;
-            margin: 0;
-        }
-
-        .insight-box {
-            background: #fff;
-            border-left: 5px solid #667eea;
-            padding: 30px;
-            margin: 25px 0;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-        }
-
-        .insight-box-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        ul {
-            margin: 20px 0;
-            padding-left: 0;
-            list-style: none;
-        }
-
-        li {
-            margin: 15px 0;
-            padding-left: 35px;
-            position: relative;
-        }
-
-        li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        /* Cycle List */
-        .cycle-list {
-            counter-reset: cycle;
-            margin: 30px 0;
-        }
-
-        .cycle-list li {
-            counter-increment: cycle;
-            background: #f8f9fa;
-            padding: 25px 25px 25px 80px;
-            margin: 15px 0;
-            border-radius: 12px;
-            border: 1px solid #e1e8ed;
-            position: relative;
-        }
-
-        .cycle-list li::before {
-            content: counter(cycle);
-            position: absolute;
-            left: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 20px;
-        }
-
-        /* Tool Boxes */
-        .tool-box {
-            background: white;
-            border: 2px solid #667eea;
-            padding: 30px;
-            margin: 25px 0;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
-        }
-
-        .tool-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .tool-icon {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
-        .tool-title {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 700;
-            color: #667eea;
-            font-size: 20px;
-            line-height: 1.2;
-        }
-
-        /* Worksheets */
-        .worksheet {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 40px;
-            margin: 30px 0;
-            border-radius: 20px;
-            border: 2px dashed #ff9a76;
-            content-visibility: auto;
-            contain-intrinsic-size: 720px;
-        }
-
-        .worksheet-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .worksheet-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            color: #ff9a76;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .worksheet h3 {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: #8b4513;
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .worksheet ol {
-            line-height: 2.2;
-            padding-left: 20px;
-            list-style: decimal;
-        }
-
-        .worksheet ol li::before {
-            display: none;
-        }
-
-        .worksheet ol li {
-            padding-left: 10px;
-            font-weight: 500;
-        }
-
-        .worksheet-input {
-            width: 100%;
-            min-height: 80px;
-            padding: 15px;
-            margin-top: 10px;
-            border: 2px solid #ff9a76;
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            resize: vertical;
-            background: #fafbff;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .worksheet-input:focus {
-            outline: none;
-            border-color: #f5576c;
-            box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1);
-        }
-
-        /* Quote Box */
-        .quote-box {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 24px;
-            font-weight: 600;
-            text-align: center;
-            padding: 45px;
-            margin: 40px 0;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 20px;
-            color: #1a1a2e;
-            position: relative;
-            line-height: 1.4;
-        }
-
-        .quote-box::before {
-            content: '"';
-            position: absolute;
-            top: 15px;
-            left: 25px;
-            font-size: 80px;
-            opacity: 0.2;
-            font-family: Georgia, serif;
-        }
-
-        /* Final Note */
-        .final-note {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px;
-            margin: 60px 0;
-            border-radius: 24px;
-            text-align: center;
-        }
-
-        .final-note-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 48px;
-        }
-
-        .final-note p {
-            text-align: center;
-            font-size: 18px;
-            line-height: 2;
-            margin: 20px 0;
-        }
-
-        /* Link Box */
-        .link-box {
-            background: #667eea;
-            color: white;
-            padding: 25px;
-            margin: 25px 0;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .link-box a {
-            color: white;
-            text-decoration: underline;
-            font-weight: 600;
-            word-break: break-all;
-        }
-
-        /* Download Button */
-        .download-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 18px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            animation: pulse 3.2s ease-in-out infinite;
-        }
-
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
-        }
-
-        /* Gating Modal */
-        .gate-overlay {
-            position: fixed;
-            inset: 0;
-            --auth-bg: linear-gradient(150deg, #15132c 0%, #1c1b3f 45%, #221f4a 100%);
-            --auth-card-bg: linear-gradient(165deg, #2b2556 0%, #3c3a7b 55%, #4a5294 100%);
-            --auth-card-shadow: rgba(11, 9, 32, 0.55);
-            --auth-text: #f7f6ff;
-            --auth-muted: rgba(240, 240, 255, 0.7);
-            --auth-input-bg: rgba(255, 255, 255, 0.12);
-            --auth-input-border: rgba(255, 255, 255, 0.25);
-            --auth-button-bg: #ffffff;
-            --auth-button-text: #2e2c6d;
-            --auth-outline: rgba(255, 255, 255, 0.35);
-            --auth-divider: rgba(255, 255, 255, 0.25);
-            --auth-icon-bg: rgba(255, 255, 255, 0.22);
-            background: var(--auth-bg);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 24px;
-            z-index: 2000;
-            color: var(--auth-text);
-        }
-
-        @media (prefers-color-scheme: light) {
-            .gate-overlay {
-                --auth-bg: linear-gradient(135deg, #e8e5ff 0%, #e2eaff 45%, #f0e9ff 100%);
-                --auth-card-bg: linear-gradient(165deg, #c2b3ff 0%, #a8b4ff 55%, #96b2ff 100%);
-                --auth-card-shadow: rgba(77, 85, 160, 0.28);
-                --auth-text: #ffffff;
-                --auth-muted: rgba(255, 255, 255, 0.75);
-                --auth-input-bg: rgba(255, 255, 255, 0.2);
-                --auth-input-border: rgba(255, 255, 255, 0.35);
-                --auth-button-bg: #ffffff;
-                --auth-button-text: #2e2c6d;
-                --auth-outline: rgba(255, 255, 255, 0.55);
-                --auth-divider: rgba(255, 255, 255, 0.35);
-                --auth-icon-bg: rgba(255, 255, 255, 0.22);
-            }
-        }
-
-        .auth-showcase {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            width: min(1100px, 100%);
-            transition: all 0.3s ease;
-        }
-
-        .auth-phone {
-            background: var(--auth-card-bg);
-            border-radius: 32px;
-            width: min(260px, 80vw);
-            padding: 22px 20px 28px;
-            color: var(--auth-text);
-            box-shadow: 0 18px 40px var(--auth-card-shadow);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .auth-phone::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.35);
-        }
-
-        .auth-phone--intro {
-            height: 430px;
-            justify-content: space-between;
-        }
-
-        .auth-phone--login,
-        .auth-phone--signup {
-            height: 520px;
-        }
-
-        .auth-phone__status {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--auth-muted);
-            margin-top: 10px;
-            margin-bottom: 14px;
-        }
-
-        .auth-logo {
-            width: 82px;
-            height: 82px;
-            border-radius: 28px;
-            background: conic-gradient(from 220deg, #2a1b7f, #4f4cff, #7a7bff, #2a1b7f);
-            display: grid;
-            place-items: center;
-            margin: 40px auto 14px;
-            box-shadow: inset 0 0 0 10px var(--auth-icon-bg);
-        }
-
-        .auth-logo::after {
-            content: '';
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.35);
-        }
-
-        .auth-brand {
-            text-align: center;
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: 0.2px;
-        }
-
-        .auth-buttons {
-            display: grid;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .auth-btn {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1px solid var(--auth-outline);
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--auth-text);
-            font-weight: 600;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .auth-btn--primary {
-            background: var(--auth-button-bg);
-            color: var(--auth-button-text);
-            border: none;
-            box-shadow: 0 8px 18px rgba(50, 60, 120, 0.25);
-        }
-
-        .auth-guest {
-            text-align: center;
-            font-size: 11px;
-            color: var(--auth-muted);
-            margin-top: 32px;
-        }
-
-        .auth-title {
-            text-align: center;
-            font-weight: 700;
-            font-size: 17px;
-            line-height: 1.4;
-            margin: 18px 0 16px;
-            color: var(--auth-text);
-        }
-
-        .auth-form {
-            display: grid;
-            gap: 10px;
-        }
-
-        .auth-input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--auth-input-border);
-            background: var(--auth-input-bg);
-            color: var(--auth-text);
-            font-size: 12px;
-        }
-
-        .auth-input::placeholder {
-            color: var(--auth-muted);
-        }
-
-        .auth-form-meta {
-            text-align: right;
-            font-size: 10px;
-            margin-top: -4px;
-            color: var(--auth-muted);
-        }
-
-        .auth-submit {
-            margin-top: 10px;
-            background: var(--auth-button-bg);
-            color: var(--auth-button-text);
-            border: none;
-            border-radius: 12px;
-            padding: 10px 12px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .auth-divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 10px;
-            color: var(--auth-muted);
-            margin: 14px 0 10px;
-        }
-
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            height: 1px;
-            flex: 1;
-            background: var(--auth-divider);
-        }
-
-        .auth-socials {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .auth-social {
-            background: #fff;
-            color: #2e2c6d;
-            border: none;
-            border-radius: 10px;
-            padding: 8px 10px;
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .auth-social__icon {
-            width: 16px;
-            height: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth-social__icon svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .auth-social__label {
-            font-size: 12px;
-        }
-
-        .auth-footer {
-            text-align: center;
-            font-size: 10px;
-            margin-top: 16px;
-            color: var(--auth-muted);
-        }
-
-        .auth-link {
-            background: none;
-            border: none;
-            color: var(--auth-text);
-            font-weight: 600;
-            font-size: 10px;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .gate-error {
-            color: #ffdfdf;
-            font-size: 11px;
-            min-height: 14px;
-            text-align: center;
-        }
-
-        .auth-showcase.is-interactive .auth-phone {
-            opacity: 0.45;
-            transform: translateY(10px) scale(0.98);
-        }
-
-        .auth-showcase.is-interactive .auth-phone.is-active {
-            opacity: 1;
-            transform: translateY(0) scale(1.02);
-            box-shadow: 0 22px 48px var(--auth-card-shadow);
-        }
-
-        @media (max-width: 960px) {
-            .auth-showcase.is-interactive {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .auth-showcase.is-interactive .auth-phone {
-                display: none;
-            }
-
-            .auth-showcase.is-interactive .auth-phone.is-active {
-                display: flex;
-            }
-        }
-
-        .preloader {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .preloader-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 22px;
-            padding: 30px 40px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(10, 10, 40, 0.35);
-        }
-
-        .preloader-spinner {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.35);
-            border-top-color: #fff;
-            margin: 0 auto 16px;
-            animation: spin 1s linear infinite;
-        }
-
-        .save-toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(26, 26, 46, 0.9);
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 999px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 1500;
-        }
-
-        .save-toast.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .worksheet-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 25px 0 40px;
-        }
-
-        .worksheet-note {
-            font-size: 13px;
-            color: #4a4a68;
-            margin: -20px 0 30px;
-        }
-
-        .worksheet-toolbar button {
-            background: #1a1a2e;
-            color: #fff;
-            border: none;
-            border-radius: 999px;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .worksheet-toolbar button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
-        }
-
-        .reveal {
-            opacity: 1;
-            transform: none;
-            transition: none;
-        }
-
-        .reveal.is-visible {
-            opacity: 1;
-            transform: none;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
-            }
-        }
-
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-4px);
-            }
-        }
-
-        @keyframes workbook-panel-glow {
-            0%,
-            100% {
-                box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
-            }
-            50% {
-                box-shadow: 0 24px 55px rgba(102, 126, 234, 0.45);
-            }
-        }
-
-        @keyframes workbook-toggle-flash {
-            0% {
-                transform: translateY(0);
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
-            }
-            50% {
-                transform: translateY(-3px);
-                box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
-            }
-            100% {
-                transform: translateY(0);
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-            .download-button,
-            .header-actions,
-            .worksheet-toolbar,
-            .save-toast,
-            .preloader {
-                display: none;
-            }
-            .header {
-                position: relative;
-            }
-            .gate-overlay {
-                display: none;
-            }
-            @page {
-                margin: 1cm;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .content {
-                padding: 30px;
-            }
-            .toc-grid {
-                grid-template-columns: 1fr;
-            }
-            .download-button {
-                right: 20px;
-                bottom: 20px;
-                padding: 14px 22px;
-            }
-            .header {
-                gap: 10px;
-                padding: 12px 16px 0;
-            }
-            .header-top {
-                align-items: flex-start;
-            }
-            .header-bottom {
-                margin: 0 -16px;
-                padding: 10px 16px 12px;
-            }
-            .header-patient {
-                margin-left: auto;
-                width: auto;
-                text-align: right;
-            }
-            .header-actions {
-                justify-content: flex-end;
-                gap: 8px;
-            }
-            .header-actions .quick-action {
-                padding: 6px 10px;
-                font-size: 0;
-            }
-            .header-actions .quick-action span {
-                font-size: 18px;
-            }
-            .menu-toggle {
-                padding: 6px 10px;
-                font-size: 0;
-            }
-            .menu-toggle .menu-text {
-                display: none;
-            }
-            .menu-toggle .material-symbols-outlined {
-                font-size: 18px;
-            }
-            .logo-text {
-                font-size: 16px;
-            }
-            .menu-panel {
-                right: 0;
-                left: auto;
-                width: min(240px, calc(100vw - 32px));
-            }
-        }
-
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        @keyframes ambient-shift {
-            0% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-            50% {
-                transform: translate3d(4%, -2%, 0) scale(1.04);
-            }
-            100% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <title>Crown Psychology - Therapeutic Workbook</title>
+ <meta name="description" content="Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.">
+ <meta name="robots" content="index, follow">
+ <meta name="author" content="Daren Prince">
+ <link rel="canonical" href="https://www.darenprince.com/leanin.html">
+ <meta name="theme-color" content="#6a63f1">
+ <meta property="og:title" content="Crown Psychology - Therapeutic Workbook">
+ <meta property="og:description" content="Lean In therapeutic workbook for attachment and emotional regulation support, with printable worksheets.">
+ <meta property="og:site_name" content="darenprince.com">
+ <meta property="og:type" content="website">
+ <meta property="og:url" content="https://www.darenprince.com/leanin.html">
+ <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta property="og:image:alt" content="Crown Psychology Lean In workbook preview">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta name="twitter:image:alt" content="Crown Psychology Lean In workbook preview">
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz, wght, FILL, GRAD@24, 400, 0, 0" />
+ <style>
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ body {
+ font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ line-height: 1.7;
+ color: #1a1a2e;
+ background: linear-gradient(140deg, #e2f0ff 0%, #f1e6ff 48%, #e1fbff 100%);
+ position: relative;
+ min-height: 100vh;
+ overflow-x: hidden;
+ touch-action: manipulation;
+ -webkit-text-size-adjust: 100%;
+ }
+
+ body.is-locked {
+ overflow: hidden;
+ }
+
+ body::before,
+ body::after {
+ content: '';
+ position: fixed;
+ inset: -20%;
+ pointer-events: none;
+ z-index: -2;
+ opacity: 0.35;
+ background:
+ radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.18), transparent 55%),
+ radial-gradient(circle at 80% 30%, rgba(118, 75, 162, 0.16), transparent 55%),
+ radial-gradient(circle at 50% 80%, rgba(109, 162, 255, 0.18), transparent 60%);
+ animation: ambient-shift 24s ease-in-out infinite;
+ }
+
+ body::after {
+ opacity: 0.25;
+ filter: blur(10px);
+ animation-duration: 32s;
+ }
+
+ .container {
+ max-width: 900px;
+ margin: 0 auto;
+ background: linear-gradient(180deg, rgba(248, 250, 255, 0.94) 0%, rgba(236, 241, 255, 0.96) 100%);
+ border: 1px solid rgba(102, 126, 234, 0.12);
+ }
+
+ /* Material Icons */
+ .material-symbols-outlined {
+ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+ }
+
+ /* Header */
+ .header {
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ padding: 16px 32px 0;
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+ color: white;
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ box-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
+ overflow: visible;
+ }
+
+ .header-top {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ gap: 20px;
+ }
+
+ .header-bottom {
+ display: flex;
+ justify-content: flex-end;
+ align-items: center;
+ padding: 12px 0 16px;
+ border-top: 1px solid rgba(255, 255, 255, 0.2);
+ background: rgba(255, 255, 255, 0.08);
+ margin: 0 -32px;
+ padding-left: 32px;
+ padding-right: 32px;
+ }
+
+ .header-logo {
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ }
+
+ .logo-icon {
+ width: 50px;
+ height: 50px;
+ background: transparent;
+ border-radius: 0;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 32px;
+ color: #ffffff;
+ }
+
+ .logo-text {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-size: 20px;
+ font-weight: 700;
+ letter-spacing: -0.5px;
+ line-height: 1.2;
+ }
+
+ .logo-subtitle {
+ font-size: 11px;
+ opacity: 0.9;
+ font-weight: 400;
+ letter-spacing: 0.5px;
+ text-transform: uppercase;
+ line-height: 1.2;
+ }
+
+ .header-patient {
+ text-align: right;
+ font-size: 13px;
+ line-height: 1.4;
+ display: flex;
+ flex-direction: column;
+ align-items: flex-end;
+ }
+
+ .header-actions {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ justify-content: flex-end;
+ flex-wrap: nowrap;
+ }
+
+ .header-menu {
+ position: relative;
+ margin-left: 16px;
+ }
+
+ .workbook-nav {
+ position: static;
+ }
+
+ .workbook-toggle {
+ border: none;
+ background: rgba(255, 255, 255, 0.18);
+ color: #fff;
+ border-radius: 999px;
+ padding: 8px 12px;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ font-size: 12px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+ }
+
+ .workbook-toggle:hover {
+ transform: translateY(-2px);
+ background: rgba(255, 255, 255, 0.28);
+ box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+ }
+
+ .workbook-panel {
+ position: absolute;
+ top: calc(100% + 12px);
+ left: 20px;
+ right: 20px;
+ background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 241, 255, 0.98) 100%);
+ border-radius: 20px;
+ box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
+ padding: 20px 24px 24px;
+ z-index: 210;
+ opacity: 0;
+ visibility: hidden;
+ transform: translateY(-8px);
+ pointer-events: none;
+ transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+ }
+
+ .workbook-panel.is-flashing {
+ animation: workbook-panel-glow 1.8s ease-in-out;
+ }
+
+ .workbook-panel.is-open {
+ opacity: 1;
+ visibility: visible;
+ transform: translateY(0);
+ pointer-events: auto;
+ }
+
+ .workbook-panel-header {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ color: #2b2b4b;
+ font-weight: 600;
+ margin-bottom: 12px;
+ }
+
+ .workbook-panel-close {
+ border: none;
+ background: rgba(106, 99, 241, 0.12);
+ color: #3a3470;
+ border-radius: 12px;
+ width: 36px;
+ height: 36px;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ transition: background 0.2s ease, transform 0.2s ease;
+ }
+
+ .workbook-panel-close:hover {
+ background: rgba(106, 99, 241, 0.2);
+ transform: scale(1.05);
+ }
+
+ .workbook-panel-subtitle {
+ font-size: 12px;
+ color: #5e5e7c;
+ font-weight: 500;
+ }
+
+ .workbook-links {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 12px 18px;
+ max-height: min(52vh, 440px);
+ overflow-y: scroll;
+ padding-right: 6px;
+ scrollbar-gutter: stable;
+ }
+
+ .workbook-links::-webkit-scrollbar {
+ width: 8px;
+ }
+
+ .workbook-links::-webkit-scrollbar-track {
+ background: rgba(106, 99, 241, 0.08);
+ border-radius: 999px;
+ }
+
+ .workbook-links::-webkit-scrollbar-thumb {
+ background: rgba(106, 99, 241, 0.4);
+ border-radius: 999px;
+ }
+
+ .workbook-link-group {
+ display: flex;
+ flex-direction: column;
+ gap: 6px;
+ }
+
+ .workbook-link-title {
+ font-size: 12px;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ color: #6a63f1;
+ font-weight: 700;
+ }
+
+ .workbook-link {
+ color: #1a1a2e;
+ font-size: 14px;
+ font-weight: 500;
+ text-decoration: none;
+ padding: 6px 8px;
+ border-radius: 10px;
+ transition: background 0.2s ease, transform 0.2s ease;
+ }
+
+ .workbook-link:hover {
+ background: rgba(106, 99, 241, 0.12);
+ transform: translateX(4px);
+ }
+
+ .menu-toggle {
+ border: none;
+ background: rgba(255, 255, 255, 0.18);
+ color: #fff;
+ border-radius: 999px;
+ padding: 8px 12px;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ font-size: 12px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+ }
+
+ .menu-toggle:hover {
+ transform: translateY(-2px);
+ background: rgba(255, 255, 255, 0.28);
+ box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+ }
+
+ .menu-panel {
+ position: absolute;
+ top: calc(100% + 12px);
+ right: 0;
+ background: #ffffff;
+ border-radius: 16px;
+ box-shadow: 0 20px 40px rgba(26, 26, 46, 0.2);
+ padding: 16px;
+ min-width: 220px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ z-index: 200;
+ opacity: 0;
+ visibility: hidden;
+ transform: translateY(-8px);
+ transform-origin: top right;
+ pointer-events: none;
+ transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+ }
+
+ .menu-panel.is-open {
+ opacity: 1;
+ visibility: visible;
+ transform: translateY(0);
+ pointer-events: auto;
+ }
+
+ .menu-greeting {
+ font-weight: 600;
+ font-size: 14px;
+ color: #1a1a2e;
+ padding-bottom: 8px;
+ border-bottom: 1px solid rgba(26, 26, 46, 0.1);
+ margin-bottom: 8px;
+ }
+
+ .menu-item {
+ border: none;
+ background: #f4f5ff;
+ color: #1a1a2e;
+ border-radius: 12px;
+ padding: 10px 12px;
+ font-size: 13px;
+ font-weight: 600;
+ text-align: left;
+ cursor: pointer;
+ transition: background 0.2s ease, transform 0.2s ease;
+ }
+
+ .menu-item:hover {
+ background: #e7e9ff;
+ transform: translateX(2px);
+ }
+
+ .menu-item.danger {
+ background: rgba(255, 95, 95, 0.15);
+ color: #b02b2b;
+ }
+
+ .menu-item.danger:hover {
+ background: rgba(255, 95, 95, 0.25);
+ }
+
+ .quick-action {
+ border: none;
+ background: rgba(255, 255, 255, 0.18);
+ color: #fff;
+ border-radius: 999px;
+ padding: 8px 14px;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ font-size: 12px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+ }
+
+ .quick-action:hover {
+ transform: translateY(-2px);
+ background: rgba(255, 255, 255, 0.28);
+ box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+ }
+
+ .workbook-toggle.is-flashing {
+ animation: workbook-toggle-flash 1.6s ease-in-out 2;
+ box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+ }
+
+ .quick-action span {
+ font-size: 18px;
+ }
+
+ /* Footer */
+ .footer {
+ background: #1a1a2e;
+ color: white;
+ padding: 30px 40px;
+ text-align: center;
+ font-size: 13px;
+ }
+
+ .footer-logo {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+ margin-bottom: 15px;
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-weight: 600;
+ line-height: 1.2;
+ }
+
+ .footer-links {
+ margin-top: 15px;
+ padding-top: 15px;
+ border-top: 1px solid rgba(255, 255, 255, 0.1);
+ opacity: 0.7;
+ }
+
+ /* Cover Page */
+ .cover {
+ background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+ color: white;
+ padding: 100px 60px;
+ text-align: center;
+ position: relative;
+ overflow: hidden;
+ min-height: 600px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ animation: gradient 15s ease infinite;
+ background-size: 400% 400%;
+ }
+
+ .cover::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background:
+ radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+ radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+ }
+
+ .cover-content {
+ position: relative;
+ z-index: 1;
+ }
+
+ .cover-icon {
+ width: 100px;
+ height: 100px;
+ background: rgba(255, 255, 255, 0.2);
+ backdrop-filter: blur(10px);
+ border-radius: 24px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: 0 auto 30px;
+ font-size: 64px;
+ animation: float 6s ease-in-out infinite;
+ }
+
+ .cover-title {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-size: 48px;
+ font-weight: 700;
+ margin-bottom: 20px;
+ letter-spacing: -1px;
+ line-height: 1.1;
+ }
+
+ .cover-subtitle {
+ font-size: 18px;
+ opacity: 0.9;
+ margin-bottom: 40px;
+ font-weight: 300;
+ line-height: 1.4;
+ }
+
+ .cover-session {
+ font-size: 28px;
+ font-weight: 600;
+ margin: 40px 0 20px;
+ padding: 20px;
+ background: rgba(255, 255, 255, 0.15);
+ backdrop-filter: blur(10px);
+ border-radius: 16px;
+ border: 1px solid rgba(255, 255, 255, 0.2);
+ line-height: 1.3;
+ animation: glow 5s ease-in-out infinite;
+ }
+
+ .cover-patient {
+ font-size: 16px;
+ margin-top: 50px;
+ padding-top: 30px;
+ border-top: 1px solid rgba(255, 255, 255, 0.3);
+ line-height: 1.4;
+ }
+
+ /* Content */
+ .content {
+ padding: 60px;
+ }
+
+ /* Table of Contents */
+ .toc {
+ background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 10%);
+ padding: 50px;
+ margin: 40px 0;
+ border-radius: 20px;
+ border: 1px solid #e1e8ed;
+ }
+
+ .toc-header {
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ margin-bottom: 30px;
+ }
+
+ .toc-icon {
+ width: 50px;
+ height: 50px;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 32px;
+ }
+
+ .toc h2 {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-size: 32px;
+ font-weight: 700;
+ color: #1a1a2e;
+ margin: 0;
+ line-height: 1.2;
+ }
+
+ .toc-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 15px;
+ }
+
+ .toc-item {
+ background: white;
+ padding: 20px;
+ border-radius: 12px;
+ border: 1px solid #e1e8ed;
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ transition: all 0.3s ease;
+ cursor: pointer;
+ text-decoration: none;
+ color: inherit;
+ }
+
+ .toc-item:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+ }
+
+ .toc-number {
+ width: 40px;
+ height: 40px;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ border-radius: 10px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: 700;
+ font-size: 16px;
+ flex-shrink: 0;
+ }
+
+ .toc-text {
+ font-weight: 500;
+ color: #2d3748;
+ line-height: 1.3;
+ }
+
+ /* Sections */
+ .section {
+ margin: 80px 0;
+ page-break-inside: avoid;
+ scroll-margin-top: 80px;
+ }
+
+ .section-header {
+ display: flex;
+ align-items: center;
+ gap: 20px;
+ margin-bottom: 30px;
+ padding-bottom: 20px;
+ border-bottom: 3px solid #667eea;
+ }
+
+ .section-icon {
+ width: 60px;
+ height: 60px;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ border-radius: 16px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 36px;
+ flex-shrink: 0;
+ }
+
+ .section-title-group h2 {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-size: 32px;
+ font-weight: 700;
+ color: #1a1a2e;
+ margin: 0;
+ line-height: 1.1;
+ }
+
+ .section-number {
+ font-size: 14px;
+ color: #667eea;
+ font-weight: 600;
+ letter-spacing: 1px;
+ line-height: 1.2;
+ }
+
+ p {
+ margin-bottom: 20px;
+ font-size: 16px;
+ line-height: 1.8;
+ }
+
+ /* Info Cards */
+ .info-card {
+ background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+ color: white;
+ padding: 35px;
+ margin: 30px 0;
+ border-radius: 20px;
+ box-shadow: 0 8px 30px rgba(240, 147, 251, 0.3);
+ }
+
+ .info-card p {
+ font-size: 18px;
+ font-weight: 500;
+ margin: 0;
+ }
+
+ .insight-box {
+ background: #fff;
+ border-left: 5px solid #667eea;
+ padding: 30px;
+ margin: 25px 0;
+ border-radius: 12px;
+ box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+ }
+
+ .insight-box-header {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ margin-bottom: 15px;
+ font-weight: 600;
+ color: #667eea;
+ }
+
+ ul {
+ margin: 20px 0;
+ padding-left: 0;
+ list-style: none;
+ }
+
+ li {
+ margin: 15px 0;
+ padding-left: 35px;
+ position: relative;
+ }
+
+ li::before {
+ content: '→';
+ position: absolute;
+ left: 0;
+ color: #667eea;
+ font-weight: 700;
+ font-size: 18px;
+ }
+
+ /* Cycle List */
+ .cycle-list {
+ counter-reset: cycle;
+ margin: 30px 0;
+ }
+
+ .cycle-list li {
+ counter-increment: cycle;
+ background: #f8f9fa;
+ padding: 25px 25px 25px 80px;
+ margin: 15px 0;
+ border-radius: 12px;
+ border: 1px solid #e1e8ed;
+ position: relative;
+ }
+
+ .cycle-list li::before {
+ content: counter(cycle);
+ position: absolute;
+ left: 25px;
+ top: 50%;
+ transform: translateY(-50%);
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ width: 45px;
+ height: 45px;
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: 700;
+ font-size: 20px;
+ }
+
+ /* Tool Boxes */
+ .tool-box {
+ background: white;
+ border: 2px solid #667eea;
+ padding: 30px;
+ margin: 25px 0;
+ border-radius: 16px;
+ box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+ }
+
+ .tool-header {
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ margin-bottom: 20px;
+ }
+
+ .tool-icon {
+ width: 45px;
+ height: 45px;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ border-radius: 10px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 28px;
+ }
+
+ .tool-title {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-weight: 700;
+ color: #667eea;
+ font-size: 20px;
+ line-height: 1.2;
+ }
+
+ /* Worksheets */
+ .worksheet {
+ background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+ padding: 40px;
+ margin: 30px 0;
+ border-radius: 20px;
+ border: 2px dashed #ff9a76;
+ content-visibility: auto;
+ contain-intrinsic-size: 720px;
+ }
+
+ .worksheet-header {
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ margin-bottom: 25px;
+ }
+
+ .worksheet-icon {
+ width: 50px;
+ height: 50px;
+ background: white;
+ color: #ff9a76;
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 32px;
+ }
+
+ .worksheet h3 {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ color: #8b4513;
+ font-size: 24px;
+ font-weight: 700;
+ margin: 0;
+ line-height: 1.2;
+ }
+
+ .worksheet ol {
+ line-height: 2.2;
+ padding-left: 20px;
+ list-style: decimal;
+ }
+
+ .worksheet ol li::before {
+ display: none;
+ }
+
+ .worksheet ol li {
+ padding-left: 10px;
+ font-weight: 500;
+ }
+
+ .worksheet-input {
+ width: 100%;
+ min-height: 80px;
+ padding: 15px;
+ margin-top: 10px;
+ border: 2px solid #ff9a76;
+ border-radius: 8px;
+ font-family: 'Inter', sans-serif;
+ font-size: 15px;
+ resize: vertical;
+ background: #fafbff;
+ transition: border-color 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .worksheet-input:focus {
+ outline: none;
+ border-color: #f5576c;
+ box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1);
+ }
+
+ /* Quote Box */
+ .quote-box {
+ font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ font-size: 24px;
+ font-weight: 600;
+ text-align: center;
+ padding: 45px;
+ margin: 40px 0;
+ background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+ border-radius: 20px;
+ color: #1a1a2e;
+ position: relative;
+ line-height: 1.4;
+ }
+
+ .quote-box::before {
+ content: '"';
+ position: absolute;
+ top: 15px;
+ left: 25px;
+ font-size: 80px;
+ opacity: 0.2;
+ font-family: Georgia, serif;
+ }
+
+ /* Final Note */
+ .final-note {
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ padding: 60px;
+ margin: 60px 0;
+ border-radius: 24px;
+ text-align: center;
+ }
+
+ .final-note-icon {
+ width: 80px;
+ height: 80px;
+ background: rgba(255, 255, 255, 0.2);
+ backdrop-filter: blur(10px);
+ border-radius: 20px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: 0 auto 30px;
+ font-size: 48px;
+ }
+
+ .final-note p {
+ text-align: center;
+ font-size: 18px;
+ line-height: 2;
+ margin: 20px 0;
+ }
+
+ /* Link Box */
+ .link-box {
+ background: #667eea;
+ color: white;
+ padding: 25px;
+ margin: 25px 0;
+ border-radius: 12px;
+ text-align: center;
+ }
+
+ .link-box a {
+ color: white;
+ text-decoration: underline;
+ font-weight: 600;
+ word-break: break-all;
+ }
+
+ /* Download Button */
+ .download-button {
+ position: fixed;
+ bottom: 30px;
+ right: 30px;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ border: none;
+ padding: 18px 32px;
+ border-radius: 50px;
+ font-weight: 700;
+ font-size: 16px;
+ cursor: pointer;
+ box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ z-index: 1000;
+ transition: all 0.3s ease;
+ animation: pulse 3.2s ease-in-out infinite;
+ }
+
+ .download-button:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+ }
+
+ /* Gating Modal */
+ .gate-overlay {
+ position: fixed;
+ inset: 0;
+ --auth-bg: linear-gradient(150deg, #15132c 0%, #1c1b3f 45%, #221f4a 100%);
+ --auth-card-bg: linear-gradient(165deg, #2b2556 0%, #3c3a7b 55%, #4a5294 100%);
+ --auth-card-shadow: rgba(11, 9, 32, 0.55);
+ --auth-text: #f7f6ff;
+ --auth-muted: rgba(240, 240, 255, 0.7);
+ --auth-input-bg: rgba(255, 255, 255, 0.12);
+ --auth-input-border: rgba(255, 255, 255, 0.25);
+ --auth-button-bg: #ffffff;
+ --auth-button-text: #2e2c6d;
+ --auth-outline: rgba(255, 255, 255, 0.35);
+ --auth-divider: rgba(255, 255, 255, 0.25);
+ --auth-icon-bg: rgba(255, 255, 255, 0.22);
+ background: var(--auth-bg);
+ backdrop-filter: blur(6px);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: 32px 24px;
+ z-index: 2000;
+ color: var(--auth-text);
+ }
+
+ @media (prefers-color-scheme: light) {
+ .gate-overlay {
+ --auth-bg: linear-gradient(135deg, #e8e5ff 0%, #e2eaff 45%, #f0e9ff 100%);
+ --auth-card-bg: linear-gradient(165deg, #c2b3ff 0%, #a8b4ff 55%, #96b2ff 100%);
+ --auth-card-shadow: rgba(77, 85, 160, 0.28);
+ --auth-text: #ffffff;
+ --auth-muted: rgba(255, 255, 255, 0.75);
+ --auth-input-bg: rgba(255, 255, 255, 0.2);
+ --auth-input-border: rgba(255, 255, 255, 0.35);
+ --auth-button-bg: #ffffff;
+ --auth-button-text: #2e2c6d;
+ --auth-outline: rgba(255, 255, 255, 0.55);
+ --auth-divider: rgba(255, 255, 255, 0.35);
+ --auth-icon-bg: rgba(255, 255, 255, 0.22);
+ }
+ }
+
+ .auth-showcase {
+ display: flex;
+ align-items: flex-end;
+ justify-content: center;
+ gap: 32px;
+ flex-wrap: wrap;
+ width: min(1100px, 100%);
+ transition: all 0.3s ease;
+ }
+
+ .auth-phone {
+ background: var(--auth-card-bg);
+ border-radius: 32px;
+ width: min(260px, 80vw);
+ padding: 22px 20px 28px;
+ color: var(--auth-text);
+ box-shadow: 0 18px 40px var(--auth-card-shadow);
+ position: relative;
+ overflow: hidden;
+ display: flex;
+ flex-direction: column;
+ transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .auth-phone::before {
+ content: '';
+ position: absolute;
+ top: 10px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 80px;
+ height: 10px;
+ border-radius: 999px;
+ background: rgba(255, 255, 255, 0.35);
+ }
+
+ .auth-phone--intro {
+ height: 430px;
+ justify-content: space-between;
+ }
+
+ .auth-phone--login,
+ .auth-phone--signup {
+ height: 520px;
+ }
+
+ .auth-phone__status {
+ display: flex;
+ justify-content: space-between;
+ font-size: 11px;
+ color: var(--auth-muted);
+ margin-top: 10px;
+ margin-bottom: 14px;
+ }
+
+ .auth-logo {
+ width: 82px;
+ height: 82px;
+ border-radius: 28px;
+ background: conic-gradient(from 220deg, #2a1b7f, #4f4cff, #7a7bff, #2a1b7f);
+ display: grid;
+ place-items: center;
+ margin: 40px auto 14px;
+ box-shadow: inset 0 0 0 10px var(--auth-icon-bg);
+ }
+
+ .auth-logo::after {
+ content: '';
+ width: 34px;
+ height: 34px;
+ border-radius: 50%;
+ background: rgba(255, 255, 255, 0.35);
+ }
+
+ .auth-brand {
+ text-align: center;
+ font-weight: 600;
+ font-size: 15px;
+ letter-spacing: 0.2px;
+ }
+
+ .auth-buttons {
+ display: grid;
+ gap: 10px;
+ margin-top: 20px;
+ }
+
+ .auth-btn {
+ width: 100%;
+ padding: 10px 14px;
+ border-radius: 12px;
+ border: 1px solid var(--auth-outline);
+ background: rgba(255, 255, 255, 0.1);
+ color: var(--auth-text);
+ font-weight: 600;
+ font-size: 13px;
+ text-align: center;
+ }
+
+ .auth-btn--primary {
+ background: var(--auth-button-bg);
+ color: var(--auth-button-text);
+ border: none;
+ box-shadow: 0 8px 18px rgba(50, 60, 120, 0.25);
+ }
+
+ .auth-guest {
+ text-align: center;
+ font-size: 11px;
+ color: var(--auth-muted);
+ margin-top: 32px;
+ }
+
+ .auth-title {
+ text-align: center;
+ font-weight: 700;
+ font-size: 17px;
+ line-height: 1.4;
+ margin: 18px 0 16px;
+ color: var(--auth-text);
+ }
+
+ .auth-form {
+ display: grid;
+ gap: 10px;
+ }
+
+ .auth-input {
+ width: 100%;
+ padding: 10px 12px;
+ border-radius: 10px;
+ border: 1px solid var(--auth-input-border);
+ background: var(--auth-input-bg);
+ color: var(--auth-text);
+ font-size: 12px;
+ }
+
+ .auth-input::placeholder {
+ color: var(--auth-muted);
+ }
+
+ .auth-form-meta {
+ text-align: right;
+ font-size: 10px;
+ margin-top: -4px;
+ color: var(--auth-muted);
+ }
+
+ .auth-submit {
+ margin-top: 10px;
+ background: var(--auth-button-bg);
+ color: var(--auth-button-text);
+ border: none;
+ border-radius: 12px;
+ padding: 10px 12px;
+ font-weight: 600;
+ font-size: 13px;
+ cursor: pointer;
+ }
+
+ .auth-divider {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ font-size: 10px;
+ color: var(--auth-muted);
+ margin: 14px 0 10px;
+ }
+
+ .auth-divider::before,
+ .auth-divider::after {
+ content: '';
+ height: 1px;
+ flex: 1;
+ background: var(--auth-divider);
+ }
+
+ .auth-socials {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 10px;
+ }
+
+ .auth-social {
+ background: #fff;
+ color: #2e2c6d;
+ border: none;
+ border-radius: 10px;
+ padding: 8px 10px;
+ font-weight: 700;
+ font-size: 14px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 6px;
+ }
+
+ .auth-social__icon {
+ width: 16px;
+ height: 16px;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ }
+
+ .auth-social__icon svg {
+ width: 100%;
+ height: 100%;
+ display: block;
+ }
+
+ .auth-social__label {
+ font-size: 12px;
+ }
+
+ .auth-footer {
+ text-align: center;
+ font-size: 10px;
+ margin-top: 16px;
+ color: var(--auth-muted);
+ }
+
+ .auth-link {
+ background: none;
+ border: none;
+ color: var(--auth-text);
+ font-weight: 600;
+ font-size: 10px;
+ cursor: pointer;
+ padding: 0;
+ }
+
+ .gate-error {
+ color: #ffdfdf;
+ font-size: 11px;
+ min-height: 14px;
+ text-align: center;
+ }
+
+ .auth-showcase.is-interactive .auth-phone {
+ opacity: 0.45;
+ transform: translateY(10px) scale(0.98);
+ }
+
+ .auth-showcase.is-interactive .auth-phone.is-active {
+ opacity: 1;
+ transform: translateY(0) scale(1.02);
+ box-shadow: 0 22px 48px var(--auth-card-shadow);
+ }
+
+ @media (max-width: 960px) {
+ .auth-showcase.is-interactive {
+ flex-direction: column;
+ align-items: center;
+ }
+
+ .auth-showcase.is-interactive .auth-phone {
+ display: none;
+ }
+
+ .auth-showcase.is-interactive .auth-phone.is-active {
+ display: flex;
+ }
+ }
+
+ .preloader {
+ position: fixed;
+ inset: 0;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 3000;
+ transition: opacity 0.4s ease, visibility 0.4s ease;
+ }
+
+ .preloader.hidden {
+ opacity: 0;
+ visibility: hidden;
+ }
+
+ .preloader-card {
+ background: rgba(255, 255, 255, 0.15);
+ backdrop-filter: blur(12px);
+ border-radius: 22px;
+ padding: 30px 40px;
+ color: white;
+ text-align: center;
+ box-shadow: 0 20px 50px rgba(10, 10, 40, 0.35);
+ }
+
+ .preloader-spinner {
+ width: 48px;
+ height: 48px;
+ border-radius: 50%;
+ border: 4px solid rgba(255, 255, 255, 0.35);
+ border-top-color: #fff;
+ margin: 0 auto 16px;
+ animation: spin 1s linear infinite;
+ }
+
+ .save-toast {
+ position: fixed;
+ top: 20px;
+ right: 20px;
+ background: rgba(26, 26, 46, 0.9);
+ color: #fff;
+ padding: 12px 18px;
+ border-radius: 999px;
+ font-size: 13px;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ opacity: 0;
+ transform: translateY(-10px);
+ pointer-events: none;
+ transition: opacity 0.3s ease, transform 0.3s ease;
+ z-index: 1500;
+ }
+
+ .save-toast.is-visible {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ .worksheet-toolbar {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 12px;
+ margin: 25px 0 40px;
+ }
+
+ .worksheet-note {
+ font-size: 13px;
+ color: #4a4a68;
+ margin: -20px 0 30px;
+ }
+
+ .worksheet-toolbar button {
+ background: #1a1a2e;
+ color: #fff;
+ border: none;
+ border-radius: 999px;
+ padding: 10px 18px;
+ font-size: 13px;
+ font-weight: 600;
+ cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
+ }
+
+ .worksheet-toolbar button:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 20px rgba(20, 20, 60, 0.2);
+ }
+
+ .reveal {
+ opacity: 1;
+ transform: none;
+ transition: none;
+ }
+
+ .reveal.is-visible {
+ opacity: 1;
+ transform: none;
+ }
+
+ @keyframes spin {
+ to {
+ transform: rotate(360deg);
+ }
+ }
+
+ @keyframes float {
+ 0%, 100% {
+ transform: translateY(0);
+ }
+ 50% {
+ transform: translateY(-10px);
+ }
+ }
+
+ @keyframes glow {
+ 0%, 100% {
+ box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
+ }
+ 50% {
+ box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+ }
+ }
+
+ @keyframes gradient-shift {
+ 0% {
+ background-position: 0% 50%;
+ }
+ 50% {
+ background-position: 100% 50%;
+ }
+ 100% {
+ background-position: 0% 50%;
+ }
+ }
+
+ @keyframes gradient {
+ 0% {
+ background-position: 0% 50%;
+ }
+ 50% {
+ background-position: 100% 50%;
+ }
+ 100% {
+ background-position: 0% 50%;
+ }
+ }
+
+ @keyframes pulse {
+ 0%, 100% {
+ transform: translateY(0);
+ }
+ 50% {
+ transform: translateY(-4px);
+ }
+ }
+
+ @keyframes workbook-panel-glow {
+ 0%,
+ 100% {
+ box-shadow: 0 24px 50px rgba(26, 26, 46, 0.25);
+ }
+ 50% {
+ box-shadow: 0 24px 55px rgba(102, 126, 234, 0.45);
+ }
+ }
+
+ @keyframes workbook-toggle-flash {
+ 0% {
+ transform: translateY(0);
+ box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+ }
+ 50% {
+ transform: translateY(-3px);
+ box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+ }
+ 100% {
+ transform: translateY(0);
+ box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+ }
+ }
+
+ @media print {
+ body {
+ background: white;
+ }
+ .download-button,
+ .header-actions,
+ .worksheet-toolbar,
+ .save-toast,
+ .preloader {
+ display: none;
+ }
+ .header {
+ position: relative;
+ }
+ .gate-overlay {
+ display: none;
+ }
+ @page {
+ margin: 1cm;
+ }
+ }
+
+ @media (max-width: 768px) {
+ .content {
+ padding: 30px;
+ }
+ .toc-grid {
+ grid-template-columns: 1fr;
+ }
+ .download-button {
+ right: 20px;
+ bottom: 20px;
+ padding: 14px 22px;
+ }
+ .header {
+ gap: 10px;
+ padding: 12px 16px 0;
+ }
+ .header-top {
+ align-items: flex-start;
+ }
+ .header-bottom {
+ margin: 0 -16px;
+ padding: 10px 16px 12px;
+ }
+ .header-patient {
+ margin-left: auto;
+ width: auto;
+ text-align: right;
+ }
+ .header-actions {
+ justify-content: flex-end;
+ gap: 8px;
+ }
+ .header-actions .quick-action {
+ padding: 6px 10px;
+ font-size: 0;
+ }
+ .header-actions .quick-action span {
+ font-size: 18px;
+ }
+ .menu-toggle {
+ padding: 6px 10px;
+ font-size: 0;
+ }
+ .menu-toggle .menu-text {
+ display: none;
+ }
+ .menu-toggle .material-symbols-outlined {
+ font-size: 18px;
+ }
+ .logo-text {
+ font-size: 16px;
+ }
+ .menu-panel {
+ right: 0;
+ left: auto;
+ width: min(240px, calc(100vw - 32px));
+ }
+ }
+
+ /* Smooth scroll */
+ html {
+ scroll-behavior: smooth;
+ }
+
+ @keyframes ambient-shift {
+ 0% {
+ transform: translate3d(0, 0, 0) scale(1);
+ }
+ 50% {
+ transform: translate3d(4%, -2%, 0) scale(1.04);
+ }
+ 100% {
+ transform: translate3d(0, 0, 0) scale(1);
+ }
+ }
+ </style>
 </head>
 <body>
-    <div class="preloader" id="preloader" aria-hidden="true">
-        <div class="preloader-card">
-            <div class="preloader-spinner"></div>
-            <strong>Preparing your Lean In workbook...</strong>
-            <div style="font-size: 13px; margin-top: 8px;">Breathe in, breathe out — you're almost there.</div>
-        </div>
-    </div>
-    <div class="save-toast" id="saveToast" role="status" aria-live="polite">
-        <span class="material-symbols-outlined">cloud_done</span>
-        <span id="saveToastText">Progress saved</span>
-    </div>
-    <div class="gate-overlay" id="gateOverlay" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-        <div class="auth-showcase is-interactive" id="authShowcase" data-auth-view="intro">
-            <div class="auth-phone auth-phone--intro">
-                <div class="auth-phone__status">
-                    <span>9:41</span>
-                    <span>•••</span>
-                </div>
-                <div>
-                    <div class="auth-logo" aria-hidden="true"></div>
-                    <div class="auth-brand">Lean In by Crown Psychology</div>
-                </div>
-                <div class="auth-buttons">
-                    <button class="auth-btn auth-btn--primary" type="button" data-auth-target="login">Login</button>
-                    <button class="auth-btn" type="button" data-auth-target="signup">Sign Up</button>
-                </div>
-                <div class="auth-guest">Continue as a guest</div>
-            </div>
-
-            <div class="auth-phone auth-phone--login">
-                <div class="auth-phone__status">
-                    <span>9:41</span>
-                    <span>•••</span>
-                </div>
-                <h2 class="auth-title" id="gateTitle">Welcome,<br>Glad to see you!</h2>
-                <form id="gateForm" class="auth-form" autocomplete="off">
-                    <input class="auth-input" id="gateUsername" name="username" type="text" placeholder="Email Address" required />
-                    <input class="auth-input" id="gatePassword" name="password" type="password" placeholder="Password" required />
-                    <div class="auth-form-meta">Forgot Password?</div>
-                    <div class="gate-error" id="gateError" aria-live="polite"></div>
-                    <button class="auth-submit" type="submit">Login</button>
-                </form>
-                <div class="auth-divider">Or Login with</div>
-                <div class="auth-socials">
-                    <button class="auth-social" type="button" aria-label="Login with Google">
-                        <span class="auth-social__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" role="presentation">
-                                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C17.8 3.1 15.2 2 12 2 6.9 2 2.7 6.1 2.7 11.2S6.9 20.4 12 20.4c6.9 0 8.6-4.9 8.6-7.5 0-.5-.1-.9-.2-1.2H12z"/>
-                                <path fill="#34A853" d="M5.4 14.1l-2.9 2.2C4.3 19 7.8 21 12 21c3.3 0 6.1-1.1 8.1-3l-3.9-3c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.2-6.6-5.1z"/>
-                                <path fill="#4A90E2" d="M20.5 12.1c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1-1 1.9-1.9 2.6l3.9 3c2.3-2.1 3-5.1 3-7.9z"/>
-                                <path fill="#FBBC05" d="M5.4 9.9c.4-1 1-1.9 1.8-2.6L4.3 5.1C3 6.6 2.3 8.4 2.3 10.4c0 2 .7 3.8 2 5.3l3.1-2.4c-.3-.7-.5-1.5-.5-2.4 0-.3 0-.6.1-.9z"/>
-                            </svg>
-                        </span>
-                        <span class="auth-social__label">Google</span>
-                    </button>
-                    <button class="auth-social" type="button" aria-label="Login with Facebook">
-                        <span class="auth-social__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" role="presentation">
-                                <path fill="#1877F2" d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4H7V12h3.1V9.4c0-3.1 1.9-4.8 4.6-4.8 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.6h-2.9v8.4C19.6 23 24 18.1 24 12.1z"/>
-                            </svg>
-                        </span>
-                        <span class="auth-social__label">Facebook</span>
-                    </button>
-                </div>
-                <div class="auth-footer">
-                    Don't have an account?
-                    <button class="auth-link" type="button" data-auth-target="signup">Sign Up Now</button>
-                </div>
-            </div>
-
-            <div class="auth-phone auth-phone--signup">
-                <div class="auth-phone__status">
-                    <span>9:41</span>
-                    <span>•••</span>
-                </div>
-                <h2 class="auth-title">Create Account<br>to get started now!</h2>
-                <div class="auth-form">
-                    <input class="auth-input" type="text" placeholder="Email Address" />
-                    <input class="auth-input" type="password" placeholder="Password" />
-                    <input class="auth-input" type="password" placeholder="Confirm Password" />
-                    <button class="auth-submit" type="button">Sign Up</button>
-                </div>
-                <div class="auth-divider">Or Sign Up with</div>
-                <div class="auth-socials">
-                    <button class="auth-social" type="button" aria-label="Sign up with Google">
-                        <span class="auth-social__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" role="presentation">
-                                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C17.8 3.1 15.2 2 12 2 6.9 2 2.7 6.1 2.7 11.2S6.9 20.4 12 20.4c6.9 0 8.6-4.9 8.6-7.5 0-.5-.1-.9-.2-1.2H12z"/>
-                                <path fill="#34A853" d="M5.4 14.1l-2.9 2.2C4.3 19 7.8 21 12 21c3.3 0 6.1-1.1 8.1-3l-3.9-3c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.2-6.6-5.1z"/>
-                                <path fill="#4A90E2" d="M20.5 12.1c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1-1 1.9-1.9 2.6l3.9 3c2.3-2.1 3-5.1 3-7.9z"/>
-                                <path fill="#FBBC05" d="M5.4 9.9c.4-1 1-1.9 1.8-2.6L4.3 5.1C3 6.6 2.3 8.4 2.3 10.4c0 2 .7 3.8 2 5.3l3.1-2.4c-.3-.7-.5-1.5-.5-2.4 0-.3 0-.6.1-.9z"/>
-                            </svg>
-                        </span>
-                        <span class="auth-social__label">Google</span>
-                    </button>
-                    <button class="auth-social" type="button" aria-label="Sign up with Facebook">
-                        <span class="auth-social__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" role="presentation">
-                                <path fill="#1877F2" d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4H7V12h3.1V9.4c0-3.1 1.9-4.8 4.6-4.8 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.6h-2.9v8.4C19.6 23 24 18.1 24 12.1z"/>
-                            </svg>
-                        </span>
-                        <span class="auth-social__label">Facebook</span>
-                    </button>
-                </div>
-                <div class="auth-footer">
-                    Already have an account?
-                    <button class="auth-link" type="button" data-auth-target="login">Login Now</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-top">
-                <div class="header-logo">
-                    <div class="logo-icon">
-                        <span class="material-symbols-outlined">psychiatry</span>
-                    </div>
-                    <div>
-                        <div class="logo-text">Crown Psychology</div>
-                        <div class="logo-subtitle">CrownCode Intelligence Suite</div>
-                    </div>
-                </div>
-                <div class="header-patient">
-                    <div style="font-weight: 600;">Patient: Hayley H.</div>
-                    <div style="opacity: 0.8; margin-top: 3px;">Session One</div>
-                </div>
-            </div>
-            <div class="header-bottom">
-                <div class="header-actions" aria-label="Quick actions">
-                    <button class="quick-action" type="button" id="quickSave">
-                        <span class="material-symbols-outlined">save</span> Save
-                    </button>
-                    <button class="quick-action" type="button" id="quickDownload">
-                        <span class="material-symbols-outlined">download</span> PDF
-                    </button>
-                    <button class="quick-action" type="button" id="quickWorksheets">
-                        <span class="material-symbols-outlined">edit_note</span> Worksheets
-                    </button>
-                    <div class="workbook-nav">
-                        <button class="workbook-toggle" type="button" id="workbookToggle" aria-expanded="false" aria-controls="workbookPanel">
-                            <span class="material-symbols-outlined">menu_book</span>
-                            <span class="menu-text">Workbook</span>
-                        </button>
-                    </div>
-                    <div class="header-menu">
-                        <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
-                            <span class="material-symbols-outlined">menu</span>
-                            <span class="menu-text">Menu</span>
-                        </button>
-                        <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
-                            <div class="menu-greeting">Hi Haley! 🫶</div>
-                            <button class="menu-item" type="button" id="menuSave">Save progress</button>
-                            <button class="menu-item" type="button" id="menuArchive">Session archive</button>
-                            <button class="menu-item" type="button" id="menuAllSections">All sections</button>
-                            <button class="menu-item danger" type="button" id="menuLogout">Logout</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="workbook-panel" id="workbookPanel" role="menu" aria-hidden="true">
-                <div class="workbook-panel-header">
-                    <div>
-                        <div>Workbook Navigation</div>
-                        <div class="workbook-panel-subtitle">Jump to any section or worksheet</div>
-                    </div>
-                    <button class="workbook-panel-close" type="button" id="workbookClose" aria-label="Close workbook navigation">
-                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
-                    </button>
-                </div>
-                <div class="workbook-links">
-                    <div class="workbook-link-group">
-                        <div class="workbook-link-title">Start Here</div>
-                        <a class="workbook-link" href="#cover">Cover</a>
-                        <a class="workbook-link" href="#table-of-contents">Table of contents</a>
-                    </div>
-                    <div class="workbook-link-group">
-                        <div class="workbook-link-title">Foundations</div>
-                        <a class="workbook-link" href="#section-01">01 · Why You're Reading This</a>
-                        <a class="workbook-link" href="#section-02">02 · What You're Dealing With</a>
-                        <a class="workbook-link" href="#section-03">03 · Grief &amp; Attachment</a>
-                        <a class="workbook-link" href="#section-04">04 · Fearful–Avoidant Pattern</a>
-                    </div>
-                    <div class="workbook-link-group">
-                        <div class="workbook-link-title">Healing Path</div>
-                        <a class="workbook-link" href="#section-05">05 · What "Lean In" Means</a>
-                        <a class="workbook-link" href="#section-06">06 · Working Understanding</a>
-                        <a class="workbook-link" href="#section-07">07 · What Healing Looks Like</a>
-                        <a class="workbook-link" href="#section-08">08 · Daily Tools for Stability</a>
-                        <a class="workbook-link" href="#section-09">09 · Scripts for Hard Moments</a>
-                        <a class="workbook-link" href="#section-10">10 · Emotional Clearing Meditation</a>
-                    </div>
-                    <div class="workbook-link-group">
-                        <div class="workbook-link-title">Worksheets</div>
-                        <a class="workbook-link" href="#section-11">11 · Therapeutic Workbook</a>
-                        <a class="workbook-link" href="#worksheet-1">Worksheet 1 · Emotional Check-In</a>
-                        <a class="workbook-link" href="#worksheet-2">Worksheet 2 · Avoidance Pattern Map</a>
-                        <a class="workbook-link" href="#worksheet-3">Worksheet 3 · Post-Intimacy Panic Map</a>
-                        <a class="workbook-link" href="#worksheet-4">Worksheet 4 · Grief Processing</a>
-                        <a class="workbook-link" href="#worksheet-5">Worksheet 5 · Emotional Safety Statements</a>
-                    </div>
-                    <div class="workbook-link-group">
-                        <div class="workbook-link-title">Close</div>
-                        <a class="workbook-link" href="#section-12">12 · Final Note</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cover Page -->
-        <div class="cover" id="cover">
-            <div class="cover-content">
-                <div class="cover-icon">
-                    <span class="material-symbols-outlined">favorite</span>
-                </div>
-                <div class="cover-title">Therapeutic Workbook</div>
-                <div class="cover-subtitle">Attachment & Emotional Regulation Program</div>
-
-                <div class="cover-session">
-                    <span class="material-symbols-outlined" style="vertical-align: middle;">eco</span> LEAN IN<br>
-                    <span style="font-size: 18px; font-weight: 400; opacity: 0.9;">Stop Compressing. Start Healing.</span>
-                </div>
-
-                <div class="cover-patient">
-                    Prepared for Hayley H. by Crown Psychology Clinical Division
-                </div>
-            </div>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-            <!-- Table of Contents -->
-            <div class="toc" id="table-of-contents">
-                <div class="toc-header">
-                    <div class="toc-icon"><span class="material-symbols-outlined">list</span></div>
-                    <h2>Table of Contents</h2>
-                </div>
-                <div class="toc-grid">
-                    <a href="#section-01" class="toc-item">
-                        <div class="toc-number">01</div>
-                        <div class="toc-text">Why You're Reading This</div>
-                    </a>
-                    <a href="#section-02" class="toc-item">
-                        <div class="toc-number">02</div>
-                        <div class="toc-text">What You're Dealing With</div>
-                    </a>
-                    <a href="#section-03" class="toc-item">
-                        <div class="toc-number">03</div>
-                        <div class="toc-text">Grief & Attachment</div>
-                    </a>
-                    <a href="#section-04" class="toc-item">
-                        <div class="toc-number">04</div>
-                        <div class="toc-text">Fearful–Avoidant Pattern</div>
-                    </a>
-                    <a href="#section-05" class="toc-item">
-                        <div class="toc-number">05</div>
-                        <div class="toc-text">What "Lean In" Means</div>
-                    </a>
-                    <a href="#section-06" class="toc-item">
-                        <div class="toc-number">06</div>
-                        <div class="toc-text">Working Understanding</div>
-                    </a>
-                    <a href="#section-07" class="toc-item">
-                        <div class="toc-number">07</div>
-                        <div class="toc-text">What Healing Looks Like</div>
-                    </a>
-                    <a href="#section-08" class="toc-item">
-                        <div class="toc-number">08</div>
-                        <div class="toc-text">Daily Tools for Stability</div>
-                    </a>
-                    <a href="#section-09" class="toc-item">
-                        <div class="toc-number">09</div>
-                        <div class="toc-text">Scripts for Hard Moments</div>
-                    </a>
-                    <a href="#section-10" class="toc-item">
-                        <div class="toc-number">10</div>
-                        <div class="toc-text">Emotional Clearing Meditation</div>
-                    </a>
-                    <a href="#section-11" class="toc-item">
-                        <div class="toc-number">11</div>
-                        <div class="toc-text">Therapeutic Workbook Pages</div>
-                    </a>
-                    <a href="#section-12" class="toc-item">
-                        <div class="toc-number">12</div>
-                        <div class="toc-text">Final Note</div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Section 1 -->
-            <div class="section" id="section-01">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">auto_stories</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 01</div>
-                        <h2>Why You're Reading This</h2>
-                    </div>
-                </div>
-
-                <p>Hayley, this packet is written directly for you — not as a medical chart, not as a judge of who you are, not as something to diagnose you. This is a human document for a human heart.</p>
-
-                <p>It exists because you feel things more deeply than most people do, and those feelings don't always have a place to go. Sometimes they come out as silence, panic, withdrawal, or overwhelm. Sometimes they come out as humor or sarcasm when things get too close. Sometimes they come out as confusion after intimacy.</p>
-
-                <div class="insight-box">
-                    <div class="insight-box-header">
-                        <span class="material-symbols-outlined">lightbulb</span> This packet exists because:
-                    </div>
-                    <ul>
-                        <li>your emotional world deserves to be understood,</li>
-                        <li>your reactions make sense,</li>
-                        <li>your grief was never fully processed,</li>
-                        <li>your nervous system has been in survival mode for years,</li>
-                        <li>and you're not "crazy" — you're still carrying pain that nobody helped you hold.</li>
-                    </ul>
-                </div>
-
-                <p>This workbook is your space to understand yourself without shame, without judgment, and without blaming yourself for reactions you didn't choose.</p>
-            </div>
-
-            <!-- Section 2 -->
-            <div class="section" id="section-02">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">psychology</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 02</div>
-                        <h2>What You're Dealing With</h2>
-                    </div>
-                </div>
-
-                <p>Let's say this clearly and simply — your emotional patterns are NOT because you don't care, and NOT because you're irresponsible, dramatic, or cold.</p>
-
-                <p><strong>Here's what's really happening:</strong></p>
-
-                <ol class="cycle-list">
-                    <li><strong>You crave closeness deeply.</strong> You feel comfort and connection intensely. You attach and bond quickly when it feels right.</li>
-                    <li><strong>But closeness also scares you.</strong> Your system gets overwhelmed. Your fear brain wakes up. You feel exposed.</li>
-                    <li><strong>You shut down without meaning to.</strong> Your body takes over — not your mind. You go quiet or disappear. You freeze emotionally.</li>
-                    <li><strong>You use humor and teasing to avoid heavy feelings.</strong> It's a defense mechanism. When things get too real, you make it light.</li>
-                    <li><strong>You love hard — so the fear is hard too.</strong> You're not detached. You're terrified of losing something that matters.</li>
-                    <li><strong>You take care of everyone else.</strong> You tune in to their feelings. You help. You support. But your own needs stay hidden.</li>
-                    <li><strong>You numb to calm your system.</strong> Not because you're "weak." Because your emotional intensity is real, and it helps you slow it down.</li>
-                    <li><strong>You don't feel safe depending on anyone.</strong> People you depend on can disappear. You learned that early.</li>
-                </ol>
-
-                <div class="info-card">
-                    <p><span class="material-symbols-outlined" style="vertical-align: middle;">check_circle</span> Everything you do is a survival pattern — not a character flaw.</p>
-                </div>
-            </div>
-
-            <!-- Section 3 -->
-            <div class="section" id="section-03">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">heart_broken</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 03</div>
-                        <h2>Grief & Attachment</h2>
-                    </div>
-                </div>
-
-                <p>You lost your mother during one of the most vulnerable and identity-forming stages of your life — around age 12–13.</p>
-
-                <p>This is <em>not</em> the same as losing a parent as an adult. It changes the wiring of your emotional system.</p>
-
-                <div class="insight-box">
-                    <div class="insight-box-header">
-                        <span class="material-symbols-outlined">warning</span> Here's what early loss teaches the body:
-                    </div>
-                    <ul>
-                        <li>Love disappears.</li>
-                        <li>Safety is temporary.</li>
-                        <li>You must not need too much.</li>
-                        <li>Breakdowns are dangerous.</li>
-                        <li>Feelings equal danger.</li>
-                        <li>"Be strong" is the only option.</li>
-                        <li>Vulnerability = risk of loss.</li>
-                    </ul>
-                </div>
-
-                <p>When you're that young, you don't get to process pain. You just survive it.</p>
-
-                <p>Your grief never got space. It never got comfort. It never got witnessed.</p>
-
-                <p>So it buries itself inside your body and shows up later as: anxiety, emotional numbness, fear of closeness, panic after connection, shutting down, guilt after withdrawing, and self-blame.</p>
-
-                <div class="quote-box">
-                    This is not about you being unstable. This is about your brain protecting you from old pain.
-                </div>
-            </div>
-
-            <!-- Section 4 -->
-            <div class="section" id="section-04">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">sync</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 04</div>
-                        <h2>Fearful–Avoidant Pattern</h2>
-                    </div>
-                </div>
-
-                <p>This is the pattern formed when a person wants closeness deeply, but learned early that closeness = pain or loss.</p>
-
-                <p><strong>Your cycles go like this:</strong></p>
-
-                <ol class="cycle-list">
-                    <li><strong>You connect intensely.</strong> Your walls fall. You open up. You feel alive and seen.</li>
-                    <li><strong>It feels good — too good.</strong> Your nervous system associates deep love with deep pain.</li>
-                    <li><strong>Panic rises.</strong> You start feeling unsafe emotionally, even if nothing bad is happening.</li>
-                    <li><strong>You pull away.</strong> Not because you don't care — because you feel exposed.</li>
-                    <li><strong>You shut down or go silent.</strong> This is your survival reflex.</li>
-                    <li><strong>You feel guilty afterward.</strong> You think you "messed up" or "hurt someone."</li>
-                    <li><strong>You return when your emotions settle.</strong> Your real self comes back when fear calms.</li>
-                </ol>
-
-                <div class="info-card">
-                    <p>This is NOT manipulation. This is NOT indifference. This is NOT you "being crazy."</p>
-                    <p style="margin-top: 15px;"><strong>This is a trauma pattern — and trauma patterns can be healed.</strong></p>
-                </div>
-            </div>
-
-            <!-- Section 5 -->
-            <div class="section" id="section-05">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">eco</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 05</div>
-                        <h2>What "Lean In" Means</h2>
-                    </div>
-                </div>
-
-                <p>Lean In is not about forcing anything. It's not about drama. It's not about pouring your heart out nonstop.</p>
-
-                <div class="quote-box">
-                    Lean In means: Stop running from your emotions — let them rise and fall long enough for your brain to process them.
-                </div>
-
-                <div class="insight-box">
-                    <div class="insight-box-header">
-                        <span class="material-symbols-outlined">cancel</span> When you avoid feelings:
-                    </div>
-                    <ul>
-                        <li>your brain flags them as dangerous,</li>
-                        <li>you get stuck in fight/flight/freeze,</li>
-                        <li>your emotional pressure builds,</li>
-                        <li>emotional shutdown happens afterward.</li>
-                    </ul>
-                </div>
-
-                <div class="insight-box">
-                    <div class="insight-box-header">
-                        <span class="material-symbols-outlined">check_circle</span> When you Lean In for 60–90 seconds:
-                    </div>
-                    <ul>
-                        <li>your brain learns the feeling won't kill you,</li>
-                        <li>your amygdala calms down,</li>
-                        <li>your nervous system resets,</li>
-                        <li>emotional tolerance grows.</li>
-                    </ul>
-                </div>
-
-                <p style="text-align: center; font-weight: 600; font-size: 18px; margin-top: 30px;">This is trauma processing. This is emotional rewiring. This is how you change your cycles.</p>
-            </div>
-
-            <!-- Section 6 -->
-            <div class="section" id="section-06">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">verified</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 06</div>
-                        <h2>Working Understanding</h2>
-                    </div>
-                </div>
-
-                <p>Your emotional patterns are built from:</p>
-
-                <ul>
-                    <li>unresolved childhood grief,</li>
-                    <li>fearful–avoidant attachment,</li>
-                    <li>chronic emotional avoidance,</li>
-                    <li>shame spirals,</li>
-                    <li>"caretaker" conditioning,</li>
-                    <li>withdrawal after vulnerability,</li>
-                    <li>substance-mediated regulation.</li>
-                </ul>
-
-                <div class="info-card">
-                    <p><span class="material-symbols-outlined" style="vertical-align: middle;">shield</span> This doesn't make you broken — it makes you resilient. You adapted to survive.</p>
-                </div>
-            </div>
-
-            <!-- Section 7 -->
-            <div class="section" id="section-07">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">trending_up</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 07</div>
-                        <h2>What Healing Looks Like</h2>
-                    </div>
-                </div>
-
-                <p>Healing doesn't have to be dramatic. It's slow, gentle rewiring of your nervous system.</p>
-
-                <div class="insight-box">
-                    <div class="insight-box-header">
-                        <span class="material-symbols-outlined">route</span> Your healing path looks like:
-                    </div>
-                    <ul>
-                        <li>fewer shutdowns,</li>
-                        <li>shorter withdrawal episodes,</li>
-                        <li>more stable feelings,</li>
-                        <li>less panic after closeness,</li>
-                        <li>feeling safer being emotional,</li>
-                        <li>guilt decreasing,</li>
-                        <li>clearer communication,</li>
-                        <li>being able to stay instead of run.</li>
-                    </ul>
-                </div>
-
-                <p style="text-align: center; font-weight: 600; font-size: 18px; margin-top: 30px;">You can become securely attached. Your brain is capable of it. Your heart is capable of it.</p>
-            </div>
-
-            <!-- Section 8 -->
-            <div class="section" id="section-08">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">construction</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 08</div>
-                        <h2>Daily Tools for Stability</h2>
-                    </div>
-                </div>
-
-                <div class="tool-box">
-                    <div class="tool-header">
-                        <div class="tool-icon"><span class="material-symbols-outlined">air</span></div>
-                        <div class="tool-title">A) BREATHING RESET — 4 / 2 / 7</div>
-                    </div>
-                    <p><strong>Inhale:</strong> 4 seconds<br>
-                    <strong>Hold:</strong> 2 seconds<br>
-                    <strong>Exhale:</strong> 7 seconds<br>
-                    <strong>Repeat:</strong> 6 rounds</p>
-
-                    <p style="margin-top: 20px;"><strong>Use this when:</strong></p>
-                    <ul>
-                        <li>your chest feels tight,</li>
-                        <li>emotions rise,</li>
-                        <li>you want to run,</li>
-                        <li>you want to shut down,</li>
-                        <li>your thoughts get loud.</li>
-                    </ul>
-                </div>
-
-                <div class="tool-box">
-                    <div class="tool-header">
-                        <div class="tool-icon"><span class="material-symbols-outlined">schedule</span></div>
-                        <div class="tool-title">B) 90-SECOND LEAN IN DRILL</div>
-                    </div>
-                    <p><strong>When a big feeling hits:</strong></p>
-                    <ol style="padding-left: 20px; list-style: decimal;">
-                        <li style="padding-left: 10px;">Stop.</li>
-                        <li style="padding-left: 10px;">Name the feeling.</li>
-                        <li style="padding-left: 10px;">Notice where it lives in your body.</li>
-                        <li style="padding-left: 10px;">Breathe into it.</li>
-                        <li style="padding-left: 10px;">Let the emotion rise.</li>
-                        <li style="padding-left: 10px;">Let it peak.</li>
-                        <li style="padding-left: 10px;">Let it fall.</li>
-                    </ol>
-
-                    <div style="text-align: center; margin-top: 20px; font-weight: 600; color: #667eea;">
-                        <span class="material-symbols-outlined" style="vertical-align: middle;">check</span> Your brain learns: "This isn't danger."
-                    </div>
-                </div>
-
-                <div class="tool-box">
-                    <div class="tool-header">
-                        <div class="tool-icon"><span class="material-symbols-outlined">chat</span></div>
-                        <div class="tool-title">C) 5-WORD REPAIR PHRASE</div>
-                    </div>
-                    <p>Say this after withdrawing:</p>
-                    <div class="quote-box" style="margin: 15px 0; padding: 25px; font-size: 20px;">
-                        "I got overwhelmed, I care."
-                    </div>
-                    <p style="text-align: center;">Short. Simple. Regulating.</p>
-                </div>
-
-                <div class="tool-box">
-                    <div class="tool-header">
-                        <div class="tool-icon"><span class="material-symbols-outlined">anchor</span></div>
-                        <div class="tool-title">D) QUICK GROUNDING</div>
-                    </div>
-                    <p><strong>Name:</strong></p>
-                    <ul>
-                        <li>3 things you see,</li>
-                        <li>2 things you hear,</li>
-                        <li>1 sensation in your body.</li>
-                    </ul>
-                    <p style="margin-top: 15px;">This pulls you out of panic mode.</p>
-                </div>
-            </div>
-
-            <!-- Section 9 -->
-            <div class="section" id="section-09">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">forum</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 09</div>
-                        <h2>Scripts for Hard Moments</h2>
-                    </div>
-                </div>
-
-                <div class="tool-box">
-                    <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">favorite</span> When scared:</strong><br>
-                    "I'm trying even when I'm scared."</p>
-                </div>
-
-                <div class="tool-box">
-                    <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">pause_circle</span> When overwhelmed:</strong><br>
-                    "I need a moment, but I'm not leaving."</p>
-                </div>
-
-                <div class="tool-box">
-                    <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">volunteer_activism</span> After withdrawing:</strong><br>
-                    "I went quiet because I got overwhelmed, not because I stopped caring."</p>
-                </div>
-
-                <div class="tool-box">
-                    <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">vital_signs</span> When you want closeness:</strong><br>
-                    "My fear is loud, but so is how much I care."</p>
-                </div>
-            </div>
-
-            <!-- Section 10 -->
-            <div class="section" id="section-10">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">spa</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 10</div>
-                        <h2>Emotional Clearing Meditation</h2>
-                    </div>
-                </div>
-
-                <p><strong>Use when:</strong></p>
-                <ul>
-                    <li>grief rises,</li>
-                    <li>anxiety spikes,</li>
-                    <li>you feel shame,</li>
-                    <li>you feel numb,</li>
-                    <li>you need emotional release.</li>
-                </ul>
-
-                <div class="link-box">
-                    <span class="material-symbols-outlined" style="vertical-align: middle;">play_circle</span> <strong>MEDITATION LINK:</strong><br>
-                    <a href="https://youtu.be/5-MmGugM7GE?si=xtylIZMMmbAGljR1" target="_blank">https://youtu.be/5-MmGugM7GE?si=xtylIZMMmbAGljR1</a>
-                </div>
-            </div>
-
-            <!-- Section 11 -->
-            <div class="section" id="section-11">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">edit_note</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 11</div>
-                        <h2>Therapeutic Workbook</h2>
-                    </div>
-                </div>
-
-                <div class="worksheet-toolbar" aria-label="Worksheet actions">
-                    <button type="button" id="saveWorksheets">
-                        <span class="material-symbols-outlined">save</span> Save progress
-                    </button>
-                    <button type="button" id="downloadWorksheets">
-                        <span class="material-symbols-outlined">download</span> Download worksheets PDF
-                    </button>
-                    <button type="button" id="clearWorksheets">
-                        <span class="material-symbols-outlined">refresh</span> Clear entries
-                    </button>
-                </div>
-                <p class="worksheet-note">Your entries auto-save on this device. Use “Download worksheets PDF” for a printable copy.</p>
-
-                <div class="worksheet" id="worksheet-1">
-                    <div class="worksheet-header">
-                        <div class="worksheet-icon"><span class="material-symbols-outlined">looks_one</span></div>
-                        <h3>WORKSHEET 1 — Emotional Check-In</h3>
-                    </div>
-                    <p><strong>1. What am I feeling right now?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>2. Where in my body do I feel it?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>3. What triggered it?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>4. What does this feeling want?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>5. What does my younger self need?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-                </div>
-
-                <div class="worksheet" id="worksheet-2">
-                    <div class="worksheet-header">
-                        <div class="worksheet-icon"><span class="material-symbols-outlined">looks_two</span></div>
-                        <h3>WORKSHEET 2 — Avoidance Pattern Map</h3>
-                    </div>
-                    <p><strong>1. What happened right before I shut down?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>2. What emotion felt too big?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>3. What fear did it activate?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>4. What did I do to avoid the feeling?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>5. What do I wish I had said?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>6. What would safety have looked like?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-                </div>
-
-                <div class="worksheet" id="worksheet-3">
-                    <div class="worksheet-header">
-                        <div class="worksheet-icon"><span class="material-symbols-outlined">looks_3</span></div>
-                        <h3>WORKSHEET 3 — Post-Intimacy Panic Map</h3>
-                    </div>
-                    <p><strong>1. What part of the closeness felt good?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>2. What part felt scary?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>3. What story did my fear tell me?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>4. What happened in my body?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>5. What would have helped me feel safe?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-                </div>
-
-                <div class="worksheet" id="worksheet-4">
-                    <div class="worksheet-header">
-                        <div class="worksheet-icon"><span class="material-symbols-outlined">looks_4</span></div>
-                        <h3>WORKSHEET 4 — Grief Processing</h3>
-                    </div>
-                    <p><strong>1. What memories of my mom still hurt?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>2. What feelings have I avoided?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>3. What did I need back then?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>4. What do I need now?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>5. What would comfort look like for me?</strong></p>
-                    <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
-                </div>
-
-                <div class="worksheet" id="worksheet-5">
-                    <div class="worksheet-header">
-                        <div class="worksheet-icon"><span class="material-symbols-outlined">looks_5</span></div>
-                        <h3>WORKSHEET 5 — Emotional Safety Statements</h3>
-                    </div>
-                    <p><strong>Write or repeat:</strong></p>
-
-                    <p style="margin-top: 20px;"><strong>"I can feel this and stay safe."</strong></p>
-                    <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>"Emotions won't break me."</strong></p>
-                    <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>"I don't have to disappear."</strong></p>
-                    <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>"I can return when I'm ready."</strong></p>
-                    <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
-
-                    <p style="margin-top: 20px;"><strong>"I deserve love and safety."</strong></p>
-                    <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
-                </div>
-            </div>
-
-            <!-- Section 12 -->
-            <div class="section" id="section-12">
-                <div class="section-header">
-                    <div class="section-icon"><span class="material-symbols-outlined">favorite</span></div>
-                    <div class="section-title-group">
-                        <div class="section-number">SECTION 12</div>
-                        <h2>Final Note to You, Hayley</h2>
-                    </div>
-                </div>
-
-                <div class="final-note">
-                    <div class="final-note-icon">
-                        <span class="material-symbols-outlined">support</span>
-                    </div>
-
-                    <p><strong>You were never meant to carry this alone.</strong></p>
-
-                    <p>You were a little girl who lost the most important person in her world, and you had to grow up instantly.</p>
-
-                    <p>Your reactions make sense.<br>
-                    Your fear makes sense.<br>
-                    Your shutdowns make sense.</p>
-
-                    <p>Your heart is not broken — it's wounded, and it's protecting you the only way it knows how.</p>
-
-                    <p><strong>You are not too much.<br>
-                    You are not hard to love.<br>
-                    You are not unstable.<br>
-                    You are not dramatic.</strong></p>
-
-                    <p>You are someone learning how to feel again.</p>
-
-                    <p>And you deserve the kind of love, gentleness, and safety that doesn't make your nervous system feel like it's in danger.</p>
-
-                    <p>Healing isn't about forcing anything.<br>
-                    <strong>It's about letting yourself breathe again.</strong></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-logo">
-                <span class="material-symbols-outlined">psychiatry</span> Crown Psychology / CrownCode Clinical Division
-            </div>
-            <div>Attachment & Emotional Regulation Program</div>
-            <div class="footer-links">
-                End of Full Expanded Workbook — Prepared with care for Hayley H.
-            </div>
-        </div>
-    </div>
-
-    <!-- Download Button -->
-    <button class="download-button" onclick="downloadPDF()">
-        <span class="material-symbols-outlined">download</span> Download as PDF
-    </button>
-
-    <script>
-        const AUTH_USER = 'hholden';
-        const AUTH_PASS = 'L3@n1n143';
-        const AUTH_KEY = 'leanin-authenticated';
-        const WORKSHEET_KEY = 'leanin-worksheet-entries';
-        const ARCHIVE_KEY = 'leanin-worksheet-archive';
-
-        const gateOverlay = document.getElementById('gateOverlay');
-        const gateForm = document.getElementById('gateForm');
-        const gateError = document.getElementById('gateError');
-        const gateUsername = document.getElementById('gateUsername');
-        const gatePassword = document.getElementById('gatePassword');
-        const authShowcase = document.getElementById('authShowcase');
-        const authButtons = document.querySelectorAll('[data-auth-target]');
-        const authPhones = authShowcase ? authShowcase.querySelectorAll('.auth-phone') : [];
-        const preloader = document.getElementById('preloader');
-        const saveToast = document.getElementById('saveToast');
-        const saveToastText = document.getElementById('saveToastText');
-        let worksheetInputs = [];
-        let worksheetsReady = false;
-        const quickSave = document.getElementById('quickSave');
-        const quickDownload = document.getElementById('quickDownload');
-        const quickWorksheets = document.getElementById('quickWorksheets');
-        const saveWorksheets = document.getElementById('saveWorksheets');
-        const downloadWorksheets = document.getElementById('downloadWorksheets');
-        const clearWorksheets = document.getElementById('clearWorksheets');
-        const menuToggle = document.getElementById('menuToggle');
-        const menuPanel = document.getElementById('menuPanel');
-        const menuSave = document.getElementById('menuSave');
-        const menuArchive = document.getElementById('menuArchive');
-        const menuAllSections = document.getElementById('menuAllSections');
-        const menuLogout = document.getElementById('menuLogout');
-        const workbookToggle = document.getElementById('workbookToggle');
-        const workbookPanel = document.getElementById('workbookPanel');
-        const workbookClose = document.getElementById('workbookClose');
-        let workbookHintShown = false;
-
-        const setAuthView = (view) => {
-            if (!authShowcase) {
-                return;
-            }
-            const safeView = view || 'intro';
-            authShowcase.dataset.authView = safeView;
-            authPhones.forEach((phone) => {
-                const isActive = phone.classList.contains(`auth-phone--${safeView}`);
-                phone.classList.toggle('is-active', isActive);
-            });
-            if (safeView === 'login' && gateUsername) {
-                gateUsername.focus();
-            }
-        };
-
-        const unlockWorkbook = () => {
-            gateOverlay.style.display = 'none';
-            document.body.classList.remove('is-locked');
-            requestWorkbookHint();
-        };
-
-        const lockWorkbook = () => {
-            gateOverlay.style.display = 'flex';
-            document.body.classList.add('is-locked');
-            setAuthView('intro');
-        };
-
-        const getAuthState = () => {
-            try {
-                return localStorage.getItem(AUTH_KEY) === 'true';
-            } catch (error) {
-                return sessionStorage.getItem(AUTH_KEY) === 'true';
-            }
-        };
-
-        const setAuthState = (value) => {
-            const stored = value ? 'true' : 'false';
-            try {
-                localStorage.setItem(AUTH_KEY, stored);
-            } catch (error) {
-                // ignore localStorage failures
-            }
-            try {
-                sessionStorage.setItem(AUTH_KEY, stored);
-            } catch (error) {
-                // ignore sessionStorage failures
-            }
-        };
-
-        const clearAuthState = () => {
-            try {
-                localStorage.removeItem(AUTH_KEY);
-            } catch (error) {
-                // ignore localStorage failures
-            }
-            try {
-                sessionStorage.removeItem(AUTH_KEY);
-            } catch (error) {
-                // ignore sessionStorage failures
-            }
-        };
-
-        const requestWorkbookHint = () => {
-            if (workbookHintShown || !workbookPanel || !workbookToggle) {
-                return;
-            }
-            workbookHintShown = true;
-            workbookToggle.classList.add('is-flashing');
-            window.setTimeout(() => {
-                if (!workbookPanel) {
-                    return;
-                }
-                workbookPanel.classList.add('is-open', 'is-flashing');
-                workbookPanel.setAttribute('aria-hidden', 'false');
-                workbookToggle.setAttribute('aria-expanded', 'true');
-                window.setTimeout(() => {
-                    workbookToggle.classList.remove('is-flashing');
-                    closeWorkbookPanel();
-                }, 2400);
-            }, 400);
-        };
-
-        const hasSession = getAuthState();
-        if (hasSession) {
-            unlockWorkbook();
-        } else {
-            lockWorkbook();
-        }
-
-        authButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const targetView = button.dataset.authTarget;
-                setAuthView(targetView);
-            });
-        });
-
-        gateForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const enteredUser = gateUsername.value.trim();
-            const enteredPass = gatePassword.value;
-
-            if (enteredUser === AUTH_USER && enteredPass === AUTH_PASS) {
-                setAuthState(true);
-                gateError.textContent = '';
-                unlockWorkbook();
-                return;
-            }
-
-            gateError.textContent = 'Incorrect credentials. Please try again.';
-            gatePassword.value = '';
-            gatePassword.focus();
-        });
-
-        const showToast = (message = 'Progress saved') => {
-            if (saveToastText) {
-                saveToastText.textContent = message;
-            }
-            saveToast.classList.add('is-visible');
-            window.setTimeout(() => {
-                saveToast.classList.remove('is-visible');
-            }, 2200);
-        };
-
-        const initWorksheets = () => {
-            if (worksheetsReady) {
-                return;
-            }
-            worksheetInputs = Array.from(document.querySelectorAll('.worksheet-input'));
-            if (!worksheetInputs.length) {
-                return;
-            }
-            worksheetsReady = true;
-            loadWorksheetData();
-            worksheetInputs.forEach((input) => {
-                input.addEventListener('input', () => saveWorksheetData(false));
-            });
-        };
-
-        const scheduleWorksheetInit = () => {
-            if (worksheetsReady) {
-                return;
-            }
-            if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(() => initWorksheets(), { timeout: 2000 });
-                return;
-            }
-            window.setTimeout(() => initWorksheets(), 1500);
-        };
-
-        const getStoredWorksheetData = () => {
-            try {
-                return JSON.parse(localStorage.getItem(WORKSHEET_KEY)) || {};
-            } catch (error) {
-                return {};
-            }
-        };
-
-        const saveWorksheetData = (showFeedback = true) => {
-            if (!worksheetsReady) {
-                initWorksheets();
-            }
-            if (!worksheetInputs.length) {
-                return;
-            }
-            const payload = getWorksheetPayload();
-            localStorage.setItem(WORKSHEET_KEY, JSON.stringify(payload));
-            if (showFeedback) {
-                showToast('Progress saved');
-            }
-        };
-
-        function loadWorksheetData() {
-            if (!worksheetInputs.length) {
-                return;
-            }
-            const payload = getStoredWorksheetData();
-            worksheetInputs.forEach((input, index) => {
-                if (payload[index]) {
-                    input.value = payload[index];
-                }
-            });
-        }
-
-        const clearWorksheetData = () => {
-            if (!worksheetsReady) {
-                initWorksheets();
-            }
-            worksheetInputs.forEach((input) => {
-                input.value = '';
-            });
-            localStorage.removeItem(WORKSHEET_KEY);
-            showToast('Worksheet cleared');
-        };
-
-        const getWorksheetPayload = () => {
-            const payload = {};
-            worksheetInputs.forEach((input, index) => {
-                payload[index] = input.value;
-            });
-            return payload;
-        };
-
-        const archiveWorksheetData = () => {
-            if (!worksheetsReady) {
-                initWorksheets();
-            }
-            if (!worksheetInputs.length) {
-                return;
-            }
-            const archiveEntry = {
-                savedAt: new Date().toISOString(),
-                entries: getWorksheetPayload(),
-            };
-            const archive = (() => {
-                try {
-                    return JSON.parse(localStorage.getItem(ARCHIVE_KEY)) || [];
-                } catch (error) {
-                    return [];
-                }
-            })();
-            archive.unshift(archiveEntry);
-            localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive.slice(0, 12)));
-            showToast('Session archived');
-        };
-
-        if (quickSave) {
-            quickSave.addEventListener('click', () => saveWorksheetData(true));
-        }
-        if (quickDownload) {
-            quickDownload.addEventListener('click', () => downloadPDF());
-        }
-        if (quickWorksheets) {
-            quickWorksheets.addEventListener('click', () => {
-                initWorksheets();
-                document.getElementById('section-11').scrollIntoView({ behavior: 'smooth' });
-            });
-        }
-        if (saveWorksheets) {
-            saveWorksheets.addEventListener('click', () => saveWorksheetData(true));
-        }
-        if (downloadWorksheets) {
-            downloadWorksheets.addEventListener('click', () => downloadPDF());
-        }
-        if (clearWorksheets) {
-            clearWorksheets.addEventListener('click', () => clearWorksheetData());
-        }
-
-        const closeMenu = () => {
-            if (!menuPanel || !menuToggle) {
-                return;
-            }
-            menuPanel.classList.remove('is-open');
-            menuPanel.setAttribute('aria-hidden', 'true');
-            menuToggle.setAttribute('aria-expanded', 'false');
-        };
-
-        function closeWorkbookPanel() {
-            if (!workbookPanel || !workbookToggle) {
-                return;
-            }
-            workbookPanel.classList.remove('is-open');
-            workbookPanel.classList.remove('is-flashing');
-            workbookPanel.setAttribute('aria-hidden', 'true');
-            workbookToggle.setAttribute('aria-expanded', 'false');
-        }
-
-        const toggleMenu = () => {
-            if (!menuPanel || !menuToggle) {
-                return;
-            }
-            closeWorkbookPanel();
-            const isOpen = menuPanel.classList.toggle('is-open');
-            menuPanel.setAttribute('aria-hidden', String(!isOpen));
-            menuToggle.setAttribute('aria-expanded', String(isOpen));
-        };
-
-        const toggleWorkbookPanel = () => {
-            if (!workbookPanel || !workbookToggle) {
-                return;
-            }
-            closeMenu();
-            const isOpen = workbookPanel.classList.toggle('is-open');
-            workbookPanel.setAttribute('aria-hidden', String(!isOpen));
-            workbookToggle.setAttribute('aria-expanded', String(isOpen));
-        };
-
-        if (menuToggle) {
-            menuToggle.addEventListener('click', (event) => {
-                event.stopPropagation();
-                toggleMenu();
-            });
-        }
-
-        if (workbookToggle) {
-            workbookToggle.addEventListener('click', (event) => {
-                event.stopPropagation();
-                toggleWorkbookPanel();
-            });
-        }
-
-        if (workbookClose) {
-            workbookClose.addEventListener('click', () => {
-                closeWorkbookPanel();
-            });
-        }
-
-        if (menuSave) {
-            menuSave.addEventListener('click', () => {
-                saveWorksheetData(true);
-                closeMenu();
-            });
-        }
-
-        if (menuArchive) {
-            menuArchive.addEventListener('click', () => {
-                archiveWorksheetData();
-                closeMenu();
-            });
-        }
-
-        if (menuAllSections) {
-            menuAllSections.addEventListener('click', () => {
-                document.getElementById('table-of-contents').scrollIntoView({ behavior: 'smooth' });
-                closeMenu();
-            });
-        }
-
-        if (menuLogout) {
-            menuLogout.addEventListener('click', () => {
-                clearAuthState();
-                lockWorkbook();
-                gateUsername.value = '';
-                gatePassword.value = '';
-                gateUsername.focus();
-                closeMenu();
-            });
-        }
-
-        document.addEventListener('click', (event) => {
-            if (!menuPanel || !menuToggle) {
-                return;
-            }
-            if (menuPanel.contains(event.target) || menuToggle.contains(event.target)) {
-                return;
-            }
-            closeMenu();
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!workbookPanel || !workbookToggle) {
-                return;
-            }
-            if (workbookPanel.contains(event.target) || workbookToggle.contains(event.target)) {
-                return;
-            }
-            closeWorkbookPanel();
-        });
-
-        if (workbookPanel) {
-            workbookPanel.addEventListener('click', (event) => {
-                const target = event.target;
-                if (target instanceof HTMLAnchorElement) {
-                    closeWorkbookPanel();
-                }
-            });
-        }
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                closeMenu();
-                closeWorkbookPanel();
-            }
-        });
-
-        document.addEventListener(
-            'gesturestart',
-            (event) => {
-                event.preventDefault();
-            },
-            { passive: false }
-        );
-        document.addEventListener(
-            'gesturechange',
-            (event) => {
-                event.preventDefault();
-            },
-            { passive: false }
-        );
-        document.addEventListener(
-            'gestureend',
-            (event) => {
-                event.preventDefault();
-            },
-            { passive: false }
-        );
-
-        const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
-        revealItems.forEach((item) => item.classList.add('reveal', 'is-visible'));
-
-        const worksheetSection = document.getElementById('section-11');
-        if (worksheetSection) {
-            const worksheetObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            initWorksheets();
-                            worksheetObserver.disconnect();
-                        }
-                    });
-                },
-                { rootMargin: '200px' }
-            );
-            worksheetObserver.observe(worksheetSection);
-        }
-
-        window.addEventListener('load', () => {
-            scheduleWorksheetInit();
-            preloader.classList.add('hidden');
-            if (hasSession) {
-                requestWorkbookHint();
-            }
-        });
-
-        function downloadPDF() {
-            saveWorksheetData(false);
-            window.print();
-        }
-    </script>
+ <div class="preloader" id="preloader" aria-hidden="true">
+ <div class="preloader-card">
+ <div class="preloader-spinner"></div>
+ <strong>Preparing your Lean In workbook...</strong>
+ <div style="font-size: 13px; margin-top: 8px;">Breathe in, breathe out, you're almost there.</div>
+ </div>
+ </div>
+ <div class="save-toast" id="saveToast" role="status" aria-live="polite">
+ <span class="material-symbols-outlined">cloud_done</span>
+ <span id="saveToastText">Progress saved</span>
+ </div>
+ <div class="gate-overlay" id="gateOverlay" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+ <div class="auth-showcase is-interactive" id="authShowcase" data-auth-view="intro">
+ <div class="auth-phone auth-phone--intro">
+ <div class="auth-phone__status">
+ <span>9:41</span>
+ <span>•••</span>
+ </div>
+ <div>
+ <div class="auth-logo" aria-hidden="true"></div>
+ <div class="auth-brand">Lean In by Crown Psychology</div>
+ </div>
+ <div class="auth-buttons">
+ <button class="auth-btn auth-btn--primary" type="button" data-auth-target="login">Login</button>
+ <button class="auth-btn" type="button" data-auth-target="signup">Sign Up</button>
+ </div>
+ <div class="auth-guest">Continue as a guest</div>
+ </div>
+
+ <div class="auth-phone auth-phone--login">
+ <div class="auth-phone__status">
+ <span>9:41</span>
+ <span>•••</span>
+ </div>
+ <h2 class="auth-title" id="gateTitle">Welcome,<br>Glad to see you!</h2>
+ <form id="gateForm" class="auth-form" autocomplete="off">
+ <input class="auth-input" id="gateUsername" name="username" type="text" placeholder="Email Address" required />
+ <input class="auth-input" id="gatePassword" name="password" type="password" placeholder="Password" required />
+ <div class="auth-form-meta">Forgot Password?</div>
+ <div class="gate-error" id="gateError" aria-live="polite"></div>
+ <button class="auth-submit" type="submit">Login</button>
+ </form>
+ <div class="auth-divider">Or Login with</div>
+ <div class="auth-socials">
+ <button class="auth-social" type="button" aria-label="Login with Google">
+ <span class="auth-social__icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" role="presentation">
+ <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C17.8 3.1 15.2 2 12 2 6.9 2 2.7 6.1 2.7 11.2S6.9 20.4 12 20.4c6.9 0 8.6-4.9 8.6-7.5 0-.5-.1-.9-.2-1.2H12z"/>
+ <path fill="#34A853" d="M5.4 14.1l-2.9 2.2C4.3 19 7.8 21 12 21c3.3 0 6.1-1.1 8.1-3l-3.9-3c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.2-6.6-5.1z"/>
+ <path fill="#4A90E2" d="M20.5 12.1c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1-1 1.9-1.9 2.6l3.9 3c2.3-2.1 3-5.1 3-7.9z"/>
+ <path fill="#FBBC05" d="M5.4 9.9c.4-1 1-1.9 1.8-2.6L4.3 5.1C3 6.6 2.3 8.4 2.3 10.4c0 2 .7 3.8 2 5.3l3.1-2.4c-.3-.7-.5-1.5-.5-2.4 0-.3 0-.6.1-.9z"/>
+ </svg>
+ </span>
+ <span class="auth-social__label">Google</span>
+ </button>
+ <button class="auth-social" type="button" aria-label="Login with Facebook">
+ <span class="auth-social__icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" role="presentation">
+ <path fill="#1877F2" d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4H7V12h3.1V9.4c0-3.1 1.9-4.8 4.6-4.8 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.6h-2.9v8.4C19.6 23 24 18.1 24 12.1z"/>
+ </svg>
+ </span>
+ <span class="auth-social__label">Facebook</span>
+ </button>
+ </div>
+ <div class="auth-footer">
+ Don't have an account?
+ <button class="auth-link" type="button" data-auth-target="signup">Sign Up Now</button>
+ </div>
+ </div>
+
+ <div class="auth-phone auth-phone--signup">
+ <div class="auth-phone__status">
+ <span>9:41</span>
+ <span>•••</span>
+ </div>
+ <h2 class="auth-title">Create Account<br>to get started now!</h2>
+ <div class="auth-form">
+ <input class="auth-input" type="text" placeholder="Email Address" />
+ <input class="auth-input" type="password" placeholder="Password" />
+ <input class="auth-input" type="password" placeholder="Confirm Password" />
+ <button class="auth-submit" type="button">Sign Up</button>
+ </div>
+ <div class="auth-divider">Or Sign Up with</div>
+ <div class="auth-socials">
+ <button class="auth-social" type="button" aria-label="Sign up with Google">
+ <span class="auth-social__icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" role="presentation">
+ <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C17.8 3.1 15.2 2 12 2 6.9 2 2.7 6.1 2.7 11.2S6.9 20.4 12 20.4c6.9 0 8.6-4.9 8.6-7.5 0-.5-.1-.9-.2-1.2H12z"/>
+ <path fill="#34A853" d="M5.4 14.1l-2.9 2.2C4.3 19 7.8 21 12 21c3.3 0 6.1-1.1 8.1-3l-3.9-3c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.2-6.6-5.1z"/>
+ <path fill="#4A90E2" d="M20.5 12.1c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1-1 1.9-1.9 2.6l3.9 3c2.3-2.1 3-5.1 3-7.9z"/>
+ <path fill="#FBBC05" d="M5.4 9.9c.4-1 1-1.9 1.8-2.6L4.3 5.1C3 6.6 2.3 8.4 2.3 10.4c0 2 .7 3.8 2 5.3l3.1-2.4c-.3-.7-.5-1.5-.5-2.4 0-.3 0-.6.1-.9z"/>
+ </svg>
+ </span>
+ <span class="auth-social__label">Google</span>
+ </button>
+ <button class="auth-social" type="button" aria-label="Sign up with Facebook">
+ <span class="auth-social__icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" role="presentation">
+ <path fill="#1877F2" d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4H7V12h3.1V9.4c0-3.1 1.9-4.8 4.6-4.8 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.6h-2.9v8.4C19.6 23 24 18.1 24 12.1z"/>
+ </svg>
+ </span>
+ <span class="auth-social__label">Facebook</span>
+ </button>
+ </div>
+ <div class="auth-footer">
+ Already have an account?
+ <button class="auth-link" type="button" data-auth-target="login">Login Now</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="container">
+ <!-- Header -->
+ <div class="header">
+ <div class="header-top">
+ <div class="header-logo">
+ <div class="logo-icon">
+ <span class="material-symbols-outlined">psychiatry</span>
+ </div>
+ <div>
+ <div class="logo-text">Crown Psychology</div>
+ <div class="logo-subtitle">CrownCode Intelligence Suite</div>
+ </div>
+ </div>
+ <div class="header-patient">
+ <div style="font-weight: 600;">Patient: Hayley H.</div>
+ <div style="opacity: 0.8; margin-top: 3px;">Session One</div>
+ </div>
+ </div>
+ <div class="header-bottom">
+ <div class="header-actions" aria-label="Quick actions">
+ <button class="quick-action" type="button" id="quickSave">
+ <span class="material-symbols-outlined">save</span> Save
+ </button>
+ <button class="quick-action" type="button" id="quickDownload">
+ <span class="material-symbols-outlined">download</span> PDF
+ </button>
+ <button class="quick-action" type="button" id="quickWorksheets">
+ <span class="material-symbols-outlined">edit_note</span> Worksheets
+ </button>
+ <div class="workbook-nav">
+ <button class="workbook-toggle" type="button" id="workbookToggle" aria-expanded="false" aria-controls="workbookPanel">
+ <span class="material-symbols-outlined">menu_book</span>
+ <span class="menu-text">Workbook</span>
+ </button>
+ </div>
+ <div class="header-menu">
+ <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
+ <span class="material-symbols-outlined">menu</span>
+ <span class="menu-text">Menu</span>
+ </button>
+ <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
+ <div class="menu-greeting">Hi Haley! 🫶</div>
+ <button class="menu-item" type="button" id="menuSave">Save progress</button>
+ <button class="menu-item" type="button" id="menuArchive">Session archive</button>
+ <button class="menu-item" type="button" id="menuAllSections">All sections</button>
+ <button class="menu-item danger" type="button" id="menuLogout">Logout</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="workbook-panel" id="workbookPanel" role="menu" aria-hidden="true">
+ <div class="workbook-panel-header">
+ <div>
+ <div>Workbook Navigation</div>
+ <div class="workbook-panel-subtitle">Jump to any section or worksheet</div>
+ </div>
+ <button class="workbook-panel-close" type="button" id="workbookClose" aria-label="Close workbook navigation">
+ <span class="material-symbols-outlined" aria-hidden="true">close</span>
+ </button>
+ </div>
+ <div class="workbook-links">
+ <div class="workbook-link-group">
+ <div class="workbook-link-title">Start Here</div>
+ <a class="workbook-link" href="#cover">Cover</a>
+ <a class="workbook-link" href="#table-of-contents">Table of contents</a>
+ </div>
+ <div class="workbook-link-group">
+ <div class="workbook-link-title">Foundations</div>
+ <a class="workbook-link" href="#section-01">01 · Why You're Reading This</a>
+ <a class="workbook-link" href="#section-02">02 · What You're Dealing With</a>
+ <a class="workbook-link" href="#section-03">03 · Grief &amp; Attachment</a>
+ <a class="workbook-link" href="#section-04">04 · Fearful to Avoidant Pattern</a>
+ </div>
+ <div class="workbook-link-group">
+ <div class="workbook-link-title">Healing Path</div>
+ <a class="workbook-link" href="#section-05">05 · What "Lean In" Means</a>
+ <a class="workbook-link" href="#section-06">06 · Working Understanding</a>
+ <a class="workbook-link" href="#section-07">07 · What Healing Looks Like</a>
+ <a class="workbook-link" href="#section-08">08 · Daily Tools for Stability</a>
+ <a class="workbook-link" href="#section-09">09 · Scripts for Hard Moments</a>
+ <a class="workbook-link" href="#section-10">10 · Emotional Clearing Meditation</a>
+ </div>
+ <div class="workbook-link-group">
+ <div class="workbook-link-title">Worksheets</div>
+ <a class="workbook-link" href="#section-11">11 · Therapeutic Workbook</a>
+ <a class="workbook-link" href="#worksheet-1">Worksheet 1 · Emotional Check-In</a>
+ <a class="workbook-link" href="#worksheet-2">Worksheet 2 · Avoidance Pattern Map</a>
+ <a class="workbook-link" href="#worksheet-3">Worksheet 3 · Post-Intimacy Panic Map</a>
+ <a class="workbook-link" href="#worksheet-4">Worksheet 4 · Grief Processing</a>
+ <a class="workbook-link" href="#worksheet-5">Worksheet 5 · Emotional Safety Statements</a>
+ </div>
+ <div class="workbook-link-group">
+ <div class="workbook-link-title">Close</div>
+ <a class="workbook-link" href="#section-12">12 · Final Note</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Cover Page -->
+ <div class="cover" id="cover">
+ <div class="cover-content">
+ <div class="cover-icon">
+ <span class="material-symbols-outlined">favorite</span>
+ </div>
+ <div class="cover-title">Therapeutic Workbook</div>
+ <div class="cover-subtitle">Attachment & Emotional Regulation Program</div>
+
+ <div class="cover-session">
+ <span class="material-symbols-outlined" style="vertical-align: middle;">eco</span> LEAN IN<br>
+ <span style="font-size: 18px; font-weight: 400; opacity: 0.9;">Stop Compressing. Start Healing.</span>
+ </div>
+
+ <div class="cover-patient">
+ Prepared for Hayley H. by Crown Psychology Clinical Division
+ </div>
+ </div>
+ </div>
+
+ <!-- Content -->
+ <div class="content">
+ <!-- Table of Contents -->
+ <div class="toc" id="table-of-contents">
+ <div class="toc-header">
+ <div class="toc-icon"><span class="material-symbols-outlined">list</span></div>
+ <h2>Table of Contents</h2>
+ </div>
+ <div class="toc-grid">
+ <a href="#section-01" class="toc-item">
+ <div class="toc-number">01</div>
+ <div class="toc-text">Why You're Reading This</div>
+ </a>
+ <a href="#section-02" class="toc-item">
+ <div class="toc-number">02</div>
+ <div class="toc-text">What You're Dealing With</div>
+ </a>
+ <a href="#section-03" class="toc-item">
+ <div class="toc-number">03</div>
+ <div class="toc-text">Grief & Attachment</div>
+ </a>
+ <a href="#section-04" class="toc-item">
+ <div class="toc-number">04</div>
+ <div class="toc-text">Fearful to Avoidant Pattern</div>
+ </a>
+ <a href="#section-05" class="toc-item">
+ <div class="toc-number">05</div>
+ <div class="toc-text">What "Lean In" Means</div>
+ </a>
+ <a href="#section-06" class="toc-item">
+ <div class="toc-number">06</div>
+ <div class="toc-text">Working Understanding</div>
+ </a>
+ <a href="#section-07" class="toc-item">
+ <div class="toc-number">07</div>
+ <div class="toc-text">What Healing Looks Like</div>
+ </a>
+ <a href="#section-08" class="toc-item">
+ <div class="toc-number">08</div>
+ <div class="toc-text">Daily Tools for Stability</div>
+ </a>
+ <a href="#section-09" class="toc-item">
+ <div class="toc-number">09</div>
+ <div class="toc-text">Scripts for Hard Moments</div>
+ </a>
+ <a href="#section-10" class="toc-item">
+ <div class="toc-number">10</div>
+ <div class="toc-text">Emotional Clearing Meditation</div>
+ </a>
+ <a href="#section-11" class="toc-item">
+ <div class="toc-number">11</div>
+ <div class="toc-text">Therapeutic Workbook Pages</div>
+ </a>
+ <a href="#section-12" class="toc-item">
+ <div class="toc-number">12</div>
+ <div class="toc-text">Final Note</div>
+ </a>
+ </div>
+ </div>
+
+ <!-- Section 1 -->
+ <div class="section" id="section-01">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">auto_stories</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 01</div>
+ <h2>Why You're Reading This</h2>
+ </div>
+ </div>
+
+ <p>Hayley, this packet is written directly for you, not as a medical chart, not as a judge of who you are, not as something to diagnose you. This is a human document for a human heart.</p>
+
+ <p>It exists because you feel things more deeply than most people do, and those feelings don't always have a place to go. Sometimes they come out as silence, panic, withdrawal, or overwhelm. Sometimes they come out as humor or sarcasm when things get too close. Sometimes they come out as confusion after intimacy.</p>
+
+ <div class="insight-box">
+ <div class="insight-box-header">
+ <span class="material-symbols-outlined">lightbulb</span> This packet exists because:
+ </div>
+ <ul>
+ <li>your emotional world deserves to be understood,</li>
+ <li>your reactions make sense,</li>
+ <li>your grief was never fully processed,</li>
+ <li>your nervous system has been in survival mode for years,</li>
+ <li>and you're not "crazy", you're still carrying pain that nobody helped you hold.</li>
+ </ul>
+ </div>
+
+ <p>This workbook is your space to understand yourself without shame, without judgment, and without blaming yourself for reactions you didn't choose.</p>
+ </div>
+
+ <!-- Section 2 -->
+ <div class="section" id="section-02">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">psychology</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 02</div>
+ <h2>What You're Dealing With</h2>
+ </div>
+ </div>
+
+ <p>Let's say this clearly and simply, your emotional patterns are NOT because you don't care, and NOT because you're irresponsible, dramatic, or cold.</p>
+
+ <p><strong>Here's what's really happening:</strong></p>
+
+ <ol class="cycle-list">
+ <li><strong>You crave closeness deeply.</strong> You feel comfort and connection intensely. You attach and bond quickly when it feels right.</li>
+ <li><strong>But closeness also scares you.</strong> Your system gets overwhelmed. Your fear brain wakes up. You feel exposed.</li>
+ <li><strong>You shut down without meaning to.</strong> Your body takes over, not your mind. You go quiet or disappear. You freeze emotionally.</li>
+ <li><strong>You use humor and teasing to avoid heavy feelings.</strong> It's a defense mechanism. When things get too real, you make it light.</li>
+ <li><strong>You love hard, so the fear is hard too.</strong> You're not detached. You're terrified of losing something that matters.</li>
+ <li><strong>You take care of everyone else.</strong> You tune in to their feelings. You help. You support. But your own needs stay hidden.</li>
+ <li><strong>You numb to calm your system.</strong> Not because you're "weak." Because your emotional intensity is real, and it helps you slow it down.</li>
+ <li><strong>You don't feel safe depending on anyone.</strong> People you depend on can disappear. You learned that early.</li>
+ </ol>
+
+ <div class="info-card">
+ <p><span class="material-symbols-outlined" style="vertical-align: middle;">check_circle</span> Everything you do is a survival pattern, not a character flaw.</p>
+ </div>
+ </div>
+
+ <!-- Section 3 -->
+ <div class="section" id="section-03">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">heart_broken</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 03</div>
+ <h2>Grief & Attachment</h2>
+ </div>
+ </div>
+
+ <p>You lost your mother during one of the most vulnerable and identity-forming stages of your life, around age 12 to 13.</p>
+
+ <p>This is <em>not</em> the same as losing a parent as an adult. It changes the wiring of your emotional system.</p>
+
+ <div class="insight-box">
+ <div class="insight-box-header">
+ <span class="material-symbols-outlined">warning</span> Here's what early loss teaches the body:
+ </div>
+ <ul>
+ <li>Love disappears.</li>
+ <li>Safety is temporary.</li>
+ <li>You must not need too much.</li>
+ <li>Breakdowns are dangerous.</li>
+ <li>Feelings equal danger.</li>
+ <li>"Be strong" is the only option.</li>
+ <li>Vulnerability = risk of loss.</li>
+ </ul>
+ </div>
+
+ <p>When you're that young, you don't get to process pain. You just survive it.</p>
+
+ <p>Your grief never got space. It never got comfort. It never got witnessed.</p>
+
+ <p>So it buries itself inside your body and shows up later as: anxiety, emotional numbness, fear of closeness, panic after connection, shutting down, guilt after withdrawing, and self-blame.</p>
+
+ <div class="quote-box">
+ This is not about you being unstable. This is about your brain protecting you from old pain.
+ </div>
+ </div>
+
+ <!-- Section 4 -->
+ <div class="section" id="section-04">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">sync</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 04</div>
+ <h2>Fearful to Avoidant Pattern</h2>
+ </div>
+ </div>
+
+ <p>This is the pattern formed when a person wants closeness deeply, but learned early that closeness = pain or loss.</p>
+
+ <p><strong>Your cycles go like this:</strong></p>
+
+ <ol class="cycle-list">
+ <li><strong>You connect intensely.</strong> Your walls fall. You open up. You feel alive and seen.</li>
+ <li><strong>It feels good, too good.</strong> Your nervous system associates deep love with deep pain.</li>
+ <li><strong>Panic rises.</strong> You start feeling unsafe emotionally, even if nothing bad is happening.</li>
+ <li><strong>You pull away.</strong> Not because you don't care, because you feel exposed.</li>
+ <li><strong>You shut down or go silent.</strong> This is your survival reflex.</li>
+ <li><strong>You feel guilty afterward.</strong> You think you "messed up" or "hurt someone."</li>
+ <li><strong>You return when your emotions settle.</strong> Your real self comes back when fear calms.</li>
+ </ol>
+
+ <div class="info-card">
+ <p>This is NOT manipulation. This is NOT indifference. This is NOT you "being crazy."</p>
+ <p style="margin-top: 15px;"><strong>This is a trauma pattern, and trauma patterns can be healed.</strong></p>
+ </div>
+ </div>
+
+ <!-- Section 5 -->
+ <div class="section" id="section-05">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">eco</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 05</div>
+ <h2>What "Lean In" Means</h2>
+ </div>
+ </div>
+
+ <p>Lean In is not about forcing anything. It's not about drama. It's not about pouring your heart out nonstop.</p>
+
+ <div class="quote-box">
+ Lean In means: Stop running from your emotions, let them rise and fall long enough for your brain to process them.
+ </div>
+
+ <div class="insight-box">
+ <div class="insight-box-header">
+ <span class="material-symbols-outlined">cancel</span> When you avoid feelings:
+ </div>
+ <ul>
+ <li>your brain flags them as dangerous,</li>
+ <li>you get stuck in fight/flight/freeze,</li>
+ <li>your emotional pressure builds,</li>
+ <li>emotional shutdown happens afterward.</li>
+ </ul>
+ </div>
+
+ <div class="insight-box">
+ <div class="insight-box-header">
+ <span class="material-symbols-outlined">check_circle</span> When you Lean In for 60 to 90 seconds:
+ </div>
+ <ul>
+ <li>your brain learns the feeling won't kill you,</li>
+ <li>your amygdala calms down,</li>
+ <li>your nervous system resets,</li>
+ <li>emotional tolerance grows.</li>
+ </ul>
+ </div>
+
+ <p style="text-align: center; font-weight: 600; font-size: 18px; margin-top: 30px;">This is trauma processing. This is emotional rewiring. This is how you change your cycles.</p>
+ </div>
+
+ <!-- Section 6 -->
+ <div class="section" id="section-06">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">verified</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 06</div>
+ <h2>Working Understanding</h2>
+ </div>
+ </div>
+
+ <p>Your emotional patterns are built from:</p>
+
+ <ul>
+ <li>unresolved childhood grief,</li>
+ <li>fearful to avoidant attachment,</li>
+ <li>chronic emotional avoidance,</li>
+ <li>shame spirals,</li>
+ <li>"caretaker" conditioning,</li>
+ <li>withdrawal after vulnerability,</li>
+ <li>substance-mediated regulation.</li>
+ </ul>
+
+ <div class="info-card">
+ <p><span class="material-symbols-outlined" style="vertical-align: middle;">shield</span> This doesn't make you broken, it makes you resilient. You adapted to survive.</p>
+ </div>
+ </div>
+
+ <!-- Section 7 -->
+ <div class="section" id="section-07">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">trending_up</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 07</div>
+ <h2>What Healing Looks Like</h2>
+ </div>
+ </div>
+
+ <p>Healing doesn't have to be dramatic. It's slow, gentle rewiring of your nervous system.</p>
+
+ <div class="insight-box">
+ <div class="insight-box-header">
+ <span class="material-symbols-outlined">route</span> Your healing path looks like:
+ </div>
+ <ul>
+ <li>fewer shutdowns,</li>
+ <li>shorter withdrawal episodes,</li>
+ <li>more stable feelings,</li>
+ <li>less panic after closeness,</li>
+ <li>feeling safer being emotional,</li>
+ <li>guilt decreasing,</li>
+ <li>clearer communication,</li>
+ <li>being able to stay instead of run.</li>
+ </ul>
+ </div>
+
+ <p style="text-align: center; font-weight: 600; font-size: 18px; margin-top: 30px;">You can become securely attached. Your brain is capable of it. Your heart is capable of it.</p>
+ </div>
+
+ <!-- Section 8 -->
+ <div class="section" id="section-08">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">construction</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 08</div>
+ <h2>Daily Tools for Stability</h2>
+ </div>
+ </div>
+
+ <div class="tool-box">
+ <div class="tool-header">
+ <div class="tool-icon"><span class="material-symbols-outlined">air</span></div>
+ <div class="tool-title">A) BREATHING RESET, 4 / 2 / 7</div>
+ </div>
+ <p><strong>Inhale:</strong> 4 seconds<br>
+ <strong>Hold:</strong> 2 seconds<br>
+ <strong>Exhale:</strong> 7 seconds<br>
+ <strong>Repeat:</strong> 6 rounds</p>
+
+ <p style="margin-top: 20px;"><strong>Use this when:</strong></p>
+ <ul>
+ <li>your chest feels tight,</li>
+ <li>emotions rise,</li>
+ <li>you want to run,</li>
+ <li>you want to shut down,</li>
+ <li>your thoughts get loud.</li>
+ </ul>
+ </div>
+
+ <div class="tool-box">
+ <div class="tool-header">
+ <div class="tool-icon"><span class="material-symbols-outlined">schedule</span></div>
+ <div class="tool-title">B) 90-SECOND LEAN IN DRILL</div>
+ </div>
+ <p><strong>When a big feeling hits:</strong></p>
+ <ol style="padding-left: 20px; list-style: decimal;">
+ <li style="padding-left: 10px;">Stop.</li>
+ <li style="padding-left: 10px;">Name the feeling.</li>
+ <li style="padding-left: 10px;">Notice where it lives in your body.</li>
+ <li style="padding-left: 10px;">Breathe into it.</li>
+ <li style="padding-left: 10px;">Let the emotion rise.</li>
+ <li style="padding-left: 10px;">Let it peak.</li>
+ <li style="padding-left: 10px;">Let it fall.</li>
+ </ol>
+
+ <div style="text-align: center; margin-top: 20px; font-weight: 600; color: #667eea;">
+ <span class="material-symbols-outlined" style="vertical-align: middle;">check</span> Your brain learns: "This isn't danger."
+ </div>
+ </div>
+
+ <div class="tool-box">
+ <div class="tool-header">
+ <div class="tool-icon"><span class="material-symbols-outlined">chat</span></div>
+ <div class="tool-title">C) 5-WORD REPAIR PHRASE</div>
+ </div>
+ <p>Say this after withdrawing:</p>
+ <div class="quote-box" style="margin: 15px 0; padding: 25px; font-size: 20px;">
+ "I got overwhelmed, I care."
+ </div>
+ <p style="text-align: center;">Short. Simple. Regulating.</p>
+ </div>
+
+ <div class="tool-box">
+ <div class="tool-header">
+ <div class="tool-icon"><span class="material-symbols-outlined">anchor</span></div>
+ <div class="tool-title">D) QUICK GROUNDING</div>
+ </div>
+ <p><strong>Name:</strong></p>
+ <ul>
+ <li>3 things you see,</li>
+ <li>2 things you hear,</li>
+ <li>1 sensation in your body.</li>
+ </ul>
+ <p style="margin-top: 15px;">This pulls you out of panic mode.</p>
+ </div>
+ </div>
+
+ <!-- Section 9 -->
+ <div class="section" id="section-09">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">forum</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 09</div>
+ <h2>Scripts for Hard Moments</h2>
+ </div>
+ </div>
+
+ <div class="tool-box">
+ <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">favorite</span> When scared:</strong><br>
+ "I'm trying even when I'm scared."</p>
+ </div>
+
+ <div class="tool-box">
+ <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">pause_circle</span> When overwhelmed:</strong><br>
+ "I need a moment, but I'm not leaving."</p>
+ </div>
+
+ <div class="tool-box">
+ <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">volunteer_activism</span> After withdrawing:</strong><br>
+ "I went quiet because I got overwhelmed, not because I stopped caring."</p>
+ </div>
+
+ <div class="tool-box">
+ <p><strong><span class="material-symbols-outlined" style="vertical-align: middle;">vital_signs</span> When you want closeness:</strong><br>
+ "My fear is loud, but so is how much I care."</p>
+ </div>
+ </div>
+
+ <!-- Section 10 -->
+ <div class="section" id="section-10">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">spa</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 10</div>
+ <h2>Emotional Clearing Meditation</h2>
+ </div>
+ </div>
+
+ <p><strong>Use when:</strong></p>
+ <ul>
+ <li>grief rises,</li>
+ <li>anxiety spikes,</li>
+ <li>you feel shame,</li>
+ <li>you feel numb,</li>
+ <li>you need emotional release.</li>
+ </ul>
+
+ <div class="link-box">
+ <span class="material-symbols-outlined" style="vertical-align: middle;">play_circle</span> <strong>MEDITATION LINK:</strong><br>
+ <a href="https://youtu.be/5-MmGugM7GE?si=xtylIZMMmbAGljR1" target="_blank">https://youtu.be/5-MmGugM7GE?si=xtylIZMMmbAGljR1</a>
+ </div>
+ </div>
+
+ <!-- Section 11 -->
+ <div class="section" id="section-11">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">edit_note</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 11</div>
+ <h2>Therapeutic Workbook</h2>
+ </div>
+ </div>
+
+ <div class="worksheet-toolbar" aria-label="Worksheet actions">
+ <button type="button" id="saveWorksheets">
+ <span class="material-symbols-outlined">save</span> Save progress
+ </button>
+ <button type="button" id="downloadWorksheets">
+ <span class="material-symbols-outlined">download</span> Download worksheets PDF
+ </button>
+ <button type="button" id="clearWorksheets">
+ <span class="material-symbols-outlined">refresh</span> Clear entries
+ </button>
+ </div>
+ <p class="worksheet-note">Your entries auto-save on this device. Use “Download worksheets PDF” for a printable copy.</p>
+
+ <div class="worksheet" id="worksheet-1">
+ <div class="worksheet-header">
+ <div class="worksheet-icon"><span class="material-symbols-outlined">looks_one</span></div>
+ <h3>WORKSHEET 1, Emotional Check-In</h3>
+ </div>
+ <p><strong>1. What am I feeling right now?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>2. Where in my body do I feel it?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>3. What triggered it?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>4. What does this feeling want?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>5. What does my younger self need?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+ </div>
+
+ <div class="worksheet" id="worksheet-2">
+ <div class="worksheet-header">
+ <div class="worksheet-icon"><span class="material-symbols-outlined">looks_two</span></div>
+ <h3>WORKSHEET 2, Avoidance Pattern Map</h3>
+ </div>
+ <p><strong>1. What happened right before I shut down?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>2. What emotion felt too big?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>3. What fear did it activate?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>4. What did I do to avoid the feeling?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>5. What do I wish I had said?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>6. What would safety have looked like?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+ </div>
+
+ <div class="worksheet" id="worksheet-3">
+ <div class="worksheet-header">
+ <div class="worksheet-icon"><span class="material-symbols-outlined">looks_3</span></div>
+ <h3>WORKSHEET 3, Post-Intimacy Panic Map</h3>
+ </div>
+ <p><strong>1. What part of the closeness felt good?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>2. What part felt scary?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>3. What story did my fear tell me?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>4. What happened in my body?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>5. What would have helped me feel safe?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+ </div>
+
+ <div class="worksheet" id="worksheet-4">
+ <div class="worksheet-header">
+ <div class="worksheet-icon"><span class="material-symbols-outlined">looks_4</span></div>
+ <h3>WORKSHEET 4, Grief Processing</h3>
+ </div>
+ <p><strong>1. What memories of my mom still hurt?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>2. What feelings have I avoided?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>3. What did I need back then?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>4. What do I need now?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>5. What would comfort look like for me?</strong></p>
+ <textarea class="worksheet-input" placeholder="Write your response here..."></textarea>
+ </div>
+
+ <div class="worksheet" id="worksheet-5">
+ <div class="worksheet-header">
+ <div class="worksheet-icon"><span class="material-symbols-outlined">looks_5</span></div>
+ <h3>WORKSHEET 5, Emotional Safety Statements</h3>
+ </div>
+ <p><strong>Write or repeat:</strong></p>
+
+ <p style="margin-top: 20px;"><strong>"I can feel this and stay safe."</strong></p>
+ <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>"Emotions won't break me."</strong></p>
+ <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>"I don't have to disappear."</strong></p>
+ <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>"I can return when I'm ready."</strong></p>
+ <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
+
+ <p style="margin-top: 20px;"><strong>"I deserve love and safety."</strong></p>
+ <textarea class="worksheet-input" placeholder="Reflect on this statement..."></textarea>
+ </div>
+ </div>
+
+ <!-- Section 12 -->
+ <div class="section" id="section-12">
+ <div class="section-header">
+ <div class="section-icon"><span class="material-symbols-outlined">favorite</span></div>
+ <div class="section-title-group">
+ <div class="section-number">SECTION 12</div>
+ <h2>Final Note to You, Hayley</h2>
+ </div>
+ </div>
+
+ <div class="final-note">
+ <div class="final-note-icon">
+ <span class="material-symbols-outlined">support</span>
+ </div>
+
+ <p><strong>You were never meant to carry this alone.</strong></p>
+
+ <p>You were a little girl who lost the most important person in her world, and you had to grow up instantly.</p>
+
+ <p>Your reactions make sense.<br>
+ Your fear makes sense.<br>
+ Your shutdowns make sense.</p>
+
+ <p>Your heart is not broken, it's wounded, and it's protecting you the only way it knows how.</p>
+
+ <p><strong>You are not too much.<br>
+ You are not hard to love.<br>
+ You are not unstable.<br>
+ You are not dramatic.</strong></p>
+
+ <p>You are someone learning how to feel again.</p>
+
+ <p>And you deserve the kind of love, gentleness, and safety that doesn't make your nervous system feel like it's in danger.</p>
+
+ <p>Healing isn't about forcing anything.<br>
+ <strong>It's about letting yourself breathe again.</strong></p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Footer -->
+ <div class="footer">
+ <div class="footer-logo">
+ <span class="material-symbols-outlined">psychiatry</span> Crown Psychology / CrownCode Clinical Division
+ </div>
+ <div>Attachment & Emotional Regulation Program</div>
+ <div class="footer-links">
+ End of Full Expanded Workbook, Prepared with care for Hayley H.
+ </div>
+ </div>
+ </div>
+
+ <!-- Download Button -->
+ <button class="download-button" onclick="downloadPDF()">
+ <span class="material-symbols-outlined">download</span> Download as PDF
+ </button>
+
+ <script>
+ const AUTH_USER = 'hholden';
+ const AUTH_PASS = 'L3@n1n143';
+ const AUTH_KEY = 'leanin-authenticated';
+ const WORKSHEET_KEY = 'leanin-worksheet-entries';
+ const ARCHIVE_KEY = 'leanin-worksheet-archive';
+
+ const gateOverlay = document.getElementById('gateOverlay');
+ const gateForm = document.getElementById('gateForm');
+ const gateError = document.getElementById('gateError');
+ const gateUsername = document.getElementById('gateUsername');
+ const gatePassword = document.getElementById('gatePassword');
+ const authShowcase = document.getElementById('authShowcase');
+ const authButtons = document.querySelectorAll('[data-auth-target]');
+ const authPhones = authShowcase ? authShowcase.querySelectorAll('.auth-phone') : [];
+ const preloader = document.getElementById('preloader');
+ const saveToast = document.getElementById('saveToast');
+ const saveToastText = document.getElementById('saveToastText');
+ let worksheetInputs = [];
+ let worksheetsReady = false;
+ const quickSave = document.getElementById('quickSave');
+ const quickDownload = document.getElementById('quickDownload');
+ const quickWorksheets = document.getElementById('quickWorksheets');
+ const saveWorksheets = document.getElementById('saveWorksheets');
+ const downloadWorksheets = document.getElementById('downloadWorksheets');
+ const clearWorksheets = document.getElementById('clearWorksheets');
+ const menuToggle = document.getElementById('menuToggle');
+ const menuPanel = document.getElementById('menuPanel');
+ const menuSave = document.getElementById('menuSave');
+ const menuArchive = document.getElementById('menuArchive');
+ const menuAllSections = document.getElementById('menuAllSections');
+ const menuLogout = document.getElementById('menuLogout');
+ const workbookToggle = document.getElementById('workbookToggle');
+ const workbookPanel = document.getElementById('workbookPanel');
+ const workbookClose = document.getElementById('workbookClose');
+ let workbookHintShown = false;
+
+ const setAuthView = (view) => {
+ if (!authShowcase) {
+ return;
+ }
+ const safeView = view || 'intro';
+ authShowcase.dataset.authView = safeView;
+ authPhones.forEach((phone) => {
+ const isActive = phone.classList.contains(`auth-phone--${safeView}`);
+ phone.classList.toggle('is-active', isActive);
+ });
+ if (safeView === 'login' && gateUsername) {
+ gateUsername.focus();
+ }
+ };
+
+ const unlockWorkbook = () => {
+ gateOverlay.style.display = 'none';
+ document.body.classList.remove('is-locked');
+ requestWorkbookHint();
+ };
+
+ const lockWorkbook = () => {
+ gateOverlay.style.display = 'flex';
+ document.body.classList.add('is-locked');
+ setAuthView('intro');
+ };
+
+ const getAuthState = () => {
+ try {
+ return localStorage.getItem(AUTH_KEY) === 'true';
+ } catch (error) {
+ return sessionStorage.getItem(AUTH_KEY) === 'true';
+ }
+ };
+
+ const setAuthState = (value) => {
+ const stored = value ? 'true' : 'false';
+ try {
+ localStorage.setItem(AUTH_KEY, stored);
+ } catch (error) {
+ // ignore localStorage failures
+ }
+ try {
+ sessionStorage.setItem(AUTH_KEY, stored);
+ } catch (error) {
+ // ignore sessionStorage failures
+ }
+ };
+
+ const clearAuthState = () => {
+ try {
+ localStorage.removeItem(AUTH_KEY);
+ } catch (error) {
+ // ignore localStorage failures
+ }
+ try {
+ sessionStorage.removeItem(AUTH_KEY);
+ } catch (error) {
+ // ignore sessionStorage failures
+ }
+ };
+
+ const requestWorkbookHint = () => {
+ if (workbookHintShown || !workbookPanel || !workbookToggle) {
+ return;
+ }
+ workbookHintShown = true;
+ workbookToggle.classList.add('is-flashing');
+ window.setTimeout(() => {
+ if (!workbookPanel) {
+ return;
+ }
+ workbookPanel.classList.add('is-open', 'is-flashing');
+ workbookPanel.setAttribute('aria-hidden', 'false');
+ workbookToggle.setAttribute('aria-expanded', 'true');
+ window.setTimeout(() => {
+ workbookToggle.classList.remove('is-flashing');
+ closeWorkbookPanel();
+ }, 2400);
+ }, 400);
+ };
+
+ const hasSession = getAuthState();
+ if (hasSession) {
+ unlockWorkbook();
+ } else {
+ lockWorkbook();
+ }
+
+ authButtons.forEach((button) => {
+ button.addEventListener('click', () => {
+ const targetView = button.dataset.authTarget;
+ setAuthView(targetView);
+ });
+ });
+
+ gateForm.addEventListener('submit', (event) => {
+ event.preventDefault();
+ const enteredUser = gateUsername.value.trim();
+ const enteredPass = gatePassword.value;
+
+ if (enteredUser === AUTH_USER && enteredPass === AUTH_PASS) {
+ setAuthState(true);
+ gateError.textContent = '';
+ unlockWorkbook();
+ return;
+ }
+
+ gateError.textContent = 'Incorrect credentials. Please try again.';
+ gatePassword.value = '';
+ gatePassword.focus();
+ });
+
+ const showToast = (message = 'Progress saved') => {
+ if (saveToastText) {
+ saveToastText.textContent = message;
+ }
+ saveToast.classList.add('is-visible');
+ window.setTimeout(() => {
+ saveToast.classList.remove('is-visible');
+ }, 2200);
+ };
+
+ const initWorksheets = () => {
+ if (worksheetsReady) {
+ return;
+ }
+ worksheetInputs = Array.from(document.querySelectorAll('.worksheet-input'));
+ if (!worksheetInputs.length) {
+ return;
+ }
+ worksheetsReady = true;
+ loadWorksheetData();
+ worksheetInputs.forEach((input) => {
+ input.addEventListener('input', () => saveWorksheetData(false));
+ });
+ };
+
+ const scheduleWorksheetInit = () => {
+ if (worksheetsReady) {
+ return;
+ }
+ if ('requestIdleCallback' in window) {
+ window.requestIdleCallback(() => initWorksheets(), { timeout: 2000 });
+ return;
+ }
+ window.setTimeout(() => initWorksheets(), 1500);
+ };
+
+ const getStoredWorksheetData = () => {
+ try {
+ return JSON.parse(localStorage.getItem(WORKSHEET_KEY)) || {};
+ } catch (error) {
+ return {};
+ }
+ };
+
+ const saveWorksheetData = (showFeedback = true) => {
+ if (!worksheetsReady) {
+ initWorksheets();
+ }
+ if (!worksheetInputs.length) {
+ return;
+ }
+ const payload = getWorksheetPayload();
+ localStorage.setItem(WORKSHEET_KEY, JSON.stringify(payload));
+ if (showFeedback) {
+ showToast('Progress saved');
+ }
+ };
+
+ function loadWorksheetData() {
+ if (!worksheetInputs.length) {
+ return;
+ }
+ const payload = getStoredWorksheetData();
+ worksheetInputs.forEach((input, index) => {
+ if (payload[index]) {
+ input.value = payload[index];
+ }
+ });
+ }
+
+ const clearWorksheetData = () => {
+ if (!worksheetsReady) {
+ initWorksheets();
+ }
+ worksheetInputs.forEach((input) => {
+ input.value = '';
+ });
+ localStorage.removeItem(WORKSHEET_KEY);
+ showToast('Worksheet cleared');
+ };
+
+ const getWorksheetPayload = () => {
+ const payload = {};
+ worksheetInputs.forEach((input, index) => {
+ payload[index] = input.value;
+ });
+ return payload;
+ };
+
+ const archiveWorksheetData = () => {
+ if (!worksheetsReady) {
+ initWorksheets();
+ }
+ if (!worksheetInputs.length) {
+ return;
+ }
+ const archiveEntry = {
+ savedAt: new Date().toISOString(),
+ entries: getWorksheetPayload(),
+ };
+ const archive = (() => {
+ try {
+ return JSON.parse(localStorage.getItem(ARCHIVE_KEY)) || [];
+ } catch (error) {
+ return [];
+ }
+ })();
+ archive.unshift(archiveEntry);
+ localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive.slice(0, 12)));
+ showToast('Session archived');
+ };
+
+ if (quickSave) {
+ quickSave.addEventListener('click', () => saveWorksheetData(true));
+ }
+ if (quickDownload) {
+ quickDownload.addEventListener('click', () => downloadPDF());
+ }
+ if (quickWorksheets) {
+ quickWorksheets.addEventListener('click', () => {
+ initWorksheets();
+ document.getElementById('section-11').scrollIntoView({ behavior: 'smooth' });
+ });
+ }
+ if (saveWorksheets) {
+ saveWorksheets.addEventListener('click', () => saveWorksheetData(true));
+ }
+ if (downloadWorksheets) {
+ downloadWorksheets.addEventListener('click', () => downloadPDF());
+ }
+ if (clearWorksheets) {
+ clearWorksheets.addEventListener('click', () => clearWorksheetData());
+ }
+
+ const closeMenu = () => {
+ if (!menuPanel || !menuToggle) {
+ return;
+ }
+ menuPanel.classList.remove('is-open');
+ menuPanel.setAttribute('aria-hidden', 'true');
+ menuToggle.setAttribute('aria-expanded', 'false');
+ };
+
+ function closeWorkbookPanel() {
+ if (!workbookPanel || !workbookToggle) {
+ return;
+ }
+ workbookPanel.classList.remove('is-open');
+ workbookPanel.classList.remove('is-flashing');
+ workbookPanel.setAttribute('aria-hidden', 'true');
+ workbookToggle.setAttribute('aria-expanded', 'false');
+ }
+
+ const toggleMenu = () => {
+ if (!menuPanel || !menuToggle) {
+ return;
+ }
+ closeWorkbookPanel();
+ const isOpen = menuPanel.classList.toggle('is-open');
+ menuPanel.setAttribute('aria-hidden', String(!isOpen));
+ menuToggle.setAttribute('aria-expanded', String(isOpen));
+ };
+
+ const toggleWorkbookPanel = () => {
+ if (!workbookPanel || !workbookToggle) {
+ return;
+ }
+ closeMenu();
+ const isOpen = workbookPanel.classList.toggle('is-open');
+ workbookPanel.setAttribute('aria-hidden', String(!isOpen));
+ workbookToggle.setAttribute('aria-expanded', String(isOpen));
+ };
+
+ if (menuToggle) {
+ menuToggle.addEventListener('click', (event) => {
+ event.stopPropagation();
+ toggleMenu();
+ });
+ }
+
+ if (workbookToggle) {
+ workbookToggle.addEventListener('click', (event) => {
+ event.stopPropagation();
+ toggleWorkbookPanel();
+ });
+ }
+
+ if (workbookClose) {
+ workbookClose.addEventListener('click', () => {
+ closeWorkbookPanel();
+ });
+ }
+
+ if (menuSave) {
+ menuSave.addEventListener('click', () => {
+ saveWorksheetData(true);
+ closeMenu();
+ });
+ }
+
+ if (menuArchive) {
+ menuArchive.addEventListener('click', () => {
+ archiveWorksheetData();
+ closeMenu();
+ });
+ }
+
+ if (menuAllSections) {
+ menuAllSections.addEventListener('click', () => {
+ document.getElementById('table-of-contents').scrollIntoView({ behavior: 'smooth' });
+ closeMenu();
+ });
+ }
+
+ if (menuLogout) {
+ menuLogout.addEventListener('click', () => {
+ clearAuthState();
+ lockWorkbook();
+ gateUsername.value = '';
+ gatePassword.value = '';
+ gateUsername.focus();
+ closeMenu();
+ });
+ }
+
+ document.addEventListener('click', (event) => {
+ if (!menuPanel || !menuToggle) {
+ return;
+ }
+ if (menuPanel.contains(event.target) || menuToggle.contains(event.target)) {
+ return;
+ }
+ closeMenu();
+ });
+
+ document.addEventListener('click', (event) => {
+ if (!workbookPanel || !workbookToggle) {
+ return;
+ }
+ if (workbookPanel.contains(event.target) || workbookToggle.contains(event.target)) {
+ return;
+ }
+ closeWorkbookPanel();
+ });
+
+ if (workbookPanel) {
+ workbookPanel.addEventListener('click', (event) => {
+ const target = event.target;
+ if (target instanceof HTMLAnchorElement) {
+ closeWorkbookPanel();
+ }
+ });
+ }
+
+ document.addEventListener('keydown', (event) => {
+ if (event.key === 'Escape') {
+ closeMenu();
+ closeWorkbookPanel();
+ }
+ });
+
+ document.addEventListener(
+ 'gesturestart',
+ (event) => {
+ event.preventDefault();
+ },
+ { passive: false }
+ );
+ document.addEventListener(
+ 'gesturechange',
+ (event) => {
+ event.preventDefault();
+ },
+ { passive: false }
+ );
+ document.addEventListener(
+ 'gestureend',
+ (event) => {
+ event.preventDefault();
+ },
+ { passive: false }
+ );
+
+ const revealItems = document.querySelectorAll('.section, .toc, .final-note, .quote-box, .tool-box, .worksheet');
+ revealItems.forEach((item) => item.classList.add('reveal', 'is-visible'));
+
+ const worksheetSection = document.getElementById('section-11');
+ if (worksheetSection) {
+ const worksheetObserver = new IntersectionObserver(
+ (entries) => {
+ entries.forEach((entry) => {
+ if (entry.isIntersecting) {
+ initWorksheets();
+ worksheetObserver.disconnect();
+ }
+ });
+ },
+ { rootMargin: '200px' }
+ );
+ worksheetObserver.observe(worksheetSection);
+ }
+
+ window.addEventListener('load', () => {
+ scheduleWorksheetInit();
+ preloader.classList.add('hidden');
+ if (hasSession) {
+ requestWorkbookHint();
+ }
+ });
+
+ function downloadPDF() {
+ saveWorksheetData(false);
+ window.print();
+ }
+ </script>
 </body>
 </html>
