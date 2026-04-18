@@ -2,6 +2,14 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Homepage format selector unwrap + centered heading + subtle 3D overlay trigger
+
+- Removed the old outer wrapper card around the homepage format selector stack in `index.html` so the heading, format pills, and image now render as direct section content (no extra enclosing card shell).
+- Center-aligned the `PICK YOUR FORMAT / YOUR MOVE / SELECT A FORMAT` heading treatment and moved the `3D view` trigger onto the top-right corner of the format image using a lighter, less aggressive overlay style.
+- Replaced the image-based 3D trigger icon with a Phosphor library icon (`ph-cube-focus`) so the control uses the shared icon system and remains consistent across themes.
+- Synced style behavior in `scss/components/_book-details-wrapper.scss` and rebuilt deployable CSS (`assets/styles.css`) for GitHub Pages output parity.
+- While running deploy checks, regenerated missing favicon outputs via `npm run generate:icons`, resolving metadata lint failures tied to missing `/assets/icons/generated/*` assets.
+
 ## 2026-04-18 — Homepage featured-rail deployment fix + metadata deploy checks (GitHub Pages-safe)
 
 - Wired `index.html` to load `js/homepage-rail-enhancements.js` directly so featured-rail motion + modal interactions now execute in production (not just in source control).
