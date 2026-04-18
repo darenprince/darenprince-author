@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Homepage mobile format stack hotfix + branded app metadata titles (GitHub Pages-safe)
+
+- Fixed the homepage format-selector layout regression on mobile by forcing `.book-primary-layout .book-experience` to render as a vertical stack (instead of a horizontal flex row), restoring readable copy/button flow and preventing the image rail from pinching into a narrow side column in iOS Safari.
+- Added spacing/stretch constraints for the same stack in `scss/components/_book-details-wrapper.scss` so controls, accordion content, and hero media remain full-width and scroll naturally on small screens while preserving desktop alignment.
+- Updated homepage browser-app metadata labels in `index.html` (`application-name` + `apple-mobile-web-app-title`) from Crown Labs to Daren Prince branding so installable/browser chrome naming matches the live author site identity.
+- Rebuilt deployable CSS (`assets/styles.css`) with `npm run styles:build` to keep committed GitHub Pages output synchronized with SCSS source changes.
+
 ## 2026-04-18 — Index accordion relocation + mobile vertical rail behavior fixes (GitHub Pages-safe)
 
 - Moved the homepage long-form book details accordion stack directly below the format-selection controls in `index.html` so description/details now appear immediately after format choice.
