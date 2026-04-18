@@ -813,8 +813,12 @@ body.books-page {
 
   .book-experience {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    gap: clamp(0.8rem, 2.1vw, 1.2rem);
+    width: min(100%, 42rem);
+    margin-inline: auto;
     order: 2;
   }
 
@@ -829,6 +833,8 @@ body.books-page {
 
     .book-experience {
       justify-content: flex-start;
+      align-items: stretch;
+      margin-inline: 0;
       order: 0;
     }
 
