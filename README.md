@@ -64,6 +64,8 @@ This project exists to:
 >
 > **Homepage conversion rail refresh:** `index.html` now merges format selection controls directly into the dynamic format-image card and adds a touch-swipable featured books strip that deep-links to anchor sections on `book.html`. Keep `scss/components/_book-details-wrapper.scss` and `assets/styles.css` in sync by running `npm run build:site` before commit.
 >
+> **Homepage featured rail behavior:** `index.html` now explicitly loads `js/homepage-rail-enhancements.js` so the full-bleed featured rail motion/modal polish ships to production on GitHub Pages (instead of only existing in source files).
+>
 > **Search modal UX:** Site search now opens as an overlay on desktop and mobile, includes a larger explicit close control, and supports touch swipe-down dismiss behavior for mobile ergonomics while remaining GitHub Pages-safe (no runtime dependencies).
 
 ---
@@ -98,6 +100,8 @@ npm run build
 > **Decoder reporting update:** The Nexus Who report now includes an editorial summary, explicit trait names (Narcissism, Machiavellianism, Psychopathy, Manipulation Doctrine), calibrated trait thresholds, and per-question selected answer text for clearer interpretation.
 
 > **Brand chrome + social metadata:** Nexus Who uses brand-green browser chrome (`theme-color`) and relies on deployable OG/Twitter images referenced from committed assets so GitHub Pages previews remain stable.
+>
+> **Metadata deployment gate:** `npm run lint:metadata` validates that key public pages keep required favicon, Apple touch icon, Open Graph image, Twitter image, and brand `theme-color` tags with deployable asset paths before build/deploy.
 
 ### PIN handling (temporary)
 
