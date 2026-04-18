@@ -173,6 +173,32 @@ function inferBookKey(card) {
 function initFeaturedRailModal() {
   const rail = document.querySelector('.featured-books-strip__rail')
   if (!rail) return
+  const cards = Array.from(rail.querySelectorAll('.featured-book-card'))
+
+  const spotlightCard = (card) => {
+    cards.forEach((item) => item.classList.toggle('is-spotlight', item === card))
+  }
+
+  if ('IntersectionObserver' in window) {
+    const spotlightObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        if (visibleEntries.length) {
+          spotlightCard(visibleEntries[0].target)
+        }
+      },
+      {
+        root: rail,
+        threshold: [0.5, 0.72, 0.9],
+      }
+    )
+    cards.forEach((card) => spotlightObserver.observe(card))
+  } else if (cards.length) {
+    spotlightCard(cards[0])
+  }
+
   const TOUCH_DRAG_THRESHOLD = 9
   const TOUCH_DRAG_SUPPRESS_MS = 420
   const gestureState = {
