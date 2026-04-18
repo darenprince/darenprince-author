@@ -48,27 +48,27 @@ function buildSmartAppBanner() {
   banner.setAttribute('role', 'region')
   banner.setAttribute('aria-label', 'Game On on Apple Books')
   banner.innerHTML = `
-    <button class="smart-app-banner__close" type="button" aria-label="Dismiss Game On banner">&#215;</button>
-    <img
-      class="smart-app-banner__icon"
-      src="assets/images/game-on-main-cover.png"
-      alt="Game On book cover"
-      width="64"
-      height="64"
-      loading="lazy"
-    />
-    <div class="smart-app-banner__copy">
-      <span class="smart-app-banner__eyebrow">Apple Books</span>
-      <span class="smart-app-banner__title">Game On: Master the Conversation &amp; Win Her Heart</span>
-      <span class="smart-app-banner__subtitle">By Daren Prince · Lifestyle &amp; Relationships</span>
-    </div>
-    <div class="smart-app-banner__actions">
-      <a class="smart-app-banner__cta" href="${APPLE_BOOKS_URL}" target="_blank" rel="noopener">
-        View
-      </a>
-      <span class="smart-app-banner__footnote">Opens in Apple Books</span>
-    </div>
-  `
+ <button class="smart-app-banner__close" type="button" aria-label="Dismiss Game On banner">&#215;</button>
+ <img
+ class="smart-app-banner__icon"
+ src="assets/images/game-on-main-cover.png"
+ alt="Game On book cover"
+ width="64"
+ height="64"
+ loading="lazy"
+ />
+ <div class="smart-app-banner__copy">
+ <span class="smart-app-banner__eyebrow">Apple Books</span>
+ <span class="smart-app-banner__title">Game On: Master the Conversation &amp; Win Her Heart</span>
+ <span class="smart-app-banner__subtitle">By Daren Prince · Lifestyle &amp; Relationships</span>
+ </div>
+ <div class="smart-app-banner__actions">
+ <a class="smart-app-banner__cta" href="${APPLE_BOOKS_URL}" target="_blank" rel="noopener">
+ View
+ </a>
+ <span class="smart-app-banner__footnote">Opens in Apple Books</span>
+ </div>
+ `
   return banner
 }
 
@@ -141,7 +141,7 @@ function initNavigationAndAuth() {
   const indexingRule = applyIndexingMeta()
   if (indexingRule) {
     console.debug(
-      `[SEO] Robots directive set to "${indexingRule.directive}" — ${indexingRule.reason}`
+      `[SEO] Robots directive set to "${indexingRule.directive}", ${indexingRule.reason}`
     )
   }
   const menuToggles = Array.from(document.querySelectorAll('.js-menu-toggle'))
@@ -374,21 +374,21 @@ function initNavigationAndAuth() {
     overlay.className = 'search-modal-overlay'
     overlay.setAttribute('aria-hidden', 'true')
     overlay.innerHTML = `
-      <img class="search-modal-brand" src="/assets/logos/logo-footer-white.png" alt="Daren Prince" />
-      <div class="search-modal">
-        <button class="search-close" type="button" aria-label="Close search">&times;</button>
-        <form class="search-form flex items-center">
-          <input type="search" placeholder="Search books, pages, and resources..." aria-label="Search the Daren Prince site" />
-          <button type="submit" class="search-submit" aria-label="Run search"><i class="ph ph-magnifying-glass"></i></button>
-        </form>
-        <div class="search-modal__quick-actions" role="group" aria-label="Popular searches">
-          ${SEARCH_SUGGESTIONS.map(
-            (term) =>
-              `<button type="button" class="search-modal__quick" data-search-term="${term}">${term}</button>`
-          ).join('')}
-        </div>
-        <p class="search-modal__hint">Tip: Press <kbd>/</kbd> to open search from anywhere.</p>
-      </div>`
+ <img class="search-modal-brand" src="/assets/logos/logo-footer-white.png" alt="Daren Prince" />
+ <div class="search-modal">
+ <button class="search-close" type="button" aria-label="Close search">&times;</button>
+ <form class="search-form flex items-center">
+ <input type="search" placeholder="Search books, pages, and resources..." aria-label="Search the Daren Prince site" />
+ <button type="submit" class="search-submit" aria-label="Run search"><i class="ph ph-magnifying-glass"></i></button>
+ </form>
+ <div class="search-modal__quick-actions" role="group" aria-label="Popular searches">
+ ${SEARCH_SUGGESTIONS.map(
+   (term) =>
+     `<button type="button" class="search-modal__quick" data-search-term="${term}">${term}</button>`
+ ).join('')}
+ </div>
+ <p class="search-modal__hint">Tip: Press <kbd>/</kbd> to open search from anywhere.</p>
+ </div>`
     document.body.appendChild(overlay)
 
     const closeBtn = overlay.querySelector('.search-close')
@@ -586,274 +586,274 @@ function initBookCoverPresentationFixes() {
   const style = document.createElement('style')
   style.id = 'book-cover-presentation-fixes'
   style.textContent = `
-    .featured-books-shell {
-      width: 100vw !important;
-      max-width: none !important;
-      margin-left: calc(50% - 50vw) !important;
-      margin-right: calc(50% - 50vw) !important;
-      border-radius: 0 !important;
-    }
+ .featured-books-shell {
+ width: 100vw !important;
+ max-width: none !important;
+ margin-left: calc(50% - 50vw) !important;
+ margin-right: calc(50% - 50vw) !important;
+ border-radius: 0 !important;
+ }
 
-    .featured-books-strip {
-      width: 100% !important;
-      max-width: none !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
+ .featured-books-strip {
+ width: 100% !important;
+ max-width: none !important;
+ margin-left: 0 !important;
+ margin-right: 0 !important;
+ }
 
-    .featured-books-strip__headline {
-      margin-top: 0 !important;
-    }
+ .featured-books-strip__headline {
+ margin-top: 0 !important;
+ }
 
-    .featured-book-card img,
-    .paperback-mockup img,
-    .book-cover-trigger img,
-    .paperback-mockup,
-    .book-cover-trigger,
-    .featured-book-card .book-cover-trigger,
-    .featured-book-card figure {
-      border-radius: 0 !important;
-    }
+ .featured-book-card img,
+ .paperback-mockup img,
+ .book-cover-trigger img,
+ .paperback-mockup,
+ .book-cover-trigger,
+ .featured-book-card .book-cover-trigger,
+ .featured-book-card figure {
+ border-radius: 0 !important;
+ }
 
-    .featured-book-card img,
-    .paperback-mockup img,
-    .book-cover-trigger img {
-      width: 100% !important;
-      height: auto !important;
-      aspect-ratio: auto !important;
-      object-fit: contain !important;
-      display: block !important;
-    }
+ .featured-book-card img,
+ .paperback-mockup img,
+ .book-cover-trigger img {
+ width: 100% !important;
+ height: auto !important;
+ aspect-ratio: auto !important;
+ object-fit: contain !important;
+ display: block !important;
+ }
 
-    .paperback-mockup,
-    .book-cover-trigger {
-      overflow: visible !important;
-    }
+ .paperback-mockup,
+ .book-cover-trigger {
+ overflow: visible !important;
+ }
 
-    .featured-books-strip {
-      position: relative;
-    }
+ .featured-books-strip {
+ position: relative;
+ }
 
-    .featured-books-rail-overlay,
-    .featured-books-rail-indicator,
-    .featured-books-rail-edge {
-      display: none;
-    }
+ .featured-books-rail-overlay,
+ .featured-books-rail-indicator,
+ .featured-books-rail-edge {
+ display: none;
+ }
 
-    .featured-book-card__coming-line {
-      display: none !important;
-    }
+ .featured-book-card__coming-line {
+ display: none !important;
+ }
 
-    @media (min-width: 48rem) {
-      .featured-books-shell {
-        padding-left: clamp(1.2rem, 3vw, 3rem) !important;
-        padding-right: clamp(1.2rem, 3vw, 3rem) !important;
-      }
+ @media (min-width: 48rem) {
+ .featured-books-shell {
+ padding-left: clamp(1.2rem, 3vw, 3rem) !important;
+ padding-right: clamp(1.2rem, 3vw, 3rem) !important;
+ }
 
-      .featured-books-strip__rail {
-        gap: 1rem !important;
-        padding-left: 0.35rem !important;
-        padding-right: 0.35rem !important;
-        padding-bottom: 1rem !important;
-        scroll-padding-inline: 1.25rem !important;
-      }
+ .featured-books-strip__rail {
+ gap: 1rem !important;
+ padding-left: 0.35rem !important;
+ padding-right: 0.35rem !important;
+ padding-bottom: 1rem !important;
+ scroll-padding-inline: 1.25rem !important;
+ }
 
-      .featured-book-card {
-        border-color: rgba(255, 255, 255, 0.12) !important;
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.08),
-          0 14px 28px rgba(0, 0, 0, 0.24) !important;
-        transition:
-          transform 0.24s ease,
-          border-color 0.24s ease,
-          box-shadow 0.24s ease,
-          background 0.24s ease !important;
-      }
+ .featured-book-card {
+ border-color: rgba(255, 255, 255, 0.12) !important;
+ box-shadow:
+ inset 0 1px 0 rgba(255, 255, 255, 0.08),
+ 0 14px 28px rgba(0, 0, 0, 0.24) !important;
+ transition:
+ transform 0.24s ease,
+ border-color 0.24s ease,
+ box-shadow 0.24s ease,
+ background 0.24s ease !important;
+ }
 
-      .featured-book-card:hover,
-      .featured-book-card:focus-within {
-        transform: translateY(-6px) !important;
-        border-color: rgba(140, 214, 121, 0.42) !important;
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.1),
-          0 18px 34px rgba(0, 0, 0, 0.32),
-          0 0 0 1px rgba(140, 214, 121, 0.08) !important;
-        background: linear-gradient(165deg, rgba(25, 28, 32, 0.98), rgba(13, 15, 18, 0.94)) !important;
-      }
+ .featured-book-card:hover,
+ .featured-book-card:focus-within {
+ transform: translateY(-6px) !important;
+ border-color: rgba(140, 214, 121, 0.42) !important;
+ box-shadow:
+ inset 0 1px 0 rgba(255, 255, 255, 0.1),
+ 0 18px 34px rgba(0, 0, 0, 0.32),
+ 0 0 0 1px rgba(140, 214, 121, 0.08) !important;
+ background: linear-gradient(165deg, rgba(25, 28, 32, 0.98), rgba(13, 15, 18, 0.94)) !important;
+ }
 
-      .featured-book-card--upcoming-spine {
-        width: clamp(4.9rem, 6vw, 5.65rem) !important;
-        min-width: clamp(4.9rem, 6vw, 5.65rem) !important;
-        margin-inline-start: 0 !important;
-        padding-left: 0.2rem !important;
-        padding-right: 0.15rem !important;
-        justify-items: end !important;
-      }
+ .featured-book-card--upcoming-spine {
+ width: clamp(4.9rem, 6vw, 5.65rem) !important;
+ min-width: clamp(4.9rem, 6vw, 5.65rem) !important;
+ margin-inline-start: 0 !important;
+ padding-left: 0.2rem !important;
+ padding-right: 0.15rem !important;
+ justify-items: end !important;
+ }
 
-      .featured-book-card__coming-vertical {
-        margin-left: 0.45rem !important;
-        font-size: clamp(1.1rem, 1.5vw, 1.42rem) !important;
-      }
+ .featured-book-card__coming-vertical {
+ margin-left: 0.45rem !important;
+ font-size: clamp(1.1rem, 1.5vw, 1.42rem) !important;
+ }
 
-      .featured-books-strip::before,
-      .featured-books-strip::after {
-        content: '';
-        position: absolute;
-        top: 4.3rem;
-        bottom: 3.5rem;
-        width: 1.4rem;
-        pointer-events: none;
-        z-index: 2;
-      }
+ .featured-books-strip::before,
+ .featured-books-strip::after {
+ content: '';
+ position: absolute;
+ top: 4.3rem;
+ bottom: 3.5rem;
+ width: 1.4rem;
+ pointer-events: none;
+ z-index: 2;
+ }
 
-      .featured-books-strip::before {
-        left: 0;
-        background: linear-gradient(90deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
-      }
+ .featured-books-strip::before {
+ left: 0;
+ background: linear-gradient(90deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
+ }
 
-      .featured-books-strip::after {
-        right: 0;
-        background: linear-gradient(270deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
-      }
-    }
+ .featured-books-strip::after {
+ right: 0;
+ background: linear-gradient(270deg, rgba(8, 10, 10, 0.36) 0%, rgba(8, 10, 10, 0.14) 48%, rgba(8, 10, 10, 0) 100%);
+ }
+ }
 
-    @media (max-width: 47.99rem) {
-      html,
-      body {
-        scroll-snap-type: y proximity;
-        scroll-padding-top: 5.25rem;
-      }
+ @media (max-width: 47.99rem) {
+ html,
+ body {
+ scroll-snap-type: y proximity;
+ scroll-padding-top: 5.25rem;
+ }
 
-      .home-scroll-snap > section {
-        scroll-snap-align: start;
-        scroll-snap-stop: normal;
-      }
+ .home-scroll-snap > section {
+ scroll-snap-align: start;
+ scroll-snap-stop: normal;
+ }
 
-      .featured-books-shell {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
+ .featured-books-shell {
+ padding-left: 0 !important;
+ padding-right: 0 !important;
+ }
 
-      .featured-books-strip__headline,
-      .featured-books-strip__subhead,
-      .featured-books-strip__links {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-      }
+ .featured-books-strip__headline,
+ .featured-books-strip__subhead,
+ .featured-books-strip__links {
+ padding-left: 1rem !important;
+ padding-right: 1rem !important;
+ }
 
-      .featured-books-strip__rail {
-        display: flex !important;
-        gap: 0.9rem !important;
-        grid-auto-flow: initial !important;
-        grid-auto-columns: unset !important;
-        width: 100% !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        padding-bottom: 0.9rem !important;
-        scroll-padding-inline: 50% !important;
-        scroll-snap-type: x mandatory !important;
-        overscroll-behavior-x: contain !important;
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-x;
-      }
+ .featured-books-strip__rail {
+ display: flex !important;
+ gap: 0.9rem !important;
+ grid-auto-flow: initial !important;
+ grid-auto-columns: unset !important;
+ width: 100% !important;
+ padding-left: 1rem !important;
+ padding-right: 1rem !important;
+ padding-bottom: 0.9rem !important;
+ scroll-padding-inline: 50% !important;
+ scroll-snap-type: x mandatory !important;
+ overscroll-behavior-x: contain !important;
+ -webkit-overflow-scrolling: touch;
+ touch-action: pan-x;
+ }
 
-      .featured-book-card {
-        flex: 0 0 clamp(15rem, 72vw, 17rem) !important;
-        scroll-snap-align: center !important;
-      }
+ .featured-book-card {
+ flex: 0 0 clamp(15rem, 72vw, 17rem) !important;
+ scroll-snap-align: center !important;
+ }
 
-      .featured-book-card--upcoming-spine {
-        flex: 0 0 5.15rem !important;
-        width: 5.15rem !important;
-        min-width: 5.15rem !important;
-        margin-inline-start: 0 !important;
-        padding-left: 0.15rem !important;
-        padding-right: 0.15rem !important;
-        justify-items: end !important;
-        scroll-snap-align: start !important;
-      }
+ .featured-book-card--upcoming-spine {
+ flex: 0 0 5.15rem !important;
+ width: 5.15rem !important;
+ min-width: 5.15rem !important;
+ margin-inline-start: 0 !important;
+ padding-left: 0.15rem !important;
+ padding-right: 0.15rem !important;
+ justify-items: end !important;
+ scroll-snap-align: start !important;
+ }
 
-      .featured-book-card__coming-vertical {
-        margin-left: 0.55rem !important;
-      }
+ .featured-book-card__coming-vertical {
+ margin-left: 0.55rem !important;
+ }
 
-      .featured-books-rail-overlay {
-        position: absolute;
-        right: 0.85rem;
-        top: 50%;
-        transform: translateY(-50%);
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.55rem 0.7rem 0.55rem 1.15rem;
-        border-radius: 999px;
-        color: rgba(255, 255, 255, 0.88);
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        background: linear-gradient(90deg, rgba(5, 7, 8, 0) 0%, rgba(5, 7, 8, 0.2) 20%, rgba(5, 7, 8, 0.88) 55%, rgba(5, 7, 8, 0.95) 100%);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-        pointer-events: none;
-        opacity: 0.95;
-        transition: opacity 0.28s ease, transform 0.28s ease;
-        z-index: 3;
-      }
+ .featured-books-rail-overlay {
+ position: absolute;
+ right: 0.85rem;
+ top: 50%;
+ transform: translateY(-50%);
+ display: inline-flex;
+ align-items: center;
+ gap: 0.35rem;
+ padding: 0.55rem 0.7rem 0.55rem 1.15rem;
+ border-radius: 999px;
+ color: rgba(255, 255, 255, 0.88);
+ font-size: 0.72rem;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ background: linear-gradient(90deg, rgba(5, 7, 8, 0) 0%, rgba(5, 7, 8, 0.2) 20%, rgba(5, 7, 8, 0.88) 55%, rgba(5, 7, 8, 0.95) 100%);
+ box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+ pointer-events: none;
+ opacity: 0.95;
+ transition: opacity 0.28s ease, transform 0.28s ease;
+ z-index: 3;
+ }
 
-      .featured-books-rail-overlay.is-hidden {
-        opacity: 0;
-        transform: translateY(-50%) translateX(8px);
-      }
+ .featured-books-rail-overlay.is-hidden {
+ opacity: 0;
+ transform: translateY(-50%) translateX(8px);
+ }
 
-      .featured-books-rail-indicator {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0 1rem 0.55rem;
-      }
+ .featured-books-rail-indicator {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 0.45rem;
+ padding: 0 1rem 0.55rem;
+ }
 
-      .featured-books-rail-indicator-dot {
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.24);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
-        transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-      }
+ .featured-books-rail-indicator-dot {
+ width: 0.5rem;
+ height: 0.5rem;
+ border-radius: 999px;
+ background: rgba(255, 255, 255, 0.24);
+ box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+ transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+ }
 
-      .featured-books-rail-indicator-dot.is-active {
-        background: rgba(140, 214, 121, 0.95);
-        box-shadow: 0 0 0 4px rgba(140, 214, 121, 0.12);
-        transform: scale(1.08);
-      }
+ .featured-books-rail-indicator-dot.is-active {
+ background: rgba(140, 214, 121, 0.95);
+ box-shadow: 0 0 0 4px rgba(140, 214, 121, 0.12);
+ transform: scale(1.08);
+ }
 
-      .featured-books-rail-edge {
-        position: absolute;
-        top: 0;
-        bottom: 0.9rem;
-        width: 1rem;
-        display: block;
-        pointer-events: none;
-        z-index: 2;
-        opacity: 0.92;
-        transition: opacity 0.24s ease;
-      }
+ .featured-books-rail-edge {
+ position: absolute;
+ top: 0;
+ bottom: 0.9rem;
+ width: 1rem;
+ display: block;
+ pointer-events: none;
+ z-index: 2;
+ opacity: 0.92;
+ transition: opacity 0.24s ease;
+ }
 
-      .featured-books-rail-edge--left {
-        left: 0;
-        background: linear-gradient(90deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
-      }
+ .featured-books-rail-edge--left {
+ left: 0;
+ background: linear-gradient(90deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
+ }
 
-      .featured-books-rail-edge--right {
-        right: 0;
-        background: linear-gradient(270deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
-      }
+ .featured-books-rail-edge--right {
+ right: 0;
+ background: linear-gradient(270deg, rgba(5, 7, 8, 0.36) 0%, rgba(5, 7, 8, 0.14) 45%, rgba(5, 7, 8, 0) 100%);
+ }
 
-      .featured-books-rail-edge.is-dim {
-        opacity: 0.15;
-      }
-    }
-  `
+ .featured-books-rail-edge.is-dim {
+ opacity: 0.15;
+ }
+ }
+ `
 
   document.head.appendChild(style)
 }

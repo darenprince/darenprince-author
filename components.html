@@ -1,1074 +1,1074 @@
 <!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
-    <script>
-      (function () {
-        const html = document.documentElement;
-        const explicitRoot = html.getAttribute('data-site-root');
-        const host = window.location.hostname || '';
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
-        let prefix = '';
-        if (normalizedExplicit) {
-          prefix = '/' + normalizedExplicit;
-        } else if (host.endsWith('.github.io') && pathSegments.length) {
-          prefix = '/' + pathSegments[0];
-        }
-        const firstSegment = pathSegments[0] || '';
-        const shouldUsePrefix =
-          Boolean(prefix) &&
-          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
-        if (!shouldUsePrefix || prefix === '/') {
-          html.dataset.assetPrefix = '';
-          return;
-        }
-        if (prefix.endsWith('/')) {
-          prefix = prefix.slice(0, -1);
-        }
-        html.dataset.assetPrefix = prefix;
-        const URL_ATTRS = new Map([
-          ['A', ['href']],
-          ['LINK', ['href']],
-          ['SCRIPT', ['src']],
-          ['IMG', ['src', 'srcset']],
-          ['SOURCE', ['src', 'srcset']],
-          ['VIDEO', ['src', 'poster']],
-          ['AUDIO', ['src']],
-          ['IFRAME', ['src']],
-          ['USE', ['href', 'xlink:href']],
-          ['FORM', ['action']],
-        ]);
-        const shouldIgnore = (value) =>
-          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
-        const resolve = (value) => {
-          if (!value || shouldIgnore(value)) return value;
-          if (value === prefix || value.startsWith(prefix + '/')) {
-            return value;
-          }
-          if (value.startsWith('/')) {
-            return prefix + value;
-          }
-          return value;
-        };
-        const patchSrcset = (value) =>
-          value
-            .split(',')
-            .map((chunk) => {
-              const parts = chunk.trim().split(/\s+/);
-              if (!parts.length || !parts[0]) {
-                return chunk;
-              }
-              parts[0] = resolve(parts[0]);
-              return parts.join(' ');
-            })
-            .join(', ');
-        const patchNode = (node) => {
-          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
-          const attrs = URL_ATTRS.get(node.tagName);
-          if (!attrs) return;
-          for (const attr of attrs) {
-            const current = node.getAttribute(attr);
-            if (!current) continue;
-            if (attr === 'srcset') {
-              const next = patchSrcset(current);
-              if (next !== current) {
-                node.setAttribute(attr, next);
-              }
-              continue;
-            }
-            const next = resolve(current);
-            if (next === current) continue;
-            if (node.tagName === 'SCRIPT' && attr === 'src') {
-              const replacement = document.createElement('script');
-              node.getAttributeNames().forEach((name) => {
-                if (name === 'src') return;
-                replacement.setAttribute(name, node.getAttribute(name));
-              });
-              replacement.src = next;
-              if (node.parentNode) {
-                node.parentNode.insertBefore(replacement, node.nextSibling);
-              } else {
-                document.head.appendChild(replacement);
-              }
-              node.remove();
-            } else {
-              node.setAttribute(attr, next);
-            }
-          }
-        };
-        const patchSubtree = (root) => {
-          if (!root || !root.querySelectorAll) return;
-          URL_ATTRS.forEach((_, tag) => {
-            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
-          });
-        };
-        const observer = new MutationObserver((records) => {
-          records.forEach((record) => {
-            record.addedNodes.forEach((added) => {
-              if (added.nodeType === Node.ELEMENT_NODE) {
-                patchNode(added);
-                if (added.querySelectorAll) {
-                  added.querySelectorAll('*').forEach(patchNode);
-                }
-              }
-            });
-          });
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        const finalize = () => {
-          patchSubtree(document);
-          observer.disconnect();
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', finalize, { once: true });
-        } else {
-          finalize();
-        }
-      })();
-    </script>
+ <script>
+ (function () {
+ const html = document.documentElement;
+ const explicitRoot = html.getAttribute('data-site-root');
+ const host = window.location.hostname || '';
+ const pathSegments = window.location.pathname.split('/').filter(Boolean);
+ const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+ let prefix = '';
+ if (normalizedExplicit) {
+ prefix = '/' + normalizedExplicit;
+ } else if (host.endsWith('.github.io') && pathSegments.length) {
+ prefix = '/' + pathSegments[0];
+ }
+ const firstSegment = pathSegments[0] || '';
+ const shouldUsePrefix =
+ Boolean(prefix) &&
+ (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+ if (!shouldUsePrefix || prefix === '/') {
+ html.dataset.assetPrefix = '';
+ return;
+ }
+ if (prefix.endsWith('/')) {
+ prefix = prefix.slice(0, -1);
+ }
+ html.dataset.assetPrefix = prefix;
+ const URL_ATTRS = new Map([
+ ['A', ['href']],
+ ['LINK', ['href']],
+ ['SCRIPT', ['src']],
+ ['IMG', ['src', 'srcset']],
+ ['SOURCE', ['src', 'srcset']],
+ ['VIDEO', ['src', 'poster']],
+ ['AUDIO', ['src']],
+ ['IFRAME', ['src']],
+ ['USE', ['href', 'xlink:href']],
+ ['FORM', ['action']],
+ ]);
+ const shouldIgnore = (value) =>
+ !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+ const resolve = (value) => {
+ if (!value || shouldIgnore(value)) return value;
+ if (value === prefix || value.startsWith(prefix + '/')) {
+ return value;
+ }
+ if (value.startsWith('/')) {
+ return prefix + value;
+ }
+ return value;
+ };
+ const patchSrcset = (value) =>
+ value
+ .split(', ')
+ .map((chunk) => {
+ const parts = chunk.trim().split(/\s+/);
+ if (!parts.length || !parts[0]) {
+ return chunk;
+ }
+ parts[0] = resolve(parts[0]);
+ return parts.join(' ');
+ })
+ .join(', ');
+ const patchNode = (node) => {
+ if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+ const attrs = URL_ATTRS.get(node.tagName);
+ if (!attrs) return;
+ for (const attr of attrs) {
+ const current = node.getAttribute(attr);
+ if (!current) continue;
+ if (attr === 'srcset') {
+ const next = patchSrcset(current);
+ if (next !== current) {
+ node.setAttribute(attr, next);
+ }
+ continue;
+ }
+ const next = resolve(current);
+ if (next === current) continue;
+ if (node.tagName === 'SCRIPT' && attr === 'src') {
+ const replacement = document.createElement('script');
+ node.getAttributeNames().forEach((name) => {
+ if (name === 'src') return;
+ replacement.setAttribute(name, node.getAttribute(name));
+ });
+ replacement.src = next;
+ if (node.parentNode) {
+ node.parentNode.insertBefore(replacement, node.nextSibling);
+ } else {
+ document.head.appendChild(replacement);
+ }
+ node.remove();
+ } else {
+ node.setAttribute(attr, next);
+ }
+ }
+ };
+ const patchSubtree = (root) => {
+ if (!root || !root.querySelectorAll) return;
+ URL_ATTRS.forEach((_, tag) => {
+ root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+ });
+ };
+ const observer = new MutationObserver((records) => {
+ records.forEach((record) => {
+ record.addedNodes.forEach((added) => {
+ if (added.nodeType === Node.ELEMENT_NODE) {
+ patchNode(added);
+ if (added.querySelectorAll) {
+ added.querySelectorAll('*').forEach(patchNode);
+ }
+ }
+ });
+ });
+ });
+ observer.observe(document.documentElement, { childList: true, subtree: true });
+ const finalize = () => {
+ patchSubtree(document);
+ observer.disconnect();
+ };
+ if (document.readyState === 'loading') {
+ document.addEventListener('DOMContentLoaded', finalize, { once: true });
+ } else {
+ finalize();
+ }
+ })();
+ </script>
 
 
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UI Components</title>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
-  <!-- Apple PWA + Safari enhancements -->
-    <!-- Smart App banner is rendered by js/main.js -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
-    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#456f3a">
-    <meta name="application-name" content="Daren Prince Official Site">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Daren Prince">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
-    <meta name="msapplication-TileColor" content="#456f3a">
-    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
-    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
-  <!-- End Apple PWA + Safari enhancements -->
-<meta name="description" content="Scroll the page to see a static background parallax effect in action."><link rel="canonical" href="https://www.darenprince.com/components.html"><meta property="og:title" content="UI Components"><meta property="og:site_name" content="darenprince.com"><meta property="og:description" content="Scroll the page to see a static background parallax effect in action."><meta property="og:type" content="website"><meta property="og:url" content="https://www.darenprince.com/components.html"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="UI Components"><meta name="twitter:description" content="Scroll the page to see a static background parallax effect in action."><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>UI Components</title>
+ <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+ <!-- Apple PWA + Safari enhancements -->
+ <!-- Smart App banner is rendered by js/main.js -->
+ <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+ <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+ <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+ <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+ <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="theme-color" content="#456f3a">
+ <meta name="application-name" content="Daren Prince Official Site">
+ <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+ <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+ <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+ <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+ <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+ <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+ <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+ <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+ <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+ <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta name="apple-mobile-web-app-title" content="Daren Prince">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+ <meta name="msapplication-TileColor" content="#456f3a">
+ <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+ <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+ <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+ <!-- End Apple PWA + Safari enhancements -->
+<meta name="description" content="Scroll the page to see a static background parallax effect in action."><link rel="canonical" href="https://www.darenprince.com/components.html"><meta property="og:title" content="UI Components"><meta property="og:site_name" content="darenprince.com"><meta property="og:description" content="Scroll the page to see a static background parallax effect in action."><meta property="og:type" content="website"><meta property="og:url" content="https://www.darenprince.com/components.html"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="UI Components"><meta name="twitter:description" content="Scroll the page to see a static background parallax effect in action."><meta name="author" content="Daren Prince"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "UI Components",
-  "description": "Scroll the page to see a static background parallax effect in action.",
-  "url": "https://www.darenprince.com/components.html",
-  "isPartOf": {
-    "@id": "https://www.darenprince.com#website"
-  },
-  "publisher": {
-    "@id": "https://www.darenprince.com#organization"
-  },
-  "author": {
-    "@id": "https://www.darenprince.com#author"
-  }
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "UI Components",
+ "description": "Scroll the page to see a static background parallax effect in action.",
+ "url": "https://www.darenprince.com/components.html",
+ "isPartOf": {
+ "@id": "https://www.darenprince.com#website"
+ },
+ "publisher": {
+ "@id": "https://www.darenprince.com#organization"
+ },
+ "author": {
+ "@id": "https://www.darenprince.com#author"
+ }
 }</script>
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Components.html",
-      "item": "https://www.darenprince.com/components.html/"
-    }
-  ]
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Components.html",
+ "item": "https://www.darenprince.com/components.html/"
+ }
+ ]
 }</script></head>
 <body class="theme-dark">
-  <script type="module">
-    import { enforcePasswordGate } from './js/password-gate.js';
+ <script type="module">
+ import { enforcePasswordGate } from './js/password-gate.js';
 
-    enforcePasswordGate({
-      gateId: 'components-library',
-      heading: 'Components preview access',
-      message: 'Enter the access password to explore the component demos.',
-    });
-  </script>
-  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
-    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
-    <ul class="mega-menu-list">
-      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
-      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
-      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
-      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
-      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
-      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
-      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
-      <li class="social-row">
-        <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
-        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-        <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
-        <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
-      </li>
-      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
-    </ul>
-  </nav>
-  <div class="menu-overlay js-menu-overlay"></div>
-  <div class="site-wrap" hidden="">
-    <header class="site-header padding-y-sm js-sticky-nav">
-    <div class="container max-width-adaptive-lg flex items-center justify-between">
-      <a href="index.html" class="logo">
-        <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
-      </a>
-      <div class="nav-btn-group flex items-center gap-sm">
-        <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
-        <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
-        <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
-        <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
-      </div>
-    </div>
-    <div class="search-bar js-search-bar" hidden="">
-      <form class="search-form flex items-center">
-        <input type="search" placeholder="search site">
-        <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
-      </form>
-    </div>
-    <div class="profile-dropdown js-profile-dropdown" hidden="">
-      <div class="profile-info">
-        <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
-        <span class="profile-name">Guest</span>
-      </div>
-      <ul>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Account</a></li>
-        <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
-      </ul>
-    </div>
-  </header>
-  <div class="text-center padding-y-sm"><a href="docs/style-guide.html">Style Guide</a></div>
-  <nav class="component-nav">
-        <div class="container max-width-adaptive-lg">
-          <select class="component-nav__select" aria-label="Jump to component">
-          <option value="#hero">Hero</option>
-          <option value="#banner">Banner</option>
-          <option value="#book">Book Cover</option>
-            <option value="#testimonials">Testimonials</option>
-            <option value="#downloads">Downloads</option>
-          <option value="#viewer">Viewer</option>
-          <option value="#book-3d-viewer">3D Book Viewer</option>
-          <option value="#book-tabs">Book Tabs</option>
-          <option value="#containers">Containers</option>
-            <option value="#forms">Forms</option>
-            <option value="#cards">Cards</option>
-            <option value="#modals">Modals</option>
-            <option value="#alerts">Alerts</option>
-            <option value="#toggles">Toggles</option>
-          </select>
-          <ul class="component-nav__list flex gap-sm justify-center">
-            <li><a href="#hero">Hero</a></li>
-            <li><a href="#banner">Banner</a></li>
-            <li><a href="#book">Book Cover</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#downloads">Downloads</a></li>
-            <li><a href="#viewer">Viewer</a></li>
-            <li><a href="#book-3d-viewer">3D Book Viewer</a></li>
-            <li><a href="#book-tabs">Book Tabs</a></li>
-            <li><a href="#containers">Containers</a></li>
-            <li><a href="#forms">Forms</a></li>
-            <li><a href="#cards">Cards</a></li>
-            <li><a href="#modals">Modals</a></li>
-            <li><a href="#alerts">Alerts</a></li>
-            <li><a href="#toggles">Toggles</a></li>
-          </ul>
-        </div>
-      </nav>
+ enforcePasswordGate({
+ gateId: 'components-library',
+ heading: 'Components preview access',
+ message: 'Enter the access password to explore the component demos.',
+ });
+ </script>
+ <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+ <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+ <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+ <ul class="mega-menu-list">
+ <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+ <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+ <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+ <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+ <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+ <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+ <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+ <li class="social-row">
+ <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+ <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+ <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+ <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+ </li>
+ <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+ </ul>
+ </nav>
+ <div class="menu-overlay js-menu-overlay"></div>
+ <div class="site-wrap" hidden="">
+ <header class="site-header padding-y-sm js-sticky-nav">
+ <div class="container max-width-adaptive-lg flex items-center justify-between">
+ <a href="index.html" class="logo">
+ <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+ </a>
+ <div class="nav-btn-group flex items-center gap-sm">
+ <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
+ <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
+ <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
+ <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
+ </div>
+ </div>
+ <div class="search-bar js-search-bar" hidden="">
+ <form class="search-form flex items-center">
+ <input type="search" placeholder="search site">
+ <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+ </form>
+ </div>
+ <div class="profile-dropdown js-profile-dropdown" hidden="">
+ <div class="profile-info">
+ <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+ <span class="profile-name">Guest</span>
+ </div>
+ <ul>
+ <li><a href="dashboard.html">Dashboard</a></li>
+ <li><a href="login.html">Account</a></li>
+ <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+ </ul>
+ </div>
+ </header>
+ <div class="text-center padding-y-sm"><a href="docs/style-guide.html">Style Guide</a></div>
+ <nav class="component-nav">
+ <div class="container max-width-adaptive-lg">
+ <select class="component-nav__select" aria-label="Jump to component">
+ <option value="#hero">Hero</option>
+ <option value="#banner">Banner</option>
+ <option value="#book">Book Cover</option>
+ <option value="#testimonials">Testimonials</option>
+ <option value="#downloads">Downloads</option>
+ <option value="#viewer">Viewer</option>
+ <option value="#book-3d-viewer">3D Book Viewer</option>
+ <option value="#book-tabs">Book Tabs</option>
+ <option value="#containers">Containers</option>
+ <option value="#forms">Forms</option>
+ <option value="#cards">Cards</option>
+ <option value="#modals">Modals</option>
+ <option value="#alerts">Alerts</option>
+ <option value="#toggles">Toggles</option>
+ </select>
+ <ul class="component-nav__list flex gap-sm justify-center">
+ <li><a href="#hero">Hero</a></li>
+ <li><a href="#banner">Banner</a></li>
+ <li><a href="#book">Book Cover</a></li>
+ <li><a href="#testimonials">Testimonials</a></li>
+ <li><a href="#downloads">Downloads</a></li>
+ <li><a href="#viewer">Viewer</a></li>
+ <li><a href="#book-3d-viewer">3D Book Viewer</a></li>
+ <li><a href="#book-tabs">Book Tabs</a></li>
+ <li><a href="#containers">Containers</a></li>
+ <li><a href="#forms">Forms</a></li>
+ <li><a href="#cards">Cards</a></li>
+ <li><a href="#modals">Modals</a></li>
+ <li><a href="#alerts">Alerts</a></li>
+ <li><a href="#toggles">Toggles</a></li>
+ </ul>
+ </div>
+ </nav>
 
-  <main>
-    <section id="hero" class="demo-section hero-demos padding-y-lg">
-      <section id="parallaxHero" class="hero hero-parallax active">
-        <div class="hero-content">
-          <h1>Parallax Hero</h1>
-          <p>Scroll the page to see a static background parallax effect in action.</p>
-          <button>Explore</button>
-        </div>
-      </section>
+ <main>
+ <section id="hero" class="demo-section hero-demos padding-y-lg">
+ <section id="parallaxHero" class="hero hero-parallax active">
+ <div class="hero-content">
+ <h1>Parallax Hero</h1>
+ <p>Scroll the page to see a static background parallax effect in action.</p>
+ <button>Explore</button>
+ </div>
+ </section>
 
-      <section id="scrollVideoHero" class="hero hero-scroll-video active">
-        <video muted="" playsinline="" id="videoBg">
-          <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
-        </video>
-        <div class="hero-content">
-          <h1>Scroll-Triggered Video</h1>
-          <p>As you scroll, the background video fades in for dynamic storytelling.</p>
-          <button>Order Now</button>
-        </div>
-      </section>
+ <section id="scrollVideoHero" class="hero hero-scroll-video active">
+ <video muted="" playsinline="" id="videoBg">
+ <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+ </video>
+ <div class="hero-content">
+ <h1>Scroll-Triggered Video</h1>
+ <p>As you scroll, the background video fades in for dynamic storytelling.</p>
+ <button>Order Now</button>
+ </div>
+ </section>
 
-      <section id="autoZoomHero" class="hero hero-auto-zoom active">
-        <div class="hero-content">
-          <h1>Auto-Zoom Hero</h1>
-          <p>The background slowly zooms for dramatic effect without reacting to scroll.</p>
-          <button>Start</button>
-        </div>
-      </section>
-    </section>
-    <div class="component-docs">
-      <h3>Hero</h3>
-      <p>Function: top-of-page call to action.</p>
-      <p>Tech Specs: styled in <code>scss/components/_hero.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="hero-code"><code class="language-html">&lt;section class="hero"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="hero-code">Copy</button>
-    </div>
+ <section id="autoZoomHero" class="hero hero-auto-zoom active">
+ <div class="hero-content">
+ <h1>Auto-Zoom Hero</h1>
+ <p>The background slowly zooms for dramatic effect without reacting to scroll.</p>
+ <button>Start</button>
+ </div>
+ </section>
+ </section>
+ <div class="component-docs">
+ <h3>Hero</h3>
+ <p>Function: top-of-page call to action.</p>
+ <p>Tech Specs: styled in <code>scss/components/_hero.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="hero-code"><code class="language-html">&lt;section class="hero"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="hero-code">Copy</button>
+ </div>
 
-    <section id="banner" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Banner</h2>
-        <p class="margin-bottom-sm">Promotional callout with image and action.</p>
-        <a href="#" class="banner">
-            <div class="banner__grid">
-              <div class="col-6@md" aria-hidden="true">
-                <div class="banner__figure" style="background-image: url('https://placehold.co/600x400?text=Banner');"></div>
-              </div>
-              <div class="col-6@md">
-                <div class="banner__text">
-                  <h3>New Release</h3>
-                  <span class="banner__link"><i>Learn More</i></span>
-                </div>
-              </div>
-            </div>
-        </a>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Banner</h3>
-      <p>Function: promotional callout with image and link.</p>
-      <p>Tech Specs: styled in <code>scss/components/_banner.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="banner-code"><code class="language-html">&lt;section class="banner"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="banner-code">Copy</button>
-    </div>
+ <section id="banner" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Banner</h2>
+ <p class="margin-bottom-sm">Promotional callout with image and action.</p>
+ <a href="#" class="banner">
+ <div class="banner__grid">
+ <div class="col-6@md" aria-hidden="true">
+ <div class="banner__figure" style="background-image: url('https://placehold.co/600x400?text=Banner');"></div>
+ </div>
+ <div class="col-6@md">
+ <div class="banner__text">
+ <h3>New Release</h3>
+ <span class="banner__link"><i>Learn More</i></span>
+ </div>
+ </div>
+ </div>
+ </a>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Banner</h3>
+ <p>Function: promotional callout with image and link.</p>
+ <p>Tech Specs: styled in <code>scss/components/_banner.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="banner-code"><code class="language-html">&lt;section class="banner"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="banner-code">Copy</button>
+ </div>
 
-    <section id="book-details-wrapper" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Book Details Wrapper</h2>
-        <div class="book-section">
-          <div class="book-block">
-            <div class="book-preview">
-              <div class="book-3d">
-                <img src="/assets/images/presskit-thumb.jpg" alt="Game On! cover">
-              </div>
-            </div>
-          </div>
-          <div class="book-block">
-            <div class="purchase-box">
-              <div class="buy-controls">
-                <h3 class="step-header styledh1 brand-heading"><span class="brand-heading__emphasis">Your move.</span><br><span class="brand-heading__base">Select a format.</span></h3>
-                <select class="store-selector">
-                  <option>Amazon</option>
-                  <option>Apple Books</option>
-                  <option>Google Play</option>
-                  <option>Books-A-Million</option>
-                </select>
-                <button class="btn btn--primary"><strong>Get The Book</strong></button>
-              </div>
-            </div>
-          </div>
-          <div class="book-block">
-            <div class="book-accordion accordion">
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ph ph-caret-down accordion-icon"></i></button>
-                <div class="accordion-panel">
-                  <p>No gimmicks. No games. Just real results. <em>Game On!</em> is not another gimmicky “pickup artist” guide – it’s a real-world roadmap for authentic, magnetic connection. This 5-star Amazon bestseller cracked the Top 100 Kindle charts, proving that modern men are ready to ditch the mind games and get real.</p>
-                  <p>Bold, playful, and grounded in real psychology, <em>Game On!</em> cuts through the nonsense to show you how to master the conversation, spark genuine attraction, and build connections that actually last.</p>
-                  <p>Packed with humor, actionable exercises, and expert insights, <em>Game On!</em> helps you become the man who naturally attracts respect and interest. You’ll learn to confidently approach women, truly listen and understand, and express yourself with authenticity and emotional intelligence – all key ingredients for real attraction and lasting love.</p>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="false"><span>Who This Book Is For</span><i class="ph ph-caret-down accordion-icon"></i></button>
-                <div class="accordion-panel" hidden="">
-                  <ul>
-                    <li>Men who want to stop overthinking and start connecting</li>
-                    <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
-                    <li>Dudes ready to level up their confidence and attract real women</li>
-                    <li>Anyone who wants to master communication and spark real connection</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <button class="accordion-trigger" aria-expanded="false"><span>Book Details</span><i class="ph ph-caret-down accordion-icon"></i></button>
-                <div class="accordion-panel" hidden="">
-                  <div class="book-details">
-                    <table class="book-specs">
-                      <tbody><tr><th>ISBN-13</th><td>9798303844407</td></tr>
-                      <tr><th>ISBN-10</th><td>9798303844407</td></tr>
-                      <tr><th>Publisher</th><td>Independently Published</td></tr>
-                      <tr><th>Publish Date</th><td>December 2024</td></tr>
-                      <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
-                      <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
-                      <tr><th>Page Count</th><td>258</td></tr>
-                    </tbody></table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Book Details Wrapper</h3>
-      <p>Function: interactive book preview with purchase options.</p>
-      <p>Tech Specs: styles in <code>scss/components/_book-details-wrapper.scss</code>, JS in <code>js/book-details.js</code>.</p>
-      <p>Implementation:</p>
-      <pre id="book-details-wrapper-code"><code class="language-html">&lt;section class="book-section"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="book-details-wrapper-code">Copy</button>
-    </div>
+ <section id="book-details-wrapper" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Book Details Wrapper</h2>
+ <div class="book-section">
+ <div class="book-block">
+ <div class="book-preview">
+ <div class="book-3d">
+ <img src="/assets/images/presskit-thumb.jpg" alt="Game On! cover">
+ </div>
+ </div>
+ </div>
+ <div class="book-block">
+ <div class="purchase-box">
+ <div class="buy-controls">
+ <h3 class="step-header styledh1 brand-heading"><span class="brand-heading__emphasis">Your move.</span><br><span class="brand-heading__base">Select a format.</span></h3>
+ <select class="store-selector">
+ <option>Amazon</option>
+ <option>Apple Books</option>
+ <option>Google Play</option>
+ <option>Books-A-Million</option>
+ </select>
+ <button class="btn btn--primary"><strong>Get The Book</strong></button>
+ </div>
+ </div>
+ </div>
+ <div class="book-block">
+ <div class="book-accordion accordion">
+ <div class="accordion-item">
+ <button class="accordion-trigger" aria-expanded="true"><span>Description</span><i class="ph ph-caret-down accordion-icon"></i></button>
+ <div class="accordion-panel">
+ <p>No gimmicks. No games. Just real results. <em>Game On!</em> is not another gimmicky “pickup artist” guide, it’s a real-world roadmap for authentic, magnetic connection. This 5-star Amazon bestseller cracked the Top 100 Kindle charts, proving that modern men are ready to ditch the mind games and get real.</p>
+ <p>Bold, playful, and grounded in real psychology, <em>Game On!</em> cuts through the nonsense to show you how to master the conversation, spark genuine attraction, and build connections that actually last.</p>
+ <p>Packed with humor, actionable exercises, and expert insights, <em>Game On!</em> helps you become the man who naturally attracts respect and interest. You’ll learn to confidently approach women, truly listen and understand, and express yourself with authenticity and emotional intelligence, all key ingredients for real attraction and lasting love.</p>
+ </div>
+ </div>
+ <div class="accordion-item">
+ <button class="accordion-trigger" aria-expanded="false"><span>Who This Book Is For</span><i class="ph ph-caret-down accordion-icon"></i></button>
+ <div class="accordion-panel" hidden="">
+ <ul>
+ <li>Men who want to stop overthinking and start connecting</li>
+ <li>Guys tired of ghosting, mixed signals, and shallow convos</li>
+ <li>Dudes ready to level up their confidence and attract real women</li>
+ <li>Anyone who wants to master communication and spark real connection</li>
+ </ul>
+ </div>
+ </div>
+ <div class="accordion-item">
+ <button class="accordion-trigger" aria-expanded="false"><span>Book Details</span><i class="ph ph-caret-down accordion-icon"></i></button>
+ <div class="accordion-panel" hidden="">
+ <div class="book-details">
+ <table class="book-specs">
+ <tbody><tr><th>ISBN-13</th><td>9798303844407</td></tr>
+ <tr><th>ISBN-10</th><td>9798303844407</td></tr>
+ <tr><th>Publisher</th><td>Independently Published</td></tr>
+ <tr><th>Publish Date</th><td>December 2024</td></tr>
+ <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
+ <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
+ <tr><th>Page Count</th><td>258</td></tr>
+ </tbody></table>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Book Details Wrapper</h3>
+ <p>Function: interactive book preview with purchase options.</p>
+ <p>Tech Specs: styles in <code>scss/components/_book-details-wrapper.scss</code>, JS in <code>js/book-details.js</code>.</p>
+ <p>Implementation:</p>
+ <pre id="book-details-wrapper-code"><code class="language-html">&lt;section class="book-section"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="book-details-wrapper-code">Copy</button>
+ </div>
 
-    <section id="book-tabs" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-      <h2>📘 Book Details Tabs</h2>
-      <section class="book-details">
+ <section id="book-tabs" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>📘 Book Details Tabs</h2>
+ <section class="book-details">
 
-    <!-- Sticky Purchase Header -->
-    <div class="sticky-purchase-bar">
-      <div class="buy-controls">
-        <select class="store-selector">
-          <option>Amazon</option>
-          <option>Apple Books</option>
-          <option>Google Play</option>
-          <option>Books-A-Million</option>
-        </select>
-        <button class="btn btn--primary"><strong>Get The Book</strong></button>
-      </div>
-      <p class="short-summary">The ultimate men’s playbook for flirting, seduction, and connection.</p>
-    </div>
+ <!-- Sticky Purchase Header -->
+ <div class="sticky-purchase-bar">
+ <div class="buy-controls">
+ <select class="store-selector">
+ <option>Amazon</option>
+ <option>Apple Books</option>
+ <option>Google Play</option>
+ <option>Books-A-Million</option>
+ </select>
+ <button class="btn btn--primary"><strong>Get The Book</strong></button>
+ </div>
+ <p class="short-summary">The ultimate men’s playbook for flirting, seduction, and connection.</p>
+ </div>
 
-    <!-- Tab Navigation -->
-    <nav class="tab-nav" role="tablist" aria-label="Book Tabs">
-      <button role="tab" aria-selected="true" aria-controls="tab-preview" id="tab-btn-preview">📘 Preview</button>
-      <button role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">📄 Description</button>
-      <button role="tab" aria-selected="false" aria-controls="tab-trailer" id="tab-btn-trailer">▶️ Trailer</button>
-      <button role="tab" aria-selected="false" aria-controls="tab-members" id="tab-btn-members">🔐 Members Only</button>
-    </nav>
+ <!-- Tab Navigation -->
+ <nav class="tab-nav" role="tablist" aria-label="Book Tabs">
+ <button role="tab" aria-selected="true" aria-controls="tab-preview" id="tab-btn-preview">📘 Preview</button>
+ <button role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">📄 Description</button>
+ <button role="tab" aria-selected="false" aria-controls="tab-trailer" id="tab-btn-trailer">▶️ Trailer</button>
+ <button role="tab" aria-selected="false" aria-controls="tab-members" id="tab-btn-members">🔐 Members Only</button>
+ </nav>
 
-    <!-- Tab Content Areas -->
-    <div id="tab-preview" role="tabpanel" aria-labelledby="tab-btn-preview">
-      <div class="preview-toggle">
-        <button class="active">3D View</button>
-        <button>Front Cover</button>
-        <button>Back Cover</button>
-      </div>
-      <div class="preview-display">
-        <img src="/assets/placeholders/book-3d.jpg" alt="3D Book Preview">
-      </div>
-    </div>
+ <!-- Tab Content Areas -->
+ <div id="tab-preview" role="tabpanel" aria-labelledby="tab-btn-preview">
+ <div class="preview-toggle">
+ <button class="active">3D View</button>
+ <button>Front Cover</button>
+ <button>Back Cover</button>
+ </div>
+ <div class="preview-display">
+ <img src="/assets/placeholders/book-3d.jpg" alt="3D Book Preview">
+ </div>
+ </div>
 
-    <div id="tab-description" role="tabpanel" aria-labelledby="tab-btn-description" hidden="">
-      <div class="long-description">
-        <p>This book is a no-nonsense guide to modern dating for emotionally intelligent men who are done with gimmicks and ready for real results...</p>
-      </div>
-      <table class="book-specs">
-        <tbody><tr><th>ISBN-13</th><td>9798303844407</td></tr>
-        <tr><th>ISBN-10</th><td>9798303844407</td></tr>
-        <tr><th>Publisher</th><td>Independently Published</td></tr>
-        <tr><th>Publish Date</th><td>December 2024</td></tr>
-        <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
-        <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
-        <tr><th>Page Count</th><td>258</td></tr>
-      </tbody></table>
-    </div>
+ <div id="tab-description" role="tabpanel" aria-labelledby="tab-btn-description" hidden="">
+ <div class="long-description">
+ <p>This book is a no-nonsense guide to modern dating for emotionally intelligent men who are done with gimmicks and ready for real results...</p>
+ </div>
+ <table class="book-specs">
+ <tbody><tr><th>ISBN-13</th><td>9798303844407</td></tr>
+ <tr><th>ISBN-10</th><td>9798303844407</td></tr>
+ <tr><th>Publisher</th><td>Independently Published</td></tr>
+ <tr><th>Publish Date</th><td>December 2024</td></tr>
+ <tr><th>Dimensions</th><td>9 x 6 x 0.54 inches</td></tr>
+ <tr><th>Shipping Weight</th><td>0.77 pounds</td></tr>
+ <tr><th>Page Count</th><td>258</td></tr>
+ </tbody></table>
+ </div>
 
-    <div id="tab-trailer" role="tabpanel" aria-labelledby="tab-btn-trailer" hidden="">
-      <div class="video-block">
-        <video controls="" poster="/assets/images/placeholders/video-thumbnail.jpg">
-          <source src="/assets/placeholders/book-trailer.mp4" type="video/mp4">
-          Your browser does not support video playback.
-        </video>
-      </div>
-    </div>
+ <div id="tab-trailer" role="tabpanel" aria-labelledby="tab-btn-trailer" hidden="">
+ <div class="video-block">
+ <video controls="" poster="/assets/images/placeholders/video-thumbnail.jpg">
+ <source src="/assets/placeholders/book-trailer.mp4" type="video/mp4">
+ Your browser does not support video playback.
+ </video>
+ </div>
+ </div>
 
-    <div id="tab-members" role="tabpanel" aria-labelledby="tab-btn-members" hidden="">
-      <div class="locked-preview">
-        <p>This exclusive content is available to members only.</p>
-        <button class="btn btn--ghost">Join for Access</button>
-      </div>
-    </div>
+ <div id="tab-members" role="tabpanel" aria-labelledby="tab-btn-members" hidden="">
+ <div class="locked-preview">
+ <p>This exclusive content is available to members only.</p>
+ <button class="btn btn--ghost">Join for Access</button>
+ </div>
+ </div>
 
-    </section>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Book Tabs</h3>
-      <p>Function: tabbed interface for preview, description, trailer, and members area.</p>
-      <p>Tech Specs: styles in <code>scss/components/_book-tabs.scss</code>, JS in <code>js/book-tabs.js</code>.</p>
-      <p>Implementation:</p>
-      <pre id="book-tabs-code"><code class="language-html">&lt;section id="book-tabs"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="book-tabs-code">Copy</button>
-    </div>
+ </section>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Book Tabs</h3>
+ <p>Function: tabbed interface for preview, description, trailer, and members area.</p>
+ <p>Tech Specs: styles in <code>scss/components/_book-tabs.scss</code>, JS in <code>js/book-tabs.js</code>.</p>
+ <p>Implementation:</p>
+ <pre id="book-tabs-code"><code class="language-html">&lt;section id="book-tabs"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="book-tabs-code">Copy</button>
+ </div>
 
-    <section id="book" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <div class="book-preview">
-          <div class="book-3d">
-            <img src="https://placehold.co/200x300?text=Cover" alt="Sample Book Cover">
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Book Cover</h3>
-      <p>Function: static 3D book render.</p>
-      <p>Tech Specs: styles in <code>scss/components/_book.scss</code>.</p>
-            <p>Implementation:</p>
-      <pre id="book-code"><code class="language-html">&lt;div class="book-preview"&gt;&lt;div class="book-3d"&gt;&lt;img src="cover.jpg" alt="Book cover"&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="book-code">Copy</button>
-    </div>
+ <section id="book" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <div class="book-preview">
+ <div class="book-3d">
+ <img src="https://placehold.co/200x300?text=Cover" alt="Sample Book Cover">
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Book Cover</h3>
+ <p>Function: static 3D book render.</p>
+ <p>Tech Specs: styles in <code>scss/components/_book.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="book-code"><code class="language-html">&lt;div class="book-preview"&gt;&lt;div class="book-3d"&gt;&lt;img src="cover.jpg" alt="Book cover"&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="book-code">Copy</button>
+ </div>
 
-    <section id="testimonials" class="testimonials demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-      <h2>Testimonials</h2>
-      <div class="testimonial-grid">
-          <div class="card">
-            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 1">
-            <blockquote>"A must-read!"</blockquote>
-            <cite>- Alex</cite>
-          </div>
-          <div class="card">
-            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 2">
-            <blockquote>"Truly inspiring."</blockquote>
-            <cite>- Casey</cite>
-          </div>
-          <div class="card">
-            <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 3">
-            <blockquote>"Eye-opening and real."</blockquote>
-            <cite>- Jordan</cite>
-          </div>
-      </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Testimonials</h3>
-      <p>Function: display user quotes in cards.</p>
-      <p>Tech Specs: styles in <code>scss/components/_testimonials.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="testimonials-code"><code class="language-html">&lt;section id="testimonials"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="testimonials-code">Copy</button>
-    </div>
+ <section id="testimonials" class="testimonials demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Testimonials</h2>
+ <div class="testimonial-grid">
+ <div class="card">
+ <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 1">
+ <blockquote>"A must-read!"</blockquote>
+ <cite>- Alex</cite>
+ </div>
+ <div class="card">
+ <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 2">
+ <blockquote>"Truly inspiring."</blockquote>
+ <cite>- Casey</cite>
+ </div>
+ <div class="card">
+ <img src="https://placehold.co/100x100?text=Avatar" alt="Reviewer 3">
+ <blockquote>"Eye-opening and real."</blockquote>
+ <cite>- Jordan</cite>
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Testimonials</h3>
+ <p>Function: display user quotes in cards.</p>
+ <p>Tech Specs: styles in <code>scss/components/_testimonials.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="testimonials-code"><code class="language-html">&lt;section id="testimonials"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="testimonials-code">Copy</button>
+ </div>
 
-    <section id="downloads" class="downloads demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-      <h2>Downloads</h2>
-      <div class="download-grid">
-          <div class="download-card">
-            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
-            <p class="file-info">Press Kit – 4MB PDF</p>
-            <a href="#" class="btn btn--primary">Download</a>
-          </div>
-          <div class="download-card">
-            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
-            <p class="file-info">Sample Chapter – 2MB PDF</p>
-            <a href="#" class="btn btn--primary">Download</a>
-          </div>
-          <div class="download-card">
-            <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
-            <p class="file-info">Media Sheet – 1MB PDF</p>
-            <a href="#" class="btn btn--primary">Download</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Downloads</h3>
-      <p>Function: card grid for PDF or media downloads.</p>
-      <p>Tech Specs: styles in <code>scss/components/_downloads.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="downloads-code"><code class="language-html">&lt;section id="downloads"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="downloads-code">Copy</button>
-    </div>
+ <section id="downloads" class="downloads demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Downloads</h2>
+ <div class="download-grid">
+ <div class="download-card">
+ <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+ <p class="file-info">Press Kit, 4MB PDF</p>
+ <a href="#" class="btn btn--primary">Download</a>
+ </div>
+ <div class="download-card">
+ <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+ <p class="file-info">Sample Chapter, 2MB PDF</p>
+ <a href="#" class="btn btn--primary">Download</a>
+ </div>
+ <div class="download-card">
+ <img src="https://placehold.co/800x1100?text=Preview" alt="PDF Preview">
+ <p class="file-info">Media Sheet, 1MB PDF</p>
+ <a href="#" class="btn btn--primary">Download</a>
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Downloads</h3>
+ <p>Function: card grid for PDF or media downloads.</p>
+ <p>Tech Specs: styles in <code>scss/components/_downloads.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="downloads-code"><code class="language-html">&lt;section id="downloads"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="downloads-code">Copy</button>
+ </div>
 
-    <section id="viewer" class="viewer demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-      <h2>Viewer</h2>
-      <div class="toolbar">
-          <a href="#" class="btn btn--ghost">Download</a>
-          <a href="#" class="btn btn--ghost">Zoom</a>
-          <a href="#" class="btn btn--ghost">Print</a>
-        </div>
-      <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Viewer</h3>
-      <p>Function: embeds a document with simple toolbar.</p>
-      <p>Tech Specs: styles in <code>scss/components/_viewer.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="viewer-code"><code class="language-html">&lt;section id="viewer"&gt;...&lt;/section&gt;</code></pre>
-      <button class="copy-btn" data-target="viewer-code">Copy</button>
-    </div>
+ <section id="viewer" class="viewer demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Viewer</h2>
+ <div class="toolbar">
+ <a href="#" class="btn btn--ghost">Download</a>
+ <a href="#" class="btn btn--ghost">Zoom</a>
+ <a href="#" class="btn btn--ghost">Print</a>
+ </div>
+ <iframe src="https://placehold.co/800x1100?text=Preview" title="Document preview"></iframe>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Viewer</h3>
+ <p>Function: embeds a document with simple toolbar.</p>
+ <p>Tech Specs: styles in <code>scss/components/_viewer.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="viewer-code"><code class="language-html">&lt;section id="viewer"&gt;...&lt;/section&gt;</code></pre>
+ <button class="copy-btn" data-target="viewer-code">Copy</button>
+ </div>
 
-    <section id="book-3d-viewer" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <div class="book-media">
-          <nav class="book-toolbar book-rail" aria-label="Book controls">
-            <ul class="book-rail__list">
-              <li class="book-rail__item">
-                <button id="zoom-cover" class="book-rail__btn" data-tool="zoom" aria-label="Zoom" title="Zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg><span class="book-rail__label">Zoom</span></button>
-              </li>
-              <li class="book-rail__item">
-                <button id="snap-front" class="book-rail__btn" data-tool="front" aria-label="Front" title="Front"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="book-rail__label">Front</span></button>
-              </li>
-              <li class="book-rail__item">
-                <button id="snap-back" class="book-rail__btn" data-tool="back" aria-label="Back" title="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span class="book-rail__label">Back</span></button>
-              </li>
-              <li class="book-rail__item">
-                <button id="rotate-360" class="book-rail__btn" data-tool="spin360" aria-label="Rotate 360 degrees" title="Rotate 360 degrees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg><span class="book-rail__label">360°</span></button>
-              </li>
-              <li class="book-rail__item">
-                <button id="add-to-cart" class="book-rail__btn" data-tool="buy" aria-label="Buy" title="Buy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="book-rail__label">Buy</span></button>
-              </li>
-            </ul>
-            <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg></button>
-          </nav>
-          <div class="book-3d-viewer">
-            <div class="book-loader"></div>
-            <div class="rotate-hint" aria-hidden="true">
-              <img src="/assets/images/360rotate.png" alt="">
-            </div>
-            <div class="scene">
-              <div class="book" id="book">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face spine"></div>
-                <div class="face pages"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-              </div>
-              <div class="shadow"></div>
-            </div>
-          </div>
-          <div class="cover-zoom-modal" id="cover-zoom" hidden="">
-            <button class="close-btn" id="close-cover-zoom"><i class="ph ph-x"></i></button>
-            <div class="cover-zoom-content">
-              <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover">
-              <div class="thumbnails">
-                <img src="/assets/images/book-front.jpg" data-full="/assets/images/book-front.jpg" class="active" alt="Front cover">
-                <img src="/assets/images/book-back.jpg" data-full="/assets/images/book-back.jpg" alt="Back cover">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>3D Book Viewer</h3>
-      <p>Function: interactive book with inertia and lighting.</p>
-      <p>Tech Specs: styles in <code>scss/components/_book-3d.scss</code>, JS in <code>js/book-3d-viewer.js</code>.</p>
-      <p>Implementation:</p>
-      <pre id="book-3d-code"><code class="language-html">&lt;div class="book-3d-viewer"&gt;...&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="book-3d-code">Copy</button>
-    </div>
+ <section id="book-3d-viewer" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <div class="book-media">
+ <nav class="book-toolbar book-rail" aria-label="Book controls">
+ <ul class="book-rail__list">
+ <li class="book-rail__item">
+ <button id="zoom-cover" class="book-rail__btn" data-tool="zoom" aria-label="Zoom" title="Zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg><span class="book-rail__label">Zoom</span></button>
+ </li>
+ <li class="book-rail__item">
+ <button id="snap-front" class="book-rail__btn" data-tool="front" aria-label="Front" title="Front"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="book-rail__label">Front</span></button>
+ </li>
+ <li class="book-rail__item">
+ <button id="snap-back" class="book-rail__btn" data-tool="back" aria-label="Back" title="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span class="book-rail__label">Back</span></button>
+ </li>
+ <li class="book-rail__item">
+ <button id="rotate-360" class="book-rail__btn" data-tool="spin360" aria-label="Rotate 360 degrees" title="Rotate 360 degrees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg><span class="book-rail__label">360°</span></button>
+ </li>
+ <li class="book-rail__item">
+ <button id="add-to-cart" class="book-rail__btn" data-tool="buy" aria-label="Buy" title="Buy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="book-rail__label">Buy</span></button>
+ </li>
+ </ul>
+ <button class="book-rail__toggle" data-action="toggle" aria-label="Toggle labels" title="Toggle labels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg></button>
+ </nav>
+ <div class="book-3d-viewer">
+ <div class="book-loader"></div>
+ <div class="rotate-hint" aria-hidden="true">
+ <img src="/assets/images/360rotate.png" alt="">
+ </div>
+ <div class="scene">
+ <div class="book" id="book">
+ <div class="face front"></div>
+ <div class="face back"></div>
+ <div class="face spine"></div>
+ <div class="face pages"></div>
+ <div class="face top"></div>
+ <div class="face bottom"></div>
+ </div>
+ <div class="shadow"></div>
+ </div>
+ </div>
+ <div class="cover-zoom-modal" id="cover-zoom" hidden="">
+ <button class="close-btn" id="close-cover-zoom"><i class="ph ph-x"></i></button>
+ <div class="cover-zoom-content">
+ <img id="zoom-full" src="/assets/images/book-front.jpg" alt="Zoomed cover">
+ <div class="thumbnails">
+ <img src="/assets/images/book-front.jpg" data-full="/assets/images/book-front.jpg" class="active" alt="Front cover">
+ <img src="/assets/images/book-back.jpg" data-full="/assets/images/book-back.jpg" alt="Back cover">
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>3D Book Viewer</h3>
+ <p>Function: interactive book with inertia and lighting.</p>
+ <p>Tech Specs: styles in <code>scss/components/_book-3d.scss</code>, JS in <code>js/book-3d-viewer.js</code>.</p>
+ <p>Implementation:</p>
+ <pre id="book-3d-code"><code class="language-html">&lt;div class="book-3d-viewer"&gt;...&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="book-3d-code">Copy</button>
+ </div>
 
-    <section id="book-toolbar-prototype" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Horizontal Toolbar Prototype</h2>
-        <div class="book-toolbar-demo">
-          <div class="book-toolbar-demo__book" role="img" aria-label="3D book placeholder"><span aria-hidden="true">Game On!</span></div>
-          <nav class="book-rail book-rail--horizontal" aria-label="Static book controls demo">
-            <ul class="book-rail__list">
-              <li class="book-rail__item">
-                <button class="book-rail__btn" type="button" data-tool="zoom" aria-label="Zoom" title="Zoom">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                  </svg>
-                  <span class="book-rail__label">Zoom</span>
-                </button>
-              </li>
-              <li class="book-rail__item">
-                <button class="book-rail__btn" type="button" data-tool="front" aria-label="Front" title="Front">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                  </svg>
-                  <span class="book-rail__label">Front</span>
-                </button>
-              </li>
-              <li class="book-rail__item">
-                <button class="book-rail__btn" type="button" data-tool="back" aria-label="Back" title="Back">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                  </svg>
-                  <span class="book-rail__label">Back</span>
-                </button>
-              </li>
-              <li class="book-rail__item">
-                <button class="book-rail__btn" type="button" data-tool="spin360" aria-label="Rotate" title="Rotate">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polyline points="23 4 23 10 17 10"></polyline>
-                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                  </svg>
-                  <span class="book-rail__label">360°</span>
-                </button>
-              </li>
-              <li class="book-rail__item">
-                <button class="book-rail__btn" type="button" data-tool="buy" aria-label="Buy" title="Buy">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  <span class="book-rail__label">Buy</span>
-                </button>
-              </li>
-            </ul>
-            <button class="book-rail__toggle" type="button" aria-label="Toggle labels" title="Toggle labels">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="11 17 6 12 11 7"></polyline>
-                <polyline points="18 17 13 12 18 7"></polyline>
-              </svg>
-            </button>
-          </nav>
-          <p class="book-toolbar-demo__caption">
-            Testing a docked control bar that sits beneath the 3D book for future layout explorations.
-          </p>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Horizontal Toolbar Prototype</h3>
-      <p>Function: baseline layout for a docked control bar under the 3D book canvas.</p>
-      <p>Notes: static-only markup that keeps parity with the live toolbar icons for rapid iteration.</p>
-      <pre id="book-toolbar-prototype-code"><code class="language-html">&lt;nav class="book-rail book-rail--horizontal"&gt;...&lt;/nav&gt;</code></pre>
-      <button class="copy-btn" data-target="book-toolbar-prototype-code">Copy</button>
-    </div>
+ <section id="book-toolbar-prototype" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Horizontal Toolbar Prototype</h2>
+ <div class="book-toolbar-demo">
+ <div class="book-toolbar-demo__book" role="img" aria-label="3D book placeholder"><span aria-hidden="true">Game On!</span></div>
+ <nav class="book-rail book-rail--horizontal" aria-label="Static book controls demo">
+ <ul class="book-rail__list">
+ <li class="book-rail__item">
+ <button class="book-rail__btn" type="button" data-tool="zoom" aria-label="Zoom" title="Zoom">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <circle cx="11" cy="11" r="8"></circle>
+ <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+ <line x1="11" y1="8" x2="11" y2="14"></line>
+ <line x1="8" y1="11" x2="14" y2="11"></line>
+ </svg>
+ <span class="book-rail__label">Zoom</span>
+ </button>
+ </li>
+ <li class="book-rail__item">
+ <button class="book-rail__btn" type="button" data-tool="front" aria-label="Front" title="Front">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+ <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+ </svg>
+ <span class="book-rail__label">Front</span>
+ </button>
+ </li>
+ <li class="book-rail__item">
+ <button class="book-rail__btn" type="button" data-tool="back" aria-label="Back" title="Back">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+ <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+ </svg>
+ <span class="book-rail__label">Back</span>
+ </button>
+ </li>
+ <li class="book-rail__item">
+ <button class="book-rail__btn" type="button" data-tool="spin360" aria-label="Rotate" title="Rotate">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <polyline points="23 4 23 10 17 10"></polyline>
+ <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+ </svg>
+ <span class="book-rail__label">360°</span>
+ </button>
+ </li>
+ <li class="book-rail__item">
+ <button class="book-rail__btn" type="button" data-tool="buy" aria-label="Buy" title="Buy">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <circle cx="9" cy="21" r="1"></circle>
+ <circle cx="20" cy="21" r="1"></circle>
+ <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+ </svg>
+ <span class="book-rail__label">Buy</span>
+ </button>
+ </li>
+ </ul>
+ <button class="book-rail__toggle" type="button" aria-label="Toggle labels" title="Toggle labels">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <polyline points="11 17 6 12 11 7"></polyline>
+ <polyline points="18 17 13 12 18 7"></polyline>
+ </svg>
+ </button>
+ </nav>
+ <p class="book-toolbar-demo__caption">
+ Testing a docked control bar that sits beneath the 3D book for future layout explorations.
+ </p>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Horizontal Toolbar Prototype</h3>
+ <p>Function: baseline layout for a docked control bar under the 3D book canvas.</p>
+ <p>Notes: static-only markup that keeps parity with the live toolbar icons for rapid iteration.</p>
+ <pre id="book-toolbar-prototype-code"><code class="language-html">&lt;nav class="book-rail book-rail--horizontal"&gt;...&lt;/nav&gt;</code></pre>
+ <button class="copy-btn" data-target="book-toolbar-prototype-code">Copy</button>
+ </div>
 
-    <section id="containers" class="demo-section padding-y-lg">
-      <div class="demo-container max-width-adaptive-lg">
-        <h2>Containers</h2>
-        <div class="flex flex-wrap gap-sm">
-          <div class="container grad-lemon-lime">.grad-lemon-lime</div>
-          <div class="container grad-lemon-lime-stroke">.grad-lemon-lime-stroke</div>
-          <div class="container grad-charcoal-lime">.grad-charcoal-lime</div>
-          <div class="container grad-charcoal-mint">.grad-charcoal-mint</div>
-          <div class="container grad-booger-snow">.grad-booger-snow</div>
-          <div class="container grad-cash-cloud">.grad-cash-cloud</div>
-          <div class="container grad-kelly-green">.grad-kelly-green</div>
-          <div class="container--light"><span class="accent">.container--light</span></div>
-        </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Containers</h3>
-      <p>Function: responsive layout wrappers showcasing gradient skins.</p>
-      <p>Tech Specs: styles in <code>scss/base/_globals.scss</code> &amp; <code>scss/utilities/_gradients.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="containers-code"><code class="language-html">&lt;div class="container grad-lemon-lime"&gt;...&lt;/div&gt;
+ <section id="containers" class="demo-section padding-y-lg">
+ <div class="demo-container max-width-adaptive-lg">
+ <h2>Containers</h2>
+ <div class="flex flex-wrap gap-sm">
+ <div class="container grad-lemon-lime">.grad-lemon-lime</div>
+ <div class="container grad-lemon-lime-stroke">.grad-lemon-lime-stroke</div>
+ <div class="container grad-charcoal-lime">.grad-charcoal-lime</div>
+ <div class="container grad-charcoal-mint">.grad-charcoal-mint</div>
+ <div class="container grad-booger-snow">.grad-booger-snow</div>
+ <div class="container grad-cash-cloud">.grad-cash-cloud</div>
+ <div class="container grad-kelly-green">.grad-kelly-green</div>
+ <div class="container--light"><span class="accent">.container--light</span></div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Containers</h3>
+ <p>Function: responsive layout wrappers showcasing gradient skins.</p>
+ <p>Tech Specs: styles in <code>scss/base/_globals.scss</code> &amp; <code>scss/utilities/_gradients.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="containers-code"><code class="language-html">&lt;div class="container grad-lemon-lime"&gt;...&lt;/div&gt;
 
-      &lt;div class="container--light"&gt;...&lt;/div&gt;</code></pre>
+ &lt;div class="container--light"&gt;...&lt;/div&gt;</code></pre>
 
-      <button class="copy-btn" data-target="containers-code">Copy</button>
-    </div>
-    <div class="component-docs">
-      <h3>Buttons</h3>
-      <p>The unified button system now lives exclusively in the Author/Game On! design tokens. Preview every variant in <a href="docs/buttons-demo.html">docs/buttons-demo.html</a> and review implementation guidance in <a href="docs/button-system.md">docs/button-system.md</a>.</p>
-      <p>Pages outside that scope (Labs, 911, etc.) remain untouched thanks to the <code>brand-exempt</code> opt-out.</p>
-    </div>
+ <button class="copy-btn" data-target="containers-code">Copy</button>
+ </div>
+ <div class="component-docs">
+ <h3>Buttons</h3>
+ <p>The unified button system now lives exclusively in the Author/Game On! design tokens. Preview every variant in <a href="docs/buttons-demo.html">docs/buttons-demo.html</a> and review implementation guidance in <a href="docs/button-system.md">docs/button-system.md</a>.</p>
+ <p>Pages outside that scope (Labs, 911, etc.) remain untouched thanks to the <code>brand-exempt</code> opt-out.</p>
+ </div>
 
-    <section id="separator-demo" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <div class="separator"></div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Separator</h3>
-      <p>Function: simple horizontal divider.</p>
-      <p>Tech Specs: styles in <code>scss/components/_separator.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="separator-code"><code class="language-html">&lt;div class="separator"&gt;&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="separator-code">Copy</button>
-    </div>
+ <section id="separator-demo" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <div class="separator"></div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Separator</h3>
+ <p>Function: simple horizontal divider.</p>
+ <p>Tech Specs: styles in <code>scss/components/_separator.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="separator-code"><code class="language-html">&lt;div class="separator"&gt;&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="separator-code">Copy</button>
+ </div>
 
-    <section id="forms" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-      <h2>Form Elements</h2>
-      <form>
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Jane Doe">
+ <section id="forms" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Form Elements</h2>
+ <form>
+ <label for="name">Name</label>
+ <input type="text" id="name" placeholder="Jane Doe">
 
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="you@example.com">
+ <label for="email">Email</label>
+ <input type="email" id="email" placeholder="you@example.com">
 
-          <label for="message">Message</label>
-          <textarea id="message" rows="4" placeholder="Say hello"></textarea>
+ <label for="message">Message</label>
+ <textarea id="message" rows="4" placeholder="Say hello"></textarea>
 
-          <button type="submit" class="btn">Submit</button>
-        </form>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Forms</h3>
-      <p>Function: basic form field styling.</p>
-      <p>Tech Specs: styles in <code>scss/components/_forms.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="forms-code"><code class="language-html">&lt;form&gt;...&lt;/form&gt;</code></pre>
-      <button class="copy-btn" data-target="forms-code">Copy</button>
-    </div>
+ <button type="submit" class="btn">Submit</button>
+ </form>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Forms</h3>
+ <p>Function: basic form field styling.</p>
+ <p>Tech Specs: styles in <code>scss/components/_forms.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="forms-code"><code class="language-html">&lt;form&gt;...&lt;/form&gt;</code></pre>
+ <button class="copy-btn" data-target="forms-code">Copy</button>
+ </div>
 
-    <section id="cards" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Card</h2>
-        <div class="card">
-            <h3>Sample Card</h3>
-            <p>This is a basic card layout for testing styles.</p>
-            <button class="btn btn-accent">Action</button>
-          </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Cards</h3>
-      <p>Function: container for small pieces of content.</p>
-      <p>Tech Specs: styles in <code>scss/components/_cards.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="cards-code"><code class="language-html">&lt;div class="card"&gt;...&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="cards-code">Copy</button>
-    </div>
+ <section id="cards" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Card</h2>
+ <div class="card">
+ <h3>Sample Card</h3>
+ <p>This is a basic card layout for testing styles.</p>
+ <button class="btn btn-accent">Action</button>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Cards</h3>
+ <p>Function: container for small pieces of content.</p>
+ <p>Tech Specs: styles in <code>scss/components/_cards.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="cards-code"><code class="language-html">&lt;div class="card"&gt;...&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="cards-code">Copy</button>
+ </div>
 
-    <section id="modals" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Modal</h2>
-        <button class="btn js-open-modal">Open Modal</button>
-        <div class="modal-overlay" id="demo-modal">
-            <div class="modal">
-              <h3>Modal Title</h3>
-              <p>Modal body content goes here.</p>
-              <button class="btn js-close-modal">Close</button>
-            </div>
-          </div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Modals</h3>
-      <p>Function: overlay dialog windows.</p>
-      <p>Tech Specs: styles in <code>scss/components/_modals.scss</code>, toggled with custom JS.</p>
-      <p>Implementation:</p>
-      <pre id="modals-code"><code class="language-html">&lt;div class="modal-overlay"&gt;...&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="modals-code">Copy</button>
-    </div>
+ <section id="modals" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Modal</h2>
+ <button class="btn js-open-modal">Open Modal</button>
+ <div class="modal-overlay" id="demo-modal">
+ <div class="modal">
+ <h3>Modal Title</h3>
+ <p>Modal body content goes here.</p>
+ <button class="btn js-close-modal">Close</button>
+ </div>
+ </div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Modals</h3>
+ <p>Function: overlay dialog windows.</p>
+ <p>Tech Specs: styles in <code>scss/components/_modals.scss</code>, toggled with custom JS.</p>
+ <p>Implementation:</p>
+ <pre id="modals-code"><code class="language-html">&lt;div class="modal-overlay"&gt;...&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="modals-code">Copy</button>
+ </div>
 
-    <section id="alerts" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Alerts</h2>
-        <div class="alert alert-success">Success alert example.</div>
-        <div class="alert alert-error">Error alert example.</div>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Alerts</h3>
-      <p>Function: contextual success and error messages.</p>
-      <p>Tech Specs: styles in <code>scss/components/_alerts.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="alerts-code"><code class="language-html">&lt;div class="alert alert-success"&gt;...&lt;/div&gt;</code></pre>
-      <button class="copy-btn" data-target="alerts-code">Copy</button>
-    </div>
+ <section id="alerts" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Alerts</h2>
+ <div class="alert alert-success">Success alert example.</div>
+ <div class="alert alert-error">Error alert example.</div>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Alerts</h3>
+ <p>Function: contextual success and error messages.</p>
+ <p>Tech Specs: styles in <code>scss/components/_alerts.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="alerts-code"><code class="language-html">&lt;div class="alert alert-success"&gt;...&lt;/div&gt;</code></pre>
+ <button class="copy-btn" data-target="alerts-code">Copy</button>
+ </div>
 
-    <section id="toggles" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Toggle</h2>
-        <label class="toggle">
-          <input type="checkbox" checked="">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </section>
-    <div class="component-docs">
-      <h3>Toggles</h3>
-      <p>Function: switch between on/off states.</p>
-      <p>Tech Specs: styles in <code>scss/components/_toggles.scss</code>.</p>
-      <p>Implementation:</p>
-      <pre id="toggles-code"><code class="language-html">&lt;label class="toggle"&gt;...&lt;/label&gt;</code></pre>
-      <button class="copy-btn" data-target="toggles-code">Copy</button>
-    </div>
+ <section id="toggles" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Toggle</h2>
+ <label class="toggle">
+ <input type="checkbox" checked="">
+ <span class="toggle-slider"></span>
+ </label>
+ </div>
+ </section>
+ <div class="component-docs">
+ <h3>Toggles</h3>
+ <p>Function: switch between on/off states.</p>
+ <p>Tech Specs: styles in <code>scss/components/_toggles.scss</code>.</p>
+ <p>Implementation:</p>
+ <pre id="toggles-code"><code class="language-html">&lt;label class="toggle"&gt;...&lt;/label&gt;</code></pre>
+ <button class="copy-btn" data-target="toggles-code">Copy</button>
+ </div>
 
-    <section id="gradients" class="demo-section padding-y-lg">
-      <div class="container max-width-adaptive-lg demo-container">
-        <h2>Gradients</h2>
-        <div class="flex flex-wrap gap-sm">
-          <div class="grad-lemon-lime padding-md radius-md">.grad-lemon-lime</div>
-          <div class="grad-lemon-lime-stroke padding-md radius-md">.grad-lemon-lime-stroke</div>
-          <div class="grad-charcoal-lime padding-md radius-md">.grad-charcoal-lime</div>
-          <div class="grad-charcoal-mint padding-md radius-md">.grad-charcoal-mint</div>
-          <div class="grad-booger-snow padding-md radius-md">.grad-booger-snow</div>
-          <div class="grad-cash-cloud padding-md radius-md">.grad-cash-cloud</div>
-          <div class="grad-kelly-green padding-md radius-md">.grad-kelly-green</div>
-        </div>
-      </div>
-    </section>
-  </main>
+ <section id="gradients" class="demo-section padding-y-lg">
+ <div class="container max-width-adaptive-lg demo-container">
+ <h2>Gradients</h2>
+ <div class="flex flex-wrap gap-sm">
+ <div class="grad-lemon-lime padding-md radius-md">.grad-lemon-lime</div>
+ <div class="grad-lemon-lime-stroke padding-md radius-md">.grad-lemon-lime-stroke</div>
+ <div class="grad-charcoal-lime padding-md radius-md">.grad-charcoal-lime</div>
+ <div class="grad-charcoal-mint padding-md radius-md">.grad-charcoal-mint</div>
+ <div class="grad-booger-snow padding-md radius-md">.grad-booger-snow</div>
+ <div class="grad-cash-cloud padding-md radius-md">.grad-cash-cloud</div>
+ <div class="grad-kelly-green padding-md radius-md">.grad-kelly-green</div>
+ </div>
+ </div>
+ </section>
+ </main>
 
-      <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
-        <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/" aria-label="Follow on Facebook">
-            <img src="/assets/icons/facebook-32.png" alt="">
-            <span class="sr-only">Facebook</span>
-          </a>
-          <a href="https://x.com/" aria-label="Follow on X">
-            <img src="/assets/icons/twitter-x-32.png" alt="">
-            <span class="sr-only">X (Twitter)</span>
-          </a>
-          <a href="https://www.youtube.com/" aria-label="Follow on YouTube">
-            <img src="/assets/icons/youtube-32.png" alt="">
-            <span class="sr-only">YouTube</span>
-          </a>
-          <a href="https://www.tiktok.com/" aria-label="Follow on TikTok">
-            <img src="/assets/icons/tiktok-32.png" alt="">
-            <span class="sr-only">TikTok</span>
-          </a>
-        </div>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="book.html">Book</a></li>
-          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
-          <li><a href="press.html">Press</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="sitemap.html">Site Index</a></li>
-        </ul>
-      </div>
-      <details class="footer-collapse">
-        <summary>Creator &amp; Platform Links</summary>
-        <div class="footer-collapse-grid">
-          <div>
-            <h4>Creator Tools</h4>
-            <ul class="footer-links">
-              <li><a href="components.html">Components</a></li>
-              <li><a href="themes.html">Themes</a></li>
-              <li><a href="style-classes.html">Style Classes</a></li>
-              <li><a href="loaders.html">Loaders</a></li>
-              <li><a href="promotion-tools.html">Promotion Tools</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Developer Docs</h4>
-            <ul class="footer-links">
-              <li><a href="iconifty.html">Iconify</a></li>
-              <li><a href="docs/style-guide.html">Style Guide</a></li>
-              <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
-              <li><a href="style-classes.html">Utility Classes</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Account</h4>
-            <ul class="footer-links">
-              <li><a href="login.html">Login</a></li>
-              <li><a href="dashboard.html">Dashboard</a></li>
-              <li><a href="reset-password.html">Reset Password</a></li>
-              <li><a href="verify-email.html">Verify Email</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Admin</h4>
-            <ul class="footer-links">
-              <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
-              <li><a href="admin-user-management.html">User Management</a></li>
-            </ul>
-          </div>
-        </div>
-      </details>
-      <div class="footer-signup">
-        <h4>Mailing List</h4>
-        <p class="footer-note">Join for drops, tools, and private updates.</p>
-        <form action="#" method="post">
-          <label for="footer-email-components" class="sr-only">Email address</label>
-          <input id="footer-email-components" name="email" type="email" placeholder="you@email.com" required="">
-          <button type="submit" class="primary-btn">Join the List</button>
-        </form>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-inner">
-        <span>© 2025 Daren Prince. All rights reserved.</span>
-        <a href="labs.html" class="footer-labs-link">
-          <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo">
-        </a>
-      </div>
-    </div>
-  </footer>
-  </div>
-  <script type="module" src="/js/ui.js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="/js/profile-dropdown.js"></script>
-  <script src="/js/theme-toggle.js"></script>
-  <script src="/js/book-tabs.js"></script>
-  <script src="/js/book-details.js"></script>
-  <script type="module" src="/js/book-rail.js"></script>
-  <script type="module" src="/js/book-3d-viewer.js"></script>
-  <script src="/js/hero-demos.js"></script>
-  <script src="/js/hero-auto-zoom.js"></script>
-  <script type="module" src="/js/main.js"></script>
-  <script>
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = document.getElementById(btn.dataset.target);
-        if (target) {
-          navigator.clipboard.writeText(target.textContent.trim());
-          btn.textContent = 'Copied!';
-          setTimeout(() => btn.textContent = 'Copy', 2000);
-        }
-      });
-    });
-  </script>
+ <footer class="site-footer">
+ <div class="container footer-grid">
+ <div class="footer-brand">
+ <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+ <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
+ <div class="footer-socials">
+ <a href="https://www.facebook.com/" aria-label="Follow on Facebook">
+ <img src="/assets/icons/facebook-32.png" alt="">
+ <span class="sr-only">Facebook</span>
+ </a>
+ <a href="https://x.com/" aria-label="Follow on X">
+ <img src="/assets/icons/twitter-x-32.png" alt="">
+ <span class="sr-only">X (Twitter)</span>
+ </a>
+ <a href="https://www.youtube.com/" aria-label="Follow on YouTube">
+ <img src="/assets/icons/youtube-32.png" alt="">
+ <span class="sr-only">YouTube</span>
+ </a>
+ <a href="https://www.tiktok.com/" aria-label="Follow on TikTok">
+ <img src="/assets/icons/tiktok-32.png" alt="">
+ <span class="sr-only">TikTok</span>
+ </a>
+ </div>
+ </div>
+ <div>
+ <h4>Explore</h4>
+ <ul class="footer-links">
+ <li><a href="index.html">Home</a></li>
+ <li><a href="book.html">Book</a></li>
+ <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+ <li><a href="press.html">Press</a></li>
+ <li><a href="contact.html">Contact</a></li>
+ <li><a href="sitemap.html">Site Index</a></li>
+ </ul>
+ </div>
+ <details class="footer-collapse">
+ <summary>Creator &amp; Platform Links</summary>
+ <div class="footer-collapse-grid">
+ <div>
+ <h4>Creator Tools</h4>
+ <ul class="footer-links">
+ <li><a href="components.html">Components</a></li>
+ <li><a href="themes.html">Themes</a></li>
+ <li><a href="style-classes.html">Style Classes</a></li>
+ <li><a href="loaders.html">Loaders</a></li>
+ <li><a href="promotion-tools.html">Promotion Tools</a></li>
+ </ul>
+ </div>
+ <div>
+ <h4>Developer Docs</h4>
+ <ul class="footer-links">
+ <li><a href="iconifty.html">Iconify</a></li>
+ <li><a href="docs/style-guide.html">Style Guide</a></li>
+ <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
+ <li><a href="style-classes.html">Utility Classes</a></li>
+ </ul>
+ </div>
+ <div>
+ <h4>Account</h4>
+ <ul class="footer-links">
+ <li><a href="login.html">Login</a></li>
+ <li><a href="dashboard.html">Dashboard</a></li>
+ <li><a href="reset-password.html">Reset Password</a></li>
+ <li><a href="verify-email.html">Verify Email</a></li>
+ </ul>
+ </div>
+ <div>
+ <h4>Admin</h4>
+ <ul class="footer-links">
+ <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+ <li><a href="admin-user-management.html">User Management</a></li>
+ </ul>
+ </div>
+ </div>
+ </details>
+ <div class="footer-signup">
+ <h4>Mailing List</h4>
+ <p class="footer-note">Join for drops, tools, and private updates.</p>
+ <form action="#" method="post">
+ <label for="footer-email-components" class="sr-only">Email address</label>
+ <input id="footer-email-components" name="email" type="email" placeholder="you@email.com" required="">
+ <button type="submit" class="primary-btn">Join the List</button>
+ </form>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <div class="footer-bottom-inner">
+ <span>© 2025 Daren Prince. All rights reserved.</span>
+ <a href="labs.html" class="footer-labs-link">
+ <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo">
+ </a>
+ </div>
+ </div>
+ </footer>
+ </div>
+ <script type="module" src="/js/ui.js"></script>
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script type="module" src="/js/profile-dropdown.js"></script>
+ <script src="/js/theme-toggle.js"></script>
+ <script src="/js/book-tabs.js"></script>
+ <script src="/js/book-details.js"></script>
+ <script type="module" src="/js/book-rail.js"></script>
+ <script type="module" src="/js/book-3d-viewer.js"></script>
+ <script src="/js/hero-demos.js"></script>
+ <script src="/js/hero-auto-zoom.js"></script>
+ <script type="module" src="/js/main.js"></script>
+ <script>
+ document.querySelectorAll('.copy-btn').forEach(btn => {
+ btn.addEventListener('click', () => {
+ const target = document.getElementById(btn.dataset.target);
+ if (target) {
+ navigator.clipboard.writeText(target.textContent.trim());
+ btn.textContent = 'Copied!';
+ setTimeout(() => btn.textContent = 'Copy', 2000);
+ }
+ });
+ });
+ </script>
 
 
 

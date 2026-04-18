@@ -133,8 +133,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const mailTo = resolveEndpoint() || 'mailto:press@darenprince.com'
     const subject = `Contact request: ${payload.topic || 'General inquiry'}`
     const body = [
-      `Name: ${payload.name || '—'}`,
-      `Email: ${payload.email || '—'}`,
+      `Name: ${payload.name || 'Not provided'}`,
+      `Email: ${payload.email || 'Not provided'}`,
       '',
       payload.message || '',
     ].join('\n')

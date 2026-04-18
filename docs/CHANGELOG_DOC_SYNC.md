@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18, Copy punctuation humanization pass (GitHub Pages safe)
+
+- Replaced em dash and en dash punctuation on key public pages so the writing reads with a more natural human cadence.
+- Updated runtime copy in `js/contact.js`, `js/main.js`, and `js/seo-indexing.js` to match the same punctuation style.
+- Updated README messaging examples so project documentation reflects the published voice changes.
+
 ## 2026-04-18 — Homepage mobile format stack hotfix + branded app metadata titles (GitHub Pages-safe)
 
 - Fixed the homepage format-selector layout regression on mobile by forcing `.book-primary-layout .book-experience` to render as a vertical stack (instead of a horizontal flex row), restoring readable copy/button flow and preventing the image rail from pinching into a narrow side column in iOS Safari.
