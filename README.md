@@ -77,6 +77,8 @@ Everything else is either generated, archived, or app-specific and should not be
 > **Homepage featured rail behavior:** `index.html` now explicitly loads `js/homepage-rail-enhancements.js` so the full-bleed featured rail motion/modal polish ships to production on GitHub Pages (instead of only existing in source files).
 > **Homepage featured rail touch fix:** Featured and upcoming book cards now preserve vertical page scroll + horizontal swipe intent on touch devices by suppressing modal opens during drag gestures and allowing pan on card surfaces (`js/homepage-rail-enhancements.js` + compiled `assets/styles.css`), preserving premium motion without scroll lock regressions.
 >
+> **Homepage April 2026 visual refresh:** Featured/upcoming rails now include centered CTA typography, a lower-third premium CTA button treatment, subtle top-only cover corner rounding, and spotlight motion states as cards come into focus. The inline book accordion was restyled with a glassmorphism iOS-native feel while removing the outer wrapper stroke. Hero auto-zoom now begins at full frame and scales past the viewport edge for a cleaner cinematic intro (`scss/components/_book-details-wrapper.scss`, `scss/components/_accordion.scss`, `scss/components/_hero.scss`, `js/homepage-rail-enhancements.js`, `js/hero-auto-zoom.js`, compiled to `assets/styles.css`).
+>
 > **Search modal UX:** Site search now opens as an overlay on desktop and mobile, includes a larger explicit close control, and supports touch swipe-down dismiss behavior for mobile ergonomics while remaining GitHub Pages-safe (no runtime dependencies).
 
 ---
