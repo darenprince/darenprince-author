@@ -2,7 +2,7 @@
 
 > Consolidation note (2026-04-12): canonical guidance now lives in `docs/STYLE_GUIDE.md`. Keep this file as a secondary inventory/crosswalk only.
 
-_Last updated: 2026-03-25_
+_Last updated: 2026-04-18_
 
 This reference links every Sass partial, markup hook, and JavaScript controller powering the CodyHouse-inspired UI system. Use it to keep implementation and documentation aligned.
 
@@ -83,16 +83,17 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 
 ## Component & script crosswalk
 
-| Surface            | Key HTML                     | SCSS modules                                                                                | JS                                                               |
-| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| Homepage hero      | `index.html` (`.hero`)       | `_hero.scss`, `_buttons.scss`, `_cta-buttons.scss`                                          | `js/hero-demos.js`, `js/main.js`                                 |
-| Book detail        | `book.html`                  | `_book.scss`, `_book-tabs.scss`, `_trailer-modal.scss`, `_book-3d.scss`                     | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js` |
-| Login              | `login.html`                 | `_login.scss`, `_forms.scss`, `_password-strength.scss`                                     | `js/auth.js`, `js/password-strength.js`                          |
-| Member dashboard   | `dashboard.html`             | `_dashboard.scss`, `_cards.scss`, `_forms.scss`, `_viewer.scss`                             | `js/dashboard.js`, `js/auth-guard.js`                            |
-| Admin console      | `admin-user-management.html` | `_dashboard.scss`, `_cards.scss`, `_profile-dropdown.scss`, `_alerts.scss`, `_toggles.scss` | `js/admin-user-console.js`, `js/auth-guard.js`                   |
-| Press hub          | `press.html`                 | `_press-page.scss`, `_downloads.scss`, `_viewer.scss`                                       | `js/theme-toggle.js`                                             |
-| Components gallery | `components.html`            | `_component-docs.scss`, `_demo-container.scss`, `_buttons.scss`                             | `js/main.js`, `js/ui.js`                                         |
-| Search results     | `pages/search.html`          | `_search.scss`                                                                              | `src/js/search-results.js`, `src/js/search.js`                   |
+| Surface             | Key HTML                                | SCSS modules                                                                                | JS                                                               |
+| ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Homepage hero       | `index.html` (`.hero`)                  | `_hero.scss`, `_buttons.scss`, `_cta-buttons.scss`                                          | `js/hero-demos.js`, `js/main.js`                                 |
+| Homepage author bio | `index.html` (`.author-spotlight-card`) | `_book-details-wrapper.scss` (split 50/50 media/content card)                               | —                                                                |
+| Book detail         | `book.html`                             | `_book.scss`, `_book-tabs.scss`, `_trailer-modal.scss`, `_book-3d.scss`                     | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js` |
+| Login               | `login.html`                            | `_login.scss`, `_forms.scss`, `_password-strength.scss`                                     | `js/auth.js`, `js/password-strength.js`                          |
+| Member dashboard    | `dashboard.html`                        | `_dashboard.scss`, `_cards.scss`, `_forms.scss`, `_viewer.scss`                             | `js/dashboard.js`, `js/auth-guard.js`                            |
+| Admin console       | `admin-user-management.html`            | `_dashboard.scss`, `_cards.scss`, `_profile-dropdown.scss`, `_alerts.scss`, `_toggles.scss` | `js/admin-user-console.js`, `js/auth-guard.js`                   |
+| Press hub           | `press.html`                            | `_press-page.scss`, `_downloads.scss`, `_viewer.scss`                                       | `js/theme-toggle.js`                                             |
+| Components gallery  | `components.html`                       | `_component-docs.scss`, `_demo-container.scss`, `_buttons.scss`                             | `js/main.js`, `js/ui.js`                                         |
+| Search results      | `pages/search.html`                     | `_search.scss`                                                                              | `src/js/search-results.js`, `src/js/search.js`                   |
 
 > **Reality Check:** Place new Sass partials under `scss/components/` and import them in `scss/styles.scss`. The `/components/` folder is reserved for HTML demos only.
 
