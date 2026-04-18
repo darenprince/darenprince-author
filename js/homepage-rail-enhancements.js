@@ -173,6 +173,50 @@ function inferBookKey(card) {
 function initFeaturedRailModal() {
   const rail = document.querySelector('.featured-books-strip__rail')
   if (!rail) return
+  const TOUCH_DRAG_THRESHOLD = 9
+  const TOUCH_DRAG_SUPPRESS_MS = 420
+  const gestureState = {
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    moved: false,
+    lastDragAt: 0,
+  }
+
+  const trackPointerStart = (event) => {
+    if (event.pointerType !== 'touch') return
+    gestureState.pointerId = event.pointerId
+    gestureState.startX = event.clientX
+    gestureState.startY = event.clientY
+    gestureState.moved = false
+  }
+
+  const trackPointerMove = (event) => {
+    if (event.pointerType !== 'touch' || event.pointerId !== gestureState.pointerId) return
+    if (gestureState.moved) return
+    const distanceX = Math.abs(event.clientX - gestureState.startX)
+    const distanceY = Math.abs(event.clientY - gestureState.startY)
+    if (distanceX > TOUCH_DRAG_THRESHOLD || distanceY > TOUCH_DRAG_THRESHOLD) {
+      gestureState.moved = true
+    }
+  }
+
+  const trackPointerEnd = (event) => {
+    if (event.pointerType !== 'touch' || event.pointerId !== gestureState.pointerId) return
+    if (gestureState.moved) {
+      gestureState.lastDragAt = Date.now()
+    }
+    gestureState.pointerId = null
+    gestureState.moved = false
+  }
+
+  const shouldSuppressTouchClick = () =>
+    Date.now() - gestureState.lastDragAt < TOUCH_DRAG_SUPPRESS_MS
+
+  rail.addEventListener('pointerdown', trackPointerStart, { passive: true })
+  rail.addEventListener('pointermove', trackPointerMove, { passive: true })
+  rail.addEventListener('pointerup', trackPointerEnd, { passive: true })
+  rail.addEventListener('pointercancel', trackPointerEnd, { passive: true })
 
   let modal = document.getElementById('homepage-book-modal-overlay')
   if (!modal) {
@@ -235,6 +279,7 @@ function initFeaturedRailModal() {
     const img = card.querySelector('img')
     const btn = card.querySelector('.btn--subtle')
     const handler = (event) => {
+      if (event.type === 'click' && shouldSuppressTouchClick()) return
       event.preventDefault()
       openModalFor(FEATURED_BOOKS[key])
     }
