@@ -9552,7 +9552,7 @@ body.books-page .books-main > section {
     transform 0.2s ease,
     border-color 0.2s ease;
   animation: featured-card-rise 0.55s ease both;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 .featured-book-card:hover,
 .featured-book-card:focus-within {
@@ -9565,6 +9565,7 @@ body.books-page .books-main > section {
   height: auto;
   object-fit: contain;
   border-radius: clamp(0.75rem, 1.6vw, 1rem);
+  touch-action: pan-x pan-y;
 }
 
 @media (max-width: 47.99rem) {

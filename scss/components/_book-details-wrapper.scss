@@ -1276,7 +1276,7 @@ body.books-page {
     transform 0.2s ease,
     border-color 0.2s ease;
   animation: featured-card-rise 0.55s ease both;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
 
   &:hover,
   &:focus-within {
@@ -1290,6 +1290,7 @@ body.books-page {
     height: auto;
     object-fit: contain;
     border-radius: clamp(0.75rem, 1.6vw, 1rem);
+    touch-action: pan-x pan-y;
   }
 }
 
