@@ -1,586 +1,586 @@
 <!doctype html>
 <html data-site-root="darenprince-author" lang="en">
-  <head>
-    <script>
-      (function () {
-        const html = document.documentElement;
-        const explicitRoot = html.getAttribute('data-site-root');
-        const host = window.location.hostname || '';
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
-        let prefix = '';
-        if (normalizedExplicit) {
-          prefix = '/' + normalizedExplicit;
-        } else if (host.endsWith('.github.io') && pathSegments.length) {
-          prefix = '/' + pathSegments[0];
-        }
-        const firstSegment = pathSegments[0] || '';
-        const shouldUsePrefix =
-          Boolean(prefix) &&
-          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
-        if (!shouldUsePrefix || prefix === '/') {
-          html.dataset.assetPrefix = '';
-          return;
-        }
-        if (prefix.endsWith('/')) {
-          prefix = prefix.slice(0, -1);
-        }
-        html.dataset.assetPrefix = prefix;
-        const URL_ATTRS = new Map([
-          ['A', ['href']],
-          ['LINK', ['href']],
-          ['SCRIPT', ['src']],
-          ['IMG', ['src', 'srcset']],
-          ['SOURCE', ['src', 'srcset']],
-          ['VIDEO', ['src', 'poster']],
-          ['AUDIO', ['src']],
-          ['IFRAME', ['src']],
-          ['USE', ['href', 'xlink:href']],
-          ['FORM', ['action']],
-        ]);
-        const shouldIgnore = (value) =>
-          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
-        const resolve = (value) => {
-          if (!value || shouldIgnore(value)) return value;
-          if (value === prefix || value.startsWith(prefix + '/')) {
-            return value;
-          }
-          if (value.startsWith('/')) {
-            return prefix + value;
-          }
-          return value;
-        };
-        const patchSrcset = (value) =>
-          value
-            .split(',')
-            .map((chunk) => {
-              const parts = chunk.trim().split(/\s+/);
-              if (!parts.length || !parts[0]) {
-                return chunk;
-              }
-              parts[0] = resolve(parts[0]);
-              return parts.join(' ');
-            })
-            .join(', ');
-        const patchNode = (node) => {
-          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
-          const attrs = URL_ATTRS.get(node.tagName);
-          if (!attrs) return;
-          for (const attr of attrs) {
-            const current = node.getAttribute(attr);
-            if (!current) continue;
-            if (attr === 'srcset') {
-              const next = patchSrcset(current);
-              if (next !== current) {
-                node.setAttribute(attr, next);
-              }
-              continue;
-            }
-            const next = resolve(current);
-            if (next === current) continue;
-            if (node.tagName === 'SCRIPT' && attr === 'src') {
-              const replacement = document.createElement('script');
-              node.getAttributeNames().forEach((name) => {
-                if (name === 'src') return;
-                replacement.setAttribute(name, node.getAttribute(name));
-              });
-              replacement.src = next;
-              if (node.parentNode) {
-                node.parentNode.insertBefore(replacement, node.nextSibling);
-              } else {
-                document.head.appendChild(replacement);
-              }
-              node.remove();
-            } else {
-              node.setAttribute(attr, next);
-            }
-          }
-        };
-        const patchSubtree = (root) => {
-          if (!root || !root.querySelectorAll) return;
-          URL_ATTRS.forEach((_, tag) => {
-            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
-          });
-        };
-        const observer = new MutationObserver((records) => {
-          records.forEach((record) => {
-            record.addedNodes.forEach((added) => {
-              if (added.nodeType === Node.ELEMENT_NODE) {
-                patchNode(added);
-                if (added.querySelectorAll) {
-                  added.querySelectorAll('*').forEach(patchNode);
-                }
-              }
-            });
-          });
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        const finalize = () => {
-          patchSubtree(document);
-          observer.disconnect();
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', finalize, { once: true });
-        } else {
-          finalize();
-        }
-      })();
-    </script>
+ <head>
+ <script>
+ (function () {
+ const html = document.documentElement;
+ const explicitRoot = html.getAttribute('data-site-root');
+ const host = window.location.hostname || '';
+ const pathSegments = window.location.pathname.split('/').filter(Boolean);
+ const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+ let prefix = '';
+ if (normalizedExplicit) {
+ prefix = '/' + normalizedExplicit;
+ } else if (host.endsWith('.github.io') && pathSegments.length) {
+ prefix = '/' + pathSegments[0];
+ }
+ const firstSegment = pathSegments[0] || '';
+ const shouldUsePrefix =
+ Boolean(prefix) &&
+ (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+ if (!shouldUsePrefix || prefix === '/') {
+ html.dataset.assetPrefix = '';
+ return;
+ }
+ if (prefix.endsWith('/')) {
+ prefix = prefix.slice(0, -1);
+ }
+ html.dataset.assetPrefix = prefix;
+ const URL_ATTRS = new Map([
+ ['A', ['href']],
+ ['LINK', ['href']],
+ ['SCRIPT', ['src']],
+ ['IMG', ['src', 'srcset']],
+ ['SOURCE', ['src', 'srcset']],
+ ['VIDEO', ['src', 'poster']],
+ ['AUDIO', ['src']],
+ ['IFRAME', ['src']],
+ ['USE', ['href', 'xlink:href']],
+ ['FORM', ['action']],
+ ]);
+ const shouldIgnore = (value) =>
+ !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+ const resolve = (value) => {
+ if (!value || shouldIgnore(value)) return value;
+ if (value === prefix || value.startsWith(prefix + '/')) {
+ return value;
+ }
+ if (value.startsWith('/')) {
+ return prefix + value;
+ }
+ return value;
+ };
+ const patchSrcset = (value) =>
+ value
+ .split(', ')
+ .map((chunk) => {
+ const parts = chunk.trim().split(/\s+/);
+ if (!parts.length || !parts[0]) {
+ return chunk;
+ }
+ parts[0] = resolve(parts[0]);
+ return parts.join(' ');
+ })
+ .join(', ');
+ const patchNode = (node) => {
+ if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+ const attrs = URL_ATTRS.get(node.tagName);
+ if (!attrs) return;
+ for (const attr of attrs) {
+ const current = node.getAttribute(attr);
+ if (!current) continue;
+ if (attr === 'srcset') {
+ const next = patchSrcset(current);
+ if (next !== current) {
+ node.setAttribute(attr, next);
+ }
+ continue;
+ }
+ const next = resolve(current);
+ if (next === current) continue;
+ if (node.tagName === 'SCRIPT' && attr === 'src') {
+ const replacement = document.createElement('script');
+ node.getAttributeNames().forEach((name) => {
+ if (name === 'src') return;
+ replacement.setAttribute(name, node.getAttribute(name));
+ });
+ replacement.src = next;
+ if (node.parentNode) {
+ node.parentNode.insertBefore(replacement, node.nextSibling);
+ } else {
+ document.head.appendChild(replacement);
+ }
+ node.remove();
+ } else {
+ node.setAttribute(attr, next);
+ }
+ }
+ };
+ const patchSubtree = (root) => {
+ if (!root || !root.querySelectorAll) return;
+ URL_ATTRS.forEach((_, tag) => {
+ root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+ });
+ };
+ const observer = new MutationObserver((records) => {
+ records.forEach((record) => {
+ record.addedNodes.forEach((added) => {
+ if (added.nodeType === Node.ELEMENT_NODE) {
+ patchNode(added);
+ if (added.querySelectorAll) {
+ added.querySelectorAll('*').forEach(patchNode);
+ }
+ }
+ });
+ });
+ });
+ observer.observe(document.documentElement, { childList: true, subtree: true });
+ const finalize = () => {
+ patchSubtree(document);
+ observer.disconnect();
+ };
+ if (document.readyState === 'loading') {
+ document.addEventListener('DOMContentLoaded', finalize, { once: true });
+ } else {
+ finalize();
+ }
+ })();
+ </script>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Updated Hero Concepts | Daren Prince</title>
-    <meta
-      name="description"
-      content="Updated Hero concepts for the Daren Prince website: classified, animated, and conversion-ready hero section samples with bold call-to-action patterns."
-    />
-    <meta property="og:title" content="Updated Hero Concepts | Daren Prince" />
-    <meta
-      property="og:description"
-      content="Explore cinematic, product, story-led, and conversion-focused hero section concepts with stylized animations and CTA layouts."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.darenprince.com/updated-hero.html" />
-    <meta property="og:image" content="https://www.darenprince.com/assets/images/Hero-bg.PNG" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Updated Hero Concepts | Daren Prince" />
-    <meta
-      name="twitter:description"
-      content="A categorized collection of hero section concepts with polished animations and strategic CTAs."
-    />
-    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/Hero-bg.PNG" />
-    <link rel="canonical" href="https://www.darenprince.com/updated-hero.html" />
-    <link rel="stylesheet" href="/assets/styles.css" />
-    <style>
-      :root {
-        --hero-bg: #0b0e11;
-        --hero-card: rgba(14, 18, 24, 0.86);
-        --hero-border: rgba(135, 189, 114, 0.28);
-        --hero-text: #f4f8f2;
-        --hero-muted: #bdc9bf;
-        --hero-accent: #87bd72;
-        --hero-accent-soft: #c2e9c1;
-      }
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Updated Hero Concepts | Daren Prince</title>
+ <meta
+ name="description"
+ content="Updated Hero concepts for the Daren Prince website: classified, animated, and conversion-ready hero section samples with bold call-to-action patterns."
+ />
+ <meta property="og:title" content="Updated Hero Concepts | Daren Prince" />
+ <meta
+ property="og:description"
+ content="Explore cinematic, product, story-led, and conversion-focused hero section concepts with stylized animations and CTA layouts."
+ />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://www.darenprince.com/updated-hero.html" />
+ <meta property="og:image" content="https://www.darenprince.com/assets/images/Hero-bg.PNG" />
+ <meta name="twitter:card" content="summary_large_image" />
+ <meta name="twitter:title" content="Updated Hero Concepts | Daren Prince" />
+ <meta
+ name="twitter:description"
+ content="A categorized collection of hero section concepts with polished animations and strategic CTAs."
+ />
+ <meta name="twitter:image" content="https://www.darenprince.com/assets/images/Hero-bg.PNG" />
+ <link rel="canonical" href="https://www.darenprince.com/updated-hero.html" />
+ <link rel="stylesheet" href="/assets/styles.css" />
+ <style>
+ :root {
+ --hero-bg: #0b0e11;
+ --hero-card: rgba(14, 18, 24, 0.86);
+ --hero-border: rgba(135, 189, 114, 0.28);
+ --hero-text: #f4f8f2;
+ --hero-muted: #bdc9bf;
+ --hero-accent: #87bd72;
+ --hero-accent-soft: #c2e9c1;
+ }
 
-      * {
-        box-sizing: border-box;
-      }
+ * {
+ box-sizing: border-box;
+ }
 
-      body {
-        margin: 0;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        background: radial-gradient(circle at top right, #1a2029 0%, #090b0f 55%, #050607 100%);
-        color: var(--hero-text);
-      }
+ body {
+ margin: 0;
+ font-family: 'Helvetica Neue', Arial, sans-serif;
+ background: radial-gradient(circle at top right, #1a2029 0%, #090b0f 55%, #050607 100%);
+ color: var(--hero-text);
+ }
 
-      .page-shell {
-        width: min(1200px, 100% - 2.5rem);
-        margin: 0 auto;
-        padding: 3rem 0 5rem;
-      }
+ .page-shell {
+ width: min(1200px, 100% - 2.5rem);
+ margin: 0 auto;
+ padding: 3rem 0 5rem;
+ }
 
-      .intro {
-        margin-bottom: 2rem;
-      }
+ .intro {
+ margin-bottom: 2rem;
+ }
 
-      .intro h1 {
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 3.5rem);
-        line-height: 1.05;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-      }
+ .intro h1 {
+ margin: 0;
+ font-size: clamp(2rem, 4vw, 3.5rem);
+ line-height: 1.05;
+ letter-spacing: 0.02em;
+ text-transform: uppercase;
+ }
 
-      .intro h1 span {
-        color: var(--hero-accent);
-        text-shadow: 0 0 20px rgba(135, 189, 114, 0.45);
-      }
+ .intro h1 span {
+ color: var(--hero-accent);
+ text-shadow: 0 0 20px rgba(135, 189, 114, 0.45);
+ }
 
-      .intro p {
-        margin: 1rem 0 0;
-        max-width: 70ch;
-        color: var(--hero-muted);
-      }
+ .intro p {
+ margin: 1rem 0 0;
+ max-width: 70ch;
+ color: var(--hero-muted);
+ }
 
-      .classification-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-        margin: 1.5rem 0 2.5rem;
-      }
+ .classification-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 1rem;
+ margin: 1.5rem 0 2.5rem;
+ }
 
-      .classification-card {
-        background: linear-gradient(145deg, rgba(20, 24, 31, 0.9), rgba(12, 15, 20, 0.95));
-        border: 1px solid var(--hero-border);
-        border-radius: 18px;
-        padding: 1rem;
-      }
+ .classification-card {
+ background: linear-gradient(145deg, rgba(20, 24, 31, 0.9), rgba(12, 15, 20, 0.95));
+ border: 1px solid var(--hero-border);
+ border-radius: 18px;
+ padding: 1rem;
+ }
 
-      .classification-card h2 {
-        margin: 0 0 0.45rem;
-        font-size: 1rem;
-        color: var(--hero-accent-soft);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
+ .classification-card h2 {
+ margin: 0 0 0.45rem;
+ font-size: 1rem;
+ color: var(--hero-accent-soft);
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ }
 
-      .classification-card p {
-        margin: 0;
-        font-size: 0.95rem;
-        color: var(--hero-muted);
-      }
+ .classification-card p {
+ margin: 0;
+ font-size: 0.95rem;
+ color: var(--hero-muted);
+ }
 
-      .hero-stack {
-        display: grid;
-        gap: 1.6rem;
-      }
+ .hero-stack {
+ display: grid;
+ gap: 1.6rem;
+ }
 
-      .hero-concept {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid var(--hero-border);
-        border-radius: 26px;
-        background: var(--hero-card);
-        min-height: 300px;
-        padding: clamp(1.25rem, 3vw, 2rem);
-      }
+ .hero-concept {
+ position: relative;
+ overflow: hidden;
+ border: 1px solid var(--hero-border);
+ border-radius: 26px;
+ background: var(--hero-card);
+ min-height: 300px;
+ padding: clamp(1.25rem, 3vw, 2rem);
+ }
 
-      .hero-concept::before,
-      .hero-concept::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-      }
+ .hero-concept::before,
+ .hero-concept::after {
+ content: '';
+ position: absolute;
+ inset: 0;
+ pointer-events: none;
+ }
 
-      .hero-concept::before {
-        background: radial-gradient(circle at 18% 26%, rgba(135, 189, 114, 0.24), transparent 35%);
-        mix-blend-mode: screen;
-      }
+ .hero-concept::before {
+ background: radial-gradient(circle at 18% 26%, rgba(135, 189, 114, 0.24), transparent 35%);
+ mix-blend-mode: screen;
+ }
 
-      .hero-concept::after {
-        border: 1px solid rgba(194, 233, 193, 0.14);
-        border-radius: 22px;
-        margin: 8px;
-      }
+ .hero-concept::after {
+ border: 1px solid rgba(194, 233, 193, 0.14);
+ border-radius: 22px;
+ margin: 8px;
+ }
 
-      .concept-content {
-        position: relative;
-        z-index: 2;
-        max-width: 760px;
-      }
+ .concept-content {
+ position: relative;
+ z-index: 2;
+ max-width: 760px;
+ }
 
-      .concept-tag {
-        display: inline-block;
-        padding: 0.35rem 0.7rem;
-        border-radius: 999px;
-        background: rgba(135, 189, 114, 0.14);
-        border: 1px solid rgba(135, 189, 114, 0.45);
-        color: var(--hero-accent-soft);
-        font-size: 0.75rem;
-        letter-spacing: 0.09em;
-        text-transform: uppercase;
-      }
+ .concept-tag {
+ display: inline-block;
+ padding: 0.35rem 0.7rem;
+ border-radius: 999px;
+ background: rgba(135, 189, 114, 0.14);
+ border: 1px solid rgba(135, 189, 114, 0.45);
+ color: var(--hero-accent-soft);
+ font-size: 0.75rem;
+ letter-spacing: 0.09em;
+ text-transform: uppercase;
+ }
 
-      .hero-concept h3 {
-        margin: 0.95rem 0 0.45rem;
-        font-size: clamp(1.6rem, 2.4vw, 2.5rem);
-        line-height: 1.1;
-        text-transform: uppercase;
-      }
+ .hero-concept h3 {
+ margin: 0.95rem 0 0.45rem;
+ font-size: clamp(1.6rem, 2.4vw, 2.5rem);
+ line-height: 1.1;
+ text-transform: uppercase;
+ }
 
-      .hero-concept h3 span {
-        color: var(--hero-accent);
-      }
+ .hero-concept h3 span {
+ color: var(--hero-accent);
+ }
 
-      .hero-concept p {
-        margin: 0;
-        max-width: 66ch;
-        color: var(--hero-muted);
-        font-size: 1rem;
-      }
+ .hero-concept p {
+ margin: 0;
+ max-width: 66ch;
+ color: var(--hero-muted);
+ font-size: 1rem;
+ }
 
-      .cta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 1.2rem;
-      }
+ .cta-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.75rem;
+ margin-top: 1.2rem;
+ }
 
-      .cta-btn {
-        text-decoration: none;
-        border-radius: 999px;
-        padding: 0.65rem 1.1rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
-      }
+ .cta-btn {
+ text-decoration: none;
+ border-radius: 999px;
+ padding: 0.65rem 1.1rem;
+ font-weight: 700;
+ letter-spacing: 0.02em;
+ transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+ }
 
-      .cta-btn-primary {
-        background: linear-gradient(120deg, #7ecf69, #4f8f43);
-        color: #061108;
-        box-shadow: 0 10px 30px rgba(109, 166, 103, 0.32);
-      }
+ .cta-btn-primary {
+ background: linear-gradient(120deg, #7ecf69, #4f8f43);
+ color: #061108;
+ box-shadow: 0 10px 30px rgba(109, 166, 103, 0.32);
+ }
 
-      .cta-btn-secondary {
-        color: #dce9dc;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
+ .cta-btn-secondary {
+ color: #dce9dc;
+ background: rgba(255, 255, 255, 0.06);
+ border: 1px solid rgba(255, 255, 255, 0.2);
+ }
 
-      .cta-btn:hover,
-      .cta-btn:focus-visible {
-        transform: translateY(-2px);
-      }
+ .cta-btn:hover,
+ .cta-btn:focus-visible {
+ transform: translateY(-2px);
+ }
 
-      .concept-cinematic {
-        background:
-          linear-gradient(110deg, rgba(0, 0, 0, 0.7), rgba(5, 10, 8, 0.3)),
-          url('/assets/images/Hero-bg.PNG') center/cover no-repeat;
-      }
+ .concept-cinematic {
+ background:
+ linear-gradient(110deg, rgba(0, 0, 0, 0.7), rgba(5, 10, 8, 0.3)),
+ url('/assets/images/Hero-bg.PNG') center/cover no-repeat;
+ }
 
-      .concept-cinematic .field-line {
-        position: absolute;
-        inset: auto 0 18% 0;
-        height: 2px;
-        background: linear-gradient(90deg, transparent 12%, rgba(255, 255, 255, 0.95) 50%, transparent 88%);
-        animation: pulseLine 2.2s infinite ease-in-out;
-      }
+ .concept-cinematic .field-line {
+ position: absolute;
+ inset: auto 0 18% 0;
+ height: 2px;
+ background: linear-gradient(90deg, transparent 12%, rgba(255, 255, 255, 0.95) 50%, transparent 88%);
+ animation: pulseLine 2.2s infinite ease-in-out;
+ }
 
-      .concept-cinematic .confetti {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-      }
+ .concept-cinematic .confetti {
+ position: absolute;
+ inset: 0;
+ overflow: hidden;
+ }
 
-      .concept-cinematic .confetti span {
-        position: absolute;
-        width: 8px;
-        height: 16px;
-        background: rgba(135, 189, 114, 0.9);
-        opacity: 0;
-        animation: floatConfetti 4.8s linear infinite;
-      }
+ .concept-cinematic .confetti span {
+ position: absolute;
+ width: 8px;
+ height: 16px;
+ background: rgba(135, 189, 114, 0.9);
+ opacity: 0;
+ animation: floatConfetti 4.8s linear infinite;
+ }
 
-      .concept-cinematic .confetti span:nth-child(1) { left: 12%; animation-delay: 0.2s; }
-      .concept-cinematic .confetti span:nth-child(2) { left: 29%; animation-delay: 1.1s; }
-      .concept-cinematic .confetti span:nth-child(3) { left: 42%; animation-delay: 1.8s; }
-      .concept-cinematic .confetti span:nth-child(4) { left: 64%; animation-delay: 2.3s; }
-      .concept-cinematic .confetti span:nth-child(5) { left: 81%; animation-delay: 3.1s; }
+ .concept-cinematic .confetti span:nth-child(1) { left: 12%; animation-delay: 0.2s; }
+ .concept-cinematic .confetti span:nth-child(2) { left: 29%; animation-delay: 1.1s; }
+ .concept-cinematic .confetti span:nth-child(3) { left: 42%; animation-delay: 1.8s; }
+ .concept-cinematic .confetti span:nth-child(4) { left: 64%; animation-delay: 2.3s; }
+ .concept-cinematic .confetti span:nth-child(5) { left: 81%; animation-delay: 3.1s; }
 
-      .concept-product {
-        display: grid;
-        grid-template-columns: 1.15fr 1fr;
-        gap: 1.2rem;
-        align-items: center;
-      }
+ .concept-product {
+ display: grid;
+ grid-template-columns: 1.15fr 1fr;
+ gap: 1.2rem;
+ align-items: center;
+ }
 
-      .product-visual {
-        width: 100%;
-        max-width: 360px;
-        margin-inline: auto;
-        filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.55));
-        transform-origin: center bottom;
-        animation: cardRock 4s ease-in-out infinite;
-      }
+ .product-visual {
+ width: 100%;
+ max-width: 360px;
+ margin-inline: auto;
+ filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.55));
+ transform-origin: center bottom;
+ animation: cardRock 4s ease-in-out infinite;
+ }
 
-      .concept-story {
-        background:
-          linear-gradient(140deg, rgba(8, 10, 14, 0.92), rgba(13, 18, 20, 0.88)),
-          url('/assets/images/game-on-back-cover.jpg') center/cover no-repeat;
-      }
+ .concept-story {
+ background:
+ linear-gradient(140deg, rgba(8, 10, 14, 0.92), rgba(13, 18, 20, 0.88)),
+ url('/assets/images/game-on-back-cover.jpg') center/cover no-repeat;
+ }
 
-      .quote-line {
-        margin-top: 1rem;
-        padding-left: 1rem;
-        border-left: 3px solid rgba(135, 189, 114, 0.85);
-        color: #d7e2d8;
-        font-style: italic;
-      }
+ .quote-line {
+ margin-top: 1rem;
+ padding-left: 1rem;
+ border-left: 3px solid rgba(135, 189, 114, 0.85);
+ color: #d7e2d8;
+ font-style: italic;
+ }
 
-      .stat-strip {
-        margin-top: 1rem;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.8rem;
-      }
+ .stat-strip {
+ margin-top: 1rem;
+ display: grid;
+ grid-template-columns: repeat(3, minmax(0, 1fr));
+ gap: 0.8rem;
+ }
 
-      .stat-strip div {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 14px;
-        padding: 0.75rem;
-      }
+ .stat-strip div {
+ background: rgba(255, 255, 255, 0.05);
+ border: 1px solid rgba(255, 255, 255, 0.14);
+ border-radius: 14px;
+ padding: 0.75rem;
+ }
 
-      .stat-strip strong {
-        display: block;
-        color: var(--hero-accent-soft);
-        font-size: 1.25rem;
-      }
+ .stat-strip strong {
+ display: block;
+ color: var(--hero-accent-soft);
+ font-size: 1.25rem;
+ }
 
-      .concept-split {
-        background:
-          linear-gradient(170deg, rgba(8, 12, 15, 0.9), rgba(5, 7, 11, 0.95)),
-          radial-gradient(circle at 88% 15%, rgba(135, 189, 114, 0.17), transparent 35%);
-      }
+ .concept-split {
+ background:
+ linear-gradient(170deg, rgba(8, 12, 15, 0.9), rgba(5, 7, 11, 0.95)),
+ radial-gradient(circle at 88% 15%, rgba(135, 189, 114, 0.17), transparent 35%);
+ }
 
-      .feature-list {
-        margin: 1rem 0 0;
-        padding-left: 1.1rem;
-        color: var(--hero-muted);
-      }
+ .feature-list {
+ margin: 1rem 0 0;
+ padding-left: 1.1rem;
+ color: var(--hero-muted);
+ }
 
-      .feature-list li {
-        margin-bottom: 0.45rem;
-      }
+ .feature-list li {
+ margin-bottom: 0.45rem;
+ }
 
-      @keyframes floatConfetti {
-        0% { transform: translateY(-18px) rotate(0deg); opacity: 0; }
-        20% { opacity: 1; }
-        100% { transform: translateY(340px) rotate(180deg); opacity: 0; }
-      }
+ @keyframes floatConfetti {
+ 0% { transform: translateY(-18px) rotate(0deg); opacity: 0; }
+ 20% { opacity: 1; }
+ 100% { transform: translateY(340px) rotate(180deg); opacity: 0; }
+ }
 
-      @keyframes pulseLine {
-        0%, 100% { opacity: 0.35; }
-        50% { opacity: 0.92; }
-      }
+ @keyframes pulseLine {
+ 0%, 100% { opacity: 0.35; }
+ 50% { opacity: 0.92; }
+ }
 
-      @keyframes cardRock {
-        0%, 100% { transform: rotate(-1.25deg) translateY(0); }
-        50% { transform: rotate(1.25deg) translateY(-6px); }
-      }
+ @keyframes cardRock {
+ 0%, 100% { transform: rotate(-1.25deg) translateY(0); }
+ 50% { transform: rotate(1.25deg) translateY(-6px); }
+ }
 
-      @media (max-width: 900px) {
-        .concept-product {
-          grid-template-columns: 1fr;
-        }
+ @media (max-width: 900px) {
+ .concept-product {
+ grid-template-columns: 1fr;
+ }
 
-        .stat-strip {
-          grid-template-columns: 1fr;
-        }
-      }
+ .stat-strip {
+ grid-template-columns: 1fr;
+ }
+ }
 
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation: none !important;
-          transition: none !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="page-shell">
-      <header class="intro" aria-labelledby="updated-hero-title">
-        <p class="concept-tag">Updated Hero Page</p>
-        <h1 id="updated-hero-title">Hero Section <span>Concept Library</span></h1>
-        <p>
-          This page classifies and demonstrates several high-conversion hero directions for Daren Prince brand
-          campaigns. Every concept includes a message frame, visual motion treatment, and CTA stack.
-        </p>
-      </header>
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after {
+ animation: none !important;
+ transition: none !important;
+ }
+ }
+ </style>
+ </head>
+ <body>
+ <main class="page-shell">
+ <header class="intro" aria-labelledby="updated-hero-title">
+ <p class="concept-tag">Updated Hero Page</p>
+ <h1 id="updated-hero-title">Hero Section <span>Concept Library</span></h1>
+ <p>
+ This page classifies and demonstrates several high-conversion hero directions for Daren Prince brand
+ campaigns. Every concept includes a message frame, visual motion treatment, and CTA stack.
+ </p>
+ </header>
 
-      <section aria-label="Hero concept categories" class="classification-grid">
-        <article class="classification-card">
-          <h2>Cinematic</h2>
-          <p>Immersive visual-first hero built for launches, announcements, and high-attention storytelling.</p>
-        </article>
-        <article class="classification-card">
-          <h2>Product Stack</h2>
-          <p>Feature-forward hero pairing the core offer with platform distribution badges and quick-buy CTAs.</p>
-        </article>
-        <article class="classification-card">
-          <h2>Story + Trust</h2>
-          <p>Narrative-first hero that introduces voice, ethos, and social proof in one above-the-fold moment.</p>
-        </article>
-        <article class="classification-card">
-          <h2>Conversion Split</h2>
-          <p>Direct-response hero that balances emotional hooks, proof points, and a strong enrollment action.</p>
-        </article>
-      </section>
+ <section aria-label="Hero concept categories" class="classification-grid">
+ <article class="classification-card">
+ <h2>Cinematic</h2>
+ <p>Immersive visual-first hero built for launches, announcements, and high-attention storytelling.</p>
+ </article>
+ <article class="classification-card">
+ <h2>Product Stack</h2>
+ <p>Feature-forward hero pairing the core offer with platform distribution badges and quick-buy CTAs.</p>
+ </article>
+ <article class="classification-card">
+ <h2>Story + Trust</h2>
+ <p>Narrative-first hero that introduces voice, ethos, and social proof in one above-the-fold moment.</p>
+ </article>
+ <article class="classification-card">
+ <h2>Conversion Split</h2>
+ <p>Direct-response hero that balances emotional hooks, proof points, and a strong enrollment action.</p>
+ </article>
+ </section>
 
-      <section class="hero-stack" aria-label="Hero section samples">
-        <article class="hero-concept concept-cinematic" aria-labelledby="concept-cinematic-title">
-          <div class="confetti" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="field-line" aria-hidden="true"></div>
-          <div class="concept-content">
-            <p class="concept-tag">Cinematic Sports Energy Hero</p>
-            <h3 id="concept-cinematic-title">Own the Moment. <span>Command the Conversation.</span></h3>
-            <p>
-              A launch-ready headline treatment for premium campaigns. This style uses dramatic contrast, kinetic
-              particles, and a clean two-action CTA system to drive immediate intent.
-            </p>
-            <div class="cta-row">
-              <a class="cta-btn cta-btn-primary" href="/book.html">Get the Playbook</a>
-              <a class="cta-btn cta-btn-secondary" href="/contact.html">Book Coaching</a>
-            </div>
-          </div>
-        </article>
+ <section class="hero-stack" aria-label="Hero section samples">
+ <article class="hero-concept concept-cinematic" aria-labelledby="concept-cinematic-title">
+ <div class="confetti" aria-hidden="true">
+ <span></span><span></span><span></span><span></span><span></span>
+ </div>
+ <div class="field-line" aria-hidden="true"></div>
+ <div class="concept-content">
+ <p class="concept-tag">Cinematic Sports Energy Hero</p>
+ <h3 id="concept-cinematic-title">Own the Moment. <span>Command the Conversation.</span></h3>
+ <p>
+ A launch-ready headline treatment for premium campaigns. This style uses dramatic contrast, kinetic
+ particles, and a clean two-action CTA system to drive immediate intent.
+ </p>
+ <div class="cta-row">
+ <a class="cta-btn cta-btn-primary" href="/book.html">Get the Playbook</a>
+ <a class="cta-btn cta-btn-secondary" href="/contact.html">Book Coaching</a>
+ </div>
+ </div>
+ </article>
 
-        <article class="hero-concept concept-product" aria-labelledby="concept-product-title">
-          <div class="concept-content">
-            <p class="concept-tag">Product Stack Hero</p>
-            <h3 id="concept-product-title">Level Up <span>Your Dating Game</span></h3>
-            <p>
-              Designed for direct product visibility with tiered CTA pathways. Primary action pushes immediate
-              purchase while secondary and tertiary actions support platform preference.
-            </p>
-            <div class="cta-row">
-              <a class="cta-btn cta-btn-primary" href="https://www.amazon.com" target="_blank" rel="noreferrer">Buy on Amazon</a>
-              <a class="cta-btn cta-btn-secondary" href="https://books.apple.com" target="_blank" rel="noreferrer">Apple Books</a>
-              <a class="cta-btn cta-btn-secondary" href="https://play.google.com" target="_blank" rel="noreferrer">Google Play</a>
-            </div>
-          </div>
-          <img
-            class="product-visual"
-            src="/assets/images/levelup2.png"
-            alt="Game On book and digital device mockup"
-            loading="lazy"
-          />
-        </article>
+ <article class="hero-concept concept-product" aria-labelledby="concept-product-title">
+ <div class="concept-content">
+ <p class="concept-tag">Product Stack Hero</p>
+ <h3 id="concept-product-title">Level Up <span>Your Dating Game</span></h3>
+ <p>
+ Designed for direct product visibility with tiered CTA pathways. Primary action pushes immediate
+ purchase while secondary and tertiary actions support platform preference.
+ </p>
+ <div class="cta-row">
+ <a class="cta-btn cta-btn-primary" href="https://www.amazon.com" target="_blank" rel="noreferrer">Buy on Amazon</a>
+ <a class="cta-btn cta-btn-secondary" href="https://books.apple.com" target="_blank" rel="noreferrer">Apple Books</a>
+ <a class="cta-btn cta-btn-secondary" href="https://play.google.com" target="_blank" rel="noreferrer">Google Play</a>
+ </div>
+ </div>
+ <img
+ class="product-visual"
+ src="/assets/images/levelup2.png"
+ alt="Game On book and digital device mockup"
+ loading="lazy"
+ />
+ </article>
 
-        <article class="hero-concept concept-story" aria-labelledby="concept-story-title">
-          <div class="concept-content">
-            <p class="concept-tag">Story + Trust Hero</p>
-            <h3 id="concept-story-title">Real Psychology. <span>Real Connection.</span></h3>
-            <p>
-              This concept blends emotional resonance and authority. It introduces the promise, backs it with
-              transformation-focused metrics, and gives users a trust-forward action ladder.
-            </p>
-            <p class="quote-line">“This isn’t about tricks — it’s about becoming the kind of man women trust and choose.”</p>
-            <div class="stat-strip" aria-label="Sample proof metrics">
-              <div><strong>92%</strong><span>Report stronger first-date confidence.</span></div>
-              <div><strong>4.8★</strong><span>Average reader rating across channels.</span></div>
-              <div><strong>3x</strong><span>Increase in meaningful conversation quality.</span></div>
-            </div>
-            <div class="cta-row">
-              <a class="cta-btn cta-btn-primary" href="/meet-daren-prince.html">Meet Daren</a>
-              <a class="cta-btn cta-btn-secondary" href="/books/gameon.html">Read Sample Chapter</a>
-            </div>
-          </div>
-        </article>
+ <article class="hero-concept concept-story" aria-labelledby="concept-story-title">
+ <div class="concept-content">
+ <p class="concept-tag">Story + Trust Hero</p>
+ <h3 id="concept-story-title">Real Psychology. <span>Real Connection.</span></h3>
+ <p>
+ This concept blends emotional resonance and authority. It introduces the promise, backs it with
+ transformation-focused metrics, and gives users a trust-forward action ladder.
+ </p>
+ <p class="quote-line">“This isn’t about tricks, it’s about becoming the kind of man women trust and choose.”</p>
+ <div class="stat-strip" aria-label="Sample proof metrics">
+ <div><strong>92%</strong><span>Report stronger first-date confidence.</span></div>
+ <div><strong>4.8★</strong><span>Average reader rating across channels.</span></div>
+ <div><strong>3x</strong><span>Increase in meaningful conversation quality.</span></div>
+ </div>
+ <div class="cta-row">
+ <a class="cta-btn cta-btn-primary" href="/meet-daren-prince.html">Meet Daren</a>
+ <a class="cta-btn cta-btn-secondary" href="/books/gameon.html">Read Sample Chapter</a>
+ </div>
+ </div>
+ </article>
 
-        <article class="hero-concept concept-split" aria-labelledby="concept-split-title">
-          <div class="concept-content">
-            <p class="concept-tag">Conversion Split Hero</p>
-            <h3 id="concept-split-title">Stop Guessing. <span>Start Leading.</span></h3>
-            <p>
-              A decision-stage hero template focused on urgency and clarity. Great for ad traffic, retargeting
-              funnels, and list-building pages where one primary outcome matters most.
-            </p>
-            <ul class="feature-list">
-              <li>Lead with a bold problem statement + immediate relief angle.</li>
-              <li>Pair a high-contrast primary CTA with a softer “learn first” option.</li>
-              <li>Keep trust markers (reviews, logos, media mentions) in-frame.</li>
-            </ul>
-            <div class="cta-row">
-              <a class="cta-btn cta-btn-primary" href="/contact.html">Start Now</a>
-              <a class="cta-btn cta-btn-secondary" href="/components.html#hero">View Hero Components</a>
-            </div>
-          </div>
-        </article>
-      </section>
-    </main>
-  </body>
+ <article class="hero-concept concept-split" aria-labelledby="concept-split-title">
+ <div class="concept-content">
+ <p class="concept-tag">Conversion Split Hero</p>
+ <h3 id="concept-split-title">Stop Guessing. <span>Start Leading.</span></h3>
+ <p>
+ A decision-stage hero template focused on urgency and clarity. Great for ad traffic, retargeting
+ funnels, and list-building pages where one primary outcome matters most.
+ </p>
+ <ul class="feature-list">
+ <li>Lead with a bold problem statement + immediate relief angle.</li>
+ <li>Pair a high-contrast primary CTA with a softer “learn first” option.</li>
+ <li>Keep trust markers (reviews, logos, media mentions) in-frame.</li>
+ </ul>
+ <div class="cta-row">
+ <a class="cta-btn cta-btn-primary" href="/contact.html">Start Now</a>
+ <a class="cta-btn cta-btn-secondary" href="/components.html#hero">View Hero Components</a>
+ </div>
+ </div>
+ </article>
+ </section>
+ </main>
+ </body>
 </html>

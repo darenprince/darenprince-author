@@ -133,15 +133,18 @@ This app is **100% client-side** with no server validation. Tokens can be copied
 - `js/theme-toggle.js` wires the dark/light switch. Marketing pages ship with the toggle; admin utilities may omit it to save space.
 - `js/profile-dropdown.js` toggles the profile menu and routes visitors to login while auth is offline.
 - `js/ui.js` exposes toast + progress helpers:
-  ```html
-  <script type="module" src="/js/ui.js"></script>
-  ```
-  ```javascript
-  GameOnUI.showToast('Saved!', 'success')
-  const bar = document.querySelector('.progress')
-  GameOnUI.showProgress(bar)
-  GameOnUI.setProgress(bar, 50)
-  ```
+
+```html
+<script type="module" src="/js/ui.js"></script>
+```
+
+```javascript
+GameOnUI.showToast('Saved!', 'success')
+const bar = document.querySelector('.progress')
+GameOnUI.showProgress(bar)
+GameOnUI.setProgress(bar, 50)
+```
+
 - `components.html` now uses the shared navigation shell without the deprecated `js/mobile-nav.js` include, preventing legacy 404 noise in production.
 
 ---
@@ -200,17 +203,17 @@ _Adding a new token_
 ## 🌐 Site & File Structure
 
 ```plaintext
-📁 /assets/         # Logos, icons, images, compiled CSS
-📁 /scss/           # Modular SCSS (base, layout, components, utilities)
-📁 /js/             # Custom scripts (nav, theme toggle, auth placeholders, UI utilities)
-📁 /member/         # Gated content area (future)
-📁 /docs/           # Prompts, logic, visual guides, build notes, audits
-📁 /pages/          # Additional static page entries (e.g., search results)
-📄 index.html       # Primary homepage (Daren Prince Author)
-📄 labs.html        # Crown Labs landing page
-📄 components.html  # Master demo sheet for UI components
-📄 setup.sh         # Local setup script
-📄 CNAME            # GitHub Pages custom domain binding
+📁 /assets/ # Logos, icons, images, compiled CSS
+📁 /scss/ # Modular SCSS (base, layout, components, utilities)
+📁 /js/ # Custom scripts (nav, theme toggle, auth placeholders, UI utilities)
+📁 /member/ # Gated content area (future)
+📁 /docs/ # Prompts, logic, visual guides, build notes, audits
+📁 /pages/ # Additional static page entries (e.g., search results)
+📄 index.html # Primary homepage (Daren Prince Author)
+📄 labs.html # Crown Labs landing page
+📄 components.html # Master demo sheet for UI components
+📄 setup.sh # Local setup script
+📄 CNAME # GitHub Pages custom domain binding
 ```
 
 **Apple icon workflow**
@@ -235,17 +238,17 @@ _Adding a new token_
 
 Consult [`docs/SITE_STRUCTURE.md`](./docs/SITE_STRUCTURE.md) and [`docs/UI_COMPONENTS.md`](./docs/UI_COMPONENTS.md) for full coverage. Key surfaces include:
 
-- `index.html` — primary public author landing page (books, media, and brand story).
-- `contact.html` — modern author contact page with reader/media/speaking pathways, validated form handling, and GitHub Pages-safe metadata/social tags.
-- `labs.html` — Crown Labs experience with product, framework, and status modules.
-- `book.html` — tabbed format selector with trailer modal and 3D viewer.
-- `components.html` — live documentation for UI partials (add auth guard before exposing gated folders).
-- `dashboard.html` — member dashboard placeholder with migration messaging.
-- `admin-user-management.html` — admin console backed by the `admin-users` edge function.
-- `pages/search.html` — Minisearch-rendered results (requires seeded `/content/`).
-- `leanin.html` — Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
-- `ots.html` — Duck Calls one-time secret cockpit with OneTimeSecret API status checks, secure secret creation, and one-time retrieval workflow (client-only, GitHub Pages ready).
-- `updated-hero.html` — classified hero concept library with cinematic, product, story/trust, and conversion split demos (fully animated, GitHub Pages-ready static page with SEO metadata).
+- `index.html`, primary public author landing page (books, media, and brand story).
+- `contact.html`, modern author contact page with reader/media/speaking pathways, validated form handling, and GitHub Pages-safe metadata/social tags.
+- `labs.html`, Crown Labs experience with product, framework, and status modules.
+- `book.html`, tabbed format selector with trailer modal and 3D viewer.
+- `components.html`, live documentation for UI partials (add auth guard before exposing gated folders).
+- `dashboard.html`, member dashboard placeholder with migration messaging.
+- `admin-user-management.html`, admin console backed by the `admin-users` edge function.
+- `pages/search.html`, Minisearch-rendered results (requires seeded `/content/`).
+- `leanin.html`, Lean In therapeutic workbook with persistent login, autosave, local session archive support, and a scrollable pulldown workbook navigation menu (auto-flashes on load with a close control) that extrudes from the sticky header. Keep the Crown Psychology social preview metadata aligned with `/assets/images/IMG_8952.png` for GitHub Pages deploys.
+- `ots.html`, Duck Calls one-time secret cockpit with OneTimeSecret API status checks, secure secret creation, and one-time retrieval workflow (client-only, GitHub Pages ready).
+- `updated-hero.html`, classified hero concept library with cinematic, product, story/trust, and conversion split demos (fully animated, GitHub Pages-ready static page with SEO metadata).
 
 ---
 
@@ -293,11 +296,11 @@ Use bold, magnetic copy. Avoid fluff, gimmicks, or generic advice.
 ## 🚀 Development & Deployment
 
 ```bash
-./scripts/local_setup.sh   # install deps and compile once
-./scripts/start_dev.sh     # watch files & launch local static server
-npm run build:site         # build search → icons → images → Sass
-npm run watch              # watch Sass and rebuild CSS
-npm test                   # run Vitest suite
+./scripts/local_setup.sh # install deps and compile once
+./scripts/start_dev.sh # watch files & launch local static server
+npm run build:site # build search → icons → images → Sass
+npm run watch # watch Sass and rebuild CSS
+npm test # run Vitest suite
 ```
 
 Local preview with Python:
@@ -333,7 +336,7 @@ Pushing to `main` publishes the GitHub Pages site. GitHub Pages serves from the 
 - **Data platform:** [`docs/data-platform-migration.md`](./docs/data-platform-migration.md)
 - **Changelog:** [`docs/CHANGELOG_DOC_SYNC.md`](./docs/CHANGELOG_DOC_SYNC.md)
 
-Stay bold, stay accurate—keep docs in lockstep with the code.
+Stay bold, stay accurate, keep docs in lockstep with the code.
 
 ---
 
