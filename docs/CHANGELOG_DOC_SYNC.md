@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Featured rail full-bleed + tighter section snapping refinements (GitHub Pages-safe)
+
+- Updated homepage rail behavior (`js/main.js`) so the featured books shell/strip runs full-bleed to the viewport edges instead of staying constrained inside the previous centered max-width container.
+- Refined homepage mobile section snap motion (`js/homepage-rail-enhancements.js`) with a wider 40% section-break capture zone, lower-friction smooth snap timing, and a subtle two-step bounce settle.
+- Added tighter book listing snap control on `book.html` via `js/book-page.js`, making section transitions feel more like a guided vertical rail with reduced overscroll play and better section anchoring.
+
 ## 2026-04-16 — Homepage featured rail upcoming spine + books-card iOS radius + hero image preloader (GitHub Pages-safe)
 
 - Updated `index.html` featured rail copy and structure to:
