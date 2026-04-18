@@ -62,6 +62,16 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 - `npm run dev` now starts Sass watch + Vite together to prevent stale CSS during development.
 - Before push, run `npm run styles:build` (or `npm run build:site`) so GitHub Pages serves latest style changes.
 
+### Stylesheet ownership matrix
+
+- `assets/styles.css`: Global marketing site + shared page shell (source: `scss/styles.scss`).
+- `assets/labs.css`: Crown Labs landing page only (`labs.html`).
+- `assets/labs-product.css`: Generated product brief pages in `labs/products/`.
+- `emergency-911/dist/911.css`: Emergency 911 app surface only.
+- `nexuswho-assets/nexuswho.css`: React/Vite output for `nexuswho.html` only.
+
+If a visual change appears to be ignored, verify you edited the stylesheet owned by that page before rebuilding.
+
 ## Local development workflow
 
 1. `./scripts/local_setup.sh` — installs dependencies, ensures Sass, and compiles `assets/styles.css` once.

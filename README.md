@@ -29,6 +29,16 @@ This project exists to:
 - **Use `npm run dev`** to run Vite and Sass watch together, or run `npm run styles:build` before committing.
 - If you edit SCSS but do not rebuild `assets/styles.css`, GitHub Pages will continue serving the previous committed CSS.
 
+### Active stylesheet map (deployment)
+
+- **Primary site bundle:** `assets/styles.css` (compiled from `scss/styles.scss`).
+- **Labs landing:** `assets/labs.css` (purpose-built for `labs.html`).
+- **Labs product briefs:** `assets/labs-product.css` (used by `labs/products/*.html`).
+- **911 experience:** `emergency-911/dist/911.css` (isolated app surface).
+- **Nexus Who app:** `nexuswho-assets/nexuswho.css` (Vite output from `src/nexuswho/index.css`).
+
+Everything else is either generated, archived, or app-specific and should not be treated as the global style source of truth.
+
 ## 🔧 Stack Overview
 
 | Layer         | Details                                                                                                                          |
@@ -132,7 +142,7 @@ This app is **100% client-side** with no server validation. Tokens can be copied
   GameOnUI.showProgress(bar)
   GameOnUI.setProgress(bar, 50)
   ```
-- `components.html` still references `./js/mobile-nav.js`, but that file was removed. Remove the tag or restore the module to avoid 404s.
+- `components.html` now uses the shared navigation shell without the deprecated `js/mobile-nav.js` include, preventing legacy 404 noise in production.
 
 ---
 

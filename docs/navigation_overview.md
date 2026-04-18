@@ -62,7 +62,7 @@ Run `npm run build` (or the `watch` script) after editing any of these partials.
 - `js/theme-toggle.js` — switches `.theme-dark`/`.theme-light` and persists the choice in `localStorage`.
 - `js/search.js` (from `src/js/`) — powers the autocomplete dropdown in pages that include the `[data-search]` widget.
 
-> **Reality Check:** `components.html` still includes `<script src="./js/mobile-nav.js"></script>` even though the file was removed. Remove the tag or restore the script to avoid 404s.
+> **Reality Check:** `components.html` now relies on the shared navigation scripts only; the legacy `js/mobile-nav.js` include has been removed to avoid runtime 404s.
 
 ## 4. External dependencies
 
