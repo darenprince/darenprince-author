@@ -1,419 +1,419 @@
 <!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
-    <script>
-      (function () {
-        const html = document.documentElement;
-        const explicitRoot = html.getAttribute('data-site-root');
-        const host = window.location.hostname || '';
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
-        let prefix = '';
-        if (normalizedExplicit) {
-          prefix = '/' + normalizedExplicit;
-        } else if (host.endsWith('.github.io') && pathSegments.length) {
-          prefix = '/' + pathSegments[0];
-        }
-        const firstSegment = pathSegments[0] || '';
-        const shouldUsePrefix =
-          Boolean(prefix) &&
-          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
-        if (!shouldUsePrefix || prefix === '/') {
-          html.dataset.assetPrefix = '';
-          return;
-        }
-        if (prefix.endsWith('/')) {
-          prefix = prefix.slice(0, -1);
-        }
-        html.dataset.assetPrefix = prefix;
-        const URL_ATTRS = new Map([
-          ['A', ['href']],
-          ['LINK', ['href']],
-          ['SCRIPT', ['src']],
-          ['IMG', ['src', 'srcset']],
-          ['SOURCE', ['src', 'srcset']],
-          ['VIDEO', ['src', 'poster']],
-          ['AUDIO', ['src']],
-          ['IFRAME', ['src']],
-          ['USE', ['href', 'xlink:href']],
-          ['FORM', ['action']],
-        ]);
-        const shouldIgnore = (value) =>
-          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
-        const resolve = (value) => {
-          if (!value || shouldIgnore(value)) return value;
-          if (value === prefix || value.startsWith(prefix + '/')) {
-            return value;
-          }
-          if (value.startsWith('/')) {
-            return prefix + value;
-          }
-          return value;
-        };
-        const patchSrcset = (value) =>
-          value
-            .split(',')
-            .map((chunk) => {
-              const parts = chunk.trim().split(/\s+/);
-              if (!parts.length || !parts[0]) {
-                return chunk;
-              }
-              parts[0] = resolve(parts[0]);
-              return parts.join(' ');
-            })
-            .join(', ');
-        const patchNode = (node) => {
-          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
-          const attrs = URL_ATTRS.get(node.tagName);
-          if (!attrs) return;
-          for (const attr of attrs) {
-            const current = node.getAttribute(attr);
-            if (!current) continue;
-            if (attr === 'srcset') {
-              const next = patchSrcset(current);
-              if (next !== current) {
-                node.setAttribute(attr, next);
-              }
-              continue;
-            }
-            const next = resolve(current);
-            if (next === current) continue;
-            if (node.tagName === 'SCRIPT' && attr === 'src') {
-              const replacement = document.createElement('script');
-              node.getAttributeNames().forEach((name) => {
-                if (name === 'src') return;
-                replacement.setAttribute(name, node.getAttribute(name));
-              });
-              replacement.src = next;
-              if (node.parentNode) {
-                node.parentNode.insertBefore(replacement, node.nextSibling);
-              } else {
-                document.head.appendChild(replacement);
-              }
-              node.remove();
-            } else {
-              node.setAttribute(attr, next);
-            }
-          }
-        };
-        const patchSubtree = (root) => {
-          if (!root || !root.querySelectorAll) return;
-          URL_ATTRS.forEach((_, tag) => {
-            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
-          });
-        };
-        const observer = new MutationObserver((records) => {
-          records.forEach((record) => {
-            record.addedNodes.forEach((added) => {
-              if (added.nodeType === Node.ELEMENT_NODE) {
-                patchNode(added);
-                if (added.querySelectorAll) {
-                  added.querySelectorAll('*').forEach(patchNode);
-                }
-              }
-            });
-          });
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        const finalize = () => {
-          patchSubtree(document);
-          observer.disconnect();
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', finalize, { once: true });
-        } else {
-          finalize();
-        }
-      })();
-    </script>
+ <script>
+ (function () {
+ const html = document.documentElement;
+ const explicitRoot = html.getAttribute('data-site-root');
+ const host = window.location.hostname || '';
+ const pathSegments = window.location.pathname.split('/').filter(Boolean);
+ const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+ let prefix = '';
+ if (normalizedExplicit) {
+ prefix = '/' + normalizedExplicit;
+ } else if (host.endsWith('.github.io') && pathSegments.length) {
+ prefix = '/' + pathSegments[0];
+ }
+ const firstSegment = pathSegments[0] || '';
+ const shouldUsePrefix =
+ Boolean(prefix) &&
+ (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+ if (!shouldUsePrefix || prefix === '/') {
+ html.dataset.assetPrefix = '';
+ return;
+ }
+ if (prefix.endsWith('/')) {
+ prefix = prefix.slice(0, -1);
+ }
+ html.dataset.assetPrefix = prefix;
+ const URL_ATTRS = new Map([
+ ['A', ['href']],
+ ['LINK', ['href']],
+ ['SCRIPT', ['src']],
+ ['IMG', ['src', 'srcset']],
+ ['SOURCE', ['src', 'srcset']],
+ ['VIDEO', ['src', 'poster']],
+ ['AUDIO', ['src']],
+ ['IFRAME', ['src']],
+ ['USE', ['href', 'xlink:href']],
+ ['FORM', ['action']],
+ ]);
+ const shouldIgnore = (value) =>
+ !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+ const resolve = (value) => {
+ if (!value || shouldIgnore(value)) return value;
+ if (value === prefix || value.startsWith(prefix + '/')) {
+ return value;
+ }
+ if (value.startsWith('/')) {
+ return prefix + value;
+ }
+ return value;
+ };
+ const patchSrcset = (value) =>
+ value
+ .split(', ')
+ .map((chunk) => {
+ const parts = chunk.trim().split(/\s+/);
+ if (!parts.length || !parts[0]) {
+ return chunk;
+ }
+ parts[0] = resolve(parts[0]);
+ return parts.join(' ');
+ })
+ .join(', ');
+ const patchNode = (node) => {
+ if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+ const attrs = URL_ATTRS.get(node.tagName);
+ if (!attrs) return;
+ for (const attr of attrs) {
+ const current = node.getAttribute(attr);
+ if (!current) continue;
+ if (attr === 'srcset') {
+ const next = patchSrcset(current);
+ if (next !== current) {
+ node.setAttribute(attr, next);
+ }
+ continue;
+ }
+ const next = resolve(current);
+ if (next === current) continue;
+ if (node.tagName === 'SCRIPT' && attr === 'src') {
+ const replacement = document.createElement('script');
+ node.getAttributeNames().forEach((name) => {
+ if (name === 'src') return;
+ replacement.setAttribute(name, node.getAttribute(name));
+ });
+ replacement.src = next;
+ if (node.parentNode) {
+ node.parentNode.insertBefore(replacement, node.nextSibling);
+ } else {
+ document.head.appendChild(replacement);
+ }
+ node.remove();
+ } else {
+ node.setAttribute(attr, next);
+ }
+ }
+ };
+ const patchSubtree = (root) => {
+ if (!root || !root.querySelectorAll) return;
+ URL_ATTRS.forEach((_, tag) => {
+ root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+ });
+ };
+ const observer = new MutationObserver((records) => {
+ records.forEach((record) => {
+ record.addedNodes.forEach((added) => {
+ if (added.nodeType === Node.ELEMENT_NODE) {
+ patchNode(added);
+ if (added.querySelectorAll) {
+ added.querySelectorAll('*').forEach(patchNode);
+ }
+ }
+ });
+ });
+ });
+ observer.observe(document.documentElement, { childList: true, subtree: true });
+ const finalize = () => {
+ patchSubtree(document);
+ observer.disconnect();
+ };
+ if (document.readyState === 'loading') {
+ document.addEventListener('DOMContentLoaded', finalize, { once: true });
+ } else {
+ finalize();
+ }
+ })();
+ </script>
 
 
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries</title>
-    <meta name="description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
-    <meta property="og:title" content="Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries">
-    <meta property="og:description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
-    <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1366">
-    <meta property="og:image:height" content="767">
-    <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://www.darenprince.com/contact.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries">
-    <meta name="twitter:description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
-    <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-    <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
-    <link rel="canonical" href="https://www.darenprince.com/contact.html">
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "Contact Daren Prince",
-      "url": "https://darenprince.com/contact",
-    "mainEntity": {
-      "@type": "Person",
-      "name": "Daren Prince",
-        "url": "https://darenprince.com"
-    },
-    "description": "Use this page to contact author Daren Prince for media, podcast, coaching, or collaboration opportunities. Expect a personal reply if it’s real."
-  }
-  </script>
-  <!-- Apple PWA + Safari enhancements -->
-    <!-- Smart App banner is rendered by js/main.js -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
-    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#456f3a">
-    <meta name="application-name" content="Daren Prince Official Site">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Daren Prince">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
-    <meta name="msapplication-TileColor" content="#456f3a">
-    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
-    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
-  <!-- End Apple PWA + Safari enhancements -->
-<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries</title>
+ <meta name="description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
+ <meta property="og:title" content="Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries">
+ <meta property="og:description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
+ <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta property="og:image:type" content="image/png">
+ <meta property="og:image:width" content="1366">
+ <meta property="og:image:height" content="767">
+ <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+ <meta property="og:type" content="article">
+ <meta property="og:url" content="https://www.darenprince.com/contact.html">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Contact Daren Prince | Media, Coaching &amp; Speaking Inquiries">
+ <meta name="twitter:description" content="Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.">
+ <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+ <link rel="canonical" href="https://www.darenprince.com/contact.html">
+ <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "ContactPage",
+ "name": "Contact Daren Prince",
+ "url": "https://darenprince.com/contact",
+ "mainEntity": {
+ "@type": "Person",
+ "name": "Daren Prince",
+ "url": "https://darenprince.com"
+ },
+ "description": "Use this page to contact author Daren Prince for media, podcast, coaching, or collaboration opportunities. Expect a personal reply if it’s real."
+ }
+ </script>
+ <!-- Apple PWA + Safari enhancements -->
+ <!-- Smart App banner is rendered by js/main.js -->
+ <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+ <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+ <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+ <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+ <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="theme-color" content="#456f3a">
+ <meta name="application-name" content="Daren Prince Official Site">
+ <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+ <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+ <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+ <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+ <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+ <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+ <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+ <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+ <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+ <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta name="apple-mobile-web-app-title" content="Daren Prince">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+ <meta name="msapplication-TileColor" content="#456f3a">
+ <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+ <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+ <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+ <!-- End Apple PWA + Safari enhancements -->
+<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Contact Daren Prince | Media, Coaching & Speaking Inquiries",
-  "description": "Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://www.darenprince.com/contact.html"
-  },
-  "publisher": {
-    "@id": "https://www.darenprince.com#organization"
-  },
-  "author": {
-    "@id": "https://www.darenprince.com#author"
-  },
-  "image": "https://www.darenprince.com/assets/images/og-daren-prince.png"
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Contact Daren Prince | Media, Coaching & Speaking Inquiries",
+ "description": "Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://www.darenprince.com/contact.html"
+ },
+ "publisher": {
+ "@id": "https://www.darenprince.com#organization"
+ },
+ "author": {
+ "@id": "https://www.darenprince.com#author"
+ },
+ "image": "https://www.darenprince.com/assets/images/og-daren-prince.png"
 }</script>
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Contact.html",
-      "item": "https://www.darenprince.com/contact.html/"
-    }
-  ]
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Contact.html",
+ "item": "https://www.darenprince.com/contact.html/"
+ }
+ ]
 }</script></head>
 <body class="theme-dark">
-  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
-    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
-    <ul class="mega-menu-list">
-      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
-      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
-      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
-      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
-      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
-      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
-      <li><a href="contact.html" class="active"><i class="ph ph-envelope"></i>Contact</a></li>
-      <li class="social-row">
-        <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
-        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-        <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
-        <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
-      </li>
-      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
-    </ul>
-  </nav>
-  <div class="menu-overlay js-menu-overlay"></div>
+ <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+ <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+ <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+ <ul class="mega-menu-list">
+ <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+ <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+ <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+ <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+ <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+ <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+ <li><a href="contact.html" class="active"><i class="ph ph-envelope"></i>Contact</a></li>
+ <li class="social-row">
+ <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+ <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+ <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+ <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+ </li>
+ <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+ </ul>
+ </nav>
+ <div class="menu-overlay js-menu-overlay"></div>
 <div class="site-wrap">
-          <div data-shared-header=""></div>
+ <div data-shared-header=""></div>
 
-  <main class="contact-page">
-    <section class="contact-hero">
-      <div class="container max-width-adaptive-lg contact-hero__content">
-        <span class="contact-hero__eyebrow">Contact</span>
-        <h1 class="contact-hero__title styledh1 brand-heading"><span class="brand-heading__emphasis">Connect with Daren Prince</span><br><span class="brand-heading__base">for readers, media, and events</span></h1>
-        <p class="contact-hero__subtitle">
-          If you're reaching out about interviews, podcast appearances, speaking engagements, or reader support,
-          this is the best place to start. Share clear context and we’ll reply with next steps.
-        </p>
-        <div class="contact-hero__meta">
-          <span><i class="ph ph-envelope"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></span>
-          <span><i class="ph ph-clock"></i>Typical response time: <strong>1–2 business days</strong></span>
-        </div>
-      </div>
-    </section>
+ <main class="contact-page">
+ <section class="contact-hero">
+ <div class="container max-width-adaptive-lg contact-hero__content">
+ <span class="contact-hero__eyebrow">Contact</span>
+ <h1 class="contact-hero__title styledh1 brand-heading"><span class="brand-heading__emphasis">Connect with Daren Prince</span><br><span class="brand-heading__base">for readers, media, and events</span></h1>
+ <p class="contact-hero__subtitle">
+ If you're reaching out about interviews, podcast appearances, speaking engagements, or reader support,
+ this is the best place to start. Share clear context and we’ll reply with next steps.
+ </p>
+ <div class="contact-hero__meta">
+ <span><i class="ph ph-envelope"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></span>
+ <span><i class="ph ph-clock"></i>Typical response time: <strong>1 to 2 business days</strong></span>
+ </div>
+ </div>
+ </section>
 
-    <section class="contact-direct" aria-label="Contact options">
-      <div class="container max-width-adaptive-lg contact-direct__grid">
-        <article class="contact-card">
-          <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-microphone-stage"></i></span>
-          <h2>Media &amp; podcast requests</h2>
-          <p>Book interviews, guest features, and press opportunities connected to Daren’s books and brand.</p>
-          <ul class="contact-card__list">
-            <li><i class="ph ph-camera"></i><a href="/press.html">Press kit and media page</a></li>
-            <li><i class="ph ph-envelope-simple"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
-          </ul>
-        </article>
+ <section class="contact-direct" aria-label="Contact options">
+ <div class="container max-width-adaptive-lg contact-direct__grid">
+ <article class="contact-card">
+ <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-microphone-stage"></i></span>
+ <h2>Media &amp; podcast requests</h2>
+ <p>Book interviews, guest features, and press opportunities connected to Daren’s books and brand.</p>
+ <ul class="contact-card__list">
+ <li><i class="ph ph-camera"></i><a href="/press.html">Press kit and media page</a></li>
+ <li><i class="ph ph-envelope-simple"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
+ </ul>
+ </article>
 
-        <article class="contact-card">
-          <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-users-three"></i></span>
-          <h2>Speaking &amp; collaborations</h2>
-          <p>Invite Daren for speaking events, workshops, author sessions, or strategic collaborations.</p>
-          <ul class="contact-card__list">
-            <li><i class="ph ph-calendar-check"></i>Include event date, city, and expected audience size</li>
-            <li><i class="ph ph-paper-plane-tilt"></i>Use the form below for all booking inquiries</li>
-          </ul>
-        </article>
+ <article class="contact-card">
+ <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-users-three"></i></span>
+ <h2>Speaking &amp; collaborations</h2>
+ <p>Invite Daren for speaking events, workshops, author sessions, or strategic collaborations.</p>
+ <ul class="contact-card__list">
+ <li><i class="ph ph-calendar-check"></i>Include event date, city, and expected audience size</li>
+ <li><i class="ph ph-paper-plane-tilt"></i>Use the form below for all booking inquiries</li>
+ </ul>
+ </article>
 
-        <article class="contact-card contact-card--highlight">
-          <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-book-open-text"></i></span>
-          <h2>Reader support</h2>
-          <p>Questions about Game On!, signed copies, bulk orders, or bookstore partnerships are welcome.</p>
-          <ul class="contact-card__list">
-            <li><i class="ph ph-bookmark-simple"></i><a href="/book.html">View current book options</a></li>
-            <li><i class="ph ph-link"></i><a href="https://www.amazon.com/author/darenprince" target="_blank" rel="noopener">Author profile on Amazon</a></li>
-          </ul>
-        </article>
-      </div>
-    </section>
+ <article class="contact-card contact-card--highlight">
+ <span class="contact-card__icon" aria-hidden="true"><i class="ph ph-book-open-text"></i></span>
+ <h2>Reader support</h2>
+ <p>Questions about Game On!, signed copies, bulk orders, or bookstore partnerships are welcome.</p>
+ <ul class="contact-card__list">
+ <li><i class="ph ph-bookmark-simple"></i><a href="/book.html">View current book options</a></li>
+ <li><i class="ph ph-link"></i><a href="https://www.amazon.com/author/darenprince" target="_blank" rel="noopener">Author profile on Amazon</a></li>
+ </ul>
+ </article>
+ </div>
+ </section>
 
-    <section class="contact-form-section" aria-labelledby="contact-form-heading">
-      <div class="container max-width-adaptive-lg">
-        <div class="contact-form__layout">
-          <aside class="contact-form__sidebar">
-            <h2 id="contact-form-heading">Send your message</h2>
-            <p>
-              The more specific your message, the faster the team can route it correctly. Include links,
-              event details, or deadlines when relevant.
-            </p>
-            <div class="contact-meta">
-              <div class="contact-meta__item">
-                <span class="contact-meta__label">Best email</span>
-                <span class="contact-meta__value"><i class="ph ph-envelope"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></span>
-              </div>
-              <div class="contact-meta__item">
-                <span class="contact-meta__label">Availability</span>
-                <span class="contact-meta__value"><i class="ph ph-check-circle"></i>Open for interviews and speaking requests</span>
-              </div>
-              <div class="contact-meta__item">
-                <span class="contact-meta__label">Follow</span>
-                <span class="contact-meta__value contact-meta__social">
-                  <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
-                  <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-                  <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
-                  <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
-                </span>
-              </div>
-            </div>
-          </aside>
+ <section class="contact-form-section" aria-labelledby="contact-form-heading">
+ <div class="container max-width-adaptive-lg">
+ <div class="contact-form__layout">
+ <aside class="contact-form__sidebar">
+ <h2 id="contact-form-heading">Send your message</h2>
+ <p>
+ The more specific your message, the faster the team can route it correctly. Include links,
+ event details, or deadlines when relevant.
+ </p>
+ <div class="contact-meta">
+ <div class="contact-meta__item">
+ <span class="contact-meta__label">Best email</span>
+ <span class="contact-meta__value"><i class="ph ph-envelope"></i><a href="mailto:press@darenprince.com">press@darenprince.com</a></span>
+ </div>
+ <div class="contact-meta__item">
+ <span class="contact-meta__label">Availability</span>
+ <span class="contact-meta__value"><i class="ph ph-check-circle"></i>Open for interviews and speaking requests</span>
+ </div>
+ <div class="contact-meta__item">
+ <span class="contact-meta__label">Follow</span>
+ <span class="contact-meta__value contact-meta__social">
+ <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+ <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+ <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+ <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+ </span>
+ </div>
+ </div>
+ </aside>
 
-          <div class="contact-form__content">
-            <form id="contact-form" class="contact-form" novalidate="">
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" id="name" name="name" autocomplete="name" required="">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email" autocomplete="email" required="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="topic">Subject</label>
-                <select id="topic" name="topic" required="">
-                  <option value="General Inquiry" selected="">General inquiry</option>
-                  <option value="Media Request">Media request</option>
-                  <option value="Speaking Invitation">Speaking invitation</option>
-                  <option value="Book Support">Book support</option>
-                  <option value="Collaboration">Collaboration</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="7" maxlength="1200" required=""></textarea>
-                <div class="form-help">
-                  <span class="form-help__hint">Aim for at least 30 characters so we can respond with context.</span>
-                  <span class="form-help__counter" data-char-count="">0/1200</span>
-                </div>
-              </div>
-              <label class="checkbox-inline">
-                <input type="checkbox" id="subscribe" name="subscribe">
-                <span>Send me occasional updates from Daren Prince.</span>
-              </label>
-              <input type="hidden" id="source" name="source" value="contact-page">
-              <button type="submit" class="btn btn--primary btn--lg">Send message</button>
-              <p class="form-status" aria-live="polite"></p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-    <div data-shared-footer=""></div>
-  </div>
-  <script type="module" src="/js/ui.js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="/js/profile-dropdown.js"></script>
-  <script src="/js/theme-toggle.js"></script>
-  <script type="module" src="/js/contact.js"></script>
-  <script type="module" src="/js/site-shell.js"></script>
-  <script type="module" src="/js/main.js"></script>
+ <div class="contact-form__content">
+ <form id="contact-form" class="contact-form" novalidate="">
+ <div class="form-grid">
+ <div class="form-group">
+ <label for="name">Name</label>
+ <input type="text" id="name" name="name" autocomplete="name" required="">
+ </div>
+ <div class="form-group">
+ <label for="email">Email</label>
+ <input type="email" id="email" name="email" autocomplete="email" required="">
+ </div>
+ </div>
+ <div class="form-group">
+ <label for="topic">Subject</label>
+ <select id="topic" name="topic" required="">
+ <option value="General Inquiry" selected="">General inquiry</option>
+ <option value="Media Request">Media request</option>
+ <option value="Speaking Invitation">Speaking invitation</option>
+ <option value="Book Support">Book support</option>
+ <option value="Collaboration">Collaboration</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label for="message">Message</label>
+ <textarea id="message" name="message" rows="7" maxlength="1200" required=""></textarea>
+ <div class="form-help">
+ <span class="form-help__hint">Aim for at least 30 characters so we can respond with context.</span>
+ <span class="form-help__counter" data-char-count="">0/1200</span>
+ </div>
+ </div>
+ <label class="checkbox-inline">
+ <input type="checkbox" id="subscribe" name="subscribe">
+ <span>Send me occasional updates from Daren Prince.</span>
+ </label>
+ <input type="hidden" id="source" name="source" value="contact-page">
+ <button type="submit" class="btn btn--primary btn--lg">Send message</button>
+ <p class="form-status" aria-live="polite"></p>
+ </form>
+ </div>
+ </div>
+ </div>
+ </section>
+ </main>
+ <div data-shared-footer=""></div>
+ </div>
+ <script type="module" src="/js/ui.js"></script>
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script type="module" src="/js/profile-dropdown.js"></script>
+ <script src="/js/theme-toggle.js"></script>
+ <script type="module" src="/js/contact.js"></script>
+ <script type="module" src="/js/site-shell.js"></script>
+ <script type="module" src="/js/main.js"></script>
 
 
 

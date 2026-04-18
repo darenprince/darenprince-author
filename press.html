@@ -1,494 +1,494 @@
 <!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
-    <script>
-      (function () {
-        const html = document.documentElement;
-        const explicitRoot = html.getAttribute('data-site-root');
-        const host = window.location.hostname || '';
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
-        let prefix = '';
-        if (normalizedExplicit) {
-          prefix = '/' + normalizedExplicit;
-        } else if (host.endsWith('.github.io') && pathSegments.length) {
-          prefix = '/' + pathSegments[0];
-        }
-        const firstSegment = pathSegments[0] || '';
-        const shouldUsePrefix =
-          Boolean(prefix) &&
-          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
-        if (!shouldUsePrefix || prefix === '/') {
-          html.dataset.assetPrefix = '';
-          return;
-        }
-        if (prefix.endsWith('/')) {
-          prefix = prefix.slice(0, -1);
-        }
-        html.dataset.assetPrefix = prefix;
-        const URL_ATTRS = new Map([
-          ['A', ['href']],
-          ['LINK', ['href']],
-          ['SCRIPT', ['src']],
-          ['IMG', ['src', 'srcset']],
-          ['SOURCE', ['src', 'srcset']],
-          ['VIDEO', ['src', 'poster']],
-          ['AUDIO', ['src']],
-          ['IFRAME', ['src']],
-          ['USE', ['href', 'xlink:href']],
-          ['FORM', ['action']],
-        ]);
-        const shouldIgnore = (value) =>
-          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
-        const resolve = (value) => {
-          if (!value || shouldIgnore(value)) return value;
-          if (value === prefix || value.startsWith(prefix + '/')) {
-            return value;
-          }
-          if (value.startsWith('/')) {
-            return prefix + value;
-          }
-          return value;
-        };
-        const patchSrcset = (value) =>
-          value
-            .split(',')
-            .map((chunk) => {
-              const parts = chunk.trim().split(/\s+/);
-              if (!parts.length || !parts[0]) {
-                return chunk;
-              }
-              parts[0] = resolve(parts[0]);
-              return parts.join(' ');
-            })
-            .join(', ');
-        const patchNode = (node) => {
-          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
-          const attrs = URL_ATTRS.get(node.tagName);
-          if (!attrs) return;
-          for (const attr of attrs) {
-            const current = node.getAttribute(attr);
-            if (!current) continue;
-            if (attr === 'srcset') {
-              const next = patchSrcset(current);
-              if (next !== current) {
-                node.setAttribute(attr, next);
-              }
-              continue;
-            }
-            const next = resolve(current);
-            if (next === current) continue;
-            if (node.tagName === 'SCRIPT' && attr === 'src') {
-              const replacement = document.createElement('script');
-              node.getAttributeNames().forEach((name) => {
-                if (name === 'src') return;
-                replacement.setAttribute(name, node.getAttribute(name));
-              });
-              replacement.src = next;
-              if (node.parentNode) {
-                node.parentNode.insertBefore(replacement, node.nextSibling);
-              } else {
-                document.head.appendChild(replacement);
-              }
-              node.remove();
-            } else {
-              node.setAttribute(attr, next);
-            }
-          }
-        };
-        const patchSubtree = (root) => {
-          if (!root || !root.querySelectorAll) return;
-          URL_ATTRS.forEach((_, tag) => {
-            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
-          });
-        };
-        const observer = new MutationObserver((records) => {
-          records.forEach((record) => {
-            record.addedNodes.forEach((added) => {
-              if (added.nodeType === Node.ELEMENT_NODE) {
-                patchNode(added);
-                if (added.querySelectorAll) {
-                  added.querySelectorAll('*').forEach(patchNode);
-                }
-              }
-            });
-          });
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        const finalize = () => {
-          patchSubtree(document);
-          observer.disconnect();
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', finalize, { once: true });
-        } else {
-          finalize();
-        }
-      })();
-    </script>
+ <script>
+ (function () {
+ const html = document.documentElement;
+ const explicitRoot = html.getAttribute('data-site-root');
+ const host = window.location.hostname || '';
+ const pathSegments = window.location.pathname.split('/').filter(Boolean);
+ const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+ let prefix = '';
+ if (normalizedExplicit) {
+ prefix = '/' + normalizedExplicit;
+ } else if (host.endsWith('.github.io') && pathSegments.length) {
+ prefix = '/' + pathSegments[0];
+ }
+ const firstSegment = pathSegments[0] || '';
+ const shouldUsePrefix =
+ Boolean(prefix) &&
+ (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+ if (!shouldUsePrefix || prefix === '/') {
+ html.dataset.assetPrefix = '';
+ return;
+ }
+ if (prefix.endsWith('/')) {
+ prefix = prefix.slice(0, -1);
+ }
+ html.dataset.assetPrefix = prefix;
+ const URL_ATTRS = new Map([
+ ['A', ['href']],
+ ['LINK', ['href']],
+ ['SCRIPT', ['src']],
+ ['IMG', ['src', 'srcset']],
+ ['SOURCE', ['src', 'srcset']],
+ ['VIDEO', ['src', 'poster']],
+ ['AUDIO', ['src']],
+ ['IFRAME', ['src']],
+ ['USE', ['href', 'xlink:href']],
+ ['FORM', ['action']],
+ ]);
+ const shouldIgnore = (value) =>
+ !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+ const resolve = (value) => {
+ if (!value || shouldIgnore(value)) return value;
+ if (value === prefix || value.startsWith(prefix + '/')) {
+ return value;
+ }
+ if (value.startsWith('/')) {
+ return prefix + value;
+ }
+ return value;
+ };
+ const patchSrcset = (value) =>
+ value
+ .split(', ')
+ .map((chunk) => {
+ const parts = chunk.trim().split(/\s+/);
+ if (!parts.length || !parts[0]) {
+ return chunk;
+ }
+ parts[0] = resolve(parts[0]);
+ return parts.join(' ');
+ })
+ .join(', ');
+ const patchNode = (node) => {
+ if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+ const attrs = URL_ATTRS.get(node.tagName);
+ if (!attrs) return;
+ for (const attr of attrs) {
+ const current = node.getAttribute(attr);
+ if (!current) continue;
+ if (attr === 'srcset') {
+ const next = patchSrcset(current);
+ if (next !== current) {
+ node.setAttribute(attr, next);
+ }
+ continue;
+ }
+ const next = resolve(current);
+ if (next === current) continue;
+ if (node.tagName === 'SCRIPT' && attr === 'src') {
+ const replacement = document.createElement('script');
+ node.getAttributeNames().forEach((name) => {
+ if (name === 'src') return;
+ replacement.setAttribute(name, node.getAttribute(name));
+ });
+ replacement.src = next;
+ if (node.parentNode) {
+ node.parentNode.insertBefore(replacement, node.nextSibling);
+ } else {
+ document.head.appendChild(replacement);
+ }
+ node.remove();
+ } else {
+ node.setAttribute(attr, next);
+ }
+ }
+ };
+ const patchSubtree = (root) => {
+ if (!root || !root.querySelectorAll) return;
+ URL_ATTRS.forEach((_, tag) => {
+ root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+ });
+ };
+ const observer = new MutationObserver((records) => {
+ records.forEach((record) => {
+ record.addedNodes.forEach((added) => {
+ if (added.nodeType === Node.ELEMENT_NODE) {
+ patchNode(added);
+ if (added.querySelectorAll) {
+ added.querySelectorAll('*').forEach(patchNode);
+ }
+ }
+ });
+ });
+ });
+ observer.observe(document.documentElement, { childList: true, subtree: true });
+ const finalize = () => {
+ patchSubtree(document);
+ observer.disconnect();
+ };
+ if (document.readyState === 'loading') {
+ document.addEventListener('DOMContentLoaded', finalize, { once: true });
+ } else {
+ finalize();
+ }
+ })();
+ </script>
 
 
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Press &amp; Media | Daren Prince – Official Assets</title>
-  <meta name="description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
-  <meta property="og:title" content="Press &amp; Media | Daren Prince – Official Assets">
-  <meta property="og:description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
-  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-  <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1366">
-  <meta property="og:image:height" content="767">
-  <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://www.darenprince.com/press.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Press &amp; Media | Daren Prince – Official Assets">
-  <meta name="twitter:description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
-  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
-  <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
-  <link rel="canonical" href="https://www.darenprince.com/press.html">
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Daren Prince Press & Media",
-    "description": "Download the official press kit, approved headshots, and story angles for Daren Prince.",
-    "url": "https://darenprince.com/press",
-    "about": {
-      "@type": "Person",
-      "name": "Daren Prince",
-      "url": "https://darenprince.com/about"
-    },
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "Daren Prince Author Platform",
-      "url": "https://darenprince.com"
-    }
-  }
-  </script>
-  <!-- Apple PWA + Safari enhancements -->
-    <!-- Smart App banner is rendered by js/main.js -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
-    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#456f3a">
-    <meta name="application-name" content="Daren Prince Official Site">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Daren Prince">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
-    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
-    <meta name="msapplication-TileColor" content="#456f3a">
-    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
-    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
-  <!-- End Apple PWA + Safari enhancements -->
-<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Press &amp; Media | Daren Prince, Official Assets</title>
+ <meta name="description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
+ <meta property="og:title" content="Press &amp; Media | Daren Prince, Official Assets">
+ <meta property="og:description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
+ <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta property="og:image:type" content="image/png">
+ <meta property="og:image:width" content="1366">
+ <meta property="og:image:height" content="767">
+ <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+ <meta property="og:type" content="article">
+ <meta property="og:url" content="https://www.darenprince.com/press.html">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Press &amp; Media | Daren Prince, Official Assets">
+ <meta name="twitter:description" content="Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.">
+ <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+ <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+ <link rel="canonical" href="https://www.darenprince.com/press.html">
+ <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/assets/styles.css">
+ <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "CollectionPage",
+ "name": "Daren Prince Press & Media",
+ "description": "Download the official press kit, approved headshots, and story angles for Daren Prince.",
+ "url": "https://darenprince.com/press",
+ "about": {
+ "@type": "Person",
+ "name": "Daren Prince",
+ "url": "https://darenprince.com/about"
+ },
+ "isPartOf": {
+ "@type": "WebSite",
+ "name": "Daren Prince Author Platform",
+ "url": "https://darenprince.com"
+ }
+ }
+ </script>
+ <!-- Apple PWA + Safari enhancements -->
+ <!-- Smart App banner is rendered by js/main.js -->
+ <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+ <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+ <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+ <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+ <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="theme-color" content="#456f3a">
+ <meta name="application-name" content="Daren Prince Official Site">
+ <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+ <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+ <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+ <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+ <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+ <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+ <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+ <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+ <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+ <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta name="apple-mobile-web-app-title" content="Daren Prince">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+ <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+ <meta name="msapplication-TileColor" content="#456f3a">
+ <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+ <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+ <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+ <!-- End Apple PWA + Safari enhancements -->
+<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Press & Media | Daren Prince – Official Assets",
-  "description": "Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://www.darenprince.com/press.html"
-  },
-  "publisher": {
-    "@id": "https://www.darenprince.com#organization"
-  },
-  "author": {
-    "@id": "https://www.darenprince.com#author"
-  },
-  "image": "https://www.darenprince.com/assets/images/og-daren-prince.png"
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Press & Media | Daren Prince, Official Assets",
+ "description": "Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://www.darenprince.com/press.html"
+ },
+ "publisher": {
+ "@id": "https://www.darenprince.com#organization"
+ },
+ "author": {
+ "@id": "https://www.darenprince.com#author"
+ },
+ "image": "https://www.darenprince.com/assets/images/og-daren-prince.png"
 }</script>
 <script type="application/ld+json" data-generated-by="seo-enrich">{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Press.html",
-      "item": "https://www.darenprince.com/press.html/"
-    }
-  ]
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Press.html",
+ "item": "https://www.darenprince.com/press.html/"
+ }
+ ]
 }</script></head>
 <body class="theme-dark">
-  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
-    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
-    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
-    <ul class="mega-menu-list">
-      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
-      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
-      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
-      <li><a href="press.html" class="active"><i class="ph ph-camera"></i>Media</a></li>
-      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
-      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
-      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
-      <li class="social-row">
-        <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
-        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-        <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
-        <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
-      </li>
-      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
-    </ul>
-  </nav>
-  <div class="menu-overlay js-menu-overlay"></div>
+ <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+ <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+ <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+ <ul class="mega-menu-list">
+ <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+ <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+ <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+ <li><a href="press.html" class="active"><i class="ph ph-camera"></i>Media</a></li>
+ <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+ <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+ <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+ <li class="social-row">
+ <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+ <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+ <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+ <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+ </li>
+ <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+ </ul>
+ </nav>
+ <div class="menu-overlay js-menu-overlay"></div>
 <div class="site-wrap">
-    <div data-shared-header=""></div>
-  <div class="media-drawer js-media-drawer" hidden="">
-    <div class="media-drawer__overlay js-media-drawer-overlay"></div>
-    <aside class="media-drawer__panel" aria-label="Media page sections">
-      <div class="media-drawer__header">
-        <h2><i class="ph ph-compass"></i> Media Navigation</h2>
-        <button class="media-drawer__close js-media-drawer-close" aria-label="Close media navigation">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-      <nav aria-label="Media sections">
-        <ul class="media-drawer__list">
-          <li><a href="#press-hero"><i class="ph ph-flag-banner"></i>Overview</a></li>
-          <li><a href="#press-kit-viewer"><i class="ph ph-file-pdf"></i>Press Kit Preview</a></li>
-          <li><a href="#media-topics"><i class="ph ph-chat-teardrop-text"></i>Story Angles</a></li>
-          <li><a href="#media-downloads"><i class="ph ph-download-simple"></i>Downloads</a></li>
-          <li><a href="#media-headshots"><i class="ph ph-image-square"></i>Headshots</a></li>
-          <li><a href="#media-contact"><i class="ph ph-phone-call"></i>Media Contact</a></li>
-        </ul>
-      </nav>
-    </aside>
-  </div>
-  <button class="media-drawer-trigger js-media-drawer-trigger" aria-label="Open media section navigation">
-    <i class="ph ph-list"></i>
-    <span>Media Sections</span>
-  </button>
-  <main>
-    <section id="press-hero" class="press-hero padding-y-xl">
-      <div class="container max-width-adaptive-lg press-hero__grid">
-        <div>
-          <span class="press-tag"><i class="ph ph-camera"></i> Official Media Room</span>
-          <h1 class="styledh1 brand-heading"><span class="brand-heading__emphasis">Press &amp; Media</span><br><span class="brand-heading__base">Resources</span></h1>
-          <p>Download the official press kit, pull approved headshots, and tap into story angles that show how Daren Prince helps people rebuild confidence, trust, and connection.</p>
-          <div class="press-hero__cta">
-            <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn grad-kelly-green" download=""><i class="ph ph-download"></i>Download Press Kit PDF</a>
-            <a href="mailto:press@darenprince.com" class="btn btn--accent"><i class="ph ph-envelope"></i>Request Interview</a>
-          </div>
-        </div>
-        <div class="press-hero__highlight">
-          <h2>Highlights</h2>
-          <ul>
-            <li><i class="ph ph-star"></i> Amazon Top 100 author across multiple self help categories.</li>
-            <li><i class="ph ph-microphone"></i> Featured on relationship podcasts, livestreams, and community summits.</li>
-            <li><i class="ph ph-book"></i> Next release <em>Unshakable</em> delivers a roadmap for breaking free from toxic relationships.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+ <div data-shared-header=""></div>
+ <div class="media-drawer js-media-drawer" hidden="">
+ <div class="media-drawer__overlay js-media-drawer-overlay"></div>
+ <aside class="media-drawer__panel" aria-label="Media page sections">
+ <div class="media-drawer__header">
+ <h2><i class="ph ph-compass"></i> Media Navigation</h2>
+ <button class="media-drawer__close js-media-drawer-close" aria-label="Close media navigation">
+ <i class="ph ph-x"></i>
+ </button>
+ </div>
+ <nav aria-label="Media sections">
+ <ul class="media-drawer__list">
+ <li><a href="#press-hero"><i class="ph ph-flag-banner"></i>Overview</a></li>
+ <li><a href="#press-kit-viewer"><i class="ph ph-file-pdf"></i>Press Kit Preview</a></li>
+ <li><a href="#media-topics"><i class="ph ph-chat-teardrop-text"></i>Story Angles</a></li>
+ <li><a href="#media-downloads"><i class="ph ph-download-simple"></i>Downloads</a></li>
+ <li><a href="#media-headshots"><i class="ph ph-image-square"></i>Headshots</a></li>
+ <li><a href="#media-contact"><i class="ph ph-phone-call"></i>Media Contact</a></li>
+ </ul>
+ </nav>
+ </aside>
+ </div>
+ <button class="media-drawer-trigger js-media-drawer-trigger" aria-label="Open media section navigation">
+ <i class="ph ph-list"></i>
+ <span>Media Sections</span>
+ </button>
+ <main>
+ <section id="press-hero" class="press-hero padding-y-xl">
+ <div class="container max-width-adaptive-lg press-hero__grid">
+ <div>
+ <span class="press-tag"><i class="ph ph-camera"></i> Official Media Room</span>
+ <h1 class="styledh1 brand-heading"><span class="brand-heading__emphasis">Press &amp; Media</span><br><span class="brand-heading__base">Resources</span></h1>
+ <p>Download the official press kit, pull approved headshots, and tap into story angles that show how Daren Prince helps people rebuild confidence, trust, and connection.</p>
+ <div class="press-hero__cta">
+ <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn grad-kelly-green" download=""><i class="ph ph-download"></i>Download Press Kit PDF</a>
+ <a href="mailto:press@darenprince.com" class="btn btn--accent"><i class="ph ph-envelope"></i>Request Interview</a>
+ </div>
+ </div>
+ <div class="press-hero__highlight">
+ <h2>Highlights</h2>
+ <ul>
+ <li><i class="ph ph-star"></i> Amazon Top 100 author across multiple self help categories.</li>
+ <li><i class="ph ph-microphone"></i> Featured on relationship podcasts, livestreams, and community summits.</li>
+ <li><i class="ph ph-book"></i> Next release <em>Unshakable</em> delivers a roadmap for breaking free from toxic relationships.</li>
+ </ul>
+ </div>
+ </div>
+ </section>
 
-    <section class="viewer press-viewer" aria-labelledby="press-kit-viewer">
-      <div class="container max-width-adaptive-lg">
-        <div class="press-viewer__header">
-          <h2 id="press-kit-viewer">Press Kit Preview</h2>
-          <div class="toolbar">
-            <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn btn--ghost" download=""><i class="ph ph-download"></i>Download</a>
-            <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" target="_blank" rel="noopener" class="btn btn--ghost"><i class="ph ph-magnifying-glass-plus"></i>Open Fullscreen</a>
-            <a href="javascript:window.print()" class="btn btn--ghost"><i class="ph ph-printer"></i>Print</a>
-          </div>
-        </div>
-        <div class="press-viewer__frame">
-          <object data="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" type="application/pdf" aria-label="Game On! press kit preview">
-            <iframe src="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" title="Game On! press kit preview"></iframe>
-            <p class="press-viewer__fallback">
-              Preview not available. <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" target="_blank" rel="noopener">Open the press kit PDF.</a>
-            </p>
-          </object>
-        </div>
-      </div>
-    </section>
+ <section class="viewer press-viewer" aria-labelledby="press-kit-viewer">
+ <div class="container max-width-adaptive-lg">
+ <div class="press-viewer__header">
+ <h2 id="press-kit-viewer">Press Kit Preview</h2>
+ <div class="toolbar">
+ <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn btn--ghost" download=""><i class="ph ph-download"></i>Download</a>
+ <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" target="_blank" rel="noopener" class="btn btn--ghost"><i class="ph ph-magnifying-glass-plus"></i>Open Fullscreen</a>
+ <a href="javascript:window.print()" class="btn btn--ghost"><i class="ph ph-printer"></i>Print</a>
+ </div>
+ </div>
+ <div class="press-viewer__frame">
+ <object data="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" type="application/pdf" aria-label="Game On! press kit preview">
+ <iframe src="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" title="Game On! press kit preview"></iframe>
+ <p class="press-viewer__fallback">
+ Preview not available. <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" target="_blank" rel="noopener">Open the press kit PDF.</a>
+ </p>
+ </object>
+ </div>
+ </div>
+ </section>
 
-    <section id="media-topics" class="press-topics">
-      <div class="container max-width-adaptive-lg">
-        <h2 class="margin-bottom-md styledh1 brand-heading"><span class="brand-heading__emphasis">Producer Ready</span><br><span class="brand-heading__base">Story Angles</span></h2>
-        <div class="press-topics__grid">
-          <article class="press-topic">
-            <h3>From DJ Booth to Bestseller</h3>
-            <p>How two decades behind the decks shaped Daren’s understanding of rhythm, presence, and connection in relationships.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Confidence without the Games</h3>
-            <p>Real tools that help men rebuild trust in themselves after manipulation and narcissistic abuse.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Healing That Sticks</h3>
-            <p>Why <em>Unshakable</em> blends psychology with grounded practice so recovery turns into long term resilience.</p>
-          </article>
-          <article class="press-topic">
-            <h3>Fatherhood in Real Time</h3>
-            <p>Balancing book launches, reader communities, and raising his son DJ while staying rooted in presence.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+ <section id="media-topics" class="press-topics">
+ <div class="container max-width-adaptive-lg">
+ <h2 class="margin-bottom-md styledh1 brand-heading"><span class="brand-heading__emphasis">Producer Ready</span><br><span class="brand-heading__base">Story Angles</span></h2>
+ <div class="press-topics__grid">
+ <article class="press-topic">
+ <h3>From DJ Booth to Bestseller</h3>
+ <p>How two decades behind the decks shaped Daren’s understanding of rhythm, presence, and connection in relationships.</p>
+ </article>
+ <article class="press-topic">
+ <h3>Confidence without the Games</h3>
+ <p>Real tools that help men rebuild trust in themselves after manipulation and narcissistic abuse.</p>
+ </article>
+ <article class="press-topic">
+ <h3>Healing That Sticks</h3>
+ <p>Why <em>Unshakable</em> blends psychology with grounded practice so recovery turns into long term resilience.</p>
+ </article>
+ <article class="press-topic">
+ <h3>Fatherhood in Real Time</h3>
+ <p>Balancing book launches, reader communities, and raising his son DJ while staying rooted in presence.</p>
+ </article>
+ </div>
+ </div>
+ </section>
 
-    <section id="media-downloads" class="press-downloads">
-      <div class="container max-width-adaptive-lg">
-        <h2 class="margin-bottom-md">Downloadable Assets</h2>
-        <div class="press-downloads__grid">
-          <article class="press-download">
-            <img src="/assets/images/presskit-thumb-portrait.jpg" alt="Game On! press kit cover">
-            <h3>Press + Retailer Kit</h3>
-            <p>Includes long form bio, book synopsis, audience stats, and launch assets.</p>
-            <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn grad-kelly-green" download=""><i class="ph ph-download"></i>Download PDF</a>
-          </article>
-          <article class="press-download">
-            <img src="/assets/images/daren-prince-profile-lg.jpg" alt="Headshot of Daren Prince in charcoal jacket">
-            <h3>Approved Headshots</h3>
-            <p>Studio and lifestyle photos ready for print, podcast artwork, and press coverage.</p>
-            <a href="/assets/images/daren-prince-profile-lg.jpg" class="btn btn--accent" download=""><i class="ph ph-image"></i>Save Image</a>
-          </article>
-          <article class="press-download">
-            <img src="/assets/images/og-daren-prince.png" alt="Game On! brand graphic">
-            <h3>Brand Graphics</h3>
-            <p>Logos, social cards, and quote graphics for features or affiliate partners.</p>
-            <a href="/assets/images/og-daren-prince.png" class="btn btn--subtle" download=""><i class="ph ph-palette"></i>Download Asset</a>
-          </article>
-        </div>
-      </div>
-    </section>
+ <section id="media-downloads" class="press-downloads">
+ <div class="container max-width-adaptive-lg">
+ <h2 class="margin-bottom-md">Downloadable Assets</h2>
+ <div class="press-downloads__grid">
+ <article class="press-download">
+ <img src="/assets/images/presskit-thumb-portrait.jpg" alt="Game On! press kit cover">
+ <h3>Press + Retailer Kit</h3>
+ <p>Includes long form bio, book synopsis, audience stats, and launch assets.</p>
+ <a href="/assets/brand/Game_On_Press-Retailer_Kit_Brand_Identity_US_EU_compressed.pdf" class="btn grad-kelly-green" download=""><i class="ph ph-download"></i>Download PDF</a>
+ </article>
+ <article class="press-download">
+ <img src="/assets/images/daren-prince-profile-lg.jpg" alt="Headshot of Daren Prince in charcoal jacket">
+ <h3>Approved Headshots</h3>
+ <p>Studio and lifestyle photos ready for print, podcast artwork, and press coverage.</p>
+ <a href="/assets/images/daren-prince-profile-lg.jpg" class="btn btn--accent" download=""><i class="ph ph-image"></i>Save Image</a>
+ </article>
+ <article class="press-download">
+ <img src="/assets/images/og-daren-prince.png" alt="Game On! brand graphic">
+ <h3>Brand Graphics</h3>
+ <p>Logos, social cards, and quote graphics for features or affiliate partners.</p>
+ <a href="/assets/images/og-daren-prince.png" class="btn btn--subtle" download=""><i class="ph ph-palette"></i>Download Asset</a>
+ </article>
+ </div>
+ </div>
+ </section>
 
-    <section id="media-headshots" class="press-headshots">
-      <div class="container max-width-adaptive-lg">
-        <h2 class="margin-bottom-md">Headshot Gallery</h2>
-        <div class="press-headshots__grid">
-          <figure>
-            <img src="/assets/images/daren-prince-profile-lg.jpg" alt="Professional headshot of Daren Prince Sr. in charcoal jacket">
-            <figcaption>Official media headshot of Daren Prince Sr. for interviews and feature stories.</figcaption>
-          </figure>
-          <figure>
-            <img src="/assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png" alt="Professional headshot of Daren Prince Sr., author and dating coach">
-            <figcaption>Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
+ <section id="media-headshots" class="press-headshots">
+ <div class="container max-width-adaptive-lg">
+ <h2 class="margin-bottom-md">Headshot Gallery</h2>
+ <div class="press-headshots__grid">
+ <figure>
+ <img src="/assets/images/daren-prince-profile-lg.jpg" alt="Professional headshot of Daren Prince Sr. in charcoal jacket">
+ <figcaption>Official media headshot of Daren Prince Sr. for interviews and feature stories.</figcaption>
+ </figure>
+ <figure>
+ <img src="/assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png" alt="Professional headshot of Daren Prince Sr., author and dating coach">
+ <figcaption>Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.</figcaption>
+ </figure>
+ </div>
+ </div>
+ </section>
 
-    <section id="media-contact" class="press-contact">
-      <div class="container max-width-adaptive-lg press-contact__grid">
-        <div>
-          <h2>Media Contact</h2>
-          <p>For interviews, speaking requests, or media placements connect with the press desk. We respond within one business day.</p>
-          <ul class="press-contact__list">
-            <li><i class="ph ph-envelope"></i> <a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
-            <li><i class="ph ph-phone"></i> Media hotline: (303) 555-0147</li>
-          </ul>
-        </div>
-        <div class="press-contact__cta">
-          <h3>Need Quick Facts?</h3>
-          <p>Grab the bio versions, book stats, and audience highlights on the Meet Daren page.</p>
-          <a href="meet-daren-prince.html" class="btn btn--accent"><i class="ph ph-user"></i>Visit Meet Daren</a>
-        </div>
-      </div>
-    </section>
-  </main>
-    <div data-shared-footer=""></div>
-  </div>
-  <script type="module" src="/js/ui.js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script type="module" src="/js/profile-dropdown.js"></script>
-  <script src="/js/theme-toggle.js"></script>
-  <script type="module" src="/js/site-shell.js"></script>
-  <script type="module" src="/js/main.js"></script>
-  <script>
-    (() => {
-      const drawer = document.querySelector('.js-media-drawer');
-      const trigger = document.querySelector('.js-media-drawer-trigger');
-      const closeButton = document.querySelector('.js-media-drawer-close');
-      const overlay = document.querySelector('.js-media-drawer-overlay');
-      if (!drawer || !trigger || !closeButton || !overlay) return;
+ <section id="media-contact" class="press-contact">
+ <div class="container max-width-adaptive-lg press-contact__grid">
+ <div>
+ <h2>Media Contact</h2>
+ <p>For interviews, speaking requests, or media placements connect with the press desk. We respond within one business day.</p>
+ <ul class="press-contact__list">
+ <li><i class="ph ph-envelope"></i> <a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
+ <li><i class="ph ph-phone"></i> Media hotline: (303) 555-0147</li>
+ </ul>
+ </div>
+ <div class="press-contact__cta">
+ <h3>Need Quick Facts?</h3>
+ <p>Grab the bio versions, book stats, and audience highlights on the Meet Daren page.</p>
+ <a href="meet-daren-prince.html" class="btn btn--accent"><i class="ph ph-user"></i>Visit Meet Daren</a>
+ </div>
+ </div>
+ </section>
+ </main>
+ <div data-shared-footer=""></div>
+ </div>
+ <script type="module" src="/js/ui.js"></script>
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script type="module" src="/js/profile-dropdown.js"></script>
+ <script src="/js/theme-toggle.js"></script>
+ <script type="module" src="/js/site-shell.js"></script>
+ <script type="module" src="/js/main.js"></script>
+ <script>
+ (() => {
+ const drawer = document.querySelector('.js-media-drawer');
+ const trigger = document.querySelector('.js-media-drawer-trigger');
+ const closeButton = document.querySelector('.js-media-drawer-close');
+ const overlay = document.querySelector('.js-media-drawer-overlay');
+ if (!drawer || !trigger || !closeButton || !overlay) return;
 
-      const closeDrawer = () => {
-        drawer.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
-        setTimeout(() => {
-          if (!drawer.classList.contains('is-open')) drawer.hidden = true;
-        }, 260);
-      };
+ const closeDrawer = () => {
+ drawer.classList.remove('is-open');
+ trigger.setAttribute('aria-expanded', 'false');
+ setTimeout(() => {
+ if (!drawer.classList.contains('is-open')) drawer.hidden = true;
+ }, 260);
+ };
 
-      const openDrawer = () => {
-        drawer.hidden = false;
-        requestAnimationFrame(() => {
-          drawer.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
-        });
-      };
+ const openDrawer = () => {
+ drawer.hidden = false;
+ requestAnimationFrame(() => {
+ drawer.classList.add('is-open');
+ trigger.setAttribute('aria-expanded', 'true');
+ });
+ };
 
-      trigger.setAttribute('aria-expanded', 'false');
-      trigger.addEventListener('click', () => {
-        if (drawer.classList.contains('is-open')) {
-          closeDrawer();
-          return;
-        }
-        openDrawer();
-      });
-      closeButton.addEventListener('click', closeDrawer);
-      overlay.addEventListener('click', closeDrawer);
-      drawer.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', closeDrawer);
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
-      });
-    })();
-  </script>
+ trigger.setAttribute('aria-expanded', 'false');
+ trigger.addEventListener('click', () => {
+ if (drawer.classList.contains('is-open')) {
+ closeDrawer();
+ return;
+ }
+ openDrawer();
+ });
+ closeButton.addEventListener('click', closeDrawer);
+ overlay.addEventListener('click', closeDrawer);
+ drawer.querySelectorAll('a').forEach((link) => {
+ link.addEventListener('click', closeDrawer);
+ });
+ document.addEventListener('keydown', (event) => {
+ if (event.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+ });
+ })();
+ </script>
 
 
 
