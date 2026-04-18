@@ -10,6 +10,7 @@ The Book Tabs component displays rich details for a single title. It features ta
 - **Description Panel** – long marketing copy followed by a table of book specs.
 - **Trailer Panel** – HTML5 video block with poster image.
 - **Members Panel** – simple call to action for joining the site.
+- **Accordion Blocks (inline book section)** – scan-friendly accordion content now uses mixed **bold/regular** hierarchy, phosphor icons, and industry-standard sans-serif stacks for readability.
 
 Images used in the demo are stored in `/assets/images/placeholders/`.
 
@@ -18,3 +19,4 @@ Images used in the demo are stored in `/assets/images/placeholders/`.
 - The component relies on `js/book-tabs.js` for tab switching logic (pending implementation).
 - Always import the SCSS partial `_book-tabs.scss` in `scss/styles.scss`.
 - Keep buy controls visible on mobile by using the sticky bar.
+- Deployment target is GitHub Pages. Run `npm run deploy:github-pages` so SEO metadata and social/favicons processing are included in the production pipeline.
