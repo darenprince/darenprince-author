@@ -6828,7 +6828,7 @@ input:checked + .toggle-slider::before {
   box-shadow: 0 0 0 0.35rem rgba(var(--color-accent), 0.15);
 }
 .go-reviews__title {
-  margin: 0.75rem 0 0.5rem;
+  margin: clamp(1rem, 2.4vw, 1.55rem) 0 0.5rem;
   font-size: clamp(1.7rem, 3vw, 2.35rem);
   font-weight: 600;
   color: var(--color-white);
@@ -9338,7 +9338,7 @@ body.books-page .books-main > section {
   font-weight: 700;
 }
 .format-hero-panel__heading {
-  margin: 0;
+  margin: clamp(0.2rem, 0.8vw, 0.4rem) 0 0;
   line-height: 1.08;
 }
 .format-hero-panel__options {
@@ -9436,8 +9436,12 @@ body.books-page .books-main > section {
 
 .featured-books-strip__headline {
   width: min(100%, var(--max-width-lg));
-  margin: 0 auto clamp(0.35rem, 1vw, 0.6rem);
+  margin: clamp(0.45rem, 1.6vw, 0.95rem) auto clamp(0.35rem, 1vw, 0.6rem);
   text-align: center;
+}
+
+.contact-section .section-heading {
+  margin-top: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 .featured-books-strip__subhead {
