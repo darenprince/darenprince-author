@@ -14,7 +14,7 @@
 | 1. Documented but not implemented          | The legacy member hub (`member/index.html`) is linked throughout docs but ships without an auth guard, so the page renders for unauthenticated visitors.         | Exposes unfinished UI and risks leaking gated copy.                             | Add guard bootstrap or clearly mark the folder as prototype-only. |
 | 2. Implemented but undocumented            | The new `js/auth-service.js` placeholder communicates downtime, but onboarding docs still referenced the retired database tooling.                               | Contributors may search for removed scripts instead of the new migration layer. | Addressed by documenting the migration plan and auth placeholder. |
 | 3. Implemented differently than documented | GitHub Pages serves committed files, while docs previously implied a server-side build. Search indexes and image manifests are stale unless regenerated locally. | Production deploys omit search data and image manifest updates.                 | Clarified in BUILD_PIPELINE with manual predeploy checklist.      |
-| 4. Outdated links/paths                    | `components.html` still references `./js/mobile-nav.js`, a file that no longer exists.                                                                           | 404 in every browser session; wastes console signal.                            | P0 cleanup ticket captured below.                                 |
+| 4. Outdated links/paths                    | Legacy `js/mobile-nav.js` references were previously flagged and are now removed from `components.html`.                                                         | Resolved: no production 404 for that script path.                               | Keep regression check in CI/site smoke tests.                     |
 | 5. Style/typography mismatches             | Home and book detail pages hide their only `<h1>` while the hero demos render multiple H1s per page.                                                             | Breaks accessible heading hierarchy and contradicts brand guidance.             | Logged as P1 markup fix.                                          |
 
 ## Documentation actions completed
@@ -32,7 +32,6 @@
 ### P0 (blockers)
 
 1. **Search index ships zero documents** — `/content/` is absent so `public/search/index.json` and `docs.json` remain empty. _Action_: seed Markdown content or adjust `src/search/build-index.mjs`, then rerun `npm run build:search`.
-2. **Missing `js/mobile-nav.js` include** — Remove the stale script tag from `components.html` or restore the module to silence 404s.
 
 ### P1 (brand/style alignment)
 
@@ -51,7 +50,7 @@
 ### Immediate (P0)
 
 - [ ] Populate `/content/` and rebuild the Minisearch payloads via `npm run build:search`.
-- [ ] Resolve the missing `js/mobile-nav.js` dependency in `components.html`.
+- [x] Remove legacy `js/mobile-nav.js` dependency in `components.html` (completed).
 
 ### Recommended (P1/P2)
 
@@ -68,7 +67,6 @@
 - Key mismatches:
   1. Member hub documented but currently ungated.
   2. GitHub Pages serves stale search/image artifacts if they are not rebuilt before commit.
-  3. `components.html` references `js/mobile-nav.js`, which no longer exists.
 - Docs updated/created:
   - /docs/SITE_STRUCTURE.md
   - /docs/FILE_STRUCTURE.md
@@ -82,7 +80,7 @@
   - /docs/CHANGELOG_DOC_SYNC.md
 - Immediate next steps (P0):
   - [ ] Seed `/content/` and rerun the search index build.
-  - [ ] Remove or reinstate `js/mobile-nav.js` in `components.html`.
+  - [x] Removed stale `js/mobile-nav.js` include from `components.html`.
 - Recommended next steps (P1/P2):
   - [ ] Normalize hero `<h1>` usage and document font decisions.
   - [ ] Protect the `/member/` prototype with `auth-guard.js` before linking publicly.
