@@ -9422,7 +9422,7 @@ body.books-page .books-main > section {
       color-mix(in srgb, var(--color-white) 7%, transparent) 0%,
       transparent 52%
     ),
-    url('/assets/images/sitebg/cbad6b12cb5c4ba29d1a55a3f2685a6a.jpg') center / cover no-repeat,
+    url('/assets/images/sitebg/cbad6b12cb5c4ba29d1a55a3f2685a6a.jpg') center/cover no-repeat,
     linear-gradient(180deg, rgba(26, 29, 34, 0.82), rgba(21, 24, 28, 0.72));
   border-radius: clamp(1rem, 2vw, 1.4rem);
 }
