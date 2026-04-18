@@ -146,3 +146,67 @@ if (detailModal && cardDetailTriggers.length) {
     }
   })
 }
+
+function initBookListingSnapRail() {
+  const isBooksPage = document.body.classList.contains('books-page')
+  if (!isBooksPage) return
+
+  const sections = Array.from(document.querySelectorAll('.books-main > section[id]')).filter(
+    (section) => section.offsetParent !== null
+  )
+  if (!sections.length) return
+
+  let snapTimer = 0
+  let releaseTimer = 0
+  let snapping = false
+  let lastY = window.scrollY
+  let direction = 1
+
+  const runSnap = () => {
+    if (snapping) return
+    const threshold = window.innerHeight * 0.4
+    const resistancePx = 16
+    const candidates = sections
+      .map((section) => ({
+        section,
+        top: section.getBoundingClientRect().top,
+      }))
+      .filter((entry) => entry.top >= -threshold * 0.25 && entry.top <= threshold)
+      .sort((a, b) => Math.abs(a.top) - Math.abs(b.top))
+
+    const nextTarget = candidates[0]
+    if (!nextTarget) return
+
+    const anchoredTop = window.scrollY + nextTarget.top - resistancePx * direction
+    const finalTop = Math.max(0, anchoredTop)
+    const preBounceTop = Math.max(0, finalTop - 8)
+
+    snapping = true
+    window.scrollTo({ top: preBounceTop, behavior: 'smooth' })
+    window.clearTimeout(releaseTimer)
+    releaseTimer = window.setTimeout(() => {
+      window.scrollTo({ top: finalTop, behavior: 'smooth' })
+      window.setTimeout(() => {
+        snapping = false
+      }, 220)
+    }, 120)
+  }
+
+  const scheduleSnap = () => {
+    if (snapping) return
+    const currentY = window.scrollY
+    const delta = currentY - lastY
+    if (Math.abs(delta) > 1) {
+      direction = delta >= 0 ? 1 : -1
+      lastY = currentY
+    }
+    window.clearTimeout(snapTimer)
+    snapTimer = window.setTimeout(runSnap, 90)
+  }
+
+  window.addEventListener('scroll', scheduleSnap, { passive: true })
+  window.addEventListener('wheel', scheduleSnap, { passive: true })
+  window.addEventListener('touchend', scheduleSnap, { passive: true })
+}
+
+initBookListingSnapRail()

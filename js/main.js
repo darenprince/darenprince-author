@@ -587,8 +587,19 @@ function initBookCoverPresentationFixes() {
   style.id = 'book-cover-presentation-fixes'
   style.textContent = `
     .featured-books-shell {
-      border-radius: 10px !important;
+      width: 100vw !important;
+      max-width: none !important;
+      margin-left: calc(50% - 50vw) !important;
+      margin-right: calc(50% - 50vw) !important;
+      border-radius: 0 !important;
       padding-top: clamp(0.75rem, 1.8vw, 1.25rem) !important;
+    }
+
+    .featured-books-strip {
+      width: 100% !important;
+      max-width: none !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
     }
 
     .featured-books-strip__headline {
@@ -636,9 +647,8 @@ function initBookCoverPresentationFixes() {
 
     @media (min-width: 48rem) {
       .featured-books-shell {
-        max-width: min(100%, 1180px) !important;
-        padding-left: clamp(1rem, 2.2vw, 1.65rem) !important;
-        padding-right: clamp(1rem, 2.2vw, 1.65rem) !important;
+        padding-left: clamp(1.2rem, 3vw, 3rem) !important;
+        padding-right: clamp(1.2rem, 3vw, 3rem) !important;
       }
 
       .featured-books-strip__rail {
@@ -721,13 +731,8 @@ function initBookCoverPresentationFixes() {
       }
 
       .featured-books-shell {
-        width: 100vw !important;
-        max-width: none !important;
-        margin-left: calc(50% - 50vw) !important;
-        margin-right: calc(50% - 50vw) !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
-        border-radius: 0 !important;
       }
 
       .featured-books-strip__headline,
