@@ -6,19 +6,19 @@ The goal is to surface public marketing pages while keeping prototypes, auth flo
 
 ## Pages to index
 
-- **Home** (`/`, `/index.html`) — Primary marketing hub and conversion gateway.
-- **Book** (`/book`, `/book.html`) — Core product offer.
-- **Press** (`/press`, `/press.html`) — Media coverage and press assets.
-- **Contact** (`/contact`, `/contact.html`) — Lead capture surface.
-- **Image Index** (`/image-index`, `/image-index.html`) — Reference for approved creative assets.
-- **Sitemap** (`/sitemap`, `/sitemap.html`) — Crawl map for search engines.
-- **Search results** (`/pages/search`, `/pages/search.html`) — Minisearch output page.
+- **Home** (`/`, `/index.html`) Primary marketing hub and conversion gateway.
+- **Book** (`/book`, `/book.html`) Core product offer.
+- **Press** (`/press`, `/press.html`) Media coverage and press assets.
+- **Contact** (`/contact`, `/contact.html`) Lead capture surface.
+- **Image Index** (`/image-index`, `/image-index.html`) Reference for approved creative assets.
+- **Sitemap** (`/sitemap`, `/sitemap.html`) Crawl map for search engines.
+- **Search results** (`/pages/search`, `/pages/search.html`) Minisearch output page.
 
 ## Pages to keep out of index
 
-- **Auth** (`/login`, `/reset-password`, `/verify-email`) — Protects credentials and avoids thin content.
-- **Dashboards** (`/dashboard`, `/admin-dashboard`, `/member`) — Member-only or internal tools.
-- **Design system & experiments** (`/components`, `/style-classes`, `/themes`, `/All-heroes-demos`, `/brandon`, `/shhh`, `/home`) — Sandboxes that should stay internal until hardened.
+- **Auth** (`/login`, `/reset-password`, `/verify-email`) Protects credentials and avoids thin content.
+- **Dashboards** (`/dashboard`, `/admin-dashboard`, `/member`) Member-only or internal tools.
+- **Design system & experiments** (`/components`, `/style-classes`, `/themes`, `/All-heroes-demos`, `/brandon`, `/shhh`, `/home`) Sandboxes that should stay internal until hardened.
 
 ## Implementation details
 

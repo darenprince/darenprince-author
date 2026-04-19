@@ -1,4 +1,4 @@
-# 📋 Site & Documentation Audit — 2025-02-14
+# 📋 Site & Documentation Audit 2025-02-14
 
 ## Scan summary
 
@@ -31,19 +31,19 @@
 
 ### P0 (blockers)
 
-1. **Search index ships zero documents** — `/content/` is absent so `public/search/index.json` and `docs.json` remain empty. _Action_: seed Markdown content or adjust `src/search/build-index.mjs`, then rerun `npm run build:search`.
+1. **Search index ships zero documents** `/content/` is absent so `public/search/index.json` and `docs.json` remain empty. _Action_: seed Markdown content or adjust `src/search/build-index.mjs`, then rerun `npm run build:search`.
 
 ### P1 (brand/style alignment)
 
-1. **Accessible H1 structure** — Expose a single visible `<h1>` on `index.html` and `book.html`, and downgrade extra hero demo headings to H2/H3 levels.
-2. **Member hub gating** — Add `auth-guard.js` (and folder checks if needed) to `member/` templates before linking from live surfaces.
-3. **Font consistency** — Decide whether to ship League Spartan/Futura assets or formalize Helvetica Neue as the official stack.
+1. **Accessible H1 structure** Expose a single visible `<h1>` on `index.html` and `book.html`, and downgrade extra hero demo headings to H2/H3 levels.
+2. **Member hub gating** Add `auth-guard.js` (and folder checks if needed) to `member/` templates before linking from live surfaces.
+3. **Font consistency** Decide whether to ship League Spartan/Futura assets or formalize Helvetica Neue as the official stack.
 
 ### P2 (DX & maintenance)
 
-1. **Automate search manifest refresh** — Add a GitHub Actions workflow (or local pre-push checklist) to run `npm run build:search` and `npm run generate:images` so committed artifacts stay current.
-2. **Finalize data platform docs** — Keep the migration plan updated as provider decisions solidify.
-3. **Audit legacy archives** — Move unused reference experiments (`References-ignore/`, `archive/`) behind contributor-only toggles or document their status.
+1. **Automate search manifest refresh** Add a GitHub Actions workflow (or local pre-push checklist) to run `npm run build:search` and `npm run generate:images` so committed artifacts stay current.
+2. **Finalize data platform docs** Keep the migration plan updated as provider decisions solidify.
+3. **Audit legacy archives** Move unused reference experiments (`References-ignore/`, `archive/`) behind contributor-only toggles or document their status.
 
 ## Next steps checklist
 
@@ -60,7 +60,7 @@
 - [ ] Automate search/index regeneration inside the GitHub Pages pipeline.
 - [ ] Archive or document the legacy experiments folder-by-folder.
 
-## Snapshot — Doc Sync & Site Audit
+## Snapshot Doc Sync & Site Audit
 
 - Repo branch scanned: `work`
 - Files scanned: 370 • Components indexed: 33 • SCSS tokens extracted: 77

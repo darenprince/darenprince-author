@@ -236,26 +236,26 @@ function initGames() {
     'Trade phones for 20 minutes. Trust the energy.',
     'No phones, just eye contact for the next track.',
     'Pick a stranger’s favorite drink and we find it.',
-    'You call the Uber—destination is a surprise.',
+    'You call the Uberdestination is a surprise.',
     'You set the safe word. Then we ignore it (mostly).',
   ]
 
   const compliments = [
-    'You’re the spark that ruins my plans—in the best way.',
+    'You’re the spark that ruins my plansin the best way.',
     'You walk in and the room rearranges itself.',
     'Your confidence is a dare I keep taking.',
     'You taste like decisions I don’t regret.',
     'You make patience feel overrated.',
     'You laugh like you know the secret ending.',
     'You’re the plot twist I never fix.',
-    'You don’t enter rooms—you change atmospheres.',
+    'You don’t enter roomsyou change atmospheres.',
     'Your curiosity keeps burning holes in my rules.',
     'You’re a VIP pass disguised as a person.',
   ]
 
   const scenarios = {
     overtime: ['late-night rooftop', 'after-hours lounge', 'empty studio'],
-    pace: ['slow burn', 'no-rules sprint', 'stepped rhythm—push/pull'],
+    pace: ['slow burn', 'no-rules sprint', 'stepped rhythmpush/pull'],
     twist: ['phones off', 'no yes/no answers allowed', 'every song change = new dare'],
   }
 
@@ -329,7 +329,7 @@ function initGames() {
   heatLock?.addEventListener('click', () => {
     const level = heatSlider?.value || 3
     const label = describeHeat(level)
-    heatOutput.textContent = `Locked at ${level} — ${label}`
+    heatOutput.textContent = `Locked at ${level}  ${label}`
     selectionUpdater?.(`Heat meter locked at ${level}: ${label}`, 'Heat meter')
   })
 }
@@ -351,7 +351,7 @@ function initCalendarForm() {
     }
     selectionStatus?.('Sending schedule to Daren…', 'pending')
     try {
-      await sendEmail('Calendar pick — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+      await sendEmail('Calendar pick  HxD', `${summary}\n\nSubmitted from HxD Playground.`)
       selectionStatus?.('Schedule delivered to Daren.', 'success')
       form.reset()
     } catch (error) {
@@ -383,7 +383,7 @@ function initBackstageForm() {
     }
     selectionStatus?.('Sending backstage note…', 'pending')
     try {
-      await sendEmail('Backstage note — HxD', `${summary}\n\nSubmitted from HxD Playground.`)
+      await sendEmail('Backstage note  HxD', `${summary}\n\nSubmitted from HxD Playground.`)
       selectionStatus?.('Backstage note delivered.', 'success')
       form.reset()
     } catch (error) {

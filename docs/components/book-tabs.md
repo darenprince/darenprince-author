@@ -4,13 +4,13 @@ The Book Tabs component displays rich details for a single title. It features ta
 
 ## Layout
 
-- **Sticky Purchase Bar** – stays fixed to the top while scrolling and contains a store selector and buy button.
-- **Tab Navigation** – four buttons switch the visible panel: Preview, Description, Trailer, Members.
-- **Preview Panel** – shows a 3D cover by default with toggle buttons for alternate views.
-- **Description Panel** – long marketing copy followed by a table of book specs.
-- **Trailer Panel** – HTML5 video block with poster image.
-- **Members Panel** – simple call to action for joining the site.
-- **Accordion Blocks (inline book section)** – scan-friendly accordion content now uses mixed **bold/regular** hierarchy, phosphor icons, and industry-standard sans-serif stacks for readability.
+- **Sticky Purchase Bar** stays fixed to the top while scrolling and contains a store selector and buy button.
+- **Tab Navigation** four buttons switch the visible panel: Preview, Description, Trailer, Members.
+- **Preview Panel** shows a 3D cover by default with toggle buttons for alternate views.
+- **Description Panel** long marketing copy followed by a table of book specs.
+- **Trailer Panel** HTML5 video block with poster image.
+- **Members Panel** simple call to action for joining the site.
+- **Accordion Blocks (inline book section)** scan-friendly accordion content now uses mixed **bold/regular** hierarchy, phosphor icons, and industry-standard sans-serif stacks for readability.
 
 Images used in the demo are stored in `/assets/images/placeholders/`.
 

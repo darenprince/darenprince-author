@@ -32,39 +32,39 @@ Use this as a quick reference when navigating the repository or onboarding colla
 
 ### `/js/`
 
-- `auth-service.js` — central auth placeholder returning downtime status.
-- `auth.js` — login/signup UI (delegates to the placeholder for future provider swap).
-- `auth-guard.js` — ensures gated pages surface migration messaging.
-- `dashboard.js` — disables forms/uploads and shows the migration card.
-- `admin-user-console.js` — renders downtime notice in the admin console shell.
-- `profile-dropdown.js` — toggles the avatar menu and routes to login while auth is offline.
-- `ui.js` — toast and progress helpers attached to `window.GameOnUI`.
-- `password-strength.js` — password meter + validation shared across auth forms.
+- `auth-service.js` central auth placeholder returning downtime status.
+- `auth.js` login/signup UI (delegates to the placeholder for future provider swap).
+- `auth-guard.js` ensures gated pages surface migration messaging.
+- `dashboard.js` disables forms/uploads and shows the migration card.
+- `admin-user-console.js` renders downtime notice in the admin console shell.
+- `profile-dropdown.js` toggles the avatar menu and routes to login while auth is offline.
+- `ui.js` toast and progress helpers attached to `window.GameOnUI`.
+- `password-strength.js` password meter + validation shared across auth forms.
 
 ### `/scripts/`
 
-- `generate-icons.mjs` — builds favicons, Apple touch icons, and startup images.
-- `generate-image-manifest.js` — catalogues repo-wide imagery for internal reference tools.
-- `local_setup.sh` — bootstraps dependencies and runs an initial Sass build.
-- `dev.sh` — unified dev launcher that runs Sass watch and Vite together.
-- `start_dev.sh` — optional static preview runner (watch task + Python server).
+- `generate-icons.mjs` builds favicons, Apple touch icons, and startup images.
+- `generate-image-manifest.js` catalogues repo-wide imagery for internal reference tools.
+- `local_setup.sh` bootstraps dependencies and runs an initial Sass build.
+- `dev.sh` unified dev launcher that runs Sass watch and Vite together.
+- `start_dev.sh` optional static preview runner (watch task + Python server).
 
 ### `/docs/`
 
-- `BUILD_PIPELINE.md` — npm scripts, GitHub Pages configuration, deployment checklist.
-- `SITE_STRUCTURE.md` — page inventory, module mapping, migration state for auth surfaces.
-- `data-platform-migration.md` — roadmap for reintroducing authentication + database features.
-- `STYLE_GUIDE.md`, `UI_COMPONENTS.md`, `FILE_STRUCTURE.md` (this doc) — brand and component references.
+- `BUILD_PIPELINE.md` npm scripts, GitHub Pages configuration, deployment checklist.
+- `SITE_STRUCTURE.md` page inventory, module mapping, migration state for auth surfaces.
+- `data-platform-migration.md` roadmap for reintroducing authentication + database features.
+- `STYLE_GUIDE.md`, `UI_COMPONENTS.md`, `FILE_STRUCTURE.md` (this doc) brand and component references.
 
 ### `/tests/`
 
-- `tests/public-site.spec.ts` — validates public site availability checks.
-- `og-image.spec.ts` — ensures Open Graph automation builds as expected.
+- `tests/public-site.spec.ts` validates public site availability checks.
+- `og-image.spec.ts` ensures Open Graph automation builds as expected.
 
 ## Generated artifacts
 
-- `assets/styles.css` — compiled CSS. Run `npm run build` or `npm run watch` after editing Sass.
-- `assets/image-manifest.json` — output of `npm run generate:images` (repo-wide imagery catalog with descriptions).
-- `public/search/*.json` — Minisearch payloads from `npm run build:search`.
+- `assets/styles.css` compiled CSS. Run `npm run build` or `npm run watch` after editing Sass.
+- `assets/image-manifest.json` output of `npm run generate:images` (repo-wide imagery catalog with descriptions).
+- `public/search/*.json` Minisearch payloads from `npm run build:search`.
 
 > **Reality Check:** With the data platform offline, no scripts should attempt to read or write runtime credentials. Keep `.env` limited to analytics keys and automation endpoints until the new provider is ready.

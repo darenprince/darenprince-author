@@ -75,13 +75,13 @@ Notes:
 PAGE: Vibe Prism / Nexus Who (nexuswho.html)
 ==============================
 
-<title>Vibe Prism — Personality Spark Quiz</title>
+<title>Vibe Prism  Personality Spark Quiz</title>
 
 <meta name="description" content="Vibe Prism is a fast, feel-good personality quiz that mirrors your vibe and saves a private Nexus Who profile.">
-<h1>Vibe Prism — See your personality sparkle.</h1>
+<h1>Vibe Prism  See your personality sparkle.</h1>
 
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Vibe Prism — Personality Spark Quiz">
+<meta property="og:title" content="Vibe Prism  Personality Spark Quiz">
 <meta property="og:description" content="Take a quick 32-question personality quiz to see your vibe shimmer back, then save a private token to restore your profile anytime.">
 <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
@@ -89,7 +89,7 @@ PAGE: Vibe Prism / Nexus Who (nexuswho.html)
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vibe Prism — Personality Spark Quiz">
+<meta name="twitter:title" content="Vibe Prism  Personality Spark Quiz">
 <meta name="twitter:description" content="A fast, cinematic personality quiz with a private Nexus Who profile token.">
 <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
@@ -98,7 +98,7 @@ PAGE: Vibe Prism / Nexus Who (nexuswho.html)
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Vibe Prism — Personality Spark Quiz",
+  "name": "Vibe Prism  Personality Spark Quiz",
   "url": "https://darenprince.com/nexuswho.html",
   "description": "Vibe Prism is a fast, feel-good personality quiz that mirrors your vibe and saves a private Nexus Who profile.",
   "breadcrumb": "https://darenprince.com/nexuswho.html"
@@ -196,9 +196,9 @@ Notes:
 PAGE: Game On! Test Landing Page (/books/gameon.html)
 ==============================
 
-<title>Game On! Master the Conversation & Win Her Heart – Daren M. Prince</title>
+<title>Game On! Master the Conversation & Win Her Heart  Daren M. Prince</title>
 
-<meta name="description" content="Game On! Master the Conversation & Win Her Heart by Daren M. Prince – a five-star relationship playbook for men who want real confidence, real connection, and real results.">
+<meta name="description" content="Game On! Master the Conversation & Win Her Heart by Daren M. Prince  a five-star relationship playbook for men who want real confidence, real connection, and real results.">
 <h1>Master the Conversation. Win Her Heart. Without the Games.</h1>
 
 <!-- Open Graph Meta Tags -->
@@ -301,12 +301,12 @@ PAGE: Meet Daren Prince (/about)
 
 <title>Meet Daren Prince | Author, Strategist & Dating Coach</title>
 
-<meta name="description" content="Get to know Daren Prince—author of Game On! and Unshakeable. From heartbreak to healing, discover his story, values, and mission to help others grow.">
+<meta name="description" content="Get to know Daren Princeauthor of Game On! and Unshakeable. From heartbreak to healing, discover his story, values, and mission to help others grow.">
 <h1>Daren Prince: Built by Fire. Driven by Purpose.</h1>
 
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Meet Daren Prince">
-<meta property="og:description" content="Author. Strategist. Real talker. Learn how Daren turned pain into purpose—and how he helps others master confidence and connection.">
+<meta property="og:description" content="Author. Strategist. Real talker. Learn how Daren turned pain into purposeand how he helps others master confidence and connection.">
 <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://darenprince.com/about">
@@ -343,14 +343,14 @@ Notes:
 PAGE: Press & Media (/media)
 ==============================
 
-<title>Press & Media | Daren Prince – Interviews, Headshots & Contact</title>
+<title>Press & Media | Daren Prince  Interviews, Headshots & Contact</title>
 
 <meta name="description" content="Official press kit for Daren Prince. Download high-res headshots, author bio, and request interviews or media appearances.">
 <h1>Press Kit & Media Features</h1>
 
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Press & Media | Daren Prince">
-<meta property="og:description" content="Get press materials, headshots, and media inquiries for Daren Prince—author of Game On! and Unshakeable.">
+<meta property="og:description" content="Get press materials, headshots, and media inquiries for Daren Princeauthor of Game On! and Unshakeable.">
 <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darenprince.com/media">
@@ -456,7 +456,7 @@ PAGE: Blog (/blog)
   "@type": "Blog",
   "name": "The Game On! Blog",
   "url": "https://darenprince.com/blog",
-  "description": "The official blog of Daren Prince—featuring bold, emotionally intelligent articles about confidence, relationships, codependency recovery, and dating psychology.",
+  "description": "The official blog of Daren Princefeaturing bold, emotionally intelligent articles about confidence, relationships, codependency recovery, and dating psychology.",
   "publisher": {
     "@type": "Person",
     "name": "Daren Prince"
@@ -489,7 +489,7 @@ PAGE: Collaborations (/collabs)
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Partner with Daren Prince">
-<meta name="twitter:description" content="Explore affiliate and content partnerships with Daren Prince—bestselling author, strategist, and coach.">
+<meta name="twitter:description" content="Explore affiliate and content partnerships with Daren Princebestselling author, strategist, and coach.">
 <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
 
 <!-- Schema.org Structured Data -->
@@ -554,7 +554,7 @@ Notes:
 
 - Make sure your contact form includes name, email, and message fields.
 - Validate entries and ensure mobile responsiveness for best experience.
-- Avoid CAPTCHA if possible—keep UX friction low.
+- Avoid CAPTCHA if possiblekeep UX friction low.
 
 ==============================
 SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
@@ -569,7 +569,7 @@ SCHEMA TEMPLATE: BlogPosting (for blog/:slug pages)
     "@id": "https://darenprince.com/blog/sample-post-slug"
   },
   "headline": "Blog Post Title Goes Here",
-  "description": "Short summary of the post (around 150–200 characters).",
+  "description": "Short summary of the post (around 150200 characters).",
   "image": "https://darenprince.com/https://www.darenprince.com/assets/images/og-daren-prince.png",
   "author": {
     "@type": "Person",

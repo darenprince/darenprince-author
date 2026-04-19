@@ -22,13 +22,13 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 | Partial             | Description                                      | Key hooks                                              | JS dependencies                                       |
 | ------------------- | ------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------- |
 | `_buttons.scss`     | Gradient CTAs, outline buttons, segmented groups | `.btn`, `.btn--primary`, `.btn--outline`, `.btn-group` | Optional: `js/ui.js` for progress feedback            |
-| `_cta-buttons.scss` | Hero CTA stacks with icons                       | `.cta-buttons`, `.cta-buttons__item`                   | —                                                     |
+| `_cta-buttons.scss` | Hero CTA stacks with icons                       | `.cta-buttons`, `.cta-buttons__item`                   |                                                       |
 | `_forms.scss`       | Inputs, selects, textareas with focus halos      | `.form-control`, `.form-field`, `.form-error`          | `js/password-strength.js` when meter active           |
 | `_cards.scss`       | Flexible card shells and stat panels             | `.card`, `.card--press`, `.card__meta`                 | Used by `js/dashboard.js`, `js/admin-user-console.js` |
 | `_modals.scss`      | Modal overlay + close controls                   | `.modal`, `.modal__content`, `.modal__close`           | `js/trailer-modal.js`                                 |
 | `_alerts.scss`      | Inline alert banners                             | `.alert`, `.alert--success`, `.alert--danger`          | `js/ui.js` to show toast equivalents                  |
-| `_toggles.scss`     | Toggle switches                                  | `.toggle`, `.toggle__indicator`                        | —                                                     |
-| `_icons.scss`       | Icon badges + sizing utilities                   | `.icon-badge`, `.icon-badge--accent`                   | —                                                     |
+| `_toggles.scss`     | Toggle switches                                  | `.toggle`, `.toggle__indicator`                        |                                                       |
+| `_icons.scss`       | Icon badges + sizing utilities                   | `.icon-badge`, `.icon-badge--accent`                   |                                                       |
 | `_loaders.scss`     | Spinner + progress bar                           | `.loader`, `.progress`, `.progress .bar`               | `js/ui.js` (`showProgress`, `setProgress`)            |
 
 ## Hero & storytelling modules
@@ -37,11 +37,11 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 | ------------------------- | -------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
 | `_hero.scss`              | Primary hero layout                                | `.hero`, `.hero__title`, `.hero__cta`                                | `js/hero-demos.js`, `js/theme-toggle.js`                       |
 | `_hero-demos.scss`        | Experimental hero variants                         | `.hero-demo`, `.hero-demo--video`, `.hero-demo--parallax`            | `js/hero-demos.js`, `js/hero-video.js`, `js/hero-auto-zoom.js` |
-| `_banner.scss`            | Announcement banner                                | `.banner`, `.banner--success`                                        | —                                                              |
-| `_testimonials.scss`      | Quote grid with avatars                            | `.testimonial`, `.testimonial__author`                               | —                                                              |
+| `_banner.scss`            | Announcement banner                                | `.banner`, `.banner--success`                                        |                                                                |
+| `_testimonials.scss`      | Quote grid with avatars                            | `.testimonial`, `.testimonial__author`                               |                                                                |
 | `_downloads.scss`         | Download cards                                     | `.download-card`, `.download-card__meta`                             | `js/image-index.js` (viewer)                                   |
 | `_viewer.scss`            | Document/video viewer                              | `.viewer`, `.viewer__frame`, `.viewer__actions`                      | `js/image-index.js`, `js/book-3d-viewer.js`                    |
-| `utilities/_helpers.scss` | Brand heading utilities for split heading emphasis | `.brand-heading`, `.brand-heading__emphasis`, `.brand-heading__base` | —                                                              |
+| `utilities/_helpers.scss` | Brand heading utilities for split heading emphasis | `.brand-heading`, `.brand-heading__emphasis`, `.brand-heading__base` |                                                                |
 
 ## Book experience
 
@@ -71,7 +71,7 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 | `_component-docs.scss`                         | Layout for `components.html` docs     | `.component-docs`, `.component-docs__aside`      | `js/main.js`               |
 | `_demo-container.scss`                         | Demo wrappers with headers/footers    | `.demo-container`                                | `js/main.js`               |
 | `_press-page.scss`                             | Press/media asset layout              | `.press-hero`, `.press-grid`, `.press-downloads` | `js/theme-toggle.js`       |
-| `_bio-page.scss`                               | Biography storytelling                | `.bio-hero`, `.bio-grid`, `.bio-card`            | —                          |
+| `_bio-page.scss`                               | Biography storytelling                | `.bio-hero`, `.bio-grid`, `.bio-card`            |                            |
 | `_alerts.scss`, `_toggles.scss`, `_cards.scss` | Shared admin feedback + toggle styles | `.alert`, `.toggle`, `.card`                     | `js/admin-user-console.js` |
 
 ## Search & docs
@@ -79,14 +79,14 @@ This reference links every Sass partial, markup hook, and JavaScript controller 
 | Partial                | Description                                 | Hook elements                                         | JS                                             |
 | ---------------------- | ------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------- |
 | `_search.scss`         | Search results layout (`pages/search.html`) | `.search-results`, `.search-hit`, `.search-hit__meta` | `src/js/search-results.js`, `src/js/search.js` |
-| `_component-docs.scss` | Documentation typography                    | `.component-docs`, `.component-docs__content`         | —                                              |
+| `_component-docs.scss` | Documentation typography                    | `.component-docs`, `.component-docs__content`         |                                                |
 
 ## Component & script crosswalk
 
 | Surface             | Key HTML                                | SCSS modules                                                                                | JS                                                               |
 | ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | Homepage hero       | `index.html` (`.hero`)                  | `_hero.scss`, `_buttons.scss`, `_cta-buttons.scss`                                          | `js/hero-demos.js`, `js/main.js`                                 |
-| Homepage author bio | `index.html` (`.author-spotlight-card`) | `_book-details-wrapper.scss` (split 50/50 media/content card)                               | —                                                                |
+| Homepage author bio | `index.html` (`.author-spotlight-card`) | `_book-details-wrapper.scss` (split 50/50 media/content card)                               |                                                                  |
 | Book detail         | `book.html`                             | `_book.scss`, `_book-tabs.scss`, `_trailer-modal.scss`, `_book-3d.scss`                     | `js/book-tabs.js`, `js/trailer-modal.js`, `js/book-3d-viewer.js` |
 | Login               | `login.html`                            | `_login.scss`, `_forms.scss`, `_password-strength.scss`                                     | `js/auth.js`, `js/password-strength.js`                          |
 | Member dashboard    | `dashboard.html`                        | `_dashboard.scss`, `_cards.scss`, `_forms.scss`, `_viewer.scss`                             | `js/dashboard.js`, `js/auth-guard.js`                            |

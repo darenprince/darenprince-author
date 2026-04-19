@@ -85,7 +85,7 @@ const template = ({
     <section class="panel-grid">
       <div class="panel-card">
         <h3>Readiness snapshot</h3>
-        <p><strong>Status:</strong> ${status} — ${statusDetail}</p>
+        <p><strong>Status:</strong> ${status}  ${statusDetail}</p>
         <p><strong>Next gate:</strong> ${nextGate}</p>
         <p><strong>Completion:</strong> ${completion}</p>
         <p><strong>Time to market:</strong> ${timeToMarket}</p>

@@ -27,7 +27,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Hero trailer reminder:** The homepage trailer is landscape (16:9). Keep the frame set to a containment fit so the video does not crop when you adjust the hero layout, and verify the CTA play button scrolls to the trailer on mobile when JavaScript hooks change.
 >
-> **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggers—GitHub Pages should load complete sections right away.
+> **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggersGitHub Pages should load complete sections right away.
 >
 > **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
 >
@@ -74,9 +74,9 @@ If a visual change appears to be ignored, verify you edited the stylesheet owned
 
 ## Local development workflow
 
-1. `./scripts/local_setup.sh` — installs dependencies, ensures Sass, and compiles `assets/styles.css` once.
-2. `npm run dev` — launches Vite and Sass watch together (recommended for active UI development).
-3. `./scripts/start_dev.sh` — optional static preview server that runs `npm run watch` in the background.
+1. `./scripts/local_setup.sh` installs dependencies, ensures Sass, and compiles `assets/styles.css` once.
+2. `npm run dev` launches Vite and Sass watch together (recommended for active UI development).
+3. `./scripts/start_dev.sh` optional static preview server that runs `npm run watch` in the background.
 4. Development loop:
    - Edit Sass → watch task rebuilds automatically.
    - Update assets → rerun `npm run generate:images`.
@@ -99,10 +99,10 @@ If a visual change appears to be ignored, verify you edited the stylesheet owned
 
 ## Testing & quality gates
 
-- `npm test` — Vitest suites covering public site smoke checks and asset helpers.
-- `npm run build` — Quick smoke test (watch for Sass deprecation warnings when upgrading Dart Sass).
-- `npm run lint:metadata` — Verifies deployable metadata/social imagery and brand `theme-color` coverage on primary public pages.
-- `npm run postprocess:seo` — Validate canonical URLs, JSON-LD, robots.txt, and sitemap output (GitHub Pages serves the committed output).
+- `npm test` Vitest suites covering public site smoke checks and asset helpers.
+- `npm run build` Quick smoke test (watch for Sass deprecation warnings when upgrading Dart Sass).
+- `npm run lint:metadata` Verifies deployable metadata/social imagery and brand `theme-color` coverage on primary public pages.
+- `npm run postprocess:seo` Validate canonical URLs, JSON-LD, robots.txt, and sitemap output (GitHub Pages serves the committed output).
 
 ## Deployment checklist
 
