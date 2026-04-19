@@ -55,7 +55,7 @@ const SiteFooter = () => {
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-          <span>© 2026 Vibe Prism — Nexus Who Minisite. All rights reserved.</span>
+          <span>© 2026 Vibe Prism Nexus Who Minisite. All rights reserved.</span>
           <span>Encrypted locally. Nothing leaves your device without permission.</span>
         </div>
       </div>

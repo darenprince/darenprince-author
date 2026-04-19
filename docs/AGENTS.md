@@ -1,5 +1,4 @@
-
-# 🤖 AGENTS.md — Codex AI Behavior & Personas
+# 🤖 AGENTS.md Codex AI Behavior & Personas
 
 This file defines and configures Codex agents used in the Daren Prince Author Platform. These agents lead with site building, branding, full site generation, organization, feature implementation, component generation, and future integrations such as member-exclusive content, auth implementation and development and chat.
 
@@ -18,4 +17,5 @@ This file defines and configures Codex agents used in the Daren Prince Author Pl
 ---
 
 ## 🧠 Primary Roles:
+
 Master App architect and developer, Web Developer, Ui Designer, SEO & Metadata Expert

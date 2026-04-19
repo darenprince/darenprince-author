@@ -103,7 +103,7 @@ const Quiz = () => {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-16">
       <div className="flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.3em] text-slate-400">
-        <span>Vibe Prism — quiz flow</span>
+        <span>Vibe Prism quiz flow</span>
         <span>{hasStarted ? `${currentIndex + 1} / ${questions.length}` : 'Ready'}</span>
       </div>
       <ProgressBar value={progress} />

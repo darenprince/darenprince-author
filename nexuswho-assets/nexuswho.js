@@ -229,7 +229,7 @@ const A = 'modulepreload',
             className: 'flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500',
             children: [
               e.jsx('span', {
-                children: '© 2026 Vibe Prism — Nexus Who Minisite. All rights reserved.',
+                children: '© 2026 Vibe Prism  Nexus Who Minisite. All rights reserved.',
               }),
               e.jsx('span', {
                 children: 'Encrypted locally. Nothing leaves your device without permission.',

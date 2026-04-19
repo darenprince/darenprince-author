@@ -447,7 +447,7 @@ const P = {
             s.band === 'RED'
               ? 'This profile reads as high-voltage and strategically forceful, with enough intensity to warrant active boundaries and careful context checks.'
               : s.band === 'YELLOW'
-                ? 'This profile reads as adaptive and ambitious, but not fully neutral—there are signals that merit deliberate self-monitoring.'
+                ? 'This profile reads as adaptive and ambitious, but not fully neutralthere are signals that merit deliberate self-monitoring.'
                 : 'This profile reads as comparatively stable and lower-risk, with trait expressions that appear controlled across most domains.',
           N =
             t.length > 0
@@ -510,7 +510,7 @@ const P = {
                   children: [
                     e.jsx('p', {
                       className: 'text-xs uppercase tracking-[0.4em] text-slate-400',
-                      children: 'Nexus Who — forensic decoder',
+                      children: 'Nexus Who  forensic decoder',
                     }),
                     e.jsx('h1', {
                       className: 'mt-3 text-3xl font-semibold',
@@ -696,7 +696,7 @@ const P = {
                               ' ',
                               '(emotional detachment under pressure), and ',
                               e.jsx('strong', { children: 'Manipulation Doctrine' }),
-                              ' (influence style). Raw answers are normalized to 0–100, weighted per trait, then combined into DTI. Integrity checks (masking speed, contradiction traps, halo patterns) and safety overrides can increase risk interpretation and elevate the final band.',
+                              ' (influence style). Raw answers are normalized to 0100, weighted per trait, then combined into DTI. Integrity checks (masking speed, contradiction traps, halo patterns) and safety overrides can increase risk interpretation and elevate the final band.',
                             ],
                           }),
                         ],

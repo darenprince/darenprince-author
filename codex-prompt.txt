@@ -1,4 +1,4 @@
-Here is your revised Codex prompt — strictly based on what you actually told me:
+Here is your revised Codex prompt  strictly based on what you actually told me:
 
 ⸻
 
@@ -11,7 +11,7 @@ Page structure should include:
 1. Hero Section
 • Include a heading image at the top of the page.
 • Headline: “Daren’s Site is Leveling Up”
-• Subtext: “Game on, even when the page is down. We’re upgrading the experience — faster, sleeker, bolder. Hang tight.”
+• Subtext: “Game on, even when the page is down. We’re upgrading the experience  faster, sleeker, bolder. Hang tight.”
 
 2. Get the Book Section
 • Include a mockup image placeholder for the book.
@@ -31,7 +31,7 @@ Page structure should include:
 • Apple Books: https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900
 • Google Play: https://play.google.com/store/books/details?id=BYFbEQAAQBAJ
 • Books-A-Million: https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407
-• ThriftBooks: https://www.thriftbooks.com/w/game-on-master-the-conversation–win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating–amazing-relationships_daren-prince/54448380
+• ThriftBooks: https://www.thriftbooks.com/w/game-on-master-the-conversationwin-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-datingamazing-relationships_daren-prince/54448380
 • Waterstones: https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407
 • Codex should locate existing logo assets already uploaded in the repo by filename.
 

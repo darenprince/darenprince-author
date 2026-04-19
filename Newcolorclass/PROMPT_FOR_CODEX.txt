@@ -38,6 +38,6 @@ Do not approximate. Do not refactor existing classes. This change is additive on
 
 ## Constraints
 - Two-stop gradients only: linear-gradient(180deg, <top> 0%, <bottom> 100%).
-- Use exact border and cloud/text colours per swatch — values are in the CSS and JSON/CSV.
+- Use exact border and cloud/text colours per swatch  values are in the CSS and JSON/CSV.
 - No breaking changes; the site must render as before if none of the new classes are used.
 - Icons/SVGs must use `fill="currentColor"`.

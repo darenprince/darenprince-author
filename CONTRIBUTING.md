@@ -26,7 +26,7 @@ Thanks for helping keep the site healthy. This guide summarizes the day-to-day w
 - During a rebase/merge, use quick-accept helpers when you are not actively reviewing the changes:
   - Take remote copy: `git checkout --theirs <file> && git add <file>`
   - Keep your copy: `git checkout --ours <file> && git add <file>`
-- Generated/minified assets are marked with `merge=ours` in `.gitattributes`; never hand-edit conflicts there—resolve the conflict by keeping your side, continue the rebase, and rebuild.
+- Generated/minified assets are marked with `merge=ours` in `.gitattributes`; never hand-edit conflicts thereresolve the conflict by keeping your side, continue the rebase, and rebuild.
 - For `package.json` or `package-lock.json` conflicts during bootstrap work, accept the remote (`--theirs`) version and reinstall dependencies.
 
 ## Patch Application Helper
