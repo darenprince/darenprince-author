@@ -1188,7 +1188,7 @@ body.books-page {
 
 .featured-books-shell {
   width: min(100%, var(--max-width-lg));
-  margin: 0 auto clamp(1.3rem, 3.8vw, 2.4rem);
+  margin: clamp(1rem, 2.8vw, 1.8rem) auto clamp(1.3rem, 3.8vw, 2.4rem);
   padding: clamp(1.6rem, 3.8vw, 2.35rem) clamp(0.65rem, 2.3vw, 1.2rem);
   padding-top: clamp(2.2rem, 5vw, 3rem);
   border-top: 1px solid color-mix(in srgb, $white 15%, transparent);
@@ -1385,10 +1385,17 @@ body.books-page {
 }
 
 .featured-book-card--cta {
-  align-content: center;
+  min-height: clamp(17rem, 38vw, 19.75rem);
+  align-content: stretch;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(0.6rem, 1.8vw, 0.9rem);
+  grid-template-rows: auto auto 1fr auto;
+  padding: clamp(1rem, 2.4vw, 1.2rem) clamp(0.72rem, 2.4vw, 1rem) clamp(0.78rem, 1.8vw, 0.96rem);
   background: linear-gradient(155deg, rgba(5, 6, 8, 0.98), rgba(18, 20, 24, 0.9));
 
   h4 {
+    margin-top: clamp(0.24rem, 1vw, 0.56rem);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     line-height: 1.15;
@@ -1412,6 +1419,12 @@ body.books-page {
     margin: 0;
     color: color-mix(in srgb, $white 72%, transparent);
     font-size: 0.9rem;
+    max-width: 22ch;
+  }
+
+  .btn {
+    margin-top: auto;
+    align-self: end;
   }
 }
 

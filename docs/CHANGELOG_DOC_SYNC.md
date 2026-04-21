@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-18 — Homepage featured rail CTA spacing + centered copy refinement (GitHub Pages-safe)
+
+- Increased top margin on the featured books shell in `scss/components/_book-details-wrapper.scss` so the “FEATURED & UPCOMING” rail has cleaner breathing room from the section above.
+- Refactored the featured rail CTA card styling to center all text content, normalize internal spacing, and constrain copy width for more balanced line wraps.
+- Moved the CTA button to the lower third of the final rail card by switching to explicit grid row flow and pinning the action to the bottom track.
+- Rebuilt deployable CSS (`assets/styles.css`) with `npm run styles:build` so GitHub Pages publishes the updated spacing/layout behavior.
+
 ## 2026-04-18, Copy punctuation humanization pass (GitHub Pages safe)
 
 - Replaced em dash and en dash punctuation on key public pages so the writing reads with a more natural human cadence.
