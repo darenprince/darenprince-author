@@ -2,6 +2,12 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-21, Homepage metadata voice refinement and deploy parity
+
+- Rewrote `index.html` and `home.html` title, description, Open Graph, and Twitter description copy with a more human brand voice and clearer emotional intent.
+- Tightened meta descriptions for search snippets while keeping GitHub Pages friendly static metadata output.
+- Confirmed favicon, social image, and brand browser chrome references remain unchanged and deployable from committed repository assets.
+
 ## 2026-04-18, Copy punctuation humanization pass (GitHub Pages safe)
 
 - Replaced em dash and en dash punctuation on key public pages so the writing reads with a more natural human cadence.
