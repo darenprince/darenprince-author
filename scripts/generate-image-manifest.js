@@ -68,7 +68,7 @@ function describe(imagePath) {
   else if (lower.includes('bg') || lower.includes('background'))
     subject = 'background texture visual'
 
-  return `${titled} — ${subject} (${ext}).`
+  return `${titled}  ${subject} (${ext}).`
 }
 
 function getTags(imagePath) {

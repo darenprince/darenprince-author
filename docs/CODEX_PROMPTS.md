@@ -1,5 +1,4 @@
-
-# 🧠 CODEX_PROMPTS.md — Codex Prompt Library (Live Site Expansion)
+# 🧠 CODEX_PROMPTS.md Codex Prompt Library (Live Site Expansion)
 
 This file defines modular, SCSS-based prompt logic for continuing development of the official Daren Prince Author Website. Every prompt must follow the global rules defined below.
 
@@ -19,7 +18,7 @@ Always:
   • Update CODEX_PROMPTS.md with prompt used
   • Document logic inside /docs/ or /scss/ if needed
 - Never use dashes, hyphens, or shorthand content
-- No external libraries — everything must be native, modular, and reusable
+- No external libraries  everything must be native, modular, and reusable
 ```
 
 ---
@@ -71,7 +70,7 @@ Always:
 💡 Prompt Logic: "Build a sticky nav that uses CodyHouse spacing and flex grid, mobile-first with aria roles."
 
 [011] Global Footer  
-▶️ Use Case: 3–4 column footer with nav, copyright, opt-in  
+▶️ Use Case: 34 column footer with nav, copyright, opt-in  
 💡 Prompt Logic: "Build a dark-mode footer with 4 sections, full brand nav, and responsive layout."
 
 ---
@@ -98,8 +97,6 @@ Always:
 ▶️ Use Case: Force prompt to update all supporting docs  
 💡 Prompt Logic: "After this, remember to update README.md, CODEX_PROMPTS.md, MASTER_PLAN.md, and add live demo to components.html"
 
-
 [015] Book Detail Tab System  
 ▶️ Use Case: Multi-tab layout for book preview, description, video trailer, and exclusive content  
 💡 Prompt Logic: "Build a full tabbed interface using CodyHouse SCSS. Include buttons to toggle between Front Cover, Back Cover, and 3D view inside the preview tab. All tabs must share a persistent sticky area with buy button, dropdown, and short description. Description tab includes long-form copy and book metadata chart. Trailer tab has a portrait video block with controls. Members-only tab displays blurred preview and login CTA."
-

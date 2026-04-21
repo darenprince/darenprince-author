@@ -47,20 +47,20 @@ Admin utilities such as `admin-user-management.html` omit the theme toggle butto
 
 Navigation styles compile from:
 
-- `scss/layout/_header.scss` — header layout, sticky behavior, icon button styling.
-- `scss/layout/_nav.scss` — mega menu, overlay, search bar, profile dropdown wrappers.
-- `scss/style.scss` — mega menu glassmorphism polish (gradient stroke, refined separators, active icon/link color alignment).
-- `scss/components/_profile-dropdown.scss` — dropdown panel styling.
-- `scss/styles.scss` — Sass entry point (imports all partials, including `scss/style.scss` legacy mega menu tweaks).
+- `scss/layout/_header.scss` header layout, sticky behavior, icon button styling.
+- `scss/layout/_nav.scss` mega menu, overlay, search bar, profile dropdown wrappers.
+- `scss/style.scss` mega menu glassmorphism polish (gradient stroke, refined separators, active icon/link color alignment).
+- `scss/components/_profile-dropdown.scss` dropdown panel styling.
+- `scss/styles.scss` Sass entry point (imports all partials, including `scss/style.scss` legacy mega menu tweaks).
 
 Run `npm run build` (or the `watch` script) after editing any of these partials.
 
 ## 3. JavaScript behavior
 
-- `js/main.js` — toggles the mega menu (`.js-menu-toggle`, `.js-menu-close`, `.js-menu-overlay`), handles the auth button default state, injects the header share action, and launches the desktop search modal.
-- `js/profile-dropdown.js` — controls the avatar dropdown and routes users to login while auth is offline.
-- `js/theme-toggle.js` — switches `.theme-dark`/`.theme-light` and persists the choice in `localStorage`.
-- `js/search.js` (from `src/js/`) — powers the autocomplete dropdown in pages that include the `[data-search]` widget.
+- `js/main.js` toggles the mega menu (`.js-menu-toggle`, `.js-menu-close`, `.js-menu-overlay`), handles the auth button default state, injects the header share action, and launches the desktop search modal.
+- `js/profile-dropdown.js` controls the avatar dropdown and routes users to login while auth is offline.
+- `js/theme-toggle.js` switches `.theme-dark`/`.theme-light` and persists the choice in `localStorage`.
+- `js/search.js` (from `src/js/`) powers the autocomplete dropdown in pages that include the `[data-search]` widget.
 
 > **Reality Check:** `components.html` now relies on the shared navigation scripts only; the legacy `js/mobile-nav.js` include has been removed to avoid runtime 404s.
 
@@ -86,10 +86,10 @@ Adjust the list per page (e.g., dashboards also load `js/auth-guard.js` and `js/
 
 ## 5. Common pitfalls
 
-1. **Forgotten rebuilds** — Edits in `scss/` require `npm run build` to regenerate `assets/styles.css`.
-2. **Menu markup drift** — Each HTML page has its own copy of the menu. Update all surfaces or extract a partial before shipping wide changes.
-3. **Auth provider offline** — With the migration placeholder active, `js/profile-dropdown.js` keeps the login route and tooltip messaging instead of exposing broken buttons.
-4. **Stale search assets** — Header and modal search now route to `/pages/search.html` (on-site Minisearch). Seed `/content/` and run `npm run build:search` before demoing so results are not empty.
+1. **Forgotten rebuilds** Edits in `scss/` require `npm run build` to regenerate `assets/styles.css`.
+2. **Menu markup drift** Each HTML page has its own copy of the menu. Update all surfaces or extract a partial before shipping wide changes.
+3. **Auth provider offline** With the migration placeholder active, `js/profile-dropdown.js` keeps the login route and tooltip messaging instead of exposing broken buttons.
+4. **Stale search assets** Header and modal search now route to `/pages/search.html` (on-site Minisearch). Seed `/content/` and run `npm run build:search` before demoing so results are not empty.
 
 ## 6. Current mega-menu baseline (April 14, 2026)
 

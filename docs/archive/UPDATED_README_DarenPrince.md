@@ -2,7 +2,7 @@
 
 ⚠️ **Legacy:** This file is kept for historical reference. For the latest information see `docs/README.md`.
 
-Welcome to the official development repository for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This site is the digital command center for Daren’s entire brand ecosystem – designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
+Welcome to the official development repository for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This site is the digital command center for Daren’s entire brand ecosystem designed to convert browsers into readers, amplify the author's voice, and build a movement around real connection, emotional intelligence, and modern masculinity.
 
 ---
 

@@ -19,7 +19,7 @@ The example above inherits the pill silhouette, large spacing tokens, and deep-g
 
 ## Page Adoption Checklist
 
-- ✅ **Author + Game On!**: no action required—these pages live inside the default `body:not(.brand-exempt)` scope and automatically receive the new styling.
+- ✅ **Author + Game On!**: no action requiredthese pages live inside the default `body:not(.brand-exempt)` scope and automatically receive the new styling.
 - ➕ **New brand pages**: ensure the `<body>` lacks `brand-exempt` (or explicitly wrap the content in a container that matches `$button-brand-scope`).
 - 🚫 **Labs, 911, experiments**: keep or add `brand-exempt` to preserve their bespoke buttons.
 - 🧹 **Legacy demos**: the old button examples on the component catalogue have been removed. Use [`docs/buttons-demo.html`](./buttons-demo.html) instead for visual QA.
@@ -59,7 +59,7 @@ The button system only attaches to author-facing and Game On! experiences. Any p
 
 ## Variants
 
-`$btn-variants` generates solid button themes: `primary` (lime), `forest` (deep green), `charcoal` (dark neutral), `mint` (soft secondary), and `outline` (bordered lime). Legacy class names—`accent`, `secondary`, `contrast`, and `neutral`—alias those same themes so existing pages keep working while adopting the refreshed styling. Additional modifiers—`btn--ghost`, `btn--subtle`, icon buttons, nav controls, auth buttons, and grayscale utilities—are composed on top of the same mixins so every button responds uniformly to focus, hover, and disabled states.
+`$btn-variants` generates solid button themes: `primary` (lime), `forest` (deep green), `charcoal` (dark neutral), `mint` (soft secondary), and `outline` (bordered lime). Legacy class names`accent`, `secondary`, `contrast`, and `neutral`alias those same themes so existing pages keep working while adopting the refreshed styling. Additional modifiers`btn--ghost`, `btn--subtle`, icon buttons, nav controls, auth buttons, and grayscale utilitiesare composed on top of the same mixins so every button responds uniformly to focus, hover, and disabled states.
 
 ### Size & feel modifiers
 
@@ -137,7 +137,7 @@ Want to try a new palette in seconds? Add `style="--btn-bg: #hex; --btn-color: #
 - **Seeing gray text again?** Confirm the button lives inside the brand scope and that its variant sets both `bg` and `text` tokens. The lint script fails the build if either key goes missing.
 - **Need a flat hyperlink look?** Combine `.btn--flat` with a variant or set `--btn-shadow: none; --btn-border-width: 0;` inline.
 - **Migrating legacy gradients?** Use `button-base` with gradient backgrounds (see `btn--gray-gradient` examples) so spacing and focus states remain predictable.
-- **CMS overrides**: editors can change `--btn-bg`, `--btn-color`, and `--btn-border-color` directly on the element without touching Sass—perfect for limited-time offers.
+- **CMS overrides**: editors can change `--btn-bg`, `--btn-color`, and `--btn-border-color` directly on the element without touching Sassperfect for limited-time offers.
 
 ## Automated Guardrail
 

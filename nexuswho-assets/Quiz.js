@@ -241,7 +241,7 @@ const Y = {
               className:
                 'flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.3em] text-slate-400',
               children: [
-                e.jsx('span', { children: 'Vibe Prism — quiz flow' }),
+                e.jsx('span', { children: 'Vibe Prism  quiz flow' }),
                 e.jsx('span', { children: d ? `${c + 1} / ${m.length}` : 'Ready' }),
               ],
             }),
