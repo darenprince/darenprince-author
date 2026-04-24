@@ -10,6 +10,15 @@ const getLockTimeout = (attempts: number) => {
   return Math.min(60000, 3000 * attempts * attempts)
 }
 
+const persistUnlockFlag = () => {
+  try {
+    sessionStorage.setItem('VP_DECODE_UNLOCK', '1')
+    return true
+  } catch {
+    return false
+  }
+}
+
 interface PinPadProps {
   onUnlock: () => void
 }
@@ -18,6 +27,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
   const [pin, setPin] = useState('')
   const [attempts, setAttempts] = useState(0)
   const [lockUntil, setLockUntil] = useState<number | null>(null)
+  const [unlockWarning, setUnlockWarning] = useState<string | null>(null)
 
   const locked = lockUntil !== null && lockUntil > Date.now()
 
@@ -53,7 +63,14 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
     }
 
     if (pin === DEV_EMBEDDED_PIN) {
-      sessionStorage.setItem('VP_DECODE_UNLOCK', '1')
+      const persisted = persistUnlockFlag()
+      if (!persisted) {
+        setUnlockWarning(
+          'Unlocked for this view, but private browser settings blocked session storage.'
+        )
+      } else {
+        setUnlockWarning(null)
+      }
       onUnlock()
       return
     }
@@ -137,6 +154,7 @@ const PinPad = ({ onUnlock }: PinPadProps) => {
         </button>
         {attempts > 0 && <span className="text-xs text-slate-400">Attempts: {attempts} / 3</span>}
       </div>
+      {unlockWarning && <p className="mt-3 text-xs text-amber-200">{unlockWarning}</p>}
     </div>
   )
 }

@@ -1,28 +1,28 @@
 import {
-  r as o,
+  r as i,
   j as e,
-  h as R,
+  h as T,
   Q as F,
-  D as z,
+  D as L,
   m as C,
   G as $,
-  W as E,
-  i as A,
-  E as T,
-  n as B,
+  W as R,
+  i as z,
+  E as I,
+  n as U,
 } from './vendor.js'
 import {
-  R as W,
-  B as O,
-  b as U,
+  R as B,
+  B as W,
+  b as O,
   C as Q,
   a as _,
   P as H,
   L as G,
   i as V,
   p as Y,
-  c as J,
-  d as K,
+  c as K,
+  d as J,
   e as X,
   f as Z,
 } from './charts.js'
@@ -30,32 +30,46 @@ import { H as q } from './scanner.js'
 import { Q as ee, A as se } from './questions.js'
 import { g as te, d as ae, s as re } from './storage.js'
 const ne = '55486423',
-  ie = (h) => (h <= 0 ? 0 : Math.min(6e4, 3e3 * h * h)),
-  le = ({ onUnlock: h }) => {
-    const [u, c] = o.useState(''),
-      [p, s] = o.useState(0),
-      [j, f] = o.useState(null),
-      i = j !== null && j > Date.now(),
-      d = o.useMemo(() => Array.from({ length: 8 }, (n, g) => (g < u.length ? '•' : '◦')), [u]),
-      D = (n) => {
-        i || u.length >= 8 || c((g) => g + n)
+  ie = (l) => (l <= 0 ? 0 : Math.min(6e4, 3e3 * l * l)),
+  le = () => {
+    try {
+      return (sessionStorage.setItem('VP_DECODE_UNLOCK', '1'), !0)
+    } catch {
+      return !1
+    }
+  },
+  oe = ({ onUnlock: l }) => {
+    const [m, n] = i.useState(''),
+      [x, t] = i.useState(0),
+      [N, y] = i.useState(null),
+      [c, h] = i.useState(null),
+      w = N !== null && N > Date.now(),
+      D = i.useMemo(() => Array.from({ length: 8 }, (s, a) => (a < m.length ? '•' : '◦')), [m]),
+      p = (s) => {
+        w || m.length >= 8 || n((a) => a + s)
+      },
+      M = () => {
+        w || n((s) => s.slice(0, -1))
       },
       S = () => {
-        i || c((n) => n.slice(0, -1))
+        w || n('')
       },
-      m = () => {
-        i || c('')
-      },
-      k = () => {
-        if (i || u.length < 8) return
-        if (u === ne) {
-          ;(sessionStorage.setItem('VP_DECODE_UNLOCK', '1'), h())
+      E = () => {
+        if (w || m.length < 8) return
+        if (m === ne) {
+          const a = le()
+          ;(h(
+            a
+              ? null
+              : 'Unlocked for this view, but private browser settings blocked session storage.'
+          ),
+            l())
           return
         }
-        const n = p + 1
-        if ((s(n), c(''), n >= 3)) {
-          const g = ie(n)
-          ;(f(Date.now() + g), setTimeout(() => f(null), g + 200))
+        const s = x + 1
+        if ((t(s), n(''), s >= 3)) {
+          const a = ie(s)
+          ;(y(Date.now() + a), setTimeout(() => y(null), a + 200))
         }
       }
     return e.jsxs('div', {
@@ -64,7 +78,7 @@ const ne = '55486423',
         e.jsxs('div', {
           className: 'flex items-center gap-3',
           children: [
-            e.jsx(R, { size: 28, className: 'text-sky-300' }),
+            e.jsx(T, { size: 28, className: 'text-sky-300' }),
             e.jsxs('div', {
               children: [
                 e.jsx('p', {
@@ -82,21 +96,21 @@ const ne = '55486423',
           children: [
             e.jsx('div', {
               className: 'flex items-center gap-2 text-xl',
-              children: d.map((n, g) =>
+              children: D.map((s, a) =>
                 e.jsx(
                   'span',
                   {
                     className:
-                      n === '•'
+                      s === '•'
                         ? 'inline-flex h-8 w-8 items-center justify-center rounded-full border border-emerald-300/60 bg-emerald-400/20 text-emerald-100'
                         : 'inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-slate-800/70 text-slate-500',
-                    children: n,
+                    children: s,
                   },
-                  `${n}-${g}`
+                  `${s}-${a}`
                 )
               ),
             }),
-            i &&
+            w &&
               e.jsx('span', {
                 className: 'text-xs uppercase tracking-[0.3em] text-rose-300',
                 children: 'Locked',
@@ -106,36 +120,36 @@ const ne = '55486423',
         e.jsxs('div', {
           className: 'mt-6 grid grid-cols-3 gap-3',
           children: [
-            ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((n) =>
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((s) =>
               e.jsx(
                 'button',
                 {
                   type: 'button',
-                  onClick: () => D(n),
+                  onClick: () => p(s),
                   className:
                     'rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-sky-300/50',
-                  children: n,
+                  children: s,
                 },
-                n
+                s
               )
             ),
             e.jsx('button', {
               type: 'button',
-              onClick: m,
+              onClick: S,
               className:
                 'rounded-xl border border-white/10 bg-white/5 py-3 text-xs uppercase tracking-[0.3em] text-slate-400',
               children: 'Clear',
             }),
             e.jsx('button', {
               type: 'button',
-              onClick: () => D('0'),
+              onClick: () => p('0'),
               className:
                 'rounded-xl border border-white/10 bg-white/5 py-3 text-lg font-semibold text-slate-100 transition hover:border-sky-300/50',
               children: '0',
             }),
             e.jsx('button', {
               type: 'button',
-              onClick: S,
+              onClick: M,
               className:
                 'rounded-xl border border-white/10 bg-white/5 py-3 text-xs uppercase tracking-[0.3em] text-slate-400',
               children: 'Delete',
@@ -147,53 +161,54 @@ const ne = '55486423',
           children: [
             e.jsx('button', {
               type: 'button',
-              onClick: k,
+              onClick: E,
               className: 'button-primary',
               children: 'Unlock',
             }),
-            p > 0 &&
+            x > 0 &&
               e.jsxs('span', {
                 className: 'text-xs text-slate-400',
-                children: ['Attempts: ', p, ' / 3'],
+                children: ['Attempts: ', x, ' / 3'],
               }),
           ],
         }),
+        c && e.jsx('p', { className: 'mt-3 text-xs text-amber-200', children: c }),
       ],
     })
   },
-  oe = ({ onScan: h }) => {
-    const u = o.useRef(null),
-      [c, p] = o.useState(!1),
-      [s, j] = o.useState(null),
-      f = 'vibe-prism-scanner'
+  ce = ({ onScan: l }) => {
+    const m = i.useRef(null),
+      [n, x] = i.useState(!1),
+      [t, N] = i.useState(null),
+      y = 'vibe-prism-scanner'
     return (
-      o.useEffect(() => {
-        if (!c) return
-        const i = new q(f)
+      i.useEffect(() => {
+        if (!n) return
+        const c = new q(y)
         return (
-          (u.current = i),
-          i
+          (m.current = c),
+          c
             .start(
               { facingMode: 'environment' },
               { fps: 10, qrbox: { width: 220, height: 220 } },
-              (d) => {
-                ;(h(d), i.stop().catch(() => {}), p(!1))
+              (h) => {
+                ;(l(h), c.stop().catch(() => {}), x(!1))
               },
-              (d) => {
-                ;(typeof d == 'string' && d.includes('NotFound')) ||
-                  j('Camera scan is active. Align the QR token.')
+              (h) => {
+                ;(typeof h == 'string' && h.includes('NotFound')) ||
+                  N('Camera scan is active. Align the QR token.')
               }
             )
-            .catch((d) => {
-              ;(j(String(d)), p(!1))
+            .catch((h) => {
+              ;(N(String(h)), x(!1))
             }),
           () => {
-            i.stop()
-              .then(() => i.clear())
+            c.stop()
+              .then(() => c.clear())
               .catch(() => {})
           }
         )
-      }, [c, h]),
+      }, [n, l]),
       e.jsxs('div', {
         className: 'glass-panel p-6',
         children: [
@@ -216,25 +231,25 @@ const ne = '55486423',
             className: 'mt-4',
             children: e.jsx('button', {
               type: 'button',
-              onClick: () => p((i) => !i),
+              onClick: () => x((c) => !c),
               className: 'button-secondary',
-              children: c ? 'Stop Scanner' : 'Start Scanner',
+              children: n ? 'Stop Scanner' : 'Start Scanner',
             }),
           }),
-          c && e.jsx('div', { id: f, className: 'mt-4 overflow-hidden rounded-xl' }),
-          s && e.jsx('p', { className: 'mt-3 text-xs text-rose-300', children: s }),
+          n && e.jsx('div', { id: y, className: 'mt-4 overflow-hidden rounded-xl' }),
+          t && e.jsx('p', { className: 'mt-3 text-xs text-rose-300', children: t }),
         ],
       })
     )
   }
-Q.register(_, H, G, V, Y, J, K, X, Z)
+Q.register(_, H, G, V, Y, K, J, X, Z)
 const P = {
     GREEN: 'bg-sky-500/10 text-sky-200 border-sky-400/30',
     YELLOW: 'bg-violet-500/10 text-violet-200 border-violet-400/30',
     RED: 'bg-rose-500/10 text-rose-200 border-rose-400/30',
   },
-  x = { N: 'Narcissism', M: 'Machiavellianism', P: 'Psychopathy', MD: 'Manipulation Doctrine' },
-  ce = {
+  u = { N: 'Narcissism', M: 'Machiavellianism', P: 'Psychopathy', MD: 'Manipulation Doctrine' },
+  de = {
     N: {
       normalMax: 34,
       elevatedMax: 54,
@@ -264,12 +279,12 @@ const P = {
         'persistent influence-shaping can drift into coercive dynamics if empathy and consent signals are underweighted.',
     },
   },
-  de = {
+  me = {
     masking: 'Rapid defensive responses detected under 450ms.',
     contradictions: 'Lie-trap items returned high agreement.',
     halo: 'Response pattern suggests overly idealized self-presentation.',
   },
-  I = {
+  A = {
     APX: {
       label: 'Apex Strategist',
       description:
@@ -301,59 +316,89 @@ const P = {
         'Mixed traits without dominant spikes suggest a flexible, situational pattern that shifts with context.',
     },
   },
-  ue = () => {
-    const [h, u] = o.useState(sessionStorage.getItem('VP_DECODE_UNLOCK') === '1'),
-      [c, p] = o.useState(te() ?? ''),
-      [s, j] = o.useState(null),
-      [f, i] = o.useState(null),
-      d = o.useCallback(async (t) => {
+  xe = () => {
+    try {
+      return sessionStorage.getItem('VP_DECODE_UNLOCK') === '1'
+    } catch {
+      return !1
+    }
+  },
+  he = (l) => (l instanceof Error ? l.message : 'Unable to decode this token.'),
+  pe = (l) => {
+    const m = JSON.parse(l)
+    if (!Array.isArray(m)) throw new Error('Answer payload must be a list.')
+    return m.map((n, x) => {
+      if (
+        typeof n != 'object' ||
+        n === null ||
+        typeof n.questionId != 'number' ||
+        typeof n.answer != 'number' ||
+        typeof n.rtMs != 'number'
+      )
+        throw new Error(`Invalid answer payload at index ${x}.`)
+      return { questionId: n.questionId, answer: n.answer, rtMs: n.rtMs }
+    })
+  },
+  Ne = () => {
+    const [l, m] = i.useState(xe),
+      [n, x] = i.useState(te() ?? ''),
+      [t, N] = i.useState(null),
+      [y, c] = i.useState(null),
+      h = i.useCallback(async (s) => {
         try {
-          const a = ae(t.trim()).split('|'),
-            N = a.pop(),
-            y = a.join('|')
-          if (!N) throw new Error('Checksum missing')
-          if ((await re(y)).slice(0, 8) !== N) throw new Error('Checksum mismatch')
-          if (a[0] !== 'VP1') throw new Error('Unsupported payload')
-          const b = a[14],
-            v = JSON.parse(b),
-            w = a[12]
+          const r = ae(s.trim()).split('|'),
+            b = r.pop(),
+            v = r.join('|')
+          if (!b) throw new Error('Checksum missing')
+          if ((await re(v)).slice(0, 8) !== b) throw new Error('Checksum mismatch')
+          if (r[0] !== 'VP1') throw new Error('Unsupported payload')
+          if (r.length < 15) throw new Error('Token payload is incomplete.')
+          const o = pe(r[14]),
+            f = (r[12] ?? '')
               .split(';')
-              .map((M) => M.split(':'))
-              .filter((M) => M[1] === 'true')
-              .map((M) => M[0]),
-            L = a[13] === 'none' ? [] : a[13].split('~')
-          ;(j({
-            band: a[3],
-            dtiBase: Number(a[4]),
-            dtiFinal: Number(a[5]),
-            scores: { N: Number(a[6]), M: Number(a[7]), P: Number(a[8]), MD: Number(a[9]) },
-            integrity: Number(a[10]),
-            archetype: a[11],
-            maskFlags: w,
-            overrideFlags: L,
-            answers: v,
+              .map((j) => j.split(':'))
+              .filter((j) => j[1] === 'true')
+              .map((j) => j[0])
+              .filter(Boolean),
+            k = !r[13] || r[13] === 'none' ? [] : r[13].split('~'),
+            d = [r[4], r[5], r[6], r[7], r[8], r[9], r[10]].map((j) => Number(j))
+          if (d.some((j) => Number.isNaN(j))) throw new Error('Token has invalid numeric fields.')
+          ;(N({
+            band: r[3],
+            dtiBase: d[0],
+            dtiFinal: d[1],
+            scores: { N: d[2], M: d[3], P: d[4], MD: d[5] },
+            integrity: d[6],
+            archetype: r[11],
+            maskFlags: f,
+            overrideFlags: k,
+            answers: o,
           }),
-            i(null))
-        } catch (l) {
-          ;(i(String(l)), j(null))
+            c(null))
+        } catch (a) {
+          ;(c(he(a)), N(null))
         }
       }, []),
-      D = () => {
-        if (!c.trim()) {
-          i('Paste a token or scan a QR code.')
+      w = () => {
+        if (!n.trim()) {
+          c('Paste a token or scan a QR code.')
           return
         }
-        d(c.trim())
+        h(n.trim())
       },
-      S = o.useMemo(() => (s ? new Map(s.answers.map((t) => [t.questionId, t])) : new Map()), [s]),
-      m = o.useMemo(() => {
-        if (!s) return null
-        const t = {
-            labels: [x.N, x.M, x.P, x.MD],
+      D = i.useMemo(() => {
+        if (!t) return new Map()
+        const s = Array.isArray(t.answers) ? t.answers : []
+        return new Map(s.map((a) => [a.questionId, a]))
+      }, [t]),
+      p = i.useMemo(() => {
+        if (!t) return null
+        const s = {
+            labels: [u.N, u.M, u.P, u.MD],
             datasets: [
               {
                 label: 'Trait Strength',
-                data: [s.scores.N, s.scores.M, s.scores.P, s.scores.MD],
+                data: [t.scores.N, t.scores.M, t.scores.P, t.scores.MD],
                 backgroundColor: 'rgba(56, 189, 248, 0.15)',
                 borderColor: 'rgba(56, 189, 248, 0.6)',
                 borderWidth: 2,
@@ -361,12 +406,12 @@ const P = {
               },
             ],
           },
-          l = {
-            labels: [x.N, x.M, x.P, x.MD],
+          a = {
+            labels: [u.N, u.M, u.P, u.MD],
             datasets: [
               {
                 label: 'Intensity',
-                data: [s.scores.N, s.scores.M, s.scores.P, s.scores.MD],
+                data: [t.scores.N, t.scores.M, t.scores.P, t.scores.MD],
                 backgroundColor: [
                   'rgba(16, 185, 129, 0.4)',
                   'rgba(59, 130, 246, 0.4)',
@@ -377,95 +422,96 @@ const P = {
               },
             ],
           },
-          a = s.answers.map((r) => r.rtMs),
-          N = {
-            labels: s.answers.map((r) => `Q${r.questionId}`),
+          r = Array.isArray(t.answers) ? t.answers : [],
+          b = r.map((o) => o.rtMs),
+          v = {
+            labels: r.map((o) => `Q${o.questionId}`),
             datasets: [
               {
                 label: 'Response Time (ms)',
-                data: a,
+                data: b,
                 borderColor: 'rgba(148, 163, 184, 0.8)',
                 backgroundColor: 'rgba(148, 163, 184, 0.2)',
-                pointBackgroundColor: a.map((r) =>
-                  r < 450 ? 'rgba(248, 113, 113, 0.9)' : 'rgba(148, 163, 184, 0.9)'
+                pointBackgroundColor: b.map((o) =>
+                  o < 450 ? 'rgba(248, 113, 113, 0.9)' : 'rgba(148, 163, 184, 0.9)'
                 ),
                 tension: 0.3,
               },
             ],
           },
-          y = Object.keys(s.scores).map((r) => {
-            const b = s.scores[r],
-              v = ce[r],
-              w = x[r]
-            return b <= v.normalMax
+          g = Object.keys(t.scores).map((o) => {
+            const f = t.scores[o],
+              k = de[o],
+              d = u[o]
+            return f <= k.normalMax
               ? {
-                  key: r,
-                  label: w,
-                  score: b,
+                  key: o,
+                  label: d,
+                  score: f,
                   level: 'Normal range',
                   tone: 'text-emerald-100 border-emerald-400/30 bg-emerald-500/10',
                   explanation:
                     'This score sits in a controlled band with low signal for disruptive behavioral intensity in this trait.',
                 }
-              : b <= v.elevatedMax
+              : f <= k.elevatedMax
                 ? {
-                    key: r,
-                    label: w,
-                    score: b,
+                    key: o,
+                    label: d,
+                    score: f,
                     level: 'Watch zone',
                     tone: 'text-sky-100 border-sky-400/30 bg-sky-500/10',
                     explanation:
                       'This is above baseline and worth monitoring across contexts. It may be situationally useful but can become costly under stress.',
                   }
-                : b <= v.highMax
+                : f <= k.highMax
                   ? {
-                      key: r,
-                      label: w,
-                      score: b,
+                      key: o,
+                      label: d,
+                      score: f,
                       level: 'High',
                       tone: 'text-amber-100 border-amber-400/30 bg-amber-500/10',
                       explanation:
                         'This is a strong trait signal. It can improve decisiveness and control, but should be balanced to avoid over-indexing.',
                     }
                   : {
-                      key: r,
-                      label: w,
-                      score: b,
+                      key: o,
+                      label: d,
+                      score: f,
                       level: 'Concerning',
                       tone: 'text-rose-100 border-rose-400/30 bg-rose-500/10',
-                      explanation: `This crosses the concerning threshold because ${v.concerningReason}`,
+                      explanation: `This crosses the concerning threshold because ${k.concerningReason}`,
                     }
           })
-        return { radarData: t, barData: l, lineData: N, traitHighlights: y }
-      }, [s]),
-      k = s ? (I[s.archetype] ?? I.DRM) : null,
-      n = o.useMemo(() => {
-        if (!s || !m) return null
-        const t = m.traitHighlights.filter((r) => r.level === 'Concerning'),
-          l = m.traitHighlights.filter((r) => r.level === 'High'),
-          a =
-            s.band === 'RED'
+        return { radarData: s, barData: a, lineData: v, traitHighlights: g }
+      }, [t]),
+      M = t ? (A[t.archetype] ?? A.DRM) : null,
+      S = i.useMemo(() => {
+        if (!t || !p) return null
+        const s = p.traitHighlights.filter((g) => g.level === 'Concerning'),
+          a = p.traitHighlights.filter((g) => g.level === 'High'),
+          r =
+            t.band === 'RED'
               ? 'This profile reads as high-voltage and strategically forceful, with enough intensity to warrant active boundaries and careful context checks.'
-              : s.band === 'YELLOW'
+              : t.band === 'YELLOW'
                 ? 'This profile reads as adaptive and ambitious, but not fully neutral—there are signals that merit deliberate self-monitoring.'
                 : 'This profile reads as comparatively stable and lower-risk, with trait expressions that appear controlled across most domains.',
-          N =
-            t.length > 0
-              ? `The most concerning concentration is in ${t.map((r) => r.label).join(', ')}, which likely drives the strongest interpersonal friction risk.`
-              : l.length > 0
-                ? `The strongest expression is in ${l.map((r) => r.label).join(', ')}, which can be productive in leadership settings but may become costly when empathy bandwidth drops.`
+          b =
+            s.length > 0
+              ? `The most concerning concentration is in ${s.map((g) => g.label).join(', ')}, which likely drives the strongest interpersonal friction risk.`
+              : a.length > 0
+                ? `The strongest expression is in ${a.map((g) => g.label).join(', ')}, which can be productive in leadership settings but may become costly when empathy bandwidth drops.`
                 : 'No single trait crosses into a high-concern zone, suggesting a relatively even distribution without a dominant distortion pattern.',
-          y =
-            s.maskFlags.length > 0
-              ? `Integrity checks also flagged ${s.maskFlags.length} pattern(s), so interpretation should account for possible masking or defensiveness during responses.`
+          v =
+            t.maskFlags.length > 0
+              ? `Integrity checks also flagged ${t.maskFlags.length} pattern(s), so interpretation should account for possible masking or defensiveness during responses.`
               : 'Integrity checks did not flag masking patterns, so confidence in the readout is comparatively stronger.'
-        return `${a} ${N} ${y}`
-      }, [s, m]),
-      g = () => {
-        if (!s) return
-        const t = window.open('', '_blank')
-        t &&
-          (t.document.write(`
+        return `${r} ${b} ${v}`
+      }, [t, p]),
+      E = () => {
+        if (!t) return
+        const s = window.open('', '_blank')
+        s &&
+          (s.document.write(`
       <html>
         <head>
           <title>Nexus Who Report</title>
@@ -480,26 +526,26 @@ const P = {
           <h1>Nexus Who Forensic Report</h1>
           <div class="section">
             <h2>Summary</h2>
-            <p><span class="badge">Band: ${s.band}</span><span class="badge">Archetype: ${s.archetype}</span></p>
-            <p>DTI Base: ${s.dtiBase} | DTI Final: ${s.dtiFinal}</p>
-            <p>Integrity: ${s.integrity}</p>
+            <p><span class="badge">Band: ${t.band}</span><span class="badge">Archetype: ${t.archetype}</span></p>
+            <p>DTI Base: ${t.dtiBase} | DTI Final: ${t.dtiFinal}</p>
+            <p>Integrity: ${t.integrity}</p>
           </div>
           <div class="section">
             <h2>Overrides</h2>
-            <p>${s.overrideFlags.join('; ') || 'None'}</p>
+            <p>${t.overrideFlags.join('; ') || 'None'}</p>
           </div>
           <div class="section">
             <h2>Masking & Integrity Flags</h2>
-            <p>${s.maskFlags.join(', ') || 'None'}</p>
+            <p>${t.maskFlags.join(', ') || 'None'}</p>
           </div>
         </body>
       </html>
     `),
-          t.document.close(),
-          t.focus(),
-          t.print())
+          s.document.close(),
+          s.focus(),
+          s.print())
       }
-    return h
+    return l
       ? e.jsxs('div', {
           className: 'mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16',
           children: [
@@ -525,9 +571,9 @@ const P = {
                 }),
                 e.jsxs('button', {
                   type: 'button',
-                  onClick: g,
+                  onClick: E,
                   className: 'button-secondary',
-                  children: [e.jsx(z, { size: 18 }), 'Download Report'],
+                  children: [e.jsx(L, { size: 18 }), 'Download Report'],
                 }),
               ],
             }),
@@ -540,7 +586,7 @@ const P = {
                     e.jsxs('div', {
                       className: 'flex items-center gap-3',
                       children: [
-                        e.jsx(R, { size: 22, className: 'text-sky-300' }),
+                        e.jsx(T, { size: 22, className: 'text-sky-300' }),
                         e.jsxs('div', {
                           children: [
                             e.jsx('h3', {
@@ -603,7 +649,7 @@ const P = {
                         'Use the most recent token for accurate scores.',
                         'Scan in a well-lit space for best QR results.',
                         'Export a PDF if you need to share the report.',
-                      ].map((t) => e.jsx('li', { className: 'list-item', children: t }, t)),
+                      ].map((s) => e.jsx('li', { className: 'list-item', children: s }, s)),
                     }),
                   ],
                 }),
@@ -618,7 +664,7 @@ const P = {
                     e.jsxs('div', {
                       className: 'flex items-center gap-3',
                       children: [
-                        e.jsx(R, { size: 22, className: 'text-sky-300' }),
+                        e.jsx(T, { size: 22, className: 'text-sky-300' }),
                         e.jsxs('div', {
                           children: [
                             e.jsx('h3', {
@@ -635,29 +681,29 @@ const P = {
                       ],
                     }),
                     e.jsx('textarea', {
-                      value: c,
-                      onChange: (t) => p(t.target.value),
+                      value: n,
+                      onChange: (s) => x(s.target.value),
                       className:
                         'mt-4 h-28 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-xs text-slate-200',
                     }),
-                    f && e.jsx('p', { className: 'mt-2 text-xs text-rose-300', children: f }),
+                    y && e.jsx('p', { className: 'mt-2 text-xs text-rose-300', children: y }),
                     e.jsx('button', {
                       type: 'button',
-                      onClick: D,
+                      onClick: w,
                       className: 'button-primary mt-4',
                       children: 'Decode Token',
                     }),
                   ],
                 }),
-                e.jsx(oe, {
-                  onScan: (t) => {
-                    ;(p(t), d(t))
+                e.jsx(ce, {
+                  onScan: (s) => {
+                    ;(x(s), h(s))
                   },
                 }),
               ],
             }),
-            s &&
-              m &&
+            t &&
+              p &&
               e.jsxs(C.div, {
                 initial: { opacity: 0 },
                 animate: { opacity: 1 },
@@ -675,7 +721,7 @@ const P = {
                         className: 'mt-2 text-2xl font-semibold',
                         children: 'Narrative Read',
                       }),
-                      e.jsx('p', { className: 'mt-3 text-sm text-slate-200', children: n }),
+                      e.jsx('p', { className: 'mt-3 text-sm text-slate-200', children: S }),
                       e.jsxs('div', {
                         className:
                           'mt-4 rounded-xl border border-white/10 bg-slate-900/60 p-4 text-sm text-slate-300',
@@ -691,10 +737,11 @@ const P = {
                               e.jsx('strong', { children: 'Narcissism' }),
                               ' (status orientation),',
                               e.jsx('strong', { children: ' Machiavellianism' }),
-                              ' (strategic social planning), ',
-                              e.jsx('strong', { children: 'Psychopathy' }),
+                              ' (strategic social planning),',
                               ' ',
-                              '(emotional detachment under pressure), and ',
+                              e.jsx('strong', { children: 'Psychopathy' }),
+                              ' (emotional detachment under pressure), and',
+                              ' ',
                               e.jsx('strong', { children: 'Manipulation Doctrine' }),
                               ' (influence style). Raw answers are normalized to 0–100, weighted per trait, then combined into DTI. Integrity checks (masking speed, contradiction traps, halo patterns) and safety overrides can increase risk interpretation and elevate the final band.',
                             ],
@@ -722,8 +769,8 @@ const P = {
                             ],
                           }),
                           e.jsx('span', {
-                            className: `badge border ${P[s.band] ?? P.GREEN}`,
-                            children: s.band,
+                            className: `badge border ${P[t.band] ?? P.GREEN}`,
+                            children: t.band,
                           }),
                         ],
                       }),
@@ -739,7 +786,7 @@ const P = {
                               }),
                               e.jsxs('p', {
                                 className: 'mt-2 text-lg font-semibold',
-                                children: ['Base ', s.dtiBase, ' → Final ', s.dtiFinal],
+                                children: ['Base ', t.dtiBase, ' → Final ', t.dtiFinal],
                               }),
                             ],
                           }),
@@ -752,7 +799,7 @@ const P = {
                               }),
                               e.jsx('p', {
                                 className: 'mt-2 text-lg font-semibold',
-                                children: s.archetype,
+                                children: t.archetype,
                               }),
                             ],
                           }),
@@ -765,13 +812,13 @@ const P = {
                               }),
                               e.jsx('p', {
                                 className: 'mt-2 text-lg font-semibold',
-                                children: s.integrity,
+                                children: t.integrity,
                               }),
                             ],
                           }),
                         ],
                       }),
-                      k &&
+                      M &&
                         e.jsxs('div', {
                           className: 'mt-4 rounded-xl border border-white/10 bg-slate-900/60 p-4',
                           children: [
@@ -781,11 +828,11 @@ const P = {
                             }),
                             e.jsx('p', {
                               className: 'mt-2 text-lg font-semibold',
-                              children: k.label,
+                              children: M.label,
                             }),
                             e.jsx('p', {
                               className: 'mt-2 text-sm text-slate-300',
-                              children: k.description,
+                              children: M.description,
                             }),
                           ],
                         }),
@@ -797,7 +844,7 @@ const P = {
                       e.jsxs('div', {
                         className: 'flex items-center gap-3',
                         children: [
-                          e.jsx(E, { size: 22, className: 'text-rose-300' }),
+                          e.jsx(R, { size: 22, className: 'text-rose-300' }),
                           e.jsxs('div', {
                             children: [
                               e.jsx('h2', {
@@ -815,12 +862,12 @@ const P = {
                       e.jsxs('div', {
                         className: 'mt-4 space-y-2',
                         children: [
-                          s.overrideFlags.length === 0 &&
+                          t.overrideFlags.length === 0 &&
                             e.jsx('p', {
                               className: 'text-sm text-slate-400',
                               children: 'No overrides triggered.',
                             }),
-                          s.overrideFlags.map((t) =>
+                          t.overrideFlags.map((s) =>
                             e.jsxs(
                               C.div,
                               {
@@ -830,14 +877,14 @@ const P = {
                                 className:
                                   'flex items-center gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3',
                                 children: [
-                                  e.jsx(E, { size: 18, className: 'text-rose-300' }),
+                                  e.jsx(R, { size: 18, className: 'text-rose-300' }),
                                   e.jsx('span', {
                                     className: 'text-sm text-rose-100',
-                                    children: t,
+                                    children: s,
                                   }),
                                 ],
                               },
-                              t
+                              s
                             )
                           ),
                         ],
@@ -847,7 +894,7 @@ const P = {
                         children:
                           'Overrides trigger when Q11, Q15, or Q18 score ≥ 2, or when Psychopathy exceeds 64 and Manipulation Doctrine exceeds 76.',
                       }),
-                      s.overrideFlags.length > 0 &&
+                      t.overrideFlags.length > 0 &&
                         e.jsx('p', {
                           className: 'mt-3 text-xs text-rose-200',
                           children: 'Band escalated to RED due to active overrides.',
@@ -860,7 +907,7 @@ const P = {
                       e.jsxs('div', {
                         className: 'flex items-center gap-3',
                         children: [
-                          e.jsx(A, { size: 22, className: 'text-sky-300' }),
+                          e.jsx(z, { size: 22, className: 'text-sky-300' }),
                           e.jsxs('div', {
                             children: [
                               e.jsx('h2', {
@@ -880,8 +927,8 @@ const P = {
                         children: [
                           e.jsx('div', {
                             className: 'h-64',
-                            children: e.jsx(W, {
-                              data: m.radarData,
+                            children: e.jsx(B, {
+                              data: p.radarData,
                               options: {
                                 scales: {
                                   r: {
@@ -899,8 +946,8 @@ const P = {
                           }),
                           e.jsx('div', {
                             className: 'h-64',
-                            children: e.jsx(O, {
-                              data: m.barData,
+                            children: e.jsx(W, {
+                              data: p.barData,
                               options: {
                                 scales: {
                                   y: {
@@ -941,7 +988,7 @@ const P = {
                             label: 'Manipulation Doctrine',
                             copy: 'Preferred influence tactics, persuasion confidence, and group-shaping behaviors.',
                           },
-                        ].map((t) =>
+                        ].map((s) =>
                           e.jsxs(
                             'div',
                             {
@@ -949,50 +996,50 @@ const P = {
                               children: [
                                 e.jsx('p', {
                                   className: 'text-xs uppercase tracking-[0.3em] text-slate-400',
-                                  children: t.label,
+                                  children: s.label,
                                 }),
                                 e.jsx('p', {
                                   className: 'mt-2 text-sm text-slate-300',
-                                  children: t.copy,
+                                  children: s.copy,
                                 }),
                               ],
                             },
-                            t.key
+                            s.key
                           )
                         ),
                       }),
                       e.jsx('div', {
                         className: 'mt-6 grid gap-3 md:grid-cols-2',
-                        children: m.traitHighlights.map((t) =>
+                        children: p.traitHighlights.map((s) =>
                           e.jsxs(
                             'div',
                             {
-                              className: `rounded-xl border p-4 ${t.tone}`,
+                              className: `rounded-xl border p-4 ${s.tone}`,
                               children: [
                                 e.jsxs('div', {
                                   className: 'flex items-center justify-between gap-3',
                                   children: [
                                     e.jsx('p', {
                                       className: 'text-sm font-semibold',
-                                      children: t.label,
+                                      children: s.label,
                                     }),
                                     e.jsx('span', {
                                       className: 'text-xs uppercase tracking-[0.25em]',
-                                      children: t.level,
+                                      children: s.level,
                                     }),
                                   ],
                                 }),
                                 e.jsxs('p', {
                                   className: 'mt-2 text-sm opacity-95',
-                                  children: ['Score: ', t.score],
+                                  children: ['Score: ', s.score],
                                 }),
                                 e.jsx('p', {
                                   className: 'mt-2 text-xs opacity-90',
-                                  children: t.explanation,
+                                  children: s.explanation,
                                 }),
                               ],
                             },
-                            t.key
+                            s.key
                           )
                         ),
                       }),
@@ -1004,9 +1051,9 @@ const P = {
                       e.jsxs('div', {
                         className: 'flex items-center gap-3',
                         children: [
-                          s.maskFlags.length > 0
-                            ? e.jsx(T, { size: 22, className: 'text-amber-300' })
-                            : e.jsx(B, { size: 22, className: 'text-sky-300' }),
+                          t.maskFlags.length > 0
+                            ? e.jsx(I, { size: 22, className: 'text-amber-300' })
+                            : e.jsx(U, { size: 22, className: 'text-sky-300' }),
                           e.jsxs('div', {
                             children: [
                               e.jsx('h2', {
@@ -1025,12 +1072,12 @@ const P = {
                       e.jsxs('div', {
                         className: 'mt-4 space-y-2',
                         children: [
-                          s.maskFlags.length === 0 &&
+                          t.maskFlags.length === 0 &&
                             e.jsx('p', {
                               className: 'text-sm text-slate-400',
                               children: 'No integrity flags detected.',
                             }),
-                          s.maskFlags.map((t) =>
+                          t.maskFlags.map((s) =>
                             e.jsxs(
                               'div',
                               {
@@ -1039,15 +1086,15 @@ const P = {
                                 children: [
                                   e.jsx('p', {
                                     className: 'text-sm font-semibold uppercase tracking-[0.2em]',
-                                    children: t,
+                                    children: s,
                                   }),
                                   e.jsx('p', {
                                     className: 'mt-1 text-xs text-amber-200',
-                                    children: de[t] ?? 'Integrity signal observed.',
+                                    children: me[s] ?? 'Integrity signal observed.',
                                   }),
                                 ],
                               },
-                              t
+                              s
                             )
                           ),
                         ],
@@ -1077,8 +1124,8 @@ const P = {
                       }),
                       e.jsx('div', {
                         className: 'mt-6 h-64',
-                        children: e.jsx(U, {
-                          data: m.lineData,
+                        children: e.jsx(O, {
+                          data: p.lineData,
                           options: {
                             scales: {
                               y: {
@@ -1107,13 +1154,13 @@ const P = {
                       }),
                       e.jsx('div', {
                         className: 'mt-6 space-y-4',
-                        children: ee.map((t) => {
-                          const l = S.get(t.id)
-                          if (!l) return null
-                          const a = t.reverse ? 3 - l.answer : l.answer,
-                            N = `${x[t.trait]} +${a}`,
-                            y = l.rtMs < 450,
-                            r = se[l.answer] ?? `Answer ${l.answer + 1}`
+                        children: ee.map((s) => {
+                          const a = D.get(s.id)
+                          if (!a) return null
+                          const r = s.reverse ? 3 - a.answer : a.answer,
+                            b = `${u[s.trait]} +${r}`,
+                            v = a.rtMs < 450,
+                            g = se[a.answer] ?? `Answer ${a.answer + 1}`
                           return e.jsxs(
                             'div',
                             {
@@ -1127,28 +1174,28 @@ const P = {
                                         e.jsxs('p', {
                                           className:
                                             'text-xs uppercase tracking-[0.3em] text-slate-400',
-                                          children: ['Q', t.id],
+                                          children: ['Q', s.id],
                                         }),
                                         e.jsx('h3', {
                                           className: 'mt-1 text-lg font-semibold text-slate-50',
-                                          children: t.text,
+                                          children: s.text,
                                         }),
                                       ],
                                     }),
                                     e.jsxs('div', {
                                       className: 'flex gap-2',
                                       children: [
-                                        t.lieTrap &&
+                                        s.lieTrap &&
                                           e.jsxs('span', {
                                             className:
                                               'badge gap-2 border border-amber-400/40 bg-amber-500/10 text-amber-200',
-                                            children: [e.jsx(T, { size: 12 }), 'Lie Trap'],
+                                            children: [e.jsx(I, { size: 12 }), 'Lie Trap'],
                                           }),
-                                        t.safetyTrigger &&
+                                        s.safetyTrigger &&
                                           e.jsxs('span', {
                                             className:
                                               'badge gap-2 border border-rose-400/40 bg-rose-500/10 text-rose-200',
-                                            children: [e.jsx(E, { size: 12 }), 'Safety Trigger'],
+                                            children: [e.jsx(R, { size: 12 }), 'Safety Trigger'],
                                           }),
                                       ],
                                     }),
@@ -1160,13 +1207,13 @@ const P = {
                                     e.jsxs('span', {
                                       children: [
                                         'Selected answer: ',
-                                        e.jsx('span', { className: 'text-slate-100', children: r }),
+                                        e.jsx('span', { className: 'text-slate-100', children: g }),
                                       ],
                                     }),
-                                    e.jsxs('span', { children: ['Answer index: ', l.answer + 1] }),
-                                    e.jsxs('span', { children: ['RT: ', l.rtMs, 'ms'] }),
-                                    e.jsxs('span', { children: ['Impact: ', N] }),
-                                    y &&
+                                    e.jsxs('span', { children: ['Answer index: ', a.answer + 1] }),
+                                    e.jsxs('span', { children: ['RT: ', a.rtMs, 'ms'] }),
+                                    e.jsxs('span', { children: ['Impact: ', b] }),
+                                    v &&
                                       e.jsx('span', {
                                         className: 'text-rose-300',
                                         children: 'Fast response',
@@ -1177,18 +1224,18 @@ const P = {
                                   className: 'mt-3 text-sm text-slate-300',
                                   children: [
                                     'This response suggests a ',
-                                    x[t.trait],
+                                    u[s.trait],
                                     '-aligned behavior with a measured intensity of ',
-                                    a,
+                                    r,
                                     ' on the internal scale. The pacing indicates',
                                     ' ',
-                                    y ? 'defensive' : 'deliberate',
+                                    v ? 'defensive' : 'deliberate',
                                     ' engagement.',
                                   ],
                                 }),
                               ],
                             },
-                            t.id
+                            s.id
                           )
                         }),
                       }),
@@ -1201,7 +1248,7 @@ const P = {
       : e.jsxs('div', {
           className: 'mx-auto w-full max-w-3xl px-6 py-16',
           children: [
-            e.jsx(le, { onUnlock: () => u(!0) }),
+            e.jsx(oe, { onUnlock: () => m(!0) }),
             e.jsx('p', {
               className: 'mt-4 text-xs text-slate-500',
               children:
@@ -1210,4 +1257,4 @@ const P = {
           ],
         })
   }
-export { ue as default }
+export { Ne as default }
