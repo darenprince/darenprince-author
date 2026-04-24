@@ -1627,16 +1627,20 @@ function Ci() {
                   } catch (u) {
                     s(u)
                   }
+                }
                 function a(c) {
                   try {
                     l(n.throw(c))
                   } catch (u) {
                     s(u)
                   }
+                }
                 function l(c) {
                   c.done ? i(c.value) : r(c.value).then(o, a)
+                }
                 l((n = n.apply(h, e || [])).next())
               })
+            }
           class Pt {
             constructor(e, t = 500, n) {
               ;((this.reader = e),
@@ -1645,8 +1649,10 @@ function Ci() {
                 (this._stopContinuousDecode = !1),
                 (this._stopAsyncDecode = !1),
                 (this._timeBetweenDecodingAttempts = 0))
+            }
             get hasNavigator() {
               return typeof navigator < 'u'
+            }
             get isMediaDevicesSuported() {
               return this.hasNavigator && !!navigator.mediaDevices
             }
@@ -1764,6 +1770,7 @@ function Ci() {
                   (this.stream = e),
                   yield this.playVideoOnLoadAsync(n),
                   n
+                )
               })
             }
             playVideoOnLoadAsync(e) {
@@ -2078,6 +2085,8 @@ function Ci() {
                 e.src = ''
               }
               this.videoElement.removeAttribute('src')
+            }
+          }
           class je {
             constructor(e, t, n = t == null ? 0 : 8 * t.length, r, i, s = re.currentTimeMillis()) {
               ;((this.text = e),
@@ -2138,6 +2147,7 @@ function Ci() {
             toString() {
               return this.text
             }
+          }
           var Mn
           ;(function (h) {
             ;((h[(h.AZTEC = 0)] = 'AZTEC'),
@@ -6295,6 +6305,7 @@ function Ci() {
                   i = !0
                 } else {
                   if (!c) throw new O()
+          }
                   o = !0
                 }
               else if (a == -1)
@@ -6418,6 +6429,7 @@ function Ci() {
                 D.FINDER_PAT_F,
                 D.FINDER_PAT_F,
               ],
+          }
               [
                 D.FINDER_PAT_A,
                 D.FINDER_PAT_A,
@@ -6633,6 +6645,7 @@ function Ci() {
                   s = !0
                 } else {
                   if (!u) throw new O()
+          }
                   a = !0
                 }
               else if (l === -1)
@@ -7037,6 +7050,11 @@ function Ci() {
               for (let p of i) r += p.getCount()
               const s = new Array(r)
               let o = 0
+            }
+          }
+              }
+            }
+          }
               for (let p of i)
                 for (let y = 0; y < p.getCount(); y++) {
                   const N = p.getDataCodewords(),
@@ -7346,6 +7364,8 @@ function Ci() {
             static parseTwoBytes(e, t, n) {
               let r = (e << 8) + t - 1,
                 i = Math.floor(r / 1600)
+              }
+          }
               ;((n[0] = i),
                 (r -= i * 1600),
                 (i = Math.floor(r / 40)),
@@ -7537,6 +7557,7 @@ function Ci() {
               'X',
               'Y',
               'Z',
+          }
               '{',
               '|',
               '}',
@@ -7719,6 +7740,7 @@ function Ci() {
                   s - 0.5,
                   o - 0.5,
                   0.5,
+          }
                   o - 0.5,
                   t.getX(),
                   t.getY(),
@@ -7770,6 +7792,18 @@ function Ci() {
                 ;((n = this.decoder.decode(l.getBits())), (r = l.getPoints()))
               }
               const i = n.getRawBytes(),
+          }
+          }
+              }
+            }
+          }
+            }
+          }
+            }
+            }
+          }
+            }
+          }
                 s = new je(n.getText(), i, 8 * i.length, r, z.DATA_MATRIX, re.currentTimeMillis()),
                 o = n.getByteSegments()
               o != null && s.putMetadata(ke.BYTE_SEGMENTS, o)
@@ -7999,6 +8033,8 @@ function Ci() {
                 throw new U()
               }
             }
+            }
+          }
             static getVersionForNumber(e) {
               if (e < 1 || e > 40) throw new R()
               return X.VERSIONS[e - 1]
@@ -8346,6 +8382,8 @@ function Ci() {
                 new T(30, new A(48, 24), new A(14, 25)),
                 new T(30, new A(42, 15), new A(32, 16))
               ),
+          }
+            }
               new X(
                 39,
                 Int32Array.from([6, 26, 54, 82, 110, 138, 166]),
@@ -8440,6 +8478,8 @@ function Ci() {
               let i = X.decodeVersionInformation(n)
               if (i !== null && i.getDimensionForVersion() === e)
                 return ((this.parsedVersion = i), i)
+                }
+            }
               n = 0
               for (let s = 5; s >= 0; s--)
                 for (let o = e - 9; o >= r; o--) n = this.copyBit(s, o, n)
@@ -8890,6 +8930,11 @@ function Ci() {
             }
           }
           class pn {
+                if (this.foundPatternCross(s)) {
+                  if (d !== null) return d
+                }
+          }
+          }
             constructor(e, t, n, r, i, s, o) {
               ;((this.image = e),
                 (this.startX = t),
@@ -9158,6 +9203,8 @@ function Ci() {
             crossCheckHorizontal(e, t, n, r) {
               const i = this.image,
                 s = i.getWidth(),
+                  }
+                }
                 o = this.getCrossCheckStateCount()
               let a = e
               for (; a >= 0 && i.get(a, t); ) (o[2]++, a--)
@@ -9493,6 +9540,9 @@ function Ci() {
               if (o >= a || i >= s) throw new O()
               if (s - i !== a - o && ((a = o + (s - i)), a >= e.getWidth())) throw new O()
               const l = Math.round((a - o + 1) / r),
+            }
+          }
+          }
                 c = Math.round((s - i + 1) / r)
               if (l <= 0 || c <= 0) throw new O()
               if (c !== l) throw new O()
@@ -9980,6 +10030,10 @@ function Ci() {
               1553, 452, 448, 1506, 1500, 394, 391, 387, 1443, 1441, 1439, 1436, 1450, 2207, 765,
               716, 713, 1709, 662, 660, 657, 1673, 1671, 916, 914, 879, 878, 877, 882, 1135, 1134,
               1121, 1120, 1118, 1123, 1097, 1096, 1094, 1092, 103, 1101, 1099, 1979, 1059, 1058,
+              return (
+              )
+            }
+              }
               1056, 1054, 77, 1051, 74, 1066, 1064, 1061, 1071, 1964, 1963, 1007, 1006, 1004, 1002,
               999, 41, 996, 37, 1017, 1015, 1012, 1009, 52, 1025, 1022, 1936, 1935, 1933, 1938, 942,
               940, 938, 935, 932, 5, 2, 955, 953, 950, 947, 18, 943, 15, 965, 962, 958, 1895, 1894,
@@ -10112,6 +10166,8 @@ function Ci() {
               let c = a,
                 u = 0,
                 d = s.length
+            }
+          }
               for (let E = i; c < r; c++)
                 if (e.get(c, n) !== E) o[u]++
                 else {
@@ -10235,6 +10291,10 @@ function Ci() {
                 i = r.length,
                 s = new Int32Array(n + i - 1)
               for (let o = 0; o < n; o++) {
+            }
+          }
+          }
+          }
                 let a = t[o]
                 for (let l = 0; l < i; l++)
                   s[o + l] = this.field.add(s[o + l], this.field.multiply(a, r[l]))
@@ -10378,6 +10438,7 @@ function Ci() {
                   p = r.getCoefficient(r.getDegree()),
                   y = this.field.inverse(p)
                 for (; i.getDegree() >= r.getDegree() && !i.isZero(); ) {
+          }
                   let N = i.getDegree() - r.getDegree(),
                     B = this.field.multiply(i.getCoefficient(i.getDegree()), y)
                   ;((I = I.add(this.field.buildMonomial(N, B))),
@@ -10464,6 +10525,14 @@ function Ci() {
                 o = this.bottomRight
               if (e > 0) {
                 let a = n ? this.topLeft : this.topRight,
+          }
+            }
+          }
+          }
+            }
+            }
+          }
+          }
                   l = Math.trunc(a.getY() - e)
                 l < 0 && (l = 0)
                 let c = new W(a.getX(), l)
@@ -10917,6 +10986,7 @@ function Ci() {
             getBarcodeRowCount() {
               return this.barcodeMetadata.getRowCount()
             }
+          }
             getBarcodeECLevel() {
               return this.barcodeMetadata.getErrorCorrectionLevel()
             }
@@ -10975,6 +11045,9 @@ function Ci() {
             }
             getWidth() {
               return this.endX - this.startX
+            }
+              }
+          }
             }
             getStartX() {
               return this.startX
@@ -11214,6 +11287,17 @@ function Ci() {
           var we
           ;(function (h) {
             ;((h[(h.ALPHA = 0)] = 'ALPHA'),
+                    break
+                    break
+                  case S.MODE_SHIFT_TO_BYTE_COMPACTION_MODE:
+                    break
+                    break
+                    break
+                    break
+                    break
+                    break
+                    break
+                }
               (h[(h.LOWER = 1)] = 'LOWER'),
               (h[(h.MIXED = 2)] = 'MIXED'),
               (h[(h.PUNCT = 3)] = 'PUNCT'),
@@ -11289,6 +11373,8 @@ function Ci() {
               ;((t = S.textCompaction(e, t, i)), n.setFileId(i.toString()))
               let s = -1
               for (e[t] === S.BEGIN_MACRO_PDF417_OPTIONAL_FIELD && (s = t + 1); t < e[0]; )
+                    break
+                    break
                 switch (e[t]) {
                   case S.BEGIN_MACRO_PDF417_OPTIONAL_FIELD:
                     switch ((t++, e[t])) {
@@ -11363,6 +11449,13 @@ function Ci() {
                     case S.MODE_SHIFT_TO_BYTE_COMPACTION_MODE:
                       ;((r[s] = S.MODE_SHIFT_TO_BYTE_COMPACTION_MODE),
                         (a = e[t++]),
+                    break
+                    break
+                    break
+                    break
+                    break
+                    break
+                }
                         (i[s] = a),
                         s++)
                       break
@@ -11617,6 +11710,7 @@ function Ci() {
             static decode(e, t, n, r, i, s, o) {
               let a = new Ut(e, t, n, r, i),
                 l = null,
+                }
                 c = null,
                 u
               for (let I = !0; ; I = !1) {
@@ -11727,6 +11821,7 @@ function Ci() {
             static createDecoderResult(e) {
               let t = ee.createBarcodeMatrix(e)
               ee.adjustCodewordCount(e, t)
+                    break
               let n = new Array(),
                 r = new Int32Array(e.getBarcodeRowCount() * e.getBarcodeColumnCount()),
                 i = [],
@@ -12081,6 +12176,8 @@ function Ci() {
             constructor(e = 500) {
               super(new We(), e)
             }
+                }
+          }
           }
           class ri extends Pt {
             constructor(e = 500) {
@@ -12177,6 +12274,12 @@ function Ci() {
                     s + 6 < i &&
                       n[s][o] === 1 &&
                       n[s + 1][o] === 0 &&
+                  break
+                  break
+              }
+                }
+              }
+            }
                       n[s + 2][o] === 1 &&
                       n[s + 3][o] === 1 &&
                       n[s + 4][o] === 1 &&
@@ -12276,6 +12379,8 @@ function Ci() {
             setNumber(e, t, n) {
               this.bytes[t][e] = n
             }
+            }
+          }
             setBoolean(e, t, n) {
               this.bytes[t][e] = n ? 1 : 0
             }
@@ -12341,6 +12446,7 @@ function Ci() {
                 e.append(this.mode ? this.mode.toString() : 'null'),
                 e.append(`
  ecLevel: `),
+          }
                 e.append(this.ecLevel ? this.ecLevel.toString() : 'null'),
                 e.append(`
  version: `),
@@ -12408,6 +12514,7 @@ function Ci() {
                   a = Z.TYPE_INFO_COORDINATES[i],
                   l = a[0],
                   c = a[1]
+                }
                 if ((n.setBoolean(l, c, o), i < 8)) {
                   const u = n.getWidth() - i - 1
                   n.setBoolean(u, 8, o)
@@ -12467,6 +12574,8 @@ function Ci() {
               n.appendBits(i, 10)
               const s = new ae()
               if ((s.appendBits(Z.TYPE_INFO_MASK_PATTERN, 15), n.xor(s), n.getSize() !== 15))
+              }
+          }
                 throw new Ee('should not happen but we got: ' + n.getSize())
             }
             static makeVersionInfoBits(e, t) {
@@ -12871,6 +12980,7 @@ function Ci() {
               }
             }
             static append8BitBytes(e, t, n) {
+          }
               let r
               try {
                 r = Je.encode(e, n)
@@ -12938,6 +13048,7 @@ function Ci() {
             }
             renderResult(e, t, n, r) {
               const i = e.getMatrix()
+          }
               if (i === null) throw new gt()
               const s = i.getWidth(),
                 o = i.getHeight(),
@@ -12948,6 +13059,9 @@ function Ci() {
                 d = Math.min(Math.floor(c / a), Math.floor(u / l)),
                 E = Math.floor((c - s * d) / 2),
                 I = Math.floor((u - o * d) / 2),
+          }
+            }
+          }
                 p = this.createSVGElement(c, u)
               for (let y = 0, N = I; y < o; y++, N += d)
                 for (let B = 0, L = E; B < s; B++, L += d)
@@ -13069,6 +13183,7 @@ function Ci() {
               )
             }
             renderThumbnail() {
+          }
               const e = this.getWidth() / Ct.THUMBNAIL_SCALE_FACTOR,
                 t = this.getHeight() / Ct.THUMBNAIL_SCALE_FACTOR,
                 n = new Int32Array(e * t),
@@ -13177,6 +13292,15 @@ function Ci() {
             invert() {
               return new St(this)
             }
+            }
+          }
+          }
+            }
+          }
+            }
+          }
+          }
+          }
           }
           class Er extends F {
             static forName(e) {
@@ -13380,6 +13504,7 @@ function Ci() {
                 new It(t, this.mode, 0, this.bitCount)
               )
             }
+          }
             isBetterThanOrEqualTo(e) {
               let t = this.bitCount + (Jn[this.mode][e.mode] >> 16)
               return (
@@ -13911,267 +14036,358 @@ function Ci() {
             (f.QRCodeDecoderFormatInformation = ze),
             (f.QRCodeEncoder = be),
             (f.QRCodeEncoderQRCode = Vt),
-            (f.QRCodeMaskUtil = Oe),
-            (f.QRCodeMatrixUtil = Z),
-            (f.QRCodeMode = Y),
-            (f.QRCodeReader = Mt),
-            (f.QRCodeVersion = X),
-            (f.QRCodeWriter = jt),
-            (f.RGBLuminanceSource = jn),
-            (f.RSS14Reader = _e),
-            (f.RSSExpandedReader = D),
-            (f.ReaderException = yn),
-            (f.ReedSolomonDecoder = rn),
-            (f.ReedSolomonEncoder = Kn),
-            (f.ReedSolomonException = Wt),
-            (f.Result = je),
-            (f.ResultMetadataType = ke),
-            (f.ResultPoint = W),
-            (f.StringUtils = q),
-            (f.UnsupportedOperationException = Ht),
-            (f.VideoInputDevice = nr),
-            (f.WhiteRectangleDetector = pt),
-            (f.WriterException = Ee),
-            (f.ZXingArrays = me),
-            (f.ZXingCharset = Er),
-            (f.ZXingInteger = j),
-            (f.ZXingStandardCharsets = qn),
-            (f.ZXingStringBuilder = ge),
-            (f.ZXingStringEncoding = Je),
-            (f.ZXingSystem = re),
-            (f.createAbstractExpandedDecoder = cr),
-            Object.defineProperty(f, '__esModule', { value: !0 }))
+      if (
+        ((this.formatMap = new Map([
+        ])),
+        (this.reverseFormatMap = this.createReverseFormatMap()),
+        !mi)
+      )
+        throw 'Use html5qrcode.min.js without edit, ZXing not found.'
+    }
+    return (
+          try {
+          }
         })
-      })(xn, xn.exports)),
-    xn.exports
-  )
-}
-var Se = Ci()
-const mi = Object.freeze(
-  Object.defineProperty({ __proto__: null }, Symbol.toStringTag, { value: 'Module' })
-)
-var Nr = (function () {
-    function w(x, f, m) {
-          [H.QR_CODE, Se.BarcodeFormat.QR_CODE],
-          [H.AZTEC, Se.BarcodeFormat.AZTEC],
-          [H.CODABAR, Se.BarcodeFormat.CODABAR],
-          [H.CODE_39, Se.BarcodeFormat.CODE_39],
-          [H.CODE_93, Se.BarcodeFormat.CODE_93],
-          [H.CODE_128, Se.BarcodeFormat.CODE_128],
-          [H.DATA_MATRIX, Se.BarcodeFormat.DATA_MATRIX],
-          [H.MAXICODE, Se.BarcodeFormat.MAXICODE],
-          [H.ITF, Se.BarcodeFormat.ITF],
-          [H.EAN_13, Se.BarcodeFormat.EAN_13],
-          [H.EAN_8, Se.BarcodeFormat.EAN_8],
-          [H.PDF_417, Se.BarcodeFormat.PDF_417],
-          [H.RSS_14, Se.BarcodeFormat.RSS_14],
-          [H.RSS_EXPANDED, Se.BarcodeFormat.RSS_EXPANDED],
-          [H.UPC_A, Se.BarcodeFormat.UPC_A],
-          [H.UPC_E, Se.BarcodeFormat.UPC_E],
-          [H.UPC_EAN_EXTENSION, Se.BarcodeFormat.UPC_EAN_EXTENSION],
-      ;((this.verbose = f), (this.logger = m))
-      var b = this.createZXingFormats(x),
-        g = new Map()
-      ;(g.set(Se.DecodeHintType.POSSIBLE_FORMATS, b),
-        g.set(Se.DecodeHintType.TRY_HARDER, !1),
-        (this.hints = g))
-      (w.prototype.decodeAsync = function (x) {
-        var f = this
-        return new Promise(function (m, b) {
-            m(f.decode(x))
-          } catch (g) {
-            b(g)
-      (w.prototype.decode = function (x) {
-        var f = new Se.MultiFormatReader(this.verbose, this.hints),
-          m = new Se.HTMLCanvasElementLuminanceSource(x),
-          b = new Se.BinaryBitmap(new Se.HybridBinarizer(m)),
-          g = f.decode(b)
-          text: g.text,
-          format: vr.create(this.toHtml5QrcodeSupportedFormats(g.format)),
-      (w.prototype.createReverseFormatMap = function () {
-          this.formatMap.forEach(function (f, m, b) {
-            x.set(f, m)
-      (w.prototype.toHtml5QrcodeSupportedFormats = function (x) {
-      (w.prototype.createZXingFormats = function (x) {
-        for (var f = [], m = 0, b = x; m < b.length; m++) {
-          var g = b[m]
-          this.formatMap.has(g)
-            ? f.push(this.formatMap.get(g))
-            : this.logger.logError(''.concat(g, ' is not supported by') + 'ZXingHtml5QrcodeShim')
+      }),
+        return {
+          debugData: this.createDebugData(),
         }
-        return f
-      (w.prototype.createDebugData = function () {
-      w
-  Ii = function (w, x, f, m) {
-    function b(g) {
-      return g instanceof f
-        ? g
-        : new f(function (_) {
-            _(g)
-    return new (f || (f = Promise))(function (g, _) {
-        P.done ? g(P.value) : b(P.value).then(k, v)
-      C((m = m.apply(w, x || [])).next())
-  pi = function (w, x) {
-    var f = {
-          if (g[0] & 1) throw g[1]
-          return g[1]
-      b,
-      g,
-      for (; _ && ((_ = 0), C[0] && (f = 0)), f; )
-            b &&
-              (g =
-                  ? b.return
-                    ? b.throw || ((g = b.return) && g.call(b), 0)
-                    : b.next) &&
-              !(g = g.call(b, C[1])).done)
-            return g
-          switch (((b = 0), g && (C = [C[0] & 2, g.value]), C[0])) {
-              g = C
-              return (f.label++, { value: C[1], done: !1 })
-              ;(f.label++, (b = C[1]), (C = [0]))
-              ;((C = f.ops.pop()), f.trys.pop())
-                ((g = f.trys), !(g = g.length > 0 && g[g.length - 1]) && (C[0] === 6 || C[0] === 2))
-                f = 0
-              if (C[0] === 3 && (!g || (C[1] > g[0] && C[1] < g[3]))) {
-                f.label = C[1]
-              if (C[0] === 6 && f.label < g[1]) {
-                ;((f.label = g[1]), (g = C))
-              if (g && f.label < g[2]) {
-                ;((f.label = g[2]), f.ops.push(C))
-              ;(g[2] && f.ops.pop(), f.trys.pop())
-          C = x.call(w, f)
-          ;((C = [6, P]), (b = 0))
-          m = g = 0
-  _r = (function () {
-    function w(x, f, m) {
-        !w.isSupported())
-      ;((this.verbose = f), (this.logger = m))
-      var b = this.createBarcodeDetectorFormats(x)
-      if (((this.detector = new BarcodeDetector(b)), !this.detector))
-      (w.isSupported = function () {
-      (w.prototype.decodeAsync = function (x) {
-          var f, m
-          return pi(this, function (b) {
-            switch (b.label) {
-                if (((f = b.sent()), !f || f.length === 0)) throw 'No barcode or QR code detected.'
-                  (m = this.selectLargestBarcode(f)),
-                      format: vr.create(this.toHtml5QrcodeSupportedFormats(m.format)),
-      (w.prototype.selectLargestBarcode = function (x) {
-        for (var f = null, m = 0, b = 0, g = x; b < g.length; b++) {
-          var _ = g[b],
-          k > m && ((m = k), (f = _))
-        if (!f) throw 'No largest barcode found'
-        return f
-      (w.prototype.createBarcodeDetectorFormats = function (x) {
-        for (var f = [], m = 0, b = x; m < b.length; m++) {
-          var g = b[m]
-          this.formatMap.has(g)
-            ? f.push(this.formatMap.get(g))
-            : this.logger.warn(''.concat(g, ' is not supported by') + 'BarcodeDetectorDelegate')
+      }),
+        var x = new Map()
+        return (
+          }),
+          x
+        )
+      }),
+        if (!this.reverseFormatMap.has(x)) throw "reverseFormatMap doesn't have ".concat(x)
+        return this.reverseFormatMap.get(x)
+      }),
+      }),
+        return { decoderName: 'zxing-js' }
+      }),
+    )
+  })(),
+          })
+    }
+      function k(P) {
+        try {
+          C(m.next(P))
+        } catch (R) {
+          _(R)
         }
-        return { formats: f }
-      (w.prototype.toHtml5QrcodeSupportedFormats = function (x) {
-      (w.prototype.createReverseFormatMap = function () {
-          this.formatMap.forEach(function (f, m, b) {
-            x.set(f, m)
-      (w.prototype.createDebugData = function () {
-      w
-  Or = function (w, x, f, m) {
-    function b(g) {
-      return g instanceof f
-        ? g
-        : new f(function (_) {
-            _(g)
-    return new (f || (f = Promise))(function (g, _) {
+      }
+      function v(P) {
+        try {
+          C(m.throw(P))
+        } catch (R) {
+          _(R)
+        }
+      }
+      function C(P) {
+      }
+    })
+  },
+        label: 0,
+        sent: function () {
+        },
+        trys: [],
+        ops: [],
+      },
+      m,
+      _
+    return (
+      (_ = { next: k(0), throw: k(1), return: k(2) }),
+      typeof Symbol == 'function' &&
+        (_[Symbol.iterator] = function () {
+          return this
+        }),
+      _
+    )
+    function k(C) {
+      return function (P) {
+        return v([C, P])
+      }
+    }
+    function v(C) {
+      if (m) throw new TypeError('Generator is already executing.')
+        try {
+          if (
+            ((m = 1),
+                C[0] & 2
+                  : C[0]
+          )
+            case 0:
+            case 1:
+              break
+            case 4:
+            case 5:
+              continue
+            case 7:
+              continue
+            default:
+              if (
+              ) {
+                continue
+              }
+                break
+              }
+                break
+              }
+                break
+              }
+              continue
+          }
+        } catch (P) {
+        } finally {
+        }
+      if (C[0] & 5) throw C[1]
+      return { value: C[0] ? C[1] : void 0, done: !0 }
+    }
+  },
+      if (
+        ((this.formatMap = new Map([
+          [H.QR_CODE, 'qr_code'],
+          [H.AZTEC, 'aztec'],
+          [H.CODABAR, 'codabar'],
+          [H.CODE_39, 'code_39'],
+          [H.CODE_93, 'code_93'],
+          [H.CODE_128, 'code_128'],
+          [H.DATA_MATRIX, 'data_matrix'],
+          [H.ITF, 'itf'],
+          [H.EAN_13, 'ean_13'],
+          [H.EAN_8, 'ean_8'],
+          [H.PDF_417, 'pdf417'],
+          [H.UPC_A, 'upc_a'],
+          [H.UPC_E, 'upc_e'],
+        ])),
+        (this.reverseFormatMap = this.createReverseFormatMap()),
+      )
+        throw 'Use html5qrcode.min.js without edit, Use BarcodeDetectorDelegate only if it isSupported();'
+        throw 'BarcodeDetector detector not supported'
+    }
+    return (
+        if (!('BarcodeDetector' in window)) return !1
+        var x = new BarcodeDetector({ formats: ['qr_code'] })
+        return typeof x < 'u'
+      }),
+        return Ii(this, void 0, void 0, function () {
+              case 0:
+                return [4, this.detector.detect(x)]
+              case 1:
+                return (
+                  [
+                    2,
+                    {
+                      text: m.rawValue,
+                      debugData: this.createDebugData(),
+                    },
+                  ]
+                )
+            }
+          })
+        })
+      }),
+            k = _.boundingBox.width * _.boundingBox.height
+        }
+      }),
+      }),
+        if (!this.reverseFormatMap.has(x)) throw "reverseFormatMap doesn't have ".concat(x)
+        return this.reverseFormatMap.get(x)
+      }),
+        var x = new Map()
+        return (
+          }),
+          x
+        )
+      }),
+        return { decoderName: 'BarcodeDetector' }
+      }),
+    )
+  })(),
+          })
+    }
+      function k(P) {
+        try {
+          C(m.next(P))
+        } catch (R) {
+          _(R)
+        }
+      }
+      function v(P) {
+        try {
+          C(m.throw(P))
+        } catch (R) {
+          _(R)
+        }
+      }
+      function C(P) {
         P.done ? g(P.value) : b(P.value).then(k, v)
+      }
       C((m = m.apply(w, x || [])).next())
+    })
+  },
   Rr = function (w, x) {
     var f = {
+        label: 0,
+        sent: function () {
           if (g[0] & 1) throw g[1]
           return g[1]
+        },
+        trys: [],
+        ops: [],
+      },
+      m,
       b,
       g,
+      _
+    return (
+      (_ = { next: k(0), throw: k(1), return: k(2) }),
+      typeof Symbol == 'function' &&
+        (_[Symbol.iterator] = function () {
+          return this
+        }),
+      _
+    )
+    function k(C) {
+      return function (P) {
+        return v([C, P])
+      }
+    }
+    function v(C) {
+      if (m) throw new TypeError('Generator is already executing.')
       for (; _ && ((_ = 0), C[0] && (f = 0)), f; )
+        try {
+          if (
+            ((m = 1),
             b &&
               (g =
-                  ? b.return
-                    ? b.throw || ((g = b.return) && g.call(b), 0)
-                    : b.next) &&
-              !(g = g.call(b, C[1])).done)
-            return g
-          switch (((b = 0), g && (C = [C[0] & 2, g.value]), C[0])) {
-              g = C
-              return (f.label++, { value: C[1], done: !1 })
-              ;(f.label++, (b = C[1]), (C = [0]))
-              ;((C = f.ops.pop()), f.trys.pop())
-                ((g = f.trys), !(g = g.length > 0 && g[g.length - 1]) && (C[0] === 6 || C[0] === 2))
-                f = 0
-              if (C[0] === 3 && (!g || (C[1] > g[0] && C[1] < g[3]))) {
-                f.label = C[1]
-              if (C[0] === 6 && f.label < g[1]) {
-                ;((f.label = g[1]), (g = C))
-              if (g && f.label < g[2]) {
-                ;((f.label = g[2]), f.ops.push(C))
-              ;(g[2] && f.ops.pop(), f.trys.pop())
-          C = x.call(w, f)
-          ;((C = [6, P]), (b = 0))
-          m = g = 0
-    function w(x, f, m, b) {
-        f && _r.isSupported()
-          ? ((this.primaryDecoder = new _r(x, m, b)), (this.secondaryDecoder = new Nr(x, m, b)))
-          : (this.primaryDecoder = new Nr(x, m, b)))
-      (w.prototype.decodeAsync = function (x) {
-        return Or(this, void 0, void 0, function () {
-          var f
-          return Rr(this, function (m) {
-                ;((f = performance.now()), (m.label = 1))
-                return (this.possiblyLogPerformance(f), [7])
-      (w.prototype.decodeRobustlyAsync = function (x) {
-        return Or(this, void 0, void 0, function () {
-          var f, m
-          return Rr(this, function (b) {
-            switch (b.label) {
-                ;((f = performance.now()), (b.label = 1))
-                return (b.trys.push([1, 3, 4, 5]), [4, this.primaryDecoder.decodeAsync(x)])
-                return [2, b.sent()]
-                if (((m = b.sent()), this.secondaryDecoder))
-                return (this.possiblyLogPerformance(f), [7])
-      (w.prototype.getDecoder = function () {
-      (w.prototype.possiblyLogPerformance = function (x) {
-          var f = performance.now() - x
-          ;(this.executionResults.push(f), this.executions++, this.possiblyFlushPerformanceReport())
-      (w.prototype.possiblyFlushPerformanceReport = function () {
-          for (var x = 0, f = 0, m = this.executionResults; f < m.length; f++) {
-            var b = m[f]
-            x += b
-          var g = x / this.executionResults.length
-            ''.concat(g, ' ms for ').concat(this.executionResults.length, ' last runs.')
-      w
-    var w = function (x, f) {
-        (w =
-            function (m, b) {
-              m.__proto__ = b
-          function (m, b) {
-            for (var g in b) Object.prototype.hasOwnProperty.call(b, g) && (m[g] = b[g])
-        w(x, f)
-    return function (x, f) {
-      if (typeof f != 'function' && f !== null)
-        throw new TypeError('Class extends value ' + String(f) + ' is not a constructor or null')
-      w(x, f)
-      x.prototype = f === null ? Object.create(f) : ((m.prototype = f.prototype), new m())
-  Rn = function (w, x, f, m) {
-    function b(g) {
-      return g instanceof f
-        ? g
-        : new f(function (_) {
-            _(g)
-    return new (f || (f = Promise))(function (g, _) {
+                C[0] & 2
+                  : C[0]
+          )
+            case 0:
+            case 1:
+              break
+            case 4:
+            case 5:
+              continue
+            case 7:
+              continue
+            default:
+              if (
+              ) {
+                continue
+              }
+                break
+              }
+                break
+              }
+                break
+              }
+              continue
+          }
+        } catch (P) {
+        } finally {
+        }
+      if (C[0] & 5) throw C[1]
+      return { value: C[0] ? C[1] : void 0, done: !0 }
+    }
+  },
+  bi = (function () {
+      ;((this.EXECUTIONS_TO_REPORT_PERFORMANCE = 100),
+        (this.executions = 0),
+        (this.executionResults = []),
+        (this.wasPrimaryDecoderUsedInLastDecode = !1),
+        (this.verbose = m),
+    }
+    return (
+            switch (m.label) {
+              case 0:
+              case 1:
+                return (m.trys.push([1, , 3, 4]), [4, this.getDecoder().decodeAsync(x)])
+              case 2:
+                return [2, m.sent()]
+              case 3:
+              case 4:
+                return [2]
+            }
+          })
+        })
+      }),
+              case 0:
+              case 1:
+              case 2:
+              case 3:
+                  return [2, this.secondaryDecoder.decodeAsync(x)]
+                throw m
+              case 4:
+              case 5:
+                return [2]
+            }
+          })
+        })
+      }),
+        return this.secondaryDecoder
+          ? this.wasPrimaryDecoderUsedInLastDecode === !1
+            ? ((this.wasPrimaryDecoderUsedInLastDecode = !0), this.primaryDecoder)
+            : ((this.wasPrimaryDecoderUsedInLastDecode = !1), this.secondaryDecoder)
+          : this.primaryDecoder
+      }),
+        if (this.verbose) {
+        }
+      }),
+        if (!(this.executions < this.EXECUTIONS_TO_REPORT_PERFORMANCE)) {
+          }
+          ;(console.log(
+          ),
+            (this.executions = 0),
+            (this.executionResults = []))
+        }
+      }),
+    )
+  })(),
+  tr = (function () {
+      return (
+          Object.setPrototypeOf ||
+          ({ __proto__: [] } instanceof Array &&
+            }) ||
+          }),
+      )
+    }
+      function m() {
+        this.constructor = x
+      }
+    }
+  })(),
+          })
+    }
+      function k(P) {
+        try {
+          C(m.next(P))
+        } catch (R) {
+          _(R)
+        }
+      }
+      function v(P) {
+        try {
+          C(m.throw(P))
+        } catch (R) {
+          _(R)
+      }
+      function C(P) {
         P.done ? g(P.value) : b(P.value).then(k, v)
+      }
       C((m = m.apply(w, x || [])).next())
+    })
+  },
   Dn = function (w, x) {
     var f = {
+        label: 0,
+        sent: function () {
           if (g[0] & 1) throw g[1]
           return g[1]
+        },
+        trys: [],
+        ops: [],
       b,
       g,
       for (; _ && ((_ = 0), C[0] && (f = 0)), f; )
@@ -14345,7 +14561,6 @@ var Nr = (function () {
         ? g
         : new f(function (_) {
             _(g)
-          })
     return new (f || (f = Promise))(function (g, _) {
         P.done ? g(P.value) : b(P.value).then(k, v)
       C((m = m.apply(w, x || [])).next())
@@ -14504,6 +14719,7 @@ var Nr = (function () {
       (w.prototype.getRunningTrackCapabilities = function () {
       (w.prototype.getRunningTrackSettings = function () {
       (w.prototype.getRunningTrackCameraCapabilities = function () {
+      }),
       (w.prototype.applyVideoConstraints = function (x) {
           if (!Pr.isMediaStreamConstraintsValid(x, this.logger))
       (w.prototype.getRenderedCameraOrFail = function () {
@@ -14550,6 +14766,7 @@ var Nr = (function () {
           (f.style.width = '100%'),
           x.appendChild(f),
           (this.scannerPausedUiElement = f))
+      }),
       (w.prototype.scanContext = function (x, f) {
               .then(function (b) {
                 return (x(b.text, Tr.createFromQrcodeResult(b)), m.possiblyUpdateShaders(!0), !0)
@@ -14632,7 +14849,6 @@ var Nr = (function () {
               this.insertShaderBorders(g, v, C + v, -v, null, -v, !1),
               this.insertShaderBorders(g, v, C + v, null, -v, -v, !1),
           x.append(g)
-        }
       (w.prototype.insertShaderBorders = function (x, f, m, b, g, _, k) {
           (v.style.width = ''.concat(f, 'px')),
           b !== null && (v.style.top = ''.concat(b, 'px')),
@@ -14640,6 +14856,7 @@ var Nr = (function () {
       (w.prototype.showPausedState = function () {
       (w.prototype.hidePausedState = function () {
       (w.prototype.getTimeoutFps = function (x) {
+      }),
       w
   Br
 ;(function (w) {
@@ -14649,239 +14866,6 @@ var Nr = (function () {
     (w[(w.STATUS_REQUESTING_PERMISSION = 3)] = 'STATUS_REQUESTING_PERMISSION'))
 })(Br || (Br = {}))
 export { Vi as H }
-      },
-      m,
-      p,
-      w,
-      _
-    return (
-      (_ = { next: k(0), throw: k(1), return: k(2) }),
-      typeof Symbol == 'function' &&
-        (_[Symbol.iterator] = function () {
-          return this
-        }),
-      _
-    )
-    function k(C) {
-      return function (P) {
-        return v([C, P])
-      }
-    }
-    function v(C) {
-      if (m) throw new TypeError('Generator is already executing.')
-      for (; _ && ((_ = 0), C[0] && (h = 0)), h; )
-        try {
-          if (
-            ((m = 1),
-            p &&
-              (w =
-                C[0] & 2
-                  ? p.return
-                  : C[0]
-                    ? p.throw || ((w = p.return) && w.call(p), 0)
-                    : p.next) &&
-              !(w = w.call(p, C[1])).done)
-          )
-            return w
-          switch (((p = 0), w && (C = [C[0] & 2, w.value]), C[0])) {
-            case 0:
-            case 1:
-              w = C
-              break
-            case 4:
-              return (h.label++, { value: C[1], done: !1 })
-            case 5:
-              ;(h.label++, (p = C[1]), (C = [0]))
-              continue
-            case 7:
-              ;((C = h.ops.pop()), h.trys.pop())
-              continue
-            default:
-              if (
-                ((w = h.trys), !(w = w.length > 0 && w[w.length - 1]) && (C[0] === 6 || C[0] === 2))
-              ) {
-                h = 0
-                continue
-              }
-              if (C[0] === 3 && (!w || (C[1] > w[0] && C[1] < w[3]))) {
-                h.label = C[1]
-                break
-              }
-              if (C[0] === 6 && h.label < w[1]) {
-                ;((h.label = w[1]), (w = C))
-                break
-              }
-              if (w && h.label < w[2]) {
-                ;((h.label = w[2]), h.ops.push(C))
-                break
-              }
-              ;(w[2] && h.ops.pop(), h.trys.pop())
-              continue
-          }
-          C = x.call(g, h)
-        } catch (P) {
-          ;((C = [6, P]), (p = 0))
-        } finally {
-          m = w = 0
-        }
-      if (C[0] & 5) throw C[1]
-      return { value: C[0] ? C[1] : void 0, done: !0 }
-    }
-  },
-  Pr = (function () {
-    function g(x, h) {
-      ;((this.name = x), (this.track = h))
-    }
-    return (
-      (g.prototype.isSupported = function () {
-        return this.track.getCapabilities ? this.name in this.track.getCapabilities() : !1
-      }),
-      (g.prototype.apply = function (x) {
-        var h = {}
-        h[this.name] = x
-        var m = { advanced: [h] }
-        return this.track.applyConstraints(m)
-      }),
-      (g.prototype.value = function () {
-        var x = this.track.getSettings()
-        if (this.name in x) {
-          var h = x[this.name]
-          return h
-        }
-        return null
-      }),
-      g
-    )
-  })(),
-  yi = (function (g) {
-    tr(x, g)
-    function x(h, m) {
-      return g.call(this, h, m) || this
-    }
-    return (
-      (x.prototype.min = function () {
-        return this.getCapabilities().min
-      }),
-      (x.prototype.max = function () {
-        return this.getCapabilities().max
-      }),
-      (x.prototype.step = function () {
-        return this.getCapabilities().step
-      }),
-      (x.prototype.apply = function (h) {
-        var m = {}
-        m[this.name] = h
-        var p = { advanced: [m] }
-        return this.track.applyConstraints(p)
-      }),
-      (x.prototype.getCapabilities = function () {
-        this.failIfNotSupported()
-        var h = this.track.getCapabilities(),
-          m = h[this.name]
-        return { min: m.min, max: m.max, step: m.step }
-      }),
-      (x.prototype.failIfNotSupported = function () {
-        if (!this.isSupported()) throw new Error(''.concat(this.name, ' capability not supported'))
-      }),
-      x
-    )
-  })(Pr),
-  Ti = (function (g) {
-    tr(x, g)
-    function x(h) {
-      return g.call(this, 'zoom', h) || this
-    }
-    return x
-  })(yi),
-  Si = (function (g) {
-    tr(x, g)
-    function x(h) {
-      return g.call(this, 'torch', h) || this
-    }
-    return x
-  })(Pr),
-  Ni = (function () {
-    function g(x) {
-      this.track = x
-    }
-    return (
-      (g.prototype.zoomFeature = function () {
-        return new Ti(this.track)
-      }),
-      (g.prototype.torchFeature = function () {
-        return new Si(this.track)
-      }),
-      g
-    )
-  })(),
-  _i = (function () {
-    function g(x, h, m) {
-      ;((this.isClosed = !1),
-        (this.parentElement = x),
-        (this.mediaStream = h),
-        (this.callbacks = m),
-        (this.surface = this.createVideoElement(this.parentElement.clientWidth)),
-        x.append(this.surface))
-    }
-    return (
-      (g.prototype.createVideoElement = function (x) {
-        var h = document.createElement('video')
-        return (
-          (h.style.width = ''.concat(x, 'px')),
-          (h.style.display = 'block'),
-          (h.muted = !0),
-          h.setAttribute('muted', 'true'),
-          (h.playsInline = !0),
-          h
-        )
-      }),
-      (g.prototype.setupSurface = function () {
-        var x = this
-        ;((this.surface.onabort = function () {
-          throw 'RenderedCameraImpl video surface onabort() called'
-        }),
-          (this.surface.onerror = function () {
-            throw 'RenderedCameraImpl video surface onerror() called'
-          }))
-        var h = function () {
-          var m = x.surface.clientWidth,
-            p = x.surface.clientHeight
-          ;(x.callbacks.onRenderSurfaceReady(m, p), x.surface.removeEventListener('playing', h))
-        }
-        ;(this.surface.addEventListener('playing', h),
-          (this.surface.srcObject = this.mediaStream),
-          this.surface.play())
-      }),
-      (g.create = function (x, h, m, p) {
-        return On(this, void 0, void 0, function () {
-          var w, _
-          return Rn(this, function (k) {
-            switch (k.label) {
-              case 0:
-                return (
-                  (w = new g(x, h, p)),
-                  m.aspectRatio
-                    ? ((_ = { aspectRatio: m.aspectRatio }),
-                      [4, w.getFirstTrackOrFail().applyConstraints(_)])
-                    : [3, 2]
-                )
-              case 1:
-                ;(k.sent(), (k.label = 2))
-              case 2:
-                return (w.setupSurface(), [2, w])
-            }
-          })
-        })
-      }),
-      (g.prototype.failIfClosed = function () {
-        if (this.isClosed) throw 'The RenderedCamera has already been closed.'
-      }),
-      (g.prototype.getFirstTrackOrFail = function () {
-        if ((this.failIfClosed(), this.mediaStream.getVideoTracks().length === 0))
-          throw 'No video tracks found'
-        return this.mediaStream.getVideoTracks()[0]
-      }),
-      (g.prototype.pause = function () {
         ;(this.failIfClosed(), this.surface.pause())
       }),
       (g.prototype.resume = function (x) {

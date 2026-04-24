@@ -136,8 +136,44 @@ const archetypeExplanations: Record<string, { label: string; description: string
   },
 }
 
+const readUnlockFlag = () => {
+  try {
+    return sessionStorage.getItem('VP_DECODE_UNLOCK') === '1'
+  } catch {
+    return false
+  }
+}
+
+const formatDecodeError = (error: unknown) =>
+  error instanceof Error ? error.message : 'Unable to decode this token.'
+
+const parseAnswers = (answersJson: string) => {
+  const parsed = JSON.parse(answersJson)
+  if (!Array.isArray(parsed)) {
+    throw new Error('Answer payload must be a list.')
+  }
+
+  return parsed.map((entry, index) => {
+    if (
+      typeof entry !== 'object' ||
+      entry === null ||
+      typeof entry.questionId !== 'number' ||
+      typeof entry.answer !== 'number' ||
+      typeof entry.rtMs !== 'number'
+    ) {
+      throw new Error(`Invalid answer payload at index ${index}.`)
+    }
+
+    return {
+      questionId: entry.questionId,
+      answer: entry.answer,
+      rtMs: entry.rtMs,
+    }
+  }) as DecodedPayload['answers']
+}
+
 const Restore = () => {
-  const [unlocked, setUnlocked] = useState(sessionStorage.getItem('VP_DECODE_UNLOCK') === '1')
+  const [unlocked, setUnlocked] = useState(readUnlockFlag)
   const [tokenInput, setTokenInput] = useState(getToken() ?? '')
   const [decoded, setDecoded] = useState<DecodedPayload | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -158,26 +194,43 @@ const Restore = () => {
       if (parts[0] !== 'VP1') {
         throw new Error('Unsupported payload')
       }
-      const answersJson = parts[14]
-      const answers = JSON.parse(answersJson) as DecodedPayload['answers']
-      const maskFlags = parts[12]
+      if (parts.length < 15) {
+        throw new Error('Token payload is incomplete.')
+      }
+
+      const answers = parseAnswers(parts[14])
+      const maskFlags = (parts[12] ?? '')
         .split(';')
         .map((entry) => entry.split(':'))
         .filter((pair) => pair[1] === 'true')
         .map((pair) => pair[0])
-      const overrideFlags = parts[13] === 'none' ? [] : parts[13].split('~')
+        .filter(Boolean)
+      const overrideFlags = !parts[13] || parts[13] === 'none' ? [] : parts[13].split('~')
+
+      const numericFields = [
+        parts[4],
+        parts[5],
+        parts[6],
+        parts[7],
+        parts[8],
+        parts[9],
+        parts[10],
+      ].map((value) => Number(value))
+      if (numericFields.some((value) => Number.isNaN(value))) {
+        throw new Error('Token has invalid numeric fields.')
+      }
 
       setDecoded({
         band: parts[3],
-        dtiBase: Number(parts[4]),
-        dtiFinal: Number(parts[5]),
+        dtiBase: numericFields[0],
+        dtiFinal: numericFields[1],
         scores: {
-          N: Number(parts[6]),
-          M: Number(parts[7]),
-          P: Number(parts[8]),
-          MD: Number(parts[9]),
+          N: numericFields[2],
+          M: numericFields[3],
+          P: numericFields[4],
+          MD: numericFields[5],
         },
-        integrity: Number(parts[10]),
+        integrity: numericFields[6],
         archetype: parts[11],
         maskFlags,
         overrideFlags,
@@ -185,7 +238,7 @@ const Restore = () => {
       })
       setError(null)
     } catch (err) {
-      setError(String(err))
+      setError(formatDecodeError(err))
       setDecoded(null)
     }
   }, [])
@@ -202,7 +255,8 @@ const Restore = () => {
     if (!decoded) {
       return new Map()
     }
-    return new Map(decoded.answers.map((answer) => [answer.questionId, answer]))
+    const safeAnswers = Array.isArray(decoded.answers) ? decoded.answers : []
+    return new Map(safeAnswers.map((answer) => [answer.questionId, answer]))
   }, [decoded])
 
   const reportSections = useMemo(() => {
@@ -240,9 +294,10 @@ const Restore = () => {
       ],
     }
 
-    const responseTimes = decoded.answers.map((answer) => answer.rtMs)
+    const safeAnswers = Array.isArray(decoded.answers) ? decoded.answers : []
+    const responseTimes = safeAnswers.map((answer) => answer.rtMs)
     const lineData = {
-      labels: decoded.answers.map((answer) => `Q${answer.questionId}`),
+      labels: safeAnswers.map((answer) => `Q${answer.questionId}`),
       datasets: [
         {
           label: 'Response Time (ms)',

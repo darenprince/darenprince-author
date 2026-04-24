@@ -2,6 +2,13 @@
 
 > Tracks documentation updates made during the 2025-02-14 audit.
 
+## 2026-04-24, Nexus Who forensic restore crash hardening (GitHub Pages-safe)
+
+- Hardened the Nexus Who restore decode flow against malformed/legacy tokens so payload parse issues now surface as inline errors instead of runtime crashes or blank screens.
+- Added safe session-storage guards for forensic PIN unlock so users can still proceed in restrictive/private browser contexts without the page collapsing after code entry.
+- Kept deployment behavior aligned with GitHub Pages static hosting by preserving source-of-truth in `src/nexuswho/*` and rebuilding committed `nexuswho-assets/*` output from the existing build pipeline.
+- Removed Nexus Who-local favicon binary outputs from `nexuswho-assets/` and switched the page to shared site icon assets so deploy metadata remains GitHub Pages-ready without duplicating binary artifacts.
+
 ## 2026-04-21, Homepage metadata voice refinement and deploy parity
 
 - Rewrote `index.html` and `home.html` title, description, Open Graph, and Twitter description copy with a more human brand voice and clearer emotional intent.
