@@ -9645,23 +9645,14 @@ body.books-page .books-main > section {
     width: calc(100% - clamp(1.1rem, 5vw, 1.75rem));
   }
   .book-collection-list {
-    max-height: min(74vh, 44rem);
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    scroll-snap-type: y proximity;
-    padding-right: 0.2rem;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--color-lime) 70%, transparent) transparent;
-  }
-  .book-collection-list::-webkit-scrollbar {
-    width: 0.35rem;
-  }
-  .book-collection-list::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-lime) 60%, transparent);
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scroll-snap-type: none;
+    padding-right: 0;
   }
   .book-collection-card {
-    scroll-snap-align: start;
+    scroll-snap-align: none;
   }
 }
 .featured-book-card--upcoming-spine {
