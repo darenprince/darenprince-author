@@ -25,7 +25,8 @@
     "lint-staged": "lint-staged",
     "build:labs": "node scripts/generate-labs-product-pages.mjs",
     "styles:build": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
-    "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch"
+    "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch",
+    "build:crownlabs": "node scripts/build-crownlabs.mjs"
   },
   "devDependencies": {
     "@sendgrid/mail": "^8.1.6",
