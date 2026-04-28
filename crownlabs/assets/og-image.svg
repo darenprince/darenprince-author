@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0f19"/>
+      <stop offset="1" stop-color="#161f33"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <rect x="80" y="70" width="1040" height="490" rx="24" fill="none" stroke="#2c3852"/>
+  <text x="120" y="220" fill="#f5f8ff" font-size="76" font-family="Inter,Arial,sans-serif" font-weight="800">Crown Labs</text>
+  <text x="120" y="300" fill="#ff3b46" font-size="74" font-family="Inter,Arial,sans-serif" font-weight="800">Innovation. Intelligence. Integrity.</text>
+  <text x="120" y="380" fill="#9ba8bf" font-size="38" font-family="Inter,Arial,sans-serif">Product portfolio • Readiness • Valuation • Ethics</text>
+</svg>
