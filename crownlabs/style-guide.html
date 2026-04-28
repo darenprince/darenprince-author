@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crown Labs Style Guide</title>
+    <meta name="description" content="Independent style guide for the Crown Labs standalone app." />
+    <meta name="theme-color" content="#0a0f19" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="redline"></div>
+      <div class="header-inner shell">
+        <a href="./index.html" class="brand"><img src="./assets/logo.svg" alt="Crown Labs" /></a>
+        <nav class="desktop-nav" aria-label="Style guide links">
+          <a href="./index.html">App</a>
+          <a href="./STYLE_GUIDE.md">Spec</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell" style="padding: 2rem 0 3rem">
+      <section class="section">
+        <h1>Independent Style Guide</h1>
+        <p class="subhead">
+          Crown Labs visual standards for GitHub Pages deployment using local CSS and Iconify API
+          assets.
+        </p>
+      </section>
+
+      <section class="grid-3 cards">
+        <article class="card">
+          <h3>Color palette</h3>
+          <p><strong>Background:</strong> #090E17</p>
+          <p><strong>Panel:</strong> #111826</p>
+          <p><strong>Brand red:</strong> #FF3B46</p>
+          <p><strong>Muted copy:</strong> #9AA6BD</p>
+        </article>
+
+        <article class="card">
+          <h3>Typography</h3>
+          <p>Primary stack: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif.</p>
+          <p>H1 uses clamp(2.4rem, 6vw, 5rem) for fluid responsiveness.</p>
+        </article>
+
+        <article class="card">
+          <h3>Icon system (Iconify)</h3>
+          <p>
+            Uses <code>https://code.iconify.design/3/3.1.1/iconify.min.js</code> and
+            <code>&lt;span class="iconify" data-icon="..."&gt;</code>.
+          </p>
+          <h3 class="title-with-icon">
+            <span class="iconify app-icon" data-icon="mdi:shield-check-outline"></span> Example icon
+            treatment
+          </h3>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>Buttons & badges</h2>
+      </section>
+      <section class="grid-3 cards">
+        <article class="card">
+          <a class="btn btn-primary" href="#">Primary action</a>
+          <p>Used for dominant calls-to-action.</p>
+        </article>
+        <article class="card">
+          <a class="btn" href="#">Secondary action</a>
+          <p>Used for tertiary actions and in-card controls.</p>
+        </article>
+        <article class="card">
+          <div class="chips">
+            <span class="badge stage-1-beta">Stage 1 Beta</span>
+            <span class="badge beta">Beta</span>
+            <span class="badge prototype">Prototype</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
