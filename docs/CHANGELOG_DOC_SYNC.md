@@ -244,3 +244,10 @@
 - Increased homepage hero subtitle scale and added a soft black glow lift so supporting copy stays visible over mixed-image regions.
 - Added a subtle hero background vignette treatment and fixed-attachment behavior on desktop, with mobile/reduced-motion fallback to standard scroll behavior.
 - Added scroll-linked hero image zoom easing plus desktop-only section snap scrolling on the homepage for smoother transitions between story blocks.
+
+## 2026-05-01 — Crown Labs portfolio expansion + investor copy pass
+
+- Expanded the Labs data source (`assets/labs-data.json`) with external hero/gallery assets, directional investor notes, and three new products: Sentinel Vault, JustUs Chat, and Phoenix.
+- Updated the Labs product page generator (`scripts/generate-labs-product-pages.mjs`) to render hero imagery, a product visual gallery section, and investor-facing financial context per product page.
+- Regenerated `labs/products/*.html` via `npm run build:labs` so all product pages ship production-ready copy, refined structure, and deployable media references for GitHub Pages.
+- Updated root README deployment notes and status timestamp to reflect the May 2026 Labs product-page rollout.

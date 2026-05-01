@@ -28,6 +28,9 @@ const template = ({
   value,
   growthLabel,
   metrics,
+  heroImage,
+  gallery,
+  investorNote,
 }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,6 +83,7 @@ const template = ({
           <a class="ghost-btn" href="../../labs.html#portfolio">Explore all products</a>
         </div>
       </div>
+      ${heroImage ? `<figure class="hero-image"><img src="${heroImage}" alt="${name} hero visual"></figure>` : ''}
     </section>
 
     <section class="panel-grid">
@@ -105,6 +109,8 @@ const template = ({
         <p><strong>Year 3:</strong> ${projectedRevenue.year3}</p>
       </div>
     </section>
+
+    ${gallery?.length ? `<section class="section-block"><h2>Product visuals</h2><div class="visual-grid">${gallery.map((item, index) => `<figure class="panel-card visual-card"><img src="${item}" alt="${name} visual ${index + 1}"></figure>`).join('')}</div></section>` : ''}
 
     <section class="panel-grid">
       <div class="panel-card">
@@ -140,6 +146,7 @@ const template = ({
     <section id="access" class="section-block">
       <h2>Request access</h2>
       <p>Tell the Lab what you need, timeline, and environment. We reply with controlled next steps.</p>
+      <p class="footer-note">${investorNote || 'Financial projections are directional planning assumptions for strategy and planning only.'}</p>
       <form class="access-form" name="${id}-access" method="POST" action="./${id}.html">
         <input type="hidden" name="form-name" value="${id}-access">
         <input type="hidden" name="product" value="${name}">

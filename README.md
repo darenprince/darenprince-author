@@ -1,6 +1,6 @@
 # 🖥️ Daren Prince Author Platform & Website
 
-_Last updated: 2026-04-12_
+_Last updated: 2026-05-01_
 
 Welcome to the development hub for **Daren M. Prince**, bestselling author of _Game On! Master the Conversation & Win Her Heart_. This repository houses the public marketing site, live component demos, and the private dashboards that power the brand’s ecosystem.
 
@@ -63,6 +63,8 @@ Everything else is either generated, archived, or app-specific and should not be
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
 
 > **Crown Labs page:** `labs.html` now ships a premium long-form narrative (hero, brand intro, why Crown Labs exists, featured and secondary ecosystem products, platform architecture, differentiators, founder vision, and CTA), while `labs/products/*.html` remains the product brief library. The page uses deployable social metadata (`labs/assets/labs-opengraph.svg`) plus a dedicated Labs favicon (`labs/assets/labs-favicon.svg`) for GitHub Pages previews. Keep these assets committed and referenced with repository paths (no Netlify runtime dependencies).
+>
+> **Crown Labs product-page expansion (May 2026):** Product briefs now include hero visuals, screenshot galleries, refined investor-facing positioning copy, and directional financial notes. New pages include `sentinel-vault.html`, `justus-chat.html`, and `phoenix.html`, each generated from `assets/labs-data.json` via `npm run build:labs`.
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 
