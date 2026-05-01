@@ -129,6 +129,23 @@ body.product-page {
   line-height: 1.7;
 }
 
+.visual-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.visual-card {
+  margin: 0;
+  overflow: hidden;
+}
+
+.visual-card img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
 .access-form {
   display: grid;
   gap: 1rem;
