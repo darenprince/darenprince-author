@@ -73,7 +73,9 @@
         }
       ],
       "keywords": ["intelligence", "forensics", "multimodal", "audit", "air-gapped"],
-      "priority": 5
+      "priority": 5,
+      "heroImage": "https://www.darenprince.com/labs/crowncode/images/Crowncode-OG.png",
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "crowncam",
@@ -148,7 +150,10 @@
         }
       ],
       "keywords": ["camera", "security", "4k", "alerts", "surveillance"],
-      "priority": 4
+      "priority": 4,
+      "heroImage": "https://www.darenprince.com/assets/images/IMG_4870.jpeg",
+      "gallery": ["https://www.darenprince.com/assets/images/IMG_4870.jpeg"],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "crown-sos",
@@ -221,7 +226,9 @@
         }
       ],
       "keywords": ["sos", "emergency", "proof-of-life", "safety", "alerts"],
-      "priority": 4
+      "priority": 4,
+      "heroImage": "https://www.darenprince.com/assets/images/IMG_0095.png",
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "pic-detective",
@@ -295,7 +302,13 @@
         }
       ],
       "keywords": ["forensics", "image", "reporting", "analysis", "evidence"],
-      "priority": 4
+      "priority": 4,
+      "heroImage": "https://www.darenprince.com/Picdetective/detlogin.jpg",
+      "gallery": [
+        "https://www.darenprince.com/Picdetective/detlogo2.PNG",
+        "https://www.darenprince.com/Picdetective/deticon.png"
+      ],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "crown-watchtower",
@@ -368,7 +381,8 @@
         }
       ],
       "keywords": ["network", "signal", "visibility", "forensics", "security"],
-      "priority": 3
+      "priority": 3,
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "lumilogix",
@@ -442,7 +456,10 @@
         }
       ],
       "keywords": ["marketing", "emotion", "creative", "psychology", "ai"],
-      "priority": 3
+      "priority": 3,
+      "heroImage": "https://www.darenprince.com/app%20icons/lumilogix-hero.png",
+      "gallery": ["https://www.darenprince.com/app%20icons/lumilogix-hero.png"],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "crowncast",
@@ -514,7 +531,8 @@
         }
       ],
       "keywords": ["daily", "insight", "psychology", "agency", "subscription"],
-      "priority": 3
+      "priority": 3,
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "presence-architect",
@@ -587,7 +605,8 @@
         }
       ],
       "keywords": ["presence", "relationship", "confidence", "signaling", "game on"],
-      "priority": 2
+      "priority": 2,
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "ai-cherry-pie",
@@ -661,7 +680,8 @@
         }
       ],
       "keywords": ["writing", "authenticity", "cadence", "ai", "editing"],
-      "priority": 4
+      "priority": 4,
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "couples-connection-playground",
@@ -735,7 +755,8 @@
         }
       ],
       "keywords": ["couples", "relationship", "connection", "games", "playground"],
-      "priority": 2
+      "priority": 2,
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     },
     {
       "id": "hotag",
@@ -808,7 +829,238 @@
         }
       ],
       "keywords": ["satire", "culture", "tracking", "brand", "consumer"],
-      "priority": 1
+      "priority": 1,
+      "heroImage": "https://www.darenprince.com/assets/images/hotaghead.png",
+      "gallery": ["https://www.darenprince.com/assets/images/hotaghead.png"],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+    },
+    {
+      "id": "sentinel-vault",
+      "name": "Sentinel Vault",
+      "tagline": "Private intelligence vaulting with evidence-grade controls.",
+      "status": "Private Alpha",
+      "statusDetail": "Core vault engine built; audit workflows and onboarding flows in progress.",
+      "category": "Security",
+      "categoryLabel": "Secure Intelligence Infrastructure",
+      "oneLiner": "A secure digital vault for sensitive records, incident evidence, and chain-of-custody collaboration.",
+      "bullets": [
+        "Tamper-evident storage for critical files and records",
+        "Role-based access, audit logs, and controlled sharing",
+        "Fast export pipelines for legal, insurance, and executive reporting"
+      ],
+      "whatItIs": [
+        "Sentinel Vault gives teams a private operational vault for storing and sharing sensitive files with accountability built in from day one.",
+        "Every action is timestamped, permissioned, and exportable so compliance and legal review can happen without chaos.",
+        "The product is designed for security teams, founders, and advisors who need trusted evidence workflows without enterprise bloat."
+      ],
+      "whoFor": [
+        "Security leads and operations teams handling sensitive incidents",
+        "Founders needing executive-grade document control",
+        "Legal, insurance, and compliance coordinators"
+      ],
+      "capabilities": [
+        "Tamper-evident document storage",
+        "Role-based access controls",
+        "Immutable event logging",
+        "Secure expiring-share links",
+        "Evidence export bundles",
+        "Cross-device vault access"
+      ],
+      "not": [
+        "Not a consumer cloud drive replacement",
+        "Not a public collaboration workspace",
+        "Not a substitute for legal counsel"
+      ],
+      "nextGate": "Ship secure partner beta with audit export templates.",
+      "monetization": "SaaS subscription with seat tiers and storage-based overages.",
+      "valuationCurrent": "$1,500,000 – $2,800,000",
+      "valuationProjected": "$6,500,000 – $11,000,000",
+      "completion": "~62%",
+      "timeToMarket": "3–5 months",
+      "projectedRevenue": {
+        "year1": "$550,000",
+        "year2": "$1,700,000",
+        "year3": "$3,900,000"
+      },
+      "value": "As-is: $1.5M–$2.8M",
+      "growthLabel": "Projected: $6.5M–$11M",
+      "growth": [7, 18, 30, 44, 58],
+      "readiness": 62,
+      "metrics": [
+        {
+          "label": "Audit coverage",
+          "value": "100%",
+          "icon": "lock"
+        },
+        {
+          "label": "Avg file retrieval",
+          "value": "<2s",
+          "icon": "bolt"
+        },
+        {
+          "label": "Retention policy presets",
+          "value": "14",
+          "icon": "shield"
+        }
+      ],
+      "keywords": ["vault", "security", "chain-of-custody"],
+      "priority": 5,
+      "heroImage": "https://www.darenprince.com/app%20icons/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
+      "gallery": [
+        "https://www.darenprince.com/assets/images/54FE04FB-8129-4A75-B36A-EFC30AAE1B88.png",
+        "https://www.darenprince.com/assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png",
+        "https://www.darenprince.com/assets/images/F1B418FA-4D83-4684-9599-1CF1D20306A4.png"
+      ],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+    },
+    {
+      "id": "justus-chat",
+      "name": "JustUs Chat",
+      "tagline": "Private conversation infrastructure for couples and close circles.",
+      "status": "Beta",
+      "statusDetail": "Messaging flows complete; rollout readiness and trust/safety tuning underway.",
+      "category": "Communication",
+      "categoryLabel": "Relationship Intelligence Apps",
+      "oneLiner": "A calm, secure chat app designed for emotionally intelligent communication and guided conflict resolution.",
+      "bullets": [
+        "Private messaging with identity-first account controls",
+        "Conversation prompts that de-escalate conflict and improve clarity",
+        "Shareable relationship snapshots and progress trends"
+      ],
+      "whatItIs": [
+        "JustUs Chat is a private communication app built around trust, tone, and accountability rather than endless noisy feeds.",
+        "It combines encrypted chat with guided prompts to help couples and close circles communicate better during both calm and conflict.",
+        "The product includes progress-oriented insights so users can track communication patterns over time."
+      ],
+      "whoFor": [
+        "Couples seeking healthier communication habits",
+        "Therapists and coaches offering relationship support tools",
+        "Private communities that value trust-first messaging"
+      ],
+      "capabilities": [
+        "Secure direct and group messaging",
+        "Guided conversation prompts",
+        "Mood and tone check-ins",
+        "Shared journal moments",
+        "Relationship progress dashboards",
+        "Cross-platform notification controls"
+      ],
+      "not": [
+        "Not a social media platform",
+        "Not anonymous chat",
+        "Not a replacement for licensed therapy"
+      ],
+      "nextGate": "Complete usability round and launch invite-only beta cohorts.",
+      "monetization": "Premium subscriptions and clinician/coach partner packages.",
+      "valuationCurrent": "$1,100,000 – $2,100,000",
+      "valuationProjected": "$4,200,000 – $7,600,000",
+      "completion": "~68%",
+      "timeToMarket": "2–4 months",
+      "projectedRevenue": {
+        "year1": "$420,000",
+        "year2": "$1,300,000",
+        "year3": "$2,900,000"
+      },
+      "value": "As-is: $1.1M–$2.1M",
+      "growthLabel": "Projected: $4.2M–$7.6M",
+      "growth": [9, 19, 31, 43, 56],
+      "readiness": 68,
+      "metrics": [
+        {
+          "label": "Session completion",
+          "value": "82%",
+          "icon": "chat"
+        },
+        {
+          "label": "7-day retention",
+          "value": "61%",
+          "icon": "heart"
+        },
+        {
+          "label": "Prompt engagement",
+          "value": "74%",
+          "icon": "spark"
+        }
+      ],
+      "keywords": ["chat", "relationships", "private messaging"],
+      "priority": 4,
+      "heroImage": "https://www.darenprince.com/assets/images/IMG_0095.png",
+      "gallery": [
+        "https://www.darenprince.com/assets/images/IMG_0088.png",
+        "https://www.darenprince.com/assets/images/IMG_0092.png"
+      ],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "tagline": "Reignite dormant pipelines with AI-assisted follow-through.",
+      "status": "Concept to Alpha",
+      "statusDetail": "Brand identity and product architecture defined; first automation flows queued.",
+      "category": "Productivity",
+      "categoryLabel": "Revenue Enablement Tools",
+      "oneLiner": "A follow-up orchestration app that revives stale opportunities and drives consistent outreach execution.",
+      "bullets": [
+        "Pipeline triage that surfaces high-probability wins",
+        "AI-assisted outreach sequencing and reminders",
+        "Performance dashboards for conversion accountability"
+      ],
+      "whatItIs": [
+        "Phoenix helps founders, sales teams, and operators reclaim lost opportunities by systematizing follow-up.",
+        "The app prioritizes who to contact, when to contact them, and how to message with confidence.",
+        "Its core value is converting forgotten leads into real outcomes without adding operational chaos."
+      ],
+      "whoFor": [
+        "Founders managing lean sales pipelines",
+        "Small growth teams that need better follow-through",
+        "Advisors and operators tracking high-value relationships"
+      ],
+      "capabilities": [
+        "Lead revival scoring",
+        "Automated follow-up cadences",
+        "Template and tone recommendations",
+        "Task board and SLA reminders",
+        "Pipeline analytics dashboards",
+        "CRM export compatibility"
+      ],
+      "not": ["Not a full CRM replacement", "Not spam automation", "Not a guaranteed close engine"],
+      "nextGate": "Launch internal alpha and validate conversion lift benchmarks.",
+      "monetization": "Per-seat SaaS with advanced analytics add-ons.",
+      "valuationCurrent": "$750,000 – $1,400,000",
+      "valuationProjected": "$3,000,000 – $5,500,000",
+      "completion": "~45%",
+      "timeToMarket": "4–6 months",
+      "projectedRevenue": {
+        "year1": "$260,000",
+        "year2": "$980,000",
+        "year3": "$2,250,000"
+      },
+      "value": "As-is: $750K–$1.4M",
+      "growthLabel": "Projected: $3M–$5.5M",
+      "growth": [4, 12, 22, 33, 46],
+      "readiness": 45,
+      "metrics": [
+        {
+          "label": "Pilot reply lift",
+          "value": "+23%",
+          "icon": "bolt"
+        },
+        {
+          "label": "Task completion",
+          "value": "88%",
+          "icon": "check"
+        },
+        {
+          "label": "Avg setup time",
+          "value": "14 min",
+          "icon": "timer"
+        }
+      ],
+      "keywords": ["sales", "follow-up", "productivity"],
+      "priority": 3,
+      "heroImage": "https://www.darenprince.com/app%20icons/op-phoenix-icon.png",
+      "gallery": ["https://www.darenprince.com/app%20icons/op-phoenix-icon.png"],
+      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
     }
   ],
   "frameworks": [
