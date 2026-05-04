@@ -52,3 +52,9 @@ From repository root:
 
 - `npm run lint:metadata` validates deploy metadata conventions.
 - `npm run deploy:github-pages` prepares the full site pipeline for GitHub Pages deployment.
+
+## Portfolio Expansion Update (May 4, 2026)
+
+- Added individual detail pages for the full master-report product set (16 products).
+- Updated `index.html` product catalog copy and links to route directly to per-product pages.
+- Kept GitHub Pages compatible static deployment model with no Netlify assumptions.
