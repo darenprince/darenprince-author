@@ -3,46 +3,241 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Crown Labs | Intelligent Systems Portfolio</title>
-    <meta name="description" content="Crown Labs builds AI-powered platforms for behavioral insight, emotional intelligence, protection, privacy, and real-world decision support." />
-    <meta name="theme-color" content="#0e0e11" />
+    <title>Crown Labs | Intelligent Systems for High-Trust Decisions</title>
+    <meta
+      name="description"
+      content="Crown Labs builds AI-powered platforms for behavioral insight, emotional intelligence, protection, privacy, and real-world decision support."
+    />
+    <meta name="theme-color" content="#090909" />
+    <meta name="color-scheme" content="dark" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://www.darenprince.com/crownlabs/" />
+
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <link rel="apple-touch-icon" href="./assets/favicon.svg" />
     <link rel="manifest" href="./assets/site.webmanifest" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Crown Labs | Intelligent Systems Portfolio" />
-    <meta property="og:description" content="Premium AI systems portfolio for behavioral intelligence, privacy, and high-trust decision support." />
-    <meta property="og:image" content="./assets/og-image.svg" />
-    <meta property="og:url" content="./" />
+    <meta property="og:site_name" content="Crown Labs" />
+    <meta property="og:title" content="Crown Labs | Intelligent Systems for High-Trust Decisions" />
+    <meta property="og:description" content="A premium AI ecosystem built around behavioral signal, privacy, protection, and intelligent action." />
+    <meta property="og:url" content="https://www.darenprince.com/crownlabs/" />
+    <meta property="og:image" content="https://www.darenprince.com/crownlabs/assets/og-image.svg" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Crown Labs | Intelligent Systems Portfolio" />
-    <meta name="twitter:description" content="Explore Crown Labs products, financial readiness, and investor-facing product briefs." />
-    <meta name="twitter:image" content="./assets/og-image.svg" />
-    <link rel="stylesheet" href="./assets/styles.css" />
+    <meta name="twitter:title" content="Crown Labs | Intelligent Systems for High-Trust Decisions" />
+    <meta name="twitter:description" content="Explore Crown Labs: intelligence, behavior, protection, privacy, and creation systems." />
+    <meta name="twitter:image" content="https://www.darenprince.com/crownlabs/assets/og-image.svg" />
+
+    <style>
+      :root {
+        --bg-0: #090909;
+        --bg-1: #0f0f10;
+        --bg-2: #171719;
+        --card: rgba(255, 255, 255, 0.03);
+        --card-strong: rgba(255, 255, 255, 0.05);
+        --text: #f5f5f4;
+        --muted: #b8b8b7;
+        --accent: #8b1e21;
+        --accent-soft: #b02a2f;
+        --border: rgba(255, 255, 255, 0.12);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+        --radius: 18px;
+        --radius-sm: 12px;
+        --space: clamp(1rem, 1.2vw, 1.25rem);
+        --max: 1200px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 15% 0%, #1b1212, transparent 40%), radial-gradient(circle at 80% 10%, #140e0f, transparent 45%), var(--bg-0);
+        color: var(--text);
+      }
+      body::before {
+        content: "";
+        position: fixed; inset: 0; pointer-events: none; opacity: 0.35;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+      .container { width: min(var(--max), 100% - 2rem); margin-inline: auto; }
+      .section { padding: clamp(3.5rem, 8vw, 7rem) 0; }
+      h1,h2,h3,p { margin: 0 0 .8rem; }
+      p { color: var(--muted); line-height: 1.7; }
+      .reveal { opacity: 0; transform: translateY(20px); transition: .5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+      .site-header {
+        position: sticky; top: 0; z-index: 1000;
+        background: rgba(10,10,10,.72); backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+      .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; }
+      .brand { font-weight: 700; letter-spacing: .08em; text-decoration: none; color: var(--text); }
+      .desktop-nav { display: none; }
+      .nav-link, .btn, .pill, .menu-btn, .learn { border-radius: 999px; }
+      .nav-link { color: var(--muted); text-decoration: none; padding: .5rem .7rem; }
+      .nav-link.active, .nav-link:hover { color: var(--text); }
+      .btn { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; padding:.72rem 1.1rem; text-decoration:none; border:1px solid var(--border); color:var(--text); background:var(--card); }
+      .btn-primary { background: linear-gradient(180deg, #9f2a2e, #77171b); border-color: #a3393d; }
+      .menu-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: .55rem .8rem; }
+      .mega-menu { display:none; position:absolute; left:0; right:0; top:72px; border-top:1px solid var(--border); background:rgba(12,12,12,.95); backdrop-filter: blur(10px); }
+      .mega-menu.open { display:block; }
+      .mega-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; padding:1.2rem 0 1.5rem; }
+      .mega-col { background: var(--card); border:1px solid var(--border); border-radius: var(--radius-sm); padding: .9rem; }
+      .mega-col h4 { margin: 0 0 .6rem; }
+      .mega-col a { display:block; color:var(--text); text-decoration:none; margin:.45rem 0; }
+      .mega-col small { display:block; color:var(--muted); font-size:.8rem; }
+      .mobile-panel { display:none; border-top:1px solid var(--border); padding:.8rem 0 1rem; }
+      .mobile-panel.open { display:block; }
+      .mobile-panel a, .mobile-panel button { display:block; width:100%; margin:.3rem 0; text-align:left; background:none; border:none; color:var(--muted); padding:.55rem .25rem; text-decoration:none; }
+
+      .hero { padding: clamp(4rem, 12vw, 9rem) 0 4rem; position: relative; }
+      .eyebrow { letter-spacing:.18em; font-size:.75rem; text-transform:uppercase; color:#d4b7b8; }
+      h1 { font-size: clamp(2rem, 4.8vw, 4.2rem); max-width: 14ch; line-height: 1.05; }
+      .lead { max-width: 65ch; font-size: clamp(1rem, 1.5vw, 1.15rem); }
+      .hero-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.2rem; }
+
+      .filter-row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0 1.3rem; }
+      .pill { border:1px solid var(--border); background:var(--card); color:var(--muted); padding:.48rem .85rem; }
+      .pill[aria-pressed="true"] { color:var(--text); border-color:#ad454a; background:rgba(139,30,33,.24); }
+      .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+      .card { background: var(--card); border:1px solid var(--border); border-radius: var(--radius); padding:1rem; transition:.25s ease; cursor:pointer; }
+      .card:hover, .card:focus-visible { transform: translateY(-4px); border-color:#9f3a3e; background:var(--card-strong); }
+      .icon-line { width:34px; height:2px; background:#a73f44; margin:.5rem 0 .8rem; }
+      .learn { color:#deb5b7; text-decoration:none; font-size:.9rem; }
+      .label { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#d9a8aa; }
+
+      .spotlight { margin-top:1.2rem; background:linear-gradient(165deg, rgba(139,30,33,.18), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem; box-shadow: var(--shadow); }
+      .spot-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.8rem; margin-top:.8rem; }
+      .spot-meta div { background:rgba(0,0,0,.25); border:1px solid var(--border); border-radius:12px; padding:.7rem; }
+
+      .layer-row { border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem; background:var(--card); margin:.55rem 0; display:flex; justify-content:space-between; gap:1rem; }
+      .why { font-size: clamp(1.2rem, 2.2vw, 2rem); line-height:1.4; color:#efefee; max-width: 24ch; }
+      footer { border-top:1px solid var(--border); padding:2.3rem 0; background:#0a0a0a; }
+      .foot { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+      .foot a { color:var(--muted); text-decoration:none; display:block; margin:.35rem 0; }
+      .focusable:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid #cc5f64; outline-offset:2px; }
+
+      @media (min-width: 980px) {
+        .desktop-nav { display:flex; gap:.2rem; align-items:center; }
+        .menu-btn, .mobile-panel { display:none !important; }
+      }
+      @media (max-width: 979px) { .desktop-only { display:none; } }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+      }
+    </style>
   </head>
-  <body id="top">
-    <div class="scroll-progress" aria-hidden="true"></div>
-    <header class="site-header"><div class="redline"></div><div class="header-inner shell"><a href="#top" class="brand"><img src="./assets/logo.svg" alt="Crown Labs" /></a><nav class="desktop-nav"><a href="#products">Products</a><a href="#positioning">Positioning</a><a href="#contact">Contact</a></nav><a class="btn btn-pill" href="#products">Explore portfolio</a></div></header>
-    <main>
-      <section class="hero shell">
-        <div>
-          <p class="kicker">Crown Labs</p>
-          <h1>Intelligent systems for people who need more than software.</h1>
-          <p class="lead">Crown Labs builds AI-powered platforms for behavioral insight, emotional intelligence, protection, privacy, and real-world decision support.</p>
-          <div class="hero-actions"><a class="btn btn-primary" href="#products">View Ecosystem</a></div>
+  <body>
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="#top">CROWN LABS</a>
+        <nav class="desktop-nav" aria-label="Primary">
+          <button class="nav-link" id="ecosystemTrigger" aria-expanded="false" aria-controls="megaMenu">Ecosystem</button>
+          <a class="nav-link" href="#ecosystem">Intelligence</a><a class="nav-link" href="#ecosystem">Behavior</a><a class="nav-link" href="#ecosystem">Protection</a><a class="nav-link" href="#ecosystem">Creation</a><a class="nav-link" href="#contact">Contact</a>
+        </nav>
+        <a class="btn desktop-only" href="#investor">Request Access</a>
+        <button class="menu-btn" id="mobileToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
+      </div>
+      <div class="mega-menu" id="megaMenu">
+        <div class="container mega-grid">
+          <div class="mega-col"><h4>Intelligence</h4><a href="#ecosystem">CrownCode Intelligence<small>Multimodal analysis and pattern reporting.</small></a><a href="#ecosystem">Pic Detective<small>Hidden image signal extraction and reports.</small></a></div>
+          <div class="mega-col"><h4>Behavior</h4><a href="#ecosystem">Crown Psychology<small>Behavior change loops with insight depth.</small></a><a href="#ecosystem">Judy<small>Human signal interpretation assistant.</small></a><a href="#ecosystem">CrownCast<small>Behavior-led narrative and voice intelligence.</small></a></div>
+          <div class="mega-col"><h4>Protection</h4><a href="#ecosystem">Crown SOS<small>Emergency escalation and trusted contact routing.</small></a><a href="#ecosystem">CrownCam<small>Monitoring, alerts, and threat awareness.</small></a></div>
+          <div class="mega-col"><h4>Creation</h4><a href="#ecosystem">AI Cherry Pie<small>Emotion-rich voice and language restoration.</small></a><a href="#ecosystem">LumiLogix<small>Emotionally intelligent messaging systems.</small></a></div>
         </div>
-        <article class="feature-card fade-in"><header><h2>Investor Snapshot</h2><span class="badge stage">Portfolio</span></header><div class="panel"><h4>Current focus</h4><p>High-trust AI products across security, forensic analysis, and emotional intelligence.</p><h4>Commercial model</h4><p>Enterprise licensing, premium subscriptions, and strategic integration partnerships.</p><h4>Near-term objective</h4><p>Convert beta and prototype properties into revenue-backed production deployments.</p></div></article>
+      </div>
+      <div class="mobile-panel" id="mobileMenu">
+        <button id="mobileEco">Ecosystem ▾</button>
+        <div id="mobileEcoList" hidden>
+          <a href="#ecosystem">CrownCode Intelligence</a><a href="#ecosystem">Pic Detective</a><a href="#ecosystem">Crown Psychology</a><a href="#ecosystem">Judy</a><a href="#ecosystem">CrownCast</a><a href="#ecosystem">Crown SOS</a><a href="#ecosystem">CrownCam</a><a href="#ecosystem">AI Cherry Pie</a><a href="#ecosystem">LumiLogix</a>
+        </div>
+        <a href="#ecosystem">Intelligence</a><a href="#ecosystem">Behavior</a><a href="#ecosystem">Protection</a><a href="#ecosystem">Creation</a><a href="#contact">Contact</a><a class="btn" href="#investor">Request Access</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container section reveal" id="hero">
+        <p class="eyebrow">CROWN LABS</p>
+        <h1>Intelligent systems for people who need more than software.</h1>
+        <p class="lead">Crown Labs builds AI-powered platforms for behavioral insight, emotional intelligence, protection, privacy, and real-world decision support.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#ecosystem">Explore the Ecosystem</a><a class="btn" href="#investor">Request Access</a></div>
       </section>
-      <section class="section shell" id="positioning"><h2>Core Positioning</h2><p class="subhead">Calm execution, privacy-first architecture, and measurable product outcomes.</p></section>
-      <section class="grid-3 shell cards" id="philosophyGrid"></section>
-      <section class="section shell" id="products"><h2>Product Ecosystem</h2><p class="subhead">Detailed product briefs include positioning, financial outlook, visuals, and signup call-to-action.</p></section>
-      <section class="grid-2 shell cards" id="productGrid"></section>
-      <section class="section shell"><h2>Why Crown Labs</h2><p class="subhead">Built for serious users and serious decisions: quality, security, and responsible intelligence at every layer.</p></section>
-      <section class="grid-3 shell cards"><article class="card fade-in"><h3>Privacy by architecture</h3><p>Sensitive workflows are designed with minimal retention and traceable data boundaries.</p></article><article class="card fade-in"><h3>Decision clarity</h3><p>Interfaces prioritize explainable outputs over black-box claims, enabling operational trust.</p></article><article class="card fade-in"><h3>Deployment ready</h3><p>Static, portable, and GitHub Pages friendly with Vercel-compatible routing and metadata.</p></article></section>
-      <section class="section shell"><h2>Build with Crown Labs</h2><p class="subhead">Request a product walkthrough, beta access, or an investor briefing.</p><a class="btn btn-primary" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Investor%20Briefing">Schedule briefing</a></section>
+
+      <section class="section container reveal" id="ecosystem">
+        <h2>Product ecosystem</h2>
+        <p>Connected products across intelligence, behavior, protection, privacy, and creation.</p>
+        <div class="filter-row" role="toolbar" aria-label="Product category filters"></div>
+        <div class="product-grid" id="productGrid"></div>
+        <article class="spotlight" id="spotlight" aria-live="polite"></article>
+      </section>
+
+      <section class="section container reveal"><h2>Built as an ecosystem, not isolated tools.</h2><div id="layers"></div></section>
+      <section class="section container reveal"><h2>Why Crown Labs</h2><p class="why">Most software helps people do more.<br /><br />Crown Labs helps people see more.<br /><br />See the pattern.<br />Read the signal.<br />Protect the moment.<br />Change the behavior.<br />Move with intelligence.</p></section>
+      <section class="section container reveal" id="positioning"><h2>Market positioning</h2><p>Crown Labs sits at the intersection of applied AI, trust architecture, behavioral science, and real-world operations where outcomes matter.</p></section>
+      <section class="section container reveal" id="investor"><h2>Built around human signal.</h2><p>Human behavior drives security, relationships, marketing, communication, risk, trust, and decision-making. Crown Labs builds the software layer around those signals.</p><div class="hero-actions"><a class="btn btn-primary" href="mailto:contact@darenprince.com?subject=Request%20Access">Request Access</a><a class="btn" href="mailto:contact@darenprince.com?subject=Partnership%20Discussion">Discuss Partnership</a></div></section>
     </main>
-    <footer class="site-footer" id="contact"><div class="shell footer-inner"><img src="./assets/logo.svg" alt="Crown Labs" /><p>© <span id="year"></span> Crown Labs</p><a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Inquiry">Contact</a></div></footer>
-    <script type="module" src="./assets/app.js"></script>
+
+    <footer id="contact"><div class="container foot"><div><strong>Crown Labs</strong><p>Innovation. Intelligence. Integrity.</p><p>© <span id="year"></span> Crown Labs</p></div><div><strong>Products</strong><a href="#ecosystem">Crown Psychology</a><a href="#ecosystem">CrownCode Intelligence</a><a href="#ecosystem">Crown SOS</a><a href="#ecosystem">LumiLogix</a></div><div><strong>Company</strong><a href="#positioning">Market Positioning</a><a href="#investor">Investors</a><a href="#hero">About</a></div><div><strong>Contact</strong><a href="mailto:contact@darenprince.com">contact@darenprince.com</a><a href="#investor">Request Access</a></div></div></footer>
+
+    <script>
+      const products = [
+        {name:'Crown Psychology',category:'Behavior',description:'Understand your patterns. Change your behavior. Real growth loops, not passive tracking.',use:'Behavioral pattern awareness and change acceleration.',status:'Private beta',role:'Foundational behavior intelligence layer.'},
+        {name:'CrownCode Intelligence',category:'Intelligence',description:'Multimodal analysis, behavioral profiling, evidence-style reporting, and deep pattern detection.',use:'Investigation and strategic signal interpretation.',status:'Advanced prototype',role:'Core analytical engine across the ecosystem.'},
+        {name:'Crown SOS',category:'Protection',description:'Real-time emergency alerts, location sharing, trusted-contact escalation, and crisis coordination.',use:'Personal and family emergency escalation.',status:'Pilot-ready',role:'Critical response infrastructure.'},
+        {name:'CrownCam',category:'Protection',description:'AI-powered monitoring with motion detection, smart alerts, multi-monitor support, and threat awareness.',use:'Environmental monitoring and alerting.',status:'Pilot-ready',role:'Continuous situational intelligence.'},
+        {name:'JustUs.chat',category:'Privacy',description:'Private zero-retention communication. No accounts. No history. No exposure.',use:'High-trust private communication.',status:'Concept validated',role:'Privacy-first communication surface.'},
+        {name:'AI Cherry Pie',category:'Creation',description:'Make AI sound human again. Restore rhythm, tone, emotional weight, and identity.',use:'Message refinement for emotional authenticity.',status:'Active development',role:'Humanized communication enhancement.'},
+        {name:'Pic Detective',category:'Intelligence',description:'Extract hidden data from images with advanced visual intelligence and structured reports.',use:'Image forensics and hidden metadata intelligence.',status:'Prototype',role:'Forensic intelligence specialization.'},
+        {name:'LumiLogix',category:'Creation',description:'AI that feels. Emotionally intelligent marketing and messaging systems built to connect.',use:'Emotionally tuned campaign communication.',status:'Private beta',role:'Revenue-facing narrative intelligence.'}
+      ];
+      const categories = ['All','Intelligence','Behavior','Protection','Privacy','Creation'];
+      const grid = document.getElementById('productGrid');
+      const filterRow = document.querySelector('.filter-row');
+      const spotlight = document.getElementById('spotlight');
+      const layers = [
+        ['Intelligence Layer','CrownCode Intelligence and Pic Detective power deep analysis and signal extraction.'],
+        ['Behavioral Layer','Crown Psychology transforms insight into behavioral movement and decision quality.'],
+        ['Protection Layer','Crown SOS and CrownCam secure people and environments in real time.'],
+        ['Privacy Layer','JustUs.chat ensures discreet communication under strict retention boundaries.'],
+        ['Creation Layer','AI Cherry Pie and LumiLogix shape tone, resonance, and relational clarity.'],
+        ['Transformation Layer','Together, these systems turn raw signal into human-centered action.']
+      ];
+      document.getElementById('layers').innerHTML = layers.map(l=>`<div class="layer-row"><strong>${l[0]}</strong><span>${l[1]}</span></div>`).join('');
+
+      const renderCards = (cat='All') => {
+        grid.innerHTML = products.filter(p => cat === 'All' || p.category === cat).map(p => `<article tabindex="0" class="card reveal" data-name="${p.name}"><span class="label">${p.category}</span><div class="icon-line"></div><h3>${p.name}</h3><p>${p.description}</p><a class="learn" href="#spotlight">Learn More</a></article>`).join('');
+        document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => updateSpotlight(c.dataset.name)));
+      };
+      const updateSpotlight = (name='Crown Psychology') => {
+        const p = products.find(x=>x.name===name) || products[0];
+        spotlight.innerHTML = `<span class="label">Featured Product</span><h3>${p.name}</h3><p><strong>${p.category}</strong> · ${p.description}</p><div class="spot-meta"><div><strong>Primary Use Case</strong><p>${p.use}</p></div><div><strong>Status</strong><p>${p.status}</p></div><div><strong>Strategic Role</strong><p>${p.role}</p></div></div>`;
+      };
+      filterRow.innerHTML = categories.map((c,i)=>`<button class="pill" aria-pressed="${i===0}" data-cat="${c}">${c}</button>`).join('');
+      filterRow.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+        filterRow.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed','false'));
+        b.setAttribute('aria-pressed','true');
+        renderCards(b.dataset.cat);
+      }));
+
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileToggle.addEventListener('click',()=>{ const open = mobileMenu.classList.toggle('open'); mobileToggle.setAttribute('aria-expanded', open); });
+      document.getElementById('mobileEco').addEventListener('click',()=>{ const list = document.getElementById('mobileEcoList'); list.hidden = !list.hidden; });
+
+      const trigger = document.getElementById('ecosystemTrigger');
+      const mega = document.getElementById('megaMenu');
+      const toggleMega = force => { const open = force ?? !mega.classList.contains('open'); mega.classList.toggle('open', open); trigger.setAttribute('aria-expanded', open); };
+      trigger.addEventListener('click', () => toggleMega());
+      document.addEventListener('click', e => { if (!mega.contains(e.target) && e.target !== trigger) toggleMega(false); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { toggleMega(false); mobileMenu.classList.remove('open'); mobileToggle.setAttribute('aria-expanded','false'); } });
+
+      renderCards(); updateSpotlight();
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const observer = new IntersectionObserver((entries)=>entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('visible'); }),{threshold:.15});
+      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    </script>
   </body>
 </html>
