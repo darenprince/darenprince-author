@@ -11,6 +11,8 @@ Crown Labs is delivered as a **single-page, static, investor-ready site** with i
   - featured product spotlight updates
   - ecosystem layer architecture section
   - investor/partner CTA block
+  - refined spacing rhythm, stronger typography hierarchy, and premium card polish
+  - improved micro-interactions (button/card lift, sheen motion, active-card spotlight sync, keyboard card activation)
 - Dark luxury visual direction with muted red brand accents and semantic sections.
 - Accessibility features include keyboard-friendly controls, focus-visible styles, and reduced-motion support.
 
