@@ -45,7 +45,9 @@
         --radius: 18px;
         --radius-sm: 12px;
         --space: clamp(1rem, 1.2vw, 1.25rem);
-        --max: 1200px;
+        --max: 1140px;
+        --section-gap: clamp(4rem, 9vw, 8rem);
+        --measure: 68ch;
       }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -62,10 +64,12 @@
         background-size: 30px 30px;
       }
       .container { width: min(var(--max), 100% - 2rem); margin-inline: auto; }
-      .section { padding: clamp(3.5rem, 8vw, 7rem) 0; }
+      .section { padding: var(--section-gap) 0; }
       h1,h2,h3,p { margin: 0 0 .8rem; }
-      p { color: var(--muted); line-height: 1.7; }
-      .reveal { opacity: 0; transform: translateY(20px); transition: .5s ease; }
+      h2 { font-size: clamp(1.65rem, 3vw, 2.5rem); line-height: 1.15; letter-spacing: -.015em; margin-bottom: 1rem; }
+      h3 { line-height: 1.22; letter-spacing: -.01em; }
+      p { color: var(--muted); line-height: 1.75; max-width: var(--measure); }
+      .reveal { opacity: 0; transform: translateY(20px) scale(.995); transition: .6s cubic-bezier(.22,1,.36,1); }
       .reveal.visible { opacity: 1; transform: none; }
       .site-header {
         position: sticky; top: 0; z-index: 1000;
@@ -78,7 +82,8 @@
       .nav-link, .btn, .pill, .menu-btn, .learn { border-radius: 999px; }
       .nav-link { color: var(--muted); text-decoration: none; padding: .5rem .7rem; }
       .nav-link.active, .nav-link:hover { color: var(--text); }
-      .btn { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; padding:.72rem 1.1rem; text-decoration:none; border:1px solid var(--border); color:var(--text); background:var(--card); }
+      .btn { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; padding:.72rem 1.1rem; text-decoration:none; border:1px solid var(--border); color:var(--text); background:var(--card); transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease; }
+      .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,.28); background: var(--card-strong); box-shadow: 0 10px 22px rgba(0,0,0,.35); }
       .btn-primary { background: linear-gradient(180deg, #9f2a2e, #77171b); border-color: #a3393d; }
       .menu-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: .55rem .8rem; }
       .mega-menu { display:none; position:absolute; left:0; right:0; top:72px; border-top:1px solid var(--border); background:rgba(12,12,12,.95); backdrop-filter: blur(10px); }
@@ -92,18 +97,20 @@
       .mobile-panel.open { display:block; }
       .mobile-panel a, .mobile-panel button { display:block; width:100%; margin:.3rem 0; text-align:left; background:none; border:none; color:var(--muted); padding:.55rem .25rem; text-decoration:none; }
 
-      .hero { padding: clamp(4rem, 12vw, 9rem) 0 4rem; position: relative; }
+      .hero { padding: clamp(5rem, 13vw, 10rem) 0 clamp(3.5rem, 7vw, 5rem); position: relative; }
       .eyebrow { letter-spacing:.18em; font-size:.75rem; text-transform:uppercase; color:#d4b7b8; }
       h1 { font-size: clamp(2rem, 4.8vw, 4.2rem); max-width: 14ch; line-height: 1.05; }
-      .lead { max-width: 65ch; font-size: clamp(1rem, 1.5vw, 1.15rem); }
+      .lead { max-width: 62ch; font-size: clamp(1.04rem, 1.45vw, 1.2rem); color: #cbcaca; }
       .hero-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.2rem; }
 
       .filter-row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0 1.3rem; }
       .pill { border:1px solid var(--border); background:var(--card); color:var(--muted); padding:.48rem .85rem; }
       .pill[aria-pressed="true"] { color:var(--text); border-color:#ad454a; background:rgba(139,30,33,.24); }
-      .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
-      .card { background: var(--card); border:1px solid var(--border); border-radius: var(--radius); padding:1rem; transition:.25s ease; cursor:pointer; }
-      .card:hover, .card:focus-visible { transform: translateY(-4px); border-color:#9f3a3e; background:var(--card-strong); }
+      .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; }
+      .card { background: linear-gradient(172deg, rgba(255,255,255,.045), rgba(255,255,255,.015)); border:1px solid var(--border); border-radius: var(--radius); padding:1.15rem; transition:.28s cubic-bezier(.22,1,.36,1); cursor:pointer; position: relative; overflow:hidden; }
+      .card::after { content:""; position:absolute; inset:-80% auto auto -20%; width:50%; height:220%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); transform: rotate(16deg) translateX(-140%); transition: transform .8s ease; }
+      .card:hover, .card:focus-visible { transform: translateY(-6px); border-color:#b14a4f; background:var(--card-strong); box-shadow: var(--shadow); }
+      .card:hover::after, .card:focus-visible::after { transform: rotate(16deg) translateX(320%); }
       .icon-line { width:34px; height:2px; background:#a73f44; margin:.5rem 0 .8rem; }
       .learn { color:#deb5b7; text-decoration:none; font-size:.9rem; }
       .label { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#d9a8aa; }
@@ -112,18 +119,19 @@
       .spot-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.8rem; margin-top:.8rem; }
       .spot-meta div { background:rgba(0,0,0,.25); border:1px solid var(--border); border-radius:12px; padding:.7rem; }
 
-      .layer-row { border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem; background:var(--card); margin:.55rem 0; display:flex; justify-content:space-between; gap:1rem; }
+      .layer-row { border:1px solid var(--border); border-radius:12px; padding:1rem 1.1rem; background:var(--card); margin:.68rem 0; display:flex; justify-content:space-between; gap:1rem; align-items: baseline; }
       .why { font-size: clamp(1.2rem, 2.2vw, 2rem); line-height:1.4; color:#efefee; max-width: 24ch; }
       footer { border-top:1px solid var(--border); padding:2.3rem 0; background:#0a0a0a; }
       .foot { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
       .foot a { color:var(--muted); text-decoration:none; display:block; margin:.35rem 0; }
       .focusable:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid #cc5f64; outline-offset:2px; }
+      .card.active { border-color:#b14a4f; background: rgba(139,30,33,.17); box-shadow: var(--shadow); }
 
       @media (min-width: 980px) {
         .desktop-nav { display:flex; gap:.2rem; align-items:center; }
         .menu-btn, .mobile-panel { display:none !important; }
       }
-      @media (max-width: 979px) { .desktop-only { display:none; } }
+      @media (max-width: 979px) { .desktop-only { display:none; } .section { padding: clamp(3.4rem, 9vw, 5.5rem) 0; } h1 { max-width: 17ch; } .hero-actions { margin-top: 1.4rem; } }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
       }
@@ -208,10 +216,14 @@
 
       const renderCards = (cat='All') => {
         grid.innerHTML = products.filter(p => cat === 'All' || p.category === cat).map(p => `<article tabindex="0" class="card reveal" data-name="${p.name}"><span class="label">${p.category}</span><div class="icon-line"></div><h3>${p.name}</h3><p>${p.description}</p><a class="learn" href="#spotlight">Learn More</a></article>`).join('');
-        document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => updateSpotlight(c.dataset.name)));
+        document.querySelectorAll('.card').forEach(c => {
+          c.addEventListener('click', () => updateSpotlight(c.dataset.name));
+          c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); updateSpotlight(c.dataset.name); } });
+        });
       };
       const updateSpotlight = (name='Crown Psychology') => {
         const p = products.find(x=>x.name===name) || products[0];
+        document.querySelectorAll('.card').forEach(card => card.classList.toggle('active', card.dataset.name === p.name));
         spotlight.innerHTML = `<span class="label">Featured Product</span><h3>${p.name}</h3><p><strong>${p.category}</strong> · ${p.description}</p><div class="spot-meta"><div><strong>Primary Use Case</strong><p>${p.use}</p></div><div><strong>Status</strong><p>${p.status}</p></div><div><strong>Strategic Role</strong><p>${p.role}</p></div></div>`;
       };
       filterRow.innerHTML = categories.map((c,i)=>`<button class="pill" aria-pressed="${i===0}" data-cat="${c}">${c}</button>`).join('');
@@ -237,7 +249,7 @@
       document.getElementById('year').textContent = new Date().getFullYear();
 
       const observer = new IntersectionObserver((entries)=>entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('visible'); }),{threshold:.15});
-      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+      document.querySelectorAll('.reveal').forEach((el, i)=>{ el.style.transitionDelay = `${Math.min(i * 45, 220)}ms`; observer.observe(el); });
     </script>
   </body>
 </html>
