@@ -1,83 +1,45 @@
-import { books, ethics, frameworks, philosophy, products, statuses, valuation } from './data.js'
+import { philosophy, products } from './data.js'
 
 const byId = (id) => document.getElementById(id)
 const productGrid = byId('productGrid')
-const philosophyGrid = document.querySelector('.philosophy')
-const frameworkGrid = byId('frameworkGrid')
-const booksGrid = byId('booksGrid')
-const statusTable = byId('statusTable')
-const valuationCards = byId('valuationCards')
-const ethicsGrid = byId('ethicsGrid')
+const philosophyGrid = byId('philosophyGrid')
 
 const tagClass = (value) => value.toLowerCase().replace(/\s+/g, '-')
 
 function renderCard(item) {
-  return `
-    <article class="card">
+  return `<article class="card fade-in">
       <div class="chips">
         <span class="badge ${tagClass(item.status)}">${item.status}</span>
-        ${item.category ? `<span class="badge outline">${item.category}</span>` : ''}
+        <span class="badge outline">${item.category}</span>
       </div>
-      <h3>${item.name || item.title}</h3>
-      <p>${item.summary || item.text}</p>
-      ${item.gate ? `<div class="mini"><strong>Next gate:</strong> ${item.gate}</div>` : ''}
-      ${item.value ? `<div class="mini"><strong>Valuation signal:</strong> ${item.value}</div>` : ''}
-      ${typeof item.score === 'number' ? `<p class="score">Readiness score <span>${item.score}%</span></p>` : ''}
+      <h3>${item.name}</h3>
+      <p>${item.summary}</p>
+      <div class="mini"><strong>Next gate:</strong> ${item.gate}</div>
+      <div class="mini"><strong>Financial outlook:</strong> ${item.value}</div>
+      <p class="score">Readiness score <span>${item.score}%</span></p>
+      <a class="btn" href="./products/${item.slug}.html">View full product brief</a>
     </article>`
-}
-
-function renderProducts(filter = 'all', query = '') {
-  const q = query.trim().toLowerCase()
-  const filtered = products.filter((p) => {
-    const statusMatch = filter === 'all' || p.status === filter
-    const queryMatch = !q || [p.name, p.category, p.summary].join(' ').toLowerCase().includes(q)
-    return statusMatch && queryMatch
-  })
-  productGrid.innerHTML = filtered.map(renderCard).join('')
 }
 
 philosophyGrid.innerHTML = philosophy
   .map(
-    (item) => `
-  <article class="card">
-    <h3>${item.title}</h3>
-    <p class="accent">${item.highlight}</p>
-    <p>${item.text}</p>
-  </article>`
-  )
-  .join('')
-
-frameworkGrid.innerHTML = frameworks.map(renderCard).join('')
-booksGrid.innerHTML = books.map(renderCard).join('')
-statusTable.innerHTML = statuses
-  .map(
-    ([status, meaning, gate]) =>
-      `<tr><td><span class="badge ${tagClass(status)}">${status}</span></td><td>${meaning}</td><td>${gate}</td></tr>`
-  )
-  .join('')
-
-valuationCards.innerHTML = valuation
-  .map(
     (item) =>
-      `<article class="card"><h3>${item.title}</h3><ul>${item.points
-        .map((p) => `<li>${p}</li>`)
-        .join('')}</ul><p>${item.text}</p></article>`
+      `<article class="card fade-in"><h3>${item.title}</h3><p class="accent">${item.highlight}</p><p>${item.text}</p></article>`
   )
   .join('')
 
-ethicsGrid.innerHTML = ethics
-  .map((item) => `<article class="card"><h3>${item.title}</h3><p>${item.text}</p></article>`)
-  .join('')
+productGrid.innerHTML = products.map(renderCard).join('')
 
-renderProducts()
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('visible')
+    })
+  },
+  { threshold: 0.1 }
+)
 
-byId('statusFilter').addEventListener('change', (event) => {
-  renderProducts(event.target.value, byId('search').value)
-})
-
-byId('search').addEventListener('input', (event) => {
-  renderProducts(byId('statusFilter').value, event.target.value)
-})
+document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el))
 
 document.getElementById('year').textContent = new Date().getFullYear()
 
