@@ -1,41 +1,44 @@
-# Crown Labs Web App (Standalone)
+# Crown Labs Web App (Production Static Build)
 
-This directory contains a **complete, standalone Crown Labs portfolio web app** with independent resources.
+Crown Labs now ships as a production-ready static web app designed for **GitHub Pages-first deployment** and fully compatible with Vercel static hosting.
 
-## Contents
+## Current Stack
 
-- `index.html` – Full single-page experience.
-- `assets/styles.css` – App styling and responsive layout.
-- `assets/app.js` / `assets/data.js` – Rendering and interactive filtering.
-- `assets/logo.svg`, `assets/favicon.svg`, `assets/og-image.svg` – Branding and social assets.
-- `assets/site.webmanifest` – Browser install metadata.
+- Static HTML, CSS, and vanilla JavaScript modules.
+- No runtime framework dependency.
+- Product ecosystem rendered from `assets/data.js` into `index.html`.
+- Dedicated investor-facing product brief pages in `products/`.
 
-## Deployment (GitHub Pages ready)
+## Deployment
 
-This app is static and uses only relative paths, so it can be published on GitHub Pages from this folder or from repository root.
+### GitHub Pages (primary)
 
-### Option A: Serve from repository root
+1. Push repository changes to your Pages branch.
+2. In GitHub repository settings, set Pages source to the branch/folder containing `crownlabs/`.
+3. Publish at `https://<org>.github.io/<repo>/crownlabs/` or copy this folder to repo root for root deployment.
 
-- Keep folder as `crownlabs/`.
-- Access via `https://<org>.github.io/<repo>/crownlabs/`.
+### Vercel (optional)
 
-### Option B: Publish as its own Pages site
+- Framework preset: `Other`.
+- Output directory: `crownlabs`.
+- Build command: none required.
 
-- Set Pages source to the branch/folder containing this directory.
-- If needed, copy folder contents to the publish root.
+## SEO / Social / Browser Metadata
 
-## SEO & Metadata Included
+- Metadata and social tags are embedded in `index.html`.
+- Favicon, Apple touch icon, and web manifest are included under `assets/`.
+- Theme color and dark UI tokens aligned to Crown Labs branding.
 
-`index.html` includes:
+## Project Status (May 4, 2026)
 
-- title + meta description
-- robots + theme color
-- Open Graph tags
-- Twitter card tags
-- favicon + apple touch icon + web manifest
-
-## Notes
-
-- Netlify-specific configuration is intentionally not used.
-- Theme colors are matched to Crown Labs dark branding.
-- Social preview image is local (`assets/og-image.svg`) and deploys with the app.
+- Homepage upgraded with investor-ready positioning copy and premium dark UI.
+- Product ecosystem includes:
+  - Crown Psychology
+  - CrownCode Intelligence
+  - Crown SOS
+  - CrownCam
+  - JustUs.chat
+  - AI Cherry Pie
+  - Pic Detective
+  - LumiLogix
+- Each product now has a dedicated page with summary, financial outlook, visual, and signup CTA.

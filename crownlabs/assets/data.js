@@ -1,202 +1,104 @@
 export const philosophy = [
   {
-    title: 'Innovation',
-    highlight: 'Imagine beyond convention.',
-    text: 'We imagine beyond convention and build systems that challenge mediocrity.',
+    title: 'Precision',
+    highlight: 'Built with measurable intent.',
+    text: 'Crown Labs products are designed for high-stakes reliability, clear accountability, and repeatable outcomes.',
   },
   {
     title: 'Intelligence',
-    highlight: 'Design systems that understand.',
-    text: 'We design systems that learn, reason, and understand emotional context.',
+    highlight: 'Context-aware by design.',
+    text: 'We engineer systems that combine behavioral context, privacy controls, and decision-support clarity.',
   },
   {
-    title: 'Integrity',
-    highlight: 'Purpose rooted in accountability.',
-    text: 'We ensure every product and partnership is rooted in honesty and accountability.',
+    title: 'Stewardship',
+    highlight: 'Long-term over hype cycles.',
+    text: 'Every release is evaluated against trust, resilience, and durable value creation for users and partners.',
   },
 ]
 
 export const products = [
   {
-    name: 'CrownCode Intelligence Suite',
+    name: 'Crown Psychology',
+    slug: 'crown-psychology',
+    status: 'Beta',
+    category: 'Behavioral Intelligence',
+    summary: 'Behavioral pattern analysis and emotional signal mapping for better human decisions.',
+    gate: 'Expand enterprise pilot cohorts and compliance workflows.',
+    value: 'Projected ARR: $2.4M–$4.8M',
+    score: 70,
+  },
+  {
+    name: 'CrownCode Intelligence',
+    slug: 'crowncode-intelligence',
     status: 'Stage 1 Beta',
-    category: 'Intelligence',
-    summary: 'Flagship intelligence platform for evidence-grade multimodal analysis.',
-    gate: 'Complete Stage 1 beta with controlled testing.',
-    value: 'As-is: $6M–$10M · Projected: $22M–$38M',
+    category: 'AI Systems',
+    summary:
+      'Flagship intelligence suite for structured analysis, synthesis, and operational execution.',
+    gate: 'Complete controlled beta and analyst onboarding.',
+    value: 'Projected ARR: $6M–$12M',
     score: 85,
   },
   {
-    name: 'CrownCam',
-    status: 'Beta',
-    category: 'Security',
-    summary: 'Browser-based security camera deployment with AI-assisted monitoring.',
-    gate: 'Finalize AI resolution upgrades.',
-    value: 'As-is: $1.2M–$2M · Projected: $5M–$8M',
-    score: 65,
-  },
-  {
     name: 'Crown SOS',
+    slug: 'crown-sos',
     status: 'Beta',
     category: 'Security',
-    summary: 'Real-time emergency response and proof-of-life system.',
-    gate: 'Validate beta response workflows.',
-    value: 'As-is: $900K–$1.5M · Projected: $3M–$5M',
-    score: 65,
+    summary:
+      'Emergency response platform with proof-of-life controls and trusted contact escalation.',
+    gate: 'Finalize responder workflows and geo-redundant alerting.',
+    value: 'Projected ARR: $1.8M–$3.5M',
+    score: 72,
   },
   {
-    name: 'Pic Detective',
+    name: 'CrownCam',
+    slug: 'crowncam',
     status: 'Beta',
-    category: 'Forensics',
-    summary: 'Transforms a single image into a structured forensic report.',
-    gate: 'Finalize interface polish and reporting exports.',
-    value: 'As-is: $1.8M–$3M · Projected: $5M–$8M',
-    score: 65,
+    category: 'Vision Security',
+    summary: 'AI-assisted camera intelligence for real-time monitoring and incident context.',
+    gate: 'Complete low-light accuracy and event export modules.',
+    value: 'Projected ARR: $2M–$4M',
+    score: 69,
+  },
+  {
+    name: 'JustUs.chat',
+    slug: 'justus-chat',
+    status: 'Prototype',
+    category: 'Communication',
+    summary:
+      'Private emotionally intelligent communication environment with secure-first defaults.',
+    gate: 'Advance from prototype to closed relationship cohort.',
+    value: 'Projected ARR: $1.5M–$3M',
+    score: 48,
   },
   {
     name: 'AI Cherry Pie',
+    slug: 'ai-cherry-pie',
     status: 'Beta',
-    category: 'Creative',
-    summary: 'Voice-preserving writing analysis and emotional flow system.',
-    gate: 'Finalize packaging and launch channels.',
-    value: 'As-is: $1M–$1.8M · Projected: $4M–$6M',
-    score: 65,
+    category: 'Content Intelligence',
+    summary: 'Narrative and voice intelligence engine for emotionally resonant writing workflows.',
+    gate: 'Launch editorial-grade output controls and API access.',
+    value: 'Projected ARR: $1.2M–$2.6M',
+    score: 66,
   },
   {
-    name: 'CrownCast',
+    name: 'Pic Detective',
+    slug: 'pic-detective',
     status: 'Beta',
-    category: 'Creative',
-    summary: 'Psychology-grounded daily generative insights engine.',
-    gate: 'Finalize distribution and delivery pipelines.',
-    value: 'As-is: $600K–$1M · Projected: $2M–$3M',
-    score: 65,
-  },
-  {
-    name: 'Crown WatchTower',
-    status: 'Prototype',
-    category: 'Security',
-    summary: 'Network and wireless anomaly detection with forensic logging.',
-    gate: 'Finalize initial prototype monitoring dashboards.',
-    value: 'As-is: $1.3M–$2.2M · Projected: $4M–$6M',
-    score: 35,
+    category: 'Forensics',
+    summary: 'Image-led forensic report generation with explainable evidence trails.',
+    gate: 'Ship investor-grade report templates and chain-of-custody logging.',
+    value: 'Projected ARR: $2.2M–$5M',
+    score: 74,
   },
   {
     name: 'LumiLogix',
+    slug: 'lumilogix',
     status: 'Prototype',
-    category: 'Creative',
-    summary: 'Emotionally intelligent marketing engine with archetype modeling.',
-    gate: 'Validate ethical safeguards and modules.',
-    value: 'As-is: $2.5M–$4M · Projected: $8M–$12M',
-    score: 35,
-  },
-  {
-    name: 'Presence Architect',
-    status: 'Prototype',
-    category: 'Relationship',
-    summary: 'Strategic system for attraction, authority, and emotional gravity.',
-    gate: 'Move from prototype to pilot cohort.',
-    value: 'As-is: $700K–$1.2M · Projected: $3M–$5M',
-    score: 35,
-  },
-  {
-    name: 'Couples Connection Playground',
-    status: 'Concept',
-    category: 'Relationship',
-    summary: 'Guided interactive platform for couples communication.',
-    gate: 'Finalize game loops and interaction design prototypes.',
-    value: 'As-is: $500K–$900K · Projected: $2M–$3M',
-    score: 15,
-  },
-  {
-    name: 'HoTag',
-    status: 'Concept',
-    category: 'Cultural',
-    summary: 'Culturally sharp consumer tech concept blending satire and tracking.',
-    gate: 'Move from concept to prototype brand ecosystem.',
-    value: 'As-is: $250K–$500K · Projected: $1.5M–$2.5M',
-    score: 15,
-  },
-]
-
-export const frameworks = [
-  {
-    status: 'Prototype',
-    title: 'Presence Architect',
-    text: 'Social signaling frameworks, DM playbooks, and presence audits.',
-  },
-  {
-    status: 'Concept',
-    title: 'Emotional Intelligence Stack',
-    text: 'Emotion modeling, decision-cycle cues, and ethical influence guardrails.',
-  },
-]
-
-export const books = [
-  {
-    status: 'Published',
-    title: 'Game On! Master the Conversation & Win Her Heart',
-    text: 'Published title anchored in Game On principles and conversational clarity.',
-  },
-  {
-    status: 'In progress',
-    title: 'Unshakeable',
-    text: 'In-progress manuscript focused on resilience and steadiness under pressure.',
-  },
-]
-
-export const statuses = [
-  [
-    'Concept',
-    'Defined asset with structure and intent, not yet built.',
-    'Finalize scope, prototype requirements, and validation plan.',
-  ],
-  [
-    'Prototype',
-    'Functional build exists with scoped feature set.',
-    'Validate with real-world users and harden core workflows.',
-  ],
-  [
-    'Beta',
-    'Product is usable by testers, not yet hardened for scale.',
-    'Stabilize critical workflows and close priority feedback loops.',
-  ],
-  [
-    'Stage 1 Beta',
-    'Structured beta preparation with controlled testing.',
-    'Complete Stage 1 testing and confirm readiness criteria.',
-  ],
-  ['Live', 'Publicly available and maintained.', 'Maintain reliability and scale responsibly.'],
-]
-
-export const valuation = [
-  {
-    title: 'As-is portfolio valuation',
-    points: ['Low estimate: $17,750,000', 'High estimate: $28,100,000'],
-    text: 'Current valuation reflects active development status.',
-  },
-  {
-    title: 'Projected valuation (completed)',
-    points: ['Low estimate: $56,500,000', 'High estimate: $94,500,000'],
-    text: 'Completion unlocks enterprise, licensing, and acquisition pathways.',
-  },
-  {
-    title: 'Projected annual revenue',
-    points: ['Year 1: $6,350,000', 'Year 2: $18,150,000', 'Year 3: $39,900,000'],
-    text: 'Three-year consolidated outlook.',
-  },
-]
-
-export const ethics = [
-  {
-    title: 'Privacy-first defaults',
-    text: 'Products handling sensitive inputs default to minimal retention and transparent control.',
-  },
-  {
-    title: 'Decision-support only',
-    text: 'No product positions itself as medical, legal, or therapy advice.',
-  },
-  {
-    title: 'No retention by design',
-    text: 'Where possible, products avoid storing data unless explicitly required.',
+    category: 'Marketing Intelligence',
+    summary:
+      'Adaptive messaging intelligence for high-signal brand positioning and creative strategy.',
+    gate: 'Formalize archetype modeling and campaign analytics.',
+    value: 'Projected ARR: $2M–$4.5M',
+    score: 44,
   },
 ]
