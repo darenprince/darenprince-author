@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Crown Labs | Premium Technology Portfolio</title>
+  <meta name="description" content="Crown Labs is the intelligent systems and product lab behind CrownCode, LumiLogix, Crown Psychology, CrownCam, JustUs.chat, Crown SOS, and related technology platforms." />
+  <meta name="theme-color" content="#07090d" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://www.darenprince.com/crownlabs.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Crown Labs | Intelligent Systems Portfolio" />
+  <meta property="og:description" content="A premium investor-facing portfolio for Crown Labs technology platforms, intelligence systems, safety products, creative engines, and licensing candidates." />
+  <meta property="og:url" content="https://www.darenprince.com/crownlabs.html" />
+  <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
+  <meta property="og:image:alt" content="Crown Labs technology portfolio" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="labs/assets/labs-favicon.svg" />
+  <link rel="apple-touch-icon" href="labs/assets/labs-favicon.svg" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090d;
+      --bg-soft: #0b0e14;
+      --surface: rgba(255,255,255,.045);
+      --surface-strong: rgba(255,255,255,.07);
+      --surface-muted: rgba(255,255,255,.032);
+      --line: rgba(255,255,255,.105);
+      --line-strong: rgba(255,255,255,.18);
+      --text: #f4f7fb;
+      --text-soft: #d9dee7;
+      --muted: #8f98a8;
+      --muted-2: #646d7b;
+      --cyan: #74d8e6;
+      --blue: #7ca8ff;
+      --violet: #9d86ff;
+      --red: #9c271c;
+      --red-soft: #c44a3d;
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-xl: 40px;
+      --max: 1180px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --mono: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% -10%, rgba(116,216,230,.11), transparent 34%),
+        radial-gradient(circle at 82% 7%, rgba(157,134,255,.105), transparent 32%),
+        radial-gradient(circle at 55% 52%, rgba(156,39,28,.07), transparent 40%),
+        linear-gradient(180deg, #0b0f17 0%, var(--bg) 44%, #05070a 100%);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 72%);
+      opacity: .45;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; }
+    .wrap { width: min(calc(100% - 48px), var(--max)); margin-inline: auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 1000;
+      transform: translateY(-160%);
+      background: var(--text);
+      color: #07090d;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(7,9,13,.72);
+      backdrop-filter: blur(22px) saturate(150%);
+    }
+
+    .header-inner {
+      width: min(calc(100% - 40px), 1320px);
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: max-content;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+      border-radius: 13px;
+      color: var(--cyan);
+      font-weight: 800;
+      letter-spacing: -.08em;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: -.02em;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .nav-toggle { display: none; }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .site-nav a {
+      position: relative;
+      padding: 10px 12px;
+      border-radius: 10px;
+      transition: color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      outline: none;
+    }
+
+    .mega {
+      position: relative;
+    }
+
+    .mega-panel {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      width: min(820px, calc(100vw - 40px));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s var(--ease), transform .22s var(--ease);
+      border: 1px solid var(--line);
+      background: rgba(10,13,20,.94);
+      backdrop-filter: blur(24px) saturate(145%);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 24px 90px rgba(0,0,0,.42);
+    }
+
+    .mega:hover .mega-panel,
+    .mega:focus-within .mega-panel {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .mega-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .mega-item {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,.025);
+    }
+
+    .mega-item:hover { border-color: var(--line); background: rgba(255,255,255,.055); }
+    .mega-item b { display: block; color: var(--text); font-size: 13px; line-height: 1.2; margin-bottom: 8px; }
+    .mega-item span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 15px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.045);
+      color: var(--text-soft);
+      font-size: 13px;
+      font-weight: 750;
+      transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+    }
+
+    .header-cta:hover,
+    .header-cta:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.075);
+      border-color: rgba(116,216,230,.34);
+      outline: none;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(86px, 12vw, 150px) 0 clamp(72px, 9vw, 120px);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .86fr);
+      gap: clamp(42px, 6vw, 76px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--cyan);
+      box-shadow: 0 0 18px rgba(116,216,230,.35);
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 880px;
+      font-size: clamp(52px, 8vw, 112px);
+      line-height: .91;
+      letter-spacing: -.078em;
+      font-weight: 820;
+    }
+
+    .hero h1 span {
+      color: transparent;
+      background: linear-gradient(115deg, #fff 0%, #d7edf4 34%, #9db2ff 72%, #c84a3d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-lead {
+      max-width: 720px;
+      margin: 28px 0 0;
+      color: var(--text-soft);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.56;
+      letter-spacing: -.025em;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border: 1px solid var(--line-strong);
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+      font-size: 14px;
+      font-weight: 760;
+      letter-spacing: -.01em;
+      transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(116,216,230,.38);
+      background: rgba(255,255,255,.075);
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(116,216,230,.18), rgba(124,168,255,.105));
+      border-color: rgba(116,216,230,.35);
+    }
+
+    .btn-red {
+      background: linear-gradient(135deg, rgba(156,39,28,.9), rgba(196,74,61,.6));
+      border-color: rgba(196,74,61,.56);
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 560px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(116,216,230,.105), transparent 32%),
+        radial-gradient(circle at 86% 14%, rgba(157,134,255,.14), transparent 30%),
+        rgba(255,255,255,.04);
+      box-shadow: 0 40px 120px rgba(0,0,0,.36);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -15% -25% -15%;
+      height: 230px;
+      background: radial-gradient(ellipse at center, rgba(116,216,230,.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 2px 2px 18px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .window-dots { display: flex; gap: 7px; }
+    .window-dots i { width: 8px; height: 8px; background: rgba(255,255,255,.22); }
+
+    .interface-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(5,7,10,.52);
+      border-radius: 30px;
+      padding: 24px;
+    }
+
+    .interface-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .interface-head h2 { margin: 0 0 8px; font-size: 24px; line-height: 1.1; letter-spacing: -.04em; }
+    .interface-head p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .interface-meta { color: var(--cyan); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .system-map { display: grid; gap: 12px; margin-top: 22px; }
+
+    .system-row {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.075);
+      background: rgba(255,255,255,.035);
+      transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .system-row:hover { transform: translateX(4px); border-color: rgba(116,216,230,.24); background: rgba(255,255,255,.055); }
+    .system-icon { width: 38px; height: 38px; display: grid; place-items: center; background: rgba(116,216,230,.08); border: 1px solid rgba(116,216,230,.18); color: var(--cyan); font-weight: 800; }
+    .system-row strong { display: block; font-size: 14px; }
+    .system-row span { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .system-score { color: var(--text-soft); font-family: var(--mono); font-size: 12px; }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .metric {
+      border: 1px solid rgba(255,255,255,.075);
+      background: rgba(255,255,255,.035);
+      padding: 16px;
+    }
+
+    .metric strong { display: block; font-size: 28px; line-height: 1; letter-spacing: -.055em; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; }
+
+    .section { padding: clamp(74px, 9vw, 122px) 0; }
+    .section-tight { padding-top: 54px; }
+    .section-head { max-width: 820px; margin-bottom: 42px; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .kicker { color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 14px; }
+    h2.section-title { margin: 0; font-size: clamp(36px, 5vw, 68px); line-height: .98; letter-spacing: -.064em; font-weight: 810; }
+    .section-copy { margin: 18px 0 0; color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); line-height: 1.72; }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .principle {
+      min-height: 242px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.028));
+      transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+    }
+
+    .principle:hover { transform: translateY(-4px); border-color: rgba(116,216,230,.24); background: rgba(255,255,255,.062); }
+    .principle small { color: var(--muted-2); font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .principle h3 { margin: 20px 0 10px; font-size: 24px; letter-spacing: -.045em; }
+    .principle b { display: block; color: var(--text-soft); font-size: 15px; margin-bottom: 12px; }
+    .principle p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+    .portfolio-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.032);
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tab {
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.026);
+      color: var(--muted);
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 720;
+      transition: color .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .tab:hover,
+    .tab:focus-visible,
+    .tab[aria-selected="true"] {
+      color: var(--text);
+      border-color: rgba(116,216,230,.32);
+      background: rgba(116,216,230,.065);
+      outline: none;
+    }
+
+    .portfolio-note {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 470px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.026)),
+        rgba(255,255,255,.02);
+      overflow: hidden;
+      transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+    }
+
+    .product-card:hover,
+    .product-card:focus-within {
+      transform: translateY(-5px);
+      border-color: rgba(116,216,230,.28);
+      background: rgba(255,255,255,.058);
+    }
+
+    .product-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 20% 0%, var(--accent-wash, rgba(116,216,230,.09)), transparent 40%);
+      opacity: .8;
+    }
+
+    .product-card > * { position: relative; z-index: 1; }
+    .product-visual { height: 124px; border: 1px solid rgba(255,255,255,.085); background: rgba(0,0,0,.18); display: grid; grid-template-columns: 58px 1fr; gap: 16px; align-items: center; padding: 18px; margin-bottom: 22px; }
+    .product-icon { width: 58px; height: 58px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); object-fit: contain; padding: 9px; }
+    .mock-lines { display: grid; gap: 8px; }
+    .mock-lines i { display: block; height: 8px; background: rgba(255,255,255,.1); }
+    .mock-lines i:nth-child(1) { width: 74%; background: rgba(116,216,230,.16); }
+    .mock-lines i:nth-child(2) { width: 92%; }
+    .mock-lines i:nth-child(3) { width: 56%; }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,.085);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .product-status { color: var(--text-soft); }
+    .product-card h3 { margin: 0 0 10px; font-size: 25px; line-height: 1.04; letter-spacing: -.052em; }
+    .product-summary { margin: 0; color: var(--muted); line-height: 1.62; font-size: 15px; }
+    .product-gate { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.075); color: var(--text-soft); font-size: 13px; line-height: 1.55; }
+    .product-gate strong { color: var(--text); }
+    .product-footer { margin-top: auto; padding-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .product-value { color: var(--muted); font-family: var(--mono); font-size: 11px; line-height: 1.4; }
+    .details-link { color: var(--text); font-size: 13px; font-weight: 760; white-space: nowrap; background-image: linear-gradient(var(--cyan), var(--cyan)); background-repeat: no-repeat; background-size: 0% 1px; background-position: 0 100%; transition: background-size .2s var(--ease), color .2s var(--ease); }
+    .details-link:hover, .details-link:focus-visible { color: var(--cyan); background-size: 100% 1px; outline: none; }
+
+    .product-card[data-category="Intelligence Systems"] { --accent-wash: rgba(116,216,230,.11); }
+    .product-card[data-category="Creative Engines"] { --accent-wash: rgba(157,134,255,.105); }
+    .product-card[data-category="Safety Platforms"] { --accent-wash: rgba(196,74,61,.105); }
+    .product-card[data-category="Consumer Apps"] { --accent-wash: rgba(124,168,255,.1); }
+    .product-card[data-category="Investor Licensing"] { --accent-wash: rgba(216,219,226,.09); }
+
+    .split-section {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .investor-panel {
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(116,216,230,.08), transparent 34%),
+        rgba(255,255,255,.04);
+      padding: clamp(28px, 4vw, 44px);
+    }
+
+    .investor-panel h2 { margin: 0 0 18px; font-size: clamp(32px, 4.2vw, 56px); line-height: 1; letter-spacing: -.06em; }
+    .investor-panel p { color: var(--muted); font-size: 16px; line-height: 1.72; }
+
+    .licensing-list { display: grid; gap: 12px; }
+    .license-row { display: grid; grid-template-columns: 1fr auto; gap: 18px; padding: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.032); }
+    .license-row h3 { margin: 0 0 6px; font-size: 17px; letter-spacing: -.025em; }
+    .license-row p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .license-row span { color: var(--cyan); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; align-self: start; }
+
+    .cta-band {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(40px, 6vw, 72px);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(116,216,230,.09), rgba(157,134,255,.055) 45%, rgba(156,39,28,.08)),
+        rgba(255,255,255,.04);
+    }
+
+    .cta-band h2 { max-width: 780px; margin: 0; font-size: clamp(36px, 5vw, 66px); line-height: .99; letter-spacing: -.062em; }
+    .cta-band p { max-width: 700px; margin: 18px 0 0; color: var(--muted); font-size: 17px; line-height: 1.72; }
+
+    .footer {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 34px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer a { color: var(--text-soft); }
+    .footer a:hover { color: var(--cyan); }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0,0,0,.68);
+      backdrop-filter: blur(18px);
+    }
+
+    .modal[open] { display: flex; }
+    .modal-card { width: min(760px, 100%); max-height: min(760px, 86vh); overflow: auto; border: 1px solid var(--line-strong); background: #0a0d13; padding: 28px; }
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .modal h2 { margin: 0 0 8px; font-size: 30px; letter-spacing: -.045em; }
+    .modal p { color: var(--muted); line-height: 1.7; }
+    .modal-close { border: 1px solid var(--line); background: rgba(255,255,255,.05); color: var(--text); width: 42px; height: 42px; cursor: pointer; }
+    .modal-close:hover, .modal-close:focus-visible { border-color: rgba(116,216,230,.34); outline: none; }
+
+    @media (max-width: 1060px) {
+      .hero-grid, .split-section { grid-template-columns: 1fr; }
+      .hero-panel { min-height: auto; }
+      .portfolio-grid, .philosophy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mega-panel { display: none; }
+    }
+
+    @media (max-width: 820px) {
+      .header-inner { min-height: 68px; }
+      .nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1px solid var(--line); background: rgba(255,255,255,.04); color: var(--text); }
+      .site-nav { position: fixed; top: 68px; left: 20px; right: 20px; display: none; flex-direction: column; align-items: stretch; padding: 14px; border: 1px solid var(--line); background: rgba(10,13,20,.96); backdrop-filter: blur(24px); }
+      .site-nav[data-open="true"] { display: flex; }
+      .header-cta { display: none; }
+      .site-nav a { padding: 13px 12px; }
+      .hero { padding-top: 72px; }
+      .portfolio-grid, .philosophy-grid { grid-template-columns: 1fr; }
+      .hero-metrics { grid-template-columns: 1fr; }
+      .portfolio-tools { align-items: stretch; }
+      .category-tabs { width: 100%; }
+      .tab { flex: 1 1 160px; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(calc(100% - 30px), var(--max)); }
+      .hero h1 { font-size: clamp(48px, 15vw, 70px); }
+      .hero-lead { font-size: 17px; }
+      .action-row, .btn { width: 100%; }
+      .product-visual { grid-template-columns: 48px 1fr; height: 112px; padding: 14px; }
+      .product-icon { width: 48px; height: 48px; }
+      .product-footer, .footer-inner, .license-row { grid-template-columns: 1fr; flex-direction: column; align-items: flex-start; }
+      .interface-head { flex-direction: column; }
+      .system-row { grid-template-columns: 38px 1fr; }
+      .system-score { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body id="top">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="site-header" aria-label="Crown Labs header">
+    <div class="header-inner">
+      <a href="#top" class="brand" aria-label="Crown Labs home">
+        <span class="brand-mark" aria-hidden="true">CL</span>
+        <span class="brand-text"><strong>Crown Labs</strong><span>Intelligent product systems</span></span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#philosophy">Principles</a>
+        <div class="mega">
+          <a href="#categories" aria-haspopup="true">Categories</a>
+          <div class="mega-panel" role="group" aria-label="Portfolio categories">
+            <div class="mega-grid">
+              <a class="mega-item" href="#portfolio"><b>Intelligence Systems</b><span>Analysis, profiling, operational insight.</span></a>
+              <a class="mega-item" href="#portfolio"><b>Creative Engines</b><span>Brand, emotion, narrative systems.</span></a>
+              <a class="mega-item" href="#portfolio"><b>Safety Platforms</b><span>Emergency and situational awareness.</span></a>
+              <a class="mega-item" href="#portfolio"><b>Consumer Apps</b><span>Private, guided, user-facing tools.</span></a>
+              <a class="mega-item" href="#licensing"><b>Investor / Licensing</b><span>Strategic partners and module access.</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="#licensing">Licensing</a>
+        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Inquiry">Contact</a>
+      </nav>
+
+      <a class="header-cta" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Investor%20Inquiry">Investor Inquiry</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Crown Labs • A Division of Daren Prince Publishing</p>
+          <h1>Innovation.<br />Intelligence.<br /><span>Integrity.</span></h1>
+          <p class="hero-lead">A portfolio of intelligent software systems built for behavioral insight, creative execution, safety, trust, and applied decision support.</p>
+          <p class="hero-copy">Crown Labs is the development lab behind a growing network of platforms that turn ideas into living systems. Every product is evaluated through usefulness, reliability, restraint, and long-term value.</p>
+          <div class="action-row">
+            <a class="btn btn-primary" href="#portfolio">Explore Portfolio</a>
+            <a class="btn" href="#licensing">View Licensing Paths</a>
+            <a class="btn btn-red" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Beta%20Access">Request Access</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Crown Labs system overview panel">
+          <div class="panel-top"><span class="window-dots"><i></i><i></i><i></i></span><span>Portfolio OS</span></div>
+          <div class="interface-card">
+            <div class="interface-head">
+              <div><h2>Product readiness map</h2><p>Systems grouped by purpose, maturity, and licensing potential.</p></div>
+              <span class="interface-meta">Active index</span>
+            </div>
+            <div class="system-map">
+              <div class="system-row"><span class="system-icon">01</span><div><strong>CrownCode Intelligence</strong><span>Flagship multimodal analysis suite</span></div><span class="system-score">Stage One Beta</span></div>
+              <div class="system-row"><span class="system-icon">02</span><div><strong>Crown Psychology</strong><span>Behavioral intelligence and growth engine</span></div><span class="system-score">Beta</span></div>
+              <div class="system-row"><span class="system-icon">03</span><div><strong>LumiLogix</strong><span>Emotion-aware marketing intelligence</span></div><span class="system-score">Prototype</span></div>
+              <div class="system-row"><span class="system-icon">04</span><div><strong>CrownCam</strong><span>AI-assisted vision security platform</span></div><span class="system-score">Beta</span></div>
+            </div>
+            <div class="hero-metrics" aria-label="Portfolio metrics">
+              <div class="metric"><strong>8</strong><span>Primary product lines</span></div>
+              <div class="metric"><strong>4</strong><span>Beta-stage systems</span></div>
+              <div class="metric"><strong>5</strong><span>Licensing candidates</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="philosophy" class="section section-tight">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Operating principles</p>
+          <h2 class="section-title">Built for trust before scale.</h2>
+          <p class="section-copy">Crown Labs products are designed to feel official, useful, and mature. The goal is not noise. The goal is a durable product ecosystem with clear positioning, controlled risk, and practical value.</p>
+        </div>
+        <div class="philosophy-grid">
+          <article class="principle"><small>Principle One</small><h3>Precision</h3><b>Built with measurable intent.</b><p>Products are designed for high-stakes reliability, clear accountability, and repeatable outcomes.</p></article>
+          <article class="principle"><small>Principle Two</small><h3>Intelligence</h3><b>Context-aware by design.</b><p>Systems combine behavioral context, privacy controls, and decision-support clarity.</p></article>
+          <article class="principle"><small>Principle Three</small><h3>Stewardship</h3><b>Long-term over hype cycles.</b><p>Every release is evaluated against trust, resilience, and durable value creation for users and partners.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Portfolio</p>
+          <h2 class="section-title">Product systems with a clear path to market.</h2>
+          <p class="section-copy">Each platform is presented with consistent status formatting, short investor-facing summaries, and a clean path into deeper documentation or product pages.</p>
+        </div>
+
+        <div class="portfolio-tools" id="categories">
+          <div class="category-tabs" role="tablist" aria-label="Filter portfolio categories">
+            <button class="tab" type="button" data-filter="All" aria-selected="true">All</button>
+            <button class="tab" type="button" data-filter="Intelligence Systems">Intelligence Systems</button>
+            <button class="tab" type="button" data-filter="Creative Engines">Creative Engines</button>
+            <button class="tab" type="button" data-filter="Safety Platforms">Safety Platforms</button>
+            <button class="tab" type="button" data-filter="Consumer Apps">Consumer Apps</button>
+            <button class="tab" type="button" data-filter="Investor Licensing">Investor / Licensing</button>
+          </div>
+          <span class="portfolio-note">Click details for expanded context</span>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="product-card" data-category="Intelligence Systems">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/crowncode.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>CrownCode</span><span class="product-status">Stage One Beta</span></div>
+            <h3>CrownCode Intelligence Suite</h3>
+            <p class="product-summary">Flagship multimodal intelligence suite for structured analysis, synthesis, profiling, and evidence-style reporting.</p>
+            <p class="product-gate"><strong>Next gate:</strong> complete controlled beta, analyst onboarding, and evidence-ready report validation.</p>
+            <div class="product-footer"><span class="product-value">Licensing Candidate</span><a class="details-link" href="crownlabs/products/crowncode-intelligence.html" data-modal="crowncode">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Consumer Apps">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/crownpsychology.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>Crown Psychology</span><span class="product-status">Beta</span></div>
+            <h3>Crown Psychology</h3>
+            <p class="product-summary">Behavioral intelligence platform for emotional pattern recognition, guided self-work, reports, and adaptive growth plans.</p>
+            <p class="product-gate"><strong>Next gate:</strong> expand report funnel, subscription path, and professional partnership workflows.</p>
+            <div class="product-footer"><span class="product-value">Launch Candidate</span><a class="details-link" href="psychology.html" data-modal="psychology">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Creative Engines">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/lumilogix.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>LumiLogix</span><span class="product-status">Prototype</span></div>
+            <h3>LumiLogix</h3>
+            <p class="product-summary">Emotionally intelligent marketing engine for archetype mapping, creative strategy, and high-signal campaign messaging.</p>
+            <p class="product-gate"><strong>Next gate:</strong> formalize campaign analytics, archetype models, and creative intelligence workflows.</p>
+            <div class="product-footer"><span class="product-value">Creative Engine</span><a class="details-link" href="crownlabs/products/lumilogix.html" data-modal="lumilogix">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Safety Platforms">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/crowncam.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>CrownCam</span><span class="product-status">Beta</span></div>
+            <h3>CrownCam</h3>
+            <p class="product-summary">AI-assisted camera intelligence platform for real-time monitoring, motion events, threat awareness, and incident context.</p>
+            <p class="product-gate"><strong>Next gate:</strong> complete low-light accuracy, event export, and multi-monitor workflow polish.</p>
+            <div class="product-footer"><span class="product-value">Launch Candidate</span><a class="details-link" href="crownlabs/products/crowncam.html" data-modal="crowncam">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Safety Platforms">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/crownsos.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>Crown SOS</span><span class="product-status">Beta</span></div>
+            <h3>Crown SOS</h3>
+            <p class="product-summary">Emergency response platform with proof-of-life controls, trusted contact escalation, and user-centered safety workflows.</p>
+            <p class="product-gate"><strong>Next gate:</strong> finalize responder logic, notification reliability, and geo-redundant alerting.</p>
+            <div class="product-footer"><span class="product-value">Safety Platform</span><a class="details-link" href="labs/products/crown-sos.html" data-modal="crownsos">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Consumer Apps">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/justus.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>JustUs.chat</span><span class="product-status">Prototype</span></div>
+            <h3>JustUs.chat</h3>
+            <p class="product-summary">Private emotionally intelligent communication environment with secure-first defaults and relationship-centered conversation design.</p>
+            <p class="product-gate"><strong>Next gate:</strong> move from prototype into closed relationship cohort testing.</p>
+            <div class="product-footer"><span class="product-value">Consumer App</span><a class="details-link" href="crownlabs/products/justus-chat.html" data-modal="justus">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Creative Engines">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/aicherrypie.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>AI Cherry Pie</span><span class="product-status">Investor Ready</span></div>
+            <h3>AI Cherry Pie</h3>
+            <p class="product-summary">Narrative and voice intelligence engine for emotionally resonant copy, editorial workflows, and brand-aligned output systems.</p>
+            <p class="product-gate"><strong>Next gate:</strong> launch editorial controls, packaging, and API access path.</p>
+            <div class="product-footer"><span class="product-value">Revenue Candidate</span><a class="details-link" href="crownlabs/products/ai-cherry-pie.html" data-modal="cherrypie">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Intelligence Systems">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/picdetective.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>Pic Detective</span><span class="product-status">In Development</span></div>
+            <h3>Pic Detective</h3>
+            <p class="product-summary">Image-led forensic reporting system for environmental mapping, object inventories, visual context, and explainable insights.</p>
+            <p class="product-gate"><strong>Next gate:</strong> ship report templates, evidence logs, and export-ready documentation.</p>
+            <div class="product-footer"><span class="product-value">Licensing Candidate</span><a class="details-link" href="crownlabs/products/pic-detective.html" data-modal="picdetective">Details</a></div>
+          </article>
+
+          <article class="product-card" data-category="Investor Licensing">
+            <div class="product-visual"><img class="product-icon" src="assets/icons/sentinelvault.png" alt="" /><div class="mock-lines"><i></i><i></i><i></i></div></div>
+            <div class="product-meta"><span>Sentinel Vault</span><span class="product-status">Licensing Candidate</span></div>
+            <h3>Sentinel Vault</h3>
+            <p class="product-summary">Security and vault-oriented trust architecture designed for sensitive workflows, protected files, and controlled access logic.</p>
+            <p class="product-gate"><strong>Next gate:</strong> define licensing modules, threat model, and operational documentation.</p>
+            <div class="product-footer"><span class="product-value">Strategic Asset</span><a class="details-link" href="crownlabs/products/sentinel-vault.html" data-modal="sentinel">Details</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="licensing" class="section">
+      <div class="wrap split-section">
+        <div class="investor-panel">
+          <p class="kicker">Investor / Licensing</p>
+          <h2>Structured for selective partnership.</h2>
+          <p>Crown Labs products can be advanced through direct-to-consumer launch paths, professional licensing, enterprise pilots, or selective module access. The strongest near-term opportunity is to package specific engines into focused offers instead of selling the entire ecosystem too early.</p>
+          <div class="action-row"><a class="btn btn-primary" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Licensing%20Inquiry">Open Licensing Conversation</a></div>
+        </div>
+        <div class="licensing-list">
+          <article class="license-row"><div><h3>Module licensing</h3><p>License a narrow engine or workflow to a partner without surrendering the full platform.</p></div><span>Fastest path</span></article>
+          <article class="license-row"><div><h3>Professional pilots</h3><p>Run focused cohorts for coaches, consultants, analysts, or safety-oriented organizations.</p></div><span>Validation</span></article>
+          <article class="license-row"><div><h3>Consumer funnels</h3><p>Use report-driven offers to prove demand, build a list, and create recurring upgrade paths.</p></div><span>Revenue</span></article>
+          <article class="license-row"><div><h3>Investor packaging</h3><p>Present the ecosystem as a disciplined portfolio with maturity stages and product-specific upside.</p></div><span>Credibility</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="cta-band">
+          <p class="kicker">Crown Labs</p>
+          <h2>Official documentation meets investor-facing product showcase.</h2>
+          <p>This portfolio is built to communicate product maturity without overexplaining. Clean category structure, restrained visual language, and clear status signals make the Crown Labs ecosystem easier to understand, evaluate, and fund.</p>
+          <div class="action-row"><a class="btn btn-primary" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Investor%20Packet">Request Investor Packet</a><a class="btn" href="#portfolio">Return to Portfolio</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Crown Labs • Daren Prince Publishing</span>
+      <span><a href="index.html">Daren Prince</a> · <a href="labs.html">Legacy Labs Page</a> · <a href="mailto:contact@darenprince.com">Contact</a></span>
+    </div>
+  </footer>
+
+  <dialog class="modal" id="product-modal" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h2 id="modal-title">Product Details</h2><p id="modal-subtitle">Expanded product context.</p></div>
+        <button class="modal-close" type="button" aria-label="Close details">×</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </dialog>
+
+  <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const siteNav = document.querySelector('#site-nav');
+    navToggle?.addEventListener('click', () => {
+      const open = siteNav.getAttribute('data-open') === 'true';
+      siteNav.setAttribute('data-open', String(!open));
+      navToggle.setAttribute('aria-expanded', String(!open));
+    });
+
+    document.querySelector('#year').textContent = new Date().getFullYear();
+
+    const tabs = [...document.querySelectorAll('.tab')];
+    const cards = [...document.querySelectorAll('.product-card')];
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter;
+      tabs.forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+      cards.forEach(card => {
+        const show = filter === 'All' || card.dataset.category === filter;
+        card.hidden = !show;
+      });
+    }));
+
+    const modal = document.querySelector('#product-modal');
+    const modalTitle = document.querySelector('#modal-title');
+    const modalSubtitle = document.querySelector('#modal-subtitle');
+    const modalBody = document.querySelector('#modal-body');
+    const modalClose = document.querySelector('.modal-close');
+
+    const details = {
+      crowncode: ['CrownCode Intelligence Suite', 'Flagship intelligence system', 'A multimodal intelligence platform positioned for analysis, forensic-style reporting, behavioral modeling, and selective licensing. Best framed as the anchor asset in the Crown Labs ecosystem.'],
+      psychology: ['Crown Psychology', 'Behavioral intelligence and growth platform', 'A consumer and professional bridge product that turns emotional patterns, self-reflection, assessments, and guided exercises into a monetizable growth engine. Strong fit with books, coaching, reports, and subscription funnels.'],
+      lumilogix: ['LumiLogix', 'Emotion-aware marketing intelligence', 'A creative intelligence system for campaigns, brand language, archetype mapping, emotional analytics, and AI-assisted copy direction. Best positioned as a premium creative engine, not a generic automation tool.'],
+      crowncam: ['CrownCam', 'AI-assisted vision security', 'A browser-accessible camera intelligence platform with motion detection, threat awareness, smart alerts, multi-monitor potential, and practical surveillance workflows.'],
+      crownsos: ['Crown SOS', 'Emergency and safety platform', 'A proof-of-life and trusted-contact escalation product designed around safety workflows, reliability, and rapid communication.'],
+      justus: ['JustUs.chat', 'Private relationship communication', 'A secure-first emotionally intelligent conversation platform for private communication, clarity, and relationship-centered support.'],
+      cherrypie: ['AI Cherry Pie', 'Narrative and voice intelligence', 'A packaged creative engine for emotionally resonant writing, ad copy, narrative voice, and brand-aligned output. Strong near-term revenue candidate.'],
+      picdetective: ['Pic Detective', 'Image-led forensic reports', 'A visual intelligence and report generation platform for object inventories, environmental mapping, context analysis, and explainable image-based insights.'],
+      sentinel: ['Sentinel Vault', 'Security trust architecture', 'A protected-access and vault-oriented product concept that can support sensitive workflows, secure storage logic, and future trust modules.']
+    };
+
+    document.querySelectorAll('[data-modal]').forEach(link => {
+      link.addEventListener('click', event => {
+        const key = link.dataset.modal;
+        const item = details[key];
+        if (!item || !modal?.showModal) return;
+        event.preventDefault();
+        modalTitle.textContent = item[0];
+        modalSubtitle.textContent = item[1];
+        modalBody.innerHTML = `<p>${item[2]}</p><p><a class="details-link" href="${link.getAttribute('href')}">Open product page</a></p>`;
+        modal.showModal();
+      });
+    });
+
+    modalClose?.addEventListener('click', () => modal.close());
+    modal?.addEventListener('click', event => {
+      if (event.target === modal) modal.close();
+    });
+  </script>
+</body>
+</html>
