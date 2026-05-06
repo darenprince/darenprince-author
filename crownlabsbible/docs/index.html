@@ -1,76 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Crown Labs Documentation</title>
 <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
+<link rel="stylesheet" href="assets/css/platform.css" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 <style>
-:root{--bg:#0b0b0d;--panel:#121216;--soft:#18181d;--text:#f5f5f7;--muted:#9b9ba3;--border:#25252d;--accent:#9c271c;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:radial-gradient(circle at top,#141418,#0b0b0d 62%);color:var(--text);font-family:Inter,SF Pro Display,Segoe UI,sans-serif;line-height:1.6;}
-.container{max-width:1480px;margin:0 auto;padding:54px 28px 96px;}
-.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:end;padding-bottom:44px;border-bottom:1px solid var(--border);margin-bottom:42px;}
-.logo-wrap{margin-bottom:28px;}
-.logo-wrap img{height:54px;width:auto;display:block;}
-h1{font-size:clamp(3rem,7vw,6rem);letter-spacing:-.06em;line-height:.9;margin-bottom:22px;}
-.hero p{max-width:850px;color:var(--muted);font-size:1.08rem;}
-.panel{border:1px solid var(--border);background:rgba(255,255,255,.025);border-radius:28px;padding:28px;}
-.panel h2{font-size:1.25rem;margin-bottom:12px;letter-spacing:-.03em;}
-.panel p{color:var(--muted);margin-bottom:22px;}
-.primary,.secondary{display:inline-flex;align-items:center;text-decoration:none;border-radius:14px;font-size:.92rem;padding:13px 18px;}
-.primary{color:#fff;background:var(--accent);}
-.secondary{margin-left:10px;color:var(--text);border:1px solid var(--border);}
-.section-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin:38px 0 20px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px;}
-.card{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:24px;padding:28px;transition:transform .2s ease,border-color .2s ease;}
-.card:hover{transform:translateY(-3px);border-color:rgba(156,39,28,.5);}
-.card h3{font-size:1.14rem;margin-bottom:10px;letter-spacing:-.03em;}
-.card p{color:var(--muted);margin-bottom:20px;font-size:.95rem;}
-.card a{color:var(--text);text-decoration:none;font-size:.9rem;}
-.footer{margin-top:70px;padding-top:28px;border-top:1px solid var(--border);color:var(--muted);font-size:.9rem;}
-.accent{color:var(--accent);}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.container{padding:36px 20px 72px}.secondary{margin-left:0;margin-top:10px}}
+.portal-wrap{max-width:1240px;margin:0 auto;padding:56px 24px 84px;}
+.portal-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:end;padding-bottom:42px;border-bottom:1px solid var(--border);}
+.portal-logo{height:52px;margin-bottom:30px;}
+.portal-hero h1{color:var(--heading);font-size:clamp(2.6rem,6.4vw,5.55rem);letter-spacing:-.038em;line-height:.94;margin-bottom:22px;}
+.portal-hero p{max-width:850px;color:var(--muted);font-size:1.03rem;line-height:1.75;}
+.portal-panel{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-lg);padding:26px;}
+.portal-panel h2{color:var(--heading);font-size:1.14rem;margin-bottom:10px;letter-spacing:-.01em;}
+.portal-panel p{color:var(--muted);font-size:.94rem;margin-bottom:20px;}
+.portal-actions{display:flex;flex-wrap:wrap;gap:10px;}
+.portal-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border-radius:var(--radius-md);font-size:.9rem;padding:11px 14px;border:1px solid var(--border);color:var(--text);background:var(--surface-2);}
+.portal-btn.primary{background:var(--accent);border-color:rgba(156,39,28,.7);color:#fff;}
+.portal-section-title{font-size:.75rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);margin:38px 0 18px;font-weight:700;}
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px;}
+.portal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;}
+.portal-card h3{display:flex;align-items:center;gap:9px;color:var(--heading);font-size:1.04rem;margin-bottom:10px;letter-spacing:-.01em;}
+.portal-card p{color:var(--muted);font-size:.91rem;line-height:1.62;margin-bottom:18px;}
+.portal-card a{color:var(--text);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:6px;}
+.portal-footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.86rem;}
+@media(max-width:900px){.portal-hero{grid-template-columns:1fr}.portal-wrap{padding:36px 18px 70px}}
 </style>
 </head>
 <body>
-<div class="container">
-<section class="hero">
+<div class="portal-wrap">
+<section class="portal-hero">
 <div>
-<div class="logo-wrap">
-<img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
-</div>
+<img class="portal-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
 <h1>Crown Labs Documentation</h1>
-<p>Institutional governance, operational systems, investor infrastructure, branding and visual identity, ecosystem architecture, product documentation, and operational intelligence systems for the Crown Labs ecosystem.</p>
+<p>Unified product documentation, investor infrastructure, executive systems, branding and visual identity, ecosystem architecture, and operational intelligence for the Crown Labs portfolio.</p>
 </div>
-<div class="panel">
-<h2>Documentation Platform</h2>
-<p>Access the searchable documentation viewer, executive dashboard, investor systems, ecosystem maps, roadmap tracking, and operational infrastructure interfaces.</p>
-<a class="primary" href="viewer.html">Launch Viewer</a>
-<a class="secondary" href="executive-dashboard.html">Executive Dashboard</a>
+<div class="portal-panel">
+<h2>Clean Platform Active</h2>
+<p>The documentation platform now routes through the safe renderer and shared Crown Labs interface system.</p>
+<div class="portal-actions">
+<a class="portal-btn primary" href="viewer-clean.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Launch Docs</a>
+<a class="portal-btn" href="investor-clean.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor</a>
+</div>
 </div>
 </section>
 
-<div class="section-title">Documentation Categories</div>
-<section class="grid">
-<article class="card"><h3>Corporate Foundation</h3><p>Core organizational structure, identity systems, classification frameworks, and institutional positioning architecture.</p><a href="viewer.html">Open Documentation</a></article>
-<article class="card"><h3>Branding & Visual Identity</h3><p>Brand systems, visual standards, typography, identity governance, interface direction, and presentation consistency.</p><a href="viewer.html">Open Documentation</a></article>
-<article class="card"><h3>Writing & Communication</h3><p>Editorial systems, communication standards, voice governance, investor messaging, and institutional language structure.</p><a href="viewer.html">Open Documentation</a></article>
-<article class="card"><h3>Investor Framework</h3><p>Monetization models, valuation methodology, licensing structures, strategic positioning, and capital readiness systems.</p><a href="investor-mode.html">Open Investor Systems</a></article>
-<article class="card"><h3>Product Documentation</h3><p>Architecture, positioning, valuation, monetization, licensing, ecosystem roles, and website systems across all products.</p><a href="ecosystem-map.html">Open Product Systems</a></article>
-<article class="card"><h3>Corporate Infrastructure</h3><p>Governance doctrine, interoperability philosophy, operational infrastructure, ecosystem coordination, and expansion systems.</p><a href="viewer.html#Company%20Overview">Open Infrastructure Docs</a></article>
+<div class="portal-section-title">Documentation Categories</div>
+<section class="portal-grid">
+<article class="portal-card"><h3><iconify-icon icon="solar:buildings-2-linear"></iconify-icon>Corporate Foundation</h3><p>Core organizational structure, identity systems, classification frameworks, and institutional positioning architecture.</p><a href="viewer-clean.html#Corporate%20Identity">Open Documentation <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:pallete-2-linear"></iconify-icon>Branding & Visual Identity</h3><p>Brand systems, visual standards, typography, interface direction, and presentation consistency.</p><a href="viewer-clean.html#Branding%20%26%20Visual%20Identity%20Standards">Open Documentation <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:pen-new-square-linear"></iconify-icon>Writing & Communication</h3><p>Editorial systems, communication standards, voice governance, and institutional language structure.</p><a href="viewer-clean.html#Writing%20Standards%20Overview">Open Documentation <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:chart-2-linear"></iconify-icon>Investor Framework</h3><p>Monetization models, valuation methodology, licensing structures, and capital readiness systems.</p><a href="investor-clean.html">Open Investor Interface <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:server-square-linear"></iconify-icon>Corporate Infrastructure</h3><p>Governance doctrine, interoperability philosophy, ecosystem coordination, and expansion systems.</p><a href="viewer-clean.html#Company%20Overview">Open Infrastructure <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:box-linear"></iconify-icon>Product Documentation</h3><p>Architecture, positioning, valuation, monetization, licensing, ecosystem roles, and website systems.</p><a href="viewer-clean.html#Overview">Open Product Docs <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
 </section>
 
-<div class="section-title">Operational Interfaces</div>
-<section class="grid">
-<article class="card"><h3>Documentation Viewer</h3><p>Searchable markdown rendering system with categorized navigation and institutional documentation presentation.</p><a href="viewer.html">Open Viewer</a></article>
-<article class="card"><h3>Executive Dashboard</h3><p>Operational governance visibility, ecosystem summaries, infrastructure metrics, and institutional status systems.</p><a href="executive-dashboard.html">Open Dashboard</a></article>
-<article class="card"><h3>Investor Mode</h3><p>Capital narrative presentation layer with strategic ecosystem positioning and institutional investment framing.</p><a href="investor-mode.html">Open Investor Mode</a></article>
-<article class="card"><h3>Ecosystem Map</h3><p>Portfolio relationship visualization, infrastructure categories, operational metrics, and ecosystem intelligence mapping.</p><a href="ecosystem-map.html">Open Ecosystem Map</a></article>
-<article class="card"><h3>Roadmap Tracker</h3><p>Execution phases, operational readiness tracking, deployment progression, and institutional maturity visualization.</p><a href="roadmap-tracker.html">Open Roadmap Tracker</a></article>
+<div class="portal-section-title">Platform Interfaces</div>
+<section class="portal-grid">
+<article class="portal-card"><h3><iconify-icon icon="solar:document-text-linear"></iconify-icon>Documentation Viewer</h3><p>Searchable clean markdown viewer with safe rendering, breadcrumbs, theme controls, and product hierarchy.</p><a href="viewer-clean.html">Open Viewer <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor Interface</h3><p>Capital narrative, valuation systems, licensing frameworks, and investor readiness documentation.</p><a href="investor-clean.html">Open Investor <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive Dashboard</h3><p>Operational governance visibility, ecosystem summaries, infrastructure metrics, and strategic status systems.</p><a href="executive-dashboard.html">Open Dashboard <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:map-point-linear"></iconify-icon>Ecosystem Map</h3><p>Portfolio relationship visualization, infrastructure categories, operational metrics, and ecosystem intelligence mapping.</p><a href="ecosystem-map.html">Open Map <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
+<article class="portal-card"><h3><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap Tracker</h3><p>Execution phases, operational readiness tracking, deployment progression, and maturity visualization.</p><a href="roadmap-tracker.html">Open Roadmap <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></article>
 </section>
 
-<div class="footer">Crown Labs Documentation · <span class="accent">Institutional Infrastructure & Product Systems</span></div>
+<div class="portal-footer">Crown Labs Documentation · Institutional Infrastructure & Product Systems</div>
 </div>
+<script>document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark';</script>
 </body>
 </html>
