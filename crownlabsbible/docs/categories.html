@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crown Labs Documentation Categories</title>
+<link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
+<link rel="stylesheet" href="assets/css/platform.css" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<style>
+.category-page{max-width:1180px;margin:0 auto;padding:52px 24px 84px;}
+.category-header{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:end;border-bottom:1px solid var(--border);padding-bottom:34px;margin-bottom:34px;}
+.category-logo{height:48px;margin-bottom:28px;}
+.category-header h1{color:var(--heading);font-size:clamp(2.45rem,5.8vw,5.15rem);line-height:.96;letter-spacing:-.038em;margin-bottom:18px;}
+.category-header p{color:var(--muted);font-size:1.01rem;line-height:1.75;max-width:780px;}
+.category-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;}
+.category-panel h2{color:var(--heading);font-size:1.08rem;margin-bottom:10px;}
+.category-panel p{color:var(--muted);font-size:.92rem;margin-bottom:18px;}
+.category-actions{display:flex;flex-wrap:wrap;gap:10px;}
+.category-btn{display:inline-flex;align-items:center;gap:8px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;padding:10px 13px;font-size:.88rem;}
+.category-btn.primary{background:var(--accent);border-color:rgba(156,39,28,.7);color:#fff;}
+.category-section-title{font-size:.75rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:720;margin:36px 0 18px;}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:16px;}
+.category-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;}
+.category-card h3{display:flex;align-items:center;gap:9px;color:var(--heading);font-size:1.02rem;letter-spacing:-.01em;margin-bottom:10px;}
+.category-card p{color:var(--muted);font-size:.91rem;line-height:1.62;margin-bottom:18px;}
+.category-links{display:grid;gap:8px;}
+.category-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);text-decoration:none;font-size:.88rem;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--border) 70%,transparent);}
+.category-links a:first-child{border-top:0;}
+@media(max-width:900px){.category-header{grid-template-columns:1fr}.category-page{padding:36px 18px 70px}}
+</style>
+</head>
+<body>
+<main class="category-page">
+<section class="category-header">
+<div>
+<img class="category-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+<h1>Documentation Categories</h1>
+<p>A top-level navigation layer for the Crown Labs documentation system. Each category summarizes a major institutional area and links directly into the clean documentation viewer.</p>
+</div>
+<div class="category-panel">
+<h2>Start Here</h2>
+<p>Use this page as the structured entry point before moving into product docs, investor systems, brand guidance, or corporate infrastructure.</p>
+<div class="category-actions">
+<a class="category-btn primary" href="viewer-clean.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Open Viewer</a>
+<a class="category-btn" href="index.html"><iconify-icon icon="solar:home-2-linear"></iconify-icon>Portal</a>
+</div>
+</div>
+</section>
+
+<div class="category-section-title">Core Documentation Areas</div>
+<section class="category-grid">
+<article class="category-card">
+<h3><iconify-icon icon="solar:buildings-2-linear"></iconify-icon>Corporate Foundation</h3>
+<p>The identity layer for Crown Labs: corporate structure, classification systems, and foundational institutional positioning.</p>
+<div class="category-links"><a href="viewer-clean.html#Corporate%20Identity">Corporate Identity <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Product%20Classification%20Framework">Product Classification Framework <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+<article class="category-card">
+<h3><iconify-icon icon="solar:pallete-2-linear"></iconify-icon>Branding & Visual Identity</h3>
+<p>The visual identity system for Crown Labs: logo usage, interface tone, brand consistency, and presentation standards.</p>
+<div class="category-links"><a href="viewer-clean.html#Branding%20%26%20Visual%20Identity%20Standards">Visual Identity Standards <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+<article class="category-card">
+<h3><iconify-icon icon="solar:pen-new-square-linear"></iconify-icon>Writing & Communication</h3>
+<p>Editorial and messaging standards for institutional documentation, brand voice, investor communication, and product language.</p>
+<div class="category-links"><a href="viewer-clean.html#Writing%20Standards%20Overview">Writing Standards Overview <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Brand%20Voice%20System">Brand Voice System <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Communication%20Standards">Communication Standards <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+<article class="category-card">
+<h3><iconify-icon icon="solar:chart-2-linear"></iconify-icon>Investor Framework</h3>
+<p>The capital readiness layer: monetization models, valuation methodology, licensing structures, and investor-facing systems.</p>
+<div class="category-links"><a href="investor-clean.html">Investor Interface <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Valuation%20Methodology">Valuation Methodology <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Licensing%20Structures">Licensing Structures <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Monetization%20Models">Monetization Models <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+<article class="category-card">
+<h3><iconify-icon icon="solar:server-square-linear"></iconify-icon>Corporate Infrastructure</h3>
+<p>The operating structure for governance, holdings, portfolio coordination, expansion planning, and ecosystem management.</p>
+<div class="category-links"><a href="viewer-clean.html#Company%20Overview">Company Overview <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Portfolio%20Governance">Portfolio Governance <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Expansion%20Roadmap">Expansion Roadmap <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Acquisition%20Strategy">Acquisition Strategy <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+<article class="category-card">
+<h3><iconify-icon icon="solar:box-linear"></iconify-icon>Product Documentation</h3>
+<p>The product knowledge layer: architecture, positioning, valuation, monetization, licensing, ecosystem role, and website copy.</p>
+<div class="category-links"><a href="products.html">Product Index <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Crown%20Psychology">Crown Psychology Docs <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#CrownCam">CrownCam Docs <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a><a href="viewer-clean.html#Sentinel%20Vault">Sentinel Vault Docs <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a></div>
+</article>
+</section>
+</main>
+<script>document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark';</script>
+</body>
+</html>
