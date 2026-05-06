@@ -685,3 +685,124 @@ button {
   display: flex;
   gap: 8px;
 }
+
+.page-eyebrow {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 650;
+  margin-bottom: 10px;
+}
+.page-intro {
+  max-width: 78ch;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.section-title {
+  font-size: 1.1rem;
+  margin: 26px 0 10px;
+  color: var(--heading);
+}
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 12px 0 20px;
+}
+.insight-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 16px;
+}
+.insight-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.insight-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.insight-value {
+  font-size: 1.55rem;
+  color: var(--heading);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 8px 0 4px;
+}
+.status-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+.status-list li {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.status-chip {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.status-chip.live {
+  color: #73c98f;
+  border-color: color-mix(in srgb, #73c98f 45%, var(--border));
+}
+.status-chip.building {
+  color: #f0be6d;
+  border-color: color-mix(in srgb, #f0be6d 45%, var(--border));
+}
+.status-chip.review {
+  color: #89b7ff;
+  border-color: color-mix(in srgb, #89b7ff 45%, var(--border));
+}
+.timeline {
+  list-style: none;
+  border-left: 2px solid var(--border);
+  margin: 10px 0 22px 8px;
+  padding-left: 16px;
+  display: grid;
+  gap: 16px;
+}
+.timeline strong {
+  color: var(--heading);
+}
+.timeline p {
+  color: var(--muted);
+}
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.quick-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.quick-actions a:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--surface-2);
+}
