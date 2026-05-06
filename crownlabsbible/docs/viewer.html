@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crown Labs Bible Viewer</title>
+<style>
+:root{--bg:#0b0b0d;--panel:#141418;--soft:#1a1a20;--text:#f5f5f7;--muted:#9b9ba3;--border:#25252d;--accent:#9c271c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0b0b0d;color:var(--text);font-family:Inter,SF Pro Display,Segoe UI,sans-serif;line-height:1.65;}
+.app{display:grid;grid-template-columns:330px 1fr;min-height:100vh;}
+aside{border-right:1px solid var(--border);background:#101014;padding:28px;position:sticky;top:0;height:100vh;overflow:auto;}
+.brand{margin-bottom:28px;}
+.mark{width:46px;height:46px;border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:16px;font-weight:700;}
+.brand h1{font-size:1.15rem;letter-spacing:-.03em;}
+.brand p{font-size:.86rem;color:var(--muted);margin-top:6px;}
+.nav-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin:28px 0 12px;}
+.nav a{display:block;color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:12px;font-size:.92rem;}
+.nav a:hover,.nav a.active{background:var(--soft);color:var(--text);}
+main{padding:54px;max-width:1000px;}
+.toolbar{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:34px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+.toolbar small{color:var(--muted);}
+.content h1{font-size:clamp(2.2rem,5vw,4.5rem);line-height:.95;letter-spacing:-.055em;margin-bottom:24px;}
+.content h2{font-size:1.55rem;margin:34px 0 14px;letter-spacing:-.035em;}
+.content h3{font-size:1.05rem;margin:26px 0 10px;color:#fff;}
+.content p{color:#d7d7db;margin:0 0 16px;}
+.content ul{margin:12px 0 22px 24px;color:#d7d7db;}
+.content li{margin:6px 0;}
+.content code{background:#17171d;border:1px solid var(--border);border-radius:8px;padding:2px 6px;color:#fff;}
+.empty{color:var(--muted);font-size:1rem;}
+@media(max-width:900px){.app{grid-template-columns:1fr;}aside{position:relative;height:auto;}main{padding:32px 22px;}.toolbar{display:block;}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="mark">CL</div><h1>Crown Labs Bible</h1><p>Institutional documentation portal</p></div>
+  <div class="nav-title">Corporate Infrastructure</div>
+  <nav class="nav" id="nav"></nav>
+</aside>
+<main>
+  <div class="toolbar"><small id="pathLabel">Select a document</small><small>Crown Labs Documentation System</small></div>
+  <article class="content" id="content"><p class="empty">Choose a document from the left navigation.</p></article>
+</main>
+</div>
+<script>
+const docs=[
+['Company Overview','../05-corporate-infrastructure/company-overview.md'],
+['Executive Positioning','../05-corporate-infrastructure/executive-positioning.md'],
+['Holdings Structure','../05-corporate-infrastructure/holdings-structure.md'],
+['Portfolio Governance','../05-corporate-infrastructure/portfolio-governance.md'],
+['Writing Standards','../05-corporate-infrastructure/writing-standards.md'],
+['Brand Standards','../05-corporate-infrastructure/brand-standards.md'],
+['Communication Standards','../05-corporate-infrastructure/communication-standards.md'],
+['Ecosystem Philosophy','../05-corporate-infrastructure/ecosystem-philosophy.md'],
+['Investor Relations','../05-corporate-infrastructure/investor-relations.md'],
+['Licensing Governance','../05-corporate-infrastructure/licensing-governance.md'],
+['Expansion Roadmap','../05-corporate-infrastructure/expansion-roadmap.md'],
+['Acquisition Strategy','../05-corporate-infrastructure/acquisition-strategy.md']
+];
+const nav=document.getElementById('nav');
+const content=document.getElementById('content');
+const pathLabel=document.getElementById('pathLabel');
+function renderMarkdown(md){
+ let html='';
+ let inList=false;
+ md.split('\n').forEach(line=>{
+  const t=line.trim();
+  if(!t){if(inList){html+='</ul>';inList=false;} return;}
+  if(t.startsWith('### ')){if(inList){html+='</ul>';inList=false;} html+='<h3>'+t.slice(4)+'</h3>';return;}
+  if(t.startsWith('## ')){if(inList){html+='</ul>';inList=false;} html+='<h2>'+t.slice(3)+'</h2>';return;}
+  if(t.startsWith('# ')){if(inList){html+='</ul>';inList=false;} html+='<h1>'+t.slice(2)+'</h1>';return;}
+  if(t.startsWith('- ')){if(!inList){html+='<ul>';inList=true;} html+='<li>'+t.slice(2)+'</li>';return;}
+  if(inList){html+='</ul>';inList=false;}
+  html+='<p>'+t+'</p>';
+ });
+ if(inList) html+='</ul>';
+ return html;
+}
+async function loadDoc(title,path,el){
+ document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+ if(el) el.classList.add('active');
+ pathLabel.textContent=path;
+ content.innerHTML='<p class="empty">Loading documentation...</p>';
+ try{
+  const res=await fetch(path);
+  const md=await res.text();
+  content.innerHTML=renderMarkdown(md);
+  location.hash=encodeURIComponent(title);
+ }catch(e){content.innerHTML='<p class="empty">Unable to load this document from the current path.</p>';}
+}
+docs.forEach(([title,path])=>{const a=document.createElement('a');a.href='#';a.textContent=title;a.onclick=(e)=>{e.preventDefault();loadDoc(title,path,a)};nav.appendChild(a);});
+const start=decodeURIComponent(location.hash.replace('#',''));
+const found=docs.find(d=>d[0]===start)||docs[0];
+setTimeout(()=>{const link=[...document.querySelectorAll('.nav a')].find(a=>a.textContent===found[0]);loadDoc(found[0],found[1],link);},0);
+</script>
+</body>
+</html>
