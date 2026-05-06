@@ -5,218 +5,199 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Crown Labs Documentation Viewer</title>
 <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 <style>
-:root{--bg:#0b0b0d;--panel:#141418;--soft:#1a1a20;--soft2:#202028;--text:#f5f5f7;--muted:#9b9ba3;--border:#25252d;--accent:#9c271c;}
+:root{--bg:#0b0b0d;--panel:#141418;--soft:#1a1a20;--soft2:#202028;--text:#f5f5f7;--muted:#9b9ba3;--border:#25252d;--accent:#9c271c;--reader-scale:1;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:#0b0b0d;color:var(--text);font-family:Inter,SF Pro Display,Segoe UI,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
-.app{display:grid;grid-template-columns:390px 1fr;min-height:100vh;}
-aside{border-right:1px solid var(--border);background:#101014;padding:28px;position:sticky;top:0;height:100vh;overflow:auto;}
-.brand{margin-bottom:26px;}
-.brand img{height:42px;width:auto;display:block;margin-bottom:16px;}
+.app{display:grid;grid-template-columns:390px 1fr;min-height:100vh;transition:grid-template-columns .24s ease;}
+.app.nav-collapsed{grid-template-columns:86px 1fr;}
+aside{border-right:1px solid var(--border);background:#101014;padding:24px;position:sticky;top:0;height:100vh;overflow:auto;transition:padding .24s ease,transform .24s ease;z-index:20;}
+.nav-collapsed aside{padding:20px 14px;overflow:hidden;}
+.mobile-scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:15;}
+.brand{margin-bottom:22px;}
+.brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.brand img{height:42px;width:auto;display:block;}
+.nav-collapsed .brand img{height:32px;max-width:44px;object-fit:contain;}
 .brand h1{font-size:1.14rem;letter-spacing:-.03em;}
 .brand p{font-size:.86rem;color:var(--muted);margin-top:6px;}
+.nav-collapsed .brand h1,.nav-collapsed .brand p,.nav-collapsed .top-links,.nav-collapsed .search,.nav-collapsed #navRoot{display:none;}
+.icon-btn{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;background:#15151a;color:var(--text);cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease;}
+.icon-btn:hover{background:#1a1a20;border-color:rgba(156,39,28,.52);transform:translateY(-1px);}
 .top-links{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px;}
-.top-links a{color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:.76rem;background:#15151a;}
-.search{margin:20px 0 28px;}
-.search input{width:100%;background:#17171d;border:1px solid var(--border);border-radius:14px;padding:14px;color:var(--text);font-size:.92rem;outline:none;}
+.top-links a{display:inline-flex;align-items:center;gap:6px;color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:.76rem;background:#15151a;}
+.search{margin:20px 0 28px;position:relative;}
+.search iconify-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:18px;}
+.search input{width:100%;background:#17171d;border:1px solid var(--border);border-radius:14px;padding:14px 14px 14px 40px;color:var(--text);font-size:.92rem;outline:none;}
 .search input:focus{border-color:rgba(156,39,28,.55);}
 .tree{display:flex;flex-direction:column;gap:6px;}
 .tree-section{border-bottom:1px solid rgba(255,255,255,.045);padding-bottom:8px;margin-bottom:8px;}
-.tree-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:0;color:var(--text);padding:10px 8px;border-radius:12px;cursor:pointer;text-align:left;font:inherit;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;}
-.tree-toggle:hover{background:#17171d;}
+.tree-toggle,.product-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:0;color:var(--text);border-radius:12px;cursor:pointer;text-align:left;font:inherit;}
+.tree-toggle{padding:10px 8px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;}
+.tree-label,.product-label{display:flex;align-items:center;gap:9px;min-width:0;}
+.tree-label span,.product-label span{overflow:hidden;text-overflow:ellipsis;}
+.tree-toggle:hover,.product-toggle:hover{background:#17171d;}
 .chevron{color:var(--muted);font-size:.78rem;transition:transform .18s ease;}
-.tree-section.closed .chevron{transform:rotate(-90deg);}
+.tree-section.closed>.tree-toggle .chevron,.product-group.closed>.product-toggle .chevron{transform:rotate(-90deg);}
 .tree-children{display:flex;flex-direction:column;gap:3px;margin:2px 0 4px;}
-.tree-section.closed .tree-children{display:none;}
+.tree-section.closed>.tree-children{display:none;}
 .product-group{margin:4px 0 6px;}
-.product-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:0;color:#dedee2;padding:9px 10px 9px 18px;border-radius:12px;cursor:pointer;text-align:left;font:inherit;font-size:.9rem;}
-.product-toggle:hover{background:#17171d;}
+.product-toggle{color:#dedee2;padding:9px 10px 9px 18px;font-size:.9rem;}
 .product-group.closed .tree-leaves{display:none;}
-.product-group.closed .chevron{transform:rotate(-90deg);}
 .tree-leaves{display:flex;flex-direction:column;gap:2px;margin:2px 0 4px;}
-.doc-link{display:block;color:var(--muted);text-decoration:none;padding:8px 10px 8px 34px;border-radius:12px;font-size:.88rem;transition:background .2s ease,color .2s ease,box-shadow .2s ease;}
+.doc-link{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;padding:8px 10px 8px 34px;border-radius:12px;font-size:.88rem;transition:background .2s ease,color .2s ease,box-shadow .2s ease;}
 .doc-link:hover{background:#17171d;color:#fff;}
 .doc-link.active{background:var(--soft2);color:#fff;box-shadow:inset 2px 0 0 var(--accent);}
-main{padding:48px 58px 56px;max-width:1180px;}
-.toolbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+main{padding:42px 58px 0;max-width:1180px;}
+.reader-shell{min-height:100vh;display:flex;flex-direction:column;}
+.toolbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
 .breadcrumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--muted);font-size:.86rem;}
-.breadcrumbs a,.breadcrumbs button{color:var(--muted);background:transparent;border:0;text-decoration:none;font:inherit;cursor:pointer;padding:3px 0;}
-.breadcrumbs a:hover,.breadcrumbs button:hover{color:#fff;}
+.breadcrumbs button{display:inline-flex;align-items:center;gap:5px;color:var(--muted);background:transparent;border:0;text-decoration:none;font:inherit;cursor:pointer;padding:3px 0;}
+.breadcrumbs button:hover{color:#fff;}
 .breadcrumbs .current{color:#fff;}
 .breadcrumbs .sep{color:#55555c;}
 .pathline{display:block;margin-top:8px;color:#777780;font-size:.78rem;}
-.badge{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:#15151a;color:#d6d6da;font-size:.78rem;white-space:nowrap;}
+.utility-bar{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;min-width:300px;}
+.utility-btn{height:36px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:12px;background:#15151a;color:#d6d6da;font-size:.78rem;padding:0 11px;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease;}
+.utility-btn:hover{background:#1a1a20;border-color:rgba(156,39,28,.52);transform:translateY(-1px);color:#fff;}
+.content{font-size:calc(1rem * var(--reader-scale));}
 .content h1{font-size:clamp(2.6rem,5vw,5rem);line-height:.92;letter-spacing:-.06em;margin-bottom:26px;}
-.content h2{font-size:1.6rem;margin:38px 0 14px;letter-spacing:-.035em;}
-.content h3{font-size:1.08rem;margin:28px 0 10px;color:#fff;}
-.content p{color:#d8d8dc;margin:0 0 16px;font-size:1rem;}
+.content h2{font-size:1.6em;margin:38px 0 14px;letter-spacing:-.035em;}
+.content h3{font-size:1.08em;margin:28px 0 10px;color:#fff;}
+.content p{color:#d8d8dc;margin:0 0 16px;font-size:1em;}
 .content ul{margin:12px 0 24px 24px;color:#d8d8dc;}
 .content li{margin:6px 0;}
 .content code{background:#17171d;border:1px solid var(--border);border-radius:8px;padding:2px 6px;color:#fff;}
+.doc-ref{color:#fff;text-decoration:none;border-bottom:1px solid rgba(156,39,28,.65);}
+.doc-ref:hover{color:#fff;border-color:#fff;}
 .empty{color:var(--muted);font-size:1rem;}
-.footer-note{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:.86rem;}
-@media(max-width:980px){.app{grid-template-columns:1fr;}aside{position:relative;height:auto;}main{padding:34px 22px;}.toolbar{display:block;}.badge{display:inline-flex;margin-top:12px;}}
+.site-footer{margin-top:auto;padding:52px 0 38px;border-top:1px solid var(--border);color:var(--muted);}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:26px;}
+.footer-brand img{height:36px;margin-bottom:14px;}
+.footer-brand p,.footer-col p{font-size:.9rem;max-width:380px;}
+.footer-col h4{color:#fff;font-size:.85rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px;}
+.footer-col a{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:.9rem;margin:8px 0;}
+.footer-col a:hover{color:#fff;}
+.signup{display:flex;gap:8px;margin-top:12px;}
+.signup input{min-width:0;flex:1;background:#15151a;border:1px solid var(--border);border-radius:12px;color:#fff;padding:11px 12px;}
+.signup button{border:1px solid rgba(156,39,28,.65);background:var(--accent);color:#fff;border-radius:12px;padding:0 13px;cursor:pointer;}
+.social-row{display:flex;gap:9px;margin-top:14px;}
+.social-row a{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:11px;background:#15151a;margin:0;}
+.back-top{position:fixed;right:24px;bottom:24px;width:44px;height:44px;border:1px solid rgba(156,39,28,.55);border-radius:14px;background:#15151a;color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:30;box-shadow:0 18px 45px rgba(0,0,0,.35);}
+.back-top.visible{display:flex;}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#15151a;border:1px solid var(--border);color:#fff;padding:10px 14px;border-radius:999px;font-size:.86rem;display:none;z-index:40;}
+.toast.visible{display:block;}
+@media(max-width:980px){.app{display:block;}.app.nav-collapsed{display:block;}aside{position:fixed;left:0;top:0;width:min(88vw,390px);transform:translateX(-105%);box-shadow:24px 0 70px rgba(0,0,0,.42);}body.nav-open aside{transform:translateX(0);}body.nav-open .mobile-scrim{display:block;}main{padding:28px 20px 0;}.toolbar{display:block;}.utility-bar{justify-content:flex-start;min-width:0;margin-top:16px;}.footer-grid{grid-template-columns:1fr;}.signup{flex-direction:column}.mobile-menu-btn{display:inline-flex!important;}.brand-row .icon-btn{display:flex;}}
+@media(min-width:981px){.mobile-menu-btn{display:none!important;}}
+@media print{aside,.top-links,.utility-bar,.back-top,.site-footer,.mobile-scrim{display:none!important}.app{display:block}main{max-width:none;padding:0;color:#000}.content p,.content li{color:#222}body{background:#fff;color:#000}.toolbar{border-bottom:1px solid #ddd}.pathline,.breadcrumbs{color:#555}}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="mobile-scrim" id="scrim"></div>
+<div class="app" id="app">
 <aside>
   <div class="brand">
-    <img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+    <div class="brand-row">
+      <img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+      <button class="icon-btn" id="navToggle" title="Toggle navigation"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+    </div>
     <h1>Crown Labs Documentation</h1>
     <p>Institutional product, governance, investor, brand, and operating documentation.</p>
   </div>
   <div class="top-links">
-    <a href="index.html">Portal</a>
-    <a href="executive-dashboard.html">Executive</a>
-    <a href="investor-mode.html">Investor</a>
-    <a href="ecosystem-map.html">Map</a>
-    <a href="roadmap-tracker.html">Roadmap</a>
+    <a href="index.html"><iconify-icon icon="solar:home-2-linear"></iconify-icon>Portal</a>
+    <a href="executive-dashboard.html"><iconify-icon icon="solar:chart-2-linear"></iconify-icon>Executive</a>
+    <a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor</a>
+    <a href="ecosystem-map.html"><iconify-icon icon="solar:map-point-linear"></iconify-icon>Map</a>
+    <a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a>
   </div>
-  <div class="search"><input id="searchInput" type="text" placeholder="Search all documentation..." /></div>
+  <div class="search"><iconify-icon icon="solar:magnifer-linear"></iconify-icon><input id="searchInput" type="text" placeholder="Search all documentation..." /></div>
   <div id="navRoot" class="tree"></div>
 </aside>
 <main>
-  <div class="toolbar">
-    <div>
-      <div id="breadcrumbRoot" class="breadcrumbs"></div>
-      <small id="pathLabel" class="pathline">Select a document</small>
+  <div class="reader-shell">
+    <div class="toolbar">
+      <div>
+        <button class="icon-btn mobile-menu-btn" id="mobileMenu" title="Open navigation"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+        <div id="breadcrumbRoot" class="breadcrumbs"></div>
+        <small id="pathLabel" class="pathline">Select a document</small>
+      </div>
+      <div class="utility-bar">
+        <button class="utility-btn" id="fontDown"><iconify-icon icon="solar:text-linear"></iconify-icon>A−</button>
+        <button class="utility-btn" id="fontReset"><iconify-icon icon="solar:text-bold"></iconify-icon>A</button>
+        <button class="utility-btn" id="fontUp"><iconify-icon icon="solar:text-field-focus-linear"></iconify-icon>A+</button>
+        <button class="utility-btn" id="copyDoc"><iconify-icon icon="solar:copy-linear"></iconify-icon>Copy</button>
+        <button class="utility-btn" id="printDoc"><iconify-icon icon="solar:printer-2-linear"></iconify-icon>Print</button>
+        <button class="utility-btn" id="shareDoc"><iconify-icon icon="solar:share-linear"></iconify-icon>Share</button>
+      </div>
     </div>
-    <div class="badge">Full Documentation Library</div>
+    <article class="content" id="content"><p class="empty">Choose a document from the navigation.</p></article>
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand"><img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p><div class="social-row"><a href="https://www.darenprince.com" title="Website"><iconify-icon icon="solar:global-linear"></iconify-icon></a><a href="https://github.com/darenprince" title="GitHub"><iconify-icon icon="mdi:github"></iconify-icon></a><a href="#" title="LinkedIn"><iconify-icon icon="mdi:linkedin"></iconify-icon></a><a href="#" title="X"><iconify-icon icon="mdi:twitter"></iconify-icon></a></div></div>
+        <div class="footer-col"><h4>Documentation</h4><a href="viewer.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Viewer</a><a href="ecosystem-map.html"><iconify-icon icon="solar:map-linear"></iconify-icon>Ecosystem Map</a><a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a></div>
+        <div class="footer-col"><h4>Business</h4><a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor Mode</a><a href="executive-dashboard.html"><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive Dashboard</a><a href="mailto:apps@crownlabs.tech"><iconify-icon icon="solar:letter-linear"></iconify-icon>Contact</a></div>
+        <div class="footer-col"><h4>Updates</h4><p>Get release notes and documentation updates.</p><form class="signup" onsubmit="event.preventDefault();showToast('Signup captured locally. Connect a mailing service next.');"><input type="email" placeholder="Email address" required><button type="submit"><iconify-icon icon="solar:arrow-right-linear"></iconify-icon></button></form></div>
+      </div>
+    </footer>
   </div>
-  <article class="content" id="content"><p class="empty">Choose a document from the navigation.</p></article>
-  <div class="footer-note">Crown Labs Documentation · Product Documentation · Branding & Visual Identity · Investor Framework · Corporate Infrastructure</div>
 </main>
 </div>
+<button class="back-top" id="backTop" title="Back to top"><iconify-icon icon="solar:arrow-up-linear"></iconify-icon></button>
+<div class="toast" id="toast"></div>
 <script>
+const icons={
+'Corporate Foundation':'solar:buildings-2-linear','Branding & Visual Identity':'solar:pallete-2-linear','Writing & Communication':'solar:pen-new-square-linear','Investor Framework':'solar:chart-2-linear','Corporate Infrastructure':'solar:server-square-linear','Product Documentation':'solar:box-linear','AI Cherry Pie':'solar:text-field-focus-linear','Crown Psychology':'solar:brain-linear','Sentinel Vault':'solar:shield-keyhole-linear','CrownCam':'solar:camera-linear','Crown SOS':'solar:siren-rounded-linear','Crown WatchTower':'solar:tower-linear','CrownCast':'solar:podcast-linear'};
 const tree=[
-{label:'Corporate Foundation',children:[
-{label:'Corporate Identity',path:'../01-corporate-foundation/crown-labs-corporate-identity.md'},
-{label:'Product Classification Framework',path:'../01-corporate-foundation/product-classification-framework.md'}]},
-{label:'Branding & Visual Identity',children:[
-{label:'Branding & Visual Identity Standards',path:'../05-corporate-infrastructure/brand-standards.md'}]},
-{label:'Writing & Communication',children:[
-{label:'Writing Standards Overview',path:'../02-writing-standards/README.md'},
-{label:'Brand Voice System',path:'../02-writing-standards/brand-voice-system.md'},
-{label:'Corporate Writing Standards',path:'../05-corporate-infrastructure/writing-standards.md'},
-{label:'Communication Standards',path:'../05-corporate-infrastructure/communication-standards.md'}]},
-{label:'Investor Framework',children:[
-{label:'Licensing Structures',path:'../03-investor-framework/licensing-structures.md'},
-{label:'Monetization Models',path:'../03-investor-framework/monetization-models.md'},
-{label:'Valuation Methodology',path:'../03-investor-framework/valuation-methodology.md'},
-{label:'Investor Relations',path:'../05-corporate-infrastructure/investor-relations.md'},
-{label:'Licensing Governance',path:'../05-corporate-infrastructure/licensing-governance.md'}]},
-{label:'Corporate Infrastructure',children:[
-{label:'Company Overview',path:'../05-corporate-infrastructure/company-overview.md'},
-{label:'Executive Positioning',path:'../05-corporate-infrastructure/executive-positioning.md'},
-{label:'Holdings Structure',path:'../05-corporate-infrastructure/holdings-structure.md'},
-{label:'Portfolio Governance',path:'../05-corporate-infrastructure/portfolio-governance.md'},
-{label:'Ecosystem Philosophy',path:'../05-corporate-infrastructure/ecosystem-philosophy.md'},
-{label:'Expansion Roadmap',path:'../05-corporate-infrastructure/expansion-roadmap.md'},
-{label:'Acquisition Strategy',path:'../05-corporate-infrastructure/acquisition-strategy.md'}]},
+{label:'Corporate Foundation',children:[{label:'Corporate Identity',path:'../01-corporate-foundation/crown-labs-corporate-identity.md'},{label:'Product Classification Framework',path:'../01-corporate-foundation/product-classification-framework.md'}]},
+{label:'Branding & Visual Identity',children:[{label:'Branding & Visual Identity Standards',path:'../05-corporate-infrastructure/brand-standards.md'}]},
+{label:'Writing & Communication',children:[{label:'Writing Standards Overview',path:'../02-writing-standards/README.md'},{label:'Brand Voice System',path:'../02-writing-standards/brand-voice-system.md'},{label:'Corporate Writing Standards',path:'../05-corporate-infrastructure/writing-standards.md'},{label:'Communication Standards',path:'../05-corporate-infrastructure/communication-standards.md'}]},
+{label:'Investor Framework',children:[{label:'Licensing Structures',path:'../03-investor-framework/licensing-structures.md'},{label:'Monetization Models',path:'../03-investor-framework/monetization-models.md'},{label:'Valuation Methodology',path:'../03-investor-framework/valuation-methodology.md'},{label:'Investor Relations',path:'../05-corporate-infrastructure/investor-relations.md'},{label:'Licensing Governance',path:'../05-corporate-infrastructure/licensing-governance.md'}]},
+{label:'Corporate Infrastructure',children:[{label:'Company Overview',path:'../05-corporate-infrastructure/company-overview.md'},{label:'Executive Positioning',path:'../05-corporate-infrastructure/executive-positioning.md'},{label:'Holdings Structure',path:'../05-corporate-infrastructure/holdings-structure.md'},{label:'Portfolio Governance',path:'../05-corporate-infrastructure/portfolio-governance.md'},{label:'Ecosystem Philosophy',path:'../05-corporate-infrastructure/ecosystem-philosophy.md'},{label:'Expansion Roadmap',path:'../05-corporate-infrastructure/expansion-roadmap.md'},{label:'Acquisition Strategy',path:'../05-corporate-infrastructure/acquisition-strategy.md'}]},
 {label:'Product Documentation',children:[
-{label:'AI Cherry Pie',children:[
-{label:'Overview',path:'../04-product-dossiers/ai-cherry-pie/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/ai-cherry-pie/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/ai-cherry-pie/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/ai-cherry-pie/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/ai-cherry-pie/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/ai-cherry-pie/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/ai-cherry-pie/website-copy.md'}]},
-{label:'Crown Psychology',children:[
-{label:'Overview',path:'../04-product-dossiers/crown-psychology/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/crown-psychology/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/crown-psychology/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/crown-psychology/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/crown-psychology/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/crown-psychology/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/crown-psychology/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/crown-psychology/ecosystem-role.md'}]},
-{label:'Sentinel Vault',children:[
-{label:'Overview',path:'../04-product-dossiers/sentinel-vault/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/sentinel-vault/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/sentinel-vault/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/sentinel-vault/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/sentinel-vault/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/sentinel-vault/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/sentinel-vault/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/sentinel-vault/ecosystem-role.md'}]},
-{label:'CrownCam',children:[
-{label:'Overview',path:'../04-product-dossiers/crowncam/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/crowncam/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/crowncam/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/crowncam/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/crowncam/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/crowncam/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/crowncam/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/crowncam/ecosystem-role.md'}]},
-{label:'Crown SOS',children:[
-{label:'Overview',path:'../04-product-dossiers/crown-sos/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/crown-sos/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/crown-sos/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/crown-sos/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/crown-sos/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/crown-sos/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/crown-sos/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/crown-sos/ecosystem-role.md'}]},
-{label:'Crown WatchTower',children:[
-{label:'Overview',path:'../04-product-dossiers/crown-watchtower/overview.md'},
-{label:'Architecture',path:'../04-product-dossiers/crown-watchtower/architecture.md'},
-{label:'Positioning',path:'../04-product-dossiers/crown-watchtower/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/crown-watchtower/valuation.md'},
-{label:'Licensing',path:'../04-product-dossiers/crown-watchtower/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/crown-watchtower/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/crown-watchtower/ecosystem-role.md'}]},
-{label:'CrownCast',children:[
-{label:'Overview',path:'../04-product-dossiers/crowncast/overview.md'},
-{label:'Positioning',path:'../04-product-dossiers/crowncast/positioning.md'},
-{label:'Valuation',path:'../04-product-dossiers/crowncast/valuation.md'},
-{label:'Monetization',path:'../04-product-dossiers/crowncast/monetization.md'},
-{label:'Licensing',path:'../04-product-dossiers/crowncast/licensing.md'},
-{label:'Website Copy',path:'../04-product-dossiers/crowncast/website-copy.md'},
-{label:'Ecosystem Role',path:'../04-product-dossiers/crowncast/ecosystem-role.md'}]}
+{label:'AI Cherry Pie',children:[{label:'Overview',path:'../04-product-dossiers/ai-cherry-pie/overview.md'},{label:'Architecture',path:'../04-product-dossiers/ai-cherry-pie/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/ai-cherry-pie/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/ai-cherry-pie/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/ai-cherry-pie/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/ai-cherry-pie/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/ai-cherry-pie/website-copy.md'}]},
+{label:'Crown Psychology',children:[{label:'Overview',path:'../04-product-dossiers/crown-psychology/overview.md'},{label:'Architecture',path:'../04-product-dossiers/crown-psychology/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/crown-psychology/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/crown-psychology/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/crown-psychology/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/crown-psychology/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/crown-psychology/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/crown-psychology/ecosystem-role.md'}]},
+{label:'Sentinel Vault',children:[{label:'Overview',path:'../04-product-dossiers/sentinel-vault/overview.md'},{label:'Architecture',path:'../04-product-dossiers/sentinel-vault/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/sentinel-vault/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/sentinel-vault/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/sentinel-vault/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/sentinel-vault/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/sentinel-vault/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/sentinel-vault/ecosystem-role.md'}]},
+{label:'CrownCam',children:[{label:'Overview',path:'../04-product-dossiers/crowncam/overview.md'},{label:'Architecture',path:'../04-product-dossiers/crowncam/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/crowncam/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/crowncam/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/crowncam/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/crowncam/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/crowncam/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/crowncam/ecosystem-role.md'}]},
+{label:'Crown SOS',children:[{label:'Overview',path:'../04-product-dossiers/crown-sos/overview.md'},{label:'Architecture',path:'../04-product-dossiers/crown-sos/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/crown-sos/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/crown-sos/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/crown-sos/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/crown-sos/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/crown-sos/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/crown-sos/ecosystem-role.md'}]},
+{label:'Crown WatchTower',children:[{label:'Overview',path:'../04-product-dossiers/crown-watchtower/overview.md'},{label:'Architecture',path:'../04-product-dossiers/crown-watchtower/architecture.md'},{label:'Positioning',path:'../04-product-dossiers/crown-watchtower/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/crown-watchtower/valuation.md'},{label:'Licensing',path:'../04-product-dossiers/crown-watchtower/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/crown-watchtower/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/crown-watchtower/ecosystem-role.md'}]},
+{label:'CrownCast',children:[{label:'Overview',path:'../04-product-dossiers/crowncast/overview.md'},{label:'Positioning',path:'../04-product-dossiers/crowncast/positioning.md'},{label:'Valuation',path:'../04-product-dossiers/crowncast/valuation.md'},{label:'Monetization',path:'../04-product-dossiers/crowncast/monetization.md'},{label:'Licensing',path:'../04-product-dossiers/crowncast/licensing.md'},{label:'Website Copy',path:'../04-product-dossiers/crowncast/website-copy.md'},{label:'Ecosystem Role',path:'../04-product-dossiers/crowncast/ecosystem-role.md'}]}
 ]}];
-const navRoot=document.getElementById('navRoot');
-const content=document.getElementById('content');
-const pathLabel=document.getElementById('pathLabel');
-const breadcrumbRoot=document.getElementById('breadcrumbRoot');
-const searchInput=document.getElementById('searchInput');
-let currentPath='';
+const app=document.getElementById('app'),navRoot=document.getElementById('navRoot'),content=document.getElementById('content'),pathLabel=document.getElementById('pathLabel'),breadcrumbRoot=document.getElementById('breadcrumbRoot'),searchInput=document.getElementById('searchInput'),toast=document.getElementById('toast');
+let currentPath='',currentDoc=null,readerScale=Number(localStorage.getItem('readerScale')||1);
+document.documentElement.style.setProperty('--reader-scale',readerScale);
+if(localStorage.getItem('navCollapsed')==='true')app.classList.add('nav-collapsed');
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function flatten(nodes,prefix=[]){return nodes.flatMap(n=>n.children?flatten(n.children,[...prefix,n.label]):[{...n,crumb:[...prefix,n.label]}]);}
 const flatDocs=flatten(tree);
 function nodeMatches(node,q){const text=[node.label,node.path||''].join(' ').toLowerCase();return text.includes(q)||(node.children||[]).some(child=>nodeMatches(child,q));}
-function renderNav(filter=''){
- const q=filter.toLowerCase().trim();navRoot.innerHTML='';
- tree.forEach((section,si)=>{if(q&&!nodeMatches(section,q))return;
-  const sectionEl=document.createElement('div');sectionEl.className='tree-section';sectionEl.dataset.section=section.label;
-  const button=document.createElement('button');button.className='tree-toggle';button.innerHTML='<span>'+esc(section.label)+'</span><span class="chevron">⌄</span>';button.onclick=()=>sectionEl.classList.toggle('closed');
-  const children=document.createElement('div');children.className='tree-children';
-  section.children.forEach((child,ci)=>{if(q&&!nodeMatches(child,q))return;
-    if(child.children){const group=document.createElement('div');group.className='product-group';group.dataset.group=child.label;
-      const gb=document.createElement('button');gb.className='product-toggle';gb.innerHTML='<span>'+esc(child.label)+'</span><span class="chevron">⌄</span>';gb.onclick=()=>group.classList.toggle('closed');
-      const leaves=document.createElement('div');leaves.className='tree-leaves';
-      child.children.forEach(doc=>{if(q&&!nodeMatches(doc,q))return;leaves.appendChild(makeLink(doc,[section.label,child.label,doc.label]));});
-      group.appendChild(gb);group.appendChild(leaves);children.appendChild(group);
-    }else{children.appendChild(makeLink(child,[section.label,child.label]));}
-  });
-  sectionEl.appendChild(button);sectionEl.appendChild(children);navRoot.appendChild(sectionEl);
- });
- updateActiveNav();
-}
-function makeLink(doc,crumb){const a=document.createElement('a');a.href='#'+encodeURIComponent(doc.label);a.className='doc-link';a.textContent=doc.label;a.dataset.path=doc.path;a.onclick=e=>{e.preventDefault();loadDoc({...doc,crumb},a);};return a;}
-function renderBreadcrumb(doc){breadcrumbRoot.innerHTML='';const parts=['Home',...doc.crumb];parts.forEach((part,i)=>{if(i>0){const sep=document.createElement('span');sep.className='sep';sep.textContent='/';breadcrumbRoot.appendChild(sep);} if(i===parts.length-1){const span=document.createElement('span');span.className='current';span.textContent=part;breadcrumbRoot.appendChild(span);}else{const btn=document.createElement('button');btn.textContent=part;btn.onclick=()=>breadcrumbClick(part,i,doc);breadcrumbRoot.appendChild(btn);}});}
-function breadcrumbClick(part,index,doc){if(index===0){window.location.href='index.html';return;} const targetCrumb=doc.crumb.slice(0,index); const targetSection=targetCrumb[0]; const targetProduct=targetCrumb[1]; renderNav(searchInput.value); document.querySelectorAll('.tree-section').forEach(s=>{if(s.dataset.section!==targetSection)s.classList.add('closed');else s.classList.remove('closed');}); if(targetProduct){document.querySelectorAll('.product-group').forEach(g=>{if(g.dataset.group!==targetProduct)g.classList.add('closed');else g.classList.remove('closed');});}}
-function renderMarkdown(md){let html='',inList=false;md.split('\n').forEach(line=>{const t=line.trim();if(!t){if(inList){html+='</ul>';inList=false;}return;}if(t.startsWith('### ')){if(inList){html+='</ul>';inList=false;}html+='<h3>'+esc(t.slice(4))+'</h3>';return;}if(t.startsWith('## ')){if(inList){html+='</ul>';inList=false;}html+='<h2>'+esc(t.slice(3))+'</h2>';return;}if(t.startsWith('# ')){if(inList){html+='</ul>';inList=false;}html+='<h1>'+esc(t.slice(2))+'</h1>';return;}if(t.startsWith('- ')){if(!inList){html+='<ul>';inList=true;}html+='<li>'+esc(t.slice(2))+'</li>';return;}if(inList){html+='</ul>';inList=false;}html+='<p>'+esc(t)+'</p>';});if(inList)html+='</ul>';return html;}
-async function loadDoc(doc,el){currentPath=doc.path;updateActiveNav();if(el)el.classList.add('active');pathLabel.textContent=doc.path;renderBreadcrumb(doc);content.innerHTML='<p class="empty">Loading documentation...</p>';try{const res=await fetch(doc.path);if(!res.ok)throw new Error('Not found');const md=await res.text();content.innerHTML=renderMarkdown(md);location.hash=encodeURIComponent(doc.label);}catch(e){content.innerHTML='<p class="empty">Unable to load this document from the current path: '+esc(doc.path)+'</p>';}}
+function icon(name){return '<iconify-icon icon="'+(icons[name]||'solar:document-text-linear')+'"></iconify-icon>';}
+function renderNav(filter=''){const q=filter.toLowerCase().trim();navRoot.innerHTML='';tree.forEach(section=>{if(q&&!nodeMatches(section,q))return;const sectionEl=document.createElement('div');sectionEl.className='tree-section';sectionEl.dataset.section=section.label;const button=document.createElement('button');button.className='tree-toggle';button.innerHTML='<span class="tree-label">'+icon(section.label)+'<span>'+esc(section.label)+'</span></span><span class="chevron">⌄</span>';button.onclick=()=>sectionEl.classList.toggle('closed');const children=document.createElement('div');children.className='tree-children';section.children.forEach(child=>{if(q&&!nodeMatches(child,q))return;if(child.children){const group=document.createElement('div');group.className='product-group';group.dataset.group=child.label;const gb=document.createElement('button');gb.className='product-toggle';gb.innerHTML='<span class="product-label">'+icon(child.label)+'<span>'+esc(child.label)+'</span></span><span class="chevron">⌄</span>';gb.onclick=()=>group.classList.toggle('closed');const leaves=document.createElement('div');leaves.className='tree-leaves';child.children.forEach(doc=>{if(q&&!nodeMatches(doc,q))return;leaves.appendChild(makeLink(doc,[section.label,child.label,doc.label]));});group.appendChild(gb);group.appendChild(leaves);children.appendChild(group);}else children.appendChild(makeLink(child,[section.label,child.label]));});sectionEl.appendChild(button);sectionEl.appendChild(children);navRoot.appendChild(sectionEl);});updateActiveNav();}
+function makeLink(doc,crumb){const a=document.createElement('a');a.href='#'+encodeURIComponent(doc.label);a.className='doc-link';a.innerHTML='<iconify-icon icon="solar:document-text-linear"></iconify-icon><span>'+esc(doc.label)+'</span>';a.dataset.path=doc.path;a.onclick=e=>{e.preventDefault();loadDoc({...doc,crumb},a);};return a;}
+function renderBreadcrumb(doc){breadcrumbRoot.innerHTML='';const parts=['Home',...doc.crumb];parts.forEach((part,i)=>{if(i>0){const sep=document.createElement('span');sep.className='sep';sep.textContent='/';breadcrumbRoot.appendChild(sep);}if(i===parts.length-1){const span=document.createElement('span');span.className='current';span.textContent=part;breadcrumbRoot.appendChild(span);}else{const btn=document.createElement('button');btn.innerHTML=(i===0?'<iconify-icon icon="solar:home-2-linear"></iconify-icon>':'')+esc(part);btn.onclick=()=>breadcrumbClick(i,doc);breadcrumbRoot.appendChild(btn);}});}
+function breadcrumbClick(index,doc){if(index===0){location.href='index.html';return;}const target=doc.crumb.slice(0,index);renderNav(searchInput.value);document.querySelectorAll('.tree-section').forEach(s=>s.classList.toggle('closed',s.dataset.section!==target[0]));if(target[1])document.querySelectorAll('.product-group').forEach(g=>g.classList.toggle('closed',g.dataset.group!==target[1]));}
+function linkRefs(text){let out=esc(text);flatDocs.forEach(d=>{const names=[d.crumb.join(' '),d.label].filter(Boolean);names.forEach(n=>{if(n.length<6)return;const re=new RegExp('\\b'+n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','g');out=out.replace(re,'<a class="doc-ref" href="#'+encodeURIComponent(d.label)+'" data-doc="'+esc(d.label)+'">'+esc(n)+'</a>');});});return out;}
+function renderMarkdown(md){let html='',inList=false;md.split('\n').forEach(line=>{const t=line.trim();if(!t){if(inList){html+='</ul>';inList=false;}return;}if(t.startsWith('### ')){if(inList){html+='</ul>';inList=false;}html+='<h3>'+linkRefs(t.slice(4))+'</h3>';return;}if(t.startsWith('## ')){if(inList){html+='</ul>';inList=false;}html+='<h2>'+linkRefs(t.slice(3))+'</h2>';return;}if(t.startsWith('# ')){if(inList){html+='</ul>';inList=false;}html+='<h1>'+linkRefs(t.slice(2))+'</h1>';return;}if(t.startsWith('- ')){if(!inList){html+='<ul>';inList=true;}html+='<li>'+linkRefs(t.slice(2))+'</li>';return;}if(inList){html+='</ul>';inList=false;}html+='<p>'+linkRefs(t)+'</p>';});if(inList)html+='</ul>';return html;}
+async function loadDoc(doc,el){currentDoc=doc;currentPath=doc.path;updateActiveNav();if(el)el.classList.add('active');pathLabel.textContent=doc.path;renderBreadcrumb(doc);content.innerHTML='<p class="empty">Loading documentation...</p>';try{const res=await fetch(doc.path);if(!res.ok)throw new Error('Not found');const md=await res.text();content.innerHTML=renderMarkdown(md);location.hash=encodeURIComponent(doc.label);content.querySelectorAll('.doc-ref').forEach(a=>a.onclick=e=>{e.preventDefault();const next=flatDocs.find(d=>d.label===a.dataset.doc||d.crumb.join(' ')===a.dataset.doc);if(next)openDoc(next);});if(innerWidth<981)closeMobileNav();}catch(e){content.innerHTML='<p class="empty">Unable to load this document from the current path: '+esc(doc.path)+'</p>';}}
+function openDoc(doc){renderNav(searchInput.value);expandForDoc(doc);const link=[...document.querySelectorAll('.doc-link')].find(a=>a.dataset.path===doc.path);loadDoc(doc,link);}
 function updateActiveNav(){document.querySelectorAll('.doc-link').forEach(a=>a.classList.toggle('active',a.dataset.path===currentPath));}
-function expandForDoc(doc){document.querySelectorAll('.tree-section').forEach(s=>{if(s.dataset.section!==doc.crumb[0])s.classList.add('closed');else s.classList.remove('closed');});document.querySelectorAll('.product-group').forEach(g=>{if(doc.crumb[1]&&g.dataset.group===doc.crumb[1])g.classList.remove('closed');});}
+function expandForDoc(doc){document.querySelectorAll('.tree-section').forEach(s=>s.classList.toggle('closed',s.dataset.section!==doc.crumb[0]));document.querySelectorAll('.product-group').forEach(g=>{if(doc.crumb[1])g.classList.toggle('closed',g.dataset.group!==doc.crumb[1]);});}
+function showToast(msg){toast.textContent=msg;toast.classList.add('visible');setTimeout(()=>toast.classList.remove('visible'),2200);}
+function closeMobileNav(){document.body.classList.remove('nav-open');}
+document.getElementById('navToggle').onclick=()=>{if(innerWidth<981)document.body.classList.toggle('nav-open');else{app.classList.toggle('nav-collapsed');localStorage.setItem('navCollapsed',app.classList.contains('nav-collapsed'));}};
+document.getElementById('mobileMenu').onclick=()=>document.body.classList.add('nav-open');
+document.getElementById('scrim').onclick=closeMobileNav;
+document.getElementById('fontDown').onclick=()=>{readerScale=Math.max(.9,readerScale-.08);localStorage.setItem('readerScale',readerScale);document.documentElement.style.setProperty('--reader-scale',readerScale);};
+document.getElementById('fontReset').onclick=()=>{readerScale=1;localStorage.setItem('readerScale',readerScale);document.documentElement.style.setProperty('--reader-scale',1);};
+document.getElementById('fontUp').onclick=()=>{readerScale=Math.min(1.3,readerScale+.08);localStorage.setItem('readerScale',readerScale);document.documentElement.style.setProperty('--reader-scale',readerScale);};
+document.getElementById('copyDoc').onclick=async()=>{await navigator.clipboard.writeText(content.innerText.trim());showToast('Document copied');};
+document.getElementById('printDoc').onclick=()=>window.print();
+document.getElementById('shareDoc').onclick=async()=>{const url=location.href;if(navigator.share){await navigator.share({title:document.title,text:currentDoc?currentDoc.crumb.join(' / '):'Crown Labs Documentation',url});}else{await navigator.clipboard.writeText(url);showToast('Link copied');}};
+document.getElementById('backTop').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+addEventListener('scroll',()=>document.getElementById('backTop').classList.toggle('visible',scrollY>420));
 searchInput.addEventListener('input',e=>renderNav(e.target.value));
-renderNav();
-const start=decodeURIComponent(location.hash.replace('#',''));
-const found=flatDocs.find(d=>d.label===start)||flatDocs[0];
-setTimeout(()=>{renderNav();expandForDoc(found);const link=[...document.querySelectorAll('.doc-link')].find(a=>a.dataset.path===found.path);loadDoc(found,link);},0);
+renderNav();const start=decodeURIComponent(location.hash.replace('#',''));const found=flatDocs.find(d=>d.label===start)||flatDocs[0];setTimeout(()=>openDoc(found),0);
 </script>
 </body>
 </html>
