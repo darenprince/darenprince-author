@@ -1,2313 +1,2067 @@
-[
-  {
-    "path": "3CDFD294-60F1-40E2-8BA9-8E06E5CE0876.png",
-    "description": "3CDFD294 60F1 40E2 8BA9 8E06E5CE0876 — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "89B65A69-4FEC-4B19-8691-87FB664C35B5.png",
-    "description": "89B65A69 4FEC 4B19 8691 87FB664C35B5 — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
-    "description": "B93001C0 650C 4E55 AF4D 04A402D582FF — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/crown-code-new-red-icon-wtext.png",
-    "description": "Crown Code New Red Icon Wtext — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/crownicon.PNG",
-    "description": "Crownicon — icon mark (PNG).",
-    "tags": [
-      "crown labs",
-      "app icon",
-      "favicon",
-      "squircle",
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/IMG_0267.png",
-    "description": "IMG 0267 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/lumilogix-hero.png",
-    "description": "Lumilogix Hero — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/op-phoenix-icon.png",
-    "description": "Op Phoenix Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "app icons/pic-det-icon.png",
-    "description": "Pic Det Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "archive/Hero-bg.PNG",
-    "description": "Hero Bg — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/all_badges_logos.png",
-    "description": "All Badges Logos — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/amazon_a.png",
-    "description": "Amazon A — retailer badge asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/amazon_kindle_badge.png",
-    "description": "Amazon Kindle Badge — retailer badge asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/audible_badge.png",
-    "description": "Audible Badge — retailer badge asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/available_on_amazon.png",
-    "description": "Available On Amazon — retailer badge asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/badges/IMG_1933.jpeg",
-    "description": "IMG 1933 — retailer badge asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/books/gameon/gameonspread.jpg",
-    "description": "Gameonspread — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/books/gameon/gameonspread2.jpg",
-    "description": "Gameonspread2 — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/icon-master.png",
-    "description": "Icon Master — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/860c0469-8ca9-4c3a-9412-4b6d8237b809.png",
-    "description": "860c0469 8ca9 4c3a 9412 4b6d8237b809 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/amazon-32.png",
-    "description": "Amazon 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/bookmark-6-32.png",
-    "description": "Bookmark 6 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/darenprince-icon.svg",
-    "description": "Darenprince Icon — icon mark (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/icons/facebook-32.png",
-    "description": "Facebook 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-144x144.png",
-    "description": "Android Chrome 144x144 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-192x192.png",
-    "description": "Android Chrome 192x192 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-256x256.png",
-    "description": "Android Chrome 256x256 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-36x36.png",
-    "description": "Android Chrome 36x36 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-384x384.png",
-    "description": "Android Chrome 384x384 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-48x48.png",
-    "description": "Android Chrome 48x48 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-512x512.png",
-    "description": "Android Chrome 512x512 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-72x72.png",
-    "description": "Android Chrome 72x72 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/android-chrome-96x96.png",
-    "description": "Android Chrome 96x96 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-1024x1024.png",
-    "description": "Apple Touch Icon 1024x1024 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-114x114.png",
-    "description": "Apple Touch Icon 114x114 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-120x120.png",
-    "description": "Apple Touch Icon 120x120 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-144x144.png",
-    "description": "Apple Touch Icon 144x144 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-152x152.png",
-    "description": "Apple Touch Icon 152x152 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-167x167.png",
-    "description": "Apple Touch Icon 167x167 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-180x180.png",
-    "description": "Apple Touch Icon 180x180 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-57x57.png",
-    "description": "Apple Touch Icon 57x57 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-60x60.png",
-    "description": "Apple Touch Icon 60x60 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-72x72.png",
-    "description": "Apple Touch Icon 72x72 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-76x76.png",
-    "description": "Apple Touch Icon 76x76 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon-precomposed.png",
-    "description": "Apple Touch Icon Precomposed — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-icon.png",
-    "description": "Apple Touch Icon — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1125x2436.png",
-    "description": "Apple Touch Startup Image 1125x2436 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1136x640.png",
-    "description": "Apple Touch Startup Image 1136x640 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1170x2532.png",
-    "description": "Apple Touch Startup Image 1170x2532 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1179x2556.png",
-    "description": "Apple Touch Startup Image 1179x2556 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1242x2208.png",
-    "description": "Apple Touch Startup Image 1242x2208 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1242x2688.png",
-    "description": "Apple Touch Startup Image 1242x2688 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1284x2778.png",
-    "description": "Apple Touch Startup Image 1284x2778 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1290x2796.png",
-    "description": "Apple Touch Startup Image 1290x2796 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1334x750.png",
-    "description": "Apple Touch Startup Image 1334x750 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1488x2266.png",
-    "description": "Apple Touch Startup Image 1488x2266 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1536x2048.png",
-    "description": "Apple Touch Startup Image 1536x2048 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1620x2160.png",
-    "description": "Apple Touch Startup Image 1620x2160 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1640x2160.png",
-    "description": "Apple Touch Startup Image 1640x2160 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1668x2224.png",
-    "description": "Apple Touch Startup Image 1668x2224 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1668x2388.png",
-    "description": "Apple Touch Startup Image 1668x2388 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-1792x828.png",
-    "description": "Apple Touch Startup Image 1792x828 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2048x1536.png",
-    "description": "Apple Touch Startup Image 2048x1536 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2048x2732.png",
-    "description": "Apple Touch Startup Image 2048x2732 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2160x1620.png",
-    "description": "Apple Touch Startup Image 2160x1620 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2160x1640.png",
-    "description": "Apple Touch Startup Image 2160x1640 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2208x1242.png",
-    "description": "Apple Touch Startup Image 2208x1242 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2224x1668.png",
-    "description": "Apple Touch Startup Image 2224x1668 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2266x1488.png",
-    "description": "Apple Touch Startup Image 2266x1488 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2388x1668.png",
-    "description": "Apple Touch Startup Image 2388x1668 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2436x1125.png",
-    "description": "Apple Touch Startup Image 2436x1125 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2532x1170.png",
-    "description": "Apple Touch Startup Image 2532x1170 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2556x1179.png",
-    "description": "Apple Touch Startup Image 2556x1179 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2688x1242.png",
-    "description": "Apple Touch Startup Image 2688x1242 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2732x2048.png",
-    "description": "Apple Touch Startup Image 2732x2048 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2778x1284.png",
-    "description": "Apple Touch Startup Image 2778x1284 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-2796x1290.png",
-    "description": "Apple Touch Startup Image 2796x1290 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-640x1136.png",
-    "description": "Apple Touch Startup Image 640x1136 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-750x1334.png",
-    "description": "Apple Touch Startup Image 750x1334 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/apple-touch-startup-image-828x1792.png",
-    "description": "Apple Touch Startup Image 828x1792 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/favicon-16x16.png",
-    "description": "Favicon 16x16 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/favicon-32x32.png",
-    "description": "Favicon 32x32 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/favicon-48x48.png",
-    "description": "Favicon 48x48 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/mstile-144x144.png",
-    "description": "Mstile 144x144 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/mstile-150x150.png",
-    "description": "Mstile 150x150 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/mstile-310x150.png",
-    "description": "Mstile 310x150 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/mstile-310x310.png",
-    "description": "Mstile 310x310 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/mstile-70x70.png",
-    "description": "Mstile 70x70 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/generated/yandex-browser-50x50.png",
-    "description": "Yandex Browser 50x50 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/icon-master.PNG",
-    "description": "Icon Master — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/IMG_7025.svg",
-    "description": "IMG 7025 — icon mark (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/icons/person-with-green-blue-logo-that-says-name_1076610-66914 Medium 2.png",
-    "description": "Person With Green Blue Logo That Says Name 1076610 66914 Medium 2 — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/read-message-32.png",
-    "description": "Read Message 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/safari-pinned-tab.svg",
-    "description": "Safari Pinned Tab — icon mark (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/icons/tiktok-32.png",
-    "description": "Tiktok 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/twitter-x-32.png",
-    "description": "Twitter X 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/icons/youtube-32.png",
-    "description": "Youtube 32 — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg",
-    "description": "041D9198 C3A3 4B32 8321 C7E0B5C6F621 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png",
-    "description": "05320CFA 0D08 4630 B4D0 40FF84B542D3 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/07E3BF89-7E81-46E4-BC13-3E0112A9B922.png",
-    "description": "07E3BF89 7E81 46E4 BC13 3E0112A9B922 — core site image asset (PNG).",
-    "tags": [
-      "crowncode.ai",
-      "3d icon",
-      "app listing",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/0C09C716-0473-4C63-9233-A428B6E82F5D.png",
-    "description": "0C09C716 0473 4C63 9233 A428B6E82F5D — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/12AC1A26-295F-4A11-BF6C-49C8576DC05A.png",
-    "description": "12AC1A26 295F 4A11 BF6C 49C8576DC05A — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png",
-    "description": "28D4FFEB D071 419E A5C9 8CCE7D9F3734 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png",
-    "description": "2AA31BBC 1B94 4459 8B4E E20162EDC5FD — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/360rotate.png",
-    "description": "360rotate — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/3d-book-bg-1.png",
-    "description": "3d Book Bg 1 — book cover or publication visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/3d-book-bg-3.png",
-    "description": "3d Book Bg 3 — book cover or publication visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/46BD1A8C-A2F4-4CE2-B6C8-FDC3BD89DAD4.png",
-    "description": "46BD1A8C A2F4 4CE2 B6C8 FDC3BD89DAD4 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/4845D1B4-0A5A-4910-97C7-36E1ABBFB2B8.jpeg",
-    "description": "4845D1B4 0A5A 4910 97C7 36E1ABBFB2B8 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/50DB3780-2932-4E9A-9C6B-2C85FA96E25E.png",
-    "description": "50DB3780 2932 4E9A 9C6B 2C85FA96E25E — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/54FE04FB-8129-4A75-B36A-EFC30AAE1B88.png",
-    "description": "54FE04FB 8129 4A75 B36A EFC30AAE1B88 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/67122CBB-5166-49C1-8D25-C74BACC17D0D.png",
-    "description": "67122CBB 5166 49C1 8D25 C74BACC17D0D — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/6EB17DE7-A3BB-4BD7-A42C-793FA45F8864.png",
-    "description": "6EB17DE7 A3BB 4BD7 A42C 793FA45F8864 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/6F163EF2-39D8-4F28-957E-478A9DF02F88.png",
-    "description": "6F163EF2 39D8 4F28 957E 478A9DF02F88 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/76E94773-A0FB-4FAA-8038-CCCE041132A8.png",
-    "description": "76E94773 A0FB 4FAA 8038 CCCE041132A8 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/8701F58A-98C5-4652-9265-42D89704FEB1.png",
-    "description": "8701F58A 98C5 4652 9265 42D89704FEB1 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png",
-    "description": "893D3E8C 43EC 4D55 B640 795BFCBFCCF8 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/8AFD6649-62F8-4C57-BCB5-8EABE7BCA3CD.png",
-    "description": "8AFD6649 62F8 4C57 BCB5 8EABE7BCA3CD — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/97FFB3B6-7814-4855-9C2C-A4693D0CA8CB.jpeg",
-    "description": "97FFB3B6 7814 4855 9C2C A4693D0CA8CB — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
-    "description": "B93001C0 650C 4E55 AF4D 04A402D582FF — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/BDADA50F-879D-4EB3-9390-E9E4C9D25FA6.png",
-    "description": "BDADA50F 879D 4EB3 9390 E9E4C9D25FA6 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/bg-mobile.jpg",
-    "description": "Bg Mobile — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/bg-mobile2.jpg",
-    "description": "Bg Mobile2 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/bg.jpg",
-    "description": "Bg — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/bg2.jpg",
-    "description": "Bg2 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/book-back.jpg",
-    "description": "Book Back — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/book-front.jpg",
-    "description": "Book Front — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/book-spine.jpg",
-    "description": "Book Spine — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/books/codependency-cover.svg",
-    "description": "Codependency Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/books/game-on-cover.svg",
-    "description": "Game On Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/books/power-of-choice-cover.svg",
-    "description": "Power Of Choice Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/books/rooted-cover.svg",
-    "description": "Rooted Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/books/too-much-cover.svg",
-    "description": "Too Much Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/books/unshakeable-cover.svg",
-    "description": "Unshakeable Cover — book cover or publication visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/C9979D08-3570-4242-AB5D-3E8FF808CAC3.png",
-    "description": "C9979D08 3570 4242 AB5D 3E8FF808CAC3 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Copy of CASE_LAMINATE_6.000x9.000_256_BW_WHITE_en_US.pdf (14.343 x 10.416 in).jpeg",
-    "description": "Copy Of CASE LAMINATE 6.000x9.000 256 BW WHITE En US.Pdf (14.343 X 10.416 In) — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/Copy of CASE_LAMINATE_6.000x9.000_256_BW_WHITE_en_US.pdf (14.343 x 10.416 in).png",
-    "description": "Copy Of CASE LAMINATE 6.000x9.000 256 BW WHITE En US.Pdf (14.343 X 10.416 In) — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Copy of DAREN PRINCE (6.925 x 9.125 in) (Mobile Video).png",
-    "description": "Copy Of DAREN PRINCE (6.925 X 9.125 In) (Mobile Video) — profile portrait visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Copy of STEP YOUR GAME UP (1080 x 1920 px).png",
-    "description": "Copy Of STEP YOUR GAME UP (1080 X 1920 Px) — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/CrownPsych.png",
-    "description": "CrownPsych — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/D9632A11-808C-43D1-992D-6C413E3F3AF4.png",
-    "description": "D9632A11 808C 43D1 992D 6C413E3F3AF4 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Daren Prince  Official Site of the Author.png",
-    "description": "Daren Prince Official Site Of The Author — profile portrait visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/DAREN PRINCE (6.925 x 9.125 in).png.jpeg",
-    "description": "DAREN PRINCE (6.925 X 9.125 In).Png — profile portrait visual (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/daren-prince-profile-lg.jpg",
-    "description": "Daren Prince Profile Lg — profile portrait visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/daren-prince-profile-sm.jpg",
-    "description": "Daren Prince Profile Sm — profile portrait visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/download-center-heading.png",
-    "description": "Download Center Heading — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/F1B418FA-4D83-4684-9599-1CF1D20306A4.png",
-    "description": "F1B418FA 4D83 4684 9599 1CF1D20306A4 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/fullhero3.png",
-    "description": "Fullhero3 — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/fullhero4.png",
-    "description": "Fullhero4 — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/game-on-back-cover.jpg",
-    "description": "Game On Back Cover — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/game-on-logo-limewhite-neon.png",
-    "description": "Game On Logo Limewhite Neon — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/game-on-main-cover.png",
-    "description": "Game On Main Cover — book cover or publication visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/game-on-spine.jpg",
-    "description": "Game On Spine — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/gameonallformats.png",
-    "description": "Gameonallformats — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Hero-bg.PNG",
-    "description": "Hero Bg — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/hero-poster-bg-blank.jpg",
-    "description": "Hero Poster Bg Blank — hero banner visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/heroposter1.png",
-    "description": "Heroposter1 — hero banner visual (PNG).",
-    "tags": [
-      "game on",
-      "hero",
-      "book promo",
-      "psychology of real connection",
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/heroposter2.png",
-    "description": "Heroposter2 — hero banner visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/hotaghead.png",
-    "description": "Hotaghead — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/icon-master.PNG",
-    "description": "Icon Master — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0079.png",
-    "description": "IMG 0079 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0080.png",
-    "description": "IMG 0080 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0088.png",
-    "description": "IMG 0088 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0092.png",
-    "description": "IMG 0092 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0095.png",
-    "description": "IMG 0095 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0237.jpeg",
-    "description": "IMG 0237 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0267.png",
-    "description": "IMG 0267 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0284.jpeg",
-    "description": "IMG 0284 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0287.jpeg",
-    "description": "IMG 0287 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0288.jpeg",
-    "description": "IMG 0288 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0290.png",
-    "description": "IMG 0290 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0307.png",
-    "description": "IMG 0307 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_0308.png",
-    "description": "IMG 0308 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_1925.jpeg",
-    "description": "IMG 1925 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_1928.jpeg",
-    "description": "IMG 1928 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_1935.jpeg",
-    "description": "IMG 1935 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_4356.jpeg",
-    "description": "IMG 4356 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_4367.jpeg",
-    "description": "IMG 4367 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_4870.jpeg",
-    "description": "IMG 4870 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_5133.png",
-    "description": "IMG 5133 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_5134.png",
-    "description": "IMG 5134 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6099.jpeg",
-    "description": "IMG 6099 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6127.png",
-    "description": "IMG 6127 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6227.jpeg",
-    "description": "IMG 6227 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6241.jpeg",
-    "description": "IMG 6241 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6242.jpeg",
-    "description": "IMG 6242 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6244.jpeg",
-    "description": "IMG 6244 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6246.jpeg",
-    "description": "IMG 6246 — core site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6256.png",
-    "description": "IMG 6256 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6261.JPG",
-    "description": "IMG 6261 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6262.JPG",
-    "description": "IMG 6262 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6263.JPG",
-    "description": "IMG 6263 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6264.JPG",
-    "description": "IMG 6264 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6265.JPG",
-    "description": "IMG 6265 — core site image asset (JPG).",
-    "tags": [
-      "3d modal background",
-      "viewer backdrop",
-      "texture",
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6266.JPG",
-    "description": "IMG 6266 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6267.JPG",
-    "description": "IMG 6267 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6268.JPG",
-    "description": "IMG 6268 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6269.JPG",
-    "description": "IMG 6269 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_6270.JPG",
-    "description": "IMG 6270 — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_8863.png",
-    "description": "IMG 8863 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/IMG_8952.png",
-    "description": "IMG 8952 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/levelup.png",
-    "description": "Levelup — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/levelup2.png",
-    "description": "Levelup2 — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/NavLogo.PNG",
-    "description": "NavLogo — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/og-daren-prince.png",
-    "description": "Og Daren Prince — social sharing preview graphic (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/og-image.jpg",
-    "description": "Og Image — social sharing preview graphic (JPG).",
-    "tags": [
-      "social sharing",
-      "open graph",
-      "twitter card",
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/paperside.jpg",
-    "description": "Paperside — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/placeholders/book-3d.jpg",
-    "description": "Book 3d — book cover or publication visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/placeholders/crown-labs-app-icon-placeholder.svg",
-    "description": "Crown Labs App Icon Placeholder — icon mark (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/images/placeholders/video-thumbnail.jpg",
-    "description": "Video Thumbnail — placeholder image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/presskit-thumb-portrait.jpg",
-    "description": "Presskit Thumb Portrait — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/presskit-thumb.jpg",
-    "description": "Presskit Thumb — core site image asset (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/—Pngtree—football field_17277639.png",
-    "description": "—Pngtree—Football Field 17277639 — background texture visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/071a03eaaed1c94c3e99abad0f64a7e5.jpg",
-    "description": "071a03eaaed1c94c3e99abad0f64a7e5 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/0b2ee1fe0cde1bf375ed4dc14cf45340.jpg",
-    "description": "0b2ee1fe0cde1bf375ed4dc14cf45340 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/0e2b59d1b76f3074a57df299a200d2ac.jpg",
-    "description": "0e2b59d1b76f3074a57df299a200d2ac — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/109d05be002efdab0919c8f061752144.jpg",
-    "description": "109d05be002efdab0919c8f061752144 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/21950c663e716caf4cb0f50c048adf8d.jpg",
-    "description": "21950c663e716caf4cb0f50c048adf8d — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/307cb36dd9644b220dcc2e5814c1f6fb.jpg",
-    "description": "307cb36dd9644b220dcc2e5814c1f6fb — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/4665526e8283ce13e4c5024fac2b5bbb.jpg",
-    "description": "4665526e8283ce13e4c5024fac2b5bbb — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/4da1354e6ea3cf4bcbcad6200c5b6b0e (1).jpg",
-    "description": "4da1354e6ea3cf4bcbcad6200c5b6b0e (1) — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/4da1354e6ea3cf4bcbcad6200c5b6b0e.jpg",
-    "description": "4da1354e6ea3cf4bcbcad6200c5b6b0e — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg",
-    "description": "648b712e0ab619560c51b1d55f162fc2 (1) — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2.jpg",
-    "description": "648b712e0ab619560c51b1d55f162fc2 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/7247ecdd67da3beadc2d3f17ce1fecd2.jpg",
-    "description": "7247ecdd67da3beadc2d3f17ce1fecd2 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/74f6df91b8aca7994306f0f8272c19aa.jpg",
-    "description": "74f6df91b8aca7994306f0f8272c19aa — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/76c122ccdf04e9fb209d59c2fe4966f0.jpg",
-    "description": "76c122ccdf04e9fb209d59c2fe4966f0 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/77009ce6c93e337414c2f4c1796a3774.jpg",
-    "description": "77009ce6c93e337414c2f4c1796a3774 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/8741feeddeff0d8ba5483eb407b28cf3.jpg",
-    "description": "8741feeddeff0d8ba5483eb407b28cf3 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/8ecfcc487ebc0aaf6864f551e0397d26.jpg",
-    "description": "8ecfcc487ebc0aaf6864f551e0397d26 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/9ebca8a210eea9dbc7c3daef76f3f76d.jpg",
-    "description": "9ebca8a210eea9dbc7c3daef76f3f76d — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/9fdbca3606549104b58c5cfcea9add30.jpg",
-    "description": "9fdbca3606549104b58c5cfcea9add30 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/b7c5dff29e1ac5d795763b679aa0f6ed.jpg",
-    "description": "B7c5dff29e1ac5d795763b679aa0f6ed — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/bc72a06c02787be02a3d838d93bcd82b.jpg",
-    "description": "Bc72a06c02787be02a3d838d93bcd82b — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/be55aa17fc66af8806d7b3f5a2a13a95.jpg",
-    "description": "Be55aa17fc66af8806d7b3f5a2a13a95 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/c07bbdff29d8e9979056a4be039c9d90.jpg",
-    "description": "C07bbdff29d8e9979056a4be039c9d90 — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/c1e63505942a1c54b52c56cb3933bc1f.jpg",
-    "description": "C1e63505942a1c54b52c56cb3933bc1f — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/cbad6b12cb5c4ba29d1a55a3f2685a6a.jpg",
-    "description": "Cbad6b12cb5c4ba29d1a55a3f2685a6a — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/cdb2a7b0fb1cf8693eaebf125d2b52af (1).jpg",
-    "description": "Cdb2a7b0fb1cf8693eaebf125d2b52af (1) — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/cdb2a7b0fb1cf8693eaebf125d2b52af.jpg",
-    "description": "Cdb2a7b0fb1cf8693eaebf125d2b52af — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/fe6d1bb9b6d4e853b4154d432c39b29e.jpg",
-    "description": "Fe6d1bb9b6d4e853b4154d432c39b29e — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/sitebg/Grey Wall.jpg",
-    "description": "Grey Wall — background texture visual (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "assets/images/thank-you-graphic.png",
-    "description": "Thank You Graphic — core site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/THE DATING PLAYBOOK (14.34 x 10.417 in).png.jpeg",
-    "description": "THE DATING PLAYBOOK (14.34 X 10.417 In).Png — book cover or publication visual (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "assets/images/Touch_rotate_icon.PNG",
-    "description": "Touch Rotate Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/images/Updated icon.PNG",
-    "description": "Updated Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png",
-    "description": "2Daren Web Logo White For Dark Background — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/amazon.png",
-    "description": "Amazon — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/goodreads.png",
-    "description": "Goodreads — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/googleplay.png",
-    "description": "Googleplay — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/ibooks.png",
-    "description": "Ibooks — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-footer-white.png",
-    "description": "Logo Footer White — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-hires-black-for-light-bg.svg",
-    "description": "Logo Hires Black For Light Bg — brand logo treatment (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-hires-white-for-dark-bg.svg",
-    "description": "Logo Hires White For Dark Bg — brand logo treatment (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-hires.svg",
-    "description": "Logo Hires — brand logo treatment (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-web-for-dark-bg.png",
-    "description": "Logo Web For Dark Bg — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-web-for-light-bg.png",
-    "description": "Logo Web For Light Bg — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-web.png",
-    "description": "Logo Web — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo-white.png",
-    "description": "Logo White — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/logo.png",
-    "description": "Logo — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/logos/tagline.png",
-    "description": "Tagline — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "assets/Touch_rotate_icon.PNG",
-    "description": "Touch Rotate Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "ccaiog.JPG",
-    "description": "Ccaiog — social sharing preview graphic (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "ChatGPT Image Jan 8, 2026, 12_10_30 PM.png",
-    "description": "ChatGPT Image Jan 8, 2026, 12 10 30 PM — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "crowncode_red_3d_icon.png",
-    "description": "Crowncode Red 3d Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "desktopui-Nobg.PNG",
-    "description": "Desktopui Nobg — background texture visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "desktopui.PNG",
-    "description": "Desktopui — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/911-ogimage.svg",
-    "description": "911 Ogimage — social sharing preview graphic (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "emergency-911/CrownSOS-icon.PNG",
-    "description": "CrownSOS Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/CrownSOS-logo.PNG",
-    "description": "CrownSOS Logo — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/favicon/android-chrome-192x192.png",
-    "description": "Android Chrome 192x192 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/favicon/android-chrome-512x512.png",
-    "description": "Android Chrome 512x512 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/favicon/apple-touch-icon.png",
-    "description": "Apple Touch Icon — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/favicon/favicon-16x16.png",
-    "description": "Favicon 16x16 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "emergency-911/favicon/favicon-32x32.png",
-    "description": "Favicon 32x32 — icon mark (PNG).",
-    "tags": [
-      "favicon",
-      "png"
-    ]
-  },
-  {
-    "path": "F2BC6FA3-3989-4F22-A6C2-3607ABC1EB1E.png",
-    "description": "F2BC6FA3 3989 4F22 A6C2 3607ABC1EB1E — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "IMG_0362.png",
-    "description": "IMG 0362 — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "IMG_4932.jpeg",
-    "description": "IMG 4932 — site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "IMG_4935.jpeg",
-    "description": "IMG 4935 — site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "IMG_4939.jpeg",
-    "description": "IMG 4939 — site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "IMG_7488.jpeg",
-    "description": "IMG 7488 — site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "IMG_7490.jpeg",
-    "description": "IMG 7490 — site image asset (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "labs/assets/ChatGPT Image Jan 6, 2026, 09_50_31 AM.png",
-    "description": "ChatGPT Image Jan 6, 2026, 09 50 31 AM — labs promotional visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/assets/crown-labs-logo.png",
-    "description": "Crown Labs Logo — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/assets/labs-favicon.svg",
-    "description": "Labs Favicon — icon mark (SVG).",
-    "tags": [
-      "favicon",
-      "svg"
-    ]
-  },
-  {
-    "path": "labs/assets/labs-opengraph.svg",
-    "description": "Labs Opengraph — labs promotional visual (SVG).",
-    "tags": [
-      "svg"
-    ]
-  },
-  {
-    "path": "labs/crowncode/icons/crowncode-fav.png",
-    "description": "Crowncode Fav — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/icons/crowncode-fav.png.PNG",
-    "description": "Crowncode Fav.Png — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/icons/Updated icon.PNG",
-    "description": "Updated Icon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/07E2F1A4-0CF3-44A8-95F7-E9175EA5DA1F.png",
-    "description": "07E2F1A4 0CF3 44A8 95F7 E9175EA5DA1F — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/1F7289CE-4AD2-4AAC-AFB4-26A34DE47312.png",
-    "description": "1F7289CE 4AD2 4AAC AFB4 26A34DE47312 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/3D002D9C-FCF0-4687-8FFD-88D49FC4F895.png",
-    "description": "3D002D9C FCF0 4687 8FFD 88D49FC4F895 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/449B5B0C-3BCD-483F-A6BC-B2CE2EF417CD.png",
-    "description": "449B5B0C 3BCD 483F A6BC B2CE2EF417CD — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/55522274-9716-46B4-A76C-0A18D263F523.png",
-    "description": "55522274 9716 46B4 A76C 0A18D263F523 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/5B15F2D2-D536-4C4B-9E8C-67F2446A1209.png",
-    "description": "5B15F2D2 D536 4C4B 9E8C 67F2446A1209 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/650E58FB-103C-4FF0-BEC6-39A68EEAE004.png",
-    "description": "650E58FB 103C 4FF0 BEC6 39A68EEAE004 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/752EB867-06B8-4A67-8D49-8E133376C591.png",
-    "description": "752EB867 06B8 4A67 8D49 8E133376C591 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/905437AD-6656-4AD8-B5A6-CF08F6199F27.png",
-    "description": "905437AD 6656 4AD8 B5A6 CF08F6199F27 — CrownCode lab visual (PNG).",
-    "tags": [
-      "crowncode.ai",
-      "intelligence suite",
-      "official seal",
-      "white logo",
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/91B49933-4907-452C-A9C1-0B4E1705209E.png",
-    "description": "91B49933 4907 452C A9C1 0B4E1705209E — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/B11DEE4D-D5FB-4830-8E3A-D6A9224643C4.jpeg",
-    "description": "B11DEE4D D5FB 4830 8E3A D6A9224643C4 — CrownCode lab visual (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/ccaiog.JPG",
-    "description": "Ccaiog — social sharing preview graphic (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/Crowncode-OG.png",
-    "description": "Crowncode OG — social sharing preview graphic (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/Crowncode-OG.png.PNG",
-    "description": "Crowncode OG.Png — social sharing preview graphic (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/desktopui-Nobg.PNG",
-    "description": "Desktopui Nobg — background texture visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_5758.png",
-    "description": "IMG 5758 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_5859.png",
-    "description": "IMG 5859 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_5875.jpeg",
-    "description": "IMG 5875 — CrownCode lab visual (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_5895.png",
-    "description": "IMG 5895 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_5916.png",
-    "description": "IMG 5916 — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/IMG_7485.jpeg",
-    "description": "IMG 7485 — CrownCode lab visual (JPEG).",
-    "tags": [
-      "jpeg"
-    ]
-  },
-  {
-    "path": "labs/crowncode/images/Untitled design.png",
-    "description": "Untitled Design — CrownCode lab visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "Picdetective/detbg.PNG",
-    "description": "Detbg — background texture visual (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "Picdetective/deticon.png",
-    "description": "Deticon — icon mark (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "Picdetective/detlogin.jpg",
-    "description": "Detlogin — social sharing preview graphic (JPG).",
-    "tags": [
-      "jpg"
-    ]
-  },
-  {
-    "path": "Picdetective/detlogo.PNG",
-    "description": "Detlogo — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "Picdetective/detlogo2.PNG",
-    "description": "Detlogo2 — brand logo treatment (PNG).",
-    "tags": [
-      "png"
-    ]
-  },
-  {
-    "path": "Touchrotate.PNG",
-    "description": "Touchrotate — site image asset (PNG).",
-    "tags": [
-      "png"
-    ]
-  }
-]
+{
+  "generatedAt": "2026-05-06T08:29:07.069Z",
+  "imageCount": 290,
+  "images": [
+    {
+      "path": "3CDFD294-60F1-40E2-8BA9-8E06E5CE0876.png",
+      "description": "3CDFD294 60F1 40E2 8BA9 8E06E5CE0876 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "89B65A69-4FEC-4B19-8691-87FB664C35B5.png",
+      "description": "89B65A69 4FEC 4B19 8691 87FB664C35B5 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
+      "description": "B93001C0 650C 4E55 AF4D 04A402D582FF — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/crown-code-new-red-icon-wtext.png",
+      "description": "Crown Code New Red Icon Wtext — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/crownicon.PNG",
+      "description": "Crownicon — icon mark (PNG).",
+      "tags": [
+        "crown labs",
+        "app icon",
+        "favicon",
+        "squircle",
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/IMG_0267.png",
+      "description": "IMG 0267 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/lumilogix-hero.png",
+      "description": "Lumilogix Hero — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/op-phoenix-icon.png",
+      "description": "Op Phoenix Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "app icons/pic-det-icon.png",
+      "description": "Pic Det Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "archive/Hero-bg.PNG",
+      "description": "Hero Bg — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/all_badges_logos.png",
+      "description": "All Badges Logos — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/amazon_a.png",
+      "description": "Amazon A — retailer badge asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/amazon_kindle_badge.png",
+      "description": "Amazon Kindle Badge — retailer badge asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/audible_badge.png",
+      "description": "Audible Badge — retailer badge asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/available_on_amazon.png",
+      "description": "Available On Amazon — retailer badge asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/badges/IMG_1933.jpeg",
+      "description": "IMG 1933 — retailer badge asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/books/gameon/gameonspread.jpg",
+      "description": "Gameonspread — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/books/gameon/gameonspread2.jpg",
+      "description": "Gameonspread2 — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/icon-master.png",
+      "description": "Icon Master — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/860c0469-8ca9-4c3a-9412-4b6d8237b809.png",
+      "description": "860c0469 8ca9 4c3a 9412 4b6d8237b809 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/amazon-32.png",
+      "description": "Amazon 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/bookmark-6-32.png",
+      "description": "Bookmark 6 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/darenprince-icon.svg",
+      "description": "Darenprince Icon — icon mark (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/icons/facebook-32.png",
+      "description": "Facebook 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/icon-master.PNG",
+      "description": "Icon Master — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/IMG_7025.svg",
+      "description": "IMG 7025 — icon mark (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/icons/person-with-green-blue-logo-that-says-name_1076610-66914 Medium 2.png",
+      "description": "Person With Green Blue Logo That Says Name 1076610 66914 Medium 2 — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/read-message-32.png",
+      "description": "Read Message 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/safari-pinned-tab.svg",
+      "description": "Safari Pinned Tab — icon mark (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/icons/tiktok-32.png",
+      "description": "Tiktok 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/twitter-x-32.png",
+      "description": "Twitter X 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/youtube-32.png",
+      "description": "Youtube 32 — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/041D9198-C3A3-4B32-8321-C7E0B5C6F621.jpeg",
+      "description": "041D9198 C3A3 4B32 8321 C7E0B5C6F621 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png",
+      "description": "05320CFA 0D08 4630 B4D0 40FF84B542D3 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/07E3BF89-7E81-46E4-BC13-3E0112A9B922.png",
+      "description": "07E3BF89 7E81 46E4 BC13 3E0112A9B922 — core site image asset (PNG).",
+      "tags": [
+        "crowncode.ai",
+        "3d icon",
+        "app listing",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png",
+      "description": "09B332D7 924A 4FE6 A9C0 3380DCD5C861 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/0C09C716-0473-4C63-9233-A428B6E82F5D.png",
+      "description": "0C09C716 0473 4C63 9233 A428B6E82F5D — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/12AC1A26-295F-4A11-BF6C-49C8576DC05A.png",
+      "description": "12AC1A26 295F 4A11 BF6C 49C8576DC05A — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/1350ED50-5F28-4916-8FC2-D12AF16AF657.png",
+      "description": "1350ED50 5F28 4916 8FC2 D12AF16AF657 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/14D848A7-793E-426F-9C98-7BDF2DFA9F40.png",
+      "description": "14D848A7 793E 426F 9C98 7BDF2DFA9F40 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/1A09DFA5-D557-45DB-8F58-1E95306EAC79.png",
+      "description": "1A09DFA5 D557 45DB 8F58 1E95306EAC79 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/1A896006-41F9-4D72-AF96-4FE1759B12A1.png",
+      "description": "1A896006 41F9 4D72 AF96 4FE1759B12A1 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/1E6B016D-F3EB-4412-B881-97D0A41E829A.png",
+      "description": "1E6B016D F3EB 4412 B881 97D0A41E829A — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png",
+      "description": "28D4FFEB D071 419E A5C9 8CCE7D9F3734 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/29F3EA4A-4699-49AF-87F0-9169255A5D0E.png",
+      "description": "29F3EA4A 4699 49AF 87F0 9169255A5D0E — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png",
+      "description": "2AA31BBC 1B94 4459 8B4E E20162EDC5FD — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/30F807E6-DA8A-413C-8564-116375DDE082 2.png",
+      "description": "30F807E6 DA8A 413C 8564 116375DDE082 2 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/34F9142F-52BA-4D79-8439-18864826956F.png",
+      "description": "34F9142F 52BA 4D79 8439 18864826956F — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/3569EF39-F84F-4602-AD53-109B49B912D1.png",
+      "description": "3569EF39 F84F 4602 AD53 109B49B912D1 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/360rotate.png",
+      "description": "360rotate — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/369614C7-0374-4409-AD16-E5CCB5CDBDEE.png",
+      "description": "369614C7 0374 4409 AD16 E5CCB5CDBDEE — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/3d-book-bg-1.png",
+      "description": "3d Book Bg 1 — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/3d-book-bg-3.png",
+      "description": "3d Book Bg 3 — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/46BD1A8C-A2F4-4CE2-B6C8-FDC3BD89DAD4.png",
+      "description": "46BD1A8C A2F4 4CE2 B6C8 FDC3BD89DAD4 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/4845D1B4-0A5A-4910-97C7-36E1ABBFB2B8.jpeg",
+      "description": "4845D1B4 0A5A 4910 97C7 36E1ABBFB2B8 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/50DB3780-2932-4E9A-9C6B-2C85FA96E25E.png",
+      "description": "50DB3780 2932 4E9A 9C6B 2C85FA96E25E — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/54FE04FB-8129-4A75-B36A-EFC30AAE1B88.png",
+      "description": "54FE04FB 8129 4A75 B36A EFC30AAE1B88 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/5D653BAF-9C5B-40AA-9E48-C8B4047AC9DF.png",
+      "description": "5D653BAF 9C5B 40AA 9E48 C8B4047AC9DF — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/67122CBB-5166-49C1-8D25-C74BACC17D0D.png",
+      "description": "67122CBB 5166 49C1 8D25 C74BACC17D0D — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/68C78C59-6F7B-4614-9A12-96097D23C3CD.png",
+      "description": "68C78C59 6F7B 4614 9A12 96097D23C3CD — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/6EB17DE7-A3BB-4BD7-A42C-793FA45F8864.png",
+      "description": "6EB17DE7 A3BB 4BD7 A42C 793FA45F8864 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/6F163EF2-39D8-4F28-957E-478A9DF02F88.png",
+      "description": "6F163EF2 39D8 4F28 957E 478A9DF02F88 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/73490FC6-0415-49C5-AE25-D5AA4134552F.png",
+      "description": "73490FC6 0415 49C5 AE25 D5AA4134552F — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/76E94773-A0FB-4FAA-8038-CCCE041132A8.png",
+      "description": "76E94773 A0FB 4FAA 8038 CCCE041132A8 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/80709D22-B140-4052-AECF-1D396961489A.png",
+      "description": "80709D22 B140 4052 AECF 1D396961489A — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/8701F58A-98C5-4652-9265-42D89704FEB1.png",
+      "description": "8701F58A 98C5 4652 9265 42D89704FEB1 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png",
+      "description": "893D3E8C 43EC 4D55 B640 795BFCBFCCF8 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/8AFD6649-62F8-4C57-BCB5-8EABE7BCA3CD.png",
+      "description": "8AFD6649 62F8 4C57 BCB5 8EABE7BCA3CD — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/8C10354E-7B9E-405C-94E2-821FBCFF3680.png",
+      "description": "8C10354E 7B9E 405C 94E2 821FBCFF3680 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/8ECA7C97-1E84-4F76-AE16-158738E4ACAA.png",
+      "description": "8ECA7C97 1E84 4F76 AE16 158738E4ACAA — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/9263BEA5-2393-4A10-8ECB-B576157198BD.png",
+      "description": "9263BEA5 2393 4A10 8ECB B576157198BD — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/97FFB3B6-7814-4855-9C2C-A4693D0CA8CB.jpeg",
+      "description": "97FFB3B6 7814 4855 9C2C A4693D0CA8CB — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/9DBC6C09-A20B-4AA6-A564-CC8686313A38.png",
+      "description": "9DBC6C09 A20B 4AA6 A564 CC8686313A38 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/9E0AC73F-19C7-47B8-B40F-4385CB33AD05.png",
+      "description": "9E0AC73F 19C7 47B8 B40F 4385CB33AD05 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/A62F359B-69AE-4BCC-9848-0011A6DD961C.png",
+      "description": "A62F359B 69AE 4BCC 9848 0011A6DD961C — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/B4EB907F-244D-424C-85B6-06181E19422D.png",
+      "description": "B4EB907F 244D 424C 85B6 06181E19422D — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/B5E30C2F-BB9A-4199-AB26-21A76A9C3D58.png",
+      "description": "B5E30C2F BB9A 4199 AB26 21A76A9C3D58 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
+      "description": "B93001C0 650C 4E55 AF4D 04A402D582FF — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/BDADA50F-879D-4EB3-9390-E9E4C9D25FA6.png",
+      "description": "BDADA50F 879D 4EB3 9390 E9E4C9D25FA6 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/BDB023DD-AA8E-40BD-A010-8229A38A3551.png",
+      "description": "BDB023DD AA8E 40BD A010 8229A38A3551 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/bg-mobile.jpg",
+      "description": "Bg Mobile — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/bg-mobile2.jpg",
+      "description": "Bg Mobile2 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/bg.jpg",
+      "description": "Bg — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/bg2.jpg",
+      "description": "Bg2 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/book-back.jpg",
+      "description": "Book Back — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/book-front.jpg",
+      "description": "Book Front — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/book-spine.jpg",
+      "description": "Book Spine — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/books/codependency-cover.svg",
+      "description": "Codependency Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/books/game-on-cover.svg",
+      "description": "Game On Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/books/power-of-choice-cover.svg",
+      "description": "Power Of Choice Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/books/rooted-cover.svg",
+      "description": "Rooted Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/books/too-much-cover.svg",
+      "description": "Too Much Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/books/unshakeable-cover.svg",
+      "description": "Unshakeable Cover — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/C9979D08-3570-4242-AB5D-3E8FF808CAC3.png",
+      "description": "C9979D08 3570 4242 AB5D 3E8FF808CAC3 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Copy of CASE_LAMINATE_6.000x9.000_256_BW_WHITE_en_US.pdf (14.343 x 10.416 in).jpeg",
+      "description": "Copy Of CASE LAMINATE 6.000x9.000 256 BW WHITE En US.Pdf (14.343 X 10.416 In) — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/Copy of CASE_LAMINATE_6.000x9.000_256_BW_WHITE_en_US.pdf (14.343 x 10.416 in).png",
+      "description": "Copy Of CASE LAMINATE 6.000x9.000 256 BW WHITE En US.Pdf (14.343 X 10.416 In) — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Copy of DAREN PRINCE (6.925 x 9.125 in) (Mobile Video).png",
+      "description": "Copy Of DAREN PRINCE (6.925 X 9.125 In) (Mobile Video) — profile portrait visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Copy of STEP YOUR GAME UP (1080 x 1920 px).png",
+      "description": "Copy Of STEP YOUR GAME UP (1080 X 1920 Px) — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/create-vector-app-icon.png",
+      "description": "Create Vector App Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Crown-Psychology-Wordmark.png",
+      "description": "Crown Psychology Wordmark — social sharing preview graphic (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/CrownPsych.png",
+      "description": "CrownPsych — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/D4769696-5306-4B89-82D3-4026BEB67301.png",
+      "description": "D4769696 5306 4B89 82D3 4026BEB67301 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/D9632A11-808C-43D1-992D-6C413E3F3AF4.png",
+      "description": "D9632A11 808C 43D1 992D 6C413E3F3AF4 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Daren Prince  Official Site of the Author.png",
+      "description": "Daren Prince Official Site Of The Author — profile portrait visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/DAREN PRINCE (6.925 x 9.125 in).png.jpeg",
+      "description": "DAREN PRINCE (6.925 X 9.125 In).Png — profile portrait visual (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/Daren-Prince-communications-bio-hero.PNG",
+      "description": "Daren Prince Communications Bio Hero — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/daren-prince-profile-lg.jpg",
+      "description": "Daren Prince Profile Lg — profile portrait visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/daren-prince-profile-sm.jpg",
+      "description": "Daren Prince Profile Sm — profile portrait visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/download-center-heading.png",
+      "description": "Download Center Heading — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/EA6882C5-BB64-412B-9F58-395D1208F112.png",
+      "description": "EA6882C5 BB64 412B 9F58 395D1208F112 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/EEEEE647-74E8-4875-A78B-D4C4130B4058_Original.png",
+      "description": "EEEEE647 74E8 4875 A78B D4C4130B4058 Original — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/F1B418FA-4D83-4684-9599-1CF1D20306A4.png",
+      "description": "F1B418FA 4D83 4684 9599 1CF1D20306A4 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/fullhero3.png",
+      "description": "Fullhero3 — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/fullhero4.png",
+      "description": "Fullhero4 — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/game-on-back-cover.jpg",
+      "description": "Game On Back Cover — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/game-on-logo-limewhite-neon.png",
+      "description": "Game On Logo Limewhite Neon — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/game-on-main-cover.png",
+      "description": "Game On Main Cover — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/game-on-spine.jpg",
+      "description": "Game On Spine — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/gameonallformats.png",
+      "description": "Gameonallformats — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Hero-bg.PNG",
+      "description": "Hero Bg — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/hero-poster-bg-blank.jpg",
+      "description": "Hero Poster Bg Blank — hero banner visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/heroposter1.png",
+      "description": "Heroposter1 — hero banner visual (PNG).",
+      "tags": [
+        "game on",
+        "hero",
+        "book promo",
+        "psychology of real connection",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/heroposter2.png",
+      "description": "Heroposter2 — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/hotaghead.png",
+      "description": "Hotaghead — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/icon-master.PNG",
+      "description": "Icon Master — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0079.png",
+      "description": "IMG 0079 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0080.png",
+      "description": "IMG 0080 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0088.png",
+      "description": "IMG 0088 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0092.png",
+      "description": "IMG 0092 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0095.png",
+      "description": "IMG 0095 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0237.jpeg",
+      "description": "IMG 0237 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0267.png",
+      "description": "IMG 0267 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0284.jpeg",
+      "description": "IMG 0284 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0287.jpeg",
+      "description": "IMG 0287 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0288.jpeg",
+      "description": "IMG 0288 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0290.png",
+      "description": "IMG 0290 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0307.png",
+      "description": "IMG 0307 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_0308.png",
+      "description": "IMG 0308 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_1925.jpeg",
+      "description": "IMG 1925 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_1928.jpeg",
+      "description": "IMG 1928 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_1935.jpeg",
+      "description": "IMG 1935 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_4356.jpeg",
+      "description": "IMG 4356 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_4367.jpeg",
+      "description": "IMG 4367 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_4870.jpeg",
+      "description": "IMG 4870 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_5133.png",
+      "description": "IMG 5133 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_5134.png",
+      "description": "IMG 5134 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6099.jpeg",
+      "description": "IMG 6099 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6127.png",
+      "description": "IMG 6127 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6227.jpeg",
+      "description": "IMG 6227 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6241.jpeg",
+      "description": "IMG 6241 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6242.jpeg",
+      "description": "IMG 6242 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6244.jpeg",
+      "description": "IMG 6244 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6246.jpeg",
+      "description": "IMG 6246 — core site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6256.png",
+      "description": "IMG 6256 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6261.JPG",
+      "description": "IMG 6261 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6262.JPG",
+      "description": "IMG 6262 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6263.JPG",
+      "description": "IMG 6263 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6264.JPG",
+      "description": "IMG 6264 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6265.JPG",
+      "description": "IMG 6265 — core site image asset (JPG).",
+      "tags": [
+        "3d modal background",
+        "viewer backdrop",
+        "texture",
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6266.JPG",
+      "description": "IMG 6266 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6267.JPG",
+      "description": "IMG 6267 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6268.JPG",
+      "description": "IMG 6268 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6269.JPG",
+      "description": "IMG 6269 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_6270.JPG",
+      "description": "IMG 6270 — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_8863.png",
+      "description": "IMG 8863 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/IMG_8952.png",
+      "description": "IMG 8952 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/levelup.png",
+      "description": "Levelup — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/levelup2.png",
+      "description": "Levelup2 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/logo-brain-symbol-only-crown-psychology.PNG",
+      "description": "Logo Brain Symbol Only Crown Psychology — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/logo-brain-symbol-only-crown-psychology.svg",
+      "description": "Logo Brain Symbol Only Crown Psychology — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/logo.png",
+      "description": "Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/NavLogo.PNG",
+      "description": "NavLogo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/og-daren-prince.png",
+      "description": "Og Daren Prince — social sharing preview graphic (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/og-image.jpg",
+      "description": "Og Image — social sharing preview graphic (JPG).",
+      "tags": [
+        "social sharing",
+        "open graph",
+        "twitter card",
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/paperside.jpg",
+      "description": "Paperside — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/placeholders/book-3d.jpg",
+      "description": "Book 3d — book cover or publication visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/placeholders/crown-labs-app-icon-placeholder.svg",
+      "description": "Crown Labs App Icon Placeholder — icon mark (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/images/placeholders/video-thumbnail.jpg",
+      "description": "Video Thumbnail — placeholder image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/presskit-thumb-portrait.jpg",
+      "description": "Presskit Thumb Portrait — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/presskit-thumb.jpg",
+      "description": "Presskit Thumb — core site image asset (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/—Pngtree—football field_17277639.png",
+      "description": "—Pngtree—Football Field 17277639 — background texture visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/071a03eaaed1c94c3e99abad0f64a7e5.jpg",
+      "description": "071a03eaaed1c94c3e99abad0f64a7e5 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/0b2ee1fe0cde1bf375ed4dc14cf45340.jpg",
+      "description": "0b2ee1fe0cde1bf375ed4dc14cf45340 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/0e2b59d1b76f3074a57df299a200d2ac.jpg",
+      "description": "0e2b59d1b76f3074a57df299a200d2ac — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/109d05be002efdab0919c8f061752144.jpg",
+      "description": "109d05be002efdab0919c8f061752144 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/21950c663e716caf4cb0f50c048adf8d.jpg",
+      "description": "21950c663e716caf4cb0f50c048adf8d — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/307cb36dd9644b220dcc2e5814c1f6fb.jpg",
+      "description": "307cb36dd9644b220dcc2e5814c1f6fb — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/4665526e8283ce13e4c5024fac2b5bbb.jpg",
+      "description": "4665526e8283ce13e4c5024fac2b5bbb — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/4da1354e6ea3cf4bcbcad6200c5b6b0e (1).jpg",
+      "description": "4da1354e6ea3cf4bcbcad6200c5b6b0e (1) — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/4da1354e6ea3cf4bcbcad6200c5b6b0e.jpg",
+      "description": "4da1354e6ea3cf4bcbcad6200c5b6b0e — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2 (1).jpg",
+      "description": "648b712e0ab619560c51b1d55f162fc2 (1) — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/648b712e0ab619560c51b1d55f162fc2.jpg",
+      "description": "648b712e0ab619560c51b1d55f162fc2 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/7247ecdd67da3beadc2d3f17ce1fecd2.jpg",
+      "description": "7247ecdd67da3beadc2d3f17ce1fecd2 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/74f6df91b8aca7994306f0f8272c19aa.jpg",
+      "description": "74f6df91b8aca7994306f0f8272c19aa — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/76c122ccdf04e9fb209d59c2fe4966f0.jpg",
+      "description": "76c122ccdf04e9fb209d59c2fe4966f0 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/77009ce6c93e337414c2f4c1796a3774.jpg",
+      "description": "77009ce6c93e337414c2f4c1796a3774 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/8741feeddeff0d8ba5483eb407b28cf3.jpg",
+      "description": "8741feeddeff0d8ba5483eb407b28cf3 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/8ecfcc487ebc0aaf6864f551e0397d26.jpg",
+      "description": "8ecfcc487ebc0aaf6864f551e0397d26 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/9ebca8a210eea9dbc7c3daef76f3f76d.jpg",
+      "description": "9ebca8a210eea9dbc7c3daef76f3f76d — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/9fdbca3606549104b58c5cfcea9add30.jpg",
+      "description": "9fdbca3606549104b58c5cfcea9add30 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/b7c5dff29e1ac5d795763b679aa0f6ed.jpg",
+      "description": "B7c5dff29e1ac5d795763b679aa0f6ed — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/bc72a06c02787be02a3d838d93bcd82b.jpg",
+      "description": "Bc72a06c02787be02a3d838d93bcd82b — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/be55aa17fc66af8806d7b3f5a2a13a95.jpg",
+      "description": "Be55aa17fc66af8806d7b3f5a2a13a95 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/c07bbdff29d8e9979056a4be039c9d90.jpg",
+      "description": "C07bbdff29d8e9979056a4be039c9d90 — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/c1e63505942a1c54b52c56cb3933bc1f.jpg",
+      "description": "C1e63505942a1c54b52c56cb3933bc1f — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/cbad6b12cb5c4ba29d1a55a3f2685a6a.jpg",
+      "description": "Cbad6b12cb5c4ba29d1a55a3f2685a6a — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/cdb2a7b0fb1cf8693eaebf125d2b52af (1).jpg",
+      "description": "Cdb2a7b0fb1cf8693eaebf125d2b52af (1) — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/cdb2a7b0fb1cf8693eaebf125d2b52af.jpg",
+      "description": "Cdb2a7b0fb1cf8693eaebf125d2b52af — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/fe6d1bb9b6d4e853b4154d432c39b29e.jpg",
+      "description": "Fe6d1bb9b6d4e853b4154d432c39b29e — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/sitebg/Grey Wall.jpg",
+      "description": "Grey Wall — background texture visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/images/thank-you-graphic.png",
+      "description": "Thank You Graphic — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/THE DATING PLAYBOOK (14.34 x 10.417 in).png.jpeg",
+      "description": "THE DATING PLAYBOOK (14.34 X 10.417 In).Png — book cover or publication visual (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "assets/images/Touch_rotate_icon.PNG",
+      "description": "Touch Rotate Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Untitled design - 1.png",
+      "description": "Untitled Design 1 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Untitled design.png",
+      "description": "Untitled Design — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Updated icon.PNG",
+      "description": "Updated Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png",
+      "description": "2Daren Web Logo White For Dark Background — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/amazon.png",
+      "description": "Amazon — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/goodreads.png",
+      "description": "Goodreads — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/googleplay.png",
+      "description": "Googleplay — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/ibooks.png",
+      "description": "Ibooks — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-footer-white.png",
+      "description": "Logo Footer White — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-hires-black-for-light-bg.svg",
+      "description": "Logo Hires Black For Light Bg — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-hires-white-for-dark-bg.svg",
+      "description": "Logo Hires White For Dark Bg — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-hires.svg",
+      "description": "Logo Hires — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-web-for-dark-bg.png",
+      "description": "Logo Web For Dark Bg — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-web-for-light-bg.png",
+      "description": "Logo Web For Light Bg — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-web.png",
+      "description": "Logo Web — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo-white.png",
+      "description": "Logo White — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/logo.png",
+      "description": "Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/logos/tagline.png",
+      "description": "Tagline — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/Touch_rotate_icon.PNG",
+      "description": "Touch Rotate Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "ccaiog.JPG",
+      "description": "Ccaiog — social sharing preview graphic (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "ChatGPT Image Jan 8, 2026, 12_10_30 PM.png",
+      "description": "ChatGPT Image Jan 8, 2026, 12 10 30 PM — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "crowncode_red_3d_icon.png",
+      "description": "Crowncode Red 3d Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "crownlabs/assets/favicon.svg",
+      "description": "Favicon — icon mark (SVG).",
+      "tags": [
+        "favicon",
+        "svg"
+      ]
+    },
+    {
+      "path": "crownlabs/assets/logo.svg",
+      "description": "Logo — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "crownlabs/assets/og-image.svg",
+      "description": "Og Image — social sharing preview graphic (SVG).",
+      "tags": [
+        "social sharing",
+        "open graph",
+        "twitter card",
+        "svg"
+      ]
+    },
+    {
+      "path": "desktopui-Nobg.PNG",
+      "description": "Desktopui Nobg — background texture visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "desktopui.PNG",
+      "description": "Desktopui — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/911-ogimage.svg",
+      "description": "911 Ogimage — social sharing preview graphic (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "emergency-911/CrownSOS-icon.PNG",
+      "description": "CrownSOS Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/CrownSOS-logo.PNG",
+      "description": "CrownSOS Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/favicon/android-chrome-192x192.png",
+      "description": "Android Chrome 192x192 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/favicon/android-chrome-512x512.png",
+      "description": "Android Chrome 512x512 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/favicon/apple-touch-icon.png",
+      "description": "Apple Touch Icon — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/favicon/favicon-16x16.png",
+      "description": "Favicon 16x16 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "emergency-911/favicon/favicon-32x32.png",
+      "description": "Favicon 32x32 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "F2BC6FA3-3989-4F22-A6C2-3607ABC1EB1E.png",
+      "description": "F2BC6FA3 3989 4F22 A6C2 3607ABC1EB1E — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "IMG_0362.png",
+      "description": "IMG 0362 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "IMG_4932.jpeg",
+      "description": "IMG 4932 — site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "IMG_4935.jpeg",
+      "description": "IMG 4935 — site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "IMG_4939.jpeg",
+      "description": "IMG 4939 — site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "IMG_7488.jpeg",
+      "description": "IMG 7488 — site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "IMG_7490.jpeg",
+      "description": "IMG 7490 — site image asset (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "labs/assets/ChatGPT Image Jan 6, 2026, 09_50_31 AM.png",
+      "description": "ChatGPT Image Jan 6, 2026, 09 50 31 AM — labs promotional visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/assets/crown-labs-logo.png",
+      "description": "Crown Labs Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/assets/labs-favicon.svg",
+      "description": "Labs Favicon — icon mark (SVG).",
+      "tags": [
+        "favicon",
+        "svg"
+      ]
+    },
+    {
+      "path": "labs/assets/labs-opengraph.svg",
+      "description": "Labs Opengraph — labs promotional visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "labs/crowncode/icons/crowncode-fav.png",
+      "description": "Crowncode Fav — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/icons/crowncode-fav.png.PNG",
+      "description": "Crowncode Fav.Png — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/icons/Updated icon.PNG",
+      "description": "Updated Icon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/07E2F1A4-0CF3-44A8-95F7-E9175EA5DA1F.png",
+      "description": "07E2F1A4 0CF3 44A8 95F7 E9175EA5DA1F — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/1F7289CE-4AD2-4AAC-AFB4-26A34DE47312.png",
+      "description": "1F7289CE 4AD2 4AAC AFB4 26A34DE47312 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/3D002D9C-FCF0-4687-8FFD-88D49FC4F895.png",
+      "description": "3D002D9C FCF0 4687 8FFD 88D49FC4F895 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/449B5B0C-3BCD-483F-A6BC-B2CE2EF417CD.png",
+      "description": "449B5B0C 3BCD 483F A6BC B2CE2EF417CD — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/55522274-9716-46B4-A76C-0A18D263F523.png",
+      "description": "55522274 9716 46B4 A76C 0A18D263F523 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/5B15F2D2-D536-4C4B-9E8C-67F2446A1209.png",
+      "description": "5B15F2D2 D536 4C4B 9E8C 67F2446A1209 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/650E58FB-103C-4FF0-BEC6-39A68EEAE004.png",
+      "description": "650E58FB 103C 4FF0 BEC6 39A68EEAE004 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/752EB867-06B8-4A67-8D49-8E133376C591.png",
+      "description": "752EB867 06B8 4A67 8D49 8E133376C591 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/905437AD-6656-4AD8-B5A6-CF08F6199F27.png",
+      "description": "905437AD 6656 4AD8 B5A6 CF08F6199F27 — CrownCode lab visual (PNG).",
+      "tags": [
+        "crowncode.ai",
+        "intelligence suite",
+        "official seal",
+        "white logo",
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/91B49933-4907-452C-A9C1-0B4E1705209E.png",
+      "description": "91B49933 4907 452C A9C1 0B4E1705209E — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/B11DEE4D-D5FB-4830-8E3A-D6A9224643C4.jpeg",
+      "description": "B11DEE4D D5FB 4830 8E3A D6A9224643C4 — CrownCode lab visual (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/ccaiog.JPG",
+      "description": "Ccaiog — social sharing preview graphic (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/Crowncode-OG.png",
+      "description": "Crowncode OG — social sharing preview graphic (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/Crowncode-OG.png.PNG",
+      "description": "Crowncode OG.Png — social sharing preview graphic (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/desktopui-Nobg.PNG",
+      "description": "Desktopui Nobg — background texture visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_5758.png",
+      "description": "IMG 5758 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_5859.png",
+      "description": "IMG 5859 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_5875.jpeg",
+      "description": "IMG 5875 — CrownCode lab visual (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_5895.png",
+      "description": "IMG 5895 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_5916.png",
+      "description": "IMG 5916 — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/IMG_7485.jpeg",
+      "description": "IMG 7485 — CrownCode lab visual (JPEG).",
+      "tags": [
+        "jpeg"
+      ]
+    },
+    {
+      "path": "labs/crowncode/images/Untitled design.png",
+      "description": "Untitled Design — CrownCode lab visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "Picdetective/detbg.PNG",
+      "description": "Detbg — background texture visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "Picdetective/deticon.png",
+      "description": "Deticon — icon mark (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "Picdetective/detlogin.jpg",
+      "description": "Detlogin — social sharing preview graphic (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "Picdetective/detlogo.PNG",
+      "description": "Detlogo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "Picdetective/detlogo2.PNG",
+      "description": "Detlogo2 — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "Touchrotate.PNG",
+      "description": "Touchrotate — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    }
+  ]
+}

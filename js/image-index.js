@@ -1,7 +1,9 @@
 async function initGallery() {
   const resp = await fetch('assets/image-manifest.json')
   const manifest = await resp.json()
-  const images = manifest.map((entry) => {
+  const manifestImages = Array.isArray(manifest) ? manifest : manifest.images || []
+  const generatedAt = Array.isArray(manifest) ? null : manifest.generatedAt || null
+  const images = manifestImages.map((entry) => {
     if (typeof entry === 'string') {
       return { path: entry, description: entry.split('/').pop() }
     }
@@ -14,6 +16,7 @@ async function initGallery() {
   const zoomValue = document.getElementById('image-zoom-value')
   const columnsSelect = document.getElementById('image-columns')
   const resultCount = document.getElementById('image-result-count')
+  const generatedAtEl = document.getElementById('image-generated-at')
   const assetPrefix = (document.documentElement.dataset.assetPrefix || '').replace(/\/+$/g, '')
 
   let current = images
@@ -59,6 +62,13 @@ async function initGallery() {
     if (!resultCount) return
     const suffix = total === 1 ? 'image' : 'images'
     resultCount.textContent = `${total} ${suffix}`
+  }
+
+  function formatGeneratedAt(value) {
+    if (!value) return ''
+    const date = new Date(value)
+    if (Number.isNaN(date.getTime())) return ''
+    return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
   }
 
   function buildUrl(assetPath) {
@@ -239,6 +249,11 @@ async function initGallery() {
   gallery.addEventListener('touchmove', onTouchMove, { passive: false })
   gallery.addEventListener('touchend', onTouchEnd)
   gallery.addEventListener('touchcancel', onTouchEnd)
+
+  if (generatedAtEl) {
+    const formatted = formatGeneratedAt(generatedAt)
+    generatedAtEl.textContent = formatted ? `Catalog refreshed: ${formatted}` : ''
+  }
 
   render(current)
 }
