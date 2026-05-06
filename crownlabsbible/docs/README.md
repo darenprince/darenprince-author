@@ -23,12 +23,12 @@ This docs platform is built as static HTML/CSS/JS and is ready for GitHub Pages 
 
 ## Platform Standards (Current)
 
-All footer destinations are aligned to the shared platform shell and include:
+All routes are aligned to the viewer-style documentation shell and include:
 
 - shared `assets/css/platform.css`
-- shared Crown Labs header + navigation hierarchy
+- shared viewer-style sidebar navigation, toolbar controls, and footer shell
 - shared platform footer links and social icons
-- dark/light theme toggle support with theme-aware logo switching
+- dark/light theme toggle support plus collapsible desktop/mobile navigation state
 - Iconify icon usage for visual language consistency
 - route-level SEO/social metadata (`description`, Open Graph, Twitter cards)
 
