@@ -126,5 +126,11 @@ const images = walk(root)
     tags: getTags(imagePath),
   }))
 
-writeFileSync(path.join(assetsDir, 'image-manifest.json'), JSON.stringify(images, null, 2))
+const payload = {
+  generatedAt: new Date().toISOString(),
+  imageCount: images.length,
+  images,
+}
+
+writeFileSync(path.join(assetsDir, 'image-manifest.json'), JSON.stringify(payload, null, 2))
 console.log(`Wrote ${images.length} images with descriptions to assets/image-manifest.json`)
