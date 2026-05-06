@@ -1,74 +1,47 @@
-# Crown Labs Bible Web Deployment
+# Crown Labs Docs Platform
 
-## GitHub Pages Deployment
+## Deployment (GitHub Pages)
 
-1. Open repository settings.
-2. Navigate to Pages.
-3. Under Source select:
-   - Deploy from a branch
-4. Select branch:
-   - crownlabsbible/foundation
-5. Select folder:
-   - /root
-6. Save changes.
+This docs platform is built as static HTML/CSS/JS and is ready for GitHub Pages hosting.
 
-## Core Web Interfaces
+1. Go to the repository **Settings → Pages**.
+2. Set **Source** to **Deploy from a branch**.
+3. Select the publishing branch (for example `main` or your release branch).
+4. Select the folder that contains `crownlabsbible/docs` (typically `/root`).
+5. Save and verify published URLs.
 
-### Documentation Portal
-/docs/index.html
+## Core Routes
 
-### Documentation Viewer
-/docs/viewer.html
+- `crownlabsbible/docs/index.html`
+- `crownlabsbible/docs/viewer.html`
+- `crownlabsbible/docs/categories.html`
+- `crownlabsbible/docs/products.html`
+- `crownlabsbible/docs/investor-mode.html`
+- `crownlabsbible/docs/executive-dashboard.html`
+- `crownlabsbible/docs/ecosystem-map.html`
+- `crownlabsbible/docs/roadmap-tracker.html`
 
-### Executive Dashboard
-/docs/executive-dashboard.html
+## Platform Standards (Current)
 
-### Investor Mode
-/docs/investor-mode.html
+All footer destinations are aligned to the shared platform shell and include:
 
-### Ecosystem Map
-/docs/ecosystem-map.html
+- shared `assets/css/platform.css`
+- shared Crown Labs header + navigation hierarchy
+- shared platform footer links and social icons
+- dark/light theme toggle support with theme-aware logo switching
+- Iconify icon usage for visual language consistency
+- route-level SEO/social metadata (`description`, Open Graph, Twitter cards)
 
-## Current Platform Capabilities
+## Brand and Browser Assets
 
-The Crown Labs Bible now includes:
+Current docs pages include:
 
-- searchable documentation viewer
-- institutional dashboard architecture
-- executive governance interface
-- investor presentation layer
-- ecosystem relationship mapping
-- operational metrics presentation
-- categorized navigation systems
-- markdown rendering infrastructure
-- deep linked documentation routing
-- responsive institutional UI
+- favicon integration via Crown icon asset
+- social preview image references for Open Graph + Twitter
+- theme color metadata aligned to platform dark mode branding
 
-## Recommended Future Structure
+## Next Build Enhancements
 
-- docs/assets/css/
-- docs/assets/js/
-- docs/assets/logos/
-- docs/components/
-- docs/navigation/
-- docs/dashboard/
-- docs/metrics/
-- docs/investor/
-- docs/executive/
-- docs/operations/
-
-## Long Term Goal
-
-Transform the Crown Labs Bible into a fully interactive institutional operating environment with:
-
-- structured navigation
-- markdown rendering
-- investor presentation layers
-- executive operations dashboards
-- operational metrics systems
-- ecosystem relationship mapping
-- governance visualization
-- searchable documentation architecture
-- deployment visibility systems
-- portfolio intelligence dashboards
-- modular operational infrastructure
+- add local docs-specific favicon variants (`favicon.ico`, `apple-touch-icon`) in `docs/assets`
+- add a dedicated GitHub Pages workflow for branch-to-pages publishing
+- centralize shared head metadata generation to reduce manual duplication
