@@ -3,27 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Crown Labs Bible Viewer</title>
+<title>Crown Labs Documentation Viewer</title>
+<link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
 <style>
 :root{--bg:#0b0b0d;--panel:#141418;--soft:#1a1a20;--soft2:#202028;--text:#f5f5f7;--muted:#9b9ba3;--border:#25252d;--accent:#9c271c;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:#0b0b0d;color:var(--text);font-family:Inter,SF Pro Display,Segoe UI,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
-.app{display:grid;grid-template-columns:340px 1fr;min-height:100vh;}
+.app{display:grid;grid-template-columns:370px 1fr;min-height:100vh;}
 aside{border-right:1px solid var(--border);background:#101014;padding:28px;position:sticky;top:0;height:100vh;overflow:auto;}
 .brand{margin-bottom:26px;}
-.mark{width:48px;height:48px;border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:16px;font-weight:700;background:linear-gradient(145deg,#1b1b21,#101014);}
-.brand h1{font-size:1.12rem;letter-spacing:-.03em;}
+.brand img{height:42px;width:auto;display:block;margin-bottom:16px;}
+.brand h1{font-size:1.14rem;letter-spacing:-.03em;}
 .brand p{font-size:.86rem;color:var(--muted);margin-top:6px;}
-.search{margin:22px 0 30px;}
-.search input{width:100%;background:#17171d;border:1px solid var(--border);border-radius:14px;padding:14px 14px;color:var(--text);font-size:.92rem;outline:none;}
+.top-links{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px;}
+.top-links a{color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:.76rem;background:#15151a;}
+.search{margin:20px 0 28px;}
+.search input{width:100%;background:#17171d;border:1px solid var(--border);border-radius:14px;padding:14px;color:var(--text);font-size:.92rem;outline:none;}
 .search input:focus{border-color:rgba(156,39,28,.55);}
-.nav-section{margin-bottom:22px;}
+.nav-section{margin-bottom:24px;}
 .nav-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin-bottom:12px;}
 .nav{display:flex;flex-direction:column;gap:4px;}
-.nav a{display:block;color:var(--muted);text-decoration:none;padding:11px 12px;border-radius:12px;font-size:.92rem;transition:background .2s ease,color .2s ease;}
+.nav a{display:block;color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:12px;font-size:.9rem;transition:background .2s ease,color .2s ease;}
 .nav a:hover,.nav a.active{background:var(--soft2);color:var(--text);}
-main{padding:56px 58px;max-width:1100px;}
+main{padding:56px 58px;max-width:1140px;}
 .toolbar{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:36px;padding-bottom:22px;border-bottom:1px solid var(--border);}
 .toolbar small{color:var(--muted);font-size:.85rem;}
 .badge{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:#15151a;color:#d6d6da;font-size:.78rem;}
@@ -43,13 +46,21 @@ main{padding:56px 58px;max-width:1100px;}
 <div class="app">
 <aside>
   <div class="brand">
-    <div class="mark">CL</div>
-    <h1>Crown Labs Bible</h1>
-    <p>Institutional infrastructure documentation portal</p>
+    <img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+    <h1>Crown Labs Documentation</h1>
+    <p>Institutional product, governance, investor, brand, and operating documentation.</p>
+  </div>
+
+  <div class="top-links">
+    <a href="index.html">Portal</a>
+    <a href="executive-dashboard.html">Executive</a>
+    <a href="investor-mode.html">Investor</a>
+    <a href="ecosystem-map.html">Map</a>
+    <a href="roadmap-tracker.html">Roadmap</a>
   </div>
 
   <div class="search">
-    <input id="searchInput" type="text" placeholder="Search documentation..." />
+    <input id="searchInput" type="text" placeholder="Search all documentation..." />
   </div>
 
   <div id="navRoot"></div>
@@ -57,38 +68,113 @@ main{padding:56px 58px;max-width:1100px;}
 
 <main>
   <div class="toolbar">
-    <div>
-      <small id="pathLabel">Select a document</small>
-    </div>
-    <div class="badge">Institutional Documentation System</div>
+    <div><small id="pathLabel">Select a document</small></div>
+    <div class="badge">Full Documentation Library</div>
   </div>
-
-  <article class="content" id="content">
-    <p class="empty">Choose a document from the navigation.</p>
-  </article>
-
-  <div class="footer-note">
-    Crown Labs Bible · Operational Governance · Infrastructure Philosophy · Institutional Documentation Architecture
-  </div>
+  <article class="content" id="content"><p class="empty">Choose a document from the navigation.</p></article>
+  <div class="footer-note">Crown Labs Documentation · Product Documentation · Branding & Visual Identity · Investor Framework · Corporate Infrastructure</div>
 </main>
 </div>
 
 <script>
 const docs=[
+{category:'Corporate Foundation',items:[
+['Corporate Identity','../01-corporate-foundation/crown-labs-corporate-identity.md'],
+['Product Classification Framework','../01-corporate-foundation/product-classification-framework.md']
+]},
+{category:'Branding & Visual Identity',items:[
+['Branding & Visual Identity Standards','../05-corporate-infrastructure/brand-standards.md']
+]},
+{category:'Writing & Communication',items:[
+['Writing Standards Overview','../02-writing-standards/README.md'],
+['Brand Voice System','../02-writing-standards/brand-voice-system.md'],
+['Corporate Writing Standards','../05-corporate-infrastructure/writing-standards.md'],
+['Communication Standards','../05-corporate-infrastructure/communication-standards.md']
+]},
+{category:'Investor Framework',items:[
+['Licensing Structures','../03-investor-framework/licensing-structures.md'],
+['Monetization Models','../03-investor-framework/monetization-models.md'],
+['Valuation Methodology','../03-investor-framework/valuation-methodology.md'],
+['Investor Relations','../05-corporate-infrastructure/investor-relations.md'],
+['Licensing Governance','../05-corporate-infrastructure/licensing-governance.md']
+]},
+{category:'AI Cherry Pie · Product Documentation',items:[
+['AI Cherry Pie Overview','../04-product-dossiers/ai-cherry-pie/overview.md'],
+['AI Cherry Pie Architecture','../04-product-dossiers/ai-cherry-pie/architecture.md'],
+['AI Cherry Pie Positioning','../04-product-dossiers/ai-cherry-pie/positioning.md'],
+['AI Cherry Pie Valuation','../04-product-dossiers/ai-cherry-pie/valuation.md'],
+['AI Cherry Pie Monetization','../04-product-dossiers/ai-cherry-pie/monetization.md'],
+['AI Cherry Pie Licensing','../04-product-dossiers/ai-cherry-pie/licensing.md'],
+['AI Cherry Pie Website Copy','../04-product-dossiers/ai-cherry-pie/website-copy.md']
+]},
+{category:'Crown Psychology · Product Documentation',items:[
+['Crown Psychology Overview','../04-product-dossiers/crown-psychology/overview.md'],
+['Crown Psychology Architecture','../04-product-dossiers/crown-psychology/architecture.md'],
+['Crown Psychology Positioning','../04-product-dossiers/crown-psychology/positioning.md'],
+['Crown Psychology Valuation','../04-product-dossiers/crown-psychology/valuation.md'],
+['Crown Psychology Monetization','../04-product-dossiers/crown-psychology/monetization.md'],
+['Crown Psychology Licensing','../04-product-dossiers/crown-psychology/licensing.md'],
+['Crown Psychology Website Copy','../04-product-dossiers/crown-psychology/website-copy.md'],
+['Crown Psychology Ecosystem Role','../04-product-dossiers/crown-psychology/ecosystem-role.md']
+]},
+{category:'Sentinel Vault · Product Documentation',items:[
+['Sentinel Vault Overview','../04-product-dossiers/sentinel-vault/overview.md'],
+['Sentinel Vault Architecture','../04-product-dossiers/sentinel-vault/architecture.md'],
+['Sentinel Vault Positioning','../04-product-dossiers/sentinel-vault/positioning.md'],
+['Sentinel Vault Valuation','../04-product-dossiers/sentinel-vault/valuation.md'],
+['Sentinel Vault Monetization','../04-product-dossiers/sentinel-vault/monetization.md'],
+['Sentinel Vault Licensing','../04-product-dossiers/sentinel-vault/licensing.md'],
+['Sentinel Vault Website Copy','../04-product-dossiers/sentinel-vault/website-copy.md'],
+['Sentinel Vault Ecosystem Role','../04-product-dossiers/sentinel-vault/ecosystem-role.md']
+]},
+{category:'CrownCam · Product Documentation',items:[
+['CrownCam Overview','../04-product-dossiers/crowncam/overview.md'],
+['CrownCam Architecture','../04-product-dossiers/crowncam/architecture.md'],
+['CrownCam Positioning','../04-product-dossiers/crowncam/positioning.md'],
+['CrownCam Valuation','../04-product-dossiers/crowncam/valuation.md'],
+['CrownCam Monetization','../04-product-dossiers/crowncam/monetization.md'],
+['CrownCam Licensing','../04-product-dossiers/crowncam/licensing.md'],
+['CrownCam Website Copy','../04-product-dossiers/crowncam/website-copy.md'],
+['CrownCam Ecosystem Role','../04-product-dossiers/crowncam/ecosystem-role.md']
+]},
+{category:'Crown SOS · Product Documentation',items:[
+['Crown SOS Overview','../04-product-dossiers/crown-sos/overview.md'],
+['Crown SOS Architecture','../04-product-dossiers/crown-sos/architecture.md'],
+['Crown SOS Positioning','../04-product-dossiers/crown-sos/positioning.md'],
+['Crown SOS Valuation','../04-product-dossiers/crown-sos/valuation.md'],
+['Crown SOS Monetization','../04-product-dossiers/crown-sos/monetization.md'],
+['Crown SOS Licensing','../04-product-dossiers/crown-sos/licensing.md'],
+['Crown SOS Website Copy','../04-product-dossiers/crown-sos/website-copy.md'],
+['Crown SOS Ecosystem Role','../04-product-dossiers/crown-sos/ecosystem-role.md']
+]},
+{category:'Crown WatchTower · Product Documentation',items:[
+['Crown WatchTower Overview','../04-product-dossiers/crown-watchtower/overview.md'],
+['Crown WatchTower Architecture','../04-product-dossiers/crown-watchtower/architecture.md'],
+['Crown WatchTower Positioning','../04-product-dossiers/crown-watchtower/positioning.md'],
+['Crown WatchTower Valuation','../04-product-dossiers/crown-watchtower/valuation.md'],
+['Crown WatchTower Licensing','../04-product-dossiers/crown-watchtower/licensing.md'],
+['Crown WatchTower Website Copy','../04-product-dossiers/crown-watchtower/website-copy.md'],
+['Crown WatchTower Ecosystem Role','../04-product-dossiers/crown-watchtower/ecosystem-role.md']
+]},
+{category:'CrownCast · Product Documentation',items:[
+['CrownCast Overview','../04-product-dossiers/crowncast/overview.md'],
+['CrownCast Positioning','../04-product-dossiers/crowncast/positioning.md'],
+['CrownCast Valuation','../04-product-dossiers/crowncast/valuation.md'],
+['CrownCast Monetization','../04-product-dossiers/crowncast/monetization.md'],
+['CrownCast Licensing','../04-product-dossiers/crowncast/licensing.md'],
+['CrownCast Website Copy','../04-product-dossiers/crowncast/website-copy.md'],
+['CrownCast Ecosystem Role','../04-product-dossiers/crowncast/ecosystem-role.md']
+]},
 {category:'Corporate Infrastructure',items:[
 ['Company Overview','../05-corporate-infrastructure/company-overview.md'],
 ['Executive Positioning','../05-corporate-infrastructure/executive-positioning.md'],
 ['Holdings Structure','../05-corporate-infrastructure/holdings-structure.md'],
 ['Portfolio Governance','../05-corporate-infrastructure/portfolio-governance.md'],
-['Writing Standards','../05-corporate-infrastructure/writing-standards.md'],
-['Brand Standards','../05-corporate-infrastructure/brand-standards.md'],
-['Communication Standards','../05-corporate-infrastructure/communication-standards.md'],
 ['Ecosystem Philosophy','../05-corporate-infrastructure/ecosystem-philosophy.md'],
-['Investor Relations','../05-corporate-infrastructure/investor-relations.md'],
-['Licensing Governance','../05-corporate-infrastructure/licensing-governance.md'],
 ['Expansion Roadmap','../05-corporate-infrastructure/expansion-roadmap.md'],
 ['Acquisition Strategy','../05-corporate-infrastructure/acquisition-strategy.md']
-]}];
+]}
+];
 
 const navRoot=document.getElementById('navRoot');
 const content=document.getElementById('content');
@@ -98,82 +184,24 @@ const searchInput=document.getElementById('searchInput');
 function renderNav(filter=''){
  navRoot.innerHTML='';
  docs.forEach(section=>{
-   const filtered=section.items.filter(([title])=>title.toLowerCase().includes(filter.toLowerCase()));
+   const filtered=section.items.filter(([title,path])=>(title+' '+path+' '+section.category).toLowerCase().includes(filter.toLowerCase()));
    if(!filtered.length) return;
-
-   const wrap=document.createElement('div');
-   wrap.className='nav-section';
-
-   const title=document.createElement('div');
-   title.className='nav-title';
-   title.textContent=section.category;
-
-   const nav=document.createElement('nav');
-   nav.className='nav';
-
-   filtered.forEach(([docTitle,path])=>{
-     const a=document.createElement('a');
-     a.href='#';
-     a.textContent=docTitle;
-     a.onclick=(e)=>{
-       e.preventDefault();
-       loadDoc(docTitle,path,a);
-     };
-     nav.appendChild(a);
-   });
-
-   wrap.appendChild(title);
-   wrap.appendChild(nav);
-   navRoot.appendChild(wrap);
+   const wrap=document.createElement('div');wrap.className='nav-section';
+   const title=document.createElement('div');title.className='nav-title';title.textContent=section.category;
+   const nav=document.createElement('nav');nav.className='nav';
+   filtered.forEach(([docTitle,path])=>{const a=document.createElement('a');a.href='#';a.textContent=docTitle;a.onclick=(e)=>{e.preventDefault();loadDoc(docTitle,path,a);};nav.appendChild(a);});
+   wrap.appendChild(title);wrap.appendChild(nav);navRoot.appendChild(wrap);
  });
 }
-
-function renderMarkdown(md){
- let html='';
- let inList=false;
- md.split('\n').forEach(line=>{
-  const t=line.trim();
-  if(!t){if(inList){html+='</ul>';inList=false;} return;}
-  if(t.startsWith('### ')){if(inList){html+='</ul>';inList=false;} html+='<h3>'+t.slice(4)+'</h3>';return;}
-  if(t.startsWith('## ')){if(inList){html+='</ul>';inList=false;} html+='<h2>'+t.slice(3)+'</h2>';return;}
-  if(t.startsWith('# ')){if(inList){html+='</ul>';inList=false;} html+='<h1>'+t.slice(2)+'</h1>';return;}
-  if(t.startsWith('- ')){if(!inList){html+='<ul>';inList=true;} html+='<li>'+t.slice(2)+'</li>';return;}
-  if(inList){html+='</ul>';inList=false;}
-  html+='<p>'+t+'</p>';
- });
- if(inList) html+='</ul>';
- return html;
-}
-
-async function loadDoc(title,path,el){
- document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
- if(el) el.classList.add('active');
- pathLabel.textContent=path;
- content.innerHTML='<p class="empty">Loading documentation...</p>';
- try{
-   const res=await fetch(path);
-   const md=await res.text();
-   content.innerHTML=renderMarkdown(md);
-   location.hash=encodeURIComponent(title);
- }catch(e){
-   content.innerHTML='<p class="empty">Unable to load this document from the current path.</p>';
- }
-}
-
-searchInput.addEventListener('input',e=>{
- renderNav(e.target.value);
-});
-
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function renderMarkdown(md){let html='',inList=false;md.split('\n').forEach(line=>{const t=line.trim();if(!t){if(inList){html+='</ul>';inList=false;}return;}if(t.startsWith('### ')){if(inList){html+='</ul>';inList=false;}html+='<h3>'+esc(t.slice(4))+'</h3>';return;}if(t.startsWith('## ')){if(inList){html+='</ul>';inList=false;}html+='<h2>'+esc(t.slice(3))+'</h2>';return;}if(t.startsWith('# ')){if(inList){html+='</ul>';inList=false;}html+='<h1>'+esc(t.slice(2))+'</h1>';return;}if(t.startsWith('- ')){if(!inList){html+='<ul>';inList=true;}html+='<li>'+esc(t.slice(2))+'</li>';return;}if(inList){html+='</ul>';inList=false;}html+='<p>'+esc(t)+'</p>';});if(inList)html+='</ul>';return html;}
+async function loadDoc(title,path,el){document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));if(el)el.classList.add('active');pathLabel.textContent=path;content.innerHTML='<p class="empty">Loading documentation...</p>';try{const res=await fetch(path);if(!res.ok)throw new Error('Not found');const md=await res.text();content.innerHTML=renderMarkdown(md);location.hash=encodeURIComponent(title);}catch(e){content.innerHTML='<p class="empty">Unable to load this document from the current path: '+esc(path)+'</p>';}}
+searchInput.addEventListener('input',e=>renderNav(e.target.value));
 renderNav();
-
 const start=decodeURIComponent(location.hash.replace('#',''));
 const flat=docs.flatMap(section=>section.items);
 const found=flat.find(d=>d[0]===start)||flat[0];
-
-setTimeout(()=>{
- const link=[...document.querySelectorAll('.nav a')].find(a=>a.textContent===found[0]);
- loadDoc(found[0],found[1],link);
-},0);
+setTimeout(()=>{const link=[...document.querySelectorAll('.nav a')].find(a=>a.textContent===found[0]);loadDoc(found[0],found[1],link);},0);
 </script>
 </body>
 </html>
