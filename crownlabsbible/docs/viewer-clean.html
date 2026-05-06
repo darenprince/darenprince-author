@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crown Labs Documentation</title>
+<link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
+<link rel="stylesheet" href="assets/css/platform.css" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+</head>
+<body>
+<div class="cl-scrim" id="scrim"></div>
+<div class="cl-app" id="app">
+  <aside class="cl-sidebar">
+    <div class="cl-sidebar-header">
+      <img class="cl-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
+      <button class="cl-icon-btn" id="navToggle" title="Toggle navigation"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+    </div>
+    <div class="cl-title">Crown Labs Documentation</div>
+    <div class="cl-subtitle">Unified product, investor, executive, brand, and operating documentation.</div>
+    <div class="cl-quicklinks">
+      <a href="index.html"><iconify-icon icon="solar:home-2-linear"></iconify-icon>Portal</a>
+      <a href="viewer-clean.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Docs</a>
+      <a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor</a>
+      <a href="executive-dashboard.html"><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive</a>
+      <a href="ecosystem-map.html"><iconify-icon icon="solar:map-point-linear"></iconify-icon>Map</a>
+      <a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a>
+    </div>
+    <div class="cl-search"><iconify-icon icon="solar:magnifer-linear"></iconify-icon><input id="searchInput" placeholder="Search documentation..." /></div>
+    <div class="cl-tree" id="navRoot"></div>
+  </aside>
+
+  <main class="cl-main">
+    <div class="cl-reader">
+      <div class="cl-toolbar">
+        <div>
+          <button class="cl-icon-btn cl-mobile-menu" id="mobileMenu"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+          <div class="cl-breadcrumbs" id="breadcrumbRoot"></div>
+          <small class="cl-path" id="pathLabel">Select a document</small>
+        </div>
+        <div class="cl-tools">
+          <button class="cl-tool-btn" id="themeToggle"><iconify-icon icon="solar:moon-linear"></iconify-icon><span>Theme</span></button>
+          <button class="cl-tool-btn" id="fontDown"><iconify-icon icon="solar:text-linear"></iconify-icon>A−</button>
+          <button class="cl-tool-btn" id="fontReset"><iconify-icon icon="solar:text-bold"></iconify-icon>A</button>
+          <button class="cl-tool-btn" id="fontUp"><iconify-icon icon="solar:text-field-focus-linear"></iconify-icon>A+</button>
+          <button class="cl-tool-btn" id="copyDoc"><iconify-icon icon="solar:copy-linear"></iconify-icon>Copy</button>
+          <button class="cl-tool-btn" id="printDoc"><iconify-icon icon="solar:printer-2-linear"></iconify-icon>Print</button>
+          <button class="cl-tool-btn" id="shareDoc"><iconify-icon icon="solar:share-linear"></iconify-icon>Share</button>
+        </div>
+      </div>
+      <article class="cl-content" id="content"><p class="cl-empty">Choose a document from the navigation.</p></article>
+      <footer class="cl-footer">
+        <div class="cl-footer-grid">
+          <div><img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p><div class="cl-social"><a href="https://www.darenprince.com"><iconify-icon icon="solar:global-linear"></iconify-icon></a><a href="https://github.com/darenprince"><iconify-icon icon="mdi:github"></iconify-icon></a><a href="#"><iconify-icon icon="mdi:linkedin"></iconify-icon></a><a href="#"><iconify-icon icon="mdi:twitter"></iconify-icon></a></div></div>
+          <div><h4>Documentation</h4><a href="viewer-clean.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Viewer</a><a href="ecosystem-map.html"><iconify-icon icon="solar:map-linear"></iconify-icon>Ecosystem Map</a><a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a></div>
+          <div><h4>Business</h4><a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor Mode</a><a href="executive-dashboard.html"><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive Dashboard</a><a href="mailto:apps@crownlabs.tech"><iconify-icon icon="solar:letter-linear"></iconify-icon>Contact</a></div>
+          <div><h4>Updates</h4><p>Get release notes and documentation updates.</p><form class="cl-signup" onsubmit="event.preventDefault();toast('Signup captured. Connect mailing provider next.');"><input type="email" placeholder="Email address" required /><button><iconify-icon icon="solar:arrow-right-linear"></iconify-icon></button></form></div>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+<button class="cl-back-top" id="backTop"><iconify-icon icon="solar:arrow-up-linear"></iconify-icon></button>
+<div class="cl-toast" id="toast"></div>
+<script>
+const iconMap={
+'Corporate Foundation':'solar:buildings-2-linear','Branding & Visual Identity':'solar:pallete-2-linear','Writing & Communication':'solar:pen-new-square-linear','Investor Framework':'solar:chart-2-linear','Corporate Infrastructure':'solar:server-square-linear','Product Documentation':'solar:box-linear','AI Cherry Pie':'solar:text-field-focus-linear','Crown Psychology':'solar:brain-linear','Sentinel Vault':'solar:shield-keyhole-linear','CrownCam':'solar:camera-linear','Crown SOS':'solar:siren-rounded-linear','Crown WatchTower':'solar:tower-linear','CrownCast':'solar:podcast-linear'};
+const tree=[
+{label:'Corporate Foundation',children:[{label:'Corporate Identity',path:'../01-corporate-foundation/crown-labs-corporate-identity.md'},{label:'Product Classification Framework',path:'../01-corporate-foundation/product-classification-framework.md'}]},
+{label:'Branding & Visual Identity',children:[{label:'Branding & Visual Identity Standards',path:'../05-corporate-infrastructure/brand-standards.md'}]},
+{label:'Writing & Communication',children:[{label:'Writing Standards Overview',path:'../02-writing-standards/README.md'},{label:'Brand Voice System',path:'../02-writing-standards/brand-voice-system.md'},{label:'Corporate Writing Standards',path:'../05-corporate-infrastructure/writing-standards.md'},{label:'Communication Standards',path:'../05-corporate-infrastructure/communication-standards.md'}]},
+{label:'Investor Framework',children:[{label:'Licensing Structures',path:'../03-investor-framework/licensing-structures.md'},{label:'Monetization Models',path:'../03-investor-framework/monetization-models.md'},{label:'Valuation Methodology',path:'../03-investor-framework/valuation-methodology.md'},{label:'Investor Relations',path:'../05-corporate-infrastructure/investor-relations.md'},{label:'Licensing Governance',path:'../05-corporate-infrastructure/licensing-governance.md'}]},
+{label:'Corporate Infrastructure',children:[{label:'Company Overview',path:'../05-corporate-infrastructure/company-overview.md'},{label:'Executive Positioning',path:'../05-corporate-infrastructure/executive-positioning.md'},{label:'Holdings Structure',path:'../05-corporate-infrastructure/holdings-structure.md'},{label:'Portfolio Governance',path:'../05-corporate-infrastructure/portfolio-governance.md'},{label:'Ecosystem Philosophy',path:'../05-corporate-infrastructure/ecosystem-philosophy.md'},{label:'Expansion Roadmap',path:'../05-corporate-infrastructure/expansion-roadmap.md'},{label:'Acquisition Strategy',path:'../05-corporate-infrastructure/acquisition-strategy.md'}]},
+{label:'Product Documentation',children:[
+product('AI Cherry Pie','ai-cherry-pie',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy']),
+product('Crown Psychology','crown-psychology',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),
+product('Sentinel Vault','sentinel-vault',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),
+product('CrownCam','crowncam',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),
+product('Crown SOS','crown-sos',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),
+product('Crown WatchTower','crown-watchtower',['Overview','Architecture','Positioning','Valuation','Licensing','Website Copy','Ecosystem Role']),
+product('CrownCast','crowncast',['Overview','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role'])
+]}];
+function product(label,slug,items){return{label,children:items.map(x=>({label:x,path:'../04-product-dossiers/'+slug+'/'+x.toLowerCase().replaceAll(' ','-')+'.md'}))};}
+const $=s=>document.querySelector(s), app=$('#app'), navRoot=$('#navRoot'), content=$('#content'), pathLabel=$('#pathLabel'), crumbs=$('#breadcrumbRoot'), search=$('#searchInput');
+let currentDoc=null,currentPath='',scale=Number(localStorage.getItem('readerScale')||1);
+document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark';document.documentElement.style.setProperty('--reader-scale',scale);if(localStorage.getItem('navCollapsed')==='true')app.classList.add('nav-collapsed');
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function icon(s){return '<iconify-icon icon="'+(iconMap[s]||'solar:document-text-linear')+'"></iconify-icon>';}
+function flatten(nodes,p=[]){return nodes.flatMap(n=>n.children?flatten(n.children,[...p,n.label]):[{...n,crumb:[...p,n.label]}]);}
+const flat=flatten(tree);
+function match(n,q){return (n.label+' '+(n.path||'')).toLowerCase().includes(q)||(n.children||[]).some(x=>match(x,q));}
+function renderNav(q=''){q=q.toLowerCase().trim();navRoot.innerHTML='';tree.forEach(sec=>{if(q&&!match(sec,q))return;const s=document.createElement('div');s.className='cl-section';s.dataset.section=sec.label;s.innerHTML='<button class="cl-section-toggle"><span class="cl-label">'+icon(sec.label)+'<span>'+esc(sec.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-children"></div>';s.querySelector('button').onclick=()=>s.classList.toggle('closed');const kids=s.querySelector('.cl-children');sec.children.forEach(ch=>{if(q&&!match(ch,q))return;if(ch.children){const g=document.createElement('div');g.className='cl-product';g.dataset.group=ch.label;g.innerHTML='<button class="cl-product-toggle"><span class="cl-label">'+icon(ch.label)+'<span>'+esc(ch.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-leaves"></div>';g.querySelector('button').onclick=()=>g.classList.toggle('closed');ch.children.forEach(d=>{if(!q||match(d,q))g.querySelector('.cl-leaves').appendChild(link(d,[sec.label,ch.label,d.label]));});kids.appendChild(g);}else kids.appendChild(link(ch,[sec.label,ch.label]));});navRoot.appendChild(s);});syncActive();}
+function link(doc,crumb){const a=document.createElement('a');a.className='cl-doc-link';a.href='#'+encodeURIComponent(doc.label);a.dataset.path=doc.path;a.innerHTML='<iconify-icon icon="solar:document-text-linear"></iconify-icon><span>'+esc(doc.label)+'</span>';a.onclick=e=>{e.preventDefault();openDoc({...doc,crumb});};return a;}
+function breadcrumbs(doc){crumbs.innerHTML='';['Home',...doc.crumb].forEach((p,i,arr)=>{if(i){const sep=document.createElement('span');sep.className='sep';sep.textContent='/';crumbs.appendChild(sep);}if(i===arr.length-1){const cur=document.createElement('span');cur.className='current';cur.textContent=p;crumbs.appendChild(cur);}else{const b=document.createElement('button');b.innerHTML=(i?'':'<iconify-icon icon="solar:home-2-linear"></iconify-icon>')+esc(p);b.onclick=()=>{if(!i)location.href='index.html';else expand(doc.crumb.slice(0,i));};crumbs.appendChild(b);}});}
+function expand(parts){document.querySelectorAll('.cl-section').forEach(s=>s.classList.toggle('closed',s.dataset.section!==parts[0]));document.querySelectorAll('.cl-product').forEach(g=>{if(parts[1])g.classList.toggle('closed',g.dataset.group!==parts[1]);});}
+function syncActive(){document.querySelectorAll('.cl-doc-link').forEach(a=>a.classList.toggle('active',a.dataset.path===currentPath));}
+function mdToHtml(md){let html='',list=false;const add=t=>esc(t).replace(/\[\[([^\]]+)\]\]/g,(m,name)=>{const d=flat.find(x=>x.label.toLowerCase()===name.toLowerCase()||x.crumb.join(' ').toLowerCase()===name.toLowerCase());return d?'<a class="cl-doc-ref" href="#'+encodeURIComponent(d.label)+'" data-path="'+esc(d.path)+'">'+esc(name)+'</a>':esc(name);});md.split('\n').forEach(line=>{const t=line.trim();if(!t){if(list){html+='</ul>';list=false;}return;}if(t.startsWith('# ')){if(list){html+='</ul>';list=false;}html+='<h1>'+add(t.slice(2))+'</h1>';return;}if(t.startsWith('## ')){if(list){html+='</ul>';list=false;}html+='<h2>'+add(t.slice(3))+'</h2>';return;}if(t.startsWith('### ')){if(list){html+='</ul>';list=false;}html+='<h3>'+add(t.slice(4))+'</h3>';return;}if(t.startsWith('- ')){if(!list){html+='<ul>';list=true;}html+='<li>'+add(t.slice(2))+'</li>';return;}if(list){html+='</ul>';list=false;}html+='<p>'+add(t)+'</p>';});if(list)html+='</ul>';return html;}
+async function openDoc(doc){currentDoc=doc;currentPath=doc.path;renderNav(search.value);expand(doc.crumb);syncActive();breadcrumbs(doc);pathLabel.textContent=doc.path;content.innerHTML='<p class="cl-empty">Loading documentation...</p>';try{const res=await fetch(doc.path);if(!res.ok)throw new Error('missing');const md=await res.text();content.innerHTML=mdToHtml(md);content.querySelectorAll('.cl-doc-ref').forEach(a=>a.onclick=e=>{e.preventDefault();const next=flat.find(d=>d.path===a.dataset.path);if(next)openDoc(next);});location.hash=encodeURIComponent(doc.label);if(innerWidth<981)document.body.classList.remove('nav-open');scrollTo({top:0});}catch{content.innerHTML='<p class="cl-empty">Unable to load this document: '+esc(doc.path)+'</p>';}}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('visible');setTimeout(()=>t.classList.remove('visible'),2200);}
+$('#navToggle').onclick=()=>{if(innerWidth<981)document.body.classList.toggle('nav-open');else{app.classList.toggle('nav-collapsed');localStorage.setItem('navCollapsed',app.classList.contains('nav-collapsed'));}};$('#mobileMenu').onclick=()=>document.body.classList.add('nav-open');$('#scrim').onclick=()=>document.body.classList.remove('nav-open');
+$('#themeToggle').onclick=()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('theme',n);};
+$('#fontDown').onclick=()=>{scale=Math.max(.9,scale-.08);localStorage.setItem('readerScale',scale);document.documentElement.style.setProperty('--reader-scale',scale);};$('#fontReset').onclick=()=>{scale=1;localStorage.setItem('readerScale',scale);document.documentElement.style.setProperty('--reader-scale',1);};$('#fontUp').onclick=()=>{scale=Math.min(1.28,scale+.08);localStorage.setItem('readerScale',scale);document.documentElement.style.setProperty('--reader-scale',scale);};
+$('#copyDoc').onclick=async()=>{await navigator.clipboard.writeText(content.innerText.trim());toast('Document copied');};$('#printDoc').onclick=()=>print();$('#shareDoc').onclick=async()=>{if(navigator.share)await navigator.share({title:'Crown Labs Documentation',text:currentDoc?currentDoc.crumb.join(' / '):'Crown Labs Documentation',url:location.href});else{await navigator.clipboard.writeText(location.href);toast('Link copied');}};$('#backTop').onclick=()=>scrollTo({top:0,behavior:'smooth'});addEventListener('scroll',()=>$('#backTop').classList.toggle('visible',scrollY>420));search.oninput=e=>renderNav(e.target.value);
+renderNav();openDoc(flat.find(d=>d.label===decodeURIComponent(location.hash.slice(1)))||flat[0]);
+</script>
+</body>
+</html>
