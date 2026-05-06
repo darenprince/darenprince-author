@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crown Labs Bible</title>
+<style>
+:root {
+  --bg: #0b0b0d;
+  --panel: #121216;
+  --panel-soft: #18181d;
+  --text: #f3f3f5;
+  --muted: #9b9ba1;
+  --border: #23232a;
+  --accent: #9c271c;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, SF Pro Display, Segoe UI, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 28px 96px;
+}
+.hero {
+  padding-bottom: 42px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 42px;
+}
+.logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(145deg,#1c1c22,#101014);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--accent);
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+.hero h1 {
+  font-size: clamp(2.5rem,5vw,5rem);
+  letter-spacing: -.04em;
+  line-height: .95;
+  margin-bottom: 18px;
+}
+.hero p {
+  max-width: 820px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+.section-title {
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+  gap: 22px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  transition: transform .2s ease,border-color .2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(156,39,28,.55);
+}
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.card p {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.card a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: .92rem;
+}
+.card a:hover {
+  color: #fff;
+}
+.footer {
+  margin-top: 70px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: .9rem;
+}
+.accent {
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <div class="logo">CL</div>
+    <h1>Crown Labs Bible</h1>
+    <p>
+      Institutional governance, operational philosophy, interoperability architecture, investor positioning, licensing governance, emotionally aware infrastructure doctrine, and ecosystem scaling systems for Crown Labs and Daren Prince Holdings.
+    </p>
+  </section>
+
+  <div class="section-title">Corporate Infrastructure</div>
+
+  <section class="grid">
+
+    <article class="card">
+      <h3>Company Overview</h3>
+      <p>Foundational identity, infrastructure philosophy, strategic positioning, and ecosystem architecture.</p>
+      <a href="../05-corporate-infrastructure/company-overview.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Executive Positioning</h3>
+      <p>Leadership philosophy, operational worldview, ecosystem strategy, and institutional executive structure.</p>
+      <a href="../05-corporate-infrastructure/executive-positioning.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Holdings Structure</h3>
+      <p>Portfolio architecture, ecosystem hierarchy, governance relationships, and institutional ownership structure.</p>
+      <a href="../05-corporate-infrastructure/holdings-structure.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Portfolio Governance</h3>
+      <p>Governance standards, operational oversight systems, interoperability governance, and ecosystem coordination doctrine.</p>
+      <a href="../05-corporate-infrastructure/portfolio-governance.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Writing Standards</h3>
+      <p>Editorial governance, AI fingerprint reduction standards, formatting philosophy, and institutional communication structure.</p>
+      <a href="../05-corporate-infrastructure/writing-standards.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Brand Standards</h3>
+      <p>Visual governance, typography systems, spacing philosophy, and restrained premium interface standards.</p>
+      <a href="../05-corporate-infrastructure/brand-standards.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Communication Standards</h3>
+      <p>Executive messaging doctrine, investor communication standards, and emotionally aware interaction philosophy.</p>
+      <a href="../05-corporate-infrastructure/communication-standards.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Ecosystem Philosophy</h3>
+      <p>Institutional worldview, continuity doctrine, interoperability philosophy, and infrastructure ideology.</p>
+      <a href="../05-corporate-infrastructure/ecosystem-philosophy.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Investor Relations</h3>
+      <p>Institutional investment narrative, valuation communication systems, and strategic capital positioning.</p>
+      <a href="../05-corporate-infrastructure/investor-relations.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Licensing Governance</h3>
+      <p>Intellectual property oversight, interoperability protection, and institutional licensing architecture.</p>
+      <a href="../05-corporate-infrastructure/licensing-governance.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Expansion Roadmap</h3>
+      <p>Operational scaling phases, ecosystem maturity sequencing, and institutional expansion doctrine.</p>
+      <a href="../05-corporate-infrastructure/expansion-roadmap.md">Open Documentation →</a>
+    </article>
+
+    <article class="card">
+      <h3>Acquisition Strategy</h3>
+      <p>Strategic integration governance, infrastructure acquisition philosophy, and ecosystem expansion standards.</p>
+      <a href="../05-corporate-infrastructure/acquisition-strategy.md">Open Documentation →</a>
+    </article>
+
+  </section>
+
+  <div class="footer">
+    Crown Labs Bible · <span class="accent">Institutional Infrastructure Documentation</span>
+  </div>
+</div>
+</body>
+</html>
