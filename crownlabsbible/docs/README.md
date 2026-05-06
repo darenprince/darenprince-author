@@ -12,11 +12,37 @@
    - /root
 6. Save changes.
 
-## Documentation Portal
+## Core Web Interfaces
 
-Primary entry point:
-
+### Documentation Portal
 /docs/index.html
+
+### Documentation Viewer
+/docs/viewer.html
+
+### Executive Dashboard
+/docs/executive-dashboard.html
+
+### Investor Mode
+/docs/investor-mode.html
+
+### Ecosystem Map
+/docs/ecosystem-map.html
+
+## Current Platform Capabilities
+
+The Crown Labs Bible now includes:
+
+- searchable documentation viewer
+- institutional dashboard architecture
+- executive governance interface
+- investor presentation layer
+- ecosystem relationship mapping
+- operational metrics presentation
+- categorized navigation systems
+- markdown rendering infrastructure
+- deep linked documentation routing
+- responsive institutional UI
 
 ## Recommended Future Structure
 
@@ -26,14 +52,23 @@ Primary entry point:
 - docs/components/
 - docs/navigation/
 - docs/dashboard/
+- docs/metrics/
+- docs/investor/
+- docs/executive/
+- docs/operations/
 
 ## Long Term Goal
 
-Transform the Crown Labs Bible into a fully searchable institutional documentation platform with:
+Transform the Crown Labs Bible into a fully interactive institutional operating environment with:
 
 - structured navigation
 - markdown rendering
 - investor presentation layers
-- operational dashboards
-- ecosystem search
-- modular documentation architecture
+- executive operations dashboards
+- operational metrics systems
+- ecosystem relationship mapping
+- governance visualization
+- searchable documentation architecture
+- deployment visibility systems
+- portfolio intelligence dashboards
+- modular operational infrastructure
