@@ -328,14 +328,30 @@ button {
   flex-direction: column;
 }
 .cl-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 22px;
   margin-bottom: 30px;
-  padding-bottom: 18px;
+  padding: 14px 0 18px;
   border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
 }
+.cl-toolbar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.cl-header-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
 .cl-breadcrumbs {
   display: flex;
   align-items: center;

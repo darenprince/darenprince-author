@@ -9,6 +9,7 @@
   - Favicon: https://www.darenprince.com/app%20icons/crownicon.PNG
 - Viewer rendering rules: escape markdown before conversion, render structural markdown safely, support explicit `[[Document Name]]` references only, and never regex-replace already-rendered HTML.
 - Navigation standards: expandable hierarchy, active state, breadcrumbs, mobile close-on-select, current path display.
+- Sticky header behavior: toolbar remains fixed at the top while scrolling; includes an in-body theme-aware Crown Labs logo in addition to the sidebar logo.
 - Footer standard: branding, docs links, investor, executive, ecosystem map, roadmap, contact, signup UI, Iconify social links.
 - Utility toolbar: text size controls, copy, print, share, and back-to-top.
 - Deprecated legacy files: `viewer-clean.html` and `investor-clean.html` are retired from primary navigation and can be removed after external references are migrated.
