@@ -10,6 +10,17 @@
   }
   applyTheme(localStorage.getItem(key) || 'dark')
 
+  function setActiveQuicklink() {
+    const current = window.location.pathname.split('/').pop() || 'index.html'
+    document.querySelectorAll('.cl-quicklinks a').forEach((link) => {
+      const href = link.getAttribute('href') || ''
+      link.classList.toggle('is-active', href === current)
+      if (href === current) link.setAttribute('aria-current', 'page')
+      else link.removeAttribute('aria-current')
+    })
+  }
+  setActiveQuicklink()
+
   const toggle = document.getElementById('themeToggle')
   if (toggle) {
     toggle.addEventListener('click', () => {

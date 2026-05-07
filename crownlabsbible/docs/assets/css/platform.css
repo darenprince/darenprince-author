@@ -124,6 +124,29 @@ button {
 .nav-collapsed .cl-tree {
   display: none;
 }
+
+.ms-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 100;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 100,
+    'GRAD' -25,
+    'opsz' 24;
+}
+
+.cl-quicklinks a.is-active {
+  background: rgba(156, 39, 28, 0.12);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  color: transparent;
+  background-image: conic-gradient(from 180deg, #7f1d1d, #b91c1c, #ef4444, #b91c1c, #7f1d1d);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .cl-icon-btn,
 .cl-tool-btn {
   display: inline-flex;
@@ -181,7 +204,7 @@ button {
   position: relative;
   margin-bottom: 22px;
 }
-.cl-search iconify-icon {
+.cl-search .ms-icon {
   position: absolute;
   left: 12px;
   top: 50%;
