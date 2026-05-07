@@ -19,10 +19,11 @@
 
   <link rel="icon" type="image/svg+xml" href="labs/assets/labs-favicon.svg" />
   <link rel="apple-touch-icon" href="labs/assets/labs-favicon.svg" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100,0,-25" />
 
   <style>
     :root {
-      color-scheme: dark;
+      color-scheme: light dark;
       --bg: #07090d;
       --bg-soft: #0b0e14;
       --surface: rgba(255,255,255,.045);
@@ -47,6 +48,30 @@
       --ease: cubic-bezier(.2,.8,.2,1);
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --mono: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f6f8;
+        --bg-soft: #ffffff;
+        --surface: rgba(20,26,37,.04);
+        --surface-strong: rgba(20,26,37,.08);
+        --surface-muted: rgba(20,26,37,.03);
+        --line: rgba(20,26,37,.14);
+        --line-strong: rgba(20,26,37,.2);
+        --text: #111827;
+        --text-soft: #1f2937;
+        --muted: #4b5563;
+        --muted-2: #6b7280;
+      }
+      body {
+        background: linear-gradient(180deg, #ffffff 0%, #f5f6f8 48%, #edf0f4 100%);
+      }
+      .site-header { background: rgba(255,255,255,.88); border-bottom-color: rgba(20,26,37,.08); }
+      .hero { background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(245,246,248,.55)); }
+      .brand-logo--dark { display: none; }
+      .brand-logo--light { display: block; }
     }
 
     * { box-sizing: border-box; }
@@ -155,6 +180,26 @@
       margin-top: 1px;
     }
 
+    
+    .brand-logo { height: 34px; width: auto; }
+    .brand-logo--light { display: none; }
+
+    .site-nav a.is-active {
+      color: transparent;
+      background: rgba(156,39,28,.12);
+      background-image: conic-gradient(from 180deg, #7f1d1d, #b91c1c, #ef4444, #b91c1c, #7f1d1d);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .nav-icon {
+      font-family: "Material Symbols Outlined";
+      font-weight: 100;
+      font-size: 17px;
+      margin-right: 6px;
+      vertical-align: -3px;
+      font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' -25, 'opsz' 24;
+    }
     .nav-toggle { display: none; }
 
     .site-nav {
@@ -713,17 +758,17 @@
   <header class="site-header" aria-label="Crown Labs header">
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="Crown Labs home">
-        <span class="brand-mark" aria-hidden="true">CL</span>
-        <span class="brand-text"><strong>Crown Labs</strong><span>Intelligent product systems</span></span>
+        <img class="brand-logo brand-logo--dark" src="assets/logos/logo-hires-white-for-dark-bg.svg" alt="Crown Labs" />
+        <img class="brand-logo brand-logo--light" src="assets/logos/logo-hires-black-for-light-bg.svg" alt="Crown Labs" />
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
 
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-        <a href="#portfolio">Portfolio</a>
-        <a href="#philosophy">Principles</a>
+        <a href="#portfolio"><span class="nav-icon" aria-hidden="true">dashboard</span>Portfolio</a>
+        <a href="#philosophy"><span class="nav-icon" aria-hidden="true">rule</span>Principles</a>
         <div class="mega">
-          <a href="#categories" aria-haspopup="true">Categories</a>
+          <a href="#categories" aria-haspopup="true"><span class="nav-icon" aria-hidden="true">category</span>Categories</a>
           <div class="mega-panel" role="group" aria-label="Portfolio categories">
             <div class="mega-grid">
               <a class="mega-item" href="#portfolio"><b>Intelligence Systems</b><span>Analysis, profiling, operational insight.</span></a>
@@ -734,8 +779,8 @@
             </div>
           </div>
         </div>
-        <a href="#licensing">Licensing</a>
-        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Inquiry">Contact</a>
+        <a href="#licensing"><span class="nav-icon" aria-hidden="true">handshake</span>Licensing</a>
+        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Inquiry"><span class="nav-icon" aria-hidden="true">mail</span>Contact</a>
       </nav>
 
       <a class="header-cta" href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Investor%20Inquiry">Investor Inquiry</a>
@@ -1003,6 +1048,23 @@
     modal?.addEventListener('click', event => {
       if (event.target === modal) modal.close();
     });
+
+    const sectionLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+    const sectionMap = sectionLinks
+      .map((link) => [link, document.querySelector(link.getAttribute('href'))])
+      .filter(([, section]) => section);
+
+    const setActiveSection = () => {
+      let activeLink = null;
+      for (const [link, section] of sectionMap) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 140 && rect.bottom > 140) activeLink = link;
+      }
+      sectionLinks.forEach((link) => link.classList.toggle('is-active', link === activeLink));
+    };
+
+    window.addEventListener('scroll', setActiveSection, { passive: true });
+    setActiveSection();
   </script>
 </body>
 </html>
