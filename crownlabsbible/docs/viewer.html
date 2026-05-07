@@ -6,27 +6,27 @@
 <title>Crown Labs Documentation</title>
 <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
 <link rel="stylesheet" href="assets/css/platform.css" />
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100,0,-25" />
 </head>
 <body>
 <div class="cl-scrim" id="scrim"></div>
 <div class="cl-app" id="app">
   <aside class="cl-sidebar">
     <div class="cl-sidebar-header">
-      <img class="cl-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" />
-      <button class="cl-icon-btn" id="navToggle" title="Toggle navigation"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+      <img class="cl-logo" src="https://www.darenprince.com/assets/logos/logo-hires-white-for-dark-bg.svg" data-dark-logo="https://www.darenprince.com/assets/logos/logo-hires-white-for-dark-bg.svg" data-light-logo="https://www.darenprince.com/assets/logos/logo-hires-black-for-light-bg.svg" alt="Crown Labs" />
+      <button class="cl-icon-btn" id="navToggle" title="Toggle navigation"><span class="ms-icon" aria-hidden="true">menu</span></button>
     </div>
     <div class="cl-title">Crown Labs Documentation</div>
     <div class="cl-subtitle">Unified product, investor, executive, brand, and operating documentation.</div>
     <div class="cl-quicklinks">
-      <a href="index.html"><iconify-icon icon="solar:home-2-linear"></iconify-icon>Portal</a>
-      <a href="viewer.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Docs</a>
-      <a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor</a>
-      <a href="executive-dashboard.html"><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive</a>
-      <a href="ecosystem-map.html"><iconify-icon icon="solar:map-point-linear"></iconify-icon>Map</a>
-      <a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a>
+      <a href="index.html"><span class="ms-icon" aria-hidden="true">home</span>Portal</a>
+      <a href="viewer.html"><span class="ms-icon" aria-hidden="true">description</span>Docs</a>
+      <a href="investor-mode.html"><span class="ms-icon" aria-hidden="true">account_balance_wallet</span>Investor</a>
+      <a href="executive-dashboard.html"><span class="ms-icon" aria-hidden="true">monitoring</span>Executive</a>
+      <a href="ecosystem-map.html"><span class="ms-icon" aria-hidden="true">map</span>Map</a>
+      <a href="roadmap-tracker.html"><span class="ms-icon" aria-hidden="true">route</span>Roadmap</a>
     </div>
-    <div class="cl-search"><iconify-icon icon="solar:magnifer-linear"></iconify-icon><input id="searchInput" placeholder="Search documentation..." /></div>
+    <div class="cl-search"><span class="ms-icon" aria-hidden="true">search</span><input id="searchInput" placeholder="Search documentation..." /></div>
     <div class="cl-tree" id="navRoot"></div>
   </aside>
 
@@ -34,33 +34,33 @@
     <div class="cl-reader">
       <div class="cl-toolbar">
         <div>
-          <button class="cl-icon-btn cl-mobile-menu" id="mobileMenu"><iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon></button>
+          <button class="cl-icon-btn cl-mobile-menu" id="mobileMenu"><span class="ms-icon" aria-hidden="true">menu</span></button>
           <div class="cl-breadcrumbs" id="breadcrumbRoot"></div>
           <small class="cl-path" id="pathLabel">Select a document</small>
         </div>
         <div class="cl-tools">
-          <button class="cl-tool-btn" id="themeToggle"><iconify-icon icon="solar:moon-linear"></iconify-icon><span>Theme</span></button>
-          <button class="cl-tool-btn" id="fontDown"><iconify-icon icon="solar:text-linear"></iconify-icon>A−</button>
-          <button class="cl-tool-btn" id="fontReset"><iconify-icon icon="solar:text-bold"></iconify-icon>A</button>
-          <button class="cl-tool-btn" id="fontUp"><iconify-icon icon="solar:text-field-focus-linear"></iconify-icon>A+</button>
-          <button class="cl-tool-btn" id="copyDoc"><iconify-icon icon="solar:copy-linear"></iconify-icon>Copy</button>
-          <button class="cl-tool-btn" id="printDoc"><iconify-icon icon="solar:printer-2-linear"></iconify-icon>Print</button>
-          <button class="cl-tool-btn" id="shareDoc"><iconify-icon icon="solar:share-linear"></iconify-icon>Share</button>
+          <button class="cl-tool-btn" id="themeToggle"><span class="ms-icon" aria-hidden="true">dark_mode</span><span>Theme</span></button>
+          <button class="cl-tool-btn" id="fontDown"><span class="ms-icon" aria-hidden="true">text_fields</span>A−</button>
+          <button class="cl-tool-btn" id="fontReset"><span class="ms-icon" aria-hidden="true">format_size</span>A</button>
+          <button class="cl-tool-btn" id="fontUp"><span class="ms-icon" aria-hidden="true">text_increase</span>A+</button>
+          <button class="cl-tool-btn" id="copyDoc"><span class="ms-icon" aria-hidden="true">content_copy</span>Copy</button>
+          <button class="cl-tool-btn" id="printDoc"><span class="ms-icon" aria-hidden="true">print</span>Print</button>
+          <button class="cl-tool-btn" id="shareDoc"><span class="ms-icon" aria-hidden="true">share</span>Share</button>
         </div>
       </div>
       <article class="cl-content" id="content"><p class="cl-empty">Choose a document from the navigation.</p></article>
       <footer class="cl-footer">
         <div class="cl-footer-grid">
-          <div><img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p><div class="cl-social"><a href="https://www.darenprince.com"><iconify-icon icon="solar:global-linear"></iconify-icon></a><a href="https://github.com/darenprince"><iconify-icon icon="mdi:github"></iconify-icon></a><a href="#"><iconify-icon icon="mdi:linkedin"></iconify-icon></a><a href="#"><iconify-icon icon="mdi:twitter"></iconify-icon></a></div></div>
-          <div><h4>Documentation</h4><a href="viewer.html"><iconify-icon icon="solar:document-text-linear"></iconify-icon>Viewer</a><a href="ecosystem-map.html"><iconify-icon icon="solar:map-linear"></iconify-icon>Ecosystem Map</a><a href="roadmap-tracker.html"><iconify-icon icon="solar:route-linear"></iconify-icon>Roadmap</a></div>
-          <div><h4>Business</h4><a href="investor-mode.html"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>Investor Mode</a><a href="executive-dashboard.html"><iconify-icon icon="solar:chart-square-linear"></iconify-icon>Executive Dashboard</a><a href="mailto:apps@crownlabs.tech"><iconify-icon icon="solar:letter-linear"></iconify-icon>Contact</a></div>
-          <div><h4>Updates</h4><p>Get release notes and documentation updates.</p><form class="cl-signup" onsubmit="event.preventDefault();toast('Signup captured. Connect mailing provider next.');"><input type="email" placeholder="Email address" required /><button><iconify-icon icon="solar:arrow-right-linear"></iconify-icon></button></form></div>
+          <div><img src="https://www.darenprince.com/assets/logos/logo-hires-white-for-dark-bg.svg" data-dark-logo="https://www.darenprince.com/assets/logos/logo-hires-white-for-dark-bg.svg" data-light-logo="https://www.darenprince.com/assets/logos/logo-hires-black-for-light-bg.svg" alt="Crown Labs" /><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p><div class="cl-social"><a href="https://www.darenprince.com"><span class="ms-icon" aria-hidden="true">language</span></a><a href="https://github.com/darenprince"><span class="ms-icon" aria-hidden="true">code</span></a><a href="#"><span class="ms-icon" aria-hidden="true">work</span></a><a href="#"><span class="ms-icon" aria-hidden="true">alternate_email</span></a></div></div>
+          <div><h4>Documentation</h4><a href="viewer.html"><span class="ms-icon" aria-hidden="true">description</span>Viewer</a><a href="ecosystem-map.html"><span class="ms-icon" aria-hidden="true">map</span>Ecosystem Map</a><a href="roadmap-tracker.html"><span class="ms-icon" aria-hidden="true">route</span>Roadmap</a></div>
+          <div><h4>Business</h4><a href="investor-mode.html"><span class="ms-icon" aria-hidden="true">account_balance_wallet</span>Investor Mode</a><a href="executive-dashboard.html"><span class="ms-icon" aria-hidden="true">monitoring</span>Executive Dashboard</a><a href="mailto:apps@crownlabs.tech"><span class="ms-icon" aria-hidden="true">mail</span>Contact</a></div>
+          <div><h4>Updates</h4><p>Get release notes and documentation updates.</p><form class="cl-signup" onsubmit="event.preventDefault();toast('Signup captured. Connect mailing provider next.');"><input type="email" placeholder="Email address" required /><button><span class="ms-icon" aria-hidden="true">arrow_forward</span></button></form></div>
         </div>
       </footer>
     </div>
   </main>
 </div>
-<button class="cl-back-top" id="backTop"><iconify-icon icon="solar:arrow-up-linear"></iconify-icon></button>
+<button class="cl-back-top" id="backTop"><span class="ms-icon" aria-hidden="true">arrow_upward</span></button>
 <div class="cl-toast" id="toast"></div>
 <script>
 const iconMap={
@@ -85,14 +85,14 @@ const $=s=>document.querySelector(s), app=$('#app'), navRoot=$('#navRoot'), cont
 let currentDoc=null,currentPath='',scale=Number(localStorage.getItem('readerScale')||1);
 document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark';document.documentElement.style.setProperty('--reader-scale',scale);if(localStorage.getItem('navCollapsed')==='true')app.classList.add('nav-collapsed');
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-function icon(s){return '<iconify-icon icon="'+(iconMap[s]||'solar:document-text-linear')+'"></iconify-icon>';}
+function icon(s){return '<span class="ms-icon" aria-hidden="true">radio_button_unchecked</span>';}
 function flatten(nodes,p=[]){return nodes.flatMap(n=>n.children?flatten(n.children,[...p,n.label]):[{...n,crumb:[...p,n.label]}]);}
 const flat=flatten(tree);
 flat.unshift({label:'Documentation Platform',path:'../05-corporate-infrastructure/documentation-platform.md',crumb:['Corporate Infrastructure','Documentation Platform']});
 function match(n,q){return (n.label+' '+(n.path||'')).toLowerCase().includes(q)||(n.children||[]).some(x=>match(x,q));}
 function renderNav(q=''){q=q.toLowerCase().trim();navRoot.innerHTML='';tree.forEach(sec=>{if(q&&!match(sec,q))return;const s=document.createElement('div');s.className='cl-section';s.dataset.section=sec.label;s.innerHTML='<button class="cl-section-toggle"><span class="cl-label">'+icon(sec.label)+'<span>'+esc(sec.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-children"></div>';s.querySelector('button').onclick=()=>s.classList.toggle('closed');const kids=s.querySelector('.cl-children');sec.children.forEach(ch=>{if(q&&!match(ch,q))return;if(ch.children){const g=document.createElement('div');g.className='cl-product';g.dataset.group=ch.label;g.innerHTML='<button class="cl-product-toggle"><span class="cl-label">'+icon(ch.label)+'<span>'+esc(ch.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-leaves"></div>';g.querySelector('button').onclick=()=>g.classList.toggle('closed');ch.children.forEach(d=>{if(!q||match(d,q))g.querySelector('.cl-leaves').appendChild(link(d,[sec.label,ch.label,d.label]));});kids.appendChild(g);}else kids.appendChild(link(ch,[sec.label,ch.label]));});navRoot.appendChild(s);});syncActive();}
-function link(doc,crumb){const a=document.createElement('a');a.className='cl-doc-link';a.href='#'+encodeURIComponent(doc.label);a.dataset.path=doc.path;a.innerHTML='<iconify-icon icon="solar:document-text-linear"></iconify-icon><span>'+esc(doc.label)+'</span>';a.onclick=e=>{e.preventDefault();openDoc({...doc,crumb});};return a;}
-function breadcrumbs(doc){crumbs.innerHTML='';['Home',...doc.crumb].forEach((p,i,arr)=>{if(i){const sep=document.createElement('span');sep.className='sep';sep.textContent='/';crumbs.appendChild(sep);}if(i===arr.length-1){const cur=document.createElement('span');cur.className='current';cur.textContent=p;crumbs.appendChild(cur);}else{const b=document.createElement('button');b.innerHTML=(i?'':'<iconify-icon icon="solar:home-2-linear"></iconify-icon>')+esc(p);b.onclick=()=>{if(!i)location.href='index.html';else expand(doc.crumb.slice(0,i));};crumbs.appendChild(b);}});}
+function link(doc,crumb){const a=document.createElement('a');a.className='cl-doc-link';a.href='#'+encodeURIComponent(doc.label);a.dataset.path=doc.path;a.innerHTML='<span class="ms-icon" aria-hidden="true">description</span><span>'+esc(doc.label)+'</span>';a.onclick=e=>{e.preventDefault();openDoc({...doc,crumb});};return a;}
+function breadcrumbs(doc){crumbs.innerHTML='';['Home',...doc.crumb].forEach((p,i,arr)=>{if(i){const sep=document.createElement('span');sep.className='sep';sep.textContent='/';crumbs.appendChild(sep);}if(i===arr.length-1){const cur=document.createElement('span');cur.className='current';cur.textContent=p;crumbs.appendChild(cur);}else{const b=document.createElement('button');b.innerHTML=(i?'':'<span class="ms-icon" aria-hidden="true">home</span>')+esc(p);b.onclick=()=>{if(!i)location.href='index.html';else expand(doc.crumb.slice(0,i));};crumbs.appendChild(b);}});}
 function expand(parts){document.querySelectorAll('.cl-section').forEach(s=>s.classList.toggle('closed',s.dataset.section!==parts[0]));document.querySelectorAll('.cl-product').forEach(g=>{if(parts[1])g.classList.toggle('closed',g.dataset.group!==parts[1]);});}
 function syncActive(){document.querySelectorAll('.cl-doc-link').forEach(a=>a.classList.toggle('active',a.dataset.path===currentPath));}
 function mdToHtml(md){let html='',list=false;const add=t=>esc(t).replace(/\[\[([^\]]+)\]\]/g,(m,name)=>{const d=flat.find(x=>x.label.toLowerCase()===name.toLowerCase()||x.crumb.join(' ').toLowerCase()===name.toLowerCase());return d?'<a class="cl-doc-ref" href="#'+encodeURIComponent(d.label)+'" data-path="'+esc(d.path)+'">'+esc(name)+'</a>':esc(name);});md.split('\n').forEach(line=>{const t=line.trim();if(!t){if(list){html+='</ul>';list=false;}return;}if(t.startsWith('# ')){if(list){html+='</ul>';list=false;}html+='<h1>'+add(t.slice(2))+'</h1>';return;}if(t.startsWith('## ')){if(list){html+='</ul>';list=false;}html+='<h2>'+add(t.slice(3))+'</h2>';return;}if(t.startsWith('### ')){if(list){html+='</ul>';list=false;}html+='<h3>'+add(t.slice(4))+'</h3>';return;}if(t.startsWith('- ')){if(!list){html+='<ul>';list=true;}html+='<li>'+add(t.slice(2))+'</li>';return;}if(list){html+='</ul>';list=false;}html+='<p>'+add(t)+'</p>';});if(list)html+='</ul>';return html;}
