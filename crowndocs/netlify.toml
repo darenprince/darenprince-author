@@ -1,0 +1,3 @@
+[build]
+  command = "NITRO_PRESET=static npm run generate"
+  publish = ".output/public"
