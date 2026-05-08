@@ -2,7 +2,7 @@
   <main class="wrap">
     <header>
       <h1>Crown Labs Documentation</h1>
-      <p>Quiet luxury infrastructure documentation platform.</p>
+      <p>Quiet luxury infrastructure documentation platform for public-facing institutional content.</p>
     </header>
     <section>
       <ul>
@@ -17,8 +17,6 @@
 </template>
 
 <style scoped>
-:global(body){font-family:Inter, system-ui, sans-serif;background:#0c1117;color:#e7edf3;margin:0}
 .wrap{max-width:960px;margin:0 auto;padding:3rem 1.25rem}
-a{color:#d4b26a;text-decoration:none}
-a:hover{text-decoration:underline}
+ul{line-height:1.8}
 </style>
