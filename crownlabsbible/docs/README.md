@@ -31,6 +31,9 @@ All routes are aligned to the viewer-style documentation shell and include:
 - dark/light theme toggle support plus collapsible desktop/mobile navigation state
 - Iconify icon usage for visual language consistency
 - route-level SEO/social metadata (`description`, Open Graph, Twitter cards)
+- unified toolbar header pattern: brand mark left, mobile navigation toggle right, breadcrumb stack below
+- mobile layering fix: off-canvas menu and scrim now stack above sticky toolbar to prevent header/menu overlap
+- active route highlighting uses solid Crown red text for reliable contrast (replaces conic-gradient text fill)
 
 ## Brand and Browser Assets
 
