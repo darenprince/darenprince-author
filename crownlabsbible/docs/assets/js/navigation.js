@@ -14,8 +14,9 @@
     const current = window.location.pathname.split('/').pop() || 'index.html'
     document.querySelectorAll('.cl-quicklinks a').forEach((link) => {
       const href = link.getAttribute('href') || ''
-      link.classList.toggle('is-active', href === current)
-      if (href === current) link.setAttribute('aria-current', 'page')
+      const target = href.split('#')[0]
+      link.classList.toggle('is-active', target === current)
+      if (target === current) link.setAttribute('aria-current', 'page')
       else link.removeAttribute('aria-current')
     })
   }
@@ -31,6 +32,8 @@
   }
 
   const navToggle = document.getElementById('navToggle')
+  const toolbarToggle = document.getElementById('toolbarToggle')
+  const toolbar = document.querySelector('.cl-toolbar')
   const mobileMenu = document.getElementById('mobileMenu')
   const scrim = document.getElementById('scrim')
 
@@ -55,5 +58,17 @@
 
   if (scrim) {
     scrim.addEventListener('click', () => document.body.classList.remove('nav-open'))
+  }
+
+  if (toolbarToggle && toolbar) {
+    const collapsed = localStorage.getItem('toolbarCollapsed') === 'true'
+    toolbar.classList.toggle('toolbar-collapsed', collapsed)
+    toolbarToggle.querySelector('.ms-icon').textContent = collapsed ? 'expand_more' : 'expand_less'
+    toolbarToggle.addEventListener('click', () => {
+      const next = !toolbar.classList.contains('toolbar-collapsed')
+      toolbar.classList.toggle('toolbar-collapsed', next)
+      toolbarToggle.querySelector('.ms-icon').textContent = next ? 'expand_more' : 'expand_less'
+      localStorage.setItem('toolbarCollapsed', String(next))
+    })
   }
 })()
