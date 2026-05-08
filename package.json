@@ -46,13 +46,13 @@
     "marked": "^10.0.0",
     "micromatch": "^4.0.7",
     "minisearch": "^6.1.0",
-    "postcss": "^8.4.47",
+    "postcss": "^8.5.14",
     "prettier": "^3.3.3",
     "sass": "^1.89.2",
     "tailwindcss": "^3.4.14",
     "the-noun-project-v2": "^1.0.4",
     "typescript": "^5.9.2",
-    "vite": "^7.3.1",
+    "vite": "^7.3.3",
     "vitest": "^3.2.4"
   },
   "dependencies": {
