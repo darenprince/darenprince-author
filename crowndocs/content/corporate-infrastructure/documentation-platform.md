@@ -13,3 +13,16 @@
 - Utility toolbar: text size controls, copy, print, share, and back-to-top.
 - Deprecated legacy files: `viewer-clean.html` and `investor-clean.html` are retired from primary navigation and can be removed after external references are migrated.
 - Next implementation step: extract shared interactive behavior into `docs/assets/js/platform.js`.
+
+## CrownLabsBible Legacy Review
+
+- `crownlabsbible/docs/index.html` and `crownlabsbible/docs/viewer.html` remain deprecated legacy endpoints.
+- Canonical public interface is the Nuxt `crowndocs` shell and `/docs/*` content routes.
+- Do not mirror legacy logo behavior from the old viewer; use shell-level theme-aware logo switching only.
+
+## Theme-aware Logo Rules (Production)
+
+- Dark mode logo: `https://www.darenprince.com/labs/assets/crown-labs-logo.png`.
+- Light mode logo: `https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png`.
+- Logo swapping is bound to persistent theme state (`crowndocs-theme`) and applies globally through `app.vue`.
+- Any new docs page must inherit shell branding and must not define local competing logos.
