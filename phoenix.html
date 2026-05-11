@@ -22,7 +22,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
   <style>
     :root { --bg:#0d0d0d; --card:#1a1a1a; --card-2:#232323; --txt:#f6f7f8; --muted:#b8b9bc; --warm:#ff7a18; --warm-2:#ffb347; --danger:#ff5a36; --ok:#66d1a4; --radius:14px; }
     * { box-sizing:border-box; }
@@ -82,41 +81,198 @@
   <aside class="escape" id="escape"><h2>Regional Weather Update</h2><p>Cloudy, 74°F. Humidity 81%.</p><p>Traffic steady downtown. No severe alerts.</p><p>Press Alt+Shift+X to return to Operation Phoenix.</p></aside>
 
 <script>
-const resources=[
-{category:'Shelter',name:'Hope House of Central Louisiana',address:'5115 S MacArthur Dr, Alexandria, LA 71302',phone:'318-487-2061',tags:['women','family','overnight','emergency'],notes:'Emergency shelter intake and case management.'},
-{category:'Shelter',name:'Faith House',address:'Central Louisiana service area',phone:'337-232-8954',tags:['women','family','emergency'],notes:'Domestic violence shelter and emergency advocacy.'},
-{category:'Food',name:'Food Bank of Central Louisiana',address:'3223 Baldwin Ave, Alexandria, LA 71301',phone:'318-445-2773',tags:['food','family'],notes:'Food pantry and distributions.'},
-{category:'Wi-Fi',name:'Rapides Parish Main Library',address:'411 Washington St, Alexandria, LA 71301',phone:'318-445-2411',tags:['wifi','showers','transportation'],notes:'Public Wi-Fi, charging, bathrooms, safer daytime space.'},
-{category:'Healthcare',name:'Rapides Regional Medical Center',address:'211 4th St, Alexandria, LA 71301',phone:'318-769-3000',tags:['healthcare','emergency','overnight'],notes:'24/7 emergency care and indoor safety.'},
-{category:'Resources',name:'Veterans Homeless Hotline',address:'National',phone:'877-424-3838',tags:['veterans','emergency'],notes:'Support for unhoused veterans.'},
-{category:'Resources',name:'Central Louisiana Homeless Coalition',address:'1515 Jackson St, Alexandria, LA 71301',phone:'318-443-0500',tags:['family','transportation'],notes:'Coordinated entry and housing pathways.'},
-{category:'Resources',name:'211 Louisiana Referral',address:'Statewide',phone:'211',tags:['emergency','food','healthcare'],notes:'Referral and coordinated emergency support.'}
+const resources = [
+  { category: 'Shelter', name: 'Hope House of Central Louisiana', address: '5115 S MacArthur Dr, Alexandria, LA 71302', phone: '318-487-2061', tags: ['women', 'family', 'overnight', 'emergency'], notes: 'Emergency shelter intake and case management.' },
+  { category: 'Shelter', name: 'Faith House', address: 'Central Louisiana service area', phone: '337-232-8954', tags: ['women', 'family', 'emergency'], notes: 'Domestic violence shelter and emergency advocacy.' },
+  { category: 'Food', name: 'Food Bank of Central Louisiana', address: '3223 Baldwin Ave, Alexandria, LA 71301', phone: '318-445-2773', tags: ['food', 'family'], notes: 'Food pantry and distributions.' },
+  { category: 'Wi-Fi', name: 'Rapides Parish Main Library', address: '411 Washington St, Alexandria, LA 71301', phone: '318-445-2411', tags: ['wifi', 'showers', 'transportation'], notes: 'Public Wi-Fi, charging, bathrooms, safer daytime space.' },
+  { category: 'Healthcare', name: 'Rapides Regional Medical Center', address: '211 4th St, Alexandria, LA 71301', phone: '318-769-3000', tags: ['healthcare', 'emergency', 'overnight'], notes: '24/7 emergency care and indoor safety.' },
+  { category: 'Resources', name: 'Veterans Homeless Hotline', address: 'National', phone: '877-424-3838', tags: ['veterans', 'emergency'], notes: 'Support for unhoused veterans.' },
+  { category: 'Resources', name: 'Central Louisiana Homeless Coalition', address: '1515 Jackson St, Alexandria, LA 71301', phone: '318-443-0500', tags: ['family', 'transportation'], notes: 'Coordinated entry and housing pathways.' },
+  { category: 'Resources', name: '211 Louisiana Referral', address: 'Statewide', phone: '211', tags: ['emergency', 'food', 'healthcare'], notes: 'Referral and coordinated emergency support.' }
 ];
-const emergency=[
-['911','tel:911','hot'],['Suicide Hotline (988)','tel:988','hot'],['Domestic Violence Hotline','tel:18007997233','hot'],['Shelter Now','#resources','warm'],['Food Now','#resources','warm'],['Nearby Hospital','https://maps.google.com/?q=Rapides+Regional+Medical+Center','warm'],['Emergency Transport','tel:911','hot']
+
+const emergency = [
+  ['911', 'tel:911', 'hot'], ['Suicide Hotline (988)', 'tel:988', 'hot'], ['Domestic Violence Hotline', 'tel:18007997233', 'hot'],
+  ['Shelter Now', '#resources', 'warm'], ['Food Now', '#resources', 'warm'], ['Nearby Hospital', 'https://maps.google.com/?q=Rapides+Regional+Medical+Center', 'warm'], ['Emergency Transport', 'tel:911', 'hot']
 ];
-const filters=['all','women','family','veterans','overnight','emergency','pet friendly','food','showers','transportation','healthcare'];
-const cards=document.getElementById('cards');
-const search=document.getElementById('search');
-let active='all';
-const fuse=new Fuse(resources,{keys:['category','name','address','notes','tags'],threshold:.35,ignoreLocation:true});
 
-function phoneHref(phone){const p=phone.replace(/\D/g,''); return p?`tel:${p}`:'#';}
-function mapHref(addr){return `https://maps.google.com/?q=${encodeURIComponent(addr)}`;}
-function drawRightNow(){document.getElementById('rightNow').innerHTML=emergency.map(([t,h,c])=>`<a class="btn ${c}" href="${h}" target="${h.startsWith('http')?'_blank':'_self'}" rel="noopener">${t}</a>`).join('');}
-function drawFilters(){const root=document.getElementById('filters'); filters.forEach(f=>{const b=document.createElement('button'); b.className='chip'; b.textContent=f; b.type='button'; if(f===active)b.classList.add('active'); b.onclick=()=>{active=f;drawFilters();render()}; root.appendChild(b);});}
-function resultSet(){ const q=search.value.trim(); let list=q?fuse.search(q).map(x=>x.item):resources; if(active!=='all'){ list=list.filter(r=>r.tags.includes(active) || r.category.toLowerCase()===active.toLowerCase()); } return list; }
-function render(){ cards.textContent=''; resultSet().forEach((r,i)=>{const id=`x${i}`; const el=document.createElement('article'); el.className='resource'; el.innerHTML=`<div class="head"><strong>${r.name}</strong><span class="tag">${r.category}</span></div><p class="meta">${r.address}<br>${r.phone}</p><p>${r.notes}</p><div class="chips">${r.tags.map(t=>`<span class='tag'>#${t}</span>`).join('')}</div><div class="actions"><a class="btn hot" href="${phoneHref(r.phone)}">Call</a><a class="btn" target="_blank" rel="noopener" href="${mapHref(r.address)}">Map</a><button class="btn" data-copy="${r.address}">Copy</button><button class="btn" data-save="${id}">Save</button></div><details class="collapse"><summary>Details</summary><p>${r.notes}</p></details>`; cards.appendChild(el);}); }
+const filters = ['all', 'women', 'family', 'veterans', 'overnight', 'emergency', 'pet friendly', 'food', 'showers', 'transportation', 'healthcare'];
+const cards = document.getElementById('cards');
+const search = document.getElementById('search');
+const filterRoot = document.getElementById('filters');
+let active = 'all';
 
-drawRightNow();drawFilters();render();
-search.addEventListener('input',render);
-document.querySelector('.bottom').addEventListener('click',e=>{const k=e.target.closest('[data-nav]')?.dataset.nav; if(!k)return; if(k!=='Resources'){active=k; drawFilters(); render();}});
-document.addEventListener('click',async e=>{const c=e.target.closest('[data-copy]'); if(c){await navigator.clipboard.writeText(c.dataset.copy); c.textContent='Copied'; setTimeout(()=>c.textContent='Copy',800);} const s=e.target.closest('[data-save]'); if(s){const save=JSON.parse(localStorage.getItem('phoenixSaved')||'[]'); save.push(s.dataset.save); localStorage.setItem('phoenixSaved',JSON.stringify([...new Set(save)])); s.textContent='Saved';}});
+const normalize = (value) => String(value || '').toLowerCase();
+const haystackFor = (resource) => [resource.category, resource.name, resource.address, resource.notes, ...(resource.tags || [])].map(normalize).join(' ');
 
-document.getElementById('panic').onclick=()=>document.getElementById('escape').classList.add('active');
-let taps=0; document.getElementById('brandTap').onclick=()=>{taps++; if(taps>=4){document.getElementById('escape').classList.remove('active'); taps=0;}};
-window.addEventListener('keydown',e=>{if(e.altKey&&e.shiftKey&&e.key.toLowerCase()==='x'){document.getElementById('escape').classList.toggle('active');}});
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('phoenix-sw.js'));}
+function phoneHref(phone) {
+  const normalizedPhone = String(phone || '').replace(/\D/g, '');
+  return normalizedPhone ? `tel:${normalizedPhone}` : '#';
+}
+
+function mapHref(address) {
+  return `https://maps.google.com/?q=${encodeURIComponent(address)}`;
+}
+
+function createNode(tagName, className, text) {
+  const node = document.createElement(tagName);
+  if (className) node.className = className;
+  if (typeof text === 'string') node.textContent = text;
+  return node;
+}
+
+function drawRightNow() {
+  const rightNow = document.getElementById('rightNow');
+  rightNow.textContent = '';
+  emergency.forEach(([label, href, tone]) => {
+    const action = createNode('a', `btn ${tone}`, label);
+    action.href = href;
+    action.target = href.startsWith('http') ? '_blank' : '_self';
+    action.rel = 'noopener';
+    rightNow.appendChild(action);
+  });
+}
+
+function drawFilters() {
+  filterRoot.textContent = '';
+  filters.forEach((item) => {
+    const button = createNode('button', 'chip', item);
+    button.type = 'button';
+    if (item === active) button.classList.add('active');
+    button.addEventListener('click', () => {
+      active = item;
+      drawFilters();
+      render();
+    });
+    filterRoot.appendChild(button);
+  });
+}
+
+function resultSet() {
+  const query = normalize(search.value.trim());
+  let list = resources;
+
+  if (query) {
+    list = resources.filter((resource) => haystackFor(resource).includes(query));
+  }
+
+  if (active !== 'all') {
+    const activeLower = normalize(active);
+    list = list.filter((resource) => (resource.tags || []).includes(activeLower) || normalize(resource.category) === activeLower);
+  }
+
+  return list;
+}
+
+function render() {
+  cards.textContent = '';
+  const list = resultSet();
+  if (!list.length) {
+    cards.appendChild(createNode('p', 'meta', 'No resources found. Clear filters or search terms.'));
+    return;
+  }
+
+  list.forEach((resource, index) => {
+    const article = createNode('article', 'resource');
+
+    const head = createNode('div', 'head');
+    head.appendChild(createNode('strong', '', resource.name));
+    head.appendChild(createNode('span', 'tag', resource.category));
+
+    const meta = createNode('p', 'meta', `${resource.address}
+${resource.phone}`);
+    meta.style.whiteSpace = 'pre-line';
+
+    const notes = createNode('p', '', resource.notes);
+
+    const tags = createNode('div', 'chips');
+    (resource.tags || []).forEach((tag) => tags.appendChild(createNode('span', 'tag', `#${tag}`)));
+
+    const actions = createNode('div', 'actions');
+    const callLink = createNode('a', 'btn hot', 'Call');
+    callLink.href = phoneHref(resource.phone);
+
+    const mapLink = createNode('a', 'btn', 'Map');
+    mapLink.target = '_blank';
+    mapLink.rel = 'noopener';
+    mapLink.href = mapHref(resource.address);
+
+    const copyButton = createNode('button', 'btn', 'Copy');
+    copyButton.type = 'button';
+    copyButton.dataset.copy = resource.address;
+
+    const saveButton = createNode('button', 'btn', 'Save');
+    saveButton.type = 'button';
+    saveButton.dataset.save = `x${index}`;
+
+    actions.append(callLink, mapLink, copyButton, saveButton);
+
+    const details = createNode('details', 'collapse');
+    const summary = createNode('summary', '', 'Details');
+    details.append(summary, createNode('p', '', resource.notes));
+
+    article.append(head, meta, notes, tags, actions, details);
+    cards.appendChild(article);
+  });
+}
+
+drawRightNow();
+drawFilters();
+render();
+
+search.addEventListener('input', render);
+document.querySelector('.bottom').addEventListener('click', (event) => {
+  const navKey = event.target.closest('[data-nav]')?.dataset.nav;
+  if (!navKey) return;
+  if (navKey !== 'Resources') {
+    active = navKey;
+    drawFilters();
+    render();
+  }
+});
+
+document.addEventListener('click', async (event) => {
+  const copyTarget = event.target.closest('[data-copy]');
+  if (copyTarget) {
+    try {
+      await navigator.clipboard.writeText(copyTarget.dataset.copy || '');
+      copyTarget.textContent = 'Copied';
+      setTimeout(() => { copyTarget.textContent = 'Copy'; }, 800);
+    } catch {
+      copyTarget.textContent = 'Unable';
+      setTimeout(() => { copyTarget.textContent = 'Copy'; }, 1000);
+    }
+  }
+
+  const saveTarget = event.target.closest('[data-save]');
+  if (saveTarget) {
+    const saved = JSON.parse(localStorage.getItem('phoenixSaved') || '[]');
+    saved.push(saveTarget.dataset.save);
+    localStorage.setItem('phoenixSaved', JSON.stringify([...new Set(saved)]));
+    saveTarget.textContent = 'Saved';
+  }
+});
+
+document.getElementById('panic').onclick = () => document.getElementById('escape').classList.add('active');
+let taps = 0;
+document.getElementById('brandTap').onclick = () => {
+  taps += 1;
+  if (taps >= 4) {
+    document.getElementById('escape').classList.remove('active');
+    taps = 0;
+  }
+};
+
+window.addEventListener('keydown', (event) => {
+  if (event.altKey && event.shiftKey && event.key.toLowerCase() === 'x') {
+    document.getElementById('escape').classList.toggle('active');
+  }
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('phoenix-sw.js'));
+}
 </script>
 </body>
 </html>
