@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
+  <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
+  <style>
+    :root {
+      --bg: #120f10;
+      --bg-soft: #1c1516;
+      --panel: #241819;
+      --panel-2: #2e1c1b;
+      --ember: #d84a2b;
+      --flame: #ff7a2f;
+      --gold: #ffc259;
+      --cream: #f6e8d0;
+      --muted: #cabca7;
+      --ash: #60514b;
+      --ok: #ff9f43;
+      --danger: #ff5f5f;
+      --radius: 16px;
+      --shadow: 0 10px 26px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(1000px 420px at 20% -5%, #3b1e1b 0%, var(--bg) 45%), var(--bg);
+      color: var(--cream);
+      line-height: 1.45;
+      padding-bottom: 78px;
+    }
+
+    .container { width: min(100%, 760px); margin: 0 auto; padding: 14px 14px 24px; }
+    .hero {
+      background: linear-gradient(150deg, #2f1616, #1a1112 65%);
+      border: 1px solid #483835;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .hero-top { display: flex; gap: 12px; align-items: center; }
+    .icon { width: 64px; height: 64px; border-radius: 14px; border: 1px solid #5c4239; }
+    h1 { margin: 0; font-size: 1.4rem; letter-spacing: .2px; }
+    .motto { margin: 6px 0 0; color: var(--gold); font-weight: 650; font-size: .95rem; }
+    .sub { margin: 10px 0 4px; color: var(--muted); }
+    .note { margin: 10px 0 0; background: rgba(255, 194, 89, .1); border: 1px solid rgba(255, 194, 89, .35); padding: 10px; border-radius: 12px; color: #ffe4ac; }
+
+    .quick-actions, .chips { display: grid; gap: 10px; margin-top: 14px; }
+    .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .chips { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; border-radius: 12px; min-height: 50px;
+      padding: 10px 12px; font-weight: 700; font-size: .98rem;
+      border: 1px solid #644940; color: var(--cream); background: #35201f;
+    }
+    .btn.hot { background: linear-gradient(180deg, #a52f1f, #7d2218); border-color: #d25538; }
+    .btn.gold { background: linear-gradient(180deg, #896022, #6e4c1c); border-color: #c8963f; }
+
+    .search-wrap { margin: 14px 0; }
+    .search {
+      width: 100%; min-height: 50px; border: 1px solid #5a4641; border-radius: 13px;
+      background: #201718; color: var(--cream); padding: 12px 14px; font-size: 1rem;
+    }
+
+    section { margin-top: 18px; }
+    .section-title { font-size: 1.2rem; margin: 0 0 10px; }
+    .section-sub { color: var(--muted); margin-bottom: 10px; }
+
+    .cards { display: grid; gap: 12px; }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid #4f3a36;
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .label { display: inline-block; font-size: .78rem; background: #462723; color: #ffd9ad; border: 1px solid #815447; border-radius: 999px; padding: 4px 8px; margin-bottom: 8px; }
+    .name { margin: 0; font-size: 1.08rem; }
+    .meta { margin: 7px 0; color: var(--muted); font-size: .95rem; }
+    .notes { margin: 8px 0; }
+    .script { margin-top: 8px; padding: 10px; border-radius: 12px; background: rgba(255,122,47,.09); border: 1px solid rgba(255,122,47,.35); color: #ffddb4; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; border: 1px solid #695550; background: #2d1f1f; color: #e9d8bf; }
+
+    .actions { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 10px; }
+    .actions .btn { min-height: 44px; font-size: .9rem; }
+    .small { font-size: .83rem; color: var(--muted); }
+
+    details summary { cursor: pointer; font-weight: 700; color: var(--gold); }
+
+    .last-resort {
+      border: 1px solid #805047;
+      background: linear-gradient(180deg, #381f1d, #241717);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .last-resort ul { padding-left: 20px; margin: 10px 0; }
+    .strong-line { color: #ffd694; font-weight: 750; }
+
+    .bottom-nav {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 15, 16, .97);
+      border-top: 1px solid #523d39;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px;
+      backdrop-filter: blur(8px);
+    }
+    .bottom-nav a {
+      color: var(--cream); text-decoration: none; font-size: .8rem; text-align: center;
+      background: #2b1d1d; border: 1px solid #5a433d; border-radius: 10px; padding: 8px 4px;
+      min-height: 42px; display: flex; align-items: center; justify-content: center;
+    }
+
+    #backToTop {
+      position: fixed; right: 12px; bottom: 86px; border: 1px solid #815447; background: #462723;
+      color: var(--cream); border-radius: 999px; width: 50px; height: 50px; display: none;
+      font-weight: 800;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="container" id="home">
+    <header class="hero">
+      <div class="hero-top">
+        <img class="icon" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix app icon" />
+        <div>
+          <h1>Operation Phoenix</h1>
+          <p class="motto">“The Phoenix rises not by chance, but by discipline and fire.”</p>
+        </div>
+      </div>
+      <p class="sub">Static survival guide for Alexandria, LA.</p>
+      <p class="note">Scroll down or search. Tap phone numbers to call. Tap Map for directions.</p>
+    </header>
+
+    <section class="quick-actions" aria-label="Emergency quick actions">
+      <a class="btn hot" href="tel:911">Call 911</a>
+      <a class="btn hot" href="tel:988">Call 988</a>
+      <a class="btn hot" href="tel:211">Call 211</a>
+      <a class="btn" href="#shelter">Shelter Now</a>
+      <a class="btn" href="#food">Food Today</a>
+      <a class="btn" href="#wifi">Wi-Fi / Charge</a>
+    </section>
+
+    <div class="search-wrap">
+      <label for="search" class="small">Search all resources</label>
+      <input id="search" class="search" type="search" placeholder="Search shelter, food, Wi-Fi, hospital, ID, work..." aria-label="Search resources" />
+    </div>
+
+    <nav class="chips" aria-label="Category navigation">
+      <a class="btn chip" href="#emergency" data-filter="Emergency">Emergency</a><a class="btn chip" href="#shelter" data-filter="Shelter">Shelter</a><a class="btn chip" href="#food" data-filter="Food">Food</a>
+      <a class="btn chip" href="#wifi" data-filter="Wi-Fi">Wi-Fi</a><a class="btn chip" href="#charging" data-filter="Charging">Charging</a><a class="btn chip" href="#safe-indoors" data-filter="Safe Indoors">Safe Indoors</a>
+      <a class="btn chip" href="#benefits" data-filter="Benefits">Benefits</a><a class="btn chip" href="#medical" data-filter="Medical">Medical</a><a class="btn chip" href="#work" data-filter="Work">Work</a>
+      <a class="btn chip" href="#hotlines" data-filter="Hotlines">Hotlines</a><a class="btn chip" href="#last-resort" data-filter="Last Resort">Last Resort</a><button class="btn" id="showAll" type="button">Show All</button>
+    </nav>
+
+    <section id="hotlines"><h2 class="section-title">Emergency Hotlines</h2><div class="cards" id="emergency"></div></section>
+    <section id="shelter"><h2 class="section-title">Shelter / Housing</h2><div class="cards"></div></section>
+    <section id="food"><h2 class="section-title">Food</h2><div class="cards"></div></section>
+    <section id="wifi"><h2 class="section-title">Free Wi-Fi / Charging / Bathrooms</h2><div class="cards" id="charging"></div></section>
+    <section id="medical"><h2 class="section-title">Safe Indoor / Medical</h2><div class="cards" id="safe-indoors"></div></section>
+    <section id="benefits"><h2 class="section-title">Benefits / ID / Housing Assistance</h2><div class="cards"></div></section>
+    <section id="work"><h2 class="section-title">Work Now / Survival Income</h2><div class="cards"></div></section>
+
+    <section id="last-resort" class="last-resort">
+      <h2 class="section-title">Last Resort Safety Plan</h2>
+      <ul>
+        <li>If no shelter is available, prioritize visibility and safety.</li>
+        <li>Hospitals are safer than isolated streets.</li>
+        <li>Stay near lighting, cameras, bathrooms, and other people.</li>
+        <li>Avoid abandoned buildings, isolated woods, and hidden areas.</li>
+        <li>Keep your phone charged.</li>
+        <li>Conserve battery.</li>
+        <li>Keep belongings close.</li>
+        <li>Avoid conflict.</li>
+        <li>Get water first, calories second, rest third.</li>
+        <li>One safe night matters.</li>
+      </ul>
+      <p class="strong-line">The goal tonight is not to solve your entire life. The goal is to stay alive, stay safe, and wake up with options.</p>
+    </section>
+  </main>
+
+  <button id="backToTop" aria-label="Back to top">↑</button>
+  <nav class="bottom-nav" aria-label="Sticky navigation">
+    <a href="#home">Home</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi-Fi</a><a href="#hotlines">Hotlines</a>
+  </nav>
+
+  <script>
+    const resources = [
+      ["Emergency","911","Emergency Services","911","Immediate danger, medical emergency, fire, violence, active threat.","",["urgent","police","fire","ambulance"]],
+      ["Hotlines","988 Suicide & Crisis Lifeline","National","988","Mental health crisis, emotional overwhelm, suicide crisis, panic.","",["mental health","crisis"]],
+      ["Hotlines","211","Louisiana Resource Referral","211","Shelter, food, benefits, emergency services, coordinated entry referrals.","",["referral","shelter","food","benefits"]],
+      ["Hotlines","Veterans Homeless Hotline","National","877-424-3838","Homelessness and crisis support for veterans.","",["veterans","housing"]],
+      ["Hotlines","Domestic Violence Hotline","National","800-799-7233","Domestic violence safety planning and shelter support.","",["domestic violence","safety"]],
+      ["Shelter","Hope House of Central Louisiana","5115 S MacArthur Dr, Alexandria, LA 71302","318-487-2061","Emergency shelter intake, homelessness support, meals, case management. Call first for shelter tonight.","I’m homeless tonight in Alexandria and need emergency shelter intake. Do you have any beds or referrals available right now?",["beds","meals","case management"]],
+      ["Shelter","TRIPLE 8 Housing Solutions","3327 Jackson St, Alexandria, LA 71301","318-240-4732","Temporary housing and housing stabilization support.","I’m currently homeless and need temporary housing or emergency placement help. What intake steps do I need?",["temporary housing","stabilization"]],
+      ["Shelter","Central Louisiana Homeless Coalition","1515 Jackson St, Alexandria, LA 71301","318-443-0500 ext. 1203","Coordinated Entry, housing assessments, rapid rehousing pathways, housing lists.","I need a housing assessment and to be added to Coordinated Entry as soon as possible.",["coordinated entry","rehousing"]],
+      ["Shelter","The Salvation Army Alexandria","620 Beauregard St, Alexandria, LA 71301","318-442-0445","Emergency assistance, warming shelter operations, food help, shelter referrals, possible motel voucher referrals.","I’m homeless tonight and need emergency shelter, food, or motel voucher assistance. Is anything available?",["motel voucher","food","shelter"]],
+      ["Shelter","Faith House","Central Louisiana / service area","337-232-8954","Domestic violence shelter and emergency advocacy for people escaping abuse.","I need safe shelter because of domestic violence or abuse. Can you help me with intake?",["domestic violence","safe shelter"]],
+      ["Food","Food Bank of Central Louisiana","3223 Baldwin Ave, Alexandria, LA 71301","318-445-2773","Food pantry and food distribution assistance. Call for current distribution times.","I need food today. When is the next distribution or pantry access?",["pantry","distribution"]],
+      ["Food","St. Vincent de Paul","Alexandria area","N/A","Emergency food, clothing, rent or utility help may be available through parish/church network.","I’m out of food and need emergency food assistance today. Is there a pantry or voucher available?",["food","clothing","church"]],
+      ["Food","Catholic Charities Central Louisiana","Central Louisiana","N/A","Emergency aid, food assistance, shelter referrals, stabilization support.","I need emergency food and shelter referral help. Who can I speak with today?",["emergency aid","referrals"]],
+      ["Food","Journey Church Outreach","Alexandria/Pineville area","N/A","Church outreach may sometimes help with food, basic supplies, or referrals.","I’m homeless and hungry tonight. Is there any emergency food or outreach help available?",["outreach","supplies"]],
+      ["Wi-Fi","Rapides Parish Main Library","411 Washington St, Alexandria, LA 71301","318-445-2411","Free Wi-Fi, bathrooms, charging, indoor seating, job applications, safer daytime location.","",["wifi","charging","bathrooms"]],
+      ["Wi-Fi","Westside Regional Library","5416 Provine Pl, Alexandria, LA 71303","318-442-2483","Free public Wi-Fi, quiet indoor space, charging opportunities.","",["wifi","quiet","indoor"]],
+      ["Wi-Fi","Robertson Branch Library","809 Main St, Pineville, LA 71360","318-442-2483","Free Wi-Fi, indoor public access, job search location.","",["wifi","job search"]],
+      ["Charging","Starbucks Pineville","3820 Monroe Hwy, Pineville, LA 71360","N/A","Wi-Fi, charging, indoor seating. Stay respectful and low profile.","",["charging","wifi","indoor"]],
+      ["Charging","Walmart Supercenter Alexandria","2050 N Mall Dr, Alexandria, LA 71301","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
+      ["Charging","Target Pineville","3800 Monroe Hwy, Pineville, LA 71360","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
+      ["Medical","CHRISTUS St. Frances Cabrini Hospital","3330 Masonic Dr, Alexandria, LA 71301","318-487-1122","24/7 emergency room, safe indoor waiting area, guest Wi-Fi, medical help.","",["24/7","hospital","safe indoors"]],
+      ["Medical","Rapides Regional Medical Center","211 4th St, Alexandria, LA 71301","318-769-3000","24/7 emergency medical services, safe indoor waiting area.","",["24/7","hospital","safe indoors"]],
+      ["Safe Indoors","Pilot / Love’s Travel Stops","Alexandria area","N/A","Bright lighting, bathrooms, food access, Wi-Fi, charging, safer overnight fallback than isolated areas.","",["lighting","bathrooms","fallback"]],
+      ["Benefits","Cenla Community Action Committee","2011 MacArthur Dr, Alexandria, LA 71301","318-314-3480","Rent help, utility help, workforce assistance, housing stabilization referrals.","",["rent help","utility","workforce"]],
+      ["Benefits","Rapides Parish Housing Authority","Rapides Parish / Alexandria area","N/A","Public housing, Section 8, affordable housing information, waitlists.","",["section 8","waitlist","housing"]],
+      ["Benefits","Louisiana OMV Alexandria","5606 Coliseum Blvd, Alexandria, LA 71303","318-487-5942","State ID replacement. ID is critical for shelter, jobs, benefits, and housing.","",["id","documents"]],
+      ["Benefits","Social Security Office Alexandria","3401 North Blvd, Alexandria, LA 71301","800-772-1213","Replacement Social Security card and benefits support.","",["social security","benefits"]],
+      ["Work","PeopleReady","Alexandria area","N/A","Day labor, possible quick-pay work, construction cleanup, warehouse, moving help.","",["day labor","quick pay"]],
+      ["Work","Labor Finders","Alexandria area","N/A","Day labor and temporary staffing options.","",["temp work","day labor"]],
+      ["Work","Facebook Marketplace / Local Labor","Online / local area","N/A","Look for moving help, yard cleanup, hauling, small repair, labor gigs, flipping low-cost items.","",["gigs","online","labor"]]
+    ];
+
+    const sectionMap = { Emergency: 'emergency', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
+    const sectionNodes = Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')]));
+
+    function telHref(phone) {
+      const clean = phone.replace(/[^\d]/g, '');
+      return clean ? `tel:${clean}` : '#';
+    }
+    function mapHref(address) { return `https://maps.google.com/?q=${encodeURIComponent(address)}`; }
+
+    function render(list) {
+      Object.values(sectionNodes).forEach(node => node && (node.innerHTML = ''));
+      list.forEach(([category, name, address, phone, notes, script, tags]) => {
+        const hostId = sectionMap[category];
+        const host = sectionNodes[hostId];
+        if (!host) return;
+        const card = document.createElement('article');
+        card.className = 'card resource-card';
+        card.dataset.search = [category, name, address, phone, notes, script, ...(tags||[])].join(' ').toLowerCase();
+        card.dataset.category = category;
+        const callDisabled = phone === 'N/A' || phone.toLowerCase().includes('local') || phone.toLowerCase().includes('search') || phone.toLowerCase().includes('contact');
+        card.innerHTML = `
+          <span class="label">${category}</span>
+          <h3 class="name">${name}</h3>
+          <p class="meta"><strong>Address:</strong> ${address}<br><strong>Phone:</strong> ${phone}</p>
+          <p class="notes">${notes}</p>
+          ${script ? `<details><summary>What to say</summary><p class="script">“${script}”</p></details>` : ''}
+          <div class="tags">${(tags||[]).map(t => `<span class="tag">#${t}</span>`).join('')}</div>
+          <div class="actions">
+            <a class="btn ${callDisabled ? 'hidden' : 'hot'}" ${callDisabled ? '' : `href="${telHref(phone)}"`} aria-label="Call ${name}">${callDisabled ? '' : 'Call'}</a>
+            <a class="btn gold" href="${mapHref(address)}" target="_blank" rel="noopener" aria-label="Map for ${name}">Map</a>
+            <button class="btn copy-btn" data-address="${address.replace(/"/g,'&quot;')}" aria-label="Copy address for ${name}">Copy</button>
+          </div>`;
+        host.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const active = document.body.dataset.activeCategory || 'all';
+      document.querySelectorAll('.resource-card').forEach(card => {
+        const matchesSearch = !q || card.dataset.search.includes(q);
+        const matchesCategory = active === 'all' || card.dataset.category === active;
+        card.classList.toggle('hidden', !(matchesSearch && matchesCategory));
+      });
+    }
+
+    render(resources);
+
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.querySelectorAll('.chip[data-filter]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.body.dataset.activeCategory = chip.dataset.filter;
+        applyFilters();
+      });
+    });
+    document.getElementById('showAll').addEventListener('click', () => {
+      document.body.dataset.activeCategory = 'all';
+      applyFilters();
+    });
+
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.address);
+        const prev = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = prev, 1200);
+      } catch {
+        btn.textContent = 'Hold to Copy';
+      }
+    });
+
+    const back = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => back.style.display = window.scrollY > 350 ? 'block' : 'none');
+    back.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+  </script>
+</body>
+</html>
