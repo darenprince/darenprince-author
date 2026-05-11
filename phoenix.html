@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
   <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
-  <meta name="theme-color" content="#343b46" />
+  <meta name="theme-color" content="#b31217" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" />
+  <link rel="apple-touch-icon" href="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800" rel="stylesheet" />
+  <script defer src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
   <style>
     :root {
       --bg: #343b46;
@@ -32,19 +36,18 @@
     body {
       margin: 0;
       font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(180deg, #3c4452 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #4f1518 0%, #341116 42%, #2a1116 100%);
       color: var(--text);
       line-height: 1.45;
       padding: 72px 0 78px;
     }
 
-    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; font-size: 1.1rem; line-height: 1; }
-
+    
     .brand-mini { display:flex; align-items:center; gap:10px; color:var(--text); font-weight:700; }
     .brand-mini img { width:30px; height:30px; border-radius:6px; }
 
     a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #ff6a61; outline-offset: 2px; }
-    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: rgba(31, 39, 49, .95); padding:10px 14px; backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
+    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: rgba(43, 16, 21, .94); padding:10px 14px; backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
     .menu-btn { border:0; background:#2a313b; border-radius:6px; height:42px; width:42px; color:var(--text); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     .menu-panel { position: fixed; right:14px; top:62px; z-index:70; min-width:220px; background:#252c35; border-radius:8px; padding:8px; box-shadow:var(--shadow-md); }
     .menu-panel a{ display:block; color:var(--text); text-decoration:none; font-weight:600; padding:10px; border-radius:6px; }
@@ -78,7 +81,7 @@
       border: 0; color: var(--text); background: linear-gradient(180deg, #2b333d, #262d36);
       box-shadow: var(--shadow-sm);
     }
-    .btn.hot { background: linear-gradient(170deg, #ff5852, #f23939 70%); color:#fff; }
+    .btn.hot { background: linear-gradient(170deg, #ff5c5c, #c61325 76%); color:#fff; }
     .btn.gold { background: linear-gradient(170deg, #f5c84d, #e6a82a); color: #1d1f22; }
 
     .search-wrap { margin: 14px 0; }
@@ -105,7 +108,18 @@
     .notes { margin: 8px 0; }
     .script { margin-top: 8px; padding: 10px; border-radius: 6px; background: linear-gradient(120deg, rgba(255,74,69,.25), rgba(255,74,69,.08)); color: #ffd8d5; }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; background: #303842; color: #d7dce2; }
+    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; background: #303842; color: #d7dce2; display:inline-flex; align-items:center; gap:6px; }
+    .tag iconify-icon{font-size:.9rem;}
+    .tooltip-wrap{position:relative;display:inline-flex;align-items:center;}
+    .info-tip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:999px;background:rgba(255,255,255,.14);margin-left:6px;cursor:help;color:#fff;}
+    .tooltip-text{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);min-width:170px;max-width:220px;background:#111722;color:#f5f7fa;font-size:.74rem;padding:8px;border-radius:6px;box-shadow:var(--shadow-sm);opacity:0;pointer-events:none;transition:opacity .2s ease;}
+    .tooltip-wrap:hover .tooltip-text,.tooltip-wrap:focus-within .tooltip-text{opacity:1;}
+    .toast-region{position:fixed;top:74px;right:14px;display:grid;gap:8px;z-index:120;}
+    .toast{background:#1d2430;border-left:4px solid var(--accent);padding:10px 12px;border-radius:8px;color:#f5f7fa;box-shadow:var(--shadow-md);font-size:.86rem;opacity:0;transform:translateY(-6px);animation:toastIn .2s ease forwards;}
+    .toast.success{border-left-color:#47c98a;}
+    .toast.info{border-left-color:#f4bc34;}
+    .chip{justify-content:flex-start;}
+    .chip iconify-icon{font-size:1.05rem;}
 
     .actions { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 10px; }
     .actions .btn { min-height: 44px; font-size: .9rem; }
@@ -145,12 +159,13 @@
     @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes pulse { 50% { transform: scale(1.05); } }
+    @keyframes toastIn { to { opacity:1; transform:translateY(0);} }
     @media (max-width:720px){ .chips { grid-template-columns: repeat(2, minmax(0,1fr)); } }
   </style>
 </head>
 <body>
   <div class="loader" id="appLoader" role="status" aria-live="polite"><div><div class="loader-ring" aria-hidden="true"></div><img class="loader-logo" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix logo" /><p>Loading critical resources…</p></div></div>
-  <header class="toolbar" aria-label="Top toolbar"><div class="brand-mini"><img src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Phoenix icon" /><span>Operation Phoenix</span></div><button class="menu-btn" id="menuToggle" type="button" aria-expanded="false" aria-controls="anchorMenu" aria-label="Open section menu"><span class="material-symbols-rounded" aria-hidden="true">menu</span></button><nav class="menu-panel hidden" id="anchorMenu" aria-label="Anchor menu"><a href="#hotlines">Hotlines</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi‑Fi / Charge</a><a href="#medical">Medical</a><a href="#benefits">Benefits</a><a href="#work">Work</a><a href="#last-resort">Safety Plan</a></nav></header>
+  <header class="toolbar" aria-label="Top toolbar"><div class="brand-mini"><img src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Phoenix icon" /><span>Operation Phoenix</span></div><button class="menu-btn" id="menuToggle" type="button" aria-expanded="false" aria-controls="anchorMenu" aria-label="Open section menu"><iconify-icon icon="solar:hamburger-menu-bold" aria-hidden="true"></iconify-icon></button><nav class="menu-panel hidden" id="anchorMenu" aria-label="Anchor menu"><a href="#hotlines">Hotlines</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi‑Fi / Charge</a><a href="#medical">Medical</a><a href="#benefits">Benefits</a><a href="#work">Work</a><a href="#last-resort">Safety Plan</a></nav></header>
   <main class="container" id="home">
     <header class="hero">
       <div class="hero-top">
@@ -165,12 +180,12 @@
     </header>
 
     <section class="quick-actions" aria-label="Emergency quick actions">
-      <a class="btn hot" href="tel:911"><span class="material-symbols-rounded" aria-hidden="true">local_police</span>Call 911</a>
-      <a class="btn hot" href="tel:988"><span class="material-symbols-rounded" aria-hidden="true">support_agent</span>Call 988</a>
-      <a class="btn hot" href="tel:211"><span class="material-symbols-rounded" aria-hidden="true">call</span>Call 211</a>
-      <a class="btn" href="#shelter">Shelter Now</a>
-      <a class="btn" href="#food">Food Today</a>
-      <a class="btn" href="#wifi">Wi-Fi / Charge</a>
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:911"><iconify-icon icon="solar:shield-warning-bold" aria-hidden="true"></iconify-icon>Call 911</a><button type="button" class="info-tip" aria-label="Why call 911" data-tip="Use 911 for active danger, violence, serious injury, or fire emergencies."><iconify-icon icon="solar:info-circle-bold"></iconify-icon></button><span class="tooltip-text">Use 911 for active danger, violence, serious injury, or fire emergencies.</span></div>
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:988"><iconify-icon icon="solar:heart-angle-bold" aria-hidden="true"></iconify-icon>Call 988</a><button type="button" class="info-tip" aria-label="Why call 988" data-tip="Use 988 for panic, emotional crisis, or suicidal thoughts."><iconify-icon icon="solar:info-circle-bold"></iconify-icon></button><span class="tooltip-text">Use 988 for panic, emotional crisis, or suicidal thoughts.</span></div>
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:211"><iconify-icon icon="solar:call-chat-rounded-bold" aria-hidden="true"></iconify-icon>Call 211</a><button type="button" class="info-tip" aria-label="Why call 211" data-tip="Use 211 for shelter, food, and local aid coordination."><iconify-icon icon="solar:info-circle-bold"></iconify-icon></button><span class="tooltip-text">Use 211 for shelter, food, and local aid coordination.</span></div>
+      <a class="btn" href="#shelter"><iconify-icon icon="solar:home-2-bold"></iconify-icon>Shelter Now</a>
+      <a class="btn" href="#food"><iconify-icon icon="solar:plate-bold"></iconify-icon>Food Today</a>
+      <a class="btn" href="#wifi"><iconify-icon icon="solar:wifi-router-bold"></iconify-icon>Wi-Fi / Charge</a>
     </section>
 
     <div class="search-wrap">
@@ -182,7 +197,7 @@
       <a class="btn chip" href="#emergency" data-filter="Emergency">Emergency</a><a class="btn chip" href="#shelter" data-filter="Shelter">Shelter</a><a class="btn chip" href="#food" data-filter="Food">Food</a>
       <a class="btn chip" href="#wifi" data-filter="Wi-Fi">Wi-Fi</a><a class="btn chip" href="#charging" data-filter="Charging">Charging</a><a class="btn chip" href="#safe-indoors" data-filter="Safe Indoors">Safe Indoors</a>
       <a class="btn chip" href="#benefits" data-filter="Benefits">Benefits</a><a class="btn chip" href="#medical" data-filter="Medical">Medical</a><a class="btn chip" href="#work" data-filter="Work">Work</a>
-      <a class="btn chip" href="#hotlines" data-filter="Hotlines">Hotlines</a><a class="btn chip" href="#last-resort" data-filter="Last Resort">Last Resort</a><button class="btn" id="showAll" type="button">Show All</button>
+      <a class="btn chip" href="#hotlines" data-filter="Hotlines">Hotlines</a><a class="btn chip" href="#last-resort" data-filter="Last Resort">Last Resort</a><button class="btn" id="showAll" type="button"><iconify-icon icon="solar:widget-bold"></iconify-icon>Show All</button>
     </nav>
 
     <section id="hotlines"><h2 class="section-title">Emergency Hotlines</h2><div class="cards" id="emergency"></div></section>
@@ -216,9 +231,10 @@
     </footer>
   </main>
 
-  <button id="backToTop" aria-label="Back to top">↑</button>
+  <button id="backToTop" aria-label="Back to top"><iconify-icon icon="solar:arrow-up-bold"></iconify-icon></button>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
   <nav class="bottom-nav" aria-label="Sticky navigation">
-    <a href="#home">Home</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi-Fi</a><a href="#hotlines">Hotlines</a>
+    <a href="#home"><iconify-icon icon="solar:home-bold"></iconify-icon>&nbsp;Home</a><a href="#shelter"><iconify-icon icon="solar:home-2-bold"></iconify-icon>&nbsp;Shelter</a><a href="#food"><iconify-icon icon="solar:plate-bold"></iconify-icon>&nbsp;Food</a><a href="#wifi"><iconify-icon icon="solar:wifi-router-bold"></iconify-icon>&nbsp;Wi-Fi</a><a href="#hotlines"><iconify-icon icon="solar:phone-calling-rounded-bold"></iconify-icon>&nbsp;Hotlines</a>
   </nav>
 
   <script>
@@ -255,6 +271,16 @@
       ["Work","Facebook Marketplace / Local Labor","Online / local area","N/A","Look for moving help, yard cleanup, hauling, small repair, labor gigs, flipping low-cost items.","",["gigs","online","labor"]]
     ];
 
+    
+    const categoryMeta = {
+      Emergency:{icon:'solar:danger-bold',color:'#f85165'}, Hotlines:{icon:'solar:phone-calling-rounded-bold',color:'#ff9463'}, Shelter:{icon:'solar:home-2-bold',color:'#68a7ff'}, Food:{icon:'solar:plate-bold',color:'#f7c95b'}, 'Wi-Fi':{icon:'solar:wifi-router-bold',color:'#58d8d1'}, Charging:{icon:'solar:bolt-bold',color:'#f8e16f'}, 'Safe Indoors':{icon:'solar:shield-check-bold',color:'#6ecf9d'}, Medical:{icon:'solar:stethoscope-bold',color:'#8cb5ff'}, Benefits:{icon:'solar:document-text-bold',color:'#c798ff'}, Work:{icon:'solar:case-bold',color:'#ffd38a'}
+    };
+    const tagMeta = {
+      urgent:['solar:danger-bold','#f85165'], police:['solar:shield-bold','#88b4ff'], fire:['solar:fire-bold','#ff9e64'], ambulance:['solar:health-bold','#87d89a'], mental:['solar:psychology-bold','#c798ff'], crisis:['solar:siren-bold','#f58f8f'], shelter:['solar:home-2-bold','#68a7ff'], food:['solar:plate-bold','#f7c95b'], wifi:['solar:wifi-router-bold','#58d8d1'], charging:['solar:bolt-bold','#f8e16f'], benefits:['solar:document-text-bold','#c798ff'], housing:['solar:city-bold','#84a8ff'], work:['solar:case-bold','#ffd38a']
+    };
+    const toastRegion = document.getElementById('toastRegion');
+    function showToast(message, variant='success'){ const toast=document.createElement('div'); toast.className=`toast ${variant}`; toast.textContent=message; toastRegion.appendChild(toast); setTimeout(()=>{toast.remove();},2800);}
+
     const sectionMap = { Emergency: 'hotlines', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
     const sectionNodes = {
       ...Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')])),
@@ -266,6 +292,14 @@
       return clean ? `tel:${clean}` : '#';
     }
     function mapHref(address) { return `https://maps.google.com/?q=${encodeURIComponent(address)}`; }
+
+    function withIconText(node, icon, text) {
+      node.textContent = '';
+      const i = document.createElement('iconify-icon');
+      i.setAttribute('icon', icon);
+      i.setAttribute('aria-hidden', 'true');
+      node.append(i, ` ${text}`);
+    }
 
     function render(list) {
       Object.values(sectionNodes).forEach(node => node && (node.textContent = ''));
@@ -279,7 +313,10 @@
         card.dataset.category = category;
         const callDisabled = phone === 'N/A' || phone.toLowerCase().includes('local') || phone.toLowerCase().includes('search') || phone.toLowerCase().includes('contact');
 
-        const label = document.createElement('span'); label.className='label'; label.textContent = category;
+        const label = document.createElement('span'); label.className='label';
+        const metaCat = categoryMeta[category] || {icon:'solar:hashtag-bold', color:'#9aa6b2'};
+        label.style.background = `${metaCat.color}22`; label.style.color = metaCat.color;
+        withIconText(label, metaCat.icon, category);
         const h3 = document.createElement('h3'); h3.className='name'; h3.textContent = name;
         const meta = document.createElement('p'); meta.className='meta';
         const addressStrong = document.createElement('strong'); addressStrong.textContent = 'Address:';
@@ -288,12 +325,12 @@
         const notesP = document.createElement('p'); notesP.className='notes'; notesP.textContent = notes;
 
         const tagsWrap = document.createElement('div'); tagsWrap.className='tags';
-        (tags||[]).forEach(t => { const el = document.createElement('span'); el.className='tag'; el.textContent = `#${t}`; tagsWrap.appendChild(el); });
+        (tags||[]).forEach(t => { const el = document.createElement('span'); el.className='tag'; const key=(t||'').toLowerCase(); const tm=tagMeta[key] || ['solar:hashtag-bold','#94a3b8']; el.style.background = `${tm[1]}22`; el.style.color = tm[1]; withIconText(el, tm[0], `#${t}`); tagsWrap.appendChild(el); });
 
         const actions = document.createElement('div'); actions.className='actions';
-        const call = document.createElement('a'); call.className = `btn ${callDisabled ? 'hidden' : 'hot'}`; call.textContent='Call'; call.setAttribute('aria-label', `Call ${name}`); if (!callDisabled) call.href = telHref(phone);
-        const map = document.createElement('a'); map.className='btn gold'; map.href = mapHref(address); map.target='_blank'; map.rel='noopener'; map.textContent='Map';
-        const copy = document.createElement('button'); copy.className='btn copy-btn'; copy.type='button'; copy.dataset.address = address; copy.setAttribute('aria-label', `Copy address for ${name}`); copy.textContent='Copy';
+        const call = document.createElement('a'); call.className = `btn ${callDisabled ? 'hidden' : 'hot'}`; withIconText(call, 'solar:phone-calling-rounded-bold', 'Call'); call.setAttribute('aria-label', `Call ${name}`); if (!callDisabled) call.href = telHref(phone);
+        const map = document.createElement('a'); map.className='btn gold'; map.href = mapHref(address); map.target='_blank'; map.rel='noopener'; withIconText(map, 'solar:map-point-bold', 'Map');
+        const copy = document.createElement('button'); copy.className='btn copy-btn'; copy.type='button'; copy.dataset.address = address; copy.setAttribute('aria-label', `Copy address for ${name}`); withIconText(copy, 'solar:copy-bold', 'Copy');
         actions.append(call, map, copy);
 
         card.append(label, h3, meta, notesP);
@@ -317,14 +354,21 @@
 
     document.getElementById('search').addEventListener('input', applyFilters);
     document.querySelectorAll('.chip[data-filter]').forEach(chip => {
+      const cfg = categoryMeta[chip.dataset.filter] || {icon:'solar:hashtag-bold'};
+      const chipIcon = document.createElement('iconify-icon');
+      chipIcon.setAttribute('icon', cfg.icon);
+      chipIcon.setAttribute('aria-hidden', 'true');
+      chip.prepend(chipIcon);
       chip.addEventListener('click', () => {
         document.body.dataset.activeCategory = chip.dataset.filter;
         applyFilters();
+        showToast(`Showing ${chip.dataset.filter} resources.`, 'info');
       });
     });
     document.getElementById('showAll').addEventListener('click', () => {
       document.body.dataset.activeCategory = 'all';
       applyFilters();
+      showToast('Showing all resources.', 'info');
     });
 
     document.addEventListener('click', async (e) => {
@@ -333,10 +377,12 @@
       try {
         await navigator.clipboard.writeText(btn.dataset.address);
         const prev = btn.textContent;
-        btn.textContent = 'Copied';
+        withIconText(btn, 'solar:check-circle-bold', 'Copied');
+        showToast('Address copied to clipboard.');
         setTimeout(() => btn.textContent = prev, 1200);
       } catch {
-        btn.textContent = 'Hold to Copy';
+        withIconText(btn, 'solar:copy-bold', 'Hold to Copy');
+        showToast('Copy failed — long-press to copy manually.', 'info');
       }
     });
 
