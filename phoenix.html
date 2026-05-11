@@ -5,26 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
   <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
-  <meta name="theme-color" content="#0b1b2f" />
+  <meta name="theme-color" content="#232b39" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200" rel="stylesheet" />
   <style>
     :root {
-      --bg: #070b14;
-      --bg-soft: #0f1729;
-      --panel: #101a2d;
-      --panel-2: #0d1525;
-      --primary: #dbe8ff;
-      --accent: #6ba7ff;
-      --accent-2: #65d7ff;
-      --text: #edf3ff;
-      --muted: #b8c7e3;
-      --line: #243653;
-      --ok: #3dd79f;
-      --danger: #ff5e73;
-      --warn: #ffb84d;
-      --radius: 16px;
+      --bg: #242c39;
+      --bg-soft: #2b3441;
+      --panel: #1f2733;
+      --panel-2: #1a222d;
+      --primary: #f2f4f6;
+      --accent: #ff4a4a;
+      --accent-2: #f0b429;
+      --text: #f3f4f6;
+      --muted: #a6adb9;
+      --line: #2e3744;
+      --ok: #47c98a;
+      --danger: #ff4a4a;
+      --warn: #f0b429;
+      --radius: 10px;
       --shadow: 0 20px 40px rgba(2, 8, 22, .55);
     }
 
@@ -33,7 +33,7 @@
     body {
       margin: 0;
       font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: radial-gradient(1200px 500px at 20% -10%, #1a2e55 0%, var(--bg) 40%), var(--bg);
+      background: radial-gradient(1200px 500px at 20% -10%, #323c4d 0%, var(--bg) 46%), var(--bg);
       color: var(--text);
       line-height: 1.45;
       padding: 72px 0 78px;
@@ -46,9 +46,9 @@
 
 
     a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #77a2ff; outline-offset: 2px; }
-    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: rgba(9,16,31,.92); border-bottom:1px solid var(--line); padding:10px 14px; backdrop-filter: blur(10px); }
-    .menu-btn { border:1px solid #355181; background:#0f1c35; border-radius:10px; height:42px; width:42px; color:var(--text); }
-    .menu-panel { position: fixed; right:14px; top:62px; z-index:70; min-width:220px; background:#101a2d; border:1px solid var(--line); border-radius:12px; padding:8px; box-shadow:var(--shadow); }
+    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: rgba(28, 35, 45, .92); border-bottom:1px solid var(--line); padding:10px 14px; backdrop-filter: blur(10px); }
+    .menu-btn { border:1px solid #3b4656; background:#202a36; border-radius:8px; height:42px; width:42px; color:var(--text); }
+    .menu-panel { position: fixed; right:14px; top:62px; z-index:70; min-width:220px; background:#1f2733; border:1px solid var(--line); border-radius:10px; padding:8px; box-shadow:var(--shadow); }
     .menu-panel a{ display:block; color:var(--text); text-decoration:none; font-weight:600; padding:10px; border-radius:8px; }
     .menu-panel a:hover{ background:#162440; }
     .loader{ position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:rgba(7,11,20,.96); transition:opacity .25s ease, visibility .25s ease; }
@@ -58,35 +58,35 @@
 
     .container { width: min(100%, 860px); margin: 0 auto; padding: 14px 14px 24px; }
     .hero {
-      background: linear-gradient(155deg, #0f1d35, #101726 65%);
-      border: 1px solid #27416b;
-      border-radius: 22px;
+      background: linear-gradient(155deg, #1f2733, #1a222d 65%);
+      border: 1px solid #384353;
+      border-radius: 12px;
       box-shadow: var(--shadow);
       padding: 16px;
     }
     .hero-top { display: flex; gap: 12px; align-items: center; }
-    .icon { width: 64px; height: 64px; border-radius: 14px; border: 1px solid #355181; }
+    .icon { width: 64px; height: 64px; border-radius: 10px; border: 1px solid #3d4757; }
     h1 { margin: 0; font-size: 1.4rem; letter-spacing: .2px; }
     .motto { margin: 6px 0 0; color: var(--accent); font-weight: 650; font-size: .95rem; }
     .sub { margin: 10px 0 4px; color: var(--muted); }
-    .note { margin: 10px 0 0; background: rgba(255, 184, 77, .14); border: 1px solid rgba(255, 184, 77, .45); padding: 10px; border-radius: 12px; color: #ffe8c4; }
+    .note { margin: 10px 0 0; background: rgba(240, 180, 41, .12); border: 1px solid rgba(240, 180, 41, .32); padding: 10px; border-radius: 8px; color: #f7deb1; }
 
     .quick-actions, .chips { display: grid; gap: 10px; margin-top: 14px; }
     .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .chips { grid-template-columns: repeat(3, minmax(0,1fr)); }
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      text-decoration: none; border-radius: 12px; min-height: 50px;
+      text-decoration: none; border-radius: 8px; min-height: 50px;
       padding: 10px 12px; font-weight: 700; font-size: .98rem;
-      border: 1px solid #2f4d7a; color: var(--text); background: #12213d;
+      border: 1px solid #3a4454; color: var(--text); background: #242d39;
     }
-    .btn.hot { background: linear-gradient(180deg, #de2f5d, #aa1f49); border-color: #f25c85; color:#fff; }
-    .btn.gold { background: linear-gradient(180deg, #3190ff, #2c6dd0); border-color: #68b6ff; color: #fff; }
+    .btn.hot { background: linear-gradient(180deg, #ff4f4f, #d73232); border-color: #ff7a7a; color:#fff; }
+    .btn.gold { background: linear-gradient(180deg, #f4c24f, #d79d1d); border-color: #f6d37f; color: #1a1a1a; }
 
     .search-wrap { margin: 14px 0; }
     .search {
       width: 100%; min-height: 50px; border: 1px solid var(--line); border-radius: 13px;
-      background: #0f1c35; color: var(--text); padding: 12px 14px; font-size: 1rem;
+      background: #202a36; color: var(--text); padding: 12px 14px; font-size: 1rem;
     }
 
     section { margin-top: 18px; }
@@ -98,17 +98,17 @@
       opacity: 0; transform: translateY(16px); animation: reveal .45s ease forwards;
 
       background: linear-gradient(180deg, var(--panel), var(--panel-2));
-      border: 1px solid #263d62;
+      border: 1px solid #343f4e;
       border-radius: var(--radius);
       padding: 12px;
     }
-    .label { display: inline-block; font-size: .78rem; background: #142a47; color: #cde4ff; border: 1px solid #2f5f9e; border-radius: 999px; padding: 4px 8px; margin-bottom: 8px; }
+    .label { display: inline-block; font-size: .78rem; background: #2a313d; color: #f1f3f5; border: 1px solid #434d5c; border-radius: 999px; padding: 4px 8px; margin-bottom: 8px; }
     .name { margin: 0; font-size: 1.08rem; }
     .meta { margin: 7px 0; color: var(--muted); font-size: .95rem; }
     .notes { margin: 8px 0; }
-    .script { margin-top: 8px; padding: 10px; border-radius: 12px; background: rgba(255, 94, 115, .12); border: 1px solid rgba(255, 94, 115, .4); color: #ffd5dc; }
+    .script { margin-top: 8px; padding: 10px; border-radius: 8px; background: rgba(255, 74, 74, .12); border: 1px solid rgba(255, 74, 74, .36); color: #ffd0d0; }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; border: 1px solid #2d4b76; background: #0f1f38; color: #c6dcff; }
+    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; border: 1px solid #434d5c; background: #252e3a; color: #d7dce2; }
 
     .actions { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 10px; }
     .actions .btn { min-height: 44px; font-size: .9rem; }
@@ -119,7 +119,7 @@
     .last-resort {
       border: 1px solid #314f7c;
       background: linear-gradient(180deg, #101f3b, #0c1526);
-      border-radius: 18px;
+      border-radius: 10px;
       padding: 14px;
     }
     .last-resort ul { padding-left: 20px; margin: 10px 0; }
@@ -127,7 +127,7 @@
 
     .bottom-nav {
       position: fixed; left: 0; right: 0; bottom: 0;
-      background: rgba(9,16,31,.95);
+      background: rgba(28, 35, 45, .95);
       border-top: 1px solid var(--line);
       padding: 8px;
       display: grid;
@@ -137,12 +137,12 @@
     }
     .bottom-nav a {
       color: var(--text); text-decoration: none; font-size: .8rem; text-align: center;
-      background: #12213c; border: 1px solid #2f4f7d; border-radius: 10px; padding: 8px 4px;
+      background: #252f3b; border: 1px solid #3d4758; border-radius: 8px; padding: 8px 4px;
       min-height: 42px; display: flex; align-items: center; justify-content: center;
     }
 
     #backToTop {
-      position: fixed; right: 12px; bottom: 86px; border: 1px solid #2f5f9e; background: #16315a;
+      position: fixed; right: 12px; bottom: 86px; border: 1px solid #3f4a5a; background: #27313d;
       color: var(--text); border-radius: 999px; width: 50px; height: 50px; display: none;
       font-weight: 800;
     }
