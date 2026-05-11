@@ -226,8 +226,11 @@
       ["Work","Facebook Marketplace / Local Labor","Online / local area","N/A","Look for moving help, yard cleanup, hauling, small repair, labor gigs, flipping low-cost items.","",["gigs","online","labor"]]
     ];
 
-    const sectionMap = { Emergency: 'emergency', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
-    const sectionNodes = Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')]));
+    const sectionMap = { Emergency: 'hotlines', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
+    const sectionNodes = {
+      ...Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')])),
+      ...Object.fromEntries([...document.querySelectorAll('.cards[id]')].map(node => [node.id, node]))
+    };
 
     function telHref(phone) {
       const clean = phone.replace(/[^\d]/g, '');
