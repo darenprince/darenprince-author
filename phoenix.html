@@ -2,368 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
-  <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
-  <meta name="theme-color" content="#343b46" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Operation Phoenix | Rise Again</title>
+  <meta name="description" content="Operation Phoenix emergency resource app for shelter, food, Wi-Fi, crisis lines, healthcare, and urgent survival support in Alexandria, Louisiana." />
+  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Phoenix" />
+  <meta property="og:title" content="Operation Phoenix — Rise Again" />
+  <meta property="og:description" content="Calm, immediate emergency support resources for crisis and survival situations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Operation Phoenix — Rise Again" />
+  <meta name="twitter:description" content="Static emergency support app with offline access and crisis-first UX." />
+  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-image.jpg" />
+  <link rel="manifest" href="phoenix.webmanifest" />
+  <link rel="apple-touch-icon" href="app icons/op-phoenix-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
   <style>
-    :root {
-      --bg: #343b46;
-      --bg-soft: #2a313b;
-      --canvas: #1e242d;
-      --panel: #252c35;
-      --panel-2: #222933;
-      --panel-3: #2b333d;
-      --text: #f2f4f7;
-      --muted: #a7b0be;
-      --accent: #ff4a45;
-      --accent-2: #f4bc34;
-      --ok: #47c98a;
-      --radius: 8px;
-      --shadow-sm: 0 4px 16px rgba(7, 10, 18, .24);
-      --shadow-md: 0 12px 28px rgba(7, 10, 18, .32);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(180deg, #3c4452 0%, var(--bg) 100%);
-      color: var(--text);
-      line-height: 1.45;
-      padding: 72px 0 78px;
-    }
-
-    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; font-size: 1.1rem; line-height: 1; }
-
-    .brand-mini { display:flex; align-items:center; gap:10px; color:var(--text); font-weight:700; }
-    .brand-mini img { width:30px; height:30px; border-radius:6px; }
-
-    a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #ff6a61; outline-offset: 2px; }
-    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: rgba(31, 39, 49, .95); padding:10px 14px; backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
-    .menu-btn { border:0; background:#2a313b; border-radius:6px; height:42px; width:42px; color:var(--text); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    .menu-panel { position: fixed; right:14px; top:62px; z-index:70; min-width:220px; background:#252c35; border-radius:8px; padding:8px; box-shadow:var(--shadow-md); }
-    .menu-panel a{ display:block; color:var(--text); text-decoration:none; font-weight:600; padding:10px; border-radius:6px; }
-    .menu-panel a:hover{ background:#2d3540; }
-    .loader{ position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:rgba(31,38,48,.96); transition:opacity .25s ease, visibility .25s ease; }
-    .loader[aria-hidden="true"]{ opacity:0; visibility:hidden; }
-    .loader-ring{ width:84px; height:84px; border-radius:50%; border:3px solid #aeb4be; border-top-color:#ff4a45; margin:0 auto 8px; animation:spin 1s linear infinite;}
-    .loader-logo{ width:78px; height:78px; border-radius:10px; animation:pulse 1.2s infinite ease-in-out;}
-
-    .container { width: min(100%, 860px); margin: 0 auto; padding: 14px 14px 24px; }
-    .hero {
-      background: linear-gradient(145deg, #222a33, #1f2730 65%);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      padding: 16px;
-    }
-    .hero-top { display: flex; gap: 12px; align-items: center; }
-    .icon { width: 64px; height: 64px; border-radius: 8px; }
-    h1 { margin: 0; font-size: 1.4rem; letter-spacing: .2px; }
-    .motto { margin: 6px 0 0; color: var(--accent); font-weight: 650; font-size: .95rem; }
-    .sub { margin: 10px 0 4px; color: var(--muted); }
-    .note { margin: 10px 0 0; background: linear-gradient(120deg, rgba(244,188,52,.22), rgba(255,74,69,.16)); padding: 10px; border-radius: 6px; color: #ffe4bb; }
-
-    .quick-actions, .chips { display: grid; gap: 10px; margin-top: 14px; }
-    .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .chips { grid-template-columns: repeat(3, minmax(0,1fr)); }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      text-decoration: none; border-radius: 6px; min-height: 50px;
-      padding: 10px 12px; font-weight: 700; font-size: .98rem;
-      border: 0; color: var(--text); background: linear-gradient(180deg, #2b333d, #262d36);
-      box-shadow: var(--shadow-sm);
-    }
-    .btn.hot { background: linear-gradient(170deg, #ff5852, #f23939 70%); color:#fff; }
-    .btn.gold { background: linear-gradient(170deg, #f5c84d, #e6a82a); color: #1d1f22; }
-
-    .search-wrap { margin: 14px 0; }
-    .search {
-      width: 100%; min-height: 50px; border: 0; border-radius: 8px;
-      background: #2a313b; color: var(--text); padding: 12px 14px; font-size: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
-    }
-
-    section { margin-top: 18px; }
-    .section-title { font-size: 1.2rem; margin: 0 0 10px; }
-    .section-sub { color: var(--muted); margin-bottom: 10px; }
-
-    .cards { display: grid; gap: 12px; }
-    .card {
-      opacity: 0; transform: translateY(16px); animation: reveal .45s ease forwards;
-      background: linear-gradient(170deg, var(--panel), var(--panel-2));
-      border-radius: var(--radius);
-      padding: 12px;
-      box-shadow: var(--shadow-sm);
-    }
-    .label { display: inline-block; font-size: .78rem; background: #303742; color: #f1f3f5; border-radius: 999px; padding: 4px 8px; margin-bottom: 8px; }
-    .name { margin: 0; font-size: 1.08rem; }
-    .meta { margin: 7px 0; color: var(--muted); font-size: .95rem; }
-    .notes { margin: 8px 0; }
-    .script { margin-top: 8px; padding: 10px; border-radius: 6px; background: linear-gradient(120deg, rgba(255,74,69,.25), rgba(255,74,69,.08)); color: #ffd8d5; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; background: #303842; color: #d7dce2; }
-
-    .actions { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 10px; }
-    .actions .btn { min-height: 44px; font-size: .9rem; }
-    .small { font-size: .83rem; color: var(--muted); }
-
-    details summary { cursor: pointer; font-weight: 700; color: var(--accent); }
-
-    .last-resort { background: linear-gradient(165deg, #212933, #1f2630); border-radius: 8px; padding: 14px; box-shadow: var(--shadow-sm); }
-    .last-resort ul { padding-left: 20px; margin: 10px 0; }
-    .strong-line { color: #ffd38a; font-weight: 750; }
-
-    .bottom-nav {
-      position: fixed; left: 0; right: 0; bottom: 0;
-      background: rgba(31, 39, 49, .96);
-      padding: 8px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 7px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 -8px 20px rgba(7,10,18,.28);
-    }
-    .bottom-nav a {
-      color: var(--text); text-decoration: none; font-size: .8rem; text-align: center;
-      background: #2a313b; border-radius: 6px; padding: 8px 4px;
-      min-height: 42px; display: flex; align-items: center; justify-content: center;
-    }
-
-    #backToTop {
-      position: fixed; right: 12px; bottom: 86px; border:0; background: linear-gradient(170deg, #f5c84d, #e9aa2d);
-      color: #1f2227; border-radius: 999px; width: 50px; height: 50px; display: none;
-      font-weight: 800; box-shadow: var(--shadow-sm);
-    }
-
-    .site-footer { margin-top: 20px; padding: 16px 0 84px; color: var(--muted); font-size:.88rem; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
-    .site-footer a { color: #ffd38a; text-decoration:none; }
-    .hidden { display: none !important; }
-    @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes pulse { 50% { transform: scale(1.05); } }
-    @media (max-width:720px){ .chips { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    :root { --bg:#0d0d0d; --card:#1a1a1a; --card-2:#232323; --txt:#f6f7f8; --muted:#b8b9bc; --warm:#ff7a18; --warm-2:#ffb347; --danger:#ff5a36; --ok:#66d1a4; --radius:14px; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; background: radial-gradient(circle at 30% -20%, rgba(255,122,24,.35), transparent 55%),var(--bg); color:var(--txt); font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+    body { min-height:100dvh; padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(5.8rem + env(safe-area-inset-bottom)); }
+    .app { max-width:860px; margin:0 auto; display:grid; gap:1rem; }
+    .hero,.panel,.resource { background:linear-gradient(160deg,var(--card),var(--card-2)); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); }
+    .hero { padding:1rem; }
+    .brand { display:flex; align-items:center; gap:.75rem; }
+    .brand img{ width:52px; height:52px; border-radius:12px; }
+    h1{ margin:0; font-size:1.3rem; } .lead{ color:var(--muted); margin:.5rem 0 0; }
+    .rise{ color:var(--warm-2); font-weight:700; margin:.2rem 0 0; }
+    .right-now{ padding:1rem; }
+    .grid{ display:grid; gap:.65rem; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    button,a.btn{ min-height:48px; border:0; border-radius:12px; padding:.72rem .75rem; font-weight:700; text-decoration:none; display:flex; align-items:center; justify-content:center; color:var(--txt); background:#2a2a2a; }
+    .hot{ background:linear-gradient(145deg,var(--danger),#d93a1a); }
+    .warm{ background:linear-gradient(145deg,var(--warm-2),var(--warm)); color:#241708; }
+    .search-wrap{ position:sticky; top:0; z-index:3; backdrop-filter:blur(8px); padding:.3rem 0; }
+    input[type="search"]{ width:100%; min-height:52px; border-radius:13px; border:1px solid rgba(255,255,255,.09); background:#1c1c1c; color:var(--txt); padding:.8rem .9rem; font-size:1rem; }
+    .chips{ display:flex; gap:.55rem; overflow:auto; padding-bottom:.2rem; }
+    .chip{ white-space:nowrap; min-height:40px; padding:.45rem .8rem; border-radius:999px; background:#252525; border:1px solid rgba(255,255,255,.06); color:var(--txt); }
+    .chip.active{ border-color:var(--warm); color:#ffd7b3; }
+    .section h2{ margin:.3rem 0 .65rem; font-size:1.08rem; }
+    .cards{ display:grid; gap:.7rem; }
+    .resource{ padding:.85rem; }
+    .head{ display:flex; justify-content:space-between; gap:.7rem; }
+    .tag{ background:#2f2f2f; color:#f7d6ba; border-radius:999px; font-size:.74rem; padding:.2rem .55rem; }
+    .meta{ color:var(--muted); font-size:.9rem; margin:.45rem 0; }
+    .actions{ display:grid; gap:.45rem; grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .collapse{ margin-top:.5rem; }
+    .hide{ display:none !important; }
+    .fab{ position:fixed; right:1rem; bottom:calc(5.6rem + env(safe-area-inset-bottom)); width:56px; height:56px; border-radius:999px; font-size:1.3rem; box-shadow:0 10px 28px rgba(0,0,0,.34); }
+    .bottom{ position:fixed; left:0; right:0; bottom:0; padding:.45rem .5rem calc(.45rem + env(safe-area-inset-bottom)); background:rgba(13,13,13,.95); display:grid; grid-template-columns:repeat(6,1fr); gap:.35rem; border-top:1px solid rgba(255,255,255,.08); }
+    .bottom a{ color:var(--txt); text-decoration:none; font-size:.74rem; text-align:center; padding:.5rem .2rem; border-radius:10px; background:#202020; }
+    .escape{ position:fixed; inset:0; z-index:80; background:#f5f5f5; color:#111; padding:1rem; display:none; }
+    .escape.active{ display:block; }
+    @media (min-width:780px){ .grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
   </style>
 </head>
 <body>
-  <div class="loader" id="appLoader" role="status" aria-live="polite"><div><div class="loader-ring" aria-hidden="true"></div><img class="loader-logo" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix logo" /><p>Loading critical resources…</p></div></div>
-  <header class="toolbar" aria-label="Top toolbar"><div class="brand-mini"><img src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Phoenix icon" /><span>Operation Phoenix</span></div><button class="menu-btn" id="menuToggle" type="button" aria-expanded="false" aria-controls="anchorMenu" aria-label="Open section menu"><span class="material-symbols-rounded" aria-hidden="true">menu</span></button><nav class="menu-panel hidden" id="anchorMenu" aria-label="Anchor menu"><a href="#hotlines">Hotlines</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi‑Fi / Charge</a><a href="#medical">Medical</a><a href="#benefits">Benefits</a><a href="#work">Work</a><a href="#last-resort">Safety Plan</a></nav></header>
-  <main class="container" id="home">
-    <header class="hero">
-      <div class="hero-top">
-        <img class="icon" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix app icon" />
-        <div>
-          <h1>Operation Phoenix</h1>
-          <p class="motto">“The Phoenix rises not by chance, but by discipline and fire.”</p>
-        </div>
-      </div>
-      <p class="sub">Static survival guide for Alexandria, LA.</p>
-      <p class="note">Scroll down or search. Tap phone numbers to call. Tap Map for directions.</p>
+  <main class="app" id="app">
+    <header class="hero" id="home">
+      <div class="brand" id="brandTap"><img src="app icons/op-phoenix-icon.png" alt="Operation Phoenix logo" /><div><h1>Operation Phoenix</h1><p class="rise">Rise Again.</p></div></div>
+      <p class="lead">Immediate survival resources for Alexandria, Louisiana. Tap to call. Tap map. Save key places offline.</p>
     </header>
 
-    <section class="quick-actions" aria-label="Emergency quick actions">
-      <a class="btn hot" href="tel:911"><span class="material-symbols-rounded" aria-hidden="true">local_police</span>Call 911</a>
-      <a class="btn hot" href="tel:988"><span class="material-symbols-rounded" aria-hidden="true">support_agent</span>Call 988</a>
-      <a class="btn hot" href="tel:211"><span class="material-symbols-rounded" aria-hidden="true">call</span>Call 211</a>
-      <a class="btn" href="#shelter">Shelter Now</a>
-      <a class="btn" href="#food">Food Today</a>
-      <a class="btn" href="#wifi">Wi-Fi / Charge</a>
-    </section>
+    <section class="panel right-now" id="crisis"><h2>Right Now Emergency Panel</h2><div class="grid" id="rightNow"></div></section>
 
-    <div class="search-wrap">
-      <label for="search" class="small">Search all resources</label>
-      <input id="search" class="search" type="search" placeholder="Search shelter, food, Wi-Fi, hospital, ID, work..." aria-label="Search resources" />
-    </div>
+    <div class="search-wrap"><input id="search" type="search" placeholder="Search shelters, wifi, showers, legal help, transport..." aria-label="Search resources" /></div>
+    <nav class="chips" id="filters"></nav>
 
-    <nav class="chips" aria-label="Category navigation">
-      <a class="btn chip" href="#emergency" data-filter="Emergency">Emergency</a><a class="btn chip" href="#shelter" data-filter="Shelter">Shelter</a><a class="btn chip" href="#food" data-filter="Food">Food</a>
-      <a class="btn chip" href="#wifi" data-filter="Wi-Fi">Wi-Fi</a><a class="btn chip" href="#charging" data-filter="Charging">Charging</a><a class="btn chip" href="#safe-indoors" data-filter="Safe Indoors">Safe Indoors</a>
-      <a class="btn chip" href="#benefits" data-filter="Benefits">Benefits</a><a class="btn chip" href="#medical" data-filter="Medical">Medical</a><a class="btn chip" href="#work" data-filter="Work">Work</a>
-      <a class="btn chip" href="#hotlines" data-filter="Hotlines">Hotlines</a><a class="btn chip" href="#last-resort" data-filter="Last Resort">Last Resort</a><button class="btn" id="showAll" type="button">Show All</button>
-    </nav>
-
-    <section id="hotlines"><h2 class="section-title">Emergency Hotlines</h2><div class="cards" id="emergency"></div></section>
-    <section id="shelter"><h2 class="section-title">Shelter / Housing</h2><div class="cards"></div></section>
-    <section id="food"><h2 class="section-title">Food</h2><div class="cards"></div></section>
-    <section id="wifi"><h2 class="section-title">Free Wi-Fi / Charging / Bathrooms</h2><div class="cards" id="charging"></div></section>
-    <section id="medical"><h2 class="section-title">Safe Indoor / Medical</h2><div class="cards" id="safe-indoors"></div></section>
-    <section id="benefits"><h2 class="section-title">Benefits / ID / Housing Assistance</h2><div class="cards"></div></section>
-    <section id="work"><h2 class="section-title">Work Now / Survival Income</h2><div class="cards"></div></section>
-
-    <section id="last-resort" class="last-resort">
-      <h2 class="section-title">Last Resort Safety Plan</h2>
-      <ul>
-        <li>If no shelter is available, prioritize visibility and safety.</li>
-        <li>Hospitals are safer than isolated streets.</li>
-        <li>Stay near lighting, cameras, bathrooms, and other people.</li>
-        <li>Avoid abandoned buildings, isolated woods, and hidden areas.</li>
-        <li>Keep your phone charged.</li>
-        <li>Conserve battery.</li>
-        <li>Keep belongings close.</li>
-        <li>Avoid conflict.</li>
-        <li>Get water first, calories second, rest third.</li>
-        <li>One safe night matters.</li>
-      </ul>
-      <p class="strong-line">The goal tonight is not to solve your entire life. The goal is to stay alive, stay safe, and wake up with options.</p>
-    </section>
-
-    <footer class="site-footer">
-      <div>Operation Phoenix • Alexandria, Louisiana</div>
-      <div><a href="#home">Back to top</a> · Updated for quick-response mobile use</div>
-    </footer>
+    <section class="section" id="resources"><h2>Resources</h2><div class="cards" id="cards"></div></section>
   </main>
+  <button class="fab warm" id="panic" aria-label="Quick escape">⤬</button>
+  <nav class="bottom" aria-label="Primary navigation"><a href="#home">Home</a><a href="#resources" data-nav="Shelter">Shelter</a><a href="#resources" data-nav="Food">Food</a><a href="#resources" data-nav="Wi-Fi">WiFi</a><a href="#crisis">Crisis</a><a href="#resources" data-nav="Resources">Resources</a></nav>
 
-  <button id="backToTop" aria-label="Back to top">↑</button>
-  <nav class="bottom-nav" aria-label="Sticky navigation">
-    <a href="#home">Home</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi-Fi</a><a href="#hotlines">Hotlines</a>
-  </nav>
+  <aside class="escape" id="escape"><h2>Regional Weather Update</h2><p>Cloudy, 74°F. Humidity 81%.</p><p>Traffic steady downtown. No severe alerts.</p><p>Press Alt+Shift+X to return to Operation Phoenix.</p></aside>
 
-  <script>
-    const resources = [
-      ["Emergency","911","Emergency Services","911","Immediate danger, medical emergency, fire, violence, active threat.","",["urgent","police","fire","ambulance"]],
-      ["Hotlines","988 Suicide & Crisis Lifeline","National","988","Mental health crisis, emotional overwhelm, suicide crisis, panic.","",["mental health","crisis"]],
-      ["Hotlines","211","Louisiana Resource Referral","211","Shelter, food, benefits, emergency services, coordinated entry referrals.","",["referral","shelter","food","benefits"]],
-      ["Hotlines","Veterans Homeless Hotline","National","877-424-3838","Homelessness and crisis support for veterans.","",["veterans","housing"]],
-      ["Hotlines","Domestic Violence Hotline","National","800-799-7233","Domestic violence safety planning and shelter support.","",["domestic violence","safety"]],
-      ["Shelter","Hope House of Central Louisiana","5115 S MacArthur Dr, Alexandria, LA 71302","318-487-2061","Emergency shelter intake, homelessness support, meals, case management. Call first for shelter tonight.","I’m homeless tonight in Alexandria and need emergency shelter intake. Do you have any beds or referrals available right now?",["beds","meals","case management"]],
-      ["Shelter","TRIPLE 8 Housing Solutions","3327 Jackson St, Alexandria, LA 71301","318-240-4732","Temporary housing and housing stabilization support.","I’m currently homeless and need temporary housing or emergency placement help. What intake steps do I need?",["temporary housing","stabilization"]],
-      ["Shelter","Central Louisiana Homeless Coalition","1515 Jackson St, Alexandria, LA 71301","318-443-0500 ext. 1203","Coordinated Entry, housing assessments, rapid rehousing pathways, housing lists.","I need a housing assessment and to be added to Coordinated Entry as soon as possible.",["coordinated entry","rehousing"]],
-      ["Shelter","The Salvation Army Alexandria","620 Beauregard St, Alexandria, LA 71301","318-442-0445","Emergency assistance, warming shelter operations, food help, shelter referrals, possible motel voucher referrals.","I’m homeless tonight and need emergency shelter, food, or motel voucher assistance. Is anything available?",["motel voucher","food","shelter"]],
-      ["Shelter","Faith House","Central Louisiana / service area","337-232-8954","Domestic violence shelter and emergency advocacy for people escaping abuse.","I need safe shelter because of domestic violence or abuse. Can you help me with intake?",["domestic violence","safe shelter"]],
-      ["Food","Food Bank of Central Louisiana","3223 Baldwin Ave, Alexandria, LA 71301","318-445-2773","Food pantry and food distribution assistance. Call for current distribution times.","I need food today. When is the next distribution or pantry access?",["pantry","distribution"]],
-      ["Food","St. Vincent de Paul","Alexandria area","N/A","Emergency food, clothing, rent or utility help may be available through parish/church network.","I’m out of food and need emergency food assistance today. Is there a pantry or voucher available?",["food","clothing","church"]],
-      ["Food","Catholic Charities Central Louisiana","Central Louisiana","N/A","Emergency aid, food assistance, shelter referrals, stabilization support.","I need emergency food and shelter referral help. Who can I speak with today?",["emergency aid","referrals"]],
-      ["Food","Journey Church Outreach","Alexandria/Pineville area","N/A","Church outreach may sometimes help with food, basic supplies, or referrals.","I’m homeless and hungry tonight. Is there any emergency food or outreach help available?",["outreach","supplies"]],
-      ["Wi-Fi","Rapides Parish Main Library","411 Washington St, Alexandria, LA 71301","318-445-2411","Free Wi-Fi, bathrooms, charging, indoor seating, job applications, safer daytime location.","",["wifi","charging","bathrooms"]],
-      ["Wi-Fi","Westside Regional Library","5416 Provine Pl, Alexandria, LA 71303","318-442-2483","Free public Wi-Fi, quiet indoor space, charging opportunities.","",["wifi","quiet","indoor"]],
-      ["Wi-Fi","Robertson Branch Library","809 Main St, Pineville, LA 71360","318-442-2483","Free Wi-Fi, indoor public access, job search location.","",["wifi","job search"]],
-      ["Charging","Starbucks Pineville","3820 Monroe Hwy, Pineville, LA 71360","N/A","Wi-Fi, charging, indoor seating. Stay respectful and low profile.","",["charging","wifi","indoor"]],
-      ["Charging","Walmart Supercenter Alexandria","2050 N Mall Dr, Alexandria, LA 71301","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
-      ["Charging","Target Pineville","3800 Monroe Hwy, Pineville, LA 71360","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
-      ["Medical","CHRISTUS St. Frances Cabrini Hospital","3330 Masonic Dr, Alexandria, LA 71301","318-487-1122","24/7 emergency room, safe indoor waiting area, guest Wi-Fi, medical help.","",["24/7","hospital","safe indoors"]],
-      ["Medical","Rapides Regional Medical Center","211 4th St, Alexandria, LA 71301","318-769-3000","24/7 emergency medical services, safe indoor waiting area.","",["24/7","hospital","safe indoors"]],
-      ["Safe Indoors","Pilot / Love’s Travel Stops","Alexandria area","N/A","Bright lighting, bathrooms, food access, Wi-Fi, charging, safer overnight fallback than isolated areas.","",["lighting","bathrooms","fallback"]],
-      ["Benefits","Cenla Community Action Committee","2011 MacArthur Dr, Alexandria, LA 71301","318-314-3480","Rent help, utility help, workforce assistance, housing stabilization referrals.","",["rent help","utility","workforce"]],
-      ["Benefits","Rapides Parish Housing Authority","Rapides Parish / Alexandria area","N/A","Public housing, Section 8, affordable housing information, waitlists.","",["section 8","waitlist","housing"]],
-      ["Benefits","Louisiana OMV Alexandria","5606 Coliseum Blvd, Alexandria, LA 71303","318-487-5942","State ID replacement. ID is critical for shelter, jobs, benefits, and housing.","",["id","documents"]],
-      ["Benefits","Social Security Office Alexandria","3401 North Blvd, Alexandria, LA 71301","800-772-1213","Replacement Social Security card and benefits support.","",["social security","benefits"]],
-      ["Work","PeopleReady","Alexandria area","N/A","Day labor, possible quick-pay work, construction cleanup, warehouse, moving help.","",["day labor","quick pay"]],
-      ["Work","Labor Finders","Alexandria area","N/A","Day labor and temporary staffing options.","",["temp work","day labor"]],
-      ["Work","Facebook Marketplace / Local Labor","Online / local area","N/A","Look for moving help, yard cleanup, hauling, small repair, labor gigs, flipping low-cost items.","",["gigs","online","labor"]]
-    ];
+<script>
+const resources=[
+{category:'Shelter',name:'Hope House of Central Louisiana',address:'5115 S MacArthur Dr, Alexandria, LA 71302',phone:'318-487-2061',tags:['women','family','overnight','emergency'],notes:'Emergency shelter intake and case management.'},
+{category:'Shelter',name:'Faith House',address:'Central Louisiana service area',phone:'337-232-8954',tags:['women','family','emergency'],notes:'Domestic violence shelter and emergency advocacy.'},
+{category:'Food',name:'Food Bank of Central Louisiana',address:'3223 Baldwin Ave, Alexandria, LA 71301',phone:'318-445-2773',tags:['food','family'],notes:'Food pantry and distributions.'},
+{category:'Wi-Fi',name:'Rapides Parish Main Library',address:'411 Washington St, Alexandria, LA 71301',phone:'318-445-2411',tags:['wifi','showers','transportation'],notes:'Public Wi-Fi, charging, bathrooms, safer daytime space.'},
+{category:'Healthcare',name:'Rapides Regional Medical Center',address:'211 4th St, Alexandria, LA 71301',phone:'318-769-3000',tags:['healthcare','emergency','overnight'],notes:'24/7 emergency care and indoor safety.'},
+{category:'Resources',name:'Veterans Homeless Hotline',address:'National',phone:'877-424-3838',tags:['veterans','emergency'],notes:'Support for unhoused veterans.'},
+{category:'Resources',name:'Central Louisiana Homeless Coalition',address:'1515 Jackson St, Alexandria, LA 71301',phone:'318-443-0500',tags:['family','transportation'],notes:'Coordinated entry and housing pathways.'},
+{category:'Resources',name:'211 Louisiana Referral',address:'Statewide',phone:'211',tags:['emergency','food','healthcare'],notes:'Referral and coordinated emergency support.'}
+];
+const emergency=[
+['911','tel:911','hot'],['Suicide Hotline (988)','tel:988','hot'],['Domestic Violence Hotline','tel:18007997233','hot'],['Shelter Now','#resources','warm'],['Food Now','#resources','warm'],['Nearby Hospital','https://maps.google.com/?q=Rapides+Regional+Medical+Center','warm'],['Emergency Transport','tel:911','hot']
+];
+const filters=['all','women','family','veterans','overnight','emergency','pet friendly','food','showers','transportation','healthcare'];
+const cards=document.getElementById('cards');
+const search=document.getElementById('search');
+let active='all';
+const fuse=new Fuse(resources,{keys:['category','name','address','notes','tags'],threshold:.35,ignoreLocation:true});
 
-    const sectionMap = { Emergency: 'hotlines', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
-    const sectionNodes = {
-      ...Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')])),
-      ...Object.fromEntries([...document.querySelectorAll('.cards[id]')].map(node => [node.id, node]))
-    };
+function phoneHref(phone){const p=phone.replace(/\D/g,''); return p?`tel:${p}`:'#';}
+function mapHref(addr){return `https://maps.google.com/?q=${encodeURIComponent(addr)}`;}
+function drawRightNow(){document.getElementById('rightNow').innerHTML=emergency.map(([t,h,c])=>`<a class="btn ${c}" href="${h}" target="${h.startsWith('http')?'_blank':'_self'}" rel="noopener">${t}</a>`).join('');}
+function drawFilters(){const root=document.getElementById('filters'); filters.forEach(f=>{const b=document.createElement('button'); b.className='chip'; b.textContent=f; b.type='button'; if(f===active)b.classList.add('active'); b.onclick=()=>{active=f;drawFilters();render()}; root.appendChild(b);});}
+function resultSet(){ const q=search.value.trim(); let list=q?fuse.search(q).map(x=>x.item):resources; if(active!=='all'){ list=list.filter(r=>r.tags.includes(active) || r.category.toLowerCase()===active.toLowerCase()); } return list; }
+function render(){ cards.textContent=''; resultSet().forEach((r,i)=>{const id=`x${i}`; const el=document.createElement('article'); el.className='resource'; el.innerHTML=`<div class="head"><strong>${r.name}</strong><span class="tag">${r.category}</span></div><p class="meta">${r.address}<br>${r.phone}</p><p>${r.notes}</p><div class="chips">${r.tags.map(t=>`<span class='tag'>#${t}</span>`).join('')}</div><div class="actions"><a class="btn hot" href="${phoneHref(r.phone)}">Call</a><a class="btn" target="_blank" rel="noopener" href="${mapHref(r.address)}">Map</a><button class="btn" data-copy="${r.address}">Copy</button><button class="btn" data-save="${id}">Save</button></div><details class="collapse"><summary>Details</summary><p>${r.notes}</p></details>`; cards.appendChild(el);}); }
 
-    function telHref(phone) {
-      const clean = phone.replace(/[^\d]/g, '');
-      return clean ? `tel:${clean}` : '#';
-    }
-    function mapHref(address) { return `https://maps.google.com/?q=${encodeURIComponent(address)}`; }
+drawRightNow();drawFilters();render();
+search.addEventListener('input',render);
+document.querySelector('.bottom').addEventListener('click',e=>{const k=e.target.closest('[data-nav]')?.dataset.nav; if(!k)return; if(k!=='Resources'){active=k; drawFilters(); render();}});
+document.addEventListener('click',async e=>{const c=e.target.closest('[data-copy]'); if(c){await navigator.clipboard.writeText(c.dataset.copy); c.textContent='Copied'; setTimeout(()=>c.textContent='Copy',800);} const s=e.target.closest('[data-save]'); if(s){const save=JSON.parse(localStorage.getItem('phoenixSaved')||'[]'); save.push(s.dataset.save); localStorage.setItem('phoenixSaved',JSON.stringify([...new Set(save)])); s.textContent='Saved';}});
 
-    function render(list) {
-      Object.values(sectionNodes).forEach(node => node && (node.textContent = ''));
-      list.forEach(([category, name, address, phone, notes, script, tags]) => {
-        const hostId = sectionMap[category];
-        const host = sectionNodes[hostId];
-        if (!host) return;
-        const card = document.createElement('article');
-        card.className = 'card resource-card';
-        card.dataset.search = [category, name, address, phone, notes, script, ...(tags||[])].join(' ').toLowerCase();
-        card.dataset.category = category;
-        const callDisabled = phone === 'N/A' || phone.toLowerCase().includes('local') || phone.toLowerCase().includes('search') || phone.toLowerCase().includes('contact');
-
-        const label = document.createElement('span'); label.className='label'; label.textContent = category;
-        const h3 = document.createElement('h3'); h3.className='name'; h3.textContent = name;
-        const meta = document.createElement('p'); meta.className='meta';
-        const addressStrong = document.createElement('strong'); addressStrong.textContent = 'Address:';
-        const phoneStrong = document.createElement('strong'); phoneStrong.textContent = 'Phone:';
-        meta.append(addressStrong, ` ${address}`, document.createElement('br'), phoneStrong, ` ${phone}`);
-        const notesP = document.createElement('p'); notesP.className='notes'; notesP.textContent = notes;
-
-        const tagsWrap = document.createElement('div'); tagsWrap.className='tags';
-        (tags||[]).forEach(t => { const el = document.createElement('span'); el.className='tag'; el.textContent = `#${t}`; tagsWrap.appendChild(el); });
-
-        const actions = document.createElement('div'); actions.className='actions';
-        const call = document.createElement('a'); call.className = `btn ${callDisabled ? 'hidden' : 'hot'}`; call.textContent='Call'; call.setAttribute('aria-label', `Call ${name}`); if (!callDisabled) call.href = telHref(phone);
-        const map = document.createElement('a'); map.className='btn gold'; map.href = mapHref(address); map.target='_blank'; map.rel='noopener'; map.textContent='Map';
-        const copy = document.createElement('button'); copy.className='btn copy-btn'; copy.type='button'; copy.dataset.address = address; copy.setAttribute('aria-label', `Copy address for ${name}`); copy.textContent='Copy';
-        actions.append(call, map, copy);
-
-        card.append(label, h3, meta, notesP);
-        if (script) { const details=document.createElement('details'); const summary=document.createElement('summary'); summary.textContent='What to say'; const p=document.createElement('p'); p.className='script'; p.textContent=`“${script}”`; details.append(summary,p); card.appendChild(details); }
-        card.append(tagsWrap, actions);
-        host.appendChild(card);
-      });
-    }
-
-    function applyFilters() {
-      const q = document.getElementById('search').value.trim().toLowerCase();
-      const active = document.body.dataset.activeCategory || 'all';
-      document.querySelectorAll('.resource-card').forEach(card => {
-        const matchesSearch = !q || card.dataset.search.includes(q);
-        const matchesCategory = active === 'all' || card.dataset.category === active;
-        card.classList.toggle('hidden', !(matchesSearch && matchesCategory));
-      });
-    }
-
-    render(resources);
-
-    document.getElementById('search').addEventListener('input', applyFilters);
-    document.querySelectorAll('.chip[data-filter]').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.body.dataset.activeCategory = chip.dataset.filter;
-        applyFilters();
-      });
-    });
-    document.getElementById('showAll').addEventListener('click', () => {
-      document.body.dataset.activeCategory = 'all';
-      applyFilters();
-    });
-
-    document.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.copy-btn');
-      if (!btn) return;
-      try {
-        await navigator.clipboard.writeText(btn.dataset.address);
-        const prev = btn.textContent;
-        btn.textContent = 'Copied';
-        setTimeout(() => btn.textContent = prev, 1200);
-      } catch {
-        btn.textContent = 'Hold to Copy';
-      }
-    });
-
-    const back = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => back.style.display = window.scrollY > 350 ? 'block' : 'none');
-    back.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
-
-    const menuToggle = document.getElementById('menuToggle');
-    const anchorMenu = document.getElementById('anchorMenu');
-    menuToggle.addEventListener('click', () => {
-      const isOpen = !anchorMenu.classList.contains('hidden');
-      anchorMenu.classList.toggle('hidden', isOpen);
-      menuToggle.setAttribute('aria-expanded', String(!isOpen));
-    });
-    anchorMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-      anchorMenu.classList.add('hidden');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    }));
-    window.addEventListener('click', (e) => {
-      if (!anchorMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        anchorMenu.classList.add('hidden');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-    window.addEventListener('load', () => {
-      setTimeout(() => document.getElementById('appLoader').setAttribute('aria-hidden', 'true'), 450);
-    });
-  </script>
+document.getElementById('panic').onclick=()=>document.getElementById('escape').classList.add('active');
+let taps=0; document.getElementById('brandTap').onclick=()=>{taps++; if(taps>=4){document.getElementById('escape').classList.remove('active'); taps=0;}};
+window.addEventListener('keydown',e=>{if(e.altKey&&e.shiftKey&&e.key.toLowerCase()==='x'){document.getElementById('escape').classList.toggle('active');}});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('phoenix-sw.js'));}
+</script>
 </body>
 </html>

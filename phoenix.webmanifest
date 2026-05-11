@@ -1,0 +1,13 @@
+{
+  "name": "Operation Phoenix",
+  "short_name": "Phoenix",
+  "start_url": "./phoenix.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "description": "Offline-capable emergency support resources for crisis situations.",
+  "icons": [
+    {"src":"app icons/op-phoenix-icon.png","sizes":"192x192","type":"image/png"},
+    {"src":"app icons/op-phoenix-icon.png","sizes":"512x512","type":"image/png"}
+  ]
+}
