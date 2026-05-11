@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
   <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200" rel="stylesheet" />
   <style>
     :root {
       --bg: #120f10;
@@ -27,14 +30,22 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: radial-gradient(1000px 420px at 20% -5%, #3b1e1b 0%, var(--bg) 45%), var(--bg);
       color: var(--cream);
       line-height: 1.45;
       padding-bottom: 78px;
     }
 
-    .container { width: min(100%, 760px); margin: 0 auto; padding: 14px 14px 24px; }
+    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; font-size: 1.1rem; line-height: 1; }
+
+    .container { width: min(100%, 860px); margin: 0 auto; padding: 14px 14px 24px; }
+    .top-nav { position: sticky; top: 10px; z-index: 30; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(24, 18, 20, .86); border: 1px solid #4b3936; border-radius: 14px; padding: 10px 14px; backdrop-filter: blur(8px); }
+    .brand-mini { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
+    .brand-mini img { width: 30px; height: 30px; border-radius: 8px; border:1px solid #5c4239; }
+    .menu-inline { display:flex; gap:8px; flex-wrap:wrap; }
+    .menu-inline a { color: var(--muted); text-decoration:none; font-size:.86rem; padding: 7px 10px; border-radius:999px; border:1px solid transparent; transition: all .2s ease; }
+    .menu-inline a:hover { color: var(--cream); border-color:#5a433d; background:#2b1d1d; }
     .hero {
       background: linear-gradient(150deg, #2f1616, #1a1112 65%);
       border: 1px solid #483835;
@@ -73,6 +84,8 @@
 
     .cards { display: grid; gap: 12px; }
     .card {
+      opacity: 0; transform: translateY(16px); animation: reveal .45s ease forwards;
+
       background: linear-gradient(180deg, var(--panel), var(--panel-2));
       border: 1px solid #4f3a36;
       border-radius: var(--radius);
@@ -123,11 +136,24 @@
       font-weight: 800;
     }
 
+    .site-footer { margin-top: 20px; border-top:1px solid #4b3936; padding: 16px 0 84px; color: var(--muted); font-size:.88rem; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+    .site-footer a { color: #ffd9ad; text-decoration:none; }
     .hidden { display: none !important; }
+    @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+    @media (max-width:720px){ .menu-inline{ display:none; } .top-nav{top:0;} }
   </style>
 </head>
 <body>
   <main class="container" id="home">
+    <nav class="top-nav" aria-label="Primary">
+      <div class="brand-mini">
+        <img src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Phoenix icon" />
+        <span>Operation Phoenix</span>
+      </div>
+      <div class="menu-inline">
+        <a href="#hotlines">Hotlines</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#medical">Medical</a><a href="#last-resort">Safety Plan</a>
+      </div>
+    </nav>
     <header class="hero">
       <div class="hero-top">
         <img class="icon" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix app icon" />
@@ -141,9 +167,9 @@
     </header>
 
     <section class="quick-actions" aria-label="Emergency quick actions">
-      <a class="btn hot" href="tel:911">Call 911</a>
-      <a class="btn hot" href="tel:988">Call 988</a>
-      <a class="btn hot" href="tel:211">Call 211</a>
+      <a class="btn hot" href="tel:911"><span class="material-symbols-rounded" aria-hidden="true">local_police</span>Call 911</a>
+      <a class="btn hot" href="tel:988"><span class="material-symbols-rounded" aria-hidden="true">support_agent</span>Call 988</a>
+      <a class="btn hot" href="tel:211"><span class="material-symbols-rounded" aria-hidden="true">call</span>Call 211</a>
       <a class="btn" href="#shelter">Shelter Now</a>
       <a class="btn" href="#food">Food Today</a>
       <a class="btn" href="#wifi">Wi-Fi / Charge</a>
@@ -185,6 +211,11 @@
       </ul>
       <p class="strong-line">The goal tonight is not to solve your entire life. The goal is to stay alive, stay safe, and wake up with options.</p>
     </section>
+
+    <footer class="site-footer">
+      <div>Operation Phoenix • Alexandria, Louisiana</div>
+      <div><a href="#home">Back to top</a> · Updated for quick-response mobile use</div>
+    </footer>
   </main>
 
   <button id="backToTop" aria-label="Back to top">↑</button>
@@ -239,7 +270,7 @@
     function mapHref(address) { return `https://maps.google.com/?q=${encodeURIComponent(address)}`; }
 
     function render(list) {
-      Object.values(sectionNodes).forEach(node => node && (node.innerHTML = ''));
+      Object.values(sectionNodes).forEach(node => node && (node.textContent = ''));
       list.forEach(([category, name, address, phone, notes, script, tags]) => {
         const hostId = sectionMap[category];
         const host = sectionNodes[hostId];
@@ -249,18 +280,27 @@
         card.dataset.search = [category, name, address, phone, notes, script, ...(tags||[])].join(' ').toLowerCase();
         card.dataset.category = category;
         const callDisabled = phone === 'N/A' || phone.toLowerCase().includes('local') || phone.toLowerCase().includes('search') || phone.toLowerCase().includes('contact');
-        card.innerHTML = `
-          <span class="label">${category}</span>
-          <h3 class="name">${name}</h3>
-          <p class="meta"><strong>Address:</strong> ${address}<br><strong>Phone:</strong> ${phone}</p>
-          <p class="notes">${notes}</p>
-          ${script ? `<details><summary>What to say</summary><p class="script">“${script}”</p></details>` : ''}
-          <div class="tags">${(tags||[]).map(t => `<span class="tag">#${t}</span>`).join('')}</div>
-          <div class="actions">
-            <a class="btn ${callDisabled ? 'hidden' : 'hot'}" ${callDisabled ? '' : `href="${telHref(phone)}"`} aria-label="Call ${name}">${callDisabled ? '' : 'Call'}</a>
-            <a class="btn gold" href="${mapHref(address)}" target="_blank" rel="noopener" aria-label="Map for ${name}">Map</a>
-            <button class="btn copy-btn" data-address="${address.replace(/"/g,'&quot;')}" aria-label="Copy address for ${name}">Copy</button>
-          </div>`;
+
+        const label = document.createElement('span'); label.className='label'; label.textContent = category;
+        const h3 = document.createElement('h3'); h3.className='name'; h3.textContent = name;
+        const meta = document.createElement('p'); meta.className='meta';
+        const addressStrong = document.createElement('strong'); addressStrong.textContent = 'Address:';
+        const phoneStrong = document.createElement('strong'); phoneStrong.textContent = 'Phone:';
+        meta.append(addressStrong, ` ${address}`, document.createElement('br'), phoneStrong, ` ${phone}`);
+        const notesP = document.createElement('p'); notesP.className='notes'; notesP.textContent = notes;
+
+        const tagsWrap = document.createElement('div'); tagsWrap.className='tags';
+        (tags||[]).forEach(t => { const el = document.createElement('span'); el.className='tag'; el.textContent = `#${t}`; tagsWrap.appendChild(el); });
+
+        const actions = document.createElement('div'); actions.className='actions';
+        const call = document.createElement('a'); call.className = `btn ${callDisabled ? 'hidden' : 'hot'}`; call.textContent='Call'; call.setAttribute('aria-label', `Call ${name}`); if (!callDisabled) call.href = telHref(phone);
+        const map = document.createElement('a'); map.className='btn gold'; map.href = mapHref(address); map.target='_blank'; map.rel='noopener'; map.textContent='Map';
+        const copy = document.createElement('button'); copy.className='btn copy-btn'; copy.type='button'; copy.dataset.address = address; copy.setAttribute('aria-label', `Copy address for ${name}`); copy.textContent='Copy';
+        actions.append(call, map, copy);
+
+        card.append(label, h3, meta, notesP);
+        if (script) { const details=document.createElement('details'); const summary=document.createElement('summary'); summary.textContent='What to say'; const p=document.createElement('p'); p.className='script'; p.textContent=`“${script}”`; details.append(summary,p); card.appendChild(details); }
+        card.append(tagsWrap, actions);
         host.appendChild(card);
       });
     }
