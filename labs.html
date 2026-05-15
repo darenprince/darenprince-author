@@ -1,130 +1,87 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Crown Labs | Product Portfolio</title>
+    <title>Crown Labs | Institutional Product Portfolio</title>
     <meta
       name="description"
-      content="Crown Labs • A Division of Daren Prince Publishing. Innovation. Intelligence. Integrity. Explore the Crown Labs product portfolio."
+      content="Institutional Crown Labs portfolio: product intelligence, readiness, valuation posture, and operating roadmap."
     />
-    <meta name="theme-color" content="#070b14" />
+    <meta name="theme-color" content="#0b0f17" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <link rel="canonical" href="https://www.darenprince.com/labs.html" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Crown Labs | Product Portfolio" />
-    <meta
-      property="og:description"
-      content="Innovation. Intelligence. Integrity. Explore Crown Labs products and readiness status."
-    />
+    <meta property="og:title" content="Crown Labs | Institutional Product Portfolio" />
+    <meta property="og:description" content="Portfolio intelligence across Crown Labs product systems." />
     <meta property="og:url" content="https://www.darenprince.com/labs.html" />
     <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
-    <meta property="og:image:alt" content="Crown Labs product portfolio" />
+    <meta property="og:image:alt" content="Crown Labs portfolio dashboard" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Crown Labs | Product Portfolio" />
-    <meta
-      name="twitter:description"
-      content="The experimental and development division of Daren Prince Publishing."
-    />
+    <meta name="twitter:title" content="Crown Labs | Institutional Product Portfolio" />
+    <meta name="twitter:description" content="Product portfolio, readiness intelligence, and investor-aligned summaries." />
     <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
 
     <link rel="icon" type="image/svg+xml" href="labs/assets/labs-favicon.svg" />
     <link rel="apple-touch-icon" href="labs/assets/labs-favicon.svg" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/labs.css" />
   </head>
   <body id="top">
     <div class="scroll-progress" aria-hidden="true"></div>
-
     <header class="labs-header">
-      <div class="header-redline"></div>
-      <div class="header-inner">
-        <a href="#top" class="logo-link" aria-label="Crown Labs home">
+      <div class="header-inner shell">
+        <a href="#top" class="brand" aria-label="Crown Labs home">
           <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="logo" />
+          <span>Crown Labs Portfolio Console</span>
         </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">☰</button>
+        <nav class="site-menu" aria-label="Site menu">
+          <a href="#portfolio">Portfolio</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#governance">Governance</a>
+          <a href="crownlabsbible/docs/index.html">Docs</a>
+        </nav>
       </div>
-      <nav id="site-menu" class="site-menu" aria-label="Site menu">
-        <a href="#portfolio">Product Portfolio</a>
-        <a href="#founder">About</a>
-        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Beta%20Testers">Beta Testers</a>
-      </nav>
     </header>
 
-    <main class="container">
-      <section class="hero" id="founder">
-        <p class="kicker">Crown Labs • A Division of Daren Prince Publishing</p>
-        <h1>Innovation.<br />Intelligence.<br /><span>Integrity.</span></h1>
-        <p class="lead">The experimental and development division of Daren Prince Publishing.</p>
-        <p>
-          Crown Labs is the creative force behind a growing network of intelligent technologies, digital
-          platforms, and human-centered innovations. This is where ideas evolve into living systems.
-        </p>
-        <p class="belief">
-          Every project begins with one belief: true intelligence starts with intention, and technology should
-          always serve humanity.
-        </p>
-        <div class="hero-actions">
-          <a href="#portfolio" class="btn btn-primary">See the portfolio →</a>
-          <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Beta%20Testers" class="btn btn-secondary">Beta Testers</a>
+    <main class="shell">
+      <section class="hero" id="governance">
+        <p class="eyebrow">Crown Labs • Institutional Systems Division</p>
+        <h1>Quiet Infrastructure.<br />Operational Intelligence.<br />Execution Discipline.</h1>
+        <p class="intro">A production-grade portfolio surface built from Crown Labs Bible documentation and product dossiers.</p>
+      </section>
+
+      <section class="metrics" id="roadmap" aria-label="Executive metrics">
+        <article><h3>Total Products</h3><p id="total-products">—</p></article>
+        <article><h3>Active Beta</h3><p id="active-beta">—</p></article>
+        <article><h3>Average Readiness</h3><p id="avg-readiness">—</p></article>
+      </section>
+
+      <section class="controls" aria-label="Portfolio controls">
+        <div class="control-group">
+          <label for="search">Search products</label>
+          <input id="search" type="search" placeholder="Name, category, keyword" />
         </div>
-        <a href="mailto:contact@darenprince.com?subject=Crown%20Labs%20Developer" class="btn btn-wide">Become A Crown Labs Developer</a>
-      </section>
-
-      <section class="stats" aria-label="Portfolio statistics">
-        <article><h3>Total products</h3><p>12</p></article>
-        <article><h3>Active in beta</h3><p>4</p></article>
-        <article><h3>Concepts in lab</h3><p>8</p></article>
-      </section>
-
-      <section id="portfolio" class="portfolio-head">
-        <h2>Product Portfolio</h2>
-        <p>Scan what exists, filter by readiness, and expand details without losing the high-level view.</p>
-      </section>
-
-      <section class="portfolio-card">
-        <div class="badges"><span class="badge stage">Stage 1 Beta</span><span class="badge focus">Intelligence</span></div>
-        <h3>CrownCode Intelligence Suite</h3>
-        <p class="sub">Flagship Intelligence Platform</p>
-        <p>
-          A multimodal AI intelligence suite that documents, correlates, profiles, forecasts, and explains
-          evidence-grade insights.
-        </p>
-        <h4>Core capabilities</h4>
-        <ul>
-          <li>Multimodal intelligence extraction across text, image, audio, video, and metadata</li>
-          <li>Predictive behavioral modeling and psychological threat assessment</li>
-          <li>Evidence-grade reporting with audit trails and chain-of-custody</li>
-        </ul>
-        <div class="next-gate">
-          <h4>Next gate</h4>
-          <p>Complete Stage 1 beta with validated evidence-ready reporting.</p>
+        <div class="control-group">
+          <label for="status-filter">Status</label>
+          <select id="status-filter"><option value="all">All statuses</option></select>
+        </div>
+        <div class="control-group">
+          <label for="category-filter">Category</label>
+          <select id="category-filter"><option value="all">All categories</option></select>
         </div>
       </section>
 
-      <section class="portfolio-card">
-        <div class="badges"><span class="badge beta">Beta</span><span class="badge security">Security</span></div>
-        <h3>CrownCam</h3>
-        <p class="sub">Security & Situational Awareness</p>
-        <p>
-          A browser-based security camera platform that turns any device into an intelligent, real-time
-          surveillance system.
-        </p>
-      </section>
+      <section id="portfolio" class="portfolio-grid" aria-live="polite"></section>
+      <p id="empty-state" class="empty-state" hidden>No products match this filter set.</p>
     </main>
 
-    <a class="scroll-top" href="#top" aria-label="Back to top">↑</a>
-
-    <footer class="footer">
-      <p>© <span id="labs-year"></span> Crown Labs • Daren Prince Publishing</p>
+    <footer class="footer shell">
+      <p>© <span id="labs-year"></span> Crown Labs • Daren Prince Publishing • Built from canonical documentation architecture.</p>
     </footer>
 
     <script src="assets/labs.js" defer></script>
