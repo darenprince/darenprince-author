@@ -6,7 +6,7 @@
     <title>Crown Labs | Institutional Product Portfolio</title>
     <meta
       name="description"
-      content="Institutional Crown Labs portfolio: product intelligence, readiness, valuation posture, and operating roadmap."
+      content="Institutional Crown Labs portfolio built directly from canonical Crown Docs content: governance, product dossiers, and operational intelligence."
     />
     <meta name="theme-color" content="#0b0f17" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -14,21 +14,36 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Crown Labs | Institutional Product Portfolio" />
-    <meta property="og:description" content="Portfolio intelligence across Crown Labs product systems." />
+    <meta
+      property="og:description"
+      content="Canonical portfolio intelligence across Crown Labs product and documentation systems."
+    />
     <meta property="og:url" content="https://www.darenprince.com/labs.html" />
-    <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
+    <meta
+      property="og:image"
+      content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
+    />
     <meta property="og:image:alt" content="Crown Labs portfolio dashboard" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Crown Labs | Institutional Product Portfolio" />
-    <meta name="twitter:description" content="Product portfolio, readiness intelligence, and investor-aligned summaries." />
-    <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
+    <meta
+      name="twitter:description"
+      content="Product portfolio, readiness intelligence, and investor-aligned summaries sourced from canonical docs."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
+    />
 
     <link rel="icon" type="image/svg+xml" href="labs/assets/labs-favicon.svg" />
     <link rel="apple-touch-icon" href="labs/assets/labs-favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/labs.css" />
   </head>
   <body id="top">
@@ -40,25 +55,74 @@
           <span>Crown Labs Portfolio Console</span>
         </a>
         <nav class="site-menu" aria-label="Site menu">
+          <a href="#foundation">Foundation</a>
           <a href="#portfolio">Portfolio</a>
-          <a href="#roadmap">Roadmap</a>
-          <a href="#governance">Governance</a>
-          <a href="crownlabsbible/docs/index.html">Docs</a>
+          <a href="#docs-sync">Docs Sync</a>
+          <a href="crownlabsbible/docs/index.html">Docs App</a>
         </nav>
       </div>
     </header>
 
     <main class="shell">
-      <section class="hero" id="governance">
+      <section class="hero" id="foundation">
         <p class="eyebrow">Crown Labs • Institutional Systems Division</p>
-        <h1>Quiet Infrastructure.<br />Operational Intelligence.<br />Execution Discipline.</h1>
-        <p class="intro">A production-grade portfolio surface built from Crown Labs Bible documentation and product dossiers.</p>
+        <h1>Canonical Portfolio Surface<br />Synchronized to Crown Docs</h1>
+        <p class="intro">
+          This page now uses Crown Docs as the narrative source of truth for governance, product
+          taxonomy, and operating standards, while preserving data-driven product rendering for
+          filter and readiness workflows.
+        </p>
       </section>
 
-      <section class="metrics" id="roadmap" aria-label="Executive metrics">
-        <article><h3>Total Products</h3><p id="total-products">—</p></article>
-        <article><h3>Active Beta</h3><p id="active-beta">—</p></article>
-        <article><h3>Average Readiness</h3><p id="avg-readiness">—</p></article>
+      <section class="docs-source" id="docs-sync" aria-label="Canonical docs source">
+        <h2>Direct Documentation Source</h2>
+        <p>
+          Source: <code>crowndocs/content/index.md</code> and section indexes across the corporate
+          infrastructure and product dossier system.
+        </p>
+        <div class="source-panels">
+          <article>
+            <h3>Purpose</h3>
+            <ul>
+              <li>Master executive dossier</li>
+              <li>Product inventory source of truth</li>
+              <li>Investor documentation system</li>
+              <li>Operational governance reference</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Build Philosophy</h3>
+            <p>
+              The documentation stack is built incrementally so each product and system can preserve
+              formatting integrity, editorial consistency, legal readability, and clean
+              synchronization with the website ecosystem.
+            </p>
+          </article>
+          <article>
+            <h3>Website Integration</h3>
+            <ul>
+              <li>labs.html</li>
+              <li>assets/labs-data.json</li>
+              <li>investor product pages</li>
+              <li>valuation and presentation exports</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Executive metrics">
+        <article>
+          <h3>Total Products</h3>
+          <p id="total-products">—</p>
+        </article>
+        <article>
+          <h3>Active Beta</h3>
+          <p id="active-beta">—</p>
+        </article>
+        <article>
+          <h3>Average Readiness</h3>
+          <p id="avg-readiness">—</p>
+        </article>
       </section>
 
       <section class="controls" aria-label="Portfolio controls">
@@ -68,11 +132,15 @@
         </div>
         <div class="control-group">
           <label for="status-filter">Status</label>
-          <select id="status-filter"><option value="all">All statuses</option></select>
+          <select id="status-filter">
+            <option value="all">All statuses</option>
+          </select>
         </div>
         <div class="control-group">
           <label for="category-filter">Category</label>
-          <select id="category-filter"><option value="all">All categories</option></select>
+          <select id="category-filter">
+            <option value="all">All categories</option>
+          </select>
         </div>
       </section>
 
@@ -81,7 +149,10 @@
     </main>
 
     <footer class="footer shell">
-      <p>© <span id="labs-year"></span> Crown Labs • Daren Prince Publishing • Built from canonical documentation architecture.</p>
+      <p>
+        © <span id="labs-year"></span> Crown Labs • Daren Prince Publishing • Built from canonical
+        documentation architecture.
+      </p>
     </footer>
 
     <script src="assets/labs.js" defer></script>
