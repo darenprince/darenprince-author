@@ -48,3 +48,15 @@ Current docs pages include:
 - add local docs-specific favicon variants (`favicon.ico`, `apple-touch-icon`) in `docs/assets`
 - add a dedicated GitHub Pages workflow for branch-to-pages publishing
 - centralize shared head metadata generation to reduce manual duplication
+
+## Public-Facing Copy & Navigation Standards
+
+To keep launch messaging investor-ready and consumer-digestible across all documentation landing pages:
+
+- hero and intro copy should communicate commercial outcomes, deployment readiness, and strategic value in plain language
+- primary calls-to-action should map to **Portfolio**, **Investor Brief**, and **Documentation Hub** journeys
+- sidebar labels are standardized as `Documentation Hub`, `Ecosystem Map`, and `Release Roadmap`
+- each landing route should include metadata that is publication-ready for search and social sharing
+- route titles should avoid placeholder filenames (for example `index.html`, `products.html`) and use human-readable page names
+
+These standards are now reflected across `index`, `products`, `investor`, `executive`, `ecosystem`, `categories`, and `roadmap` routes.
