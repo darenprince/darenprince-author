@@ -1,102 +1,318 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>AI Cherry Pie | Crown Labs</title>
-  <meta name="description" content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure." />
-  <meta name="theme-color" content="#0b0f17" />
-  <link rel="canonical" href="https://www.darenprince.com/labs/products/ai-cherry-pie.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="AI Cherry Pie | Crown Labs" />
-  <meta property="og:description" content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure." />
-  <meta property="og:url" content="https://www.darenprince.com/labs/products/ai-cherry-pie.html" />
-  <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AI Cherry Pie | Crown Labs" />
-  <meta name="twitter:description" content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure." />
-  <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
-  <link rel="icon" type="image/svg+xml" href="../assets/labs-favicon.svg" />
-  <link rel="stylesheet" href="../../assets/labs-product.css" />
-</head>
-<body class="theme-dark product-page">
-  <header class="top-nav">
-    <div class="nav-brand">
-      <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
-      <div>
-        <strong>AI Cherry Pie</strong>
-        <div class="footer-note">Sourced from docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md</div>
-      </div>
-    </div>
-    <div class="nav-actions">
-      <a class="back-link" href="../#products">Back to Labs</a>
-      <a class="back-link" href="../../docs/crownlabsbible/docs/index.html">Crown Labs Bible</a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">Theme</button>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>AI Cherry Pie | Crown Labs</title>
+    <meta
+      name="description"
+      content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure."
+    />
+    <meta name="theme-color" content="#0b0f17" />
+    <link rel="canonical" href="https://www.darenprince.com/labs/products/ai-cherry-pie.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="AI Cherry Pie | Crown Labs" />
+    <meta
+      property="og:description"
+      content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure."
+    />
+    <meta
+      property="og:url"
+      content="https://www.darenprince.com/labs/products/ai-cherry-pie.html"
+    />
+    <meta
+      property="og:image"
+      content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AI Cherry Pie | Crown Labs" />
+    <meta
+      name="twitter:description"
+      content="AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
+    />
+    <link rel="icon" type="image/svg+xml" href="../assets/labs-favicon.svg" />
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="../../assets/labs-product.css" />
 
-  <main>
-    <section class="product-hero">
-      <div>
-        <div class="hero-tags">
-          <span class="tag">Functional standalone software product and framework</span>
-          <span class="tag">Writing reconstruction and language refinement platform</span>
+    <style>
+      .top-nav {
+        gap: 1rem;
+      }
+      .nav-actions {
+        align-items: center;
+      }
+      .product-menu-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(231, 237, 246, 0.16);
+        background: rgba(18, 26, 39, 0.84);
+        color: currentColor;
+        font-size: 1.35rem;
+      }
+      .modern-product-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
+      .modern-product-nav a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.42rem;
+      }
+      .modern-product-nav iconify-icon {
+        color: #8ea2ff;
+        font-size: 1.02rem;
+      }
+      @media (max-width: 860px) {
+        .top-nav {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+        }
+        .product-menu-toggle {
+          display: inline-flex;
+        }
+        .nav-actions {
+          position: relative;
+          margin-left: auto;
+        }
+        .modern-product-nav {
+          position: absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          min-width: min(82vw, 320px);
+          display: none;
+          flex-direction: column;
+          padding: 12px;
+          border: 1px solid rgba(231, 237, 246, 0.16);
+          background: rgba(8, 12, 19, 0.98);
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+        }
+        .top-nav.nav-open .modern-product-nav {
+          display: flex;
+        }
+        .modern-product-nav a {
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body class="theme-dark product-page">
+    <header class="top-nav">
+      <div class="nav-brand">
+        <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
+        <div>
+          <strong>AI Cherry Pie</strong>
+          <div class="footer-note">Sourced from Crown Labs Bible documentation application.</div>
         </div>
-        <h1>AI Cherry Pie</h1>
-        <p class="subtitle">AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.</p>
-        <p>AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.</p>
-        <div class="access-actions">
-          <a class="primary-btn" href="../../docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md">Open canonical dossier</a>
-          <a class="ghost-btn" href="../#products">Explore Labs</a>
+      </div>
+      <div class="nav-actions">
+        <button
+          class="product-menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="product-site-menu"
+          aria-label="Open Crown Labs navigation"
+        >
+          <iconify-icon icon="tabler:menu-2" aria-hidden="true"></iconify-icon>
+        </button>
+        <nav class="modern-product-nav" id="product-site-menu" aria-label="Crown Labs navigation">
+          <a class="back-link" href="../"
+            ><iconify-icon icon="tabler:home-2" aria-hidden="true"></iconify-icon
+            ><span>Home</span></a
+          >
+          <a class="back-link" href="../#products"
+            ><iconify-icon icon="tabler:box" aria-hidden="true"></iconify-icon
+            ><span>Products</span></a
+          >
+          <a class="back-link" href="../#crowncode"
+            ><iconify-icon icon="tabler:cpu-2" aria-hidden="true"></iconify-icon
+            ><span>Technology</span></a
+          >
+          <a class="back-link" href="../#founder"
+            ><iconify-icon icon="tabler:crown" aria-hidden="true"></iconify-icon
+            ><span>Founder</span></a
+          >
+          <a class="back-link" href="../../docs/crownlabsbible/docs/index.html"
+            ><iconify-icon icon="tabler:file-text" aria-hidden="true"></iconify-icon
+            ><span>Documentation</span></a
+          >
+          <a class="back-link" href="mailto:apps@crownlabs.tech"
+            ><iconify-icon icon="tabler:mail" aria-hidden="true"></iconify-icon
+            ><span>Contact</span></a
+          >
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Toggle light and dark mode"
+          >
+            Theme
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="product-hero">
+        <div>
+          <div class="hero-tags">
+            <span class="tag">Functional standalone software product and framework</span>
+            <span class="tag">Writing reconstruction and language refinement platform</span>
+          </div>
+          <h1>AI Cherry Pie</h1>
+          <p class="subtitle">
+            AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and
+            remove detectable AI writing fingerprints while restoring natural human flow, emotional
+            realism, conversational rhythm, and believable language structure.
+          </p>
+          <p>
+            AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and
+            remove detectable AI writing fingerprints while restoring natural human flow, emotional
+            realism, conversational rhythm, and believable language structure.
+          </p>
+          <div class="access-actions">
+            <a
+              class="primary-btn"
+              href="../../docs/crownlabsbible/docs/viewer.html?doc=../04-product-dossiers/ai-cherry-pie/overview.md#Overview"
+              >Open documentation app</a
+            >
+            <a class="ghost-btn" href="../#products">Explore Labs</a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="panel-grid">
-      <div class="panel-card">
-        <h2>Canonical status</h2>
-        <p><strong>Status:</strong> Functional standalone software product and framework</p>
-        <p><strong>Classification:</strong> Executable software utility, subscription capable platform, and licensing ready language engine</p>
-        <p><strong>Readiness signal:</strong> 68% documentation readiness signal</p>
-      </div>
-      <div class="panel-card">
-        <h2>Source governance</h2>
-        <p><strong>Authority:</strong> docs/crownlabsbible/</p>
-        <p><strong>Source file:</strong> docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md</p>
-        <p><strong>Update rule:</strong> edit the dossier first, then regenerate metadata.</p>
-      </div>
-      <div class="panel-card">
-        <h2>Valuation reference</h2>
-        <p>$500,000 to $1,500,000</p>
-        <p class="footer-note">Financial language remains directional and must be verified against canonical valuation dossiers.</p>
-      </div>
-    </section>
+      <section class="panel-grid">
+        <div class="panel-card">
+          <h2>Canonical status</h2>
+          <p><strong>Status:</strong> Functional standalone software product and framework</p>
+          <p>
+            <strong>Classification:</strong> Executable software utility, subscription capable
+            platform, and licensing ready language engine
+          </p>
+          <p><strong>Readiness signal:</strong> 68% documentation readiness signal</p>
+        </div>
+        <div class="panel-card">
+          <h2>Source governance</h2>
+          <p><strong>Authority:</strong> Crown Labs Bible documentation application</p>
+          <p>
+            <strong>Documentation route:</strong>
+            <a
+              href="../../docs/crownlabsbible/docs/viewer.html?doc=../04-product-dossiers/ai-cherry-pie/overview.md#Overview"
+              >Crown Labs Bible viewer</a
+            >
+          </p>
+          <p><strong>Update rule:</strong> edit the dossier first, then regenerate metadata.</p>
+        </div>
+        <div class="panel-card">
+          <h2>Valuation reference</h2>
+          <p>$500,000 to $1,500,000</p>
+          <p class="footer-note">
+            Financial language remains directional and must be verified against canonical valuation
+            dossiers.
+          </p>
+        </div>
+      </section>
 
-    <section class="section-block">
-      <h2>What it is</h2>
-      <p>AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.</p><p>The platform functions as both:</p><p>Unlike traditional AI writing tools that optimize primarily for speed or polish, AI Cherry Pie focuses on believability, readability, emotional texture, and human sounding communication.</p>
-    </section>
+      <section class="section-block">
+        <h2>What it is</h2>
+        <p>
+          AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove
+          detectable AI writing fingerprints while restoring natural human flow, emotional realism,
+          conversational rhythm, and believable language structure.
+        </p>
+        <p>The platform functions as both:</p>
+        <p>
+          Unlike traditional AI writing tools that optimize primarily for speed or polish, AI Cherry
+          Pie focuses on believability, readability, emotional texture, and human sounding
+          communication.
+        </p>
+      </section>
 
-    <section class="panel-grid">
-      <div class="panel-card">
-        <h2>Product signals</h2>
-        <ul><li>a standalone software utility</li><li>and a reusable language reconstruction framework inside the broader Crown Labs ecosystem</li></ul>
-      </div>
-      <div class="panel-card">
-        <h2>Core capabilities</h2>
-        <ul><li>repetitive phrasing</li><li>synthetic cadence</li><li>robotic pacing</li><li>over structured transitions</li><li>detectable language model patterns</li><li>conversational rhythm</li><li>sentence variation</li><li>emotional pacing</li></ul>
-      </div>
-      <div class="panel-card">
-        <h2>Metadata checks</h2>
-        <ul><li><strong>Canonical source:</strong> docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md</li><li><strong>Classification:</strong> Writing reconstruction and language refinement platform</li><li><strong>Status:</strong> Functional standalone software product and framework</li></ul>
-      </div>
-    </section>
-  </main>
+      <section class="panel-grid">
+        <div class="panel-card">
+          <h2>Product signals</h2>
+          <ul>
+            <li>a standalone software utility</li>
+            <li>
+              and a reusable language reconstruction framework inside the broader Crown Labs
+              ecosystem
+            </li>
+          </ul>
+        </div>
+        <div class="panel-card">
+          <h2>Core capabilities</h2>
+          <ul>
+            <li>repetitive phrasing</li>
+            <li>synthetic cadence</li>
+            <li>robotic pacing</li>
+            <li>over structured transitions</li>
+            <li>detectable language model patterns</li>
+            <li>conversational rhythm</li>
+            <li>sentence variation</li>
+            <li>emotional pacing</li>
+          </ul>
+        </div>
+        <div class="panel-card">
+          <h2>Metadata checks</h2>
+          <ul>
+            <li>
+              <strong>Canonical route:</strong>
+              <a
+                href="../../docs/crownlabsbible/docs/viewer.html?doc=../04-product-dossiers/ai-cherry-pie/overview.md#Overview"
+                >Crown Labs Bible documentation app</a
+              >
+            </li>
+            <li>
+              <strong>Classification:</strong> Writing reconstruction and language refinement
+              platform
+            </li>
+            <li><strong>Status:</strong> Functional standalone software product and framework</li>
+          </ul>
+        </div>
+      </section>
+    </main>
 
-  <footer class="product-footer">
-    <p>© Crown Labs • Generated from canonical Crown Labs Bible metadata.</p>
-  </footer>
+    <footer class="product-footer">
+      <p>© Crown Labs • Generated from canonical Crown Labs Bible metadata.</p>
+    </footer>
 
-  <script src="../../assets/labs-product.js" defer></script>
-</body>
+    <script>
+      ;(() => {
+        const header = document.querySelector('.top-nav')
+        const toggle = document.querySelector('.product-menu-toggle')
+        const menu = document.getElementById('product-site-menu')
+        if (!header || !toggle || !menu) return
+        const close = () => {
+          header.classList.remove('nav-open')
+          toggle.setAttribute('aria-expanded', 'false')
+        }
+        toggle.addEventListener('click', () => {
+          const open = !header.classList.contains('nav-open')
+          header.classList.toggle('nav-open', open)
+          toggle.setAttribute('aria-expanded', String(open))
+        })
+        menu.addEventListener('click', (event) => {
+          if (event.target.closest('a')) close()
+        })
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') close()
+        })
+        document.addEventListener('click', (event) => {
+          if (!header.contains(event.target)) close()
+        })
+      })()
+    </script>
+    <script src="../../assets/labs-product.js" defer></script>
+  </body>
 </html>
