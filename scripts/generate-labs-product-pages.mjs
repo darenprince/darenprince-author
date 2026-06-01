@@ -55,7 +55,7 @@ const template = (product) => `<!doctype html>
       </div>
     </div>
     <div class="nav-actions">
-      <a class="back-link" href="../../labs.html#portfolio">Back to portfolio</a>
+      <a class="back-link" href="../#products">Back to Labs</a>
       <a class="back-link" href="../../docs/crownlabsbible/docs/index.html">Crown Labs Bible</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">Theme</button>
     </div>
@@ -73,7 +73,7 @@ const template = (product) => `<!doctype html>
         <p>${escapeHtml(product.oneLiner)}</p>
         <div class="access-actions">
           <a class="primary-btn" href="../../${escapeHtml(product.sourcePath)}">Open canonical dossier</a>
-          <a class="ghost-btn" href="../../labs.html#portfolio">Explore portfolio</a>
+          <a class="ghost-btn" href="../#products">Explore Labs</a>
         </div>
       </div>
     </section>
