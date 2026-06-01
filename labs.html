@@ -2,159 +2,52 @@
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=labs/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Crown Labs | Institutional Product Portfolio</title>
+    <title>Crown Labs | Public Systems Landing Page</title>
     <meta
       name="description"
-      content="Institutional Crown Labs portfolio built directly from canonical Crown Docs content: governance, product dossiers, and operational intelligence."
+      content="Crown Labs has moved to the clean /labs/ public landing page for Crown Labs, CrownCode.ai, products, founder information, and documentation links."
     />
     <meta name="theme-color" content="#070b14" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <link rel="canonical" href="https://www.darenprince.com/labs.html" />
-
+    <link rel="canonical" href="https://www.darenprince.com/labs/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Crown Labs | Institutional Product Portfolio" />
+    <meta property="og:title" content="Crown Labs | Public Systems Landing Page" />
     <meta
       property="og:description"
-      content="Canonical portfolio intelligence across Crown Labs product and documentation systems."
+      content="Explore Crown Labs, CrownCode.ai, products, founder information, and documentation entry points."
     />
-    <meta property="og:url" content="https://www.darenprince.com/labs.html" />
+    <meta property="og:url" content="https://www.darenprince.com/labs/" />
     <meta
       property="og:image"
       content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
     />
     <meta property="og:image:alt" content="Crown Labs portfolio dashboard" />
-
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Crown Labs | Institutional Product Portfolio" />
+    <meta name="twitter:title" content="Crown Labs | Public Systems Landing Page" />
     <meta
       name="twitter:description"
-      content="Product portfolio, readiness intelligence, and investor-aligned summaries sourced from canonical docs."
+      content="Explore Crown Labs, CrownCode.ai, products, founder information, and documentation entry points."
     />
     <meta
       name="twitter:image"
       content="https://www.darenprince.com/labs/assets/labs-opengraph.svg"
     />
-
     <link rel="icon" type="image/svg+xml" href="labs/assets/labs-favicon.svg" />
     <link rel="apple-touch-icon" href="labs/assets/labs-favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/labs.css" />
+    <script>
+      window.location.replace('labs/')
+    </script>
   </head>
-  <body id="top">
-    <div class="scroll-progress" aria-hidden="true"></div>
-    <header class="labs-header">
-      <div class="header-inner shell">
-        <a href="#top" class="brand" aria-label="Crown Labs home">
-          <img src="labs/assets/crown-labs-logo.png" alt="Crown Labs" class="logo" />
-          <span>Crown Labs Portfolio Console</span>
-        </a>
-        <nav class="site-menu" aria-label="Site menu">
-          <a href="#foundation">Foundation</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#docs-sync">Docs Sync</a>
-          <a href="docs/crownlabsbible/docs/index.html">Docs App</a>
-        </nav>
-      </div>
-    </header>
-
-    <main class="shell">
-      <section class="hero" id="foundation">
-        <p class="eyebrow">Crown Labs • Institutional Systems Division</p>
-        <h1>Canonical Portfolio Surface<br />Synchronized to Crown Docs</h1>
-        <p class="intro">
-          This page now uses Crown Docs as the narrative source of truth for governance, product
-          taxonomy, and operating standards, while preserving data-driven product rendering for
-          filter and readiness workflows.
-        </p>
-      </section>
-
-      <section class="docs-source" id="docs-sync" aria-label="Canonical docs source">
-        <h2>Direct Documentation Source</h2>
-        <p>
-          Source: <code>docs/crownlabsbible/</code>. Product cards, public briefs, and delivery
-          metadata are generated from the Crown Labs Bible.
-        </p>
-        <div class="source-panels">
-          <article>
-            <h3>Purpose</h3>
-            <ul>
-              <li>Master executive dossier</li>
-              <li>Product inventory source of truth</li>
-              <li>Investor documentation system</li>
-              <li>Operational governance reference</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Build Philosophy</h3>
-            <p>
-              The documentation stack is built incrementally so each product and system can preserve
-              formatting integrity, editorial consistency, legal readability, and clean
-              synchronization with the website ecosystem.
-            </p>
-          </article>
-          <article>
-            <h3>Website Integration</h3>
-            <ul>
-              <li>labs.html</li>
-              <li>data/products.json → assets/labs-data.json</li>
-              <li>investor product pages</li>
-              <li>valuation and presentation exports</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="metrics" aria-label="Executive metrics">
-        <article>
-          <h3>Total Products</h3>
-          <p id="total-products">—</p>
-        </article>
-        <article>
-          <h3>Active Beta</h3>
-          <p id="active-beta">—</p>
-        </article>
-        <article>
-          <h3>Average Readiness</h3>
-          <p id="avg-readiness">—</p>
-        </article>
-      </section>
-
-      <section class="controls" aria-label="Portfolio controls">
-        <div class="control-group">
-          <label for="search">Search products</label>
-          <input id="search" type="search" placeholder="Name, category, keyword" />
-        </div>
-        <div class="control-group">
-          <label for="status-filter">Status</label>
-          <select id="status-filter">
-            <option value="all">All statuses</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label for="category-filter">Category</label>
-          <select id="category-filter">
-            <option value="all">All categories</option>
-          </select>
-        </div>
-      </section>
-
-      <section id="portfolio" class="portfolio-grid" aria-live="polite"></section>
-      <p id="empty-state" class="empty-state" hidden>No products match this filter set.</p>
-    </main>
-
-    <footer class="footer shell">
+  <body>
+    <main>
+      <h1>Crown Labs has moved</h1>
+      <p>The canonical public landing page is now <a href="labs/">/labs/</a>.</p>
       <p>
-        © <span id="labs-year"></span> Crown Labs • Daren Prince Publishing • Built from canonical
-        documentation architecture.
+        For deeper exploration, open <a href="docs/">/docs/</a> or
+        <a href="docs/crownlabsbible/">/docs/crownlabsbible/</a>.
       </p>
-    </footer>
-
-    <script src="assets/labs.js" defer></script>
+    </main>
   </body>
 </html>
