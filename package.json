@@ -23,7 +23,7 @@
     "lint:buttons": "node scripts/check-button-variants.mjs",
     "lint:metadata": "node scripts/check-deploy-metadata.mjs",
     "lint-staged": "lint-staged",
-    "build:labs": "node scripts/generate-labs-product-pages.mjs",
+    "build:labs": "node scripts/generate-products-metadata.mjs && node scripts/generate-labs-product-pages.mjs",
     "styles:build": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
     "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch"
   },

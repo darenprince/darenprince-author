@@ -19,3 +19,7 @@
 - [ ] I included required generated assets (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`, `nexuswho-assets/`) when they changed.
 - [ ] I confirmed GitHub Pages build/deploy implications for this PR.
 - [ ] For visual changes, I added both desktop and mobile screenshots above.
+
+## Crown Labs Canonical Data
+
+- [ ] Crown Labs product changes derive from `docs/crownlabsbible/` and generated metadata was refreshed (`npm run build:labs`).

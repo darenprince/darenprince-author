@@ -30,4 +30,4 @@ Nuxt Content documentation platform for Crown Labs.
   - Dark mode: `https://www.darenprince.com/labs/assets/crown-labs-logo.png`
   - Light mode: `https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png`
 - Verify metadata tags for `theme-color`, OG, and Twitter are present in generated HTML.
-- Keep `crownlabsbible/docs/*` references deprecated (do not reintroduce).
+- Treat `docs/crownlabsbible/` as the canonical Crown Labs Bible source; do not reintroduce competing product inventories in crowndocs content.

@@ -1,1126 +1,608 @@
 {
+  "generatedAt": "2026-06-01T03:49:12.299Z",
+  "generatedFrom": "docs/crownlabsbible/",
+  "authority": "Crown Labs product truth is governed by docs/crownlabsbible/. Do not hand-edit product definitions here.",
+  "productCount": 8,
   "products": [
     {
-      "id": "crowncode-intelligence-suite",
-      "name": "CrownCode Intelligence Suite",
-      "tagline": "Federal-grade intelligence. Evidence-ready insight.",
-      "status": "Stage 1 Beta",
-      "statusDetail": "Stage 1 beta preparation with controlled testing underway",
-      "category": "Intelligence",
-      "categoryLabel": "Flagship Intelligence Platform",
-      "oneLiner": "A multimodal AI intelligence suite that documents, correlates, profiles, forecasts, and explains evidence-grade insights.",
-      "bullets": [
-        "Multimodal intelligence extraction across text, image, audio, video, metadata",
-        "Predictive behavioral modeling and psychological threat assessment",
-        "Evidence-grade reporting with audit trails and chain-of-custody"
-      ],
+      "id": "crowncode-ai",
+      "slug": "crowncode-ai",
+      "name": "CrownCode.ai",
+      "status": "Active Development",
+      "category": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+      "categoryLabel": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+      "oneLiner": "CrownCode.ai is not positioned as a single standalone application.",
+      "tagline": "CrownCode.ai is not positioned as a single standalone application.",
       "whatItIs": [
-        "CrownCode Intelligence Suite is a multimodal AI intelligence platform built for environments where decisions must be grounded in evidence, behavioral understanding, and accountability.",
-        "It ingests and correlates text, images, audio, video, metadata, and environmental signals into structured intelligence that can be reviewed, audited, and defended.",
-        "Every output is traceable, logged, and protected by strict chain-of-custody logic for investigative, legal, and intelligence-grade environments."
+        "CrownCode.ai is not positioned as a single standalone application. It is the operational and technical substrate behind multiple Crown Labs products and initiatives.",
+        "The platform exists to:",
+        "CrownCode.ai acts as the connective framework between behavioral systems, documentation systems, AI tooling, reporting engines, monitoring systems, and future modular services."
       ],
-      "whoFor": [
-        "Investigators and intelligence teams requiring evidence-grade outputs",
-        "Security analysts responsible for proactive risk detection",
-        "Organizations needing offline or air-gapped deployments"
+      "bullets": [
+        "reduce duplicated development effort",
+        "centralize reusable intelligence systems",
+        "standardize architecture across products",
+        "accelerate launch velocity"
       ],
-      "capabilities": [
-        "Multimodal intelligence extraction (text, image, audio, video, metadata)",
-        "Criminal behavioral profiling engines",
-        "Predictive modeling of behavioral and threat trajectories",
-        "Psychological and threat assessment frameworks",
-        "AI-powered smart alerts for emerging risks",
-        "Evidence-grade report generation (TXT, HTML, PDF)",
-        "Chain-of-custody and audit trail enforcement",
-        "Offline / air-gapped deployment capability",
-        "Role-based access control and compartmentalization"
-      ],
-      "not": [
-        "Not speculative or dramatized intelligence",
-        "Not a replacement for analyst judgment",
-        "Not an automated law enforcement decision system"
-      ],
-      "nextGate": "Complete Stage 1 beta with validated evidence-ready reporting.",
-      "monetization": "Enterprise licensing and secure deployments.",
-      "valuationCurrent": "$6,000,000 – $10,000,000",
-      "valuationProjected": "$22,000,000 – $38,000,000",
-      "completion": "~75%",
-      "timeToMarket": "3–6 months",
+      "capabilities": [],
+      "not": [],
+      "statusDetail": "Active Development",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "See canonical valuation dossier",
+      "valuationProjected": "See canonical valuation dossier",
+      "readiness": 74,
+      "completion": "74% documentation readiness signal",
+      "timeToMarket": "Active platform layer",
       "projectedRevenue": {
-        "year1": "$1,200,000",
-        "year2": "$3,500,000",
-        "year3": "$7,500,000"
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
       },
-      "value": "As-is: $6M–$10M",
-      "growthLabel": "Projected: $22M–$38M",
-      "growth": [12, 28, 48, 65, 82],
-      "readiness": 75,
+      "value": "See canonical valuation dossier",
+      "growthLabel": "Canonical-docs governed",
       "metrics": [
         {
-          "label": "Chain-of-custody",
-          "value": "100%",
-          "icon": "lock"
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/02-products/crowncode-ai.md"
         },
         {
-          "label": "Signal scope",
-          "value": "5 modes",
-          "icon": "eye"
+          "label": "Classification",
+          "value": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer"
         },
         {
-          "label": "Alert latency",
-          "value": "<30s",
-          "icon": "bolt"
+          "label": "Status",
+          "value": "Active Development"
         }
       ],
-      "keywords": ["intelligence", "forensics", "multimodal", "audit", "air-gapped"],
-      "priority": 5,
-      "heroImage": "https://www.darenprince.com/labs/crowncode/images/Crowncode-OG.png",
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "crowncam",
-      "name": "CrownCam",
-      "tagline": "Rule Your View.",
-      "status": "Beta",
-      "statusDetail": "Functional beta with AI, interface, and resolution expansion in progress",
-      "category": "Security",
-      "categoryLabel": "Security & Situational Awareness",
-      "oneLiner": "A browser-based security camera platform that turns any device into an intelligent, real-time surveillance system.",
-      "bullets": [
-        "100% browser-based camera deployment with QR or secure links",
-        "4K+ resolution feeds and multi-monitor control-room layouts",
-        "AI-powered motion detection with smart alerts"
+      "keywords": [
+        "crowncode-ai",
+        "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+        "Active Development",
+        "CrownCode.ai functions as the underlying platform layer supporting modular AI systems, shared services, intelligence tooling, behavioral analysis infrastructure, documentation systems, and reusable product architecture across the Crown Labs ecosystem."
       ],
-      "whatItIs": [
-        "CrownCam is a browser-based security camera platform that transforms any device into an intelligent, real-time surveillance system without apps, proprietary hardware, or installation friction.",
-        "It supports customizable dashboards, modern multi-monitor layouts, and ultra-high-resolution video feeds up to 4K and beyond.",
-        "Smart alerts notify users when movement, behavioral anomalies, or environmental changes cross defined thresholds."
-      ],
-      "whoFor": [
-        "Operators needing rapid, flexible surveillance deployments",
-        "Security teams requiring multi-view monitoring environments",
-        "Organizations wanting device-agnostic, encrypted camera access"
-      ],
-      "capabilities": [
-        "100% browser-based camera deployment",
-        "Instant setup via QR codes or secure links",
-        "End-to-end encrypted live video streams",
-        "4K+ resolution video support",
-        "Multi-monitor, control-room-ready layouts",
-        "Customizable interfaces and dashboards",
-        "AI-powered motion detection and anomaly recognition",
-        "Smart alert system with configurable triggers",
-        "Ultra-low latency real-time viewing"
-      ],
-      "not": [
-        "Not a hardware-locked surveillance system",
-        "Not a stealth or covert tracking product",
-        "Not a guarantee of long-term storage"
-      ],
-      "nextGate": "Finalize AI resolution upgrades and stabilize control-room workflows.",
-      "monetization": "Subscription tiers for professional monitoring teams.",
-      "valuationCurrent": "$1,200,000 – $2,000,000",
-      "valuationProjected": "$5,000,000 – $8,000,000",
-      "completion": "~70%",
-      "timeToMarket": "2–4 months",
-      "projectedRevenue": {
-        "year1": "$650,000",
-        "year2": "$1,800,000",
-        "year3": "$3,600,000"
-      },
-      "value": "As-is: $1.2M–$2M",
-      "growthLabel": "Projected: $5M–$8M",
-      "growth": [8, 20, 32, 46, 60],
-      "readiness": 70,
-      "metrics": [
-        {
-          "label": "Stream uptime",
-          "value": "99.1%",
-          "icon": "shield"
-        },
-        {
-          "label": "Avg latency",
-          "value": "120ms",
-          "icon": "timer"
-        },
-        {
-          "label": "Active cams",
-          "value": "240",
-          "icon": "camera"
-        }
-      ],
-      "keywords": ["camera", "security", "4k", "alerts", "surveillance"],
-      "priority": 4,
-      "heroImage": "https://www.darenprince.com/assets/images/IMG_4870.jpeg",
-      "gallery": ["https://www.darenprince.com/assets/images/IMG_4870.jpeg"],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "crown-sos",
-      "name": "Crown SOS",
-      "tagline": "When chaos strikes, Crown SOS answers.",
-      "status": "Beta",
-      "statusDetail": "Prototype complete, beta testing active",
-      "category": "Security",
-      "categoryLabel": "Security & Emergency Response",
-      "oneLiner": "A real-time emergency response and proof-of-life platform with live location, audio, and evidence capture.",
-      "bullets": [
-        "One-tap emergency activation with trusted contact routing",
-        "Live location broadcasting with audio/video evidence capture",
-        "Automated proof-of-life check-ins and session history"
-      ],
-      "whatItIs": [
-        "Crown SOS is a real-time emergency response and proof-of-life platform built for moments when silence becomes dangerous.",
-        "With a single action, users can broadcast live location data, stream audio and video, capture visual evidence, and alert trusted contacts instantly.",
-        "Automated check-ins provide ongoing confirmation of safety while session logs preserve critical context."
-      ],
-      "whoFor": [
-        "Individuals or families needing rapid proof-of-life confirmation",
-        "Field teams operating in high-risk environments",
-        "Organizations focused on immediate situational clarity"
-      ],
-      "capabilities": [
-        "One-tap emergency activation",
-        "Live location broadcasting",
-        "Real-time audio and video streaming",
-        "Evidence capture and logging",
-        "Automated proof-of-life check-ins",
-        "Trusted contact routing",
-        "Privacy-first user controls"
-      ],
-      "not": [
-        "Not a replacement for emergency services",
-        "Not a passive tracking tool for others",
-        "Not a guarantee of response outcomes"
-      ],
-      "nextGate": "Validate beta response workflows and proof-of-life sequencing.",
-      "monetization": "Consumer and enterprise safety subscriptions.",
-      "valuationCurrent": "$900,000 – $1,500,000",
-      "valuationProjected": "$3,000,000 – $5,000,000",
-      "completion": "~60%",
-      "timeToMarket": "4–6 months",
-      "projectedRevenue": {
-        "year1": "$400,000",
-        "year2": "$1,200,000",
-        "year3": "$2,800,000"
-      },
-      "value": "As-is: $900K–$1.5M",
-      "growthLabel": "Projected: $3M–$5M",
-      "growth": [6, 16, 28, 40, 52],
-      "readiness": 60,
-      "metrics": [
-        {
-          "label": "Alert delivery",
-          "value": "97%",
-          "icon": "alert"
-        },
-        {
-          "label": "Avg response",
-          "value": "42s",
-          "icon": "timer"
-        },
-        {
-          "label": "Trusted nodes",
-          "value": "38",
-          "icon": "network"
-        }
-      ],
-      "keywords": ["sos", "emergency", "proof-of-life", "safety", "alerts"],
-      "priority": 4,
-      "heroImage": "https://www.darenprince.com/assets/images/IMG_0095.png",
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "pic-detective",
-      "name": "Pic Detective",
-      "tagline": "Your photos have secrets. We decode them.",
-      "status": "Beta",
-      "statusDetail": "Core logic complete, reporting and interface polish underway",
-      "category": "Forensics",
-      "categoryLabel": "Forensic & Analytical Systems",
-      "oneLiner": "Transforms a single image into a structured intelligence artifact with forensic reporting.",
-      "bullets": [
-        "Environmental inventory extraction and spatial mapping",
-        "Behavioral indicator flagging with analyst overlays",
-        "Structured forensic reporting with multi-format exports"
-      ],
-      "whatItIs": [
-        "Pic Detective transforms a single image into a structured intelligence artifact.",
-        "It analyzes environments, objects, spatial relationships, and subtle behavioral indicators to generate detailed forensic-style reports.",
-        "The focus is on what is present, what is implied, and what warrants attention—without speculation."
-      ],
-      "whoFor": [
-        "Investigators and analysts requiring structured photo intelligence",
-        "Security teams documenting evidence from static imagery",
-        "Professionals needing exportable forensic reports"
-      ],
-      "capabilities": [
-        "Environmental inventory extraction",
-        "Object and layout mapping",
-        "Spatial reconstruction",
-        "Behavioral indicator flagging",
-        "OCR and text recognition",
-        "Structured forensic reporting",
-        "Multi-format exports",
-        "Analyst review overlays"
-      ],
-      "not": [
-        "Not speculative storytelling",
-        "Not facial recognition or identity matching",
-        "Not a replacement for human review"
-      ],
-      "nextGate": "Finalize interface polish and reporting export workflows.",
-      "monetization": "Per-report and professional licensing tiers.",
-      "valuationCurrent": "$1,800,000 – $3,000,000",
-      "valuationProjected": "$5,000,000 – $8,000,000",
-      "completion": "~80%",
-      "timeToMarket": "2–3 months",
-      "projectedRevenue": {
-        "year1": "$900,000",
-        "year2": "$2,400,000",
-        "year3": "$5,000,000"
-      },
-      "value": "As-is: $1.8M–$3M",
-      "growthLabel": "Projected: $5M–$8M",
-      "growth": [10, 24, 42, 58, 72],
-      "readiness": 80,
-      "metrics": [
-        {
-          "label": "Report fidelity",
-          "value": "4.8/5",
-          "icon": "eye"
-        },
-        {
-          "label": "Export formats",
-          "value": "3",
-          "icon": "book"
-        },
-        {
-          "label": "Avg analysis",
-          "value": "40s",
-          "icon": "timer"
-        }
-      ],
-      "keywords": ["forensics", "image", "reporting", "analysis", "evidence"],
-      "priority": 4,
-      "heroImage": "https://www.darenprince.com/Picdetective/detlogin.jpg",
-      "gallery": [
-        "https://www.darenprince.com/Picdetective/detlogo2.PNG",
-        "https://www.darenprince.com/Picdetective/deticon.png"
-      ],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "crown-watchtower",
-      "name": "Crown WatchTower",
-      "tagline": "Forensic-grade network visibility.",
-      "status": "Prototype",
-      "statusDetail": "Active development with functional analysis engines",
-      "category": "Security",
-      "categoryLabel": "Forensic & Analytical Systems",
-      "oneLiner": "Deep visibility into network traffic, wireless signals, and environmental indicators for real-time anomaly detection.",
-      "bullets": [
-        "Network traffic inspection and wireless signal scanning",
-        "Device fingerprinting and environment mapping",
-        "Real-time anomaly detection with forensic logging"
-      ],
-      "whatItIs": [
-        "Crown WatchTower provides deep visibility into network traffic, wireless signals, and environmental indicators that conventional tools routinely overlook.",
-        "It identifies anomalies, hidden behaviors, and risk surfaces in real time, bridging raw data and actionable understanding."
-      ],
-      "whoFor": [
-        "Security teams needing real-time signal intelligence",
-        "Operators responsible for network visibility",
-        "Analysts mapping digital risk surfaces"
-      ],
-      "capabilities": [
-        "Network traffic inspection",
-        "Wireless and signal scanning",
-        "Device fingerprinting",
-        "MAC and environment mapping",
-        "Anomaly detection logic",
-        "Threat surface visualization",
-        "Forensic session logging",
-        "Real-time monitoring"
-      ],
-      "not": [
-        "Not an offensive security toolkit",
-        "Not a promise of full signal coverage",
-        "Not designed for interception or exploitation"
-      ],
-      "nextGate": "Finalize initial prototype scope and monitoring dashboards.",
-      "monetization": "Enterprise security licensing.",
-      "valuationCurrent": "$1,300,000 – $2,200,000",
-      "valuationProjected": "$4,000,000 – $6,000,000",
-      "completion": "~70%",
-      "timeToMarket": "3–5 months",
-      "projectedRevenue": {
-        "year1": "$500,000",
-        "year2": "$1,600,000",
-        "year3": "$3,800,000"
-      },
-      "value": "As-is: $1.3M–$2.2M",
-      "growthLabel": "Projected: $4M–$6M",
-      "growth": [7, 18, 30, 42, 54],
-      "readiness": 70,
-      "metrics": [
-        {
-          "label": "Signal zones",
-          "value": "6",
-          "icon": "network"
-        },
-        {
-          "label": "Anomaly cues",
-          "value": "18",
-          "icon": "alert"
-        },
-        {
-          "label": "Scan latency",
-          "value": "2m",
-          "icon": "timer"
-        }
-      ],
-      "keywords": ["network", "signal", "visibility", "forensics", "security"],
-      "priority": 3,
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "lumilogix",
-      "name": "LumiLogix",
-      "tagline": "AI that feels.",
-      "status": "Prototype",
-      "statusDetail": "Core architecture finalized, modules in active development",
-      "category": "Creative",
-      "categoryLabel": "Creative, Communication & Behavioral Systems",
-      "oneLiner": "An emotionally intelligent marketing engine blending psychology, narrative structure, and data-driven insight.",
-      "bullets": [
-        "Emotional intelligence modeling with archetype logic",
-        "Narrative tone alignment across campaigns",
-        "Ethical emotion safeguards with brand voice preservation"
-      ],
-      "whatItIs": [
-        "LumiLogix was created to solve a problem modern marketing refuses to admit: automation stripped emotion out of communication.",
-        "It blends psychology, emotional intelligence modeling, narrative structure, and data-driven insight to ensure messaging feels intentional, human, and trustworthy.",
-        "The system augments creativity without manipulation, helping brands scale communication without losing their voice."
-      ],
-      "whoFor": [
-        "Brand teams seeking emotionally grounded messaging",
-        "Marketing strategists needing narrative consistency",
-        "Founders who want clarity without manipulation"
-      ],
-      "capabilities": [
-        "Emotional intelligence modeling",
-        "Archetype-based messaging logic",
-        "Narrative tone alignment",
-        "Adaptive learning loops",
-        "Sensory and emotionally grounded language generation",
-        "Ethical emotion safeguards",
-        "Multi-channel campaign output",
-        "Brand voice preservation"
-      ],
-      "not": [
-        "Not a manipulative growth hack tool",
-        "Not a replacement for brand strategy",
-        "Not generic content automation"
-      ],
-      "nextGate": "Complete module integrations and validate ethical safeguards.",
-      "monetization": "Subscription and enterprise marketing tiers.",
-      "valuationCurrent": "$2,500,000 – $4,000,000",
-      "valuationProjected": "$8,000,000 – $12,000,000",
-      "completion": "~65%",
-      "timeToMarket": "4–6 months",
-      "projectedRevenue": {
-        "year1": "$750,000",
-        "year2": "$2,200,000",
-        "year3": "$5,500,000"
-      },
-      "value": "As-is: $2.5M–$4M",
-      "growthLabel": "Projected: $8M–$12M",
-      "growth": [9, 22, 40, 58, 74],
-      "readiness": 65,
-      "metrics": [
-        {
-          "label": "Archetypes",
-          "value": "12",
-          "icon": "map"
-        },
-        {
-          "label": "Voice fidelity",
-          "value": "96%",
-          "icon": "check"
-        },
-        {
-          "label": "Channel outputs",
-          "value": "8",
-          "icon": "grid"
-        }
-      ],
-      "keywords": ["marketing", "emotion", "creative", "psychology", "ai"],
-      "priority": 3,
-      "heroImage": "https://www.darenprince.com/app%20icons/lumilogix-hero.png",
-      "gallery": ["https://www.darenprince.com/app%20icons/lumilogix-hero.png"],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "crowncast",
-      "name": "CrownCast",
-      "tagline": "Not fate. Alignment.",
-      "status": "Beta",
-      "statusDetail": "Content engine complete, distribution and delivery finalization underway",
-      "category": "Creative",
-      "categoryLabel": "Creative, Communication & Behavioral Systems",
-      "oneLiner": "A daily generative insight engine grounded in psychology, emotional regulation, and agency.",
-      "bullets": [
-        "Daily psychologically grounded insights with agency-first framing",
-        "Emotion and decision-cycle modeling without superstition",
-        "Mobile-first delivery with subscription-ready architecture"
-      ],
-      "whatItIs": [
-        "CrownCast is a daily generative insight engine designed to help people orient themselves in a world overloaded with noise.",
-        "It avoids astrology or fate-based framing, instead using psychological cycles and emotional regulation patterns.",
-        "Each entry encourages awareness and intentional action without making unverifiable claims."
-      ],
-      "whoFor": [
-        "People seeking grounded daily insight without superstition",
-        "Audiences who value agency and self-trust",
-        "Subscribers wanting lightweight daily guidance"
-      ],
-      "capabilities": [
-        "Daily psychologically grounded insights",
-        "Emotion and decision-cycle modeling",
-        "Non-superstitious, agency-first framework",
-        "Brand-voice consistency",
-        "Subscription-ready architecture",
-        "Mobile-first delivery"
-      ],
-      "not": [
-        "Not astrology or fate-based prediction",
-        "Not therapy or mental health treatment",
-        "Not superstition-driven forecasting"
-      ],
-      "nextGate": "Finalize distribution and delivery pipelines.",
-      "monetization": "Subscription-based daily insight product.",
-      "valuationCurrent": "$600,000 – $1,000,000",
-      "valuationProjected": "$2,000,000 – $3,000,000",
-      "completion": "~85%",
-      "timeToMarket": "1–2 months",
-      "projectedRevenue": {
-        "year1": "$300,000",
-        "year2": "$900,000",
-        "year3": "$2,000,000"
-      },
-      "value": "As-is: $600K–$1M",
-      "growthLabel": "Projected: $2M–$3M",
-      "growth": [5, 14, 26, 38, 50],
-      "readiness": 85,
-      "metrics": [
-        {
-          "label": "Daily prompts",
-          "value": "365",
-          "icon": "calendar"
-        },
-        {
-          "label": "Retention",
-          "value": "64%",
-          "icon": "trend"
-        },
-        {
-          "label": "Voice fidelity",
-          "value": "95%",
-          "icon": "check"
-        }
-      ],
-      "keywords": ["daily", "insight", "psychology", "agency", "subscription"],
-      "priority": 3,
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "presence-architect",
-      "name": "Presence Architect",
-      "tagline": "Signal, don’t announce.",
-      "status": "Prototype",
-      "statusDetail": "Prototype phase with framework and ruleset defined",
-      "category": "Relationship",
-      "categoryLabel": "Relationship & Cultural Products",
-      "oneLiner": "A strategic system for cultivating attraction, authority, and emotional gravity without chasing attention.",
-      "bullets": [
-        "Social signaling frameworks with restraint and timing logic",
-        "Emotional regulation and confidence projection models",
-        "DM playbooks and platform-specific presence strategies"
-      ],
-      "whatItIs": [
-        "Presence Architect is a strategic system for cultivating attraction, authority, and emotional gravity without chasing attention or validation.",
-        "It teaches users to project calm confidence through restraint, consistency, and emotional regulation rather than constant performance.",
-        "Designed as a premium upsell within Game On, it converts visibility into leverage and attention into credibility."
-      ],
-      "whoFor": [
-        "Creators seeking authority without noise",
-        "Professionals who need composure-driven presence",
-        "Game On audiences focused on confidence and restraint"
-      ],
-      "capabilities": [
-        "Social signaling frameworks",
-        "Posting restraint and timing logic",
-        "Emotional regulation and confidence projection models",
-        "DM and interaction response playbooks",
-        "Platform-specific presence strategies",
-        "Consistency and tone enforcement",
-        "Audit and refinement tools"
-      ],
-      "not": [
-        "Not an attention-chasing growth hack",
-        "Not performative vulnerability training",
-        "Not a guarantee of virality"
-      ],
-      "nextGate": "Move from prototype to pilot cohort validation.",
-      "monetization": "Premium upsell within Game On ecosystem.",
-      "valuationCurrent": "$700,000 – $1,200,000",
-      "valuationProjected": "$3,000,000 – $5,000,000",
-      "completion": "~55%",
-      "timeToMarket": "4–6 months",
-      "projectedRevenue": {
-        "year1": "$250,000",
-        "year2": "$800,000",
-        "year3": "$1,800,000"
-      },
-      "value": "As-is: $700K–$1.2M",
-      "growthLabel": "Projected: $3M–$5M",
-      "growth": [4, 12, 22, 34, 48],
-      "readiness": 55,
-      "metrics": [
-        {
-          "label": "Playbooks",
-          "value": "18",
-          "icon": "guide"
-        },
-        {
-          "label": "Signal lift",
-          "value": "+24%",
-          "icon": "trend"
-        },
-        {
-          "label": "Cohorts",
-          "value": "3",
-          "icon": "users"
-        }
-      ],
-      "keywords": ["presence", "relationship", "confidence", "signaling", "game on"],
-      "priority": 2,
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+      "sourcePath": "docs/crownlabsbible/02-products/crowncode-ai.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/02-products/crowncode-ai.md",
+      "detailUrl": "labs/products/crowncode-ai.html",
+      "priority": 100
     },
     {
       "id": "ai-cherry-pie",
+      "slug": "ai-cherry-pie",
       "name": "AI Cherry Pie",
-      "tagline": "Make AI writing sound human again.",
-      "status": "Beta",
-      "statusDetail": "Product-ready, packaging and distribution underway",
-      "category": "Creative",
-      "categoryLabel": "Creative, Communication & Behavioral Systems",
-      "oneLiner": "Analyzes rhythm, pacing, and emotional flow to remove AI residue while preserving the author’s voice.",
-      "bullets": [
-        "AI writing fingerprint detection with cadence analysis",
-        "Emotional flow restoration and human rhythm modeling",
-        "Batch and single-text processing with publishing-ready outputs"
-      ],
+      "status": "Functional standalone software product and framework",
+      "category": "Writing reconstruction and language refinement platform",
+      "categoryLabel": "Executable software utility, subscription capable platform, and licensing ready language engine",
+      "oneLiner": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
+      "tagline": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
       "whatItIs": [
-        "AI Cherry Pie exists because people can feel artificial writing even when they can’t explain why.",
-        "It analyzes rhythm, pacing, emotional flow, and structural fingerprints, then reconstructs writing to feel natural and believable.",
-        "The system preserves the author’s voice while removing automation residue, restoring emotional realism and readability."
+        "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
+        "The platform functions as both:",
+        "Unlike traditional AI writing tools that optimize primarily for speed or polish, AI Cherry Pie focuses on believability, readability, emotional texture, and human sounding communication."
       ],
-      "whoFor": [
-        "Authors and creators who care about authenticity",
-        "Marketing teams refining AI-assisted drafts",
-        "Publishers needing human-sounding outputs at scale"
+      "bullets": [
+        "a standalone software utility",
+        "and a reusable language reconstruction framework inside the broader Crown Labs ecosystem"
       ],
       "capabilities": [
-        "AI writing fingerprint detection",
-        "Structural and cadence analysis",
-        "Emotional flow restoration",
-        "Human rhythm modeling",
-        "Author voice preservation",
-        "Batch and single-text processing",
-        "Publishing-ready outputs",
-        "CLI and GUI compatibility"
+        "repetitive phrasing",
+        "synthetic cadence",
+        "robotic pacing",
+        "over structured transitions",
+        "detectable language model patterns",
+        "conversational rhythm",
+        "sentence variation",
+        "emotional pacing"
       ],
-      "not": [
-        "Not a generic grammar checker",
-        "Not a replacement for editorial judgment",
-        "Not a tool to hide AI usage"
-      ],
-      "nextGate": "Finalize packaging, distribution, and launch channels.",
-      "monetization": "Subscription and creator licensing tiers.",
-      "valuationCurrent": "$1,000,000 – $1,800,000",
-      "valuationProjected": "$4,000,000 – $6,000,000",
-      "completion": "~90%",
-      "timeToMarket": "1–2 months",
+      "not": [],
+      "statusDetail": "Functional standalone software product and framework",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$500,000 to $1,500,000",
+      "valuationProjected": "$500,000 to $1,500,000",
+      "readiness": 68,
+      "completion": "68% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
       "projectedRevenue": {
-        "year1": "$1,100,000",
-        "year2": "$2,600,000",
-        "year3": "$4,200,000"
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
       },
-      "value": "As-is: $1M–$1.8M",
-      "growthLabel": "Projected: $4M–$6M",
-      "growth": [11, 24, 38, 52, 66],
-      "readiness": 90,
+      "value": "$500,000 to $1,500,000",
+      "growthLabel": "Canonical-docs governed",
       "metrics": [
         {
-          "label": "Voice fidelity",
-          "value": "97%",
-          "icon": "check"
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md"
         },
         {
-          "label": "Processing",
-          "value": "1.2s",
-          "icon": "timer"
+          "label": "Classification",
+          "value": "Writing reconstruction and language refinement platform"
         },
         {
-          "label": "Output modes",
-          "value": "2",
-          "icon": "grid"
+          "label": "Status",
+          "value": "Functional standalone software product and framework"
         }
       ],
-      "keywords": ["writing", "authenticity", "cadence", "ai", "editing"],
-      "priority": 4,
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+      "keywords": [
+        "ai-cherry-pie",
+        "Writing reconstruction and language refinement platform",
+        "Functional standalone software product and framework",
+        "Executable software utility, subscription capable platform, and licensing ready language engine",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md",
+      "detailUrl": "labs/products/ai-cherry-pie.html",
+      "priority": 80
     },
     {
-      "id": "couples-connection-playground",
-      "name": "Couples Connection Playground",
-      "tagline": "Connection without pressure.",
-      "status": "Concept",
-      "statusDetail": "Concept finalized, content and interaction design in progress",
-      "category": "Relationship",
-      "categoryLabel": "Relationship & Cultural Products",
-      "oneLiner": "A playful, guided platform for couples to build connection without therapy language or pressure.",
-      "bullets": [
-        "Interactive relationship games with emotional check-ins",
-        "Guided conversation flows and conflict repair experiences",
-        "Private shared couple spaces with mobile-first design"
-      ],
+      "id": "crown-psychology",
+      "slug": "crown-psychology",
+      "name": "Crown Psychology",
+      "status": "Advanced active platform architecture with production deployment infrastructure",
+      "category": "Behavioral intelligence and self improvement platform",
+      "categoryLabel": "AI assisted behavioral guidance ecosystem and emotionally intelligent self improvement platform",
+      "oneLiner": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
+      "tagline": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
       "whatItIs": [
-        "Couples Connection Playground was designed to help couples grow without turning their relationship into a problem to be fixed.",
-        "It reframes communication and emotional growth as shared experiences—games, prompts, and guided interactions that feel safe, playful, and natural.",
-        "Growth happens through participation rather than analysis, positioned as a paid upsell under the Game On brand."
+        "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
+        "The platform combines:",
+        "Unlike passive wellness applications focused only on mood tracking, Crown Psychology is designed to function as an interactive self improvement ecosystem that actively helps users move toward healthier behavioral patterns and stronger self awareness."
       ],
-      "whoFor": [
-        "Couples seeking low-pressure connection tools",
-        "Partners rebuilding communication habits",
-        "Game On audiences wanting guided interaction experiences"
+      "bullets": [
+        "behavioral assessments",
+        "AI assisted interpretation",
+        "guided self reflection",
+        "emotional pattern tracking"
       ],
       "capabilities": [
-        "Interactive relationship games",
-        "Emotional check-ins and prompts",
-        "Conflict repair experiences",
-        "Intimacy and bonding modes",
-        "Guided conversation flows",
-        "Private shared couple spaces",
-        "Mobile-friendly interaction design",
-        "Subscription monetization model"
+        "behavioral tendencies",
+        "emotional patterns",
+        "communication styles",
+        "growth opportunities",
+        "recurring challenges",
+        "personalized insight",
+        "pattern recognition",
+        "emotionally intelligent feedback"
       ],
       "not": [
-        "Not therapy or counseling",
-        "Not a replacement for professional support",
-        "Not confrontation-heavy exercises"
+        "a clinical diagnostic platform",
+        "a replacement for licensed therapy",
+        "a generic AI chatbot"
       ],
-      "nextGate": "Finalize game loops and interaction design prototypes.",
-      "monetization": "Paid upsell subscription within Game On.",
-      "valuationCurrent": "$500,000 – $900,000",
-      "valuationProjected": "$2,000,000 – $3,000,000",
-      "completion": "~50%",
-      "timeToMarket": "5–7 months",
+      "statusDetail": "Advanced active platform architecture with production deployment infrastructure",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,000,000",
+      "valuationProjected": "$2,000,000 to $6,000,000",
+      "readiness": 82,
+      "completion": "82% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
       "projectedRevenue": {
-        "year1": "$200,000",
-        "year2": "$750,000",
-        "year3": "$1,900,000"
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
       },
-      "value": "As-is: $500K–$900K",
-      "growthLabel": "Projected: $2M–$3M",
-      "growth": [3, 10, 20, 30, 44],
+      "value": "$2,000,000 to $6,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Behavioral intelligence and self improvement platform"
+        },
+        {
+          "label": "Status",
+          "value": "Advanced active platform architecture with production deployment infrastructure"
+        }
+      ],
+      "keywords": [
+        "crown-psychology",
+        "Behavioral intelligence and self improvement platform",
+        "Advanced active platform architecture with production deployment infrastructure",
+        "AI assisted behavioral guidance ecosystem and emotionally intelligent self improvement platform",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Emotional Design Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md",
+      "detailUrl": "labs/products/crown-psychology.html",
+      "priority": 79
+    },
+    {
+      "id": "crown-sos",
+      "slug": "crown-sos",
+      "name": "Crown SOS",
+      "status": "Prototype and beta testing phase",
+      "category": "Emergency coordination and crisis response platform",
+      "categoryLabel": "Real time emergency communication, survivability coordination, and continuity response ecosystem",
+      "oneLiner": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+      "tagline": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+      "whatItIs": [
+        "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+        "The platform combines:",
+        "into a unified emergency coordination ecosystem."
+      ],
+      "bullets": [
+        "emergency communication systems",
+        "live video infrastructure",
+        "live audio routing",
+        "proof of life workflows"
+      ],
+      "capabilities": [],
+      "not": ["a casual messaging application", "a generic social communication platform"],
+      "statusDetail": "Prototype and beta testing phase",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,500,000 to $7,000,000",
+      "valuationProjected": "$2,500,000 to $7,000,000",
+      "readiness": 68,
+      "completion": "68% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,500,000 to $7,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Emergency coordination and crisis response platform"
+        },
+        {
+          "label": "Status",
+          "value": "Prototype and beta testing phase"
+        }
+      ],
+      "keywords": [
+        "crown-sos",
+        "Emergency coordination and crisis response platform",
+        "Prototype and beta testing phase",
+        "Real time emergency communication, survivability coordination, and continuity response ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md",
+      "detailUrl": "labs/products/crown-sos.html",
+      "priority": 78
+    },
+    {
+      "id": "crown-watchtower",
+      "slug": "crown-watchtower",
+      "name": "Crown WatchTower",
+      "status": "Active development and strategic infrastructure phase",
+      "category": "Environmental signal intelligence and operational visibility platform",
+      "categoryLabel": "Forensic grade monitoring, environmental intelligence, and operational awareness ecosystem",
+      "oneLiner": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+      "tagline": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+      "whatItIs": [
+        "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+        "The platform combines:",
+        "into a unified environmental intelligence ecosystem."
+      ],
+      "bullets": [
+        "operational visibility systems",
+        "environmental signal monitoring",
+        "threat awareness infrastructure",
+        "continuity focused intelligence workflows"
+      ],
+      "capabilities": [],
+      "not": ["a casual analytics dashboard", "a generic monitoring utility"],
+      "statusDetail": "Active development and strategic infrastructure phase",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$3,000,000 to $8,500,000",
+      "valuationProjected": "$3,000,000 to $8,500,000",
+      "readiness": 74,
+      "completion": "74% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$3,000,000 to $8,500,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Environmental signal intelligence and operational visibility platform"
+        },
+        {
+          "label": "Status",
+          "value": "Active development and strategic infrastructure phase"
+        }
+      ],
+      "keywords": [
+        "crown-watchtower",
+        "Environmental signal intelligence and operational visibility platform",
+        "Active development and strategic infrastructure phase",
+        "Forensic grade monitoring, environmental intelligence, and operational awareness ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md",
+      "detailUrl": "labs/products/crown-watchtower.html",
+      "priority": 77
+    },
+    {
+      "id": "crowncam",
+      "slug": "crowncam",
+      "name": "CrownCam",
+      "status": "Advanced prototype and tested deployment architecture",
+      "category": "Live monitoring, security, and remote continuity platform",
+      "categoryLabel": "Real time camera monitoring, survivability streaming, and operational continuity ecosystem",
+      "oneLiner": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+      "tagline": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+      "whatItIs": [
+        "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+        "Built on modern live streaming architecture and designed around operational simplicity, CrownCam combines:",
+        "into a unified live monitoring ecosystem."
+      ],
+      "bullets": [
+        "real time camera feeds",
+        "remote viewing infrastructure",
+        "survivability focused monitoring",
+        "live communication systems"
+      ],
+      "capabilities": [
+        "phones",
+        "tablets",
+        "laptops",
+        "desktops",
+        "webcams",
+        "live viewing rooms",
+        "secure stream routing",
+        "remote monitoring sessions"
+      ],
+      "not": [
+        "a casual webcam utility",
+        "a generic video chat platform",
+        "a social streaming application"
+      ],
+      "statusDetail": "Advanced prototype and tested deployment architecture",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,000,000",
+      "valuationProjected": "$2,000,000 to $6,000,000",
+      "readiness": 55,
+      "completion": "55% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,000,000 to $6,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Live monitoring, security, and remote continuity platform"
+        },
+        {
+          "label": "Status",
+          "value": "Advanced prototype and tested deployment architecture"
+        }
+      ],
+      "keywords": [
+        "crowncam",
+        "Live monitoring, security, and remote continuity platform",
+        "Advanced prototype and tested deployment architecture",
+        "Real time camera monitoring, survivability streaming, and operational continuity ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md",
+      "detailUrl": "labs/products/crowncam.html",
+      "priority": 76
+    },
+    {
+      "id": "crowncast",
+      "slug": "crowncast",
+      "name": "CrownCast",
+      "status": "Active conceptual development",
+      "category": "Daily alignment and motivational platform",
+      "categoryLabel": "Reflection and insight ecosystem",
+      "oneLiner": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+      "tagline": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+      "whatItIs": [
+        "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+        "The platform combines:",
+        "into a unified reflection ecosystem."
+      ],
+      "bullets": [
+        "reflection systems",
+        "alignment focused insight delivery",
+        "motivational guidance",
+        "daily awareness workflows"
+      ],
+      "capabilities": [],
+      "not": [],
+      "statusDetail": "Active conceptual development",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,500,000",
+      "valuationProjected": "$2,000,000 to $6,500,000",
       "readiness": 50,
-      "metrics": [
-        {
-          "label": "Session modes",
-          "value": "6",
-          "icon": "heart"
-        },
-        {
-          "label": "Exercises",
-          "value": "30",
-          "icon": "spark"
-        },
-        {
-          "label": "Completion",
-          "value": "74%",
-          "icon": "check"
-        }
-      ],
-      "keywords": ["couples", "relationship", "connection", "games", "playground"],
-      "priority": 2,
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "hotag",
-      "name": "HoTag",
-      "tagline": "Track the truth.",
-      "status": "Concept",
-      "statusDetail": "Early-stage concept with brand and device IP defined",
-      "category": "Cultural",
-      "categoryLabel": "Relationship & Cultural Products",
-      "oneLiner": "A culturally sharp consumer tech concept blending satire, behavioral insight, and tracking tech.",
-      "bullets": [
-        "Location tracking product concept with branded device IP",
-        "Companion mobile app framework and viral branding",
-        "Merchandise and licensing extensions with cultural commentary"
-      ],
-      "whatItIs": [
-        "HoTag is a culturally sharp consumer tech concept that blends satire, behavioral insight, and modern tracking technology into a provocative product ecosystem.",
-        "While playful on the surface, it explores transparency, trust, attachment, and accountability in modern relationships.",
-        "It is designed to spark conversation while remaining scalable as a branded consumer product."
-      ],
-      "whoFor": [
-        "Culture-forward consumers and brand collaborators",
-        "Merchandise and licensing partners",
-        "Teams exploring viral consumer tech narratives"
-      ],
-      "capabilities": [
-        "Location tracking product concept",
-        "Branded consumer device IP",
-        "Companion mobile app framework",
-        "Viral and social-forward branding",
-        "Merchandise and licensing extensions",
-        "Cultural commentary positioning",
-        "Scalable product ecosystem design"
-      ],
-      "not": [
-        "Not a shipping hardware product yet",
-        "Not positioned as a safety tool",
-        "Not intended for covert tracking"
-      ],
-      "nextGate": "Move from concept to prototype brand ecosystem.",
-      "monetization": "Merchandise, licensing, and product ecosystem extensions.",
-      "valuationCurrent": "$250,000 – $500,000",
-      "valuationProjected": "$1,500,000 – $2,500,000",
-      "completion": "~40%",
-      "timeToMarket": "6–9 months",
+      "completion": "50% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
       "projectedRevenue": {
-        "year1": "$100,000",
-        "year2": "$400,000",
-        "year3": "$1,000,000"
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
       },
-      "value": "As-is: $250K–$500K",
-      "growthLabel": "Projected: $1.5M–$2.5M",
-      "growth": [2, 6, 12, 20, 30],
-      "readiness": 40,
+      "value": "$2,000,000 to $6,500,000",
+      "growthLabel": "Canonical-docs governed",
       "metrics": [
         {
-          "label": "Brand drops",
-          "value": "12",
-          "icon": "spark"
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md"
         },
         {
-          "label": "Audience reach",
-          "value": "180k",
-          "icon": "users"
+          "label": "Classification",
+          "value": "Daily alignment and motivational platform"
         },
         {
-          "label": "Launch kits",
-          "value": "3",
-          "icon": "box"
+          "label": "Status",
+          "value": "Active conceptual development"
         }
       ],
-      "keywords": ["satire", "culture", "tracking", "brand", "consumer"],
-      "priority": 1,
-      "heroImage": "https://www.darenprince.com/assets/images/hotaghead.png",
-      "gallery": ["https://www.darenprince.com/assets/images/hotaghead.png"],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
+      "keywords": [
+        "crowncast",
+        "Daily alignment and motivational platform",
+        "Active conceptual development",
+        "Reflection and insight ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md",
+      "detailUrl": "labs/products/crowncast.html",
+      "priority": 75
     },
     {
       "id": "sentinel-vault",
+      "slug": "sentinel-vault",
       "name": "Sentinel Vault",
-      "tagline": "Private intelligence vaulting with evidence-grade controls.",
-      "status": "Private Alpha",
-      "statusDetail": "Core vault engine built; audit workflows and onboarding flows in progress.",
-      "category": "Security",
-      "categoryLabel": "Secure Intelligence Infrastructure",
-      "oneLiner": "A secure digital vault for sensitive records, incident evidence, and chain-of-custody collaboration.",
-      "bullets": [
-        "Tamper-evident storage for critical files and records",
-        "Role-based access, audit logs, and controlled sharing",
-        "Fast export pipelines for legal, insurance, and executive reporting"
-      ],
+      "status": "Advanced prototype and strategic infrastructure concept",
+      "category": "Security, survivability, and evidence continuity platform",
+      "categoryLabel": "Emergency intelligence, secure evidence preservation, and crisis continuity ecosystem",
+      "oneLiner": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
+      "tagline": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
       "whatItIs": [
-        "Sentinel Vault gives teams a private operational vault for storing and sharing sensitive files with accountability built in from day one.",
-        "Every action is timestamped, permissioned, and exportable so compliance and legal review can happen without chaos.",
-        "The product is designed for security teams, founders, and advisors who need trusted evidence workflows without enterprise bloat."
+        "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
+        "The platform combines:",
+        "into a unified security focused ecosystem."
       ],
-      "whoFor": [
-        "Security leads and operations teams handling sensitive incidents",
-        "Founders needing executive-grade document control",
-        "Legal, insurance, and compliance coordinators"
+      "bullets": [
+        "secure storage infrastructure",
+        "emergency communication systems",
+        "evidence continuity workflows",
+        "conditional disclosure systems"
       ],
       "capabilities": [
-        "Tamper-evident document storage",
-        "Role-based access controls",
-        "Immutable event logging",
-        "Secure expiring-share links",
-        "Evidence export bundles",
-        "Cross-device vault access"
+        "documents",
+        "media",
+        "recordings",
+        "photographs",
+        "emergency notes",
+        "critical personal information",
+        "emergency alert systems",
+        "crisis response workflows"
       ],
-      "not": [
-        "Not a consumer cloud drive replacement",
-        "Not a public collaboration workspace",
-        "Not a substitute for legal counsel"
-      ],
-      "nextGate": "Ship secure partner beta with audit export templates.",
-      "monetization": "SaaS subscription with seat tiers and storage-based overages.",
-      "valuationCurrent": "$1,500,000 – $2,800,000",
-      "valuationProjected": "$6,500,000 – $11,000,000",
-      "completion": "~62%",
-      "timeToMarket": "3–5 months",
+      "not": ["generic cloud storage", "a social platform", "a casual file sharing application"],
+      "statusDetail": "Advanced prototype and strategic infrastructure concept",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$1,500,000 to $5,000,000",
+      "valuationProjected": "$1,500,000 to $5,000,000",
+      "readiness": 55,
+      "completion": "55% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
       "projectedRevenue": {
-        "year1": "$550,000",
-        "year2": "$1,700,000",
-        "year3": "$3,900,000"
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
       },
-      "value": "As-is: $1.5M–$2.8M",
-      "growthLabel": "Projected: $6.5M–$11M",
-      "growth": [7, 18, 30, 44, 58],
-      "readiness": 62,
+      "value": "$1,500,000 to $5,000,000",
+      "growthLabel": "Canonical-docs governed",
       "metrics": [
         {
-          "label": "Audit coverage",
-          "value": "100%",
-          "icon": "lock"
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md"
         },
         {
-          "label": "Avg file retrieval",
-          "value": "<2s",
-          "icon": "bolt"
+          "label": "Classification",
+          "value": "Security, survivability, and evidence continuity platform"
         },
         {
-          "label": "Retention policy presets",
-          "value": "14",
-          "icon": "shield"
+          "label": "Status",
+          "value": "Advanced prototype and strategic infrastructure concept"
         }
       ],
-      "keywords": ["vault", "security", "chain-of-custody"],
-      "priority": 5,
-      "heroImage": "https://www.darenprince.com/app%20icons/B93001C0-650C-4E55-AF4D-04A402D582FF.png",
-      "gallery": [
-        "https://www.darenprince.com/assets/images/54FE04FB-8129-4A75-B36A-EFC30AAE1B88.png",
-        "https://www.darenprince.com/assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png",
-        "https://www.darenprince.com/assets/images/F1B418FA-4D83-4684-9599-1CF1D20306A4.png"
+      "keywords": [
+        "sentinel-vault",
+        "Security, survivability, and evidence continuity platform",
+        "Advanced prototype and strategic infrastructure concept",
+        "Emergency intelligence, secure evidence preservation, and crisis continuity ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Privacy and Continuity Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
       ],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "justus-chat",
-      "name": "JustUs Chat",
-      "tagline": "Private conversation infrastructure for couples and close circles.",
-      "status": "Beta",
-      "statusDetail": "Messaging flows complete; rollout readiness and trust/safety tuning underway.",
-      "category": "Communication",
-      "categoryLabel": "Relationship Intelligence Apps",
-      "oneLiner": "A calm, secure chat app designed for emotionally intelligent communication and guided conflict resolution.",
-      "bullets": [
-        "Private messaging with identity-first account controls",
-        "Conversation prompts that de-escalate conflict and improve clarity",
-        "Shareable relationship snapshots and progress trends"
-      ],
-      "whatItIs": [
-        "JustUs Chat is a private communication app built around trust, tone, and accountability rather than endless noisy feeds.",
-        "It combines encrypted chat with guided prompts to help couples and close circles communicate better during both calm and conflict.",
-        "The product includes progress-oriented insights so users can track communication patterns over time."
-      ],
-      "whoFor": [
-        "Couples seeking healthier communication habits",
-        "Therapists and coaches offering relationship support tools",
-        "Private communities that value trust-first messaging"
-      ],
-      "capabilities": [
-        "Secure direct and group messaging",
-        "Guided conversation prompts",
-        "Mood and tone check-ins",
-        "Shared journal moments",
-        "Relationship progress dashboards",
-        "Cross-platform notification controls"
-      ],
-      "not": [
-        "Not a social media platform",
-        "Not anonymous chat",
-        "Not a replacement for licensed therapy"
-      ],
-      "nextGate": "Complete usability round and launch invite-only beta cohorts.",
-      "monetization": "Premium subscriptions and clinician/coach partner packages.",
-      "valuationCurrent": "$1,100,000 – $2,100,000",
-      "valuationProjected": "$4,200,000 – $7,600,000",
-      "completion": "~68%",
-      "timeToMarket": "2–4 months",
-      "projectedRevenue": {
-        "year1": "$420,000",
-        "year2": "$1,300,000",
-        "year3": "$2,900,000"
-      },
-      "value": "As-is: $1.1M–$2.1M",
-      "growthLabel": "Projected: $4.2M–$7.6M",
-      "growth": [9, 19, 31, 43, 56],
-      "readiness": 68,
-      "metrics": [
-        {
-          "label": "Session completion",
-          "value": "82%",
-          "icon": "chat"
-        },
-        {
-          "label": "7-day retention",
-          "value": "61%",
-          "icon": "heart"
-        },
-        {
-          "label": "Prompt engagement",
-          "value": "74%",
-          "icon": "spark"
-        }
-      ],
-      "keywords": ["chat", "relationships", "private messaging"],
-      "priority": 4,
-      "heroImage": "https://www.darenprince.com/assets/images/IMG_0095.png",
-      "gallery": [
-        "https://www.darenprince.com/assets/images/IMG_0088.png",
-        "https://www.darenprince.com/assets/images/IMG_0092.png"
-      ],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    },
-    {
-      "id": "phoenix",
-      "name": "Phoenix",
-      "tagline": "Reignite dormant pipelines with AI-assisted follow-through.",
-      "status": "Concept to Alpha",
-      "statusDetail": "Brand identity and product architecture defined; first automation flows queued.",
-      "category": "Productivity",
-      "categoryLabel": "Revenue Enablement Tools",
-      "oneLiner": "A follow-up orchestration app that revives stale opportunities and drives consistent outreach execution.",
-      "bullets": [
-        "Pipeline triage that surfaces high-probability wins",
-        "AI-assisted outreach sequencing and reminders",
-        "Performance dashboards for conversion accountability"
-      ],
-      "whatItIs": [
-        "Phoenix helps founders, sales teams, and operators reclaim lost opportunities by systematizing follow-up.",
-        "The app prioritizes who to contact, when to contact them, and how to message with confidence.",
-        "Its core value is converting forgotten leads into real outcomes without adding operational chaos."
-      ],
-      "whoFor": [
-        "Founders managing lean sales pipelines",
-        "Small growth teams that need better follow-through",
-        "Advisors and operators tracking high-value relationships"
-      ],
-      "capabilities": [
-        "Lead revival scoring",
-        "Automated follow-up cadences",
-        "Template and tone recommendations",
-        "Task board and SLA reminders",
-        "Pipeline analytics dashboards",
-        "CRM export compatibility"
-      ],
-      "not": ["Not a full CRM replacement", "Not spam automation", "Not a guaranteed close engine"],
-      "nextGate": "Launch internal alpha and validate conversion lift benchmarks.",
-      "monetization": "Per-seat SaaS with advanced analytics add-ons.",
-      "valuationCurrent": "$750,000 – $1,400,000",
-      "valuationProjected": "$3,000,000 – $5,500,000",
-      "completion": "~45%",
-      "timeToMarket": "4–6 months",
-      "projectedRevenue": {
-        "year1": "$260,000",
-        "year2": "$980,000",
-        "year3": "$2,250,000"
-      },
-      "value": "As-is: $750K–$1.4M",
-      "growthLabel": "Projected: $3M–$5.5M",
-      "growth": [4, 12, 22, 33, 46],
-      "readiness": 45,
-      "metrics": [
-        {
-          "label": "Pilot reply lift",
-          "value": "+23%",
-          "icon": "bolt"
-        },
-        {
-          "label": "Task completion",
-          "value": "88%",
-          "icon": "check"
-        },
-        {
-          "label": "Avg setup time",
-          "value": "14 min",
-          "icon": "timer"
-        }
-      ],
-      "keywords": ["sales", "follow-up", "productivity"],
-      "priority": 3,
-      "heroImage": "https://www.darenprince.com/app%20icons/op-phoenix-icon.png",
-      "gallery": ["https://www.darenprince.com/app%20icons/op-phoenix-icon.png"],
-      "investorNote": "Financial projections are directional planning assumptions for product strategy and partner discussions."
-    }
-  ],
-  "frameworks": [
-    {
-      "name": "Presence Architect",
-      "status": "Prototype",
-      "description": "A strategic system for cultivating attraction, authority, and emotional gravity through restraint and consistency.",
-      "bullets": ["Social signaling frameworks", "DM playbooks", "Presence audits"]
-    },
-    {
-      "name": "Emotional Intelligence Stack",
-      "status": "Concept",
-      "description": "A behavioral framework integrating psychology, emotional regulation, and decision-cycle mapping across products.",
-      "bullets": ["Emotion modeling", "Decision-cycle cues", "Ethical influence guardrails"]
-    }
-  ],
-  "books": [
-    {
-      "name": "Game On! Master the Conversation & Win Her Heart",
-      "status": "Published",
-      "description": "Published title anchored in Game On principles and conversational clarity.",
-      "cover": "assets/images/game-on-main-cover.png",
-      "actionLabel": "Buy book",
-      "actionHref": "book.html"
-    },
-    {
-      "name": "Unshakeable",
-      "status": "In progress",
-      "description": "In-progress manuscript focused on resilience and steadiness under pressure.",
-      "cover": "",
-      "actionLabel": "Get updates",
-      "actionType": "modal",
-      "actionTab": "beta"
-    }
-  ],
-  "statuses": [
-    {
-      "name": "Concept",
-      "meaning": "Defined asset with structure and intent, not yet built.",
-      "nextGate": "Finalize scope, prototype requirements, and core validation plan."
-    },
-    {
-      "name": "Prototype",
-      "meaning": "Functional build exists with scoped feature set.",
-      "nextGate": "Validate with real-world users and harden the core workflows."
-    },
-    {
-      "name": "Beta",
-      "meaning": "Product is usable by testers, not yet hardened for scale.",
-      "nextGate": "Stabilize critical workflows and close priority feedback loops."
-    },
-    {
-      "name": "Stage 1 Beta",
-      "meaning": "Structured beta preparation with controlled testing.",
-      "nextGate": "Complete Stage 1 testing and confirm readiness criteria."
-    },
-    {
-      "name": "Live",
-      "meaning": "Publicly available and maintained.",
-      "nextGate": "Maintain reliability and scale responsibly."
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md",
+      "detailUrl": "labs/products/sentinel-vault.html",
+      "priority": 74
     }
   ]
 }

@@ -262,3 +262,26 @@ select {
     grid-template-columns: 1fr;
   }
 }
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.text-link {
+  color: #e9f5ff;
+  border-bottom: 1px solid rgba(233, 245, 255, 0.45);
+  padding-bottom: 2px;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.text-link:hover,
+.text-link:focus-visible {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+.text-link.muted {
+  color: var(--muted);
+  border-bottom-color: rgba(157, 168, 187, 0.35);
+}

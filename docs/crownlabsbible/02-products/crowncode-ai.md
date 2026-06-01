@@ -1,12 +1,15 @@
 # CrownCode.ai
 
 ## Classification
+
 Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer
 
 ## Status
+
 Active Development
 
 ## Primary Role
+
 CrownCode.ai functions as the underlying platform layer supporting modular AI systems, shared services, intelligence tooling, behavioral analysis infrastructure, documentation systems, and reusable product architecture across the Crown Labs ecosystem.
 
 ---
@@ -31,18 +34,23 @@ CrownCode.ai acts as the connective framework between behavioral systems, docume
 # Core Strategic Objectives
 
 ## Shared Infrastructure
+
 Provide reusable system architecture for Crown Labs products.
 
 ## Intelligence Layer
+
 Support behavioral analysis, structured reasoning, multimodal workflows, and analytical reporting systems.
 
 ## Product Velocity
+
 Reduce rebuild cycles by reusing proven frameworks, UI systems, logic patterns, and modular workflows.
 
 ## Platform Standardization
+
 Maintain consistency across branding, product taxonomy, documentation structure, and operational systems.
 
 ## Licensing Readiness
+
 Prepare select modules and workflows for future licensing or controlled deployment.
 
 ---
@@ -97,18 +105,23 @@ Where Crown Labs represents the umbrella ecosystem and commercial portfolio, Cro
 ## Integrated Support Areas
 
 ### Crown Psychology
+
 Behavioral analysis systems, emotional intelligence workflows, structured growth infrastructure.
 
 ### Pic Detective
+
 Multimodal image analysis, environmental inference, inventory extraction, reporting systems.
 
 ### CrownCam
+
 AI signal enhancement, monitoring workflows, intelligent event interpretation.
 
 ### Crown SOS
+
 Emergency coordination systems, evidence workflows, continuity architecture.
 
 ### Crown Labs Docs Platform
+
 Structured documentation systems, metadata consistency, investor documentation architecture.
 
 ---
@@ -147,9 +160,11 @@ Its primary value drivers include:
 # Monetization Pathways
 
 ## Internal Ecosystem Leverage
+
 Improves efficiency and scalability across all Crown Labs initiatives.
 
 ## Licensing Opportunities
+
 Potential future licensing of:
 
 - behavioral engines
@@ -159,6 +174,7 @@ Potential future licensing of:
 - specialized intelligence tooling
 
 ## Enterprise Deployment Potential
+
 Future potential for restricted private deployments and modular enterprise configurations.
 
 ---
@@ -198,4 +214,4 @@ Long term goals include:
 - Category: Platform Infrastructure
 - Documentation Status: Active
 - Integration Status: Ecosystem Connected
-- Repository Path: crownlabsbible/02-products/crowncode-ai.md
+- Repository Path: docs/crownlabsbible/02-products/crowncode-ai.md
