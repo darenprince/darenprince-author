@@ -4,31 +4,59 @@ const byId = (id) => document.getElementById(id)
 const productGrid = byId('productGrid')
 const philosophyGrid = byId('philosophyGrid')
 
-const tagClass = (value) => value.toLowerCase().replace(/\s+/g, '-')
-
-function renderCard(item) {
-  return `<article class="card fade-in">
-      <div class="chips">
-        <span class="badge ${tagClass(item.status)}">${item.status}</span>
-        <span class="badge outline">${item.category}</span>
-      </div>
-      <h3>${item.name}</h3>
-      <p>${item.summary}</p>
-      <div class="mini"><strong>Next gate:</strong> ${item.gate}</div>
-      <div class="mini"><strong>Financial outlook:</strong> ${item.value}</div>
-      <p class="score">Readiness score <span>${item.score}%</span></p>
-      <a class="btn" href="./products/${item.slug}.html">View full product brief</a>
-    </article>`
+const createElement = (tag, className, text) => {
+  const node = document.createElement(tag)
+  if (className) node.className = className
+  if (text !== undefined) node.textContent = text
+  return node
 }
 
-philosophyGrid.innerHTML = philosophy
-  .map(
-    (item) =>
-      `<article class="card fade-in"><h3>${item.title}</h3><p class="accent">${item.highlight}</p><p>${item.text}</p></article>`
-  )
-  .join('')
+const tagClass = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
-productGrid.innerHTML = products.map(renderCard).join('')
+function renderCard(item) {
+  const article = createElement('article', 'card fade-in')
+  const chips = createElement('div', 'chips')
+  chips.append(createElement('span', `badge ${tagClass(item.status)}`, item.status))
+  chips.append(createElement('span', 'badge outline', item.category))
+
+  const gate = createElement('div', 'mini')
+  gate.append(createElement('strong', null, 'Next gate: '), document.createTextNode(item.gate))
+  const value = createElement('div', 'mini')
+  value.append(
+    createElement('strong', null, 'Canonical value reference: '),
+    document.createTextNode(item.value)
+  )
+  const score = createElement('p', 'score', 'Readiness score ')
+  score.append(createElement('span', null, `${item.score}%`))
+  const source = createElement('p', 'mini', `Source: ${item.sourcePath}`)
+  const link = createElement('a', 'btn', 'View canonical product brief')
+  link.href = item.detailUrl || `../labs/products/${item.slug}.html`
+
+  article.append(
+    chips,
+    createElement('h3', null, item.name),
+    createElement('p', null, item.summary),
+    gate,
+    value,
+    score,
+    source,
+    link
+  )
+  return article
+}
+
+function renderPhilosophy(item) {
+  const article = createElement('article', 'card fade-in')
+  article.append(
+    createElement('h3', null, item.title),
+    createElement('p', 'accent', item.highlight),
+    createElement('p', null, item.text)
+  )
+  return article
+}
+
+philosophyGrid?.replaceChildren(...philosophy.map(renderPhilosophy))
+productGrid?.replaceChildren(...products.map(renderCard))
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -41,11 +69,17 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el))
 
-document.getElementById('year').textContent = new Date().getFullYear()
+const year = document.getElementById('year')
+if (year) year.textContent = new Date().getFullYear()
 
 const progress = document.querySelector('.scroll-progress')
-window.addEventListener('scroll', () => {
-  const scrolled =
-    (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
-  progress.style.width = `${Math.max(0, Math.min(100, scrolled))}%`
-})
+window.addEventListener(
+  'scroll',
+  () => {
+    if (!progress) return
+    const max = document.documentElement.scrollHeight - window.innerHeight
+    const scrolled = max > 0 ? (window.scrollY / max) * 100 : 0
+    progress.style.width = `${Math.max(0, Math.min(100, scrolled))}%`
+  },
+  { passive: true }
+)

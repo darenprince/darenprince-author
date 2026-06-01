@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-06T08:29:07.069Z",
-  "imageCount": 290,
+  "generatedAt": "2026-06-01T03:49:24.565Z",
+  "imageCount": 356,
   "images": [
     {
       "path": "3CDFD294-60F1-40E2-8BA9-8E06E5CE0876.png",
@@ -171,6 +171,526 @@
       "path": "assets/icons/facebook-32.png",
       "description": "Facebook 32 — icon mark (PNG).",
       "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-144x144.png",
+      "description": "Android Chrome 144x144 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-192x192.png",
+      "description": "Android Chrome 192x192 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-256x256.png",
+      "description": "Android Chrome 256x256 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-36x36.png",
+      "description": "Android Chrome 36x36 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-384x384.png",
+      "description": "Android Chrome 384x384 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-48x48.png",
+      "description": "Android Chrome 48x48 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-512x512.png",
+      "description": "Android Chrome 512x512 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-72x72.png",
+      "description": "Android Chrome 72x72 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/android-chrome-96x96.png",
+      "description": "Android Chrome 96x96 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-1024x1024.png",
+      "description": "Apple Touch Icon 1024x1024 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-114x114.png",
+      "description": "Apple Touch Icon 114x114 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-120x120.png",
+      "description": "Apple Touch Icon 120x120 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-144x144.png",
+      "description": "Apple Touch Icon 144x144 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-152x152.png",
+      "description": "Apple Touch Icon 152x152 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-167x167.png",
+      "description": "Apple Touch Icon 167x167 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-180x180.png",
+      "description": "Apple Touch Icon 180x180 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-57x57.png",
+      "description": "Apple Touch Icon 57x57 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-60x60.png",
+      "description": "Apple Touch Icon 60x60 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-72x72.png",
+      "description": "Apple Touch Icon 72x72 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-76x76.png",
+      "description": "Apple Touch Icon 76x76 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon-precomposed.png",
+      "description": "Apple Touch Icon Precomposed — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-icon.png",
+      "description": "Apple Touch Icon — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1125x2436.png",
+      "description": "Apple Touch Startup Image 1125x2436 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1136x640.png",
+      "description": "Apple Touch Startup Image 1136x640 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1170x2532.png",
+      "description": "Apple Touch Startup Image 1170x2532 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1179x2556.png",
+      "description": "Apple Touch Startup Image 1179x2556 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1242x2208.png",
+      "description": "Apple Touch Startup Image 1242x2208 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1242x2688.png",
+      "description": "Apple Touch Startup Image 1242x2688 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1284x2778.png",
+      "description": "Apple Touch Startup Image 1284x2778 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1290x2796.png",
+      "description": "Apple Touch Startup Image 1290x2796 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1334x750.png",
+      "description": "Apple Touch Startup Image 1334x750 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1488x2266.png",
+      "description": "Apple Touch Startup Image 1488x2266 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1536x2048.png",
+      "description": "Apple Touch Startup Image 1536x2048 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1620x2160.png",
+      "description": "Apple Touch Startup Image 1620x2160 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1640x2160.png",
+      "description": "Apple Touch Startup Image 1640x2160 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1668x2224.png",
+      "description": "Apple Touch Startup Image 1668x2224 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1668x2388.png",
+      "description": "Apple Touch Startup Image 1668x2388 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-1792x828.png",
+      "description": "Apple Touch Startup Image 1792x828 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2048x1536.png",
+      "description": "Apple Touch Startup Image 2048x1536 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2048x2732.png",
+      "description": "Apple Touch Startup Image 2048x2732 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2160x1620.png",
+      "description": "Apple Touch Startup Image 2160x1620 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2160x1640.png",
+      "description": "Apple Touch Startup Image 2160x1640 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2208x1242.png",
+      "description": "Apple Touch Startup Image 2208x1242 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2224x1668.png",
+      "description": "Apple Touch Startup Image 2224x1668 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2266x1488.png",
+      "description": "Apple Touch Startup Image 2266x1488 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2388x1668.png",
+      "description": "Apple Touch Startup Image 2388x1668 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2436x1125.png",
+      "description": "Apple Touch Startup Image 2436x1125 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2532x1170.png",
+      "description": "Apple Touch Startup Image 2532x1170 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2556x1179.png",
+      "description": "Apple Touch Startup Image 2556x1179 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2688x1242.png",
+      "description": "Apple Touch Startup Image 2688x1242 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2732x2048.png",
+      "description": "Apple Touch Startup Image 2732x2048 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2778x1284.png",
+      "description": "Apple Touch Startup Image 2778x1284 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-2796x1290.png",
+      "description": "Apple Touch Startup Image 2796x1290 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-640x1136.png",
+      "description": "Apple Touch Startup Image 640x1136 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-750x1334.png",
+      "description": "Apple Touch Startup Image 750x1334 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/apple-touch-startup-image-828x1792.png",
+      "description": "Apple Touch Startup Image 828x1792 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/favicon-16x16.png",
+      "description": "Favicon 16x16 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/favicon-32x32.png",
+      "description": "Favicon 32x32 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/favicon-48x48.png",
+      "description": "Favicon 48x48 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/mstile-144x144.png",
+      "description": "Mstile 144x144 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/mstile-150x150.png",
+      "description": "Mstile 150x150 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/mstile-310x150.png",
+      "description": "Mstile 310x150 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/mstile-310x310.png",
+      "description": "Mstile 310x310 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/mstile-70x70.png",
+      "description": "Mstile 70x70 — icon mark (PNG).",
+      "tags": [
+        "favicon",
+        "png"
+      ]
+    },
+    {
+      "path": "assets/icons/generated/yandex-browser-50x50.png",
+      "description": "Yandex Browser 50x50 — icon mark (PNG).",
+      "tags": [
+        "favicon",
         "png"
       ]
     },
@@ -1662,6 +2182,14 @@
       "description": "Crowncode Red 3d Icon — icon mark (PNG).",
       "tags": [
         "png"
+      ]
+    },
+    {
+      "path": "crowndocs/public/brand/favicon.svg",
+      "description": "Favicon — icon mark (SVG).",
+      "tags": [
+        "favicon",
+        "svg"
       ]
     },
     {

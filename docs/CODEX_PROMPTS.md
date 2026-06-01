@@ -1,4 +1,3 @@
-
 # 🧠 CODEX_PROMPTS.md — Codex Prompt Library (Live Site Expansion)
 
 This file defines modular, SCSS-based prompt logic for continuing development of the official Daren Prince Author Website. Every prompt must follow the global rules defined below.
@@ -98,8 +97,10 @@ Always:
 ▶️ Use Case: Force prompt to update all supporting docs  
 💡 Prompt Logic: "After this, remember to update README.md, CODEX_PROMPTS.md, MASTER_PLAN.md, and add live demo to components.html"
 
-
 [015] Book Detail Tab System  
 ▶️ Use Case: Multi-tab layout for book preview, description, video trailer, and exclusive content  
 💡 Prompt Logic: "Build a full tabbed interface using CodyHouse SCSS. Include buttons to toggle between Front Cover, Back Cover, and 3D view inside the preview tab. All tabs must share a persistent sticky area with buy button, dropdown, and short description. Description tab includes long-form copy and book metadata chart. Trailer tab has a portrait video block with controls. Members-only tab displays blurred preview and login CTA."
 
+## Crown Labs Product Source Rule
+
+The authoritative source of truth for Crown Labs products is `./docs/crownlabsbible/`. Any prompt that asks an agent to create, summarize, classify, roadmap, value, or publicly describe Crown Labs products must require the agent to derive that work from the Bible and regenerate `data/products.json` / `assets/labs-data.json` instead of hand-maintaining a parallel inventory.
