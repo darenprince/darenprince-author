@@ -9,6 +9,7 @@ The objective is to maintain consistency, legal clarity, and operational transpa
 ## Product Status Categories
 
 ### Active Product
+
 A system currently functional, accessible, or operational.
 
 Requirements:
@@ -19,6 +20,7 @@ Requirements:
 - validated architecture
 
 ### Prototype
+
 A partially built system with validated concepts but incomplete implementation.
 
 Requirements:
@@ -29,6 +31,7 @@ Requirements:
 - incomplete production readiness
 
 ### Concept System
+
 A strategically defined product concept without active production implementation.
 
 Requirements:
@@ -76,18 +79,23 @@ Public facing materials must:
 Products are organized into categories:
 
 ### AI Systems
+
 Products involving AI analysis, inference, automation, or augmentation.
 
 ### Security Systems
+
 Products focused on monitoring, protection, surveillance, or emergency response.
 
 ### Psychology Systems
+
 Products focused on behavioral insight, self improvement, assessment, or emotional intelligence.
 
 ### Communication Systems
+
 Products focused on interaction, messaging, collaboration, or presence.
 
 ### Media Systems
+
 Products focused on content generation, branding, editing, or publishing.
 
 ## Brand Alignment Rules

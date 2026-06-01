@@ -1,3 +1,5 @@
+> Canonical source directive: Crown Labs product truth now lives in `docs/crownlabsbible/`. This `crowndocs/content/` material is retained as documentation-platform reference content only and must not be used as an active product inventory unless synchronized from the Bible.
+
 # Brand Voice System
 
 ## Crown Labs Voice Identity
@@ -17,18 +19,23 @@ The objective is to communicate competence and trust without sounding artificial
 ## Core Brand Characteristics
 
 ### Intelligent
+
 Writing should demonstrate depth, precision, and systems thinking.
 
 ### Calm
+
 The tone should feel controlled and confident rather than loud or aggressive.
 
 ### Human
+
 Even technical content should remain emotionally readable and grounded.
 
 ### Structured
+
 Information should be logically organized with clean hierarchy.
 
 ### Premium
+
 Presentation should feel polished, restrained, and intentional.
 
 ## Messaging Rules
@@ -54,18 +61,23 @@ Never:
 Each Crown Labs product may carry its own emotional tone while remaining connected to the parent ecosystem.
 
 ### Crown Psychology
+
 Emotionally intelligent, clinically informed, calm, supportive.
 
 ### CrownCam
+
 Operational, secure, reliable, technically clean.
 
 ### JustUs.chat
+
 Private, minimal, discreet, frictionless.
 
 ### AI Cherry Pie
+
 Creative, editorial, language focused, human sounding.
 
 ### Pic Detective
+
 Analytical, investigative, forensic oriented.
 
 ## Visual Language Alignment

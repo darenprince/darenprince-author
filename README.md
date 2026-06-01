@@ -10,6 +10,10 @@ Welcome to the development hub for **Daren M. Prince**, bestselling author of _G
 
 ---
 
+> **Crown Labs canonical source:** Crown Labs product truth lives in `docs/crownlabsbible/`. Do not hand-maintain competing product inventories. Run `npm run build:labs` after changing Bible dossiers to regenerate `data/products.json`, `assets/labs-data.json`, `crownlabs/assets/data.js`, and `labs/products/*.html`.
+
+> **Crown Labs public discovery layer:** `labs.html` and generated product briefs introduce canonical products only. Product claims, classifications, roadmap posture, valuation references, and architecture details must be verified against `docs/crownlabsbible/`.
+
 ## ⚡️ Mission
 
 This project exists to:
@@ -61,10 +65,6 @@ Everything else is either generated, archived, or app-specific and should not be
 > **Standalone pages:** Visual updates for standalone pages like `leanin.html` are applied inline (including the animated cover gradient). Keep metadata and canonical URLs aligned, and rerun `npm run deploy` so SEO outputs stay current for GitHub Pages.
 >
 > **Duck Calls page:** `ots.html` uses an inline hero layout with Iconify + Google Fonts for the command deck. When copy or layout changes, update metadata and rerun `npm run deploy` so `seo-enrich.js` refreshes canonical URLs and structured data.
-
-> **Crown Labs page:** `labs.html` now ships a premium long-form narrative (hero, brand intro, why Crown Labs exists, featured and secondary ecosystem products, platform architecture, differentiators, founder vision, and CTA), while `labs/products/*.html` remains the product brief library. The page uses deployable social metadata (`labs/assets/labs-opengraph.svg`) plus a dedicated Labs favicon (`labs/assets/labs-favicon.svg`) for GitHub Pages previews. Keep these assets committed and referenced with repository paths (no Netlify runtime dependencies).
->
-> **Crown Labs product-page expansion (May 2026):** Product briefs now include hero visuals, screenshot galleries, refined investor-facing positioning copy, and directional financial notes. New pages include `sentinel-vault.html`, `justus-chat.html`, and `phoenix.html`, each generated from `assets/labs-data.json` via `npm run build:labs`.
 
 > **Updated hero concept page:** `updated-hero.html` is a standalone, metadata-complete concept lab for hero section directions (cinematic, product stack, story/trust, and conversion split). Keep CTA destinations and OG metadata in sync with campaign updates, then rerun `npm run deploy` for GitHub Pages SEO refreshes.
 

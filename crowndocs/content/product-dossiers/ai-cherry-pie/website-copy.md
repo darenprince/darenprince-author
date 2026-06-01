@@ -1,3 +1,5 @@
+> Canonical source directive: Crown Labs product truth now lives in `docs/crownlabsbible/`. This `crowndocs/content/` material is retained as documentation-platform reference content only and must not be used as an active product inventory unless synchronized from the Bible.
+
 # AI Cherry Pie Website Copy
 
 ## Hero Headline

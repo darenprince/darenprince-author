@@ -1,4 +1,19 @@
 ;(() => {
+  const createElement = (tag, className, text) => {
+    const node = document.createElement(tag)
+    if (className) node.className = className
+    if (text !== undefined) node.textContent = text
+    return node
+  }
+
+  const appendTextPair = (parent, label, value) => {
+    const item = createElement('div')
+    const strong = createElement('strong', null, label)
+    const span = createElement('span', null, value || '—')
+    item.append(strong, span)
+    parent.append(item)
+  }
+
   const setYear = () => {
     const node = document.getElementById('labs-year')
     if (node) node.textContent = String(new Date().getFullYear())
@@ -17,25 +32,38 @@
   }
 
   const productTemplate = (product) => {
-    const bullets = (product.bullets || []).map((item) => `<li>${item}</li>`).join('')
-    return `
-      <article class="product-card" data-id="${product.id}">
-        <div class="card-head">
-          <div>
-            <span class="badge">${product.status}</span>
-            <h2>${product.name}</h2>
-            <p class="subtitle">${product.categoryLabel || product.category}</p>
-          </div>
-          <span class="badge">${product.category}</span>
-        </div>
-        <p>${product.oneLiner}</p>
-        <ul class="bullets">${bullets}</ul>
-        <div class="meta">
-          <div><strong>Readiness</strong><span>${product.readiness || '—'}%</span></div>
-          <div><strong>Time to market</strong><span>${product.timeToMarket || '—'}</span></div>
-          <div><strong>Projected value</strong><span>${product.valuationProjected || '—'}</span></div>
-        </div>
-      </article>`
+    const article = createElement('article', 'product-card')
+    article.dataset.id = product.id
+
+    const head = createElement('div', 'card-head')
+    const titleWrap = createElement('div')
+    titleWrap.append(createElement('span', 'badge', product.status || 'Documented'))
+    titleWrap.append(createElement('h2', null, product.name || product.id))
+    titleWrap.append(
+      createElement('p', 'subtitle', product.categoryLabel || product.category || 'Crown Labs')
+    )
+    head.append(titleWrap, createElement('span', 'badge', product.category || 'Canonical'))
+
+    const summary = createElement('p', null, product.oneLiner || product.tagline || '')
+    const bullets = createElement('ul', 'bullets')
+    ;(product.bullets || [])
+      .slice(0, 4)
+      .forEach((item) => bullets.append(createElement('li', null, item)))
+
+    const meta = createElement('div', 'meta')
+    appendTextPair(meta, 'Readiness', product.readiness ? `${product.readiness}%` : '—')
+    appendTextPair(meta, 'Time to market', product.timeToMarket || 'Canonical dossier active')
+    appendTextPair(meta, 'Source', product.sourcePath || 'docs/crownlabsbible/')
+
+    const actions = createElement('div', 'card-actions')
+    const brief = createElement('a', 'text-link', 'View public brief')
+    brief.href = product.detailUrl || `labs/products/${product.id}.html`
+    const docs = createElement('a', 'text-link muted', 'Open source dossier')
+    docs.href = product.sourcePath || 'docs/crownlabsbible/'
+    actions.append(brief, docs)
+
+    article.append(head, summary, bullets, meta, actions)
+    return article
   }
 
   const initPortfolio = async () => {
@@ -73,7 +101,9 @@
       const avg = document.getElementById('avg-readiness')
       if (!total || !beta || !avg) return
       total.textContent = String(items.length)
-      beta.textContent = String(items.filter((item) => /beta/i.test(item.status || '')).length)
+      beta.textContent = String(
+        items.filter((item) => /beta|active|functional/i.test(item.status || '')).length
+      )
       const readiness = items
         .map((item) => Number(item.readiness || 0))
         .filter((value) => Number.isFinite(value))
@@ -92,6 +122,7 @@
           product.name,
           product.category,
           product.categoryLabel,
+          product.sourcePath,
           ...(product.keywords || []),
         ]
           .join(' ')
@@ -102,7 +133,7 @@
         return searchMatch && statusMatch && categoryMatch
       })
 
-      grid.innerHTML = filtered.map(productTemplate).join('')
+      grid.replaceChildren(...filtered.map(productTemplate))
       empty.hidden = filtered.length > 0
       updateMetrics(filtered)
     }

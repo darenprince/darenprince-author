@@ -1,17 +1,51 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Crown Labs | App Portfolio</title><meta name="description" content="Crown Labs application portfolio across intelligence, behavior, protection, privacy, creation, and transformation systems."/><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"/><meta property="og:title" content="Crown Labs | App Portfolio"/><meta property="og:description" content="Explore product detail pages across the Crown Labs ecosystem."/><meta property="og:image" content="https://www.darenprince.com/crownlabs/assets/og-image.svg"/><meta name="twitter:card" content="summary_large_image"/><meta name="theme-color" content="#090909"/><link rel="manifest" href="./assets/site.webmanifest"/><style>body{font-family:Inter,Arial,sans-serif;background:#0b0b0d;color:#f2f2f2;margin:0}main{max-width:1100px;margin:auto;padding:2rem 1rem 4rem}a{color:#f4c7c9}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.card{border:1px solid #36363a;border-radius:14px;padding:1rem;background:#141417}.tag{font-size:.75rem;color:#d8a7aa;text-transform:uppercase;letter-spacing:.08em}.btn{display:inline-block;margin-top:.7rem;padding:.45rem .75rem;border:1px solid #5f2a2d;border-radius:999px;text-decoration:none}header{border-bottom:1px solid #27272a;padding:1rem}small{color:#b8b8bc}</style></head><body><header><main style="padding:0;max-width:1100px"><h1>Crown Labs Portfolio</h1><p><small>Master report-aligned ecosystem with individual product detail pages.</small></p></main></header><main><section><h2>Product Catalog</h2><div class="grid" id="grid"></div></section></main><script>const products=[{name:'CrownCode.ai',slug:'crowncode-ai',category:'Platform Infrastructure',summary:'System-layer platform for modular AI development, shared services, and logic-hardened product infrastructure.',status:'Platform core'},
-        {name:'CrownCode Intelligence Suite',slug:'crowncode-intelligence',category:'Intelligence',summary:'Intelligence-grade multimodal analysis suite for forensic workflows, profiling, scenario simulation, and evidence-style reporting.',status:'Advanced prototype'},
-        {name:'Crown Psychology',slug:'crown-psychology',category:'Behavior',summary:'Clinical-style therapeutic operating system focused on structured behavior change loops and therapist-ready reporting.',status:'Build-ready'},
-        {name:'Judy',slug:'judy',category:'Behavior',summary:'Guided self-help and coaching platform with safety-aware AI orchestration, daily programs, and progress dashboards.',status:'Blueprint complete'},
-        {name:'Crown SOS',slug:'crown-sos',category:'Protection',summary:'Emergency escalation platform with trigger gestures, trusted contact routing, encrypted alerts, and crisis readiness tools.',status:'Pilot-ready'},
-        {name:'CrownCam',slug:'crowncam',category:'Protection',summary:'AI-assisted monitoring with threat detection, smart alerts, multi-monitor support, and configurable surveillance control.',status:'Pilot-ready'},
-        {name:'JustUs.chat',slug:'justus-chat',category:'Privacy',summary:'Invite-only private communication with ephemeral rooms, encrypted messaging, and optional SOS escalation pathways.',status:'Concept validated'},
-        {name:'Pic Detective',slug:'pic-detective',category:'Intelligence',summary:'Visual intelligence and metadata analysis platform for image forensics, clustering, and structured authenticity reporting.',status:'Prototype'},
-        {name:'AiCherryPie',slug:'ai-cherry-pie',category:'Creation',summary:'AI writing refinement engine focused on emotional realism, tone correction, and directive-driven voice consistency.',status:'Active development'},
-        {name:'CrownCast',slug:'crowncast',category:'Behavior',summary:'Psychologically grounded daily guidance product built for high-frequency engagement and emotional alignment.',status:'Concept'},
-        {name:'Vibe Prism',slug:'vibe-prism',category:'Behavior',summary:'Quiz-driven behavior intelligence concept with deeper admin interpretation and forensic signal mapping options.',status:'Concept'},
-        {name:'LumiLogix',slug:'lumilogix',category:'Creation',summary:'Emotion-intelligent messaging engine for adaptive storytelling, brand resonance, and communication performance.',status:'Private beta'},
-        {name:'Presence Architect',slug:'presence-architect',category:'Premium',summary:'Limited-access premium subscription concept for coaching, personal positioning, and brand-system execution.',status:'Prototype'},
-        {name:'Couples Connection Playground',slug:'couples-connection-playground',category:'Premium',summary:'Relationship growth platform with guided check-ins, repair frameworks, intimacy modes, and game-like connection tools.',status:'Concept'},
-        {name:'Operation Phoenix App Suite',slug:'phoenix',category:'Transformation',summary:'Recovery and reinvention app suite with routines, journaling, stability modules, and progress dashboards.',status:'Framework complete'},
-        {name:'Sentinel Vault',slug:'sentinel-vault',category:'Security',summary:'Portfolio placeholder product confirmed in ecosystem records; full product brief pending source recovery.',status:'Pending brief'}
-];document.getElementById('grid').innerHTML=products.map(p=>`<article class="card"><div class="tag">${p.category}</div><h3>${p.name}</h3><p>${p.summary}</p><p><small>Status: ${p.status}</small></p><a class="btn" href="./products/${p.slug}.html">View Details</a></article>`).join('');</script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crown Labs | Canonical Portfolio</title>
+    <meta
+      name="description"
+      content="Crown Labs public discovery layer generated from the canonical Crown Labs Bible product metadata."
+    />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content="Crown Labs | Canonical Portfolio" />
+    <meta
+      property="og:description"
+      content="Explore Crown Labs product briefs sourced from docs/crownlabsbible/."
+    />
+    <meta property="og:image" content="https://www.darenprince.com/crownlabs/assets/og-image.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#090909" />
+    <link rel="manifest" href="./assets/site.webmanifest" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script type="module" src="./assets/app.js"></script>
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <header class="hero">
+      <nav>
+        <a class="brand" href="../labs.html">Crown Labs</a>
+        <a href="../docs/crownlabsbible/docs/index.html">Crown Labs Bible</a>
+      </nav>
+      <p class="eyebrow">Canonical Portfolio</p>
+      <h1>Public discovery, governed by the Crown Labs Bible.</h1>
+      <p class="lede">
+        This portfolio page is a discovery surface. Product truth, classifications, architecture,
+        roadmap posture, and valuation references remain governed by
+        <code>docs/crownlabsbible/</code>.
+      </p>
+    </header>
+    <main>
+      <section>
+        <p class="eyebrow">Operating Principles</p>
+        <div class="grid" id="philosophyGrid"></div>
+      </section>
+      <section>
+        <p class="eyebrow">Canonical Products</p>
+        <div class="grid" id="productGrid"></div>
+      </section>
+    </main>
+    <footer>© <span id="year"></span> Crown Labs • Generated metadata delivery layer.</footer>
+  </body>
+</html>
