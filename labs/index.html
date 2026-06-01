@@ -45,7 +45,60 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     <link rel="stylesheet" href="../assets/labs.css" />
+
+    <style>
+      .labs-menu-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(231, 237, 246, 0.16);
+        background: rgba(18, 26, 39, 0.84);
+        color: var(--text);
+        font-size: 1.35rem;
+      }
+      .site-menu a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border-radius: 999px;
+      }
+      .site-menu iconify-icon {
+        color: var(--accent);
+        font-size: 1.05rem;
+      }
+      @media (max-width: 860px) {
+        .header-inner {
+          position: relative;
+        }
+        .labs-menu-toggle {
+          display: inline-flex;
+        }
+        .site-menu {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 20px;
+          right: 20px;
+          display: none;
+          flex-direction: column;
+          gap: 8px;
+          padding: 12px;
+          border: 1px solid var(--line);
+          background: rgba(8, 12, 19, 0.98);
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+        }
+        .labs-header.nav-open .site-menu {
+          display: flex;
+        }
+        .site-menu a {
+          justify-content: flex-start;
+          padding: 13px 14px;
+        }
+      }
+    </style>
   </head>
   <body id="top" class="labs-landing">
     <div class="scroll-progress" aria-hidden="true"></div>
@@ -55,12 +108,40 @@
           <img src="assets/crown-labs-logo.png" alt="Crown Labs" class="logo" />
           <span>Crown Labs</span>
         </a>
-        <nav class="site-menu" aria-label="Crown Labs landing navigation">
-          <a href="#crown-labs">Crown Labs</a>
-          <a href="#crowncode">CrownCode.ai</a>
-          <a href="#products">Products</a>
-          <a href="#founder">Founder</a>
-          <a href="../docs/">Docs</a>
+        <button
+          class="labs-menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="labs-site-menu"
+          aria-label="Open Crown Labs navigation"
+        >
+          <iconify-icon icon="tabler:menu-2" aria-hidden="true"></iconify-icon>
+        </button>
+        <nav class="site-menu" id="labs-site-menu" aria-label="Crown Labs navigation">
+          <a href="#top"
+            ><iconify-icon icon="tabler:home-2" aria-hidden="true"></iconify-icon
+            ><span>Home</span></a
+          >
+          <a href="#products"
+            ><iconify-icon icon="tabler:box" aria-hidden="true"></iconify-icon
+            ><span>Products</span></a
+          >
+          <a href="#crowncode"
+            ><iconify-icon icon="tabler:cpu-2" aria-hidden="true"></iconify-icon
+            ><span>Technology</span></a
+          >
+          <a href="#founder"
+            ><iconify-icon icon="tabler:crown" aria-hidden="true"></iconify-icon
+            ><span>Founder</span></a
+          >
+          <a href="../docs/crownlabsbible/docs/index.html"
+            ><iconify-icon icon="tabler:file-text" aria-hidden="true"></iconify-icon
+            ><span>Documentation</span></a
+          >
+          <a href="mailto:apps@crownlabs.tech"
+            ><iconify-icon icon="tabler:mail" aria-hidden="true"></iconify-icon
+            ><span>Contact</span></a
+          >
         </nav>
       </div>
     </header>
@@ -79,8 +160,12 @@
             replacing the canonical documentation that governs it.
           </p>
           <div class="hero-actions" aria-label="Primary documentation links">
-            <a class="primary-link" href="../docs/">Enter documentation</a>
-            <a class="secondary-link" href="../docs/crownlabsbible/">Open Crown Labs Bible</a>
+            <a class="primary-link" href="../docs/crownlabsbible/docs/index.html"
+              >Enter documentation</a
+            >
+            <a class="secondary-link" href="../docs/crownlabsbible/docs/index.html"
+              >Open Crown Labs Bible</a
+            >
           </div>
         </div>
         <aside class="hero-panel" aria-label="Documentation gateway">
@@ -125,9 +210,7 @@
             <a class="primary-link compact" href="products/crowncode-ai.html"
               >View CrownCode.ai brief</a
             >
-            <a
-              class="secondary-link compact"
-              href="../docs/crownlabsbible/02-products/crowncode-ai.md"
+            <a class="secondary-link compact" href="../docs/crownlabsbible/docs/crowncode-ai.html"
               >Read source dossier</a
             >
           </div>
@@ -177,7 +260,9 @@
             <p class="eyebrow">Products</p>
             <h2 id="products-title">Portfolio display, generated from the Crown Labs Bible.</h2>
           </div>
-          <a class="text-link" href="../docs/crownlabsbible/">Review source documentation</a>
+          <a class="text-link" href="../docs/crownlabsbible/docs/index.html"
+            >Review source documentation</a
+          >
         </div>
         <p class="section-note">
           These cards are discovery previews, not duplicate documentation. Open an individual brief
@@ -199,7 +284,9 @@
           </p>
           <div class="founder-links">
             <a class="text-link" href="../meet-daren-prince.html">Meet Daren</a>
-            <a class="text-link muted" href="../docs/crownlabsbible/README.md"
+            <a
+              class="text-link muted"
+              href="../docs/crownlabsbible/docs/viewer.html#Documentation%20Platform"
               >Crown Labs documentation source</a
             >
           </div>
@@ -210,8 +297,12 @@
             For deeper exploration, use the documentation paths below. They remain the canonical
             places for architecture, product detail, operating standards, and source governance.
           </p>
-          <a class="primary-link compact" href="../docs/">/docs/</a>
-          <a class="secondary-link compact" href="../docs/crownlabsbible/">/docs/crownlabsbible/</a>
+          <a class="primary-link compact" href="../docs/crownlabsbible/docs/index.html"
+            >Crown Labs docs app</a
+          >
+          <a class="secondary-link compact" href="../docs/crownlabsbible/docs/index.html"
+            >Crown Labs Bible app</a
+          >
         </div>
       </section>
     </main>
@@ -224,5 +315,49 @@
     </footer>
 
     <script src="../assets/labs.js" defer data-labs-data="../assets/labs-data.json"></script>
+
+    <script>
+      ;(() => {
+        const header = document.querySelector('.labs-header')
+        const toggle = document.querySelector('.labs-menu-toggle')
+        const menu = document.getElementById('labs-site-menu')
+        const docsApp = '../docs/crownlabsbible/docs/index.html'
+        if (toggle && header && menu) {
+          const close = () => {
+            header.classList.remove('nav-open')
+            toggle.setAttribute('aria-expanded', 'false')
+          }
+          toggle.addEventListener('click', () => {
+            const open = !header.classList.contains('nav-open')
+            header.classList.toggle('nav-open', open)
+            toggle.setAttribute('aria-expanded', String(open))
+          })
+          menu.addEventListener('click', (event) => {
+            if (event.target.closest('a')) close()
+          })
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') close()
+          })
+          document.addEventListener('click', (event) => {
+            if (!header.contains(event.target)) close()
+          })
+        }
+        const normalizeDocumentationLinks = () => {
+          document.querySelectorAll('a[href]').forEach((link) => {
+            const href = link.getAttribute('href') || ''
+            if (href === '../docs/' || href === '../docs/crownlabsbible/' || href.endsWith('.md')) {
+              link.setAttribute('href', docsApp)
+              if (/source dossier/i.test(link.textContent || ''))
+                link.textContent = 'Open documentation app'
+            }
+          })
+        }
+        normalizeDocumentationLinks()
+        new MutationObserver(normalizeDocumentationLinks).observe(document.body, {
+          childList: true,
+          subtree: true,
+        })
+      })()
+    </script>
   </body>
 </html>
