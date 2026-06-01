@@ -77,6 +77,17 @@
     "content": "Reset Password New Password Confirm Password 8+ characters Uppercase letter Lowercase letter Number Symbol Passwords match Update Password Return to login import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './js/password-strength.js'; import { AUTH_DISABLED_MESSAGE, isAuthEnabled } from './js/auth-service.js'; const form = document.getElementById('reset-form'); const messa"
   },
   {
+    "id": "2d9614630d9f2c167a22e3b7690c72b7",
+    "url": "/psychology/",
+    "title": "Crown Psychology | Daren Prince Author Platform",
+    "description": "Crown Psychology extends the Daren Prince author platform into guided behavioral intelligence, emotional pattern recognition, and action based personal growth.",
+    "date": null,
+    "category": "",
+    "tags": [],
+    "headings": "Crown Psychology for real change. Behavioral profile Not a therapy replacement. Not a journal. A behavioral intelligence system. Reader funnel Report engine Subscription layer People do not pay for tracking. They pay for transformation. Start with the behavioral profile. Behavioral Profile Report Three clean ways to earn. Reports Premium Programs The bigger play is professional access. Coaches Therapists Relationship brands Wellness teams Crown Psychology turns Daren’s message into a living product.",
+    "content": "Home Books Meet Daren Crown Labs Crown Psychology Media Contact Logout Author platform extension Crown Psychology for real change. A behavioral intelligence layer built from the same work behind Daren Prince’s books: self awareness, emotional pattern recognition, relationship repair, confidence rebuilding, and practical exercises that help people actually get better. Get the behavioral report View"
+  },
+  {
     "id": "f5119b551cb082f92f0c200bea4f5565",
     "url": "/promotion-tools/",
     "title": "Promotion Tools | Apple Books Banner Concepts",
@@ -84,19 +95,30 @@
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Apple OEM Smart App Banner Concepts Classic Launch Game On: Master the Conversation Pulse Highlight Unlock conversational flow instantly Inset Glow The blueprint for confident connection Frosted Glass Level up every first impression Aurora Gradient Dial in your presence & precision Studio Spotlight Game On: Studio Sessions bundle Edge Framed Confidence is a decision. Train it. Minimal Capsule Master presence, pacing, and playful intrigue Luxe Showcase Premium bundle with bonus interviews Panorama Story From icebreakers to deep connection—in one playbook",
+    "headings": "Apple OEM Smart App Banner Concepts Classic Launch Game On: Master the Conversation Pulse Highlight Unlock conversational flow instantly Inset Glow The blueprint for confident connection Frosted Glass Level up every first impression Aurora Gradient Dial in your presence & precision Studio Spotlight Game On: Studio Sessions bundle Edge Framed Confidence is a decision. Train it. Minimal Capsule Master presence, pacing, and playful intrigue Luxe Showcase Premium bundle with bonus interviews Panorama Story From icebreakers to deep connection, in one playbook",
     "content": "Apple OEM Smart App Banner Concepts Ten high-fidelity explorations that stay true to Apple’s native Smart App Banner language while giving Game On a premium hero moment. Each tile preserves the familiar badge, white gradient field, and instant Apple Books handoff. Classic Launch .apple-oem-banner--classic A direct homage to Apple’s default with a subtle luminous sweep and balanced spacing. Availab"
   },
   {
     "id": "2105be19a8cc0c081de226625a540c92",
     "url": "/press/",
-    "title": "Press & Media | Daren Prince – Official Assets",
+    "title": "Press & Media | Daren Prince, Official Assets",
     "description": "Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.",
     "date": null,
     "category": "",
     "tags": [],
     "headings": "Media Navigation Press & MediaResources Highlights Press Kit Preview Producer ReadyStory Angles From DJ Booth to Bestseller Confidence without the Games Healing That Sticks Fatherhood in Real Time Downloadable Assets Press + Retailer Kit Approved Headshots Brand Graphics Headshot Gallery Media Contact Need Quick Facts?",
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Media Navigation Overview Press Kit Preview Story Angles Downloads Headshots Media Contact Media Sections Official Media Room Press & MediaResources Download the official press kit, pull approved headshots, and tap into story angles that show how Daren Prince helps people rebuild confidence, trust, and connection. Download Press Kit PDF Request "
+  },
+  {
+    "id": "1d2967149412e3c686e911e07362c024",
+    "url": "/phoenix/",
+    "title": "Operation Phoenix — Alexandria, LA Survival Guide",
+    "description": "Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana.",
+    "date": null,
+    "category": "",
+    "tags": [],
+    "headings": "Operation Phoenix Emergency Hotlines Shelter / Housing Food Free Wi-Fi / Charging / Bathrooms Safe Indoor / Medical Benefits / ID / Housing Assistance Work Now / Survival Income Last Resort Safety Plan",
+    "content": "Loading critical resources… Operation PhoenixHotlinesShelterFoodWi‑Fi / ChargeMedicalBenefitsWorkSafety Plan Operation Phoenix “The Phoenix rises not by chance, but by discipline and fire.” Static survival guide for Alexandria, LA. Scroll down or search. Tap phone numbers to call. Tap Map for directions. Call 911Use 911 for active danger, violence, serious injury, or fire emergencies. Call 988Use "
   },
   {
     "id": "4ddd9b72c53493200ae50306fba75a6d",
@@ -161,30 +183,30 @@
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Welcome,Glad to see you! Create Accountto get started now! Table of Contents Why You're Reading This What You're Dealing With Grief & Attachment Fearful–Avoidant Pattern What \"Lean In\" Means Working Understanding What Healing Looks Like Daily Tools for Stability Scripts for Hard Moments Emotional Clearing Meditation Therapeutic Workbook WORKSHEET 1 — Emotional Check-In WORKSHEET 2 — Avoidance Pattern Map WORKSHEET 3 — Post-Intimacy Panic Map WORKSHEET 4 — Grief Processing WORKSHEET 5 — Emotional Safety Statements Final Note to You, Hayley",
-    "content": "Preparing your Lean In workbook... Breathe in, breathe out — you're almost there. cloud_done Progress saved 9:41 ••• Lean In by Crown Psychology Login Sign Up Continue as a guest 9:41 ••• Welcome,Glad to see you! Forgot Password? Login Or Login with Google Facebook Don't have an account? Sign Up Now 9:41 ••• Create Accountto get started now! Sign Up Or Sign Up with Google Facebook Already have an "
+    "headings": "Welcome,Glad to see you! Create Accountto get started now! Table of Contents Why You're Reading This What You're Dealing With Grief & Attachment Fearful to Avoidant Pattern What \"Lean In\" Means Working Understanding What Healing Looks Like Daily Tools for Stability Scripts for Hard Moments Emotional Clearing Meditation Therapeutic Workbook WORKSHEET 1, Emotional Check-In WORKSHEET 2, Avoidance Pattern Map WORKSHEET 3, Post-Intimacy Panic Map WORKSHEET 4, Grief Processing WORKSHEET 5, Emotional Safety Statements Final Note to You, Hayley",
+    "content": "Preparing your Lean In workbook... Breathe in, breathe out, you're almost there. cloud_done Progress saved 9:41 ••• Lean In by Crown Psychology Login Sign Up Continue as a guest 9:41 ••• Welcome,Glad to see you! Forgot Password? Login Or Login with Google Facebook Don't have an account? Sign Up Now 9:41 ••• Create Accountto get started now! Sign Up Or Sign Up with Google Facebook Already have an a"
   },
   {
     "id": "38d0b7538c9232cbe24ab72db75364ae",
     "url": "/labs/",
-    "title": "Crown Labs | Product Portfolio",
-    "description": "Crown Labs • A Division of Daren Prince Publishing. Innovation. Intelligence. Integrity. Explore the Crown Labs product portfolio.",
+    "title": "Crown Labs | Institutional Product Portfolio",
+    "description": "Institutional Crown Labs portfolio built directly from canonical Crown Docs content: governance, product dossiers, and operational intelligence.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Innovation.Intelligence.Integrity. Total products Active in beta Concepts in lab Product Portfolio CrownCode Intelligence Suite CrownCam",
-    "content": "☰ Product Portfolio About Beta Testers Crown Labs • A Division of Daren Prince Publishing Innovation.Intelligence.Integrity. The experimental and development division of Daren Prince Publishing. Crown Labs is the creative force behind a growing network of intelligent technologies, digital platforms, and human-centered innovations. This is where ideas evolve into living systems. Every project begin"
+    "headings": "Canonical Portfolio SurfaceSynchronized to Crown Docs Direct Documentation Source Purpose Build Philosophy Website Integration Total Products Active Beta Average Readiness",
+    "content": "Crown Labs Portfolio Console Foundation Portfolio Docs Sync Docs App Crown Labs • Institutional Systems Division Canonical Portfolio SurfaceSynchronized to Crown Docs This page now uses Crown Docs as the narrative source of truth for governance, product taxonomy, and operating standards, while preserving data-driven product rendering for filter and readiness workflows. Direct Documentation Source "
   },
   {
     "id": "c4ed76445457453148fa5c4b0ca77f5a",
     "url": "/",
-    "title": "Daren Prince | Author of Game On! & Unshakeable | Confidence, Healing & Real Connection",
-    "description": "Official site of Daren Prince, author and communication coach. Explore real tools for confidence, relationships, and emotional healing through his bests...",
+    "title": "Daren Prince | Author of Game On and Unshakeable | Confidence, Healing, Real Connection",
+    "description": "Author Daren Prince shares real guidance on confidence, dating, and healing so you can trust yourself, choose better, and build lasting love.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Level Up Your Dating Game What Readers Are Saying\n            About Game On! Your move\n                  select a format FEATURED & UPCOMING\n              BY DAREN PRINCE Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n              Let's Connect.",
-    "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Site Map Contact Logout Level Up Your Dating Game SOUND Resume Restart Hide Video Learn the psychology of real connection Trailer Buy Now Reader Reviews What Readers Are Saying About Game On! Real reviews from real readers — verified across Books-A-Million, Apple Books, Google Play, Amazon, and more. Always-ADAM Lib"
+    "headings": "Level Up Your Dating Game What Readers Are Saying\n About Game On! Your move\n select a format FEATURED & UPCOMING\n BY DAREN PRINCE Real-world strategist with a voice that cuts through the noise Want to Reach Out?\n Let's Connect.",
+    "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Site Map Contact Logout Level Up Your Dating Game SOUND Resume Restart Hide Video Learn the psychology of real connection Trailer Buy Now Reader Reviews What Readers Are Saying About Game On! Real reviews from real readers, verified across Books-A-Million, Apple Books, Google Play, Amazon, and more. Always-ADAM Libe"
   },
   {
     "id": "b9139ae6d43870f68ed5fc25fc4672d2",
@@ -222,24 +244,24 @@
   {
     "id": "f6b202d1e5ca6c7c036a07850cb8db99",
     "url": "/hotag/",
-    "title": "HoTag — Precision Tracking for Questionable Choices",
+    "title": "HoTag, Precision Tracking for Questionable Choices",
     "description": "",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "HoTag — Precision Tracking for Questionable Choices. What the hell is HoTag? HoRadar™ SussAlert™ HoHistory™ How it works (kinda) Tag It Open the Map Laugh With Your Friends Choose your bundle Classic HoTag Toxic Relationship Bundle (3-Pack) Red Flag Edition Bachelor / Bachelorette Party Pack (10-Pack) Social proof (fake, like the tracking) FAQ + Safety Is this real tracking? Is this for men or women? Is this legal?",
-    "content": "HoTag Parody Tech • Comedy Only LumiLogix Drop HoTag — Precision Tracking for Questionable Choices. You can’t control your hoes. But you can control how hard you laugh about them. The parody “people tracker” built for messy adults, chaotic group chats, and anyone with a PhD in ignoring red flags. Get HoTagged Watch How It Works Parody product. For jokes only. Don’t be weird. No real tracking. No n"
+    "headings": "HoTag, Precision Tracking for Questionable Choices. What the hell is HoTag? HoRadar™ SussAlert™ HoHistory™ How it works (kinda) Tag It Open the Map Laugh With Your Friends Choose your bundle Classic HoTag Toxic Relationship Bundle (3-Pack) Red Flag Edition Bachelor / Bachelorette Party Pack (10-Pack) Social proof (fake, like the tracking) FAQ + Safety Is this real tracking? Is this for men or women? Is this legal?",
+    "content": "HoTag Parody Tech • Comedy Only LumiLogix Drop HoTag, Precision Tracking for Questionable Choices. You can’t control your hoes. But you can control how hard you laugh about them. The parody “people tracker” built for messy adults, chaotic group chats, and anyone with a PhD in ignoring red flags. Get HoTagged Watch How It Works Parody product. For jokes only. Don’t be weird. No real tracking. No no"
   },
   {
     "id": "458fbb0a0af51f4d80d86929000abe67",
     "url": "/home/",
-    "title": "Daren Prince - Author",
-    "description": "Bold, psychology-backed guidance for boundaries, attraction, and self-respect — built for people who are done with mixed signals.",
+    "title": "Daren Prince | Official Author Site",
+    "description": "Get direct guidance from Daren Prince on confidence, boundaries, attraction, and healing that helps you stop guessing and start choosing well.",
     "date": null,
     "category": "",
     "tags": [],
     "headings": "Stop Getting Played.Start Leading. Words From ReadersWho Stopped Settling Download the AssetsYou Need",
-    "content": "Home Books Meet Daren Media Swag Blog Contact Logout Daren Prince · Relationship Strategist Stop Getting Played.Start Leading. Bold, psychology-backed guidance for boundaries, attraction, and self-respect — built for people who are done with mixed signals. Get The Book Book Daren to Speak Tactical playbook Scripts, standards, and mindset resets Reader favorite Trusted by ambitious professionals Re"
+    "content": "Home Books Meet Daren Media Swag Blog Contact Logout Daren Prince · Relationship Strategist Stop Getting Played.Start Leading. Bold, psychology-backed guidance for boundaries, attraction, and self-respect, built for people who are done with mixed signals. Get The Book Book Daren to Speak Tactical playbook Scripts, standards, and mindset resets Reader favorite Trusted by ambitious professionals Rea"
   },
   {
     "id": "eb30b07a9b8ca474bf469126bd7538ae",
@@ -264,6 +286,28 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Guest Dashboard Account Logout Hi User My Files Exclusive Access Profile Subscription & Billing Learning Logout My Files Upload Exclusive Access Profile Avatar Email Password First Name Last Name Phone Birthdate Shipping Address Update Subscription & Billing Coming soon. Learning Coming soon. Confident, psychology-backed storytelling, systems, a"
   },
   {
+    "id": "36d510906c9f7703fada9f22ff835482",
+    "url": "/crownlabs/",
+    "title": "Crown Labs Redirect",
+    "description": "The Crown Labs portfolio has moved to the canonical Labs discovery layer generated from docs/crownlabsbible/.",
+    "date": null,
+    "category": "",
+    "tags": [],
+    "headings": "Crown Labs has moved",
+    "content": "Crown Labs has moved The legacy hand-maintained portfolio has been retired. Product metadata now comes from docs/crownlabsbible/. Open the canonical Crown Labs portfolio"
+  },
+  {
+    "id": "67a7401d8101f8723fb64724155cbc6e",
+    "url": "/crownlabs-dashboard/",
+    "title": "Crown Labs Dashboard Redirect",
+    "description": "",
+    "date": null,
+    "category": "",
+    "tags": [],
+    "headings": "Crown Labs dashboard moved",
+    "content": "Crown Labs dashboard moved The manually maintained dashboard has been retired. Use the canonical Crown Labs portfolio generated from docs/crownlabsbible/. Open Crown Labs portfolio"
+  },
+  {
     "id": "7ebecf672d8d836b8868a5411e26d6b5",
     "url": "/contact/",
     "title": "Contact Daren Prince | Media, Coaching & Speaking Inquiries",
@@ -272,7 +316,7 @@
     "category": "",
     "tags": [],
     "headings": "Connect with Daren Princefor readers, media, and events Media & podcast requests Speaking & collaborations Reader support Send your message",
-    "content": "Home Books Meet Daren Media Swag Blog Contact Logout Contact Connect with Daren Princefor readers, media, and events If you're reaching out about interviews, podcast appearances, speaking engagements, or reader support, this is the best place to start. Share clear context and we’ll reply with next steps. press@darenprince.com Typical response time: 1–2 business days Media & podcast requests Book i"
+    "content": "Home Books Meet Daren Media Swag Blog Contact Logout Contact Connect with Daren Princefor readers, media, and events If you're reaching out about interviews, podcast appearances, speaking engagements, or reader support, this is the best place to start. Share clear context and we’ll reply with next steps. press@darenprince.com Typical response time: 1 to 2 business days Media & podcast requests Boo"
   },
   {
     "id": "cea88d68013d1b54815aafcb031b5c29",
@@ -451,125 +495,92 @@
     "content": "Member Dashboard Exclusive content will appear here. Email Password Sign In"
   },
   {
-    "id": "9319dfcfbdd881f92d8f1c9cdc751715",
-    "url": "/labs/products/presence-architect/",
-    "title": "Presence Architect | Crown Labs",
-    "description": "Signal, don’t announce.",
+    "id": "f9be637c8d5b2a3a24ebce8ebc46d456",
+    "url": "/labs/products/sentinel-vault/",
+    "title": "Sentinel Vault | Crown Labs",
+    "description": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Presence Architect Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "Presence Architect Relationship & Cultural Products Back to portfolio Theme Prototype Relationship Presence Architect Signal, don’t announce. A strategic system for cultivating attraction, authority, and emotional gravity without chasing attention. Request access Explore all products Readiness snapshot Status: Prototype — Prototype phase with framework and ruleset defined Next gate: Move from prot"
+    "headings": "Sentinel Vault Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "Sentinel Vault Sourced from docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md Back to portfolio Crown Labs Bible Theme Advanced prototype and strategic infrastructure concept Security, survivability, and evidence continuity platform Sentinel Vault Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical informatio"
   },
   {
-    "id": "c8d0459e3e8a5dbe432cc29e3b2ef48e",
-    "url": "/labs/products/pic-detective/",
-    "title": "Pic Detective | Crown Labs",
-    "description": "Your photos have secrets. We decode them.",
+    "id": "7bae1c7a56b19572cbd6c88a298d0434",
+    "url": "/labs/products/crowncode-ai/",
+    "title": "CrownCode.ai | Crown Labs",
+    "description": "CrownCode.ai is not positioned as a single standalone application.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Pic Detective Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "Pic Detective Forensic & Analytical Systems Back to portfolio Theme Beta Forensics Pic Detective Your photos have secrets. We decode them. Transforms a single image into a structured intelligence artifact with forensic reporting. Request access Explore all products Readiness snapshot Status: Beta — Core logic complete, reporting and interface polish underway Next gate: Finalize interface polish an"
-  },
-  {
-    "id": "412e74bbd0d7e5311ec6df9214726037",
-    "url": "/labs/products/lumilogix/",
-    "title": "LumiLogix | Crown Labs",
-    "description": "AI that feels.",
-    "date": null,
-    "category": "",
-    "tags": [],
-    "headings": "LumiLogix Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "LumiLogix Creative, Communication & Behavioral Systems Back to portfolio Theme Prototype Creative LumiLogix AI that feels. An emotionally intelligent marketing engine blending psychology, narrative structure, and data-driven insight. Request access Explore all products Readiness snapshot Status: Prototype — Core architecture finalized, modules in active development Next gate: Complete module integ"
-  },
-  {
-    "id": "20e4e5eb45bb4dc4451993fee9f34f3c",
-    "url": "/labs/products/hotag/",
-    "title": "HoTag | Crown Labs",
-    "description": "Track the truth.",
-    "date": null,
-    "category": "",
-    "tags": [],
-    "headings": "HoTag Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "HoTag Relationship & Cultural Products Back to portfolio Theme Concept Cultural HoTag Track the truth. A culturally sharp consumer tech concept blending satire, behavioral insight, and tracking tech. Request access Explore all products Readiness snapshot Status: Concept — Early-stage concept with brand and device IP defined Next gate: Move from concept to prototype brand ecosystem. Completion: ~40"
-  },
-  {
-    "id": "01df57a7f9ce981ffdc51ff554f74537",
-    "url": "/labs/products/crowncode-intelligence-suite/",
-    "title": "CrownCode Intelligence Suite | Crown Labs",
-    "description": "Federal-grade intelligence. Evidence-ready insight.",
-    "date": null,
-    "category": "",
-    "tags": [],
-    "headings": "CrownCode Intelligence Suite Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "CrownCode Intelligence Suite Flagship Intelligence Platform Back to portfolio Theme Stage 1 Beta Intelligence CrownCode Intelligence Suite Federal-grade intelligence. Evidence-ready insight. A multimodal AI intelligence suite that documents, correlates, profiles, forecasts, and explains evidence-grade insights. Request access Explore all products Readiness snapshot Status: Stage 1 Beta — Stage 1 b"
+    "headings": "CrownCode.ai Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "CrownCode.ai Sourced from docs/crownlabsbible/02-products/crowncode-ai.md Back to portfolio Crown Labs Bible Theme Active Development Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer CrownCode.ai CrownCode.ai is not positioned as a single standalone application. CrownCode.ai is not positioned as a single standalone application. Open canonical dossier Explore port"
   },
   {
     "id": "1b5e78133bf996455c8190893fcfdd27",
     "url": "/labs/products/crowncast/",
     "title": "CrownCast | Crown Labs",
-    "description": "Not fate. Alignment.",
+    "description": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "CrownCast Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "CrownCast Creative, Communication & Behavioral Systems Back to portfolio Theme Beta Creative CrownCast Not fate. Alignment. A daily generative insight engine grounded in psychology, emotional regulation, and agency. Request access Explore all products Readiness snapshot Status: Beta — Content engine complete, distribution and delivery finalization underway Next gate: Finalize distribution and deli"
+    "headings": "CrownCast Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "CrownCast Sourced from docs/crownlabsbible/04-product-dossiers/crowncast/overview.md Back to portfolio Crown Labs Bible Theme Active conceptual development Daily alignment and motivational platform CrownCast CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment. CrownCast is a daily alignment an"
   },
   {
     "id": "a0537af992a43e59db49e6dfaedfc016",
     "url": "/labs/products/crowncam/",
     "title": "CrownCam | Crown Labs",
-    "description": "Rule Your View.",
+    "description": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "CrownCam Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "CrownCam Security & Situational Awareness Back to portfolio Theme Beta Security CrownCam Rule Your View. A browser-based security camera platform that turns any device into an intelligent, real-time surveillance system. Request access Explore all products Readiness snapshot Status: Beta — Functional beta with AI, interface, and resolution expansion in progress Next gate: Finalize AI resolution upg"
+    "headings": "CrownCam Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "CrownCam Sourced from docs/crownlabsbible/04-product-dossiers/crowncam/overview.md Back to portfolio Crown Labs Bible Theme Advanced prototype and tested deployment architecture Live monitoring, security, and remote continuity platform CrownCam CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems. "
   },
   {
     "id": "941362585bc2370137f74b21551a0f31",
     "url": "/labs/products/crown-watchtower/",
     "title": "Crown WatchTower | Crown Labs",
-    "description": "Forensic-grade network visibility.",
+    "description": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Crown WatchTower Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "Crown WatchTower Forensic & Analytical Systems Back to portfolio Theme Prototype Security Crown WatchTower Forensic-grade network visibility. Deep visibility into network traffic, wireless signals, and environmental indicators for real-time anomaly detection. Request access Explore all products Readiness snapshot Status: Prototype — Active development with functional analysis engines Next gate: Fi"
+    "headings": "Crown WatchTower Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "Crown WatchTower Sourced from docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md Back to portfolio Crown Labs Bible Theme Active development and strategic infrastructure phase Environmental signal intelligence and operational visibility platform Crown WatchTower Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to "
   },
   {
     "id": "b1f2176a9f9349ad110deb8a8bb18c2e",
     "url": "/labs/products/crown-sos/",
     "title": "Crown SOS | Crown Labs",
-    "description": "When chaos strikes, Crown SOS answers.",
+    "description": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Crown SOS Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "Crown SOS Security & Emergency Response Back to portfolio Theme Beta Security Crown SOS When chaos strikes, Crown SOS answers. A real-time emergency response and proof-of-life platform with live location, audio, and evidence capture. Request access Explore all products Readiness snapshot Status: Beta — Prototype complete, beta testing active Next gate: Validate beta response workflows and proof-of"
+    "headings": "Crown SOS Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "Crown SOS Sourced from docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md Back to portfolio Crown Labs Bible Theme Prototype and beta testing phase Emergency coordination and crisis response platform Crown SOS Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preser"
   },
   {
-    "id": "79204e186fac47d5ad7e53d3585785f7",
-    "url": "/labs/products/couples-connection-playground/",
-    "title": "Couples Connection Playground | Crown Labs",
-    "description": "Connection without pressure.",
+    "id": "7a1cfeeb7f63e43db22655652d8cee33",
+    "url": "/labs/products/crown-psychology/",
+    "title": "Crown Psychology | Crown Labs",
+    "description": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Couples Connection Playground Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "Couples Connection Playground Relationship & Cultural Products Back to portfolio Theme Concept Relationship Couples Connection Playground Connection without pressure. A playful, guided platform for couples to build connection without therapy language or pressure. Request access Explore all products Readiness snapshot Status: Concept — Concept finalized, content and interaction design in progress N"
+    "headings": "Crown Psychology Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "Crown Psychology Sourced from docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md Back to portfolio Crown Labs Bible Theme Advanced active platform architecture with production deployment infrastructure Behavioral intelligence and self improvement platform Crown Psychology Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better under"
   },
   {
     "id": "51b11a80a9ff9391089f601432f792ef",
     "url": "/labs/products/ai-cherry-pie/",
     "title": "AI Cherry Pie | Crown Labs",
-    "description": "Make AI writing sound human again.",
+    "description": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "AI Cherry Pie Readiness snapshot Valuation trajectory Revenue outlook Key outcomes Performance metrics What it is Who it’s for Core capabilities What it is NOT Request access",
-    "content": "AI Cherry Pie Creative, Communication & Behavioral Systems Back to portfolio Theme Beta Creative AI Cherry Pie Make AI writing sound human again. Analyzes rhythm, pacing, and emotional flow to remove AI residue while preserving the author’s voice. Request access Explore all products Readiness snapshot Status: Beta — Product-ready, packaging and distribution underway Next gate: Finalize packaging, "
+    "headings": "AI Cherry Pie Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
+    "content": "AI Cherry Pie Sourced from docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md Back to portfolio Crown Labs Bible Theme Functional standalone software product and framework Writing reconstruction and language refinement platform AI Cherry Pie AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring na"
   },
   {
     "id": "62692ea0c4ec7201daef1dcb3d1ed0fd",

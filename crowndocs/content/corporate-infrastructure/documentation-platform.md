@@ -14,11 +14,11 @@
 - Deprecated legacy files: `viewer-clean.html` and `investor-clean.html` are retired from primary navigation and can be removed after external references are migrated.
 - Next implementation step: extract shared interactive behavior into `docs/assets/js/platform.js`.
 
-## CrownLabsBible Legacy Review
+## Crown Labs Bible Canonical Source Review
 
-- `crownlabsbible/docs/index.html` and `crownlabsbible/docs/viewer.html` remain deprecated legacy endpoints.
-- Canonical public interface is the Nuxt `crowndocs` shell and `/docs/*` content routes.
-- Do not mirror legacy logo behavior from the old viewer; use shell-level theme-aware logo switching only.
+- `docs/crownlabsbible/` is the canonical Crown Labs product documentation system.
+- Crowndocs content may describe documentation-platform behavior, but it must not act as a competing product inventory.
+- Public product discovery should use generated metadata sourced from the Crown Labs Bible.
 
 ## Theme-aware Logo Rules (Production)
 

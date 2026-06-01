@@ -7,19 +7,19 @@ This docs platform is built as static HTML/CSS/JS and is ready for GitHub Pages 
 1. Go to the repository **Settings → Pages**.
 2. Set **Source** to **Deploy from a branch**.
 3. Select the publishing branch (for example `main` or your release branch).
-4. Select the folder that contains `crownlabsbible/docs` (typically `/root`).
+4. Select the folder that contains `docs/crownlabsbible/docs` (typically `/root`).
 5. Save and verify published URLs.
 
 ## Core Routes
 
-- `crownlabsbible/docs/index.html`
-- `crownlabsbible/docs/viewer.html`
-- `crownlabsbible/docs/categories.html`
-- `crownlabsbible/docs/products.html`
-- `crownlabsbible/docs/investor-mode.html`
-- `crownlabsbible/docs/executive-dashboard.html`
-- `crownlabsbible/docs/ecosystem-map.html`
-- `crownlabsbible/docs/roadmap-tracker.html`
+- `docs/crownlabsbible/docs/index.html`
+- `docs/crownlabsbible/docs/viewer.html`
+- `docs/crownlabsbible/docs/categories.html`
+- `docs/crownlabsbible/docs/products.html`
+- `docs/crownlabsbible/docs/investor-mode.html`
+- `docs/crownlabsbible/docs/executive-dashboard.html`
+- `docs/crownlabsbible/docs/ecosystem-map.html`
+- `docs/crownlabsbible/docs/roadmap-tracker.html`
 
 ## Platform Standards (Current)
 
