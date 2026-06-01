@@ -33,7 +33,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 >
 > **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
 >
-> **Crown Labs reminder:** `labs.html` and generated `labs/products/*.html` are now aligned to the Daren-Labs portfolio model. Keep Labs-specific social assets (`labs/assets/labs-opengraph.svg`) and favicon (`labs/assets/labs-favicon.svg`) committed, and regenerate product pages with `node scripts/generate-labs-product-pages.mjs` whenever `assets/labs-data.json` changes.
+> **Crown Labs reminder:** `/labs/` and generated `labs/products/*.html` are aligned to the Daren-Labs portfolio model, with `labs.html` retained as a redirect. Keep Labs-specific social assets (`labs/assets/labs-opengraph.svg`) and favicon (`labs/assets/labs-favicon.svg`) committed, and regenerate product pages with `node scripts/generate-labs-product-pages.mjs` whenever `assets/labs-data.json` changes.
 >
 > **Books surfaces reminder:** `book.html` now includes coming-soon CTA states (with notify modal triggers) and in-page anchor navigation. After touching Book UI or Game On landing styles, run `npm run build:site` so `assets/styles.css` is GitHub Pages-ready and the latest metadata + sharing assets remain deployable.
 
@@ -65,7 +65,7 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 ### Stylesheet ownership matrix
 
 - `assets/styles.css`: Global marketing site + shared page shell (source: `scss/styles.scss`).
-- `assets/labs.css`: Crown Labs landing page only (`labs.html`).
+- `assets/labs.css`: Crown Labs landing page and legacy redirect support (`/labs/`, with `labs.html` redirecting to it).
 - `assets/labs-product.css`: Generated product brief pages in `labs/products/`.
 - `emergency-911/dist/911.css`: Emergency 911 app surface only.
 - `nexuswho-assets/nexuswho.css`: React/Vite output for `nexuswho.html` only.
@@ -113,9 +113,9 @@ If a visual change appears to be ignored, verify you edited the stylesheet owned
 - [ ] Run `npm run lint:metadata` and resolve any missing/invalid favicon, OG/Twitter image, or `theme-color` references.
 - [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
 - [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
-- [ ] Confirm `index.html` is the primary author homepage (no redirect), and `labs/index.html` still redirects cleanly to `labs.html`.
+- [ ] Confirm `index.html` is the primary author homepage (no redirect), `/labs/` is the canonical Crown Labs landing page, and `labs.html` redirects cleanly to `/labs/`.
 - [ ] Confirm homepage nav behavior: header toolbar share button works, mega-menu theme toggle works, and the first paint defaults to dark mode.
-- [ ] Confirm `labs.html` keeps brand-green browser chrome (`theme-color`, pinned-tab color, favicon links) and valid OG/Twitter social image URLs.
+- [ ] Confirm `/labs/` and the `labs.html` redirect keep Crown Labs browser chrome (`theme-color`, favicon links) and valid OG/Twitter social image URLs.
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
