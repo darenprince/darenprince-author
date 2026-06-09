@@ -158,20 +158,28 @@ button {
   color: var(--text);
   border-radius: var(--radius-md);
   transition:
-    background 0.16s ease,
-    border-color 0.16s ease,
-    color 0.16s ease;
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .cl-icon-btn {
   width: 36px;
   height: 36px;
+  padding: 0;
 }
 .cl-tool-btn {
-  height: 34px;
-  gap: 7px;
-  padding: 0 10px;
-  font-size: 0.77rem;
+  height: 32px;
+  gap: 6px;
+  padding: 0 12px;
+  font-size: 0.75rem;
   color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.cl-tool-btn .ms-icon {
+  font-size: 16px;
 }
 .cl-icon-btn:hover,
 .cl-tool-btn:hover {
@@ -334,36 +342,44 @@ button {
   top: 0;
   top: max(0px, env(safe-area-inset-top));
   z-index: 30;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: flex-start;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 22px;
+  gap: 16px;
   margin-bottom: 30px;
-  padding: 14px 0 18px;
+  padding: 12px 0 16px;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: blur(12px);
 }
 .cl-toolbar-body {
-  display: contents;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
 }
 .toolbar-collapsed .cl-toolbar-body {
   display: none;
 }
 .cl-toolbar-toggle {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  margin-left: auto;
+  order: 10;
 }
 .cl-toolbar-meta {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 .cl-toolbar-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
 }
 .cl-header-logo {
@@ -380,7 +396,8 @@ button {
   flex-wrap: wrap;
   gap: 7px;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
 }
 .cl-breadcrumbs button {
   display: inline-flex;
@@ -390,12 +407,14 @@ button {
   border: 0;
   color: var(--muted);
   padding: 2px 0;
+  transition: color 0.2s ease;
 }
 .cl-breadcrumbs button:hover {
   color: var(--text);
 }
 .cl-breadcrumbs .current {
-  color: var(--heading);
+  color: var(--muted);
+  font-weight: 500;
 }
 .cl-breadcrumbs .sep {
   color: var(--muted-2);
@@ -403,9 +422,10 @@ button {
 .cl-tools {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 7px;
-  min-width: 320px;
+  gap: 8px;
+  margin-left: auto;
 }
 .cl-content {
   font-size: calc(0.98rem * var(--reader-scale));
@@ -608,21 +628,26 @@ button {
     padding: 24px 20px 0;
   }
   .cl-toolbar {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .cl-toolbar-toggle {
-    justify-self: flex-end;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 10px 0 14px;
   }
   .cl-toolbar-body {
-    display: flex;
     flex-direction: column;
-    gap: 14px;
+  }
+  .cl-toolbar-toggle {
+    align-self: flex-end;
+    margin-left: 0;
+  }
+  .cl-toolbar-meta {
+    gap: 10px;
   }
   .cl-tools {
-    justify-content: flex-start;
+    margin-left: 0;
     min-width: 0;
-    margin-top: 15px;
+    margin-top: 10px;
+    justify-content: flex-start;
   }
   .cl-footer-grid {
     grid-template-columns: 1fr;

@@ -61,13 +61,6 @@
       <main class="cl-main">
         <div class="cl-reader">
           <div class="cl-toolbar">
-            <button
-              class="cl-icon-btn cl-toolbar-toggle"
-              id="toolbarToggle"
-              title="Toggle top toolbar"
-            >
-              <span class="ms-icon" aria-hidden="true">expand_less</span>
-            </button>
             <div class="cl-toolbar-body">
               <div class="cl-toolbar-meta">
                 <div class="cl-toolbar-head">
@@ -89,29 +82,36 @@
                 <div class="cl-breadcrumbs" id="breadcrumbRoot"></div>
               </div>
               <div class="cl-tools">
-                <button class="cl-tool-btn" id="themeToggle">
+                <button class="cl-tool-btn" id="themeToggle" title="Toggle theme">
                   <span class="ms-icon" aria-hidden="true">dark_mode</span><span>Theme</span>
                 </button>
-                <button class="cl-tool-btn" id="fontDown">
-                  <span class="ms-icon" aria-hidden="true">text_fields</span>A−
+                <button class="cl-tool-btn" id="fontDown" title="Decrease font size">
+                  <span class="ms-icon" aria-hidden="true">text_fields</span><span>A−</span>
                 </button>
-                <button class="cl-tool-btn" id="fontReset">
-                  <span class="ms-icon" aria-hidden="true">format_size</span>A
+                <button class="cl-tool-btn" id="fontReset" title="Reset font size">
+                  <span class="ms-icon" aria-hidden="true">format_size</span><span>A</span>
                 </button>
-                <button class="cl-tool-btn" id="fontUp">
-                  <span class="ms-icon" aria-hidden="true">text_increase</span>A+
+                <button class="cl-tool-btn" id="fontUp" title="Increase font size">
+                  <span class="ms-icon" aria-hidden="true">text_increase</span><span>A+</span>
                 </button>
-                <button class="cl-tool-btn" id="copyDoc">
-                  <span class="ms-icon" aria-hidden="true">content_copy</span>Copy
+                <button class="cl-tool-btn" id="copyDoc" title="Copy document">
+                  <span class="ms-icon" aria-hidden="true">content_copy</span><span>Copy</span>
                 </button>
-                <button class="cl-tool-btn" id="printDoc">
-                  <span class="ms-icon" aria-hidden="true">print</span>Print
+                <button class="cl-tool-btn" id="printDoc" title="Print document">
+                  <span class="ms-icon" aria-hidden="true">print</span><span>Print</span>
                 </button>
-                <button class="cl-tool-btn" id="shareDoc">
-                  <span class="ms-icon" aria-hidden="true">share</span>Share
+                <button class="cl-tool-btn" id="shareDoc" title="Share document">
+                  <span class="ms-icon" aria-hidden="true">share</span><span>Share</span>
                 </button>
               </div>
             </div>
+            <button
+              class="cl-icon-btn cl-toolbar-toggle"
+              id="toolbarToggle"
+              title="Collapse toolbar"
+            >
+              <span class="ms-icon" aria-hidden="true">expand_less</span>
+            </button>
           </div>
           <article class="cl-content" id="content">
             <p class="cl-empty">Choose a document from the navigation.</p>
