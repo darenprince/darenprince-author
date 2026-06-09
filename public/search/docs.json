@@ -1,6 +1,6 @@
 [
   {
-    "id": "87f2e3af696de584428936a99b325c62",
+    "id": "05973f071b82d4db356c7c66cff05134",
     "url": "/verify-email/",
     "title": "Verify Email - Daren Prince",
     "description": "",
@@ -11,7 +11,7 @@
     "content": "Email Verification Return to login const messageEl = document.querySelector('.status-message'); const searchParams = new URLSearchParams(window.location.search); const mode = searchParams.get('mode'); if (!messageEl) return; messageEl.textContent = mode === 'reset' ? 'Password reset emails are paused while we migrate to the new data platform. We will notify you once the flow is restored.' : 'Email"
   },
   {
-    "id": "9fdf463c3126cc3beb6ee8c31bb059ef",
+    "id": "ec2a33104ee2d318d2f48f5a172cae67",
     "url": "/updated-hero/",
     "title": "Updated Hero Concepts | Daren Prince",
     "description": "Updated Hero concepts for the Daren Prince website: classified, animated, and conversion-ready hero section samples with bold call-to-action patterns.",
@@ -22,7 +22,7 @@
     "content": "Updated Hero Page Hero Section Concept Library This page classifies and demonstrates several high-conversion hero directions for Daren Prince brand campaigns. Every concept includes a message frame, visual motion treatment, and CTA stack. Cinematic Immersive visual-first hero built for launches, announcements, and high-attention storytelling. Product Stack Feature-forward hero pairing the core off"
   },
   {
-    "id": "604f603c4cd1af5b168ff8d6a98160d3",
+    "id": "930dbf67306b2eaeba183f83bcebb0f0",
     "url": "/themes/",
     "title": "Cloud UI Kit — Surgical Match",
     "description": "",
@@ -33,7 +33,7 @@
     "content": "Download Nights Download Nights Helvetica Body LEAGUE SPARTAN — Display ROBOTO BOLD — Section Heading Here is some sample text in the Helvetica system stack. Contrast and bevels match the dark panel’s feel while respecting light-theme luminance. Confident, psychology-backed storytelling, systems, and tools for real transformation. Facebook X (Twitter) YouTube TikTok Explore Home Book Meet Daren Pr"
   },
   {
-    "id": "2f5aeae253fcf5d435f3b9496f229d3d",
+    "id": "d0d1a205976209bb03ed0960a38c340a",
     "url": "/style-classes/",
     "title": "Style Classes",
     "description": "Documentation coming soon.",
@@ -44,7 +44,7 @@
     "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'style-classes', heading: 'Style reference access', message: 'Enter the password to browse the internal style reference.', }); Home Components Guest Dashboard Account Logout Style Classes Documentation coming soon. Confident, psychology-backed storytelling, systems, and tools for real transformation. Faceboo"
   },
   {
-    "id": "914516db4354dff71ce8e59c4d30c186",
+    "id": "fd569d0de4a7994e843e2996b9fe702b",
     "url": "/sitemap/",
     "title": "Site Map | Daren Prince",
     "description": "A clean overview of every live surface, brand experiment, and internal tool running on the Daren Prince platform.",
@@ -55,7 +55,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Site Index Site Map A clean overview of every live surface, brand experiment, and internal tool running on the Daren Prince platform. Core Pages Home (Index) Home (Alt) Book Meet Daren Press Contact Lean In Workbook Promotion Tools Themes Loaders Components Updated Hero Concepts Style Classes Image Index Search Dashboard 911 HXD Landing Hotag Ic"
   },
   {
-    "id": "fd38c125b56b803951be5e6ea0c3a37d",
+    "id": "e8c9ea051c104c0facb23c78099fe37a",
     "url": "/shhh/",
     "title": "shhh",
     "description": "",
@@ -66,7 +66,7 @@
     "content": "This private chat room requires a password. Messages vanish after 30 seconds. Copy/paste and screenshots are disabled for privacy. Enter Welcome. Messages disappear after 30 seconds and cannot be copied or captured. Send const correct = 'Gr@ndCh3r0k33'; const login = document.getElementById('login'); const chatInterface = document.getElementById('chatInterface'); const statusBanner = document.crea"
   },
   {
-    "id": "a67ef50b99fe25454184f0da569dcfe0",
+    "id": "4f9ae670221b3abe5653792ea01882a0",
     "url": "/reset-password/",
     "title": "Reset Password - Daren Prince",
     "description": "",
@@ -77,7 +77,7 @@
     "content": "Reset Password New Password Confirm Password 8+ characters Uppercase letter Lowercase letter Number Symbol Passwords match Update Password Return to login import { initPasswordStrength, passwordsValid, resetPasswordStrength } from './js/password-strength.js'; import { AUTH_DISABLED_MESSAGE, isAuthEnabled } from './js/auth-service.js'; const form = document.getElementById('reset-form'); const messa"
   },
   {
-    "id": "2d9614630d9f2c167a22e3b7690c72b7",
+    "id": "5b2a542ec6636ceee0bd98a364961707",
     "url": "/psychology/",
     "title": "Crown Psychology | Daren Prince Author Platform",
     "description": "Crown Psychology extends the Daren Prince author platform into guided behavioral intelligence, emotional pattern recognition, and action based personal growth.",
@@ -88,7 +88,7 @@
     "content": "Home Books Meet Daren Crown Labs Crown Psychology Media Contact Logout Author platform extension Crown Psychology for real change. A behavioral intelligence layer built from the same work behind Daren Prince’s books: self awareness, emotional pattern recognition, relationship repair, confidence rebuilding, and practical exercises that help people actually get better. Get the behavioral report View"
   },
   {
-    "id": "f5119b551cb082f92f0c200bea4f5565",
+    "id": "47b35512d9453164d776b5424d566455",
     "url": "/promotion-tools/",
     "title": "Promotion Tools | Apple Books Banner Concepts",
     "description": "Ten Apple OEM-inspired Smart App banner treatments for showcasing Game On on Apple Books.",
@@ -99,7 +99,7 @@
     "content": "Apple OEM Smart App Banner Concepts Ten high-fidelity explorations that stay true to Apple’s native Smart App Banner language while giving Game On a premium hero moment. Each tile preserves the familiar badge, white gradient field, and instant Apple Books handoff. Classic Launch .apple-oem-banner--classic A direct homage to Apple’s default with a subtle luminous sweep and balanced spacing. Availab"
   },
   {
-    "id": "2105be19a8cc0c081de226625a540c92",
+    "id": "a7b793ebbad3d32d5d60db4fbaded134",
     "url": "/press/",
     "title": "Press & Media | Daren Prince, Official Assets",
     "description": "Access the official Daren Prince press kit, approved headshots, story angles, and media contact for interviews and speaking requests.",
@@ -110,7 +110,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Media Navigation Overview Press Kit Preview Story Angles Downloads Headshots Media Contact Media Sections Official Media Room Press & MediaResources Download the official press kit, pull approved headshots, and tap into story angles that show how Daren Prince helps people rebuild confidence, trust, and connection. Download Press Kit PDF Request "
   },
   {
-    "id": "1d2967149412e3c686e911e07362c024",
+    "id": "0a0f1c1ae52d8bb343d91165f74d7616",
     "url": "/phoenix/",
     "title": "Operation Phoenix — Alexandria, LA Survival Guide",
     "description": "Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana.",
@@ -121,7 +121,7 @@
     "content": "Loading critical resources… Operation PhoenixHotlinesShelterFoodWi‑Fi / ChargeMedicalBenefitsWorkSafety Plan Operation Phoenix “The Phoenix rises not by chance, but by discipline and fire.” Static survival guide for Alexandria, LA. Scroll down or search. Tap phone numbers to call. Tap Map for directions. Call 911Use 911 for active danger, violence, serious injury, or fire emergencies. Call 988Use "
   },
   {
-    "id": "4ddd9b72c53493200ae50306fba75a6d",
+    "id": "308d404c007d4f0525b5c89fa4a7c403",
     "url": "/ots/",
     "title": "Duck Calls | One-Time Secret Messaging",
     "description": "Duck Calls is a one-time secret message platform powered by OneTimeSecret. Generate self-destructing links, verify API status, and retrieve secrets securely in one client-only cockpit.",
@@ -132,7 +132,7 @@
     "content": "Duck Calls Overview Secret Flow Retrieve Security Live Edge Client-side Encryption Zero traces.Pure control. Duck Calls wraps OneTimeSecret into a command deck. Spin up self-destructing links and pull them exactly once without shipping new backend code. Launch secret flow View Documentation Region Sanity Check Ping status endpoints to verify your edge connection. 200 OK < 90ms Select Region US (us"
   },
   {
-    "id": "1f3558f802b0d174bda2e205617f1d34",
+    "id": "6264058f12c3373c34d4126f0f2b4fb6",
     "url": "/nexuswho/",
     "title": "Vibe Prism — Personality Spark Quiz",
     "description": "Vibe Prism is a fast, feel-good personality quiz that mirrors your vibe and saves a private Nexus Who profile.",
@@ -143,7 +143,7 @@
     "content": "Nexus Who Vibe Prism is loading... If this screen doesn’t change in a few seconds, the app bundle isn’t loading. This usually happens when the nexuswho-assets/ folder is missing from the GitHub Pages deploy or the path is incorrect. Confirm nexuswho-assets/ is committed alongside nexuswho.html. Open nexuswho-assets/nexuswho.js directly to verify the bundle is reachable. Use /nexuswho.html or /nexu"
   },
   {
-    "id": "79f28036fdc0b117ef9182e9f3642e36",
+    "id": "7a14a6854e4cb68975b3b8aea5a805ca",
     "url": "/meet-daren-prince/",
     "title": "Meet Daren Prince | Author, Speaker & Strategist",
     "description": "Meet Daren Prince. Author of Game On! and Unshakable with a mission to turn hard earned lessons into tools for honest connection.",
@@ -154,7 +154,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Author • Speaker • Strategist Daren Prince:Clarity with Conviction Daren Prince writes with clarity and conviction. His mission is simple: turn hard earned lessons into tools that help people connect with confidence, honesty, and purpose. Press Kit & Media Room Get The Books Head Shot of Daren Prince Sr. Shot at Book Launch event in Pineville, L"
   },
   {
-    "id": "f908450e42e322d13acedc794c885c34",
+    "id": "5e5aea1422cf1eeec88c9ee33184b7d9",
     "url": "/login/",
     "title": "Account Access - Daren Prince",
     "description": "Forgot password?",
@@ -165,7 +165,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Member Login Email Password Forgot password? Password Confirm Password 8+ characters Uppercase letter Lowercase letter Number Symbol Passwords match First Name Last Name Phone Shipping Address Sign In Need an account? Sign Up"
   },
   {
-    "id": "4770508130160cb0a3c5956c952d8bbb",
+    "id": "033229eceed77dc70bf4c2504fa26fe1",
     "url": "/loaders/",
     "title": "Loader Showcases | Daren Prince",
     "description": "",
@@ -176,7 +176,7 @@
     "content": "DP Daren Prince UI Lab Loader Animations Cut through dead air and keep visitors engaged. Explore a suite of branded loading animations tuned for a dark-mode expe rience. Each block below showcases a different motion language you can drop into any page or product state. Signature Monogram Loader The hero treatment for brand-first experiences. The DP monogram pulses with a crown spark and a sweeping"
   },
   {
-    "id": "71fe64a907cd3e128bb51c69cc7951e4",
+    "id": "b5e7e9510c89944ec7c9a85211a2b8bb",
     "url": "/leanin/",
     "title": "Crown Psychology - Therapeutic Workbook",
     "description": "Crown Psychology Lean In therapeutic workbook for attachment and emotional regulation support, with guided tools and downloadable worksheets.",
@@ -187,18 +187,18 @@
     "content": "Preparing your Lean In workbook... Breathe in, breathe out, you're almost there. cloud_done Progress saved 9:41 ••• Lean In by Crown Psychology Login Sign Up Continue as a guest 9:41 ••• Welcome,Glad to see you! Forgot Password? Login Or Login with Google Facebook Don't have an account? Sign Up Now 9:41 ••• Create Accountto get started now! Sign Up Or Sign Up with Google Facebook Already have an a"
   },
   {
-    "id": "38d0b7538c9232cbe24ab72db75364ae",
+    "id": "d59de31597f44350a6a70a959930a774",
     "url": "/labs/",
-    "title": "Crown Labs | Institutional Product Portfolio",
-    "description": "Institutional Crown Labs portfolio built directly from canonical Crown Docs content: governance, product dossiers, and operational intelligence.",
+    "title": "Crown Labs | Public Systems Landing Page",
+    "description": "Crown Labs has moved to the clean /labs/ public landing page for Crown Labs, CrownCode.ai, products, founder information, and documentation links.",
     "date": null,
     "category": "",
     "tags": [],
-    "headings": "Canonical Portfolio SurfaceSynchronized to Crown Docs Direct Documentation Source Purpose Build Philosophy Website Integration Total Products Active Beta Average Readiness",
-    "content": "Crown Labs Portfolio Console Foundation Portfolio Docs Sync Docs App Crown Labs • Institutional Systems Division Canonical Portfolio SurfaceSynchronized to Crown Docs This page now uses Crown Docs as the narrative source of truth for governance, product taxonomy, and operating standards, while preserving data-driven product rendering for filter and readiness workflows. Direct Documentation Source "
+    "headings": "Crown Labs has moved",
+    "content": "Crown Labs has moved The canonical public landing page is now /labs/. For deeper exploration, open /docs/ or /docs/crownlabsbible/."
   },
   {
-    "id": "c4ed76445457453148fa5c4b0ca77f5a",
+    "id": "b9b0ccd81fc3818e393a288c668cb378",
     "url": "/",
     "title": "Daren Prince | Author of Game On and Unshakeable | Confidence, Healing, Real Connection",
     "description": "Author Daren Prince shares real guidance on confidence, dating, and healing so you can trust yourself, choose better, and build lasting love.",
@@ -209,7 +209,7 @@
     "content": "Preparing the Daren Prince author experience Home Books Meet Daren Media Swag Blog Site Map Contact Logout Level Up Your Dating Game SOUND Resume Restart Hide Video Learn the psychology of real connection Trailer Buy Now Reader Reviews What Readers Are Saying About Game On! Real reviews from real readers, verified across Books-A-Million, Apple Books, Google Play, Amazon, and more. Always-ADAM Libe"
   },
   {
-    "id": "b9139ae6d43870f68ed5fc25fc4672d2",
+    "id": "af584ae3f07ccdf15ffffcfc439c8675",
     "url": "/image-index/",
     "title": "Image Index | Daren Prince",
     "description": "Browse a searchable catalog of images from Daren Prince's official site. View and copy asset links quickly.",
@@ -220,7 +220,7 @@
     "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'image-index', heading: 'Image index access', message: 'Enter the password to view the internal image manifest.', }); Home Components Guest Dashboard Account Logout Image Index 0 images Search images Zoom 100% Columns 1 2 3 4 Confident, psychology-backed storytelling, systems, and tools for real transformati"
   },
   {
-    "id": "557bbdea7a20d92738ca55dd7d4e29b1",
+    "id": "8d96f2830f6ad7ca8d5d71a05a10bcc2",
     "url": "/iconifty/",
     "title": "Iconifty - Instant Monochrome SVG Vectorizer",
     "description": "",
@@ -231,7 +231,7 @@
     "content": "Iconifty Offline tracing SVG + CSS export Smart cleanup Upload any bitmap and instantly trace it into a smooth, monochrome SVG icon. Fine-tune the smoothing, color sensitivity, and background cleanup, then download ready-to-use vector code and CSS. Drop an image or click to upload Waiting for an image… Smoothing 2 Color tolerance 160 Smart threshold Ink color #000000 Remove background Auto-crop em"
   },
   {
-    "id": "83353a90fe4425c8a1681b99305bb07d",
+    "id": "dcca259eee2954f4634efd2f5d32407f",
     "url": "/hxd/",
     "title": "HX-D Redirect",
     "description": "",
@@ -242,7 +242,7 @@
     "content": "Redirecting to /hxd/index.html…"
   },
   {
-    "id": "f6b202d1e5ca6c7c036a07850cb8db99",
+    "id": "3a7475f89fb5dc02e84d7adaf273b100",
     "url": "/hotag/",
     "title": "HoTag, Precision Tracking for Questionable Choices",
     "description": "",
@@ -253,7 +253,7 @@
     "content": "HoTag Parody Tech • Comedy Only LumiLogix Drop HoTag, Precision Tracking for Questionable Choices. You can’t control your hoes. But you can control how hard you laugh about them. The parody “people tracker” built for messy adults, chaotic group chats, and anyone with a PhD in ignoring red flags. Get HoTagged Watch How It Works Parody product. For jokes only. Don’t be weird. No real tracking. No no"
   },
   {
-    "id": "458fbb0a0af51f4d80d86929000abe67",
+    "id": "b9bb7170278adea1d7ea6907938d6386",
     "url": "/home/",
     "title": "Daren Prince | Official Author Site",
     "description": "Get direct guidance from Daren Prince on confidence, boundaries, attraction, and healing that helps you stop guessing and start choosing well.",
@@ -264,7 +264,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Daren Prince · Relationship Strategist Stop Getting Played.Start Leading. Bold, psychology-backed guidance for boundaries, attraction, and self-respect, built for people who are done with mixed signals. Get The Book Book Daren to Speak Tactical playbook Scripts, standards, and mindset resets Reader favorite Trusted by ambitious professionals Rea"
   },
   {
-    "id": "eb30b07a9b8ca474bf469126bd7538ae",
+    "id": "2aebb18fc033b22cb92a9c7fcac55722",
     "url": "/haley/",
     "title": "Haley Clinical Report | Priority Care Snapshot",
     "description": "Comprehensive, quick-scan clinical report with urgent risk summary, action plan, and full documentation.",
@@ -275,7 +275,7 @@
     "content": "Secure Access Enter 4-digit PIN to unlock this report. Unlock Report Haley Clinical Report Quick scan + full detail navigation. Critical immediate risk High concern Moderate concern Summary Urgency Known data Top risks Plain English Next actions Self care Tests ER handoff Summary Urgency Risk levels Action checklist ER handoff Not a diagnosis · rapid review aid Comprehensive Clinical Report for Ha"
   },
   {
-    "id": "676d9b17169a9e9f4ac263e6b5040e70",
+    "id": "0b232ea3d7f24618867bc8ab4f4054de",
     "url": "/dashboard/",
     "title": "Dashboard - Daren Prince",
     "description": "",
@@ -286,7 +286,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Guest Dashboard Account Logout Hi User My Files Exclusive Access Profile Subscription & Billing Learning Logout My Files Upload Exclusive Access Profile Avatar Email Password First Name Last Name Phone Birthdate Shipping Address Update Subscription & Billing Coming soon. Learning Coming soon. Confident, psychology-backed storytelling, systems, a"
   },
   {
-    "id": "36d510906c9f7703fada9f22ff835482",
+    "id": "addea09100f6172c90799dff7b2b51c6",
     "url": "/crownlabs/",
     "title": "Crown Labs Redirect",
     "description": "The Crown Labs portfolio has moved to the canonical Labs discovery layer generated from docs/crownlabsbible/.",
@@ -297,7 +297,7 @@
     "content": "Crown Labs has moved The legacy hand-maintained portfolio has been retired. Product metadata now comes from docs/crownlabsbible/. Open the canonical Crown Labs portfolio"
   },
   {
-    "id": "67a7401d8101f8723fb64724155cbc6e",
+    "id": "011fe16a19e5413f856587aeae78e881",
     "url": "/crownlabs-dashboard/",
     "title": "Crown Labs Dashboard Redirect",
     "description": "",
@@ -308,7 +308,7 @@
     "content": "Crown Labs dashboard moved The manually maintained dashboard has been retired. Use the canonical Crown Labs portfolio generated from docs/crownlabsbible/. Open Crown Labs portfolio"
   },
   {
-    "id": "7ebecf672d8d836b8868a5411e26d6b5",
+    "id": "f37cdb4c58562adb388d4897e5a54af4",
     "url": "/contact/",
     "title": "Contact Daren Prince | Media, Coaching & Speaking Inquiries",
     "description": "Want to connect with Daren Prince? Submit interview requests, speaking inquiries, or direct messages here. Let’s talk about it.",
@@ -319,7 +319,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Contact Connect with Daren Princefor readers, media, and events If you're reaching out about interviews, podcast appearances, speaking engagements, or reader support, this is the best place to start. Share clear context and we’ll reply with next steps. press@darenprince.com Typical response time: 1 to 2 business days Media & podcast requests Boo"
   },
   {
-    "id": "cea88d68013d1b54815aafcb031b5c29",
+    "id": "d3aef78c3ca402a0c01ab41856117a73",
     "url": "/components/",
     "title": "UI Components",
     "description": "Scroll the page to see a static background parallax effect in action.",
@@ -330,7 +330,7 @@
     "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'components-library', heading: 'Components preview access', message: 'Enter the access password to explore the component demos.', }); Home Books Meet Daren Media Swag Blog Contact Logout Guest Dashboard Account Logout Style Guide Hero Banner Book Cover Testimonials Downloads Viewer 3D Book Viewer Book Tabs C"
   },
   {
-    "id": "fa36fbb187cbb4590b94150d2ae445fc",
+    "id": "70dbd9e530e865f440b0402441cdee46",
     "url": "/brandon/",
     "title": "Brandon's Inspiration",
     "description": "",
@@ -341,7 +341,7 @@
     "content": "\"Believe in yourself\" \"Dream big, act bigger\" \"Every day is a fresh start\" \"Rise above the noise\" \"Stay hungry for growth\" \"Hustle with heart\" \"Turn setbacks into fuel\" Fuck your shit up and log in now Confident, psychology-backed storytelling, systems, and tools for real transformation. Facebook X (Twitter) YouTube TikTok Explore Home Book Meet Daren Press Contact Site Index Creator & Platform Li"
   },
   {
-    "id": "e890ace1a7d7bcf24699b76915473a3f",
+    "id": "a75f409579fb3444af5a378936ecef55",
     "url": "/book/",
     "title": "Books by Daren Prince | Confidence, Healing, Identity & Connection",
     "description": "Explore all books by Daren Prince. Six transformative titles on confidence, healing, identity, recovery, and real connection.",
@@ -352,7 +352,7 @@
     "content": "Home Books Meet Daren Media Swag Blog Contact Logout Books by Daren Prince Books by Daren Prince Six titles for confidence, healing, identity, and connection Explore the full six-book collection designed to help readers rebuild identity, recover confidence, and create healthier relationships. Explore books Jump to a title Select a book Rooted Too Much Game On! F*CK Codependency Unshakable The Powe"
   },
   {
-    "id": "d022ad335132d46a3f204ac7b0255dac",
+    "id": "2dfe1dae5b249d6c30548b7261f827f9",
     "url": "/admin-user-management/",
     "title": "Admin Console — User Management",
     "description": "",
@@ -363,7 +363,7 @@
     "content": "Operations Command Center Profile management and automation are paused while we migrate to a new data platform. Use the contact links below for urgent role or folder updates. 0 users visible Loading user roster… No users match that filter. Adjust the search query or clear folder toggles. Confident, psychology-backed storytelling, systems, and tools for real transformation. Facebook X (Twitter) You"
   },
   {
-    "id": "7ac287a8f9a4651efa66a9a38404c768",
+    "id": "fa78a464f90209edae469fa82a26273d",
     "url": "/admin-dashboard/",
     "title": "Admin Dashboard",
     "description": "Developer Command",
@@ -374,7 +374,7 @@
     "content": "import { enforcePasswordGate } from './js/password-gate.js'; enforcePasswordGate({ gateId: 'admin-dashboard', heading: 'Admin hub access', message: 'Enter the admin password to open the operations dashboard.', }); Home Books Meet Daren Media Swag Blog Contact Logout Guest Dashboard Account Logout Developer Command Operator Command Center You are the architect of this universe. Every component, sto"
   },
   {
-    "id": "63b881d874bfb73b792e46e94943eb24",
+    "id": "c653867c035642c50d2f5a786be5cc38",
     "url": "/Nate/",
     "title": "Nate's World",
     "description": "",
@@ -385,7 +385,7 @@
     "content": "Welcome to Nate's World Stay relentless. Be unstoppable. Grind today. Glory tomorrow. No fear. Just focus. Discipline builds legends. Every rep is a revolution. Dream big. Move bigger. Own the moment. Own the mission. Rise, roar, repeat. Login to Nate's World Enter the portal and claim your power. Username Password Enter Nate's World Powered by pure motivation. const loginModal = document.getEleme"
   },
   {
-    "id": "eab011ab21c28097a5b71093bbe0f267",
+    "id": "d8e0c05641639ce233a39196b16e3cd0",
     "url": "/All-heroes-demos/",
     "title": "All Hero Examples",
     "description": "",
@@ -396,7 +396,7 @@
     "content": "🧪 All Hero Examples in One Demo Parallax Hero Scroll-Triggered Video Auto-Scaling Hero Parallax Hero Scroll the page to see a static background parallax effect in action. Explore Scroll-Triggered Video As you scroll, the background video fades in for dynamic storytelling. Watch Auto-Scaling Hero This hero shrinks smoothly as the user scrolls down the page. Start const heroes = document.querySelec"
   },
   {
-    "id": "4dcad8886cee750c3fed3cb9b4aa8b3d",
+    "id": "3e2e503eec606cc71e7ac9d960839b37",
     "url": "/911/",
     "title": "Crown SOS Emergency Portal | Daren Prince",
     "description": "Daren Prince has triggered an SOS alert from his device. This indicates he may be in danger or require urgent assistance.",
@@ -407,7 +407,7 @@
     "content": "Preparing emergency portal… Crown SOS Toggle emergency navigation Alert Overview Device Location Recent Context Live Links Evidence Uploads Medical Info If Unresponsive Trackers & Contingencies Recent Photos Mobile SOS Emergency Alert Activated by Daren Prince READ IMMEDIATELY! If you’re reading this, my iPhone triggered an emergency alert. This means I may be in danger, unresponsive, or unable to"
   },
   {
-    "id": "fd63a161999f24fe49f88829841fcf5b",
+    "id": "09f50917a15b60db71864b7b3ff7b79d",
     "url": "/404/",
     "title": "404 | Page Not Found | Daren Prince",
     "description": "This page moved, expired, or never existed. Use the site index or return to safety.",
@@ -418,7 +418,7 @@
     "content": "Home Books Meet Daren Media Contact Site Index Error 404 That page is off the map. We’ll route you back to the homepage automatically. You can also jump to safety now or browse the full site index. Redirecting home in 6s… Back to Safety Site Index Confident, psychology-backed storytelling, systems, and tools for real transformation. Explore Home Book Meet Daren Press Contact Site Index"
   },
   {
-    "id": "68e5d746a3b43eba9da0f6091d30b79f",
+    "id": "bbc2c1c49b1fa3c0410cc5a5a0c031c7",
     "url": "/hxd/vault/",
     "title": "HxD Playground — Vault",
     "description": "",
@@ -429,7 +429,7 @@
     "content": "HXD Playground Private Access Enter 🔥 🤍 HXD Playground Flying high. No safe words. menu home Lounge music_note Soundtrack calendar_month Schedule casino Playground lock Vault chat Backstage The Vault Coupon Wall IOUs that never expire. + One midnight breakfast. No questions. + Full body stretch session. + Slow dance in the kitchen. + Two-song headrest on my shoulder, uninterrupted. + Rain check "
   },
   {
-    "id": "8639874a45f29137d939451e465750e2",
+    "id": "f465dc97c16e05814575e3e92cb1dae9",
     "url": "/hxd/playlist/",
     "title": "HxD Playground — Soundtrack",
     "description": "",
@@ -440,7 +440,7 @@
     "content": "HXD Playground Private Access Enter 🔥 🤍 HXD Playground Flying high. No safe words. menu home Lounge music_note Soundtrack calendar_month Schedule casino Playground lock Vault chat Backstage Our Soundtrack Play it loud. Or don’t. You know what this playlist leads to. Loading Spotify… Set the Mood Submit this soundtrack Open in Spotify Your picks queue Send it when you’re sure Latest selection Wai"
   },
   {
-    "id": "82a63d998acb935cef550b04e4b20b17",
+    "id": "282c3a2fc7e5dbc9106b3f7425b06806",
     "url": "/hxd/games/",
     "title": "HxD Playground — Games",
     "description": "",
@@ -451,7 +451,7 @@
     "content": "HXD Playground Private Access Enter 🔥 🤍 HXD Playground Flying high. No safe words. menu home Lounge music_note Soundtrack calendar_month Schedule casino Playground lock Vault chat Backstage Playground Spin the Dare Heat without the theatrics. More options. No repeats. whatshot Spin It See where the flame lands. Submit this dare Coin Flip Who decides the night? Bias it with a vibe, then flip. cas"
   },
   {
-    "id": "1662bbe54b82d8da7d560377c5416ea5",
+    "id": "31e9e33e8f12ae13b535093d53c81fdf",
     "url": "/hxd/calendar/",
     "title": "HxD Playground — Schedule of Bad Decisions",
     "description": "",
@@ -462,7 +462,7 @@
     "content": "HXD Playground Private Access Enter 🔥 🤍 HXD Playground Flying high. No safe words. menu home Lounge music_note Soundtrack calendar_month Schedule casino Playground lock Vault chat Backstage Schedule of Bad Decisions Suggest a Night Submit this plan Pick a night. I’ll make it memorable. Date Start time Plan Location Duration Pick the run time Quick hit — 1 hour Standard trouble — 2 hours After-ho"
   },
   {
-    "id": "098f648af297af4029cfad5227ed6e6c",
+    "id": "465759cd8e683769580a4f4bb0d6d040",
     "url": "/hxd/backstage/",
     "title": "HxD Playground — Backstage",
     "description": "",
@@ -473,7 +473,7 @@
     "content": "HXD Playground Private Access Enter 🔥 🤍 HXD Playground Flying high. No safe words. menu home Lounge music_note Soundtrack calendar_month Schedule casino Playground lock Vault chat Backstage Backstage Access Open Private Chat Some things don’t belong on the main stage. lock Private Link Leave a Secret Note Keep it discreet. Keep it ours. Seal it Submit latest note Tonight’s call sheet Pick what y"
   },
   {
-    "id": "3af9160245a85674be34d4a088b6383a",
+    "id": "8ac86d69bec38f82b8f79ac990bdd953",
     "url": "/hxd/404/",
     "title": "Wrong Door",
     "description": "",
@@ -484,7 +484,7 @@
     "content": "Wrong door. Turn back."
   },
   {
-    "id": "f16db87a2de46d3ed3eca7625c45a8c9",
+    "id": "8f5ea1305f2b80a75ed1cc62f823c579",
     "url": "/member/",
     "title": "Member Area",
     "description": "",
@@ -495,7 +495,7 @@
     "content": "Member Dashboard Exclusive content will appear here. Email Password Sign In"
   },
   {
-    "id": "f9be637c8d5b2a3a24ebce8ebc46d456",
+    "id": "58c4f1d114d20c8b86c5d463e042d6b6",
     "url": "/labs/products/sentinel-vault/",
     "title": "Sentinel Vault | Crown Labs",
     "description": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
@@ -503,10 +503,10 @@
     "category": "",
     "tags": [],
     "headings": "Sentinel Vault Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "Sentinel Vault Sourced from docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md Back to portfolio Crown Labs Bible Theme Advanced prototype and strategic infrastructure concept Security, survivability, and evidence continuity platform Sentinel Vault Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical informatio"
+    "content": "Sentinel Vault Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Advanced prototype and strategic infrastructure concept Security, survivability, and evidence continuity platform Sentinel Vault Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, "
   },
   {
-    "id": "7bae1c7a56b19572cbd6c88a298d0434",
+    "id": "0ae4b3789343b56af4fe8659d53c2bba",
     "url": "/labs/products/crowncode-ai/",
     "title": "CrownCode.ai | Crown Labs",
     "description": "CrownCode.ai is not positioned as a single standalone application.",
@@ -514,10 +514,10 @@
     "category": "",
     "tags": [],
     "headings": "CrownCode.ai Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "CrownCode.ai Sourced from docs/crownlabsbible/02-products/crowncode-ai.md Back to portfolio Crown Labs Bible Theme Active Development Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer CrownCode.ai CrownCode.ai is not positioned as a single standalone application. CrownCode.ai is not positioned as a single standalone application. Open canonical dossier Explore port"
+    "content": "CrownCode.ai Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Active Development Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer CrownCode.ai CrownCode.ai is not positioned as a single standalone application. CrownCode.ai is not positioned as a single standalone application. Open documentation "
   },
   {
-    "id": "1b5e78133bf996455c8190893fcfdd27",
+    "id": "2ac64fa02c3b9541d0ba40e9f4ae9f5f",
     "url": "/labs/products/crowncast/",
     "title": "CrownCast | Crown Labs",
     "description": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
@@ -525,10 +525,10 @@
     "category": "",
     "tags": [],
     "headings": "CrownCast Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "CrownCast Sourced from docs/crownlabsbible/04-product-dossiers/crowncast/overview.md Back to portfolio Crown Labs Bible Theme Active conceptual development Daily alignment and motivational platform CrownCast CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment. CrownCast is a daily alignment an"
+    "content": "CrownCast Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Active conceptual development Daily alignment and motivational platform CrownCast CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment. CrownCast is a daily alignment "
   },
   {
-    "id": "a0537af992a43e59db49e6dfaedfc016",
+    "id": "f2c7c20bc524cc376112c5cb4547d3b8",
     "url": "/labs/products/crowncam/",
     "title": "CrownCam | Crown Labs",
     "description": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
@@ -536,10 +536,10 @@
     "category": "",
     "tags": [],
     "headings": "CrownCam Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "CrownCam Sourced from docs/crownlabsbible/04-product-dossiers/crowncam/overview.md Back to portfolio Crown Labs Bible Theme Advanced prototype and tested deployment architecture Live monitoring, security, and remote continuity platform CrownCam CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems. "
+    "content": "CrownCam Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Advanced prototype and tested deployment architecture Live monitoring, security, and remote continuity platform CrownCam CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring system"
   },
   {
-    "id": "941362585bc2370137f74b21551a0f31",
+    "id": "3dc29c0f6746f05b4765df49da5710f6",
     "url": "/labs/products/crown-watchtower/",
     "title": "Crown WatchTower | Crown Labs",
     "description": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
@@ -547,10 +547,10 @@
     "category": "",
     "tags": [],
     "headings": "Crown WatchTower Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "Crown WatchTower Sourced from docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md Back to portfolio Crown Labs Bible Theme Active development and strategic infrastructure phase Environmental signal intelligence and operational visibility platform Crown WatchTower Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to "
+    "content": "Crown WatchTower Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Active development and strategic infrastructure phase Environmental signal intelligence and operational visibility platform Crown WatchTower Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to suppo"
   },
   {
-    "id": "b1f2176a9f9349ad110deb8a8bb18c2e",
+    "id": "a7ec4655c2c5559f866d9d3a8ce19c4e",
     "url": "/labs/products/crown-sos/",
     "title": "Crown SOS | Crown Labs",
     "description": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
@@ -558,10 +558,10 @@
     "category": "",
     "tags": [],
     "headings": "Crown SOS Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "Crown SOS Sourced from docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md Back to portfolio Crown Labs Bible Theme Prototype and beta testing phase Emergency coordination and crisis response platform Crown SOS Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preser"
+    "content": "Crown SOS Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Prototype and beta testing phase Emergency coordination and crisis response platform Crown SOS Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, pres"
   },
   {
-    "id": "7a1cfeeb7f63e43db22655652d8cee33",
+    "id": "1fa18fea16e71f64b665f03436ed9d0a",
     "url": "/labs/products/crown-psychology/",
     "title": "Crown Psychology | Crown Labs",
     "description": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
@@ -569,10 +569,10 @@
     "category": "",
     "tags": [],
     "headings": "Crown Psychology Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "Crown Psychology Sourced from docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md Back to portfolio Crown Labs Bible Theme Advanced active platform architecture with production deployment infrastructure Behavioral intelligence and self improvement platform Crown Psychology Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better under"
+    "content": "Crown Psychology Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Advanced active platform architecture with production deployment infrastructure Behavioral intelligence and self improvement platform Crown Psychology Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand"
   },
   {
-    "id": "51b11a80a9ff9391089f601432f792ef",
+    "id": "04f60332a7eadd0f17275947fff4c1a1",
     "url": "/labs/products/ai-cherry-pie/",
     "title": "AI Cherry Pie | Crown Labs",
     "description": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
@@ -580,10 +580,10 @@
     "category": "",
     "tags": [],
     "headings": "AI Cherry Pie Canonical status Source governance Valuation reference What it is Product signals Core capabilities Metadata checks",
-    "content": "AI Cherry Pie Sourced from docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md Back to portfolio Crown Labs Bible Theme Functional standalone software product and framework Writing reconstruction and language refinement platform AI Cherry Pie AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring na"
+    "content": "AI Cherry Pie Sourced from Crown Labs Bible documentation application. Home Products Technology Founder Documentation Contact Theme Functional standalone software product and framework Writing reconstruction and language refinement platform AI Cherry Pie AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natu"
   },
   {
-    "id": "62692ea0c4ec7201daef1dcb3d1ed0fd",
+    "id": "173351d14fc9ed1f13c1bfa758058882",
     "url": "/labs/crowncode/",
     "title": "CrownCode.ai Intelligence Systems Laboratory",
     "description": "CrownCode.ai Intelligence Systems laboratory experience and secure access gate.",
@@ -594,7 +594,7 @@
     "content": "Skip to main content An official CrownCode.ai intelligence property Here’s how you know Here’s how you know Official CrownCode.ai portals operate on secured .ai domains with TLS 1.3 encryption and ongoing compliance reviews. Look for the “https://” prefix or padlock to confirm you are interacting with vetted infrastructure. Calibrating Intelligence Lattice Please stand by while security systems in"
   },
   {
-    "id": "7a4e2203f0b511383a41de6599ea57c9",
+    "id": "5a209d910c5a01d22e269b9bd7843c4c",
     "url": "/Picdetective/summary/",
     "title": "PicDetective Report",
     "description": "",
@@ -605,7 +605,7 @@
     "content": "Ai Powered Forensic Image Analysis Login Unlock Incorrect credentials. Register Forgot password? Register Must be 8 chars with number & symbol I agree to Terms of Use and electronic signature. Register Cancel Forgot Password Send Reset Link Back to Login PIC Detective Home Sections New Analysis Full Analysis Logout Forensic Image Report 🧠 Final Summary: Full Forensic Behavioral & Environmental An"
   },
   {
-    "id": "dade304a517621bed26e1be180121e81",
+    "id": "0246ede67f46388fb9ae13ebde15685c",
     "url": "/Picdetective/reset/",
     "title": "Password Reset",
     "description": "",
@@ -616,7 +616,7 @@
     "content": "Reset Password Reset Password document.getElementById('resetBtn').addEventListener('click',function(){ const p1=document.getElementById('newPass').value; const p2=document.getElementById('newPass2').value; if(p1 && p1===p2){ const user=localStorage.getItem('pdUser')?JSON.parse(localStorage.getItem('pdUser')):null; if(user){ user.password=p1; localStorage.setItem('pdUser',JSON.stringify(user)); } a"
   },
   {
-    "id": "e5f9b844bc76f1d59eeb79e312867252",
+    "id": "f289b0884bf5a003c7e59522619bfa41",
     "url": "/Picdetective/privacy/",
     "title": "Privacy Policy",
     "description": "",
@@ -627,7 +627,7 @@
     "content": "Privacy Policy Pic Detective uses OpenAI's image analysis API to process uploaded files. Images are sent securely to OpenAI for analysis and are not stored by Pic Detective beyond the time needed to complete the request. According to OpenAI's policy, images submitted through the API may be retained for a short period to monitor abuse but are not used to build advertising profiles or shared with th"
   },
   {
-    "id": "93f1b83879b8ed39406233adbd0c2b93",
+    "id": "1c5a9675867bac03637a868f43ec1f7f",
     "url": "/Picdetective/",
     "title": "PicDetective Report",
     "description": "",
@@ -638,7 +638,7 @@
     "content": "Ai Powered Forensic Image Analysis Login Unlock Incorrect credentials. Register Forgot password? Register Must be 8 chars with number & symbol I agree to Terms of Use and electronic signature. Register Cancel Forgot Password Send Reset Link Back to Login PIC Detective Home Sections New Analysis Inventory List Full Analysis Logout Dr. Prince Mode: Full-Spectrum Forensic Report Generated: July 24, 2"
   },
   {
-    "id": "839db33508babeac82ca3c82e87e7f84",
+    "id": "afd70cd18e3cdfd8f397c5cb80586168",
     "url": "/Picdetective/analysis/",
     "title": "PicDetective Report",
     "description": "",
