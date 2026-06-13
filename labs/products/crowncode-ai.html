@@ -1,102 +1,698 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>CrownCode.ai | Crown Labs</title>
-  <meta name="description" content="CrownCode.ai is not positioned as a single standalone application." />
+  <meta name="description" content="CrownCode Intelligence Suite - Multimodal AI-powered forensics and intelligence analysis engine for evidence-ready operations." />
   <meta name="theme-color" content="#0b0f17" />
-  <link rel="canonical" href="https://www.darenprince.com/labs/products/crowncode-ai.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="CrownCode.ai | Crown Labs" />
-  <meta property="og:description" content="CrownCode.ai is not positioned as a single standalone application." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CrownCode Intelligence Suite | Crown Labs" />
+  <meta property="og:description" content="Multimodal AI-powered forensics and intelligence analysis engine for evidence-ready operations." />
   <meta property="og:url" content="https://www.darenprince.com/labs/products/crowncode-ai.html" />
-  <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
+  <meta property="og:image" content="https://www.darenprince.com/labs/assets/crowncode-og.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CrownCode.ai | Crown Labs" />
-  <meta name="twitter:description" content="CrownCode.ai is not positioned as a single standalone application." />
-  <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
+  <meta name="twitter:title" content="CrownCode Intelligence Suite" />
+  <meta name="twitter:description" content="Multimodal AI-powered forensics and intelligence analysis engine" />
+  <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/crowncode-og.png" />
+  
+  <title>CrownCode Intelligence Suite | Crown Labs</title>
   <link rel="icon" type="image/svg+xml" href="../assets/labs-favicon.svg" />
-  <link rel="stylesheet" href="../../assets/labs-product.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0e27;
+      --bg-secondary: #0f1329;
+      --bg-tertiary: #151b3c;
+      --card-bg: #111827;
+      --card-bg-hover: #1a212e;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      --accent: #ff4444;
+      --accent-light: #ff6b5b;
+      --accent-glow: rgba(255, 68, 68, 0.15);
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 24px rgba(255, 68, 68, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #0a0e27 100%);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 68, 68, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 68, 68, 0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 68, 68, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 68, 68, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(255, 68, 68, 0.04) 0%, transparent 35%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ============ HEADER ============ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(15, 19, 41, 0.8) 100%);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-brand img {
+      height: 40px;
+      width: auto;
+    }
+
+    .nav-brand strong {
+      font-size: 1.125rem;
+      font-weight: 800;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .back-link {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 32px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero {
+      padding: 100px 0 80px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 68, 68, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--text) 0%, var(--text-secondary) 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      align-items: center;
+    }
+
+    .hero-logo {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 32px var(--accent-glow);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-bg-hover) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 32px rgba(255, 68, 68, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .stat-detail {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(255, 68, 68, 0.15), rgba(255, 68, 68, 0.08));
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      backdrop-filter: blur(8px);
+      margin-top: 16px;
+    }
+
+    /* ============ SECTIONS ============ */
+    section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 64px;
+      max-width: 720px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.875rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header p {
+      font-size: 1.0625rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ============ CAPABILITIES GRID ============ */
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .capability-card {
+      background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-bg-hover) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow);
+    }
+
+    .capability-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(255, 68, 68, 0.2);
+      transform: translateY(-8px);
+    }
+
+    .capability-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .capability-card h3 {
+      font-size: 1.375rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .capability-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ============ CTA SECTION ============ */
+    .cta-section {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      color: white;
+      border-radius: var(--radius-xl);
+      padding: 80px;
+      text-align: center;
+      margin: 100px 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(255, 68, 68, 0.3);
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: white;
+    }
+
+    .cta-section p {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 36px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      color: var(--text-secondary);
+      padding: 60px 0 28px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.8125rem;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 768px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .cta-section {
+        padding: 60px 28px;
+        margin: 60px 0;
+      }
+
+      .cta-section h2 {
+        font-size: 1.875rem;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .capabilities-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
-<body class="theme-dark product-page">
-  <header class="top-nav">
-    <div class="nav-brand">
-      <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
-      <div>
-        <strong>CrownCode.ai</strong>
-        <div class="footer-note">Sourced from docs/crownlabsbible/02-products/crowncode-ai.md</div>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <a href="../" class="nav-brand">
+        <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
+        <strong>CrownCode Intelligence Suite</strong>
+      </a>
+      <div class="nav-actions">
+        <a class="back-link" href="../#products">Back to Labs</a>
+        <button class="btn btn-primary" onclick="document.querySelector('.cta-section').scrollIntoView({behavior:'smooth'})">Get Started</button>
       </div>
-    </div>
-    <div class="nav-actions">
-      <a class="back-link" href="../#products">Back to Labs</a>
-      <a class="back-link" href="../../docs/crownlabsbible/docs/index.html">Crown Labs Bible</a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">Theme</button>
     </div>
   </header>
 
-  <main>
-    <section class="product-hero">
-      <div>
-        <div class="hero-tags">
-          <span class="tag">Active Development</span>
-          <span class="tag">Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer</span>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="eyebrow">Multimodal Intelligence Suite</div>
+          <h1>Evidence-Ready Intelligence Analysis Platform</h1>
+          <p class="hero-description">
+            Transform fragmented information into actionable, defensible intelligence through AI-accelerated analysis, correlation, behavioral profiling, and operational decision support. Built for evidence-grade operations.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary">Explore Platform</button>
+            <button class="btn" style="background: transparent; border: 2px solid var(--border); color: var(--text);">View Capabilities</button>
+          </div>
+          <div style="margin-top: 16px;">
+            <div class="status-badge">
+              <span>●</span>
+              <span>Stage 1 Beta · Active Testing</span>
+            </div>
+          </div>
         </div>
-        <h1>CrownCode.ai</h1>
-        <p class="subtitle">CrownCode.ai is not positioned as a single standalone application.</p>
-        <p>CrownCode.ai is not positioned as a single standalone application.</p>
-        <div class="access-actions">
-          <a class="primary-btn" href="../../docs/crownlabsbible/02-products/crowncode-ai.md">Open canonical dossier</a>
-          <a class="ghost-btn" href="../#products">Explore Labs</a>
+
+        <div class="hero-visual">
+          <img src="../assets/crowncode_red_3d_icon.png" alt="CrownCode Logo" class="hero-logo" />
+          <div class="stat-card">
+            <div class="stat-label">Current Status</div>
+            <div class="stat-value">Stage 1</div>
+            <div class="stat-detail">Evidence-Ready Beta Testing</div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="panel-grid">
-      <div class="panel-card">
-        <h2>Canonical status</h2>
-        <p><strong>Status:</strong> Active Development</p>
-        <p><strong>Classification:</strong> Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer</p>
-        <p><strong>Readiness signal:</strong> 74% documentation readiness signal</p>
+  <!-- CAPABILITIES SECTION -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Core Intelligence Capabilities</h2>
+        <p>Six integrated competencies designed for evidence-ready operations and defensible analysis.</p>
       </div>
-      <div class="panel-card">
-        <h2>Source governance</h2>
-        <p><strong>Authority:</strong> docs/crownlabsbible/</p>
-        <p><strong>Source file:</strong> docs/crownlabsbible/02-products/crowncode-ai.md</p>
-        <p><strong>Update rule:</strong> edit the dossier first, then regenerate metadata.</p>
-      </div>
-      <div class="panel-card">
-        <h2>Valuation reference</h2>
-        <p>See canonical valuation dossier</p>
-        <p class="footer-note">Financial language remains directional and must be verified against canonical valuation dossiers.</p>
-      </div>
-    </section>
 
-    <section class="section-block">
-      <h2>What it is</h2>
-      <p>CrownCode.ai is not positioned as a single standalone application. It is the operational and technical substrate behind multiple Crown Labs products and initiatives.</p><p>The platform exists to:</p><p>CrownCode.ai acts as the connective framework between behavioral systems, documentation systems, AI tooling, reporting engines, monitoring systems, and future modular services.</p>
-    </section>
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <div class="capability-icon">🧠</div>
+          <h3>Intelligence Fusion</h3>
+          <p>Correlate information across reports, communications, records, media, and operational systems to create a unified, coherent intelligence picture.</p>
+        </div>
 
-    <section class="panel-grid">
-      <div class="panel-card">
-        <h2>Product signals</h2>
-        <ul><li>reduce duplicated development effort</li><li>centralize reusable intelligence systems</li><li>standardize architecture across products</li><li>accelerate launch velocity</li></ul>
-      </div>
-      <div class="panel-card">
-        <h2>Core capabilities</h2>
-        <ul></ul>
-      </div>
-      <div class="panel-card">
-        <h2>Metadata checks</h2>
-        <ul><li><strong>Canonical source:</strong> docs/crownlabsbible/02-products/crowncode-ai.md</li><li><strong>Classification:</strong> Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer</li><li><strong>Status:</strong> Active Development</li></ul>
-      </div>
-    </section>
-  </main>
+        <div class="capability-card">
+          <div class="capability-icon">🔍</div>
+          <h3>Investigative Intelligence</h3>
+          <p>Accelerate workflows through timeline reconstruction, evidence organization, relationship mapping, and automated pattern recognition.</p>
+        </div>
 
-  <footer class="product-footer">
-    <p>© Crown Labs • Generated from canonical Crown Labs Bible metadata.</p>
+        <div class="capability-card">
+          <div class="capability-icon">⚠️</div>
+          <h3>Risk Intelligence</h3>
+          <p>Identify emerging threats, vulnerabilities, escalation indicators, blind spots, and operational risks before they materialize.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">📡</div>
+          <h3>Operational Awareness</h3>
+          <p>Provide decision makers with timely, organized, and actionable intelligence for informed strategic and tactical decisions.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">📚</div>
+          <h3>Knowledge Intelligence</h3>
+          <p>Transform institutional knowledge into searchable, persistent, and discoverable intelligence assets across the organization.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🎯</div>
+          <h3>Behavioral Intelligence</h3>
+          <p>Psychological threat assessment, behavioral modeling, predictive profiling, and escalation forecasting for human-centered operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MULTIMODAL SECTION -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Multimodal Signal Coverage</h2>
+        <p>Analyze evidence across five primary intelligence channels simultaneously for unified understanding.</p>
+      </div>
+
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <div class="capability-icon">📄</div>
+          <h3>Text Analysis</h3>
+          <p>NLP-powered extraction from documents, communications, records, and reports with semantic understanding and entity recognition.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🖼️</div>
+          <h3>Image Intelligence</h3>
+          <p>Computer vision for object detection, facial recognition, scene understanding, and visual correlation across datasets.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🔊</div>
+          <h3>Audio Analysis</h3>
+          <p>Speech recognition, speaker identification, tone analysis, and acoustic pattern matching for voice intelligence.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🎬</div>
+          <h3>Video Intelligence</h3>
+          <p>Temporal analysis, motion detection, behavioral tracking, and multi-subject correlation across frames and sequences.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🔐</div>
+          <h3>Metadata Analysis</h3>
+          <p>Temporal correlation, geolocation patterns, device signatures, and digital forensics integration with chain-of-custody.</p>
+        </div>
+
+        <div class="capability-card">
+          <div class="capability-icon">🔗</div>
+          <h3>Correlation Engine</h3>
+          <p>Cross-modal fusion linking insights across all five channels for unified, defensible intelligence artifacts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUATION SECTION -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Business Valuation & Growth</h2>
+        <p>Asset valuation based on current capabilities and projected market expansion.</p>
+      </div>
+
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <div style="font-size: 1rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Current Valuation</div>
+          <div style="font-size: 2.25rem; font-weight: 900; color: var(--accent); margin-bottom: 8px;">$6M–$10M</div>
+          <p>Stage 1 Beta with evidence-ready capabilities and controlled deployment.</p>
+        </div>
+
+        <div class="capability-card">
+          <div style="font-size: 1rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Projected Valuation</div>
+          <div style="font-size: 2.25rem; font-weight: 900; color: var(--accent); margin-bottom: 8px;">$22M–$38M</div>
+          <p>Post-Phase 1 completion with market validation and expanded deployments.</p>
+        </div>
+
+        <div class="capability-card">
+          <div style="font-size: 1rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Growth Trajectory</div>
+          <div style="font-size: 2.25rem; font-weight: 900; color: var(--accent); margin-bottom: 8px;">47%</div>
+          <p>Average projected annual growth rate across market expansion phases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <div class="cta-section">
+    <div class="container" style="position: relative; z-index: 2;">
+      <h2>Transform Information Into Intelligence</h2>
+      <p>Support investigations, operations, research, and strategic decision-making through a modern intelligence platform designed for evidence-ready operations at scale.</p>
+      <div class="cta-buttons">
+        <button class="btn btn-primary" style="background: white; color: var(--accent);">Request Executive Briefing</button>
+        <button class="btn" style="border: 2px solid white; color: white; background: transparent;">Explore Documentation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Crown Labs · Applied Intelligence Studio · CrownCode Intelligence Suite</p>
   </footer>
 
-  <script src="../../assets/labs-product.js" defer></script>
+  <script>
+    // Smooth scroll for buttons
+    document.querySelectorAll('button, a[href^="#"]').forEach(el => {
+      el.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
