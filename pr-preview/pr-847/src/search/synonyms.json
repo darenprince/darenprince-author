@@ -1,0 +1,7 @@
+{
+  "ebook": ["e-book", "digital"],
+  "audio": ["audiobook", "listen"],
+  "print": ["paperback", "hardcover"],
+  "game": ["games", "gaming"],
+  "video": ["film", "movie"]
+}

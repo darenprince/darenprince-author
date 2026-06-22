@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-labelledby="t d">
+  <title id="t">Crown Labs</title>
+  <desc id="d">Crown Labs logo wordmark</desc>
+  <rect width="520" height="120" rx="14" fill="#0a0f19"/>
+  <rect x="8" y="8" width="504" height="104" rx="10" fill="none" stroke="#28344a"/>
+  <path d="M40 70l12-24 12 13 14-15 14 26" fill="none" stroke="#ffffff" stroke-width="4"/>
+  <rect x="24" y="28" width="120" height="64" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <text x="166" y="56" fill="#f6f8fd" font-size="36" font-family="Inter,Arial,sans-serif" font-weight="700">CROWN LABS</text>
+  <text x="166" y="86" fill="#96a3bb" font-size="20" font-family="Inter,Arial,sans-serif">A DIVISION OF DAREN PRINCE PUBLISHING</text>
+</svg>

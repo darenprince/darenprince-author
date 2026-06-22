@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+# Minimal extractor placeholder: accepts per-swatch crops and writes CSS/HTML.
+# (Use the already generated CSS/HTML in this package for immediate integration.)

@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+*.env
+*.env.*
+.env.js
+*.env.js
+env.js
+assets/js/env.js
+!supabase/env.js
+!.env.example
+assets/icons/generated/

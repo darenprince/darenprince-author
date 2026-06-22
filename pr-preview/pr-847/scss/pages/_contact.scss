@@ -1,0 +1,315 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+@use '../tokens/colors' as *;
+
+.contact-page {
+  background: $gray-900;
+  color: $contrast-high;
+
+  .contact-hero {
+    padding-block: clamp(3.5rem, 8vw, 6.5rem);
+    background: linear-gradient(140deg, rgba(7, 10, 6, 0.92), rgba(33, 33, 33, 0.92));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .contact-hero__content {
+    display: grid;
+    gap: clamp($spacing-md, 3vw, $spacing-lg);
+    max-width: min(100%, 56rem);
+  }
+
+  .contact-hero__eyebrow {
+    font-size: 0.825rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, $mint-green 72%, $white 28%);
+  }
+
+  .contact-hero__title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .contact-hero__subtitle {
+    margin: 0;
+    color: color-mix(in srgb, $medium-gray 58%, $white 42%);
+    line-height: 1.7;
+    max-width: 58ch;
+  }
+
+  .contact-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 0.8rem;
+      border-radius: $border-radius;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(12, 18, 12, 0.42);
+
+      i,
+      strong {
+        color: $bright-green;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .contact-direct {
+    padding-block: clamp(2.75rem, 7vw, 5rem);
+    background: linear-gradient(165deg, rgba(10, 15, 9, 0.95), rgba(19, 26, 18, 0.88));
+  }
+
+  .contact-direct__grid {
+    display: grid;
+    gap: clamp($spacing-md, 3.5vw, $spacing-xl);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  }
+
+  .contact-card {
+    display: grid;
+    gap: $spacing-sm;
+    padding: clamp(1.35rem, 3.5vw, 2rem);
+    border-radius: calc($border-radius * 1.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(25, 30, 24, 0.78);
+    box-shadow: 0 10px 28px rgba(7, 10, 6, 0.22);
+
+    h2,
+    p {
+      margin: 0;
+    }
+
+    p {
+      color: color-mix(in srgb, $medium-gray 58%, $white 42%);
+      line-height: 1.6;
+    }
+
+    &--highlight {
+      border-color: rgba(135, 189, 114, 0.6);
+      background: linear-gradient(135deg, rgba(69, 111, 58, 0.65), rgba(12, 18, 12, 0.8));
+    }
+  }
+
+  .contact-card__icon {
+    width: 2.85rem;
+    height: 2.85rem;
+    border-radius: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    color: $bright-green;
+    background: rgba(135, 189, 114, 0.16);
+  }
+
+  .contact-card__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: color-mix(in srgb, $medium-gray 52%, $white 48%);
+
+      i {
+        color: $bright-green;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: rgba(135, 189, 114, 0.5);
+        text-underline-offset: 0.2em;
+      }
+    }
+  }
+
+  .contact-form-section {
+    padding-block: clamp(3rem, 8vw, 5rem);
+  }
+
+  .contact-form__layout {
+    display: grid;
+    gap: clamp($spacing-lg, 5vw, 4rem);
+
+    @include respond-to(lg) {
+      grid-template-columns: minmax(18rem, 0.95fr) minmax(0, 1.2fr);
+    }
+  }
+
+  .contact-form__sidebar {
+    display: grid;
+    gap: $spacing-sm;
+
+    h2,
+    p {
+      margin: 0;
+    }
+
+    p {
+      color: color-mix(in srgb, $medium-gray 56%, $white 44%);
+      line-height: 1.7;
+    }
+  }
+
+  .contact-meta {
+    margin-top: $spacing-sm;
+    padding: 1.1rem;
+    border-radius: $border-radius;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(12, 18, 12, 0.56);
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .contact-meta__item {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .contact-meta__label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: color-mix(in srgb, $medium-gray 70%, $white 30%);
+  }
+
+  .contact-meta__value {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+
+    i {
+      color: $bright-green;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .contact-meta__social a {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-form__content {
+    border-radius: calc($border-radius * 1.2);
+    padding: clamp(1.25rem, 3.5vw, 2rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(12, 18, 12, 0.58);
+  }
+
+  .contact-form {
+    display: grid;
+    gap: $spacing-sm;
+  }
+
+  .form-grid {
+    display: grid;
+    gap: $spacing-sm;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .form-group {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    border-radius: 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(9, 12, 9, 0.74);
+    color: $contrast-high;
+    padding: 0.72rem 0.88rem;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 11rem;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid rgba(135, 189, 114, 0.42);
+    outline-offset: 1px;
+    border-color: rgba(135, 189, 114, 0.75);
+  }
+
+  .form-help {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: color-mix(in srgb, $medium-gray 56%, $white 44%);
+  }
+
+  .form-help__counter[data-state='ok'] {
+    color: color-mix(in srgb, $bright-green 70%, $white 30%);
+  }
+
+  .form-help__counter[data-state='ready'] {
+    color: $bright-green;
+  }
+
+  .checkbox-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.95rem;
+
+    input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: $lime-green;
+    }
+  }
+
+  .form-group--error label,
+  .is-invalid {
+    color: #ffb8b8;
+    border-color: rgba(255, 112, 112, 0.8);
+  }
+
+  .form-status {
+    min-height: 1.25rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .form-status[data-tone='error'] {
+    color: #ff8f8f;
+  }
+
+  .form-status[data-tone='success'] {
+    color: $bright-green;
+  }
+}

@@ -1,0 +1,51 @@
+@use 'variables' as *;
+@use '../tokens/colors' as *;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  background-image:
+    linear-gradient(180deg, rgba(8, 12, 9, 0.74), rgba(8, 12, 9, 0.9)),
+    url('https://www.darenprince.com/assets/images/sitebg/bc72a06c02787be02a3d838d93bcd82b.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: $white;
+  position: relative;
+  z-index: 0;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}

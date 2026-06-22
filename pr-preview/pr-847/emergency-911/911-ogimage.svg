@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Crown SOS Emergency Placeholder</title>
+  <desc id="desc">Placeholder social image for the Crown SOS emergency portal metadata.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1f" />
+      <stop offset="100%" stop-color="#d64646" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <g fill="#fff" font-family="'Sofia Sans', 'Inter', system-ui, -apple-system, sans-serif">
+    <text x="60" y="170" font-size="64" font-weight="700" letter-spacing="0.02em">CROWN SOS</text>
+    <text x="60" y="250" font-size="40" font-weight="600" letter-spacing="0.01em">Emergency Portal</text>
+    <text x="60" y="340" font-size="32" font-weight="500" fill="#f5e9e9">Live distress signal and evidence vault</text>
+    <text x="60" y="410" font-size="24" font-weight="500" fill="#f5e9e9">Placeholder image until production artwork is added</text>
+  </g>
+  <circle cx="1040" cy="150" r="70" fill="none" stroke="#f0bebe" stroke-width="8" opacity="0.75" />
+  <circle cx="1040" cy="150" r="44" fill="none" stroke="#f7dede" stroke-width="6" opacity="0.75" />
+  <circle cx="1040" cy="150" r="20" fill="#f7dede" opacity="0.9" />
+  <rect x="960" y="350" width="180" height="46" rx="10" fill="#f0bebe" opacity="0.35" />
+  <rect x="980" y="365" width="140" height="16" rx="8" fill="#f7dede" opacity="0.9" />
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1350" viewBox="0 0 900 1350" role="img" aria-labelledby="t d">
+  <title id="t">Too Much cover</title><desc id="d">Book cover for Too Much: The Making, Unmaking and Reclaiming of Me</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e2f43"/><stop offset="1" stop-color="#0d0f14"/></linearGradient></defs>
+  <rect width="900" height="1350" fill="url(#bg)"/>
+  <text x="80" y="250" fill="#eff8ff" font-size="112" font-family="Arial Black, Arial, sans-serif">TOO MUCH</text>
+  <text x="80" y="320" fill="#9ec3dd" font-size="33" font-family="Arial, sans-serif">THE MAKING, UNMAKING AND RECLAIMING OF ME</text>
+  <rect x="80" y="390" width="740" height="3" fill="#9ec3dd" opacity=".5"/>
+  <text x="80" y="1160" fill="#d8ecff" font-size="56" font-family="Arial, sans-serif">DAREN M. PRINCE</text>
+</svg>

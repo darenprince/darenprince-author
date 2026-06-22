@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Operation Phoenix — Alexandria, LA Survival Guide</title>
+  <meta name="description" content="Operation Phoenix: static survival resource guide for shelter, food, Wi-Fi, charging, medical, and stabilization resources in Alexandria, Louisiana." />
+  <meta name="theme-color" content="#b31217" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#b31217" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#b31217" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" />
+  <link rel="apple-touch-icon" href="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" />
+  <link rel="manifest" href="./phoenix.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800" rel="stylesheet" />
+  <script defer src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <style>
+    :root {
+      --bg: #1f2630;
+      --bg-soft: #1a212b;
+      --canvas: #161c24;
+      --panel: #252c35;
+      --panel-2: #222933;
+      --panel-3: #2b333d;
+      --text: #f2f4f7;
+      --muted: #a7b0be;
+      --accent: #ff4a45;
+      --accent-2: #f4bc34;
+      --ok: #47c98a;
+      --radius: 8px;
+      --shadow-sm: 0 4px 16px rgba(7, 10, 18, .24);
+      --shadow-md: 0 12px 28px rgba(7, 10, 18, .32);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at 14% -12%, rgba(214, 63, 78, 0.14), transparent 42%), linear-gradient(180deg, #1e252f 0%, #171d26 44%, #111722 100%);
+      color: var(--text);
+      line-height: 1.45;
+      padding: 72px 0 78px;
+    }
+
+    
+    .brand-mini { display:flex; align-items:center; gap:10px; color:var(--text); font-weight:700; }
+    .brand-mini img { width:30px; height:30px; border-radius:6px; }
+
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #ff6a61; outline-offset: 2px; }
+    .toolbar { position: fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; background: linear-gradient(180deg, rgba(19, 23, 31, .96), rgba(14, 18, 26, .94)); padding:10px 14px; backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
+    .menu-btn { border:0; background:rgba(49, 56, 69, 0.82); border-radius:6px; height:42px; width:42px; color:var(--text); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
+    .menu-panel { position: fixed; right:14px; top:62px; z-index:70; min-width:220px; background:#252c35; border-radius:8px; padding:8px; box-shadow:var(--shadow-md); }
+    .menu-panel a{ display:block; color:var(--text); text-decoration:none; font-weight:600; padding:10px; border-radius:6px; }
+    .menu-panel a:hover{ background:#2d3540; }
+    .loader{ position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:rgba(31,38,48,.96); transition:opacity .25s ease, visibility .25s ease; }
+    .loader[aria-hidden="true"]{ opacity:0; visibility:hidden; }
+    .loader-ring{ width:84px; height:84px; border-radius:50%; border:3px solid #aeb4be; border-top-color:#ff4a45; margin:0 auto 8px; animation:spin 1s linear infinite;}
+    .loader-logo{ width:78px; height:78px; border-radius:10px; animation:pulse 1.2s infinite ease-in-out;}
+
+    .container { width: min(100%, 860px); margin: 0 auto; padding: 14px 14px 24px; }
+    .hero {
+      background: linear-gradient(145deg, #222a33, #1f2730 65%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 16px;
+    }
+    .hero-top { display: flex; gap: 12px; align-items: center; }
+    .icon { width: 64px; height: 64px; border-radius: 8px; }
+    h1 { margin: 0; font-size: 1.4rem; letter-spacing: .2px; }
+    .motto { margin: 6px 0 0; color: var(--accent); font-weight: 650; font-size: .95rem; }
+    .sub { margin: 10px 0 4px; color: var(--muted); }
+    .note { margin: 10px 0 0; background: linear-gradient(120deg, rgba(244,188,52,.22), rgba(255,74,69,.16)); padding: 10px; border-radius: 6px; color: #ffe4bb; }
+
+    .quick-actions, .chips { display: grid; gap: 10px; margin-top: 14px; }
+    .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .chips { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; border-radius: 6px; min-height: 50px;
+      padding: 10px 12px; font-weight: 700; font-size: .98rem;
+      border: 0; color: var(--text); background: linear-gradient(180deg, #2b333d, #262d36);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn.hot { background: linear-gradient(170deg, #ff5c5c, #c61325 76%); color:#fff; }
+    .btn.gold { background: linear-gradient(170deg, #f5c84d, #e6a82a); color: #1d1f22; }
+
+    .search-wrap { margin: 14px 0; }
+    .search {
+      width: 100%; min-height: 50px; border: 0; border-radius: 8px;
+      background: #2a313b; color: var(--text); padding: 12px 14px; font-size: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+
+    section { margin-top: 18px; }
+    .section-title { font-size: 1.2rem; margin: 0 0 10px; }
+    .section-sub { color: var(--muted); margin-bottom: 10px; }
+
+    .cards { display: grid; gap: 12px; }
+    .card {
+      opacity: 0; transform: translateY(16px); animation: reveal .45s ease forwards;
+      background: linear-gradient(170deg, var(--panel), var(--panel-2));
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .label { display: inline-block; font-size: .78rem; background: #303742; color: #f1f3f5; border-radius: 999px; padding: 4px 8px; margin-bottom: 8px; }
+    .name { margin: 0; font-size: 1.08rem; }
+    .meta { margin: 7px 0; color: var(--muted); font-size: .95rem; }
+    .notes { margin: 8px 0; }
+    .script { margin-top: 8px; padding: 10px; border-radius: 6px; background: linear-gradient(120deg, rgba(255,74,69,.25), rgba(255,74,69,.08)); color: #ffd8d5; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-size: .76rem; padding: 4px 8px; border-radius: 999px; background: #303842; color: #d7dce2; display:inline-flex; align-items:center; gap:6px; }
+    .tag iconify-icon{font-size:.9rem;}
+    .tooltip-wrap{position:relative;display:block;}
+    .info-tip{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:rgba(17,23,34,.72);border:1px solid rgba(255,255,255,.16);margin:0;cursor:help;color:#fff;z-index:2;}
+    .tooltip-text{position:absolute;top:8px;right:36px;min-width:170px;max-width:220px;background:#111722;color:#f5f7fa;font-size:.74rem;padding:8px;border-radius:6px;box-shadow:var(--shadow-sm);opacity:0;pointer-events:none;transition:opacity .2s ease;}
+    .tooltip-wrap .btn{width:100%;}
+    .tooltip-wrap:hover .tooltip-text,.tooltip-wrap:focus-within .tooltip-text{opacity:1;}
+    .toast-region{position:fixed;top:74px;right:14px;display:grid;gap:8px;z-index:120;}
+    .toast{background:#1d2430;border-left:4px solid var(--accent);padding:10px 12px;border-radius:8px;color:#f5f7fa;box-shadow:var(--shadow-md);font-size:.86rem;opacity:0;transform:translateY(-6px);animation:toastIn .2s ease forwards;}
+    .toast.success{border-left-color:#47c98a;}
+    .toast.info{border-left-color:#f4bc34;}
+    .chip{justify-content:flex-start;}
+    .chip iconify-icon{font-size:1.05rem;}
+
+    .actions { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 10px; }
+    .actions .btn { min-height: 44px; font-size: .9rem; }
+    .small { font-size: .83rem; color: var(--muted); }
+
+    details summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+
+    .last-resort { background: linear-gradient(165deg, #212933, #1f2630); border-radius: 8px; padding: 14px; box-shadow: var(--shadow-sm); }
+    .last-resort ul { padding-left: 20px; margin: 10px 0; }
+    .strong-line { color: #ffd38a; font-weight: 750; }
+
+    .bottom-nav {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: rgba(31, 39, 49, .96);
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 -8px 20px rgba(7,10,18,.28);
+    }
+    .bottom-nav a {
+      color: var(--text); text-decoration: none; font-size: .8rem; text-align: center;
+      background: #2a313b; border-radius: 6px; padding: 8px 4px;
+      min-height: 42px; display: flex; align-items: center; justify-content: center;
+    }
+
+    #backToTop {
+      position: fixed; right: 12px; bottom: 86px; border:0; background: linear-gradient(170deg, #f5c84d, #e9aa2d);
+      color: #1f2227; border-radius: 999px; width: 50px; height: 50px; display: none;
+      font-weight: 800; box-shadow: var(--shadow-sm);
+    }
+
+    .site-footer { margin-top: 20px; padding: 16px 0 84px; color: var(--muted); font-size:.88rem; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+    .site-footer a { color: #ffd38a; text-decoration:none; }
+    .hidden { display: none !important; }
+    @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 50% { transform: scale(1.05); } }
+    @keyframes toastIn { to { opacity:1; transform:translateY(0);} }
+    @media (max-width:720px){ .chips { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="loader" id="appLoader" role="status" aria-live="polite"><div><div class="loader-ring" aria-hidden="true"></div><img class="loader-logo" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix logo" /><p>Loading critical resources…</p></div></div>
+  <header class="toolbar" aria-label="Top toolbar"><div class="brand-mini"><img src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Phoenix icon" /><span>Operation Phoenix</span></div><button class="menu-btn" id="menuToggle" type="button" aria-expanded="false" aria-controls="anchorMenu" aria-label="Open section menu"><iconify-icon icon="tabler:menu-2" aria-hidden="true"></iconify-icon></button><nav class="menu-panel hidden" id="anchorMenu" aria-label="Anchor menu"><a href="#hotlines">Hotlines</a><a href="#shelter">Shelter</a><a href="#food">Food</a><a href="#wifi">Wi‑Fi / Charge</a><a href="#medical">Medical</a><a href="#benefits">Benefits</a><a href="#work">Work</a><a href="#last-resort">Safety Plan</a></nav></header>
+  <main class="container" id="home">
+    <header class="hero">
+      <div class="hero-top">
+        <img class="icon" src="https://www.darenprince.com/app%20icons/op-phoenix-icon.png" alt="Operation Phoenix app icon" />
+        <div>
+          <h1>Operation Phoenix</h1>
+          <p class="motto">“The Phoenix rises not by chance, but by discipline and fire.”</p>
+        </div>
+      </div>
+      <p class="sub">Static survival guide for Alexandria, LA.</p>
+      <p class="note">Scroll down or search. Tap phone numbers to call. Tap Map for directions.</p>
+    </header>
+
+    <section class="quick-actions" aria-label="Emergency quick actions">
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:911"><iconify-icon icon="tabler:alert-triangle-filled" aria-hidden="true"></iconify-icon>Call 911</a><button type="button" class="info-tip" aria-label="Why call 911" data-tip="Use 911 for active danger, violence, serious injury, or fire emergencies."><iconify-icon icon="tabler:info-circle"></iconify-icon></button><span class="tooltip-text">Use 911 for active danger, violence, serious injury, or fire emergencies.</span></div>
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:988"><iconify-icon icon="tabler:heart-handshake" aria-hidden="true"></iconify-icon>Call 988</a><button type="button" class="info-tip" aria-label="Why call 988" data-tip="Use 988 for panic, emotional crisis, or suicidal thoughts."><iconify-icon icon="tabler:info-circle"></iconify-icon></button><span class="tooltip-text">Use 988 for panic, emotional crisis, or suicidal thoughts.</span></div>
+      <div class="tooltip-wrap"><a class="btn hot call-main" href="tel:211"><iconify-icon icon="tabler:phone-call" aria-hidden="true"></iconify-icon>Call 211</a><button type="button" class="info-tip" aria-label="Why call 211" data-tip="Use 211 for shelter, food, and local aid coordination."><iconify-icon icon="tabler:info-circle"></iconify-icon></button><span class="tooltip-text">Use 211 for shelter, food, and local aid coordination.</span></div>
+      <a class="btn" href="#shelter"><iconify-icon icon="tabler:building-community"></iconify-icon>Shelter Now</a>
+      <a class="btn" href="#food"><iconify-icon icon="tabler:bowl-spoon"></iconify-icon>Food Today</a>
+      <a class="btn" href="#wifi"><iconify-icon icon="tabler:wifi"></iconify-icon>Wi-Fi / Charge</a>
+    </section>
+
+    <div class="search-wrap">
+      <label for="search" class="small">Search all resources</label>
+      <input id="search" class="search" type="search" placeholder="Search shelter, food, Wi-Fi, hospital, ID, work..." aria-label="Search resources" />
+    </div>
+
+    <nav class="chips" aria-label="Category navigation">
+      <a class="btn chip" href="#emergency" data-filter="Emergency">Emergency</a><a class="btn chip" href="#shelter" data-filter="Shelter">Shelter</a><a class="btn chip" href="#food" data-filter="Food">Food</a>
+      <a class="btn chip" href="#wifi" data-filter="Wi-Fi">Wi-Fi</a><a class="btn chip" href="#charging" data-filter="Charging">Charging</a><a class="btn chip" href="#safe-indoors" data-filter="Safe Indoors">Safe Indoors</a>
+      <a class="btn chip" href="#benefits" data-filter="Benefits">Benefits</a><a class="btn chip" href="#medical" data-filter="Medical">Medical</a><a class="btn chip" href="#work" data-filter="Work">Work</a>
+      <a class="btn chip" href="#hotlines" data-filter="Hotlines">Hotlines</a><a class="btn chip" href="#last-resort" data-filter="Last Resort">Last Resort</a><button class="btn" id="showAll" type="button"><iconify-icon icon="tabler:layout-grid"></iconify-icon>Show All</button>
+    </nav>
+
+    <section id="hotlines"><h2 class="section-title">Emergency Hotlines</h2><div class="cards" id="emergency"></div></section>
+    <section id="shelter"><h2 class="section-title">Shelter / Housing</h2><div class="cards"></div></section>
+    <section id="food"><h2 class="section-title">Food</h2><div class="cards"></div></section>
+    <section id="wifi"><h2 class="section-title">Free Wi-Fi / Charging / Bathrooms</h2><div class="cards" id="charging"></div></section>
+    <section id="medical"><h2 class="section-title">Safe Indoor / Medical</h2><div class="cards" id="safe-indoors"></div></section>
+    <section id="benefits"><h2 class="section-title">Benefits / ID / Housing Assistance</h2><div class="cards"></div></section>
+    <section id="work"><h2 class="section-title">Work Now / Survival Income</h2><div class="cards"></div></section>
+
+    <section id="last-resort" class="last-resort">
+      <h2 class="section-title">Last Resort Safety Plan</h2>
+      <ul>
+        <li>If no shelter is available, prioritize visibility and safety.</li>
+        <li>Hospitals are safer than isolated streets.</li>
+        <li>Stay near lighting, cameras, bathrooms, and other people.</li>
+        <li>Avoid abandoned buildings, isolated woods, and hidden areas.</li>
+        <li>Keep your phone charged.</li>
+        <li>Conserve battery.</li>
+        <li>Keep belongings close.</li>
+        <li>Avoid conflict.</li>
+        <li>Get water first, calories second, rest third.</li>
+        <li>One safe night matters.</li>
+      </ul>
+      <p class="strong-line">The goal tonight is not to solve your entire life. The goal is to stay alive, stay safe, and wake up with options.</p>
+    </section>
+
+    <footer class="site-footer">
+      <div>Operation Phoenix • Alexandria, Louisiana</div>
+      <div><a href="#home">Back to top</a> · Updated for quick-response mobile use</div>
+    </footer>
+  </main>
+
+  <button id="backToTop" aria-label="Back to top"><iconify-icon icon="tabler:arrow-up"></iconify-icon></button>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <nav class="bottom-nav" aria-label="Sticky navigation">
+    <a href="#home"><iconify-icon icon="tabler:home"></iconify-icon>&nbsp;Home</a><a href="#shelter"><iconify-icon icon="tabler:building-community"></iconify-icon>&nbsp;Shelter</a><a href="#food"><iconify-icon icon="tabler:bowl-spoon"></iconify-icon>&nbsp;Food</a><a href="#wifi"><iconify-icon icon="tabler:wifi"></iconify-icon>&nbsp;Wi-Fi</a><a href="#hotlines"><iconify-icon icon="tabler:phone-call"></iconify-icon>&nbsp;Hotlines</a>
+  </nav>
+
+  <script>
+    const resources = [
+      ["Emergency","911","Emergency Services","911","Immediate danger, medical emergency, fire, violence, active threat.","",["urgent","police","fire","ambulance"]],
+      ["Hotlines","988 Suicide & Crisis Lifeline","National","988","Mental health crisis, emotional overwhelm, suicide crisis, panic.","",["mental health","crisis"]],
+      ["Hotlines","211","Louisiana Resource Referral","211","Shelter, food, benefits, emergency services, coordinated entry referrals.","",["referral","shelter","food","benefits"]],
+      ["Hotlines","Veterans Homeless Hotline","National","877-424-3838","Homelessness and crisis support for veterans.","",["veterans","housing"]],
+      ["Hotlines","Domestic Violence Hotline","National","800-799-7233","Domestic violence safety planning and shelter support.","",["domestic violence","safety"]],
+      ["Shelter","Hope House of Central Louisiana","5115 S MacArthur Dr, Alexandria, LA 71302","318-487-2061","Emergency shelter intake, homelessness support, meals, case management. Call first for shelter tonight.","I’m homeless tonight in Alexandria and need emergency shelter intake. Do you have any beds or referrals available right now?",["beds","meals","case management"]],
+      ["Shelter","TRIPLE 8 Housing Solutions","3327 Jackson St, Alexandria, LA 71301","318-240-4732","Temporary housing and housing stabilization support.","I’m currently homeless and need temporary housing or emergency placement help. What intake steps do I need?",["temporary housing","stabilization"]],
+      ["Shelter","Central Louisiana Homeless Coalition","1515 Jackson St, Alexandria, LA 71301","318-443-0500 ext. 1203","Coordinated Entry, housing assessments, rapid rehousing pathways, housing lists.","I need a housing assessment and to be added to Coordinated Entry as soon as possible.",["coordinated entry","rehousing"]],
+      ["Shelter","The Salvation Army Alexandria","620 Beauregard St, Alexandria, LA 71301","318-442-0445","Emergency assistance, warming shelter operations, food help, shelter referrals, possible motel voucher referrals.","I’m homeless tonight and need emergency shelter, food, or motel voucher assistance. Is anything available?",["motel voucher","food","shelter"]],
+      ["Shelter","Faith House","Central Louisiana / service area","337-232-8954","Domestic violence shelter and emergency advocacy for people escaping abuse.","I need safe shelter because of domestic violence or abuse. Can you help me with intake?",["domestic violence","safe shelter"]],
+      ["Food","Food Bank of Central Louisiana","3223 Baldwin Ave, Alexandria, LA 71301","318-445-2773","Food pantry and food distribution assistance. Call for current distribution times.","I need food today. When is the next distribution or pantry access?",["pantry","distribution"]],
+      ["Food","St. Vincent de Paul","Alexandria area","N/A","Emergency food, clothing, rent or utility help may be available through parish/church network.","I’m out of food and need emergency food assistance today. Is there a pantry or voucher available?",["food","clothing","church"]],
+      ["Food","Catholic Charities Central Louisiana","Central Louisiana","N/A","Emergency aid, food assistance, shelter referrals, stabilization support.","I need emergency food and shelter referral help. Who can I speak with today?",["emergency aid","referrals"]],
+      ["Food","Journey Church Outreach","Alexandria/Pineville area","N/A","Church outreach may sometimes help with food, basic supplies, or referrals.","I’m homeless and hungry tonight. Is there any emergency food or outreach help available?",["outreach","supplies"]],
+      ["Wi-Fi","Rapides Parish Main Library","411 Washington St, Alexandria, LA 71301","318-445-2411","Free Wi-Fi, bathrooms, charging, indoor seating, job applications, safer daytime location.","",["wifi","charging","bathrooms"]],
+      ["Wi-Fi","Westside Regional Library","5416 Provine Pl, Alexandria, LA 71303","318-442-2483","Free public Wi-Fi, quiet indoor space, charging opportunities.","",["wifi","quiet","indoor"]],
+      ["Wi-Fi","Robertson Branch Library","809 Main St, Pineville, LA 71360","318-442-2483","Free Wi-Fi, indoor public access, job search location.","",["wifi","job search"]],
+      ["Charging","Starbucks Pineville","3820 Monroe Hwy, Pineville, LA 71360","N/A","Wi-Fi, charging, indoor seating. Stay respectful and low profile.","",["charging","wifi","indoor"]],
+      ["Charging","Walmart Supercenter Alexandria","2050 N Mall Dr, Alexandria, LA 71301","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
+      ["Charging","Target Pineville","3800 Monroe Hwy, Pineville, LA 71360","N/A","Guest Wi-Fi, bathrooms, charging possibilities, public visibility.","",["wifi","bathrooms","visibility"]],
+      ["Medical","CHRISTUS St. Frances Cabrini Hospital","3330 Masonic Dr, Alexandria, LA 71301","318-487-1122","24/7 emergency room, safe indoor waiting area, guest Wi-Fi, medical help.","",["24/7","hospital","safe indoors"]],
+      ["Medical","Rapides Regional Medical Center","211 4th St, Alexandria, LA 71301","318-769-3000","24/7 emergency medical services, safe indoor waiting area.","",["24/7","hospital","safe indoors"]],
+      ["Safe Indoors","Pilot / Love’s Travel Stops","Alexandria area","N/A","Bright lighting, bathrooms, food access, Wi-Fi, charging, safer overnight fallback than isolated areas.","",["lighting","bathrooms","fallback"]],
+      ["Benefits","Cenla Community Action Committee","2011 MacArthur Dr, Alexandria, LA 71301","318-314-3480","Rent help, utility help, workforce assistance, housing stabilization referrals.","",["rent help","utility","workforce"]],
+      ["Benefits","Rapides Parish Housing Authority","Rapides Parish / Alexandria area","N/A","Public housing, Section 8, affordable housing information, waitlists.","",["section 8","waitlist","housing"]],
+      ["Benefits","Louisiana OMV Alexandria","5606 Coliseum Blvd, Alexandria, LA 71303","318-487-5942","State ID replacement. ID is critical for shelter, jobs, benefits, and housing.","",["id","documents"]],
+      ["Benefits","Social Security Office Alexandria","3401 North Blvd, Alexandria, LA 71301","800-772-1213","Replacement Social Security card and benefits support.","",["social security","benefits"]],
+      ["Work","PeopleReady","Alexandria area","N/A","Day labor, possible quick-pay work, construction cleanup, warehouse, moving help.","",["day labor","quick pay"]],
+      ["Work","Labor Finders","Alexandria area","N/A","Day labor and temporary staffing options.","",["temp work","day labor"]],
+      ["Work","Facebook Marketplace / Local Labor","Online / local area","N/A","Look for moving help, yard cleanup, hauling, small repair, labor gigs, flipping low-cost items.","",["gigs","online","labor"]]
+    ];
+
+    
+    const categoryMeta = {
+      Emergency:{icon:'tabler:alert-triangle-filled',color:'#f85165'}, Hotlines:{icon:'tabler:phone-call',color:'#ff9463'}, Shelter:{icon:'tabler:building-community',color:'#68a7ff'}, Food:{icon:'tabler:bowl-spoon',color:'#f7c95b'}, 'Wi-Fi':{icon:'tabler:wifi',color:'#58d8d1'}, Charging:{icon:'tabler:bolt',color:'#f8e16f'}, 'Safe Indoors':{icon:'tabler:shield-check',color:'#6ecf9d'}, Medical:{icon:'tabler:stethoscope',color:'#8cb5ff'}, Benefits:{icon:'tabler:file-text',color:'#c798ff'}, Work:{icon:'tabler:briefcase',color:'#ffd38a'}
+    };
+    const tagMeta = {
+      urgent:['tabler:alert-triangle-filled','#f85165'], police:['tabler:shield','#88b4ff'], fire:['tabler:flame','#ff9e64'], ambulance:['tabler:ambulance','#87d89a'], mental:['tabler:brain','#c798ff'], crisis:['tabler:alarm','#f58f8f'], shelter:['tabler:building-community','#68a7ff'], food:['tabler:bowl-spoon','#f7c95b'], wifi:['tabler:wifi','#58d8d1'], charging:['tabler:bolt','#f8e16f'], benefits:['tabler:file-text','#c798ff'], housing:['tabler:building-skyscraper','#84a8ff'], work:['tabler:briefcase','#ffd38a']
+    };
+    const toastRegion = document.getElementById('toastRegion');
+    function showToast(message, variant='success'){ const toast=document.createElement('div'); toast.className=`toast ${variant}`; toast.textContent=message; toastRegion.appendChild(toast); setTimeout(()=>{toast.remove();},2800);}
+
+    const sectionMap = { Emergency: 'hotlines', Hotlines: 'hotlines', Shelter: 'shelter', Food: 'food', 'Wi-Fi': 'wifi', Charging: 'wifi', 'Safe Indoors': 'medical', Medical: 'medical', Benefits: 'benefits', Work: 'work' };
+    const sectionNodes = {
+      ...Object.fromEntries([...document.querySelectorAll('section[id]')].map(s => [s.id, s.querySelector('.cards')])),
+      ...Object.fromEntries([...document.querySelectorAll('.cards[id]')].map(node => [node.id, node]))
+    };
+
+    function telHref(phone) {
+      const clean = phone.replace(/[^\d]/g, '');
+      return clean ? `tel:${clean}` : '#';
+    }
+    function mapHref(address) { return `https://maps.google.com/?q=${encodeURIComponent(address)}`; }
+
+    function withIconText(node, icon, text) {
+      node.textContent = '';
+      const i = document.createElement('iconify-icon');
+      i.setAttribute('icon', icon);
+      i.setAttribute('aria-hidden', 'true');
+      node.append(i, ` ${text}`);
+    }
+
+    function render(list) {
+      Object.values(sectionNodes).forEach(node => node && (node.textContent = ''));
+      list.forEach(([category, name, address, phone, notes, script, tags]) => {
+        const hostId = sectionMap[category];
+        const host = sectionNodes[hostId];
+        if (!host) return;
+        const card = document.createElement('article');
+        card.className = 'card resource-card';
+        card.dataset.search = [category, name, address, phone, notes, script, ...(tags||[])].join(' ').toLowerCase();
+        card.dataset.category = category;
+        const callDisabled = phone === 'N/A' || phone.toLowerCase().includes('local') || phone.toLowerCase().includes('search') || phone.toLowerCase().includes('contact');
+
+        const label = document.createElement('span'); label.className='label';
+        const metaCat = categoryMeta[category] || {icon:'tabler:hash', color:'#9aa6b2'};
+        label.style.background = `${metaCat.color}22`; label.style.color = metaCat.color;
+        withIconText(label, metaCat.icon, category);
+        const h3 = document.createElement('h3'); h3.className='name'; h3.textContent = name;
+        const meta = document.createElement('p'); meta.className='meta';
+        const addressStrong = document.createElement('strong'); addressStrong.textContent = 'Address:';
+        const phoneStrong = document.createElement('strong'); phoneStrong.textContent = 'Phone:';
+        meta.append(addressStrong, ` ${address}`, document.createElement('br'), phoneStrong, ` ${phone}`);
+        const notesP = document.createElement('p'); notesP.className='notes'; notesP.textContent = notes;
+
+        const tagsWrap = document.createElement('div'); tagsWrap.className='tags';
+        (tags||[]).forEach(t => { const el = document.createElement('span'); el.className='tag'; const key=(t||'').toLowerCase(); const tm=tagMeta[key] || ['tabler:hash','#94a3b8']; el.style.background = `${tm[1]}22`; el.style.color = tm[1]; withIconText(el, tm[0], `#${t}`); tagsWrap.appendChild(el); });
+
+        const actions = document.createElement('div'); actions.className='actions';
+        const call = document.createElement('a'); call.className = `btn ${callDisabled ? 'hidden' : 'hot'}`; withIconText(call, 'tabler:phone-call', 'Call'); call.setAttribute('aria-label', `Call ${name}`); if (!callDisabled) call.href = telHref(phone);
+        const map = document.createElement('a'); map.className='btn gold'; map.href = mapHref(address); map.target='_blank'; map.rel='noopener'; withIconText(map, 'tabler:map-pin', 'Map');
+        const copy = document.createElement('button'); copy.className='btn copy-btn'; copy.type='button'; copy.dataset.address = address; copy.setAttribute('aria-label', `Copy address for ${name}`); withIconText(copy, 'tabler:copy', 'Copy');
+        actions.append(call, map, copy);
+
+        card.append(label, h3, meta, notesP);
+        if (script) { const details=document.createElement('details'); const summary=document.createElement('summary'); summary.textContent='What to say'; const p=document.createElement('p'); p.className='script'; p.textContent=`“${script}”`; details.append(summary,p); card.appendChild(details); }
+        card.append(tagsWrap, actions);
+        host.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const active = document.body.dataset.activeCategory || 'all';
+      document.querySelectorAll('.resource-card').forEach(card => {
+        const matchesSearch = !q || card.dataset.search.includes(q);
+        const matchesCategory = active === 'all' || card.dataset.category === active;
+        card.classList.toggle('hidden', !(matchesSearch && matchesCategory));
+      });
+    }
+
+    render(resources);
+
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.querySelectorAll('.chip[data-filter]').forEach(chip => {
+      const cfg = categoryMeta[chip.dataset.filter] || {icon:'tabler:hash'};
+      const chipIcon = document.createElement('iconify-icon');
+      chipIcon.setAttribute('icon', cfg.icon);
+      chipIcon.setAttribute('aria-hidden', 'true');
+      chip.prepend(chipIcon);
+      chip.addEventListener('click', () => {
+        document.body.dataset.activeCategory = chip.dataset.filter;
+        applyFilters();
+        showToast(`Showing ${chip.dataset.filter} resources.`, 'info');
+      });
+    });
+    document.getElementById('showAll').addEventListener('click', () => {
+      document.body.dataset.activeCategory = 'all';
+      applyFilters();
+      showToast('Showing all resources.', 'info');
+    });
+
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.address);
+        const prev = btn.textContent;
+        withIconText(btn, 'tabler:circle-check', 'Copied');
+        showToast('Address copied to clipboard.');
+        setTimeout(() => btn.textContent = prev, 1200);
+      } catch {
+        withIconText(btn, 'tabler:copy', 'Hold to Copy');
+        showToast('Copy failed — long-press to copy manually.', 'info');
+      }
+    });
+
+    const back = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => back.style.display = window.scrollY > 350 ? 'block' : 'none');
+    back.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+    const menuToggle = document.getElementById('menuToggle');
+    const anchorMenu = document.getElementById('anchorMenu');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = !anchorMenu.classList.contains('hidden');
+      anchorMenu.classList.toggle('hidden', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+    anchorMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+      anchorMenu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }));
+    window.addEventListener('click', (e) => {
+      if (!anchorMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        anchorMenu.classList.add('hidden');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('appLoader').setAttribute('aria-hidden', 'true'), 450);
+    });
+  </script>
+</body>
+</html>

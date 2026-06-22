@@ -1,0 +1,618 @@
+{
+  "generatedAt": "2026-06-22T04:42:39.632Z",
+  "generatedFrom": "docs/crownlabsbible/",
+  "authority": "Crown Labs product truth is governed by docs/crownlabsbible/. Do not hand-edit product definitions here.",
+  "productCount": 8,
+  "products": [
+    {
+      "id": "crowncode-ai",
+      "slug": "crowncode-ai",
+      "name": "CrownCode.ai",
+      "status": "Active Development",
+      "category": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+      "categoryLabel": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+      "oneLiner": "CrownCode.ai is not positioned as a single standalone application.",
+      "tagline": "CrownCode.ai is not positioned as a single standalone application.",
+      "whatItIs": [
+        "CrownCode.ai is not positioned as a single standalone application. It is the operational and technical substrate behind multiple Crown Labs products and initiatives.",
+        "The platform exists to:",
+        "CrownCode.ai acts as the connective framework between behavioral systems, documentation systems, AI tooling, reporting engines, monitoring systems, and future modular services."
+      ],
+      "bullets": [
+        "reduce duplicated development effort",
+        "centralize reusable intelligence systems",
+        "standardize architecture across products",
+        "accelerate launch velocity"
+      ],
+      "capabilities": [],
+      "not": [],
+      "statusDetail": "Active Development",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "See canonical valuation dossier",
+      "valuationProjected": "See canonical valuation dossier",
+      "readiness": 74,
+      "completion": "74% documentation readiness signal",
+      "timeToMarket": "Active platform layer",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "See canonical valuation dossier",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/02-products/crowncode-ai.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer"
+        },
+        {
+          "label": "Status",
+          "value": "Active Development"
+        }
+      ],
+      "keywords": [
+        "crowncode-ai",
+        "Platform Infrastructure / Applied Intelligence Systems / Shared Crown Labs AI Layer",
+        "Active Development",
+        "CrownCode.ai functions as the underlying platform layer supporting modular AI systems, shared services, intelligence tooling, behavioral analysis infrastructure, documentation systems, and reusable product architecture across the Crown Labs ecosystem."
+      ],
+      "sourcePath": "docs/crownlabsbible/02-products/crowncode-ai.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/02-products/crowncode-ai.md",
+      "detailUrl": "labs/products/crowncode-ai.html",
+      "priority": 100
+    },
+    {
+      "id": "ai-cherry-pie",
+      "slug": "ai-cherry-pie",
+      "name": "AI Cherry Pie",
+      "status": "Functional standalone software product and framework",
+      "category": "Writing reconstruction and language refinement platform",
+      "categoryLabel": "Executable software utility, subscription capable platform, and licensing ready language engine",
+      "oneLiner": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
+      "tagline": "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
+      "whatItIs": [
+        "AI Cherry Pie is a writing reconstruction engine designed to identify, reduce, and remove detectable AI writing fingerprints while restoring natural human flow, emotional realism, conversational rhythm, and believable language structure.",
+        "The platform functions as both:",
+        "Unlike traditional AI writing tools that optimize primarily for speed or polish, AI Cherry Pie focuses on believability, readability, emotional texture, and human sounding communication."
+      ],
+      "bullets": [
+        "a standalone software utility",
+        "and a reusable language reconstruction framework inside the broader Crown Labs ecosystem"
+      ],
+      "capabilities": [
+        "repetitive phrasing",
+        "synthetic cadence",
+        "robotic pacing",
+        "over structured transitions",
+        "detectable language model patterns",
+        "conversational rhythm",
+        "sentence variation",
+        "emotional pacing"
+      ],
+      "not": [],
+      "statusDetail": "Functional standalone software product and framework",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$500,000 to $1,500,000",
+      "valuationProjected": "$500,000 to $1,500,000",
+      "readiness": 68,
+      "completion": "68% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$500,000 to $1,500,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Writing reconstruction and language refinement platform"
+        },
+        {
+          "label": "Status",
+          "value": "Functional standalone software product and framework"
+        }
+      ],
+      "keywords": [
+        "ai-cherry-pie",
+        "Writing reconstruction and language refinement platform",
+        "Functional standalone software product and framework",
+        "Executable software utility, subscription capable platform, and licensing ready language engine",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/ai-cherry-pie/overview.md",
+      "detailUrl": "labs/products/ai-cherry-pie.html",
+      "priority": 80
+    },
+    {
+      "id": "crown-psychology",
+      "slug": "crown-psychology",
+      "name": "Crown Psychology",
+      "status": "Advanced active platform architecture with production deployment infrastructure",
+      "category": "Behavioral intelligence and self improvement platform",
+      "categoryLabel": "AI assisted behavioral guidance ecosystem and emotionally intelligent self improvement platform",
+      "oneLiner": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
+      "tagline": "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
+      "whatItIs": [
+        "Crown Psychology is an emotionally intelligent behavioral growth platform designed to help users better understand themselves, recognize patterns, improve emotional awareness, and actively work toward measurable personal growth.",
+        "The platform combines:",
+        "Unlike passive wellness applications focused only on mood tracking, Crown Psychology is designed to function as an interactive self improvement ecosystem that actively helps users move toward healthier behavioral patterns and stronger self awareness."
+      ],
+      "bullets": [
+        "behavioral assessments",
+        "AI assisted interpretation",
+        "guided self reflection",
+        "emotional pattern tracking"
+      ],
+      "capabilities": [
+        "behavioral tendencies",
+        "emotional patterns",
+        "communication styles",
+        "growth opportunities",
+        "recurring challenges",
+        "personalized insight",
+        "pattern recognition",
+        "emotionally intelligent feedback"
+      ],
+      "not": [
+        "a clinical diagnostic platform",
+        "a replacement for licensed therapy",
+        "a generic AI chatbot"
+      ],
+      "statusDetail": "Advanced active platform architecture with production deployment infrastructure",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,000,000",
+      "valuationProjected": "$2,000,000 to $6,000,000",
+      "readiness": 82,
+      "completion": "82% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,000,000 to $6,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Behavioral intelligence and self improvement platform"
+        },
+        {
+          "label": "Status",
+          "value": "Advanced active platform architecture with production deployment infrastructure"
+        }
+      ],
+      "keywords": [
+        "crown-psychology",
+        "Behavioral intelligence and self improvement platform",
+        "Advanced active platform architecture with production deployment infrastructure",
+        "AI assisted behavioral guidance ecosystem and emotionally intelligent self improvement platform",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Emotional Design Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-psychology/overview.md",
+      "detailUrl": "labs/products/crown-psychology.html",
+      "priority": 79
+    },
+    {
+      "id": "crown-sos",
+      "slug": "crown-sos",
+      "name": "Crown SOS",
+      "status": "Prototype and beta testing phase",
+      "category": "Emergency coordination and crisis response platform",
+      "categoryLabel": "Real time emergency communication, survivability coordination, and continuity response ecosystem",
+      "oneLiner": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+      "tagline": "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+      "whatItIs": [
+        "Crown SOS is a real time crisis response and emergency coordination platform designed to help users maintain operational continuity, communicate during unstable situations, preserve critical evidence, and coordinate survivability workflows.",
+        "The platform combines:",
+        "into a unified emergency coordination ecosystem."
+      ],
+      "bullets": [
+        "emergency communication systems",
+        "live video infrastructure",
+        "live audio routing",
+        "proof of life workflows"
+      ],
+      "capabilities": [],
+      "not": [
+        "a casual messaging application",
+        "a generic social communication platform"
+      ],
+      "statusDetail": "Prototype and beta testing phase",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,500,000 to $7,000,000",
+      "valuationProjected": "$2,500,000 to $7,000,000",
+      "readiness": 68,
+      "completion": "68% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,500,000 to $7,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Emergency coordination and crisis response platform"
+        },
+        {
+          "label": "Status",
+          "value": "Prototype and beta testing phase"
+        }
+      ],
+      "keywords": [
+        "crown-sos",
+        "Emergency coordination and crisis response platform",
+        "Prototype and beta testing phase",
+        "Real time emergency communication, survivability coordination, and continuity response ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-sos/overview.md",
+      "detailUrl": "labs/products/crown-sos.html",
+      "priority": 78
+    },
+    {
+      "id": "crown-watchtower",
+      "slug": "crown-watchtower",
+      "name": "Crown WatchTower",
+      "status": "Active development and strategic infrastructure phase",
+      "category": "Environmental signal intelligence and operational visibility platform",
+      "categoryLabel": "Forensic grade monitoring, environmental intelligence, and operational awareness ecosystem",
+      "oneLiner": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+      "tagline": "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+      "whatItIs": [
+        "Crown WatchTower is a forensic grade environmental signal intelligence and operational visibility platform designed to support threat awareness, monitoring coordination, ecosystem observability, and continuity focused intelligence workflows.",
+        "The platform combines:",
+        "into a unified environmental intelligence ecosystem."
+      ],
+      "bullets": [
+        "operational visibility systems",
+        "environmental signal monitoring",
+        "threat awareness infrastructure",
+        "continuity focused intelligence workflows"
+      ],
+      "capabilities": [],
+      "not": [
+        "a casual analytics dashboard",
+        "a generic monitoring utility"
+      ],
+      "statusDetail": "Active development and strategic infrastructure phase",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$3,000,000 to $8,500,000",
+      "valuationProjected": "$3,000,000 to $8,500,000",
+      "readiness": 74,
+      "completion": "74% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$3,000,000 to $8,500,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Environmental signal intelligence and operational visibility platform"
+        },
+        {
+          "label": "Status",
+          "value": "Active development and strategic infrastructure phase"
+        }
+      ],
+      "keywords": [
+        "crown-watchtower",
+        "Environmental signal intelligence and operational visibility platform",
+        "Active development and strategic infrastructure phase",
+        "Forensic grade monitoring, environmental intelligence, and operational awareness ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crown-watchtower/overview.md",
+      "detailUrl": "labs/products/crown-watchtower.html",
+      "priority": 77
+    },
+    {
+      "id": "crowncam",
+      "slug": "crowncam",
+      "name": "CrownCam",
+      "status": "Advanced prototype and tested deployment architecture",
+      "category": "Live monitoring, security, and remote continuity platform",
+      "categoryLabel": "Real time camera monitoring, survivability streaming, and operational continuity ecosystem",
+      "oneLiner": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+      "tagline": "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+      "whatItIs": [
+        "CrownCam is a real time monitoring and remote camera infrastructure platform designed to transform everyday devices into scalable live monitoring systems.",
+        "Built on modern live streaming architecture and designed around operational simplicity, CrownCam combines:",
+        "into a unified live monitoring ecosystem."
+      ],
+      "bullets": [
+        "real time camera feeds",
+        "remote viewing infrastructure",
+        "survivability focused monitoring",
+        "live communication systems"
+      ],
+      "capabilities": [
+        "phones",
+        "tablets",
+        "laptops",
+        "desktops",
+        "webcams",
+        "live viewing rooms",
+        "secure stream routing",
+        "remote monitoring sessions"
+      ],
+      "not": [
+        "a casual webcam utility",
+        "a generic video chat platform",
+        "a social streaming application"
+      ],
+      "statusDetail": "Advanced prototype and tested deployment architecture",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,000,000",
+      "valuationProjected": "$2,000,000 to $6,000,000",
+      "readiness": 55,
+      "completion": "55% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,000,000 to $6,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Live monitoring, security, and remote continuity platform"
+        },
+        {
+          "label": "Status",
+          "value": "Advanced prototype and tested deployment architecture"
+        }
+      ],
+      "keywords": [
+        "crowncam",
+        "Live monitoring, security, and remote continuity platform",
+        "Advanced prototype and tested deployment architecture",
+        "Real time camera monitoring, survivability streaming, and operational continuity ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crowncam/overview.md",
+      "detailUrl": "labs/products/crowncam.html",
+      "priority": 76
+    },
+    {
+      "id": "crowncast",
+      "slug": "crowncast",
+      "name": "CrownCast",
+      "status": "Active conceptual development",
+      "category": "Daily alignment and motivational platform",
+      "categoryLabel": "Reflection and insight ecosystem",
+      "oneLiner": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+      "tagline": "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+      "whatItIs": [
+        "CrownCast is a daily alignment and motivational platform designed to help users improve self awareness, emotional clarity, reflection, and personal alignment.",
+        "The platform combines:",
+        "into a unified reflection ecosystem."
+      ],
+      "bullets": [
+        "reflection systems",
+        "alignment focused insight delivery",
+        "motivational guidance",
+        "daily awareness workflows"
+      ],
+      "capabilities": [],
+      "not": [],
+      "statusDetail": "Active conceptual development",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$2,000,000 to $6,500,000",
+      "valuationProjected": "$2,000,000 to $6,500,000",
+      "readiness": 50,
+      "completion": "50% documentation readiness signal",
+      "timeToMarket": "Canonical dossier active",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$2,000,000 to $6,500,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Daily alignment and motivational platform"
+        },
+        {
+          "label": "Status",
+          "value": "Active conceptual development"
+        }
+      ],
+      "keywords": [
+        "crowncast",
+        "Daily alignment and motivational platform",
+        "Active conceptual development",
+        "Reflection and insight ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Operational Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/crowncast/overview.md",
+      "detailUrl": "labs/products/crowncast.html",
+      "priority": 75
+    },
+    {
+      "id": "sentinel-vault",
+      "slug": "sentinel-vault",
+      "name": "Sentinel Vault",
+      "status": "Advanced prototype and strategic infrastructure concept",
+      "category": "Security, survivability, and evidence continuity platform",
+      "categoryLabel": "Emergency intelligence, secure evidence preservation, and crisis continuity ecosystem",
+      "oneLiner": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
+      "tagline": "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
+      "whatItIs": [
+        "Sentinel Vault is a privacy centered survivability and evidence continuity platform designed to help users preserve critical information, maintain emergency communication capability, and protect sensitive personal evidence during high stress, dangerous, or unstable situations.",
+        "The platform combines:",
+        "into a unified security focused ecosystem."
+      ],
+      "bullets": [
+        "secure storage infrastructure",
+        "emergency communication systems",
+        "evidence continuity workflows",
+        "conditional disclosure systems"
+      ],
+      "capabilities": [
+        "documents",
+        "media",
+        "recordings",
+        "photographs",
+        "emergency notes",
+        "critical personal information",
+        "emergency alert systems",
+        "crisis response workflows"
+      ],
+      "not": [
+        "generic cloud storage",
+        "a social platform",
+        "a casual file sharing application"
+      ],
+      "statusDetail": "Advanced prototype and strategic infrastructure concept",
+      "nextGate": "Maintain canonical dossier integrity before public positioning changes.",
+      "monetization": "See canonical monetization and licensing dossiers where available.",
+      "valuationCurrent": "$1,500,000 to $5,000,000",
+      "valuationProjected": "$1,500,000 to $5,000,000",
+      "readiness": 55,
+      "completion": "55% documentation readiness signal",
+      "timeToMarket": "Requires additional validation before public launch",
+      "projectedRevenue": {
+        "year1": "See canonical valuation dossier",
+        "year2": "See canonical valuation dossier",
+        "year3": "See canonical valuation dossier"
+      },
+      "value": "$1,500,000 to $5,000,000",
+      "growthLabel": "Canonical-docs governed",
+      "metrics": [
+        {
+          "label": "Canonical source",
+          "value": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md"
+        },
+        {
+          "label": "Classification",
+          "value": "Security, survivability, and evidence continuity platform"
+        },
+        {
+          "label": "Status",
+          "value": "Advanced prototype and strategic infrastructure concept"
+        }
+      ],
+      "keywords": [
+        "sentinel-vault",
+        "Security, survivability, and evidence continuity platform",
+        "Advanced prototype and strategic infrastructure concept",
+        "Emergency intelligence, secure evidence preservation, and crisis continuity ecosystem",
+        "Core Positioning Statement",
+        "Market Position",
+        "Product Identity",
+        "Primary User Categories",
+        "Strategic Differentiation",
+        "Privacy and Continuity Philosophy",
+        "Ecosystem Position",
+        "Brand Alignment",
+        "Long Term Positioning"
+      ],
+      "sourcePath": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md",
+      "canonicalDocsUrl": "docs/crownlabsbible/04-product-dossiers/sentinel-vault/overview.md",
+      "detailUrl": "labs/products/sentinel-vault.html",
+      "priority": 74
+    }
+  ]
+}

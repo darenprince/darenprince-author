@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1350" viewBox="0 0 900 1350" role="img" aria-labelledby="t d">
+  <title id="t">Rooted cover</title><desc id="d">Book cover for Rooted: Identity Without Permission</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1f18"/><stop offset="1" stop-color="#0f1012"/></linearGradient></defs>
+  <rect width="900" height="1350" fill="url(#bg)"/>
+  <text x="80" y="250" fill="#f2f1ea" font-size="118" font-family="Arial Black, Arial, sans-serif">ROOTED</text>
+  <text x="80" y="330" fill="#d4a86b" font-size="40" font-family="Arial, sans-serif" letter-spacing="2">IDENTITY WITHOUT PERMISSION</text>
+  <rect x="80" y="390" width="740" height="3" fill="#9f7b4f" opacity=".6"/>
+  <text x="80" y="1160" fill="#f3e2cf" font-size="56" font-family="Arial, sans-serif">DAREN M. PRINCE</text>
+</svg>

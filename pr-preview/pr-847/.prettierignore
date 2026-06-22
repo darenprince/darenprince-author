@@ -1,0 +1,11 @@
+# Ignore artifacts
+build/
+dist/
+coverage/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore generated files from this project
+assets/image-manifest.json
+assets/js/env.js

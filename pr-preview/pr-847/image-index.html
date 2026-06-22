@@ -1,0 +1,508 @@
+<!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Index | Daren Prince</title>
+  <meta name="description" content="Browse a searchable catalog of images from Daren Prince's official site. View and copy asset links quickly.">
+  <meta property="og:title" content="Image Index | Daren Prince">
+  <meta property="og:description" content="Browse a searchable catalog of images from Daren Prince's official site. View and copy asset links quickly.">
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/heroposter1.png">
+  <meta property="og:image:secure_url" content="https://www.darenprince.com/assets/images/heroposter1.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1366">
+  <meta property="og:image:height" content="767">
+  <meta property="og:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.darenprince.com/image-index.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Image Index | Daren Prince">
+  <meta name="twitter:description" content="Browse a searchable catalog of images from Daren Prince's official site. View and copy asset links quickly.">
+  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/heroposter1.png">
+  <meta name="twitter:image:alt" content="Portrait of Daren Prince with Game On! and Unshakeable book covers">
+  <link rel="canonical" href="https://www.darenprince.com/image-index.html">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Image Index",
+    "url": "https://www.darenprince.com/image-index.html",
+    "description": "Browse a searchable catalog of images from Daren Prince's official site."
+  }
+  </script>
+  <style>
+    html, body { max-width:100%; overflow-x:clip; }
+
+    .image-toolbar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+    .image-search { flex:1 1 240px; }
+    .image-search input { width:100%; }
+    .image-result-count { margin:0; font-size:.9rem; letter-spacing:.02em; color:#9ac08f; }
+    .image-zoom-controls { display:none; align-items:center; gap:.75rem; padding:.5rem .75rem; border-radius:999px; background:#1b1c1b; border:1px solid rgba(255,255,255,.08); }
+    .image-zoom-controls label { font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; }
+    .image-zoom-controls input[type="range"] { width:180px; }
+    .image-zoom-value { font-size:.85rem; color:rgba(255,255,255,.7); min-width:3.5rem; text-align:right; }
+    .image-columns-controls { display:flex; align-items:center; gap:.55rem; padding:.45rem .65rem; border-radius:999px; background:#1b1c1b; border:1px solid rgba(255,255,255,.08); }
+    .image-columns-controls label { font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.82); }
+    .image-columns-controls select { min-width:4.25rem; background:#0f110f; color:#f4fff1; border:1px solid rgba(69,111,58,.6); border-radius:999px; padding:.3rem .6rem; font-size:.82rem; }
+    @media (min-width: 768px) {
+      .image-zoom-controls { display:flex; }
+      .image-columns-controls { display:none; }
+    }
+    .image-grid { --image-grid-size:220px; --image-grid-columns-mobile:4; display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--image-grid-size), 1fr)); gap:1rem; width:100%; max-width:100%; }
+    @media (max-width: 768px) {
+      .image-grid { --image-grid-size:90px; grid-template-columns:repeat(var(--image-grid-columns-mobile), minmax(0, 1fr)); }
+    }
+    .image-grid img { width:100%; height:auto; max-height:80vh; border-radius:8px; cursor:zoom-in; transition:transform .2s; }
+    .image-grid img:hover, .image-grid img:focus { transform:scale(1.08); }
+    .image-grid img:active { transform:scale(1.1); }
+    .img-item { display:flex; flex-direction:column; gap:.65rem; background:#111311; border:1px solid rgba(69,111,58,.35); border-radius:12px; padding:.75rem; box-shadow:0 8px 20px rgba(0,0,0,.28); min-width:0; }
+    .img-meta { display:grid; gap:.3rem; min-width:0; }
+    .img-description { margin:0; font-size:.85rem; color:#d5f0cd; line-height:1.35; overflow-wrap:anywhere; word-break:break-word; }
+    .img-path { margin:0; font-size:.72rem; color:rgba(255,255,255,.62); overflow-wrap:anywhere; }
+    .code-box { display:flex; justify-content:flex-end; background:#253223; padding:.35rem .5rem; border-radius:6px; font-size:.875rem; border:1px solid rgba(69,111,58,.35); }
+    .code-box .btn { padding:.25rem .5rem; font-size:.75rem; }
+    .img-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; z-index:1000; }
+
+    .img-modal img { max-width:80vw; max-height:80vh; border-radius:8px; }
+
+    .img-modal .close {
+      position:absolute;
+      top:1rem;
+      right:1rem;
+      width:2.5rem;
+      height:2.5rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(10,10,10,.8);
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.75rem;
+      line-height:1;
+      cursor:pointer;
+    }
+  </style>
+  <!-- Apple PWA + Safari enhancements -->
+    <!-- Smart App banner is rendered by js/main.js -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#456f3a">
+    <meta name="application-name" content="Daren Prince Official Site">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+    <meta name="msapplication-TileColor" content="#456f3a">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+  <!-- End Apple PWA + Safari enhancements -->
+<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Image Index | Daren Prince",
+  "description": "Browse a searchable catalog of images from Daren Prince's official site. View and copy asset links quickly.",
+  "url": "https://www.darenprince.com/image-index.html",
+  "isPartOf": {
+    "@id": "https://www.darenprince.com#website"
+  },
+  "publisher": {
+    "@id": "https://www.darenprince.com#organization"
+  },
+  "author": {
+    "@id": "https://www.darenprince.com#author"
+  },
+  "image": "https://www.darenprince.com/assets/images/heroposter1.png"
+}</script>
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Image Index.html",
+      "item": "https://www.darenprince.com/image-index.html/"
+    }
+  ]
+}</script></head>
+<body class="theme-dark">
+  <script type="module">
+    import { enforcePasswordGate } from './js/password-gate.js';
+
+    enforcePasswordGate({
+      gateId: 'image-index',
+      heading: 'Image index access',
+      message: 'Enter the password to view the internal image manifest.',
+    });
+  </script>
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="components.html"><i class="ph ph-layout"></i>Components</a></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+  <div class="site-wrap" hidden="">
+    <header class="site-header padding-y-sm js-sticky-nav">
+      <div class="container max-width-adaptive-lg flex items-center justify-between">
+        <a href="index.html" class="logo">
+          <img src="/assets/logos/2Daren_Web_Logo_White_For_Dark_Background.png" alt="Daren Prince">
+        </a>
+        <div class="nav-btn-group flex items-center gap-sm">
+          <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
+          <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
+          <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
+        </div>
+      </div>
+      <div class="search-bar js-search-bar" hidden="">
+        <form class="search-form flex items-center">
+          <input type="search" placeholder="search site">
+          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+        </form>
+      </div>
+      <div class="profile-dropdown js-profile-dropdown" hidden="">
+        <div class="profile-info">
+          <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+          <span class="profile-name">Guest</span>
+        </div>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Account</a></li>
+          <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="padding-y-xl">
+      <div class="container">
+        <h1 class="section-heading text-center margin-bottom-lg">Image Index</h1>
+        <div class="image-toolbar">
+          <p id="image-result-count" class="image-result-count" aria-live="polite">0 images</p>
+            <p id="image-generated-at" class="image-result-count" aria-live="polite"></p>
+          <div class="image-search">
+            <label class="sr-only" for="image-search">Search images</label>
+            <input type="search" id="image-search" placeholder="Search images">
+          </div>
+          <div class="image-zoom-controls" aria-label="Image zoom controls">
+            <label for="image-zoom">Zoom</label>
+            <input type="range" id="image-zoom" min="84" max="360" step="10" value="220" data-default="220">
+            <span id="image-zoom-value" class="image-zoom-value">100%</span>
+          </div>
+          <div class="image-columns-controls" aria-label="Image column selector">
+            <label for="image-columns">Columns</label>
+            <select id="image-columns">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4" selected="">4</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="gallery" class="image-grid"></div>
+    </main>
+
+        <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+        <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Follow on Facebook">
+            <img src="/assets/icons/facebook-32.png" alt="">
+            <span class="sr-only">Facebook</span>
+          </a>
+          <a href="#" aria-label="Follow on X">
+            <img src="/assets/icons/twitter-x-32.png" alt="">
+            <span class="sr-only">X (Twitter)</span>
+          </a>
+          <a href="#" aria-label="Follow on YouTube">
+            <img src="/assets/icons/youtube-32.png" alt="">
+            <span class="sr-only">YouTube</span>
+          </a>
+          <a href="#" aria-label="Follow on TikTok">
+            <img src="/assets/icons/tiktok-32.png" alt="">
+            <span class="sr-only">TikTok</span>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="book.html">Book</a></li>
+          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="sitemap.html">Site Index</a></li>
+        </ul>
+      </div>
+      <details class="footer-collapse">
+        <summary>Creator &amp; Platform Links</summary>
+        <div class="footer-collapse-grid">
+          <div>
+            <h4>Creator Tools</h4>
+            <ul class="footer-links">
+              <li><a href="components.html">Components</a></li>
+              <li><a href="themes.html">Themes</a></li>
+              <li><a href="style-classes.html">Style Classes</a></li>
+              <li><a href="loaders.html">Loaders</a></li>
+              <li><a href="promotion-tools.html">Promotion Tools</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Developer Docs</h4>
+            <ul class="footer-links">
+              <li><a href="iconifty.html">Iconify</a></li>
+              <li><a href="docs/style-guide.html">Style Guide</a></li>
+              <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
+              <li><a href="style-classes.html">Utility Classes</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Account</h4>
+            <ul class="footer-links">
+              <li><a href="login.html">Login</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="reset-password.html">Reset Password</a></li>
+              <li><a href="verify-email.html">Verify Email</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Admin</h4>
+            <ul class="footer-links">
+              <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+              <li><a href="admin-user-management.html">User Management</a></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+      <div class="footer-signup">
+        <h4>Mailing List</h4>
+        <p class="footer-note">Join for drops, tools, and private updates.</p>
+        <form action="#" method="post">
+          <label for="footer-email-image-index" class="sr-only">Email address</label>
+          <input id="footer-email-image-index" name="email" type="email" placeholder="you@email.com" required="">
+          <button type="submit" class="primary-btn">Join the List</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span>© 2025 Daren Prince. All rights reserved.</span>
+        <a href="labs.html" class="footer-labs-link">
+          <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo">
+        </a>
+      </div>
+    </div>
+  </footer>
+  </div>
+  <script type="module" src="/js/image-index.js"></script>
+  <script type="module" src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+
+

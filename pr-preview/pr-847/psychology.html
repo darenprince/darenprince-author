@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const root = (html.getAttribute('data-site-root') || '').trim().replace(/^\/+|\/+$/g, '');
+      const host = window.location.hostname || '';
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      if (!root || !host.endsWith('.github.io')) return;
+      const prefix = '/' + (parts[0] || root);
+      html.dataset.assetPrefix = prefix;
+      const attrs = { A:['href'], LINK:['href'], SCRIPT:['src'], IMG:['src','srcset'], SOURCE:['src','srcset'] };
+      const ignore = v => !v || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(v);
+      const resolve = v => ignore(v) || v.startsWith(prefix + '/') ? v : v.startsWith('/') ? prefix + v : v;
+      const patch = node => {
+        const list = attrs[node.tagName];
+        if (!list) return;
+        list.forEach(attr => {
+          const current = node.getAttribute(attr);
+          if (!current) return;
+          if (attr === 'srcset') {
+            node.setAttribute(attr, current.split(',').map(item => {
+              const p = item.trim().split(/\s+/); p[0] = resolve(p[0]); return p.join(' ');
+            }).join(', '));
+          } else node.setAttribute(attr, resolve(current));
+        });
+      };
+      document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('a,link,script,img,source').forEach(patch));
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crown Psychology | Daren Prince Author Platform</title>
+  <meta name="description" content="Crown Psychology extends the Daren Prince author platform into guided behavioral intelligence, emotional pattern recognition, and action based personal growth." />
+  <meta property="og:title" content="Crown Psychology | Behavioral Intelligence by Daren Prince" />
+  <meta property="og:description" content="Understand your patterns, regulate your emotions, and build real change through guided behavioral intelligence." />
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.darenprince.com/psychology.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0b0b0d" />
+  <meta name="author" content="Daren Prince" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico" />
+  <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest" />
+  <style>
+    :root {
+      --cp-bg: #08080b;
+      --cp-surface: rgba(255,255,255,.055);
+      --cp-surface-strong: rgba(255,255,255,.09);
+      --cp-line: rgba(255,255,255,.12);
+      --cp-line-soft: rgba(255,255,255,.075);
+      --cp-text: #f7f7f8;
+      --cp-muted: #a6a6ad;
+      --cp-soft: #d8d8dc;
+      --cp-red: #9c271c;
+      --cp-red-bright: #c83a2e;
+      --cp-gold: #d8b36a;
+      --cp-green: #7bd99a;
+      --cp-radius-xl: 34px;
+      --cp-radius-lg: 24px;
+      --cp-shadow: 0 30px 90px rgba(0,0,0,.45);
+    }
+
+    body.theme-dark {
+      background:
+        radial-gradient(circle at 14% 0%, rgba(156,39,28,.25), transparent 31%),
+        radial-gradient(circle at 85% 7%, rgba(216,179,106,.13), transparent 30%),
+        linear-gradient(180deg, #101014 0%, var(--cp-bg) 46%, #050507 100%);
+    }
+
+    .cp-page { overflow: hidden; }
+    .cp-wrap { width: min(100% - 40px, 1180px); margin: 0 auto; }
+    .cp-hero { position: relative; padding: clamp(92px, 13vw, 150px) 0 72px; }
+    .cp-hero::before {
+      content: "";
+      position: absolute;
+      inset: -120px -20% auto auto;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(156,39,28,.22), transparent 68%);
+      pointer-events: none;
+    }
+
+    .cp-hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 54px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cp-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cp-soft);
+      border: 1px solid var(--cp-line);
+      background: rgba(255,255,255,.045);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font: 700 12px/1 IBM Plex Mono, monospace;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: 24px;
+    }
+
+    .cp-eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 99px;
+      background: var(--cp-gold);
+      box-shadow: 0 0 18px rgba(216,179,106,.55);
+    }
+
+    .cp-title {
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: .93;
+      letter-spacing: -.075em;
+      margin: 0 0 24px;
+    }
+
+    .cp-title span {
+      color: transparent;
+      background: linear-gradient(120deg, #fff, #d9d9de 44%, #be3d32 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .cp-lede {
+      max-width: 670px;
+      color: var(--cp-muted);
+      font-size: clamp(18px, 2.1vw, 22px);
+      line-height: 1.55;
+      letter-spacing: -.025em;
+      margin-bottom: 32px;
+    }
+
+    .cp-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 30px; }
+    .cp-proof { display: flex; flex-wrap: wrap; gap: 16px; color: var(--cp-muted); font-size: 13px; }
+    .cp-proof strong { color: var(--cp-text); }
+
+    .cp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      font-weight: 800;
+      letter-spacing: -.015em;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .cp-btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.28); }
+    .cp-btn-primary { background: linear-gradient(135deg, var(--cp-red), var(--cp-red-bright)); color: #fff; box-shadow: 0 18px 50px rgba(156,39,28,.28); }
+    .cp-btn-secondary { background: rgba(255,255,255,.055); color: var(--cp-text); }
+    .cp-btn-dark { background: #fff; color: #111116; }
+
+    .cp-device {
+      border-radius: var(--cp-radius-xl);
+      padding: 22px;
+      min-height: 560px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.035)),
+        radial-gradient(circle at 30% 0%, rgba(156,39,28,.28), transparent 34%),
+        rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .cp-window-top { display: flex; justify-content: space-between; align-items: center; color: var(--cp-muted); font-size: 13px; margin-bottom: 18px; }
+    .cp-dots { display: flex; gap: 7px; }
+    .cp-dots i { width: 9px; height: 9px; border-radius: 99px; background: rgba(255,255,255,.22); }
+    .cp-screen { border-radius: 26px; padding: 24px; background: rgba(5,5,7,.6); border: 1px solid rgba(255,255,255,.12); }
+    .cp-screen-head { display: flex; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+    .cp-screen h3 { font-size: 24px; letter-spacing: -.045em; margin-bottom: 6px; }
+    .cp-screen p { color: var(--cp-muted); line-height: 1.45; }
+    .cp-badge { color: var(--cp-green); background: rgba(123,217,154,.11); border: 1px solid rgba(123,217,154,.22); padding: 8px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .cp-meter { height: 12px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; margin: 20px 0; }
+    .cp-meter span { display: block; width: 76%; height: 100%; background: linear-gradient(90deg, var(--cp-red), var(--cp-gold)); }
+    .cp-insights { display: grid; gap: 12px; }
+    .cp-insight { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; border-radius: 18px; background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.09); }
+    .cp-insight-icon { width: 38px; height: 38px; border-radius: 13px; display: grid; place-items: center; background: rgba(156,39,28,.16); }
+    .cp-insight strong { display: block; margin-bottom: 4px; }
+    .cp-insight p { font-size: 13px; }
+    .cp-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+    .cp-mini { border-radius: 18px; padding: 16px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.09); }
+    .cp-mini b { display: block; font-size: 28px; letter-spacing: -.05em; }
+    .cp-mini span { color: var(--cp-muted); font-size: 12px; }
+
+    .cp-section { padding: 88px 0; }
+    .cp-section-head { max-width: 790px; margin-bottom: 34px; }
+    .cp-kicker { color: var(--cp-gold); font: 800 12px/1 IBM Plex Mono, monospace; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 13px; }
+    .cp-h2 { font-size: clamp(34px, 4.4vw, 60px); line-height: 1; letter-spacing: -.06em; margin-bottom: 18px; }
+    .cp-section-head p { color: var(--cp-muted); font-size: 19px; line-height: 1.55; }
+
+    .cp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .cp-card { min-height: 220px; padding: 26px; border-radius: var(--cp-radius-lg); background: linear-gradient(180deg, var(--cp-surface-strong), var(--cp-surface)); border: 1px solid var(--cp-line-soft); }
+    .cp-card small { color: var(--cp-red-bright); font-weight: 900; display: block; margin-bottom: 18px; }
+    .cp-card h3 { font-size: 24px; letter-spacing: -.045em; margin-bottom: 12px; }
+    .cp-card p { color: var(--cp-muted); line-height: 1.55; }
+
+    .cp-split { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: stretch; }
+    .cp-feature-panel { border-radius: var(--cp-radius-xl); padding: 34px; background: linear-gradient(145deg, rgba(156,39,28,.26), rgba(255,255,255,.05)); border: 1px solid rgba(255,255,255,.12); box-shadow: var(--cp-shadow); }
+    .cp-feature-panel h3 { font-size: 36px; line-height: 1.02; letter-spacing: -.055em; margin-bottom: 18px; }
+    .cp-feature-panel p { color: var(--cp-soft); line-height: 1.58; font-size: 17px; }
+    .cp-steps { display: grid; gap: 14px; }
+    .cp-step { display: grid; grid-template-columns: 46px 1fr; gap: 16px; padding: 18px; border-radius: 22px; background: rgba(255,255,255,.052); border: 1px solid var(--cp-line-soft); }
+    .cp-step b { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 16px; background: #fff; color: #111116; }
+    .cp-step h4 { font-size: 18px; margin-bottom: 5px; }
+    .cp-step p { color: var(--cp-muted); line-height: 1.5; }
+
+    .cp-offer { border-radius: var(--cp-radius-xl); padding: 42px; background: linear-gradient(135deg, #f7f7f8, #dcdce2); color: #101014; display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: center; box-shadow: var(--cp-shadow); }
+    .cp-offer .cp-kicker { color: var(--cp-red); }
+    .cp-offer p { color: #4e4e58; font-size: 18px; line-height: 1.55; }
+    .cp-offer-card { background: #101014; color: #fff; border-radius: 28px; padding: 28px; }
+    .cp-price { font-size: 58px; letter-spacing: -.07em; font-weight: 900; margin: 10px 0; }
+    .cp-price small { font-size: 16px; color: var(--cp-muted); letter-spacing: -.02em; }
+    .cp-list { list-style: none; display: grid; gap: 11px; margin: 20px 0 24px; color: #d8d8dc; padding: 0; }
+    .cp-list li::before { content: "✓"; color: var(--cp-green); margin-right: 10px; font-weight: 900; }
+
+    .cp-pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .cp-plan { padding: 28px; border-radius: var(--cp-radius-lg); border: 1px solid var(--cp-line-soft); background: rgba(255,255,255,.052); }
+    .cp-plan-featured { background: linear-gradient(180deg, rgba(156,39,28,.25), rgba(255,255,255,.055)); border-color: rgba(200,58,46,.38); }
+    .cp-plan h3 { font-size: 25px; letter-spacing: -.05em; margin-bottom: 8px; }
+    .cp-plan p { color: var(--cp-muted); min-height: 48px; line-height: 1.5; }
+    .cp-plan .cp-price { color: var(--cp-text); font-size: 44px; }
+
+    .cp-b2b { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .cp-b2b-item { padding: 22px; border-radius: 22px; border: 1px solid var(--cp-line-soft); background: rgba(255,255,255,.045); }
+    .cp-b2b-item i { color: var(--cp-gold); font-size: 24px; margin-bottom: 14px; display: block; }
+    .cp-b2b-item h3 { font-size: 18px; margin-bottom: 8px; }
+    .cp-b2b-item p { color: var(--cp-muted); line-height: 1.5; font-size: 14px; }
+
+    .cp-final { padding: 90px 0 110px; text-align: center; }
+    .cp-final-card { border-radius: var(--cp-radius-xl); padding: clamp(36px, 7vw, 72px); background: radial-gradient(circle at top, rgba(156,39,28,.22), transparent 38%), rgba(255,255,255,.055); border: 1px solid var(--cp-line-soft); box-shadow: var(--cp-shadow); }
+    .cp-final h2 { max-width: 820px; margin: 0 auto 20px; }
+    .cp-final p { max-width: 680px; margin: 0 auto 30px; color: var(--cp-muted); font-size: 19px; line-height: 1.55; }
+
+    @media (max-width: 920px) {
+      .cp-hero-grid, .cp-split, .cp-offer { grid-template-columns: 1fr; }
+      .cp-cards, .cp-pricing { grid-template-columns: 1fr; }
+      .cp-b2b { grid-template-columns: 1fr 1fr; }
+      .cp-device { min-height: auto; }
+    }
+
+    @media (max-width: 620px) {
+      .cp-wrap { width: min(100% - 28px, 1180px); }
+      .cp-hero { padding-top: 76px; }
+      .cp-title { font-size: clamp(44px, 15vw, 64px); }
+      .cp-actions, .cp-btn { width: 100%; }
+      .cp-b2b { grid-template-columns: 1fr; }
+      .cp-offer, .cp-feature-panel, .cp-final-card { padding: 26px; }
+      .cp-screen-head { flex-direction: column; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Crown Psychology",
+    "url": "https://www.darenprince.com/psychology.html",
+    "description": "Crown Psychology extends the Daren Prince author platform into behavioral intelligence, guided self work, and pattern based personal growth.",
+    "author": { "@type": "Person", "name": "Daren Prince", "url": "https://www.darenprince.com" }
+  }
+  </script>
+</head>
+<body class="theme-dark">
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="labs.html"><i class="ph ph-crown"></i>Crown Labs</a></li>
+      <li><a href="psychology.html" class="active"><i class="ph ph-brain"></i>Crown Psychology</a></li>
+      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+
+  <div class="site-wrap cp-page">
+    <div data-shared-header></div>
+
+    <main>
+      <section class="cp-hero">
+        <div class="cp-wrap cp-hero-grid">
+          <div>
+            <div class="cp-eyebrow">Author platform extension</div>
+            <h1 class="cp-title styledh1"><span>Crown Psychology</span> for real change.</h1>
+            <p class="cp-lede">A behavioral intelligence layer built from the same work behind Daren Prince’s books: self awareness, emotional pattern recognition, relationship repair, confidence rebuilding, and practical exercises that help people actually get better.</p>
+            <div class="cp-actions">
+              <a href="#report" class="cp-btn cp-btn-primary"><i class="ph ph-sparkle"></i>Get the behavioral report</a>
+              <a href="#positioning" class="cp-btn cp-btn-secondary"><i class="ph ph-chart-line-up"></i>View monetization model</a>
+            </div>
+            <div class="cp-proof">
+              <span><strong>Positioning:</strong> behavioral intelligence</span>
+              <span><strong>Offer:</strong> reports, subscriptions, programs</span>
+              <span><strong>Fit:</strong> books, coaching, Crown Labs</span>
+            </div>
+          </div>
+
+          <aside class="cp-device" aria-label="Crown Psychology product preview">
+            <div class="cp-window-top"><div class="cp-dots"><i></i><i></i><i></i></div><span>Pattern dashboard</span></div>
+            <div class="cp-screen">
+              <div class="cp-screen-head">
+                <div>
+                  <h3>Behavioral profile</h3>
+                  <p>Insight translated into action, not just another mood log.</p>
+                </div>
+                <span class="cp-badge">Growth loop active</span>
+              </div>
+              <div class="cp-meter"><span></span></div>
+              <div class="cp-insights">
+                <div class="cp-insight"><div class="cp-insight-icon"><i class="ph ph-brain"></i></div><div><strong>Pattern detected</strong><p>Repeating emotional loop tied to avoidance, overthinking, and inconsistent boundaries.</p></div></div>
+                <div class="cp-insight"><div class="cp-insight-icon"><i class="ph ph-heartbeat"></i></div><div><strong>Regulation plan</strong><p>Short guided exercises for grounding, reframing, and rebuilding self trust.</p></div></div>
+                <div class="cp-insight"><div class="cp-insight-icon"><i class="ph ph-target"></i></div><div><strong>Next action</strong><p>One clear step for the day so insight becomes motion.</p></div></div>
+              </div>
+              <div class="cp-mini-grid"><div class="cp-mini"><b>76%</b><span>Clarity score</span></div><div class="cp-mini"><b>12</b><span>Guided exercises</span></div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="cp-section" id="positioning">
+        <div class="cp-wrap">
+          <div class="cp-section-head">
+            <div class="cp-kicker">Positioning</div>
+            <h2 class="cp-h2 styledh1">Not a therapy replacement. Not a journal. A behavioral intelligence system.</h2>
+            <p>Crown Psychology monetizes the space between insight and action. It gives users language for what is happening inside them, then guides the next move through structured reports, weekly plans, and practical exercises.</p>
+          </div>
+          <div class="cp-cards">
+            <article class="cp-card"><small>01</small><h3>Reader funnel</h3><p>Connects naturally to Daren’s books by turning themes like confidence, codependency, boundaries, and connection into interactive self work.</p></article>
+            <article class="cp-card"><small>02</small><h3>Report engine</h3><p>Creates an immediate paid offer through behavioral profiles, attachment reports, relationship pattern breakdowns, and growth plans.</p></article>
+            <article class="cp-card"><small>03</small><h3>Subscription layer</h3><p>Moves users from one time insight into weekly recalibration, guided exercises, progress tracking, and deeper personalization.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cp-section">
+        <div class="cp-wrap cp-split">
+          <div class="cp-feature-panel">
+            <div class="cp-kicker">Why it sells</div>
+            <h3>People do not pay for tracking. They pay for transformation.</h3>
+            <p>The core monetization angle is simple: users do not want another app telling them they are anxious, stuck, avoidant, codependent, reactive, detached, or overwhelmed. They want to know why it keeps happening and what to do next.</p>
+          </div>
+          <div class="cp-steps">
+            <div class="cp-step"><b>1</b><div><h4>Assess</h4><p>Collect relationship patterns, emotional triggers, goals, and current stress loops.</p></div></div>
+            <div class="cp-step"><b>2</b><div><h4>Interpret</h4><p>Convert raw answers and journal entries into plain language behavioral insight.</p></div></div>
+            <div class="cp-step"><b>3</b><div><h4>Guide</h4><p>Recommend exercises, reflection prompts, boundary scripts, and weekly growth plans.</p></div></div>
+            <div class="cp-step"><b>4</b><div><h4>Reinforce</h4><p>Track change over time and keep users returning through progress based feedback.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cp-section" id="report">
+        <div class="cp-wrap">
+          <div class="cp-offer">
+            <div>
+              <div class="cp-kicker">Fast cash offer</div>
+              <h2 class="cp-h2 styledh1">Start with the behavioral profile.</h2>
+              <p>The strongest first monetization move is a paid report funnel. It can sell before the full app is mature, builds the email list, proves demand, and creates a bridge into the subscription product.</p>
+            </div>
+            <div class="cp-offer-card">
+              <h3>Behavioral Profile Report</h3>
+              <div class="cp-price">$29 <small>launch price</small></div>
+              <ul class="cp-list">
+                <li>Emotional pattern breakdown</li>
+                <li>Trigger and blind spot map</li>
+                <li>Relationship tendency summary</li>
+                <li>Action plan with guided exercises</li>
+              </ul>
+              <a href="contact.html" class="cp-btn cp-btn-dark">Request funnel setup</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cp-section">
+        <div class="cp-wrap">
+          <div class="cp-section-head">
+            <div class="cp-kicker">Monetization ladder</div>
+            <h2 class="cp-h2 styledh1">Three clean ways to earn.</h2>
+            <p>The platform should not rely on one subscription button. It should monetize at multiple commitment levels so cold traffic, warm readers, and professionals all have a clear entry point.</p>
+          </div>
+          <div class="cp-pricing">
+            <article class="cp-plan"><h3>Reports</h3><p>Low friction paid insights for readers and cold traffic.</p><div class="cp-price">$19–$79</div><ul class="cp-list"><li>Behavioral profile</li><li>Attachment report</li><li>Relationship pattern audit</li></ul></article>
+            <article class="cp-plan cp-plan-featured"><h3>Premium</h3><p>Recurring access for guided change and weekly improvement loops.</p><div class="cp-price">$19–$29<small>/mo</small></div><ul class="cp-list"><li>Full AI analysis</li><li>Adaptive plans</li><li>Guided exercises</li></ul></article>
+            <article class="cp-plan"><h3>Programs</h3><p>Outcome based products tied to Daren’s books and coaching ecosystem.</p><div class="cp-price">$49–$199</div><ul class="cp-list"><li>Codependency reset</li><li>Boundary builder</li><li>Confidence rebuild</li></ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cp-section">
+        <div class="cp-wrap">
+          <div class="cp-section-head">
+            <div class="cp-kicker">Licensing upside</div>
+            <h2 class="cp-h2 styledh1">The bigger play is professional access.</h2>
+            <p>Crown Psychology can extend beyond direct to consumer by giving coaches, therapists, educators, and relationship programs structured intake, behavior summaries, and client progress reports.</p>
+          </div>
+          <div class="cp-b2b">
+            <div class="cp-b2b-item"><i class="ph ph-user-focus"></i><h3>Coaches</h3><p>Client intake and behavior summaries for faster session prep.</p></div>
+            <div class="cp-b2b-item"><i class="ph ph-notebook"></i><h3>Therapists</h3><p>User controlled reports that support reflection and continuity.</p></div>
+            <div class="cp-b2b-item"><i class="ph ph-heart"></i><h3>Relationship brands</h3><p>Attachment and communication tools for paid communities.</p></div>
+            <div class="cp-b2b-item"><i class="ph ph-buildings"></i><h3>Wellness teams</h3><p>Behavioral growth dashboards for ethical, opt in programs.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cp-final">
+        <div class="cp-wrap">
+          <div class="cp-final-card">
+            <div class="cp-kicker">Bottom line</div>
+            <h2 class="cp-h2 styledh1">Crown Psychology turns Daren’s message into a living product.</h2>
+            <p>The page should sell the idea that insight is only the doorway. The real value is helping people understand the pattern, choose the next right action, and keep choosing themselves until the change becomes real.</p>
+            <a href="contact.html" class="cp-btn cp-btn-primary"><i class="ph ph-paper-plane-tilt"></i>Start partnership conversation</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div data-shared-footer></div>
+  </div>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/site-shell.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

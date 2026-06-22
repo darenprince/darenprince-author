@@ -1,0 +1,8 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+
+.demo-section {
+  padding-top: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  // spacing only - separators removed
+}
