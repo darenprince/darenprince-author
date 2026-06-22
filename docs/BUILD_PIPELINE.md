@@ -1,6 +1,6 @@
 # 🏗 Build & Deployment Pipeline
 
-_Last updated: 2026-04-17_
+_Last updated: 2026-06-22_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
@@ -43,12 +43,13 @@ This doc captures how assets are generated locally and served via GitHub Pages. 
 
 ## GitHub Pages configuration
 
-- Configure **Settings → Pages** to publish from `main` (root) or your preferred Pages branch.
+- Configure **Settings → Pages** to use **GitHub Actions** as the Pages source. `.github/workflows/deploy-pages.yml` builds the site, uploads the root artifact, and deploys it through the official Pages artifact flow on pushes to `main`/`work` or manual `workflow_dispatch` runs.
 - `CNAME` maps the custom domain. Keep it updated if the domain changes.
 - Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
 - Keep the `data-site-root` attribute + asset-prefix patcher script in HTML files for GitHub Pages subdirectory deployments (`<user>.github.io/<repo>/`). This ensures `/assets` references resolve during local previews and production.
 - When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
-- Netlify is no longer used. All deploys are committed artifacts published by GitHub Pages.
+- Netlify is no longer used. GitHub Pages deploys from the Actions-built artifact; generated static files still remain committed so local previews, PR previews, and rollback diffs stay inspectable.
+- Keep `.nojekyll` committed so GitHub Pages serves generated asset directories and modern static files without Jekyll filtering.
 - Pull requests with visual changes must include both desktop and mobile screenshots.
 - Keep browser chrome customizations aligned to brand green (favicons, manifest theme colors, and tile colors) and ensure OG/Twitter sharing images are committed and deployable.
 - Keep `/nexuswho/` redirect (`nexuswho/index.html`) pointing to `nexuswho.html` so clean URLs keep working.
@@ -119,5 +120,5 @@ If a visual change appears to be ignored, verify you edited the stylesheet owned
 - [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
 - [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
 - [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
-- [ ] Push to `main` (GitHub Pages auto-publish).
+- [ ] Push to `main` or run the **Deploy GitHub Pages** workflow manually; GitHub Pages publishes the Actions artifact after the build job succeeds.
 - [ ] After deploy, confirm migration messaging is visible on auth surfaces.
