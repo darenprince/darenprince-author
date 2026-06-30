@@ -265,8 +265,9 @@ svg {
 }
 .hero-proof .stars,
 .stars {
-  color: var(--lime);
+  color: #f4b63f;
   letter-spacing: 0.14em;
+  text-shadow: 0 0 18px rgba(244, 182, 63, 0.28);
 }
 .hero-proof i {
   width: 4px;
@@ -288,9 +289,9 @@ svg {
   display: grid;
   place-items: center;
   padding: 9px 10px;
-  border: 1px solid rgba(244, 241, 233, 0.12);
+  border: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.026);
+  box-shadow: none;
 }
 .retailer-logo-strip img {
   max-width: 96px;
@@ -3104,51 +3105,39 @@ dialog::backdrop {
   display: grid;
   place-items: center;
   padding: 14px 16px;
-  border: 1px solid rgba(140, 214, 121, 0.2);
+  border: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+  box-shadow: none;
   transition:
     transform 0.2s var(--ease),
-    border-color 0.2s,
     box-shadow 0.2s;
 }
 .retailer-logo-grid--light a {
-  border-color: rgba(11, 14, 11, 0.12);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(246, 247, 243, 0.7)),
     linear-gradient(135deg, rgba(140, 214, 121, 0.1), transparent 45%);
-  box-shadow:
-    0 12px 24px rgba(24, 31, 22, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 24px rgba(24, 31, 22, 0.08);
 }
 .retailer-logo-actions a {
   min-height: 58px;
   display: grid;
   place-items: center;
   padding: 11px 12px;
-  border: 1px solid rgba(69, 111, 58, 0.28);
+  border: 0;
   background: linear-gradient(180deg, #151915, #090c09);
   transition:
     transform 0.2s var(--ease),
-    border-color 0.2s,
     box-shadow 0.2s;
 }
 .retailer-logo-grid a:hover {
   transform: translateY(-2px);
-  border-color: rgba(140, 214, 121, 0.48);
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 .retailer-logo-grid--light a:hover {
-  border-color: rgba(69, 111, 58, 0.38);
-  box-shadow:
-    0 16px 32px rgba(24, 31, 22, 0.14),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 32px rgba(24, 31, 22, 0.14);
 }
 .retailer-logo-actions a:hover {
   transform: translateY(-2px);
-  border-color: rgba(69, 111, 58, 0.55);
   box-shadow: 0 12px 28px rgba(69, 77, 66, 0.18);
 }
 .retailer-logo-grid img,
@@ -4060,7 +4049,7 @@ html.is-bright-mode .profile-dropdown {
   place-items: center;
   margin: 18px 0 8px;
   padding: 12px 16px;
-  border: 1px solid rgba(244, 241, 233, 0.14);
+  border: 0;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.055);
 }
@@ -4194,5 +4183,52 @@ html.is-bright-mode .profile-dropdown {
   }
   .review-retailer-logo {
     max-width: 100%;
+  }
+}
+
+.stars,
+.hero-proof .stars {
+  color: #f4b63f !important;
+  text-shadow: 0 0 18px rgba(244, 182, 63, 0.3);
+}
+.retailer-logo-strip a,
+.retailer-logo-grid a,
+.retailer-logo-actions a,
+.review-retailer-logo {
+  border: 0 !important;
+  outline: 0;
+}
+.retailer-logo-strip a,
+.review-retailer-logo {
+  box-shadow: none !important;
+}
+.retailer-logo-actions a {
+  box-shadow: none;
+}
+.bestseller-proof {
+  display: flex;
+  align-items: center;
+}
+.bestseller-proof img {
+  width: min(280px, 100%);
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.28));
+}
+.bestseller-proof--hero {
+  margin-top: 18px;
+}
+.bestseller-proof--hero img {
+  width: min(245px, 58vw);
+}
+.bestseller-proof--reviews {
+  margin: 22px 0 4px;
+}
+.bestseller-proof--reviews img {
+  width: min(260px, 100%);
+}
+@media (max-width: 620px) {
+  .bestseller-proof--hero img,
+  .bestseller-proof--reviews img {
+    width: min(220px, 72vw);
   }
 }
