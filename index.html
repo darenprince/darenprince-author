@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Game On! by Daren M. Prince is a psychology-backed relationship playbook for men who want real confidence, better conversations, and meaningful connection.">
+  <meta name="description" content="Game On! by Daren M. Prince is a relationship playbook for men who want real confidence, better conversations, and meaningful connection.">
   <meta property="og:image" content="/assets/game-on-cover.png">
   <meta name="twitter:image" content="/assets/game-on-cover.png">
   <meta name="theme-color" content="#456f3a">
-  <title>Game On! — Stop Guessing. Start Connecting.</title>
+  <title>Game On! | Stop Guessing. Start Connecting.</title>
   <link rel="icon" href="/assets/icons/generated/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/icons/generated/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/hero-tunnel-mobile-v2-chalk.webp" media="(max-width: 620px)">
   <link rel="preload" as="image" href="assets/final-stadium-mobile-v1.webp" media="(max-width: 620px)">
-  <link rel="stylesheet" href="styles.css?v=20260630-logos3">
+  <link rel="stylesheet" href="styles.css?v=20260630-tabs-reviews">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -31,10 +31,34 @@
       <a href="#reviews">Reviews</a>
       <a href="#author">About</a>
     </nav>
-    <a class="header-cta js-open-buy" href="#buy">Get Game On <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
+    <div class="nav-actions" aria-label="Site tools">
+      <button class="nav-icon-btn js-search-toggle" type="button" aria-expanded="false" aria-controls="siteSearch" aria-label="Open search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      </button>
+      <button class="nav-icon-btn js-theme-toggle" type="button" aria-pressed="false" aria-label="Toggle display mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/><circle cx="12" cy="12" r="4.5"/></svg>
+      </button>
+      <button class="nav-icon-btn js-profile-toggle" type="button" aria-expanded="false" aria-controls="profileMenu" aria-label="Open account menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c1.2-5 4-7.5 7.5-7.5s6.3 2.5 7.5 7.5"/></svg>
+      </button>
+      <a class="header-cta js-open-buy" href="#buy">Get Game On <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+    <div class="search-bar" id="siteSearch" hidden>
+      <form class="search-form" action="pages/search.html" role="search">
+        <label class="visually-hidden" for="siteSearchInput">Search this site</label>
+        <input id="siteSearchInput" name="q" type="search" placeholder="Search books, tools, and author updates">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div class="profile-dropdown" id="profileMenu" hidden>
+      <p class="profile-info">Reader account</p>
+      <a href="login.html">Log in</a>
+      <a href="signup.html">Create account</a>
+      <a href="book.html">My books</a>
+    </div>
     <nav class="mobile-nav" id="mobileNav" aria-hidden="true" aria-label="Mobile navigation">
       <a href="#inside">Inside</a><a href="#playbook">The Playbook</a><a href="#book-details">Book Details</a><a href="#reviews">Reviews</a><a href="#author">About</a>
       <a class="mobile-buy js-open-buy" href="#buy">Get Game On</a>
@@ -47,14 +71,14 @@
       <div class="hero-grid shell">
         <div class="hero-copy reveal">
           <h1><span>Stop Guessing.</span><strong>Start Connecting.</strong></h1>
-          <p>A psychology-backed playbook for men who want real confidence, better conversations, and relationships that actually go somewhere.</p>
+          <p>A practical playbook for men who want real confidence, better conversations, and relationships that actually go somewhere.</p>
           <div class="hero-actions">
             <a class="button button-primary js-open-buy" href="#buy">Get the Book <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
             <button class="button button-outline" id="trailerButton" type="button"><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg> Watch the Trailer</button>
           </div>
           <div class="hero-proof" aria-label="Book achievements">
             <span class="stars" aria-label="Five stars">★★★★★</span>
-            <span>5-Star Rated</span><i></i><span>Amazon Top 100</span>
+            <span>5 Star Rated</span><i></i><span>Amazon Top 100</span>
           </div>
           <div class="hero-retailer-logos retailer-logo-strip retailer-logo-strip--dark" aria-label="Available from leading book retailers">
             <a href="https://www.amazon.com/Game-Master-Conversation-Heart-Relationships-ebook/dp/B0DQHLK4G2" target="_blank" rel="noopener" aria-label="View Game On at Amazon"><img src="assets/retailers/amazon-logo.png" alt="Amazon"></a>
@@ -78,7 +102,7 @@
 
     <section class="proof-rail" aria-label="Reader ratings">
       <div class="proof-track">
-        <span>Amazon Top 100</span><i></i><span>5.0 Apple Books</span><i></i><span>5.0 Google Play</span><i></i><span>5.0 Amazon</span><i></i><span>Available in Print, Digital & Audio</span>
+        <span>Amazon Top 100</span><i></i><span>5.0 Apple Books</span><i></i><span>5.0 Google Play</span><i></i><span>5.0 Amazon</span><i></i><span>Available in Print, Digital, and Audio</span>
       </div>
     </section>
 
@@ -88,8 +112,8 @@
         <div class="manifesto-copy reveal">
           <p class="section-label">Connection, on purpose</p>
           <h2>Dating is not<br>a game of <em>luck.</em></h2>
-          <p class="lead">It is a game of skill—and most men were never taught the rules.</p>
-          <p>Game On! gives you the psychology, frameworks, and field-tested strategies to stop second-guessing and start creating real connection with clarity.</p>
+          <p class="lead">It is a skill most men were never taught.</p>
+          <p>Game On! gives you the psychology, frameworks, and field tested strategies to stop overthinking and start creating real connection with clarity.</p>
           <a class="text-link" href="#playbook">See what is inside <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
         </div>
         <div class="strategy-board reveal" aria-label="Connection strategy diagram">
@@ -150,7 +174,7 @@
             <p class="section-label">Inside the book</p>
             <h2>Know exactly<br>what you are <em>getting.</em></h2>
           </div>
-          <p>A 308-page, psychology-backed field guide for better conversations, stronger self-awareness, and relationships built on real connection—not tricks.</p>
+          <p>A 308 page field guide for better conversations, stronger self awareness, and relationships built on real connection. No tricks.</p>
         </header>
 
         <div class="details-workspace reveal">
@@ -160,6 +184,15 @@
             <button class="detail-tab" id="detail-tab-inside" type="button" role="tab" aria-selected="false" aria-controls="detail-panel-inside" tabindex="-1">Inside the Playbook</button>
             <button class="detail-tab" id="detail-tab-not" type="button" role="tab" aria-selected="false" aria-controls="detail-panel-not" tabindex="-1">What It Is Not</button>
           </div>
+          <label class="detail-tab-select-wrap" for="detailTabSelect">
+            <span>Explore this section</span>
+            <select class="detail-tab-select" id="detailTabSelect">
+              <option value="detail-tab-learn">What You Will Learn</option>
+              <option value="detail-tab-for">Who It Is For</option>
+              <option value="detail-tab-inside">Inside the Playbook</option>
+              <option value="detail-tab-not">What It Is Not</option>
+            </select>
+          </label>
 
           <div class="detail-panels">
             <article class="detail-panel is-active" id="detail-panel-learn" role="tabpanel" aria-labelledby="detail-tab-learn">
@@ -167,10 +200,10 @@
                 <p class="detail-kicker">Your outcomes</p>
                 <h3>Turn guesswork into a repeatable connection skill set.</h3>
                 <ul class="detail-list">
-                  <li><span class="detail-icon detail-icon-play"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="10" y="8" width="20" height="24" rx="2"/><path d="M15 8h10v4H15zM15 20l4 4 7-8"/></svg></span><span><strong>Build unshakeable confidence</strong> Overcome self-doubt and develop the mindset, presence, and habits that make you magnetic.</span></li>
-                  <li><span class="detail-icon detail-icon-chat"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 11h26v16H19l-8 6v-6H7z"/><path d="M14 19h.1M20 19h.1M26 19h.1"/></svg></span><span><strong>Start better conversations</strong> Learn field-tested openers, follow-ups, and frameworks that lead to real, engaging conversations.</span></li>
+                  <li><span class="detail-icon detail-icon-play"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="10" y="8" width="20" height="24" rx="2"/><path d="M15 8h10v4H15zM15 20l4 4 7-8"/></svg></span><span><strong>Build unshakeable confidence</strong> Overcome self doubt and develop the mindset, presence, and habits that make you magnetic.</span></li>
+                  <li><span class="detail-icon detail-icon-chat"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 11h26v16H19l-8 6v-6H7z"/><path d="M14 19h.1M20 19h.1M26 19h.1"/></svg></span><span><strong>Start better conversations</strong> Learn tested openers, follow ups, and frameworks that lead to real, engaging conversations.</span></li>
                   <li><span class="detail-icon detail-icon-room"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 12l5 5M14 12l-5 5M23 12l5 5M28 12l-5 5M10 29c9-1 16-6 20-16M29 13l3 7M29 13l-7 3"/></svg></span><span><strong>Read the room like a pro</strong> Understand body language, social dynamics, and timing so you always know your next move.</span></li>
-                  <li><span class="detail-icon detail-icon-shield"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c5 4 10 5 14 5v8c0 8-5 14-14 17C11 33 6 27 6 19v-8c4 0 9-1 14-5z"/><path d="m20 15 2 5 5 .5-3.8 3.4 1.1 5-4.3-2.6-4.3 2.6 1.1-5-3.8-3.4 5-.5z"/></svg></span><span><strong>Handle rejection. Keep moving.</strong> Build resilience and a next-play mindset that keeps you in the game and getting better.</span></li>
+                  <li><span class="detail-icon detail-icon-shield"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c5 4 10 5 14 5v8c0 8-5 14-14 17C11 33 6 27 6 19v-8c4 0 9-1 14-5z"/><path d="m20 15 2 5 5 .5-3.8 3.4 1.1 5-4.3-2.6-4.3 2.6 1.1-5-3.8-3.4 5-.5z"/></svg></span><span><strong>Handle rejection. Keep moving.</strong> Build resilience and a next play mindset that keeps you in the game and getting better.</span></li>
                   <li><span class="detail-icon detail-icon-people"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="14" r="5"/><path d="M9 34c1-8 5-13 11-13s10 5 11 13M7 26c0-4 2-7 6-8M33 26c0-4-2-7-6-8"/></svg></span><span><strong>Create real connections</strong> Go beyond small talk to build trust, deepen rapport, and create lasting attraction.</span></li>
                 </ul>
               </div>
@@ -190,26 +223,26 @@
                 <p class="detail-kicker">Built for real life</p>
                 <h3>For men ready to show up differently.</h3>
                 <ul class="detail-list">
-                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="13" r="6"/><path d="M8 35c1-10 5-15 12-15s11 5 12 15"/></svg></span><span><strong>Single men</strong> who are tired of surface-level dating advice and dead-end conversations.</span></li>
+                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="13" r="6"/><path d="M8 35c1-10 5-15 12-15s11 5 12 15"/></svg></span><span><strong>Single men</strong> who are tired of surface level dating advice and conversations that go nowhere.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 31 31 9M14 8h17v17M7 21v12h12"/></svg></span><span><strong>Men starting fresh</strong> after a breakup, divorce, or a long stretch away from dating.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 33S8 26 8 17c0-6 7-8 12-3 5-5 12-3 12 3 0 9-12 16-12 16z"/><path d="M20 8v6"/></svg></span><span><strong>Committed partners</strong> who want stronger communication, intimacy, and trust.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m15 20 4 4 7-9"/></svg></span><span><strong>Anyone who values authenticity</strong> and wants emotional intelligence to become a practical advantage.</span></li>
                 </ul>
               </div>
-              <div class="detail-badge-grid" aria-label="Reader fit indicators">
-                <span><b>01</b>Dating</span><span><b>02</b>Starting over</span><span><b>03</b>Relationships</span><span><b>04</b>Self-growth</span>
+              <div class="detail-badge-grid detail-badge-grid--image" aria-label="Reader fit indicators">
+                <span style="--fit-image: url('assets/detail-who-dating-v1.png')"><b>01</b>Dating</span><span style="--fit-image: url('assets/detail-who-starting-over-v1.png')"><b>02</b>Starting over</span><span style="--fit-image: url('assets/detail-who-relationships-v1.png')"><b>03</b>Relationships</span><span style="--fit-image: url('assets/detail-who-self-growth-v1.png')"><b>04</b>Self growth</span>
               </div>
             </article>
 
             <article class="detail-panel" id="detail-panel-inside" role="tabpanel" aria-labelledby="detail-tab-inside" hidden>
               <div class="detail-copy">
                 <p class="detail-kicker">Tools you can use</p>
-                <h3>Practical work—not theory you forget tomorrow.</h3>
+                <h3>Practical work you will actually use.</h3>
                 <ul class="detail-list">
-                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 7h12c2 0 3 1 3 3v24c0-3-2-4-5-4H6zM34 7H22c-1 0-1 1-1 3v24c0-3 2-4 5-4h8z"/></svg></span><span><strong>Real-world examples and exercises</strong> that turn insight into action.</span></li>
+                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 7h12c2 0 3 1 3 3v24c0-3-2-4-5-4H6zM34 7H22c-1 0-1 1-1 3v24c0-3 2-4 5-4h8z"/></svg></span><span><strong>Real world examples and exercises</strong> that turn insight into action.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="M20 12v9l6 4M20 5v4"/></svg></span><span><strong>Daily connection rituals</strong> designed to deepen intimacy over time.</span></li>
-                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 31c6-1 8-5 9-11 2-8 7-10 15-11M27 6l6 3-4 5"/><path d="M7 35h26"/></svg></span><span><strong>Self-improvement challenges</strong> for confidence that holds up under pressure.</span></li>
-                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 9h26v18H20l-7 6v-6H7zM13 15h14M13 21h9"/></svg></span><span><strong>Conflict-resolution tools</strong> for honest conversations when the stakes are high.</span></li>
+                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 31c6-1 8-5 9-11 2-8 7-10 15-11M27 6l6 3-4 5"/><path d="M7 35h26"/></svg></span><span><strong>Self improvement challenges</strong> for confidence that holds up under pressure.</span></li>
+                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 9h26v18H20l-7 6v-6H7zM13 15h14M13 21h9"/></svg></span><span><strong>Conflict resolution tools</strong> for honest conversations when the stakes are high.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 32h26M10 27l7-8 5 4 8-12M26 11h4v4"/></svg></span><span><strong>A complete progression</strong> from authenticity and approach to emotional intimacy.</span></li>
                 </ul>
               </div>
@@ -226,11 +259,12 @@
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m13 13 14 14M27 13 13 27"/></svg></span><span><strong>No cheesy rehearsed lines</strong> that fall apart the second a real conversation begins.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m13 13 14 14M27 13 13 27"/></svg></span><span><strong>No robotic scripts</strong> or tactics built to force chemistry that is not there.</span></li>
                   <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m13 13 14 14M27 13 13 27"/></svg></span><span><strong>No confidence theater</strong> that covers insecurity instead of addressing it.</span></li>
-                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m13 13 14 14M27 13 13 27"/></svg></span><span><strong>No shortcut around growth.</strong> Better connection starts with becoming more honest, present, and self-aware.</span></li>
+                  <li><span class="detail-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="m13 13 14 14M27 13 13 27"/></svg></span><span><strong>No shortcut around growth.</strong> Better connection starts with becoming more honest, present, and self aware.</span></li>
                 </ul>
               </div>
-              <div class="anti-gimmick" aria-label="Authenticity over tactics">
-                <span>No games</span><svg viewBox="0 0 260 260" aria-hidden="true"><circle cx="130" cy="130" r="92"/><path d="M65 65l130 130M87 118c10-24 27-36 43-36s33 12 43 36M96 157c20 17 48 17 68 0"/></svg><strong>Authenticity wins.</strong>
+              <div class="anti-gimmick anti-gimmick--image" aria-label="Authenticity over tactics">
+                <img src="assets/detail-authenticity-wins-v1.png" alt="A man choosing authenticity over fake personas">
+                <span>No games</span><strong>Authenticity wins.</strong>
               </div>
             </article>
           </div>
@@ -272,7 +306,7 @@
               <a href="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900" target="_blank" rel="noopener" aria-label="View Game On at Apple Books"><img src="assets/retailers/apple-books-logo-light.png" alt="Apple Books"></a>
               <a href="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ" target="_blank" rel="noopener" aria-label="View Game On at Google Play"><img src="assets/retailers/google-play-logo-light.png" alt="Google Play"></a>
               <a href="https://www.walmart.com/ip/Game-On-Master-The-Conversation-amp-Win-Her-Heart-The-Comprehensive-Men-apos-s-Playbook-for-Flirting-Seduction-Dating-amp-Am-Paperback-9798303844407/14835807268?classType=REGULAR&amp;from=/search" target="_blank" rel="noopener" aria-label="View Game On at Walmart"><img src="assets/retailers/walmart-wordmark-blue.svg" alt="Walmart"></a>
-              <a href="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407" target="_blank" rel="noopener" aria-label="View Game On at Books-A-Million"><img src="assets/retailers/bam-logo-dark.svg" alt="Books-A-Million"></a>
+              <a href="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407" target="_blank" rel="noopener" aria-label="View Game On at Books A Million"><img src="assets/retailers/bam-logo-dark.svg" alt="Books A Million"></a>
               <a href="https://www.goodreads.com/author/show/53671567.Daren_Prince" target="_blank" rel="noopener" aria-label="View Daren Prince at Goodreads"><img src="assets/retailers/goodreads-logo-light.png" alt="Goodreads"></a>
               <a href="https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380/" target="_blank" rel="noopener" aria-label="View Game On at ThriftBooks"><img src="assets/retailers/thriftbooks-logo-green.svg" alt="ThriftBooks"></a>
               <a href="https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407" target="_blank" rel="noopener" aria-label="View Game On at Waterstones"><img src="assets/retailers/waterstones-logo-dark.svg" alt="Waterstones"></a>
@@ -301,8 +335,9 @@
         </header>
         <figure class="review-card reveal">
           <span class="quote-mark" aria-hidden="true">“</span>
-          <blockquote id="reviewQuote" aria-live="polite">Other books oversimplify and leave you confused. This one explains exactly how to apply what you learn—surprisingly useful.</blockquote>
-          <figcaption><span id="reviewSource">Always-ADAM · Books-A-Million</span><span class="stars">★★★★★</span></figcaption>
+          <blockquote id="reviewQuote" aria-live="polite">Other books oversimplify and leave you confused. This one explains exactly how to apply what you learn. Surprisingly useful.</blockquote>
+          <figcaption><span id="reviewSource">Always Adam · Books A Million</span><span class="stars">★★★★★</span></figcaption>
+          <div class="review-retailer-logo" aria-label="Review source"><img id="reviewLogo" src="assets/retailers/bam-logo-white.svg" alt="Books A Million"></div>
           <div class="review-progress"><span id="reviewProgress"></span></div>
         </figure>
       </div>
@@ -318,7 +353,7 @@
         <div class="author-copy reveal">
           <p class="section-label">The author</p>
           <h2>Real lessons.<br><em>No recycled advice.</em></h2>
-          <p class="lead">Daren Prince blends psychology, storytelling, and real conversation—turning hard-earned lessons into practical tools for connection, confidence, and healing.</p>
+          <p class="lead">Daren Prince blends psychology, storytelling, and real conversation to turn hard earned lessons into practical tools for connection, confidence, and healing.</p>
           <a class="text-link" href="https://www.darenprince.com/meet-daren-prince.html" target="_blank" rel="noopener">Meet Daren <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
@@ -347,7 +382,7 @@
 
   <dialog id="trailerDialog" class="media-dialog">
     <button type="button" class="dialog-close" data-dialog-close aria-label="Close trailer">×</button>
-    <div class="video-wrap"><iframe id="trailerFrame" title="Game On trailer" src="about:blank" data-src="https://player.vimeo.com/video/1113218491?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="video-wrap"><iframe id="trailerFrame" title="Game On trailer" src="about:blank" data-src="https://player.vimeo.com/video/1120030283?autoplay=1&amp;playsinline=1&amp;title=0&amp;byline=0&amp;portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
   </dialog>
 
   <dialog id="buyDialog" class="buy-dialog">
@@ -360,7 +395,7 @@
           <a href="https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900" target="_blank" rel="noopener"><img src="assets/retailers/apple-books-standard-white.svg" alt="Apple Books"></a>
           <a href="https://play.google.com/store/books/details?id=BYFbEQAAQBAJ" target="_blank" rel="noopener"><img src="assets/retailers/google-play-logo.png" alt="Google Play"></a>
           <a href="https://www.walmart.com/ip/Game-On-Master-The-Conversation-amp-Win-Her-Heart-The-Comprehensive-Men-apos-s-Playbook-for-Flirting-Seduction-Dating-amp-Am-Paperback-9798303844407/14835807268?classType=REGULAR&amp;from=/search" target="_blank" rel="noopener"><img src="assets/retailers/walmart-wordmark-white.svg" alt="Walmart"></a>
-          <a href="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407" target="_blank" rel="noopener"><img src="assets/retailers/bam-logo-white.svg" alt="Books-A-Million"></a>
+          <a href="https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407" target="_blank" rel="noopener"><img src="assets/retailers/bam-logo-white.svg" alt="Books A Million"></a>
           <a href="https://www.goodreads.com/author/show/53671567.Daren_Prince" target="_blank" rel="noopener"><img src="assets/retailers/goodreads-logo.png" alt="Goodreads"></a>
           <a href="https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380/" target="_blank" rel="noopener"><img src="assets/retailers/thriftbooks-logo-white.svg" alt="ThriftBooks"></a>
           <a href="https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407" target="_blank" rel="noopener"><img src="assets/retailers/waterstones-logo-white.svg" alt="Waterstones"></a>
@@ -374,6 +409,6 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=20260630-2"></script>
+  <script src="script.js?v=20260630-tabs-reviews"></script>
 </body>
 </html>
