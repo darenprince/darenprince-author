@@ -274,6 +274,29 @@ svg {
   border-radius: 50%;
   background: var(--lime);
 }
+.hero-retailer-logos {
+  margin-top: 18px;
+  max-width: 520px;
+}
+.retailer-logo-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.retailer-logo-strip a {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 9px 10px;
+  border: 1px solid rgba(244, 241, 233, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.026);
+}
+.retailer-logo-strip img {
+  max-width: 96px;
+  max-height: 26px;
+  object-fit: contain;
+}
 .hero-product {
   position: relative;
   justify-self: end;
@@ -3053,6 +3076,15 @@ dialog::backdrop {
     0 18px 45px rgba(24, 31, 22, 0.18),
     inset 0 0 0 1px rgba(255, 255, 255, 0.035);
 }
+.retailer-showcase--light {
+  border-color: rgba(11, 14, 11, 0.12);
+  background:
+    radial-gradient(circle at 12% 0, rgba(140, 214, 121, 0.18), transparent 30%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(238, 240, 236, 0.58));
+  box-shadow:
+    0 18px 45px rgba(24, 31, 22, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
 .retailer-showcase p {
   margin: 0 0 13px;
   color: #456f3a;
@@ -3080,6 +3112,15 @@ dialog::backdrop {
     border-color 0.2s,
     box-shadow 0.2s;
 }
+.retailer-logo-grid--light a {
+  border-color: rgba(11, 14, 11, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(246, 247, 243, 0.7)),
+    linear-gradient(135deg, rgba(140, 214, 121, 0.1), transparent 45%);
+  box-shadow:
+    0 12px 24px rgba(24, 31, 22, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+}
 .retailer-logo-actions a {
   min-height: 58px;
   display: grid;
@@ -3099,6 +3140,12 @@ dialog::backdrop {
     0 12px 28px rgba(0, 0, 0, 0.18),
     inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
+.retailer-logo-grid--light a:hover {
+  border-color: rgba(69, 111, 58, 0.38);
+  box-shadow:
+    0 16px 32px rgba(24, 31, 22, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.92);
+}
 .retailer-logo-actions a:hover {
   transform: translateY(-2px);
   border-color: rgba(69, 111, 58, 0.55);
@@ -3109,6 +3156,14 @@ dialog::backdrop {
   max-width: 132px;
   max-height: 38px;
   object-fit: contain;
+}
+.retailer-logo-grid img[src*='waterstones'],
+.retailer-logo-actions img[src*='waterstones'] {
+  max-width: 52px;
+}
+.retailer-logo-grid img[src*='thriftbooks'],
+.retailer-logo-actions img[src*='thriftbooks'] {
+  max-width: 148px;
 }
 .retailer-text-links {
   display: flex;
@@ -3126,14 +3181,19 @@ dialog::backdrop {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+.retailer-showcase--light .retailer-text-links a {
+  border-color: rgba(69, 111, 58, 0.24);
+  background: rgba(255, 255, 255, 0.68);
+  color: #24301f;
+}
 .retailer-logo-actions {
   margin-top: 22px;
 }
-.buy-dialog .retailer-logo-actions a {
+.buy-dialog .retailer-logo-actions--dark a {
   min-height: 64px;
   background: linear-gradient(180deg, #151915, #090c09);
 }
-.buy-dialog .retailer-logo-actions img {
+.buy-dialog .retailer-logo-actions--dark img {
   max-width: 140px;
   max-height: 40px;
 }
@@ -3168,8 +3228,11 @@ dialog::backdrop {
   }
 }
 @media (min-width: 961px) {
-  .retailer-logo-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .retailer-logo-actions:not(.retailer-logo-actions--dark) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .buy-dialog .retailer-logo-actions--dark {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 /* Reference-corrected book details: no white fade, no giant field background, true circular plan nodes. */
@@ -3693,7 +3756,7 @@ dialog::backdrop {
 
 /* Retailer proof: use provided light logos on a dark card, not black badges on the page background. */
 .retailer-logo-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .retailer-logo-grid a {
   min-height: 76px;
@@ -3711,6 +3774,9 @@ dialog::backdrop {
   .retailer-logo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .retailer-logo-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 620px) {
   .retailer-logo-grid {
@@ -3718,5 +3784,19 @@ dialog::backdrop {
   }
   .retailer-logo-grid a {
     min-height: 68px;
+  }
+  .hero-retailer-logos {
+    max-width: calc(100% - 112px);
+  }
+  .retailer-logo-strip {
+    gap: 7px;
+  }
+  .retailer-logo-strip a {
+    min-height: 38px;
+    padding: 8px;
+  }
+  .retailer-logo-strip img {
+    max-width: 82px;
+    max-height: 22px;
   }
 }
