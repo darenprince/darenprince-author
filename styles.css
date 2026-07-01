@@ -4406,7 +4406,7 @@ html.is-bright-mode .profile-dropdown {
   font-size: 0.8rem;
 }
 .hero-product {
-  width: clamp(330px, 29vw, 410px);
+  width: clamp(350px, 31.5vw, 460px);
   transform: translate(-34px, 6px) !important;
 }
 .hero-book-cutout {
@@ -4481,8 +4481,8 @@ html.is-bright-mode .profile-dropdown {
 }
 @media (min-width: 1181px) {
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(350px, 0.68fr);
-    gap: clamp(54px, 4.8vw, 92px);
+    grid-template-columns: minmax(0, 1fr) minmax(390px, 0.76fr);
+    gap: clamp(46px, 4.2vw, 82px);
   }
 }
 @media (min-width: 761px) and (max-width: 1180px) {
@@ -4562,7 +4562,7 @@ html.is-bright-mode .profile-dropdown {
     padding-top: 20px;
   }
   .hero h1 {
-    max-width: calc(100vw - 142px);
+    max-width: calc(100vw - 158px);
     font-size: clamp(2.72rem, 11.4vw, 3.45rem);
     line-height: 0.86;
     letter-spacing: -0.052em;
@@ -4587,8 +4587,8 @@ html.is-bright-mode .profile-dropdown {
   .hero-product {
     position: absolute;
     top: 106px;
-    right: -10px;
-    width: clamp(88px, 25vw, 108px);
+    right: -16px;
+    width: clamp(106px, 30vw, 128px);
   }
   .book-halo {
     filter: blur(28px);
