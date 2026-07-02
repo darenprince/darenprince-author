@@ -47,11 +47,16 @@ themeToggle?.addEventListener('click', () => {
 
 document.addEventListener('click', (event) => {
   if (event.target.closest('.nav-actions, .search-bar, .profile-dropdown')) return
+  if (event.target.closest('.mobile-nav')) return
   closeHeaderTools()
+  if (mobileNav?.classList.contains('is-open')) setMenuState(false)
 })
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeHeaderTools()
+  if (event.key === 'Escape') {
+    closeHeaderTools()
+    if (mobileNav?.classList.contains('is-open')) setMenuState(false)
+  }
 })
 
 const setMenuState = (open) => {
