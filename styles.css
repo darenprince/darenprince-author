@@ -5583,3 +5583,43 @@ body.menu-open::before {
     width: 31px;
   }
 }
+
+/* 2026-07-02 angular UI pass: remove soft/pill geometry from functional controls. */
+.nav-actions {
+  border-radius: 2px !important;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+}
+.nav-icon-btn,
+.menu-toggle {
+  border-radius: 2px !important;
+}
+.nav-icon-btn:hover,
+.nav-icon-btn:focus-visible,
+.nav-icon-btn[aria-expanded='true'],
+.nav-icon-btn[aria-pressed='true'],
+.menu-toggle:hover,
+.menu-toggle[aria-expanded='true'] {
+  background: rgba(140, 214, 121, 0.1) !important;
+}
+.header-cta,
+.mobile-nav .mobile-buy,
+.search-form button,
+.profile-dropdown a {
+  border-radius: 0 !important;
+  clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%) !important;
+}
+.search-bar,
+.profile-dropdown,
+.mobile-nav {
+  border-radius: 2px !important;
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+}
+.search-form input {
+  border-radius: 2px !important;
+}
+.mobile-nav a:not(.mobile-buy)::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 0 !important;
+  transform: rotate(45deg);
+}
