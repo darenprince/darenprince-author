@@ -5623,3 +5623,13 @@ body.menu-open::before {
   border-radius: 0 !important;
   transform: rotate(45deg);
 }
+
+@media (min-width: 1161px) {
+  .mobile-nav,
+  .mobile-nav.is-open {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
