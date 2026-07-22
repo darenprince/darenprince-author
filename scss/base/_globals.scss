@@ -186,8 +186,8 @@ body.theme-fade {
   border-radius: 999px;
   background: linear-gradient(
     170deg,
-    color-mix(in srgb, #{$surface} 92%, #1f3f2f),
-    color-mix(in srgb, #{$surface} 88%, #08100c)
+    color-mix(in srgb, #{$surface} 94%, #2b0f14),
+    color-mix(in srgb, #{$surface} 90%, #070709)
   );
   color: $white;
   display: grid;
@@ -204,7 +204,7 @@ body.theme-fade {
 
 .floating-share-btn {
   --btn-border-width: 1px;
-  --btn-border-color: color-mix(in srgb, #{$lime-green} 40%, transparent);
+  --btn-border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .floating-share-btn,
