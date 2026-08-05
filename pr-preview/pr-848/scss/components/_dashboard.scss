@@ -1,0 +1,22 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+.dashboard {
+  display: flex;
+  align-items: flex-start;
+}
+.sidebar {
+  width: 200px;
+  padding: $spacing-md;
+  background-color: $charcoal;
+}
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar-nav li {
+  margin-bottom: $spacing-xs;
+}
+.content {
+  flex-grow: 1;
+  padding: $spacing-md;
+}

@@ -1,0 +1,76 @@
+@use '../base/variables' as *;
+@use '../tokens/colors' as *;
+@use '../base/mixins' as *;
+.testimonials {
+  padding: $spacing-xl 0;
+
+  .section-heading-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, #{$white} 70%, transparent);
+  }
+
+  .section-heading {
+    margin: 0;
+  }
+
+  .section-lede {
+    margin: 0;
+    color: color-mix(in srgb, #{$white} 75%, transparent);
+  }
+
+  .testimonial-grid {
+    display: grid;
+    gap: $spacing-lg;
+    grid-template-columns: 1fr;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .card {
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, #{$deep-green} 34%, #{$black} 66%),
+      color-mix(in srgb, #{$charcoal} 58%, #{$black} 42%)
+    );
+    padding: $spacing-lg;
+    text-align: center;
+    border-radius: $border-radius;
+    border: 1px solid color-mix(in srgb, #{$mint-green} 26%, transparent);
+    box-shadow: 0 18px 44px rgba($black, 0.42);
+
+    img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-bottom: $spacing-sm;
+    }
+
+    blockquote {
+      font-size: 0.875rem;
+      margin: $spacing-sm 0;
+    }
+
+    cite {
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .testimonial-rating {
+      display: inline-flex;
+      gap: 0.25rem;
+      margin-bottom: $spacing-sm;
+      color: color-mix(in srgb, #{$mint-green} 75%, #{$white} 25%);
+      font-size: 0.9rem;
+    }
+  }
+}
