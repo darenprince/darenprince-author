@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crown Labs Documentation</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://www.darenprince.com/app%20icons/crownicon.PNG"
+    />
+    <link rel="stylesheet" href="assets/css/platform.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100,0,-25"
+    />
+  </head>
+  <body>
+    <div class="cl-scrim" id="scrim"></div>
+    <div class="cl-app" id="app">
+      <aside class="cl-sidebar">
+        <div class="cl-sidebar-header">
+          <img
+            class="cl-logo"
+            src="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+            data-dark-logo="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+            data-light-logo="https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png"
+            alt="Crown Labs"
+          />
+          <button class="cl-icon-btn" id="navToggle" title="Toggle navigation">
+            <span class="ms-icon" aria-hidden="true">menu</span>
+          </button>
+        </div>
+        <div class="cl-title">Crown Labs Documentation</div>
+        <div class="cl-subtitle">
+          Unified product, investor, executive, brand, and operating documentation.
+        </div>
+        <div class="cl-quicklinks">
+          <a href="viewer.html#Company%20Overview"
+            ><span class="ms-icon" aria-hidden="true">home</span>Overview</a
+          >
+          <a href="viewer.html"><span class="ms-icon" aria-hidden="true">description</span>Docs</a>
+          <a href="investor-mode.html"
+            ><span class="ms-icon" aria-hidden="true">account_balance_wallet</span>Investor</a
+          >
+          <a href="executive-dashboard.html"
+            ><span class="ms-icon" aria-hidden="true">monitoring</span>Executive</a
+          >
+          <a href="ecosystem-map.html"><span class="ms-icon" aria-hidden="true">map</span>Map</a>
+          <a href="roadmap-tracker.html"
+            ><span class="ms-icon" aria-hidden="true">route</span>Roadmap</a
+          >
+        </div>
+        <div class="cl-search">
+          <span class="ms-icon" aria-hidden="true">search</span
+          ><input id="searchInput" placeholder="Search documentation..." />
+        </div>
+        <div class="cl-tree" id="navRoot"></div>
+      </aside>
+
+      <main class="cl-main">
+        <div class="cl-reader">
+          <div class="cl-toolbar">
+            <div class="cl-toolbar-body">
+              <div class="cl-toolbar-meta">
+                <div class="cl-toolbar-head">
+                  <img
+                    class="cl-header-logo"
+                    src="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+                    data-dark-logo="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+                    data-light-logo="https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png"
+                    alt="Crown Labs"
+                  />
+                  <button
+                    class="cl-icon-btn cl-mobile-menu"
+                    id="mobileMenu"
+                    title="Open navigation"
+                  >
+                    <span class="ms-icon" aria-hidden="true">menu</span>
+                  </button>
+                </div>
+                <div class="cl-breadcrumbs" id="breadcrumbRoot"></div>
+              </div>
+              <div class="cl-tools">
+                <button class="cl-tool-btn" id="themeToggle" title="Toggle theme">
+                  <span class="ms-icon" aria-hidden="true">dark_mode</span><span>Theme</span>
+                </button>
+                <button class="cl-tool-btn" id="fontDown" title="Decrease font size">
+                  <span class="ms-icon" aria-hidden="true">text_fields</span><span>A−</span>
+                </button>
+                <button class="cl-tool-btn" id="fontReset" title="Reset font size">
+                  <span class="ms-icon" aria-hidden="true">format_size</span><span>A</span>
+                </button>
+                <button class="cl-tool-btn" id="fontUp" title="Increase font size">
+                  <span class="ms-icon" aria-hidden="true">text_increase</span><span>A+</span>
+                </button>
+                <button class="cl-tool-btn" id="copyDoc" title="Copy document">
+                  <span class="ms-icon" aria-hidden="true">content_copy</span><span>Copy</span>
+                </button>
+                <button class="cl-tool-btn" id="printDoc" title="Print document">
+                  <span class="ms-icon" aria-hidden="true">print</span><span>Print</span>
+                </button>
+                <button class="cl-tool-btn" id="shareDoc" title="Share document">
+                  <span class="ms-icon" aria-hidden="true">share</span><span>Share</span>
+                </button>
+              </div>
+            </div>
+            <button
+              class="cl-icon-btn cl-toolbar-toggle"
+              id="toolbarToggle"
+              title="Collapse toolbar"
+            >
+              <span class="ms-icon" aria-hidden="true">expand_less</span>
+            </button>
+          </div>
+          <article class="cl-content" id="content">
+            <p class="cl-empty">Choose a document from the navigation.</p>
+          </article>
+          <footer class="cl-footer">
+            <div class="cl-footer-grid">
+              <div>
+                <img
+                  src="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+                  data-dark-logo="https://www.darenprince.com/labs/assets/crown-labs-logo.png"
+                  data-light-logo="https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png"
+                  alt="Crown Labs"
+                />
+                <p>
+                  Institutional documentation, product intelligence, and operational infrastructure
+                  for the Crown Labs ecosystem.
+                </p>
+                <div class="cl-social">
+                  <a href="https://www.darenprince.com"
+                    ><span class="ms-icon" aria-hidden="true">language</span></a
+                  ><a href="https://github.com/darenprince"
+                    ><span class="ms-icon" aria-hidden="true">code</span></a
+                  ><a href="#"><span class="ms-icon" aria-hidden="true">work</span></a
+                  ><a href="#"><span class="ms-icon" aria-hidden="true">alternate_email</span></a>
+                </div>
+              </div>
+              <div>
+                <h4>Documentation</h4>
+                <a href="viewer.html"
+                  ><span class="ms-icon" aria-hidden="true">description</span>Viewer</a
+                ><a href="ecosystem-map.html"
+                  ><span class="ms-icon" aria-hidden="true">map</span>Ecosystem Map</a
+                ><a href="roadmap-tracker.html"
+                  ><span class="ms-icon" aria-hidden="true">route</span>Roadmap</a
+                >
+              </div>
+              <div>
+                <h4>Business</h4>
+                <a href="investor-mode.html"
+                  ><span class="ms-icon" aria-hidden="true">account_balance_wallet</span>Investor
+                  Mode</a
+                ><a href="executive-dashboard.html"
+                  ><span class="ms-icon" aria-hidden="true">monitoring</span>Executive Dashboard</a
+                ><a href="mailto:apps@crownlabs.tech"
+                  ><span class="ms-icon" aria-hidden="true">mail</span>Contact</a
+                >
+              </div>
+              <div>
+                <h4>Updates</h4>
+                <p>Get release notes and documentation updates.</p>
+                <form
+                  class="cl-signup"
+                  onsubmit="event.preventDefault();toast('Signup captured. Connect mailing provider next.');"
+                >
+                  <input type="email" placeholder="Email address" required /><button>
+                    <span class="ms-icon" aria-hidden="true">arrow_forward</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <button class="cl-back-top" id="backTop">
+      <span class="ms-icon" aria-hidden="true">arrow_upward</span>
+    </button>
+    <div class="cl-toast" id="toast"></div>
+    <script>
+      const iconMap = {
+        'Corporate Foundation': 'solar:buildings-2-linear',
+        'Branding & Visual Identity': 'solar:pallete-2-linear',
+        'Writing & Communication': 'solar:pen-new-square-linear',
+        'Investor Framework': 'solar:chart-2-linear',
+        'Corporate Infrastructure': 'solar:server-square-linear',
+        'Product Documentation': 'solar:box-linear',
+        'AI Cherry Pie': 'solar:text-field-focus-linear',
+        'Crown Psychology': 'solar:brain-linear',
+        'Sentinel Vault': 'solar:shield-keyhole-linear',
+        CrownCam: 'solar:camera-linear',
+        'Crown SOS': 'solar:siren-rounded-linear',
+        'Crown WatchTower': 'solar:tower-linear',
+        CrownCast: 'solar:podcast-linear',
+      }
+      const tree = [
+        {
+          label: 'Corporate Foundation',
+          children: [
+            {
+              label: 'Corporate Identity',
+              path: '../01-corporate-foundation/crown-labs-corporate-identity.md',
+            },
+            {
+              label: 'Product Classification Framework',
+              path: '../01-corporate-foundation/product-classification-framework.md',
+            },
+          ],
+        },
+        {
+          label: 'Branding & Visual Identity',
+          children: [
+            {
+              label: 'Branding & Visual Identity Standards',
+              path: '../05-corporate-infrastructure/brand-standards.md',
+            },
+          ],
+        },
+        {
+          label: 'Writing & Communication',
+          children: [
+            { label: 'Writing Standards Overview', path: '../02-writing-standards/README.md' },
+            { label: 'Brand Voice System', path: '../02-writing-standards/brand-voice-system.md' },
+            {
+              label: 'Corporate Writing Standards',
+              path: '../05-corporate-infrastructure/writing-standards.md',
+            },
+            {
+              label: 'Communication Standards',
+              path: '../05-corporate-infrastructure/communication-standards.md',
+            },
+          ],
+        },
+        {
+          label: 'Investor Framework',
+          children: [
+            {
+              label: 'Licensing Structures',
+              path: '../03-investor-framework/licensing-structures.md',
+            },
+            {
+              label: 'Monetization Models',
+              path: '../03-investor-framework/monetization-models.md',
+            },
+            {
+              label: 'Valuation Methodology',
+              path: '../03-investor-framework/valuation-methodology.md',
+            },
+            {
+              label: 'Investor Relations',
+              path: '../05-corporate-infrastructure/investor-relations.md',
+            },
+            {
+              label: 'Licensing Governance',
+              path: '../05-corporate-infrastructure/licensing-governance.md',
+            },
+          ],
+        },
+        {
+          label: 'Corporate Infrastructure',
+          children: [
+            {
+              label: 'Company Overview',
+              path: '../05-corporate-infrastructure/company-overview.md',
+            },
+            {
+              label: 'Executive Positioning',
+              path: '../05-corporate-infrastructure/executive-positioning.md',
+            },
+            {
+              label: 'Holdings Structure',
+              path: '../05-corporate-infrastructure/holdings-structure.md',
+            },
+            {
+              label: 'Portfolio Governance',
+              path: '../05-corporate-infrastructure/portfolio-governance.md',
+            },
+            {
+              label: 'Ecosystem Philosophy',
+              path: '../05-corporate-infrastructure/ecosystem-philosophy.md',
+            },
+            {
+              label: 'Expansion Roadmap',
+              path: '../05-corporate-infrastructure/expansion-roadmap.md',
+            },
+            {
+              label: 'Acquisition Strategy',
+              path: '../05-corporate-infrastructure/acquisition-strategy.md',
+            },
+          ],
+        },
+        {
+          label: 'Product Documentation',
+          children: [
+            product('AI Cherry Pie', 'ai-cherry-pie', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+            ]),
+            product('Crown Psychology', 'crown-psychology', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+            product('Sentinel Vault', 'sentinel-vault', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+            product('CrownCam', 'crowncam', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+            product('Crown SOS', 'crown-sos', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+            product('Crown WatchTower', 'crown-watchtower', [
+              'Overview',
+              'Architecture',
+              'Positioning',
+              'Valuation',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+            product('CrownCast', 'crowncast', [
+              'Overview',
+              'Positioning',
+              'Valuation',
+              'Monetization',
+              'Licensing',
+              'Website Copy',
+              'Ecosystem Role',
+            ]),
+          ],
+        },
+      ]
+      function product(label, slug, items) {
+        return {
+          label,
+          children: items.map((x) => ({
+            label: x,
+            path:
+              '../04-product-dossiers/' + slug + '/' + x.toLowerCase().replaceAll(' ', '-') + '.md',
+          })),
+        }
+      }
+      const $ = (s) => document.querySelector(s),
+        app = $('#app'),
+        navRoot = $('#navRoot'),
+        content = $('#content'),
+        crumbs = $('#breadcrumbRoot'),
+        search = $('#searchInput')
+      let currentDoc = null,
+        currentPath = '',
+        scale = Number(localStorage.getItem('readerScale') || 1)
+      function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme
+        document.querySelectorAll('[data-dark-logo]').forEach((img) => {
+          img.src = theme === 'light' ? img.dataset.lightLogo : img.dataset.darkLogo
+        })
+      }
+      applyTheme(localStorage.getItem('theme') || 'dark')
+      document.documentElement.style.setProperty('--reader-scale', scale)
+      if (localStorage.getItem('navCollapsed') === 'true') app.classList.add('nav-collapsed')
+      function esc(s) {
+        return String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]
+        )
+      }
+      function icon(s) {
+        return '<span class="ms-icon" aria-hidden="true">radio_button_unchecked</span>'
+      }
+      function flatten(nodes, p = []) {
+        return nodes.flatMap((n) =>
+          n.children ? flatten(n.children, [...p, n.label]) : [{ ...n, crumb: [...p, n.label] }]
+        )
+      }
+      const flat = flatten(tree)
+      flat.unshift({
+        label: 'Documentation Platform',
+        path: '../05-corporate-infrastructure/documentation-platform.md',
+        crumb: ['Corporate Infrastructure', 'Documentation Platform'],
+      })
+      function match(n, q) {
+        return (
+          (n.label + ' ' + (n.path || '')).toLowerCase().includes(q) ||
+          (n.children || []).some((x) => match(x, q))
+        )
+      }
+      function renderNav(q = '') {
+        q = q.toLowerCase().trim()
+        navRoot.innerHTML = ''
+        tree.forEach((sec) => {
+          if (q && !match(sec, q)) return
+          const s = document.createElement('div')
+          s.className = 'cl-section'
+          s.dataset.section = sec.label
+          s.innerHTML =
+            '<button class="cl-section-toggle"><span class="cl-label">' +
+            icon(sec.label) +
+            '<span>' +
+            esc(sec.label) +
+            '</span></span><span class="cl-chevron">⌄</span></button><div class="cl-children"></div>'
+          s.querySelector('button').onclick = () => s.classList.toggle('closed')
+          const kids = s.querySelector('.cl-children')
+          sec.children.forEach((ch) => {
+            if (q && !match(ch, q)) return
+            if (ch.children) {
+              const g = document.createElement('div')
+              g.className = 'cl-product'
+              g.dataset.group = ch.label
+              g.innerHTML =
+                '<button class="cl-product-toggle"><span class="cl-label">' +
+                icon(ch.label) +
+                '<span>' +
+                esc(ch.label) +
+                '</span></span><span class="cl-chevron">⌄</span></button><div class="cl-leaves"></div>'
+              g.querySelector('button').onclick = () => g.classList.toggle('closed')
+              ch.children.forEach((d) => {
+                if (!q || match(d, q))
+                  g.querySelector('.cl-leaves').appendChild(link(d, [sec.label, ch.label, d.label]))
+              })
+              kids.appendChild(g)
+            } else kids.appendChild(link(ch, [sec.label, ch.label]))
+          })
+          navRoot.appendChild(s)
+        })
+        syncActive()
+      }
+      function link(doc, crumb) {
+        const a = document.createElement('a')
+        a.className = 'cl-doc-link'
+        a.href = '#' + encodeURIComponent(doc.label)
+        a.dataset.path = doc.path
+        a.innerHTML =
+          '<span class="ms-icon" aria-hidden="true">description</span><span>' +
+          esc(doc.label) +
+          '</span>'
+        a.onclick = (e) => {
+          e.preventDefault()
+          openDoc({ ...doc, crumb })
+        }
+        return a
+      }
+      function breadcrumbs(doc) {
+        crumbs.innerHTML = ''
+        ;['Home', ...doc.crumb].forEach((p, i, arr) => {
+          if (i) {
+            const sep = document.createElement('span')
+            sep.className = 'sep'
+            sep.textContent = '/'
+            crumbs.appendChild(sep)
+          }
+          if (i === arr.length - 1) {
+            const cur = document.createElement('span')
+            cur.className = 'current'
+            cur.textContent = p
+            crumbs.appendChild(cur)
+          } else {
+            const b = document.createElement('button')
+            b.innerHTML = (i ? '' : '<span class="ms-icon" aria-hidden="true">home</span>') + esc(p)
+            b.onclick = () => {
+              if (!i) location.href = 'index.html'
+              else expand(doc.crumb.slice(0, i))
+            }
+            crumbs.appendChild(b)
+          }
+        })
+      }
+      function expand(parts) {
+        document
+          .querySelectorAll('.cl-section')
+          .forEach((s) => s.classList.toggle('closed', s.dataset.section !== parts[0]))
+        document.querySelectorAll('.cl-product').forEach((g) => {
+          if (parts[1]) g.classList.toggle('closed', g.dataset.group !== parts[1])
+        })
+      }
+      function syncActive() {
+        document
+          .querySelectorAll('.cl-doc-link')
+          .forEach((a) => a.classList.toggle('active', a.dataset.path === currentPath))
+      }
+      function mdToHtml(md) {
+        let html = '',
+          list = false
+        const add = (t) =>
+          esc(t).replace(/\[\[([^\]]+)\]\]/g, (m, name) => {
+            const d = flat.find(
+              (x) =>
+                x.label.toLowerCase() === name.toLowerCase() ||
+                x.crumb.join(' ').toLowerCase() === name.toLowerCase()
+            )
+            return d
+              ? '<a class="cl-doc-ref" href="#' +
+                  encodeURIComponent(d.label) +
+                  '" data-path="' +
+                  esc(d.path) +
+                  '">' +
+                  esc(name) +
+                  '</a>'
+              : esc(name)
+          })
+        md.split('\n').forEach((line) => {
+          const t = line.trim()
+          if (!t) {
+            if (list) {
+              html += '</ul>'
+              list = false
+            }
+            return
+          }
+          if (t.startsWith('# ')) {
+            if (list) {
+              html += '</ul>'
+              list = false
+            }
+            html += '<h1>' + add(t.slice(2)) + '</h1>'
+            return
+          }
+          if (t.startsWith('## ')) {
+            if (list) {
+              html += '</ul>'
+              list = false
+            }
+            html += '<h2>' + add(t.slice(3)) + '</h2>'
+            return
+          }
+          if (t.startsWith('### ')) {
+            if (list) {
+              html += '</ul>'
+              list = false
+            }
+            html += '<h3>' + add(t.slice(4)) + '</h3>'
+            return
+          }
+          if (t.startsWith('- ')) {
+            if (!list) {
+              html += '<ul>'
+              list = true
+            }
+            html += '<li>' + add(t.slice(2)) + '</li>'
+            return
+          }
+          if (list) {
+            html += '</ul>'
+            list = false
+          }
+          html += '<p>' + add(t) + '</p>'
+        })
+        if (list) html += '</ul>'
+        return html
+      }
+      async function openDoc(doc) {
+        currentDoc = doc
+        currentPath = doc.path
+        renderNav(search.value)
+        expand(doc.crumb)
+        syncActive()
+        breadcrumbs(doc)
+        content.innerHTML = '<p class="cl-empty">Loading documentation...</p>'
+        try {
+          const res = await fetch(doc.path)
+          if (!res.ok) throw new Error('missing')
+          const md = await res.text()
+          content.innerHTML = mdToHtml(md)
+          content.querySelectorAll('.cl-doc-ref').forEach(
+            (a) =>
+              (a.onclick = (e) => {
+                e.preventDefault()
+                const next = flat.find((d) => d.path === a.dataset.path)
+                if (next) openDoc(next)
+              })
+          )
+          const params = new URLSearchParams(location.search)
+          params.set('doc', doc.path)
+          history.replaceState(
+            null,
+            '',
+            '?' + params.toString() + '#' + encodeURIComponent(doc.label)
+          )
+          if (innerWidth < 981) document.body.classList.remove('nav-open')
+          scrollTo({ top: 0 })
+        } catch {
+          content.innerHTML =
+            '<p class="cl-empty">Unable to load this document: ' + esc(doc.path) + '</p>'
+        }
+      }
+      function toast(msg) {
+        const t = $('#toast')
+        t.textContent = msg
+        t.classList.add('visible')
+        setTimeout(() => t.classList.remove('visible'), 2200)
+      }
+      $('#navToggle').onclick = () => {
+        if (innerWidth < 981) document.body.classList.toggle('nav-open')
+        else {
+          app.classList.toggle('nav-collapsed')
+          localStorage.setItem('navCollapsed', app.classList.contains('nav-collapsed'))
+        }
+      }
+      $('#mobileMenu').onclick = () => document.body.classList.add('nav-open')
+      $('#scrim').onclick = () => document.body.classList.remove('nav-open')
+      $('#themeToggle').onclick = () => {
+        const n = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+        applyTheme(n)
+        localStorage.setItem('theme', n)
+      }
+      const toolbarToggle = $('#toolbarToggle'),
+        toolbar = document.querySelector('.cl-toolbar')
+      if (toolbarToggle && toolbar) {
+        const collapsed = localStorage.getItem('toolbarCollapsed') === 'true'
+        toolbar.classList.toggle('toolbar-collapsed', collapsed)
+        toolbarToggle.querySelector('.ms-icon').textContent = collapsed
+          ? 'expand_more'
+          : 'expand_less'
+        toolbarToggle.onclick = () => {
+          const next = !toolbar.classList.contains('toolbar-collapsed')
+          toolbar.classList.toggle('toolbar-collapsed', next)
+          toolbarToggle.querySelector('.ms-icon').textContent = next ? 'expand_more' : 'expand_less'
+          localStorage.setItem('toolbarCollapsed', String(next))
+        }
+      }
+      $('#fontDown').onclick = () => {
+        scale = Math.max(0.9, scale - 0.08)
+        localStorage.setItem('readerScale', scale)
+        document.documentElement.style.setProperty('--reader-scale', scale)
+      }
+      $('#fontReset').onclick = () => {
+        scale = 1
+        localStorage.setItem('readerScale', scale)
+        document.documentElement.style.setProperty('--reader-scale', 1)
+      }
+      $('#fontUp').onclick = () => {
+        scale = Math.min(1.28, scale + 0.08)
+        localStorage.setItem('readerScale', scale)
+        document.documentElement.style.setProperty('--reader-scale', scale)
+      }
+      $('#copyDoc').onclick = async () => {
+        await navigator.clipboard.writeText(content.innerText.trim())
+        toast('Document copied')
+      }
+      $('#printDoc').onclick = () => print()
+      $('#shareDoc').onclick = async () => {
+        if (navigator.share)
+          await navigator.share({
+            title: 'Crown Labs Documentation',
+            text: currentDoc ? currentDoc.crumb.join(' / ') : 'Crown Labs Documentation',
+            url: location.href,
+          })
+        else {
+          await navigator.clipboard.writeText(location.href)
+          toast('Link copied')
+        }
+      }
+      $('#backTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' })
+      addEventListener('scroll', () => $('#backTop').classList.toggle('visible', scrollY > 420))
+      search.oninput = (e) => renderNav(e.target.value)
+      renderNav()
+      const initialParams = new URLSearchParams(location.search)
+      const initialDocPath = initialParams.get('doc')
+      openDoc(
+        flat.find((d) => d.path === initialDocPath) ||
+          flat.find((d) => d.label === decodeURIComponent(location.hash.slice(1))) ||
+          flat.find((d) => d.label === 'Company Overview') ||
+          flat[0]
+      )
+    </script>
+  </body>
+</html>

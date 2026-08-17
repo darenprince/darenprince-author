@@ -1,0 +1,27 @@
+# Normalize text files and enforce LF endings
+* text=auto eol=lf
+
+# Common binary formats
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Generated or bundled outputs should not be merged manually
+/dist/** merge=ours
+/build/** merge=ours
+*.min.* merge=ours
+assets/image-manifest.json merge=ours
+assets/js/env.js merge=ours
+
+# Documentation prefers union merges to keep both contributions
+CHANGELOG.md merge=union
+/docs/** merge=union
+
+# Shell scripts stay executable with LF endings
+*.sh text eol=lf
