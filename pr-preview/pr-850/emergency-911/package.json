@@ -1,0 +1,13 @@
+{
+  "name": "emergency-911",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone workspace for the password-protected emergency portal.",
+  "scripts": {
+    "build:css": "sass scss/911.scss dist/911.css --style=compressed",
+    "watch:css": "sass --watch scss/911.scss dist/911.css"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5"
+  }
+}
