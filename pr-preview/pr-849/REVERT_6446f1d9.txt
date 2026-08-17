@@ -1,3 +1,0 @@
-This reverts commit 6446f1d9a2d28aebd7850223f0a2e67398256cbb.
-
-Fix homepage preloader getting stuck after restore.
