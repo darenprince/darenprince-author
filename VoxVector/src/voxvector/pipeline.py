@@ -11,7 +11,7 @@ from .schemas import AnalysisResult, Eligibility, Observation
 class VoxVectorPipeline:
     """Auditable observational audio pipeline; no deception inference."""
     schema_version = "0.2"
-    software_version = "0.2.11"
+    software_version = "0.2.22"
 
     def analyze(self, signal: np.ndarray, sample_rate: int) -> AnalysisResult:
         signal = np.asarray(signal, dtype=float).reshape(-1)
