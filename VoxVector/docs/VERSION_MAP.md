@@ -2,16 +2,18 @@
 
 | Area | Version | Status |
 |---|---:|---|
-| Repository rebuild | 0.2.22 | active |
+| Repository rebuild | 0.2.23 | active |
 | Result schema | 0.1 | active |
 | Observation layer | 0.1 | implemented / observational |
-| Acoustic observation integration | 0.1 | implemented / observational |
-| Temporal observation integration | 0.1 | implemented / observational |
-| Voice-quality HNR | 0.1 | implemented / observational |
-| Prosodic dynamics | 0.1 | implemented / observational |
-| Spectral dynamics / rolloff | 0.1 | implemented / observational |
-| Formant frame tracking | 0.1 | implemented / observational |
-| Speaker baseline | 0.1 | implemented / observational |
+| Acoustic observation integration | 0.2 | integrated in pipeline |
+| Temporal observation integration | 0.2 | integrated in pipeline |
+| Voice-quality HNR | 0.1 | integrated / observational |
+| Prosodic dynamics | 0.1 | integrated / observational |
+| Spectral dynamics / rolloff | 0.1 | integrated / observational |
+| Formant frame tracking | 0.1 | integrated / observational |
+| Speaker baseline | 0.1 | optional integrated / observational |
+| Response latency | 0.1 | optional integrated / observational |
+| Transcript disfluency | 0.1 | optional integrated / observational |
 | Reliability gate | 0.1 | implemented / eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
 | Evidence convergence | 0.1 | implemented / neutral |
@@ -31,13 +33,17 @@
 
 VoxVector is maintained under `VoxVector/` in `darenprince-author`. `crowncodeaisuite` is historical source material for migration and traceability.
 
+## Pipeline integration 0.2.23
+
+The primary `VoxVectorPipeline` now orchestrates the existing canonical analysis modules for acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional independent speaker baselines, optional response latency, and optional transcript disfluency observations. These remain observational and are preserved with provenance.
+
 ## Duplication control
 
-`docs/ANALYSIS_METHODS.md` is the human-readable active method register. `src/voxvector/validation.py` is the runtime method-to-module registry. New implementations must extend an existing canonical module when the capability already exists rather than introducing parallel implementations.
+`docs/ANALYSIS_METHODS.md` is the human-readable active method register. `src/voxvector/validation.py` is the runtime method-to-module registry. New implementations must extend an existing canonical module when the capability already exists rather than introducing parallel implementations. `research_prosody.spectral_flux` is now only a compatibility wrapper around the canonical `spectral.spectral_flux` implementation.
 
 ## QA boundary
 
-The repository includes automated GitHub Actions QA. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass.
+The repository includes automated GitHub Actions QA plus an end-to-end pipeline integration regression test. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass.
 
 ## Scientific boundary
 
