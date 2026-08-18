@@ -1,0 +1,27 @@
+name: VoxVector QA
+
+on:
+  push:
+    paths:
+      - 'VoxVector/**'
+      - '.github/workflows/voxvector-qa.yml'
+  pull_request:
+    paths:
+      - 'VoxVector/**'
+      - '.github/workflows/voxvector-qa.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: VoxVector
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Run VoxVector tests
+        run: pytest -q
