@@ -1,35 +1,37 @@
 # VoxVector
 
-VoxVector is a vocal and audio analysis system for structured evidence collection, acoustic analysis, reliability assessment, and deception research.
+VoxVector is a vocal and audio analysis and deception research system for structured evidence collection, acoustic analysis, reliability assessment, and controlled research.
 
-This repository is the canonical implementation and technical documentation home for VoxVector.
+This directory is the canonical implementation and technical documentation home for VoxVector.
 
 ## Core principle
 
-VoxVector does not treat pitch change, hesitation, silence, stress, arousal, emotion, cognitive load, or any single acoustic or linguistic feature as proof of deception. The engine preserves the distinction between:
+VoxVector does not treat pitch change, hesitation, silence, stress, arousal, emotion, cognitive load, speaking rate, or any single acoustic or linguistic feature as proof of deception. The engine preserves the distinction between:
 
 1. eligibility and reliability controls
 2. evidence collection and analysis
 3. candidate classification
 4. final classification or disposition
 
-The system reports measured observations, uncertainty, data quality, and evidence convergence rather than presenting a single feature as a lie detector.
+The system reports measured observations, uncertainty, data quality, evidence convergence, and alternative explanations rather than presenting a single feature as a lie detector.
 
-## Repository structure
+## Structure
 
-- `VoxVector/docs/OPERATING_CHARTER.md` — authoritative operating model
-- `VoxVector/docs/ARCHITECTURE.md` — runtime architecture and stage separation
-- `VoxVector/docs/ANALYSIS_METHODS.md` — acoustic, linguistic, temporal, and reliability methods
-- `VoxVector/docs/RESULTS_CONTRACT.md` — machine-readable result contract
-- `VoxVector/docs/VALIDATION.md` — validation and abstention requirements
-- `VoxVector/docs/PROJECT_DECISION_LOG.md` — canonical decisions and changes
-- `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md` — project instructions for ChatGPT sessions
-- `VoxVector/src/voxvector/` — implementation
-- `VoxVector/tests/` — automated tests
+- `docs/OPERATING_CHARTER.md` — authoritative operating model
+- `docs/ARCHITECTURE.md` — runtime architecture and stage separation
+- `docs/ANALYSIS_METHODS.md` — active observational methods and research candidates
+- `docs/RESEARCH_INTEGRATION.md` — research-to-capability boundary
+- `docs/RESEARCH_METHOD_EXPANSION.md` — research-derived method backlog
+- `docs/RESULTS_CONTRACT.md` — result schema contract
+- `docs/VALIDATION.md` — validation and abstention requirements
+- `docs/METHOD_QA_MATRIX.md` — method-level QA coverage
+- `docs/MIGRATION_INTEGRITY.md` — migration traceability
+- `src/voxvector/` — implementation
+- `tests/` — automated QA
 
 ## Status
 
-The repository is a clean rebuild. It intentionally does not inherit executable code from the previous system. Historical concepts are retained only where they are useful to preserve traceability and research intent.
+The current implementation is an analysis foundation. Implemented methods are observational unless explicitly marked otherwise in the validation registry. The deception classifier remains unvalidated and fail-closed.
 
 ## Development
 
@@ -40,6 +42,6 @@ python -m pip install -e '.[dev]'
 pytest
 ```
 
-## Runtime boundaries
+## Runtime boundary
 
-The current implementation is an analysis foundation, not a validated forensic deception detector. Model-backed transcription, diarization, learned classifiers, and deployment integrations must be added only when their data provenance, evaluation results, and failure behavior are documented.
+Model-backed transcription, diarization, learned classifiers, and deployment integrations may be added only when provenance, implementation, evaluation, and failure behavior are documented. Research relevance does not equal VoxVector validation.
