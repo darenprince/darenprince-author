@@ -2,7 +2,7 @@
 
 | Area | Version | Status |
 |---|---:|---|
-| Repository rebuild | 0.2.21 | active |
+| Repository rebuild | 0.2.22 | active |
 | Result schema | 0.1 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.1 | implemented / observational |
@@ -21,6 +21,7 @@
 | Reproducibility / QA | 0.1 | implemented / regression controls |
 | CI QA workflow | 0.1 | configured / execution must be observed |
 | Research method expansion | 0.1 | implemented / research backlog |
+| System state report | 0.1 | implemented / repository audit |
 | Deception classifier | — | not validated / not active |
 | Transcript analysis | — | partial observational features only |
 | Speaker diarization | — | not active |
