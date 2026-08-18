@@ -14,3 +14,9 @@ def estimate_formants(frame: np.ndarray, sample_rate: int, n_formants: int = 4, 
     selected.sort(key=lambda p:frequencies[p]); result=np.full(n_formants,np.nan)
     if selected: result[:len(selected)]=frequencies[selected]
     return result
+
+def track_formants(frames: np.ndarray, sample_rate: int, n_formants: int = 4, min_hz: float = 200.0, max_hz: float = 5000.0) -> np.ndarray:
+    """Return per-frame spectral formant candidates; unstable frames remain NaN."""
+    frames=np.asarray(frames,dtype=float)
+    if frames.ndim!=2: raise ValueError("frames must be a 2D array")
+    return np.vstack([estimate_formants(frame,sample_rate,n_formants,min_hz,max_hz) for frame in frames]) if frames.shape[0] else np.empty((0,n_formants))
