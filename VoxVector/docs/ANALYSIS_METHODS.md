@@ -26,22 +26,27 @@ This is the active method register. A method is observational until validated fo
 - spectral formant candidate estimation
 - research timing primitives: pause topology, speech-rate calculation, articulation-rate calculation
 - research prosody primitives: contour summary and spectral flux
+- response latency from question boundary to first speech/substantive content
+- interaction turn duration
+- interaction overlap duration
+- transcript-derived filled-pause counts
+- transcript-derived adjacent repetition counts
+- transcript-derived disfluency rate
 
 These methods provide measurable observations. They do not produce deception labels.
 
 ## Research-derived candidates
 
-The following are research-backed candidates and are deliberately not active inferential capabilities:
+The following remain research-backed candidates and are deliberately not active inferential capabilities:
 
-- response latency from question boundary to substantive response
-- filled-pause and disfluency analysis: `um`, `uh`, fragments, false starts, repairs, repetitions
+- false starts and repairs
 - harmonic-to-noise ratio and related noise/periodicity measures
 - LPCC and GFCC representations
 - Teager energy operator-derived observations
 - validated frame-to-frame F1/F2/F3 tracking
 - speaker-baseline-relative change measures
-- interactional timing including turn duration, interruptions, overlap, and question/answer alignment
-- transcript-derived relevance, contradiction, certainty, lexical diversity, repetition, negation, and discourse structure
+- question/answer alignment
+- transcript-derived contradiction, certainty, lexical diversity, negation, and discourse structure
 
 Research provenance and promotion rules for these candidates are documented in `docs/RESEARCH_METHOD_EXPANSION.md`.
 
