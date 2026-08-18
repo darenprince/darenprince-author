@@ -2,27 +2,27 @@
 
 | Area | Version | Status |
 |---|---:|---|
-| Repository rebuild | 0.2.20 | active |
+| Repository rebuild | 0.2.21 | active |
 | Result schema | 0.1 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.1 | implemented / observational |
 | Temporal observation integration | 0.1 | implemented / observational |
+| Voice-quality HNR | 0.1 | implemented / observational |
+| Prosodic dynamics | 0.1 | implemented / observational |
+| Spectral dynamics / rolloff | 0.1 | implemented / observational |
+| Formant frame tracking | 0.1 | implemented / observational |
+| Speaker baseline | 0.1 | implemented / observational |
 | Reliability gate | 0.1 | implemented / eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
 | Evidence convergence | 0.1 | implemented / neutral |
 | Candidate classification boundary | 0.1 | implemented / indeterminate-only |
 | Final disposition gate | 0.1 | implemented / guarded |
-| Validation registry | 0.2 | expanded research candidates / fail-closed |
+| Validation registry | 0.3 | synchronized with active methods / fail-closed |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
-| Method QA matrix | 0.1 | implemented / coverage control |
-| QA status report | 0.1 | implemented / coverage report |
+| CI QA workflow | 0.1 | configured / execution must be observed |
 | Research method expansion | 0.1 | implemented / research backlog |
-| Research timing | 0.1 | implemented / observational |
-| Research prosody | 0.1 | implemented / observational |
-| Validation registry regression tests | 0.1 | implemented |
-| CI QA workflow | 0.1 | configured / execution pending |
 | Deception classifier | — | not validated / not active |
-| Transcript analysis | — | not active |
+| Transcript analysis | — | partial observational features only |
 | Speaker diarization | — | not active |
 | D-Series validated inference | — | not active |
 
@@ -30,9 +30,13 @@
 
 VoxVector is maintained under `VoxVector/` in `darenprince-author`. `crowncodeaisuite` is historical source material for migration and traceability.
 
+## Duplication control
+
+`docs/ANALYSIS_METHODS.md` is the human-readable active method register. `src/voxvector/validation.py` is the runtime method-to-module registry. New implementations must extend an existing canonical module when the capability already exists rather than introducing parallel implementations.
+
 ## QA boundary
 
-The repository now includes an automated GitHub Actions workflow at `VoxVector/.github/workflows/voxvector-qa.yml`. It installs the package and runs the complete pytest suite on VoxVector changes. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass.
+The repository includes automated GitHub Actions QA. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass.
 
 ## Scientific boundary
 
