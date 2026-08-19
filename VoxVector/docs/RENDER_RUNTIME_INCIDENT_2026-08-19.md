@@ -1,22 +1,34 @@
 # Render Runtime Incident — 2026-08-19
 
-**Status:** remediation code committed; post-deploy verification pending
+**Status:** open runtime reliability investigation
 **Product:** VoxVector
 **Canonical repository:** `darenprince/darenprince-author`
 **Canonical root:** `VoxVector/`
 **Public target:** `voxvector.crownlabs.tech`
 
-## Observed failure
+## Incident history
+
+### Earlier deployment defect
 
 A previously live Render deployment served `/health`, while `POST /v1/analyze` returned a NumPy matrix multiplication dimension error:
 
 `size 258 is different from 601`
 
-A subsequent runtime-fingerprinting deployment exited with status 1 before Uvicorn became available. That deployment therefore did not replace the last known successful production instance.
+The canonical runtime was subsequently fingerprinted and the deployment layout was corrected.
 
-## Canonical layout correction
+### Current public endpoint incident
 
-The authoritative VoxVector application lives under `./VoxVector/`. A root-level `./api/` directory had been created as a conflicting deployment layout and was not part of the canonical application. It has been removed.
+After the canonical deployment successfully built and started, repeated `/health` requests returned HTTP 200 and the runtime self-test reported `passed`.
+
+A subsequent public Swagger request to:
+
+`POST https://voxvector.crownlabs.tech/v1/analyze`
+
+returned **HTTP 502**. The captured response identified `cloudflare` as the edge server and `Render` as the origin server, with `content-length: 0`. The event therefore indicates that the edge did not receive a usable origin response. The HTTP 502 alone does not establish whether the origin process crashed, was terminated for resource pressure, timed out, or encountered another infrastructure/application failure.
+
+## Canonical layout
+
+The authoritative VoxVector application lives under `./VoxVector/`.
 
 Current runtime locations:
 
@@ -26,7 +38,7 @@ Current runtime locations:
 
 Render must use `VoxVector` as Root Directory and launch `api.app:app`.
 
-## Remediation implemented
+## Implemented remediation
 
 The canonical API adapter:
 
@@ -38,7 +50,26 @@ The canonical API adapter:
 - exposes the self-test result through `/health`;
 - rejects `/v1/analyze` with HTTP 503 if the runtime self-test fails.
 
-These controls are intended to prevent a stale or shadowed analysis implementation from silently handling production analysis.
+The analysis pipeline also uses bounded frame chunks and the formant implementation has been hardened against the final FFT-bin boundary.
+
+## Open reliability work
+
+The next engineering work is explicitly operational, not scientific inference work:
+
+1. add request IDs/correlation IDs;
+2. add structured exception capture and sanitized stack traces;
+3. add stage-level timing for decode, eligibility, feature extraction, evidence construction, and serialization;
+4. add resource and timeout instrumentation;
+5. add persistent diagnostics so errors survive instance restarts;
+6. add safe request/audio limits that return controlled errors before worker termination;
+7. reproduce the 502 with a known fixture;
+8. determine whether the cause is memory pressure, timeout, application exception, or infrastructure behavior;
+9. add regression coverage for the discovered failure mode;
+10. redeploy and verify against the exact source revision.
+
+## Current pipeline resource consideration
+
+The primary pipeline processes frames in bounded chunks, but it still accumulates multiple feature arrays across the complete recording before final result construction. This architecture reduces peak frame-matrix allocation but does not guarantee bounded total memory for arbitrarily long input. The 502 investigation must measure actual resource behavior before changing the architecture.
 
 ## Required post-deploy readback
 
@@ -49,12 +80,12 @@ Before calling the deployment verified, confirm:
 - `canonical_package` points into `VoxVector/src/voxvector`
 - `acoustic_module` points to `VoxVector/src/voxvector/acoustic.py`
 - `pipeline_module` points to `VoxVector/src/voxvector/pipeline.py`
-- `acoustic_source_sha256` is non-empty
-- `pipeline_source_sha256` is non-empty
-- known WAV `/v1/analyze` succeeds
+- source SHA-256 fingerprints are non-empty
+- known WAV `/v1/analyze` succeeds without an origin failure
 - returned provenance identifies the canonical runtime
 - public `voxvector.crownlabs.tech` serves the verified runtime
+- the exact deployed source revision matches the verified repository commit
 
 ## Verification boundary
 
-A green Render deployment is not runtime verification by itself. Runtime verification requires health, provenance, and known-fixture analysis checks. None of this constitutes scientific validation of deception inference.
+A green Render deployment is not runtime verification by itself. Runtime verification requires health, provenance, known-fixture analysis, and source-revision checks. None of this constitutes scientific validation of deception inference.
