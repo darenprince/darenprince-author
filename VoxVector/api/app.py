@@ -28,6 +28,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 from voxvector.pipeline import VoxVectorPipeline
 import voxvector.acoustic as _acoustic_module
 from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, safe_error, timer
+from .developer_console import router as developer_router
 
 MAX_BYTES = 20 * 1024 * 1024
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
@@ -225,3 +226,6 @@ async def analyze(request: Request, file: UploadFile = File(...)):
             **safe_error(exc),
         )
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+app.include_router(developer_router)
