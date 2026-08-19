@@ -2,7 +2,7 @@
 
 ## Status
 
-**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The Developer Console foundation and Supabase developer gate are now implemented. Backend-protected operational telemetry remains the next security/integration phase.
+**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The Developer Console foundation, Supabase developer gate, and state-driven API activity visualization are implemented. Backend-protected operational telemetry remains the next security/integration phase.
 
 ## Architecture
 
@@ -52,6 +52,7 @@ Implemented at `/voxvector/developer`:
 - canonical documentation navigator
 - development board
 - explicit unavailable states for telemetry/error endpoints that do not yet exist
+- Motion-based API activity visualization tied to real query/mutation state
 
 The console does not fabricate request counts, error counts, 5xx totals, analysis totals, lifecycle events, or storage records.
 
@@ -91,7 +92,9 @@ The canonical API base defaults to `https://voxvector.crownlabs.tech` and can be
 
 Motion may animate actual query/mutation state, but it may not manufacture analytical progress.
 
-If the backend provides only discrete lifecycle events, the UI presents discrete lifecycle states. Numerical percentages require an actual defined backend progress metric.
+The current console uses an indeterminate activity waveform for real `/health` and `/v1/analyze` requests because the backend does not expose numeric progress. Completed, idle, and error states are also rendered from actual request state.
+
+If the backend later provides discrete lifecycle events, the UI will present discrete lifecycle states. Numerical percentages require an actual defined backend progress metric.
 
 ## Analysis Workspace
 
@@ -132,7 +135,7 @@ The interface must retain:
 
 ## Deployment
 
-The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. It also copies the generated entrypoint to `404.html` so direct developer-route navigation can recover the SPA.
+The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. The workflow also stages a concrete `/voxvector/developer/index.html` route and a local `/voxvector/404.html` fallback. The root `voxvector.html` is a compatibility redirect only and must not contain a second landing implementation.
 
 ## Acceptance principle
 
