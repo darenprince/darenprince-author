@@ -35,7 +35,9 @@ Render successfully builds and starts the API and repeated `/health` checks have
 
 A subsequent public `/v1/analyze` request returned HTTP 502 through Cloudflare with Render identified as the origin and an empty response body. This is an **open engineering reliability incident**. The cause has not been assumed or promoted to a scientific finding.
 
-Immediate engineering work is to add request correlation, stage-level diagnostics, persistent sanitized error logging, resource/timeout safeguards, controlled reproduction, and exact deployed-revision verification.
+The API now has durable operational observability wired to the existing Supabase architecture. `/v1/analyze` requests receive a correlation ID, lifecycle and stage events are recorded as sanitized JSON, and the response exposes `X-Request-ID`. Diagnostic objects are stored in a private `voxvector-logs` bucket when Render storage credentials are configured. Raw audio and raw transcript content are explicitly excluded from diagnostic records. If durable storage is unavailable, the API falls back to a sanitized Render process-log marker rather than turning storage failure into an API outage.
+
+The next runtime priority is to configure and verify the production storage secrets, then use the persisted request lifecycle evidence to reproduce and diagnose the 502. Resource and timeout safeguards remain open work.
 
 ## Current capabilities
 
@@ -66,7 +68,9 @@ Commercial value is expected to increase with verified analytical capabilities, 
 The canonical engine is separated from the HTTP adapter:
 
 - `VoxVector/src/voxvector/` — analysis engine
-- `VoxVector/api/app.py` — FastAPI adapter
+- `VoxVector/api/app.py` — FastAPI adapter and request observability boundary
+- `VoxVector/api/observability.py` — request correlation and sanitized diagnostic events
+- `VoxVector/api/storage.py` — durable Supabase Storage adapter
 - `VoxVector/tests/` — QA
 - `VoxVector/docs/` — canonical technical documentation
 
@@ -80,7 +84,7 @@ Scientific validation remains a future gate requiring task and population defini
 
 ## Operational checkpoint
 
-The canonical handoff record is `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`. It records completed work, CI status, Render verification, the open 502 incident, and the immediate engineering sequence.
+The canonical handoff record is `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`. It records completed work, CI status, Render verification, the open 502 incident, durable diagnostics implementation, and the immediate verification sequence.
 
 ## Crown Labs dossier sections
 
