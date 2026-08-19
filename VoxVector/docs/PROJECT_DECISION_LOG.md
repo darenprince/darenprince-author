@@ -1,5 +1,18 @@
 # VoxVector Project Decision Log
 
+## 2026-08-19 — Product objective and deception detection identity
+
+**Decision:** VoxVector's canonical product objective is vocal and audio deception detection. Product, executive, and technical documentation must describe VoxVector as a deception detection system while separately reporting current implementation and scientific validation status.
+
+**Reason:** Lack of validated inference today is a maturity state, not a change to the product being built. Documentation must not accidentally downgrade deception detection from the core product objective to an incidental research topic.
+
+**Resolution:**
+
+- product identity: vocal/audio deception detection system
+- current runtime: observational analysis foundation with guarded indeterminate classification
+- future inferential capability: validated task-specific deception classification, subject to the validation program
+- documentation must distinguish product objective, implementation state, research candidates, and validated capability
+
 ## 2026-08-19 — Canonical application root and deployment layout
 
 **Decision:** `./VoxVector/` is the canonical VoxVector application root. The root-level `./api/` directory is not part of VoxVector and must not be used as its deployment root.
