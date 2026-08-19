@@ -143,14 +143,14 @@ function Landing() {
 
       <main id="main-content">
         <section id="product" className="relative min-h-[720px] overflow-hidden border-b border-[var(--vv-border)] bg-black">
-          <div className="absolute inset-0 bg-[url('/voxvector/assets/voxvector-hero-bg.svg')] bg-cover bg-center opacity-95" aria-hidden="true" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.96)_0%,rgba(0,0,0,.84)_38%,rgba(0,0,0,.42)_66%,rgba(0,0,0,.78)_100%)]" aria-hidden="true" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_44%,rgba(255,255,255,.10),transparent_28%),linear-gradient(180deg,rgba(0,0,0,.2),transparent_30%,rgba(0,0,0,.55))]" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[url('/voxvector/assets/voxvector-hero-bg.svg')] bg-cover bg-center opacity-100" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.97)_0%,rgba(0,0,0,.88)_34%,rgba(0,0,0,.38)_68%,rgba(0,0,0,.58)_100%)]" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_48%,rgba(210,155,101,.14),transparent_24%),linear-gradient(180deg,rgba(0,0,0,.18),transparent_34%,rgba(0,0,0,.62))]" aria-hidden="true" />
           <div className="relative mx-auto flex min-h-[720px] max-w-[1440px] items-center px-5 py-24 lg:px-10 lg:py-28">
             <div className="max-w-[780px]">
               <Reveal><div className="flex flex-wrap items-center gap-x-4 gap-y-2"><Badge variant="default">Advanced vocal deception analysis</Badge><span className="text-sm font-bold uppercase tracking-[.18em] text-white/[.5]">Evidence first</span></div></Reveal>
               <Reveal delay={.06}><h1 className="mt-8 max-w-4xl text-[clamp(3.8rem,8vw,7.8rem)] font-semibold leading-[.88] tracking-[-.065em]">Reveal the truth.</h1></Reveal>
-              <Reveal delay={.1}><h2 className="mt-6 max-w-3xl text-[clamp(1.7rem,3vw,3.2rem)] font-semibold leading-[1.05] tracking-[-.045em] text-[var(--vv-accent-bright)]">Advanced vocal deception analysis.</h2></Reveal>
+              <Reveal delay={.1}><h2 className="mt-10 max-w-3xl text-[clamp(1.7rem,3vw,3.2rem)] font-semibold leading-[1.05] tracking-[-.045em] text-[var(--vv-accent-bright)]">Advanced vocal deception analysis.</h2></Reveal>
               <Reveal delay={.16}><p className="mt-7 max-w-2xl text-lg leading-8 text-white/[.72] sm:text-xl">VoxVector analyzes speech across vocal, acoustic, linguistic, and behavioral dimensions to identify patterns associated with deception, uncertainty, and cognitive load, while showing the evidence, conflicts, and uncertainty behind every result.</p></Reveal>
               <Reveal delay={.22}><div className="mt-9 flex flex-wrap gap-3"><Button variant="accent" size="lg" className="h-12 px-6 text-base" onClick={goToAnalysis}>Analyze a Voice<ArrowRight size={17}/></Button><Button variant="secondary" size="lg" className="h-12 px-6 text-base" onClick={() => document.querySelector('#workflow')?.scrollIntoView({behavior:'smooth'})}><Play size={16}/>See How It Works</Button></div></Reveal>
               <Reveal delay={.28}><div className="mt-8 flex max-w-2xl items-start gap-3 text-base leading-7 text-white/[.56]"><CircleAlert size={18} className="mt-0.5 shrink-0 text-[var(--vv-accent-bright)]"/><span>A pause, pitch change, hesitation or stress response is an observation. No individual vocal signal proves deception.</span></div></Reveal>
