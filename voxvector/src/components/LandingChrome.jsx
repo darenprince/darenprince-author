@@ -46,7 +46,7 @@ function SideMenu({ open, onClose }) {
         <a href="/voxvector/developer" onClick={onClose}><span className="vv-side-menu-icon"><Terminal size={18} /></span><span>Developer Console</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
         <a href="https://github.com/darenprince/darenprince-author/tree/main/VoxVector/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><BookOpen size={18} /></span><span>VoxVector Docs</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
         <a href="https://voxvector.crownlabs.tech/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><Code2 size={18} /></span><span>API Documentation</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
-        <a href="./docs/crownlabsbible/" onClick={onClose}><span className="vv-side-menu-icon"><ShieldCheck size={18} /></span><span>Crown Labs Documents</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
+        <a href="/docs/crownlabsbible/docs/viewer.html" onClick={onClose}><span className="vv-side-menu-icon"><ShieldCheck size={18} /></span><span>Crown Labs Documents</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
       </nav>
       <div className="vv-side-menu-foot"><span>Built by Crown Labs</span><a href="https://github.com/darenprince/darenprince-author" target="_blank" rel="noreferrer"><Github size={15} /> Source</a></div>
     </motion.aside>
@@ -64,7 +64,7 @@ function FooterEnhancement() {
       <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={16} /></a>
       <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
     </div>
-    <a className="vv-crownlabs-lockup" href="./docs/crownlabsbible/" aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><span>Corporate documents</span></a>
+    <a className="vv-crownlabs-lockup" href="/docs/crownlabsbible/docs/viewer.html" aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><span>Corporate documents</span></a>
   </div>, target)
 }
 
