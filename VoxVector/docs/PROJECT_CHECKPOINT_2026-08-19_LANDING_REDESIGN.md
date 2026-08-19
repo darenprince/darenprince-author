@@ -22,39 +22,43 @@ The current repository state was reviewed against:
 
 ## Landing redesign
 
-The landing implementation preserves the approved React, Tailwind, Motion, Lucide, Base UI and Tremor stack while refining the presentation around the supplied luxury analytical dashboard reference.
+The landing implementation preserves the approved React, Tailwind, Motion, Lucide, Base UI and Tremor stack while refining the presentation around the supplied futuristic portfolio dashboard reference.
 
 ### Visual changes
 
 * hero typography remains large and readable across desktop and mobile layouts
 * body and supporting copy maintain a 16px plus readability baseline
-* the public palette is now deliberately near black, graphite, warm white, espresso, coffee, copper and muted tan
+* the public palette is now charcoal and warm black with neutral white hierarchy, vivid signal orange and muted gold/yellow data accents
 * cool blue and cyan are not used as public landing brand accents
-* warm accents are used as selective emphasis rather than as a blanket surface color
-* cards and analytical surfaces use very low contrast luminance separation and subtle directional gradients to create depth without loud glass or gradient treatment
-* warm illumination is concentrated around active elements, data emphasis, waveform highlights and environmental page gradients
+* the base environment is approximately charcoal `#202124`, with darker graphite and warm black surfaces layered above it
+* orange is the primary active and signal accent, while gold/yellow is reserved for secondary analytical emphasis and data visualization
+* warm accents are used selectively rather than as blanket surface colors
+* cards and analytical surfaces use small tonal differences and subtle directional gradients to create depth without loud glass or decorative gradient treatment
+* environmental orange and gold glows remain faint and localized
 * feature icons remain large visual anchors instead of small decorative icon boxes
 * analytical workflow remains editorial, with strong numbering, separators and hierarchy rather than a grid of equal cards
 * technology capabilities remain open rows rather than nested dashboard tiles
 * the landing audio visualization uses a dense irregular bar waveform with phrase envelopes and explicit silence regions so it reads as speech audio rather than a generic graph
-* Tremor signal charts use restrained stone, amber and warm orange relationships, with neutral values carrying most of the visual field and warm accents carrying emphasis
-* rounded containers were reduced in the primary analytical surfaces so the interface follows the reference's sharper enterprise dashboard character
+* Tremor signal charts use neutral stone values with warm orange and amber emphasis, preserving the reference relationship where most data is neutral and selected signals carry color
+* primary buttons use signal orange rather than coffee or blue
+* secondary buttons use charcoal surfaces and neutral borders
+* rounded containers remain restrained so the interface follows the sharper enterprise dashboard character of the reference
 * illustrative analytical surfaces remain explicitly labeled as illustrations
 * the landing page does not display fabricated deception scores, confidence percentages, live processing percentages or scientific performance claims
 
 ## Reference application language
 
-The reference is treated as a visual system rather than a hex color palette:
+The supplied reference is treated as a visual system rather than a hex color palette:
 
-* near black establishes the environment
-* graphite establishes application surfaces
-* warm white establishes primary information hierarchy
-* gray establishes secondary structure and supporting information
-* coffee and espresso indicate attention and active analytical states
-* tan and muted amber provide selected data emphasis and controlled highlights
-* gradients remain environmental and extremely subtle rather than becoming decorative card backgrounds
+* charcoal establishes the outer application environment
+* warm black establishes primary analytical surfaces
+* neutral white establishes primary information hierarchy
+* gray establishes navigation, secondary structure and supporting information
+* signal orange indicates active states, primary actions and highlighted analysis
+* muted gold and yellow indicate secondary data emphasis and visualization structure
+* gradients are subtle environmental lighting rather than decorative card effects
 
-This hierarchy is now reflected in the public React tokens and landing composition.
+This hierarchy is now reflected in the public React tokens, landing composition and shared Button primitive.
 
 ## Scientific boundary
 
@@ -68,6 +72,6 @@ The redesign raises the default readability floor, retains keyboard focus treatm
 
 ## Verification status
 
-The source changes were committed to GitHub in two sequential frontend commits for `voxvector/src/App.jsx` and `voxvector/src/index.css`. A fresh GitHub Actions build and GitHub Pages deployment must still be observed before claiming successful production compilation or deployment.
+The frontend visual system has been updated in `voxvector/src/index.css` and the shared `voxvector/src/components/ui/Button.jsx` primitive. A fresh GitHub Actions build and GitHub Pages deployment must still be observed before claiming successful production compilation or deployment.
 
 The local execution environment cannot reproduce the full npm build because outbound package access is unavailable. This is not treated as a passing test.
