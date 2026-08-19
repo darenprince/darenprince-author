@@ -6,6 +6,7 @@ import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import LandingChrome from './components/LandingChrome'
 import './index.css'
+import './landing-chrome.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
