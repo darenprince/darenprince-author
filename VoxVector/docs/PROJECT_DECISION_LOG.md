@@ -141,7 +141,7 @@ The adapter is an interface and runtime boundary only and must not become a seco
 * Base UI backed Button controls
 * Lucide iconography throughout the public landing experience
 * Motion reveal and interaction animation with reduced motion support
-* restrained blue and cyan analytical palette with semantic state colors
+* restrained analytical palette with semantic state colors
 * thin neutral borders and low contrast surfaces instead of heavy white framing
 * responsive mobile navigation and desktop information hierarchy
 
@@ -225,10 +225,28 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 * replaced the previous line based decorative waveform with a bar based speech waveform using phrase envelopes and explicit silence regions so the visual reads as an audio signal rather than a generic graph
 * retained Motion for reveal and mobile navigation animation
 * retained Lucide iconography and the existing shadcn style composition model
-* replaced the workflow heading `A serious analysis starts before the interpretation.` with `Deep analysis starts with evidence quality.`
-* added the requested hero capability line `Deep Forensic Vocal Analysis + State of the art Linguistics`
+* replaced the workflow heading `A serious analysis starts before the interpretation.` with `Deep Forensic Vocal Analysis + State of the art Linguistics`
 * kept the Project Briefing and Documentation calls to action and the legal, developer, source, privacy, terms and security footer destinations
 
 **Boundary:** All landing charts, signal graphics and analytical readouts remain explicitly illustrative. They are interface demonstrations and are not live telemetry or scientific results.
 
 **Verification:** Source changes are committed. A fresh GitHub Actions build is required before claiming successful production compilation or deployment.
+
+## 2026-08-19 — Tremor blue stroke correction and warm theme hardening
+
+**Decision:** Remove the remaining Tremor blue defaults from the public VoxVector analytical UI. The supplied Shadcnblocks references establish a neutral black, white and gray foundation with restrained warm coffee and tan accents. Blue is not part of the approved active palette.
+
+**Implementation:**
+
+* replaced the Tremor light and dark `brand` tokens in `voxvector/tailwind.config.js` with warm coffee, copper, tan and neutral values
+* expanded Tremor color safelisting to cover the warm chart families used by the landing interface
+* added explicit custom Tremor chart colors `#8f5d35`, `#b97842`, and `#d9a06b` for the public analytical charts
+* disabled the default Tremor card ring on the landing analytical cards
+* retained low contrast neutral borders and reserved higher contrast for controls and focus states
+* preserved the hero and workflow language rather than altering product positioning while correcting the visual treatment
+
+**Reason:** The remaining blue stroke was a visual-system regression caused by Tremor's default theme/chart behavior. Correcting the source tokens is preferable to hiding the artifact with one-off CSS.
+
+**Boundary:** This is a presentation and dependency configuration correction. It does not change the scientific capability or validation state of VoxVector.
+
+**Verification:** The source edits are committed. A fresh GitHub Actions build and browser inspection are still required for this exact change before production success is claimed.
