@@ -56,6 +56,7 @@ jobs:
             --exclude 'tests/**' \
             --exclude '*.log'
           rsync -a ./voxvector/dist/ _site/voxvector/
+          cp ./voxvector/dist/index.html ./_site/voxvector/404.html
 
       - name: Report artifact size
         run: du -sh _site && du -sh _site/voxvector
