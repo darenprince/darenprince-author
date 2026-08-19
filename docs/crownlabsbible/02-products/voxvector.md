@@ -20,7 +20,9 @@ VoxVector is a standalone vocal and audio **deception detection system** under a
 
 The product is being built toward deception detection. The current implementation is not yet scientifically validated for reliable deception inference, and no validated deception probability or deception verdict is currently active. This is a maturity statement, not a change to the product objective.
 
-The latest deployment checkpoint records successful Render startup and `/health` verification but an open HTTP 502 incident affecting a public `/v1/analyze` request. Runtime diagnostics, resource safeguards, reproduction, and exact deployed-revision verification are the immediate engineering priorities.
+A durable operational diagnostics layer is now implemented in the API using the existing Supabase architecture. `/v1/analyze` requests receive correlation IDs and emit sanitized lifecycle/stage/error records to a private diagnostics bucket when production storage credentials are configured. Raw audio and raw transcript content are excluded from these records. The diagnostics layer is designed to preserve evidence across Render instance restarts without becoming a new API availability dependency.
+
+The latest deployment checkpoint records successful Render startup and `/health` verification but an open HTTP 502 incident affecting a public `/v1/analyze` request. The next engineering priority is to configure and verify durable storage, correlate a reproduced 502 with its lifecycle records, add resource safeguards, and complete exact deployed-revision verification.
 
 Planned research capabilities remain part of the product roadmap even when they are not yet implemented.
 
