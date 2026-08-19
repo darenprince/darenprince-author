@@ -15,16 +15,19 @@
 
 ## 2026-08-19 — Canonical application root and deployment layout
 
-**Decision:** `./VoxVector/` is the canonical VoxVector application root. The root-level `./api/` directory is not part of VoxVector and must not be used as its deployment root.
+**Decision:** `./VoxVector/` is the canonical VoxVector backend/analysis-engine root. The public React application is a separate `./voxvector/` workspace in the same repository and is deployed by GitHub Pages. The root-level `./api/` directory is not part of VoxVector and must not be used as its deployment root.
 
 **Resolution:**
 
-- HTTP adapter: `VoxVector/api/app.py`
+- Backend HTTP adapter: `VoxVector/api/app.py`
 - Analysis engine: `VoxVector/src/voxvector/`
-- API dependencies: `VoxVector/api/requirements.txt`
+- Backend API dependencies: `VoxVector/api/requirements.txt`
 - Render root: `VoxVector`
 - Render entry point: `api.app:app`
-- conflicting root-level VoxVector API files removed
+- Public frontend workspace: `voxvector/`
+- GitHub Pages public path: `/voxvector/`
+- GitHub Pages developer path: `/voxvector/developer/`
+- Legacy `voxvector.html`: compatibility redirect only
 
 The adapter is an interface/runtime boundary only and must not become a second analysis engine.
 
@@ -58,9 +61,9 @@ The adapter is an interface/runtime boundary only and must not become a second a
 
 ## 2026-08-19 — Public deployment target and verification
 
-**Decision:** The intended public VoxVector product target is `voxvector.crownlabs.tech`.
+**Decision:** The intended public VoxVector product target is split by function: GitHub Pages hosts the public React application at `darenprince.com/voxvector`, while Render hosts the canonical FastAPI backend at `voxvector.crownlabs.tech`.
 
-**Verification:** Render successfully deployed the canonical application, `/health` returned 200 with `runtime_self_test: passed`, the runtime reported canonical package paths and source fingerprints, and a prior live `/v1/analyze` execution successfully produced structured observational analysis with guarded indeterminate disposition.
+**Verification:** Render successfully deployed the canonical backend, `/health` returned 200 with `runtime_self_test: passed`, the runtime reported canonical package paths and source fingerprints, and prior live `/v1/analyze` execution produced structured observational analysis with guarded indeterminate disposition.
 
 **Remaining requirement:** Full deception inference remains a research and validation objective, not a current validated runtime capability.
 
@@ -116,12 +119,12 @@ The adapter is an interface/runtime boundary only and must not become a second a
 
 ## 2026-08-19 — React landing refinement and Developer Console foundation
 
-**Decision:** Continue the React migration as the canonical VoxVector public application and implement the first functional `/developer` console slice rather than extending the static landing page.
+**Decision:** Continue the React migration as the canonical VoxVector public application and implement the first functional developer console slice rather than extending the static landing page.
 
 **Implemented:**
 
 - refined public landing experience in `voxvector/src/App.jsx`
-- `/voxvector/developer` route with GitHub Pages SPA fallback
+- `/voxvector/developer` developer-console route
 - Supabase Auth sign-in gate
 - trusted developer role check using `app_metadata`
 - real TanStack Query `/health` integration
@@ -130,7 +133,10 @@ The adapter is an interface/runtime boundary only and must not become a second a
 - canonical documentation navigator
 - development board
 - explicit unavailable states for telemetry/error endpoints not yet exposed by FastAPI
+- state-driven API activity visualization using Motion
 - frontend environment contract in `voxvector/.env.example`
+
+**Deployment correction:** The repository still contained the historical root `voxvector.html`, which remained a competing static landing artifact. It is now a compatibility redirect only. The Pages workflow also stages a concrete `voxvector/developer/index.html` route so the console is addressable directly on GitHub Pages instead of depending solely on a generic SPA fallback.
 
 **Security boundary:** Browser gating is not considered backend authorization. Sensitive diagnostics and operational telemetry must remain server-protected before corresponding endpoints are exposed to the console.
 
