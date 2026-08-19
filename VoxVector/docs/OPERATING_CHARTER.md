@@ -61,16 +61,26 @@ Evidence should be multimodal within the audio domain where possible:
 
 No fixed universal threshold should be treated as a deception threshold without validation for the target population, task, recording conditions, and deployment context.
 
-## 6. D-Series
+## 6. Capability preservation
+
+The project distinguishes implementation state from project scope. A method, model, analysis tool, dataset, or product capability documented as planned or research-backed remains part of the canonical project context even when it is not yet implemented. It may be moved to implemented or validated status as evidence accumulates, or retired only through an explicit project decision.
+
+`docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` are the canonical records for this distinction.
+
+## 7. D-Series
 
 D-Series identifiers are retained as project analysis slots. They must map to documented analytical functions and validation status. A D-Series label without an implementation or evidence definition is not considered an active method.
 
-## 7. Results discipline
+## 8. Results discipline
 
 Every result must identify what was measured, what data were used, what was unavailable, the reliability state, the evidence direction, uncertainty, and whether the system abstained.
 
 The engine must never manufacture confidence from missing data.
 
-## 8. Change control
+## 9. Deployment boundary
 
-Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure/abstention behavior before being promoted to active status.
+The canonical application root is `VoxVector/`. The HTTP adapter lives under `VoxVector/api/`, while the analysis engine remains under `VoxVector/src/voxvector/`. Render must use `VoxVector` as its root directory. The intended public target is `voxvector.crownlabs.tech`.
+
+## 10. Change control
+
+Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure/abstention behavior before being promoted to active status. Documentation must preserve future capabilities rather than deleting them merely because implementation is pending.

@@ -1,80 +1,66 @@
 # VoxVector Architecture
 
-## Pipeline
+## Canonical runtime boundary
 
 ```text
-Input audio
-   |
-   v
-Ingest + provenance
-   |
-   v
-Signal quality / eligibility
-   |
-   +----> speaker/channel checks
-   |
-   v
-Segmentation
-   |
-   +----> acoustic/prosodic analysis
-   +----> voice-quality analysis
-   +----> temporal analysis
-   +----> optional transcript/linguistic analysis
-   |
-   v
-Within-speaker baseline comparison
-   |
-   v
-Evidence aggregation
-   |
-   v
-Candidate classification
-   |
-   v
-Validation / policy gates
-   |
-   +----> abstain / insufficient evidence
-   |
-   v
-Final disposition
+voxvector.crownlabs.tech / client
+          |
+          v
+   HTTP adapter: VoxVector/api/app.py
+          |
+          v
+ canonical engine: VoxVector/src/voxvector/
+          |
+          v
+ eligibility / reliability
+          |
+          v
+ evidence collection and analysis
+          |
+          v
+ candidate classification
+          |
+          v
+ final disposition gate
 ```
 
-## Runtime modules
+The FastAPI adapter is an interface/runtime boundary only. It must import and execute the canonical engine. It must never become a second analysis implementation.
 
-### Ingest
+## Analysis stages
 
-Accepts supported audio, records format and provenance, and computes integrity metadata.
+1. **Ingest and provenance**: accept supported audio, normalize input representation, record provenance, and identify the analysis run.
+2. **Eligibility and reliability**: determine whether the input is technically meaningful. This stage can downgrade or reject an input before substantive analysis.
+3. **Evidence collection and analysis**: compute measurable acoustic, temporal, voice-quality, spectral, formant, prosodic, interaction, transcript, and baseline observations as supported by the current pipeline and supplied context.
+4. **Evidence grouping and convergence**: organize observations without assigning deception meaning. Dependence and correlated features must remain explicit.
+5. **Candidate classification**: produce a candidate state. The current implementation is indeterminate-only.
+6. **Final disposition**: apply reliability and validation gates. Current outputs are abstention or insufficient evidence; no validated deception verdict is enabled.
 
-### Eligibility
+## Current primary pipeline
 
-Evaluates whether analysis is technically meaningful. This stage can reject or downgrade an input before substantive inference.
+`VoxVectorPipeline.analyze()` currently orchestrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
 
-### Feature extraction
+MFCC/cepstral processing and several lower-level research utilities are implemented but remain outside the primary output path until their integration and QA requirements are completed.
 
-Extracts measurable acoustic and temporal observations without assigning deception meaning at extraction time.
+## Reliability boundary
 
-### Baseline
+Reliability is an eligibility control. It is not a probability of deception and must not be merged into a deception score.
 
-Prefer within-speaker comparison over population-wide assumptions. Baselines should be established from contextually appropriate speech whenever available.
+## Classification boundary
 
-### Evidence aggregation
+A measured observation is not a candidate label. Candidate classification must remain capable of returning `indeterminate` and must not bypass validation gates.
 
-Combines independent observations while preserving their provenance. Correlated measurements should not be counted as independent evidence without justification.
+## Deployment boundary
 
-### Classification
-
-Produces a candidate state, not an automatic truth claim. The classifier must be able to return `indeterminate`.
-
-### Disposition
-
-Applies validation and reliability gates to determine whether a final result can be emitted.
+Render must use `VoxVector` as the root directory and launch `api.app:app`. The intended public target is `voxvector.crownlabs.tech`. Public-domain availability or a green deployment is not itself runtime or scientific verification.
 
 ## Design properties
 
 - deterministic feature extraction where practical
-- immutable provenance for each analysis run
+- bounded frame processing for constrained runtimes
+- immutable run provenance
 - explicit missing-data states
 - reproducible configuration
 - no hidden feature-to-deception shortcut
 - auditable evidence contributions
 - abstention as a first-class outcome
+- planned capabilities preserved independently of current implementation status

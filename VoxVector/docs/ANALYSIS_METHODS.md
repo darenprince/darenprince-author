@@ -1,6 +1,6 @@
 # VoxVector Analysis Methods
 
-This is the active method register. A method is observational until validated for an inferential task.
+This is the human-readable active method register. A method is observational unless explicitly validated for an inferential task.
 
 ## Implemented observational methods
 
@@ -56,41 +56,47 @@ This is the active method register. A method is observational until validated fo
 - robust median/MAD baseline summary
 - baseline-relative standardized deviation
 
-These methods provide measurable observations. They do not produce deception labels.
+## Primary pipeline integration status
 
-## Research-derived candidates
+The current primary `VoxVectorPipeline` integrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional within-speaker baseline comparison, optional response latency, and optional transcript disfluency observations.
 
-The following remain research-backed candidates and are deliberately not active inferential capabilities:
+MFCC/cepstral processing, local jitter/shimmer utilities, and lower-level pulse/temporal utilities are implemented reusable components but are not yet primary-pipeline outputs. Their presence is retained as implementation context and future expansion capacity.
+
+## Research-derived planned candidates
+
+The following remain research-backed candidates and are deliberately retained for future development rather than deleted:
 
 - false starts and repairs
 - LPCC and GFCC representations
-- Teager energy operator-derived observations
-- question/answer alignment
+- Teager Energy Operator-derived observations
+- openSMILE / eGeMAPS-style descriptors
+- IAIF, NAQ, CQ, OQ, H1-H2 and related glottal-source measures
+- richer question/answer alignment
+- production ASR and forced alignment
 - transcript-derived contradiction, certainty, lexical diversity, negation, and discourse structure
+- speaker diarization
+- WavLM, wav2vec 2.0, and HuBERT representations
+- Conformer, Audio Spectrogram Transformer, temporal attention, and sequence models
+- cross-modal audio/video analysis
+- synthetic-speech detection
+- dependence-aware multimethod convergence and calibrated uncertainty
 
-Research provenance and promotion rules for these candidates are documented in `docs/RESEARCH_METHOD_EXPANSION.md`.
+See `docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` for the complete preserved capability map.
 
 ## Duplication control
 
-Where a method already exists, new work extends the canonical implementation instead of creating a second implementation. The active registry in `src/voxvector/validation.py` is the authoritative method-to-module map.
-
-## Research interpretation rule
-
-Published studies show mixed and task-dependent findings. Timing, pitch, intensity, pauses, disfluencies, and other features may be associated with deception in particular datasets or conditions, but none is treated by VoxVector as a standalone deception indicator. Negative findings are retained as part of the evidence base.
+Where a method already exists, new work extends the canonical implementation instead of creating a second implementation. `src/voxvector/validation.py` is the runtime method-to-module registry.
 
 ## Evidence rules
 
-A feature can contribute evidence only when:
+A feature can contribute evidence only when it is measurable with acceptable quality, its provenance is recorded, its comparison context is understood, its validation status is known, alternative explanations remain represented, and correlated measurements are not silently treated as independent evidence.
 
-1. it is measurable with acceptable quality;
-2. its provenance is recorded;
-3. the relevant comparison baseline exists or its absence is explicitly handled;
-4. the feature's validation status is known;
-5. alternative explanations remain represented;
-6. it is not silently treated as independent of correlated features.
+## Scientific interpretation
 
-## Promotion status
+Timing, pitch, intensity, pauses, disfluencies, spectral measures, and other observations can vary with many causes. VoxVector therefore reports observations and evidence convergence rather than treating any individual feature as a lie detector.
 
-Research candidates move through: operational definition -> implementation -> QA -> reliability characterization -> speaker-disjoint evaluation -> external/out-of-sample evaluation -> calibration/error analysis -> documented validation status.
+## Promotion path
+
+Research candidate -> frozen operational definition -> implementation -> unit/boundary QA -> reliability characterization -> speaker-disjoint evaluation -> external/out-of-sample evaluation -> calibration/error analysis -> documented validation status.
 
 Research relevance does not equal VoxVector validation.

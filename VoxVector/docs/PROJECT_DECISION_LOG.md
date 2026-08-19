@@ -4,17 +4,39 @@
 
 **Decision:** `./VoxVector/` is the canonical VoxVector application root. The root-level `./api/` directory is not part of VoxVector and must not be used as its deployment root.
 
-**Reason:** The migration integrity record defines `darenprince-author/VoxVector` as the destination and states that new VoxVector work belongs under `VoxVector/`. The existing deployment adapter was created at the repository root as `./api/`, which introduced a conflicting project boundary and made Render configuration point outside the canonical application.
-
 **Resolution:**
 
-- Move the HTTP adapter to `VoxVector/api/app.py`.
-- Keep the canonical analysis engine under `VoxVector/src/voxvector/`.
-- Keep API dependencies under `VoxVector/api/requirements.txt`.
-- Configure Render with `Root Directory: VoxVector`.
-- Configure Render to install `api/requirements.txt` and launch `api.app:app`.
-- Remove the conflicting root-level `api/` files.
+- HTTP adapter: `VoxVector/api/app.py`
+- Analysis engine: `VoxVector/src/voxvector/`
+- API dependencies: `VoxVector/api/requirements.txt`
+- Render root: `VoxVector`
+- Render entry point: `api.app:app`
+- conflicting root-level VoxVector API files removed
 
-**Boundary:** The API adapter is an interface/runtime adapter only. It must import and execute the canonical VoxVector pipeline and must not become a second analysis engine.
+The adapter is an interface/runtime boundary only and must not become a second analysis engine.
 
-**Verification required:** After deployment, verify `/health` provenance paths point into `VoxVector/src/voxvector` and run the known WAV fixture through `/v1/analyze`. A successful deployment alone is not runtime or scientific validation.
+## 2026-08-19 — Documentation capability preservation
+
+**Decision:** Features and analysis methods documented as planned, research candidates, or future capabilities remain part of the canonical VoxVector project context even when they are not currently implemented.
+
+**Reason:** Documentation is also the research and product roadmap. Removing a capability because implementation is pending destroys traceability and incorrectly converts a development gap into an apparent retirement decision.
+
+**Rule:** A capability may move between `planned`, `implemented`, `integrated`, and `validated` states. It may be retired only by an explicit project decision. No feature is considered obsolete solely because it is not yet present in code.
+
+**Canonical records:** `docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` preserve the full future-development map.
+
+## 2026-08-19 — Dependency baseline
+
+**Decision:** Move the scientific/runtime baseline to Python 3.12 and pin the reviewed dependency versions.
+
+**Reason:** Current NumPy 2.5.1 requires Python >=3.12. The previous CI workflow executed Python 3.11, creating an unnecessary version mismatch risk.
+
+**Pinned baseline:** NumPy 2.5.1, pytest 9.1.1, setuptools 83.0.0, FastAPI 0.140.8, Uvicorn 0.51.0, python-multipart 0.0.32.
+
+**Boundary:** Dependency upgrades are software compatibility changes, not scientific validation.
+
+## 2026-08-19 — Public deployment target
+
+**Decision:** The intended public VoxVector product target is `voxvector.crownlabs.tech`.
+
+**Verification rule:** Repository configuration, a green build, or DNS configuration alone is not sufficient to claim deployment verification. The deployed `/health` provenance and known WAV `/v1/analyze` fixture must be checked against the canonical `VoxVector/src/voxvector` implementation.

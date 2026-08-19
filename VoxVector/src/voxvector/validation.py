@@ -1,7 +1,9 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
+
 ValidationStatus = Literal["implemented_observational", "registered_unimplemented", "validated_inferential", "deprecated"]
+
 @dataclass(frozen=True)
 class MethodValidation:
     method_id: str
@@ -10,53 +12,74 @@ class MethodValidation:
     validation_plan: tuple[str, ...]
     failure_behavior: str
     notes: str = ""
-_DEFAULT_PLAN = ("define_target_task_and_population","freeze_method_specification","speaker_disjoint_train_validation_test_split","document_sampling_and_class_balance","out_of_sample_evaluation","error_and_calibration_analysis","robustness_to_recording_conditions","abstention_behavior")
-_METHODS = (
-("acoustic.rms","implemented_observational","src/voxvector/acoustic.py","return measurement; preserve quality/provenance"),
-("acoustic.intensity_db","implemented_observational","src/voxvector/acoustic.py","return measurement; preserve quality/provenance"),
-("acoustic.zero_crossing_rate","implemented_observational","src/voxvector/acoustic.py","return measurement; preserve quality/provenance"),
-("acoustic.spectral_centroid","implemented_observational","src/voxvector/acoustic.py","return measurement; preserve quality/provenance"),
-("acoustic.spectral_spread","implemented_observational","src/voxvector/acoustic.py","return measurement; preserve quality/provenance"),
-("acoustic.fundamental_frequency","implemented_observational","src/voxvector/acoustic.py","return NaN for unavailable/unvoiced frames"),
-("acoustic.harmonicity","implemented_observational","src/voxvector/acoustic.py","return NaN for unavailable frames"),
-("temporal.voiced_fraction","implemented_observational","src/voxvector/temporal.py","return NaN when no frames exist"),
-("temporal.pause_count","implemented_observational","src/voxvector/temporal_observations.py","return zero when no qualifying pauses exist"),
-("voice_quality.clipping_ratio","implemented_observational","src/voxvector/voice_quality.py","return quality degradation signal; do not infer intent"),
-("voice_quality.dc_offset","implemented_observational","src/voxvector/voice_quality.py","return measurement or NaN for empty input"),
-("voice_quality.jitter_local","implemented_observational","src/voxvector/voice_quality.py","requires supplied valid periods; otherwise NaN"),
-("voice_quality.shimmer_local","implemented_observational","src/voxvector/voice_quality.py","requires supplied valid amplitudes; otherwise NaN"),
-("voice_quality.hnr","implemented_observational","src/voxvector/hnr.py","return NaN outside usable harmonicity range"),
-("formants.spectral_peak_candidates","implemented_observational","src/voxvector/formants.py","return NaN candidates when insufficient usable peaks exist"),
-("formants.frame_tracking","implemented_observational","src/voxvector/formants.py","return per-frame candidates; unstable frames remain NaN"),
-("timing.speech_rate","implemented_observational","src/voxvector/research_timing.py","return None for zero denominator; reject negative inputs"),
-("timing.articulation_rate","implemented_observational","src/voxvector/research_timing.py","return None for zero denominator; reject negative inputs"),
-("timing.pause_topology","implemented_observational","src/voxvector/research_timing.py","return empty/unavailable descriptors for empty input"),
-("prosody.contour_summary","implemented_observational","src/voxvector/research_prosody.py","compatibility statistics wrapper; canonical dynamics live in advanced_prosody.py"),
-("prosody.f0_dynamics","implemented_observational","src/voxvector/advanced_prosody.py","preserve non-finite observations and unavailable slope"),
-("prosody.intensity_dynamics","implemented_observational","src/voxvector/advanced_prosody.py","preserve non-finite observations and unavailable slope"),
-("spectral.flux","implemented_observational","src/voxvector/spectral.py","reject non-finite/negative magnitudes"),
-("spectral.rolloff","implemented_observational","src/voxvector/spectral.py","require finite nonnegative spectra and valid fraction"),
-("baseline.within_speaker_change","implemented_observational","src/voxvector/baseline.py","requires independently collected baseline; never infer deception directly"),
-("baseline.leakage_control","implemented_observational","src/voxvector/baseline.py","baseline must be collected independently of target segment"),
-("timing.response_latency","implemented_observational","src/voxvector/research_interaction.py","reject reversed timestamps"),
-("interaction.turn_duration","implemented_observational","src/voxvector/research_interaction.py","reject reversed timestamps"),
-("interaction.overlap","implemented_observational","src/voxvector/research_interaction.py","requires speaker-attributed intervals"),
-("disfluency.filled_pauses","implemented_observational","src/voxvector/disfluency.py","requires tokenized transcript; audio-only inference unavailable"),
-("disfluency.repetitions","implemented_observational","src/voxvector/disfluency.py","requires tokenized transcript"),
-("disfluency.rate","implemented_observational","src/voxvector/disfluency.py","filled-pause rate; return NaN for zero token denominator"),
-("disfluency.repetition_rate","implemented_observational","src/voxvector/disfluency.py","repetition rate; return NaN for zero token denominator"),
-("disfluency.false_starts_repairs","registered_unimplemented","none","requires validated transcript/alignment"),
-("cepstral.lpcc","registered_unimplemented","none","requires stable LPC configuration"),
-("cepstral.gfcc","registered_unimplemented","none","requires frozen filterbank configuration"),
-("energy.teager","registered_unimplemented","none","noise-sensitive exploratory descriptor"),
-("interaction.question_answer_alignment","registered_unimplemented","none","requires reliable segmentation"),
-("classifier.deception","registered_unimplemented","none","fail closed; classification remains indeterminate"),
+
+_DEFAULT_PLAN = (
+    "define_target_task_and_population",
+    "freeze_method_specification",
+    "speaker_disjoint_train_validation_test_split",
+    "document_sampling_and_class_balance",
+    "out_of_sample_evaluation",
+    "error_and_calibration_analysis",
+    "robustness_to_recording_conditions",
+    "abstention_behavior",
 )
+
+_METHODS = (
+    ("acoustic.rms", "implemented_observational", "src/voxvector/acoustic.py", "return measurement; preserve quality/provenance"),
+    ("acoustic.intensity_db", "implemented_observational", "src/voxvector/acoustic.py", "return measurement; preserve quality/provenance"),
+    ("acoustic.zero_crossing_rate", "implemented_observational", "src/voxvector/acoustic.py", "return measurement; preserve quality/provenance"),
+    ("acoustic.spectral_centroid", "implemented_observational", "src/voxvector/acoustic.py", "return measurement; preserve quality/provenance"),
+    ("acoustic.spectral_spread", "implemented_observational", "src/voxvector/acoustic.py", "return measurement; preserve quality/provenance"),
+    ("acoustic.fundamental_frequency", "implemented_observational", "src/voxvector/acoustic.py", "return NaN for unavailable/unvoiced frames"),
+    ("acoustic.harmonicity", "implemented_observational", "src/voxvector/acoustic.py", "return NaN for unavailable frames"),
+    ("temporal.voiced_fraction", "implemented_observational", "src/voxvector/temporal.py", "return NaN when no frames exist"),
+    ("temporal.pause_count", "implemented_observational", "src/voxvector/temporal_observations.py", "return zero when no qualifying pauses exist"),
+    ("temporal.pause_duration_mean", "implemented_observational", "src/voxvector/temporal_observations.py", "return None when no pauses exist"),
+    ("temporal.pause_duration_total", "implemented_observational", "src/voxvector/temporal_observations.py", "return zero when no pauses exist"),
+    ("voice_quality.clipping_ratio", "implemented_observational", "src/voxvector/voice_quality.py", "return quality degradation signal; do not infer intent"),
+    ("voice_quality.dc_offset", "implemented_observational", "src/voxvector/voice_quality.py", "return measurement or NaN for empty input"),
+    ("voice_quality.jitter_local", "implemented_observational", "src/voxvector/voice_quality.py", "requires supplied valid periods; otherwise NaN"),
+    ("voice_quality.shimmer_local", "implemented_observational", "src/voxvector/voice_quality.py", "requires supplied valid amplitudes; otherwise NaN"),
+    ("voice_quality.hnr", "implemented_observational", "src/voxvector/hnr.py", "return NaN outside usable harmonicity range"),
+    ("formants.spectral_peak_candidates", "implemented_observational", "src/voxvector/formants.py", "return NaN candidates when insufficient usable peaks exist"),
+    ("formants.frame_tracking", "implemented_observational", "src/voxvector/formants.py", "return per-frame candidates; unstable frames remain NaN"),
+    ("timing.speech_rate", "implemented_observational", "src/voxvector/research_timing.py", "return None for zero denominator; reject negative inputs"),
+    ("timing.articulation_rate", "implemented_observational", "src/voxvector/research_timing.py", "return None for zero denominator; reject negative inputs"),
+    ("timing.pause_topology", "implemented_observational", "src/voxvector/research_timing.py", "return empty/unavailable descriptors for empty input"),
+    ("timing.response_latency", "implemented_observational", "src/voxvector/research_interaction.py", "reject reversed timestamps"),
+    ("prosody.contour_summary", "implemented_observational", "src/voxvector/research_prosody.py", "compatibility statistics wrapper"),
+    ("prosody.f0_dynamics", "implemented_observational", "src/voxvector/advanced_prosody.py", "preserve non-finite observations and unavailable slope"),
+    ("prosody.intensity_dynamics", "implemented_observational", "src/voxvector/advanced_prosody.py", "preserve non-finite observations and unavailable slope"),
+    ("spectral.flux", "implemented_observational", "src/voxvector/spectral.py", "reject non-finite/negative magnitudes"),
+    ("spectral.rolloff", "implemented_observational", "src/voxvector/spectral.py", "require finite nonnegative spectra and valid fraction"),
+    ("cepstral.mfcc", "implemented_observational", "src/voxvector/cepstral.py", "implemented reusable module; not primary-pipeline integrated"),
+    ("baseline.within_speaker_change", "implemented_observational", "src/voxvector/baseline.py", "requires independently collected baseline; never infer deception directly"),
+    ("baseline.leakage_control", "implemented_observational", "src/voxvector/baseline.py", "baseline must be collected independently of target segment"),
+    ("interaction.turn_duration", "implemented_observational", "src/voxvector/research_interaction.py", "reject reversed timestamps"),
+    ("interaction.overlap", "implemented_observational", "src/voxvector/research_interaction.py", "requires speaker-attributed intervals"),
+    ("disfluency.filled_pauses", "implemented_observational", "src/voxvector/disfluency.py", "requires tokenized transcript; audio-only inference unavailable"),
+    ("disfluency.repetitions", "implemented_observational", "src/voxvector/disfluency.py", "requires tokenized transcript"),
+    ("disfluency.rate", "implemented_observational", "src/voxvector/disfluency.py", "filled-pause rate; return NaN for zero token denominator"),
+    ("disfluency.repetition_rate", "implemented_observational", "src/voxvector/disfluency.py", "repetition rate; return NaN for zero token denominator"),
+    ("disfluency.false_starts_repairs", "registered_unimplemented", "none", "requires validated transcript/alignment"),
+    ("cepstral.lpcc", "registered_unimplemented", "none", "requires stable LPC configuration"),
+    ("cepstral.gfcc", "registered_unimplemented", "none", "requires frozen filterbank configuration"),
+    ("energy.teager", "registered_unimplemented", "none", "noise-sensitive exploratory descriptor"),
+    ("interaction.question_answer_alignment", "registered_unimplemented", "none", "requires reliable segmentation"),
+    ("classifier.deception", "registered_unimplemented", "none", "fail closed; classification remains indeterminate"),
+)
+
 def method_registry() -> tuple[MethodValidation, ...]:
-    return tuple(MethodValidation(method_id,status,implementation,_DEFAULT_PLAN,failure,"Research relevance is not inferential validation.") for method_id,status,implementation,failure in _METHODS)
+    return tuple(
+        MethodValidation(method_id, status, implementation, _DEFAULT_PLAN, failure, "Research relevance is not inferential validation.")
+        for method_id, status, implementation, failure in _METHODS
+    )
+
 def get_method_validation(method_id: str) -> MethodValidation:
     for method in method_registry():
-        if method.method_id == method_id: return method
+        if method.method_id == method_id:
+            return method
     raise KeyError(f"unknown VoxVector method: {method_id}")
+
 def is_inferentially_validated(method_id: str) -> bool:
     return get_method_validation(method_id).status == "validated_inferential"

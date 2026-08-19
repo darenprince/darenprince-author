@@ -31,6 +31,7 @@ This matrix is a software QA and validation-status control. It does not establis
 | prosody.intensity_dynamics | advanced_prosody.py | contour dynamics | empty/non-finite | preserve missing observations | method ID + segment + quality | observational |
 | spectral.flux | spectral.py | normalized spectral change | non-finite/negative magnitudes | reject invalid input | method ID + segment + quality | observational |
 | spectral.rolloff | spectral.py | cutoff frequency | invalid fraction/spectrum | reject invalid input | method ID + segment + quality | observational |
+| cepstral.mfcc | cepstral.py | MFCC descriptors | short/invalid input | preserve unavailable state | method ID + segment + quality | observational; not primary integrated |
 | baseline.within_speaker_change | baseline.py | baseline-relative deviation | insufficient independent baseline | unavailable; no inference | method ID + baseline provenance | observational |
 | baseline.leakage_control | baseline.py | baseline eligibility | target leakage | reject baseline | baseline provenance | observational |
 | interaction.turn_duration | research_interaction.py | seconds | reversed timestamps | reject invalid interval | method ID + segment + quality | observational |
@@ -39,17 +40,17 @@ This matrix is a software QA and validation-status control. It does not establis
 | disfluency.repetitions | disfluency.py | count | empty/short transcript | zero | method ID + transcript provenance | observational |
 | disfluency.rate | disfluency.py | filled-pause rate | zero token denominator | NaN/unavailable | method ID + transcript provenance | observational |
 | disfluency.repetition_rate | disfluency.py | repetition rate | zero token denominator | NaN/unavailable | method ID + transcript provenance | observational |
-| disfluency.false_starts_repairs | none | false starts/repairs | missing alignment | fail closed / unimplemented | registry status | not implemented |
-| cepstral.lpcc | none | LPCC descriptors | unstable LPC | fail closed / unimplemented | registry status | not implemented |
-| cepstral.gfcc | none | GFCC descriptors | configuration mismatch | fail closed / unimplemented | registry status | not implemented |
-| energy.teager | none | TEO descriptors | noise sensitivity | fail closed / unimplemented | registry status | not implemented |
-| interaction.question_answer_alignment | none | aligned segments | unreliable segmentation | fail closed / unimplemented | registry status | not implemented |
+| disfluency.false_starts_repairs | none | false starts/repairs | missing alignment | fail closed / unimplemented | registry status | planned |
+| cepstral.lpcc | none | LPCC descriptors | unstable LPC | fail closed / unimplemented | registry status | planned |
+| cepstral.gfcc | none | GFCC descriptors | configuration mismatch | fail closed / unimplemented | registry status | planned |
+| energy.teager | none | TEO descriptors | noise sensitivity | fail closed / unimplemented | registry status | planned |
+| interaction.question_answer_alignment | none | aligned segments | unreliable segmentation | fail closed / unimplemented | registry status | planned |
 | classifier.deception | none | candidate classification | all current states | fail closed / indeterminate | registry status | not validated / inactive |
 
-## QA requirements
+## Synchronization rule
 
-Every implemented method must have deterministic behavior, explicit missing-data semantics, provenance, and tests for normal and boundary/failure cases before promotion.
+`src/voxvector/validation.py` is authoritative for runtime implementation status. This matrix is the synchronized human-readable QA control. Planned methods remain listed here even when implementation is absent.
 
-The runtime registry in `src/voxvector/validation.py` is authoritative for implementation status. This matrix is a synchronized documentation/QA control and must be updated whenever the registry changes.
+Every implemented method must have deterministic behavior, explicit missing-data semantics, provenance, and normal plus boundary/failure tests before any inferential promotion.
 
 A passing implementation test establishes software behavior only. It does not establish population-level performance, causal interpretation, or deception-detection validity.

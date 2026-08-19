@@ -2,11 +2,11 @@
 
 | Area | Version | Status |
 |---|---:|---|
-| Repository rebuild | 0.2.24 | active |
-| Result schema | 0.1 | active |
+| Repository rebuild | 0.2.25 | active |
+| Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
-| Acoustic observation integration | 0.2 | integrated in pipeline |
-| Temporal observation integration | 0.2 | integrated in pipeline |
+| Acoustic observation integration | 0.2 | integrated |
+| Temporal observation integration | 0.2 | integrated for pause topology and timing inputs |
 | Voice-quality HNR | 0.1 | integrated / observational |
 | Prosodic dynamics | 0.1 | integrated / observational |
 | Spectral dynamics / rolloff | 0.1 | integrated / observational |
@@ -14,48 +14,38 @@
 | Speaker baseline | 0.1 | optional integrated / observational |
 | Response latency | 0.1 | optional integrated / observational |
 | Transcript disfluency | 0.1 | optional integrated / observational |
+| MFCC / cepstral module | 0.1 | implemented / not primary-pipeline integrated |
+| Jitter / shimmer utilities | 0.1 | implemented / not primary-pipeline integrated |
 | Reliability gate | 0.1 | implemented / eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
-| Evidence convergence | 0.1 | implemented / neutral |
 | Candidate classification boundary | 0.1 | implemented / indeterminate-only |
 | Final disposition gate | 0.1 | implemented / guarded |
-| Validation registry | 0.3 | synchronized with active methods / fail-closed |
+| Validation registry | 0.3 | fail-closed |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
-| CI QA workflow | 0.1 | configured / execution must be observed |
-| Research method expansion | 0.1 | implemented / research backlog |
-| System state report | 0.1 | implemented / repository audit |
+| CI QA workflow | 0.2 | Python 3.12 configured; fresh result pending |
+| Research method expansion | 0.2 | active preserved backlog |
+| Capability status map | 0.1 | active |
+| Roadmap | 0.1 | active |
 | Deception classifier | — | not validated / not active |
-| Transcript analysis | — | partial observational features only |
-| Speaker diarization | — | not active |
+| Speaker diarization | — | planned |
+| Learned speech representations | — | planned |
 | D-Series validated inference | — | not active |
 
-## Current canonical location
+## Canonical location
 
-VoxVector is maintained under `VoxVector/` in `darenprince-author`. `crowncodeaisuite` is historical source material for migration and traceability.
+VoxVector is maintained under `VoxVector/` in `darenprince-author`. Historical systems remain historical source material for traceability and are not alternate active implementations.
 
-## Pipeline integration 0.2.24
+## Primary pipeline integration
 
-The primary `VoxVectorPipeline` orchestrates the existing canonical analysis modules for acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional independent speaker baselines, optional response latency, and optional transcript disfluency observations. These remain observational and are preserved with provenance. Frame chunk construction emits exactly the configured number of frames per bounded chunk, preventing partial-frame shape contamination at chunk boundaries.
+`VoxVectorPipeline` currently orchestrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations. MFCC/cepstral processing and several lower-level utilities remain implemented but outside the primary pipeline output contract.
 
-## Spectral dimension contract
+## Runtime and deployment
 
-Spectral centroid and spread construct their frequency vector from the actual `rfft` output width. Spectral spread computes the weighted per-frame variance elementwise across FFT columns, preserving one scalar spread value per input frame for arbitrary frame sizes. This is an implementation contract, not a deception-inference claim.
-
-## Formant sample-rate contract
-
-Formant tracking bounds the requested upper frequency by the signal Nyquist frequency. The canonical 5000 Hz default therefore remains usable at lower supported sample rates such as 8000 Hz without attempting to analyze frequencies that cannot exist in the sampled signal.
-
-## Pipeline contract validation
-
-Optional response-latency boundaries are validated before audio feature extraction. Incomplete timing context therefore fails deterministically with the timing contract error instead of being masked by a downstream acoustic/formant error.
-
-## Duplication control
-
-`docs/ANALYSIS_METHODS.md` is the human-readable active method register. `src/voxvector/validation.py` is the runtime method-to-module registry. New implementations must extend an existing canonical module when the capability already exists rather than introducing parallel implementations. `research_prosody.spectral_flux` is now only a compatibility wrapper around the canonical `spectral.spectral_flux` implementation.
+The HTTP adapter is `VoxVector/api/app.py`. Render must use `VoxVector` as its root directory and launch `api.app:app`. The intended public target is `voxvector.crownlabs.tech`. Repository state alone does not prove that the public domain is currently serving the latest commit.
 
 ## QA boundary
 
-The repository includes automated GitHub Actions QA plus an end-to-end pipeline integration regression test. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass. The 2026-08-19 QA cycle identified spectral spread dimensionality, bounded-frame construction, NaN-aware reproducibility, floating-point tolerance, sample-rate-aware formant bounds, and validation-order defects. The implementation and regression controls for these findings are now synchronized in 0.2.24; the resulting CI execution must be observed before declaring the repair validated.
+The observed GitHub Actions run `32212539187` checked out commit `b66551897170b035dd8b2ca7c3d843d18124d00f` and reported 72 passed and 11 failed. The repository has advanced with repairs after that run. A fresh execution must be observed before claiming a passing suite.
 
 ## Scientific boundary
 
