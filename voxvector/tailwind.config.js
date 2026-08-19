@@ -11,8 +11,22 @@ export default {
   ],
   safelist: [
     {
-      pattern: /^(bg|border|text|stroke|fill)-(blue|cyan|gray|emerald)-(50|100|200|300|400|500|600|700|800|900|950)$/
-    }
+      pattern: /^(bg|border|text|stroke|fill)-(stone|amber|orange|yellow|neutral|gray)-(50|100|200|300|400|500|600|700|800|900|950)$/
+    },
+    ...['[#8f5d35]', '[#b97842]', '[#c6a16b]', '[#d9a06b]'].flatMap((customColor) => [
+      `bg-${customColor}`,
+      `border-${customColor}`,
+      `hover:bg-${customColor}`,
+      `hover:border-${customColor}`,
+      `hover:text-${customColor}`,
+      `fill-${customColor}`,
+      `ring-${customColor}`,
+      `stroke-${customColor}`,
+      `text-${customColor}`,
+      `ui-selected:bg-${customColor}`,
+      `ui-selected:border-${customColor}`,
+      `ui-selected:text-${customColor}`
+    ])
   ],
   theme: {
     extend: {
@@ -22,52 +36,52 @@ export default {
       colors: {
         tremor: {
           brand: {
-            faint: colors.blue[50],
-            muted: colors.blue[200],
-            subtle: colors.blue[400],
-            DEFAULT: colors.blue[500],
-            emphasis: colors.blue[700],
+            faint: '#f5eee8',
+            muted: '#e6d5c5',
+            subtle: '#c9a27d',
+            DEFAULT: '#a86f3f',
+            emphasis: '#7a4b29',
             inverted: colors.white
           },
           background: {
-            muted: colors.gray[50],
-            subtle: colors.gray[100],
-            DEFAULT: colors.white,
-            emphasis: colors.gray[700]
+            muted: '#f7f7f6',
+            subtle: '#f1f0ee',
+            DEFAULT: '#ffffff',
+            emphasis: '#2a2826'
           },
-          border: { DEFAULT: colors.gray[200] },
-          ring: { DEFAULT: colors.gray[200] },
+          border: { DEFAULT: '#e4e1dd' },
+          ring: { DEFAULT: '#dedad5' },
           content: {
-            subtle: colors.gray[400],
-            DEFAULT: colors.gray[500],
-            emphasis: colors.gray[700],
-            strong: colors.gray[900],
+            subtle: '#a39d96',
+            DEFAULT: '#706a64',
+            emphasis: '#49443f',
+            strong: '#171513',
             inverted: colors.white
           }
         },
         'dark-tremor': {
           brand: {
-            faint: '#0B1229',
-            muted: colors.blue[950],
-            subtle: colors.blue[800],
-            DEFAULT: colors.blue[500],
-            emphasis: colors.blue[400],
-            inverted: colors.blue[950]
+            faint: '#24160e',
+            muted: '#4a2b1a',
+            subtle: '#8f5d35',
+            DEFAULT: '#b97842',
+            emphasis: '#d9a06b',
+            inverted: '#0a0a0a'
           },
           background: {
-            muted: '#101722',
-            subtle: '#111827',
-            DEFAULT: '#0b1018',
-            emphasis: colors.gray[300]
+            muted: '#141210',
+            subtle: '#191714',
+            DEFAULT: '#0a0a0a',
+            emphasis: '#d7d1ca'
           },
-          border: { DEFAULT: '#1f2937' },
-          ring: { DEFAULT: '#1f2937' },
+          border: { DEFAULT: '#292522' },
+          ring: { DEFAULT: '#302b27' },
           content: {
-            subtle: colors.gray[600],
-            DEFAULT: colors.gray[400],
-            emphasis: colors.gray[200],
-            strong: colors.gray[50],
-            inverted: colors.gray[950]
+            subtle: '#746d66',
+            DEFAULT: '#a49c94',
+            emphasis: '#d2cbc3',
+            strong: '#f5f2ee',
+            inverted: '#0a0a0a'
           }
         }
       }
