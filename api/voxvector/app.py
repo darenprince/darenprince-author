@@ -9,9 +9,20 @@ import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
+# The Render service runs from /repo/api. The API package lives here, while the
+# canonical VoxVector implementation remains in /repo/VoxVector/src/voxvector.
+# Because `voxvector.app` is imported before this module executes, Python has
+# already created a namespace package for /api/voxvector. Extend that package's
+# search path so the canonical pipeline modules remain the single implementation.
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "VoxVector", "src"))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
+
+import voxvector as _voxvector_package
+
+CANONICAL_PACKAGE = os.path.join(ROOT, "voxvector")
+if CANONICAL_PACKAGE not in _voxvector_package.__path__:
+    _voxvector_package.__path__.append(CANONICAL_PACKAGE)
 
 from voxvector.pipeline import VoxVectorPipeline
 
