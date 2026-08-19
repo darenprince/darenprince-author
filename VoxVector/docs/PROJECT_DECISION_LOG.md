@@ -212,3 +212,23 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 **Design direction:** Tremor remains the dominant analytical visual language. shadcn composition and Base UI primitives provide application owned controls. Motion handles state transitions. The VoxVector palette remains restrained and balanced, with thin low contrast borders rather than heavy white framing.
 
 **Next:** Apply the same application shell to the authenticated Analysis Workspace, expand the real Supabase backed error and event views when protected query contracts exist, and complete browser level verification of light mode, mobile navigation, keyboard navigation, API failures, and GitHub Pages deployment.
+
+## 2026-08-19 — Luxury palette and landing language refinement
+
+**Decision:** Refine the public VoxVector visual system around the supplied luxury reference palette rather than the previous blue and cyan treatment. The primary surface language is now espresso black, warm brown, copper, muted amber and warm white. Borders are intentionally thin and low contrast.
+
+**Implementation:**
+
+* replaced the public landing blue and cyan accent tokens with espresso, brown, copper and warm amber tokens
+* updated Base UI buttons and badges to consume the shared VoxVector tokens
+* rebuilt the landing signal surface around Tremor `Card` and `AreaChart`
+* replaced the previous line based decorative waveform with a bar based speech waveform using phrase envelopes and explicit silence regions so the visual reads as an audio signal rather than a generic graph
+* retained Motion for reveal and mobile navigation animation
+* retained Lucide iconography and the existing shadcn style composition model
+* replaced the workflow heading `A serious analysis starts before the interpretation.` with `Deep analysis starts with evidence quality.`
+* added the requested hero capability line `Deep Forensic Vocal Analysis + State of the art Linguistics`
+* kept the Project Briefing and Documentation calls to action and the legal, developer, source, privacy, terms and security footer destinations
+
+**Boundary:** All landing charts, signal graphics and analytical readouts remain explicitly illustrative. They are interface demonstrations and are not live telemetry or scientific results.
+
+**Verification:** Source changes are committed. A fresh GitHub Actions build is required before claiming successful production compilation or deployment.
