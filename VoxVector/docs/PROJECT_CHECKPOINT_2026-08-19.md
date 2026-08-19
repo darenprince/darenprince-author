@@ -2,7 +2,7 @@
 
 ## Checkpoint purpose
 
-This document records the current engineering, runtime, deployment, and documentation state so development can resume from repository truth rather than conversation memory.
+This document records the current engineering, runtime, deployment, documentation, and frontend architecture state so development can resume from repository truth rather than conversation memory.
 
 ## Canonical state
 
@@ -16,6 +16,7 @@ This document records the current engineering, runtime, deployment, and document
 - **Public API target:** `https://voxvector.crownlabs.tech`
 - **Deployment:** Render
 - **Current repository pipeline version:** `0.2.25`
+- **Frontend status:** architecture approved; React application shell not yet implemented in `VoxVector/`
 
 ## Completed since the previous checkpoint
 
@@ -32,6 +33,10 @@ This document records the current engineering, runtime, deployment, and document
 - Added `X-Request-ID` to successful analysis responses.
 - Added a private JSON diagnostics bucket configuration and production environment template.
 - Added documentation for the storage/observability architecture and its security boundary.
+- Approved the frontend architecture: React + shadcn/ui + Tailwind CSS + Motion for React + TanStack Query.
+- Added `docs/UI_APPLICATION_ARCHITECTURE.md` defining the frontend contract, Developer Console scope, Analysis Workspace scope, state-driven animation rules, and implementation sequence.
+- Expanded `docs/ROADMAP.md` with the application foundation, Developer Console, Analysis Workspace, public application, and frontend verification phases.
+- Updated `docs/ARCHITECTURE.md`, `docs/CAPABILITY_STATUS.md`, and `docs/PROJECT_DECISION_LOG.md` to reflect the frontend decision without misrepresenting planned work as implemented.
 
 ## Current verification state
 
@@ -72,7 +77,62 @@ The first lifecycle event is `request.started`. This is intentionally written be
 
 Storage failure is non-fatal. If Supabase cannot be reached, the API continues and emits a sanitized `VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE` marker to the Render process log.
 
+## Frontend architecture decision
+
+The next application development phase is a real frontend, not a static mockup.
+
+### Standard stack
+
+- **React** — application shell
+- **shadcn/ui** — application-owned UI foundation
+- **Tailwind CSS** — styling, responsive layout, tokens, and theming
+- **Motion for React** — state-driven animation and interaction
+- **TanStack Query** — server-state and API lifecycle management
+
+### Infrastructure remains unchanged
+
+- Render remains the FastAPI API runtime.
+- `VoxVector/api/app.py` remains the HTTP adapter.
+- `VoxVector/src/voxvector/` remains the canonical analysis engine.
+- Supabase remains the existing authentication, persistence, and diagnostic storage architecture.
+- The frontend must consume actual API/data behavior and must not duplicate analysis logic.
+
+### Developer Console
+
+The next major frontend milestone is `/developer`, with:
+
+- dashboard
+- API workbench
+- persistent error reports
+- lifecycle logs/events
+- documentation navigator
+- development board
+- real system/API/storage status
+- request ID, source revision, pipeline version, timing, status, and raw/structured response visibility where the API provides them
+
+### Analysis Workspace
+
+The subsequent application workspace will provide:
+
+- upload/record entry according to supported runtime capabilities
+- interview/question context
+- waveform and input state
+- eligibility/reliability
+- live lifecycle state
+- acoustic and linguistic evidence panels where data exists
+- timing/prosody
+- convergence/conflict
+- uncertainty and alternative explanations
+- candidate classification
+- final disposition
+
+### Animation contract
+
+Motion must follow actual query/mutation and backend lifecycle state. Numerical progress must only be displayed when the API provides a defined progress metric. The UI must never fabricate percentages, telemetry, analysis stages, or results to make a loading screen appear active.
+
 ## Immediate next engineering work
+
+### Backend reliability first
 
 1. Configure the Render environment with `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VOXVECTOR_STORAGE_PROVIDER=supabase`, and `VOXVECTOR_LOG_BUCKET=voxvector-logs`.
 2. Redeploy the exact commit containing the observability implementation.
@@ -86,6 +146,20 @@ Storage failure is non-fatal. If Supabase cannot be reached, the API continues a
 10. Deploy the verified commit to Render.
 11. Verify `/health` and `/v1/analyze` against the exact deployed source revision.
 
+### Frontend foundation after backend contract verification
+
+12. Establish the React application boundary inside `VoxVector/` without changing the Render API deployment boundary.
+13. Establish shadcn/ui and Tailwind foundations with accessible responsive design tokens.
+14. Add Motion for React with reduced-motion behavior.
+15. Add TanStack Query and typed clients derived from the actual FastAPI contract.
+16. Build the `/developer` application shell against real API and diagnostic data.
+17. Build the API workbench and persistent error views.
+18. Build lifecycle event presentation using actual telemetry.
+19. Add documentation navigation and development-board state.
+20. Build the Analysis Workspace only after the API data contract and failure behavior are verified.
+21. Perform browser, responsive, accessibility, reduced-motion, and failure-state verification.
+22. Deploy and verify the frontend against the exact backend revision.
+
 ## Documentation synchronization required
 
 The following canonical records must remain synchronized with this checkpoint:
@@ -94,6 +168,8 @@ The following canonical records must remain synchronized with this checkpoint:
 - `docs/PROJECT_DECISION_LOG.md`
 - `docs/CAPABILITY_STATUS.md`
 - `docs/ROADMAP.md`
+- `docs/ARCHITECTURE.md`
+- `docs/UI_APPLICATION_ARCHITECTURE.md`
 - `docs/STORAGE_AND_OBSERVABILITY.md`
 - Crown Labs Bible VoxVector product listing and dossier
 
@@ -101,6 +177,8 @@ The following canonical records must remain synchronized with this checkpoint:
 
 The current runtime remains an observational analysis foundation. It does not currently establish scientifically validated deception inference. Product documentation must continue to describe deception detection as the product objective while clearly separating implementation maturity and validation status.
 
+The frontend must preserve the same scientific boundaries. A polished interface, animated workflow, or operational dashboard is not evidence of scientific validation.
+
 ## Stop conditions
 
-Do not promote the 502 incident to a scientific finding. Do not claim `/v1/analyze` is production-stable until the failure is reproduced or otherwise explained and the repaired deployment passes controlled endpoint verification. Do not claim deception-detection validation from successful API execution.
+Do not promote the 502 incident to a scientific finding. Do not claim `/v1/analyze` is production-stable until the failure is reproduced or otherwise explained and the repaired deployment passes controlled endpoint verification. Do not claim deception-detection validation from successful API execution. Do not claim the React/shadcn/Motion/TanStack frontend is implemented until the actual application exists, runs, and is verified.
