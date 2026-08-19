@@ -4,19 +4,21 @@
 
 ### Headline
 
-**See the evidence. Understand the signal. Preserve the uncertainty.**
+**Reveal the Truth.**
+
+**With the world’s most advanced vocal analysis platform.**
 
 ### Subheadline
 
-VoxVector is an auditable audio-analysis platform for structured vocal measurement, reliability assessment, evidence organization, and controlled deception research.
+VoxVector examines the voice for measurable patterns, behavioral changes, and converging evidence that may reveal signals associated with deception.
 
 ### Primary CTA
 
-**Analyze Audio**
+**Start an Analysis**
 
 ### Secondary CTA
 
-**Explore the Methodology**
+**See How It Works**
 
 ## Product Introduction
 
