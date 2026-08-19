@@ -5,27 +5,27 @@
 :root {
   color-scheme: dark;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  background: #080706;
-  color: #f4efe8;
+  background: #202124;
+  color: #f2f2f0;
   text-rendering: optimizeLegibility;
   font-synthesis: none;
 
-  /* VoxVector reference driven visual system:
-     near black environment, graphite surfaces, warm white information,
-     restrained espresso / coffee / tan emphasis. */
-  --vv-bg: #080706;
-  --vv-surface: #10100f;
-  --vv-surface-2: #161411;
-  --vv-panel: #1d1813;
-  --vv-panel-soft: rgba(184, 120, 69, 0.08);
-  --vv-accent: #8f5d36;
-  --vv-accent-bright: #d4a26a;
-  --vv-gold: #b98551;
-  --vv-text: #f4efe8;
-  --vv-muted: rgba(244, 239, 232, 0.56);
-  --vv-muted-strong: rgba(244, 239, 232, 0.78);
-  --vv-border: rgba(210, 175, 133, 0.16);
-  --vv-border-strong: rgba(212, 162, 106, 0.32);
+  /* Reference palette: charcoal UI, warm black panels, orange signal accents,
+     muted gold/yellow data accents and neutral white hierarchy. */
+  --vv-bg: #202124;
+  --vv-surface: #2b2a29;
+  --vv-surface-2: #252525;
+  --vv-panel: #1f1e1d;
+  --vv-panel-soft: rgba(255, 111, 45, 0.055);
+  --vv-accent: #f05a28;
+  --vv-accent-bright: #ff7135;
+  --vv-gold: #e0c348;
+  --vv-yellow: #f1d45b;
+  --vv-text: #f2f2f0;
+  --vv-muted: rgba(242, 242, 240, 0.56);
+  --vv-muted-strong: rgba(242, 242, 240, 0.78);
+  --vv-border: rgba(255, 255, 255, 0.075);
+  --vv-border-strong: rgba(240, 90, 40, 0.38);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -38,9 +38,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 78% 8%, rgba(126, 79, 43, 0.10), transparent 28rem),
-    radial-gradient(circle at 8% 42%, rgba(89, 54, 31, 0.07), transparent 30rem),
-    linear-gradient(180deg, #090807 0%, var(--vv-bg) 42%, #060606 100%);
+    radial-gradient(circle at 4% 7%, rgba(240, 90, 40, 0.12), transparent 10rem),
+    radial-gradient(circle at 96% 38%, rgba(224, 195, 72, 0.055), transparent 18rem),
+    linear-gradient(180deg, #202124 0%, #252525 48%, #202124 100%);
   color: var(--vv-text);
   position: relative;
   font-size: 16px;
@@ -51,7 +51,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: linear-gradient(115deg, rgba(255,255,255,0.018), transparent 35%, rgba(184,120,69,0.018) 70%, transparent);
+  background: linear-gradient(115deg, rgba(255,255,255,0.012), transparent 34%, rgba(240,90,40,0.012) 72%, transparent);
 }
 #root { width: 100%; max-width: 100%; min-width: 0; min-height: 100vh; overflow-x: clip; position: relative; z-index: 1; }
 #root > * { width: 100%; min-width: 0; }
@@ -61,22 +61,21 @@ a { color: inherit; }
 button, input { font: inherit; }
 button { max-width: 100%; }
 :focus-visible { outline: 2px solid var(--vv-accent-bright); outline-offset: 3px; }
-::selection { background: rgba(184, 120, 69, 0.24); color: white; }
+::selection { background: rgba(240, 90, 40, 0.24); color: white; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #080706; }
-::-webkit-scrollbar-thumb { background: rgba(184, 120, 69, 0.22); border: 3px solid #080706; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(212, 162, 106, 0.34); }
+::-webkit-scrollbar-track { background: #202124; }
+::-webkit-scrollbar-thumb { background: rgba(240, 90, 40, 0.28); border: 3px solid #202124; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(240, 90, 40, 0.46); }
 
-/* Apply the reference's depth model to Tailwind/Tremor surfaces without
-   turning every card into a loud gradient. */
+/* The reference uses depth through small tonal shifts, not bright cards. */
 [class*="bg-[var(--vv-surface)]"] {
-  background-image: linear-gradient(145deg, rgba(255,255,255,0.012), transparent 38%, rgba(184,120,69,0.018)) !important;
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.018), transparent 42%, rgba(240,90,40,0.018)) !important;
 }
 [class*="bg-[var(--vv-surface-2)]"] {
-  background-image: linear-gradient(145deg, rgba(255,255,255,0.014), transparent 42%, rgba(184,120,69,0.022)) !important;
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.014), transparent 45%, rgba(224,195,72,0.014)) !important;
 }
 [class*="bg-[var(--vv-panel)]"] {
-  background-image: linear-gradient(145deg, rgba(255,255,255,0.016), rgba(184,120,69,0.022)) !important;
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.012), rgba(240,90,40,0.018)) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
