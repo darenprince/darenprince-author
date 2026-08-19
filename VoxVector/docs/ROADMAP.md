@@ -26,7 +26,7 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase B — Application foundation and Developer Console
 
-**Current phase: ACTIVE.** The React application is deployed under `/voxvector/`. The first Developer Console foundation is implemented and the next work is protected backend telemetry plus component-system refinement.
+**Current phase: ACTIVE.** The React application is the canonical public frontend under `/voxvector/` on GitHub Pages. The first Developer Console foundation is implemented and the next work is protected backend telemetry plus component-system refinement.
 
 ### B1 — Application foundation
 
@@ -36,6 +36,7 @@ Absence from the current runtime does not make a roadmap item obsolete.
 - **Motion integration — IMPLEMENTED**
 - **TanStack Query client boundary — IMPLEMENTED**
 - **real API client for `/health` and `/v1/analyze` — IMPLEMENTED**
+- **state-driven API activity visualization — IMPLEMENTED**
 - **formal shadcn/ui component installation — NEXT**
 - accessible navigation and responsive application shell refinement
 - theme support
@@ -61,6 +62,7 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ### B3 — Intelligent loading and state presentation
 
+- **API request state visualization — IMPLEMENTED**
 - API-driven analysis lifecycle states
 - stage-aware loading UI
 - progressive result disclosure as actual data arrives
@@ -181,12 +183,13 @@ These outputs are roadmap capabilities, not current validated runtime capabiliti
 
 ## Product and deployment roadmap
 
-- production-grade frontend under the canonical VoxVector project boundary
+- production-grade React frontend at `https://darenprince.com/voxvector/`
+- protected Developer Console at `https://darenprince.com/voxvector/developer/`
+- canonical FastAPI backend at `https://voxvector.crownlabs.tech`
 - authenticated user and case management
 - secure audio storage and retention controls
 - analysis job lifecycle and result persistence
 - mobile-first polished UX
-- deployment verification at `voxvector.crownlabs.tech`
 - monitoring, provenance, and operational audit trails
 - browser-level and end-to-end verification of critical workflows
 - accessibility and reduced-motion verification
