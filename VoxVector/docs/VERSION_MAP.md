@@ -3,7 +3,7 @@
 | Area | Version | Status |
 |---|---:|---|
 | Repository rebuild | 0.2.24 | active |
-| Public React application | 0.2.34 | active |
+| Public React application | 0.2.35 | active |
 | Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -23,7 +23,7 @@
 | Final disposition gate | 0.1 | implemented / guarded |
 | Validation registry | 0.3 | synchronized with implemented and planned methods / fail closed |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
-| CI QA workflow | 0.2 | workflow configured; fresh result pending |
+| CI QA workflow | 0.2 | verified on frontend 0.2.35: 91 backend tests passed and React production build passed |
 | Research method expansion | 0.2 | active preserved backlog |
 | Capability status map | 0.1 | active |
 | Roadmap | 0.1 | active |
@@ -42,7 +42,7 @@ VoxVector is maintained under `VoxVector/` in `darenprince-author`. Historical s
 
 ## Public frontend
 
-The canonical React workspace is `voxvector/`. The current public application version is `0.2.34`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, Base UI primitives and shared Card, Sheet and ThemeToggle components. The landing page uses direct Tremor analytical components and the supplied Shadcnblocks and luxury dashboard references as visual direction. The current landing metrics and signal visualizations are illustrative interface content, not production telemetry.
+The canonical React workspace is `voxvector/`. The current public application version is `0.2.35`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, Base UI primitives and shared Card, Sheet and ThemeToggle components. The landing page uses direct Tremor analytical components and the supplied Shadcnblocks and luxury dashboard references as visual direction. The current landing metrics and signal visualizations are illustrative interface content, not production telemetry.
 
 ## Deployment boundary
 
@@ -56,7 +56,7 @@ The public visual system is based on the supplied Shadcnblocks neutral reference
 
 ## QA boundary
 
-The GitHub Actions workflow is configured to run the backend test suite and the React production build. The latest source changes require a fresh execution before claiming a passing suite or deployment.
+The VoxVector QA workflow was executed on a verification pull request against the current frontend. The backend suite completed with `91 passed in 0.54s`, normal `npm install` completed with zero vulnerabilities, and the React production build completed successfully after adding the missing `@vitejs/plugin-react` frontend dev dependency. This establishes successful execution of the current software build and test workflow, not scientific validation.
 
 ## Scientific boundary
 
