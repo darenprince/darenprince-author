@@ -1,6 +1,12 @@
 # VoxVector Capability Status
 
-This document prevents a common documentation error: an unimplemented feature is not an obsolete feature. A capability mentioned anywhere in the VoxVector research, product, or architecture record remains part of project context until explicitly retired by a project decision.
+This document distinguishes the product we are building from what the current runtime has already implemented and what science has already validated. An unimplemented capability is not an obsolete capability.
+
+## Product objective
+
+**VoxVector is being built as a vocal and audio deception detection system.** The intended analytical product combines multiple evidence families to identify patterns that may support or contradict a deception hypothesis in defined interview or conversational tasks.
+
+The current implementation is an observational foundation. It must not be represented as scientifically validated deception detection until the required validation program is completed.
 
 ## Status vocabulary
 
@@ -8,8 +14,8 @@ This document prevents a common documentation error: an unimplemented feature is
 - **Integrated**: implemented and currently orchestrated by the primary `VoxVectorPipeline`.
 - **Implemented, not primary integrated**: reusable code exists but is not currently emitted by the primary pipeline.
 - **Planned research**: documented candidate retained for future implementation, evaluation, or validation.
-- **Validated inferential**: reserved for a method that has completed the VoxVector validation requirements. None currently has this status for deception inference.
-- **Retired**: removed from the active roadmap only by an explicit documented decision. No feature is retired merely because it is not yet built.
+- **Validated inferential**: reserved for a method or model that has completed the VoxVector validation requirements for a defined task and population.
+- **Retired**: removed from the active roadmap only by an explicit documented decision.
 
 ## Current implemented and integrated observations
 
@@ -45,13 +51,11 @@ This document prevents a common documentation error: an unimplemented feature is
 - Pulse-period utilities
 - Generic temporal observation utilities such as turn duration and overlap duration
 
-These are real implementation assets, not roadmap deletions.
+These are real implementation assets and remain available for the deception-detection development program.
 
 ## Planned research and future development
 
-The following remain explicitly planned or research-backed:
-
-### Acoustic and interpretable feature expansion
+### Acoustic and voice-quality expansion
 - openSMILE / eGeMAPS-style descriptor layer
 - broader spectral tilt and harmonic measures
 - LPCC
@@ -59,28 +63,18 @@ The following remain explicitly planned or research-backed:
 - Teager Energy Operator descriptors
 - richer voice-quality and glottal-source measures
 - stronger channel and recording-condition quality controls
+- IAIF, NAQ, CQ, OQ, H1-H2 and related source measures
 
-### Glottal-source analysis
-- IAIF
-- NAQ
-- CQ
-- OQ
-- H1-H2 and related source/tilt measures
-
-### Representation learning
+### Learned representations and temporal modeling
 - WavLM
 - wav2vec 2.0
 - HuBERT
-- speaker and recording-condition leakage evaluation
-
-### Temporal and deep modeling
 - Conformer
 - Audio Spectrogram Transformer
-- temporal attention
-- sequence models
-- longer-context modeling
+- temporal attention and sequence models
+- speaker and recording-condition leakage evaluation
 
-### Linguistic analysis
+### Linguistic and conversational intelligence
 - production-grade ASR
 - word and phoneme timestamps
 - forced alignment
@@ -90,6 +84,7 @@ The following remain explicitly planned or research-backed:
 - hedging and certainty measures
 - lexical diversity, negation, and discourse structure
 - richer question/answer alignment
+- transcript confidence propagation into reliability
 
 ### Speaker and interaction analysis
 - diarization
@@ -97,31 +92,28 @@ The following remain explicitly planned or research-backed:
 - richer turn-taking and overlap analysis
 - baseline selection and leakage controls
 
-### Cross-modal future work
+### Multimodal and media integrity
 - facial action units
 - audio/video synchronization
 - cross-modal fusion
 - synchronized multimodal evidence analysis
+- synthetic-speech detection and provenance-aware benchmark evaluation
 
-### Synthetic-media detection
-- spectral and phase artifacts
-- high-frequency generation artifacts
-- codec and resampling fingerprints
-- vocoder, TTS, and voice-conversion signatures
-- benchmark families with provenance and licensing review
-
-### Validation and inference infrastructure
+### Deception inference infrastructure
 - dependence-aware multimethod convergence
 - calibrated uncertainty
 - explicit abstention thresholds
 - speaker-disjoint and cross-dataset evaluation
 - recording-condition stress tests
 - identity sensitivity analysis
-- subgroup and language robustness where applicable
+- subgroup/language robustness where applicable
 - externally replicated evaluation
 - validated candidate classifiers
-- eventual deception probability and confidence-matrix logic only after the required validation gates are satisfied
+- eventual calibrated deception probability and confidence-matrix logic
+- case-level evidence synthesis and final disposition controls
 
 ## Scientific rule
 
-No item above becomes a deception indicator simply because it is implemented. No feature, representation, model, or classifier is promoted to validated inference by documentation alone.
+No item becomes a deception indicator simply because it is implemented or researched. No feature, representation, model, or classifier is promoted to validated deception inference by documentation alone.
+
+The product objective remains deception detection; the scientific discipline determines when and how that objective can be responsibly enabled in the runtime.
