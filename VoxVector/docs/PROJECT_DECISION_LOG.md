@@ -73,3 +73,17 @@ The adapter is an interface/runtime boundary only and must not become a second a
 **Required engineering response:** Add request correlation, stage-level diagnostics, persistent sanitized error logging, resource/timeout safeguards, controlled reproduction, and exact source-revision verification. The investigation must distinguish application exception, process termination/OOM, timeout, and infrastructure failure.
 
 **Status:** Open. Tracked in `docs/PROJECT_CHECKPOINT_2026-08-19.md` and the Phase A roadmap hardening work.
+
+## 2026-08-19 — Durable diagnostic storage backend
+
+**Decision:** Use the existing Supabase architecture as the durable operational storage backend for VoxVector diagnostics. Do not add a second storage provider solely for error logs.
+
+**Implementation:** Added a dependency-free Supabase Storage adapter under `VoxVector/api/storage.py` and request observability under `VoxVector/api/observability.py`. `/v1/analyze` now receives a request correlation ID, emits lifecycle/stage diagnostics, and returns `X-Request-ID`. Diagnostic objects are sanitized JSON and exclude raw audio and raw transcript content.
+
+**Storage model:** Private `voxvector-logs` bucket, organized by UTC date and request ID. The service-role key is server-side only. Storage failure is non-fatal to the analysis API and falls back to a sanitized Render process-log marker.
+
+**Reason:** The current 502 investigation requires durable evidence that survives Render instance restarts. A `request.started` record is particularly valuable when the process terminates before a response or application exception can be recorded.
+
+**Boundary:** Durable diagnostics improve operational observability only. They do not establish scientific validation or deception inference.
+
+**Verification still required:** Configure Render secrets, verify the private bucket, run a known analysis, confirm stored lifecycle records and `X-Request-ID`, then reproduce/investigate the 502 with the new evidence.
