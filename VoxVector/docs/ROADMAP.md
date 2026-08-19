@@ -26,33 +26,38 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase B — Application foundation and Developer Console
 
-The next product-development phase is the frontend application shell. The approved architecture is React + shadcn/ui + Tailwind CSS + Motion + TanStack Query over the existing FastAPI/Render and Supabase infrastructure.
+**Current phase: ACTIVE.** The React application is deployed under `/voxvector/`. The first Developer Console foundation is implemented and the next work is protected backend telemetry plus component-system refinement.
 
 ### B1 — Application foundation
 
-- establish React application boundary inside `VoxVector/`
-- establish shadcn/ui component system and Tailwind design tokens
-- establish accessible navigation and responsive application shell
-- establish routing and theme support
-- establish API client contracts from actual FastAPI schemas
-- configure TanStack Query for server state
+- **React application boundary — COMPLETE**
+- **Vite/GitHub Pages deployment — COMPLETE**
+- **Tailwind responsive styling baseline — COMPLETE**
+- **Motion integration — IMPLEMENTED**
+- **TanStack Query client boundary — IMPLEMENTED**
+- **real API client for `/health` and `/v1/analyze` — IMPLEMENTED**
+- **formal shadcn/ui component installation — NEXT**
+- accessible navigation and responsive application shell refinement
+- theme support
+- typed API contracts from actual FastAPI schemas
 - preserve request IDs, correlation IDs, status codes, and backend error metadata
 
 ### B2 — Developer Console
 
-- `/developer` route and navigation entry
-- live system/API/storage status from actual telemetry
-- pipeline version and deployed source revision display where available
-- request/error/5xx/analysis operational metrics from persisted data when available
-- API workbench for `/health` and `/v1/analyze`
-- request headers and payload editor
-- formatted and raw response viewer
-- timing, status, request ID, correlation ID, source revision, and pipeline version display
-- persistent error report browser
-- error detail view with stage, request metadata, related events, and recurrence information where supported
-- lifecycle log/event stream
-- canonical documentation navigator
-- development board backed by a maintainable project-state source
+- **`/developer` route and navigation entry — IMPLEMENTED**
+- **Supabase Auth developer gate — IMPLEMENTED**
+- **trusted developer role check — IMPLEMENTED**
+- **real `/health` dashboard — IMPLEMENTED**
+- **API workbench for `/health` and `/v1/analyze` — IMPLEMENTED**
+- **request timing, status, request ID, errors, raw/structured response — IMPLEMENTED**
+- **canonical documentation navigator — IMPLEMENTED**
+- **development board — IMPLEMENTED**
+- protected FastAPI JWT validation — NEXT
+- protected developer authorization dependency — NEXT
+- persistent error report browser — BLOCKED on protected query endpoint
+- error detail with related events/recurrence — BLOCKED on query contract
+- lifecycle event stream — BLOCKED on protected query/stream contract
+- request/error/5xx/analysis aggregates — BLOCKED on persistent metrics contract
 
 ### B3 — Intelligent loading and state presentation
 
@@ -84,7 +89,7 @@ The next product-development phase is the frontend application shell. The approv
 
 ### C2 — Public application
 
-- polished VoxVector landing page
+- **React public landing page — IMPLEMENTED / ACTIVE REFINEMENT**
 - evidence-based product positioning
 - explanation of the deception-analysis workflow
 - methodology and scientific-status access
@@ -170,14 +175,7 @@ Only methods that satisfy the validation program may be promoted to validated in
 
 Future production work may enable a validated multi-engine deception detection layer combining independently justified observations, validated models, reliability, evidence convergence, uncertainty, alternative explanations, and task-specific calibration.
 
-Potential future outputs include:
-
-- candidate deception classification
-- calibrated deception probability
-- confidence and uncertainty matrix
-- evidence convergence/conflict summary
-- alternative-explanation analysis
-- final classification/disposition with abstention
+Potential future outputs include candidate deception classification, calibrated deception probability, confidence and uncertainty matrix, evidence convergence/conflict summary, alternative-explanation analysis, and final classification/disposition with abstention.
 
 These outputs are roadmap capabilities, not current validated runtime capabilities.
 
@@ -199,4 +197,4 @@ Every roadmap stage remains subject to the Operating Charter and Project Decisio
 
 See `docs/PROJECT_CHECKPOINT_2026-08-19.md` for the current implementation, deployment, CI, open runtime incident, immediate verification sequence, and frontend architecture decision.
 
-See `docs/UI_APPLICATION_ARCHITECTURE.md` for the frontend contract and acceptance criteria.
+See `docs/UI_APPLICATION_ARCHITECTURE.md` and `docs/DEVELOPER_ACCESS.md` for the frontend and developer-access contracts.
