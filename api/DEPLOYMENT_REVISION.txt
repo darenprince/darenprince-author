@@ -1,4 +1,0 @@
-VoxVector API deployment revision: 2026-08-19 spectral dimension fix
-
-This file intentionally exists to trigger a clean Render deployment after the canonical VoxVector acoustic spectral dimension correction.
-Current source revision: e82a48f42b77a0a94b046f8c79875ca67fd06b90
