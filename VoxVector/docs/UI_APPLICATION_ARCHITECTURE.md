@@ -2,14 +2,14 @@
 
 ## Status
 
-**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The Developer Console foundation, Supabase developer gate, and state-driven API activity visualization are implemented. Backend-protected operational telemetry remains the next security/integration phase.
+**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, Base UI interaction primitive, accessible landing foundation, and policy navigation are implemented. Backend protected operational telemetry remains the next security and integration phase.
 
 ## Architecture
 
 | Layer | Choice | Role |
 |---|---|---|
 | Application | React 19 | Product shell and route composition |
-| UI | shadcn/ui compatible application owned composition | Accessible primitives and product specific components |
+| UI | shadcn compatible application owned composition with Base UI primitives | Accessible interaction primitives and product specific components |
 | Styling | Tailwind CSS | Responsive layout, typography, tokens, and theming |
 | Visual language | Tremor first with Vercel and Linear influence | Analytical blocks, dense data presentation, restrained hierarchy, and developer product polish |
 | Animation | Motion for React | State driven transitions and interaction |
@@ -28,7 +28,7 @@ The landing page and future public application surfaces use the existing VoxVect
 
 The visual language is Tremor first. Analytical cards, compact metrics, evidence panels, status badges, tables, timelines, signal visualizations, and dashboard blocks should feel native to an analytical product rather than a generic CRUD application. Vercel contributes restrained typography, spacing, sharp hierarchy, and developer product clarity. Linear contributes dense information architecture, subtle borders, compact controls, and focused interaction states.
 
-The actual UI layer remains application owned and shadcn compatible. Base UI and shadcn patterns should be used for interactive primitives as the component library is expanded. VoxVector specific tokens, composition, icon treatment, evidence states, and analytical visualization patterns sit above those primitives.
+The actual UI layer is application owned and shadcn compatible, with Base UI providing the current headless interaction primitive. VoxVector specific tokens, composition, icon treatment, evidence states, and analytical visualization patterns sit above those primitives.
 
 Avoid unnecessary rounded containers, excessive gradients, oversized decorative effects, or purple heavy color treatment. Color should communicate system state and analytical meaning first.
 
@@ -46,6 +46,7 @@ The current landing page is designed as the public product introduction rather t
 - serious analysis use cases
 - a Project Briefing call to action
 - a Documentation call to action
+- privacy and terms policy destinations
 - legal, developer, resource, source, and company footer navigation
 
 The landing page does not present fabricated production telemetry or validated deception performance. Visual analysis panels are product interface illustrations and are clearly framed as such by the surrounding copy.
@@ -60,13 +61,19 @@ Implemented:
 - responsive product landing page
 - Tremor inspired analytical presentation blocks
 - balanced blue, cyan, green, violet, and neutral accent system
+- restrained violet treatment with semantic use where appropriate
 - evidence first product positioning
 - four stage analytical workflow presentation
 - current observational method presentation
 - scientific state communication
 - Project Briefing and Documentation calls to action
 - professional footer with legal, developer, resource, source, and company navigation
+- navigable privacy and terms policy drafts
 - mobile navigation
+- Base UI backed application owned Button primitive
+- keyboard focus treatment
+- skip to content control
+- reduced motion support
 - Motion based progressive presentation
 - `/voxvector/developer` entry point
 - canonical documentation entry point
@@ -75,9 +82,9 @@ Implemented:
 
 Implemented at `/voxvector/developer`:
 
-- Supabase Auth sign-in gate
-- trusted developer-role check using `app_metadata`
-- sign-out
+- Supabase Auth sign in gate
+- trusted developer role check using `app_metadata`
+- sign out with awaited Supabase Auth completion and visible error handling
 - operational dashboard
 - real `/health` query through TanStack Query
 - API workbench for the actual `/v1/analyze` endpoint
@@ -167,9 +174,17 @@ The interface must retain:
 - explicit error, loading, and unavailable states
 - non color only status communication
 
+## Legal and policy navigation
+
+The public footer now links to product specific policy drafts in `VoxVector/docs/PRIVACY.md` and `VoxVector/docs/TERMS.md`, the canonical security documentation, and the repository contact page. These policy drafts describe current product intent and limitations and are not represented as final legal advice. Legal content must be reviewed and approved before being treated as a binding public policy.
+
 ## Deployment
 
 The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. The workflow also stages a concrete `/voxvector/developer/index.html` route and a local `/voxvector/404.html` fallback. The root `voxvector.html` is a compatibility redirect only and must not contain a second landing implementation.
+
+## Verification
+
+The latest frontend hardening changes are committed to GitHub. GitHub Actions verification must be checked after the final commit before claiming a successful production build or deployment. A successful commit is not equivalent to successful CI or deployment.
 
 ## Acceptance principle
 
