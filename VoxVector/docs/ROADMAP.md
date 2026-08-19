@@ -15,7 +15,7 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase B — Feature-depth expansion
 
-- integrate MFCC/cepstral observations into the primary pipeline
+- **MFCC/cepstral observations integrated into the primary pipeline — COMPLETE**
 - expand pause topology and question/answer placement
 - add richer pulse and voice-quality observations
 - strengthen formant tracking and quality controls
