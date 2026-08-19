@@ -169,3 +169,24 @@ The adapter is an interface and runtime boundary only and must not become a seco
 **Verification status:** The changes are committed to GitHub. GitHub Actions workflow verification is still required before claiming a successful production build or deployment.
 
 **Next:** Verify the public build and deployment, then continue the same component system into the Analysis Workspace and Developer Console without introducing a competing visual language.
+
+## 2026-08-19 — QA dependency failure found and corrected
+
+**Observation:** The uploaded GitHub Actions log for commit `b505e84bb8f0c3bd812970490cde090260e8188a` showed the backend suite passing with `91 passed in 0.56s`, then the React dependency installation failing before the build. npm reported `ERESOLVE` because the application declared React `^19.0.0` while `@tremor/react@3.18.7` declares a React `^18.0.0` peer requirement.
+
+**Decision:** Keep Tremor as a first class dependency and align the VoxVector frontend to the supported Tremor React runtime instead of bypassing peer resolution with `--force` or `--legacy-peer-deps`.
+
+**Resolution:**
+
+* `voxvector/package.json` version advanced to `0.2.31`
+* React pinned to `18.3.1`
+* React DOM pinned to `18.3.1`
+* `npm install` remains the QA installation command so dependency resolution is checked normally
+* QA Node runtime advanced from Node 20 to Node 22
+* npm cache is enabled using `voxvector/package.json` as the cache dependency path
+
+Tremor's current installation documentation states that Tremor requires React 18.2.0 or newer, and the npm package currently remains at `3.18.7`. citeturn0search0turn0search7
+
+**Boundary:** This is a dependency compatibility correction. It does not change the scientific status of VoxVector.
+
+**Verification:** The uploaded log establishes the exact pre fix failure and the successful 91 test backend result. A fresh QA run after the fix is required before claiming the React production build passes.
