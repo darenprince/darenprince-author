@@ -155,3 +155,26 @@ The adapter is an interface/runtime boundary only and must not become a second a
 **Boundary:** Visual analytics shown in the landing page are interface illustrations. They do not represent live production telemetry, scientific validation, or fabricated deception results.
 
 **Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md`.
+
+## 2026-08-19 — Landing hardening and Base UI component foundation
+
+**Decision:** Keep Tremor as the dominant analytical visual language while making Base UI the headless interaction primitive underneath VoxVector's application owned components. shadcn patterns remain the composition model above those primitives.
+
+**Implemented:**
+
+- added `@base-ui/react` to the public application dependency set
+- added an application owned `src/components/ui/Button.jsx` primitive backed by Base UI
+- wired the public mobile navigation control and developer authentication controls through the primitive
+- hardened developer sign out to await Supabase Auth completion and expose sign out errors
+- added keyboard focus treatment and reduced motion support
+- added a skip to content control for keyboard users
+- reduced decorative violet treatment while retaining color balance and semantic state use
+- corrected the Project Briefing link to the canonical Crown Labs VoxVector product brief
+- replaced dead legal footer placeholders with navigable privacy, terms, security, and contact destinations
+- added product specific privacy and terms policy drafts under `VoxVector/docs/`
+
+**Boundary:** The landing page remains an interface illustration. Its metrics and waveform are not live telemetry and must not be represented as production analysis results.
+
+**Verification status:** The changes are committed to GitHub. GitHub Actions workflow verification is still required before claiming a successful production build or deployment.
+
+**Next:** Verify the public build and deployment, then continue the same component system into the Analysis Workspace and Developer Console without introducing a competing visual language.
