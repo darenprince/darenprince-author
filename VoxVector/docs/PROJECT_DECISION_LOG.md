@@ -190,3 +190,25 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 **Boundary:** This is a dependency compatibility correction. It does not change the scientific status of VoxVector.
 
 **Verification:** The uploaded log establishes the exact pre fix failure and the successful 91 test backend result. A fresh QA run after the fix is required before claiming the React production build passes.
+
+## 2026-08-19 — VoxVector application shell refinement
+
+**Decision:** Adopt the referenced shadcn dashboard interaction model as the structural reference for the VoxVector authenticated console while keeping Tremor as the primary analytical block system. Vercel is not a dependency or deployment target; its visual influence is limited to general product restraint and information hierarchy.
+
+**Implemented:**
+
+* rebuilt the Developer Console around a persistent desktop sidebar
+* added responsive mobile navigation as a Motion animated slide out sheet
+* added Lucide icons to primary console navigation and operational status rows
+* added persistent light and dark theme switching with local storage
+* added keyboard accessible focus treatment and reduced motion handling
+* established shared semantic design tokens for surfaces, text, borders, accent states, and light mode
+* added Dashboard, API Interface, Error Reports, Logs, Documentation, and Development Board destinations
+* connected the dashboard health indicator to the real `/health` request through TanStack Query
+* connected the API workbench to the real `/v1/analyze` endpoint rather than synthetic responses
+* made API request animation reflect actual request lifecycle state and remain indeterminate where the backend does not expose numeric progress
+* explicitly withheld fabricated operational counts until authenticated persistent metrics endpoints exist
+
+**Design direction:** Tremor remains the dominant analytical visual language. shadcn composition and Base UI primitives provide application owned controls. Motion handles state transitions. The VoxVector palette remains restrained and balanced, with thin low contrast borders rather than heavy white framing.
+
+**Next:** Apply the same application shell to the authenticated Analysis Workspace, expand the real Supabase backed error and event views when protected query contracts exist, and complete browser level verification of light mode, mobile navigation, keyboard navigation, API failures, and GitHub Pages deployment.
