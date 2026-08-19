@@ -6,6 +6,15 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase A — Foundation hardening
 
+- **MFCC/cepstral observations integrated into the primary pipeline — COMPLETE**
+- **Render deployment baseline established — COMPLETE**
+- **Formant FFT boundary hardening — COMPLETE**
+- **Runtime 502 incident investigation — OPEN**
+- add structured request IDs and correlation across API requests
+- add persistent sanitized error/diagnostic records
+- add stage-level timing and resource instrumentation
+- add explicit audio/request resource limits and safe failure behavior
+- reproduce and resolve origin-side 502/process termination/timeout conditions
 - complete current CI repair verification
 - keep Python/dependency versions reproducible
 - expand reliability and eligibility checks
@@ -15,7 +24,6 @@ Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase B — Feature-depth expansion
 
-- **MFCC/cepstral observations integrated into the primary pipeline — COMPLETE**
 - expand pause topology and question/answer placement
 - add richer pulse and voice-quality observations
 - strengthen formant tracking and quality controls
@@ -113,3 +121,7 @@ These outputs are roadmap capabilities, not current validated runtime capabiliti
 - monitoring, provenance, and operational audit trails
 
 Every roadmap stage remains subject to the Operating Charter and Project Decision Log.
+
+## Current checkpoint
+
+See `docs/PROJECT_CHECKPOINT_2026-08-19.md` for the current implementation, deployment, CI, open runtime incident, and immediate next-step sequence.
