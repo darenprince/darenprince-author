@@ -75,3 +75,23 @@ The redesign raises the default readability floor, retains keyboard focus treatm
 The frontend visual system has been updated in `voxvector/src/index.css` and the shared `voxvector/src/components/ui/Button.jsx` primitive. A fresh GitHub Actions build and GitHub Pages deployment must still be observed before claiming successful production compilation or deployment.
 
 The local execution environment cannot reproduce the full npm build because outbound package access is unavailable. This is not treated as a passing test.
+
+## 2026-08-19 hero refinement
+
+The next landing refinement replaced the previous three-line hero headline with the approved product proposition:
+
+**Reveal the truth.**
+
+**Advanced vocal deception analysis.**
+
+The supporting copy now uses the selected #10 language and keeps the scientific boundary visible: VoxVector analyzes vocal, acoustic, linguistic, and behavioral dimensions for patterns associated with deception, uncertainty, and cognitive load while exposing evidence, conflicts, and uncertainty.
+
+The hero is now a full width image led composition rather than a split layout with a large analytical card. A new VoxVector owned SVG background asset at `voxvector/public/assets/voxvector-hero-bg.svg` provides a dark forensic visual field with a profile silhouette, concentric analysis rings, grid structure, and an irregular speech waveform. The image is decorative context and is not presented as real analysis telemetry.
+
+The public header now includes functional GitHub, Docs, and API Access actions. GitHub and Docs route to the canonical repository and documentation tree. API Access routes to the canonical FastAPI Swagger interface at `https://voxvector.crownlabs.tech/docs`.
+
+Mobile navigation includes the same three destinations rather than hiding developer access behind the desktop header. The primary hero action remains connected to the existing Developer Console entry point and the secondary action scrolls to the analytical workflow.
+
+This refinement preserves the existing evidence first language, readability floor, restrained rounded treatment, warm black and copper palette, and scientific distinction between product objective and current observational capability.
+
+Verification remains pending until a fresh GitHub Actions frontend build and browser level GitHub Pages verification are observed. Source commits alone are not treated as successful production verification.
