@@ -43,7 +43,7 @@ The current implementation is an observational foundation. It must not be repres
 | Final disposition gate | Integrated boundary | Abstain / insufficient evidence |
 | Reliability gate | Integrated | Eligibility control only |
 
-## Operational reliability status
+## Operational reliability and observability status
 
 | Area | Status | Current state |
 |---|---|---|
@@ -51,10 +51,13 @@ The current implementation is an observational foundation. It must not be repres
 | Render process startup | Working | Uvicorn starts `api.app:app` successfully |
 | `/health` | Working | Repeated HTTP 200 responses observed |
 | Runtime self-test | Working | Reported `passed` during successful deployment |
+| Durable diagnostic storage adapter | Implemented | Supabase Storage adapter with private JSON bucket support |
+| Request correlation | Implemented | `/v1/analyze` receives a request ID and returns `X-Request-ID` |
+| Lifecycle diagnostics | Implemented | Start, completion, rejection, stage, and exception events |
 | `/v1/analyze` normal-path stability | **Open incident** | A public request returned HTTP 502; origin cause remains under investigation |
-| Persistent error diagnostics | Planned next | Must be added before relying on edge status alone |
 | Resource safeguards | Planned next | Must fail safely before origin process termination |
-| Full CI after latest fixes | Pending | Previous baseline was 82 passed / 2 failed; fixes were applied but fresh green CI evidence is required |
+| Full CI after latest fixes | Pending | Fresh green CI evidence is required |
+| Production storage configuration | Pending | Render must receive the Supabase URL and service-role secret |
 
 ## Implemented but not primary-pipeline integrated
 
