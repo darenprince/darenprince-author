@@ -113,3 +113,27 @@ The adapter is an interface/runtime boundary only and must not become a second a
 **Status:** Architecture approved; frontend implementation is planned and has not yet been represented as implemented capability.
 
 **Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md`, `docs/ARCHITECTURE.md`, and `docs/ROADMAP.md`.
+
+## 2026-08-19 — React landing refinement and Developer Console foundation
+
+**Decision:** Continue the React migration as the canonical VoxVector public application and implement the first functional `/developer` console slice rather than extending the static landing page.
+
+**Implemented:**
+
+- refined public landing experience in `voxvector/src/App.jsx`
+- `/voxvector/developer` route with GitHub Pages SPA fallback
+- Supabase Auth sign-in gate
+- trusted developer role check using `app_metadata`
+- real TanStack Query `/health` integration
+- real `/v1/analyze` API workbench with WAV upload
+- request timing, HTTP status, `X-Request-ID`, errors, and raw/structured JSON response visibility
+- canonical documentation navigator
+- development board
+- explicit unavailable states for telemetry/error endpoints not yet exposed by FastAPI
+- frontend environment contract in `voxvector/.env.example`
+
+**Security boundary:** Browser gating is not considered backend authorization. Sensitive diagnostics and operational telemetry must remain server-protected before corresponding endpoints are exposed to the console.
+
+**Next:** Add Supabase JWT validation and developer-role enforcement to FastAPI, then expose protected diagnostic/error/event query contracts over the existing Supabase storage architecture.
+
+**Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md` and `docs/DEVELOPER_ACCESS.md`.
