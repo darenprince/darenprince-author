@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 
 const Card = forwardRef(function Card({ className = '', ...props }, ref) {
-  return <div ref={ref} className={`rounded-xl border border-white/[0.07] bg-white/[0.025] shadow-[0_1px_2px_rgba(0,0,0,.25)] ${className}`} {...props} />
+  return <div ref={ref} className={`rounded-lg border border-white/[0.055] bg-white/[0.02] shadow-none ${className}`} {...props} />
 })
 
 const CardHeader = ({ className = '', ...props }) => <div className={`flex flex-col space-y-1.5 p-5 ${className}`} {...props} />
