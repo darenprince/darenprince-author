@@ -8,20 +8,23 @@ Active implementation baseline for the public React application at `/voxvector/`
 
 VoxVector should look like a serious analytical product, not a generic AI landing page. The visual system prioritizes evidence, signal structure, readability, hierarchy and restraint.
 
-The landing page uses the approved dark VoxVector foundation with electric blue and cyan as the primary analytical accents. Pastel or baby blue treatment is not part of the active landing palette. Violet is reserved for limited semantic or analytical support and is not a dominant brand color.
+The current landing direction uses the supplied luxury reference as the visual anchor. The foundation is espresso black with warm brown, copper, muted amber and warm white accents. Cool blue and cyan are not the dominant public landing colors. Violet is not a dominant brand color.
 
 ## Core palette
 
 | Token | Value | Use |
 |---|---|---|
-| `vv-bg` | `#05080D` | Primary page background |
-| `vv-surface` | `#080D14` | Major analytical surfaces |
-| `vv-surface-2` | `#070B11` | Section alternation |
-| `vv-blue` | `#147DFF` | Primary action and directional signal |
-| `vv-cyan` | `#00D9FF` | Signal highlight and active analytical accent |
-| `vv-text` | `#F5F7FA` | Primary text |
-| `vv-muted` | `rgba(245,247,250,.46)` | Secondary copy |
-| `vv-border` | `rgba(255,255,255,.08)` | Structural separation |
+| `vv-bg` | `#120D08` | Primary page background |
+| `vv-surface` | `#18110B` | Major analytical surfaces |
+| `vv-surface-2` | `#21160F` | Section alternation |
+| `vv-panel` | `#251911` | Elevated panels |
+| `vv-accent` | `#B87845` | Primary action and structural accent |
+| `vv-accent-bright` | `#E0B276` | Highlight and active analytical accent |
+| `vv-gold` | `#D6A15F` | Editorial emphasis and metadata |
+| `vv-text` | `#F6F0E7` | Primary text |
+| `vv-muted` | `rgba(246,240,231,.56)` | Secondary copy |
+| `vv-border` | `rgba(201,158,108,.18)` | Structural separation |
+| `vv-border-strong` | `rgba(224,178,118,.34)` | Focus and elevated separation |
 
 Semantic green, amber and red may communicate system state where required. They must not become decorative brand colors.
 
@@ -51,11 +54,17 @@ WCAG 2.2 requires normal text to meet at least 4.5:1 contrast and supports text 
 
 Landing page visualizations are interface illustrations, not production telemetry.
 
-The primary signal illustration uses a dense, irregular speech waveform with natural amplitude envelope variation, silence gaps and multi frequency texture. It is not a smooth marketing line chart.
+The primary signal illustration uses a dense bar based speech waveform with irregular amplitude envelopes, phrase structure, explicit silence gaps and multi frequency variation. It is designed to read like an audio signal rather than a generic graph or decorative line.
 
-A supporting spectrogram style field may show harmonic and formant like structure as an illustration. It must be labeled as illustrative and must never be presented as a real subject measurement.
+Tremor `AreaChart` components are used for secondary analytical relationships where a chart is appropriate. They are explicitly labeled as illustrative and must never be presented as real subject measurements.
 
 Do not display fabricated deception scores, confidence percentages, live processing percentages, request counts or scientific performance numbers on the public landing page.
+
+## Component system
+
+The public landing page uses Tremor React as the primary analytical block system. shadcn style composition remains the product owned visual composition model. Base UI supplies headless interaction primitives for application controls. Lucide React supplies interface iconography. Motion for React supplies entrance and interaction animation.
+
+The implementation should favor direct Tremor analytical components rather than recreating equivalent chart or dashboard blocks from scratch. Product specific styling belongs in VoxVector tokens and application owned composition layers.
 
 ## Iconography
 
@@ -69,7 +78,7 @@ All motion must respect `prefers-reduced-motion`.
 
 ## Surfaces and borders
 
-Use thin neutral borders and low contrast surfaces. Avoid heavy white framing, excessive glass effects and large decorative gradients. Rounded corners should be restrained and purposeful rather than applied to every block.
+Use thin warm neutral borders and low contrast surfaces. Avoid heavy white framing, excessive glass effects and large decorative gradients. Rounded corners should be restrained and purposeful rather than applied to every block.
 
 ## Scientific communication
 
