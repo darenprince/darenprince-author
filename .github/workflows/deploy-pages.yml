@@ -37,7 +37,7 @@ jobs:
 
       - name: Build VoxVector React application
         working-directory: voxvector
-        run: npm ci && npm run build
+        run: npm install && npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
