@@ -40,9 +40,8 @@ def test_diagnostic_store_persists_sanitized_event():
     assert "/abc123/" in object_path
     assert payload["request_id"] == "abc123"
     assert payload["error_type"] == "ValueError"
-    # The observability layer only stores fields supplied by callers; raw
-    # request content is therefore excluded by the API instrumentation.
-    assert payload["raw_audio"] == b"must not be persisted"
+    assert "raw_audio" not in payload
+    assert "\x00" not in payload["error_message"]
 
 
 def test_diagnostic_store_can_be_disabled():
