@@ -1,0 +1,45 @@
+Here is your revised Codex prompt — strictly based on what you actually told me:
+
+⸻
+
+Codex Prompt:
+
+Build a temporary “Site Under Maintenance” landing page for DarenPrince.com using the Game On! brand identity. Use the official fonts and color palette.
+
+Page structure should include:
+
+1. Hero Section
+• Include a heading image at the top of the page.
+• Headline: “Daren’s Site is Leveling Up”
+• Subtext: “Game on, even when the page is down. We’re upgrading the experience — faster, sleeker, bolder. Hang tight.”
+
+2. Get the Book Section
+• Include a mockup image placeholder for the book.
+• Below the image, place a collapsible book description section (accordion).
+• The accordion should be expanded and fully visible by default on page load.
+• Use rich descriptive text for the book pulled directly from the long-form product description. No truncation.
+
+3. Contact Section
+• Add a simple contact form with fields: Name, Email, and Message.
+• Do not reference any component includes. Build the form markup directly.
+• Below the form, display this note: “For media, interviews, or reader messages, contact: press@darenprince.com”
+
+4. Bookstore Logo Links
+• At the bottom of the page, add a row of bookstore logos with links.
+• Use the following stores and link them appropriately:
+• Amazon: https://a.co/d/irajx1w
+• Apple Books: https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900
+• Google Play: https://play.google.com/store/books/details?id=BYFbEQAAQBAJ
+• Books-A-Million: https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407
+• ThriftBooks: https://www.thriftbooks.com/w/game-on-master-the-conversation–win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating–amazing-relationships_daren-prince/54448380
+• Waterstones: https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407
+• Codex should locate existing logo assets already uploaded in the repo by filename.
+
+Final instructions:
+• All spacing must follow REM-based system
+• Do not truncate or summarize any copy
+• Accordion must be open by default
+• No external includes or component calls
+• Stay consistent with Game On’s tone: bold, grounded, emotionally intelligent
+
+⸻

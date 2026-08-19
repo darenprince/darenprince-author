@@ -1,0 +1,124 @@
+# 🏗 Build & Deployment Pipeline
+
+_Last updated: 2026-06-22_
+
+This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
+
+## NPM scripts
+
+| Script                | Command                                                                      | Purpose                                                                                                                                                                | Notes                                                                                                                        |
+| --------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
+| `build:search`        | `node ./src/search/build-index.mjs`                                          | Build Minisearch index + docs payload (`public/search/*.json`).                                                                                                        | Requires Markdown under `/content/`; currently indexes 0 docs until content exists.                                          |
+| `generate:icons`      | `node scripts/generate-icons.mjs`                                            | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
+| `generate:images`     | `node scripts/generate-image-manifest.js`                                    | Catalog repo imagery (`**/*.{png,jpg,jpeg,gif,svg,webp}`; excludes node_modules/build artifacts) into `assets/image-manifest.json` as `{ path, description }` entries. | Powers `image-index.html` and press tooling with copy-ready URLs.                                                            |
+| `lint:metadata`       | `node scripts/check-deploy-metadata.mjs`                                     | Validate deploy-critical metadata and social asset references (OG/Twitter images, favicons, Apple icon, and `theme-color`) on key public pages.                        | Fails fast if GitHub Pages would ship missing metadata assets or non-brand browser chrome colors.                            |
+| `build`               | `npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build` | Full local build (static site + Vibe Prism bundle).                                                                                                                    | Copies `src/nexuswho/index.html` → `nexuswho.html`, then Vite outputs `nexuswho.html` + `nexuswho-assets/` at the repo root. |
+| `watch`               | `npm run generate:icons && npm run generate:images && npm run styles:watch`  | Rebuild CSS/icons on file changes.                                                                                                                                     | Run alongside `./scripts/start_dev.sh` during development.                                                                   |
+| `test`                | `vitest run`                                                                 | Run public-site smoke checks and asset helper unit tests.                                                                                                              | Requires Node 18+.                                                                                                           |
+| `prepare`             | `command -v sass >/dev/null 2>&1                                             |                                                                                                                                                                        | npm install --no-save sass; husky install`                                                                                   | Ensure Dart Sass is available and Husky hooks are installed. | Runs automatically on install. |
+| `deploy`              | `npm run build && npm run postprocess:seo`                                   | Generate production-ready assets before pushing to Git.                                                                                                                | GitHub Pages serves committed files.                                                                                         |
+| `deploy:github-pages` | `DOMAIN=\${DOMAIN:-https://www.darenprince.com} npm run deploy`              | Opinionated GitHub Pages deploy wrapper with production default domain.                                                                                                | Override `DOMAIN` when testing alternate hosts/canonical domains.                                                            |
+| `postprocess:assets`  | `node optimize-images.js --root .`                                           | Optional image optimization pass.                                                                                                                                      | Use after importing large imagery.                                                                                           |
+| `postprocess:seo`     | `node seo-enrich.js --root . --domain $DOMAIN`                               | Canonical URLs, metadata, structured data, sitemap, robots.                                                                                                            | Requires `DOMAIN` env var for canonical URLs.                                                                                |
+
+> **Reality Check:** GitHub Pages only serves what is committed to the repo. Run `npm run build` locally before pushing so search indexes, icon bundles, image manifests, and the Nexus Who bundle stay fresh.
+
+> **Visual updates reminder:** If you edit hero visuals or other SCSS (like the aurora + shimmer headline effects), keep the hero palette in signature green tones (avoid purple), ensure the headline shine is clipped to the text (no overlay rectangles), and run `npm run build:site` to refresh `assets/styles.css` before committing so GitHub Pages serves the latest styling.
+>
+> **Hero trailer reminder:** The homepage trailer is landscape (16:9). Keep the frame set to a containment fit so the video does not crop when you adjust the hero layout, and verify the CTA play button scrolls to the trailer on mobile when JavaScript hooks change.
+>
+> **Visibility reminder:** Scroll-triggered reveal animations are disabled so content appears immediately. If you experiment with new motion, never hide key copy or CTAs behind scroll-only triggers—GitHub Pages should load complete sections right away.
+>
+> **Metadata reminder:** When hero copy, page titles, or structured data change, follow `npm run deploy` with `DOMAIN` set so `seo-enrich.js` regenerates canonical URLs, metadata, and sitemap entries.
+>
+> **Duck Calls reminder:** The `ots.html` command deck ships with inline layout styles and Iconify/Google Fonts links. Keep the page metadata aligned with the latest Duck Calls copy and rerun `npm run deploy` so GitHub Pages serves refreshed SEO output.
+>
+> **Crown Labs reminder:** `/labs/` and generated `labs/products/*.html` are aligned to the Daren-Labs portfolio model, with `labs.html` retained as a redirect. Keep Labs-specific social assets (`labs/assets/labs-opengraph.svg`) and favicon (`labs/assets/labs-favicon.svg`) committed, and regenerate product pages with `node scripts/generate-labs-product-pages.mjs` whenever `assets/labs-data.json` changes.
+>
+> **Books surfaces reminder:** `book.html` now includes coming-soon CTA states (with notify modal triggers) and in-page anchor navigation. After touching Book UI or Game On landing styles, run `npm run build:site` so `assets/styles.css` is GitHub Pages-ready and the latest metadata + sharing assets remain deployable.
+
+> **Homepage UX reminder:** `index.html` now relies on iOS-styled format pills, neutral charcoal card surfaces, review card slide-in states, and a scroll-gated Apple Books smart banner (shown only after the hero is passed on Apple devices). Rebuild SCSS + JS bundles with `npm run build:site` after homepage UI changes so GitHub Pages ships the exact interaction behavior.
+
+> **Theme UX reminder:** The homepage now defaults to dark mode on each load, keeps the share action in the header toolbar, and renders the dark/light toggle inside the mega menu. After nav or menu updates, verify both controls on desktop + mobile and run `npm run build:site` so GitHub Pages deploys synced JS/CSS behavior.
+
+## GitHub Pages configuration
+
+- Configure **Settings → Pages** to use **GitHub Actions** as the Pages source. `.github/workflows/deploy-pages.yml` builds the site, uploads the root artifact, and deploys it through the official Pages artifact flow on pushes to `main`/`work` or manual `workflow_dispatch` runs.
+- `CNAME` maps the custom domain. Keep it updated if the domain changes.
+- Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
+- Keep the `data-site-root` attribute + asset-prefix patcher script in HTML files for GitHub Pages subdirectory deployments (`<user>.github.io/<repo>/`). This ensures `/assets` references resolve during local previews and production.
+- When search or image manifests change, commit the generated JSON so GitHub Pages serves updated data.
+- Netlify is no longer used. GitHub Pages deploys from the Actions-built artifact; generated static files still remain committed so local previews, PR previews, and rollback diffs stay inspectable.
+- Keep `.nojekyll` committed so GitHub Pages serves generated asset directories and modern static files without Jekyll filtering.
+- Pull requests with visual changes must include both desktop and mobile screenshots.
+- Keep browser chrome customizations aligned to brand green (favicons, manifest theme colors, and tile colors) and ensure OG/Twitter sharing images are committed and deployable.
+- Keep `/nexuswho/` redirect (`nexuswho/index.html`) pointing to `nexuswho.html` so clean URLs keep working.
+- Treat `src/nexuswho/index.html` as the source of truth for Nexus Who metadata and fallback copy.
+- Authentication and database credentials can stay empty until the new provider is selected (see [`docs/data-platform-migration.md`](./data-platform-migration.md)).
+
+## CSS pipeline guardrails
+
+- Production CSS is **always** `assets/styles.css` generated from `scss/styles.scss`.
+- Edit Sass modules under `scss/` only; `scss/styles.scss` is the sole deploy entrypoint.
+- `npm run dev` now starts Sass watch + Vite together to prevent stale CSS during development.
+- Before push, run `npm run styles:build` (or `npm run build:site`) so GitHub Pages serves latest style changes.
+
+### Stylesheet ownership matrix
+
+- `assets/styles.css`: Global marketing site + shared page shell (source: `scss/styles.scss`).
+- `assets/labs.css`: Crown Labs landing page and legacy redirect support (`/labs/`, with `labs.html` redirecting to it).
+- `assets/labs-product.css`: Generated product brief pages in `labs/products/`.
+- `emergency-911/dist/911.css`: Emergency 911 app surface only.
+- `nexuswho-assets/nexuswho.css`: React/Vite output for `nexuswho.html` only.
+
+If a visual change appears to be ignored, verify you edited the stylesheet owned by that page before rebuilding.
+
+## Local development workflow
+
+1. `./scripts/local_setup.sh` — installs dependencies, ensures Sass, and compiles `assets/styles.css` once.
+2. `npm run dev` — launches Vite and Sass watch together (recommended for active UI development).
+3. `./scripts/start_dev.sh` — optional static preview server that runs `npm run watch` in the background.
+4. Development loop:
+   - Edit Sass → watch task rebuilds automatically.
+   - Update assets → rerun `npm run generate:images`.
+   - Update icon artwork → rerun `npm run generate:icons`.
+   - Update content/pages → rerun `npm run build:search`.
+
+## Search index lifecycle
+
+1. Add Markdown to `/content/` or HTML to `/pages/`.
+2. Run `npm run build:search` (Minisearch logs document counts and payload size).
+3. Run `npm run postprocess:seo` with `DOMAIN` set to confirm metadata and sitemap output.
+4. Commit `public/search/index.json` and `public/search/docs.json`.
+
+> **Reality Check:** `build:search` now indexes tracked HTML surfaces even when `/content/` is empty, but you should still add Markdown content for richer long-form relevance.
+
+## Image management
+
+- `scripts/generate-image-manifest.js` should run after adding/removing imagery anywhere in the repo (assets, labs, apps, or root); the manifest powers `image-index.html` and admin tooling.
+- `optimize-images.js` can shrink heavy assets post-import; not part of default build.
+
+## Testing & quality gates
+
+- `npm test` — Vitest suites covering public site smoke checks and asset helpers.
+- `npm run build` — Quick smoke test (watch for Sass deprecation warnings when upgrading Dart Sass).
+- `npm run lint:metadata` — Verifies deployable metadata/social imagery and brand `theme-color` coverage on primary public pages.
+- `npm run postprocess:seo` — Validate canonical URLs, JSON-LD, robots.txt, and sitemap output (GitHub Pages serves the committed output).
+
+## Deployment checklist
+
+- [ ] Populate `.env` (local) with analytics keys and any third-party automation endpoints.
+- [ ] Run `npm run build` to regenerate CSS, search index, and image manifest.
+- [ ] Run `npm run postprocess:seo` with `DOMAIN` set to refresh structured data and sitemap.
+- [ ] Confirm standalone pages (for example `leanin.html`) include the intended metadata, canonical URL, and any `noindex` rules before deploying.
+- [ ] Run `npm run lint:metadata` and resolve any missing/invalid favicon, OG/Twitter image, or `theme-color` references.
+- [ ] Confirm `ots.html` metadata (title, description, canonical + og:url) matches the current Duck Calls positioning before deploying.
+- [ ] Confirm `src/nexuswho/index.html` metadata (title, description, canonical + og:url) reflects the current Vibe Prism positioning before pushing.
+- [ ] Confirm `index.html` is the primary author homepage (no redirect), `/labs/` is the canonical Crown Labs landing page, and `labs.html` redirects cleanly to `/labs/`.
+- [ ] Confirm homepage nav behavior: header toolbar share button works, mega-menu theme toggle works, and the first paint defaults to dark mode.
+- [ ] Confirm `/labs/` and the `labs.html` redirect keep Crown Labs browser chrome (`theme-color`, favicon links) and valid OG/Twitter social image URLs.
+- [ ] Verify `nexuswho.html` loads and that the latest `nexuswho-assets/*` chunks (vendor, scanner, charts, etc.) are committed for GitHub Pages.
+- [ ] Confirm `/nexuswho/` redirects to `nexuswho.html` and the fallback copy is visible if the bundle fails to load.
+- [ ] Commit generated artifacts (`assets/styles.css`, `assets/image-manifest.json`, `public/search/*.json`).
+- [ ] Push to `main` or run the **Deploy GitHub Pages** workflow manually; GitHub Pages publishes the Actions artifact after the build job succeeds.
+- [ ] After deploy, confirm migration messaging is visible on auth surfaces.
