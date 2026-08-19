@@ -11,6 +11,8 @@ The cause was identified in the canonical analysis pipeline: overlapping audio f
 
 After bounded framing was deployed, the API remained healthy but analysis exposed a separate spectral feature dimension mismatch: an FFT spectrum width and its frequency vector could diverge, producing a matrix multiplication error such as `size 258 is different from 601`.
 
+A subsequent runtime fingerprinting change caused a Render deployment to exit before Uvicorn became available. The deployment failure was isolated to the wrapper's boot-time self-test behavior rather than the canonical spectral implementation. The wrapper now performs the same self-test without terminating the worker at import time and exposes the result through `/health`; `/v1/analyze` refuses analysis with HTTP 503 if that runtime self-test fails.
+
 ## Resolutions
 
 VoxVector now processes audio frames in bounded chunks of 256 frames while preserving the existing 25 ms frame size and 10 ms hop.
@@ -20,6 +22,8 @@ The expensive frame and spectrum matrices are therefore bounded. Compact one-dim
 Spectral flux preserves continuity across chunk boundaries by carrying only the final spectrum from the preceding chunk into the next flux calculation.
 
 Spectral centroid and spread now derive their frequency vector directly from the actual FFT output width. This makes the matrix/vector dimensions explicit and prevents the observed 258/601 mismatch. Regression tests cover both the 514-sample analysis frame size and a 1200-sample frame.
+
+The API wrapper explicitly places `VoxVector/src` before the API namespace package so the canonical `voxvector` implementation cannot be silently shadowed by a same-named wrapper package. The wrapper also reports the loaded acoustic and pipeline module paths and SHA-256 fingerprints through `/health`.
 
 ## Scientific and architectural boundary
 
@@ -37,6 +41,8 @@ The pipeline remains observational and returns `insufficient_evidence` for an ot
 A deployment is not considered verified solely because the service starts. The following checks are required after deployment:
 
 - `GET /health` returns success.
+- `/health` reports the expected canonical package path.
+- `/health` reports the expected acoustic module path and runtime self-test result.
 - `/v1/analyze` accepts a supported WAV fixture.
 - The service remains alive during analysis.
 - Spectral feature dimensions remain aligned for the deployed sample rate/frame size.
