@@ -9,11 +9,10 @@ import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-# The Render service runs from /repo/api. The API package lives here, while the
-# canonical VoxVector implementation remains in /repo/VoxVector/src/voxvector.
-# Because `voxvector.app` is imported before this module executes, Python has
-# already created a namespace package for /api/voxvector. Extend that package's
-# search path so the canonical pipeline modules remain the single implementation.
+# Render starts this API from the repository root. The API wrapper lives in
+# /api/voxvector, while the canonical VoxVector implementation lives in
+# /VoxVector/src/voxvector. Make the canonical package the FIRST search path so
+# a same-named module can never shadow the canonical implementation.
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "VoxVector", "src"))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
@@ -21,13 +20,15 @@ if ROOT not in sys.path:
 import voxvector as _voxvector_package
 
 CANONICAL_PACKAGE = os.path.join(ROOT, "voxvector")
-if CANONICAL_PACKAGE not in _voxvector_package.__path__:
-    _voxvector_package.__path__.append(CANONICAL_PACKAGE)
+_package_paths = [p for p in _voxvector_package.__path__ if p != CANONICAL_PACKAGE]
+_voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 
 from voxvector.pipeline import VoxVectorPipeline
+import voxvector.acoustic as _acoustic_module
 
 MAX_BYTES = 20 * 1024 * 1024
-app = FastAPI(title="VoxVector Analysis API", version="0.1.0")
+SOURCE_REVISION = "575bff75a1d68f91afb7e1f9b5f62b1d4d674123"
+app = FastAPI(title="VoxVector Analysis API", version="0.2.24")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in os.getenv("CORS_ORIGINS", "*").split(",") if origin.strip()],
@@ -68,7 +69,14 @@ def read_wav(data: bytes):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "voxvector-analysis-api", "pipeline": VoxVectorPipeline.software_version}
+    return {
+        "status": "ok",
+        "service": "voxvector-analysis-api",
+        "pipeline": VoxVectorPipeline.software_version,
+        "source_revision": SOURCE_REVISION,
+        "canonical_package": CANONICAL_PACKAGE,
+        "acoustic_module": os.path.abspath(_acoustic_module.__file__),
+    }
 
 
 @app.post("/v1/analyze")
