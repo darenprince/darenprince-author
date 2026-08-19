@@ -1,6 +1,6 @@
 import numpy as np
 
-from voxvector.pipeline import FRAME_CHUNK_COUNT, VoxVectorPipeline, _iter_frame_chunks
+from voxvector.pipeline import FRAME_CHUNK_COUNT, MFCC_COEFFICIENTS, VoxVectorPipeline, _iter_frame_chunks
 
 
 def test_pipeline_abstains_without_enough_context():
@@ -9,6 +9,14 @@ def test_pipeline_abstains_without_enough_context():
     assert result.disposition == "insufficient_evidence"
     assert result.eligibility.status == "eligible"
     assert len(result.observations) > 0
+
+
+def test_pipeline_emits_mfcc_observations():
+    signal = np.sin(2 * np.pi * 180 * np.arange(16000, dtype=float) / 16000)
+    result = VoxVectorPipeline().analyze(signal, 16000)
+    mfcc_observations = [item for item in result.observations if item.method_id == "cepstral.mfcc"]
+    assert len(mfcc_observations) == MFCC_COEFFICIENTS
+    assert {item.provenance["coefficient_index"] for item in mfcc_observations} == set(range(MFCC_COEFFICIENTS))
 
 
 def test_pipeline_rejects_invalid_sample_rate():
