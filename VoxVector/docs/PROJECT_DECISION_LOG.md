@@ -87,3 +87,29 @@ The adapter is an interface/runtime boundary only and must not become a second a
 **Boundary:** Durable diagnostics improve operational observability only. They do not establish scientific validation or deception inference.
 
 **Verification still required:** Configure Render secrets, verify the private bucket, run a known analysis, confirm stored lifecycle records and `X-Request-ID`, then reproduce/investigate the 502 with the new evidence.
+
+## 2026-08-19 — Frontend application stack standardization
+
+**Decision:** Standardize the next VoxVector frontend development phase on **React + shadcn/ui + Tailwind CSS + Motion for React + TanStack Query**.
+
+**Reason:** VoxVector needs a polished, responsive, accessible product interface with real API/data behavior and state-driven animation without replacing the existing Render and Supabase infrastructure or locking the application into a proprietary UI platform. The chosen stack keeps components application-owned, separates presentation from server state, and allows animation to follow actual runtime state.
+
+**Architecture:**
+
+- React: application shell and route composition
+- shadcn/ui: accessible application-owned UI foundation
+- Tailwind CSS: styling, tokens, responsive layouts, and theming
+- Motion for React: state-driven transitions and interaction animation
+- TanStack Query: server-state requests, caching, retries where safe, mutations, and invalidation
+- FastAPI on Render: canonical VoxVector API remains unchanged
+- Supabase: existing auth, persistent data, and diagnostic storage architecture remains unchanged
+
+**Critical boundary:** The frontend is an interface over the canonical API. It must not duplicate the analysis engine, fabricate telemetry, or represent animation as evidence that analysis occurred.
+
+**Developer Console scope:** `/developer` will become a functional operational console exposing real API status, telemetry, API request/response behavior, persistent error diagnostics, lifecycle events, documentation navigation, and development state as supported by actual backend data.
+
+**Analysis Workspace scope:** The application will provide upload/record entry, interview context, waveform/input state, eligibility/reliability, live lifecycle state, evidence panels, convergence/conflict, uncertainty, alternatives, candidate classification, and final disposition presentation while preserving the four-stage analytical boundary.
+
+**Status:** Architecture approved; frontend implementation is planned and has not yet been represented as implemented capability.
+
+**Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md`, `docs/ARCHITECTURE.md`, and `docs/ROADMAP.md`.
