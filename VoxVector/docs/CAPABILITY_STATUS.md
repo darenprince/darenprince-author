@@ -10,7 +10,7 @@ The current implementation is an observational foundation. It must not be repres
 
 ## Status vocabulary
 
-- **Implemented**: code exists and has repository-level QA coverage or deterministic boundary tests.
+- **Implemented**: code exists with repository-level QA coverage or deterministic boundary tests.
 - **Integrated**: implemented and currently orchestrated by the primary `VoxVectorPipeline`.
 - **Implemented, not primary integrated**: reusable code exists but is not currently emitted by the primary pipeline.
 - **Planned research**: documented candidate retained for future implementation, evaluation, or validation.
@@ -32,6 +32,7 @@ The current implementation is an observational foundation. It must not be repres
 | HNR | Integrated | Derived from usable harmonicity |
 | Spectral flux | Integrated | Canonical spectral implementation |
 | Spectral rolloff | Integrated | Canonical spectral implementation |
+| MFCC / cepstral coefficients | Integrated | 13 coefficient means emitted per bounded audio chunk stream |
 | Formant candidate tracking | Integrated | Nyquist bounded; not phonetic validated |
 | Pause topology | Integrated | Count, density, longest, median, p90, voiced-run mean |
 | Response latency | Integrated when supplied | Requires explicit timing boundaries |
@@ -44,8 +45,7 @@ The current implementation is an observational foundation. It must not be repres
 
 ## Implemented but not primary-pipeline integrated
 
-- MFCC / cepstral coefficients
-- Cepstral summary utilities
+- Cepstral summary utilities beyond the primary MFCC observation path
 - Local jitter from supplied periods
 - Local shimmer from supplied cycle amplitudes
 - Pulse-period utilities
@@ -96,7 +96,6 @@ These are real implementation assets and remain available for the deception-dete
 - facial action units
 - audio/video synchronization
 - cross-modal fusion
-- synchronized multimodal evidence analysis
 - synthetic-speech detection and provenance-aware benchmark evaluation
 
 ### Deception inference infrastructure
