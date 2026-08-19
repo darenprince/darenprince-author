@@ -37,6 +37,10 @@ jobs:
 
       - name: Build VoxVector React application
         working-directory: voxvector
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VOXVECTOR_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VOXVECTOR_SUPABASE_ANON_KEY }}
+          VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm install && npm run build
 
       - name: Configure GitHub Pages
