@@ -38,18 +38,28 @@ The adapter is an interface/runtime boundary only and must not become a second a
 
 **Canonical records:** `docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` preserve the full future-development map.
 
-## 2026-08-19 — Dependency baseline
+## 2026-08-19 — Render-compatible dependency baseline
 
-**Decision:** Move the scientific/runtime baseline to Python 3.12 and pin the reviewed dependency versions.
+**Decision:** Pin the production Render runtime to Python 3.11.9 and use NumPy 2.4.6 with the reviewed API dependency set.
 
-**Reason:** Current NumPy 2.5.1 requires Python >=3.12. The previous CI workflow executed Python 3.11, creating an unnecessary version mismatch risk.
+**Reason:** The deployed VoxVector service successfully builds and runs on Python 3.11.9, while NumPy 2.5.1 requires Python >=3.12 and therefore cannot resolve in the pinned production runtime. The earlier 3.12 decision was superseded by the observed deployment compatibility requirement.
 
-**Pinned baseline:** NumPy 2.5.1, pytest 9.1.1, setuptools 83.0.0, FastAPI 0.140.8, Uvicorn 0.51.0, python-multipart 0.0.32.
+**Pinned baseline:** Python 3.11.9, NumPy 2.4.6, FastAPI 0.140.8, Uvicorn 0.51.0, python-multipart 0.0.32.
 
 **Boundary:** Dependency upgrades are software compatibility changes, not scientific validation.
 
-## 2026-08-19 — Public deployment target
+## 2026-08-19 — MFCC primary-pipeline integration
+
+**Decision:** Integrate the existing MFCC implementation into the primary `VoxVectorPipeline` as an observational feature family.
+
+**Implementation:** Thirteen MFCC coefficient means are now emitted with per-coefficient summary statistics and provenance. Processing remains bounded by the existing frame-chunk architecture.
+
+**Boundary:** MFCC observations are evidence inputs only. Integration does not make MFCC a validated deception indicator or enable deception inference.
+
+## 2026-08-19 — Public deployment target and verification
 
 **Decision:** The intended public VoxVector product target is `voxvector.crownlabs.tech`.
 
-**Verification rule:** Repository configuration, a green build, or DNS configuration alone is not sufficient to claim deployment verification. The deployed `/health` provenance and known WAV `/v1/analyze` fixture must be checked against the canonical `VoxVector/src/voxvector` implementation.
+**Verification:** Render successfully deployed the canonical application, `/health` returned 200 with `runtime_self_test: passed`, the runtime reported canonical package paths and source fingerprints, and a live `/v1/analyze` execution successfully produced structured observational analysis with guarded indeterminate disposition.
+
+**Remaining requirement:** Full deception inference remains a research and validation objective, not a current validated runtime capability.
