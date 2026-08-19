@@ -3,56 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>VoxVector | Crown Labs</title>
-  <meta name="description" content="VoxVector is an AI-assisted vocal and audio deception detection platform being developed to analyze interview and conversational audio for evidence relevant to potential deception." />
-  <meta name="theme-color" content="#0b0f17" />
+  <title>VoxVector | Deception Detection Intelligence | Crown Labs</title>
+  <meta name="description" content="VoxVector is an AI-assisted vocal and audio deception detection platform being developed to evaluate interview and conversational audio through reliability-aware, multimethod evidence analysis." />
+  <meta name="theme-color" content="#080a0e" />
   <link rel="canonical" href="https://www.darenprince.com/labs/products/voxvector.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="VoxVector | Crown Labs" />
-  <meta property="og:description" content="AI-assisted vocal and audio deception detection for structured interview and conversational analysis." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VoxVector | Deception Detection Intelligence" />
+  <meta property="og:description" content="A reliability-aware vocal and audio deception detection platform under active development by Crown Labs." />
   <meta property="og:url" content="https://www.darenprince.com/labs/products/voxvector.html" />
   <meta property="og:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="VoxVector | Crown Labs" />
-  <meta name="twitter:description" content="AI-assisted vocal and audio deception detection for structured interview and conversational analysis." />
+  <meta name="twitter:title" content="VoxVector | Deception Detection Intelligence" />
+  <meta name="twitter:description" content="Reliability-aware vocal and audio deception detection for structured interview and conversational analysis." />
   <meta name="twitter:image" content="https://www.darenprince.com/labs/assets/labs-opengraph.svg" />
   <link rel="icon" type="image/svg+xml" href="../assets/labs-favicon.svg" />
   <link rel="stylesheet" href="../../assets/labs-product.css" />
+  <style>
+    .vv-hero { min-height: 68vh; display:grid; align-items:center; }
+    .vv-kicker { letter-spacing:.12em; text-transform:uppercase; font-size:.78rem; opacity:.72; margin-bottom:1rem; }
+    .vv-hero h1 { max-width:920px; margin-bottom:1rem; }
+    .vv-hero .subtitle { max-width:860px; font-size:clamp(1.1rem,2vw,1.45rem); line-height:1.65; }
+    .vv-promise { max-width:760px; font-size:1rem; line-height:1.75; opacity:.86; }
+    .vv-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.75rem; }
+    .vv-actions a { text-decoration:none; }
+    .vv-section { padding:4rem 0; }
+    .vv-section-head { max-width:760px; margin-bottom:2rem; }
+    .vv-section-head p { line-height:1.75; opacity:.82; }
+    .vv-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+    .vv-card { padding:1.35rem; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.025); }
+    .vv-card h3 { margin-top:0; }
+    .vv-card p,.vv-card li { line-height:1.65; opacity:.84; }
+    .vv-stage { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; border:1px solid rgba(255,255,255,.1); }
+    .vv-stage article { padding:1.35rem; border-right:1px solid rgba(255,255,255,.1); }
+    .vv-stage article:last-child { border-right:0; }
+    .vv-stage .num { font-size:.75rem; letter-spacing:.12em; opacity:.55; }
+    .vv-docs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .vv-doc { display:block; padding:1.25rem; border:1px solid rgba(255,255,255,.1); text-decoration:none; }
+    .vv-doc strong { display:block; margin-bottom:.4rem; }
+    .vv-doc span { opacity:.7; line-height:1.5; }
+    .vv-callout { border-left:2px solid currentColor; padding:1rem 1.25rem; margin-top:1.5rem; }
+    .vv-footer-note { max-width:760px; line-height:1.7; opacity:.7; }
+    @media (max-width:900px) { .vv-grid,.vv-stage,.vv-docs { grid-template-columns:1fr 1fr; } .vv-stage article:nth-child(2){border-right:0}.vv-stage article:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.1)} }
+    @media (max-width:620px) { .vv-grid,.vv-stage,.vv-docs { grid-template-columns:1fr; } .vv-stage article{border-right:0!important;border-bottom:1px solid rgba(255,255,255,.1)} .vv-stage article:last-child{border-bottom:0} .vv-section{padding:3rem 0} }
+  </style>
 </head>
 <body class="theme-dark product-page">
   <header class="top-nav">
     <div class="nav-brand">
       <img src="../assets/crown-labs-logo.png" alt="Crown Labs" />
-      <div><strong>VoxVector</strong><div class="footer-note">Sourced from canonical VoxVector and Crown Labs documentation.</div></div>
+      <div><strong>VoxVector</strong><div class="footer-note">Crown Labs deception detection intelligence</div></div>
     </div>
     <div class="nav-actions">
-      <a class="back-link" href="../#products">Back to Labs</a>
-      <a class="back-link" href="../../docs/crownlabsbible/docs/index.html">Crown Labs Bible</a>
+      <a class="back-link" href="../#products">Labs</a>
+      <a class="back-link" href="../../docs/crownlabsbible/docs/viewer.html">Docs</a>
       <a class="back-link" href="https://voxvector.crownlabs.tech">Open VoxVector</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">Theme</button>
     </div>
   </header>
+
   <main>
-    <section class="product-hero"><div>
-      <div class="hero-tags"><span class="tag">Active development</span><span class="tag">AI-assisted deception detection</span></div>
-      <h1>VoxVector</h1>
-      <p class="subtitle">An AI-assisted vocal and audio deception detection platform being developed to analyze interview and conversational audio for evidence relevant to potential deception.</p>
-      <p>VoxVector is being built for deception detection. The current runtime is a functional observational research foundation; scientifically validated deception inference is not yet enabled.</p>
-      <div class="access-actions"><a class="primary-btn" href="https://voxvector.crownlabs.tech">Open VoxVector</a><a class="ghost-btn" href="../../docs/crownlabsbible/04-product-dossiers/VoxVector/overview.md">Open canonical dossier</a><a class="ghost-btn" href="../#products">Explore Labs</a></div>
+    <section class="product-hero vv-hero"><div>
+      <div class="hero-tags"><span class="tag">Active development</span><span class="tag">Vocal + audio intelligence</span><span class="tag">Deception detection</span></div>
+      <div class="vv-kicker">Crown Labs Intelligence Platform</div>
+      <h1>Find the evidence behind the voice.</h1>
+      <p class="subtitle">VoxVector is being built to detect and evaluate potential deception in interview and conversational audio through structured, reliability-aware, multimethod evidence analysis.</p>
+      <p class="vv-promise">Instead of turning one nervous pause, pitch change, hesitation, or stress response into a verdict, VoxVector is designed to ask a harder and more useful question: <strong>what does the available evidence actually support?</strong></p>
+      <div class="vv-actions">
+        <a class="primary-btn" href="https://voxvector.crownlabs.tech">Open VoxVector</a>
+        <a class="ghost-btn" href="../../docs/crownlabsbible/docs/viewer.html?doc=../04-product-dossiers/VoxVector/overview.md">Explore Product Docs</a>
+        <a class="ghost-btn" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/EXECUTIVE_SUMMARY.md">Read Executive Summary</a>
+      </div>
     </div></section>
-    <section class="panel-grid">
-      <div class="panel-card"><h2>Product objective</h2><p><strong>Deception detection from vocal and conversational evidence.</strong></p><p>Future validated inference is designed to combine multiple evidence families, uncertainty, reliability, convergence, conflict, and alternative explanations.</p></div>
-      <div class="panel-card"><h2>Current status</h2><p><strong>Status:</strong> Active development</p><p><strong>Maturity:</strong> Functional observational research foundation</p><p><strong>Scientific state:</strong> No validated deception inference currently active</p></div>
-      <div class="panel-card"><h2>Architecture</h2><p>Eligibility and reliability → evidence collection and analysis → evidence convergence → candidate classification → final disposition gate.</p><p class="footer-note">The current candidate state is indeterminate and fails closed to abstention or insufficient evidence.</p></div>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>Built for the real question</h2>
+        <p>People do not need another dashboard full of disconnected voice measurements. They need an analytical system that can separate usable evidence from noise, show where evidence converges or conflicts, and remain honest about what the data cannot establish.</p>
+      </div>
+      <div class="vv-grid">
+        <article class="vv-card"><h3>Reliability first</h3><p>Before interpretation, VoxVector evaluates whether the recording and available context are suitable for analysis. Reliability is an eligibility control, not a deception score.</p></article>
+        <article class="vv-card"><h3>Evidence, not theatrics</h3><p>Acoustic, prosodic, temporal, spectral, voice-quality, transcript, interaction, and baseline observations are organized into an auditable evidence chain.</p></article>
+        <article class="vv-card"><h3>Uncertainty stays visible</h3><p>Conflicting evidence, missing context, alternative explanations, and abstention remain part of the result rather than being hidden behind a dramatic single number.</p></article>
+      </div>
     </section>
-    <section class="section-block"><h2>Current analytical scope</h2><p>The primary pipeline currently integrates RMS and intensity, zero crossing rate, spectral centroid and spread, fundamental frequency and harmonicity, F0 and intensity dynamics, harmonic to noise ratio, spectral flux and rolloff, formant candidate tracking, pause topology, optional response latency, optional transcript disfluency observations, and optional within speaker baseline deviations.</p></section>
-    <section class="panel-grid">
-      <div class="panel-card"><h2>Evidence principles</h2><ul><li>Reliability is an eligibility control, not a deception score.</li><li>Observations are preserved with provenance and quality context.</li><li>Evidence convergence and conflict remain visible.</li><li>Alternative explanations remain represented.</li></ul></div>
-      <div class="panel-card"><h2>Future detection stack</h2><ul><li>Richer acoustic and voice quality descriptors</li><li>Linguistic and conversational analysis</li><li>Learned audio representations</li><li>Validated multimethod deception classifiers</li><li>Calibrated uncertainty and abstention</li></ul></div>
-      <div class="panel-card"><h2>Validation gate</h2><p>Future validated inference requires task and population definition, speaker disjoint evaluation, out of sample testing, leakage and robustness analysis, calibration and uncertainty assessment, reliability and abstention testing, and external replication where feasible.</p></div>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>The VoxVector analytical path</h2>
+        <p>The architecture separates the stages that are often collapsed together in simplistic deception systems.</p>
+      </div>
+      <div class="vv-stage">
+        <article><div class="num">01</div><h3>Eligibility</h3><p>Is the audio technically and contextually usable?</p></article>
+        <article><div class="num">02</div><h3>Evidence</h3><p>What measurable vocal and conversational observations are present?</p></article>
+        <article><div class="num">03</div><h3>Candidate</h3><p>Do multiple evidence families converge, conflict, or remain indeterminate?</p></article>
+        <article><div class="num">04</div><h3>Disposition</h3><p>Has the evidence passed the scientific and reliability gates required for inference?</p></article>
+      </div>
+    </section>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>What the current engine measures</h2>
+        <p>The active pipeline already provides a substantial observational foundation. These measurements are evidence inputs, not individual proof of deception.</p>
+      </div>
+      <div class="vv-grid">
+        <article class="vv-card"><h3>Acoustic & spectral</h3><ul><li>RMS and relative intensity</li><li>Zero-crossing rate</li><li>Spectral centroid and spread</li><li>Spectral flux and rolloff</li><li>Fundamental frequency and harmonicity</li><li>Harmonic-to-noise ratio</li></ul></article>
+        <article class="vv-card"><h3>Voice & prosody</h3><ul><li>F0 dynamics</li><li>Intensity dynamics</li><li>Formant candidate tracking</li><li>Pause topology</li><li>Speech and articulation timing</li><li>Voice-quality observations</li></ul></article>
+        <article class="vv-card"><h3>Context & language</h3><ul><li>Response latency when supplied</li><li>Transcript disfluencies</li><li>Within-speaker baselines</li><li>Interaction timing</li><li>Evidence provenance</li><li>Reliability and missing-data states</li></ul></article>
+      </div>
+    </section>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>Where the product is going</h2>
+        <p>The roadmap expands the evidence layer first, then advances toward validated deception inference. Research candidates remain visible without being represented as production capabilities.</p>
+      </div>
+      <div class="vv-grid">
+        <article class="vv-card"><h3>Deeper audio intelligence</h3><p>Richer voice-quality and spectral descriptors, glottal-source measures, learned audio representations, temporal models, and stronger recording-condition controls.</p></article>
+        <article class="vv-card"><h3>Conversational intelligence</h3><p>Production ASR, alignment, repair and false-start analysis, linguistic structure, consistency analysis, question/answer relationships, and speaker-aware baselines.</p></article>
+        <article class="vv-card"><h3>Validated deception inference</h3><p>Task-specific classifiers, calibrated uncertainty, multimethod convergence, explicit abstention, robustness testing, and externally replicated validation before controlled inferential deployment.</p></article>
+      </div>
+      <div class="vv-callout"><strong>Current scientific state:</strong> VoxVector is not yet a scientifically validated deception detector. The current runtime provides observational analysis and guarded indeterminate classification. That is a maturity boundary, not a change to the product's purpose.</div>
+    </section>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>Explore the project</h2>
+        <p>Product strategy, technical architecture, methodology, validation, and the deception detection program are maintained in the Crown Labs documentation system.</p>
+      </div>
+      <div class="vv-docs">
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/EXECUTIVE_SUMMARY.md"><strong>Executive Summary</strong><span>Product purpose, strategic position, current state, and future capability.</span></a>
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/DECEPTION_DETECTION_PROGRAM.md"><strong>Deception Detection Program</strong><span>Detection architecture, evidence families, workflow, and validation gates.</span></a>
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/ANALYSIS_METHODS.md"><strong>Analysis Methods</strong><span>Canonical active observations, implementation status, and research candidates.</span></a>
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/ARCHITECTURE.md"><strong>Architecture</strong><span>Runtime boundaries, analysis stages, reliability controls, and future inference layers.</span></a>
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../../../VoxVector/docs/VALIDATION.md"><strong>Validation</strong><span>Scientific validation progression and requirements for inferential deployment.</span></a>
+        <a class="vv-doc" href="../../docs/crownlabsbible/docs/viewer.html?doc=../04-product-dossiers/VoxVector/overview.md"><strong>Crown Labs Product Dossier</strong><span>Executive product positioning, ecosystem role, monetization, and portfolio context.</span></a>
+      </div>
+    </section>
+
+    <section class="vv-section">
+      <div class="vv-section-head">
+        <h2>Designed to earn trust</h2>
+        <p>VoxVector follows the Crown Labs communication standard: intelligent, calm, human, structured, and premium. The product should feel powerful without pretending certainty where the evidence does not justify it.</p>
+        <p class="vv-footer-note">No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature proves deception. VoxVector's intended value comes from disciplined evidence collection, convergence analysis, reliability controls, uncertainty, and validated methodology.</p>
+      </div>
     </section>
   </main>
-  <footer class="product-footer"><p>© Crown Labs • VoxVector product page synchronized to the canonical VoxVector and Crown Labs documentation systems.</p></footer>
+
+  <footer class="product-footer"><p>© Crown Labs • VoxVector • Deception detection intelligence under active development.</p></footer>
   <script src="../../assets/labs-product.js" defer></script>
 </body>
 </html>
