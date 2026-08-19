@@ -1,6 +1,7 @@
 import asyncio
 
 from api.observability import DiagnosticStore
+from api.storage import StorageError
 
 
 class FakeStorage:
@@ -17,6 +18,11 @@ class FakeStorage:
     def put_json(self, object_path, payload):
         self.records.append((object_path, payload))
         return object_path
+
+
+class FailingStorage(FakeStorage):
+    def put_json(self, object_path, payload):
+        raise StorageError("simulated Supabase outage")
 
 
 def test_diagnostic_store_persists_sanitized_event():
@@ -42,6 +48,14 @@ def test_diagnostic_store_persists_sanitized_event():
     assert payload["error_type"] == "ValueError"
     assert "raw_audio" not in payload
     assert "\x00" not in payload["error_message"]
+
+
+def test_diagnostic_store_survives_storage_failure():
+    diagnostics = DiagnosticStore(FailingStorage())
+
+    result = asyncio.run(diagnostics.emit("request.started", request_id="abc123"))
+
+    assert result is None
 
 
 def test_diagnostic_store_can_be_disabled():
