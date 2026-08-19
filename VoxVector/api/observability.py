@@ -12,6 +12,7 @@ from .storage import StorageError, SupabaseStorage
 
 
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
+_BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
 
 
 def new_request_id() -> str:
@@ -27,6 +28,18 @@ def request_id() -> str:
 def _safe_text(value: Any, limit: int = 600) -> str:
     text = str(value).replace("\x00", " ").strip()
     return text[:limit]
+
+
+def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in fields.items():
+        if key.lower() in _BLOCKED_FIELDS:
+            continue
+        if value is None or isinstance(value, (str, int, float, bool)):
+            result[key] = _safe_text(value) if isinstance(value, str) else value
+        else:
+            result[key] = _safe_text(value)
+    return result
 
 
 class DiagnosticStore:
@@ -53,7 +66,7 @@ class DiagnosticStore:
             "timestamp": now.isoformat(),
             "pipeline": os.getenv("VOXVECTOR_PIPELINE_VERSION", "unknown"),
             "source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"),
-            **{key: value for key, value in fields.items() if value is not None},
+            **_safe_fields(fields),
         }
         date_path = now.strftime("%Y/%m/%d")
         object_path = f"events/{date_path}/{rid}/{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
