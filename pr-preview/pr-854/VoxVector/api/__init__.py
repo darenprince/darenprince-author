@@ -1,1 +1,0 @@
-"""VoxVector HTTP adapter package."""
