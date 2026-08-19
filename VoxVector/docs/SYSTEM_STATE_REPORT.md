@@ -3,11 +3,11 @@
 **State date:** 2026-08-19
 **Repository:** `darenprince/darenprince-author`
 **Canonical root:** `VoxVector/`
-**Current software version:** `0.2.25`
+**Current software version:** `0.2.24`
 
 ## Executive summary
 
-VoxVector is a functional observational audio-analysis and deception-research foundation. It is not a scientifically validated deception detector. The repository now has a stage-separated architecture, a primary pipeline with acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, and baseline observations, a FastAPI runtime adapter, provenance/fingerprinting controls, automated QA, and an explicit research roadmap.
+VoxVector is a functional observational audio-analysis and deception-research foundation. It is not a scientifically validated deception detector. The repository has a stage-separated architecture, a primary pipeline with acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, and baseline observations, a FastAPI runtime adapter, provenance/fingerprinting controls, automated QA, and an explicit research roadmap.
 
 The most important invariant is the separation of:
 
@@ -43,9 +43,9 @@ The current `VoxVectorPipeline` integrates:
 - RMS and intensity
 - zero-crossing rate
 - spectral centroid and spread
-- F0 and harmonicity
+- fundamental frequency
+- harmonicity and HNR
 - F0 and intensity dynamics
-- HNR
 - spectral flux and rolloff
 - formant candidate tracking
 - pause topology

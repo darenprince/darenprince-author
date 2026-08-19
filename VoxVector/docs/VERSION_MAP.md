@@ -2,7 +2,7 @@
 
 | Area | Version | Status |
 |---|---:|---|
-| Repository rebuild | 0.2.25 | active |
+| Repository rebuild | 0.2.24 | active |
 | Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -20,7 +20,7 @@
 | Evidence grouping | 0.1 | implemented / neutral |
 | Candidate classification boundary | 0.1 | implemented / indeterminate-only |
 | Final disposition gate | 0.1 | implemented / guarded |
-| Validation registry | 0.3 | fail-closed |
+| Validation registry | 0.3 | synchronized with implemented and planned methods / fail-closed |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
 | CI QA workflow | 0.2 | Python 3.12 configured; fresh result pending |
 | Research method expansion | 0.2 | active preserved backlog |
