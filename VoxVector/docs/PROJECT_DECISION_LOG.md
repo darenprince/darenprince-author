@@ -143,3 +143,15 @@ The adapter is an interface/runtime boundary only and must not become a second a
 **Next:** Add Supabase JWT validation and developer-role enforcement to FastAPI, then expose protected diagnostic/error/event query contracts over the existing Supabase storage architecture.
 
 **Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md` and `docs/DEVELOPER_ACCESS.md`.
+
+## 2026-08-19 — Public landing design system refinement
+
+**Decision:** Refine the public VoxVector landing page around a Tremor first analytical visual language, with Vercel and Linear influence, while keeping VoxVector specific design tokens and application owned shadcn compatible primitives above the foundation.
+
+**Visual direction:** Preserve the established dark palette and balanced use of blue, cyan, green, violet, and neutral accents. Violet remains a supporting accent and is not the dominant treatment. Use compact analytical cards, restrained borders, readable typography, dense information hierarchy, meaningful state color, and purposeful motion.
+
+**Landing scope:** The public page now presents the advanced vocal deception analysis identity, a structured analytical preview, the four stage pipeline, current observation families, evidence convergence and conflict, scientific discipline, capability state, serious analysis use cases, Project Briefing and Documentation calls to action, and a professional footer containing legal, developer, resource, source, and company navigation.
+
+**Boundary:** Visual analytics shown in the landing page are interface illustrations. They do not represent live production telemetry, scientific validation, or fabricated deception results.
+
+**Canonical documentation:** `docs/UI_APPLICATION_ARCHITECTURE.md`.
