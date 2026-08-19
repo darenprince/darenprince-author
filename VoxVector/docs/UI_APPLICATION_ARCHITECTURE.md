@@ -2,16 +2,16 @@
 
 ## Status
 
-**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The landing experience now uses the actual Tremor analytical component library together with application owned shadcn style components backed by Base UI, Lucide icons, Tailwind CSS, Motion for React, and TanStack Query. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, accessible landing foundation, and policy navigation are implemented. Backend protected operational telemetry remains the next security and integration phase.
+**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The landing experience uses Tremor React analytical components together with application owned shadcn style components backed by Base UI, Lucide icons, Tailwind CSS, Motion for React, and TanStack Query. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, accessible landing foundation, and policy navigation are implemented. Backend protected operational telemetry remains the next security and integration phase.
 
 ## Architecture
 
 | Layer | Choice | Role |
 |---|---|---|
-| Application | React 19 | Product shell and route composition |
+| Application | React 18.3.1 | Product shell and route composition; pinned for Tremor compatibility |
 | UI | shadcn style application owned composition with Base UI primitives | Accessible interaction primitives and product specific components |
 | Analytical UI | Tremor React 3.18.7 | Real analytical cards, charts, progress indicators, and dashboard composition |
-| Styling | Tailwind CSS | Responsive layout, typography, tokens, and theming |
+| Styling | Tailwind CSS | Responsive layout, typography, semantic tokens, and theming |
 | Icons | Lucide React | Consistent product and interface iconography |
 | Animation | Motion for React | State driven transitions and interaction animation |
 | Server state | TanStack Query | API lifecycle, caching, retries, mutations, refresh |
@@ -25,13 +25,15 @@ Render and Supabase remain unchanged as infrastructure boundaries.
 
 ## Design system direction
 
-The landing page and future public application surfaces use the VoxVector dark visual foundation with a restrained blue and cyan analytical palette, neutral surfaces, and limited semantic green, amber, and violet accents. Violet is a supporting accent rather than the dominant color.
+The VoxVector visual system follows the supplied shadcnblocks reference: strong black and white contrast, quiet neutral gray structure, warm coffee and tan accents, subtle surface gradients, and very low contrast strokes. The previous blue and cyan analytical treatment is retired from the active frontend visual system.
 
-The visual language is Tremor first. Tremor components are used directly for analytical cards, charts, progress indicators, and evidence visualization. Vercel and Linear remain reference points for spacing, typography, hierarchy, compact controls, subtle borders, and developer product clarity. They are visual references only and are not deployment platforms or runtime dependencies.
+Light mode uses a white canvas, near black typography, quiet gray surfaces, and restrained coffee, copper, and tan accents. Dark mode uses near black and espresso surfaces with warm white typography and the same restrained warm accent family. Borders and dividers are intentionally thin and low contrast. High contrast is reserved for actionable controls, focus states, and semantic status communication.
+
+Tremor remains the analytical visual layer. Its default blue brand tokens are overridden in `voxvector/tailwind.config.js` with the VoxVector warm neutral palette. Landing charts use explicit Tremor custom colors so chart strokes cannot silently fall back to blue. Tremor cards use the shared low contrast border treatment and no decorative blue ring.
 
 The actual application layer is owned by VoxVector and follows shadcn composition patterns. Base UI supplies headless interaction behavior. VoxVector specific tokens, composition, icon treatment, evidence states, and analytical visualization patterns sit above those primitives.
 
-Avoid unnecessary rounded containers, heavy white borders, excessive gradients, oversized decorative effects, or purple heavy color treatment. Color should communicate system state and analytical meaning first.
+Avoid heavy white framing, high contrast decorative outlines, unnecessary rounded containers, excessive gradients, oversized decorative effects, or generic dashboard styling. Gradients should be subtle and support depth rather than compete with information. Color should communicate product hierarchy and system state first.
 
 ## Deployment boundary
 
@@ -82,7 +84,9 @@ Implemented:
 * application owned shadcn style Card and Badge components
 * Base UI backed Button primitive
 * Lucide icon system
-* restrained dark visual token system
+* warm neutral light and dark design token system
+* subtle surface gradients and low contrast structural strokes
+* explicit warm custom Tremor chart colors with no blue fallback
 * evidence first product positioning
 * four stage analytical workflow presentation
 * current observational method presentation
@@ -204,7 +208,7 @@ The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled 
 
 ## Verification
 
-The frontend stack and landing implementation have been committed to GitHub. A fresh GitHub Actions run is still required before claiming a successful production build or deployment. A successful commit is not equivalent to successful CI or deployment.
+The source changes for the warm Tremor palette and chart stroke correction are committed to GitHub. No fresh browser or GitHub Actions verification has been performed in this change session, so production build and deployment success must not be claimed until CI and browser verification complete.
 
 ## Acceptance principle
 
