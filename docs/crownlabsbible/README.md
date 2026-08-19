@@ -28,12 +28,15 @@ The GitHub application repositories remain the technical source of truth for imp
 
 ## VoxVector synchronization
 
-VoxVector is now a canonical active Crown Labs product entry.
+VoxVector is a canonical active Crown Labs product entry.
 
 - Product inventory: `02-products/voxvector.md`
-- Product dossier: `04-product-dossiers/VoxVector.md`
+- Master product dossier: `04-product-dossiers/VoxVector.md`
+- Companion dossier: `04-product-dossiers/VoxVector/`
 - Technical source of truth: `VoxVector/` in `darenprince-author`
 - Intended public target: `voxvector.crownlabs.tech`
+
+The companion dossier now follows the established Crown Labs product pattern with overview, executive summary, monetization, valuation, licensing, positioning, architecture, website copy, and ecosystem-role sections.
 
 The VoxVector technical documentation distinguishes implemented capabilities, primary-pipeline integration, planned research, and validated inference. Planned features must not be removed simply because implementation is pending.
 
@@ -51,8 +54,8 @@ Documentation should:
 
 ## Synchronization rule
 
-When a material VoxVector runtime or architecture change occurs, update both `VoxVector/docs/` and the relevant Crown Labs Bible product records. Do not allow the executive mirror to contradict the canonical repository.
+When a material VoxVector runtime or architecture change occurs, update `VoxVector/docs/` and the relevant Crown Labs Bible product records. The parallel `crowndocs/content/` mirror should remain synchronized where the same product dossier is maintained. Do not allow the executive mirror to contradict the canonical repository.
 
 ## Status
 
-Active and maintained. VoxVector synchronization added 2026-08-19.
+Active and maintained. VoxVector dossier expansion and CrownDocs synchronization added 2026-08-19.

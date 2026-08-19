@@ -1,6 +1,6 @@
 # Crown Labs Master Executive Bible
 
-This directory contains the canonical executive documentation system for Crown Labs and Daren M. Prince Holdings.
+This directory contains the executive documentation system for Crown Labs and Daren M. Prince Holdings.
 
 ## Purpose
 
@@ -28,20 +28,11 @@ Each product and system is documented individually to:
 - support legal and investor review
 - allow clean synchronization with the Crown Labs website ecosystem
 
-## Core Structure
+## VoxVector
 
-01-corporate-foundation/
-02-writing-standards/
-03-product-dossiers/
-04-intelligence-systems/
-05-psychology-platforms/
-06-security-systems/
-07-social-ecosystem/
-08-book-ip/
-09-valuations/
-10-licensing/
-11-investor-materials/
-12-site-sync/
+VoxVector is maintained as a dedicated audio-intelligence and deception-research product dossier under `product-dossiers/voxvector/`.
+
+The technical source of truth remains `VoxVector/` in the repository. The executive mirror must distinguish implemented observational methods, planned research, and validated inference status.
 
 ## Editorial Standards
 
@@ -70,4 +61,4 @@ This documentation system will eventually feed:
 
 ## Status
 
-Foundation initialized.
+Active legacy mirror. VoxVector dossier synchronization added 2026-08-19.
