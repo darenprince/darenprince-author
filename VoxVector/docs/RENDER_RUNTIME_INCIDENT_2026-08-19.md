@@ -14,9 +14,23 @@ The canonical acoustic implementation now derives spectral frequency vectors fro
 
 A subsequent deployment of the runtime fingerprinting wrapper exited with status 1 before Uvicorn became available. The Render log showed build success followed by `Deploying...` and `Exited with status 1`, without a Uvicorn startup line. This means that deployment did not replace the last successful production instance.
 
+## Canonical layout correction
+
+The authoritative VoxVector application lives under `./VoxVector/`. A root-level `./api/` directory was created as a conflicting deployment layout and is not part of the canonical application.
+
+The deployable HTTP adapter is now located at:
+
+`VoxVector/api/app.py`
+
+The analysis engine remains at:
+
+`VoxVector/src/voxvector/`
+
+Render must use `VoxVector` as its Root Directory and launch `api.app:app`. No root-level `api/` deployment path is permitted for VoxVector.
+
 ## Remediation
 
-`api/voxvector/app.py` now:
+`VoxVector/api/app.py`:
 
 - places the canonical `VoxVector/src` package first on the Python package path;
 - reports the actual loaded acoustic and pipeline module paths;
