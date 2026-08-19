@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import LandingChrome from './components/LandingChrome'
+import HeroRefinement from './components/HeroRefinement'
 import './index.css'
 import './landing-chrome.css'
+import './hero-refinement.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +27,7 @@ function ThemeLayer() {
 function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
-  return <LandingChrome />
+  return <><HeroRefinement /><LandingChrome /></>
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
