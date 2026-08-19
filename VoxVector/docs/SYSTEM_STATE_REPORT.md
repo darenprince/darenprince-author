@@ -18,7 +18,7 @@ A second important limitation is **test/CI verification status**. Repository QA 
 - Canonical repository: `darenprince-author`, under `VoxVector/`.
 - Historical source: `crowncodeaisuite`.
 - Active architecture and charter are present.
-- Current software version synchronized to `0.2.22` in package metadata, package initializer, and pipeline metadata.
+- Current software version synchronized to `0.2.24` in package metadata, package initializer, and pipeline metadata.
 
 ### 2. Eligibility / reliability state
 
@@ -64,7 +64,7 @@ MFCC/cepstral processing and spectral flux/rolloff are present. LPCC and GFCC re
 
 **Status: IMPLEMENTED / OBSERVATIONAL**
 
-Spectral formant candidates and frame-level tracking are registered. Tracking is not validated as a reliable phonetic/formant estimator across recording conditions.
+Spectral formant candidates and frame-level tracking are registered. Tracking is not validated as a reliable phonetic/formant estimator across recording conditions. The implementation now bounds the requested upper frequency by Nyquist, so the canonical 5000 Hz default does not exceed the usable frequency range at lower sample rates such as 8000 Hz.
 
 ### 9. Prosody state
 
@@ -86,13 +86,13 @@ Within-speaker baseline comparison is present and requires an independently coll
 
 ### 12. Classification state
 
-**Status: GUARDed / INDETERMINATE-ONLY**
+**Status: GUARDED / INDETERMINATE-ONLY**
 
 The candidate classification module accepts convergence and reliability information but currently returns `indeterminate`. There is no validated deception classifier. This is a deliberate fail-closed state.
 
 ### 13. Final disposition state
 
-**Status: GUARDed / NO VALIDATED VERDICT ENABLED**
+**Status: GUARDED / NO VALIDATED VERDICT ENABLED**
 
 The disposition layer can return `abstain` or `insufficient_evidence` when gates are not satisfied. Even with hypothetical validation flags, no final disposition rule currently enables a deception verdict.
 
@@ -106,15 +106,26 @@ The validation plan requires a defined target task/population, frozen method spe
 
 ### 15. QA state
 
-**Status: SOFTWARE QA COVERAGE PRESENT; EXECUTION RESULT NOT ESTABLISHED**
+**STATUS: SOFTWARE QA COVERAGE PRESENT; FRESH REPAIR RUN PENDING OBSERVATION**
 
-Regression and boundary tests exist across the major method families. GitHub Actions is configured to install the package and run pytest. A configured workflow is not evidence of a passing run, and no CI result is treated as a scientific validation result.
+The prior CI run reached 80 passed and 3 failed. The failures were traced to package-version synchronization, sample-rate-incompatible formant bounds, and validation ordering. The current implementation repairs those defects and synchronizes the package version to `0.2.24`. GitHub Actions is configured to install the package and run pytest. A configured workflow is not evidence of a passing run; the fresh execution must be observed before declaring the repair validated.
 
 ### 16. Research state
 
 **Status: ACTIVE RESEARCH BACKLOG**
 
 Research-derived candidates include false starts/repairs, LPCC, GFCC, Teager energy, richer question/answer alignment, and deeper linguistic analysis. Research findings are retained as provenance and hypotheses rather than promoted capabilities.
+
+## Recent QA repair record
+
+The current 0.2.24 repair cycle addressed the following observed software defects:
+
+1. Package initializer and pipeline metadata were inconsistent at `0.2.23` versus `0.2.24`.
+2. Formant extraction rejected the canonical 5000 Hz ceiling at 8000 Hz sample rate even though the usable Nyquist limit is 4000 Hz.
+3. Incomplete response-latency boundaries were validated only after acoustic/formant extraction, allowing a downstream error to mask the contract error.
+4. Earlier QA also established fixes for spectral spread dimensionality, bounded frame construction, NaN-aware reproducibility assertions, and floating-point tolerance.
+
+These are software QA repairs only. They do not constitute scientific validation of any deception inference.
 
 ## Critical discrepancies / technical debt identified
 
@@ -124,7 +135,7 @@ Research-derived candidates include false starts/repairs, LPCC, GFCC, Teager ene
 4. **Evidence convergence depth gap:** the evidence layer groups observations but does not yet implement a scientifically validated dependence-aware multimethod convergence model.
 5. **Classification gap:** candidate classification remains indeterminate-only; this is expected until validated inference exists.
 6. **Scientific validation gap:** there is no population-level or deployment-level evidence establishing deception-detection accuracy.
-7. **CI evidence gap:** CI is configured, but a completed execution result must be observed before claiming the suite passes.
+7. **CI evidence gap:** CI is configured, but the fresh repaired execution result must be observed before claiming the suite passes.
 
 ## Overall state
 
@@ -138,4 +149,4 @@ Research-derived candidates include false starts/repairs, LPCC, GFCC, Teager ene
 
 **Abstention capability:** enabled and central to the architecture.
 
-**Primary next engineering priority:** integrate the expanded method library into a single provenance-preserving analysis orchestration layer, synchronize the QA matrix with the runtime registry, execute and repair the complete CI suite, and only then begin controlled dataset-based validation.
+**Primary next engineering priority:** observe and repair the complete CI execution, synchronize the QA matrix with the runtime registry, integrate the expanded method library into a single provenance-preserving analysis orchestration layer, and only then begin controlled dataset-based validation.
