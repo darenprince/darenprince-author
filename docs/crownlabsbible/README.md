@@ -1,73 +1,58 @@
 # Crown Labs Master Executive Bible
 
-This directory contains the canonical executive documentation system for Crown Labs and Daren M. Prince Holdings.
+This directory contains the executive and product documentation system for Crown Labs and Daren M. Prince Holdings.
 
 ## Purpose
 
-This repository section functions as:
+This documentation system functions as:
 
-- Master executive dossier
-- Product inventory source of truth
-- Intellectual property archive
-- Investor documentation system
-- Operational governance reference
-- Brand and editorial standards archive
-- Product architecture documentation
-- Valuation and monetization framework
+- product inventory source of truth
+- intellectual property archive
+- investor documentation system
+- operational governance reference
+- product architecture documentation
+- brand and editorial standards archive
+- valuation and monetization framework
 
-## Build Philosophy
+The GitHub application repositories remain the technical source of truth for implementation. The Bible mirrors current product state and preserves executive context.
 
-This system is intentionally built incrementally.
+## Current structure
 
-Each product and system is documented individually to:
+- `01-corporate-foundation/`
+- `02-products/`
+- `02-writing-standards/`
+- `03-investor-framework/`
+- `04-product-dossiers/`
+- `05-corporate-infrastructure/`
+- `docs/`
 
-- maintain formatting integrity
-- avoid truncation
-- preserve editorial consistency
-- reduce hallucinated drift
-- support legal and investor review
-- allow clean synchronization with the Crown Labs website ecosystem
+## VoxVector synchronization
 
-## Core Structure
+VoxVector is now a canonical active Crown Labs product entry.
 
-01-corporate-foundation/
-02-writing-standards/
-03-product-dossiers/
-04-intelligence-systems/
-05-psychology-platforms/
-06-security-systems/
-07-social-ecosystem/
-08-book-ip/
-09-valuations/
-10-licensing/
-11-investor-materials/
-12-site-sync/
+- Product inventory: `02-products/voxvector.md`
+- Product dossier: `04-product-dossiers/VoxVector.md`
+- Technical source of truth: `VoxVector/` in `darenprince-author`
+- Intended public target: `voxvector.crownlabs.tech`
 
-## Editorial Standards
+The VoxVector technical documentation distinguishes implemented capabilities, primary-pipeline integration, planned research, and validated inference. Planned features must not be removed simply because implementation is pending.
 
-All documentation inside this system must:
+## Editorial standards
+
+Documentation should:
 
 - use clean professional prose
 - avoid em dashes and en dashes
-- avoid decorative formatting noise
-- avoid generic AI cadence
-- avoid exaggerated startup language
 - separate active functionality from roadmap items
-- maintain investor grade clarity
-- maintain emotionally intelligent but restrained tone
+- preserve factual traceability
+- avoid unsupported measurements and valuations
+- avoid presenting research candidates as validated product capabilities
+- maintain investor-grade clarity
 
-## Website Integration
+## Synchronization rule
 
-This documentation system will eventually feed:
-
-- labs.html
-- assets/labs-data.json
-- investor product pages
-- executive summaries
-- valuation exports
-- presentation systems
-- codex build prompts
+When a material VoxVector runtime or architecture change occurs, update both `VoxVector/docs/` and the relevant Crown Labs Bible product records. Do not allow the executive mirror to contradict the canonical repository.
 
 ## Status
 
-Foundation initialized.
+Active and maintained. VoxVector synchronization added 2026-08-19.
