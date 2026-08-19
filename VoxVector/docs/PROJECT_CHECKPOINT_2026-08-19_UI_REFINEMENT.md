@@ -6,7 +6,7 @@ The public React application and authenticated Developer Console were refined ar
 
 ## Implemented
 
-* frontend version advanced to `0.2.34`
+* frontend version advanced to `0.2.35`
 * dark theme rebuilt around `#0A0A0A`, `#111111`, `#171717`, white hierarchy and restrained coffee, copper and tan accents
 * light theme added with white canvas, near black typography, quiet gray surfaces and the same restrained warm accents
 * theme selection persists through `voxvector-theme`
@@ -24,6 +24,7 @@ The public React application and authenticated Developer Console were refined ar
 * gradients are limited to subtle environmental and surface depth
 * existing hero language remains unchanged
 * existing workflow capability line remains `Deep Forensic Vocal Analysis + State of the art Linguistics`
+* missing frontend `@vitejs/plugin-react` dependency was added after CI exposed the actual Vite build failure
 
 ## Vercel cleanup status
 
@@ -35,9 +36,19 @@ The source of truth must remain GitHub Pages for the frontend and Render for the
 
 ## Verification status
 
-The changes are committed to `main`. A fresh GitHub Actions QA and GitHub Pages deployment result has not yet been observed for the current frontend changes, so a passing production build or deployment is not claimed.
+A dedicated GitHub Actions QA verification pull request executed the current frontend source successfully after the missing Vite plugin dependency was corrected.
 
-The latest combined commit status currently contains the external Vercel failure described above. The repository's own VoxVector QA workflow remains the required build and test verification path.
+Verified on the GitHub runner:
+
+* backend test suite: `91 passed in 0.54s`
+* frontend dependency installation: successful
+* npm audit: `0 vulnerabilities`
+* React production build: successful
+* Vite production build: successful on `voxvector-web@0.2.35`
+
+The verification pull request was closed without merging because the verified dependency fix was already committed directly to `main` and the branch only existed to exercise the QA workflow.
+
+This verifies software execution and build integrity. It does not constitute scientific validation of deception inference.
 
 ## Scientific boundary
 
