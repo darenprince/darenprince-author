@@ -4,11 +4,13 @@ import hashlib
 import io
 import os
 import sys
+import time
 import wave
 
 import numpy as np
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import Response
 
 # VoxVector is the canonical project root. This file is only the HTTP adapter;
 # all analysis remains implemented under ./src/voxvector/.
@@ -25,6 +27,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 
 from voxvector.pipeline import VoxVectorPipeline
 import voxvector.acoustic as _acoustic_module
+from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, safe_error, timer
 
 MAX_BYTES = 20 * 1024 * 1024
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
@@ -90,6 +93,46 @@ def read_wav(data: bytes):
     return audio, rate
 
 
+@app.middleware("http")
+async def diagnostic_middleware(request: Request, call_next) -> Response:
+    """Persist lifecycle markers for analysis requests so abrupt origin failures leave evidence."""
+    if request.url.path != "/v1/analyze":
+        return await call_next(request)
+
+    rid = new_request_id()
+    started = timer()
+    await DIAGNOSTICS.emit(
+        "request.started",
+        request_id=rid,
+        method=request.method,
+        path=request.url.path,
+        content_length=request.headers.get("content-length"),
+        content_type=request.headers.get("content-type"),
+    )
+    try:
+        response = await call_next(request)
+        await DIAGNOSTICS.emit(
+            "request.completed",
+            request_id=rid,
+            method=request.method,
+            path=request.url.path,
+            status_code=response.status_code,
+            duration_ms=elapsed_ms(started),
+        )
+        response.headers["X-Request-ID"] = rid
+        return response
+    except Exception as exc:
+        await DIAGNOSTICS.emit(
+            "request.unhandled_exception",
+            request_id=rid,
+            method=request.method,
+            path=request.url.path,
+            duration_ms=elapsed_ms(started),
+            **safe_error(exc),
+        )
+        raise
+
+
 @app.get("/health")
 def health():
     self_test_ok, self_test = _runtime_self_test()
@@ -105,24 +148,53 @@ def health():
         "pipeline_module": PIPELINE_MODULE_PATH,
         "pipeline_source_sha256": PIPELINE_SOURCE_SHA256,
         "runtime_self_test": self_test,
+        "diagnostic_storage": DIAGNOSTICS.status(),
     }
 
 
 @app.post("/v1/analyze")
-async def analyze(file: UploadFile = File(...)):
+async def analyze(request: Request, file: UploadFile = File(...)):
+    rid = request_id()
     if not file.filename or not file.filename.lower().endswith(".wav"):
+        await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="unsupported_file_type", status_code=415)
         raise HTTPException(status_code=415, detail="Initial runtime accepts WAV audio only")
     data = await file.read(MAX_BYTES + 1)
     if len(data) > MAX_BYTES:
+        await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="payload_too_large", status_code=413, bytes=len(data))
         raise HTTPException(status_code=413, detail="Audio payload exceeds 20 MB")
+
     self_test_ok, self_test = _runtime_self_test()
     if not self_test_ok:
+        await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="runtime_self_test_failed", status_code=503, detail=self_test)
         raise HTTPException(status_code=503, detail=f"VoxVector runtime self-test failed: {self_test}")
+
+    stage_start = timer()
     try:
         audio, sample_rate = read_wav(data)
+        await DIAGNOSTICS.emit(
+            "stage.completed",
+            request_id=rid,
+            stage="decode",
+            duration_ms=elapsed_ms(stage_start),
+            bytes=len(data),
+            sample_rate=sample_rate,
+            sample_count=int(audio.size),
+        )
         if audio.size == 0:
             raise ValueError("Audio contains no samples")
+
+        stage_start = timer()
         result = VoxVectorPipeline().analyze(audio, sample_rate)
+        await DIAGNOSTICS.emit(
+            "stage.completed",
+            request_id=rid,
+            stage="analysis_pipeline",
+            duration_ms=elapsed_ms(stage_start),
+            sample_rate=sample_rate,
+            sample_count=int(audio.size),
+        )
+
+        stage_start = timer()
         payload = VoxVectorPipeline.to_dict(result)
         payload["product"] = {
             "deception_probability": None,
@@ -136,8 +208,20 @@ async def analyze(file: UploadFile = File(...)):
             "channels": "mixed_to_mono",
             "filename": file.filename,
         }
+        await DIAGNOSTICS.emit(
+            "stage.completed",
+            request_id=rid,
+            stage="serialization",
+            duration_ms=elapsed_ms(stage_start),
+        )
         return payload
     except HTTPException:
         raise
     except Exception as exc:
+        await DIAGNOSTICS.emit(
+            "request.analysis_error",
+            request_id=rid,
+            duration_ms=elapsed_ms(stage_start),
+            **safe_error(exc),
+        )
         raise HTTPException(status_code=400, detail=str(exc)) from exc
