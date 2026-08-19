@@ -25,6 +25,8 @@ Spectral centroid and spread now derive their frequency vector directly from the
 
 The API wrapper explicitly places `VoxVector/src` before the API namespace package so the canonical `voxvector` implementation cannot be silently shadowed by a same-named wrapper package. The wrapper also reports the loaded acoustic and pipeline module paths and SHA-256 fingerprints through `/health`.
 
+The HTTP adapter also applies an explicit 20 MB request limit before analysis and records oversized-input rejection events through the diagnostic layer. This is a request-boundary safeguard; it is not a guarantee that every accepted payload is safe for the constrained deployment instance.
+
 ## Scientific and architectural boundary
 
 These are runtime correctness and resource changes only. They do not promote any analytical method to validated deception inference and do not change the required separation between:
@@ -52,4 +54,4 @@ A deployment is not considered verified solely because the service starts. The f
 
 ## Deployment note
 
-The canonical runtime wrapper is `api/voxvector/app.py`. The Render service is configured by the repository `render.yaml` and imports the canonical engine from `VoxVector/src/voxvector`.
+The canonical HTTP adapter is `api/app.py`. The Render service is configured by the repository deployment configuration and imports the canonical engine from `VoxVector/src/voxvector`. `VoxVector/` is the canonical application and deployment root.
