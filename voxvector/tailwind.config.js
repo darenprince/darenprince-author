@@ -9,6 +9,11 @@ export default {
     './src/**/*.{js,jsx}',
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}'
   ],
+  safelist: [
+    {
+      pattern: /^(bg|border|text|stroke|fill)-(blue|cyan|gray|emerald)-(50|100|200|300|400|500|600|700|800|900|950)$/
+    }
+  ],
   theme: {
     extend: {
       fontFamily: {
