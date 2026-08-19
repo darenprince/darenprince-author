@@ -6,6 +6,7 @@ import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import './index.css'
 
+// VoxVector UI verification checkpoint: current main source is ready for the production build.
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: { retry: 1, refetchOnWindowFocus: false }
