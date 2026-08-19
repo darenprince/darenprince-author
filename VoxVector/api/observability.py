@@ -1,0 +1,90 @@
+from __future__ import annotations
+
+import asyncio
+import contextvars
+import os
+import time
+import uuid
+from datetime import datetime, timezone
+from typing import Any
+
+from storage import StorageError, SupabaseStorage
+
+
+_request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
+
+
+def new_request_id() -> str:
+    value = uuid.uuid4().hex
+    _request_id.set(value)
+    return value
+
+
+def request_id() -> str:
+    return _request_id.get() or new_request_id()
+
+
+def _safe_text(value: Any, limit: int = 600) -> str:
+    text = str(value).replace("\x00", " ").strip()
+    return text[:limit]
+
+
+class DiagnosticStore:
+    """Durable, sanitized request diagnostics with a non-blocking fallback.
+
+    Supabase Storage is the durable backend when configured. If storage is not
+    configured or temporarily unavailable, the API continues operating and
+    emits a concise local stderr record instead of turning observability into a
+    new availability dependency.
+    """
+
+    def __init__(self, storage: SupabaseStorage | None = None):
+        self.storage = storage or SupabaseStorage()
+        self.enabled = os.getenv("VOXVECTOR_DIAGNOSTICS_ENABLED", "true").lower() not in {"0", "false", "no"}
+
+    def status(self) -> str:
+        if not self.enabled:
+            return "disabled"
+        return self.storage.status()
+
+    async def emit(self, event: str, **fields: Any) -> str | None:
+        if not self.enabled:
+            return None
+        rid = fields.pop("request_id", None) or request_id()
+        now = datetime.now(timezone.utc)
+        record = {
+            "schema": "voxvector.diagnostic.v1",
+            "event": event,
+            "request_id": rid,
+            "timestamp": now.isoformat(),
+            "pipeline": os.getenv("VOXVECTOR_PIPELINE_VERSION", "unknown"),
+            "source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"),
+            **{key: value for key, value in fields.items() if value is not None},
+        }
+        date_path = now.strftime("%Y/%m/%d")
+        object_path = f"events/{date_path}/{rid}/{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
+        try:
+            return await asyncio.to_thread(self.storage.put_json, object_path, record)
+        except StorageError as exc:
+            # Durable storage must never become a second outage source. The
+            # sanitized record remains visible in Render logs if storage fails.
+            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} error={_safe_text(exc)}", flush=True)
+            return None
+
+
+DIAGNOSTICS = DiagnosticStore()
+
+
+def timer() -> float:
+    return time.perf_counter()
+
+
+def elapsed_ms(start: float) -> float:
+    return round((time.perf_counter() - start) * 1000.0, 2)
+
+
+def safe_error(exc: Exception) -> dict[str, str]:
+    return {
+        "error_type": type(exc).__name__,
+        "error_message": _safe_text(exc),
+    }
