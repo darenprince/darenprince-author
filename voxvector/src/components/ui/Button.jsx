@@ -1,12 +1,12 @@
 import { Button as BaseButton } from '@base-ui/react/button'
 import { cva } from 'class-variance-authority'
 
-const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#00d9ff]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05080d] disabled:pointer-events-none disabled:opacity-50', {
+const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#00d9ff]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--vv-bg)] disabled:pointer-events-none disabled:opacity-50', {
   variants: {
     variant: {
-      default: 'bg-white text-[#05080d] shadow-sm hover:bg-white/90',
-      secondary: 'border border-white/[0.10] bg-white/[0.025] text-white hover:bg-white/[0.06] hover:border-white/[0.16]',
-      ghost: 'text-white/65 hover:bg-white/[0.04] hover:text-white',
+      default: 'bg-[var(--vv-text)] text-[var(--vv-bg)] shadow-sm hover:opacity-90',
+      secondary: 'border border-[var(--vv-border)] bg-[var(--vv-panel-soft)] text-[var(--vv-text)] hover:bg-[var(--vv-panel)] hover:border-[var(--vv-border-strong)]',
+      ghost: 'text-[var(--vv-muted)] hover:bg-[var(--vv-panel-soft)] hover:text-[var(--vv-text)]',
       accent: 'bg-[#147dff] text-white shadow-[0_0_30px_rgba(20,125,255,.20)] hover:bg-[#0d6fe8] hover:shadow-[0_0_34px_rgba(0,217,255,.16)]',
     },
     size: {
