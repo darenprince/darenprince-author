@@ -9,6 +9,7 @@ import numpy as np
 
 from .advanced_prosody import contour_dynamics, contour_delta
 from .baseline import baseline_deviation, robust_baseline
+from .cepstral import mfcc
 from .disfluency import count_filled_pauses, disfluency_rate, repetition_count, token_count
 from .evidence import observations_to_evidence
 from .formants import track_formants
@@ -21,6 +22,7 @@ from .spectral import spectral_flux, spectral_rolloff
 from .acoustic import fundamental_frequency, harmonicity, intensity_db, rms, spectral_centroid, spectral_spread, summarize, zero_crossing_rate
 
 FRAME_CHUNK_COUNT = 256
+MFCC_COEFFICIENTS = 13
 
 
 def _iter_frame_chunks(signal: np.ndarray, frame_size: int, hop: int, chunk_frames: int = FRAME_CHUNK_COUNT) -> Iterator[tuple[np.ndarray, int]]:
@@ -51,7 +53,7 @@ class VoxVectorPipeline:
     """Comprehensive auditable observational audio pipeline; no deception inference."""
 
     schema_version = "0.2"
-    software_version = "0.2.24"
+    software_version = "0.2.25"
 
     def analyze(
         self,
@@ -116,6 +118,7 @@ class VoxVectorPipeline:
             harmonicity_parts: list[np.ndarray] = []
             flux_parts: list[np.ndarray] = []
             rolloff_parts: list[np.ndarray] = []
+            mfcc_parts: list[np.ndarray] = []
             formant_parts: list[list[np.ndarray]] = [[], [], [], []]
             time_parts: list[np.ndarray] = []
             previous_spectrum: np.ndarray | None = None
@@ -129,6 +132,7 @@ class VoxVectorPipeline:
                 spread_values = spectral_spread(frames, sample_rate)
                 f0_values = fundamental_frequency(frames, sample_rate)
                 harmonicity_values = harmonicity(frames, sample_rate)
+                mfcc_values = mfcc(frames, sample_rate, n_coefficients=MFCC_COEFFICIENTS)
                 rms_parts.append(rms_values)
                 intensity_parts.append(intensity_values)
                 zcr_parts.append(zcr_values)
@@ -136,16 +140,17 @@ class VoxVectorPipeline:
                 spread_parts.append(spread_values)
                 f0_parts.append(f0_values)
                 harmonicity_parts.append(harmonicity_values)
+                mfcc_parts.append(mfcc_values)
                 time_parts.append(times)
 
                 spectra = np.abs(np.fft.rfft(frames * np.hanning(frame_size), axis=1))
-                frequencies = np.fft.rfftfreq(frame_size, 1.0 / sample_rate)
                 if previous_spectrum is None:
                     flux_values = spectral_flux(spectra)
                 else:
                     flux_values = spectral_flux(np.vstack((previous_spectrum[None, :], spectra)))
                 if flux_values.size:
                     flux_parts.append(flux_values)
+                frequencies = np.fft.rfftfreq(frame_size, 1.0 / sample_rate)
                 rolloff_parts.append(spectral_rolloff(spectra, frequencies))
                 previous_spectrum = spectra[-1].copy()
 
@@ -161,6 +166,7 @@ class VoxVectorPipeline:
                 spread_values = _concat(spread_parts)
                 f0_values = _concat(f0_parts)
                 harmonicity_values = _concat(harmonicity_parts)
+                mfcc_values = np.concatenate(mfcc_parts, axis=0) if len(mfcc_parts) > 1 else mfcc_parts[0]
                 times = _concat(time_parts)
                 flux_values = _concat(flux_parts)
                 rolloff_values = _concat(rolloff_parts)
@@ -175,6 +181,10 @@ class VoxVectorPipeline:
                 ):
                     summary = summarize(values)
                     add(feature, summary["mean"], unit, {"method_id": method_id, "summary": summary, "frame_size_samples": frame_size, "hop_samples": hop, "source": "raw_audio", "reliability_status": reliability.status, "frame_processing": "bounded_chunks"})
+                for coefficient_index in range(mfcc_values.shape[1]):
+                    coefficient = mfcc_values[:, coefficient_index]
+                    summary = summarize(coefficient)
+                    add(f"mfcc_{coefficient_index}", summary["mean"], "dB", {"method_id": "cepstral.mfcc", "coefficient_index": coefficient_index, "summary": summary, "n_coefficients": MFCC_COEFFICIENTS, "source": "raw_audio", "reliability_status": reliability.status, "frame_processing": "bounded_chunks"})
                 for method_id, prefix, values, unit in (
                     ("prosody.f0_dynamics", "f0", f0_values, "Hz"),
                     ("prosody.intensity_dynamics", "intensity", intensity_values, "dB"),
