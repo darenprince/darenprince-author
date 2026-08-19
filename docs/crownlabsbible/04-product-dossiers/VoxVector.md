@@ -4,7 +4,7 @@
 **Canonical implementation:** `VoxVector/` in `darenprince-author`
 **Public target:** `voxvector.crownlabs.tech`
 **Current software version:** `0.2.25` in the repository
-**Current maturity:** functional observational research foundation with an open runtime reliability incident
+**Current maturity:** functional observational research foundation with an open runtime reliability incident and an approved next-generation frontend architecture
 
 ## Product definition
 
@@ -38,6 +38,68 @@ A subsequent public `/v1/analyze` request returned HTTP 502 through Cloudflare w
 The API now has durable operational observability wired to the existing Supabase architecture. `/v1/analyze` requests receive a correlation ID, lifecycle and stage events are recorded as sanitized JSON, and the response exposes `X-Request-ID`. Diagnostic objects are stored in a private `voxvector-logs` bucket when Render storage credentials are configured. Raw audio and raw transcript content are explicitly excluded from diagnostic records. If durable storage is unavailable, the API falls back to a sanitized Render process-log marker rather than turning storage failure into an API outage.
 
 The next runtime priority is to configure and verify the production storage secrets, then use the persisted request lifecycle evidence to reproduce and diagnose the 502. Resource and timeout safeguards remain open work.
+
+## Frontend application architecture
+
+The next product-development phase is a real VoxVector application interface over the existing API and data architecture. The approved stack is intentionally small and open source:
+
+- **React** — application shell and route composition
+- **shadcn/ui** — application-owned accessible UI foundation
+- **Tailwind CSS** — styling, responsive layout, design tokens, and theming
+- **Motion for React** — state-driven animation and interaction
+- **TanStack Query** — server-state management and API request lifecycle
+
+This architecture is **approved/planned**, not yet implemented in the canonical `VoxVector/` runtime. Render remains the API platform, FastAPI remains the canonical HTTP boundary, and Supabase remains the existing authentication, persistence, and diagnostics layer.
+
+### Application shell
+
+The planned application has three primary experiences:
+
+**Public application**
+
+- VoxVector identity and product explanation
+- evidence-based deception-analysis positioning
+- methodology and scientific-status access
+- visual audio/analysis elements
+- documentation access
+- product entry point
+
+**Analysis Workspace**
+
+- upload/record entry according to supported runtime capabilities
+- interview/question context
+- waveform and input metadata
+- eligibility and reliability
+- live processing lifecycle
+- acoustic observations
+- linguistic observations when transcript data exists
+- timing and prosody
+- evidence convergence/conflict
+- uncertainty and alternative explanations
+- candidate classification
+- final disposition
+
+**Developer/Admin Console**
+
+- `/developer` dashboard
+- API workbench for real endpoints
+- persistent error reports
+- lifecycle/event logs
+- documentation navigator
+- development board
+- actual API/storage/runtime status where telemetry exists
+
+The Developer Console is intended to become a functional VoxVector-native operational interface, not a fake API documentation page or static dashboard.
+
+### State-driven animation
+
+Motion will be tied to actual API/query/mutation state. Loading indicators, stage transitions, progressive result panels, and animated telemetry must correspond to real backend lifecycle events or defined progress metrics.
+
+The interface must never fabricate percentages, events, analysis completion, or confidence to make the experience appear active. If the API reports a discrete state, the UI should display the discrete state rather than inventing numerical progress.
+
+### Data behavior
+
+TanStack Query will manage server-state concerns including request lifecycle, caching, retries where safe, mutations, invalidation, and background refresh where appropriate. Request IDs, status codes, source revision, pipeline version, and sanitized error metadata must remain visible to operational tooling when supplied by the API.
 
 ## Current capabilities
 
@@ -73,6 +135,7 @@ The canonical engine is separated from the HTTP adapter:
 - `VoxVector/api/storage.py` — durable Supabase Storage adapter
 - `VoxVector/tests/` — QA
 - `VoxVector/docs/` — canonical technical documentation
+- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md` — approved frontend architecture and implementation contract
 
 Render must use `VoxVector` as its root directory. The root-level `./api/` directory is not part of the product and must not be recreated.
 
@@ -84,7 +147,7 @@ Scientific validation remains a future gate requiring task and population defini
 
 ## Operational checkpoint
 
-The canonical handoff record is `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`. It records completed work, CI status, Render verification, the open 502 incident, durable diagnostics implementation, and the immediate verification sequence.
+The canonical handoff record is `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`. It records completed work, CI status, Render verification, the open 502 incident, durable diagnostics implementation, the frontend architecture decision, and the immediate verification sequence.
 
 ## Crown Labs dossier sections
 
