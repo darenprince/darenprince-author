@@ -4,7 +4,9 @@
 
 Name: VoxVector.
 
-VoxVector is a standalone vocal and audio analysis and deception research system. It is not a subsystem, wrapper, presentation layer, or rebrand of another product.
+VoxVector is a standalone vocal and audio analysis and deception detection research system. Its product objective is to develop an auditable system for detecting and evaluating potential deception from interview and conversational audio. It is not a subsystem, wrapper, presentation layer, or rebrand of another product.
+
+The intended product capability is deception detection. Current implementation and scientific validation status must be reported separately from that product objective.
 
 ## 2. Authority model
 
@@ -25,6 +27,8 @@ If sources conflict, the higher authority wins and the conflict is recorded in t
 Vocal stress, hesitation, pitch, silence, arousal, emotion, cognitive load, speaking rate, or any other individual signal is not equivalent to deception.
 
 VoxVector must preserve alternative explanations such as fatigue, illness, microphone effects, language, accent, topic sensitivity, anxiety, environmental noise, speaker adaptation, and ordinary conversational variation.
+
+The product may ultimately combine multiple supported signals and models for deception inference, but no individual feature proves deception.
 
 ## 4. Stage separation
 
@@ -61,26 +65,37 @@ Evidence should be multimodal within the audio domain where possible:
 
 No fixed universal threshold should be treated as a deception threshold without validation for the target population, task, recording conditions, and deployment context.
 
-## 6. Capability preservation
+## 6. Product objective versus capability state
+
+VoxVector is being built toward deception detection. The current runtime is an observational analysis foundation and does not yet establish scientifically validated deception inference. Documentation must therefore distinguish:
+
+- **Product objective:** deception detection from structured vocal/audio evidence.
+- **Current implementation:** measurable observations, evidence organization, reliability controls, and guarded indeterminate classification.
+- **Research candidates:** methods under consideration or development.
+- **Validated capability:** inference supported by completed VoxVector validation requirements.
+
+The absence of a validated inference capability today does not change the product's intended purpose.
+
+## 7. Capability preservation
 
 The project distinguishes implementation state from project scope. A method, model, analysis tool, dataset, or product capability documented as planned or research-backed remains part of the canonical project context even when it is not yet implemented. It may be moved to implemented or validated status as evidence accumulates, or retired only through an explicit project decision.
 
 `docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` are the canonical records for this distinction.
 
-## 7. D-Series
+## 8. D-Series
 
 D-Series identifiers are retained as project analysis slots. They must map to documented analytical functions and validation status. A D-Series label without an implementation or evidence definition is not considered an active method.
 
-## 8. Results discipline
+## 9. Results discipline
 
-Every result must identify what was measured, what data were used, what was unavailable, the reliability state, the evidence direction, uncertainty, and whether the system abstained.
+Every result must identify what was measured, what data were used, what was unavailable, the reliability state, the evidence direction, uncertainty, alternative explanations, and whether the system abstained.
 
 The engine must never manufacture confidence from missing data.
 
-## 9. Deployment boundary
+## 10. Deployment boundary
 
 The canonical application root is `VoxVector/`. The HTTP adapter lives under `VoxVector/api/`, while the analysis engine remains under `VoxVector/src/voxvector/`. Render must use `VoxVector` as its root directory. The intended public target is `voxvector.crownlabs.tech`.
 
-## 10. Change control
+## 11. Change control
 
 Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure/abstention behavior before being promoted to active status. Documentation must preserve future capabilities rather than deleting them merely because implementation is pending.
