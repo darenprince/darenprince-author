@@ -3,7 +3,7 @@
 | Area | Version | Status |
 |---|---:|---|
 | Repository rebuild | 0.2.24 | active |
-| Public React application | 0.2.33 | active |
+| Public React application | 0.2.34 | active |
 | Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -42,15 +42,17 @@ VoxVector is maintained under `VoxVector/` in `darenprince-author`. Historical s
 
 ## Public frontend
 
-The canonical React workspace is `voxvector/`. The current public application version is `0.2.33`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, and Base UI primitives. The landing page uses direct Tremor analytical components with Vercel and Linear as visual references only. Vercel is retired as a deployment platform. The current landing metrics and signal visualizations are illustrative interface content, not production telemetry.
+The canonical React workspace is `voxvector/`. The current public application version is `0.2.34`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, Base UI primitives and shared Card, Sheet and ThemeToggle components. The landing page uses direct Tremor analytical components and the supplied Shadcnblocks and luxury dashboard references as visual direction. The current landing metrics and signal visualizations are illustrative interface content, not production telemetry.
+
+## Deployment boundary
+
+GitHub Pages is the canonical public frontend host. Render is the canonical VoxVector backend host. Vercel is retired and is not part of the frontend dependency graph, source configuration or GitHub Actions deployment workflow.
+
+If a Vercel status check remains visible in GitHub after source cleanup, it is an external repository or account integration and must be removed at that integration layer. It must not be recreated in VoxVector source code.
 
 ## Current landing visual direction
 
-The public landing palette is now based on the supplied luxury reference: espresso black, warm brown, copper, muted amber and warm white. Cool blue and cyan are not the dominant public landing colors. Borders are thin and low contrast. The primary audio visualization uses a bar based speech waveform with phrase envelopes and explicit silence regions rather than a generic smooth graph.
-
-## Vercel boundary
-
-Vercel is not part of the VoxVector frontend dependency graph, source configuration, or GitHub Actions deployment workflow. If a Vercel status check remains visible in GitHub, it should be treated as an external integration and removed at the repository or Vercel account integration layer rather than recreated in source.
+The public visual system is based on the supplied Shadcnblocks neutral reference and the supplied luxury reference. Light mode uses white, near black and quiet gray. Dark mode uses near black and white. Coffee, copper and tan accents are restrained and localized to actions and selected signal details. Strokes are thin and low contrast except for focused controls and buttons. Gradients are subtle environmental lighting rather than decorative card fills.
 
 ## QA boundary
 
