@@ -2,31 +2,65 @@
 
 ## Status
 
-Active implementation baseline for the public React application at `/voxvector/`.
+Active implementation baseline for the public React application at `/voxvector/` and the authenticated Developer Console.
 
 ## Design objective
 
 VoxVector should look like a serious analytical product, not a generic AI landing page. The visual system prioritizes evidence, signal structure, readability, hierarchy and restraint.
 
-The current landing direction uses the supplied luxury reference as the visual anchor. The foundation is espresso black with warm brown, copper, muted amber and warm white accents. Cool blue and cyan are not the dominant public landing colors. Violet is not a dominant brand color.
+The current visual anchor combines the supplied Shadcnblocks neutral system with the supplied luxury reference. The foundation is absolute black, near black, white and quiet gray. Warm coffee, copper and tan tones are reserved for primary actions, signal emphasis and selected analytical details.
+
+## Theme model
+
+Light and dark themes are first class application states and persist through `localStorage` using the `voxvector-theme` key.
+
+Dark mode uses near black analytical surfaces with white hierarchy and restrained warm accents.
+
+Light mode uses a white canvas, near black typography, soft gray surfaces and the same restrained warm accents.
+
+The theme control is available on the public landing experience and in the Developer Console. Theme changes are stateful and do not depend on browser preference after the user makes a selection.
 
 ## Core palette
 
+### Dark
+
 | Token | Value | Use |
 |---|---|---|
-| `vv-bg` | `#120D08` | Primary page background |
-| `vv-surface` | `#18110B` | Major analytical surfaces |
-| `vv-surface-2` | `#21160F` | Section alternation |
-| `vv-panel` | `#251911` | Elevated panels |
-| `vv-accent` | `#B87845` | Primary action and structural accent |
-| `vv-accent-bright` | `#E0B276` | Highlight and active analytical accent |
-| `vv-gold` | `#D6A15F` | Editorial emphasis and metadata |
-| `vv-text` | `#F6F0E7` | Primary text |
-| `vv-muted` | `rgba(246,240,231,.56)` | Secondary copy |
-| `vv-border` | `rgba(201,158,108,.18)` | Structural separation |
-| `vv-border-strong` | `rgba(224,178,118,.34)` | Focus and elevated separation |
+| `vv-bg` | `#0A0A0A` | Primary page background |
+| `vv-surface` | `#111111` | Major analytical surfaces |
+| `vv-surface-2` | `#171717` | Secondary surfaces |
+| `vv-panel` | `#0D0D0D` | Elevated panels and dense analysis areas |
+| `vv-accent` | `#B97842` | Primary warm action accent |
+| `vv-accent-bright` | `#D9A06B` | Highlight and active accent |
+| `vv-gold` | `#C6A16B` | Editorial and analytical emphasis |
+| `vv-text` | `#F5F5F5` | Primary text |
+| `vv-muted` | `rgba(245,245,245,.56)` | Secondary copy |
+| `vv-border` | `rgba(255,255,255,.09)` | Structural separation |
+| `vv-border-strong` | `rgba(255,255,255,.18)` | Focus and elevated separation |
 
-Semantic green, amber and red may communicate system state where required. They must not become decorative brand colors.
+### Light
+
+| Token | Value | Use |
+|---|---|---|
+| `vv-bg` | `#FFFFFF` | Primary page background |
+| `vv-surface` | `#FAFAFA` | Major surfaces |
+| `vv-surface-2` | `#F4F4F4` | Secondary surfaces |
+| `vv-panel` | `#FFFFFF` | Elevated panels |
+| `vv-accent` | `#8F5D35` | Primary warm action accent |
+| `vv-accent-bright` | `#A86F3F` | Highlight and active accent |
+| `vv-gold` | `#9B7848` | Editorial and analytical emphasis |
+| `vv-text` | `#0A0A0A` | Primary text |
+| `vv-muted` | `rgba(10,10,10,.56)` | Secondary copy |
+| `vv-border` | `rgba(0,0,0,.085)` | Structural separation |
+| `vv-border-strong` | `rgba(0,0,0,.16)` | Focus and elevated separation |
+
+Semantic green, amber and red may communicate system state where required. They are not decorative brand colors.
+
+## Gradients and depth
+
+Gradients are environmental lighting, not decoration. They should remain subtle enough that the interface still reads correctly with gradients disabled.
+
+Use small directional surface gradients, faint radial warm glows and quiet tonal changes between black or white surfaces. Never use large saturated gradients as card fills.
 
 ## Typography
 
@@ -50,6 +84,20 @@ WCAG 2.2 requires normal text to meet at least 4.5:1 contrast and supports text 
 8. Alternate dense analytical sections with quiet editorial sections.
 9. Mobile layouts must preserve the same hierarchy instead of simply shrinking desktop cards.
 
+## Component system
+
+The frontend uses a product owned shadcn style component system with Base UI headless primitives, Tremor React analytical components, Tailwind CSS, Lucide React and Motion for React.
+
+Shared application owned primitives include Button, Badge, Card, Sheet and ThemeToggle. Components are intentionally small and composable so the product controls its own visual language rather than depending on a hosted design platform.
+
+Tremor is the primary analytical block system for charts, progress indicators and analytical cards. It should be used directly where a Tremor component is appropriate rather than recreating equivalent chart primitives.
+
+## Navigation and responsive behavior
+
+Desktop authenticated views use a persistent sidebar. Mobile authenticated views use an animated slide out Sheet navigation with an accessible overlay and close control.
+
+The public landing page retains its editorial navigation hierarchy and exposes the same persistent light and dark theme state.
+
 ## Audio visualization rules
 
 Landing page visualizations are interface illustrations, not production telemetry.
@@ -60,39 +108,27 @@ Tremor `AreaChart` components are used for secondary analytical relationships wh
 
 Do not display fabricated deception scores, confidence percentages, live processing percentages, request counts or scientific performance numbers on the public landing page.
 
-## Component system
-
-The public landing page uses Tremor React as the primary analytical block system. shadcn style composition remains the product owned visual composition model. Base UI supplies headless interaction primitives for application controls. Lucide React supplies interface iconography. Motion for React supplies entrance and interaction animation.
-
-The implementation should favor direct Tremor analytical components rather than recreating equivalent chart or dashboard blocks from scratch. Product specific styling belongs in VoxVector tokens and application owned composition layers.
-
 ## Iconography
 
 Lucide React is the canonical icon system. Icons should use consistent stroke weight and should be large enough to function as visual anchors. Where an icon communicates a primary feature, remove the decorative wrapper and let the icon occupy the layout directly.
 
 ## Motion
 
-Motion for React is used for entrance and interaction refinement. Landing page motion is decorative and state independent. API activity animation belongs in the Developer Console and must follow actual query or mutation state.
+Motion for React is used for entrance, navigation and interaction refinement. API activity animation belongs in the Developer Console and must follow actual query or mutation state.
 
 All motion must respect `prefers-reduced-motion`.
 
-## Surfaces and borders
+## Surfaces and strokes
 
-Use thin warm neutral borders and low contrast surfaces. Avoid heavy white framing, excessive glass effects and large decorative gradients. Rounded corners should be restrained and purposeful rather than applied to every block.
+Strokes are intentionally quiet. Default borders should be low contrast and thin. Strong borders are reserved for focused controls, active states and buttons.
+
+Avoid heavy white framing, excessive glass effects and large decorative gradients. Rounded corners should be restrained and purposeful rather than applied to every block.
 
 ## Scientific communication
 
 The public page must distinguish product objective from current capability. Current runtime language should identify the system as an observational analysis foundation and should not imply scientifically validated deception inference.
 
-The interface should emphasize:
-
-* observations
-* reliability
-* evidence convergence and conflict
-* uncertainty
-* alternative explanations
-* abstention
-* provenance
+The interface should emphasize observations, reliability, evidence convergence and conflict, uncertainty, alternative explanations, abstention and provenance.
 
 ## Accessibility baseline
 
