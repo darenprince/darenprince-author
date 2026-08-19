@@ -38,8 +38,7 @@ def _iter_frame_chunks(signal: np.ndarray, frame_size: int, hop: int, chunk_fram
     for first_frame in range(0, frame_count, chunk_frames):
         count = min(chunk_frames, frame_count - first_frame)
         first_sample = first_frame * hop
-        last_sample = first_sample + (count - 1) * hop + frame_size
-        starts = np.arange(first_sample, last_sample, hop, dtype=np.int64)
+        starts = first_sample + np.arange(count, dtype=np.int64) * hop
         frames = np.stack([signal[int(start): int(start) + frame_size] for start in starts])
         yield frames, first_frame
 
