@@ -8,15 +8,18 @@ This document records the current engineering, runtime, deployment, documentatio
 
 - **Product:** VoxVector
 - **Product objective:** vocal and audio deception detection for defined interview and conversational tasks.
-- **Canonical application root:** `VoxVector/`
+- **Canonical backend application root:** `VoxVector/`
 - **Analysis engine:** `VoxVector/src/voxvector/`
 - **HTTP adapter:** `VoxVector/api/app.py`
 - **QA:** `VoxVector/tests/`
 - **Technical documentation:** `VoxVector/docs/`
 - **Public API target:** `https://voxvector.crownlabs.tech`
-- **Deployment:** Render
+- **Backend deployment:** Render
 - **Current repository pipeline version:** `0.2.25`
-- **Frontend status:** architecture approved; React application shell not yet implemented in `VoxVector/`
+- **Public frontend:** `voxvector/index.html`
+- **Frontend source:** `voxvector/src/`
+- **Frontend build:** Vite + React
+- **Frontend deployment path:** `/voxvector/` through the existing GitHub Pages workflow
 
 ## Completed since the previous checkpoint
 
@@ -35,31 +38,34 @@ This document records the current engineering, runtime, deployment, documentatio
 - Added documentation for the storage/observability architecture and its security boundary.
 - Approved the frontend architecture: React + shadcn/ui + Tailwind CSS + Motion for React + TanStack Query.
 - Added `docs/UI_APPLICATION_ARCHITECTURE.md` defining the frontend contract, Developer Console scope, Analysis Workspace scope, state-driven animation rules, and implementation sequence.
-- Expanded `docs/ROADMAP.md` with the application foundation, Developer Console, Analysis Workspace, public application, and frontend verification phases.
-- Updated `docs/ARCHITECTURE.md`, `docs/CAPABILITY_STATUS.md`, and `docs/PROJECT_DECISION_LOG.md` to reflect the frontend decision without misrepresenting planned work as implemented.
+- Implemented the React public application shell under `voxvector/` with a Vite build, Tailwind styling, Motion interactions, and a TanStack Query client boundary.
+- Added GitHub Actions QA coverage for the React build.
+- Added GitHub Pages deployment staging for the compiled `/voxvector/` application.
+- Updated `docs/ROADMAP.md`, `docs/ARCHITECTURE.md`, `docs/CAPABILITY_STATUS.md`, and `docs/PROJECT_DECISION_LOG.md` to distinguish implemented frontend migration from remaining console/workspace work.
+
+## Frontend migration boundary
+
+The current GitHub branch did not contain a root `voxvector.html` file when the migration was performed. Therefore no nonexistent file was deleted. The requested new canonical public entrypoint is now:
+
+```text
+voxvector/index.html
+```
+
+The existing `labs/products/voxvector.html` is a separate Crown Labs product-page artifact and remains outside this migration boundary until an explicit route migration is requested.
+
+The React application is presentation-only. It does not recreate the analysis engine and does not claim live API behavior that has not yet been connected.
 
 ## Current verification state
 
 ### Repository QA
 
-The last reported GitHub Actions run before the formant/version fixes was **82 passed, 2 failed**. The failures were:
-
-1. A stale test expecting pipeline version `0.2.24` while the implementation had advanced to `0.2.25`.
-2. An `IndexError` in formant peak detection when a candidate peak occurred at the last FFT bin.
-
-Both defects were addressed in source. A fresh green CI run must still be recorded before this checkpoint is considered QA-complete.
+The latest source changes add CI verification for both the Python VoxVector API tests and the React/Vite build. A fresh successful GitHub Actions run must still be observed before this checkpoint is considered QA-complete. The React migration has not been represented as locally tested merely because the files exist.
 
 ### Render runtime
 
 The API has successfully deployed and passed `/health` checks. The service reported the canonical package path and runtime self-test.
 
-A subsequent `/v1/analyze` request using the public Swagger interface returned **HTTP 502** with Cloudflare in front of a Render origin. The response had zero content length and identified Render as the origin server. This is treated as a runtime reliability incident, not as evidence of successful or failed deception analysis.
-
-### Runtime incident interpretation
-
-The 502 indicates that the edge did not receive a usable application response. It does not by itself identify whether the underlying cause was process termination, memory exhaustion, timeout, application crash, or another origin failure.
-
-The current pipeline processes audio in bounded frame chunks but still accumulates multiple feature arrays across the full recording before final result construction. This remains a potential resource-pressure path on the constrained Render instance and requires measurement rather than assumption.
+A subsequent `/v1/analyze` request using the public Swagger interface returned **HTTP 502** with Cloudflare in front of a Render origin. The response had zero content length and identified Render as the origin server. This remains a runtime reliability incident, not evidence of successful or failed deception analysis.
 
 ## New observability architecture
 
@@ -73,18 +79,14 @@ VoxVector now has a durable diagnostics path using the existing Supabase archite
 
 Diagnostic objects are private JSON files organized by UTC date and request ID. Raw audio and raw transcript content are not persisted by this diagnostic layer.
 
-The first lifecycle event is `request.started`. This is intentionally written before analysis so that an abrupt process termination can leave durable evidence that the request reached the application even when no normal response is produced.
+Storage failure is non-fatal. If Supabase cannot be reached, the API continues and emits a sanitized diagnostic storage failure marker to the Render process log.
 
-Storage failure is non-fatal. If Supabase cannot be reached, the API continues and emits a sanitized `VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE` marker to the Render process log.
-
-## Frontend architecture decision
-
-The next application development phase is a real frontend, not a static mockup.
+## Frontend architecture and implementation
 
 ### Standard stack
 
 - **React** — application shell
-- **shadcn/ui** — application-owned UI foundation
+- **shadcn/ui-compatible application-owned composition** — UI foundation; formal component installation remains a subsequent step
 - **Tailwind CSS** — styling, responsive layout, tokens, and theming
 - **Motion for React** — state-driven animation and interaction
 - **TanStack Query** — server-state and API lifecycle management
@@ -96,6 +98,19 @@ The next application development phase is a real frontend, not a static mockup.
 - `VoxVector/src/voxvector/` remains the canonical analysis engine.
 - Supabase remains the existing authentication, persistence, and diagnostic storage architecture.
 - The frontend must consume actual API/data behavior and must not duplicate analysis logic.
+
+### Implemented now
+
+- `voxvector/index.html`
+- `voxvector/src/main.jsx`
+- `voxvector/src/App.jsx`
+- `voxvector/src/index.css`
+- `voxvector/package.json`
+- `voxvector/vite.config.js`
+- `voxvector/tailwind.config.js`
+- `voxvector/postcss.config.js`
+- CI build verification
+- GitHub Pages staging under `/voxvector/`
 
 ### Developer Console
 
@@ -138,20 +153,20 @@ Motion must follow actual query/mutation and backend lifecycle state. Numerical 
 2. Redeploy the exact commit containing the observability implementation.
 3. Confirm `/health` reports `diagnostic_storage: configured`.
 4. Run a known WAV through `/v1/analyze` and record the returned `X-Request-ID`.
-5. Verify the private Supabase bucket contains `request.started`, `stage.completed`, and `request.completed` records for that request.
+5. Verify the private Supabase bucket contains lifecycle records for that request.
 6. Exercise a controlled invalid request and verify a persisted rejection/error record.
 7. Reproduce the 502 with a controlled fixture and correlate the request ID with durable events and Render logs.
 8. Add explicit request/resource limits that fail safely before origin process termination.
 9. Run the complete test suite and record a fresh CI result.
-10. Deploy the verified commit to Render.
+10. Deploy the verified backend commit to Render.
 11. Verify `/health` and `/v1/analyze` against the exact deployed source revision.
 
-### Frontend foundation after backend contract verification
+### Frontend integration
 
-12. Establish the React application boundary inside `VoxVector/` without changing the Render API deployment boundary.
-13. Establish shadcn/ui and Tailwind foundations with accessible responsive design tokens.
-14. Add Motion for React with reduced-motion behavior.
-15. Add TanStack Query and typed clients derived from the actual FastAPI contract.
+12. Formalize the shadcn/ui component foundation and shared design tokens.
+13. Define typed API contracts from the actual FastAPI schemas.
+14. Implement TanStack Query API hooks for `/health` and `/v1/analyze`.
+15. Preserve request IDs, correlation IDs, status codes, timings, and sanitized error metadata in the client state.
 16. Build the `/developer` application shell against real API and diagnostic data.
 17. Build the API workbench and persistent error views.
 18. Build lifecycle event presentation using actual telemetry.
@@ -181,4 +196,4 @@ The frontend must preserve the same scientific boundaries. A polished interface,
 
 ## Stop conditions
 
-Do not promote the 502 incident to a scientific finding. Do not claim `/v1/analyze` is production-stable until the failure is reproduced or otherwise explained and the repaired deployment passes controlled endpoint verification. Do not claim deception-detection validation from successful API execution. Do not claim the React/shadcn/Motion/TanStack frontend is implemented until the actual application exists, runs, and is verified.
+Do not promote the 502 incident to a scientific finding. Do not claim `/v1/analyze` is production-stable until the failure is reproduced or otherwise explained and the repaired deployment passes controlled endpoint verification. Do not claim deception-detection validation from successful API execution. Do not claim the React application is fully complete until its real API workflows, failure states, browser behavior, accessibility, and deployment have been verified.
