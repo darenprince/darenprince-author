@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import io
 import os
 import sys
@@ -9,10 +10,9 @@ import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-# Render starts this API from the repository root. The API wrapper lives in
-# /api/voxvector, while the canonical VoxVector implementation lives in
-# /VoxVector/src/voxvector. Make the canonical package the FIRST search path so
-# a same-named module can never shadow the canonical implementation.
+# The API wrapper lives in /api/voxvector. The canonical VoxVector package is
+# /VoxVector/src/voxvector. Put the canonical source first so a same-named API
+# package cannot shadow the implementation.
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "VoxVector", "src"))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
@@ -27,7 +27,7 @@ from voxvector.pipeline import VoxVectorPipeline
 import voxvector.acoustic as _acoustic_module
 
 MAX_BYTES = 20 * 1024 * 1024
-SOURCE_REVISION = "575bff75a1d68f91afb7e1f9b5f62b1d4d674123"
+SOURCE_REVISION = "c5a673b95ebc2f18b50345459913899e0f43c1a0"
 app = FastAPI(title="VoxVector Analysis API", version="0.2.24")
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +35,27 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"]
 )
+
+
+def _file_sha256(path: str) -> str:
+    with open(path, "rb") as handle:
+        return hashlib.sha256(handle.read()).hexdigest()
+
+
+ACOUSTIC_MODULE_PATH = os.path.abspath(_acoustic_module.__file__)
+PIPELINE_MODULE_PATH = os.path.abspath(sys.modules[VoxVectorPipeline.__module__].__file__)
+ACOUSTIC_SOURCE_SHA256 = _file_sha256(ACOUSTIC_MODULE_PATH)
+PIPELINE_SOURCE_SHA256 = _file_sha256(PIPELINE_MODULE_PATH)
+
+# Fail at startup if the deployed acoustic implementation cannot execute the
+# exact frame geometry used by the pipeline. This prevents a stale/shadowed
+# acoustic.py from presenting as a healthy API and only failing on /analyze.
+try:
+    _smoke_frames = np.zeros((2, 1200), dtype=float)
+    _acoustic_module.spectral_centroid(_smoke_frames, 24000)
+    _acoustic_module.spectral_spread(_smoke_frames, 24000)
+except Exception as exc:
+    raise RuntimeError(f"VoxVector acoustic runtime self-test failed: {exc}") from exc
 
 
 def read_wav(data: bytes):
@@ -75,7 +96,11 @@ def health():
         "pipeline": VoxVectorPipeline.software_version,
         "source_revision": SOURCE_REVISION,
         "canonical_package": CANONICAL_PACKAGE,
-        "acoustic_module": os.path.abspath(_acoustic_module.__file__),
+        "acoustic_module": ACOUSTIC_MODULE_PATH,
+        "acoustic_source_sha256": ACOUSTIC_SOURCE_SHA256,
+        "pipeline_module": PIPELINE_MODULE_PATH,
+        "pipeline_source_sha256": PIPELINE_SOURCE_SHA256,
+        "runtime_self_test": "passed",
     }
 
 
