@@ -1,0 +1,51 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+@use "../tokens/colors" as *;
+
+.banner {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  background-color: $charcoal;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: $transition;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+}
+
+.banner__grid {
+  display: grid;
+  gap: $spacing-md;
+  align-items: center;
+
+  @include respond-to(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.banner__figure {
+  background-position: center;
+  background-size: cover;
+  height: 0;
+  padding-bottom: 50%;
+  transition: $transition;
+
+  @include respond-to(md) {
+    height: 100%;
+    padding-bottom: 0;
+    min-height: 200px;
+  }
+}
+
+.banner__text {
+  padding: $spacing-lg;
+}
+
+.banner__link {
+  @include button-base($bright-green, $black);
+  margin-top: $spacing-sm;
+}
