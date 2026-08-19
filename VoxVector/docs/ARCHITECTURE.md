@@ -7,31 +7,66 @@ VoxVector is being engineered as a deception detection system based on structure
 ## Canonical runtime boundary
 
 ```text
-voxvector.crownlabs.tech / client
-          |
-          v
-   HTTP adapter: VoxVector/api/app.py
-          |
-          v
- canonical engine: VoxVector/src/voxvector/
-          |
-          v
- eligibility / reliability
-          |
-          v
- evidence collection and analysis
-          |
-          v
- evidence grouping / convergence
-          |
-          v
- candidate deception classification
-          |
-          v
- validated final classification / disposition gate
+VoxVector application
+        |
+        +------------------------------+
+        |                              |
+        v                              v
+React application                 FastAPI adapter
+planned frontend                  VoxVector/api/app.py
+        |                              |
+shadcn/ui + Tailwind                  v
+Motion + TanStack Query       canonical engine
+        |                    VoxVector/src/voxvector/
+        +------------------------------+
+                       |
+                       v
+             eligibility / reliability
+                       |
+                       v
+             evidence collection
+                  and analysis
+                       |
+                       v
+              evidence grouping /
+                  convergence
+                       |
+                       v
+              candidate classification
+                       |
+                       v
+            validated final classification
+                  / disposition gate
+                       |
+                       v
+                    Supabase
+             Auth / data / diagnostics
 ```
 
 The FastAPI adapter is an interface/runtime boundary only. It must import and execute the canonical engine. It must never become a second analysis implementation.
+
+The planned React application is a presentation and interaction layer over the canonical API. It must not recreate analysis logic in the browser.
+
+## Application stack decision
+
+The next frontend phase will standardize on a small open-source stack:
+
+- **React** — application runtime
+- **shadcn/ui** — application-owned UI components and accessible interface primitives
+- **Tailwind CSS** — styling, responsive layout, tokens, and theming
+- **Motion for React** — state-driven animation and interaction
+- **TanStack Query** — server-state management and API lifecycle handling
+
+This stack is **planned/approved architecture**, not current implementation status. The current repository contains the FastAPI API and analysis engine; the React application shell is the next major frontend build phase.
+
+The infrastructure boundary does not change:
+
+- Render remains the VoxVector API runtime.
+- FastAPI remains the canonical HTTP interface.
+- Supabase remains the existing persistence/authentication/diagnostics layer.
+- `VoxVector/` remains the canonical application root.
+
+See `docs/UI_APPLICATION_ARCHITECTURE.md` for the frontend contract and implementation sequence.
 
 ## Analysis stages
 
@@ -44,9 +79,9 @@ The FastAPI adapter is an interface/runtime boundary only. It must import and ex
 
 ## Current primary pipeline
 
-`VoxVectorPipeline.analyze()` currently orchestrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
+`VoxVectorPipeline.analyze()` currently orchestrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, MFCC observations, formant tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
 
-MFCC/cepstral processing and several lower-level research utilities are implemented but remain outside the primary output path until their integration and QA requirements are completed.
+MFCC observations are now part of the primary pipeline and are emitted with their documented provenance and bounded processing behavior. Lower-level research utilities such as additional cepstral summaries, jitter, shimmer, pulse-period, and generic timing utilities remain available according to `docs/CAPABILITY_STATUS.md`.
 
 ## Reliability boundary
 
@@ -59,6 +94,12 @@ A measured observation is not a candidate label. Candidate classification must r
 ## Future inference boundary
 
 A future validated deception engine may combine independently justified methods, evidence convergence, uncertainty, reliability, alternative explanations, and task-specific models. A deception probability or confidence matrix may only be enabled after the required scientific validation and calibration work is completed.
+
+## Operational observability boundary
+
+The API now includes request correlation and sanitized lifecycle/stage diagnostics with durable Supabase Storage support. The frontend developer console will consume this operational evidence rather than inventing telemetry.
+
+The current open `/v1/analyze` 502 incident remains an engineering reliability problem. UI work must expose failures clearly and must not convert an unavailable API response into a successful-looking analysis state.
 
 ## Deployment boundary
 
@@ -76,3 +117,6 @@ Render must use `VoxVector` as the root directory and launch `api.app:app`. The 
 - abstention as a first-class outcome
 - separation of product objective from implementation and validation status
 - planned capabilities preserved independently of current implementation status
+- frontend state derived from actual API/data state
+- animation separated from analytical truth
+- accessible and responsive product presentation
