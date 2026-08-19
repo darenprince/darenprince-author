@@ -185,7 +185,7 @@ The adapter is an interface and runtime boundary only and must not become a seco
 * QA Node runtime advanced from Node 20 to Node 22
 * npm cache is enabled using `voxvector/package.json` as the cache dependency path
 
-Tremor's current installation documentation states that Tremor requires React 18.2.0 or newer, and the npm package currently remains at `3.18.7`. citeturn0search0turn0search7
+Tremor's current installation documentation requires React 18.2.0 or newer. The currently published `@tremor/react` package is 3.18.7.
 
 **Boundary:** This is a dependency compatibility correction. It does not change the scientific status of VoxVector.
 
