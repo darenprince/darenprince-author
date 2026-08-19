@@ -12,6 +12,8 @@
 
 **Public target:** `voxvector.crownlabs.tech`
 
+**Crown Labs product page:** `https://www.darenprince.com/labs/products/voxvector.html`
+
 VoxVector is a standalone vocal and audio analysis and deception research system. Current software performs observational acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, and baseline analysis while maintaining reliability controls, evidence provenance, candidate classification boundaries, and guarded disposition.
 
 The current implementation is not a validated deception detector. No validated deception probability or deception verdict is currently active. Planned research capabilities remain part of the product roadmap even when they are not yet implemented.
