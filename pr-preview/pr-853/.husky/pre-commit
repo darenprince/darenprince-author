@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+export PATH="$repo_root/node_modules/.bin:$PATH"
+cd "$repo_root"
+
+npx lint-staged
