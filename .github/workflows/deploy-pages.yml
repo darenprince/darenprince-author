@@ -60,10 +60,18 @@ jobs:
             --exclude 'tests/**' \
             --exclude '*.log'
           rsync -a ./voxvector/dist/ _site/voxvector/
+          mkdir -p _site/voxvector/developer
+          cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
           cp ./voxvector/dist/index.html ./_site/voxvector/404.html
 
-      - name: Report artifact size
-        run: du -sh _site && du -sh _site/voxvector
+      - name: Verify VoxVector Pages artifact
+        run: |
+          test -f _site/voxvector/index.html
+          test -f _site/voxvector/developer/index.html
+          test -f _site/voxvector/404.html
+          echo "VoxVector routes staged:"
+          find _site/voxvector -maxdepth 2 -type f | sort | head -80
+          du -sh _site/voxvector
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
