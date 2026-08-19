@@ -1,0 +1,18 @@
+@use "../base/variables" as *;
+@use "../tokens/colors" as *;
+
+.component-docs {
+  margin: $spacing-md 0;
+
+  pre {
+    background: $charcoal;
+    padding: $spacing-sm;
+    border-radius: $border-radius;
+    overflow-x: auto;
+    color: $white;
+  }
+
+  .copy-btn {
+    margin-top: $spacing-xs;
+  }
+}

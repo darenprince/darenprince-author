@@ -1,0 +1,310 @@
+import { setActiveTool } from './book-rail.js'
+
+const book = document.getElementById('book')
+const rotate360 = document.getElementById('rotate-360')
+const snapFrontBtn = document.getElementById('snap-front')
+const snapBackBtn = document.getElementById('snap-back')
+const bookViewer = document.querySelector('.book-3d-viewer')
+const bookContainer = document.querySelector('.book-3d-container')
+const rotateHint = document.querySelector('.rotate-hint')
+const addToCartBtn = document.getElementById('add-to-cart')
+const bookToolbar = document.querySelector('.book-toolbar')
+const bookViewerSection = document.getElementById('book-viewer')
+const closeBtn = document.getElementById('book-close')
+const open3dModalBtn = document.getElementById('open-book-3d-modal')
+const book3dModal = document.getElementById('book-3d-modal')
+const book3dBackdrop = document.getElementById('book-3d-backdrop')
+let rotateHintTimeout
+let toolbarObserver
+let hasInitializedSpin = false
+
+const SNAP_FRONT = 18
+const SNAP_BACK = 199
+const ORIENTATION_TOLERANCE = 20
+const PAUSE_BEFORE_RESUME_MS = 4000
+const QUICK_TRANSITION = 'transform 0.3s ease'
+const DEFAULT_TRANSITION = 'transform 0.6s ease'
+const FULL_SPIN_TRANSITION = 'transform 1s linear'
+
+let rotation = SNAP_FRONT
+let isDragging = false
+let startX = 0
+let autoInterval
+let pauseTimeout
+
+function hideRotateHint() {
+  rotateHint?.classList.add('hide')
+  rotateHint?.classList.remove('show')
+}
+
+export function showRotateHint() {
+  if (!rotateHint) return
+  rotateHint.classList.remove('hide')
+  rotateHint.classList.add('show')
+  clearTimeout(rotateHintTimeout)
+  const hide = () => {
+    hideRotateHint()
+    clearTimeout(rotateHintTimeout)
+  }
+  book.addEventListener('pointerdown', hide, { once: true })
+  rotateHintTimeout = setTimeout(hide, 4000)
+}
+
+window.showRotateHint = showRotateHint
+
+window.addEventListener('load', () => {
+  bookViewer?.classList.add('loaded')
+  if (rotateHint && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const sr = document.createElement('span')
+    sr.className = 'visually-hidden'
+    sr.textContent = 'Drag left or right to rotate.'
+    rotateHint.appendChild(sr)
+  }
+})
+
+function updateActiveTool(angle) {
+  const normalized = ((angle % 360) + 360) % 360
+  const frontDiff = Math.abs(normalized - SNAP_FRONT)
+  const backDiff = Math.abs(normalized - SNAP_BACK)
+  if (frontDiff <= ORIENTATION_TOLERANCE) {
+    setActiveTool('front')
+  } else if (backDiff <= ORIENTATION_TOLERANCE) {
+    setActiveTool('back')
+  } else {
+    setActiveTool(null)
+  }
+}
+
+function applyRotation(angle) {
+  book.style.transform = `rotateY(${angle}deg)`
+  book.style.setProperty('--light-angle', `${angle}deg`)
+  updateActiveTool(angle)
+}
+
+const setToolbarVisibility = (isVisible) => {
+  if (!bookToolbar) return
+  bookToolbar.classList.toggle('visible', isVisible)
+}
+
+const setupToolbarObserver = () => {
+  if (!bookToolbar) return
+  if (toolbarObserver) {
+    toolbarObserver.disconnect()
+  }
+  const mobileQuery = window.matchMedia('(max-width: 767px)')
+  if (!mobileQuery.matches) {
+    setToolbarVisibility(true)
+    return
+  }
+  setToolbarVisibility(false)
+  if (!bookContainer) return
+  toolbarObserver = new IntersectionObserver(
+    ([entry]) => {
+      setToolbarVisibility(entry.isIntersecting)
+    },
+    { threshold: 0.01, rootMargin: '-40% 0px -40% 0px' }
+  )
+  toolbarObserver.observe(bookContainer)
+}
+
+function startAutoRotate() {
+  return setInterval(() => {
+    rotation += 0.4
+    applyRotation(rotation)
+  }, 50)
+}
+
+function resetAutoRotate() {
+  clearInterval(autoInterval)
+  clearTimeout(pauseTimeout)
+  autoInterval = startAutoRotate()
+}
+
+function snapTo(angle) {
+  clearInterval(autoInterval)
+  clearTimeout(pauseTimeout)
+  book.style.transition = 'transform 0.3s ease'
+  rotation = angle
+  applyRotation(rotation)
+  pauseTimeout = setTimeout(() => {
+    book.style.transition = 'transform 0.6s ease'
+    resetAutoRotate()
+  }, 4000)
+}
+
+function initialSpin() {
+  book.style.transition = 'transform 1s linear'
+  rotation += 360
+  applyRotation(rotation)
+  book.addEventListener(
+    'transitionend',
+    () => {
+      book.style.transition = 'transform 0.6s ease'
+      autoInterval = startAutoRotate()
+      hasInitializedSpin = true
+    },
+    { once: true }
+  )
+}
+
+applyRotation(rotation)
+
+if (book3dModal) {
+  hasInitializedSpin = false
+} else if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      obs.disconnect()
+      initialSpin()
+      if (rotateHint) {
+        showRotateHint()
+      }
+    }
+  })
+  observer.observe(book)
+} else {
+  initialSpin()
+  if (rotateHint) {
+    showRotateHint()
+  }
+}
+
+book.addEventListener('mousedown', (e) => {
+  isDragging = true
+  startX = e.clientX
+  book.style.transition = 'none'
+  clearInterval(autoInterval)
+  clearTimeout(pauseTimeout)
+})
+
+window.addEventListener('mousemove', (e) => {
+  if (!isDragging) return
+  const delta = e.clientX - startX
+  rotation += delta * 0.5
+  applyRotation(rotation)
+  startX = e.clientX
+})
+
+window.addEventListener('mouseup', () => {
+  if (!isDragging) return
+  isDragging = false
+  book.style.transition = 'transform 0.6s ease'
+  resetAutoRotate()
+})
+
+book.addEventListener('touchstart', (e) => {
+  isDragging = true
+  startX = e.touches[0].clientX
+  book.style.transition = 'none'
+  clearInterval(autoInterval)
+  clearTimeout(pauseTimeout)
+})
+
+book.addEventListener('touchmove', (e) => {
+  if (!isDragging) return
+  const delta = e.touches[0].clientX - startX
+  rotation += delta * 0.5
+  applyRotation(rotation)
+  startX = e.touches[0].clientX
+})
+
+book.addEventListener('touchend', () => {
+  isDragging = false
+  book.style.transition = 'transform 0.6s ease'
+  resetAutoRotate()
+})
+
+snapFrontBtn?.addEventListener('click', () => {
+  snapTo(SNAP_FRONT)
+  setTimeout(() => {
+    clearTimeout(pauseTimeout)
+    bookContainer?.classList.add('fullscreen')
+    closeBtn?.removeAttribute('hidden')
+  }, 300)
+})
+
+snapBackBtn?.addEventListener('click', () => {
+  snapTo(SNAP_BACK)
+})
+
+rotate360?.addEventListener('click', () => {
+  clearInterval(autoInterval)
+  clearTimeout(pauseTimeout)
+  book.style.transition = 'transform 1s linear'
+  rotation += 360
+  applyRotation(rotation)
+  book.addEventListener(
+    'transitionend',
+    () => {
+      book.style.transition = 'transform 0.6s ease'
+      resetAutoRotate()
+    },
+    { once: true }
+  )
+})
+
+const zoomBtn = document.getElementById('zoom-cover')
+const zoomModal = document.getElementById('cover-zoom')
+const closeZoom = document.getElementById('close-cover-zoom')
+const zoomFull = document.getElementById('zoom-full')
+const zoomThumbs = document.querySelectorAll('.thumbnails img')
+
+zoomBtn?.addEventListener('click', () => {
+  zoomModal?.removeAttribute('hidden')
+})
+
+closeZoom?.addEventListener('click', () => {
+  zoomModal?.setAttribute('hidden', '')
+})
+
+zoomThumbs.forEach((img) => {
+  img.addEventListener('click', () => {
+    zoomThumbs.forEach((t) => t.classList.remove('active'))
+    img.classList.add('active')
+    if (zoomFull) {
+      zoomFull.src = img.dataset.full
+    }
+  })
+})
+
+addToCartBtn?.addEventListener('click', () => {
+  bookViewerSection?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
+
+closeBtn?.addEventListener('click', () => {
+  if (book3dModal) {
+    book3dModal.setAttribute('hidden', '')
+    document.body.classList.remove('book-modal-open')
+    clearInterval(autoInterval)
+    clearTimeout(pauseTimeout)
+    return
+  }
+  bookContainer?.classList.remove('fullscreen')
+  closeBtn.setAttribute('hidden', '')
+  bookToolbar?.removeAttribute('hidden')
+  setupToolbarObserver()
+  resetAutoRotate()
+})
+
+setupToolbarObserver()
+window.matchMedia('(max-width: 767px)').addEventListener('change', setupToolbarObserver)
+
+function openBookModal() {
+  if (!book3dModal) return
+  book3dModal.removeAttribute('hidden')
+  document.body.classList.add('book-modal-open')
+  if (!hasInitializedSpin) {
+    initialSpin()
+    if (rotateHint) showRotateHint()
+  } else {
+    resetAutoRotate()
+  }
+}
+
+open3dModalBtn?.addEventListener('click', openBookModal)
+book3dBackdrop?.addEventListener('click', () => closeBtn?.click())
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && book3dModal && !book3dModal.hasAttribute('hidden')) {
+    closeBtn?.click()
+  }
+})
