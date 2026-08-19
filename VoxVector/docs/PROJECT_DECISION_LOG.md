@@ -4,7 +4,7 @@
 
 **Decision:** VoxVector's canonical product objective is vocal and audio deception detection. Product, executive, and technical documentation must describe VoxVector as a deception detection system while separately reporting current implementation and scientific validation status.
 
-**Reason:** Lack of validated inference today is a maturity state, not a change to the product being built. Documentation must not accidentally downgrade deception detection from the core product objective to an incidental research topic.
+**Reason:** Lack of validated inference today is a maturity state, not a change to the product being built. Documentation must not accidentally downgrade deception detection from the core product being built to an incidental research topic.
 
 **Resolution:**
 
@@ -84,6 +84,16 @@ The adapter is an interface/runtime boundary only and must not become a second a
 
 **Reason:** The current 502 investigation requires durable evidence that survives Render instance restarts. A `request.started` record is particularly valuable when the process terminates before a response or application exception can be recorded.
 
-**Boundary:** Durable diagnostics improve operational observability only. They do not establish scientific validation or deception inference.
-
 **Verification still required:** Configure Render secrets, verify the private bucket, run a known analysis, confirm stored lifecycle records and `X-Request-ID`, then reproduce/investigate the 502 with the new evidence.
+
+## 2026-08-19 — Authenticated developer console
+
+**Decision:** Build the operational Developer Console as an authenticated surface inside the canonical FastAPI application rather than introducing a second frontend/deployment stack before one is required.
+
+**Implementation:** Added `VoxVector/api/developer_console.py` and `VoxVector/api/developer_console.html`, mounted at `/developer`. Login is proxied through Supabase Auth; authenticated users must also have an active `public.developer_roles` record. The console exposes live API route inventory, persisted `error_reports`, private diagnostic storage objects, canonical documentation navigation, and `roadmap_items`.
+
+**Security boundary:** The browser never receives the Supabase service-role key. Diagnostic data remain behind server-side authorization, and the console does not expose raw audio or raw transcript content.
+
+**Reason:** The existing durable diagnostics architecture needed a real engineering interface for incident investigation and development tracking. Keeping the first console inside the existing API avoids creating an unnecessary second runtime while preserving a future path to a dedicated frontend if product requirements justify it.
+
+**Status:** Implemented on the developer-console branch; deployment verification remains required. This tooling does not alter VoxVector's scientific validation state.
