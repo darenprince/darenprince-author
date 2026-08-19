@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1350" viewBox="0 0 900 1350" role="img" aria-labelledby="t d">
+  <title id="t">The Power of Choice cover</title><desc id="d">Book cover for The Power of Choice: Breaking the Chains of Addiction and Living a Life of Purpose</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#292f38"/><stop offset="1" stop-color="#0c1014"/></linearGradient></defs>
+  <rect width="900" height="1350" fill="url(#bg)"/>
+  <text x="80" y="230" fill="#ffffff" font-size="78" font-family="Arial Black, Arial, sans-serif">THE</text>
+  <text x="80" y="320" fill="#ffffff" font-size="102" font-family="Arial Black, Arial, sans-serif">POWER OF</text>
+  <text x="80" y="415" fill="#ffffff" font-size="102" font-family="Arial Black, Arial, sans-serif">CHOICE</text>
+  <text x="80" y="480" fill="#c2d4e5" font-size="28" font-family="Arial, sans-serif">BREAKING THE CHAINS OF ADDICTION</text>
+  <text x="80" y="520" fill="#c2d4e5" font-size="28" font-family="Arial, sans-serif">AND LIVING A LIFE OF PURPOSE</text>
+  <text x="80" y="1160" fill="#e4edf5" font-size="56" font-family="Arial, sans-serif">DAREN M. PRINCE</text>
+</svg>
