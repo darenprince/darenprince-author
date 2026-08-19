@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Schedule of Bad Decisions</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-flame">🔥</span>
+          <span class="brand-heart">🤍</span>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-title">HXD Playground</span>
+          <span class="brand-subtitle">Flying high. No safe words.</span>
+        </div>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="section-title">Schedule of Bad Decisions</h1>
+    <div class="card">
+      <div class="dark-glass calendar-shell" style="margin-bottom:16px;">
+        <div class="calendar-overlay"></div>
+        <iframe class="calendar-frame" src="https://calendar.google.com/calendar/embed?src=c_188c8d961c5e2b93bffb7fc711e54d02b8c05498ea5c37a1d1a55ae592b8df20%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&color=%23c32232&bgcolor=%23070506" style="border:0" width="100%" height="640" frameborder="0" scrolling="no"></iframe>
+      </div>
+      <div class="actions" style="margin-bottom:10px;">
+        <button class="btn" id="idea-btn">Suggest a Night</button>
+        <button class="btn ghost" data-selection-target="idea-output" data-selection-subject="Schedule idea">Submit this plan</button>
+      </div>
+      <div class="dark-glass" id="idea-output" style="margin-top:12px;">Pick a night. I’ll make it memorable.</div>
+      <form class="calendar-form" id="calendar-form">
+        <div class="calendar-form-grid">
+          <label class="calendar-label">
+            Date
+            <input class="input" type="date" name="date" data-label="Date" />
+          </label>
+          <label class="calendar-label">
+            Start time
+            <input class="input" type="time" name="time" data-label="Start time" />
+          </label>
+          <label class="calendar-label">
+            Plan
+            <input class="input" type="text" name="what" data-label="Plan" placeholder="Afterparty, rooftop, chaos" />
+          </label>
+          <label class="calendar-label">
+            Location
+            <input class="input" list="locations" name="where" data-label="Location" placeholder="Soho House, skyline lounge, secret bar" />
+            <datalist id="locations">
+              <option value="West Village townhouse" />
+              <option value="Lower East Side speakeasy" />
+              <option value="Rooftop with skyline views" />
+              <option value="Beachfront hideout" />
+              <option value="Private studio" />
+            </datalist>
+          </label>
+          <label class="calendar-label">
+            Duration
+            <select class="input" name="duration" data-label="Duration">
+              <option value="">Pick the run time</option>
+              <option value="Quick hit — 1 hour">Quick hit — 1 hour</option>
+              <option value="Standard trouble — 2 hours">Standard trouble — 2 hours</option>
+              <option value="After-hours stretch — 3+ hours">After-hours stretch — 3+ hours</option>
+              <option value="Until sunrise">Until sunrise</option>
+            </select>
+          </label>
+          <label class="calendar-label">
+            Vibe
+            <select class="input" name="vibe" data-label="Vibe">
+              <option value="">Pick the pace</option>
+              <option value="Slow burn">Slow burn</option>
+              <option value="Playful chaos">Playful chaos</option>
+              <option value="High voltage">High voltage</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </label>
+        </div>
+        <label class="calendar-label">
+          Extras
+          <textarea class="input" name="notes" rows="3" data-label="Extras" placeholder="Dress code, playlist, guest list…"></textarea>
+        </label>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Submit this schedule</button>
+          <button class="btn" type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <section class="container selection-console">
+    <div class="selection-top">
+      <div>
+        <p class="section-eyebrow">Your picks queue</p>
+        <h2 class="section-title">Send it when you’re sure</h2>
+      </div>
+      <div class="glow-dot" aria-hidden="true"></div>
+    </div>
+    <div class="dark-glass selection-body">
+      <p class="selection-label">Latest selection</p>
+      <p class="selection-output" id="selection-output">Waiting for your move.</p>
+      <label class="selection-note-label" for="selection-note">Add a note</label>
+      <textarea class="input selection-note" id="selection-note" rows="3" placeholder="Lock in timing, location, or limits."></textarea>
+      <div class="actions">
+        <button class="btn" id="selection-clear">Clear</button>
+        <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
+      </div>
+      <p class="selection-status" id="selection-status" role="status" aria-live="polite"></p>
+      <p class="selection-hint">Anything you pick, spin, or suggest is sent straight to author@darenprince.com — never from your inbox.</p>
+    </div>
+  </section>
+
+  <script src="js/email-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
