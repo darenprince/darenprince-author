@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throttle System Diagnostic & Fix Manual - Large Text</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #1e3a8a;
+            --accent-orange: #ea580c;
+            --accent-red: #dc2626;
+            --border: #cbd5e1;
+            --success: #15803d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15);
+        }
+
+        header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 22px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .warning-card {
+            border: 3px solid var(--accent-red);
+            border-left: 8px solid var(--accent-red);
+            background-color: #fef2f2;
+        }
+
+        .warning-title {
+            color: var(--accent-red);
+            font-size: 22px;
+        }
+
+        .visual-aid {
+            text-align: center;
+            margin: 16px 0;
+            background: #f1f5f9;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .visual-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .price-tag {
+            background-color: #f1f5f9;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            margin: 16px 0;
+            border-left: 5px solid var(--text-muted);
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .price-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-price {
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        ol {
+            padding-left: 24px;
+        }
+
+        li {
+            font-size: 16px;
+            margin-bottom: 14px;
+            color: #1e293b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            text-align: left;
+            margin-top: 12px;
+        }
+
+        th {
+            background-color: #e2e8f0;
+            padding: 10px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--border);
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+        }
+
+        .badge-code {
+            background-color: #fee2e2;
+            color: var(--accent-red);
+            border: 1px solid #fca5a5;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 32px;
+            padding-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Electronic Throttle Diagnostics</h1>
+        <p>🔴 High-Visibility Edition — Large Text for Garage Use</p>
+    </header>
+
+    <div class="card warning-card">
+        <div class="card-title warning-title">🛑 DO NOT DRIVE YET</div>
+        <p style="font-size: 16px; color: #7f1d1d; font-weight: 600;">
+            Do not assume the vehicle is fixed because it revs normally now. If you pull out into traffic and the electronic loop drops out again, the computer will instantly slam back into lock-down mode, leaving you stranded with zero acceleration.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">1. System Loop Explainer</div>
+        <p style="font-size: 16px; margin-bottom: 12px;">
+            Your vehicle utilizes a <strong>"Drive-By-Wire"</strong> configuration. There is no physical steel wire cable running from your foot to the engine block.
+        </p>
+        
+        <div class="visual-aid">
+            <svg viewBox="0 0 400 120" width="100%" height="auto" style="max-width:360px;">
+                <rect x="10" y="30" width="80" height="60" rx="8" fill="#334155"/>
+                <text x="50" y="65" fill="white" font-weight="bold" font-size="11" text-anchor="middle">GAS PEDAL</text>
+                <path d="M 100 60 L 140 60" stroke="#0284c7" stroke-width="4" fill="none"/>
+                <rect x="150" y="30" width="80" height="60" rx="8" fill="#1e3a8a"/>
+                <text x="190" y="65" fill="white" font-weight="bold" font-size="11" text-anchor="middle">CAR COMP</text>
+                <path d="M 240 60 L 280 60" stroke="#0284c7" stroke-width="4" fill="none"/>
+                <rect x="290" y="30" width="100" height="60" rx="8" fill="#0f172a"/>
+                <text x="340" y="65" fill="white" font-weight="bold" font-size="11" text-anchor="middle">THROTTLE BODY</text>
+            </svg>
+            <span class="visual-label">Electronic Signal Loop</span>
+        </div>
+
+        <p style="font-size: 16px;">
+            If the computer loses tracking connection for even a single millisecond, it triggers <strong>Limp Mode</strong> to protect against a runaway engine.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">2. Diagnostic Scanning Steps</div>
+        <p style="font-size: 16px; margin-bottom: 14px;">
+            Read the computer's onboard memory logs using an OBD-II scan tool to isolate the source code.
+        </p>
+        
+        <div class="visual-aid">
+            <svg viewBox="0 0 200 100" width="100%" height="auto" style="max-width:200px;">
+                <rect x="10" y="10" width="180" height="80" rx="10" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>
+                <path d="M 30 30 L 170 30 L 160 70 L 40 70 Z" fill="#1e293b"/>
+                <circle cx="50" cy="42" r="3" fill="#fbbf24"/><circle cx="66" cy="42" r="3" fill="#fbbf24"/><circle cx="82" cy="42" r="3" fill="#fbbf24"/><circle cx="98" cy="42" r="3" fill="#fbbf24"/><circle cx="114" cy="42" r="3" fill="#fbbf24"/><circle cx="130" cy="42" r="3" fill="#fbbf24"/><circle cx="146" cy="42" r="3" fill="#fbbf24"/>
+                <circle cx="54" cy="58" r="3" fill="#fbbf24"/><circle cx="70" cy="58" r="3" fill="#fbbf24"/><circle cx="86" cy="58" r="3" fill="#fbbf24"/><circle cx="102" cy="58" r="3" fill="#fbbf24"/><circle cx="118" cy="58" r="3" fill="#fbbf24"/><circle cx="134" cy="58" r="3" fill="#fbbf24"/>
+            </svg>
+            <span class="visual-label">OBD-II Port (Located Under Dashboard)</span>
+        </div>
+
+        <ol>
+            <li>Locate the 16-pin connector port near your left knee underneath the steering wheel panel.</li>
+            <li>Connect the diagnostic scanner plug securely.</li>
+            <li>Turn ignition key to the <strong>ON position</strong> (dash lights light up), but keep engine off.</li>
+            <li>Read codes and match them using the index chart below.</li>
+        </ol>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trouble Code</th>
+                    <th>Component Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge badge-code">P2138 / P2122</span></td>
+                    <td><strong>APP Sensor</strong> (Gas Pedal Unit)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-code">P2135 / P0222</span></td>
+                    <td><strong>Throttle Body</strong> (Sticking Flap)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <div class="card-title">3. Action Plan & AutoZone Pricing</div>
+        
+        <div style="margin-bottom: 24px;">
+            <p style="font-weight: 800; font-size: 18px; color: var(--accent-orange); margin-bottom: 4px;">Option A: Replace Gas Pedal Unit</p>
+            <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 10px;">Fixes sensor wear dead-spots inside the bracket mechanics.</p>
+            
+            <div class="price-tag">
+                <div class="price-line"><span>AutoZone Duralast Assembly:</span><span class="bold-price">$95.99 - $199.99</span></div>
+                <div class="price-line"><span>Tools Needed:</span><span class="bold-price">10mm wrench / socket set</span></div>
+            </div>
+
+            <ol>
+                <li>Disconnect the negative (-) battery cable terminal to cut circuit power lines.</li>
+                <li>Locate the wire clip connection block at the top of the pedal neck arm, depress locking tab, and slide it off.</li>
+                <li>Unscrew the 2 or 3 securing nuts anchoring the unit base onto the vehicle firewall.</li>
+                <li>Bolt the replacement pedal frame assembly onto structural stud mounts and snap your connection wiring harness plug home securely.</li>
+            </ol>
+        </div>
+
+        <hr style="border: 0; border-top: 2px dashed var(--border); margin: 20px 0;">
+
+        <div>
+            <p style="font-weight: 800; font-size: 18px; color: var(--accent-orange); margin-bottom: 4px;">Option B: Clean/Replace Throttle Body</p>
+            <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 10px;">Cleans away built-up fuel carbon soot keeping the intake plate from opening smoothly.</p>
+
+            <div class="visual-aid">
+                <svg viewBox="0 0 160 160" width="100%" height="auto" style="max-width:140px;">
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="#0f172a" stroke-width="10"/>
+                    <line x1="25" y1="50" x2="135" y2="110" stroke="#64748b" stroke-width="8"/>
+                    <circle cx="30" cy="70" r="12" fill="#1e293b" opacity="0.8"/>
+                    <circle cx="130" cy="90" r="14" fill="#1e293b" opacity="0.8"/>
+                </svg>
+                <span class="visual-label">Target Area: Clean Carbon Gunk Around Valve Edges</span>
+            </div>
+            
+            <div class="price-tag">
+                <div class="price-line"><span>CRC Throttle Body Cleaner Can:</span><span class="bold-price">$6.49 - $9.99</span></div>
+                <div class="price-line"><span>AutoZone Duralast New Module:</span><span class="bold-price">$139.99 - $201.99</span></div>
+            </div>
+
+            <p style="font-size: 15px; font-weight:700; margin-bottom: 8px; color: var(--success);">💡 PRO-TIP: CLEAN IT FIRST BEFORE BUYING A NEW COMPONENT</p>
+            <ol>
+                <li>Disconnect your battery system.</li>
+                <li>Loosen the worm-gear clamp and detach the thick rubber air intake tube path away from the metallic throttle face neck housing.</li>
+                <li>Saturate a clean shop rag or soft clean toothbrush with the specialized throttle cleaner. <strong>Do not dump raw spray fluid into electronic gear casing seams.</strong></li>
+                <li>Manually push open the circular throttle blade flap and clean dark accumulation deposits off margins until it is bare steel. Reassemble and check the system behavior.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Keep this manual active on your mobile display during diagnostic work.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
