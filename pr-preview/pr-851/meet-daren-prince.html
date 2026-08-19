@@ -1,0 +1,555 @@
+<!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet Daren Prince | Author, Speaker &amp; Strategist</title>
+  <meta name="description" content="Meet Daren Prince. Author of Game On! and Unshakable with a mission to turn hard earned lessons into tools for honest connection.">
+  <meta property="og:title" content="Meet Daren Prince | Author, Speaker &amp; Strategist">
+  <meta property="og:description" content="Meet Daren Prince. Author of Game On! and Unshakable with a mission to turn hard earned lessons into tools for honest connection.">
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+  <meta property="og:image:alt" content="Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.">
+  <meta property="og:type" content="article">
+  <meta property="profile:first_name" content="Daren">
+  <meta property="profile:last_name" content="Prince">
+  <meta property="og:url" content="https://www.darenprince.com/meet-daren-prince.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Meet Daren Prince | Author, Speaker &amp; Strategist">
+  <meta name="twitter:description" content="Meet Daren Prince. Author of Game On! and Unshakable with a mission to turn hard earned lessons into tools for honest connection.">
+  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png">
+  <meta name="twitter:image:alt" content="Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.">
+  <meta name="keywords" content="Daren Prince Sr., dating coach, communication strategist, author biography, relationship communication, confidence coaching">
+  <link rel="canonical" href="https://www.darenprince.com/meet-daren-prince.html">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://darenprince.com/#daren-prince",
+    "name": "Daren Prince",
+    "url": "https://darenprince.com/about",
+    "image": "https://darenprince.com/assets/images/daren-prince-profile-lg.jpg",
+    "jobTitle": ["Author", "Dating Coach", "Communication Strategist"],
+    "hasPart": {
+      "@type": "ImageObject",
+      "name": "Professional headshot of Daren Prince Sr.",
+      "caption": "Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.",
+      "contentUrl": "https://www.darenprince.com/assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png"
+    },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Game On! Media"
+    },
+    "description": "Daren Prince is the author of Game On! and Unshakable, known for his emotionally intelligent approach to dating, healing, and personal growth.",
+    "sameAs": [
+      "https://www.amazon.com/author/darenprince",
+      "https://www.goodreads.com/author/show/53671567.Daren_Prince"
+    ],
+    "knowsAbout": [
+      "Modern dating",
+      "Confidence coaching",
+      "Narcissistic abuse recovery",
+      "Communication strategy"
+    ],
+    "award": ["Amazon Kindle Top 100 Bestseller"],
+    "authorOf": [
+      {
+        "@type": "Book",
+        "name": "Game On! Master the Conversation & Win Her Heart"
+      },
+      {
+        "@type": "Book",
+        "name": "Unshakable"
+      }
+    ],
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "Press & Speaking Availability",
+      "url": "https://darenprince.com/contact",
+      "availabilityStarts": "2024-01-01"
+    },
+    "subjectOf": {
+      "@type": "CreativeWork",
+      "name": "Game On! Press + Retailer Kit",
+      "url": "https://darenprince.com/press"
+    }
+  }
+  </script>
+  <!-- Apple PWA + Safari enhancements -->
+    <!-- Smart App banner is rendered by js/main.js -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#456f3a">
+    <meta name="application-name" content="Daren Prince Official Site">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+    <meta name="msapplication-TileColor" content="#456f3a">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+  <!-- End Apple PWA + Safari enhancements -->
+<meta property="og:site_name" content="darenprince.com"><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Meet Daren Prince | Author, Speaker & Strategist",
+  "description": "Meet Daren Prince. Author of Game On! and Unshakable with a mission to turn hard earned lessons into tools for honest connection.",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.darenprince.com/meet-daren-prince.html"
+  },
+  "publisher": {
+    "@id": "https://www.darenprince.com#organization"
+  },
+  "author": {
+    "@id": "https://www.darenprince.com#author"
+  },
+  "image": "https://www.darenprince.com/assets/images/og-daren-prince.png"
+}</script>
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Meet Daren Prince.html",
+      "item": "https://www.darenprince.com/meet-daren-prince.html/"
+    }
+  ]
+}</script></head>
+<body class="theme-dark">
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="meet-daren-prince.html" class="active"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+        <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+        <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+      </li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+  <div class="site-wrap">
+          <div data-shared-header=""></div>
+
+
+    <main>
+      <section class="bio-hero padding-y-xl">
+        <div class="container max-width-adaptive-lg">
+          <span class="bio-hero__tag"><i class="ph ph-sparkle bio-icon"></i> Author • Speaker • Strategist</span>
+          <h1 class="styledh1 brand-heading"><span class="brand-heading__emphasis">Daren Prince:</span><br><span class="brand-heading__base">Clarity with Conviction</span></h1>
+          <p>Daren Prince writes with clarity and conviction. His mission is simple: turn hard earned lessons into tools that help people connect with confidence, honesty, and purpose.</p>
+          <div class="bio-hero__cta">
+            <a href="press.html" class="btn grad-kelly-green"><i class="ph ph-camera bio-icon"></i>Press Kit &amp; Media Room</a>
+            <a href="book.html" class="btn btn--accent"><i class="ph ph-books bio-icon"></i>Get The Books</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-intro">
+        <div class="container max-width-adaptive-lg">
+          <div class="bio-intro__grid">
+            <div class="bio-intro__media">
+              <figure class="bio-intro__portrait bio-intro__portrait--primary">
+                <img src="/assets/images/daren-prince-profile-lg.jpg" alt="Portrait of author Daren Prince">
+                <figcaption>Head Shot of Daren Prince Sr. Shot at Book Launch event in Pineville, Louisiana. Author of Game On!</figcaption>
+              </figure>
+              <figure class="bio-intro__portrait">
+                <img src="/assets/images/2AA31BBC-1B94-4459-8B4E-E20162EDC5FD.png" alt="Professional headshot of Daren Prince Sr., author and dating coach">
+                <figcaption>Professional headshot of Daren Prince Sr.: Author, dating coach, communication strategist, and voice for real conversations that change lives.</figcaption>
+              </figure>
+            </div>
+            <div class="bio-intro__content">
+              <p>Daren Prince grew up in Louisiana and built his life around rhythm and connection. For more than twenty years he worked as a DJ and entrepreneur, creating experiences that brought people together. That same energy carries into his writing. His words do not sit on the page, they move with a voice that is grounded and compelling.</p>
+              <p>His life has included trauma, loss, and setbacks that could have closed him off. Instead they gave him perspective and resilience. His writing is direct, emotionally intelligent, and practical. He does not aim to impress with theory. He shares what works, what heals, and what lasts.</p>
+              <blockquote>“Confidence is the byproduct of knowing the story you are telling with every look, every word, every moment you occupy space.”</blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-stats">
+        <div class="container max-width-adaptive-lg">
+          <div class="bio-stats__grid">
+            <div class="bio-stat">
+              <h3>2×</h3>
+              <p>Bestselling author with <em>Game On!</em> and <em>Unshakable</em>.</p>
+            </div>
+            <div class="bio-stat">
+              <h3>Top 100</h3>
+              <p><em>Game On!</em> entered the Amazon Kindle Top 100 dating titles.</p>
+            </div>
+            <div class="bio-stat">
+              <h3>500+</h3>
+              <p>Private coaching calls and hot seat sessions distilled into actionable frameworks.</p>
+            </div>
+            <div class="bio-stat">
+              <h3>Daily</h3>
+              <p>Voice notes, writing sprints, and iced coffee rituals with his son DJ cheering on.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-pillars">
+        <div class="container max-width-adaptive-lg">
+          <h2 class="margin-bottom-md styledh1 brand-heading"><span class="brand-heading__emphasis">The Game On!</span><br><span class="brand-heading__base">Operating System</span></h2>
+          <div class="bio-pillars__grid">
+            <article class="bio-pillar">
+              <h3>Magnetic Communication</h3>
+              <ul>
+                <li><i class="ph ph-check-circle bio-icon"></i> Conversation architecture that sparks instant chemistry.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Emotional calibration tools that keep momentum in real life.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Micro intentions for texts, dates, and difficult conversations.</li>
+              </ul>
+            </article>
+            <article class="bio-pillar">
+              <h3>Healing Without Losing Edge</h3>
+              <ul>
+                <li><i class="ph ph-check-circle bio-icon"></i> Trauma aware practices for men leaving narcissistic dynamics.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Daily nervous system resets with breathwork, strength, and stillness.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Journaling cues that translate pain into purposeful action.</li>
+              </ul>
+            </article>
+            <article class="bio-pillar">
+              <h3>Mission Led Masculinity</h3>
+              <ul>
+                <li><i class="ph ph-check-circle bio-icon"></i> Strategic dating plans that align with long game values.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Leadership habits for work, love, and fatherhood.</li>
+                <li><i class="ph ph-check-circle bio-icon"></i> Brand building advice for creators who want to serve boldly.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-timeline">
+        <div class="container max-width-adaptive-lg">
+          <div class="bio-timeline__grid">
+            <div>
+              <h2 class="styledh1">How Daren Became the Real World Dating Strategist</h2>
+              <p>Every milestone sharpened the Game On! perspective by bridging boardroom strategy, personal heartbreak, and the pursuit of relational mastery.</p>
+            </div>
+            <ul class="bio-timeline__list">
+              <li>
+                <strong>Corporate Strategist Era</strong>
+                <span>Built brand and product playbooks for venture backed startups and learned how story, psychology, and positioning create magnetic pull.</span>
+              </li>
+              <li>
+                <strong>Heartbreak and Rebuild</strong>
+                <span>After a blindsiding breakup, Daren immersed in attachment science, therapy, and men's work to rebuild from the inside out.</span>
+              </li>
+              <li>
+                <strong>Game On! Sessions</strong>
+                <span>Hosted private coaching labs with hundreds of men and refined scripts, exercises, and rituals that became the Game On! methodology.</span>
+              </li>
+              <li>
+                <strong>Amazon Bestseller</strong>
+                <span>Launched <em>Game On!</em>, earning five star reviews and a Kindle Top 100 badge that proved men want truth over tactics.</span>
+              </li>
+              <li>
+                <strong>Unshakable and Beyond</strong>
+                <span>Expanded into recovery, resilience, and relationship depth while raising his son DJ, sipping iced coffee, and planning the next bold chapter.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-media">
+        <div class="container max-width-adaptive-lg">
+          <h2 class="margin-bottom-md styledh1">Story Angles Producers Love</h2>
+          <div class="bio-media__grid">
+            <article class="bio-media__card">
+              <h3>Dating Without the Games</h3>
+              <p>Why authenticity outperforms manipulation in the era of swipe fatigue, ghosting, and algorithm driven romance.</p>
+              <a href="press.html#media-topics" class="btn btn--subtle"><i class="ph ph-arrow-up-right bio-icon"></i>View talking points</a>
+            </article>
+            <article class="bio-media__card">
+              <h3>Healing Masculinity</h3>
+              <p>The rituals and mindsets that move men from codependency and narcissistic trauma into grounded, emotionally intelligent leadership.</p>
+              <a href="book.html#rituals" class="btn btn--subtle"><i class="ph ph-book bio-icon"></i>Preview the frameworks</a>
+            </article>
+            <article class="bio-media__card">
+              <h3>High Performance Fatherhood</h3>
+              <p>How Daren balances writing sprints, reader communities, and fatherhood with his son DJ while staying present.</p>
+              <a href="contact.html" class="btn btn--subtle"><i class="ph ph-envelope bio-icon"></i>Request interview</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-versions">
+        <div class="container max-width-adaptive-lg">
+          <h2 class="margin-bottom-md styledh1">Press Ready Bio Options</h2>
+          <div class="bio-versions__grid">
+            <article class="bio-version">
+              <h3>Press Bio</h3>
+              <p>Daren Prince is an emerging voice in self help and relationship writing. His debut book <em>Game On!</em> Master the Conversation and Win Her Heart became an Amazon bestseller praised for its honest and practical approach. His next book <em>Unshakable</em> will offer a no nonsense guide to recovering from toxic relationships and reclaiming personal power.</p>
+            </article>
+            <article class="bio-version">
+              <h3>Version 1</h3>
+              <p>Daren Prince is an author and speaker from Louisiana whose work blends lived experience with practical psychology. His debut book <em>Game On!</em> became an Amazon bestseller praised for its bold yet down to earth approach to modern dating. His upcoming release <em>Unshakable</em> continues his mission to help readers break free from toxic cycles and rebuild with confidence.</p>
+            </article>
+            <article class="bio-version">
+              <h3>Version 2</h3>
+              <p>Daren Prince writes about connection, confidence, and healing with a voice shaped by real life experience. His first book <em>Game On!</em> earned five star acclaim for its straightforward and practical guidance on building genuine relationships. His next book <em>Unshakable</em> offers powerful tools for anyone ready to reclaim strength and peace after toxic relationships.</p>
+            </article>
+            <article class="bio-version">
+              <h3>Version 3</h3>
+              <p>Daren Prince is a rising voice in self help and personal growth. Known for his direct yet compassionate style, he empowers readers to move past confusion, games, and manipulation to create relationships rooted in honesty. His books <em>Game On!</em> and <em>Unshakable</em> reflect his commitment to turning struggle into clarity and pain into purpose.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bio-cta">
+        <div class="container max-width-adaptive-lg">
+          <div class="bio-cta__grid">
+            <div class="bio-cta__card">
+              <h2 class="styledh1">Interview Daren Prince</h2>
+              <p>Book him for interviews, summits, masterminds, or intimate fireside chats. Daren delivers story driven insights with tactical takeaways that get people moving.</p>
+              <ul class="footer-links">
+                <li><i class="ph ph-envelope bio-icon"></i> <a href="mailto:press@darenprince.com">press@darenprince.com</a></li>
+                <li><i class="ph ph-phone bio-icon"></i> Media hotline: (303) 555-0147</li>
+              </ul>
+            </div>
+            <div class="bio-cta__subscribe">
+              <h3>Stay on the Inside Track</h3>
+              <p>Get early chapter drops, live session invites, and behind the scenes breakdowns before they hit the feeds.</p>
+              <a href="contact.html#newsletter" class="btn grad-kelly-green"><i class="ph ph-paper-plane-right bio-icon"></i>Join the Waitlist</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+        <div data-shared-footer=""></div>
+  </div>
+  <script type="module" src="/js/ui.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/trailer-modal.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/site-shell.js"></script>
+  <script type="module" src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+
+
