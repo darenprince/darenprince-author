@@ -20,11 +20,6 @@ from .schemas import AnalysisResult, Eligibility, Observation
 from .spectral import spectral_flux, spectral_rolloff
 from .acoustic import fundamental_frequency, harmonicity, intensity_db, rms, spectral_centroid, spectral_spread, summarize, zero_crossing_rate
 
-
-# The Render Free instance has a 512 MB memory ceiling.  The previous pipeline
-# materialized every overlapping audio frame at once, which made a legitimate
-# 20 MB WAV capable of exhausting that ceiling.  Keep frame allocation bounded
-# while preserving the same frame size/hop and feature definitions.
 FRAME_CHUNK_COUNT = 256
 
 
@@ -69,6 +64,12 @@ class VoxVectorPipeline:
         first_substantive_s: float | None = None,
         baseline_values: Mapping[str, np.ndarray] | None = None,
     ) -> AnalysisResult:
+        # Validate complete optional timing context before any expensive audio
+        # feature extraction so contract errors are deterministic and primary.
+        if question_end_s is not None or first_speech_s is not None or first_substantive_s is not None:
+            if question_end_s is None or first_speech_s is None:
+                raise ValueError("question_end_s and first_speech_s are required for response latency")
+
         signal = np.asarray(signal, dtype=float).reshape(-1)
         run_id = str(uuid4())
         input_hash = sha256(signal.tobytes()).hexdigest()
@@ -106,9 +107,6 @@ class VoxVectorPipeline:
         if signal.size and sample_rate > 0 and np.all(np.isfinite(signal)):
             frame_size = max(1, int(sample_rate * 0.025))
             hop = max(1, int(sample_rate * 0.010))
-
-            # Keep only compact one-dimensional feature streams between chunks.
-            # The expensive frame and spectrum matrices never exceed 256 frames.
             rms_parts: list[np.ndarray] = []
             intensity_parts: list[np.ndarray] = []
             zcr_parts: list[np.ndarray] = []
@@ -131,7 +129,6 @@ class VoxVectorPipeline:
                 spread_values = spectral_spread(frames, sample_rate)
                 f0_values = fundamental_frequency(frames, sample_rate)
                 harmonicity_values = harmonicity(frames, sample_rate)
-
                 rms_parts.append(rms_values)
                 intensity_parts.append(intensity_values)
                 zcr_parts.append(zcr_values)
@@ -167,7 +164,6 @@ class VoxVectorPipeline:
                 times = _concat(time_parts)
                 flux_values = _concat(flux_parts)
                 rolloff_values = _concat(rolloff_parts)
-
                 for method_id, feature, values, unit in (
                     ("acoustic.rms", "rms", rms_values, "linear"),
                     ("acoustic.intensity_db", "intensity_db", intensity_values, "dB"),
@@ -179,7 +175,6 @@ class VoxVectorPipeline:
                 ):
                     summary = summarize(values)
                     add(feature, summary["mean"], unit, {"method_id": method_id, "summary": summary, "frame_size_samples": frame_size, "hop_samples": hop, "source": "raw_audio", "reliability_status": reliability.status, "frame_processing": "bounded_chunks"})
-
                 for method_id, prefix, values, unit in (
                     ("prosody.f0_dynamics", "f0", f0_values, "Hz"),
                     ("prosody.intensity_dynamics", "intensity", intensity_values, "dB"),
@@ -189,30 +184,25 @@ class VoxVectorPipeline:
                     add(f"{prefix}_std", dynamics["std"], unit, {"method_id": method_id, "statistics": dynamics})
                     add(f"{prefix}_slope", dynamics["slope"], f"{unit}/s", {"method_id": method_id, "statistics": dynamics})
                     add(f"{prefix}_delta", contour_delta(values), unit, {"method_id": method_id, "statistics": dynamics})
-
                 hnr_values = harmonic_to_noise_ratio(harmonicity_values)
                 hnr_summary = summarize(hnr_values)
                 add("hnr_db", hnr_summary["mean"], "dB", {"method_id": "voice_quality.hnr", "summary": hnr_summary, "source": "acoustic.harmonicity"})
-
                 if flux_values.size:
                     flux_summary = summarize(flux_values)
                     add("spectral_flux", flux_summary["mean"], "ratio", {"method_id": "spectral.flux", "summary": flux_summary})
                 if rolloff_values.size:
                     rolloff_summary = summarize(rolloff_values)
                     add("spectral_rolloff", rolloff_summary["mean"], "Hz", {"method_id": "spectral.rolloff", "summary": rolloff_summary})
-
                 for index in range(4):
                     values = _concat(formant_parts[index])
                     if values.size:
                         summary = summarize(values)
                         add(f"F{index + 1}_candidate", summary["mean"], "Hz", {"method_id": "formants.frame_tracking", "summary": summary, "formant_index": index + 1})
-
                 voiced = np.isfinite(f0_values)
                 topology = pause_topology(rms_values, voiced, hop / sample_rate)
                 for name, value in topology.items():
                     unit = "count" if name == "pause_count" else ("ratio" if name == "pause_density" else "s")
                     add(name, value, unit, {"method_id": "timing.pause_topology", "topology": topology})
-
                 if baseline_values:
                     for name, values in {"f0": f0_values, "intensity": intensity_values, "rms": rms_values}.items():
                         baseline_input = baseline_values.get(name)
@@ -233,8 +223,6 @@ class VoxVectorPipeline:
             add("repetition_rate", disfluency_rate(repetitions, count), "ratio", {"method_id": "disfluency.repetition_rate", "source": "supplied_transcript", "token_count": count})
 
         if question_end_s is not None or first_speech_s is not None or first_substantive_s is not None:
-            if question_end_s is None or first_speech_s is None:
-                raise ValueError("question_end_s and first_speech_s are required for response latency")
             latency = response_latency(question_end_s, first_speech_s, first_substantive_s)
             add("response_latency", latency.first_speech_s, "s", {"method_id": "timing.response_latency", "first_substantive_latency_s": latency.first_substantive_s, "filler_before_content_s": latency.filler_before_content_s, "source": "supplied_boundaries"})
 
