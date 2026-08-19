@@ -1,6 +1,12 @@
 # VoxVector Analysis Methods
 
-This is the human-readable active method register. A method is observational unless explicitly validated for an inferential task.
+This is the human-readable active method register. VoxVector is being built toward deception detection, but a method is observational unless explicitly validated for an inferential task.
+
+## Product analytical objective
+
+The purpose of the method stack is to generate a broad, auditable body of vocal, acoustic, temporal, linguistic, interaction, and contextual evidence that can ultimately support task-specific deception inference.
+
+No individual method is a lie detector. The intended detection architecture depends on evidence convergence, validated models, reliability controls, uncertainty, and alternative explanations.
 
 ## Implemented observational methods
 
@@ -60,6 +66,8 @@ This is the human-readable active method register. A method is observational unl
 
 The current primary `VoxVectorPipeline` integrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional within-speaker baseline comparison, optional response latency, and optional transcript disfluency observations.
 
+These observations are inputs to the broader deception-detection research architecture, not validated deception labels.
+
 MFCC/cepstral processing, local jitter/shimmer utilities, and lower-level pulse/temporal utilities are implemented reusable components but are not yet primary-pipeline outputs. Their presence is retained as implementation context and future expansion capacity.
 
 ## Research-derived planned candidates
@@ -80,6 +88,7 @@ The following remain research-backed candidates and are deliberately retained fo
 - cross-modal audio/video analysis
 - synthetic-speech detection
 - dependence-aware multimethod convergence and calibrated uncertainty
+- validated deception classifiers and calibrated deception probability estimation
 
 See `docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` for the complete preserved capability map.
 
@@ -93,10 +102,10 @@ A feature can contribute evidence only when it is measurable with acceptable qua
 
 ## Scientific interpretation
 
-Timing, pitch, intensity, pauses, disfluencies, spectral measures, and other observations can vary with many causes. VoxVector therefore reports observations and evidence convergence rather than treating any individual feature as a lie detector.
+Timing, pitch, intensity, pauses, disfluencies, spectral measures, and other observations can vary with many causes. VoxVector therefore reports observations and evidence convergence rather than treating any individual feature as proof of deception.
 
 ## Promotion path
 
-Research candidate -> frozen operational definition -> implementation -> unit/boundary QA -> reliability characterization -> speaker-disjoint evaluation -> external/out-of-sample evaluation -> calibration/error analysis -> documented validation status.
+Research candidate -> frozen operational definition -> implementation -> unit/boundary QA -> reliability characterization -> speaker-disjoint evaluation -> external/out-of-sample evaluation -> calibration/error analysis -> documented validation status -> controlled inferential deployment.
 
-Research relevance does not equal VoxVector validation.
+Research relevance does not equal VoxVector validation, but research relevance remains part of the product development program.
