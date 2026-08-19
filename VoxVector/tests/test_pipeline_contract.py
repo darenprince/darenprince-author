@@ -25,7 +25,7 @@ def test_comprehensive_pipeline_preserves_stage_separation():
     assert result.candidate == "indeterminate"
     assert result.disposition == "insufficient_evidence"
     assert result.provenance["input_sha256"]
-    assert result.provenance["software_version"] == "0.2.23"
+    assert result.provenance["software_version"] == "0.2.24"
     assert result.observations
     assert result.evidence
     assert all(e.direction == "neutral" for e in result.evidence)
