@@ -1,7 +1,7 @@
 {
   "name": "voxvector-web",
   "private": true,
-  "version": "0.2.34",
+  "version": "0.2.35",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.9",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.49",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
