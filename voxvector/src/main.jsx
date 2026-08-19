@@ -19,7 +19,7 @@ function ThemeLayer() {
   const [theme, setTheme] = useState(getStoredTheme)
   useEffect(() => { applyTheme(theme) }, [theme])
   if (isDeveloper) return null
-  return <div className="fixed right-16 top-4 z-[70] lg:right-52 lg:top-5"><ThemeToggle theme={theme} onThemeChange={setTheme} className="bg-[var(--vv-surface)]/90 shadow-lg backdrop-blur-md" /></div>
+  return <div className="fixed right-28 top-4 z-[70] lg:right-52 lg:top-5"><ThemeToggle theme={theme} onThemeChange={setTheme} className="bg-[var(--vv-surface)]/90 shadow-lg backdrop-blur-md" /></div>
 }
 
 function PublicChromeLayer() {
