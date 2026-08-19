@@ -29,6 +29,8 @@ jobs:
       - name: Install API package
         run: python -m pip install -e '.[dev]'
       - name: Run VoxVector API tests
+        env:
+          PYTHONPATH: .
         run: pytest -q
       - name: Install React application dependencies
         working-directory: voxvector
