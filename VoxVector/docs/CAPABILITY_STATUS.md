@@ -33,7 +33,7 @@ The current implementation is an observational foundation. It must not be repres
 | Spectral flux | Integrated | Canonical spectral implementation |
 | Spectral rolloff | Integrated | Canonical spectral implementation |
 | MFCC / cepstral coefficients | Integrated | 13 coefficient means emitted per bounded audio chunk stream |
-| Formant candidate tracking | Integrated | Nyquist bounded; not phonetic validated |
+| Formant candidate tracking | Integrated | FFT boundary hardened; not phonetic validated |
 | Pause topology | Integrated | Count, density, longest, median, p90, voiced-run mean |
 | Response latency | Integrated when supplied | Requires explicit timing boundaries |
 | Transcript disfluency | Integrated when supplied | Filled pauses, repetitions, rates |
@@ -42,6 +42,19 @@ The current implementation is an observational foundation. It must not be repres
 | Candidate classification | Integrated boundary | Indeterminate-only |
 | Final disposition gate | Integrated boundary | Abstain / insufficient evidence |
 | Reliability gate | Integrated | Eligibility control only |
+
+## Operational reliability status
+
+| Area | Status | Current state |
+|---|---|---|
+| Render build | Working | Canonical `VoxVector` root builds successfully on Python 3.11.9 |
+| Render process startup | Working | Uvicorn starts `api.app:app` successfully |
+| `/health` | Working | Repeated HTTP 200 responses observed |
+| Runtime self-test | Working | Reported `passed` during successful deployment |
+| `/v1/analyze` normal-path stability | **Open incident** | A public request returned HTTP 502; origin cause remains under investigation |
+| Persistent error diagnostics | Planned next | Must be added before relying on edge status alone |
+| Resource safeguards | Planned next | Must fail safely before origin process termination |
+| Full CI after latest fixes | Pending | Previous baseline was 82 passed / 2 failed; fixes were applied but fresh green CI evidence is required |
 
 ## Implemented but not primary-pipeline integrated
 
@@ -116,3 +129,7 @@ These are real implementation assets and remain available for the deception-dete
 No item becomes a deception indicator simply because it is implemented or researched. No feature, representation, model, or classifier is promoted to validated deception inference by documentation alone.
 
 The product objective remains deception detection; the scientific discipline determines when and how that objective can be responsibly enabled in the runtime.
+
+## Current checkpoint
+
+The active engineering checkpoint is `docs/PROJECT_CHECKPOINT_2026-08-19.md`. It is the handoff record for current progress, open incidents, and the next verification sequence.
