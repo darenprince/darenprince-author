@@ -4,11 +4,11 @@
 
 **Status:** Active development
 
-**Maturity:** Functional observational analysis foundation
+**Maturity:** Functional observational analysis foundation; runtime reliability hardening in progress
 
 **Product objective:** Build an auditable vocal and audio deception detection platform for defined interview and conversational tasks.
 
-**Current software version:** `0.2.24`
+**Current software version:** `0.2.25`
 
 **Canonical code:** `VoxVector/`
 
@@ -16,14 +16,18 @@
 
 **Crown Labs product page:** `https://www.darenprince.com/labs/products/voxvector.html`
 
-VoxVector is a standalone vocal and audio deception detection system under active development. Current software performs observational acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, and baseline analysis while maintaining reliability controls, evidence provenance, candidate classification boundaries, and guarded disposition.
+VoxVector is a standalone vocal and audio **deception detection system** under active development. The current software performs observational acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, baseline, MFCC, reliability, and evidence analysis while maintaining provenance, candidate-classification boundaries, and guarded disposition.
 
 The product is being built toward deception detection. The current implementation is not yet scientifically validated for reliable deception inference, and no validated deception probability or deception verdict is currently active. This is a maturity statement, not a change to the product objective.
+
+The latest deployment checkpoint records successful Render startup and `/health` verification but an open HTTP 502 incident affecting a public `/v1/analyze` request. Runtime diagnostics, resource safeguards, reproduction, and exact deployed-revision verification are the immediate engineering priorities.
 
 Planned research capabilities remain part of the product roadmap even when they are not yet implemented.
 
 **Technical source of truth:** `VoxVector/docs/`
 
-**Executive dossier:** `docs/crownlabsbible/04-product-dossiers/VoxVector/`
+**Executive dossier:** `docs/crownlabsbible/04-product-dossiers/VoxVector.md`
+
+**Operational checkpoint:** `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`
 
 **Companion dossier sections:** overview, monetization, positioning, architecture, validation, deception detection program, and ecosystem role.
