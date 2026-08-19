@@ -28,7 +28,7 @@ import voxvector.acoustic as _acoustic_module
 
 MAX_BYTES = 20 * 1024 * 1024
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "f6582ce0cf8131e601a7f632a0ea2dd183f1a292")
-app = FastAPI(title="VoxVector Analysis API", version="0.2.25")
+app = FastAPI(title="VoxVector Analysis API", version="0.2.26")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in os.getenv("CORS_ORIGINS", "*").split(",") if origin.strip()],
@@ -46,6 +46,7 @@ ACOUSTIC_MODULE_PATH = os.path.abspath(_acoustic_module.__file__)
 PIPELINE_MODULE_PATH = os.path.abspath(sys.modules[VoxVectorPipeline.__module__].__file__)
 ACOUSTIC_SOURCE_SHA256 = _file_sha256(ACOUSTIC_MODULE_PATH)
 PIPELINE_SOURCE_SHA256 = _file_sha256(PIPELINE_MODULE_PATH)
+ACOUSTIC_RUNTIME_SIGNATURE = getattr(_acoustic_module, "RUNTIME_SIGNATURE", "missing")
 
 
 def _runtime_self_test() -> tuple[bool, str]:
@@ -100,6 +101,7 @@ def health():
         "canonical_package": CANONICAL_PACKAGE,
         "acoustic_module": ACOUSTIC_MODULE_PATH,
         "acoustic_source_sha256": ACOUSTIC_SOURCE_SHA256,
+        "acoustic_runtime_signature": ACOUSTIC_RUNTIME_SIGNATURE,
         "pipeline_module": PIPELINE_MODULE_PATH,
         "pipeline_source_sha256": PIPELINE_SOURCE_SHA256,
         "runtime_self_test": self_test,
