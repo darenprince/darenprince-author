@@ -36,8 +36,10 @@ The current React application includes:
 - four stage analytical workflow
 - current observational method presentation
 - scientific status presentation
+- Tremor analytical components
 - Motion interactions
 - Base UI backed application owned Button primitive
+- Lucide iconography
 - accessible mobile navigation
 - keyboard focus treatment
 - skip to content control
@@ -53,6 +55,25 @@ voxvector.html
 ```
 
 is now a compatibility redirect only. It contains no second VoxVector implementation and redirects to `/voxvector/`.
+
+## Frontend dependency baseline
+
+The public application is currently version `0.2.31`.
+
+The frontend intentionally uses React `18.3.1` and React DOM `18.3.1` because the selected Tremor React package declares React 18 compatibility and npm otherwise rejects the previous React 19 dependency tree during normal installation.
+
+The primary frontend analytical and interaction stack is:
+
+- React
+- Tremor React
+- shadcn style application owned components
+- Base UI
+- Tailwind CSS
+- Lucide React
+- Motion for React
+- TanStack Query
+
+The application does not use Vercel dependencies or Vercel configuration.
 
 ## GitHub Pages deployment
 
@@ -184,33 +205,83 @@ voxvector/index.html
 
 The Pages workflow additionally stages the React build explicitly under `/voxvector/`, so the public application no longer depends on the source tree being interpreted as a build directory.
 
+## QA log investigation
+
+A GitHub Actions log archive was provided and inspected on 2026-08-19.
+
+The run checked out commit `b505e84bb8f0c3bd812970490cde090260e8188a` and successfully installed and tested the backend. The API test step completed with:
+
+```text
+91 passed in 0.56s
+```
+
+The run then failed before the React build during `npm install` with:
+
+```text
+npm error ERESOLVE unable to resolve dependency tree
+```
+
+The exact conflict was:
+
+```text
+Found: react@19.2.8
+peer react@"^18.0.0" from @tremor/react@3.18.7
+```
+
+This was a real frontend dependency failure, not a Vercel failure and not a scientific failure.
+
+The corrective change is now committed:
+
+- frontend version `0.2.31`
+- React `18.3.1`
+- React DOM `18.3.1`
+- QA Node runtime `22`
+- npm cache enabled for the frontend package manifest
+- normal `npm install` retained so peer dependency resolution is exercised rather than bypassed
+
+No `--force` or `--legacy-peer-deps` workaround was added.
+
+## Vercel status investigation
+
+Vercel is retired from the VoxVector architecture.
+
+Repository source inspection showed no Vercel dependency, no `.vercel` configuration, and no VoxVector GitHub Actions workflow that deploys to Vercel.
+
+The GitHub combined status for the affected commit still contains an external status named `Vercel` with a failure target pointing to the Crown Labs Vercel account and a build rate limit message.
+
+That status is external to the VoxVector source and remains separate from the GitHub Pages workflow and the actual QA failure documented above.
+
+The correct cleanup is to disconnect the old repository from the Vercel project or integration. Vercel's current documentation exposes `vercel git disconnect` for disconnecting a Git provider repository. No Vercel configuration should be reintroduced into VoxVector to silence the check.
+
 ## Current implementation checkpoint
 
 ### Implemented in repository
 
-- React landing refinement at version `0.2.28`
+- React landing refinement at version `0.2.31`
 - Tremor first visual language with Vercel and Linear influence
-- preserved blue, cyan, green and neutral balance with reduced decorative violet
-- Base UI dependency and application owned Button primitive
-- hardened developer sign out
-- accessible focus and reduced motion foundation
-- skip navigation
-- corrected canonical Project Briefing destination
-- navigable privacy and terms policy drafts
+- direct Tremor Card, AreaChart, DonutChart, and ProgressBar usage
+- shadcn style application owned composition
+- Base UI backed Button primitive
+- Lucide iconography
+- Motion interactions and reduced motion support
+- restrained analytical palette
+- thin neutral borders and low contrast surfaces
+- responsive mobile navigation
 - professional legal, developer, resource, source, and company footer
+- canonical Project Briefing and Documentation actions
+- dependency compatibility correction for Tremor
+- QA Node runtime update
 - synchronized UI architecture, decision log, version map, and checkpoint documentation
 
 ### Verification status
 
-The final implementation is committed to GitHub. A fresh `VoxVector QA` workflow run has not been returned for the latest commit, so a passing backend suite or React production build is **not** being claimed.
+The uploaded log proves the backend test suite passed and identifies the exact React dependency failure. The corrective commits have been pushed, but a fresh GitHub Actions QA run after the dependency correction has not yet been observed. Therefore a passing React production build is **not** being claimed yet.
 
-The latest GitHub combined status currently reports a Vercel failure caused by a Vercel build rate limit. That status is separate from the canonical GitHub Pages deployment workflow and does not by itself establish a VoxVector build failure.
-
-A local build could not be reproduced in the current execution environment because outbound access to GitHub and npm is unavailable. This is recorded as an environment limitation rather than a successful test result.
+A local build could not be reproduced in the current execution environment because outbound access to GitHub and npm is unavailable. This is an environment limitation rather than a successful test result.
 
 ## Still requiring deployment verification
 
-A fresh GitHub Pages run after the routing and frontend hardening changes must be observed and must pass its artifact verification and deployment jobs.
+A fresh GitHub Pages run after the frontend hardening changes must be observed and must pass its artifact verification and deployment jobs.
 
 The live browser result should then be tested at:
 
@@ -227,14 +298,15 @@ https://voxvector.crownlabs.tech
 
 ## Immediate next work
 
-1. Verify the fresh Pages deployment.
-2. Verify the public React landing on desktop and mobile.
-3. Verify direct Developer Console navigation and Supabase developer gating.
-4. Review PR #853 backend work for selective extraction.
-5. Implement FastAPI JWT validation and developer authorization.
-6. Expose protected persistent error and lifecycle telemetry through the existing Supabase architecture.
-7. Continue formalizing shadcn compatible components on Base UI primitives.
-8. Continue the Analysis Workspace only against verified API contracts.
+1. Verify the fresh QA run after the dependency correction.
+2. Verify the public Pages deployment.
+3. Verify the public React landing on desktop and mobile.
+4. Verify direct Developer Console navigation and Supabase developer gating.
+5. Review PR #853 backend work for selective extraction.
+6. Implement FastAPI JWT validation and developer authorization.
+7. Expose protected persistent error and lifecycle telemetry through the existing Supabase architecture.
+8. Continue formalizing shadcn compatible components on Base UI primitives.
+9. Continue the Analysis Workspace only against verified API contracts.
 
 ## Scientific status
 
