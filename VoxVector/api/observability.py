@@ -8,7 +8,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
-from storage import StorageError, SupabaseStorage
+from .storage import StorageError, SupabaseStorage
 
 
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
@@ -30,13 +30,7 @@ def _safe_text(value: Any, limit: int = 600) -> str:
 
 
 class DiagnosticStore:
-    """Durable, sanitized request diagnostics with a non-blocking fallback.
-
-    Supabase Storage is the durable backend when configured. If storage is not
-    configured or temporarily unavailable, the API continues operating and
-    emits a concise local stderr record instead of turning observability into a
-    new availability dependency.
-    """
+    """Durable, sanitized request diagnostics with a non-blocking fallback."""
 
     def __init__(self, storage: SupabaseStorage | None = None):
         self.storage = storage or SupabaseStorage()
@@ -66,9 +60,12 @@ class DiagnosticStore:
         try:
             return await asyncio.to_thread(self.storage.put_json, object_path, record)
         except StorageError as exc:
-            # Durable storage must never become a second outage source. The
-            # sanitized record remains visible in Render logs if storage fails.
-            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} error={_safe_text(exc)}", flush=True)
+            # Storage must never become a second availability dependency.
+            print(
+                f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} "
+                f"event={event} error={_safe_text(exc)}",
+                flush=True,
+            )
             return None
 
 
