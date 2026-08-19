@@ -94,7 +94,16 @@ The engine must never manufacture confidence from missing data.
 
 ## 10. Deployment boundary
 
-The canonical application root is `VoxVector/`. The HTTP adapter lives under `VoxVector/api/`, while the analysis engine remains under `VoxVector/src/voxvector/`. Render must use `VoxVector` as its root directory. The intended public target is `voxvector.crownlabs.tech`.
+VoxVector has two deliberately separated application surfaces in the monorepo:
+
+- **Public React application:** `voxvector/` is the canonical frontend workspace. GitHub Pages builds it and publishes the product landing/application under `https://darenprince.com/voxvector/`.
+- **Backend API:** `VoxVector/` remains the canonical backend and analysis-engine workspace. The HTTP adapter lives under `VoxVector/api/`, the analysis engine remains under `VoxVector/src/voxvector/`, and Render serves the API at `https://voxvector.crownlabs.tech`.
+
+The legacy root `voxvector.html` is not a second application. It exists only as a compatibility redirect to `/voxvector/`. It must not contain an independent VoxVector implementation.
+
+The GitHub Pages deployment workflow must build `voxvector/` and stage the generated React artifact at `_site/voxvector/`. The Developer Console is part of the React application and is published under `/voxvector/developer/`.
+
+Render must never be used as the public landing-page host. GitHub Pages must never be treated as the backend API host.
 
 ## 11. Change control
 
