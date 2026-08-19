@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Lounge</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel" id="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-flame">🔥</span>
+          <span class="brand-heart">🤍</span>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-title">HXD Playground</span>
+          <span class="brand-subtitle">Flying high. No safe words.</span>
+        </div>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container hero">
+    <div>
+      <div class="hero-title">H × D Playground</div>
+      <p class="hero-subtitle">Flying high. No safe words.</p>
+    </div>
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span id="status-text">Open</span>
+    </div>
+    <div class="actions">
+      <a class="btn btn-primary" href="games.html">Enter the Playground</a>
+      <button class="btn" id="mood-btn">Pick Tonight’s Vibe</button>
+    </div>
+    <div class="dark-glass" id="mood-output">Keep it slow. Let it burn.</div>
+    <div class="inline-actions">
+      <button class="btn ghost" data-selection-target="mood-output" data-selection-subject="HxD Vibe">Submit this vibe</button>
+    </div>
+  </main>
+
+  <section class="container vibe-tracks">
+    <div class="section-top">
+      <div>
+        <p class="section-eyebrow">Telemetry</p>
+        <h2 class="section-title">Tonight’s brief</h2>
+      </div>
+      <div class="badge">Private channel only</div>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Arrival board</h3>
+        <p class="hero-subtitle">If you show up late, you still get the best seat.</p>
+        <div class="pill-row">
+          <button class="pill" data-signal="On my way — 14 minutes out." data-subject="Arrival signal">En route</button>
+          <button class="pill" data-signal="Already waiting at the bar. Order for me." data-subject="Arrival signal">Posted up</button>
+          <button class="pill" data-signal="Caught in the rain. Bring a towel." data-subject="Arrival signal">Rain delay</button>
+        </div>
+        <ul class="list-muted tight">
+          <li>✔ Rooftop access reserved.</li>
+          <li>✔ Driver on standby until 2am.</li>
+          <li>✔ Backup spot if crowds get loud.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>House signals</h3>
+        <p class="hero-subtitle">Call the play without saying a word.</p>
+        <div class="signal-grid">
+          <div class="signal-card">
+            <p class="signal-label">Soft knock</p>
+            <p class="signal-copy">Switch the track. Reset the room.</p>
+            <button class="btn ghost" data-signal="Soft knock = change the soundtrack and reset." data-subject="House signal">Send</button>
+          </div>
+          <div class="signal-card">
+            <p class="signal-label">Two taps</p>
+            <p class="signal-copy">Time-out. Water. Fresh air.</p>
+            <button class="btn ghost" data-signal="Two taps = pause for water and air." data-subject="House signal">Send</button>
+          </div>
+          <div class="signal-card">
+            <p class="signal-label">Fingertip trace</p>
+            <p class="signal-copy">Go darker. I’m still here.</p>
+            <button class="btn ghost" data-signal="Trace = darker, I’m locked in." data-subject="House signal">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Care instructions</h3>
+        <p class="hero-subtitle">Spoiled, not fragile.</p>
+        <div class="dark-glass">
+          <ul class="list-muted tight">
+            <li>Keep water cold, playlists louder than the city.</li>
+            <li>Phones down after midnight unless it’s a photo.</li>
+            <li>Smile check every hour. If it fades, we adjust.</li>
+            <li>Leave one song unsaid for the ride home.</li>
+          </ul>
+        </div>
+        <div class="inline-actions">
+          <button class="btn" data-signal="Running the care checklist tonight." data-subject="Care instructions">Lock these in</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container selection-console">
+    <div class="selection-top">
+      <div>
+        <p class="section-eyebrow">Your picks queue</p>
+        <h2 class="section-title">Send it when you’re sure</h2>
+      </div>
+      <div class="glow-dot" aria-hidden="true"></div>
+    </div>
+    <div class="dark-glass selection-body">
+      <p class="selection-label">Latest selection</p>
+      <p class="selection-output" id="selection-output">Waiting for your move.</p>
+      <label class="selection-note-label" for="selection-note">Add a note</label>
+      <textarea class="input selection-note" id="selection-note" rows="3" placeholder="Where, when, extras…"></textarea>
+      <div class="actions">
+        <button class="btn" id="selection-clear">Clear</button>
+        <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
+      </div>
+      <p class="selection-status" id="selection-status" role="status" aria-live="polite"></p>
+      <p class="selection-hint">Anything you pick, spin, or suggest is sent straight to author@darenprince.com — never from your inbox.</p>
+    </div>
+  </section>
+
+  <script src="js/email-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
