@@ -3,7 +3,7 @@
 | Area | Version | Status |
 |---|---:|---|
 | Repository rebuild | 0.2.24 | active |
-| Public React application | 0.2.30 | active |
+| Public React application | 0.2.33 | active |
 | Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -42,11 +42,11 @@ VoxVector is maintained under `VoxVector/` in `darenprince-author`. Historical s
 
 ## Public frontend
 
-The canonical React workspace is `voxvector/`. The current public application version is `0.2.30`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, and Base UI primitives. The landing page uses direct Tremor analytical components with Vercel and Linear as visual references only. Vercel is retired as a deployment platform. The current landing metrics and waveform are illustrative interface content, not production telemetry.
+The canonical React workspace is `voxvector/`. The current public application version is `0.2.33`. It uses React, Tailwind CSS, Tremor React, Motion for React, TanStack Query, Lucide React, application owned shadcn style composition, and Base UI primitives. The landing page uses direct Tremor analytical components with Vercel and Linear as visual references only. Vercel is retired as a deployment platform. The current landing metrics and signal visualizations are illustrative interface content, not production telemetry.
 
-## Runtime and deployment
+## Current landing visual direction
 
-The HTTP adapter is `VoxVector/api/app.py`. Render must use `VoxVector` as its root directory and launch `api.app:app`. The intended public backend target is `voxvector.crownlabs.tech`. GitHub Pages is the canonical frontend deployment at `darenprince.com/voxvector`. Repository state alone does not prove that the public domain is currently serving the latest commit.
+The public landing palette is now based on the supplied luxury reference: espresso black, warm brown, copper, muted amber and warm white. Cool blue and cyan are not the dominant public landing colors. Borders are thin and low contrast. The primary audio visualization uses a bar based speech waveform with phrase envelopes and explicit silence regions rather than a generic smooth graph.
 
 ## Vercel boundary
 
