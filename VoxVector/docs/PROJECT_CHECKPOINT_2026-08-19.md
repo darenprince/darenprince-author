@@ -1,199 +1,226 @@
 # VoxVector Project Checkpoint — 2026-08-19
 
-## Checkpoint purpose
+## Purpose
 
-This document records the current engineering, runtime, deployment, documentation, and frontend architecture state so development can resume from repository truth rather than conversation memory.
+This is the current frontend/deployment checkpoint. Earlier checkpoint text is preserved in repository history; this file records the corrected repository and deployment state.
 
-## Canonical state
+## Canonical split architecture
 
-- **Product:** VoxVector
-- **Product objective:** vocal and audio deception detection for defined interview and conversational tasks.
-- **Canonical backend application root:** `VoxVector/`
-- **Analysis engine:** `VoxVector/src/voxvector/`
-- **HTTP adapter:** `VoxVector/api/app.py`
-- **QA:** `VoxVector/tests/`
-- **Technical documentation:** `VoxVector/docs/`
-- **Public API target:** `https://voxvector.crownlabs.tech`
-- **Backend deployment:** Render
-- **Current repository pipeline version:** `0.2.25`
-- **Public frontend:** `voxvector/index.html`
-- **Frontend source:** `voxvector/src/`
-- **Frontend build:** Vite + React
-- **Frontend deployment path:** `/voxvector/` through the existing GitHub Pages workflow
+VoxVector intentionally has two application workspaces in the monorepo:
 
-## Completed since the previous checkpoint
+| Surface | Repository path | Host | Purpose |
+|---|---|---|---|
+| Public React application | `voxvector/` | `https://darenprince.com/voxvector/` | Landing page and future user application |
+| FastAPI backend | `VoxVector/` | `https://voxvector.crownlabs.tech` | API, analysis engine, reliability and diagnostics |
 
-- Established the canonical VoxVector application root and Render deployment boundary.
-- Corrected the production Python/dependency baseline to Python 3.11.9 and NumPy 2.4.6 after Render compatibility testing.
-- Integrated 13 MFCC coefficient observations into the primary pipeline.
-- Added bounded frame-chunk processing to reduce peak memory pressure.
-- Hardened formant FFT peak selection against the final/Nyquist spectrum-bin boundary.
-- Advanced the pipeline software version from `0.2.24` to `0.2.25` and updated the affected contract expectation.
-- Render successfully built and started the API with `uvicorn api.app:app --host 0.0.0.0 --port $PORT`.
-- Render health checks returned HTTP 200 and the runtime self-test reported `passed` during the successful deployment.
-- Added a dependency-free Supabase Storage adapter for durable operational diagnostics.
-- Added request correlation IDs and `/v1/analyze` lifecycle/stage/error diagnostics.
-- Added `X-Request-ID` to successful analysis responses.
-- Added a private JSON diagnostics bucket configuration and production environment template.
-- Added documentation for the storage/observability architecture and its security boundary.
-- Approved the frontend architecture: React + shadcn/ui + Tailwind CSS + Motion for React + TanStack Query.
-- Added `docs/UI_APPLICATION_ARCHITECTURE.md` defining the frontend contract, Developer Console scope, Analysis Workspace scope, state-driven animation rules, and implementation sequence.
-- Implemented the React public application shell under `voxvector/` with a Vite build, Tailwind styling, Motion interactions, and a TanStack Query client boundary.
-- Added GitHub Actions QA coverage for the React build.
-- Added GitHub Pages deployment staging for the compiled `/voxvector/` application.
-- Updated `docs/ROADMAP.md`, `docs/ARCHITECTURE.md`, `docs/CAPABILITY_STATUS.md`, and `docs/PROJECT_DECISION_LOG.md` to distinguish implemented frontend migration from remaining console/workspace work.
+The Render API is **not** the landing page. GitHub Pages is **not** the backend API.
 
-## Frontend migration boundary
+## Public frontend
 
-The current GitHub branch did not contain a root `voxvector.html` file when the migration was performed. Therefore no nonexistent file was deleted. The requested new canonical public entrypoint is now:
+The canonical React entrypoint is:
 
 ```text
 voxvector/index.html
 ```
 
-The existing `labs/products/voxvector.html` is a separate Crown Labs product-page artifact and remains outside this migration boundary until an explicit route migration is requested.
+It mounts the React application from `voxvector/src/main.jsx` and uses Vite with:
 
-The React application is presentation-only. It does not recreate the analysis engine and does not claim live API behavior that has not yet been connected.
+```text
+base: /voxvector/
+```
 
-## Current verification state
+The current React application includes:
 
-### Repository QA
+- public landing page
+- evidence-first positioning
+- four-stage analytical workflow
+- current observational-method presentation
+- scientific-status presentation
+- Motion interactions
+- Developer Console entry
+- real API client boundary
 
-The latest source changes add CI verification for both the Python VoxVector API tests and the React/Vite build. A fresh successful GitHub Actions run must still be observed before this checkpoint is considered QA-complete. The React migration has not been represented as locally tested merely because the files exist.
+The historical root file:
 
-### Render runtime
+```text
+voxvector.html
+```
 
-The API has successfully deployed and passed `/health` checks. The service reported the canonical package path and runtime self-test.
+is now a compatibility redirect only. It contains no second VoxVector implementation and redirects to `/voxvector/`.
 
-A subsequent `/v1/analyze` request using the public Swagger interface returned **HTTP 502** with Cloudflare in front of a Render origin. The response had zero content length and identified Render as the origin server. This remains a runtime reliability incident, not evidence of successful or failed deception analysis.
+## GitHub Pages deployment
 
-## New observability architecture
+`.github/workflows/deploy-pages.yml` is the canonical Pages deployment workflow.
 
-VoxVector now has a durable diagnostics path using the existing Supabase architecture:
+It now explicitly:
 
-- `VoxVector/api/storage.py` — dependency-free Supabase Storage adapter
-- `VoxVector/api/observability.py` — request correlation and sanitized diagnostic events
-- `VoxVector/api/app.py` — lifecycle instrumentation and `X-Request-ID`
-- `VoxVector/docs/STORAGE_AND_OBSERVABILITY.md` — configuration, security, storage model, and verification procedure
-- `VoxVector/api/.env.example` — Render environment template
+1. builds the existing author site
+2. builds `voxvector/` with Vite
+3. stages the compiled React output at `_site/voxvector/`
+4. stages `_site/voxvector/developer/index.html`
+5. stages `_site/voxvector/404.html`
+6. verifies the required VoxVector Pages files exist
+7. uploads the complete artifact through GitHub Pages Actions
 
-Diagnostic objects are private JSON files organized by UTC date and request ID. Raw audio and raw transcript content are not persisted by this diagnostic layer.
+The workflow receives these browser-safe configuration values through GitHub Actions secrets:
 
-Storage failure is non-fatal. If Supabase cannot be reached, the API continues and emits a sanitized diagnostic storage failure marker to the Render process log.
+```text
+VOXVECTOR_SUPABASE_URL
+VOXVECTOR_SUPABASE_ANON_KEY
+```
 
-## Frontend architecture and implementation
+The backend URL is explicitly configured as:
 
-### Standard stack
+```text
+https://voxvector.crownlabs.tech
+```
 
-- **React** — application shell
-- **shadcn/ui-compatible application-owned composition** — UI foundation; formal component installation remains a subsequent step
-- **Tailwind CSS** — styling, responsive layout, tokens, and theming
-- **Motion for React** — state-driven animation and interaction
-- **TanStack Query** — server-state and API lifecycle management
+## Developer Console
 
-### Infrastructure remains unchanged
+The Developer Console is part of the React frontend.
 
-- Render remains the FastAPI API runtime.
-- `VoxVector/api/app.py` remains the HTTP adapter.
-- `VoxVector/src/voxvector/` remains the canonical analysis engine.
-- Supabase remains the existing authentication, persistence, and diagnostic storage architecture.
-- The frontend must consume actual API/data behavior and must not duplicate analysis logic.
+Canonical URL:
 
-### Implemented now
+```text
+https://darenprince.com/voxvector/developer/
+```
 
-- `voxvector/index.html`
-- `voxvector/src/main.jsx`
-- `voxvector/src/App.jsx`
-- `voxvector/src/index.css`
-- `voxvector/package.json`
-- `voxvector/vite.config.js`
-- `voxvector/tailwind.config.js`
-- `voxvector/postcss.config.js`
-- CI build verification
-- GitHub Pages staging under `/voxvector/`
+Current implemented functions:
 
-### Developer Console
-
-The next major frontend milestone is `/developer`, with:
-
-- dashboard
-- API workbench
-- persistent error reports
-- lifecycle logs/events
-- documentation navigator
+- Supabase Auth sign-in gate
+- trusted developer-role check using `app_metadata`
+- sign-out
+- operational dashboard
+- real `/health` query through TanStack Query
+- real `/v1/analyze` WAV workbench
+- HTTP status
+- request timing
+- `X-Request-ID`
+- backend error visibility
+- raw/structured response visibility
+- canonical documentation navigator
 - development board
-- real system/API/storage status
-- request ID, source revision, pipeline version, timing, status, and raw/structured response visibility where the API provides them
+- state-driven API activity visualization
+- explicit unavailable states for backend telemetry capabilities that do not yet have protected query contracts
 
-### Analysis Workspace
+The browser gate is not treated as sufficient backend authorization. FastAPI JWT validation and server-side developer authorization remain the next security milestone.
 
-The subsequent application workspace will provide:
+## Live-state animation contract
 
-- upload/record entry according to supported runtime capabilities
-- interview/question context
-- waveform and input state
-- eligibility/reliability
-- live lifecycle state
-- acoustic and linguistic evidence panels where data exists
-- timing/prosody
-- convergence/conflict
-- uncertainty and alternative explanations
-- candidate classification
-- final disposition
+Motion animations follow actual query/mutation state.
 
-### Animation contract
+The current API visualizer deliberately uses indeterminate activity rather than fabricated percentages because `/health` and `/v1/analyze` do not currently expose numeric progress.
 
-Motion must follow actual query/mutation and backend lifecycle state. Numerical progress must only be displayed when the API provides a defined progress metric. The UI must never fabricate percentages, telemetry, analysis stages, or results to make a loading screen appear active.
+The UI may show:
 
-## Immediate next engineering work
+- idle
+- request in flight
+- completed/ready
+- error
 
-### Backend reliability first
+It must not invent:
 
-1. Configure the Render environment with `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VOXVECTOR_STORAGE_PROVIDER=supabase`, and `VOXVECTOR_LOG_BUCKET=voxvector-logs`.
-2. Redeploy the exact commit containing the observability implementation.
-3. Confirm `/health` reports `diagnostic_storage: configured`.
-4. Run a known WAV through `/v1/analyze` and record the returned `X-Request-ID`.
-5. Verify the private Supabase bucket contains lifecycle records for that request.
-6. Exercise a controlled invalid request and verify a persisted rejection/error record.
-7. Reproduce the 502 with a controlled fixture and correlate the request ID with durable events and Render logs.
-8. Add explicit request/resource limits that fail safely before origin process termination.
-9. Run the complete test suite and record a fresh CI result.
-10. Deploy the verified backend commit to Render.
-11. Verify `/health` and `/v1/analyze` against the exact deployed source revision.
+- analysis percentages
+- lifecycle events
+- request totals
+- error totals
+- 5xx totals
+- analysis counts
+- scientific results
 
-### Frontend integration
+## Backend
 
-12. Formalize the shadcn/ui component foundation and shared design tokens.
-13. Define typed API contracts from the actual FastAPI schemas.
-14. Implement TanStack Query API hooks for `/health` and `/v1/analyze`.
-15. Preserve request IDs, correlation IDs, status codes, timings, and sanitized error metadata in the client state.
-16. Build the `/developer` application shell against real API and diagnostic data.
-17. Build the API workbench and persistent error views.
-18. Build lifecycle event presentation using actual telemetry.
-19. Add documentation navigation and development-board state.
-20. Build the Analysis Workspace only after the API data contract and failure behavior are verified.
-21. Perform browser, responsive, accessibility, reduced-motion, and failure-state verification.
-22. Deploy and verify the frontend against the exact backend revision.
+The canonical backend remains:
 
-## Documentation synchronization required
+```text
+VoxVector/api/app.py
+VoxVector/src/voxvector/
+```
 
-The following canonical records must remain synchronized with this checkpoint:
+Render remains the backend host. Supabase remains the existing authentication, persistence, and diagnostic-storage architecture.
 
-- `docs/OPERATING_CHARTER.md`
-- `docs/PROJECT_DECISION_LOG.md`
-- `docs/CAPABILITY_STATUS.md`
-- `docs/ROADMAP.md`
-- `docs/ARCHITECTURE.md`
-- `docs/UI_APPLICATION_ARCHITECTURE.md`
-- `docs/STORAGE_AND_OBSERVABILITY.md`
-- Crown Labs Bible VoxVector product listing and dossier
+The current backend is an observational analysis foundation. It is not yet a scientifically validated deception inference engine.
+
+## Unmerged work
+
+Pull request **#853 — Build authenticated VoxVector Developer Console** remains open and draft. It targets an older `agent/developer-console` branch and has not been merged into `main`.
+
+That PR contains a separate server-side FastAPI developer-console implementation, including:
+
+- `VoxVector/api/developer_console.py`
+- `VoxVector/api/developer_console.html`
+- server-side auth/authorization work
+- persistent error-report browsing
+- diagnostic log browsing
+- developer-console tests
+
+It is **not required for the current React Pages deployment** and is not the source of the current stale landing-page problem. Its useful backend authorization/telemetry work should be reviewed and selectively integrated in a future backend security phase rather than blindly merged over the React architecture.
+
+## Root cause of the stale public landing
+
+The repository contained both:
+
+```text
+voxvector.html
+voxvector/index.html
+```
+
+The first was the old static VoxVector landing implementation while the second was the new React application. This created two competing VoxVector entry artifacts in the Pages publishing tree and made the intended public route ambiguous.
+
+The conflict is now removed at the implementation level:
+
+```text
+voxvector.html
+    ↓ compatibility redirect
+voxvector/index.html
+    ↓ React application
+```
+
+The Pages workflow additionally stages the React build explicitly under `/voxvector/`, so the public application no longer depends on the source tree being interpreted as a build directory.
+
+## Current status
+
+### Verified in repository
+
+- React entrypoint exists
+- React application source exists
+- Vite base is `/voxvector/`
+- Motion and TanStack Query dependencies exist
+- Developer Console exists
+- developer gate exists
+- legacy static landing is now a redirect
+- Pages workflow explicitly builds and stages React output
+- developer route is explicitly staged
+- canonical documentation has been updated to distinguish Pages frontend from Render API
+
+### Still requiring deployment verification
+
+A fresh GitHub Pages run after the routing correction must be observed and must pass its artifact verification and deployment jobs.
+
+The live browser result should then be tested at:
+
+```text
+https://darenprince.com/voxvector/
+https://darenprince.com/voxvector/developer/
+```
+
+The API remains separately testable at:
+
+```text
+https://voxvector.crownlabs.tech
+```
+
+## Immediate next work
+
+1. Verify the fresh Pages deployment.
+2. Verify the public React landing on desktop and mobile.
+3. Verify direct Developer Console navigation and Supabase developer gating.
+4. Review PR #853 backend work for selective extraction.
+5. Implement FastAPI JWT validation and developer authorization.
+6. Expose protected persistent error/lifecycle telemetry through the existing Supabase architecture.
+7. Formalize shadcn/ui components and design tokens.
+8. Continue the Analysis Workspace only against verified API contracts.
 
 ## Scientific status
 
-The current runtime remains an observational analysis foundation. It does not currently establish scientifically validated deception inference. Product documentation must continue to describe deception detection as the product objective while clearly separating implementation maturity and validation status.
-
-The frontend must preserve the same scientific boundaries. A polished interface, animated workflow, or operational dashboard is not evidence of scientific validation.
-
-## Stop conditions
-
-Do not promote the 502 incident to a scientific finding. Do not claim `/v1/analyze` is production-stable until the failure is reproduced or otherwise explained and the repaired deployment passes controlled endpoint verification. Do not claim deception-detection validation from successful API execution. Do not claim the React application is fully complete until its real API workflows, failure states, browser behavior, accessibility, and deployment have been verified.
+No deployment change alters VoxVector's scientific status. Individual vocal, acoustic, linguistic, behavioral, emotional, or psychological features remain signals/evidence only. The current runtime must continue to report observations, reliability, convergence/conflict, uncertainty, alternatives, and limitations without presenting probabilistic inference as certainty.
