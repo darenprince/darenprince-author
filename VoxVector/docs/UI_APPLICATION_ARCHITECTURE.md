@@ -2,32 +2,46 @@
 
 ## Status
 
-**Decision:** Approved architecture for the next frontend development phase.
+**Decision:** Approved architecture for the frontend development phase.
 
-**Implementation state:** Planned. The canonical repository currently contains the FastAPI API and analysis engine; a production React application shell using this stack has not yet been implemented in `VoxVector/`.
+**Implementation state:** React public application shell is now implemented at `voxvector/index.html` with source under `voxvector/src/`. The Developer Console, Analysis Workspace, and live API data integration remain in active development.
 
-**Purpose:** Define the frontend architecture before implementation so UI work extends the existing runtime rather than creating a parallel product or inventing API behavior.
+**Purpose:** Define the frontend architecture so UI work extends the existing runtime rather than creating a parallel product or inventing API behavior.
 
 ## Architecture decision
 
-VoxVector will use a small, open-source React application stack:
+VoxVector uses a small, open-source React application stack:
 
 | Layer | Standard | Role |
 |---|---|---|
 | Application | React | Product application shell and route composition |
-| UI foundation | shadcn/ui | Application-owned accessible components and interface primitives |
-| Component primitives | Base UI / supported shadcn primitives | Dialogs, menus, forms, navigation, overlays, and interaction primitives |
+| UI foundation | shadcn/ui-compatible composition | Application-owned accessible components and interface primitives; formal shadcn component installation remains planned |
 | Styling | Tailwind CSS | Design tokens, responsive layout, typography, spacing, and theming |
 | Animation | Motion for React | State-driven transitions, loading states, progressive disclosure, gestures, and visualization motion |
-| Server state | TanStack Query | API requests, caching, retries, mutations, invalidation, and request lifecycle state |
-| Authentication | Supabase Auth | User authentication and session handling when the application requires authenticated workflows |
+| Server state | TanStack Query | API requests, caching, retries, mutations, invalidation, and request lifecycle handling |
+| Authentication | Supabase Auth | User authentication and session handling when authenticated workflows are enabled |
 | Persistent operational data | Existing Supabase architecture | Application data, operational events, and diagnostics according to existing security boundaries |
 | API | FastAPI on Render | Canonical VoxVector HTTP interface; remains in place |
 | Visualization | SVG / native charting as appropriate | Waveforms, evidence displays, timing, reliability, and analysis visualization |
 | Documentation | VoxVector canonical docs | Product and technical source of truth |
-| Deployment | Existing repository deployment architecture | Do not replace Render API infrastructure as part of frontend work |
+| Deployment | Existing repository GitHub Pages workflow for the public frontend | Builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`; Render API infrastructure is unchanged |
 
-This is an application architecture decision, not a claim that every listed technology is already present in the repository.
+## Current frontend implementation
+
+The first migration milestone is complete:
+
+- `voxvector/index.html` is the React/Vite application entrypoint.
+- `voxvector/src/App.jsx` contains the public VoxVector application shell.
+- `voxvector/src/main.jsx` establishes React and TanStack Query.
+- `voxvector/src/index.css` establishes the frontend styling baseline.
+- `voxvector/tailwind.config.js` and `voxvector/postcss.config.js` define the frontend styling pipeline.
+- `voxvector/vite.config.js` defines the `/voxvector/` deployment base.
+- `.github/workflows/voxvector-qa.yml` builds the React application in CI.
+- `.github/workflows/deploy-pages.yml` builds and stages the compiled frontend under `/voxvector/`.
+
+The migration is deliberately limited to the public application shell at this stage. It does not claim that the Developer Console or Analysis Workspace are complete.
+
+The current repository did not contain a root `voxvector.html` file when the migration was performed. Therefore no nonexistent file was deleted. `labs/products/voxvector.html` remains a separate Crown Labs product-page artifact and is not silently repurposed.
 
 ## Infrastructure boundary
 
@@ -39,12 +53,13 @@ The existing backend remains authoritative:
              +----------------+----------------+
              |                                 |
         React application                 FastAPI API
+          /voxvector/                          |
+             |                               Render
+       Tailwind + UI                          |
+             |                         /health /v1/analyze
+           Motion                              |
              |                                 |
-       shadcn/ui + Tailwind                Render
-             |                                 |
-           Motion                          /health
-             |                            /v1/analyze
-      TanStack Query                         |
+      TanStack Query                           |
              |                                 |
              +---------------+-----------------+
                              |
@@ -54,24 +69,34 @@ The existing backend remains authoritative:
 
 The frontend must consume the canonical API. It must not duplicate analysis logic, invent analysis stages, or create client-only interpretations that masquerade as backend results.
 
-Render remains the VoxVector API runtime. Supabase remains the existing persistence, authentication, and operational diagnostics layer. The frontend is a new interface layer over those services.
+Render remains the VoxVector API runtime. Supabase remains the existing persistence, authentication, and operational diagnostics layer. The frontend is an interface layer over those services.
 
 ## Application shell
 
-The first frontend milestone is a real **VoxVector Application Shell**, not a static landing page or mock dashboard.
-
 ### Public application
 
-- Landing page
+Implemented initial shell:
+
 - VoxVector identity and product explanation
 - evidence-based positioning
 - deception-analysis workflow explanation
-- methodology and scientific-status access
-- visual audio/analysis elements
-- product entry point
-- documentation navigation
+- current observational method summary
+- scientific-status communication
+- responsive navigation and layout
+- product/API entry point
+- repository documentation entry point
+- Motion-based presentation transitions
+
+Next public-application work:
+
+- formal shadcn component installation and shared component primitives
+- deeper product imagery/visual analysis elements where useful
+- documentation navigator integration
+- API-backed product entry flow
 
 ### Analysis Workspace
+
+Planned/next major product surface:
 
 - upload or recording entry point where supported by the runtime
 - interview/question context
@@ -250,32 +275,11 @@ request lifecycle state
 Motion progressively reveals the corresponding UI
 ```
 
-For example, an analysis loader may display:
-
-```text
-INPUT VERIFIED
-  Audio quality          [actual reliability value]
-
-ELIGIBILITY
-  Signal quality         [actual eligibility state]
-
-ACOUSTIC ANALYSIS
-  Fundamental frequency  [actual stage/progress state]
-  Intensity              [actual stage/progress state]
-  Spectral analysis      [actual stage/progress state]
-
-LINGUISTIC ANALYSIS
-  [actual API state or unavailable]
-
-EVIDENCE SYNTHESIS
-  [actual upstream dependency state]
-```
-
 Percentages are allowed only when the backend provides a defined progress metric. If the API provides only discrete lifecycle states, the UI must use discrete states rather than fabricating numerical progress.
 
 ## TanStack Query data contract
 
-TanStack Query should own server-state concerns such as:
+TanStack Query owns server-state concerns such as:
 
 - request lifecycle
 - loading/error/success states
@@ -286,7 +290,7 @@ TanStack Query should own server-state concerns such as:
 - background refresh where appropriate
 - stale-data indicators
 
-Local React state should remain responsible for transient presentation concerns such as panel selection, editor state, open dialogs, and animation state.
+Local React state remains responsible for transient presentation concerns such as panel selection, editor state, open dialogs, and animation state.
 
 The frontend must preserve backend request IDs and error metadata through the query layer so operational debugging remains possible from the UI.
 
@@ -322,24 +326,24 @@ No visual treatment may imply that stress, hesitation, pitch, silence, arousal, 
 
 ## Implementation sequence
 
-### UI-01 — Application foundation
+### UI-01 — React application foundation — IMPLEMENTED
 
-- establish the React application boundary inside `VoxVector/`
-- establish Tailwind/shadcn design tokens
-- establish routing and application shell
-- establish accessible navigation/sidebar
-- establish responsive layout primitives
-- establish theme support
+- establish the React application boundary at `voxvector/`
+- establish Tailwind/PostCSS styling
+- establish responsive public application shell
+- establish Motion
+- establish TanStack Query client boundary
+- establish GitHub Pages build and deployment path
 
-### UI-02 — API client foundation
+### UI-02 — API client foundation — NEXT
 
 - define typed API contracts from the actual FastAPI schemas
-- configure TanStack Query
+- implement TanStack Query API hooks
 - preserve request IDs and error metadata
 - implement health and analysis request hooks
 - implement explicit unavailable/error states
 
-### UI-03 — Developer Console
+### UI-03 — Developer Console — NEXT
 
 - dashboard backed by actual health/telemetry
 - API workbench
@@ -360,12 +364,11 @@ No visual treatment may imply that stress, hesitation, pitch, silence, arousal, 
 
 ### UI-05 — Public product experience
 
-- polished landing page
-- methodology explanation
-- documentation entry points
-- product workflow visualization
-- accessible responsive design
-- purposeful imagery/visual analysis elements
+- deepen the migrated landing experience
+- formal shadcn component system
+- methodology and documentation integration
+- purposeful visual analysis elements
+- accessibility and responsive refinement
 
 ### UI-06 — Verification and hardening
 
