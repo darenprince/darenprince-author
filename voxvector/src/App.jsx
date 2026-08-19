@@ -143,7 +143,7 @@ function Landing() {
 
       <main id="main-content">
         <section id="product" className="relative min-h-[720px] overflow-hidden border-b border-[var(--vv-border)] bg-black">
-          <div className="absolute inset-0 bg-[url('/voxvector/assets/voxvector-hero-bg.svg')] bg-cover bg-center opacity-100" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[url('/voxvector/assets/voxvector-hero-cinematic.svg')] bg-cover bg-center opacity-100" aria-hidden="true" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.97)_0%,rgba(0,0,0,.88)_34%,rgba(0,0,0,.38)_68%,rgba(0,0,0,.58)_100%)]" aria-hidden="true" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_48%,rgba(210,155,101,.14),transparent_24%),linear-gradient(180deg,rgba(0,0,0,.18),transparent_34%,rgba(0,0,0,.62))]" aria-hidden="true" />
           <div className="relative mx-auto flex min-h-[720px] max-w-[1440px] items-center px-5 py-24 lg:px-10 lg:py-28">
