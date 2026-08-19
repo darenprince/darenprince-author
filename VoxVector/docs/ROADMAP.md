@@ -1,6 +1,8 @@
 # VoxVector Roadmap
 
-This roadmap preserves future capabilities that have been discussed, researched, or documented but are not yet validated or fully implemented. Absence from the current runtime does not make a roadmap item obsolete.
+VoxVector is being built toward a comprehensive vocal and audio deception detection system. This roadmap preserves capabilities that have been discussed, researched, or documented but are not yet fully implemented or scientifically validated.
+
+Absence from the current runtime does not make a roadmap item obsolete.
 
 ## Phase A — Foundation hardening
 
@@ -39,7 +41,7 @@ This roadmap preserves future capabilities that have been discussed, researched,
 - temporal attention and sequence models
 - speaker identity and recording-condition leakage testing
 
-## Phase E — Linguistic intelligence
+## Phase E — Linguistic and conversational intelligence
 
 - high-quality ASR
 - word and phoneme timestamps
@@ -59,11 +61,22 @@ This roadmap preserves future capabilities that have been discussed, researched,
 - cross-modal fusion
 - synthetic-speech detection and provenance-aware benchmark evaluation
 
-## Phase G — Scientific validation
+## Phase G — Deception inference research
+
+- define operational deception tasks
+- build speaker-disjoint development and evaluation datasets
+- evaluate multimethod evidence convergence
+- evaluate alternative explanations and confounders
+- test identity and recording-condition leakage
+- develop candidate deception classifiers
+- compare interpretable and learned model families
+- establish calibrated uncertainty and explicit abstention behavior
+
+## Phase H — Scientific validation
 
 - freeze operational definitions
-- define target tasks and populations
-- speaker-disjoint development/evaluation partitions
+- define target populations and deployment conditions
+- speaker-disjoint evaluation
 - cross-dataset evaluation
 - recording-condition stress tests
 - identity sensitivity analysis
@@ -72,11 +85,22 @@ This roadmap preserves future capabilities that have been discussed, researched,
 - explicit abstention testing
 - external replication
 
-Only after this phase can a candidate method be considered for validated inferential use.
+Only methods that satisfy the validation program may be promoted to validated inferential use.
 
-## Phase H — Controlled inference engine
+## Phase I — Controlled deception detection engine
 
-Future work may include a validated multi-engine deception research layer that combines independently justified observations, validated models, uncertainty, reliability, evidence convergence, and alternative explanations. A deception probability score or confidence matrix is not an active validated capability today and must never be fabricated by the interface.
+Future production work may enable a validated multi-engine deception detection layer combining independently justified observations, validated models, reliability, evidence convergence, uncertainty, alternative explanations, and task-specific calibration.
+
+Potential future outputs include:
+
+- candidate deception classification
+- calibrated deception probability
+- confidence and uncertainty matrix
+- evidence convergence/conflict summary
+- alternative-explanation analysis
+- final classification/disposition with abstention
+
+These outputs are roadmap capabilities, not current validated runtime capabilities.
 
 ## Product and deployment roadmap
 
