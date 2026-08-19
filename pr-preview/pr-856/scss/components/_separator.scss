@@ -1,0 +1,23 @@
+@use '../tokens/colors' as *;
+@use '../base/variables' as *;
+
+.separator {
+  position: relative;
+  height: 1px;
+  border: 0;
+  background: var(--color-border);
+  margin: $spacing-lg 0;
+}
+
+.separator::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 6px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-border), transparent 50%),
+    transparent
+  );
+  pointer-events: none;
+}
