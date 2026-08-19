@@ -60,6 +60,16 @@ The adapter is an interface/runtime boundary only and must not become a second a
 
 **Decision:** The intended public VoxVector product target is `voxvector.crownlabs.tech`.
 
-**Verification:** Render successfully deployed the canonical application, `/health` returned 200 with `runtime_self_test: passed`, the runtime reported canonical package paths and source fingerprints, and a live `/v1/analyze` execution successfully produced structured observational analysis with guarded indeterminate disposition.
+**Verification:** Render successfully deployed the canonical application, `/health` returned 200 with `runtime_self_test: passed`, the runtime reported canonical package paths and source fingerprints, and a prior live `/v1/analyze` execution successfully produced structured observational analysis with guarded indeterminate disposition.
 
 **Remaining requirement:** Full deception inference remains a research and validation objective, not a current validated runtime capability.
+
+## 2026-08-19 — Runtime 502 incident and diagnostic hardening
+
+**Observation:** A public Swagger `/v1/analyze` request returned HTTP 502. The response identified Cloudflare as the edge server and Render as the origin, with zero response content. Render health checks remained successful around the deployment period.
+
+**Decision:** Treat the event as an unresolved runtime reliability incident. Do not classify it as a scientific or analytical result. Do not assume the cause without evidence.
+
+**Required engineering response:** Add request correlation, stage-level diagnostics, persistent sanitized error logging, resource/timeout safeguards, controlled reproduction, and exact source-revision verification. The investigation must distinguish application exception, process termination/OOM, timeout, and infrastructure failure.
+
+**Status:** Open. Tracked in `docs/PROJECT_CHECKPOINT_2026-08-19.md` and the Phase A roadmap hardening work.
