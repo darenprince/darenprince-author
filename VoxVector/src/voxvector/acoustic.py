@@ -77,12 +77,9 @@ def spectral_spread(frames: np.ndarray, sample_rate: int) -> np.ndarray:
     frequencies = _frequencies_from_spectrum(spectrum, frames.shape[1], sample_rate)
     weights = spectrum.sum(axis=1)
     centroid = np.divide(spectrum @ frequencies, weights, out=np.zeros_like(weights), where=weights > 0)
-    variance = np.divide(
-        spectrum @ ((frequencies[None, :] - centroid[:, None]) ** 2),
-        weights,
-        out=np.zeros_like(weights),
-        where=weights > 0,
-    )
+    squared_deviation = (frequencies[None, :] - centroid[:, None]) ** 2
+    weighted_variance = np.sum(spectrum * squared_deviation, axis=1)
+    variance = np.divide(weighted_variance, weights, out=np.zeros_like(weights), where=weights > 0)
     return np.sqrt(np.maximum(variance, 0.0))
 
 
