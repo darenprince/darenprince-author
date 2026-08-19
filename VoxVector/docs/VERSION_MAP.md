@@ -35,11 +35,19 @@ VoxVector is maintained under `VoxVector/` in `darenprince-author`. `crowncodeai
 
 ## Pipeline integration 0.2.24
 
-The primary `VoxVectorPipeline` orchestrates the existing canonical analysis modules for acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional independent speaker baselines, optional response latency, and optional transcript disfluency observations. These remain observational and are preserved with provenance. Frame chunk construction now emits exactly the configured number of frames per bounded chunk, preventing partial-frame shape contamination at chunk boundaries.
+The primary `VoxVectorPipeline` orchestrates the existing canonical analysis modules for acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, formant tracking, pause topology, optional independent speaker baselines, optional response latency, and optional transcript disfluency observations. These remain observational and are preserved with provenance. Frame chunk construction emits exactly the configured number of frames per bounded chunk, preventing partial-frame shape contamination at chunk boundaries.
 
 ## Spectral dimension contract
 
 Spectral centroid and spread construct their frequency vector from the actual `rfft` output width. Spectral spread computes the weighted per-frame variance elementwise across FFT columns, preserving one scalar spread value per input frame for arbitrary frame sizes. This is an implementation contract, not a deception-inference claim.
+
+## Formant sample-rate contract
+
+Formant tracking bounds the requested upper frequency by the signal Nyquist frequency. The canonical 5000 Hz default therefore remains usable at lower supported sample rates such as 8000 Hz without attempting to analyze frequencies that cannot exist in the sampled signal.
+
+## Pipeline contract validation
+
+Optional response-latency boundaries are validated before audio feature extraction. Incomplete timing context therefore fails deterministically with the timing contract error instead of being masked by a downstream acoustic/formant error.
 
 ## Duplication control
 
@@ -47,7 +55,7 @@ Spectral centroid and spread construct their frequency vector from the actual `r
 
 ## QA boundary
 
-The repository includes automated GitHub Actions QA plus an end-to-end pipeline integration regression test. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass. The 2026-08-19 QA failure identified a spectral spread dimensionality defect, an off-by-frame chunk construction defect, a NaN-unaware reproducibility assertion, and an over-strict floating-point slope assertion. These defects have been repaired in 0.2.24; the resulting CI execution must be observed before declaring the repair validated.
+The repository includes automated GitHub Actions QA plus an end-to-end pipeline integration regression test. A configured workflow is not equivalent to a successful execution; execution results must be observed before claiming a pass. The 2026-08-19 QA cycle identified spectral spread dimensionality, bounded-frame construction, NaN-aware reproducibility, floating-point tolerance, sample-rate-aware formant bounds, and validation-order defects. The implementation and regression controls for these findings are now synchronized in 0.2.24; the resulting CI execution must be observed before declaring the repair validated.
 
 ## Scientific boundary
 
