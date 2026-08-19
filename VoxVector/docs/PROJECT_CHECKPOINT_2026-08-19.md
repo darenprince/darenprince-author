@@ -27,6 +27,11 @@ This document records the current engineering, runtime, deployment, and document
 - Advanced the pipeline software version from `0.2.24` to `0.2.25` and updated the affected contract expectation.
 - Render successfully built and started the API with `uvicorn api.app:app --host 0.0.0.0 --port $PORT`.
 - Render health checks returned HTTP 200 and the runtime self-test reported `passed` during the successful deployment.
+- Added a dependency-free Supabase Storage adapter for durable operational diagnostics.
+- Added request correlation IDs and `/v1/analyze` lifecycle/stage/error diagnostics.
+- Added `X-Request-ID` to successful analysis responses.
+- Added a private JSON diagnostics bucket configuration and production environment template.
+- Added documentation for the storage/observability architecture and its security boundary.
 
 ## Current verification state
 
@@ -51,16 +56,35 @@ The 502 indicates that the edge did not receive a usable application response. I
 
 The current pipeline processes audio in bounded frame chunks but still accumulates multiple feature arrays across the full recording before final result construction. This remains a potential resource-pressure path on the constrained Render instance and requires measurement rather than assumption.
 
+## New observability architecture
+
+VoxVector now has a durable diagnostics path using the existing Supabase architecture:
+
+- `VoxVector/api/storage.py` — dependency-free Supabase Storage adapter
+- `VoxVector/api/observability.py` — request correlation and sanitized diagnostic events
+- `VoxVector/api/app.py` — lifecycle instrumentation and `X-Request-ID`
+- `VoxVector/docs/STORAGE_AND_OBSERVABILITY.md` — configuration, security, storage model, and verification procedure
+- `VoxVector/api/.env.example` — Render environment template
+
+Diagnostic objects are private JSON files organized by UTC date and request ID. Raw audio and raw transcript content are not persisted by this diagnostic layer.
+
+The first lifecycle event is `request.started`. This is intentionally written before analysis so that an abrupt process termination can leave durable evidence that the request reached the application even when no normal response is produced.
+
+Storage failure is non-fatal. If Supabase cannot be reached, the API continues and emits a sanitized `VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE` marker to the Render process log.
+
 ## Immediate next engineering work
 
-1. Add structured request/error correlation with a unique analysis request ID.
-2. Add stage-level timing and resource diagnostics around decoding, eligibility, feature extraction, evidence construction, and response serialization.
-3. Add persistent, sanitized diagnostic records that retain errors after a Render instance restarts.
-4. Add explicit request/resource limits that fail safely before the process can be killed by excessive workload.
-5. Reproduce the 502 with a controlled fixture and determine whether the origin failure is memory, timeout, exception, or infrastructure related.
-6. Run the complete test suite and record a fresh CI result.
-7. Deploy the verified commit to Render.
-8. Verify `/health` and `/v1/analyze` against the exact deployed source revision.
+1. Configure the Render environment with `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VOXVECTOR_STORAGE_PROVIDER=supabase`, and `VOXVECTOR_LOG_BUCKET=voxvector-logs`.
+2. Redeploy the exact commit containing the observability implementation.
+3. Confirm `/health` reports `diagnostic_storage: configured`.
+4. Run a known WAV through `/v1/analyze` and record the returned `X-Request-ID`.
+5. Verify the private Supabase bucket contains `request.started`, `stage.completed`, and `request.completed` records for that request.
+6. Exercise a controlled invalid request and verify a persisted rejection/error record.
+7. Reproduce the 502 with a controlled fixture and correlate the request ID with durable events and Render logs.
+8. Add explicit request/resource limits that fail safely before origin process termination.
+9. Run the complete test suite and record a fresh CI result.
+10. Deploy the verified commit to Render.
+11. Verify `/health` and `/v1/analyze` against the exact deployed source revision.
 
 ## Documentation synchronization required
 
@@ -70,6 +94,7 @@ The following canonical records must remain synchronized with this checkpoint:
 - `docs/PROJECT_DECISION_LOG.md`
 - `docs/CAPABILITY_STATUS.md`
 - `docs/ROADMAP.md`
+- `docs/STORAGE_AND_OBSERVABILITY.md`
 - Crown Labs Bible VoxVector product listing and dossier
 
 ## Scientific status
