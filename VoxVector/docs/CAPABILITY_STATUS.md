@@ -59,6 +59,20 @@ The current implementation is an observational foundation. It must not be repres
 | Full CI after latest fixes | Pending | Fresh green CI evidence is required |
 | Production storage configuration | Pending | Render must receive the Supabase URL and service-role secret |
 
+## Frontend application status
+
+| Area | Status | Current state |
+|---|---|---|
+| React application shell | Planned | Architecture approved; not yet implemented in `VoxVector/` |
+| shadcn/ui component foundation | Planned | Approved UI foundation; not yet installed/implemented in VoxVector |
+| Tailwind CSS design system | Planned | Approved styling layer; not yet established in VoxVector frontend |
+| Motion for React | Planned | Approved animation layer; animations must follow real API/data state |
+| TanStack Query | Planned | Approved server-state layer; API contracts must derive from actual FastAPI schemas |
+| Developer Console | Planned | Functional `/developer` console is next frontend milestone |
+| Analysis Workspace | Planned | Must consume real `/v1/analyze` state and preserve analytical stage separation |
+| Public application shell | Planned | Landing/product/docs experience to follow foundation and console work |
+| Browser/end-to-end verification | Planned | Required before frontend workflows are considered complete |
+
 ## Implemented but not primary-pipeline integrated
 
 - Cepstral summary utilities beyond the primary MFCC observation path
@@ -136,3 +150,5 @@ The product objective remains deception detection; the scientific discipline det
 ## Current checkpoint
 
 The active engineering checkpoint is `docs/PROJECT_CHECKPOINT_2026-08-19.md`. It is the handoff record for current progress, open incidents, and the next verification sequence.
+
+The frontend architecture and implementation contract are defined in `docs/UI_APPLICATION_ARCHITECTURE.md`.
