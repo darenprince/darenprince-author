@@ -63,15 +63,22 @@ The current implementation is an observational foundation. It must not be repres
 
 | Area | Status | Current state |
 |---|---|---|
-| React application shell | Planned | Architecture approved; not yet implemented in `VoxVector/` |
-| shadcn/ui component foundation | Planned | Approved UI foundation; not yet installed/implemented in VoxVector |
-| Tailwind CSS design system | Planned | Approved styling layer; not yet established in VoxVector frontend |
-| Motion for React | Planned | Approved animation layer; animations must follow real API/data state |
-| TanStack Query | Planned | Approved server-state layer; API contracts must derive from actual FastAPI schemas |
-| Developer Console | Planned | Functional `/developer` console is next frontend milestone |
+| React application shell | **Implemented** | New `voxvector/` React/Vite application with `index.html`, responsive product shell, and Motion interactions |
+| React build pipeline | **Implemented** | Dedicated Vite build under `voxvector/`; GitHub Pages workflow builds and stages `/voxvector/` |
+| shadcn/ui component foundation | Planned | Architecture approved; initial UI is application-owned and follows shadcn-compatible composition principles, but the shadcn component set has not been formally installed |
+| Tailwind CSS design system | **Implemented** | Dedicated frontend Tailwind/PostCSS configuration and responsive utility-based styling |
+| Motion for React | **Implemented** | State/presentation animations use Motion; animation does not represent analytical truth |
+| TanStack Query | **Implemented** | Query client is installed at the application boundary; API hooks are the next integration step |
+| Developer Console | Planned | Functional `/developer` console remains the next major frontend milestone |
 | Analysis Workspace | Planned | Must consume real `/v1/analyze` state and preserve analytical stage separation |
-| Public application shell | Planned | Landing/product/docs experience to follow foundation and console work |
+| Public application shell | **Implemented** | React landing/product experience now lives at `voxvector/index.html` |
 | Browser/end-to-end verification | Planned | Required before frontend workflows are considered complete |
+
+## Frontend migration boundary
+
+The canonical public landing implementation is now `voxvector/index.html` and its React source under `voxvector/src/`. The legacy root `voxvector.html` path was not present in the current GitHub branch at migration time, so no nonexistent file was deleted. The existing `labs/products/voxvector.html` is a separate Crown Labs product-page artifact and remains outside this migration boundary until an explicit route migration is performed.
+
+The React application is presentation-only. It does not recreate the VoxVector analysis engine. API-driven analysis, telemetry, request lifecycle state, and Developer Console behavior must be connected to the canonical FastAPI runtime before those UI surfaces are marked complete.
 
 ## Implemented but not primary-pipeline integrated
 
