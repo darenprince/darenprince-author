@@ -12,21 +12,7 @@ export default {
   safelist: [
     {
       pattern: /^(bg|border|text|stroke|fill)-(stone|amber|orange|yellow|neutral|gray)-(50|100|200|300|400|500|600|700|800|900|950)$/
-    },
-    ...['[#8f5d35]', '[#b97842]', '[#c6a16b]', '[#d9a06b]'].flatMap((customColor) => [
-      `bg-${customColor}`,
-      `border-${customColor}`,
-      `hover:bg-${customColor}`,
-      `hover:border-${customColor}`,
-      `hover:text-${customColor}`,
-      `fill-${customColor}`,
-      `ring-${customColor}`,
-      `stroke-${customColor}`,
-      `text-${customColor}`,
-      `ui-selected:bg-${customColor}`,
-      `ui-selected:border-${customColor}`,
-      `ui-selected:text-${customColor}`
-    ])
+    }
   ],
   theme: {
     extend: {
@@ -36,52 +22,52 @@ export default {
       colors: {
         tremor: {
           brand: {
-            faint: '#f5eee8',
-            muted: '#e6d5c5',
-            subtle: '#c9a27d',
-            DEFAULT: '#a86f3f',
-            emphasis: '#7a4b29',
+            faint: '#f5f5f5',
+            muted: '#e5e5e5',
+            subtle: '#a3a3a3',
+            DEFAULT: '#111111',
+            emphasis: '#000000',
             inverted: colors.white
           },
           background: {
-            muted: '#f7f7f6',
-            subtle: '#f1f0ee',
+            muted: '#fafafa',
+            subtle: '#f4f4f5',
             DEFAULT: '#ffffff',
-            emphasis: '#2a2826'
+            emphasis: '#171717'
           },
-          border: { DEFAULT: '#e4e1dd' },
-          ring: { DEFAULT: '#dedad5' },
+          border: { DEFAULT: '#e5e5e5' },
+          ring: { DEFAULT: '#d4d4d4' },
           content: {
-            subtle: '#a39d96',
-            DEFAULT: '#706a64',
-            emphasis: '#49443f',
-            strong: '#171513',
+            subtle: '#a3a3a3',
+            DEFAULT: '#737373',
+            emphasis: '#404040',
+            strong: '#0a0a0a',
             inverted: colors.white
           }
         },
         'dark-tremor': {
           brand: {
-            faint: '#24160e',
-            muted: '#4a2b1a',
-            subtle: '#8f5d35',
-            DEFAULT: '#b97842',
-            emphasis: '#d9a06b',
-            inverted: '#0a0a0a'
+            faint: '#171717',
+            muted: '#262626',
+            subtle: '#737373',
+            DEFAULT: '#f5f5f5',
+            emphasis: '#ffffff',
+            inverted: '#000000'
           },
           background: {
-            muted: '#141210',
-            subtle: '#191714',
-            DEFAULT: '#0a0a0a',
-            emphasis: '#d7d1ca'
+            muted: '#111111',
+            subtle: '#171717',
+            DEFAULT: '#000000',
+            emphasis: '#f5f5f5'
           },
-          border: { DEFAULT: '#292522' },
-          ring: { DEFAULT: '#302b27' },
+          border: { DEFAULT: '#262626' },
+          ring: { DEFAULT: '#404040' },
           content: {
-            subtle: '#746d66',
-            DEFAULT: '#a49c94',
-            emphasis: '#d2cbc3',
-            strong: '#f5f2ee',
-            inverted: '#0a0a0a'
+            subtle: '#737373',
+            DEFAULT: '#a3a3a3',
+            emphasis: '#d4d4d4',
+            strong: '#fafafa',
+            inverted: '#000000'
           }
         }
       }
