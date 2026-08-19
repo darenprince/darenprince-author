@@ -3,6 +3,11 @@ from __future__ import annotations
 import numpy as np
 
 
+# Deployment sentinel: health/readback must expose this exact value before the
+# acoustic implementation is considered the repaired runtime.
+RUNTIME_SIGNATURE = "VX-ACOUSTIC-SPECTRUM-DIMENSION-FIX-2026-08-19"
+
+
 def frame_signal(signal: np.ndarray, frame_size: int, hop: int) -> np.ndarray:
     signal = np.asarray(signal, dtype=float).reshape(-1)
     if frame_size <= 0 or hop <= 0:
@@ -36,23 +41,24 @@ def zero_crossing_rate(frames: np.ndarray) -> np.ndarray:
 
 
 def _spectrum(frames: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Return magnitude spectra and a frequency vector guaranteed to match it."""
+    """Return magnitude spectra and FFT-bin indices matched to the output width."""
     frames = np.asarray(frames, dtype=float)
     if frames.ndim != 2:
         raise ValueError("frames must be a 2D array")
     window = np.hanning(frames.shape[1])
     spectrum = np.abs(np.fft.rfft(frames * window, axis=1))
-    # Derive bins from the actual FFT output rather than independently assuming
-    # an FFT width. This prevents the 258-vs-601 matrix/vector mismatch seen in
-    # deployed analysis when frame and frequency dimensions diverge.
     bins = np.arange(spectrum.shape[1], dtype=float)
     return spectrum, bins
 
 
 def _frequencies_from_spectrum(spectrum: np.ndarray, frame_size: int, sample_rate: int) -> np.ndarray:
+    """Construct exactly one frequency value per actual FFT column."""
     if frame_size <= 0 or sample_rate <= 0:
         raise ValueError("frame_size and sample_rate must be positive")
-    return np.arange(spectrum.shape[1], dtype=float) * sample_rate / frame_size
+    frequencies = np.arange(spectrum.shape[1], dtype=float) * sample_rate / frame_size
+    if frequencies.size != spectrum.shape[1]:
+        raise RuntimeError("frequency vector does not match FFT output width")
+    return frequencies
 
 
 def spectral_centroid(frames: np.ndarray, sample_rate: int) -> np.ndarray:
@@ -60,8 +66,6 @@ def spectral_centroid(frames: np.ndarray, sample_rate: int) -> np.ndarray:
         raise ValueError("sample_rate must be positive")
     spectrum, _ = _spectrum(frames)
     frequencies = _frequencies_from_spectrum(spectrum, frames.shape[1], sample_rate)
-    if spectrum.shape[1] != frequencies.size:
-        raise RuntimeError("spectral centroid frequency dimension mismatch")
     denom = spectrum.sum(axis=1)
     return np.divide(spectrum @ frequencies, denom, out=np.zeros_like(denom), where=denom > 0)
 
@@ -71,8 +75,6 @@ def spectral_spread(frames: np.ndarray, sample_rate: int) -> np.ndarray:
         raise ValueError("sample_rate must be positive")
     spectrum, _ = _spectrum(frames)
     frequencies = _frequencies_from_spectrum(spectrum, frames.shape[1], sample_rate)
-    if spectrum.shape[1] != frequencies.size:
-        raise RuntimeError("spectral spread frequency dimension mismatch")
     weights = spectrum.sum(axis=1)
     centroid = np.divide(spectrum @ frequencies, weights, out=np.zeros_like(weights), where=weights > 0)
     variance = np.divide(
