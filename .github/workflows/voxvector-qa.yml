@@ -25,7 +25,9 @@ jobs:
           python-version: '3.11'
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: voxvector/package.json
       - name: Install API package
         run: python -m pip install -e '.[dev]'
       - name: Run VoxVector API tests
