@@ -1,0 +1,725 @@
+<!DOCTYPE html><html data-site-root="darenprince-author" lang="en"><head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <!-- Apple PWA + Safari enhancements -->
+    <!-- Smart App banner is rendered by js/main.js -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#456f3a">
+    <meta name="application-name" content="Daren Prince Official Site">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+    <meta name="msapplication-TileColor" content="#456f3a">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+  <!-- End Apple PWA + Safari enhancements -->
+<meta name="description" content="Developer Command"><link rel="canonical" href="https://www.darenprince.com/admin-dashboard.html"><meta property="og:title" content="Admin Dashboard"><meta property="og:site_name" content="darenprince.com"><meta property="og:description" content="Developer Command"><meta property="og:type" content="website"><meta property="og:url" content="https://www.darenprince.com/admin-dashboard.html"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Admin Dashboard"><meta name="twitter:description" content="Developer Command"><meta name="author" content="Daren Prince"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Admin Dashboard",
+  "description": "Developer Command",
+  "url": "https://www.darenprince.com/admin-dashboard.html",
+  "isPartOf": {
+    "@id": "https://www.darenprince.com#website"
+  },
+  "publisher": {
+    "@id": "https://www.darenprince.com#organization"
+  },
+  "author": {
+    "@id": "https://www.darenprince.com#author"
+  }
+}</script>
+<script type="application/ld+json" data-generated-by="seo-enrich">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Admin Dashboard.html",
+      "item": "https://www.darenprince.com/admin-dashboard.html/"
+    }
+  ]
+}</script></head>
+<body class="theme-dark">
+  <script type="module">
+    import { enforcePasswordGate } from './js/password-gate.js';
+
+    enforcePasswordGate({
+      gateId: 'admin-dashboard',
+      heading: 'Admin hub access',
+      message: 'Enter the admin password to open the operations dashboard.',
+    });
+  </script>
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close"><i class="ph ph-x"></i></button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo">
+    <ul class="mega-menu-list">
+      <li><a href="index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+      <li><a href="index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+      <li><a href="contact.html"><i class="ph ph-envelope"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="#"><i class="ph ph-facebook-logo"></i></a>
+        <a href="#"><i class="ph ph-instagram-logo"></i></a>
+        <a href="#"><i class="ph ph-youtube-logo"></i></a>
+        <a href="#"><i class="ph ph-tiktok-logo"></i></a>
+      </li>
+      <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+  <div class="site-wrap" hidden="">
+    <header class="site-header padding-y-sm js-sticky-nav">
+      <div class="container max-width-adaptive-lg flex items-center justify-between">
+        <a href="index.html" class="logo">
+          <img src="/assets/logos/logo-hires-white-for-dark-bg.svg" alt="Daren Prince wordmark">
+        </a>
+        <div class="nav-btn-group flex items-center gap-sm">
+          <button class="nav-icon-btn js-search-toggle" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
+          <button class="nav-icon-btn nav-icon-btn--static js-theme-toggle" aria-label="Toggle theme"><i class="ph ph-moon"></i></button>
+          <button class="nav-icon-btn js-profile-toggle" aria-label="Account"><i class="ph ph-user"></i></button>
+          <button class="hamburger-btn js-menu-toggle" aria-label="Menu"><i class="ph ph-list"></i></button>
+        </div>
+      </div>
+      <div class="search-bar js-search-bar" hidden="">
+        <form class="search-form flex items-center">
+          <input type="search" placeholder="search site">
+          <button type="submit" class="search-submit"><i class="ph ph-magnifying-glass"></i></button>
+        </form>
+      </div>
+      <div class="profile-dropdown js-profile-dropdown" hidden="">
+        <div class="profile-info">
+          <img src="/assets/images/daren-prince-profile-sm.jpg" alt="Avatar" class="profile-avatar">
+          <span class="profile-name">Guest</span>
+        </div>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Account</a></li>
+          <li><button class="auth-btn logout-btn js-auth-toggle"><i class="ph ph-sign-out"></i> Logout</button></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="padding-y-xl">
+      <div class="container max-width-adaptive-lg developer-dashboard">
+        <section class="developer-hero surface-panel">
+          <div class="developer-hero__intro">
+            <p class="section-eyebrow">Developer Command</p>
+            <h1 class="developer-hero__title">Operator Command Center</h1>
+            <p class="developer-hero__lede">You are the architect of this universe. Every component, story beat, and integration responds to your signal. Rally the team, brief the AI, and ship boldly.</p>
+            <ul class="status-pills">
+              <li><i class="ph ph-shield-check"></i>Secure access confirmed</li>
+              <li><i class="ph ph-cpu"></i>Automation standing by</li>
+              <li><i class="ph ph-rocket"></i>Launch window is open</li>
+            </ul>
+          </div>
+          <div class="developer-hero__aside">
+            <figure class="developer-hero__badge" aria-labelledby="labs-badge">
+              <img src="/assets/logos/logo-hires-white-for-dark-bg.svg" alt="Daren Prince Labs insignia">
+              <figcaption id="labs-badge">Daren Prince Labs</figcaption>
+            </figure>
+            <div class="developer-hero__metrics">
+              <div class="developer-metric">
+                <span class="developer-metric__label">Active systems</span>
+                <span class="developer-metric__value">07</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Verified clearances</span>
+                <span class="developer-metric__value">03</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Labs online</span>
+                <span class="developer-metric__value">04</span>
+              </div>
+              <div class="developer-metric">
+                <span class="developer-metric__label">Last audit</span>
+                <span class="developer-metric__value">3h ago</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-section">
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Operational Launchpad</p>
+            <h2 class="section-heading">Quick Actions</h2>
+            <p class="section-lede">Primary tooling for accelerating releases, validating site parity, and coordinating with AI copilots.</p>
+          </div>
+          <div class="dashboard-grid">
+            <a class="dashboard-card" href="components.html">
+              <div class="dashboard-card__status" data-tone="live">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Live</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-layout"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Component Library</h3>
+                  <p class="dashboard-card__copy">Review reusable modules, hero layouts, sliders, and UI atoms for rapid deployment.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="style-classes.html">
+              <div class="dashboard-card__status" data-tone="live">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Live</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-palette"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Style Classes</h3>
+                  <p class="dashboard-card__copy">Track typography scales, utility classes, and theming tokens used across the platform.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="image-index.html">
+              <div class="dashboard-card__status" data-tone="live">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Refreshed</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-image"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Image Index</h3>
+                  <p class="dashboard-card__copy">Search, audit, and reuse optimized imagery and artwork for launches or campaigns.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="sitemap.html">
+              <div class="dashboard-card__status" data-tone="live">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Live</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-tree-structure"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Site Map &amp; Page Index</h3>
+                  <p class="dashboard-card__copy">Validate public hierarchy, hidden routes, and ensure navigation parity across touchpoints.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="pages/search.html">
+              <div class="dashboard-card__status" data-tone="qa">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>QA Sprint</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-magnifying-glass"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Search Experience</h3>
+                  <p class="dashboard-card__copy">QA the live search UI, filters, and result relevance tuning for upcoming releases.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="dashboard.html">
+              <div class="dashboard-card__status" data-tone="offline">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Offline</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-user"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Member Dashboard</h3>
+                  <p class="dashboard-card__copy">Simulate member journeys, profile settings, and gated content flows.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author/blob/main/docs/data-platform-migration.md#operations-command-center" target="_blank" rel="noopener noreferrer">
+              <div class="dashboard-card__status" data-tone="planned">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Planned</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-users"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">User Access Console</h3>
+                  <p class="dashboard-card__copy">Follow-up build: elevated admins will assign roles, toggle folder access, reset passwords, and remove accounts.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section class="dashboard-section developer-labs">
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Labs Network</p>
+            <h2 class="section-heading">Daren Prince Labs</h2>
+            <p class="section-lede">High-velocity prototypes and research spaces hardened for intelligence workflows.</p>
+          </div>
+          <div class="dashboard-grid">
+            <a class="dashboard-card dashboard-card--labs" href="labs/crowncode/index.html">
+              <div class="dashboard-card__status" data-tone="qa">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Lab QA</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-hexagon"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">CrownCode.ai Intelligence Lab</h3>
+                  <p class="dashboard-card__copy">USWDS-driven security gate with calibration loaders, clearance workflows, and trust signals.</p>
+                  <span class="dashboard-card__tag">Clearance Alpha</span>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card dashboard-card--labs" href="Picdetective/index.html">
+              <div class="dashboard-card__status" data-tone="qa">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Beta</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-radar"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Pic Detective</h3>
+                  <p class="dashboard-card__copy">Prototype image forensics assistant covering uploads, analysis, and investigative reporting.</p>
+                  <span class="dashboard-card__tag">Beta Field Test</span>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card dashboard-card--labs" href="components/book-details-tab-demo.html">
+              <div class="dashboard-card__status" data-tone="live">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Live</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-books"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Narrative Commerce Deck</h3>
+                  <p class="dashboard-card__copy">Interactive product storytelling with tabbed content, ideal for launch sequences.</p>
+                  <span class="dashboard-card__tag">Storycraft Suite</span>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card dashboard-card--labs" href="shhh.html">
+              <div class="dashboard-card__status" data-tone="planned">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Queued</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-lock"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Private Broadcast Room</h3>
+                  <p class="dashboard-card__copy">Ephemeral messaging environment preparing for the new realtime data provider.</p>
+                  <span class="dashboard-card__tag">Signal Ops</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section class="dashboard-section">
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Briefing Library</p>
+            <h2 class="section-heading">Documentation &amp; Intelligence</h2>
+            <p class="section-lede">Stay synched with system protocols, SEO guardrails, and prompt engineering guidance.</p>
+          </div>
+          <ul class="dashboard-list">
+            <li>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/README.md" target="_blank" rel="noopener noreferrer"><i class="ph ph-notebook"></i> Platform Overview</a>
+              <p>High-level runbook, brand voice, and onboarding intel to align new collaborators instantly.</p>
+            </li>
+            <li>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/indexing-strategy.md" target="_blank" rel="noopener noreferrer"><i class="ph ph-target"></i> Indexing &amp; SEO Strategy</a>
+              <p>Clarifies crawl budgets, gating posture, and how protected routes avoid thin-content penalties.</p>
+            </li>
+            <li>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/data-platform-migration.md" target="_blank" rel="noopener noreferrer"><i class="ph ph-database"></i> Data Platform Migration Plan</a>
+              <p>Outlines the staging approach, new provider requirements, and milestones for restoring authentication.</p>
+            </li>
+            <li>
+              <a class="dashboard-list__link" href="https://github.com/darenprince/darenprince-author/blob/main/docs/CODEX_PROMPTS.md" target="_blank" rel="noopener noreferrer"><i class="ph ph-chat-teardrop-text"></i> Codex Prompt Library</a>
+              <p>Reusable prompt engineering patterns for AI-assisted builds, migrations, and component authoring.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="dashboard-section">
+          <div class="section-heading-group">
+            <p class="section-eyebrow">Systems Pulse</p>
+            <h2 class="section-heading">Integrations &amp; Control Panels</h2>
+            <p class="section-lede">Direct access to infrastructure touchpoints orchestrating deploys, auth, and automation.</p>
+          </div>
+          <div class="dashboard-grid">
+            <a class="dashboard-card" href="admin-user-management.html">
+              <div class="dashboard-card__status" data-tone="planned">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>In rebuild</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-shield-lock"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Operations Command Center</h3>
+                  <p class="dashboard-card__copy">Monitor migration status, notify stakeholders, and route urgent access requests.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author" target="_blank" rel="noopener noreferrer">
+              <div class="dashboard-card__status" data-tone="external">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>External</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-github-logo"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">GitHub Repository</h3>
+                  <p class="dashboard-card__copy">Review commit history, open pull requests, and CI insights before green-lighting releases.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="https://docs.github.com/en/pages" target="_blank" rel="noopener noreferrer">
+              <div class="dashboard-card__status" data-tone="external">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>External</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-cloud-arrow-up"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">GitHub Pages Deploys</h3>
+                  <p class="dashboard-card__copy">Monitor GitHub Pages settings, deployments, and branch source configuration.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="https://github.com/darenprince/darenprince-author/blob/main/docs/data-platform-migration.md" target="_blank" rel="noopener noreferrer">
+              <div class="dashboard-card__status" data-tone="planned">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Planning</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-database"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">Data Platform Console</h3>
+                  <p class="dashboard-card__copy">Track the rebuild roadmap and access configuration checklists for the upcoming provider.</p>
+                </div>
+              </div>
+            </a>
+            <a class="dashboard-card" href="https://chatgpt.com/codex" target="_blank" rel="noopener noreferrer">
+              <div class="dashboard-card__status" data-tone="external">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>External</span>
+              </div>
+              <div class="dashboard-card__header">
+                <i class="ph ph-robot"></i>
+                <div class="dashboard-card__body">
+                  <h3 class="dashboard-card__title">ChatGPT Codex Portal</h3>
+                  <p class="dashboard-card__copy">Spin up new builds, orchestrate AI assistants, and refine automation scripts.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+        <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo">
+        <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Follow on Facebook">
+            <img src="/assets/icons/facebook-32.png" alt="">
+            <span class="sr-only">Facebook</span>
+          </a>
+          <a href="#" aria-label="Follow on X">
+            <img src="/assets/icons/twitter-x-32.png" alt="">
+            <span class="sr-only">X (Twitter)</span>
+          </a>
+          <a href="#" aria-label="Follow on YouTube">
+            <img src="/assets/icons/youtube-32.png" alt="">
+            <span class="sr-only">YouTube</span>
+          </a>
+          <a href="#" aria-label="Follow on TikTok">
+            <img src="/assets/icons/tiktok-32.png" alt="">
+            <span class="sr-only">TikTok</span>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="book.html">Book</a></li>
+          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="sitemap.html">Site Index</a></li>
+        </ul>
+      </div>
+      <details class="footer-collapse">
+        <summary>Creator &amp; Platform Links</summary>
+        <div class="footer-collapse-grid">
+          <div>
+            <h4>Creator Tools</h4>
+            <ul class="footer-links">
+              <li><a href="components.html">Components</a></li>
+              <li><a href="themes.html">Themes</a></li>
+              <li><a href="style-classes.html">Style Classes</a></li>
+              <li><a href="loaders.html">Loaders</a></li>
+              <li><a href="promotion-tools.html">Promotion Tools</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Developer Docs</h4>
+            <ul class="footer-links">
+              <li><a href="iconifty.html">Iconify</a></li>
+              <li><a href="docs/style-guide.html">Style Guide</a></li>
+              <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
+              <li><a href="style-classes.html">Utility Classes</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Account</h4>
+            <ul class="footer-links">
+              <li><a href="login.html">Login</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="reset-password.html">Reset Password</a></li>
+              <li><a href="verify-email.html">Verify Email</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Admin</h4>
+            <ul class="footer-links">
+              <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+              <li><a href="admin-user-management.html">User Management</a></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+      <div class="footer-signup">
+        <h4>Mailing List</h4>
+        <p class="footer-note">Join for drops, tools, and private updates.</p>
+        <form action="#" method="post">
+          <label for="footer-email-admin-dashboard" class="sr-only">Email address</label>
+          <input id="footer-email-admin-dashboard" name="email" type="email" placeholder="you@email.com" required="">
+          <button type="submit" class="primary-btn">Join the List</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span>© 2025 Daren Prince. All rights reserved.</span>
+        <a href="labs.html" class="footer-labs-link">
+          <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo">
+        </a>
+      </div>
+    </div>
+  </footer>
+  </div>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+
+
