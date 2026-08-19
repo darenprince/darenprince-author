@@ -5,29 +5,55 @@
 :root {
   color-scheme: dark;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  background: #120d08;
-  color: #f6f0e7;
+  background: #080706;
+  color: #f4efe8;
   text-rendering: optimizeLegibility;
   font-synthesis: none;
-  --vv-bg: #120d08;
-  --vv-surface: #18110b;
-  --vv-surface-2: #21160f;
-  --vv-panel: #251911;
-  --vv-panel-soft: rgba(116, 75, 42, 0.14);
-  --vv-accent: #b87845;
-  --vv-accent-bright: #e0b276;
-  --vv-gold: #d6a15f;
-  --vv-text: #f6f0e7;
-  --vv-muted: rgba(246, 240, 231, 0.56);
-  --vv-muted-strong: rgba(246, 240, 231, 0.78);
-  --vv-border: rgba(201, 158, 108, 0.18);
-  --vv-border-strong: rgba(224, 178, 118, 0.34);
+
+  /* VoxVector reference driven visual system:
+     near black environment, graphite surfaces, warm white information,
+     restrained espresso / coffee / tan emphasis. */
+  --vv-bg: #080706;
+  --vv-surface: #10100f;
+  --vv-surface-2: #161411;
+  --vv-panel: #1d1813;
+  --vv-panel-soft: rgba(184, 120, 69, 0.08);
+  --vv-accent: #8f5d36;
+  --vv-accent-bright: #d4a26a;
+  --vv-gold: #b98551;
+  --vv-text: #f4efe8;
+  --vv-muted: rgba(244, 239, 232, 0.56);
+  --vv-muted-strong: rgba(244, 239, 232, 0.78);
+  --vv-border: rgba(210, 175, 133, 0.16);
+  --vv-border-strong: rgba(212, 162, 106, 0.32);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; width: 100%; max-width: 100%; overflow-x: hidden; background: var(--vv-bg); }
-body { margin: 0; min-width: 320px; width: 100%; max-width: 100%; min-height: 100vh; overflow-x: hidden; background: var(--vv-bg); color: var(--vv-text); position: relative; font-size: 16px; }
-#root { width: 100%; max-width: 100%; min-width: 0; min-height: 100vh; overflow-x: clip; }
+body {
+  margin: 0;
+  min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(126, 79, 43, 0.10), transparent 28rem),
+    radial-gradient(circle at 8% 42%, rgba(89, 54, 31, 0.07), transparent 30rem),
+    linear-gradient(180deg, #090807 0%, var(--vv-bg) 42%, #060606 100%);
+  color: var(--vv-text);
+  position: relative;
+  font-size: 16px;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(115deg, rgba(255,255,255,0.018), transparent 35%, rgba(184,120,69,0.018) 70%, transparent);
+}
+#root { width: 100%; max-width: 100%; min-width: 0; min-height: 100vh; overflow-x: clip; position: relative; z-index: 1; }
 #root > * { width: 100%; min-width: 0; }
 main, section, article, aside, header, footer, nav, div { min-width: 0; }
 pre { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
@@ -35,11 +61,23 @@ a { color: inherit; }
 button, input { font: inherit; }
 button { max-width: 100%; }
 :focus-visible { outline: 2px solid var(--vv-accent-bright); outline-offset: 3px; }
-::selection { background: rgba(190, 132, 72, 0.28); color: white; }
+::selection { background: rgba(184, 120, 69, 0.24); color: white; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--vv-bg); }
-::-webkit-scrollbar-thumb { background: rgba(190, 132, 72, 0.22); border: 3px solid var(--vv-bg); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(224, 178, 118, 0.36); }
+::-webkit-scrollbar-track { background: #080706; }
+::-webkit-scrollbar-thumb { background: rgba(184, 120, 69, 0.22); border: 3px solid #080706; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212, 162, 106, 0.34); }
+
+/* Apply the reference's depth model to Tailwind/Tremor surfaces without
+   turning every card into a loud gradient. */
+[class*="bg-[var(--vv-surface)]"] {
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.012), transparent 38%, rgba(184,120,69,0.018)) !important;
+}
+[class*="bg-[var(--vv-surface-2)]"] {
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.014), transparent 42%, rgba(184,120,69,0.022)) !important;
+}
+[class*="bg-[var(--vv-panel)]"] {
+  background-image: linear-gradient(145deg, rgba(255,255,255,0.016), rgba(184,120,69,0.022)) !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
