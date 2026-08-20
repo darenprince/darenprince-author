@@ -71,5 +71,20 @@
 .vv-profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 14px; }
 .vv-profile-actions { display:flex; align-items:center; gap:12px; margin-top:16px; }
 .vv-profile-message { color:#34d399; font-size:12px; }
+
+/* SiriWave iOS9 status visualizer: warm VoxVector palette, replacing the generic bar animation. */
+.vv-api-visualizer { min-width:0; padding:16px; border:1px solid var(--vv-border); border-radius:10px; background:linear-gradient(145deg, color-mix(in srgb, var(--vv-surface) 96%, #8f5d35 4%), var(--vv-panel)); overflow:hidden; }
+.vv-api-visualizer-head { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--vv-muted-strong); font-size:11px; }
+.vv-api-visualizer-label { display:inline-flex; align-items:center; gap:8px; font-weight:650; }
+.vv-api-visualizer-head > span { color:var(--vv-muted); font:700 9px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.14em; }
+.vv-siriwave { position:relative; width:100%; height:82px; margin-top:8px; overflow:hidden; border-top:1px solid rgba(255,255,255,.045); border-bottom:1px solid rgba(255,255,255,.045); opacity:.9; }
+.vv-siriwave canvas { display:block; width:100% !important; height:100% !important; }
+.vv-api-visualizer-active .vv-siriwave { opacity:1; }
+.vv-api-visualizer-ready .vv-siriwave { opacity:.72; }
+.vv-api-visualizer-idle .vv-siriwave { opacity:.46; }
+.vv-api-visualizer-error .vv-siriwave { opacity:.56; filter:saturate(.65); }
+.vv-api-visualizer-foot { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:9px; color:var(--vv-muted); font-size:10px; line-height:1.5; }
+.vv-api-live { flex:0 0 auto; color:#c99a66; font:700 9px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase; }
+
 @media (max-width: 700px) { .vv-file-info-grid { grid-template-columns:1fr 1fr; } .vv-profile-grid { grid-template-columns:1fr; } .vv-state-steps { grid-template-columns:1fr 1fr; } }
-@media (max-width: 480px) { .vv-file-info-grid { grid-template-columns:1fr; } .vv-log-main > div { align-items:flex-start; flex-direction:column; gap:3px; } }
+@media (max-width: 480px) { .vv-file-info-grid { grid-template-columns:1fr; } .vv-log-main > div { align-items:flex-start; flex-direction:column; gap:3px; } .vv-api-visualizer { padding:13px; } .vv-siriwave { height:72px; } }
