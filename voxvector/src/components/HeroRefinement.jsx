@@ -234,6 +234,9 @@ function hideLegacyHeroCopy(hero) {
       element.style.display = 'none'
       element.dataset.vvLegacyHeroCopy = 'true'
     }
+    if (text === 'voxvector analyzes speech across vocal, acoustic, linguistic, and behavioral dimensions to identify patterns associated with deception, uncertainty, and cognitive load, while showing the evidence, conflicts, and uncertainty behind every result.') {
+      element.remove()
+    }
   })
 }
 
