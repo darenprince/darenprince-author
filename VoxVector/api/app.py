@@ -28,7 +28,6 @@ from voxvector.pipeline import VoxVectorPipeline
 import voxvector.acoustic as _acoustic_module
 from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, safe_error, timer
 
-MAX_BYTES = 20 * 1024 * 1024
 MAX_SAMPLE_RATE = 48_000
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
@@ -153,7 +152,6 @@ def health():
         "runtime_self_test": self_test,
         "diagnostic_storage": DIAGNOSTICS.status(),
         "analysis_limits": {
-            "max_bytes": MAX_BYTES,
             "max_sample_rate_hz": MAX_SAMPLE_RATE,
         },
     }
@@ -165,10 +163,7 @@ async def analyze(request: Request, file: UploadFile = File(...)):
     if not file.filename or not file.filename.lower().endswith(".wav"):
         await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="unsupported_file_type", status_code=415)
         raise HTTPException(status_code=415, detail="Initial runtime accepts WAV audio only")
-    data = await file.read(MAX_BYTES + 1)
-    if len(data) > MAX_BYTES:
-        await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="payload_too_large", status_code=413, bytes=len(data))
-        raise HTTPException(status_code=413, detail="Audio payload exceeds 20 MB")
+    data = await file.read()
 
     self_test_ok, self_test = _runtime_self_test()
     if not self_test_ok:
