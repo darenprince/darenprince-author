@@ -167,6 +167,7 @@ function refineHeroActions() {
   if (!action || action.dataset.vvHeroAction === 'true') return
   action.dataset.vvHeroAction = 'true'
   action.classList.add('vv-hero-primary-cta')
+  action.parentElement?.classList.add('vv-hero-cta-row')
   const oldIcon = action.querySelector('svg')
   if (oldIcon) oldIcon.replaceWith(waveformIcon())
   if (!document.querySelector('.vv-hero-api-cta')) {
@@ -228,6 +229,8 @@ export default function HeroRefinement() {
   useEffect(() => {
     const heading = document.querySelector('#product h1')
     if (!heading) return
+    const heroContent = heading.parentElement
+    if (heroContent) heroContent.classList.add('vv-hero-content')
     const eyebrow = heading.parentElement?.previousElementSibling?.querySelector('div')
     if (eyebrow) eyebrow.parentElement.style.display = 'none'
     const oldSubheading = heading.parentElement?.nextElementSibling
@@ -247,6 +250,12 @@ export default function HeroRefinement() {
     secondLine.className = 'vv-hero-line vv-hero-audio-line'
     secondLine.textContent = 'IN YOUR AUDIO'
     heading.append(firstLine, secondLine)
+
+    const body = document.createElement('p')
+    body.className = 'vv-hero-body'
+    body.innerHTML = '<strong>VoxVector</strong><sup>™</sup> is an advanced vocal intelligence platform that uses proprietary analysis algorithms to deeply analyze and interpret human speech signals across vocal, acoustic, linguistic, forensics, and behavioral dimensions to scientifically detect patterns associated with deception, vocal stress, uncertainty, and cognitive load.'
+    heading.insertAdjacentElement('afterend', body)
+
     const normalizeNonHero = establishHeroOnlyReveal()
     const scrollCleanup = establishMobileScrollReset()
     createHeroWaveform()
@@ -277,6 +286,8 @@ export default function HeroRefinement() {
       scrollCleanup()
       document.documentElement.classList.remove('vv-hero-only-reveal')
       document.querySelectorAll('.vv-static-reveal').forEach((element) => element.classList.remove('vv-static-reveal'))
+      document.querySelector('.vv-hero-body')?.remove()
+      heroContent?.classList.remove('vv-hero-content')
     }
   }, [])
   return null
