@@ -16,6 +16,9 @@ Public landing hero hierarchy, header proportions, hero background treatment, an
 - Added a new full-bleed SVG hero artwork using a dark charcoal field, subtle dimensional wave paths, fine spectral lines, restrained coffee-gold illumination, and sparse particles.
 - Reduced the hero overlay contrast so the new artwork remains visible without competing with the headline.
 - Added reduced-motion handling for the animated gold shine.
+- Refined `IN YOUR AUDIO` to a slightly smaller, darker secondary line, especially on mobile.
+- Changed the hero sequence so the waveform opens clearly, recedes, `Reveal the` appears, `TRUTH` reveals and begins its gold shine sooner, then `IN YOUR AUDIO`, body copy, and CTAs reveal in sequence.
+- Increased the opening waveform visibility while retaining its deliberate fade so the signal remains perceptible instead of disappearing into the black hero field.
 
 ## Implementation
 
@@ -30,4 +33,4 @@ Presentation-only change. No VoxVector analysis method, evidence model, reliabil
 
 ## Verification status
 
-Changes are committed to the GitHub source of truth. A fresh production build and browser-level visual QA are still required before claiming rendered production verification.
+Source changes are committed to the GitHub source of truth. GitHub's combined commit status currently reports no status entries for the latest commit, so a successful production deployment and browser-level visual QA are not being claimed yet.
