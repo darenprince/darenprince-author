@@ -6,8 +6,12 @@ This directory contains the deployable HTTP adapter for the canonical VoxVector 
 
 - `GET /health` — runtime health check
 - `POST /v1/analyze` — accepts a supported PCM WAV upload and returns the canonical `AnalysisResult`
-- Initial upload limit: 20 MB
+- Maximum upload: 20 MB
+- Maximum audio duration: 60 seconds
+- Maximum sample rate: 48 kHz
 - Initial runtime format: PCM WAV
+
+The active upload limits are also exposed by `GET /health` under `analysis_limits`.
 
 The adapter imports `VoxVectorPipeline` from `VoxVector/src/voxvector/`. All analysis remains in the canonical engine.
 
