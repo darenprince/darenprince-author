@@ -12,6 +12,7 @@ import './landing-chrome.css'
 import './hero-refinement.css'
 import './evidence-motion.css'
 import './audio-player.css'
+import './console-menu-effects.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,7 +36,7 @@ function PublicChromeLayer() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider clientName="voxvector">
       <App />
       <ThemeLayer />
       <PublicChromeLayer />
