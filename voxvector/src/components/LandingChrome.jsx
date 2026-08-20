@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react'
 import { ArrowUpRight, BookOpen, Code2, FileText, Github, Globe2, Instagram, Linkedin, Menu, ShieldCheck, Terminal, X, Youtube, UserRound, Twitter } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 
+const CROWN_LABS_VIEWER = '/docs/crownlabsbible/docs/viewer.html'
+const CROWN_LABS_VOXVECTOR = `${CROWN_LABS_VIEWER}?doc=../04-product-dossiers/VoxVector/overview.md`
+
 const menuItems = [
   { label: 'Product', href: '#product', icon: Globe2 },
   { label: 'How it works', href: '#workflow', icon: FileText },
   { label: 'Technology', href: '#technology', icon: Code2 },
   { label: 'Use cases', href: '#use-cases', icon: ShieldCheck },
-  { label: 'Project briefing', href: '#briefing', icon: BookOpen },
+  { label: 'Project briefing', href: CROWN_LABS_VOXVECTOR, icon: BookOpen },
 ]
 
 function HeaderControls({ onMenu }) {
@@ -41,14 +44,14 @@ function SideMenu({ open, onClose }) {
       <div className="vv-side-menu-head"><div><span className="vv-side-menu-kicker">VOXVECTOR</span><h2>Explore</h2></div><button type="button" className="vv-public-icon-button" onClick={onClose} aria-label="Close navigation"><X size={19} /></button></div>
       <div className="vv-side-menu-rule" />
       <nav className="vv-side-menu-nav">
-        {menuItems.map(({ label, href, icon: Icon }) => <a key={href} href={href} onClick={onClose}><span className="vv-side-menu-icon"><Icon size={18} strokeWidth={1.7} /></span><span>{label}</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>)}
+        {menuItems.map(({ label, href, icon: Icon }) => <a key={label} href={href} onClick={onClose}><span className="vv-side-menu-icon"><Icon size={18} strokeWidth={1.7} /></span><span>{label}</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>)}
         <div className="vv-side-menu-rule vv-side-menu-rule-spaced" />
         <a href="/voxvector/developer" onClick={onClose}><span className="vv-side-menu-icon"><Terminal size={18} /></span><span>Developer Console</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
-        <a href="https://github.com/darenprince/darenprince-author/tree/main/VoxVector/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><BookOpen size={18} /></span><span>VoxVector Docs</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
+        <a href="https://github.com/darenprince/darenprince-author/tree/main/VoxVector/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><BookOpen size={18} /></span><span>GitHub VoxVector Docs</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
         <a href="https://voxvector.crownlabs.tech/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><Code2 size={18} /></span><span>API Documentation</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
-        <a href="/docs/crownlabsbible/docs/viewer.html" onClick={onClose}><span className="vv-side-menu-icon"><ShieldCheck size={18} /></span><span>Crown Labs Documents</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
+        <a href={CROWN_LABS_VIEWER} onClick={onClose}><span className="vv-side-menu-icon"><ShieldCheck size={18} /></span><span>Crown Labs Documents</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
       </nav>
-      <div className="vv-side-menu-foot"><span>Built by Crown Labs</span><a href="https://github.com/darenprince/darenprince-author" target="_blank" rel="noreferrer"><Github size={15} /> Source</a></div>
+      <div className="vv-side-menu-foot"><span>Built by Crown Labs</span><a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer"><Github size={15} /> Frontend source</a></div>
     </motion.aside>
   </div>}</AnimatePresence>, document.body)
 }
@@ -64,7 +67,7 @@ function FooterEnhancement() {
       <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={16} /></a>
       <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
     </div>
-    <a className="vv-crownlabs-lockup" href="/docs/crownlabsbible/docs/viewer.html" aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><span>Corporate documents</span></a>
+    <a className="vv-crownlabs-lockup" href={CROWN_LABS_VIEWER} aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><span>Corporate documents</span></a>
   </div>, target)
 }
 
