@@ -180,6 +180,23 @@ function refineHeroActions() {
   }
 }
 
+function relocateAnalyticalPrinciples() {
+  const heading = Array.from(document.querySelectorAll('main h2')).find((element) => element.textContent?.trim() === 'See the signal. Keep the uncertainty.')
+  if (!heading) return
+  const analyticalSection = heading.closest('section')
+  const principlesSection = document.querySelector('#product')?.nextElementSibling
+  if (!analyticalSection || !principlesSection || principlesSection === analyticalSection) return
+  const principlesGrid = principlesSection.firstElementChild
+  const analyticalInner = analyticalSection.firstElementChild
+  if (!principlesGrid || !analyticalInner || principlesGrid.classList.contains('vv-relocated-principles')) return
+  const contentReveal = analyticalInner.firstElementChild
+  if (!contentReveal) return
+
+  principlesGrid.classList.add('vv-relocated-principles')
+  analyticalInner.insertBefore(principlesGrid, contentReveal.nextElementSibling)
+  principlesSection.remove()
+}
+
 function establishHeroOnlyReveal() {
   document.documentElement.classList.add('vv-hero-only-reveal')
   const normalizeNonHero = () => {
@@ -235,12 +252,14 @@ export default function HeroRefinement() {
     createHeroWaveform()
     createSectionSignalField('#technology', 'radar')
     createSectionSignalField('#workflow', 'evidence')
+    relocateAnalyticalPrinciples()
     refineHeroActions()
     const observer = new MutationObserver(() => {
       normalizeNonHero()
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
+      relocateAnalyticalPrinciples()
       refineHeroActions()
     })
     observer.observe(document.body, { childList: true, subtree: true })
@@ -249,6 +268,7 @@ export default function HeroRefinement() {
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
+      relocateAnalyticalPrinciples()
       refineHeroActions()
     }, 80)
     return () => {
