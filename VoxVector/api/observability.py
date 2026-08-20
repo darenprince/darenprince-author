@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import contextvars
+import json
 import os
 import time
 import uuid
@@ -43,7 +44,7 @@ def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
 
 
 class DiagnosticStore:
-    """Durable, sanitized request diagnostics with a non-blocking fallback."""
+    """Sanitized diagnostics written to the Render console and durable storage."""
 
     def __init__(self, storage: SupabaseStorage | None = None):
         self.storage = storage or SupabaseStorage()
@@ -68,6 +69,16 @@ class DiagnosticStore:
             "source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"),
             **_safe_fields(fields),
         }
+
+        # Render captures stdout as the live process log stream. Emit the same
+        # sanitized record to stdout before the durable write so diagnostics
+        # remain visible even when storage is slow or unavailable.
+        print(
+            "VOXVECTOR_DIAGNOSTIC "
+            + json.dumps(record, separators=(",", ":"), sort_keys=True),
+            flush=True,
+        )
+
         date_path = now.strftime("%Y/%m/%d")
         object_path = f"events/{date_path}/{rid}/{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
         try:
