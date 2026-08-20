@@ -14,6 +14,7 @@ from .storage import StorageError, SupabaseStorage
 
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
 _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
+_ERROR_EVENTS = {"request.rejected", "request.analysis_error", "request.unhandled_exception"}
 
 
 def new_request_id() -> str:
@@ -70,9 +71,6 @@ class DiagnosticStore:
             **_safe_fields(fields),
         }
 
-        # Render captures stdout as the live process log stream. Emit the same
-        # sanitized record to stdout before the durable write so diagnostics
-        # remain visible even when storage is slow or unavailable.
         print(
             "VOXVECTOR_DIAGNOSTIC "
             + json.dumps(record, separators=(",", ":"), sort_keys=True),
@@ -80,11 +78,22 @@ class DiagnosticStore:
         )
 
         date_path = now.strftime("%Y/%m/%d")
-        object_path = f"events/{date_path}/{rid}/{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
+        object_name = f"{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
+        object_path = f"events/{date_path}/{rid}/{object_name}"
         try:
-            return await asyncio.to_thread(self.storage.put_json, object_path, record)
+            result = await asyncio.to_thread(self.storage.put_json, object_path, record)
+            if event in _ERROR_EVENTS:
+                index_path = f"error-index/{date_path}/{rid}_{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
+                try:
+                    await asyncio.to_thread(self.storage.put_json, index_path, record)
+                except StorageError as exc:
+                    print(
+                        f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} "
+                        f"event={event} index=error-index error={_safe_text(exc)}",
+                        flush=True,
+                    )
+            return result
         except StorageError as exc:
-            # Storage must never become a second availability dependency.
             print(
                 f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} "
                 f"event={event} error={_safe_text(exc)}",
