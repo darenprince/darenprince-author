@@ -23,6 +23,13 @@ export async function getHealth() {
   return apiRequest('/health')
 }
 
+export async function getDiagnosticErrors(accessToken, { days = 14, limit = 100 } = {}) {
+  if (!accessToken) throw new Error('Developer session token unavailable.')
+  return apiRequest(`/v1/diagnostics/errors?days=${encodeURIComponent(days)}&limit=${encodeURIComponent(limit)}`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  })
+}
+
 export async function analyzeWav(file) {
   const body = new FormData()
   body.append('file', file)
