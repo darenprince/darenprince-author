@@ -86,7 +86,6 @@ function createSectionSignalField(selector, variant = 'radar') {
   let raf = 0
   let phase = 0
   let last = performance.now()
-
   const resize = () => {
     const rect = section.getBoundingClientRect()
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -94,7 +93,6 @@ function createSectionSignalField(selector, variant = 'radar') {
     canvas.height = Math.round(rect.height * dpr)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
   }
-
   const draw = (now) => {
     const dt = Math.min(50, now - last)
     last = now
@@ -105,7 +103,6 @@ function createSectionSignalField(selector, variant = 'radar') {
     const cx = variant === 'radar' ? width * 0.78 : width * 0.5
     const cy = height * 0.48
     const base = Math.min(width, height) * (variant === 'radar' ? 0.24 : 0.3)
-
     const glow = ctx.createRadialGradient(cx, cy, base * .15, cx, cy, base * 2.2)
     glow.addColorStop(0, 'rgba(201,154,102,.055)')
     glow.addColorStop(.55, 'rgba(201,154,102,.018)')
@@ -114,7 +111,6 @@ function createSectionSignalField(selector, variant = 'radar') {
     ctx.beginPath()
     ctx.arc(cx, cy, base * 2.2, 0, Math.PI * 2)
     ctx.fill()
-
     for (let ring = 0; ring < 4; ring += 1) {
       const radius = base * (.56 + ring * .19)
       ctx.beginPath()
@@ -132,7 +128,6 @@ function createSectionSignalField(selector, variant = 'radar') {
       ctx.lineWidth = ring === 0 ? 1.1 : .7
       ctx.stroke()
     }
-
     if (variant === 'evidence') {
       const sweep = (phase * .32) % 1
       const x = width * sweep
@@ -143,10 +138,8 @@ function createSectionSignalField(selector, variant = 'radar') {
       ctx.fillStyle = line
       ctx.fillRect(x - 90, 0, 180, height)
     }
-
     raf = requestAnimationFrame(draw)
   }
-
   resize()
   window.addEventListener('resize', resize)
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -179,23 +172,6 @@ function refineHeroActions() {
     api.innerHTML = '<span class="vv-api-glyph" aria-hidden="true">{ }</span><span>API Access</span>'
     action.parentElement?.appendChild(api)
   }
-}
-
-function relocateAnalyticalPrinciples() {
-  const heading = Array.from(document.querySelectorAll('main h2')).find((element) => element.textContent?.trim() === 'See the signal. Keep the uncertainty.')
-  if (!heading) return
-  const analyticalSection = heading.closest('section')
-  const principlesSection = document.querySelector('#product')?.nextElementSibling
-  if (!analyticalSection || !principlesSection || principlesSection === analyticalSection) return
-  const principlesGrid = principlesSection.firstElementChild
-  const analyticalInner = analyticalSection.firstElementChild
-  if (!principlesGrid || !analyticalInner || principlesGrid.classList.contains('vv-relocated-principles')) return
-  const contentReveal = analyticalInner.firstElementChild
-  if (!contentReveal) return
-
-  principlesGrid.classList.add('vv-relocated-principles')
-  analyticalInner.insertBefore(principlesGrid, contentReveal.nextElementSibling)
-  principlesSection.remove()
 }
 
 function establishHeroOnlyReveal() {
@@ -266,19 +242,16 @@ export default function HeroRefinement() {
     secondLine.className = 'vv-hero-line vv-hero-audio-line'
     secondLine.textContent = 'IN YOUR AUDIO'
     heading.append(firstLine, secondLine)
-
     const body = document.createElement('p')
     body.className = 'vv-hero-body'
     body.innerHTML = '<strong>VoxVector</strong><sup>™</sup> is an advanced vocal intelligence platform that uses proprietary analysis algorithms to deeply analyze and interpret human speech signals across vocal, acoustic, linguistic, forensics, and behavioral dimensions to scientifically detect patterns associated with deception, vocal stress, uncertainty, and cognitive load.'
     heading.insertAdjacentElement('afterend', body)
     hideLegacyHeroCopy(hero)
-
     const normalizeNonHero = establishHeroOnlyReveal()
     const scrollCleanup = establishMobileScrollReset()
     createHeroWaveform()
     createSectionSignalField('#technology', 'radar')
     createSectionSignalField('#workflow', 'evidence')
-    relocateAnalyticalPrinciples()
     refineHeroActions()
     const observer = new MutationObserver(() => {
       normalizeNonHero()
@@ -286,7 +259,6 @@ export default function HeroRefinement() {
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
-      relocateAnalyticalPrinciples()
       refineHeroActions()
     })
     observer.observe(document.body, { childList: true, subtree: true })
@@ -296,7 +268,6 @@ export default function HeroRefinement() {
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
-      relocateAnalyticalPrinciples()
       refineHeroActions()
     }, 80)
     return () => {
