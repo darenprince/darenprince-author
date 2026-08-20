@@ -250,3 +250,28 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 **Boundary:** This is a presentation and dependency configuration correction. It does not change the scientific capability or validation state of VoxVector.
 
 **Verification:** The source edits are committed. A fresh GitHub Actions build and browser inspection are still required for this exact change before production success is claimed.
+
+## 2026-08-20 — Developer analysis controls, live diagnostics, and documentation routing
+
+**Decision:** Make the Developer Console expose the real state of an analysis request instead of using one generic animation for both upload and server processing. Add cancellable browser requests, correlated lifecycle polling, decoded audio metadata, live playback level/clipping telemetry, persistent event logs, indexed error reporting, developer profile editing, and canonical documentation routing.
+
+**Implementation:**
+
+* upload progress is driven by the browser's XHR upload stream and reaches a distinct upload-complete state before server analysis animation begins
+* the API request receives a client-generated `X-Request-ID` so the console can poll the durable lifecycle event stream during processing
+* the console can stop the active browser analysis request; this cancels the client HTTP request and is explicitly not represented as guaranteed cancellation of already-running server-side worker computation
+* the audio player decodes WAV metadata including container/codec, sample rate, channels, bit depth, bitrate, duration, file size, MIME type, modification time, and embedded RIFF INFO/BEXT fields when available
+* playback now includes a live dBFS level meter and digital clipping indicator using the browser audio analyser
+* `/v1/diagnostics/events` exposes sanitized authenticated lifecycle events for live polling
+* HTTP 5xx diagnostic events are now indexed alongside rejected and analysis-error events
+* the error query remains authenticated and reads the durable error index rather than synthetic frontend state
+* Dashboard state icons are color coordinated and animated according to actual health/runtime/diagnostic state
+* developer profile editing uses Supabase Auth user metadata and does not introduce a second profile database
+* the console documentation navigator now points only to documents that actually exist under `VoxVector/docs/`
+* public VoxVector documentation and project briefing links now route to the Crown Labs Bible
+* GitHub source/documentation buttons remain GitHub links, with the public source button scoped to `./voxvector/`
+* the GitHub Pages workflow now explicitly stages `docs/crownlabsbible/`; the previous `--exclude 'docs/**'` staging rule was the direct cause of the public Crown Labs documentation viewer disappearing from the deployed artifact
+
+**Boundary:** These changes improve product/runtime UX and observability. They do not promote any analytical method to validated deception inference, and UI animation remains a representation of actual lifecycle state rather than evidence.
+
+**Verification requirement:** A fresh frontend build, backend test suite, live Render deployment, authenticated diagnostics query, controlled analysis using the known 17 MB WAV fixture, playback/clipping inspection, profile update test, and GitHub Pages artifact inspection are required before claiming production verification.
