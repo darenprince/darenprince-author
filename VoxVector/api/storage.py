@@ -26,11 +26,7 @@ class StorageConfig:
 
 
 class SupabaseStorage:
-    """Small dependency-free Supabase Storage client for trusted server-side writes.
-
-    The service-role key is read only from the Render environment and is never
-    returned in responses or persisted to the log objects.
-    """
+    """Small dependency-free Supabase Storage client for trusted server-side reads/writes."""
 
     def __init__(self, config: StorageConfig | None = None):
         self.config = config or StorageConfig()
@@ -80,7 +76,6 @@ class SupabaseStorage:
         try:
             self._request("POST", bucket_url, payload, "application/json")
         except StorageError as exc:
-            # Supabase returns a conflict when the private bucket already exists.
             if "HTTP 409" not in str(exc) and "already exists" not in str(exc).lower():
                 raise
         self._bucket_ready = True
@@ -94,6 +89,28 @@ class SupabaseStorage:
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
         self._request("POST", url, body, "application/json")
         return f"{self.config.bucket}/{object_path}"
+
+    def list_json(self, prefix: str, limit: int = 100, offset: int = 0) -> list[dict]:
+        """List diagnostic JSON objects below a prefix using Supabase Storage's list API."""
+        if not prefix or prefix.startswith("/") or ".." in prefix.split("/"):
+            raise ValueError("Invalid storage prefix")
+        limit = max(1, min(int(limit), 1000))
+        offset = max(0, int(offset))
+        url = f"{self.config.supabase_url}/storage/v1/object/list/{quote(self.config.bucket, safe='')}"
+        body = json.dumps({
+            "prefix": prefix.rstrip("/") + "/",
+            "limit": limit,
+            "offset": offset,
+            "sortBy": {"column": "created_at", "order": "desc"},
+        }).encode("utf-8")
+        _, raw = self._request("POST", url, body, "application/json")
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise StorageError("Supabase Storage list response is not valid JSON") from exc
+        if not isinstance(payload, list):
+            raise StorageError("Supabase Storage list response has an unexpected shape")
+        return [item for item in payload if isinstance(item, dict) and str(item.get("name", "")).endswith(".json")]
 
     def get_json(self, object_path: str) -> dict:
         if not object_path or object_path.startswith("/") or ".." in object_path.split("/"):
