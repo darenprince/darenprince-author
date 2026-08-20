@@ -91,7 +91,7 @@ class SupabaseStorage:
         return f"{self.config.bucket}/{object_path}"
 
     def list_json(self, prefix: str, limit: int = 100, offset: int = 0) -> list[dict]:
-        """List diagnostic JSON objects below a prefix using Supabase Storage's list API."""
+        """List storage entries below a prefix; entries may be folders or JSON objects."""
         if not prefix or prefix.startswith("/") or ".." in prefix.split("/"):
             raise ValueError("Invalid storage prefix")
         limit = max(1, min(int(limit), 1000))
@@ -110,7 +110,7 @@ class SupabaseStorage:
             raise StorageError("Supabase Storage list response is not valid JSON") from exc
         if not isinstance(payload, list):
             raise StorageError("Supabase Storage list response has an unexpected shape")
-        return [item for item in payload if isinstance(item, dict) and str(item.get("name", "")).endswith(".json")]
+        return [item for item in payload if isinstance(item, dict)]
 
     def get_json(self, object_path: str) -> dict:
         if not object_path or object_path.startswith("/") or ".." in object_path.split("/"):
