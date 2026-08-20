@@ -13,8 +13,6 @@ from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, Uploa
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 
-# VoxVector is the canonical project root. This file is only the HTTP adapter;
-# all analysis remains implemented under ./src/voxvector/.
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ROOT = os.path.join(PROJECT_ROOT, "src")
 if ROOT not in sys.path:
@@ -140,7 +138,7 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
 
 
 @app.get("/health")
-def health():
+async def health():
     self_test_ok, self_test = _runtime_self_test()
     return {
         "status": "ok" if self_test_ok else "degraded",
@@ -236,7 +234,10 @@ async def analyze(request: Request, file: UploadFile = File(...)):
             raise ValueError("Audio contains no samples")
 
         stage_start = timer()
-        result = VoxVectorPipeline().analyze(audio, sample_rate)
+        # Keep CPU-heavy analysis off the FastAPI event loop so Render's
+        # health probe and diagnostic lifecycle remain responsive during long
+        # recordings. This does not impose a file-size or duration limit.
+        result = await asyncio.to_thread(VoxVectorPipeline().analyze, audio, sample_rate)
         await DIAGNOSTICS.emit(
             "stage.completed",
             request_id=rid,
