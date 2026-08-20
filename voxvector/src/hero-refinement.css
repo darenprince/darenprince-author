@@ -21,6 +21,11 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 @keyframes vvHeroTruthReveal{0%{opacity:0;transform:translateY(28px);filter:blur(7px)}58%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
 @keyframes vvTruthShine{0%,18%{background-position:100% 50%}48%{background-position:0% 50%}62%,100%{background-position:0% 50%}}
 
+.vv-hero-body{position:relative;z-index:4;max-width:760px!important;margin:26px 0 0!important;font-size:16px!important;line-height:1.75!important;letter-spacing:-.005em!important;color:rgba(255,255,255,.58)!important}
+.vv-hero-body strong{font-weight:800!important;color:rgba(255,255,255,.92)!important}
+.vv-hero-body sup{position:relative;top:-.42em;margin-left:1px;font-size:.48em!important;line-height:0;color:rgba(255,255,255,.72)!important;vertical-align:baseline}
+.vv-hero-cta-row{position:relative;z-index:4;display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:nowrap!important}
+
 #product .vv-hero-primary-cta,#product a.vv-hero-primary-cta,#product button.vv-hero-primary-cta{background:#b88755!important;background-image:linear-gradient(135deg,#a87447 0%,#c99a66 45%,#b88755 70%,#9b693f 100%)!important;color:#090806!important;border:1px solid rgba(255,226,191,.34)!important;border-radius:4px!important;box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,245,225,.22)!important;filter:none!important}
 #product .vv-hero-primary-cta:hover,#product a.vv-hero-primary-cta:hover,#product button.vv-hero-primary-cta:hover{background:#c49562!important;background-image:linear-gradient(135deg,#b27b4b 0%,#d0a472 46%,#be8a55 72%,#a87345 100%)!important;transform:translateY(-2px)!important;box-shadow:0 16px 42px rgba(0,0,0,.30),0 0 24px rgba(184,135,85,.14),inset 0 1px 0 rgba(255,245,225,.24)!important}
 .vv-hero-primary-cta:focus-visible,.vv-hero-api-cta:focus-visible{outline:2px solid #d2a36f;outline-offset:3px}
@@ -28,7 +33,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .vv-hero-api-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 18px;border:1px solid rgba(184,135,85,.40);border-radius:4px;background:rgba(15,13,11,.54);color:rgba(250,248,244,.88);font-size:14px;font-weight:700;line-height:1;text-decoration:none;backdrop-filter:blur(12px);transition:transform .28s cubic-bezier(.22,1,.36,1),background .28s ease,border-color .28s ease,box-shadow .28s ease,color .28s ease}
 .vv-hero-api-cta:hover{transform:translateY(-2px);background:rgba(184,135,85,.09);border-color:rgba(184,135,85,.68);color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.22)}
 .vv-api-glyph{display:inline-grid;place-items:center;width:22px;height:18px;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;letter-spacing:-.08em;color:#c99a66}
-.vv-hero-primary-cta+.vv-hero-api-cta{margin-left:10px}
+.vv-hero-primary-cta+.vv-hero-api-cta{margin-left:0}
 #product h1+div{display:none!important}
 
 /* The landing header is sticky at every viewport width; mobile keeps it above the menu and hero. */
@@ -41,13 +46,18 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 }
 @media(max-width:620px){
  #product{min-height:720px!important}
- #product h1{font-size:clamp(3.55rem,16vw,5.6rem)!important;line-height:.86!important;letter-spacing:-.062em!important}
+ #product h1{font-size:clamp(3.55rem,16vw,5.6rem)!important;line-height:.86!important;letter-spacing:-.062em!important;text-align:center!important}
+ #product .vv-hero-content{text-align:center!important;align-items:center!important;justify-content:center!important}
+ #product .vv-hero-content>*{margin-left:auto!important;margin-right:auto!important}
  .vv-hero-truth{font-size:1.08em!important}
  .vv-hero-audio-line{font-size:.50em!important;margin-top:.08em}
  .vv-hero-waveform{top:48px!important;height:76%!important}
  #product>div:nth-child(2){background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 56%,rgba(0,0,0,.52) 100%)!important}
- .vv-hero-api-cta{min-height:44px;padding:0 15px}
- .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:7px}
+ .vv-hero-body{max-width:560px!important;margin-top:24px!important;font-size:15px!important;line-height:1.68!important;text-align:center!important}
+ .vv-hero-cta-row{justify-content:center!important;width:max-content!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;gap:8px!important}
+ .vv-hero-primary-cta,.vv-hero-api-cta{min-height:46px!important}
+ .vv-hero-api-cta{padding:0 15px}
+ .vv-hero-primary-cta{padding-left:16px!important;padding-right:16px!important}
 }
 
 /* Only hero content should use the slow landing scroll reveal. Other landing sections remain immediately readable. */
