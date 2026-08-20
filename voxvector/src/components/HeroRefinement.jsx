@@ -225,11 +225,24 @@ function establishMobileScrollReset() {
   }
 }
 
+function hideLegacyHeroCopy(hero) {
+  if (!hero) return
+  hero.querySelectorAll('*').forEach((element) => {
+    if (element.classList.contains('vv-hero-body')) return
+    const text = element.textContent?.trim().replace(/\s+/g, ' ').toLowerCase()
+    if (text === 'advanced vocal deception analysis.' || text === 'advanced vocal deception analysis') {
+      element.style.display = 'none'
+      element.dataset.vvLegacyHeroCopy = 'true'
+    }
+  })
+}
+
 export default function HeroRefinement() {
   useEffect(() => {
     const heading = document.querySelector('#product h1')
     if (!heading) return
     const heroContent = heading.parentElement
+    const hero = document.querySelector('#product')
     if (heroContent) heroContent.classList.add('vv-hero-content')
     const eyebrow = heading.parentElement?.previousElementSibling?.querySelector('div')
     if (eyebrow) eyebrow.parentElement.style.display = 'none'
@@ -255,6 +268,7 @@ export default function HeroRefinement() {
     body.className = 'vv-hero-body'
     body.innerHTML = '<strong>VoxVector</strong><sup>™</sup> is an advanced vocal intelligence platform that uses proprietary analysis algorithms to deeply analyze and interpret human speech signals across vocal, acoustic, linguistic, forensics, and behavioral dimensions to scientifically detect patterns associated with deception, vocal stress, uncertainty, and cognitive load.'
     heading.insertAdjacentElement('afterend', body)
+    hideLegacyHeroCopy(hero)
 
     const normalizeNonHero = establishHeroOnlyReveal()
     const scrollCleanup = establishMobileScrollReset()
@@ -265,6 +279,7 @@ export default function HeroRefinement() {
     refineHeroActions()
     const observer = new MutationObserver(() => {
       normalizeNonHero()
+      hideLegacyHeroCopy(hero)
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
@@ -274,6 +289,7 @@ export default function HeroRefinement() {
     observer.observe(document.body, { childList: true, subtree: true })
     const timeout = window.setTimeout(() => {
       normalizeNonHero()
+      hideLegacyHeroCopy(hero)
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
@@ -286,6 +302,10 @@ export default function HeroRefinement() {
       scrollCleanup()
       document.documentElement.classList.remove('vv-hero-only-reveal')
       document.querySelectorAll('.vv-static-reveal').forEach((element) => element.classList.remove('vv-static-reveal'))
+      document.querySelectorAll('[data-vv-legacy-hero-copy="true"]').forEach((element) => {
+        element.style.display = ''
+        delete element.dataset.vvLegacyHeroCopy
+      })
       document.querySelector('.vv-hero-body')?.remove()
       heroContent?.classList.remove('vv-hero-content')
     }
