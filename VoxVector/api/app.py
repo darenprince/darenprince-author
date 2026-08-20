@@ -9,7 +9,7 @@ import wave
 from datetime import datetime, timedelta, timezone
 
 import numpy as np
-from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 
@@ -163,7 +163,7 @@ def health():
 
 @app.get("/v1/diagnostics/errors")
 async def diagnostic_errors(
-    _: dict = __import__("fastapi").Depends(require_developer),
+    _: dict = Depends(require_developer),
     days: int = Query(default=14, ge=1, le=30),
     limit: int = Query(default=100, ge=1, le=250),
 ):
