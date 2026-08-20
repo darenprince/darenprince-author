@@ -11,6 +11,7 @@ import './index.css'
 import './landing-chrome.css'
 import './hero-refinement.css'
 import './evidence-motion.css'
+import './audio-player.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
