@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from api.observability import DiagnosticStore
 from api.storage import StorageError
@@ -25,7 +26,7 @@ class FailingStorage(FakeStorage):
         raise StorageError("simulated Supabase outage")
 
 
-def test_diagnostic_store_persists_sanitized_event():
+def test_diagnostic_store_persists_sanitized_event(capsys):
     storage = FakeStorage()
     diagnostics = DiagnosticStore(storage)
 
@@ -49,19 +50,30 @@ def test_diagnostic_store_persists_sanitized_event():
     assert "raw_audio" not in payload
     assert "\x00" not in payload["error_message"]
 
+    line = capsys.readouterr().out.strip()
+    assert line.startswith("VOXVECTOR_DIAGNOSTIC ")
+    console_payload = json.loads(line.split(" ", 1)[1])
+    assert console_payload["event"] == "request.analysis_error"
+    assert console_payload["request_id"] == "abc123"
+    assert "raw_audio" not in console_payload
 
-def test_diagnostic_store_survives_storage_failure():
+
+def test_diagnostic_store_survives_storage_failure(capsys):
     diagnostics = DiagnosticStore(FailingStorage())
 
     result = asyncio.run(diagnostics.emit("request.started", request_id="abc123"))
 
     assert result is None
+    output = capsys.readouterr().out
+    assert "VOXVECTOR_DIAGNOSTIC" in output
+    assert "VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE" in output
 
 
-def test_diagnostic_store_can_be_disabled():
+def test_diagnostic_store_can_be_disabled(capsys):
     storage = FakeStorage()
     diagnostics = DiagnosticStore(storage)
     diagnostics.enabled = False
 
     assert asyncio.run(diagnostics.emit("request.started", request_id="abc123")) is None
     assert storage.records == []
+    assert capsys.readouterr().out == ""
