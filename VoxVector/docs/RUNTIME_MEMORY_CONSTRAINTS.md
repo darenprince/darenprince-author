@@ -1,7 +1,7 @@
 # VoxVector Runtime Memory Constraints
 
 **Status:** Active runtime guidance
-**Updated:** 2026-08-19
+**Updated:** 2026-08-20
 
 ## Incidents
 
@@ -12,6 +12,10 @@ The cause was identified in the canonical analysis pipeline: overlapping audio f
 After bounded framing was deployed, the API remained healthy but analysis exposed a separate spectral feature dimension mismatch: an FFT spectrum width and its frequency vector could diverge, producing a matrix multiplication error such as `size 258 is different from 601`.
 
 A subsequent runtime fingerprinting change caused a Render deployment to exit before Uvicorn became available. The deployment failure was isolated to the wrapper's boot-time self-test behavior rather than the canonical spectral implementation. The wrapper now performs the same self-test without terminating the worker at import time and exposes the result through `/health`; `/v1/analyze` refuses analysis with HTTP 503 if that runtime self-test fails.
+
+On 2026-08-20, the known 17 MB, 48 kHz WAV regression fixture reached the deployed API successfully and completed the decode stage. The diagnostic record reported 17,597,131 request bytes, 17,596,936 decoded bytes, 8,798,400 samples, and approximately 183.3 seconds of audio. The worker then restarted before an `analysis_pipeline` completion or application exception was emitted. This indicates a runtime termination during the CPU-heavy analysis stage; the supplied logs do not by themselves prove whether the termination was OOM or another host-level restart mechanism.
+
+The same deployment showed Render health checks succeeding before analysis and then the process restarting during analysis. The HTTP adapter was executing the CPU-heavy pipeline directly inside the FastAPI async request handler, which can starve the event loop while long-running Python/NumPy analysis executes. The adapter has therefore been changed to offload the analysis call with `asyncio.to_thread(...)`, while `/health` is now an async handler. This keeps the event loop available for health probes and lifecycle diagnostics during long recordings without introducing a file-size or duration cutoff.
 
 ## Resolutions
 
@@ -28,6 +32,8 @@ The API wrapper explicitly places `VoxVector/src` before the API namespace packa
 The HTTP adapter no longer imposes an application-level file-size limit or an artificial duration cutoff. Upload capacity should not silently change the product contract. Resource protection belongs in the streaming/upload infrastructure and bounded analysis pipeline rather than an arbitrary API file-size ceiling.
 
 A **48 kHz maximum sample rate** remains an analysis-format constraint because the current decoder/runtime explicitly guards against unsupported sample rates.
+
+The HTTP adapter now runs the CPU-heavy `VoxVectorPipeline.analyze(...)` call through `asyncio.to_thread(...)` so long analyses do not monopolize the FastAPI event loop. This is a runtime responsiveness correction, not a scientific-method change.
 
 ## Current request limits
 
@@ -61,6 +67,8 @@ A deployment is not considered verified solely because the service starts. The f
 - `/health` reports the active sample-rate constraint.
 - `/v1/analyze` accepts the known 17 MB WAV regression fixture.
 - The service remains alive during analysis.
+- Health checks remain responsive while the analysis pipeline runs.
+- The analysis request reaches `analysis_pipeline` completion rather than terminating the worker.
 - Spectral feature dimensions remain aligned for the deployed sample rate/frame size.
 - The result includes provenance and the expected observational disposition.
 - Unsupported sample rates are rejected without killing the worker.
