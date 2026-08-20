@@ -1,0 +1,112 @@
+.vv-mobile-sheet {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(145deg, #0d0d0d 0%, #090909 58%, #060606 100%);
+}
+
+/* A restrained coffee/gold sweep gives the menu a premium opening moment. */
+.vv-mobile-sheet::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -55%;
+  width: 42%;
+  height: 140%;
+  pointer-events: none;
+  z-index: -1;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(201,154,102,.10), rgba(232,208,168,.28), rgba(201,154,102,.10), transparent);
+  filter: blur(12px);
+  animation: vv-menu-gold-sweep .72s cubic-bezier(.22,.7,.2,1) both;
+}
+
+@keyframes vv-menu-gold-sweep {
+  from { left: -55%; opacity: 0; }
+  18% { opacity: 1; }
+  to { left: 125%; opacity: 0; }
+}
+
+/* Subtle moving speech waveform behind the navigation. */
+.vv-mobile-sheet::before {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  top: 46%;
+  height: 180px;
+  pointer-events: none;
+  z-index: -2;
+  opacity: .075;
+  transform: rotate(-2deg) scaleY(.82);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 180' preserveAspectRatio='none'%3E%3Cpath d='M0 90 C18 90 18 88 35 90 S52 92 67 90 S82 76 98 90 S114 122 130 90 S146 52 162 90 S178 108 194 90 S210 84 226 90 S242 70 258 90 S274 116 290 90 S306 56 322 90 S338 102 354 90 S370 82 386 90 S402 68 418 90 S434 124 450 90 S466 50 482 90 S498 106 514 90 S530 78 546 90 S562 72 578 90 S594 118 610 90 S626 54 642 90 S658 104 674 90 S690 82 706 90 S722 70 738 90 S754 110 770 90 S786 86 800 90' fill='none' stroke='%23c99a66' stroke-width='2'/%3E%3Cpath d='M0 90 H800' stroke='%23ead0a8' stroke-opacity='.35' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 760px 170px;
+  animation: vv-menu-wave-drift 5.5s linear infinite;
+}
+
+@keyframes vv-menu-wave-drift {
+  from { background-position: 0 0; }
+  to { background-position: -760px 0; }
+}
+
+.vv-mobile-sheet .vv-sheet-head,
+.vv-mobile-sheet .vv-sidebar-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fast sequential entrance: each menu item lands a fraction after the previous one. */
+.vv-mobile-sheet .vv-nav-item {
+  position: relative;
+  overflow: hidden;
+  animation: vv-menu-item-in .30s cubic-bezier(.22,.8,.25,1) both;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.vv-mobile-sheet .vv-nav-item:nth-of-type(1) { animation-delay: .07s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(2) { animation-delay: .11s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(3) { animation-delay: .15s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(4) { animation-delay: .19s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(5) { animation-delay: .23s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(6) { animation-delay: .27s; }
+.vv-mobile-sheet .vv-nav-item:nth-of-type(7) { animation-delay: .31s; }
+
+@keyframes vv-menu-item-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Coffee/gold current-page treatment. */
+.vv-mobile-sheet .vv-nav-item.active,
+.vv-sidebar .vv-nav-item.active {
+  background: rgba(201,154,102,.085);
+  color: #ead0a8;
+  box-shadow: inset 2px 0 0 #c99a66, 0 0 24px rgba(201,154,102,.035);
+}
+
+.vv-mobile-sheet .vv-nav-item.active::before,
+.vv-sidebar .vv-nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  bottom: 7px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ead0a8, #a87b50);
+  box-shadow: 0 0 10px rgba(201,154,102,.38);
+}
+
+.vv-mobile-sheet .vv-nav-item:hover {
+  background: rgba(201,154,102,.055);
+  color: #f5f3ee;
+  transform: translateX(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vv-mobile-sheet::after,
+  .vv-mobile-sheet::before,
+  .vv-mobile-sheet .vv-nav-item {
+    animation: none;
+  }
+}
