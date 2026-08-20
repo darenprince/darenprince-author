@@ -47,4 +47,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
  .vv-hero-api-cta{min-height:44px;padding:0 15px}
  .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:7px}
 }
+
+/* Only hero content should use the slow landing scroll reveal. Other landing sections remain immediately readable. */
+.vv-hero-only-reveal main section:not(#product) .vv-static-reveal{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+
 @media(prefers-reduced-motion:reduce){.vv-hero-waveform,.vv-hero-truth{animation:none;background-position:50% 50%}.vv-hero-waveform{opacity:.18!important}.vv-hero-primary-cta,.vv-hero-api-cta{transition:none!important}.vv-hero-primary-cta:hover,.vv-hero-api-cta:hover{transform:none!important}}
