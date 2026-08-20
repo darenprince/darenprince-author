@@ -2,7 +2,7 @@
 
 ## Scope
 
-Public landing hero hierarchy, header proportions, hero background treatment, and headline motion.
+Public landing hero hierarchy, header proportions, hero background treatment, headline motion, and preservation of the surrounding landing-page sections.
 
 ## Implemented
 
@@ -13,12 +13,14 @@ Public landing hero hierarchy, header proportions, hero background treatment, an
 - Added a restrained animated coffee-gold shine to the words `truth` only.
 - Reduced the public header height from the prior 76px desktop treatment to 68px, with a 64px mobile treatment.
 - Allowed the hero artwork to extend behind the transparent/translucent sticky header so the visual begins at the top of the viewport.
-- Added a new full-bleed SVG hero artwork using a dark charcoal field, subtle dimensional wave paths, fine spectral lines, restrained coffee-gold illumination, and sparse particles.
-- Reduced the hero overlay contrast so the new artwork remains visible without competing with the headline.
+- Added the full-bleed SVG hero artwork using a dark charcoal field, subtle dimensional wave paths, fine spectral lines, restrained coffee-gold illumination, and sparse particles.
+- Reduced the hero overlay contrast so the artwork remains visible without competing with the headline.
 - Added reduced-motion handling for the animated gold shine.
 - Refined `IN YOUR AUDIO` to a slightly smaller, darker secondary line, especially on mobile.
-- Changed the hero sequence so the waveform opens clearly, recedes, `Reveal the` appears, `TRUTH` reveals and begins its gold shine sooner, then `IN YOUR AUDIO`, body copy, and CTAs reveal in sequence.
-- Increased the opening waveform visibility while retaining its deliberate fade so the signal remains perceptible instead of disappearing into the black hero field.
+- Sequenced the hero reveal so the waveform opens clearly, recedes, `Reveal the` appears, `TRUTH` reveals with an earlier shine, then `IN YOUR AUDIO`, body copy, and CTAs reveal in sequence.
+- Increased the opening waveform visibility while retaining its deliberate fade.
+- Preserved the landing-page section structure. Hero refinement must not move, remove, or overwrite the Technology section, its feature cards, or the analytical-path heading and copy.
+- Removed the prior DOM relocation behavior that was incorrectly treating the section immediately after the hero as a movable principles grid and deleting that entire section.
 
 ## Implementation
 
@@ -33,4 +35,4 @@ Presentation-only change. No VoxVector analysis method, evidence model, reliabil
 
 ## Verification status
 
-Source changes are committed to the GitHub source of truth. GitHub's combined commit status currently reports no status entries for the latest commit, so a successful production deployment and browser-level visual QA are not being claimed yet.
+The section-preservation fix is committed to the GitHub source of truth. Browser-level production visual QA still needs to be performed after the resulting GitHub Actions deployment before rendered production behavior is claimed as verified.
