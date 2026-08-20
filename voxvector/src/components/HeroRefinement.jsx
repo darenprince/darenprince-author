@@ -68,12 +68,12 @@ export default function HeroRefinement() {
 
     const truth = document.createElement('span')
     truth.className = 'vv-hero-truth'
-    truth.textContent = 'truth'
+    truth.textContent = 'TRUTH'
     firstLine.append(truth)
 
     const secondLine = document.createElement('span')
     secondLine.className = 'vv-hero-line vv-hero-audio-line'
-    secondLine.textContent = 'in your audio'
+    secondLine.textContent = 'IN YOUR AUDIO'
 
     heading.append(firstLine, secondLine)
     refineHeroActions()
