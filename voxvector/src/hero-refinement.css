@@ -7,8 +7,8 @@ header.sticky{background:rgba(5,5,5,.72)!important;border-bottom-color:rgba(255,
 #product>div:nth-child(3){background:radial-gradient(circle at 78% 44%,rgba(184,135,85,.11),transparent 25%),linear-gradient(180deg,rgba(0,0,0,.10),transparent 38%,rgba(0,0,0,.46))!important;position:relative;z-index:2}
 body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 58% at 74% 8%,rgba(184,135,85,.055),transparent 62%),linear-gradient(118deg,rgba(255,255,255,.012),transparent 38%,rgba(184,135,85,.018) 72%,transparent 100%)}
 
-/* Hero waveform: large, slow-moving, tan and deliberately behind the content. */
-.vv-hero-waveform{position:absolute!important;left:0!important;top:68px!important;width:100%!important;height:82%!important;z-index:3!important;pointer-events:none!important;opacity:.60!important;mix-blend-mode:screen!important}
+/* Hero waveform: faster motion, slightly stronger gold presence, and lifted behind the hero copy. */
+.vv-hero-waveform{position:absolute!important;left:0!important;top:48px!important;width:100%!important;height:82%!important;z-index:3!important;pointer-events:none!important;opacity:.68!important;mix-blend-mode:screen!important}
 #product h1{position:relative;z-index:4;margin-top:0!important;max-width:1000px!important;line-height:.84!important;letter-spacing:-.068em!important}
 #product .vv-hero-primary-cta,#product .vv-hero-api-cta{position:relative;z-index:4}
 .vv-hero-line{display:block}
@@ -32,14 +32,14 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
  header.sticky>div:first-child{height:64px!important}
  #product{margin-top:-64px!important;padding-top:64px!important;min-height:760px!important}
  #product>div:first-child{background-position:64% center!important}
- .vv-hero-waveform{top:64px!important;height:82%!important}
+ .vv-hero-waveform{top:48px!important;height:82%!important}
 }
 @media(max-width:620px){
  #product{min-height:720px!important}
  #product h1{font-size:clamp(3.55rem,16vw,5.6rem)!important;line-height:.86!important;letter-spacing:-.062em!important}
  .vv-hero-truth{font-size:1.08em!important}
  .vv-hero-audio-line{font-size:.50em!important;margin-top:.08em}
- .vv-hero-waveform{top:64px!important;height:76%!important;opacity:.48!important}
+ .vv-hero-waveform{top:48px!important;height:76%!important;opacity:.68!important}
  #product>div:nth-child(2){background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 56%,rgba(0,0,0,.52) 100%)!important}
  .vv-hero-api-cta{min-height:44px;padding:0 15px}
  .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:7px}
