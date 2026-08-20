@@ -28,3 +28,40 @@ export async function analyzeWav(file) {
   body.append('file', file)
   return apiRequest('/v1/analyze', { method: 'POST', body, headers: {} })
 }
+
+export function analyzeWavWithProgress(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    const started = performance.now()
+    const body = new FormData()
+    body.append('file', file)
+
+    xhr.open('POST', `${API_BASE}/v1/analyze`)
+    xhr.setRequestHeader('Accept', 'application/json')
+    xhr.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100))
+    })
+    xhr.addEventListener('error', () => reject(new Error('Network error while uploading audio.')))
+    xhr.addEventListener('abort', () => reject(new Error('Audio upload was cancelled.')))
+    xhr.addEventListener('load', () => {
+      const requestId = xhr.getResponseHeader('X-Request-ID')
+      const contentType = xhr.getResponseHeader('content-type') || ''
+      let payload = xhr.responseText
+      if (contentType.includes('application/json')) {
+        try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ }
+      }
+      const response = { status: xhr.status, ok: xhr.status >= 200 && xhr.status < 300 }
+      const result = { response, payload, requestId, durationMs: Math.round(performance.now() - started) }
+      if (!response.ok) {
+        const detail = typeof payload === 'object' ? payload?.detail : payload
+        const error = new Error(detail || `HTTP ${xhr.status}`)
+        Object.assign(error, result)
+        reject(error)
+        return
+      }
+      onProgress?.(100)
+      resolve(result)
+    })
+    xhr.send(body)
+  })
+}
