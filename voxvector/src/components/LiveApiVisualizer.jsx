@@ -1,26 +1,109 @@
-import { motion } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
+import SiriWave from 'siriwave'
 import { Activity, Loader2, Radio, WifiOff } from 'lucide-react'
 
-const bars = Array.from({ length: 28 }, (_, i) => i)
+const WAVE_COLORS = [
+  { color: '245,243,238', supportLine: true }, // warm off-white structural line
+  { color: '154,154,154' },                    // neutral grey
+  { color: '143,93,53' },                      // coffee
+  { color: '201,154,102' },                    // tan
+]
 
 export default function LiveApiVisualizer({ active = false, success = false, error = false, label = 'API activity', detail = '' }) {
+  const containerRef = useRef(null)
+  const waveRef = useRef(null)
+  const [ready, setReady] = useState(false)
   const state = error ? 'error' : active ? 'active' : success ? 'ready' : 'idle'
   const stateLabel = error ? 'REQUEST ERROR' : active ? 'REQUEST IN FLIGHT' : success ? 'API READY' : 'IDLE'
 
-  return <div className="border border-white/10 bg-black/25 p-4" aria-live="polite">
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex items-center gap-2 text-xs font-medium text-white/70">
-        {active ? <Loader2 size={14} className="animate-spin" /> : error ? <WifiOff size={14} /> : success ? <Radio size={14} /> : <Activity size={14} />}
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return undefined
+
+    let disposed = false
+    let resizeObserver
+    let resizeTimer
+
+    const mountWave = () => {
+      if (disposed) return
+      waveRef.current?.dispose?.()
+      container.replaceChildren()
+
+      const width = Math.max(280, Math.round(container.getBoundingClientRect().width || 640))
+      const wave = new SiriWave({
+        container,
+        width,
+        height: 82,
+        style: 'ios9',
+        ratio: Math.min(window.devicePixelRatio || 1, 2),
+        speed: active ? 0.18 : success ? 0.075 : 0.045,
+        amplitude: active ? 0.82 : success ? 0.36 : error ? 0.22 : 0.16,
+        autostart: false,
+        cover: true,
+        globalCompositeOperation: 'lighter',
+        curveDefinition: WAVE_COLORS,
+      })
+
+      waveRef.current = wave
+      setReady(true)
+
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        wave.setAmplitude(0.05)
+        wave.stop()
+      } else {
+        wave.start()
+      }
+    }
+
+    mountWave()
+
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        window.clearTimeout(resizeTimer)
+        resizeTimer = window.setTimeout(mountWave, 120)
+      })
+      resizeObserver.observe(container)
+    }
+
+    return () => {
+      disposed = true
+      window.clearTimeout(resizeTimer)
+      resizeObserver?.disconnect()
+      waveRef.current?.dispose?.()
+      waveRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const wave = waveRef.current
+    if (!wave) return
+
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      wave.setAmplitude(0.05)
+      wave.stop()
+      return
+    }
+
+    wave.setSpeed(active ? 0.18 : success ? 0.075 : 0.045)
+    wave.setAmplitude(active ? 0.82 : success ? 0.36 : error ? 0.22 : 0.16)
+    wave.start()
+  }, [active, success, error])
+
+  return <div className={`vv-api-visualizer vv-api-visualizer-${state}`} aria-live="polite" data-state={state}>
+    <div className="vv-api-visualizer-head">
+      <div className="vv-api-visualizer-label">
+        {active ? <Loader2 size={14} className="vv-spin-soft" /> : error ? <WifiOff size={14} /> : success ? <Radio size={14} /> : <Activity size={14} />}
         {label}
       </div>
-      <span className="text-[10px] uppercase tracking-[.16em] text-white/35">{stateLabel}</span>
+      <span>{stateLabel}</span>
     </div>
-    <div className="mt-4 flex h-16 items-center gap-[3px] overflow-hidden border-y border-white/6 px-2" role="img" aria-label={`${label}: ${stateLabel}`}>
-      {bars.map(i => {
-        const base = 8 + ((i * 17) % 31)
-        return <motion.span key={i} className="block w-full min-w-[2px] bg-white/45" initial={{ height: base }} animate={state === 'active' ? { height: [base, 10 + ((i * 29) % 45), base / 2, base + 14, base] } : state === 'error' ? { height: 5 } : state === 'ready' ? { height: [base / 2, base, base / 2] } : { height: base / 2 }} transition={state === 'active' ? { duration: .8 + (i % 5) * .08, repeat: Infinity, ease: 'easeInOut', delay: i * .012 } : state === 'ready' ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: i * .025 } : { duration: .2 }} />
-      })}
+
+    <div ref={containerRef} className={`vv-siriwave ${ready ? 'is-ready' : ''}`} role="img" aria-label={`${label}: ${stateLabel}`} />
+
+    <div className="vv-api-visualizer-foot">
+      <span>{detail || (active ? 'Waiting for the real API response…' : error ? 'The API request failed.' : success ? 'Last API state completed successfully.' : 'No request is currently running.')}</span>
+      {active && <span className="vv-api-live">Live</span>}
     </div>
-    <div className="mt-3 flex items-center justify-between gap-4 text-[11px] text-white/30"><span>{detail || (active ? 'Waiting for the real API response…' : error ? 'The API request failed.' : success ? 'Last API state completed successfully.' : 'No request is currently running.')}</span>{active && <span className="shrink-0">Live</span>}</div>
   </div>
 }
