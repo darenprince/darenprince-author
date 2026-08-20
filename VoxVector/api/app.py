@@ -103,7 +103,7 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
     if request.url.path != "/v1/analyze":
         return await call_next(request)
 
-    rid = new_request_id()
+    rid = new_request_id(request.headers.get("X-Request-ID"))
     started = timer()
     await DIAGNOSTICS.emit(
         "request.started",
@@ -123,6 +123,15 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
             status_code=response.status_code,
             duration_ms=elapsed_ms(started),
         )
+        if response.status_code >= 500:
+            await DIAGNOSTICS.emit(
+                "request.server_error",
+                request_id=rid,
+                method=request.method,
+                path=request.url.path,
+                status_code=response.status_code,
+                duration_ms=elapsed_ms(started),
+            )
         response.headers["X-Request-ID"] = rid
         return response
     except Exception as exc:
@@ -159,6 +168,47 @@ async def health():
     }
 
 
+async def _read_storage_prefix(prefix: str, limit: int) -> list[dict]:
+    storage = DIAGNOSTICS.storage
+    entries = await asyncio.to_thread(storage.list_json, prefix, min(limit, 250), 0)
+    records: list[dict] = []
+    for entry in entries:
+        name = str(entry.get("name", ""))
+        if not name.endswith(".json"):
+            continue
+        try:
+            record = await asyncio.to_thread(storage.get_json, f"{prefix.rstrip('/')}/{name}")
+        except StorageError:
+            continue
+        if isinstance(record, dict):
+            records.append(record)
+            if len(records) >= limit:
+                break
+    return records
+
+
+async def _read_event_prefix(date_path: str, request_id_filter: str, limit: int) -> list[dict]:
+    prefix = f"events/{date_path}/{request_id_filter}" if request_id_filter else f"events/{date_path}"
+    if request_id_filter:
+        return await _read_storage_prefix(prefix, limit)
+
+    storage = DIAGNOSTICS.storage
+    folders = await asyncio.to_thread(storage.list_json, prefix, min(limit, 250), 0)
+    records: list[dict] = []
+    for folder in folders:
+        name = str(folder.get("name", "")).strip("/")
+        if not name:
+            continue
+        child = f"{prefix}/{name}"
+        try:
+            records.extend(await _read_storage_prefix(child, max(1, limit - len(records))))
+        except StorageError:
+            continue
+        if len(records) >= limit:
+            break
+    return records[:limit]
+
+
 @app.get("/v1/diagnostics/errors")
 async def diagnostic_errors(
     _: dict = Depends(require_developer),
@@ -176,20 +226,7 @@ async def diagnostic_errors(
         for offset in range(days):
             day = now - timedelta(days=offset)
             prefix = f"error-index/{day:%Y/%m/%d}"
-            entries = await asyncio.to_thread(storage.list_json, prefix, min(limit, 250), 0)
-            for entry in entries:
-                name = str(entry.get("name", ""))
-                if not name.endswith(".json"):
-                    continue
-                object_path = f"{prefix}/{name}"
-                try:
-                    record = await asyncio.to_thread(storage.get_json, object_path)
-                except StorageError:
-                    continue
-                if isinstance(record, dict):
-                    records.append(record)
-                    if len(records) >= limit:
-                        break
+            records.extend(await _read_storage_prefix(prefix, max(1, limit - len(records))))
             if len(records) >= limit:
                 break
     except StorageError as exc:
@@ -200,6 +237,39 @@ async def diagnostic_errors(
         "status": "ok",
         "count": len(records),
         "days": days,
+        "events": records[:limit],
+    }
+
+
+@app.get("/v1/diagnostics/events")
+async def diagnostic_events(
+    _: dict = Depends(require_developer),
+    request_id_filter: str | None = Query(default=None, alias="request_id"),
+    days: int = Query(default=2, ge=1, le=7),
+    limit: int = Query(default=100, ge=1, le=250),
+):
+    """Return sanitized lifecycle events for the developer console's live polling stream."""
+    storage = DIAGNOSTICS.storage
+    if not DIAGNOSTICS.enabled or not storage.configured:
+        raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+
+    now = datetime.now(timezone.utc)
+    records: list[dict] = []
+    try:
+        for offset in range(days):
+            day = now - timedelta(days=offset)
+            records.extend(await _read_event_prefix(day.strftime("%Y/%m/%d"), request_id_filter or "", max(1, limit - len(records))))
+            if len(records) >= limit:
+                break
+    except StorageError as exc:
+        raise HTTPException(status_code=503, detail="Diagnostic event query failed") from exc
+
+    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True)
+    return {
+        "status": "ok",
+        "count": len(records[:limit]),
+        "days": days,
+        "request_id": request_id_filter,
         "events": records[:limit],
     }
 
