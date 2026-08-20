@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Activity, AlertTriangle, BookOpen, Code2, FileAudio, LogOut, Menu, RefreshCw, Server, ShieldCheck, Terminal, Timer, Wifi, X } from 'lucide-react'
-import { analyzeWavWithProgress, API_BASE, getHealth } from '../lib/api'
+import { analyzeWavWithProgress, API_BASE, getDiagnosticErrors, getHealth } from '../lib/api'
 import LiveApiVisualizer from './LiveApiVisualizer'
 import AudioUploadPlayer from './AudioUploadPlayer'
 import Button from './ui/Button'
@@ -25,6 +25,12 @@ export default function DeveloperConsole({ session, signOut }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [theme, setTheme] = useState(getStoredTheme)
   const health = useQuery({ queryKey: ['health'], queryFn: getHealth, refetchInterval: 30000 })
+  const errors = useQuery({
+    queryKey: ['diagnostic-errors', session.access_token],
+    queryFn: () => getDiagnosticErrors(session.access_token),
+    enabled: Boolean(session.access_token) && section === 'errors',
+    refetchInterval: section === 'errors' ? 15000 : false
+  })
   const [file, setFile] = useState(null)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [uploading, setUploading] = useState(false)
@@ -69,7 +75,7 @@ export default function DeveloperConsole({ session, signOut }) {
       <main className="vv-main">
         {section === 'dashboard' && <Dashboard h={health.data?.payload} health={health} />}
         {section === 'api' && <ApiWorkbench file={file} setFile={handleFile} analysis={analysis} uploadProgress={uploadProgress} uploading={uploading} />}
-        {section === 'errors' && <Unavailable title="Persistent Error Intelligence" detail="The current API exposes diagnostic storage internally but does not yet expose a protected error report query endpoint. This panel will connect to the real Supabase backed records when that contract is implemented." />}
+        {section === 'errors' && <ErrorReports query={errors} />}
         {section === 'logs' && <Unavailable title="Lifecycle Event Stream" detail="Live lifecycle events are emitted by the API, but a protected event stream query endpoint is not yet part of the public API contract. No synthetic events are shown here." />}
         {section === 'docs' && <Docs docs={docs} />}
         {section === 'board' && <Board />}
@@ -105,6 +111,34 @@ function Dashboard({ h, health }) {
     </div>
     <div className="vv-spacer"><LiveApiVisualizer active={health.isFetching} success={healthy} error={health.isError} label="/health live request" detail={health.isFetching ? 'TanStack Query is actively waiting for the backend.' : health.isError ? 'The latest health request failed.' : healthy ? 'Visualization follows the current backend health state.' : 'Waiting for a verified backend health response.'} /></div>
   </div>
+}
+
+function ErrorReports({ query }) {
+  const events = query.data?.payload?.events || []
+  return <div>
+    <PageTitle eyebrow="DIAGNOSTICS" title="Persistent Error Intelligence" action={<Button variant="secondary" onClick={() => query.refetch()} disabled={query.isFetching}><RefreshCw size={14} className={query.isFetching ? 'animate-spin' : ''} /> Refresh</Button>} />
+    <div className="vv-metrics">
+      <Metric label="Errors" value={query.isPending ? '…' : String(query.data?.payload?.count ?? 0)} detail="Persisted diagnostic events" />
+      <Metric label="Window" value="14 DAYS" detail="Most recent reports" />
+      <Metric label="Access" value={query.isError ? 'CHECK' : 'VERIFIED'} detail={query.isError ? query.error.message : 'Developer session'} />
+    </div>
+    {query.isError && <div role="alert" className="vv-panel vv-error-code">{query.error.message}</div>}
+    {!query.isError && !query.isPending && events.length === 0 && <div className="vv-panel vv-empty"><AlertTriangle size={24} /><div><h2>No persisted errors</h2><p className="vv-copy">The protected diagnostic endpoint is connected, but no error events are currently indexed for the selected window.</p></div></div>}
+    <div className="vv-error-list">
+      {events.map((event, index) => <ErrorEvent key={`${event.request_id}-${event.timestamp}-${index}`} event={event} />)}
+    </div>
+  </div>
+}
+
+function ErrorEvent({ event }) {
+  const timestamp = event.timestamp ? new Date(event.timestamp).toLocaleString() : 'Unknown time'
+  const title = event.error_type || event.reason || event.event || 'Diagnostic event'
+  const detail = event.error_message || event.detail || event.reason || 'No additional diagnostic detail.'
+  return <article className="vv-panel vv-error-event">
+    <div className="vv-panel-head"><div className="flex items-center gap-2"><AlertTriangle size={17} className="text-[var(--vv-gold)]" /><h2>{title}</h2></div><span className="vv-muted mono">{timestamp}</span></div>
+    <p className="vv-copy">{detail}</p>
+    <div className="vv-error-meta"><span>{event.event || 'unknown event'}</span><span>request {event.request_id || '—'}</span>{event.status_code && <span>HTTP {event.status_code}</span>}{event.stage && <span>stage {event.stage}</span>}</div>
+  </article>
 }
 
 function ApiWorkbench({ file, setFile, analysis, uploadProgress, uploading }) {
