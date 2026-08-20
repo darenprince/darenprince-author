@@ -30,6 +30,8 @@ import voxvector.acoustic as _acoustic_module
 from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, safe_error, timer
 
 MAX_BYTES = 20 * 1024 * 1024
+MAX_DURATION_SECONDS = 60.0
+MAX_SAMPLE_RATE = 48_000
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
@@ -69,11 +71,17 @@ def read_wav(data: bytes):
             channels = wav.getnchannels()
             width = wav.getsampwidth()
             rate = wav.getframerate()
-            frames = wav.readframes(wav.getnframes())
+            frame_count = wav.getnframes()
+            frames = wav.readframes(frame_count)
     except wave.Error as exc:
         raise ValueError("Only PCM WAV audio is supported by the initial runtime") from exc
     if channels < 1 or rate <= 0:
         raise ValueError("Invalid WAV stream")
+    if rate > MAX_SAMPLE_RATE:
+        raise ValueError(f"Sample rate exceeds the {MAX_SAMPLE_RATE} Hz runtime limit")
+    duration = frame_count / rate
+    if duration > MAX_DURATION_SECONDS:
+        raise ValueError(f"Audio duration exceeds the {MAX_DURATION_SECONDS:.0f} second runtime limit")
     if width == 1:
         audio = np.frombuffer(frames, dtype=np.uint8).astype(np.float64)
         audio = (audio - 128.0) / 128.0
@@ -149,6 +157,11 @@ def health():
         "pipeline_source_sha256": PIPELINE_SOURCE_SHA256,
         "runtime_self_test": self_test,
         "diagnostic_storage": DIAGNOSTICS.status(),
+        "analysis_limits": {
+            "max_bytes": MAX_BYTES,
+            "max_duration_seconds": MAX_DURATION_SECONDS,
+            "max_sample_rate_hz": MAX_SAMPLE_RATE,
+        },
     }
 
 
@@ -179,6 +192,7 @@ async def analyze(request: Request, file: UploadFile = File(...)):
             bytes=len(data),
             sample_rate=sample_rate,
             sample_count=int(audio.size),
+            duration_seconds=audio.size / sample_rate,
         )
         if audio.size == 0:
             raise ValueError("Audio contains no samples")
