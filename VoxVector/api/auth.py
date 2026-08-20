@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -33,7 +34,7 @@ def require_developer(authorization: str | None = Header(default=None)) -> dict:
     )
     try:
         with urlopen(request, timeout=5) as response:
-            user = __import__("json").loads(response.read().decode("utf-8"))
+            user = json.loads(response.read().decode("utf-8"))
     except HTTPError as exc:
         if exc.code in {401, 403}:
             raise HTTPException(status_code=401, detail="Invalid or expired developer session") from exc
