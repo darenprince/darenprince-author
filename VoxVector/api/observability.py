@@ -17,10 +17,10 @@ _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_trans
 _ERROR_EVENTS = {"request.rejected", "request.analysis_error", "request.unhandled_exception"}
 
 
-def new_request_id() -> str:
-    value = uuid.uuid4().hex
-    _request_id.set(value)
-    return value
+def new_request_id(value: str | None = None) -> str:
+    request_value = str(value or "").strip() or uuid.uuid4().hex
+    _request_id.set(request_value)
+    return request_value
 
 
 def request_id() -> str:
