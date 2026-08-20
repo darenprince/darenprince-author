@@ -22,6 +22,18 @@ The console event contains the same safe operational fields used by durable diag
 
 The live stream is emitted before the Supabase Storage write. Therefore a slow or unavailable diagnostics bucket does not hide the event from the Render console.
 
+## Protected Error Reports
+
+The Developer Console's **Error Reports** surface now uses a protected backend contract at:
+
+`GET /v1/diagnostics/errors`
+
+The endpoint requires a valid Supabase access token and verifies that the authenticated user's trusted `app_metadata.role` or `app_metadata.voxvector_role` is `developer`. The service-role key remains server-side only.
+
+Error events (`request.rejected`, `request.analysis_error`, and `request.unhandled_exception`) are indexed under the flat `error-index/YYYY/MM/DD/` hierarchy in addition to the canonical per-request `events/YYYY/MM/DD/<request_id>/` hierarchy. The protected endpoint reads the flat index, returns recent records, and never exposes storage credentials.
+
+The frontend does not fabricate error counts or synthetic events. If the endpoint has no persisted records, the console explicitly reports that no persisted errors are currently indexed.
+
 ## Storage configuration
 
 Required Render environment variables:
@@ -44,6 +56,10 @@ Diagnostics deliberately exclude raw audio and raw transcript content. Each requ
 
 `events/YYYY/MM/DD/<request_id>/`
 
+Error events are additionally indexed under:
+
+`error-index/YYYY/MM/DD/`
+
 Event types currently include:
 
 - `request.started`
@@ -65,16 +81,17 @@ A 502 can occur when the origin process terminates before a usable HTTP response
 
 Diagnostic storage is deliberately non-fatal. If Supabase is unavailable, the analysis request must not be converted into a storage outage. A sanitized `VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE` record is emitted to the Render process log instead.
 
-This creates two layers:
+This creates three layers:
 
 1. **Live console:** Render process logs for immediate streaming visibility.
 2. **Durable diagnostics:** Supabase Storage when configured and reachable.
+3. **Protected error intelligence:** authenticated Developer Console query over the flat error index.
 
 ## Access and security
 
 Do not make the diagnostics bucket public. Do not place the Supabase service-role key in frontend code, GitHub, documentation, or API responses.
 
-The current API does not expose a public log browser. Operational log retrieval should be performed through Render process logs and the Supabase dashboard or a future authenticated operator console. A future operator endpoint must require explicit authorization and must never expose secrets or unrestricted bucket contents.
+The public application has no access to diagnostic records. Only an authenticated Supabase session whose trusted application metadata grants the VoxVector developer role may query `/v1/diagnostics/errors`.
 
 ## Verification checklist
 
@@ -87,9 +104,11 @@ After configuring Render:
 5. watch the Render service logs and confirm `VOXVECTOR_DIAGNOSTIC` events appear in lifecycle order;
 6. verify `request.started` and `request.completed` objects appear in the private bucket;
 7. intentionally exercise a controlled validation error and verify the corresponding diagnostic is visible in Render logs and stored durably;
-8. confirm the response includes `X-Request-ID`;
-9. confirm no audio bytes, raw transcript, service key, or other secrets are stored or printed in diagnostic records;
-10. document the verified deployment revision in the active checkpoint.
+8. sign in to the Developer Console with an approved developer account and open **Error Reports**;
+9. confirm `/v1/diagnostics/errors` returns only for the developer role and the console displays the persisted error;
+10. confirm the response includes `X-Request-ID` for analysis requests;
+11. confirm no audio bytes, raw transcript, service key, or other secrets are stored or printed in diagnostic records;
+12. document the verified deployment revision in the active checkpoint.
 
 ## Current limitation
 
