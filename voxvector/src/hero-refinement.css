@@ -7,8 +7,9 @@ header.sticky{background:rgba(5,5,5,.72)!important;border-bottom-color:rgba(255,
 #product>div:nth-child(3){background:radial-gradient(circle at 78% 44%,rgba(184,135,85,.11),transparent 25%),linear-gradient(180deg,rgba(0,0,0,.10),transparent 38%,rgba(0,0,0,.46))!important;position:relative;z-index:2}
 body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 58% at 74% 8%,rgba(184,135,85,.055),transparent 62%),linear-gradient(118deg,rgba(255,255,255,.012),transparent 38%,rgba(184,135,85,.018) 72%,transparent 100%)}
 
-/* Hero waveform: faster motion, slightly stronger gold presence, and lifted behind the hero copy. */
-.vv-hero-waveform{position:absolute!important;left:0!important;top:48px!important;width:100%!important;height:82%!important;z-index:3!important;pointer-events:none!important;opacity:.68!important;mix-blend-mode:screen!important}
+/* Hero waveform: begin quiet enough to read the signal, then build as the hero copy arrives. */
+.vv-hero-waveform{position:absolute!important;left:0!important;top:48px!important;width:100%!important;height:82%!important;z-index:3!important;pointer-events:none!important;opacity:.10!important;mix-blend-mode:screen!important;animation:vvHeroWaveReveal 1.9s cubic-bezier(.22,.72,.22,1) .18s both}
+@keyframes vvHeroWaveReveal{0%{opacity:.08}42%{opacity:.16}100%{opacity:.58}}
 #product h1{position:relative;z-index:4;margin-top:0!important;max-width:1000px!important;line-height:.84!important;letter-spacing:-.068em!important}
 #product .vv-hero-primary-cta,#product .vv-hero-api-cta{position:relative;z-index:4}
 .vv-hero-line{display:block}
@@ -24,11 +25,13 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .vv-hero-primary-cta svg{color:#090806!important;flex:none}
 .vv-hero-api-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 18px;border:1px solid rgba(184,135,85,.40);border-radius:4px;background:rgba(15,13,11,.54);color:rgba(250,248,244,.88);font-size:14px;font-weight:700;line-height:1;text-decoration:none;backdrop-filter:blur(12px);transition:transform .28s cubic-bezier(.22,1,.36,1),background .28s ease,border-color .28s ease,box-shadow .28s ease,color .28s ease}
 .vv-hero-api-cta:hover{transform:translateY(-2px);background:rgba(184,135,85,.09);border-color:rgba(184,135,85,.68);color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.22)}
-.vv-api-glyph{display:inline-grid;place-items:center;width:22px;height:18px;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.08em;color:#c99a66}
+.vv-api-glyph{display:inline-grid;place-items:center;width:22px;height:18px;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;letter-spacing:-.08em;color:#c99a66}
 .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:10px}
 #product h1+div{display:none!important}
 
+/* The landing header is sticky at every viewport width; mobile keeps it above the menu and hero. */
 @media(max-width:900px){
+ header.sticky{position:sticky!important;top:0!important;z-index:70!important}
  header.sticky>div:first-child{height:64px!important}
  #product{margin-top:-64px!important;padding-top:64px!important;min-height:760px!important}
  #product>div:first-child{background-position:64% center!important}
@@ -39,9 +42,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
  #product h1{font-size:clamp(3.55rem,16vw,5.6rem)!important;line-height:.86!important;letter-spacing:-.062em!important}
  .vv-hero-truth{font-size:1.08em!important}
  .vv-hero-audio-line{font-size:.50em!important;margin-top:.08em}
- .vv-hero-waveform{top:48px!important;height:76%!important;opacity:.68!important}
+ .vv-hero-waveform{top:48px!important;height:76%!important}
  #product>div:nth-child(2){background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 56%,rgba(0,0,0,.52) 100%)!important}
  .vv-hero-api-cta{min-height:44px;padding:0 15px}
  .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:7px}
 }
-@media(prefers-reduced-motion:reduce){.vv-hero-truth{animation:none;background-position:50% 50%}.vv-hero-primary-cta,.vv-hero-api-cta{transition:none!important}.vv-hero-primary-cta:hover,.vv-hero-api-cta:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.vv-hero-waveform,.vv-hero-truth{animation:none;background-position:50% 50%}.vv-hero-waveform{opacity:.18!important}.vv-hero-primary-cta,.vv-hero-api-cta{transition:none!important}.vv-hero-primary-cta:hover,.vv-hero-api-cta:hover{transform:none!important}}
