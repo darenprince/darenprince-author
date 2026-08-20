@@ -195,14 +195,15 @@ function establishMobileScrollReset() {
   window.history.scrollRestoration = 'manual'
   const scrollTop = () => window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
   const onPageShow = () => scrollTop()
-  const onHashChange = () => scrollTop()
+  const onLoad = () => scrollTop()
   window.addEventListener('pageshow', onPageShow)
-  window.addEventListener('hashchange', onHashChange)
+  window.addEventListener('load', onLoad, { once: true })
   scrollTop()
+  window.setTimeout(scrollTop, 80)
   return () => {
     window.history.scrollRestoration = previousRestoration
     window.removeEventListener('pageshow', onPageShow)
-    window.removeEventListener('hashchange', onHashChange)
+    window.removeEventListener('load', onLoad)
   }
 }
 
