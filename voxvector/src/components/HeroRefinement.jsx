@@ -209,7 +209,7 @@ function establishMobileScrollReset() {
 export default function HeroRefinement() {
   useEffect(() => {
     const heading = document.querySelector('#product h1')
-    if (!heading || heading.dataset.vvRefined === 'true') return
+    if (!heading) return
     const eyebrow = heading.parentElement?.previousElementSibling?.querySelector('div')
     if (eyebrow) eyebrow.parentElement.style.display = 'none'
     const oldSubheading = heading.parentElement?.nextElementSibling
