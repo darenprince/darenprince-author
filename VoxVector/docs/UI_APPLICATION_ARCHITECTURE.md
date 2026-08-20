@@ -2,7 +2,7 @@
 
 ## Status
 
-**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The landing experience uses Tremor React analytical components together with application owned shadcn style components backed by Base UI, Lucide icons, Tailwind CSS, Motion for React, and TanStack Query. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, accessible landing foundation, and policy navigation are implemented. Backend protected operational telemetry remains the next security and integration phase.
+**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The landing experience uses Tremor React analytical components together with application owned shadcn style components backed by Base UI, Lucide icons, Tailwind CSS, Motion for React, and TanStack Query. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, accessible landing foundation, policy navigation, live diagnostic polling, real audio upload/player workflow, and developer profile editing are implemented in source. Backend protected operational telemetry remains an integration and verification concern.
 
 ## Architecture
 
@@ -13,10 +13,10 @@
 | Analytical UI | Tremor React 3.18.7 | Real analytical cards, charts, progress indicators, and dashboard composition |
 | Styling | Tailwind CSS | Responsive layout, typography, semantic tokens, and theming |
 | Icons | Lucide React | Consistent product and interface iconography |
-| Animation | Motion for React | State driven transitions and interaction animation |
-| Server state | TanStack Query | API lifecycle, caching, retries, mutations, refresh |
+| Animation | Motion for React + lightweight CSS state animation | State driven transitions and operational status animation |
+| Server state | TanStack Query | API lifecycle, caching, retries, mutations, refresh, and diagnostic polling |
 | Authentication | Supabase Auth | Developer identity and session handling |
-| Authorization | Supabase trusted `app_metadata` plus future FastAPI enforcement | Developer role gating |
+| Authorization | Supabase trusted `app_metadata` plus FastAPI enforcement | Developer role gating |
 | API | FastAPI on Render | Canonical backend |
 | Persistence and diagnostics | Supabase | Existing operational architecture |
 | Deployment | GitHub Pages | Public React frontend under `/voxvector/` |
@@ -49,6 +49,7 @@ The repository source of truth therefore follows this boundary:
 * FastAPI backend: `VoxVector/api/app.py`
 * Render root: `VoxVector`
 * Render application: `api.app:app`
+* Crown Labs public documentation: `/docs/crownlabsbible/docs/`
 
 A Vercel check that continues to appear in GitHub after repository cleanup would indicate an external GitHub or Vercel integration rather than a VoxVector source file. It must not be reintroduced into the repository as a workaround.
 
@@ -65,8 +66,9 @@ The landing page is the public product introduction rather than a generic market
 * evidence convergence and conflict
 * scientific discipline and capability state
 * serious analysis use cases
-* a Project Briefing call to action
-* a Documentation call to action
+* a Project Briefing call to action routed to the Crown Labs Bible VoxVector dossier
+* a Documentation call to action routed to the Crown Labs documentation viewer
+* GitHub source/documentation controls that remain explicitly linked to the appropriate repository paths
 * privacy and terms policy destinations
 * legal, developer, resource, source, and company footer navigation
 
@@ -91,7 +93,10 @@ Implemented:
 * four stage analytical workflow presentation
 * current observational method presentation
 * scientific state communication
-* Project Briefing and Documentation calls to action
+* Project Briefing routed to the Crown Labs Bible
+* Documentation routed to the Crown Labs documentation viewer
+* GitHub source button scoped to `./voxvector/`
+* GitHub documentation button scoped to `./VoxVector/docs/`
 * professional footer with legal, developer, resource, source, and company navigation
 * navigable privacy and terms policy drafts
 * mobile navigation
@@ -109,17 +114,46 @@ Implemented at `/voxvector/developer`:
 * Supabase Auth sign in gate
 * trusted developer role check using `app_metadata`
 * sign out with awaited Supabase Auth completion and visible error handling
-* operational dashboard
+* operational dashboard with animated green, warning, and red state icons
 * real `/health` query through TanStack Query
 * API workbench for the actual `/v1/analyze` endpoint
 * WAV upload and real request execution
-* HTTP status, client timing, `X Request ID`, and response JSON visibility
-* canonical documentation navigator
+* browser XHR upload progress that completes before analysis animation begins
+* client generated request correlation ID
+* explicit live analysis stages: upload, decode, analysis, result
+* cancellable browser analysis request with Stop analysis controls
+* durable diagnostic lifecycle polling during analysis
+* server response, HTTP status, client timing, `X Request ID`, and response JSON visibility
+* uploaded audio playback with waveform and seek control
+* decoded WAV metadata panel including filename, container/codec, sample rate, channels, bit depth, bitrate, duration, file size, MIME type, modification time, and available RIFF INFO/BEXT metadata
+* live playback dBFS meter and digital clipping indicator
+* persistent error browser backed by the authenticated diagnostic endpoint
+* live diagnostic log stream backed by the authenticated lifecycle event endpoint
+* canonical documentation navigator using only existing `VoxVector/docs/` files
 * development board
-* explicit unavailable states for telemetry and error endpoints that do not yet exist
-* Motion based API activity visualization tied to real query and mutation state
+* developer profile editing through Supabase Auth user metadata
 
 The console does not fabricate request counts, error counts, 5xx totals, analysis totals, lifecycle events, or storage records.
+
+## Analysis request state model
+
+The browser deliberately separates transfer state from server processing state:
+
+1. **Upload:** XHR progress represents bytes transferred by the browser.
+2. **Upload complete:** the progress bar reaches 100 percent and the UI changes state only after the browser upload stream completes.
+3. **Server waiting/processing:** the generic analysis animation begins only after upload completion and is then driven by durable diagnostic events when available.
+4. **Decode:** displayed when the backend emits the real `stage=decode` lifecycle event.
+5. **Analysis:** displayed when the backend emits `stage=analysis_pipeline`.
+6. **Result:** displayed when the request completes and the response is received.
+7. **Stopped/error:** displayed from actual browser request outcome.
+
+The Stop analysis control cancels the browser HTTP request. It does not claim to terminate a server-side worker thread that may already be executing CPU-heavy analysis; backend job cancellation would require a cooperative cancellation contract in the analysis engine.
+
+## Audio player and metadata
+
+The Developer Console player is local-browser functionality over the selected file. It does not upload the file merely to generate the waveform.
+
+The player derives WAV metadata from RIFF chunks and decodes the audio locally for a compact waveform. During playback, a browser `AnalyserNode` provides instantaneous peak level and clipping state. The meter is a playback monitor, not a scientific measurement returned by the VoxVector backend.
 
 ## Developer access boundary
 
@@ -137,7 +171,7 @@ user.app_metadata.voxvector_role == "developer"
 
 Only trusted server or admin processes should assign these metadata values.
 
-The next backend security milestone must validate Supabase access tokens in FastAPI and enforce the developer role on diagnostic and operational endpoints before those endpoints expose sensitive data.
+FastAPI diagnostic endpoints enforce the developer role before returning persistent diagnostics.
 
 See `docs/DEVELOPER_ACCESS.md`.
 
@@ -150,16 +184,25 @@ See `docs/DEVELOPER_ACCESS.md`.
 * response payload
 * client observed timing
 * backend error detail
+* upload progress callbacks
+* cancellable request handles
+* lifecycle event query support
 
 The canonical API base defaults to `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`.
 
 ## State driven animation
 
-Motion may animate actual query and mutation state, but it may not manufacture analytical progress.
+Motion and lightweight CSS animation may animate actual query, mutation, upload, playback, and diagnostic state, but they may not manufacture analytical progress.
 
-The current console uses an indeterminate activity waveform for real `/health` and `/v1/analyze` requests because the backend does not expose numeric progress. Completed, idle, and error states are rendered from actual request state.
+The API workbench uses a transfer progress bar only for actual browser upload progress. Server analysis is indeterminate until real lifecycle events arrive. No numeric percentage is invented for the backend pipeline.
 
-If the backend later provides discrete lifecycle events, the UI will present discrete lifecycle states. Numerical percentages require an actual defined backend progress metric.
+## Telemetry and diagnostics
+
+The backend exposes authenticated `/v1/diagnostics/events` lifecycle queries and `/v1/diagnostics/errors` indexed error queries over the existing Supabase Storage architecture.
+
+Lifecycle records include request correlation, stage names, durations, sample counts, source revision, and sanitized error fields where applicable. Raw audio and transcript content are excluded by the observability sanitizer.
+
+HTTP 5xx events are indexed as persistent errors. Abrupt process termination can still prevent an application-level error record from being emitted, so Render process logs remain necessary evidence for host-level failures.
 
 ## Analysis Workspace
 
@@ -171,18 +214,6 @@ The Analysis Workspace remains the next major product surface. It will be connec
 4. final classification and disposition
 
 It must expose uncertainty, convergence and conflict, alternatives, data quality, and abstention rather than collapsing the process into a single score.
-
-## Telemetry roadmap
-
-The console currently marks these areas as unavailable rather than simulating them:
-
-* persistent error browser
-* protected diagnostic detail
-* lifecycle event stream
-* request, error, 5xx, and analysis aggregates
-* recurrence and resolution tracking
-
-These require backend query contracts over the existing Supabase diagnostic architecture.
 
 ## Accessibility
 
@@ -204,11 +235,11 @@ The public footer links to product specific policy drafts in `VoxVector/docs/PRI
 
 ## Deployment
 
-The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. The workflow also stages a concrete `/voxvector/developer/index.html` route and a local `/voxvector/404.html` fallback. The root `voxvector.html` is a compatibility redirect only and must not contain a second landing implementation.
+The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. The workflow also stages a concrete `/voxvector/developer/index.html` route and a local `/voxvector/404.html` fallback. It explicitly stages `docs/crownlabsbible/` because the general repository `docs/` tree is intentionally excluded from the public artifact. The root `voxvector.html` is a compatibility redirect only and must not contain a second landing implementation.
 
 ## Verification
 
-The source changes for the warm Tremor palette and chart stroke correction are committed to GitHub. No fresh browser or GitHub Actions verification has been performed in this change session, so production build and deployment success must not be claimed until CI and browser verification complete.
+The source changes for the developer controls, diagnostics, metadata/player workflow, profile editing, documentation routing, and Crown Labs Bible deployment restoration are committed to GitHub. No fresh browser or GitHub Actions verification has been performed in this change session, so production build and deployment success must not be claimed until CI and browser verification complete.
 
 ## Acceptance principle
 
