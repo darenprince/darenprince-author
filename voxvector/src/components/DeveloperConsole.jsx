@@ -17,7 +17,7 @@ const docs = [
 
 const nav = [
   ['dashboard', 'Dashboard', Activity], ['api', 'API Interface', Code2], ['errors', 'Error Reports', AlertTriangle],
-  ['logs', 'Logs', Terminal], ['docs', 'Documentation', BookOpen], ['board', 'Development Board', ShieldCheck]
+  ['logs', 'Logs', Terminal], ['docs', 'Documentation', 'BookOpen'], ['board', 'Development Board', ShieldCheck]
 ]
 
 export default function DeveloperConsole({ session, signOut }) {
@@ -26,7 +26,7 @@ export default function DeveloperConsole({ session, signOut }) {
   const [theme, setTheme] = useState(getStoredTheme)
   const health = useQuery({ queryKey: ['health'], queryFn: getHealth, refetchInterval: 30000 })
   const errors = useQuery({
-    queryKey: ['diagnostic-errors', session.access_token],
+    queryKey: ['diagnostic-errors'],
     queryFn: () => getDiagnosticErrors(session.access_token),
     enabled: Boolean(session.access_token) && section === 'errors',
     refetchInterval: section === 'errors' ? 15000 : false
