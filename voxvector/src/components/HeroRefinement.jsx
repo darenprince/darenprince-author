@@ -42,7 +42,7 @@ function createHeroWaveform() {
   const draw = (now) => {
     const dt = Math.min(50, now - last)
     last = now
-    phase += dt * 0.00034
+    phase += dt * 0.00052
     const width = canvas.clientWidth
     const height = canvas.clientHeight
     ctx.clearRect(0, 0, width, height)
