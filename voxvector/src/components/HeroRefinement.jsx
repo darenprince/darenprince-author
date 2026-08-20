@@ -180,6 +180,32 @@ function refineHeroActions() {
   }
 }
 
+function establishHeroOnlyReveal() {
+  document.documentElement.classList.add('vv-hero-only-reveal')
+  const normalizeNonHero = () => {
+    document.querySelectorAll('main section:not(#product) [style*="opacity"]').forEach((element) => element.classList.add('vv-static-reveal'))
+  }
+  normalizeNonHero()
+  return normalizeNonHero
+}
+
+function establishMobileScrollReset() {
+  if (window.innerWidth > 900) return () => {}
+  const previousRestoration = window.history.scrollRestoration
+  window.history.scrollRestoration = 'manual'
+  const scrollTop = () => window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
+  const onPageShow = () => scrollTop()
+  const onHashChange = () => scrollTop()
+  window.addEventListener('pageshow', onPageShow)
+  window.addEventListener('hashchange', onHashChange)
+  scrollTop()
+  return () => {
+    window.history.scrollRestoration = previousRestoration
+    window.removeEventListener('pageshow', onPageShow)
+    window.removeEventListener('hashchange', onHashChange)
+  }
+}
+
 export default function HeroRefinement() {
   useEffect(() => {
     const heading = document.querySelector('#product h1')
@@ -201,11 +227,14 @@ export default function HeroRefinement() {
     secondLine.className = 'vv-hero-line vv-hero-audio-line'
     secondLine.textContent = 'IN YOUR AUDIO'
     heading.append(firstLine, secondLine)
+    const normalizeNonHero = establishHeroOnlyReveal()
+    const scrollCleanup = establishMobileScrollReset()
     createHeroWaveform()
     createSectionSignalField('#technology', 'radar')
     createSectionSignalField('#workflow', 'evidence')
     refineHeroActions()
     const observer = new MutationObserver(() => {
+      normalizeNonHero()
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
@@ -213,12 +242,19 @@ export default function HeroRefinement() {
     })
     observer.observe(document.body, { childList: true, subtree: true })
     const timeout = window.setTimeout(() => {
+      normalizeNonHero()
       createHeroWaveform()
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
       refineHeroActions()
     }, 80)
-    return () => { observer.disconnect(); window.clearTimeout(timeout) }
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(timeout)
+      scrollCleanup()
+      document.documentElement.classList.remove('vv-hero-only-reveal')
+      document.querySelectorAll('.vv-static-reveal').forEach((element) => element.classList.remove('vv-static-reveal'))
+    }
   }, [])
   return null
 }
