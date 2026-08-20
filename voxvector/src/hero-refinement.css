@@ -11,14 +11,14 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 
 #product h1{margin-top:0!important;max-width:1000px!important;line-height:.84!important;letter-spacing:-.068em!important}
 .vv-hero-line{display:block}
-.vv-hero-audio-line{margin-top:.035em}
-.vv-hero-truth{display:inline-block;color:#f8f3ec;background:linear-gradient(108deg,#f8f3ec 0%,#f8f3ec 31%,#c08c57 43%,#ffe5bc 49%,#a97143 56%,#f8f3ec 72%,#f8f3ec 100%);background-size:260% 100%;background-position:100% 50%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:vvTruthShine 5.8s cubic-bezier(.55,0,.25,1) infinite;filter:drop-shadow(0 0 14px rgba(184,135,85,.08))}
+.vv-hero-audio-line{margin-top:.06em;font-size:.52em!important;line-height:1!important;letter-spacing:.14em!important;font-weight:650!important;color:#f3eadc!important;-webkit-text-fill-color:#f3eadc!important}
+.vv-hero-truth{display:inline-block;position:relative;margin:.04em 0 .06em;padding:.075em .22em .095em;border:1px solid rgba(194,148,96,.86);border-radius:3px;color:#f8f3ec;background:linear-gradient(108deg,#f8f3ec 0%,#f8f3ec 31%,#c08c57 43%,#ffe5bc 49%,#a97143 56%,#f8f3ec 72%,#f8f3ec 100%);background-size:260% 100%;background-position:100% 50%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:1.09em!important;font-weight:850!important;letter-spacing:-.045em!important;filter:drop-shadow(0 0 14px rgba(184,135,85,.08));box-shadow:inset 0 0 22px rgba(184,135,85,.025),0 0 0 1px rgba(184,135,85,.035)}
+.vv-hero-truth::before{content:"";position:absolute;inset:-1px;border:1px solid rgba(255,220,174,.12);border-radius:3px;pointer-events:none}
 @keyframes vvTruthShine{0%,18%{background-position:100% 50%}48%{background-position:0% 50%}62%,100%{background-position:0% 50%}}
+.vv-hero-truth{animation:vvTruthShine 5.8s cubic-bezier(.55,0,.25,1) infinite}
 
 /* Hero actions: explicitly coffee-gold primary CTA plus a quiet API companion action. */
-#product .vv-hero-primary-cta,
-#product a.vv-hero-primary-cta,
-#product button.vv-hero-primary-cta{background:#b88755!important;background-image:linear-gradient(135deg,#a87447 0%,#c99a66 45%,#b88755 70%,#9b693f 100%)!important;color:#090806!important;border:1px solid rgba(255,226,191,.34)!important;border-radius:4px!important;box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,245,225,.22)!important;filter:none!important}
+#product .vv-hero-primary-cta,#product a.vv-hero-primary-cta,#product button.vv-hero-primary-cta{background:#b88755!important;background-image:linear-gradient(135deg,#a87447 0%,#c99a66 45%,#b88755 70%,#9b693f 100%)!important;color:#090806!important;border:1px solid rgba(255,226,191,.34)!important;border-radius:4px!important;box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,245,225,.22)!important;filter:none!important}
 #product .vv-hero-primary-cta:hover,#product a.vv-hero-primary-cta:hover,#product button.vv-hero-primary-cta:hover{background:#c49562!important;background-image:linear-gradient(135deg,#b27b4b 0%,#d0a472 46%,#be8a55 72%,#a87345 100%)!important;transform:translateY(-2px)!important;box-shadow:0 16px 42px rgba(0,0,0,.30),0 0 24px rgba(184,135,85,.14),inset 0 1px 0 rgba(255,245,225,.24)!important}
 .vv-hero-primary-cta:focus-visible,.vv-hero-api-cta:focus-visible{outline:2px solid #d2a36f;outline-offset:3px}
 .vv-hero-primary-cta svg{color:#090806!important;flex:none}
@@ -37,7 +37,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 @media(max-width:620px){
   #product{min-height:720px!important}
   #product h1{font-size:clamp(3.55rem,16vw,5.6rem)!important;line-height:.86!important;letter-spacing:-.062em!important}
-  .vv-hero-audio-line{margin-top:.045em}
+  .vv-hero-truth{font-size:1.08em!important}
+  .vv-hero-audio-line{font-size:.50em!important;margin-top:.08em}
   #product>div:nth-child(2){background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 56%,rgba(0,0,0,.52) 100%)!important}
   .vv-hero-api-cta{min-height:44px;padding:0 15px}
   .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:7px}
