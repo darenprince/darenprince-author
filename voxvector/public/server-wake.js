@@ -91,6 +91,8 @@
           panel.querySelector('.vv-wake-button').remove()
           panel.querySelector('.vv-wake-status').textContent = 'Server state: operational'
         }
+        const refresh = [...document.querySelectorAll('.vv-main button')].find(button => button.textContent.trim().includes('Refresh'))
+        refresh?.click()
         window.dispatchEvent(new CustomEvent('voxvector:server-ready', { detail: payload }))
         return true
       }
