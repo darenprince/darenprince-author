@@ -26,7 +26,7 @@ class FailingStorage(FakeStorage):
         raise StorageError("simulated Supabase outage")
 
 
-def test_diagnostic_store_persists_sanitized_event(capsys):
+def test_diagnostic_store_persists_sanitized_event_and_error_index(capsys):
     storage = FakeStorage()
     diagnostics = DiagnosticStore(storage)
 
@@ -41,11 +41,14 @@ def test_diagnostic_store_persists_sanitized_event(capsys):
     )
 
     assert result
-    assert len(storage.records) == 1
-    object_path, payload = storage.records[0]
-    assert object_path.startswith("events/")
-    assert "/abc123/" in object_path
+    assert len(storage.records) == 2
+    event_path, payload = storage.records[0]
+    index_path, index_payload = storage.records[1]
+    assert event_path.startswith("events/")
+    assert "/abc123/" in event_path
+    assert index_path.startswith("error-index/")
     assert payload["request_id"] == "abc123"
+    assert index_payload["request_id"] == "abc123"
     assert payload["error_type"] == "ValueError"
     assert "raw_audio" not in payload
     assert "\x00" not in payload["error_message"]
