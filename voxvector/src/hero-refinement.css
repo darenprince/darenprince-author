@@ -53,4 +53,10 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 /* Only hero content should use the slow landing scroll reveal. Other landing sections remain immediately readable. */
 .vv-hero-only-reveal main section:not(#product) .vv-static-reveal{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
 
+/* Mobile Safari: keep floating actions clear of the browser toolbar and inside the visual viewport. */
+.vv-floating-actions{right:max(16px,env(safe-area-inset-right))!important;left:auto!important;bottom:calc(96px + env(safe-area-inset-bottom))!important;z-index:200!important}
+.vv-floating-actions button{width:48px!important;height:48px!important;min-width:48px!important;padding:0!important}
+.vv-floating-actions button svg{width:19px;height:19px}
+@media(max-width:620px){.vv-floating-actions{right:max(16px,env(safe-area-inset-right))!important;bottom:calc(92px + env(safe-area-inset-bottom))!important;gap:8px!important}.vv-floating-actions button{width:48px!important;height:48px!important;min-width:48px!important}.vv-floating-actions button:hover span{display:none}}
+
 @media(prefers-reduced-motion:reduce){.vv-hero-waveform,.vv-hero-truth,.vv-hero-prefix,.vv-hero-audio-line{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}.vv-hero-waveform{opacity:.18!important}.vv-hero-primary-cta,.vv-hero-api-cta{transition:none!important}.vv-hero-primary-cta:hover,.vv-hero-api-cta:hover{transform:none!important}}
