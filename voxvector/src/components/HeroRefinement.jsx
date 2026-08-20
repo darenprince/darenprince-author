@@ -218,11 +218,13 @@ export default function HeroRefinement() {
     heading.textContent = ''
     const firstLine = document.createElement('span')
     firstLine.className = 'vv-hero-line'
-    firstLine.append(document.createTextNode('Reveal the '))
+    const prefix = document.createElement('span')
+    prefix.className = 'vv-hero-prefix'
+    prefix.textContent = 'Reveal the '
     const truth = document.createElement('span')
     truth.className = 'vv-hero-truth'
     truth.textContent = 'TRUTH'
-    firstLine.append(truth)
+    firstLine.append(prefix, truth)
     const secondLine = document.createElement('span')
     secondLine.className = 'vv-hero-line vv-hero-audio-line'
     secondLine.textContent = 'IN YOUR AUDIO'
