@@ -64,6 +64,11 @@ jobs:
           # staged explicitly because the general docs tree stays excluded.
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
+          # The Crown Labs viewer intentionally reads the canonical VoxVector
+          # technical documents through local relative paths. Mirror only the
+          # documentation tree into the Pages artifact; never publish backend code.
+          mkdir -p _site/VoxVector/docs
+          rsync -a ./VoxVector/docs/ _site/VoxVector/docs/
           mkdir -p _site/voxvector/developer
           cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
           cp ./voxvector/dist/index.html ./_site/voxvector/404.html
@@ -75,11 +80,15 @@ jobs:
           test -f _site/voxvector/404.html
           test -f _site/docs/crownlabsbible/docs/index.html
           test -f _site/docs/crownlabsbible/docs/viewer.html
+          test -f _site/VoxVector/docs/EXECUTIVE_SUMMARY.md
+          test -f _site/VoxVector/docs/OPERATING_CHARTER.md
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
           echo "Crown Labs documentation routes staged:"
           find _site/docs/crownlabsbible/docs -maxdepth 1 -type f | sort | head -80
-          du -sh _site/voxvector _site/docs/crownlabsbible
+          echo "Local VoxVector technical docs mirrored for viewer:"
+          find _site/VoxVector/docs -maxdepth 1 -type f | sort | head -80
+          du -sh _site/voxvector _site/docs/crownlabsbible _site/VoxVector/docs
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -95,4 +104,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
