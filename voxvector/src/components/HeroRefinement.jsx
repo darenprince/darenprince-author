@@ -17,6 +17,74 @@ function waveformIcon() {
   return svg
 }
 
+function createHeroWaveform() {
+  if (document.querySelector('.vv-hero-waveform')) return
+  const hero = document.querySelector('#product')
+  if (!hero) return
+
+  const canvas = document.createElement('canvas')
+  canvas.className = 'vv-hero-waveform'
+  canvas.setAttribute('aria-hidden', 'true')
+  hero.prepend(canvas)
+  const ctx = canvas.getContext('2d')
+  let raf = 0
+  let phase = 0
+  let last = performance.now()
+
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const rect = hero.getBoundingClientRect()
+    canvas.width = Math.round(rect.width * dpr)
+    canvas.height = Math.round(Math.max(260, rect.height * 0.58) * dpr)
+    canvas.style.height = `${Math.max(260, rect.height * 0.58)}px`
+    canvas.style.top = '0'
+    canvas.style.width = '100%'
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+  }
+
+  const draw = (now) => {
+    const dt = Math.min(50, now - last)
+    last = now
+    phase += dt * 0.00019
+    const width = canvas.clientWidth
+    const height = canvas.clientHeight
+    ctx.clearRect(0, 0, width, height)
+
+    const center = height * 0.38
+    const bars = Math.max(72, Math.floor(width / 11))
+    const gap = 4
+    const barWidth = Math.max(1.5, (width - (bars - 1) * gap) / bars)
+
+    for (let i = 0; i < bars; i += 1) {
+      const x = i * (barWidth + gap)
+      const envelope = Math.pow(Math.sin(Math.PI * i / (bars - 1)), 0.68)
+      const signal = 0.52 + 0.26 * Math.sin(i * 0.31 + phase * 4.0) + 0.16 * Math.sin(i * 0.087 - phase * 2.3) + 0.08 * Math.sin(i * 0.67 + phase * 1.2)
+      const h = Math.max(8, height * 0.32 * envelope * Math.abs(signal))
+      const y = center - h / 2
+      const gradient = ctx.createLinearGradient(0, y, 0, y + h)
+      gradient.addColorStop(0, 'rgba(201,154,102,0.18)')
+      gradient.addColorStop(0.5, 'rgba(201,154,102,0.60)')
+      gradient.addColorStop(1, 'rgba(201,154,102,0.18)')
+      ctx.fillStyle = gradient
+      ctx.beginPath()
+      ctx.roundRect(x, y, barWidth, h, Math.min(3, barWidth / 2))
+      ctx.fill()
+    }
+
+    raf = requestAnimationFrame(draw)
+  }
+
+  resize()
+  window.addEventListener('resize', resize)
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+  if (!reduced.matches) raf = requestAnimationFrame(draw)
+  return () => {
+    cancelAnimationFrame(raf)
+    window.removeEventListener('resize', resize)
+    canvas.remove()
+  }
+}
+
 function refineHeroActions() {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT)
   let node
@@ -76,11 +144,12 @@ export default function HeroRefinement() {
     secondLine.textContent = 'IN YOUR AUDIO'
 
     heading.append(firstLine, secondLine)
+    createHeroWaveform()
     refineHeroActions()
 
-    const observer = new MutationObserver(() => refineHeroActions())
+    const observer = new MutationObserver(() => { createHeroWaveform(); refineHeroActions() })
     observer.observe(document.body, { childList: true, subtree: true })
-    const timeout = window.setTimeout(refineHeroActions, 80)
+    const timeout = window.setTimeout(() => { createHeroWaveform(); refineHeroActions() }, 80)
     return () => {
       observer.disconnect()
       window.clearTimeout(timeout)
