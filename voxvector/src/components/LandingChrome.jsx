@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useEffect, useState } from 'react'
-import { ArrowUpRight, BookOpen, Code2, FileText, Github, Globe2, Instagram, Linkedin, Menu, ShieldCheck, Terminal, X, Youtube, UserRound, Twitter } from 'lucide-react'
+import { ArrowUp, ArrowUpRight, BookOpen, Code2, FileText, Github, Globe2, Instagram, Linkedin, Menu, ShieldCheck, Share2, Terminal, X, Youtube, UserRound, Twitter } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 
 const CROWN_LABS_VIEWER = '/docs/crownlabsbible/docs/viewer.html'
@@ -56,6 +56,30 @@ function SideMenu({ open, onClose }) {
   </div>}</AnimatePresence>, document.body)
 }
 
+function FloatingActions() {
+  const [visible, setVisible] = useState(false)
+  const [shared, setShared] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 420)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  const share = async () => {
+    const data = { title: 'VoxVector', text: 'Advanced vocal deception analysis.', url: window.location.href }
+    try {
+      if (navigator.share) await navigator.share(data)
+      else await navigator.clipboard.writeText(window.location.href)
+      setShared(true)
+      window.setTimeout(() => setShared(false), 1600)
+    } catch { /* cancelled share is intentionally silent */ }
+  }
+  return <div className={`vv-floating-actions${visible ? ' is-visible' : ''}`} aria-label="Page controls">
+    <button type="button" onClick={share} aria-label="Share VoxVector" title={shared ? 'Link copied' : 'Share'}><Share2 size={16} strokeWidth={1.7} /><span>{shared ? 'Copied' : 'Share'}</span></button>
+    <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top" title="Back to top"><ArrowUp size={16} strokeWidth={1.7} /><span>Top</span></button>
+  </div>
+}
+
 function FooterEnhancement() {
   const footer = document.querySelector('footer')
   if (!footer) return null
@@ -85,6 +109,6 @@ export default function LandingChrome() {
     setFooterReady(Boolean(document.querySelector('footer')))
     return () => mobileButton?.classList.remove('vv-original-mobile-menu')
   }, [])
-  if (!headerTarget) return <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
-  return <>{createPortal(<HeaderControls onMenu={() => setMenuOpen(true)} />, headerTarget)}<SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />{footerReady && <FooterEnhancement />}</>
+  if (!headerTarget) return <><SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><FloatingActions /></>
+  return <>{createPortal(<HeaderControls onMenu={() => setMenuOpen(true)} />, headerTarget)}<SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />{footerReady && <FooterEnhancement />}<FloatingActions /></>
 }
