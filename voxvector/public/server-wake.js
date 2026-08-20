@@ -1,6 +1,7 @@
 (() => {
   if (!location.pathname.includes('/voxvector/developer')) return
 
+  const API_HEALTH_URL = 'https://voxvector.crownlabs.tech/health'
   const originalFetch = window.fetch.bind(window)
   let wakeRequested = false
   let started = false
@@ -75,7 +76,7 @@
 
   async function checkHealth() {
     try {
-      const response = await originalFetch('/health', { headers: { Accept:'application/json' } })
+      const response = await originalFetch(API_HEALTH_URL, { headers: { Accept:'application/json' } })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
       const payload = await response.json()
       if (payload?.status === 'ok' && payload?.runtime_self_test === 'passed') {
