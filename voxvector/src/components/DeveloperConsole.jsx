@@ -17,7 +17,7 @@ const docs = [
 
 const nav = [
   ['dashboard', 'Dashboard', Activity], ['api', 'API Interface', Code2], ['errors', 'Error Reports', AlertTriangle],
-  ['logs', 'Logs', Terminal], ['docs', 'Documentation', 'BookOpen'], ['board', 'Development Board', ShieldCheck]
+  ['logs', 'Logs', Terminal], ['docs', 'Documentation', BookOpen], ['board', 'Development Board', ShieldCheck]
 ]
 
 export default function DeveloperConsole({ session, signOut }) {
