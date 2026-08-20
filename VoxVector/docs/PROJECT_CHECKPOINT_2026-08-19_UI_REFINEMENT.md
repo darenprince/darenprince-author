@@ -22,10 +22,22 @@ The public React application and authenticated Developer Console were refined ar
 * default strokes are thin and low contrast
 * stronger strokes are reserved for focus, active states and buttons
 * gradients are limited to subtle environmental and surface depth
-* existing hero language remains unchanged
+* existing hero language remains unchanged except for the requested supporting body copy
 * existing workflow capability line remains `Deep Forensic Vocal Analysis + State of the art Linguistics`
 * missing frontend `@vitejs/plugin-react` dependency was added after CI exposed the actual Vite build failure
 * the three analytical principle cards (`Quality before interpretation`, `Evidence stays visible`, and `No manufactured certainty`) are now relocated from the post hero strip into the `See the signal. Keep the uncertainty.` analytical interface section, directly beneath its explanatory copy and before the illustrative analytical surfaces
+* mobile hero content is centered, including the headline, supporting copy and CTA row
+* the two hero CTAs remain side by side and are centered as a single row on mobile
+* hero supporting copy now uses the requested VoxVector platform description
+* `VoxVector` is bold in the hero supporting copy with a small `™` superscript marker
+
+## Hero composition
+
+The hero supporting copy is:
+
+`VoxVector™ is an advanced vocal intelligence platform that uses proprietary analysis algorithms to deeply analyze and interpret human speech signals across vocal, acoustic, linguistic, forensics, and behavioral dimensions to scientifically detect patterns associated with deception, vocal stress, uncertainty, and cognitive load.`
+
+The supporting copy remains visually subordinate to the staged `Reveal the TRUTH IN YOUR AUDIO` headline while remaining readable on mobile.
 
 ## Analytical interface composition
 
@@ -60,7 +72,7 @@ The canonical deployment architecture remains GitHub Pages for the frontend and 
 
 ## Verification status
 
-Earlier GitHub Actions verification established the frontend dependency installation and production build path after the Tremor React compatibility correction. The current warm palette, hero refinement, floating action positioning and analytical interface card relocation have been committed directly, but a fresh GitHub Actions run and browser inspection have not yet been performed for these exact changes.
+Earlier GitHub Actions verification established the frontend dependency installation and production build path after the Tremor React compatibility correction. The current warm palette, hero refinement, floating action positioning, analytical interface card relocation and mobile hero copy/alignment refinement have been committed directly, but a fresh GitHub Actions run and browser inspection have not yet been performed for these exact changes.
 
 Therefore this checkpoint does not claim that the current commits have passed fresh production build or browser verification.
 
