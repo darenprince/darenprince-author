@@ -25,16 +25,20 @@ Spectral centroid and spread now derive their frequency vector directly from the
 
 The API wrapper explicitly places `VoxVector/src` before the API namespace package so the canonical `voxvector` implementation cannot be silently shadowed by a same-named wrapper package. The wrapper also reports the loaded acoustic and pipeline module paths and SHA-256 fingerprints through `/health`.
 
-The HTTP adapter applies a **20 MB request limit** and a **48 kHz maximum sample rate** before expensive analysis. There is intentionally no newly imposed duration cutoff: previously supported WAV recordings must remain supported. Resource protection must be handled by the bounded analysis pipeline rather than silently breaking an existing supported fixture.
+The HTTP adapter no longer imposes an application-level file-size limit or an artificial duration cutoff. Upload capacity should not silently change the product contract. Resource protection belongs in the streaming/upload infrastructure and bounded analysis pipeline rather than an arbitrary API file-size ceiling.
+
+A **48 kHz maximum sample rate** remains an analysis-format constraint because the current decoder/runtime explicitly guards against unsupported sample rates.
 
 ## Current request limits
 
-- Maximum upload: 20 MB
+- Application-level maximum upload size: **none**
 - Maximum sample rate: 48,000 Hz
 - Initial format: PCM WAV
-- No artificial duration cutoff is imposed by the HTTP adapter
+- Application-level duration cutoff: **none**
 
-`GET /health` exposes the active limits under `analysis_limits` so the deployed contract can be inspected rather than inferred.
+`GET /health` exposes only the active sample-rate constraint under `analysis_limits`.
+
+Infrastructure or hosting providers may impose their own transport/request limits independently; those are deployment constraints, not VoxVector product limits, and must not be represented in the API contract as an arbitrary file-size cap.
 
 ## Scientific and architectural boundary
 
@@ -54,12 +58,12 @@ A deployment is not considered verified solely because the service starts. The f
 - `GET /health` returns success.
 - `/health` reports the expected canonical package path.
 - `/health` reports the expected acoustic module path and runtime self-test result.
-- `/health` reports the active analysis limits.
+- `/health` reports the active sample-rate constraint.
 - `/v1/analyze` accepts the known 17 MB WAV regression fixture.
 - The service remains alive during analysis.
 - Spectral feature dimensions remain aligned for the deployed sample rate/frame size.
 - The result includes provenance and the expected observational disposition.
-- Invalid, oversized, and over-rate inputs are rejected without killing the worker.
+- Unsupported sample rates are rejected without killing the worker.
 - No deception probability is fabricated.
 
 ## Deployment note
