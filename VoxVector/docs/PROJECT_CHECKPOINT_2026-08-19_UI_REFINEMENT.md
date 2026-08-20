@@ -25,6 +25,18 @@ The public React application and authenticated Developer Console were refined ar
 * existing hero language remains unchanged
 * existing workflow capability line remains `Deep Forensic Vocal Analysis + State of the art Linguistics`
 * missing frontend `@vitejs/plugin-react` dependency was added after CI exposed the actual Vite build failure
+* the three analytical principle cards (`Quality before interpretation`, `Evidence stays visible`, and `No manufactured certainty`) are now relocated from the post hero strip into the `See the signal. Keep the uncertainty.` analytical interface section, directly beneath its explanatory copy and before the illustrative analytical surfaces
+
+## Analytical interface composition
+
+The analytical interface section now establishes the intended reading order:
+
+1. `See the signal. Keep the uncertainty.`
+2. `Tremor analytical blocks and shadcn style composition make the evidence legible without turning the interface into a generic dashboard.`
+3. the three evidence discipline cards
+4. the illustrative signal behavior and evidence family surfaces
+
+The relocation is implemented as a surgical DOM composition refinement in `voxvector/src/components/HeroRefinement.jsx`; the original card content and copy are preserved rather than recreated or deleted from the application source.
 
 ## Tremor palette correction
 
@@ -48,9 +60,9 @@ The canonical deployment architecture remains GitHub Pages for the frontend and 
 
 ## Verification status
 
-Earlier GitHub Actions verification established the frontend dependency installation and production build path after the Tremor React compatibility correction. The current warm palette and chart stroke change has been committed directly, but a fresh GitHub Actions run and browser inspection have not yet been performed for this exact change.
+Earlier GitHub Actions verification established the frontend dependency installation and production build path after the Tremor React compatibility correction. The current warm palette, hero refinement, floating action positioning and analytical interface card relocation have been committed directly, but a fresh GitHub Actions run and browser inspection have not yet been performed for these exact changes.
 
-Therefore this checkpoint does not claim that the current commit has passed fresh production build or browser verification.
+Therefore this checkpoint does not claim that the current commits have passed fresh production build or browser verification.
 
 This is software execution status only and does not constitute scientific validation of deception inference.
 
