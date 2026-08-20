@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Activity, AlertTriangle, Check, CircleStop, Pause, Play, Square, UploadCloud, Volume2 } from 'lucide-react'
+import SignalVisualizer from './SignalVisualizer'
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) return '0:00'
@@ -114,6 +115,7 @@ export default function AudioUploadPlayer({ file, uploadProgress, uploading, pro
   const [dbfs, setDbfs] = useState(-60)
   const [clipping, setClipping] = useState(false)
   const [decodeState, setDecodeState] = useState('idle')
+  const [visualAnalyser, setVisualAnalyser] = useState(null)
 
   function stopMeter() {
     cancelAnimationFrame(meterFrameRef.current)
@@ -181,6 +183,7 @@ export default function AudioUploadPlayer({ file, uploadProgress, uploading, pro
       audioRef.current = null
       sourceRef.current = null
       analyserRef.current = null
+      setVisualAnalyser(null)
       if (audioContextRef.current) audioContextRef.current.close().catch(() => {})
       audioContextRef.current = null
       URL.revokeObjectURL(url)
@@ -212,6 +215,7 @@ export default function AudioUploadPlayer({ file, uploadProgress, uploading, pro
       audioContextRef.current = context
       sourceRef.current = source
       analyserRef.current = analyser
+      setVisualAnalyser(analyser)
     }
     await audioContextRef.current.resume()
     const analyser = analyserRef.current
@@ -268,6 +272,12 @@ export default function AudioUploadPlayer({ file, uploadProgress, uploading, pro
     ['Modified', metadata?.lastModified || '—']
   ]
 
+  const player = <div className="vv-audio-player vv-player-ready">
+    <div className="vv-audio-head"><span className="vv-audio-file" title={file.name}>{file.name}</span><span className="vv-muted mono">{formatTime(currentTime)} / {formatTime(duration)}</span></div>
+    <button type="button" className="vv-waveform-hit" onClick={seek} aria-label="Seek through uploaded audio"><canvas ref={canvasRef} /></button>
+    <div className="vv-audio-controls"><button type="button" onClick={playing ? pause : play} aria-label={playing ? 'Pause audio' : 'Play audio'}>{playing ? <Pause size={15} /> : <Play size={15} />}{playing ? 'Pause' : 'Play'}</button><button type="button" onClick={stop} aria-label="Stop audio"><Square size={13} />Stop</button><span className="vv-audio-hint">{decodeState === 'decoding' ? 'Decoding metadata…' : 'Click waveform to seek'}</span></div>
+  </div>
+
   return <div className="vv-audio-upload">
     {(uploading || processing || uploadComplete) && <div className="vv-upload-state">
       <div className="vv-upload-top"><span>{processing ? <Activity size={15} className="vv-spin-soft" /> : uploadComplete ? <Check size={15} /> : <UploadCloud size={15} />}{processing ? 'Analysis in progress' : uploadComplete ? 'Upload complete' : 'Uploading audio'}</span><strong>{processing ? 'Server analysis' : `${Math.round(progress)}%`}</strong></div>
@@ -277,17 +287,15 @@ export default function AudioUploadPlayer({ file, uploadProgress, uploading, pro
       <div className="vv-upload-wave" aria-hidden="true">{Array.from({ length: 34 }, (_, i) => <i key={i} style={{ '--h': `${22 + ((i * 17) % 58)}%`, '--d': `${i * 24}ms` }} />)}</div>
     </div>}
 
-    {!uploading && !processing && !uploadComplete && <div className="vv-audio-player">
-      <div className="vv-audio-head"><span className="vv-audio-file" title={file.name}>{file.name}</span><span className="vv-muted mono">{formatTime(currentTime)} / {formatTime(duration)}</span></div>
-      <button type="button" className="vv-waveform-hit" onClick={seek} aria-label="Seek through uploaded audio"><canvas ref={canvasRef} /></button>
-      <div className="vv-audio-controls"><button type="button" onClick={playing ? pause : play} aria-label={playing ? 'Pause audio' : 'Play audio'}>{playing ? <Pause size={15} /> : <Play size={15} />}{playing ? 'Pause' : 'Play'}</button><button type="button" onClick={stop} aria-label="Stop audio"><Square size={13} />Stop</button><span className="vv-audio-hint">Click waveform to seek</span></div>
-    </div>}
+    {!uploading && !processing && !uploadComplete && <>
+      {player}
+      <div className="vv-playback-visualizer"><SignalVisualizer analyser={visualAnalyser} playing={playing} mode="radial" label="Live frequency visualization of uploaded audio playback" /><div className="vv-visualizer-caption"><strong>LIVE SIGNAL</strong> · playback frequency field</div></div>
+    </>}
 
-    {!uploading && !processing && uploadComplete && <div className="vv-audio-player vv-player-ready">
-      <div className="vv-audio-head"><span className="vv-audio-file" title={file.name}>{file.name}</span><span className="vv-muted mono">{formatTime(currentTime)} / {formatTime(duration)}</span></div>
-      <button type="button" className="vv-waveform-hit" onClick={seek} aria-label="Seek through uploaded audio"><canvas ref={canvasRef} /></button>
-      <div className="vv-audio-controls"><button type="button" onClick={playing ? pause : play} aria-label={playing ? 'Pause audio' : 'Play audio'}>{playing ? <Pause size={15} /> : <Play size={15} />}{playing ? 'Pause' : 'Play'}</button><button type="button" onClick={stop} aria-label="Stop audio"><Square size={13} />Stop</button><span className="vv-audio-hint">{decodeState === 'decoding' ? 'Decoding metadata…' : 'Click waveform to seek'}</span></div>
-    </div>}
+    {!uploading && !processing && uploadComplete && <>
+      {player}
+      <div className="vv-playback-visualizer"><SignalVisualizer analyser={visualAnalyser} playing={playing} mode="radial" label="Live frequency visualization of uploaded audio playback" /><div className="vv-visualizer-caption"><strong>LIVE SIGNAL</strong> · playback frequency field</div></div>
+    </>}
 
     <div className="vv-file-info-panel"><div className="vv-file-info-head"><div><span className="vv-eyebrow">FILE INFORMATION</span><h3 title={file.name}>{file.name}</h3></div><span className="vv-file-ready">{decodeState === 'ready' ? 'DECODED' : decodeState === 'error' ? 'PARTIAL' : 'DECODING'}</span></div><div className="vv-file-info-grid">{infoRows.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{Object.keys(metadata?.info || {}).length > 0 && <div className="vv-wav-tags"><span className="vv-eyebrow">EMBEDDED WAV METADATA</span>{Object.entries(metadata.info).map(([key, value]) => <div key={key}><span>{key}</span><strong>{value}</strong></div>)}</div>}</div>
 
