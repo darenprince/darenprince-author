@@ -14,7 +14,7 @@ from .storage import StorageError, SupabaseStorage
 
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
 _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
-_ERROR_EVENTS = {"request.rejected", "request.analysis_error", "request.unhandled_exception"}
+_ERROR_EVENTS = {"request.rejected", "request.analysis_error", "request.unhandled_exception", "request.server_error"}
 
 
 def new_request_id(value: str | None = None) -> str:
