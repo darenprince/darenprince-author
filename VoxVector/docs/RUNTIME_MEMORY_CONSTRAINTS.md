@@ -25,14 +25,14 @@ Spectral centroid and spread now derive their frequency vector directly from the
 
 The API wrapper explicitly places `VoxVector/src` before the API namespace package so the canonical `voxvector` implementation cannot be silently shadowed by a same-named wrapper package. The wrapper also reports the loaded acoustic and pipeline module paths and SHA-256 fingerprints through `/health`.
 
-The HTTP adapter applies a 20 MB request limit and now also enforces a **60 second maximum WAV duration** and **48 kHz maximum sample rate** before expensive analysis. These limits are deliberate safeguards for the constrained Render runtime. Requests outside the limits receive controlled validation errors instead of being allowed to consume unbounded analysis resources.
+The HTTP adapter applies a **20 MB request limit** and a **48 kHz maximum sample rate** before expensive analysis. There is intentionally no newly imposed duration cutoff: previously supported WAV recordings must remain supported. Resource protection must be handled by the bounded analysis pipeline rather than silently breaking an existing supported fixture.
 
 ## Current request limits
 
 - Maximum upload: 20 MB
-- Maximum duration: 60 seconds
 - Maximum sample rate: 48,000 Hz
 - Initial format: PCM WAV
+- No artificial duration cutoff is imposed by the HTTP adapter
 
 `GET /health` exposes the active limits under `analysis_limits` so the deployed contract can be inspected rather than inferred.
 
@@ -55,11 +55,11 @@ A deployment is not considered verified solely because the service starts. The f
 - `/health` reports the expected canonical package path.
 - `/health` reports the expected acoustic module path and runtime self-test result.
 - `/health` reports the active analysis limits.
-- `/v1/analyze` accepts a supported WAV fixture within the limits.
+- `/v1/analyze` accepts the known 17 MB WAV regression fixture.
 - The service remains alive during analysis.
 - Spectral feature dimensions remain aligned for the deployed sample rate/frame size.
 - The result includes provenance and the expected observational disposition.
-- Invalid, oversized, over-duration, and over-rate inputs are rejected without killing the worker.
+- Invalid, oversized, and over-rate inputs are rejected without killing the worker.
 - No deception probability is fabricated.
 
 ## Deployment note
