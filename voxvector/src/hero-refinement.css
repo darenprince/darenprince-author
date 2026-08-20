@@ -15,11 +15,13 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .vv-hero-truth{display:inline-block;color:#f8f3ec;background:linear-gradient(108deg,#f8f3ec 0%,#f8f3ec 31%,#c08c57 43%,#ffe5bc 49%,#a97143 56%,#f8f3ec 72%,#f8f3ec 100%);background-size:260% 100%;background-position:100% 50%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:vvTruthShine 5.8s cubic-bezier(.55,0,.25,1) infinite;filter:drop-shadow(0 0 14px rgba(184,135,85,.08))}
 @keyframes vvTruthShine{0%,18%{background-position:100% 50%}48%{background-position:0% 50%}62%,100%{background-position:0% 50%}}
 
-/* Hero actions: warm gold primary CTA plus a quiet API companion action. */
-.vv-hero-primary-cta{background:linear-gradient(135deg,#b88755 0%,#c89a68 48%,#a87447 100%)!important;color:#0b0907!important;border-color:rgba(255,235,207,.28)!important;box-shadow:0 12px 34px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.16)!important;transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s ease,filter .28s ease!important}
-.vv-hero-primary-cta:hover{transform:translateY(-2px)!important;filter:saturate(1.06) brightness(1.035);box-shadow:0 16px 42px rgba(0,0,0,.30),0 0 24px rgba(184,135,85,.10),inset 0 1px 0 rgba(255,255,255,.18)!important}
+/* Hero actions: explicitly coffee-gold primary CTA plus a quiet API companion action. */
+#product .vv-hero-primary-cta,
+#product a.vv-hero-primary-cta,
+#product button.vv-hero-primary-cta{background:#b88755!important;background-image:linear-gradient(135deg,#a87447 0%,#c99a66 45%,#b88755 70%,#9b693f 100%)!important;color:#090806!important;border:1px solid rgba(255,226,191,.34)!important;border-radius:4px!important;box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,245,225,.22)!important;filter:none!important}
+#product .vv-hero-primary-cta:hover,#product a.vv-hero-primary-cta:hover,#product button.vv-hero-primary-cta:hover{background:#c49562!important;background-image:linear-gradient(135deg,#b27b4b 0%,#d0a472 46%,#be8a55 72%,#a87345 100%)!important;transform:translateY(-2px)!important;box-shadow:0 16px 42px rgba(0,0,0,.30),0 0 24px rgba(184,135,85,.14),inset 0 1px 0 rgba(255,245,225,.24)!important}
 .vv-hero-primary-cta:focus-visible,.vv-hero-api-cta:focus-visible{outline:2px solid #d2a36f;outline-offset:3px}
-.vv-hero-primary-cta svg{color:#0b0907!important;flex:none}
+.vv-hero-primary-cta svg{color:#090806!important;flex:none}
 .vv-hero-api-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 18px;border:1px solid rgba(184,135,85,.40);border-radius:4px;background:rgba(15,13,11,.54);color:rgba(250,248,244,.88);font-size:14px;font-weight:700;line-height:1;text-decoration:none;backdrop-filter:blur(12px);transition:transform .28s cubic-bezier(.22,1,.36,1),background .28s ease,border-color .28s ease,box-shadow .28s ease,color .28s ease}
 .vv-hero-api-cta:hover{transform:translateY(-2px);background:rgba(184,135,85,.09);border-color:rgba(184,135,85,.68);color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.22)}
 .vv-api-glyph{display:inline-grid;place-items:center;width:22px;height:18px;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.08em;color:#c99a66}
