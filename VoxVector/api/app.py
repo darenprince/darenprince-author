@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import io
 import os
 import sys
 import wave
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
-from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 
@@ -26,7 +28,9 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 
 from voxvector.pipeline import VoxVectorPipeline
 import voxvector.acoustic as _acoustic_module
+from .auth import require_developer
 from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, safe_error, timer
+from .storage import StorageError
 
 MAX_SAMPLE_RATE = 48_000
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
@@ -154,6 +158,51 @@ def health():
         "analysis_limits": {
             "max_sample_rate_hz": MAX_SAMPLE_RATE,
         },
+    }
+
+
+@app.get("/v1/diagnostics/errors")
+async def diagnostic_errors(
+    _: dict = __import__("fastapi").Depends(require_developer),
+    days: int = Query(default=14, ge=1, le=30),
+    limit: int = Query(default=100, ge=1, le=250),
+):
+    """Return recent persisted errors to authenticated VoxVector developers only."""
+    storage = DIAGNOSTICS.storage
+    if not DIAGNOSTICS.enabled or not storage.configured:
+        raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+
+    now = datetime.now(timezone.utc)
+    records: list[dict] = []
+    try:
+        for offset in range(days):
+            day = now - timedelta(days=offset)
+            prefix = f"error-index/{day:%Y/%m/%d}"
+            entries = await asyncio.to_thread(storage.list_json, prefix, min(limit, 250), 0)
+            for entry in entries:
+                name = str(entry.get("name", ""))
+                if not name.endswith(".json"):
+                    continue
+                object_path = f"{prefix}/{name}"
+                try:
+                    record = await asyncio.to_thread(storage.get_json, object_path)
+                except StorageError:
+                    continue
+                if isinstance(record, dict):
+                    records.append(record)
+                    if len(records) >= limit:
+                        break
+            if len(records) >= limit:
+                break
+    except StorageError as exc:
+        raise HTTPException(status_code=503, detail="Diagnostic storage query failed") from exc
+
+    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True)
+    return {
+        "status": "ok",
+        "count": len(records),
+        "days": days,
+        "events": records[:limit],
     }
 
 
