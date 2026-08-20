@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Activity, AlertTriangle, BookOpen, Code2, FileAudio, LogOut, Menu, RefreshCw, Server, ShieldCheck, Terminal, Timer, Wifi, X } from 'lucide-react'
-import { analyzeWav, API_BASE, getHealth } from '../lib/api'
+import { analyzeWavWithProgress, API_BASE, getHealth } from '../lib/api'
 import LiveApiVisualizer from './LiveApiVisualizer'
+import AudioUploadPlayer from './AudioUploadPlayer'
 import Button from './ui/Button'
 import Card from './ui/Card'
 import Sheet from './ui/Sheet'
@@ -25,11 +26,22 @@ export default function DeveloperConsole({ session, signOut }) {
   const [theme, setTheme] = useState(getStoredTheme)
   const health = useQuery({ queryKey: ['health'], queryFn: getHealth, refetchInterval: 30000 })
   const [file, setFile] = useState(null)
-  const analysis = useMutation({ mutationFn: analyzeWav })
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [uploading, setUploading] = useState(false)
+  const analysis = useMutation({
+    mutationFn: async (selectedFile) => analyzeWavWithProgress(selectedFile, setUploadProgress),
+    onMutate: () => { setUploadProgress(0); setUploading(true) },
+    onSettled: () => setUploading(false)
+  })
 
   useEffect(() => { applyTheme(theme) }, [theme])
 
   const choose = (id) => { setSection(id); setMobileOpen(false) }
+  const handleFile = (selected) => {
+    setFile(selected)
+    setUploadProgress(0)
+    analysis.reset()
+  }
 
   return <div className="vv-app">
     <header className="vv-header">
@@ -56,7 +68,7 @@ export default function DeveloperConsole({ session, signOut }) {
       </Sheet>
       <main className="vv-main">
         {section === 'dashboard' && <Dashboard h={health.data?.payload} health={health} />}
-        {section === 'api' && <ApiWorkbench file={file} setFile={setFile} analysis={analysis} />}
+        {section === 'api' && <ApiWorkbench file={file} setFile={handleFile} analysis={analysis} uploadProgress={uploadProgress} uploading={uploading} />}
         {section === 'errors' && <Unavailable title="Persistent Error Intelligence" detail="The current API exposes diagnostic storage internally but does not yet expose a protected error report query endpoint. This panel will connect to the real Supabase backed records when that contract is implemented." />}
         {section === 'logs' && <Unavailable title="Lifecycle Event Stream" detail="Live lifecycle events are emitted by the API, but a protected event stream query endpoint is not yet part of the public API contract. No synthetic events are shown here." />}
         {section === 'docs' && <Docs docs={docs} />}
@@ -95,11 +107,11 @@ function Dashboard({ h, health }) {
   </div>
 }
 
-function ApiWorkbench({ file, setFile, analysis }) {
+function ApiWorkbench({ file, setFile, analysis, uploadProgress, uploading }) {
   return <div>
     <PageTitle eyebrow="API" title="VoxVector API workbench" action={<span className="vv-muted mono">{API_BASE}</span>} />
     <div className="vv-content-grid wide">
-      <section className="vv-panel"><div className="vv-panel-title"><FileAudio size={17} /> POST /v1/analyze</div><p className="vv-copy">The request is executed against the real Render API. No simulated response is shown.</p><label className="vv-field"><span>WAV file</span><input type="file" accept="audio/wav,.wav" onChange={e => setFile(e.target.files?.[0] || null)} /></label><Button variant="accent" className="vv-execute" disabled={!file || analysis.isPending} onClick={() => analysis.mutate(file)}><Terminal size={15} />{analysis.isPending ? 'Analyzing…' : 'Execute request'}</Button><div className="vv-spacer"><LiveApiVisualizer active={analysis.isPending} success={!!analysis.data && !analysis.error} error={!!analysis.error} label="/v1/analyze live activity" detail={analysis.isPending ? 'Real request in flight. The waveform is indeterminate because the API does not expose numeric progress.' : analysis.error ? 'The last real API request returned an error.' : analysis.data ? `Completed in ${analysis.data.durationMs} ms · ${analysis.data.requestId || 'request ID unavailable'}` : 'No analysis request is currently running.'} /></div></section>
+      <section className="vv-panel"><div className="vv-panel-title"><FileAudio size={17} /> POST /v1/analyze</div><p className="vv-copy">The request is executed against the real Render API. No simulated response is shown.</p><label className="vv-field"><span>WAV file</span><input type="file" accept="audio/wav,.wav" onChange={e => setFile(e.target.files?.[0] || null)} /></label><Button variant="accent" className="vv-execute" disabled={!file || analysis.isPending} onClick={() => analysis.mutate(file)}><Terminal size={15} />{analysis.isPending ? 'Analyzing…' : 'Execute request'}</Button><div className="vv-spacer"><AudioUploadPlayer file={file} uploadProgress={uploadProgress} uploading={uploading} processing={analysis.isPending && !uploading} /><LiveApiVisualizer active={analysis.isPending} success={!!analysis.data && !analysis.error} error={!!analysis.error} label="/v1/analyze live activity" detail={analysis.isPending ? 'Real request in flight. Upload progress reflects the browser upload stream; processing remains indeterminate.' : analysis.error ? 'The last real API request returned an error.' : analysis.data ? `Completed in ${analysis.data.durationMs} ms · ${analysis.data.requestId || 'request ID unavailable'}` : 'Select an audio file, then execute a real request.'} /></div></section>
       <section className="vv-panel"><div className="vv-panel-head"><h2>Response</h2>{analysis.data && <span>HTTP {analysis.data.response.status}</span>}</div>{analysis.error && <pre className="vv-error-code">{JSON.stringify({ error: analysis.error.message, status: analysis.error.response?.status, request_id: analysis.error.requestId }, null, 2)}</pre>}{analysis.data ? <><div className="vv-metrics compact"><Metric label="Status" value={String(analysis.data.response.status)} detail="HTTP" /><Metric label="Timing" value={`${analysis.data.durationMs} ms`} detail="Client observed" /><Metric label="Request ID" value={analysis.data.requestId || '—'} detail="X Request ID" /></div><pre className="vv-code response">{JSON.stringify(analysis.data.payload, null, 2)}</pre></> : <div className="vv-empty"><Timer size={22} /><p>Execute a real request to inspect its response.</p></div>}</section>
     </div>
   </div>
