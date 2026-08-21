@@ -48,6 +48,8 @@ The public React application is maintained under `voxvector/` and is hosted sepa
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
+**[Detailed 21-stage pipeline →](./analysis-pipeline.md)**
+
 ## Product Experience Target
 
 The product target is a connected case centered intelligence workspace containing:
