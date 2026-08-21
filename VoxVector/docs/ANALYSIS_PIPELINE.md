@@ -2,90 +2,221 @@
 
 ## Purpose
 
-This is the canonical product and engineering pipeline model for VoxVector. The pipeline describes the complete path from an uploaded recording to a guarded final disposition.
+This is the canonical product and engineering pipeline model for VoxVector.
 
-The pipeline is broader than the current observational runtime. Each stage is explicitly marked by implementation state so planned research capability is not represented as current functionality.
+The pipeline describes the complete path from recording intake through synchronized analysis evidence synthesis classification reporting and audit.
 
-## Complete pipeline
+The pipeline is also the source model for the Analysis Workspace pipeline component.
 
-| # | Stage | Function | Current state |
+## Complete 21 stage pipeline
+
+| # | Stage | Function | Product surface |
 |---:|---|---|---|
-| 01 | File Upload / Ingest | Accept the supported audio file and establish the analysis request. | Implemented |
-| 02 | File Decode and Normalization | Decode the media and normalize the audio representation used by the engine. | Implemented |
-| 03 | Provenance and Integrity | Hash the input and retain source metadata and run identity. | Implemented |
-| 04 | Channel and Recording Assessment | Inspect duration clipping signal integrity and recording conditions. | Implemented / expanding |
-| 05 | Speaker Identification / Diarization | Identify speaker regions and determine whether speaker separation is adequate. | Planned research |
-| 06 | Speech Segmentation | Locate speech activity and establish analyzable segments. | Implemented in bounded frame processing / expanding |
-| 07 | Transcription Generation | Generate a transcript from the audio for linguistic and conversational analysis. | Planned research |
-| 08 | Transcript Alignment | Attach word and phoneme timing to the audio when supported. | Planned research |
-| 09 | Eligibility and Reliability Gate | Determine whether the available audio speaker and transcript evidence is adequate for analysis. | Implemented / expanding |
-| 10 | Acoustic Feature Extraction | Measure energy intensity spectral F0 harmonic and related acoustic observations. | Integrated |
-| 11 | Prosodic and Voice Quality Analysis | Measure pitch dynamics intensity dynamics harmonicity HNR and related voice behavior. | Integrated / expanding |
-| 12 | Temporal and Pause Analysis | Measure pauses speech activity response latency and temporal structure when boundaries exist. | Integrated / expanding |
-| 13 | Linguistic and Disfluency Analysis | Analyze transcript observations including filled pauses repetitions and future richer linguistic features. | Partial integrated / expanding |
-| 14 | Question / Answer Alignment | Associate responses with prompts and measure response level context. | Partial / planned expansion |
-| 15 | Within Speaker Baseline | Compare current observations against an independent speaker baseline when sufficient material exists. | Integrated when supplied |
-| 16 | Cross Method Evidence Assembly | Convert observations into neutral evidence records with provenance and quality. | Integrated |
-| 17 | Evidence Convergence and Conflict | Examine agreement dependence conflict and alternative explanations without collapsing everything into one score. | Integrated foundation / expanding |
-| 18 | Candidate Classification | Produce a provisional candidate state from supported evidence. | Integrated boundary — indeterminate only |
-| 19 | Validation and Calibration Gate | Apply task specific validation calibration robustness and out of distribution controls before inferential use. | Planned research |
-| 20 | Final Classification / Disposition | Produce a validated classification or abstain when gates are not satisfied. | Guarded disposition only |
-| 21 | Audit and Provenance Output | Return what was measured what was unavailable reliability evidence direction uncertainty alternatives and provenance. | Integrated |
+| 01 | File Upload / Ingest | Accept the supported recording and establish the analysis request. | New Analysis |
+| 02 | File Decode and Normalization | Decode media and establish the canonical audio representation. | Intake |
+| 03 | Provenance and Integrity | Hash the source and preserve run identity and source metadata. | Intake / Audit |
+| 04 | Channel and Recording Assessment | Inspect duration clipping signal integrity and recording conditions. | Intake / Overview |
+| 05 | Speaker Identification / Diarization | Identify speaker regions and establish speaker separation. | Speaker layer |
+| 06 | Speech Segmentation | Locate analyzable speech regions. | Audio viewer |
+| 07 | Transcription Generation | Generate timestamped transcript content. | Transcript layer |
+| 08 | Transcript Alignment | Associate transcript content with audio timing. | Transcript layer |
+| 09 | Eligibility and Reliability | Establish whether the available material supports the requested analysis. | Overview / Pipeline |
+| 10 | Acoustic Feature Extraction | Measure energy intensity spectral F0 harmonic and related acoustic observations. | Acoustic tracks |
+| 11 | Prosodic and Voice Quality Analysis | Measure pitch dynamics intensity dynamics harmonicity HNR and related voice behavior. | Prosody tracks |
+| 12 | Temporal and Pause Analysis | Measure speech activity pauses response timing and temporal structure. | Temporal tracks |
+| 13 | Linguistic and Disfluency Analysis | Analyze transcript structure lexical behavior disfluency and richer language features. | Linguistic panels |
+| 14 | Question / Answer Alignment | Associate responses with prompts and response boundaries. | Conversation layer |
+| 15 | Within Speaker Baseline | Compare observations with an independent speaker baseline when available. | Baseline panels |
+| 16 | Cross Method Evidence Assembly | Convert observations into normalized evidence records. | Evidence Explorer |
+| 17 | Evidence Convergence and Conflict | Examine agreement dependence conflict and alternative explanations. | Evidence synthesis |
+| 18 | Candidate Classification | Produce a candidate analytical state from supported evidence. | Assessment |
+| 19 | Validation and Calibration Gate | Apply validation calibration robustness and distribution controls. | Assessment / Developer |
+| 20 | Final Classification / Disposition | Produce the configured final classification or disposition. | Assessment / Reports |
+| 21 | Audit and Provenance Output | Preserve measurements methods evidence relationships and provenance. | Reports / Audit |
 
-## Why the missing stages matter
+## Pipeline groupings
 
-### File upload / ingest
+### Prepare
 
-The system cannot begin an auditable analysis until the recording enters a controlled workflow. Upload state is a product workflow stage even though the backend analysis engine receives decoded signal data.
+Stages 01 through 04 establish the recording and its provenance.
 
-### Speaker identification / diarization
+### Understand
 
-Speaker attribution is a prerequisite for any analysis that depends on within speaker measurements speaker baselines turn taking or multi speaker recordings. It must remain separate from the identity of a real person. The system can identify speaker segments without claiming who the person is.
+Stages 05 through 09 establish speaker context speech structure transcript context and analytical eligibility.
 
-### Transcription generation
+### Analyze
 
-The current engine can consume supplied transcript tokens for limited disfluency observations. A complete product workflow needs an explicit transcription generation stage so audio can feed linguistic and conversational analysis rather than requiring an externally supplied transcript.
+Stages 10 through 15 generate the core signal language temporal speaker and contextual observations.
 
-### Transcript alignment
+### Synthesize and Decide
 
-A transcript without timing cannot reliably support word level pause context response boundaries turn attribution or audio to language synchronization. Word and phoneme timing therefore belong between transcription and deeper linguistic analysis.
+Stages 16 through 21 transform observations into evidence classification final disposition and auditable output.
 
-### Channel and recording assessment
+## Analysis Workspace mapping
 
-Reliability is more than a single audio quality score. Channel count speaker overlap clipping duration noise and recording artifacts can determine whether downstream measurements are interpretable.
+The 21 stage pipeline is displayed inside the Analysis Workspace.
 
-### Speech segmentation
+Each stage can expose:
 
-The engine already processes bounded audio frames and derives pause topology. The product pipeline should expose speech segmentation as a recognizable stage because downstream methods operate on analyzable speech regions rather than an undifferentiated file.
+- stage name
+- stage description
+- current state
+- start time
+- completion time
+- duration
+- input references
+- output references
+- methods used
+- evidence produced
+- source intervals
+- related events
 
-### Question / answer alignment
+The pipeline is expandable so the user can move from a high level workflow view into the underlying stage details.
 
-For deception research a response is interpreted in relation to the prompt or proposition being answered. Response latency substantive latency contradiction analysis and consistency work are substantially stronger when question and response boundaries are explicit.
+## Synchronized audio analysis surface
 
-### Validation and calibration
+The Analysis Workspace uses one shared time axis for audio and analytical evidence.
 
-This is a gate rather than another feature extractor. A future deception classifier cannot be promoted simply because multiple signals converge. Task specific validation calibration speaker disjoint evaluation recording condition stress tests and robustness checks must precede inferential deployment.
+### Primary waveform
 
-## Scientific boundary
+Display:
 
-No individual acoustic vocal temporal linguistic behavioral or psychological signal proves deception.
+- waveform
+- time ruler
+- playhead
+- speech regions
+- pause regions
+- speaker regions
+- evidence markers
 
-The pipeline must preserve:
+### Analytical tracks
 
-- observations
-- provenance
-- reliability
+Initial analytical tracks:
+
+- Pitch F0
+- Intensity
+- Spectral Energy
+- Speech Activity
+- Pauses
+
+Additional tracks may be added through the same timestamped observation contract.
+
+Potential expanded tracks:
+
+- Formants
+- HNR
+- Spectral Flux
+- Spectral Rolloff
+- MFCC
+- Jitter
+- Shimmer
+- Voice Quality
+- Response Latency
+- Speaker Turns
+- Transcript Alignment
+- Evidence Events
+
+## Analysis Overview mapping
+
+The Overview surface presents the pipeline through a condensed analytical summary.
+
+Required regions:
+
+- source file metadata
+- duration
+- recording quality
+- condensed waveform
+- key metrics
+- assessment state
+- evidence timeline
+- pipeline state
+
+## Evidence timeline
+
+The evidence timeline connects analytical events to source intervals.
+
+Potential event types:
+
+- response latency
+- pause duration
+- speech rate change
+- pitch movement
+- intensity movement
+- speaker transition
+- transcript event
+- linguistic event
 - evidence convergence
 - evidence conflict
-- uncertainty
-- alternative explanations
-- missing data
-- abstention
 
-The final classification stage must never be presented as active validated deception inference unless the required validation program has actually been completed.
+Selecting an event must reveal its supporting evidence and source interval.
+
+## Evidence model
+
+Every evidence record should preserve:
+
+- analysis ID
+- method ID
+- stage ID
+- speaker ID when applicable
+- start time
+- end time
+- observation
+- measurement
+- quality
+- evidence direction
+- provenance
+- dependencies
+- supporting evidence
+- conflicting evidence
+- alternative explanations
+
+## Stage separation
+
+The pipeline preserves four architectural layers.
+
+### Eligibility and reliability
+
+Determine whether the available material supports the requested analysis.
+
+### Evidence collection and analysis
+
+Extract and organize observations from audio transcript speaker and contextual data.
+
+### Candidate classification
+
+Combine supported evidence into a candidate analytical state.
+
+### Final classification and disposition
+
+Apply the configured validation and calibration architecture before issuing the final output.
+
+These stages must remain distinct.
 
 ## Product versus implementation state
 
-This pipeline intentionally contains stages that are planned. Planned stages are part of the product architecture and research roadmap but are not current runtime capabilities.
+The 21 stages define the product architecture.
 
-The current primary pipeline remains an observational foundation. Its implemented orchestration includes reliability assessment acoustic and spectral observations F0 and intensity dynamics HNR MFCC observations formant tracking pause topology optional response latency optional transcript disfluency and optional within speaker baseline comparisons.
+Implementation status is maintained internally in `docs/CAPABILITY_STATUS.md`.
+
+Research candidates remain preserved in `docs/MASTER_METHOD_INDEX.md` and `docs/ROADMAP.md`.
+
+The product interface should present the complete analytical architecture while internal engineering records continue to identify implementation and validation state.
+
+## Engineering contract
+
+- The pipeline is canonical.
+- The frontend consumes pipeline state from the backend.
+- The frontend does not recreate pipeline logic.
+- Every stage has a defined input and output.
+- Every stage can produce auditable provenance.
+- Every analytical visualization maps to a stage or evidence family.
+- Every status value represents actual runtime state.
+- Progress values must come from real stage data or explicit indeterminate state.
+- Animation must never stand in for analytical execution.
+
+## Related architecture
+
+- `docs/ARCHITECTURE.md`
+- `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/CAPABILITY_STATUS.md`
