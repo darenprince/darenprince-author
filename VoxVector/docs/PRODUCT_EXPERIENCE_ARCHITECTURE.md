@@ -6,13 +6,13 @@ This document defines the end state for the VoxVector product experience represe
 
 The references are treated as product architecture references rather than pixel specifications.
 
-Color treatment is intentionally excluded from this architecture.
+Color treatment is governed separately by the active visual design system.
 
 The objective is a complete intelligence application that moves from recording intake through synchronized analysis and evidence synthesis into reporting and final assessment.
 
 ## Product experience model
 
-VoxVector is a unified analysis workspace.
+VoxVector is a unified case centered analysis workspace.
 
 The experience is organized around six connected surfaces:
 
@@ -23,9 +23,9 @@ The experience is organized around six connected surfaces:
 5. Reports and comparisons
 6. Developer and operational console
 
-These surfaces share one analysis case model.
+All surfaces share one analysis case model.
 
-The user must never feel that upload playback transcription analysis evidence and reporting are separate products.
+The user workflow is continuous from upload through playback analysis evidence assessment and reporting.
 
 ## Application shell
 
@@ -43,48 +43,39 @@ The user must never feel that upload playback transcription analysis evidence an
 
 ### Developer navigation
 
+- Dashboard
 - API
 - Requests
 - Errors
 - Events
 - Runtime
+- Methodology
 - Documentation
 - Development Board
+- Profile
 
-Developer functions remain visually and functionally separated from the customer analysis workflow.
-
-### Global shell behavior
-
-- persistent navigation on desktop
-- responsive navigation on mobile
-- global case context
-- current analysis state
-- account state
-- notifications
-- search where supported
-- accessible keyboard navigation
-- reduced motion support
+Developer functions remain separated from the customer analysis workflow.
 
 ## Analysis intake
 
-The New Analysis flow is the primary entry point into the product.
+The New Analysis flow is the primary entry point.
 
 ### Intake sequence
 
 1. Select or upload recording
 2. Decode and inspect media
-3. Display file metadata
+3. Display metadata
 4. Establish provenance
 5. Assess recording quality
-6. Identify available speakers
-7. Generate or ingest transcript
-8. Establish analysis context
+6. Establish speaker context
+7. Generate transcript
+8. Establish transcript alignment
 9. Start processing
 10. Open the Analysis Workspace
 
 ### File intake requirements
 
-The interface should display:
+Display:
 
 - file name
 - duration
@@ -96,43 +87,30 @@ The interface should display:
 - upload state
 - processing state
 - provenance state
+- case ID
+- analysis ID
 
-The intake experience should support drag and drop plus explicit file selection.
-
-Recording capture may be added where supported by the runtime architecture.
+Support drag and drop plus explicit file selection.
 
 ## Analysis Workspace
 
 The Analysis Workspace is the core product surface.
 
-It combines playback visualization evidence and workflow state in one synchronized interface.
+It combines:
 
-### Workspace header
-
-Display:
-
-- analysis name
-- source file
-- duration
-- recording metadata
-- analysis status
-- quality state
-- speaker count when available
-- transcript state
-- processing controls
-
-Primary controls:
-
-- play
-- pause
-- seek
-- zoom
-- fullscreen
-- analysis actions
+- source metadata
+- audio playback
+- synchronized waveform
+- speaker regions
+- transcript
+- analytical tracks
+- evidence markers
+- pipeline state
+- key metrics
+- evidence timeline
+- assessment state
 
 ## Synchronized audio analysis viewer
-
-The audio viewer is a central analytical surface.
 
 ### Primary waveform
 
@@ -143,15 +121,15 @@ Display:
 - time scale
 - speech regions
 - pause regions
+- speaker regions
 - evidence markers
-- speaker regions when available
 - selected evidence intervals
 
-The playhead must synchronize across every analytical track.
+The playhead synchronizes across every analytical track.
 
 ### Analytical tracks
 
-The reference experience establishes the following synchronized tracks:
+Initial tracks:
 
 1. Waveform
 2. Pitch F0
@@ -160,19 +138,16 @@ The reference experience establishes the following synchronized tracks:
 5. Speech Activity
 6. Pauses
 
-The architecture should allow additional tracks without redesigning the viewer.
-
-Future track families may include:
+Expanded tracks:
 
 - formants
 - HNR
 - spectral flux
 - spectral rolloff
-- MFCC activity
-- voice quality
+- MFCC
 - jitter
 - shimmer
-- articulation timing
+- voice quality
 - response latency
 - speaker turns
 - transcript alignment
@@ -190,24 +165,20 @@ Future track families may include:
 - reset zoom
 - track visibility controls
 - event marker navigation
-- audio playback from selected region
+- playback from selected region
 
-## Transcript and speaker layer
-
-The workspace must connect language to audio.
+## Speaker and transcript layer
 
 ### Speaker lane
 
 Display:
 
 - speaker label
-- speaker color token from the active theme
 - turn boundaries
 - overlap regions
 - speaker confidence when available
 - selected speaker state
-
-The UI must support multiple speakers without requiring a separate analysis screen.
+- speaker evidence markers
 
 ### Transcript lane
 
@@ -223,15 +194,15 @@ Display:
 - response boundaries
 - evidence markers
 
-Selecting transcript content should move the audio playhead to the associated time range.
+Selecting transcript content moves the audio playhead.
 
-Selecting an audio region should reveal the associated transcript content when available.
+Selecting audio reveals associated transcript content when available.
 
 ## Analysis Overview
 
 The overview is the executive analytical surface for an individual case.
 
-### Header card
+### Header
 
 Display:
 
@@ -240,6 +211,8 @@ Display:
 - recording quality
 - analysis state
 - current processing stage
+- speaker count when available
+- transcript state
 
 ### Signal overview
 
@@ -252,8 +225,6 @@ Display a condensed waveform with:
 - current playhead
 
 ### Key metrics
-
-The metric system is data driven.
 
 Candidate metric families include:
 
@@ -269,11 +240,11 @@ Candidate metric families include:
 - speaker separation quality
 - signal quality
 
-Only values returned by the analysis engine may be rendered as actual measurements.
+Actual values come from the canonical analysis result.
 
 ### Assessment panel
 
-The assessment surface should communicate:
+The assessment surface communicates:
 
 - evidence direction
 - confidence state
@@ -281,16 +252,17 @@ The assessment surface should communicate:
 - candidate classification
 - final disposition
 - contributing evidence families
+- convergence
+- conflict
+- alternatives
 
-The visual hierarchy must keep the evidence structure visible instead of reducing the case to a single number.
-
-### Evidence timeline
+## Evidence timeline
 
 Display important analytical events along the recording timeline.
 
-Event types may include:
+Event families include:
 
-- response latency event
+- response latency
 - pause event
 - speech rate change
 - pitch movement
@@ -302,13 +274,11 @@ Event types may include:
 - evidence conflict
 - selected finding
 
-Each event must link to its source interval and supporting evidence.
+Each event links to its source interval and supporting evidence.
 
 ## Analysis Pipeline
 
-The workspace includes a visible pipeline status surface.
-
-The complete pipeline contains 21 stages.
+The workspace includes the complete 21 stage pipeline:
 
 ### Prepare
 
@@ -342,7 +312,7 @@ The complete pipeline contains 21 stages.
 
 13 Linguistic and Disfluency Analysis
 
-14 Question and Answer Alignment
+14 Question / Answer Alignment
 
 15 Within Speaker Baseline
 
@@ -356,34 +326,26 @@ The complete pipeline contains 21 stages.
 
 19 Validation and Calibration Gate
 
-20 Final Classification and Disposition
+20 Final Classification / Disposition
 
 21 Audit and Provenance Output
 
-### Pipeline interaction
-
-Each stage should expose:
+Each stage exposes:
 
 - stage name
-- stage purpose
+- purpose
 - input
 - output
 - current state
 - timing
-- evidence produced
-- methods involved
+- methods
+- evidence
 - linked source regions
 - related events
 
-The pipeline must remain connected to actual backend lifecycle state.
-
 ## Method intelligence surfaces
 
-The product should expose analytical method families as intelligible product modules.
-
 ### Acoustic Analysis
-
-Measure and visualize:
 
 - pitch
 - intensity
@@ -395,8 +357,6 @@ Measure and visualize:
 - formant candidates
 
 ### Linguistic Intelligence
-
-Analyze:
 
 - transcription
 - word choice
@@ -413,8 +373,6 @@ Analyze:
 
 ### Behavioral and Temporal Intelligence
 
-Analyze:
-
 - response latency
 - pauses
 - speech rate
@@ -425,8 +383,6 @@ Analyze:
 
 ### Speaker Intelligence
 
-Analyze:
-
 - speaker identification
 - diarization
 - speaker turns
@@ -436,17 +392,18 @@ Analyze:
 
 ### Evidence Synthesis
 
-Combine:
+Combine evidence from:
 
-- acoustic evidence
-- prosodic evidence
-- linguistic evidence
-- temporal evidence
-- speaker evidence
-- baseline evidence
-- contextual evidence
+- acoustic analysis
+- prosody
+- voice quality
+- temporal behavior
+- linguistic analysis
+- speaker analysis
+- baseline analysis
+- contextual alignment
 
-The synthesis layer must preserve convergence and conflict rather than flattening them prematurely.
+The synthesis layer preserves convergence and conflict.
 
 ### Probabilistic Assessment
 
@@ -459,11 +416,9 @@ The product end state supports:
 - alternative hypothesis analysis
 - final disposition
 
-The backend validation architecture controls when inferential outputs become active production outputs.
+The validation architecture controls inferential activation.
 
 ## Evidence Explorer
-
-Evidence Explorer is a dedicated case investigation surface.
 
 Users can filter and inspect:
 
@@ -472,20 +427,18 @@ Users can filter and inspect:
 - method family
 - evidence type
 - evidence direction
-- confidence
+- quality
 - reliability
 - transcript segment
 - audio segment
 - question
 - response
 
-Every evidence item should link back to its originating audio interval and analytical method.
+Every evidence item links to its originating audio interval and analytical method.
 
 ## Reports
 
-Reports convert the workspace into an auditable deliverable.
-
-### Report structure
+Report structure:
 
 1. Case summary
 2. Recording information
@@ -501,15 +454,15 @@ Reports convert the workspace into an auditable deliverable.
 12. Convergence and conflict
 13. Candidate assessment
 14. Confidence and uncertainty
-15. Alternative explanations
+15. Alternative hypotheses
 16. Final disposition
 17. Audit and provenance
 
-Reports must retain links to underlying evidence.
+Reports retain links to underlying evidence.
 
 ## Comparisons
 
-The product should support comparison between:
+Support comparison between:
 
 - recordings
 - speakers
@@ -519,90 +472,85 @@ The product should support comparison between:
 - evidence regions
 - analysis runs
 
-Comparison views must preserve source identity and provenance.
+Comparison views preserve source identity and provenance.
 
 ## Alerts
 
-Alerts provide case level notifications for meaningful analytical events.
-
-Potential alert families include:
+Potential event driven alert families include:
 
 - processing completed
 - processing failed
 - reliability change
-- speaker separation issue
+- speaker separation event
 - transcript completed
 - evidence convergence
 - evidence conflict
 - selected finding
 - report ready
 
-Alerts are event driven and must not be simulated by interface animation.
+Alerts are driven by persisted events.
 
 ## Dashboard
 
-The Overview dashboard is the product command center.
-
-It should surface:
+The Overview dashboard surfaces:
 
 - recent analyses
 - active analyses
-- analysis counts
 - processing status
 - recent evidence activity
 - reports
 - alerts
 - saved comparisons
 
-Operational metrics must come from persistent data sources.
+Operational metrics come from persistent data sources.
 
-The interface may use empty states until those data contracts exist.
+## Developer Console
 
-## Visual analytical language
+The Developer Console is the engineering cockpit for the MVP path.
 
-The reference screens establish the following structural principles.
+It surfaces:
 
-- dark intelligence workspace
-- restrained surfaces
-- thin borders
-- dense but readable information hierarchy
-- large analytical canvases
-- compact metric cards
-- persistent navigation
-- synchronized timelines
-- strong typography
-- purposeful motion
-- minimal decorative UI
-
-Color is intentionally excluded from this architecture document.
+- runtime health
+- API workbench
+- request inspection
+- error reports
+- lifecycle events
+- runtime diagnostics
+- methodology navigator
+- documentation navigator
+- prioritized MVP board
+- persistent task checkoffs
+- phase completion
+- dependency visibility
+- next task visibility
 
 ## Responsive behavior
 
-Desktop should prioritize:
+Desktop prioritizes:
 
 - persistent sidebar
 - wide synchronized waveform
 - multi column evidence layout
 - simultaneous analytical tracks
 
-Tablet should prioritize:
+Tablet prioritizes:
 
 - collapsible navigation
 - stacked evidence panels
 - horizontally scrollable analytical tracks
 
-Mobile should prioritize:
+Mobile prioritizes:
 
 - compact navigation
 - full width waveform
-- vertically stacked metrics
+- stacked metrics
 - expandable analytical tracks
-- bottom sheet or drawer evidence details
 - touch friendly playback controls
+- drawer evidence details
 
 ## Data architecture requirements
 
-The experience requires a shared analysis case model containing:
+The experience requires a shared case model containing:
 
 - case ID
 - analysis ID
@@ -613,29 +561,27 @@ The experience requires a shared analysis case model containing:
 - transcript records
 - alignment records
 - feature observations
+- analytical tracks
 - evidence records
 - evidence relationships
 - pipeline stage states
 - events
 - findings
+- assessment
 - report state
 - final disposition
-
-The frontend must consume these structures through canonical API contracts.
 
 ## Engineering rule
 
 The interface is not a second analysis engine.
 
-The browser may visualize measurements and state but it must not calculate or fabricate analytical results that belong to the backend.
+Every visualization has a defined data contract.
 
-Every visualization must have a defined data contract.
+Every analytical event has a provenance path.
 
-Every analytical event must have a provenance path.
+Every status indicator represents real runtime state.
 
-Every status indicator must represent real runtime state.
-
-Every final assessment must be derived from the canonical analysis result.
+Every final assessment is derived from the canonical analysis result.
 
 ## End state
 
