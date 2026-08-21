@@ -5,26 +5,29 @@
   gap: 0 !important;
 }
 
-#product h1 {
-  margin-bottom: 0 !important;
+#product .vv-hero-content > h1 {
+  margin-bottom: 14px !important;
 }
 
 #product .vv-hero-body {
-  margin-top: 20px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1.62 !important;
 }
 
 #product .vv-hero-cta-row {
-  margin-top: 26px !important;
+  margin-top: 24px !important;
   gap: 12px !important;
 }
 
 #product .vv-hero-audio-line {
   font-size: .40em !important;
+  line-height: .98 !important;
   letter-spacing: .16em !important;
   margin-top: .08em !important;
 }
 
-/* Every actual button is pill-shaped. Cards, fields, panels, and navigation remain square/structured. */
+/* Buttons are pills. Structural surfaces and ordinary links are not. */
 button,
 [role="button"],
 a.vv-hero-primary-cta,
@@ -39,24 +42,31 @@ a.vv-hero-api-cta {
   padding-bottom: 0 !important;
 }
 
-/* Catch Tailwind-style anchor buttons without rounding ordinary links. */
-main a.inline-flex.items-center.justify-center {
-  border-radius: 999px !important;
-}
-
-/* The hero disclaimer is intentionally absent; keep the space from collapsing awkwardly. */
-#product .vv-hero-cta-row + p,
-#product .vv-hero-cta-row + small {
+/* Remove any residual supporting disclaimer immediately following the CTA group. */
+#product .vv-hero-cta-row ~ p,
+#product .vv-hero-cta-row ~ small {
   display: none !important;
 }
 
+#product .vv-hero-technology-link {
+  margin-top: 18px !important;
+}
+
 @media (max-width: 900px) {
+  #product .vv-hero-content > h1 {
+    margin-bottom: 12px !important;
+  }
+
   #product .vv-hero-body {
-    margin-top: 18px !important;
+    line-height: 1.58 !important;
   }
 
   #product .vv-hero-cta-row {
     margin-top: 22px !important;
+  }
+
+  #product .vv-hero-technology-link {
+    margin-top: 16px !important;
   }
 }
 
@@ -66,16 +76,21 @@ main a.inline-flex.items-center.justify-center {
     letter-spacing: .14em !important;
   }
 
-  #product .vv-hero-body {
-    margin-top: 18px !important;
+  #product .vv-hero-content > h1 {
+    margin-bottom: 10px !important;
   }
 
   #product .vv-hero-cta-row {
-    margin-top: 22px !important;
+    margin-top: 20px !important;
+    gap: 10px !important;
   }
 
   #product .vv-hero-primary-cta,
   #product .vv-hero-api-cta {
     min-height: 44px !important;
+  }
+
+  #product .vv-hero-technology-link {
+    margin-top: 14px !important;
   }
 }
