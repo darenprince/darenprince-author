@@ -54,12 +54,13 @@ def segment_speech(
 
     max_gap = max(0, int(round(min_silence_s / hop_s)))
     if max_gap:
-        starts = np.flatnonzero(active[:-1] & ~active[1:])
-        ends = np.flatnonzero(~active[:-1] & active[1:]) + 1
-        for end in ends:
-            following = starts[starts > end]
-            if following.size and following[0] - end <= max_gap:
-                active[end:following[0]] = True
+        padded = np.concatenate(([False], active, [False]))
+        transitions = np.diff(padded.astype(np.int8))
+        starts = np.flatnonzero(transitions == 1)
+        ends = np.flatnonzero(transitions == -1)
+        for end, following_start in zip(ends[:-1], starts[1:]):
+            if following_start - end <= max_gap:
+                active[end:following_start] = True
 
     min_frames = max(1, int(round(min_speech_s / hop_s)))
     padded = np.concatenate(([False], active, [False]))
@@ -71,7 +72,6 @@ def segment_speech(
     for start, end in zip(starts, ends):
         if end - start < min_frames:
             continue
-        values = rms_values[start:end]
         confidence = float(np.mean(active[start:end]))
         segments.append(
             SpeechSegment(
