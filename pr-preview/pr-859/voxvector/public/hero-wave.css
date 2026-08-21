@@ -1,7 +1,0 @@
-/* VoxVector hero waveform: warm coffee/tan visibility treatment. */
-#product svg[aria-label="Illustrative speech waveform"] stop:nth-of-type(1) { stop-color: #8f6848 !important; }
-#product svg[aria-label="Illustrative speech waveform"] stop:nth-of-type(2) { stop-color: #b9875d !important; }
-#product svg[aria-label="Illustrative speech waveform"] stop:nth-of-type(3) { stop-color: #e0b98d !important; }
-#product svg[aria-label="Illustrative speech waveform"] stop:nth-of-type(4) { stop-color: #9f744f !important; }
-#product svg[aria-label="Illustrative speech waveform"] rect { opacity: .5 !important; filter: drop-shadow(0 0 2px rgba(205, 157, 111, .28)); }
-#product svg[aria-label="Illustrative speech waveform"] line { stroke: rgba(205, 157, 111, .32) !important; }
