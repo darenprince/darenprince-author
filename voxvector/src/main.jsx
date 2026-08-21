@@ -12,6 +12,7 @@ import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
 import './index.css'
 import './landing-chrome.css'
 import './hero-refinement.css'
+import './hero-layout-adjustments.css'
 import './landing-final-polish.css'
 import './header-spacing.css'
 import './evidence-motion.css'
@@ -38,21 +39,3 @@ function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
   return <><HeroRefinement /><EvidenceBarsRefinement /><LandingChrome /><HeaderNoticeCleanup /></>
-}
-
-function LoadingLayer() {
-  const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
-  if (isDeveloper) return null
-  return <LoadingScreen />
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-      <ThemeLayer />
-      <PublicChromeLayer />
-      <LoadingLayer />
-    </QueryClientProvider>
-  </React.StrictMode>
-)
