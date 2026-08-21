@@ -32,10 +32,19 @@ class Eligibility:
     quality_metrics: dict[str, float] = field(default_factory=dict)
 
 @dataclass(frozen=True)
+class SpeechSegment:
+    segment_id: str
+    start_s: float
+    end_s: float
+    confidence: float
+    method_id: str
+
+@dataclass(frozen=True)
 class AnalysisResult:
     run_id: str
     schema_version: str
     eligibility: Eligibility
+    speech_segments: tuple[SpeechSegment, ...]
     observations: tuple[Observation, ...]
     evidence: tuple[Evidence, ...]
     candidate: CandidateState
