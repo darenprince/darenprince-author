@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
+import LoadingScreen from './components/LoadingScreen'
 import LandingChrome from './components/LandingChrome'
 import HeroRefinement from './components/HeroRefinement'
 import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
@@ -14,6 +15,7 @@ import './evidence-motion.css'
 import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
+import './loading-screen.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,12 +37,19 @@ function PublicChromeLayer() {
   return <><HeroRefinement /><EvidenceBarsRefinement /><LandingChrome /></>
 }
 
+function LoadingLayer() {
+  const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
+  if (isDeveloper) return null
+  return <LoadingScreen />
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
       <ThemeLayer />
       <PublicChromeLayer />
+      <LoadingLayer />
     </QueryClientProvider>
   </React.StrictMode>
 )
