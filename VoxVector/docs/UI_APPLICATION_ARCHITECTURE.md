@@ -2,245 +2,481 @@
 
 ## Status
 
-**Approved and in active implementation.** The public React application is deployed at `/voxvector/`. The landing experience uses Tremor React analytical components together with application owned shadcn style components backed by Base UI, Lucide icons, Tailwind CSS, Motion for React, and TanStack Query. The Developer Console foundation, Supabase developer gate, state driven API activity visualization, accessible landing foundation, policy navigation, live diagnostic polling, real audio upload/player workflow, and developer profile editing are implemented in source. Backend protected operational telemetry remains an integration and verification concern.
+Approved and in active implementation.
 
-## Architecture
+The React application under `voxvector/` is the canonical public frontend. It is the interface layer for the VoxVector backend and is organized around the connected case workflow represented by the Analysis Workspace reference screens.
+
+The active visual system is intentionally separate from this architecture document.
+
+## Technology architecture
 
 | Layer | Choice | Role |
 |---|---|---|
-| Application | React 18.3.1 | Product shell and route composition; pinned for Tremor compatibility |
-| UI | shadcn style application owned composition with Base UI primitives | Accessible interaction primitives and product specific components |
-| Analytical UI | Tremor React 3.18.7 | Real analytical cards, charts, progress indicators, and dashboard composition |
-| Styling | Tailwind CSS | Responsive layout, typography, semantic tokens, and theming |
-| Icons | Lucide React | Consistent product and interface iconography |
-| Animation | Motion for React + lightweight CSS state animation | State driven transitions and operational status animation |
-| Server state | TanStack Query | API lifecycle, caching, retries, mutations, refresh, and diagnostic polling |
-| Authentication | Supabase Auth | Developer identity and session handling |
-| Authorization | Supabase trusted `app_metadata` plus FastAPI enforcement | Developer role gating |
+| Application | React 18.3.1 | Product shell and route composition |
+| UI | shadcn style application owned composition with Base UI primitives | Accessible interaction primitives |
+| Analytical UI | Tremor React 3.18.7 | Analytical cards charts progress and dashboard blocks |
+| Styling | Tailwind CSS | Responsive layout typography tokens and theming |
+| Icons | Lucide React | Product and interface iconography |
+| Animation | Motion for React | State driven transitions and interaction animation |
+| Server state | TanStack Query | API lifecycle caching refresh mutations and diagnostics polling |
+| Authentication | Supabase Auth | Developer and user identity |
+| Authorization | Supabase metadata plus FastAPI enforcement | Developer access control |
 | API | FastAPI on Render | Canonical backend |
-| Persistence and diagnostics | Supabase | Existing operational architecture |
-| Deployment | GitHub Pages | Public React frontend under `/voxvector/` |
+| Persistence | Supabase | Case data authentication and diagnostics |
+| Deployment | GitHub Pages | Public React application |
 
-Render and Supabase remain unchanged as infrastructure boundaries.
+## Product application model
 
-## Design system direction
+The frontend is a case centered application.
 
-The VoxVector visual system follows the supplied shadcnblocks reference: strong black and white contrast, quiet neutral gray structure, warm coffee and tan accents, subtle surface gradients, and very low contrast strokes. The previous blue and cyan analytical treatment is retired from the active frontend visual system.
-
-Light mode uses a white canvas, near black typography, quiet gray surfaces, and restrained coffee, copper, and tan accents. Dark mode uses near black and espresso surfaces with warm white typography and the same restrained warm accent family. Borders and dividers are intentionally thin and low contrast. High contrast is reserved for actionable controls, focus states, and semantic status communication.
-
-Tremor remains the analytical visual layer. Its default blue brand tokens are overridden in `voxvector/tailwind.config.js` with the VoxVector warm neutral palette. Landing charts use explicit Tremor custom colors so chart strokes cannot silently fall back to blue. Tremor cards use the shared low contrast border treatment and no decorative blue ring.
-
-The actual application layer is owned by VoxVector and follows shadcn composition patterns. Base UI supplies headless interaction behavior. VoxVector specific tokens, composition, icon treatment, evidence states, and analytical visualization patterns sit above those primitives.
-
-Avoid heavy white framing, high contrast decorative outlines, unnecessary rounded containers, excessive gradients, oversized decorative effects, or generic dashboard styling. Gradients should be subtle and support depth rather than compete with information. Color should communicate product hierarchy and system state first.
-
-## Deployment boundary
-
-Vercel is retired for VoxVector.
-
-The canonical public frontend deployment is GitHub Pages. The canonical backend deployment is Render. The VoxVector frontend package contains no Vercel dependency, Vercel configuration, Vercel workflow, or Vercel deployment command.
-
-The repository source of truth therefore follows this boundary:
-
-* React frontend: `voxvector/`
-* GitHub Pages public path: `/voxvector/`
-* GitHub Pages developer path: `/voxvector/developer/`
-* FastAPI backend: `VoxVector/api/app.py`
-* Render root: `VoxVector`
-* Render application: `api.app:app`
-* Crown Labs public documentation: `/docs/crownlabsbible/docs/`
-
-A Vercel check that continues to appear in GitHub after repository cleanup would indicate an external GitHub or Vercel integration rather than a VoxVector source file. It must not be reintroduced into the repository as a workaround.
-
-## Public landing page
-
-The landing page is the public product introduction rather than a generic marketing template. It presents:
-
-* the advanced vocal deception analysis identity
-* the core product proposition in consumer facing language
-* a real Tremor analytical recording preview
-* structured signal charts and evidence direction visualization
-* the four stage analytical path
-* current observation families
-* evidence convergence and conflict
-* scientific discipline and capability state
-* serious analysis use cases
-* a Project Briefing call to action routed to the Crown Labs Bible VoxVector dossier
-* a Documentation call to action routed to the Crown Labs documentation viewer
-* GitHub source/documentation controls that remain explicitly linked to the appropriate repository paths
-* privacy and terms policy destinations
-* legal, developer, resource, source, and company footer navigation
-
-The landing page does not present fabricated production telemetry or validated deception performance. Analytical panels are interface illustrations and are explicitly presented as such.
-
-## Current implementation
-
-### Public application
-
-Implemented:
-
-* React and Vite entrypoint at `voxvector/index.html`
-* responsive product landing page
-* direct Tremor React analytical components
-* application owned shadcn style Card and Badge components
-* Base UI backed Button primitive
-* Lucide icon system
-* warm neutral light and dark design token system
-* subtle surface gradients and low contrast structural strokes
-* explicit warm custom Tremor chart colors with no blue fallback
-* evidence first product positioning
-* four stage analytical workflow presentation
-* current observational method presentation
-* scientific state communication
-* Project Briefing routed to the Crown Labs Bible
-* Documentation routed to the Crown Labs documentation viewer
-* GitHub source button scoped to `./voxvector/`
-* GitHub documentation button scoped to `./VoxVector/docs/`
-* professional footer with legal, developer, resource, source, and company navigation
-* navigable privacy and terms policy drafts
-* mobile navigation
-* keyboard focus treatment
-* skip to content control
-* reduced motion support
-* Motion based progressive presentation
-* `/voxvector/developer` entry point
-* canonical documentation entry point
-
-### Developer Console
-
-Implemented at `/voxvector/developer`:
-
-* Supabase Auth sign in gate
-* trusted developer role check using `app_metadata`
-* sign out with awaited Supabase Auth completion and visible error handling
-* operational dashboard with animated green, warning, and red state icons
-* real `/health` query through TanStack Query
-* API workbench for the actual `/v1/analyze` endpoint
-* WAV upload and real request execution
-* browser XHR upload progress that completes before analysis animation begins
-* client generated request correlation ID
-* explicit live analysis stages: upload, decode, analysis, result
-* cancellable browser analysis request with Stop analysis controls
-* durable diagnostic lifecycle polling during analysis
-* server response, HTTP status, client timing, `X Request ID`, and response JSON visibility
-* uploaded audio playback with waveform and seek control
-* decoded WAV metadata panel including filename, container/codec, sample rate, channels, bit depth, bitrate, duration, file size, MIME type, modification time, and available RIFF INFO/BEXT metadata
-* live playback dBFS meter and digital clipping indicator
-* persistent error browser backed by the authenticated diagnostic endpoint
-* live diagnostic log stream backed by the authenticated lifecycle event endpoint
-* canonical documentation navigator using only existing `VoxVector/docs/` files
-* development board
-* developer profile editing through Supabase Auth user metadata
-
-The console does not fabricate request counts, error counts, 5xx totals, analysis totals, lifecycle events, or storage records.
-
-## Analysis request state model
-
-The browser deliberately separates transfer state from server processing state:
-
-1. **Upload:** XHR progress represents bytes transferred by the browser.
-2. **Upload complete:** the progress bar reaches 100 percent and the UI changes state only after the browser upload stream completes.
-3. **Server waiting/processing:** the generic analysis animation begins only after upload completion and is then driven by durable diagnostic events when available.
-4. **Decode:** displayed when the backend emits the real `stage=decode` lifecycle event.
-5. **Analysis:** displayed when the backend emits `stage=analysis_pipeline`.
-6. **Result:** displayed when the request completes and the response is received.
-7. **Stopped/error:** displayed from actual browser request outcome.
-
-The Stop analysis control cancels the browser HTTP request. It does not claim to terminate a server-side worker thread that may already be executing CPU-heavy analysis; backend job cancellation would require a cooperative cancellation contract in the analysis engine.
-
-## Audio player and metadata
-
-The Developer Console player is local-browser functionality over the selected file. It does not upload the file merely to generate the waveform.
-
-The player derives WAV metadata from RIFF chunks and decodes the audio locally for a compact waveform. During playback, a browser `AnalyserNode` provides instantaneous peak level and clipping state. The meter is a playback monitor, not a scientific measurement returned by the VoxVector backend.
-
-## Developer access boundary
-
-The browser gate is an interface authorization layer. It is not sufficient to secure sensitive backend data.
-
-Current developer admission requires:
+The connected workflow is:
 
 ```text
-Supabase session exists
-AND
-user.app_metadata.role == "developer"
-OR
-user.app_metadata.voxvector_role == "developer"
+New Analysis
+    |
+    v
+Case + Source Asset
+    |
+    v
+Intake + Provenance
+    |
+    v
+Audio Player + Waveform
+    |
+    v
+21 Stage Pipeline
+    |
+    +--> Speaker Layer
+    +--> Transcript Layer
+    +--> Analytical Tracks
+    +--> Evidence Timeline
+    |
+    v
+Evidence Synthesis
+    |
+    v
+Assessment
+    |
+    v
+Report
+    |
+    v
+History + Reopen
 ```
 
-Only trusted server or admin processes should assign these metadata values.
+All surfaces share the same case identity.
 
-FastAPI diagnostic endpoints enforce the developer role before returning persistent diagnostics.
+## Primary navigation
 
-See `docs/DEVELOPER_ACCESS.md`.
+- Overview
+- New Analysis
+- Analyses
+- Analysis History
+- Evidence Explorer
+- Reports
+- Comparisons
+- Alerts
+- Settings
 
-## API and data contract
+## Developer navigation
 
-`voxvector/src/lib/api.js` is the frontend API boundary. It preserves:
+- Dashboard
+- API Workbench
+- Requests
+- Errors
+- Events
+- Runtime
+- Methodology
+- Documentation
+- Development Board
+- Profile
 
-* HTTP status
-* request ID
-* response payload
-* client observed timing
-* backend error detail
-* upload progress callbacks
-* cancellable request handles
-* lifecycle event query support
+Developer functions remain separated from the customer analysis workflow.
+
+## Analysis intake
+
+The New Analysis flow is the entry point into the connected case.
+
+### Intake sequence
+
+1. Select or upload recording
+2. Inspect media
+3. Display metadata
+4. Establish provenance
+5. Assess recording quality
+6. Establish speaker context
+7. Generate transcript
+8. Establish alignment
+9. Start analysis
+10. Open Analysis Workspace
+
+### File intake data
+
+Display:
+
+- file name
+- duration
+- sample rate
+- bit depth when available
+- channel count
+- file size
+- detected format
+- upload state
+- processing state
+- provenance state
+- case ID
+- analysis ID
+
+## Analysis Workspace
+
+The Analysis Workspace is the core product surface.
+
+It combines:
+
+- case header
+- source metadata
+- audio player
+- synchronized waveform
+- speaker regions
+- transcript
+- analytical tracks
+- evidence markers
+- evidence timeline
+- pipeline state
+- assessment state
+
+## Synchronized audio viewer
+
+### Primary waveform
+
+Display:
+
+- full recording waveform
+- current playhead
+- time scale
+- speech regions
+- pause regions
+- speaker regions
+- evidence markers
+- selected intervals
+
+### Analytical tracks
+
+Initial tracks:
+
+1. Waveform
+2. Pitch F0
+3. Intensity
+4. Spectral Energy
+5. Speech Activity
+6. Pauses
+
+Expanded tracks:
+
+- formants
+- HNR
+- spectral flux
+- spectral rolloff
+- MFCC
+- jitter
+- shimmer
+- voice quality
+- response latency
+- speaker turns
+- transcript alignment
+- evidence events
+
+### Interaction model
+
+- shared time axis
+- shared playhead
+- synchronized hover
+- click to seek
+- drag to scrub
+- region selection
+- zoom window
+- reset zoom
+- track visibility controls
+- event marker navigation
+- playback from selected region
+
+## Speaker layer
+
+Display:
+
+- speaker label
+- turn boundaries
+- overlap regions
+- speaker confidence when available
+- selected speaker state
+- speaker evidence markers
+
+Speaker selection synchronizes with the waveform transcript and evidence surfaces.
+
+## Transcript layer
+
+Display:
+
+- timestamped transcript
+- speaker attribution
+- word timing when available
+- selected sentence
+- selected word
+- disfluency markers
+- question markers
+- response boundaries
+- evidence markers
+
+Transcript selection moves the audio playhead.
+
+Audio selection reveals associated transcript content when available.
+
+## Analysis Overview
+
+The overview is the executive analytical surface for an individual case.
+
+Required regions:
+
+- source file
+- duration
+- recording quality
+- analysis state
+- current pipeline stage
+- condensed waveform
+- key metrics
+- assessment state
+- evidence timeline
+- pipeline state
+
+The metric system is data driven.
+
+Only backend supplied measurements may be displayed as actual analysis values.
+
+## Analysis Pipeline UI
+
+The pipeline component represents all 21 canonical stages:
+
+1. File Upload / Ingest
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility and Reliability
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
+18. Candidate Classification
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
+
+Each stage exposes:
+
+- name
+- purpose
+- input
+- output
+- state
+- timing
+- methods
+- evidence
+- source regions
+- related events
+
+Stage status comes from real backend lifecycle state.
+
+## Evidence surfaces
+
+### Evidence timeline
+
+Events are anchored to source intervals and may include:
+
+- response latency
+- pause events
+- speech rate changes
+- pitch movement
+- intensity movement
+- speaker transitions
+- transcript events
+- linguistic events
+- evidence convergence
+- evidence conflict
+
+### Evidence Explorer
+
+Filters include:
+
+- speaker
+- timestamp
+- method family
+- evidence type
+- evidence direction
+- quality
+- reliability
+- transcript context
+- question
+- response
+
+Every evidence item links to its originating method observation and source interval.
+
+## Assessment surface
+
+The assessment area is structured around:
+
+- eligibility and reliability
+- evidence summary
+- evidence convergence
+- evidence conflict
+- candidate classification
+- confidence matrix
+- uncertainty
+- alternative hypotheses
+- final disposition
+
+The interface does not reduce the complete analysis to a single decorative score.
+
+## Reports
+
+Reports are generated from the persistent case model.
+
+Report sections include:
+
+1. Case summary
+2. Recording information
+3. Speaker information
+4. Eligibility and reliability
+5. Analysis methods
+6. Acoustic findings
+7. Prosodic findings
+8. Temporal findings
+9. Linguistic findings
+10. Speaker findings
+11. Evidence timeline
+12. Convergence and conflict
+13. Candidate assessment
+14. Confidence and uncertainty
+15. Alternative hypotheses
+16. Final disposition
+17. Audit and provenance
+
+## Developer Console
+
+The Developer Console is the engineering cockpit.
+
+It must expose:
+
+- runtime health
+- real API workbench
+- request inspection
+- lifecycle events
+- indexed errors
+- runtime diagnostics
+- methodology links
+- architecture links
+- pipeline links
+- MVP build board
+- phase expansion
+- task checkboxes
+- persistent browser task state
+- completion counts
+- next task visibility
+- developer profile
+
+### MVP board behavior
+
+The board uses the canonical `docs/MVP_BUILD_PLAN.md` task order.
+
+Each task can be checked locally.
+
+Each phase can be expanded or collapsed.
+
+The console calculates local completion state from the task set.
+
+The console must never present a local checkbox as proof that the backend capability is implemented.
+
+## API boundary
+
+`voxvector/src/lib/api.js` is the frontend API boundary.
+
+It preserves:
+
+- HTTP status
+- request ID
+- response payload
+- client timing
+- backend error detail
+- upload progress
+- cancellable request handles
+- lifecycle event support
 
 The canonical API base defaults to `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`.
 
 ## State driven animation
 
-Motion and lightweight CSS animation may animate actual query, mutation, upload, playback, and diagnostic state, but they may not manufacture analytical progress.
+Animation may represent actual:
 
-The API workbench uses a transfer progress bar only for actual browser upload progress. Server analysis is indeterminate until real lifecycle events arrive. No numeric percentage is invented for the backend pipeline.
+- upload progress
+- query state
+- mutation state
+- playback state
+- diagnostic state
+- navigation state
 
-## Telemetry and diagnostics
+Animation must never manufacture analytical progress or evidence.
 
-The backend exposes authenticated `/v1/diagnostics/events` lifecycle queries and `/v1/diagnostics/errors` indexed error queries over the existing Supabase Storage architecture.
+## Developer access
 
-Lifecycle records include request correlation, stage names, durations, sample counts, source revision, and sanitized error fields where applicable. Raw audio and transcript content are excluded by the observability sanitizer.
+The browser gate is an interface authorization layer.
 
-HTTP 5xx events are indexed as persistent errors. Abrupt process termination can still prevent an application-level error record from being emitted, so Render process logs remain necessary evidence for host-level failures.
+Sensitive diagnostic data remains protected by backend authorization.
 
-## Analysis Workspace
+Current developer admission requires a trusted Supabase session and the configured developer role metadata.
 
-The Analysis Workspace remains the next major product surface. It will be connected only to actual API contracts and will preserve:
-
-1. eligibility and reliability
-2. evidence collection and analysis
-3. candidate classification
-4. final classification and disposition
-
-It must expose uncertainty, convergence and conflict, alternatives, data quality, and abstention rather than collapsing the process into a single score.
+FastAPI diagnostic endpoints enforce the developer role before returning persistent diagnostics.
 
 ## Accessibility
 
-The interface must retain:
+The application must retain:
 
-* readable text sizes
-* strong contrast
-* keyboard accessible controls
-* semantic form labels
-* visible focus states
-* reduced motion support
-* mobile usability
-* explicit error, loading, and unavailable states
-* non color only status communication
+- readable text sizes
+- strong contrast
+- keyboard accessible controls
+- semantic labels
+- visible focus states
+- reduced motion support
+- mobile usability
+- explicit error states
+- explicit loading states
+- explicit unavailable states
+- non color only status communication
 
-## Legal and policy navigation
+## Deployment boundary
 
-The public footer links to product specific policy drafts in `VoxVector/docs/PRIVACY.md` and `VoxVector/docs/TERMS.md`, the canonical security documentation, and the repository contact page. These policy drafts describe current product intent and limitations and are not represented as final legal advice. Legal content must be reviewed and approved before being treated as a binding public policy.
+Vercel is retired.
 
-## Deployment
+GitHub Pages is the canonical public frontend host.
 
-The GitHub Pages workflow builds `voxvector/` with Vite and stages the compiled application at `/voxvector/`. The workflow also stages a concrete `/voxvector/developer/index.html` route and a local `/voxvector/404.html` fallback. It explicitly stages `docs/crownlabsbible/` because the general repository `docs/` tree is intentionally excluded from the public artifact. The root `voxvector.html` is a compatibility redirect only and must not contain a second landing implementation.
+Render is the canonical backend host.
 
-## Verification
+The public paths are:
 
-The source changes for the developer controls, diagnostics, metadata/player workflow, profile editing, documentation routing, and Crown Labs Bible deployment restoration are committed to GitHub. No fresh browser or GitHub Actions verification has been performed in this change session, so production build and deployment success must not be claimed until CI and browser verification complete.
+- `/voxvector/`
+- `/voxvector/developer/`
+
+The root `voxvector.html` is a compatibility redirect only.
 
 ## Acceptance principle
 
-The frontend is complete only when important workflows operate against real VoxVector API and data behavior, authorization boundaries are enforced, failures are visible, and browser, accessibility, and deployment verification succeeds. A polished mockup is not completion.
+The UI is complete only when important workflows operate against real VoxVector API behavior and real data contracts.
+
+A polished mockup is not completion.
+
+The connected product workflow is the acceptance target.
