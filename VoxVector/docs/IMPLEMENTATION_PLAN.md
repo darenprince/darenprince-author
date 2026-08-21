@@ -8,6 +8,67 @@ The target is a unified vocal intelligence workspace that connects recording int
 
 This document defines the engineering sequence.
 
+## Current execution checkpoint — 2026-08-20 — Analysis Workspace foundation
+
+Engineering has progressed from the case spine into the first persistent Analysis Workspace surface.
+
+### Implemented now
+
+- durable case identity
+- authenticated case ownership
+- case creation listing and retrieval APIs
+- source asset identity
+- source recording metadata
+- SHA-256 source provenance
+- private Supabase media storage primitives
+- signed playback URL API
+- case bound source upload API
+- case bound analysis API
+- analysis run persistence
+- canonical 21 stage state records for each case run
+- frontend API client contracts for case creation upload playback and case analysis
+- interactive Developer Console case workbench
+- interactive MVP engineering board with persistent developer checkoffs
+- persistent Analysis Workspace component
+- real source waveform generation from decoded audio when a source is available
+- case timeline with seek and playhead state
+- secure persisted source playback surface
+- persisted pipeline run state surface
+- source provenance surface
+
+### Immediate next engineering work
+
+1. connect the new Analysis Workspace to the authenticated console navigation
+2. make the workspace the primary post analysis destination
+3. expose the canonical 21 stage lifecycle with stage timing outputs and errors
+4. add speaker segmentation and diarization contracts
+5. integrate production transcription generation
+6. persist speaker attributed transcript segments and word timestamps
+7. synchronize transcript speaker regions and audio on the shared time axis
+8. add real analytical tracks from backend observations
+
+## Fastest MVP execution path
+
+The critical path is dependency first:
+
+1. case identity and persistence — implemented
+2. recording intake and provenance — implemented
+3. audio playback and waveform — foundation implemented
+4. real pipeline lifecycle — backend contract implemented and workspace consumption in progress
+5. speaker processing
+6. production transcription
+7. audio transcript alignment
+8. real analytical tracks
+9. evidence normalization
+10. evidence synthesis
+11. assessment
+12. report generation
+13. case history and reopen
+14. browser end to end verification
+15. production hardening
+
+Every downstream surface must consume a real upstream contract.
+
 ## Reference driven product target
 
 The Analysis Workspace target contains:
@@ -41,61 +102,6 @@ The Developer Console target contains:
 - prioritized MVP board
 - task checkoffs
 - phase completion
-
-## Current execution checkpoint — 2026-08-20
-
-Engineering has moved from documentation alignment into the first real connected case workflow.
-
-### Implemented now
-
-- durable case identity
-- authenticated case ownership
-- case creation listing and retrieval APIs
-- source asset identity
-- source recording metadata
-- SHA-256 source provenance
-- private Supabase media storage primitives
-- signed playback URL API
-- case bound source upload API
-- case bound analysis API
-- analysis run persistence
-- canonical 21 stage state records for each case run
-- frontend API client contracts for case creation upload playback and case analysis
-- case store ownership and persistence tests
-
-### Immediate next engineering work
-
-1. wire the Developer Console Workbench to case creation and case source upload
-2. add case selection and reopen controls to the console
-3. connect signed media playback to the Analysis Workspace
-4. create the shared audio time axis and waveform contract
-5. expose persisted 21 stage state in the workspace
-6. replace the current direct analysis workbench flow with the case bound flow while preserving the compatibility endpoint
-7. then move directly into speaker processing and production transcription
-
-This checkpoint is intentionally implementation focused. The repository remains the authority for what is actually executable and the validation program remains a separate engineering workstream.
-
-## Fastest MVP execution path
-
-The critical path is dependency first:
-
-1. case identity and persistence
-2. recording intake and provenance
-3. audio playback and waveform
-4. real pipeline lifecycle
-5. speaker processing
-6. production transcription
-7. audio transcript alignment
-8. real analytical tracks
-9. evidence normalization
-10. evidence synthesis
-11. assessment
-12. report generation
-13. case history and reopen
-14. browser end to end verification
-15. production hardening
-
-Every downstream surface must consume a real upstream contract.
 
 ## Phase 0 — Contract alignment
 
@@ -138,28 +144,30 @@ Architecture schemas pipeline and implementation plan describe the same system.
 
 A supported recording enters a durable case with complete source identity.
 
-**Current state:** backend case and media contracts are implemented. Browser wiring is the next task.
+**Current state:** implemented and connected through the Developer Console Case Workbench.
 
 ## Phase 2 — Audio workspace
 
 ### Deliver
 
-- audio access
-- playback
-- play and pause
-- seek
-- scrub
-- zoom
-- fullscreen
-- waveform generation
-- waveform rendering
-- time ruler
-- shared playhead
-- region selection
+- [x] audio access contract
+- [x] secure persisted playback surface
+- [x] play and pause
+- [x] seek
+- [x] source waveform generation foundation
+- [x] shared playhead state foundation
+- [ ] scrub refinement
+- [ ] zoom
+- [ ] fullscreen
+- [ ] time ruler refinement
+- [ ] region selection
+- [ ] workspace navigation integration
 
 ### Exit
 
 The user can inspect the recording and every audio interaction is tied to the case.
+
+**Current state:** first persistent workspace component is implemented. Console routing and full synchronized analytical tracks remain next.
 
 ## Phase 3 — Real pipeline lifecycle
 
@@ -175,12 +183,15 @@ The user can inspect the recording and every audio interaction is tied to the ca
 - [x] request correlation
 - [x] eligibility state
 - [x] recording quality state
+- [x] workspace stage state surface
+- [ ] stage timing visualization
+- [ ] stage output inspection
 
 ### Exit
 
 The Analysis Pipeline UI reflects actual backend lifecycle state.
 
-**Current state:** case runs persist the 21 stage contract and distinguish executed stages from pending and not-run stages. Workspace consumption is next.
+**Current state:** backend contracts and initial workspace consumption exist. Expanded stage inspection remains next.
 
 ## Phase 4 — Speaker intelligence
 
@@ -439,6 +450,7 @@ Required controls:
 - event inspection
 - error inspection
 - runtime health
+- Analysis Workspace access
 
 A checkbox represents developer workflow state only. It does not certify implementation or validation.
 
