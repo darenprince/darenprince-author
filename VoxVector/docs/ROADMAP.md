@@ -11,6 +11,34 @@ The end state is defined by:
 - `docs/ARCHITECTURE.md`
 - `docs/ANALYSIS_PIPELINE.md`
 
+## Fastest MVP path
+
+The immediate engineering priority is the connected case workflow rather than broad feature count.
+
+The canonical execution sequence is now maintained in `docs/MVP_BUILD_PLAN.md` and surfaced in the Developer Console.
+
+Priority order:
+
+1. case identity and persistence
+2. recording intake and provenance
+3. audio playback and waveform
+4. real pipeline lifecycle
+5. speaker processing
+6. production transcription
+7. audio transcript alignment
+8. real analytical tracks
+9. evidence normalization
+10. evidence synthesis
+11. assessment
+12. report generation
+13. case history and reopen
+14. browser end to end verification
+15. production hardening
+
+This sequence is the fastest route to a complete connected product experience because each step establishes a dependency required by the next layer.
+
+Research expansion and additional analytical methods continue in parallel but do not displace the connected MVP path.
+
 ## Phase A — Foundation hardening
 
 - **MFCC and cepstral observations integrated into the primary pipeline — COMPLETE**
@@ -295,6 +323,8 @@ The recommended implementation order is:
 ## Current engineering plan
 
 The detailed implementation sequence is maintained in `docs/IMPLEMENTATION_PLAN.md`.
+
+The fastest connected MVP sequence is maintained in `docs/MVP_BUILD_PLAN.md`.
 
 The product experience contract is maintained in `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
 
