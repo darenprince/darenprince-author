@@ -39,3 +39,17 @@ function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
   return <><HeroRefinement /><EvidenceBarsRefinement /><LandingChrome /><HeaderNoticeCleanup /></>
+}
+
+function Root() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <LoadingScreen />
+      <App />
+      <ThemeLayer />
+      <PublicChromeLayer />
+    </QueryClientProvider>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Root />)
