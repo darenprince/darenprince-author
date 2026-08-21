@@ -1,165 +1,279 @@
 # VoxVector — Crown Labs Product Dossier
 
-**Status:** active development
-**Canonical implementation:** `VoxVector/` in `darenprince-author`
+**Product:** VoxVector
+
+**Category:** Vocal intelligence and deception analysis
+
+**Canonical implementation:** `VoxVector/`
+
 **Public target:** `voxvector.crownlabs.tech`
-**Current software version:** `0.2.25` in the repository
-**Current maturity:** functional observational research foundation with an open runtime reliability incident and an approved next-generation frontend architecture
+
+**Product objective:** Build an advanced full-stack vocal and audio deception analysis platform.
 
 ## Product definition
 
-VoxVector is a standalone vocal and audio **deception detection system** under active development. Its intended product capability is to analyze interview and conversational audio, organize multiple evidence families, evaluate reliability and data quality, and ultimately support validated deception classification when the scientific validation program permits it.
+VoxVector is an advanced vocal and audio deception analysis platform built to transform spoken conversation into structured intelligence through a complete multimethod analytical workflow.
 
-The current runtime is an observational analysis foundation. It currently measures acoustic, spectral, prosodic, temporal, voice-quality, formant, transcript, interaction, and baseline observations while preserving provenance and guarded classification/disposition boundaries. It does not currently provide a scientifically validated deception probability or deception verdict.
+The platform spans recording ingestion, audio preparation, provenance, recording assessment, speaker intelligence, speech segmentation, transcription, alignment, acoustic analysis, prosodic analysis, voice-quality analysis, temporal analysis, linguistic analysis, conversational context, within-speaker comparison, evidence synthesis, classification, validation, and final disposition.
+
+VoxVector is purpose-built for deception analysis. The product architecture is designed to progress from foundational signal measurement into increasingly sophisticated multimethod inference, calibrated models, speaker-aware intelligence, conversational understanding, and validated classification.
 
 ## Executive summary
 
-VoxVector is designed around an auditable evidence chain rather than a dramatic single score. The architecture separates:
+VoxVector is designed around a complete evidence chain rather than a dramatic single score.
 
-1. eligibility and reliability
-2. evidence collection and analysis
-3. candidate classification
-4. final classification or disposition
+The architecture separates:
 
-The product objective remains deception detection. Current maturity is reported separately so that the absence of validated inference is not confused with a change in product direction.
+1. **Eligibility and reliability**
+2. **Evidence collection and analysis**
+3. **Candidate classification**
+4. **Final classification or disposition**
 
-## Current engineering status
+This stage separation gives each layer a defined responsibility while allowing the complete system to work as one analytical pipeline.
 
-The canonical application root is `VoxVector/`. The FastAPI adapter is `VoxVector/api/app.py`, the analysis engine is `VoxVector/src/voxvector/`, tests are under `VoxVector/tests/`, and technical documentation is under `VoxVector/docs/`.
+## The 21-stage pipeline
 
-The current repository pipeline version is `0.2.25`. MFCC observations are integrated into the primary pipeline. Formant FFT peak selection has been hardened against the final spectrum-bin boundary. Render is configured to deploy the `VoxVector` root using Python 3.11.9 and the compatible NumPy 2.4.6 baseline.
+### Prepare
 
-## Runtime and deployment status
+1. File Upload / Ingest
+2. Decode & Normalize
+3. Provenance & Integrity
+4. Recording & Channel Assessment
 
-Render successfully builds and starts the API and repeated `/health` checks have returned HTTP 200 with the runtime self-test passing.
+### Understand
 
-A subsequent public `/v1/analyze` request returned HTTP 502 through Cloudflare with Render identified as the origin and an empty response body. This is an **open engineering reliability incident**. The cause has not been assumed or promoted to a scientific finding.
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility & Reliability
 
-The API now has durable operational observability wired to the existing Supabase architecture. `/v1/analyze` requests receive a correlation ID, lifecycle and stage events are recorded as sanitized JSON, and the response exposes `X-Request-ID`. Diagnostic objects are stored in a private `voxvector-logs` bucket when Render storage credentials are configured. Raw audio and raw transcript content are explicitly excluded from diagnostic records. If durable storage is unavailable, the API falls back to a sanitized Render process-log marker rather than turning storage failure into an API outage.
+### Analyze
 
-The next runtime priority is to configure and verify the production storage secrets, then use the persisted request lifecycle evidence to reproduce and diagnose the 502. Resource and timeout safeguards remain open work.
+10. Acoustic Analysis
+11. Prosodic & Voice Quality Analysis
+12. Temporal & Pause Analysis
+13. Linguistic & Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
 
-## Frontend application architecture
+### Synthesize & Decide
 
-The next product-development phase is a real VoxVector application interface over the existing API and data architecture. The approved stack is intentionally small and open source:
+16. Evidence Assembly
+17. Evidence Convergence & Conflict
+18. Candidate Classification
+19. Validation & Calibration
+20. Final Classification / Disposition
+21. Audit & Provenance Output
 
-- **React** — application shell and route composition
-- **shadcn/ui** — application-owned accessible UI foundation
-- **Tailwind CSS** — styling, responsive layout, design tokens, and theming
-- **Motion for React** — state-driven animation and interaction
-- **TanStack Query** — server-state management and API request lifecycle
+## Current analytical foundation
 
-This architecture is **approved/planned**, not yet implemented in the canonical `VoxVector/` runtime. Render remains the API platform, FastAPI remains the canonical HTTP boundary, and Supabase remains the existing authentication, persistence, and diagnostics layer.
+The active analysis engine provides structured measurement across multiple evidence families including:
 
-### Application shell
+- RMS and intensity
+- zero-crossing rate
+- spectral centroid and spread
+- spectral flux and rolloff
+- fundamental frequency
+- harmonicity
+- harmonic-to-noise ratio
+- F0 dynamics
+- intensity dynamics
+- MFCC observations
+- formant candidate tracking
+- pause topology
+- response latency
+- transcript disfluency observations
+- within-speaker baseline deviations
 
-The planned application has three primary experiences:
+Additional reusable analytical modules include:
 
-**Public application**
+- jitter
+- shimmer
+- pulse-period analysis
+- cepstral processing
+- interaction timing
+- speech timing utilities
 
-- VoxVector identity and product explanation
-- evidence-based deception-analysis positioning
-- methodology and scientific-status access
-- visual audio/analysis elements
+## Expanded intelligence architecture
+
+The product architecture incorporates an expanding method library covering:
+
+### Acoustic intelligence
+
+- spectral shape
+- spectral distribution
+- harmonic descriptors
+- cepstral representations
+- learned audio representations
+- glottal-source measures
+- voice-quality descriptors
+
+### Prosodic intelligence
+
+- pitch contours
+- pitch dynamics
+- intensity dynamics
+- phrase movement
+- prosodic boundaries
+- articulation timing
+- pause topology
+
+### Speaker intelligence
+
+- speaker identification
+- diarization
+- turn segmentation
+- speaker-aware baselines
+- interaction structure
+- conversational timing
+
+### Language intelligence
+
+- transcription
+- transcript alignment
+- disfluency analysis
+- lexical analysis
+- linguistic structure
+- semantic representations
+- question and answer alignment
+- consistency analysis
+
+### Evidence intelligence
+
+- evidence assembly
+- convergence analysis
+- conflict analysis
+- dependence-aware synthesis
+- uncertainty modeling
+- alternative-hypothesis analysis
+- provenance
+- audit trails
+
+### Classification intelligence
+
+- candidate classification
+- calibrated probabilistic models
+- confidence matrices
+- validation frameworks
+- final classification
+- final disposition
+
+## Product experience
+
+VoxVector is designed as a premium intelligence application rather than a collection of disconnected audio utilities.
+
+### Public application
+
+- VoxVector identity and product positioning
+- complete analysis pipeline
+- methodology and intelligence overview
+- visual audio analysis
 - documentation access
-- product entry point
+- analysis entry point
 
-**Analysis Workspace**
+### Analysis Workspace
 
-- upload/record entry according to supported runtime capabilities
-- interview/question context
+- file upload and recording intake
+- interview and question context
 - waveform and input metadata
 - eligibility and reliability
 - live processing lifecycle
 - acoustic observations
-- linguistic observations when transcript data exists
+- linguistic observations
 - timing and prosody
-- evidence convergence/conflict
-- uncertainty and alternative explanations
+- speaker context
+- evidence convergence and conflict
 - candidate classification
 - final disposition
 
-**Developer/Admin Console**
+### Developer Console
 
-- `/developer` dashboard
-- API workbench for real endpoints
-- persistent error reports
-- lifecycle/event logs
+- operational dashboard
+- API workbench
+- persistent error reporting
+- lifecycle and event logs
 - documentation navigator
 - development board
-- actual API/storage/runtime status where telemetry exists
+- runtime and storage status
 
-The Developer Console is intended to become a functional VoxVector-native operational interface, not a fake API documentation page or static dashboard.
+## Frontend architecture
 
-### State-driven animation
+The canonical public application uses React with application-owned UI composition and a modern analytical interface system.
 
-Motion will be tied to actual API/query/mutation state. Loading indicators, stage transitions, progressive result panels, and animated telemetry must correspond to real backend lifecycle events or defined progress metrics.
+The approved architecture includes:
 
-The interface must never fabricate percentages, events, analysis completion, or confidence to make the experience appear active. If the API reports a discrete state, the UI should display the discrete state rather than inventing numerical progress.
+- React
+- shadcn-style application-owned components
+- Base UI interaction primitives
+- Tailwind CSS
+- Tremor React analytical components
+- Lucide React iconography
+- Motion for React
+- TanStack Query
 
-### Data behavior
+The frontend remains an interface over the canonical FastAPI analysis architecture.
 
-TanStack Query will manage server-state concerns including request lifecycle, caching, retries where safe, mutations, invalidation, and background refresh where appropriate. Request IDs, status codes, source revision, pipeline version, and sanitized error metadata must remain visible to operational tooling when supplied by the API.
+## Backend architecture
 
-## Current capabilities
+The canonical backend and analysis engine live under `VoxVector/`.
 
-The primary pipeline currently integrates acoustic energy/intensity, zero-crossing rate, spectral centroid and spread, fundamental-frequency and harmonicity observations, F0/intensity dynamics, HNR, spectral flux and rolloff, MFCC observations, formant candidate tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
+- `VoxVector/api/app.py` — FastAPI HTTP boundary
+- `VoxVector/src/voxvector/` — analysis engine
+- `VoxVector/tests/` — QA
+- `VoxVector/docs/` — technical source of truth
 
-Additional reusable modules include jitter, shimmer, pulse-period utilities, and lower-level interaction/timing utilities. Capability status is maintained in `VoxVector/docs/CAPABILITY_STATUS.md`.
+Render serves the backend through `voxvector.crownlabs.tech`.
 
-## Deception detection program
+GitHub Pages serves the public React application at `darenprince.com/voxvector/`.
 
-The long-term product is intended to combine independently justified evidence families and validated models into task-specific deception inference. Planned components include richer acoustic and glottal-source measures, learned speech representations, linguistic and conversational analysis, speaker/interaction analysis, multimodal integrity analysis, calibrated uncertainty, dependence-aware evidence convergence, explicit abstention, speaker-disjoint evaluation, cross-dataset testing, and external replication.
+## Development direction
 
-No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature is treated as proof of deception. Stress, hesitation, pitch, silence, arousal, emotion, cognitive load, speaking rate, pauses, prosody, and other features are signals/evidence only.
+VoxVector's development program advances the complete platform through several major intelligence layers.
 
-## Research and future capability roadmap
+### Deeper audio intelligence
 
-Planned work remains part of the product context and includes openSMILE/eGeMAPS-style descriptors, LPCC/GFCC, Teager energy, WavLM, wav2vec 2.0, HuBERT, Conformer, AST, temporal models, production ASR, forced alignment, richer linguistic analysis, diarization, cross-modal analysis, synthetic-media detection, dependence-aware convergence, calibration, uncertainty, and eventual validated inference.
+Richer spectral descriptors, glottal-source measures, learned speech representations, temporal models, advanced voice-quality analysis, and recording-condition intelligence.
 
-Planned capabilities are not treated as implemented or validated merely because they are documented.
+### Conversational intelligence
+
+Production transcription, precise alignment, repair and false-start analysis, richer linguistic structure, semantic context, speaker-aware interaction analysis, and question/answer intelligence.
+
+### Multimethod inference
+
+Evidence synthesis, dependence-aware convergence, calibrated probability models, confidence matrices, alternative-hypothesis analysis, robust evaluation, and validated classification.
+
+## Scientific engineering
+
+Scientific rigor is part of the VoxVector engineering advantage.
+
+The platform architecture treats individual signals as components of a larger evidence system and maintains provenance, reliability, uncertainty, evidence relationships, alternative explanations, and validation requirements throughout the analytical workflow.
+
+The product is designed to become more capable through disciplined implementation and rigorous validation rather than through superficial scoring.
 
 ## Commercial model
 
-VoxVector's prospective monetization model includes professional analysis workspaces, advanced analytical workflows, enterprise licensing, API usage, research/evaluation programs, managed analytical services, institutional deployments, and future validated detection tiers. Current documentation does not assert production revenue, customer counts, or validated inference performance.
+VoxVector's prospective monetization model includes:
 
-Commercial value is expected to increase with verified analytical capabilities, scientific validation, reliable infrastructure, auditability, persistent case workflows, and enterprise/API integration.
+- professional analysis workspaces
+- advanced analytical workflows
+- enterprise licensing
+- API usage
+- research and evaluation programs
+- managed analytical services
+- institutional deployments
+- future validated detection tiers
 
-## Architecture
-
-The canonical engine is separated from the HTTP adapter:
-
-- `VoxVector/src/voxvector/` — analysis engine
-- `VoxVector/api/app.py` — FastAPI adapter and request observability boundary
-- `VoxVector/api/observability.py` — request correlation and sanitized diagnostic events
-- `VoxVector/api/storage.py` — durable Supabase Storage adapter
-- `VoxVector/tests/` — QA
-- `VoxVector/docs/` — canonical technical documentation
-- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md` — approved frontend architecture and implementation contract
-
-Render must use `VoxVector` as its root directory. The root-level `./api/` directory is not part of the product and must not be recreated.
-
-## Scientific status
-
-All current feature extraction and evidence outputs are observational. Eligibility/reliability, evidence analysis, candidate classification, and final disposition remain separate. No validated deception probability or deception verdict is currently active.
-
-Scientific validation remains a future gate requiring task and population definition, speaker-disjoint evaluation, out-of-sample testing, uncertainty and calibration analysis, reliability and abstention testing, and external replication where feasible.
-
-## Operational checkpoint
-
-The canonical handoff record is `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-19.md`. It records completed work, CI status, Render verification, the open 502 incident, durable diagnostics implementation, the frontend architecture decision, and the immediate verification sequence.
-
-## Crown Labs dossier sections
-
-- [Overview](VoxVector/overview.md)
-- [Monetization](VoxVector/monetization.md)
-- [Valuation](VoxVector/valuation.md)
-- [Licensing](VoxVector/licensing.md)
-- [Positioning](VoxVector/positioning.md)
-- [Architecture](VoxVector/architecture.md)
-- [Website copy](VoxVector/website-copy.md)
-- [Ecosystem role](VoxVector/ecosystem-role.md)
+Commercial value increases with analytical depth, validated capability, reliable infrastructure, auditability, persistent case workflows, and enterprise/API integration.
 
 ## Documentation authority
 
-The technical source of truth is the VoxVector directory in GitHub. The Crown Labs Bible is the executive/product documentation mirror and must be synchronized with material changes without replacing the repository as the implementation authority.
+The technical source of truth is the `VoxVector/` directory in GitHub.
+
+The Crown Labs Bible is the executive and product documentation mirror.
+
+The product messaging standard is maintained in `VoxVector/docs/PRODUCT_MESSAGING_POLICY.md`.
+
+The AI operating standard is maintained in `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md`.
+
+Material product and architecture changes should be synchronized across these canonical surfaces.
