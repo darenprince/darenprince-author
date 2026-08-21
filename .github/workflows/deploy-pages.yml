@@ -64,6 +64,10 @@ jobs:
             --exclude 'tests/**' \
             --exclude '*.log'
           rsync -a ./voxvector/dist/ _site/voxvector/
+          # The public landing page uses the canonical VoxVector console image
+          # stored with the backend project assets. Mirror only that image into
+          # the frontend artifact; never publish the backend source tree.
+          cp ./VoxVector/voxvector-audio-analysis-console.png ./_site/voxvector/voxvector-audio-analysis-console.png
           # Crown Labs Bible is a public documentation surface and must be
           # staged explicitly because the general docs tree stays excluded.
           mkdir -p _site/docs/crownlabsbible
@@ -82,6 +86,7 @@ jobs:
           test -f _site/voxvector/index.html
           test -f _site/voxvector/developer/index.html
           test -f _site/voxvector/404.html
+          test -f _site/voxvector/voxvector-audio-analysis-console.png
           test -f _site/docs/crownlabsbible/docs/index.html
           test -f _site/docs/crownlabsbible/docs/viewer.html
           test -f _site/VoxVector/docs/EXECUTIVE_SUMMARY.md
