@@ -25,9 +25,11 @@ def test_comprehensive_pipeline_preserves_stage_separation():
     assert result.candidate == "indeterminate"
     assert result.disposition == "insufficient_evidence"
     assert result.provenance["input_sha256"]
-    assert result.provenance["software_version"] == "0.2.25"
+    assert result.provenance["software_version"] == "0.2.26"
     assert result.observations
     assert result.evidence
+    assert result.speech_segments
+    assert result.speech_segments[0].segment_id.startswith(result.run_id)
     assert all(e.direction == "neutral" for e in result.evidence)
 
 
@@ -36,6 +38,7 @@ def test_bad_input_abstains_instead_of_inferencing():
     assert result.eligibility.status == "ineligible"
     assert result.candidate == "indeterminate"
     assert result.disposition == "abstain"
+    assert result.speech_segments == ()
 
 
 def test_response_latency_requires_complete_boundaries():
