@@ -41,6 +41,30 @@ Do not create a second backend capability in the frontend merely to make a scree
 
 Every visible state must come from a real API response or an explicit local interaction state.
 
+## Current execution checkpoint — 2026-08-20
+
+The first connected case-spine slice is now implemented in the canonical backend.
+
+Implemented in this slice:
+
+- authenticated case creation
+- authenticated case listing
+- authenticated case retrieval
+- durable case metadata persistence through the existing Supabase Storage architecture
+- source asset identity
+- source SHA-256 provenance
+- source recording metadata
+- durable private audio media storage
+- signed playback URL generation
+- authenticated source upload endpoint
+- case-bound analysis endpoint
+- analysis run persistence
+- 21-stage run state records with actual implemented stages represented separately from queued or not-run stages
+- frontend API client contracts for case creation upload playback and case analysis
+- automated case-store ownership and persistence tests
+
+The next engineering step is to connect the Developer Console Workbench to these case contracts and then build the shared audio playback and waveform contract in the Analysis Workspace.
+
 ## P0 — Case spine
 
 ### Goal
@@ -49,22 +73,24 @@ Create the persistent object that every later feature attaches to.
 
 ### Tasks
 
-- canonical case schema
-- analysis run schema
-- source asset schema
-- provenance record
-- lifecycle state
-- request ID
-- source metadata
-- authenticated user relation
-- case creation endpoint
-- case retrieval endpoint
-- run identity
-- version identity
+- [x] canonical case schema
+- [x] analysis run schema
+- [x] source asset schema
+- [x] provenance record
+- [x] lifecycle state
+- [x] request ID
+- [x] source metadata
+- [x] authenticated user relation
+- [x] case creation endpoint
+- [x] case retrieval endpoint
+- [x] run identity
+- [x] version identity
 
 ### Exit
 
 A recording can receive a durable case identity before analysis begins.
+
+**Status:** backend contract implemented. Developer Console wiring and browser verification remain next.
 
 ## P1 — Intake and audio foundation
 
@@ -74,26 +100,28 @@ Make recording intake reliable and immediately useful.
 
 ### Tasks
 
-- file picker
-- drag and drop
-- supported format validation
-- duration validation
-- channel inspection
-- sample rate inspection
-- bit depth inspection where available
-- file size validation
-- MIME validation
-- upload progress
-- upload cancellation
-- storage reference
-- provenance creation
-- audio metadata response
-- playback asset access
-- source hashing
+- [x] file picker contract
+- [x] supported format validation
+- [x] duration validation
+- [x] channel inspection
+- [x] sample rate inspection
+- [x] bit depth inspection where available
+- [x] file size validation
+- [x] MIME validation
+- [x] upload progress contract
+- [ ] upload cancellation on case upload route
+- [x] storage reference
+- [x] provenance creation
+- [x] audio metadata response
+- [x] playback asset access
+- [x] source hashing
+- [ ] browser playback integration against signed case media
 
 ### Exit
 
 A supported recording can be uploaded stored identified and played from the canonical case.
+
+**Status:** backend intake and media contract implemented. Frontend case workflow and shared playback contract are next.
 
 ## P2 — Synchronized analysis canvas
 
@@ -139,24 +167,26 @@ Make the Analysis Pipeline a direct representation of backend processing.
 
 ### Tasks
 
-- canonical 21 stage identifiers
-- stage ordering
-- stage state enum
-- stage start time
-- stage completion time
-- stage duration
-- stage outcome
-- stage error reference
-- current stage
-- completed stages
-- processing request identity
-- eligibility state
-- recording quality state
-- lifecycle event linkage
+- [x] canonical 21 stage identifiers
+- [x] stage ordering
+- [x] stage state enum
+- [x] stage start time
+- [x] stage completion time
+- [x] stage duration
+- [x] stage outcome
+- [x] stage error reference
+- [x] current run identity
+- [x] completed stage records
+- [x] processing request identity
+- [x] eligibility state
+- [x] recording quality state
+- [x] lifecycle event linkage
 
 ### Exit
 
 The workspace can show actual processing state without synthetic percentages.
+
+**Status:** backend stage-state contract implemented for the current case analysis path. Workspace consumption remains next.
 
 ## P4 — Speaker intelligence
 
