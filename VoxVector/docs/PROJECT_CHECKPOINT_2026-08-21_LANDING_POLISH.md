@@ -14,7 +14,8 @@ Applied the requested public landing and loading-screen refinement directly to `
 - Removed the hero disclaimer treatment below the CTA row.
 - Tightened vertical spacing between hero heading body and CTA elements.
 - Reduced the `IN YOUR AUDIO` hero line scale.
-- Changed actual site buttons to pill geometry while leaving cards panels fields and structural surfaces unchanged.
+- Changed the shared VoxVector Button component from `rounded-md` to `rounded-full` so actual buttons consistently render as pills.
+- Kept ordinary links cards panels fields and structural surfaces from receiving global pill geometry.
 
 ## Deployment path
 
@@ -25,4 +26,4 @@ Applied the requested public landing and loading-screen refinement directly to `
 
 ## Verification boundary
 
-The source changes are committed to `main`. The GitHub connector available in this environment does not expose the repository Pages Settings source selector or a reliable push-triggered production deployment run listing, so production publication cannot be claimed solely from repository state. GitHub Pages must have its repository publishing source set to **GitHub Actions** for the Pages artifact workflow to control the live site.
+The source changes are committed to `main`. GitHub Pages is the production frontend deployment path. Production publication should be verified from the GitHub Pages Actions deployment result rather than inferred from a source commit alone.
