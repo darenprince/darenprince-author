@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png'
+const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png?v=20260821'
 const COFFEE = '#c99a66'
 const WORKFLOW_HEADING = 'Deep Forensic Vocal Analysis + State of the art Linguistics'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
