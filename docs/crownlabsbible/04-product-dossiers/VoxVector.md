@@ -6,7 +6,11 @@
 
 **Canonical implementation:** `VoxVector/`
 
-**Public target:** `voxvector.crownlabs.tech`
+**Public application:** `voxvector/`
+
+**Backend target:** `voxvector.crownlabs.tech`
+
+**Public target:** `darenprince.com/voxvector/`
 
 **Product objective:** Build an advanced full-stack vocal and audio deception analysis platform.
 
@@ -14,31 +18,41 @@
 
 VoxVector is an advanced vocal and audio deception analysis platform built to transform spoken conversation into structured intelligence through a complete multimethod analytical workflow.
 
-The platform spans recording ingestion, audio preparation, provenance, recording assessment, speaker intelligence, speech segmentation, transcription, alignment, acoustic analysis, prosodic analysis, voice-quality analysis, temporal analysis, linguistic analysis, conversational context, within-speaker comparison, evidence synthesis, classification, validation, and final disposition.
+The platform spans recording ingestion audio preparation provenance recording assessment speaker intelligence speech segmentation transcription alignment acoustic analysis prosodic analysis voice quality analysis temporal analysis linguistic analysis conversational context within speaker comparison evidence synthesis classification validation reporting and final disposition.
 
-VoxVector is purpose-built for deception analysis. The product architecture is designed to progress from foundational signal measurement into increasingly sophisticated multimethod inference, calibrated models, speaker-aware intelligence, conversational understanding, and validated classification.
+VoxVector is purpose built for deception analysis.
 
-## Executive summary
+The product architecture is designed to progress from foundational signal measurement into increasingly sophisticated multimethod inference calibrated models speaker aware intelligence conversational understanding and validated classification.
 
-VoxVector is designed around a complete evidence chain rather than a dramatic single score.
+## Product experience target
 
-The architecture separates:
+The supplied reference screens establish the intended end state for the application experience.
 
-1. **Eligibility and reliability**
-2. **Evidence collection and analysis**
-3. **Candidate classification**
-4. **Final classification or disposition**
+The product is a unified intelligence workspace rather than a collection of disconnected utilities.
 
-This stage separation gives each layer a defined responsibility while allowing the complete system to work as one analytical pipeline.
+The user journey is:
 
-## The 21-stage pipeline
+1. Upload or record
+2. Prepare and inspect
+3. Identify speakers
+4. Generate transcript
+5. Align audio and language
+6. Analyze synchronized evidence
+7. Explore evidence
+8. Review synthesis
+9. Review assessment
+10. Generate report
+
+The detailed experience contract is defined in `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
+
+## The 21 stage pipeline
 
 ### Prepare
 
 1. File Upload / Ingest
-2. Decode & Normalize
-3. Provenance & Integrity
-4. Recording & Channel Assessment
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
 
 ### Understand
 
@@ -46,165 +60,273 @@ This stage separation gives each layer a defined responsibility while allowing t
 6. Speech Segmentation
 7. Transcription Generation
 8. Transcript Alignment
-9. Eligibility & Reliability
+9. Eligibility and Reliability
 
 ### Analyze
 
-10. Acoustic Analysis
-11. Prosodic & Voice Quality Analysis
-12. Temporal & Pause Analysis
-13. Linguistic & Disfluency Analysis
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
 14. Question / Answer Alignment
 15. Within Speaker Baseline
 
-### Synthesize & Decide
+### Synthesize and Decide
 
-16. Evidence Assembly
-17. Evidence Convergence & Conflict
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
 18. Candidate Classification
-19. Validation & Calibration
+19. Validation and Calibration Gate
 20. Final Classification / Disposition
-21. Audit & Provenance Output
+21. Audit and Provenance Output
+
+## Analysis Workspace
+
+The core analysis workspace combines:
+
+- source metadata
+- audio playback
+- waveform
+- pitch F0
+- intensity
+- spectral energy
+- speech activity
+- pauses
+- speaker regions
+- transcript
+- transcript alignment
+- evidence markers
+- analysis pipeline
+- key metrics
+- evidence timeline
+- assessment state
+
+All analytical tracks share one time axis and one playhead.
+
+Selecting an audio region can reveal the associated transcript and evidence.
+
+Selecting transcript content can move the audio playhead to the associated interval.
+
+Selecting an evidence event can open its source interval and method details.
+
+## Analysis Overview
+
+The overview surface provides:
+
+- source file
+- duration
+- recording quality
+- processing state
+- condensed waveform
+- evidence markers
+- key analytical metrics
+- assessment state
+- evidence timeline
+
+Metrics are data driven and tied to the canonical analysis result.
+
+## Method intelligence
+
+### Acoustic Analysis
+
+- pitch
+- intensity
+- energy
+- spectral shape
+- spectral distribution
+- harmonicity
+- HNR
+- MFCC
+- formant candidates
+
+### Prosodic Intelligence
+
+- pitch contours
+- pitch dynamics
+- intensity dynamics
+- speech rate
+- articulation timing
+- phrase movement
+- pause topology
+- prosodic boundaries
+
+### Voice Quality Intelligence
+
+- harmonicity
+- HNR
+- jitter
+- shimmer
+- pulse period
+- glottal source measures
+- expanded voice quality descriptors
+
+### Speaker Intelligence
+
+- speaker identification
+- diarization
+- speaker turns
+- overlap
+- speaker separation
+- speaker aware baselines
+- interaction structure
+
+### Linguistic Intelligence
+
+- transcription
+- transcript alignment
+- disfluency
+- lexical analysis
+- syntactic structure
+- semantic representation
+- contradiction analysis
+- consistency analysis
+- hedging
+- certainty
+- negation
+- discourse structure
+- question and answer alignment
+
+### Evidence Intelligence
+
+- evidence assembly
+- convergence analysis
+- conflict analysis
+- dependency modeling
+- uncertainty
+- alternative hypothesis analysis
+- provenance
+- audit trails
+
+### Classification Intelligence
+
+- candidate classification
+- calibrated probabilistic models
+- confidence matrix
+- uncertainty state
+- validation framework
+- final classification
+- final disposition
+
+## Evidence Explorer
+
+Evidence Explorer provides case wide access to analytical evidence.
+
+Users can filter by:
+
+- speaker
+- timestamp
+- method family
+- evidence type
+- evidence direction
+- reliability
+- transcript context
+- question
+- response
+
+Every evidence item links to its source audio interval and analytical method.
+
+## Reports
+
+Reports provide a structured and auditable representation of an analysis.
+
+Report sections include:
+
+- case summary
+- recording information
+- speaker information
+- eligibility and reliability
+- analysis methods
+- acoustic findings
+- prosodic findings
+- temporal findings
+- linguistic findings
+- speaker findings
+- evidence timeline
+- convergence and conflict
+- candidate assessment
+- confidence and uncertainty
+- alternative hypotheses
+- final disposition
+- audit and provenance
+
+## Comparisons
+
+The product supports comparison between compatible:
+
+- recordings
+- speakers
+- baseline segments
+- question responses
+- evidence regions
+- analysis runs
+
+## Alerts
+
+Alerts provide case level events such as:
+
+- processing completed
+- processing failed
+- reliability change
+- speaker processing completed
+- transcript completed
+- evidence convergence
+- evidence conflict
+- report ready
+
+## Developer Console
+
+The Developer Console remains a separate operational surface.
+
+It provides:
+
+- runtime health
+- API workbench
+- request inspection
+- errors
+- lifecycle events
+- runtime diagnostics
+- documentation
+- development board
 
 ## Current analytical foundation
 
 The active analysis engine provides structured measurement across multiple evidence families including:
 
 - RMS and intensity
-- zero-crossing rate
-- spectral centroid and spread
-- spectral flux and rolloff
+- zero crossing rate
+- spectral centroid
+- spectral spread
+- spectral flux
+- spectral rolloff
 - fundamental frequency
 - harmonicity
-- harmonic-to-noise ratio
+- harmonic to noise ratio
 - F0 dynamics
 - intensity dynamics
 - MFCC observations
 - formant candidate tracking
 - pause topology
-- response latency
-- transcript disfluency observations
-- within-speaker baseline deviations
+- response latency when supplied
+- transcript disfluency when supplied
+- within speaker baseline when supplied
 
 Additional reusable analytical modules include:
 
 - jitter
 - shimmer
-- pulse-period analysis
+- pulse period analysis
 - cepstral processing
 - interaction timing
 - speech timing utilities
 
-## Expanded intelligence architecture
-
-The product architecture incorporates an expanding method library covering:
-
-### Acoustic intelligence
-
-- spectral shape
-- spectral distribution
-- harmonic descriptors
-- cepstral representations
-- learned audio representations
-- glottal-source measures
-- voice-quality descriptors
-
-### Prosodic intelligence
-
-- pitch contours
-- pitch dynamics
-- intensity dynamics
-- phrase movement
-- prosodic boundaries
-- articulation timing
-- pause topology
-
-### Speaker intelligence
-
-- speaker identification
-- diarization
-- turn segmentation
-- speaker-aware baselines
-- interaction structure
-- conversational timing
-
-### Language intelligence
-
-- transcription
-- transcript alignment
-- disfluency analysis
-- lexical analysis
-- linguistic structure
-- semantic representations
-- question and answer alignment
-- consistency analysis
-
-### Evidence intelligence
-
-- evidence assembly
-- convergence analysis
-- conflict analysis
-- dependence-aware synthesis
-- uncertainty modeling
-- alternative-hypothesis analysis
-- provenance
-- audit trails
-
-### Classification intelligence
-
-- candidate classification
-- calibrated probabilistic models
-- confidence matrices
-- validation frameworks
-- final classification
-- final disposition
-
-## Product experience
-
-VoxVector is designed as a premium intelligence application rather than a collection of disconnected audio utilities.
-
-### Public application
-
-- VoxVector identity and product positioning
-- complete analysis pipeline
-- methodology and intelligence overview
-- visual audio analysis
-- documentation access
-- analysis entry point
-
-### Analysis Workspace
-
-- file upload and recording intake
-- interview and question context
-- waveform and input metadata
-- eligibility and reliability
-- live processing lifecycle
-- acoustic observations
-- linguistic observations
-- timing and prosody
-- speaker context
-- evidence convergence and conflict
-- candidate classification
-- final disposition
-
-### Developer Console
-
-- operational dashboard
-- API workbench
-- persistent error reporting
-- lifecycle and event logs
-- documentation navigator
-- development board
-- runtime and storage status
-
 ## Frontend architecture
 
-The canonical public application uses React with application-owned UI composition and a modern analytical interface system.
+The canonical public application uses React with application owned UI composition.
 
 The approved architecture includes:
 
 - React
-- shadcn-style application-owned components
+- shadcn style application owned components
 - Base UI interaction primitives
 - Tailwind CSS
 - Tremor React analytical components
@@ -223,48 +345,42 @@ The canonical backend and analysis engine live under `VoxVector/`.
 - `VoxVector/tests/` — QA
 - `VoxVector/docs/` — technical source of truth
 
-Render serves the backend through `voxvector.crownlabs.tech`.
+Render serves the backend.
 
-GitHub Pages serves the public React application at `darenprince.com/voxvector/`.
+GitHub Pages serves the public React application.
 
-## Development direction
+## Implementation plan
 
-VoxVector's development program advances the complete platform through several major intelligence layers.
+The detailed engineering sequence is maintained in `VoxVector/docs/IMPLEMENTATION_PLAN.md`.
 
-### Deeper audio intelligence
+The plan is organized around:
 
-Richer spectral descriptors, glottal-source measures, learned speech representations, temporal models, advanced voice-quality analysis, and recording-condition intelligence.
-
-### Conversational intelligence
-
-Production transcription, precise alignment, repair and false-start analysis, richer linguistic structure, semantic context, speaker-aware interaction analysis, and question/answer intelligence.
-
-### Multimethod inference
-
-Evidence synthesis, dependence-aware convergence, calibrated probability models, confidence matrices, alternative-hypothesis analysis, robust evaluation, and validated classification.
-
-## Scientific engineering
-
-Scientific rigor is part of the VoxVector engineering advantage.
-
-The platform architecture treats individual signals as components of a larger evidence system and maintains provenance, reliability, uncertainty, evidence relationships, alternative explanations, and validation requirements throughout the analytical workflow.
-
-The product is designed to become more capable through disciplined implementation and rigorous validation rather than through superficial scoring.
-
-## Commercial model
-
-VoxVector's prospective monetization model includes:
-
-- professional analysis workspaces
-- advanced analytical workflows
-- enterprise licensing
-- API usage
-- research and evaluation programs
-- managed analytical services
-- institutional deployments
-- future validated detection tiers
-
-Commercial value increases with analytical depth, validated capability, reliable infrastructure, auditability, persistent case workflows, and enterprise/API integration.
+- product shell
+- analysis intake
+- synchronized audio visualization
+- speaker intelligence
+- transcription
+- transcript alignment
+- eligibility and reliability
+- acoustic and prosodic intelligence
+- temporal intelligence
+- linguistic intelligence
+- question and answer intelligence
+- within speaker baselines
+- evidence architecture
+- convergence and conflict
+- candidate classification
+- validation and calibration
+- final assessment
+- reports
+- history
+- Evidence Explorer
+- comparisons
+- alerts
+- Developer Console
+- reliability
+- security
+- browser verification
 
 ## Documentation authority
 
@@ -272,8 +388,14 @@ The technical source of truth is the `VoxVector/` directory in GitHub.
 
 The Crown Labs Bible is the executive and product documentation mirror.
 
-The product messaging standard is maintained in `VoxVector/docs/PRODUCT_MESSAGING_POLICY.md`.
+The product experience architecture is maintained in `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
 
-The AI operating standard is maintained in `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md`.
+The implementation plan is maintained in `VoxVector/docs/IMPLEMENTATION_PLAN.md`.
+
+The technical architecture is maintained in `VoxVector/docs/ARCHITECTURE.md`.
+
+The canonical pipeline is maintained in `VoxVector/docs/ANALYSIS_PIPELINE.md`.
+
+The method library remains in `VoxVector/docs/MASTER_METHOD_INDEX.md`.
 
 Material product and architecture changes should be synchronized across these canonical surfaces.
