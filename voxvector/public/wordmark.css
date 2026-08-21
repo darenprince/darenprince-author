@@ -1,0 +1,12 @@
+/* VoxVector landing wordmark: visually match the 40px logo icon height. */
+header a[aria-label="VoxVector home"] > span:last-child > span:first-child {
+  font-size: 36px !important;
+  line-height: .9 !important;
+  letter-spacing: .08em !important;
+}
+
+@media (max-width: 640px) {
+  header a[aria-label="VoxVector home"] > span:last-child > span:first-child {
+    font-size: 31px !important;
+  }
+}
