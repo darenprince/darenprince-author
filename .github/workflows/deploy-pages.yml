@@ -47,11 +47,33 @@ jobs:
           VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm install && npm run build
 
+      - name: Verify VoxVector landing implementation in build
+        working-directory: voxvector
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          test -f dist/voxvector-audio-analysis-console.png
+          grep -R -F -- "Deep Analysis Methods" dist/
+          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." dist/
+          grep -R -F -- "State of the art Linguistics" dist/
+          grep -R -F -- "2026-08-21-v2" dist/
+          if grep -R -F -- "Explore the evidence model" dist/; then
+            echo "ERROR: obsolete workflow CTA survived the production build"
+            exit 1
+          fi
+          if grep -R -F -- "VoxVector keeps reliability, evidence, candidate classification and final disposition separate" dist/; then
+            echo "ERROR: obsolete workflow description survived the production build"
+            exit 1
+          fi
+          echo "Landing implementation verified in production bundle."
+          echo "Console image verified in production artifact."
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Stage GitHub Pages artifact
         run: |
+          set -euo pipefail
           rm -rf _site
           mkdir -p _site/voxvector
           rsync -a ./ _site/ \
@@ -64,17 +86,9 @@ jobs:
             --exclude 'tests/**' \
             --exclude '*.log'
           rsync -a ./voxvector/dist/ _site/voxvector/
-          # The public landing page uses the canonical VoxVector console image
-          # stored with the backend project assets. Mirror only that image into
-          # the frontend artifact; never publish the backend source tree.
           cp ./VoxVector/voxvector-audio-analysis-console.png ./_site/voxvector/voxvector-audio-analysis-console.png
-          # Crown Labs Bible is a public documentation surface and must be
-          # staged explicitly because the general docs tree stays excluded.
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
-          # The Crown Labs viewer intentionally reads the canonical VoxVector
-          # technical documents through local relative paths. Mirror only the
-          # documentation tree into the Pages artifact; never publish backend code.
           mkdir -p _site/VoxVector/docs
           rsync -a ./VoxVector/docs/ _site/VoxVector/docs/
           mkdir -p _site/voxvector/developer
@@ -83,14 +97,28 @@ jobs:
 
       - name: Verify VoxVector Pages artifact
         run: |
+          set -euo pipefail
           test -f _site/voxvector/index.html
           test -f _site/voxvector/developer/index.html
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
+          grep -R -F -- "Deep Analysis Methods" _site/voxvector/
+          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." _site/voxvector/
+          grep -R -F -- "State of the art Linguistics" _site/voxvector/
+          grep -R -F -- "2026-08-21-v2" _site/voxvector/
+          if grep -R -F -- "Explore the evidence model" _site/voxvector/; then
+            echo "ERROR: obsolete workflow CTA reached Pages artifact"
+            exit 1
+          fi
+          if grep -R -F -- "VoxVector keeps reliability, evidence, candidate classification and final disposition separate" _site/voxvector/; then
+            echo "ERROR: obsolete workflow description reached Pages artifact"
+            exit 1
+          fi
           test -f _site/docs/crownlabsbible/docs/index.html
           test -f _site/docs/crownlabsbible/docs/viewer.html
           test -f _site/VoxVector/docs/EXECUTIVE_SUMMARY.md
           test -f _site/VoxVector/docs/OPERATING_CHARTER.md
+          echo "VoxVector landing content and asset verified in final Pages artifact."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
           echo "Crown Labs documentation routes staged:"
