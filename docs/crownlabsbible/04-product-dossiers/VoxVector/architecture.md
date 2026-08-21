@@ -21,27 +21,40 @@ evidence collection and analysis
 candidate classification
           |
           v
-final disposition gate
+final classification / disposition
 ```
 
-The FastAPI layer is an interface boundary only. The analysis engine remains canonical under `VoxVector/src/voxvector/`.
+The FastAPI layer is the interface boundary. The analysis engine remains canonical under `VoxVector/src/voxvector/`.
 
-## Current Pipeline
+## Complete Product Pipeline
 
-`VoxVectorPipeline.analyze()` performs reliability assessment and structured feature extraction, including acoustic, prosodic, spectral, formant, temporal, baseline, interaction, and optional transcript observations.
+1. File Upload / Ingest
+2. Decode & Normalize
+3. Provenance & Integrity
+4. Recording & Channel Assessment
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility & Reliability
+10. Acoustic Analysis
+11. Prosodic & Voice Quality Analysis
+12. Temporal & Pause Analysis
+13. Linguistic & Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
+16. Evidence Assembly
+17. Evidence Convergence & Conflict
+18. Candidate Classification
+19. Validation & Calibration
+20. Final Classification / Disposition
+21. Audit & Provenance Output
 
-The pipeline records run identifiers, input hashing, schema and software versions, eligibility state, observation provenance, evidence, limitations, and disposition.
+## Current Analysis Foundation
 
-## Runtime Stages
+`VoxVectorPipeline.analyze()` provides reliability assessment and structured feature extraction across acoustic, prosodic, spectral, formant, temporal, baseline, interaction, and transcript observations.
 
-1. Ingest and provenance
-2. Eligibility and reliability
-3. Evidence collection and analysis
-4. Evidence grouping and convergence
-5. Candidate classification
-6. Final disposition
-
-The current classifier remains indeterminate-only. The final disposition is abstention or insufficient evidence depending on eligibility state.
+The broader product architecture adds speaker intelligence, transcription, alignment, richer linguistic analysis, evidence synthesis, calibrated classification, and validated inference.
 
 ## Primary Implementation Boundary
 
@@ -52,18 +65,13 @@ The current classifier remains indeterminate-only. The final disposition is abst
 
 Render uses `VoxVector` as the root directory and `api.app:app` as the entry point.
 
-## Scientific Boundary
-
-Reliability is not deception probability. Observations are not deception labels. Correlated measurements are not silently treated as independent evidence. Missing data and alternative explanations remain explicit.
-
 ## Design Properties
 
-- bounded frame processing for constrained deployments
+- bounded frame processing
 - deterministic extraction where practical
-- explicit missing-data behavior
+- explicit data-state handling
 - immutable input fingerprinting
 - reproducible configuration
 - auditable evidence provenance
-- first-class abstention
-- separation of implementation from scientific validation
-- preserved future capability roadmap
+- stage-separated analytical architecture
+- preserved full capability roadmap
