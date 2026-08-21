@@ -10,6 +10,34 @@ This plan is an engineering sequence.
 
 It is not a claim that every capability listed below is already implemented.
 
+## Fastest MVP execution path
+
+The implementation plan is now executed through a dependency first path to a connected MVP.
+
+The detailed task board is maintained in `docs/MVP_BUILD_PLAN.md` and is surfaced inside the Developer Console with persistent browser checkoffs.
+
+The critical path is:
+
+1. case identity and persistence
+2. recording intake and provenance
+3. audio playback and waveform
+4. real pipeline lifecycle
+5. speaker processing
+6. production transcription
+7. audio transcript alignment
+8. real analytical tracks
+9. evidence normalization
+10. evidence synthesis
+11. assessment
+12. report generation
+13. case history and reopen
+14. browser end to end verification
+15. production hardening
+
+The purpose of this ordering is to make every downstream screen consume a real upstream contract.
+
+Feature expansion may proceed in parallel when it does not interrupt this dependency chain.
+
 ## Workstream 1 — Product shell
 
 ### Deliver
@@ -600,7 +628,10 @@ Important case events are persisted and visible in the product.
 - error reports
 - lifecycle events
 - runtime diagnostics
+- methodology navigator
 - documentation navigator
+- prioritized MVP build board
+- persistent task checkoffs
 - development board
 
 ### Depends on
@@ -611,7 +642,7 @@ Important case events are persisted and visible in the product.
 
 ### Exit condition
 
-Developers can inspect real operational state without exposing internal implementation controls to normal analysis users.
+Developers can inspect real operational state and execute the next highest priority engineering task without leaving the console.
 
 ## Workstream 24 — Performance and reliability
 
