@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const explicitRoot = html.getAttribute('data-site-root');
+      const host = window.location.hostname || '';
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+      let prefix = '';
+      if (normalizedExplicit) {
+        prefix = '/' + normalizedExplicit;
+      } else if (host.endsWith('.github.io') && pathSegments.length) {
+        prefix = '/' + pathSegments[0];
+      }
+      const firstSegment = pathSegments[0] || '';
+      const shouldUsePrefix =
+        Boolean(prefix) &&
+        (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+      if (!shouldUsePrefix || prefix === '/') {
+        html.dataset.assetPrefix = '';
+        return;
+      }
+      if (prefix.endsWith('/')) {
+        prefix = prefix.slice(0, -1);
+      }
+      html.dataset.assetPrefix = prefix;
+      const URL_ATTRS = new Map([
+        ['A', ['href']],
+        ['LINK', ['href']],
+        ['SCRIPT', ['src']],
+        ['IMG', ['src', 'srcset']],
+        ['SOURCE', ['src', 'srcset']],
+        ['VIDEO', ['src', 'poster']],
+        ['AUDIO', ['src']],
+        ['IFRAME', ['src']],
+        ['USE', ['href', 'xlink:href']],
+        ['FORM', ['action']],
+      ]);
+      const shouldIgnore = (value) => !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+      const resolve = (value) => {
+        if (!value || shouldIgnore(value)) return value;
+        if (value === prefix || value.startsWith(prefix + '/')) return value;
+        if (value.startsWith('/')) return prefix + value;
+        return value;
+      };
+      const patchNode = (node) => {
+        if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+        const attrs = URL_ATTRS.get(node.tagName);
+        if (!attrs) return;
+        for (const attr of attrs) {
+          const current = node.getAttribute(attr);
+          if (!current || attr === 'srcset') continue;
+          const next = resolve(current);
+          if (next !== current) node.setAttribute(attr, next);
+        }
+      };
+      const patchSubtree = (root) => {
+        if (!root || !root.querySelectorAll) return;
+        URL_ATTRS.forEach((_, tag) => {
+          root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+        });
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => patchSubtree(document), { once: true });
+      } else {
+        patchSubtree(document);
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search | Daren Prince</title>
+  <meta name="description" content="Search every public page, article, and product surface on DarenPrince.com." />
+  <meta property="og:title" content="Site Search | Daren Prince" />
+  <meta property="og:description" content="Find books, tools, pages, and resources across the full Daren Prince website." />
+  <meta property="og:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Search | Daren Prince" />
+  <meta name="twitter:description" content="Find content across the full Daren Prince website." />
+  <meta name="twitter:image" content="https://www.darenprince.com/assets/images/og-daren-prince.png" />
+  <link rel="canonical" href="https://www.darenprince.com/pages/search.html" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png" />
+  <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest" />
+  <meta name="theme-color" content="#456f3a" />
+</head>
+<body class="theme-dark">
+  <nav class="mega-menu js-mega-menu" aria-label="Mega menu">
+    <button class="icon-btn menu-close menu-close-btn js-menu-close" aria-label="Close">
+      <i class="ph ph-x"></i>
+    </button>
+    <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="mega-menu-logo" />
+    <ul class="mega-menu-list">
+      <li><a href="/index.html"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="/book.html"><i class="ph ph-book"></i>Books</a></li>
+      <li><a href="/meet-daren-prince.html"><i class="ph ph-user"></i>Meet Daren</a></li>
+      <li><a href="/press.html"><i class="ph ph-camera"></i>Media</a></li>
+      <li><a href="/index.html"><i class="ph ph-t-shirt"></i>Swag</a></li>
+      <li><a href="/index.html"><i class="ph ph-newspaper"></i>Blog</a></li>
+      <li><a href="/index.html"><i class="ph ph-user-plus"></i>Collabs</a></li>
+      <li><a href="/sitemap.html"><i class="ph ph-map-trifold"></i>Site Map</a></li>
+      <li><a href="/admin-dashboard.html"><i class="ph ph-gear"></i>Developers</a></li>
+      <li><a href="/contact.html"><i class="ph ph-chat-circle"></i>Contact</a></li>
+      <li class="social-row">
+        <a href="https://www.facebook.com/" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+        <a href="https://www.youtube.com/" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+        <a href="https://www.tiktok.com/" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+      </li>
+      <li>
+        <button class="auth-btn logout-btn js-auth-toggle">
+          <i class="ph ph-sign-out"></i> Logout
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <div class="menu-overlay js-menu-overlay"></div>
+
+  <div class="site-wrap">
+    <div data-shared-header></div>
+
+    <main class="main-content-separators">
+      <section class="l-container search-results section-divider" data-search-results>
+        <form class="search-bar" aria-label="Search results form">
+          <input name="q" value="" placeholder="Search pages, products, and tools…" />
+          <button type="submit" aria-label="Search">
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          </button>
+        </form>
+        <div class="controls">
+          <div class="filters" role="tablist" aria-label="Content filters">
+            <button data-filter="all" class="is-active">All</button>
+            <button data-filter="articles">Articles</button>
+            <button data-filter="audio">Audio</button>
+            <button data-filter="ebook">E-Book</button>
+            <button data-filter="print">Print</button>
+          </div>
+          <label>Sort
+            <select data-sort>
+              <option value="relevance">Relevance</option>
+              <option value="date">Newest</option>
+            </select>
+          </label>
+        </div>
+        <p class="summary" aria-live="polite"></p>
+        <ol class="results" id="results"></ol>
+        <nav class="pager" aria-label="Pagination"></nav>
+      </section>
+    </main>
+
+    <div data-shared-footer></div>
+  </div>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/profile-dropdown.js"></script>
+  <script src="/js/theme-toggle.js"></script>
+  <script type="module" src="/js/site-shell.js"></script>
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/src/js/search.js"></script>
+  <script type="module" src="/src/js/search-results.js"></script>
+</body>
+</html>
