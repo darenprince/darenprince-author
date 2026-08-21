@@ -1,0 +1,230 @@
+@use 'variables' as *;
+@use '../tokens/colors' as *;
+
+:root {
+  --nav-height: 80px;
+  --glass-stroke-strong: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 26%, transparent);
+  --glass-stroke-soft: inset 0 0 0 0.5px color-mix(in srgb, #{$white} 14%, transparent);
+  --section-space-y: clamp(1.25rem, 3.2vw, 2.35rem);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+}
+
+body {
+  text-rendering: optimizeLegibility;
+}
+
+.main-content-separators {
+  > section + section {
+    position: relative;
+    margin-top: 0;
+    padding-top: var(--section-space-y);
+  }
+
+  > section + section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: clamp(1.5rem, 5vw, 3.5rem);
+    right: clamp(1.5rem, 5vw, 3.5rem);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, #{$white} 24%, transparent) 16%,
+      color-mix(in srgb, #{$white} 42%, transparent) 50%,
+      color-mix(in srgb, #{$white} 24%, transparent) 84%,
+      transparent 100%
+    );
+    opacity: 0.48;
+    pointer-events: none;
+  }
+
+  > section.section-divider + section::before,
+  > section + section.section-divider::before {
+    display: none;
+  }
+}
+
+main:not(.console-main):not(.hero-section):not(.emergency-main):not(.not-found-page) {
+  @extend .main-content-separators;
+}
+
+.home-scroll-snap {
+  @media (min-width: 64rem) {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: var(--nav-height);
+
+    > section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+}
+.container {
+  width: min(90%, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-block: clamp(#{$spacing-lg}, 4vw, #{$spacing-xl});
+}
+
+.container--spaced {
+  @extend .container;
+  padding: $spacing-lg;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container--border {
+  @extend .container;
+  padding: $spacing-lg;
+  border: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, #{$surface} 92%, white),
+    color-mix(in srgb, #{$surface} 90%, black)
+  );
+  border-radius: $border-radius;
+  box-shadow:
+    var(--glass-stroke-strong),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container--light {
+  @extend .container;
+  padding: $spacing-lg;
+  background: var(--grad-light-container);
+  color: var(--light-container-text);
+  border: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    var(--glass-stroke-soft),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .accent {
+    color: var(--light-container-accent);
+  }
+}
+
+.main-content {
+  padding: clamp(#{$spacing-lg}, 4vw, #{$spacing-xl}) 0;
+}
+
+main section {
+  padding-block: clamp(1.9rem, 4.2vw, 3.6rem);
+}
+
+.stack-lg > * + *,
+.stack-md > * + * {
+  margin-top: clamp(0.95rem, 2vw, 1.55rem);
+}
+
+.stack-lg > * + * {
+  margin-top: clamp(1.2rem, 2.8vw, 2rem);
+}
+
+.container :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead, .hero-subtitle),
+.card :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, .lead),
+.book-details [role='tabpanel'] :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
+  margin-top: clamp(0.75rem, 1.8vw, 1.15rem);
+}
+
+// Vertical rhythm guardrails for pill/kicker + heading + copy patterns.
+// Prevents cramped text stacks on cards and section intros across pages.
+:is(.container, .card, .book-collection-card)
+  :is(.section-kicker, .eyebrow, .chip, .pill)
+  + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: clamp(0.9rem, 2.1vw, 1.25rem);
+}
+
+:is(.container, .card, .book-collection-card)
+  :is(h1, h2, h3, h4, h5, h6)
+  + :is(p, .text-sm, .text-md, .lead) {
+  margin-top: clamp(0.95rem, 2.2vw, 1.3rem);
+}
+
+body.theme-fade {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.floating-action-stack {
+  position: fixed;
+  right: clamp(0.9rem, 2.5vw, 1.4rem);
+  bottom: clamp(0.95rem, 2.5vw, 1.5rem);
+  display: grid;
+  gap: 0.6rem;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.94);
+  transition: all 0.24s ease;
+}
+
+.floating-action-stack.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.floating-action-btn,
+.back-to-top {
+  position: static;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    170deg,
+    color-mix(in srgb, #{$surface} 92%, #1f3f2f),
+    color-mix(in srgb, #{$surface} 88%, #08100c)
+  );
+  color: $white;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    var(--glass-stroke-soft),
+    0 0.85rem 1.6rem rgba(0, 0, 0, 0.35);
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: all 0.24s ease;
+}
+
+.floating-share-btn {
+  --btn-border-width: 1px;
+  --btn-border-color: color-mix(in srgb, #{$lime-green} 40%, transparent);
+}
+
+.floating-share-btn,
+.back-to-top {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .floating-action-stack,
+  .floating-action-stack.is-visible {
+    transform: none;
+  }
+
+  .floating-action-btn,
+  .back-to-top {
+    transition: opacity 0.2s ease;
+  }
+}
