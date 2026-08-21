@@ -42,9 +42,10 @@ a.vv-hero-api-cta {
   padding-bottom: 0 !important;
 }
 
-/* Remove any residual supporting disclaimer immediately following the CTA group. */
+/* The hero CTA group is followed by no disclaimer or other supporting copy. */
 #product .vv-hero-cta-row ~ p,
-#product .vv-hero-cta-row ~ small {
+#product .vv-hero-cta-row ~ small,
+#product .vv-hero-cta-row ~ div:not(.vv-hero-technology-link) {
   display: none !important;
 }
 
