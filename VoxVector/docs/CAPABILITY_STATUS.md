@@ -28,7 +28,7 @@ The intended product combines multiple evidence families through a connected cas
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
 | Speaker Identification / Diarization | Planned research | Production speaker aware analysis |
-| Speech Segmentation | Integrated foundation | Production speech region segmentation |
+| Speech Segmentation | **Integrated** | Production speech region segmentation |
 | Transcription Generation | Planned research | Production timestamped ASR |
 | Transcript Alignment | Planned research | Word and audio synchronization |
 | Eligibility and Reliability | Integrated | Complete eligibility and reliability gate |
@@ -44,6 +44,27 @@ The intended product combines multiple evidence families through a connected cas
 | Validation and Calibration Gate | Planned research | Production validation gate |
 | Final Classification / Disposition | Integrated boundary | Validated final disposition architecture |
 | Audit and Provenance Output | Integrated | Complete auditable case package |
+
+## Speech segmentation implementation
+
+Stage 06 now has a real deterministic engine under `src/voxvector/speech_segmentation.py` and is integrated into `VoxVectorPipeline`.
+
+The current implementation:
+
+- consumes frame level RMS energy
+- consumes frame level voicing derived from F0
+- establishes a relative energy threshold
+- removes very short active runs
+- bridges short inactive gaps
+- emits timestamped speech segments
+- emits a segmentation confidence value
+- assigns a method ID for provenance
+- adds speech segment count
+- adds total speech duration
+- adds speech activity ratio
+- persists segment IDs in the analysis result contract
+
+This is the first concrete implementation of the speaker/transcript dependency path. It provides speech intervals that later speaker diarization and transcription stages can consume.
 
 ## Current primary observations
 
@@ -64,6 +85,7 @@ The intended product combines multiple evidence families through a connected cas
 | MFCC | Integrated | 13 coefficient observations |
 | Formant candidate tracking | Integrated | spectral candidate observations |
 | Pause topology | Integrated | temporal observations |
+| Speech segmentation | **Integrated** | timestamped speech segments |
 | Response latency | Integrated when timing supplied | interaction observation |
 | Transcript disfluency | Integrated when transcript supplied | linguistic observation |
 | Within speaker baseline deviation | Integrated when baseline supplied | baseline observation |
@@ -89,8 +111,6 @@ The authenticated case intake workflow now supports:
 - run stage state persistence
 
 The legacy `/v1/analyze` endpoint remains available as the direct analysis compatibility path.
-
-The next frontend intake step is to connect the Developer Console and Analysis Workspace to the case contracts and signed playback media.
 
 ## Planned speaker and transcript capabilities
 
