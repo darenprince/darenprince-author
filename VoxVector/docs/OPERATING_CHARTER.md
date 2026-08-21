@@ -4,13 +4,15 @@
 
 Name: VoxVector.
 
-VoxVector is a standalone vocal and audio analysis and deception detection research system. Its product objective is to develop an auditable system for detecting and evaluating potential deception from interview and conversational audio. It is not a subsystem, wrapper, presentation layer, or rebrand of another product.
+VoxVector is a standalone vocal and audio analysis and deception detection system. Its product objective is to deliver an auditable system for detecting and evaluating potential deception from interview and conversational audio and to mature that system through implementation engineering and validation.
 
-The intended product capability is deception detection. Current implementation and scientific validation status must be reported separately from that product objective.
+VoxVector is the end product being built. Research and validation work exists to strengthen and validate the product rather than redefine it as a research project.
+
+The intended product capability is deception detection. Implementation state and scientific validation state remain tracked internally in developer and repository documentation.
 
 ## 2. Authority model
 
-The GitHub repository is the canonical technical source of truth for implementation, schemas, runtime behavior, validation requirements, and project decisions.
+The GitHub repository is the canonical technical source of truth for implementation, schemas, runtime behavior, validation requirements, product architecture, and project decisions.
 
 Authority order:
 
@@ -24,11 +26,11 @@ If sources conflict, the higher authority wins and the conflict is recorded in t
 
 ## 3. Scientific rule
 
-Vocal stress, hesitation, pitch, silence, arousal, emotion, cognitive load, speaking rate, or any other individual signal is not equivalent to deception.
+Vocal stress, hesitation, pitch, silence, arousal, emotion, cognitive load, speaking rate, or any other individual signal is one observation within a larger analytical system and is not independently equivalent to deception.
 
-VoxVector must preserve alternative explanations such as fatigue, illness, microphone effects, language, accent, topic sensitivity, anxiety, environmental noise, speaker adaptation, and ordinary conversational variation.
+VoxVector may combine multiple supported signals and models for deception inference. The analytical architecture must preserve evidence provenance, reliability, uncertainty, alternative explanations, and validation requirements so the product can mature toward robust deception detection.
 
-The product may ultimately combine multiple supported signals and models for deception inference, but no individual feature proves deception.
+Scientific discipline belongs in the engineering, developer, validation, and repository layers. It must not be used as a reason to weaken the product identity or communicate VoxVector as merely an exploratory concept.
 
 ## 4. Stage separation
 
@@ -36,19 +38,21 @@ The runtime must keep these stages distinct:
 
 ### A. Eligibility and reliability
 
-Determine whether the recording and context are adequate for analysis. Assess signal quality, clipping, duration, channel integrity, speaker separability, transcript confidence when available, and contextual completeness.
+Determine whether the recording and context provide the inputs required for the requested analysis. Assess signal quality, clipping, duration, channel integrity, speaker separability, transcript confidence when available, and contextual completeness.
 
 ### B. Evidence collection and analysis
 
-Extract and organize observations from audio and optional transcript data. Preserve feature-level measurements and provenance.
+Extract and organize observations from audio and transcript data. Preserve feature-level measurements and provenance.
 
 ### C. Candidate classification
 
-Combine independent evidence into candidate hypotheses. Candidate classifications are provisional and must expose uncertainty and conflicting evidence.
+Combine supported evidence into candidate hypotheses using the configured analytical models and evidence rules.
 
 ### D. Final classification or disposition
 
-A final disposition may be issued only when the configured eligibility and validation gates are satisfied. Otherwise the correct outcome is abstention or insufficient evidence.
+A final disposition is produced by the configured classification architecture after the required eligibility, evidence, calibration, and validation gates are satisfied.
+
+These stages are architectural controls. They must not be collapsed into a single opaque score.
 
 ## 5. Evidence model
 
@@ -58,41 +62,79 @@ Evidence should be multimodal within the audio domain where possible:
 - temporal behavior
 - voice quality
 - lexical and linguistic observations
+- transcription and alignment
+- speaker identification and diarization
 - question/answer alignment
 - within-speaker baselines
 - cross-feature convergence
 - recording quality and artifact checks
 
-No fixed universal threshold should be treated as a deception threshold without validation for the target population, task, recording conditions, and deployment context.
+The system is designed to combine these evidence families into increasingly sophisticated analytical models as implementation and validation progress.
 
-## 6. Product objective versus capability state
+## 6. Product objective and capability development
 
-VoxVector is being built toward deception detection. The current runtime is an observational analysis foundation and does not yet establish scientifically validated deception inference. Documentation must therefore distinguish:
+VoxVector is being built as an end-to-end vocal deception analysis product.
 
-- **Product objective:** deception detection from structured vocal/audio evidence.
-- **Current implementation:** measurable observations, evidence organization, reliability controls, and guarded indeterminate classification.
-- **Research candidates:** methods under consideration or development.
-- **Validated capability:** inference supported by completed VoxVector validation requirements.
+The project tracks implementation and validation maturity internally so engineering decisions remain auditable. That internal maturity tracking must not change the public product identity.
 
-The absence of a validated inference capability today does not change the product's intended purpose.
+The product roadmap may include:
+
+- production audio ingestion
+- speaker identification and diarization
+- transcription generation
+- transcript and audio alignment
+- acoustic and prosodic analysis
+- temporal and pause analysis
+- linguistic and disfluency analysis
+- question and answer alignment
+- within-speaker baselines
+- multimethod evidence synthesis
+- calibrated deception probability
+- confidence matrices
+- alternative-hypothesis analysis
+- validated final classification and disposition
+
+These are product capabilities being developed toward the end-state system. Their current implementation state is maintained in developer-facing capability records.
 
 ## 7. Capability preservation
 
-The project distinguishes implementation state from project scope. A method, model, analysis tool, dataset, or product capability documented as planned or research-backed remains part of the canonical project context even when it is not yet implemented. It may be moved to implemented or validated status as evidence accumulates, or retired only through an explicit project decision.
+The project distinguishes implementation state from product scope. A method, model, analysis tool, dataset, or product capability documented as planned or research-backed remains part of the canonical project context until implemented, validated, or explicitly retired by project decision.
 
-`docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` are the canonical records for this distinction.
+`docs/CAPABILITY_STATUS.md` and `docs/ROADMAP.md` are the canonical records for internal capability maturity.
 
 ## 8. D-Series
 
-D-Series identifiers are retained as project analysis slots. They must map to documented analytical functions and validation status. A D-Series label without an implementation or evidence definition is not considered an active method.
+D-Series identifiers are retained as project analysis slots. They must map to documented analytical functions and internal validation status. A D-Series label without an implementation or evidence definition is not considered an active method.
 
 ## 9. Results discipline
 
-Every result must identify what was measured, what data were used, what was unavailable, the reliability state, the evidence direction, uncertainty, alternative explanations, and whether the system abstained.
+Developer and validation records must identify what was measured, what data were used, reliability state, evidence direction, uncertainty, provenance, and validation status.
 
-The engine must never manufacture confidence from missing data.
+The engine must never manufacture measurements, test results, validation, or confidence values.
 
-## 10. Deployment boundary
+## 10. Product messaging and communication
+
+VoxVector customer-facing communication must be confident, direct, premium, technology-forward, and oriented toward the end product.
+
+Public product language should communicate:
+
+- what VoxVector is
+- what the platform is designed to analyze
+- the breadth of the analysis pipeline
+- the technology and intelligence being built
+- the product experience
+- the end-state capability
+- the value of evidence-driven vocal analysis
+
+Do not lead customer-facing pages with internal development limitations, abstention language, scientific caveats, negative framing, or statements that make the technology sound unfinished, speculative, weak, or merely experimental.
+
+Do not use phrases such as `does not yet`, `cannot`, `not a deception detector`, `merely research`, `only observational`, `limitations`, `not validated`, `cannot prove`, or similar confidence-reducing language as primary product messaging.
+
+Internal scientific requirements remain mandatory. They belong in developer documentation, validation records, technical architecture, QA records, method registries, and other appropriate repository-side materials.
+
+Customer-facing confidence must never be created by inventing functionality or results. The correct approach is to communicate the real product architecture and development direction strongly while keeping implementation maturity details in the appropriate internal layer.
+
+## 11. Deployment boundary
 
 VoxVector has two deliberately separated application surfaces in the monorepo:
 
@@ -105,6 +147,8 @@ The GitHub Pages deployment workflow must build `voxvector/` and stage the gener
 
 Render must never be used as the public landing-page host. GitHub Pages must never be treated as the backend API host.
 
-## 11. Change control
+## 12. Change control
 
-Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure/abstention behavior before being promoted to active status. Documentation must preserve future capabilities rather than deleting them merely because implementation is pending.
+Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure behavior before being promoted to active status. Documentation must preserve future capabilities rather than deleting them merely because implementation is pending.
+
+Product-facing changes must follow the communication policy in `docs/PRODUCT_MESSAGING_POLICY.md`.
