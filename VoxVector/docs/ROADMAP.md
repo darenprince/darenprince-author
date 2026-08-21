@@ -2,113 +2,98 @@
 
 VoxVector is being built toward a comprehensive vocal and audio deception analysis system.
 
-The roadmap preserves the complete product direction while tracking the engineering sequence required to reach the end state.
+The roadmap preserves the complete product direction while enforcing a dependency first engineering sequence.
 
-The end state is defined by:
+## End state references
 
 - `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
-- `docs/IMPLEMENTATION_PLAN.md`
 - `docs/ARCHITECTURE.md`
 - `docs/ANALYSIS_PIPELINE.md`
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/MVP_BUILD_PLAN.md`
 
-## Fastest MVP path
+## Fastest connected MVP path
 
-The immediate engineering priority is the connected case workflow rather than broad feature count.
-
-The canonical execution sequence is now maintained in `docs/MVP_BUILD_PLAN.md` and surfaced in the Developer Console.
-
-Priority order:
-
-1. case identity and persistence
+1. case identity
 2. recording intake and provenance
 3. audio playback and waveform
-4. real pipeline lifecycle
+4. real 21 stage lifecycle
 5. speaker processing
 6. production transcription
-7. audio transcript alignment
+7. transcript alignment
 8. real analytical tracks
 9. evidence normalization
 10. evidence synthesis
 11. assessment
 12. report generation
 13. case history and reopen
-14. browser end to end verification
+14. browser verification
 15. production hardening
 
-This sequence is the fastest route to a complete connected product experience because each step establishes a dependency required by the next layer.
+This is the primary engineering path.
 
-Research expansion and additional analytical methods continue in parallel but do not displace the connected MVP path.
+## Phase A — Foundation and runtime hardening
 
-## Phase A — Foundation hardening
+- MFCC primary pipeline integration
+- Render runtime baseline
+- formant FFT boundary hardening
+- request correlation
+- lifecycle diagnostics
+- durable diagnostic storage
+- resource safeguards
+- timeout controls
+- cancellation controls
+- current CI verification
+- reproducibility controls
+- runtime fingerprinting
 
-- **MFCC and cepstral observations integrated into the primary pipeline — COMPLETE**
-- **Render deployment baseline established — COMPLETE**
-- **Formant FFT boundary hardening — COMPLETE**
-- **Durable Supabase diagnostic storage adapter — IMPLEMENTED**
-- **Request correlation and lifecycle diagnostics — IMPLEMENTED**
-- **Runtime 502 incident investigation — OPEN**
-- configure and verify production Supabase diagnostic secrets
-- verify persisted request lifecycle records
-- add stage level timing and resource instrumentation
-- add explicit audio and request resource limits
-- reproduce and resolve origin side 502 and timeout conditions
-- complete current CI repair verification
-- keep Python and dependency versions reproducible
-- expand reliability and eligibility checks
-- synchronize runtime registry method register QA matrix and documentation
-- preserve provenance and deterministic failure behavior
-- maintain Render runtime fingerprinting and known fixture verification
+## Phase B — Case centered product shell
 
-## Phase B — Product shell and Analysis Workspace
-
-**Target:** Build the complete product shell represented by the reference experience.
-
-### B1 — Application shell
-
-- **React application boundary — COMPLETE**
-- **Vite and GitHub Pages deployment — COMPLETE**
-- **Tailwind responsive styling baseline — COMPLETE**
-- **Motion integration — IMPLEMENTED**
-- **TanStack Query client boundary — IMPLEMENTED**
-- **real API client for `/health` and `/v1/analyze` — IMPLEMENTED**
-- **Developer Console foundation — IMPLEMENTED**
-- persistent product navigation
-- New Analysis route
-- Analysis History
-- Evidence Explorer
-- Reports
-- Comparisons
-- Alerts
-- Settings
-- shared case context
-
-### B2 — Analysis intake
-
-- file picker
-- drag and drop upload
-- file metadata extraction
-- provenance creation
-- upload progress
-- intake validation
-- analysis request creation
-- analysis identity persistence
-
-### B3 — Analysis Workspace
-
+- persistent navigation
+- New Analysis
+- case creation
+- source asset identity
+- provenance
+- audio player
 - waveform viewer
-- audio playback
+- 21 stage pipeline component
 - shared playhead
-- seek and scrub
-- zoom
-- fullscreen
-- waveform event markers
-- analysis pipeline component
-- key metrics surface
+- key metrics
 - evidence timeline
 - assessment surface
 - responsive analytical layout
 
-### B4 — Synchronized analytical tracks
+## Phase C — Speaker and transcript intelligence
+
+### Speaker
+
+- speech segmentation
+- speaker identification
+- diarization
+- turn boundaries
+- overlap detection
+- speaker confidence
+- separation quality
+- speaker aware evidence
+
+### Transcript
+
+- production ASR
+- timestamped transcript
+- word timestamps
+- transcript confidence
+- speaker attribution
+- transcript persistence
+
+### Alignment
+
+- word alignment
+- audio to transcript synchronization
+- transcript to audio synchronization
+- speaker turn synchronization
+- question and response boundaries
+
+## Phase D — Analytical track expansion
 
 - waveform
 - pitch F0
@@ -121,79 +106,59 @@ Research expansion and additional analytical methods continue in parallel but do
 - spectral flux
 - spectral rolloff
 - MFCC
+- jitter
+- shimmer
 - voice quality
+- response latency
 - speaker turns
 - transcript alignment
 - evidence events
 
-## Phase C — Speaker and language intelligence
+## Phase E — Linguistic and conversational intelligence
 
-### C1 — Speaker processing
-
-- speaker identification
-- speaker segmentation
-- diarization
-- turn boundaries
-- overlap detection
-- speaker separation quality
-- speaker confidence
-- speaker aware evidence
-
-### C2 — Transcription
-
-- production ASR
-- timestamped transcript
-- word timestamps
-- transcript confidence
-- speaker attribution
-- transcript persistence
-
-### C3 — Alignment
-
-- word alignment
-- phoneme alignment where supported
-- audio to transcript synchronization
-- selected word to playhead synchronization
-- selected audio region to transcript synchronization
-
-### C4 — Conversational intelligence
-
+- lexical analysis
+- syntactic structure
+- semantic representation
+- disfluency expansion
+- false starts
+- repairs
+- hedging
+- certainty
+- negation
+- discourse structure
 - question identification
-- response boundaries
-- response latency
-- question and answer semantic alignment
-- proposition and response representation
-- contradiction and consistency context
+- response alignment
+- contradiction analysis
+- consistency analysis
 
-## Phase D — Feature depth expansion
+## Phase F — Speaker baselines
 
-- expand pause topology
-- richer pulse and voice quality observations
-- stronger formant tracking
-- expanded acoustic descriptors
-- speech rate and articulation timing
-- transcript disfluency expansion
-- repairs and false starts
-- within speaker baseline workflows
-- turn taking and overlap analysis
+- baseline selection
+- baseline quality
+- feature distributions
+- robust deviation measures
+- baseline provenance
+- leakage controls
+- baseline visualization
+- context specific baselines
 
-## Phase E — Research feature families
+## Phase G — Research method expansion
 
 - openSMILE style descriptors
 - eGeMAPS style descriptors
 - LPCC
 - GFCC
-- Teager Energy Operator descriptors
-- broader spectral tilt
-- harmonic measures
+- Teager Energy Operator
+- spectral tilt
+- expanded harmonic measures
 - IAIF
 - NAQ
 - CQ
 - OQ
 - H1 H2
-- broader glottal source measures
+- richer glottal source measures
 
-## Phase F — Learned representations and temporal models
+## Phase H — Learned representations
 
 - WavLM
 - wav2vec 2.0
@@ -202,55 +167,42 @@ Research expansion and additional analytical methods continue in parallel but do
 - Audio Spectrogram Transformer
 - temporal attention
 - sequence models
-- speaker identity leakage testing
-- recording condition leakage testing
+- speaker identity leakage evaluation
+- recording condition leakage evaluation
 
-## Phase G — Linguistic and conversational intelligence
-
-- transformer linguistic representations
-- lexical analysis
-- syntactic structure
-- semantic representations
-- contradiction and consistency analysis
-- hedging
-- certainty
-- lexical diversity
-- negation
-- discourse structure
-- richer question and answer alignment
-
-## Phase H — Evidence intelligence
+## Phase I — Evidence intelligence
 
 - normalized evidence records
-- evidence provenance
+- method provenance
 - evidence relationships
 - convergence analysis
 - conflict analysis
-- dependency modeling
+- dependence modeling
 - alternative hypothesis analysis
 - evidence timeline
 - Evidence Explorer
 
-## Phase I — Deception inference research
+## Phase J — Deception inference development
 
-- define operational deception tasks
-- build speaker disjoint development datasets
-- build speaker disjoint evaluation datasets
-- evaluate multimethod convergence
-- evaluate alternative explanations
-- evaluate confounders
-- test identity leakage
-- test recording condition leakage
-- develop candidate deception classifiers
-- compare interpretable and learned model families
-- establish calibrated uncertainty
-- establish explicit abstention behavior
+- operational task definitions
+- speaker disjoint development data
+- speaker disjoint evaluation data
+- multimethod convergence evaluation
+- confounder analysis
+- identity leakage testing
+- recording condition testing
+- candidate classifier development
+- interpretable model evaluation
+- learned model evaluation
+- calibration
+- uncertainty
+- decision thresholds
 
-## Phase J — Scientific validation
+## Phase K — Scientific validation
 
-- freeze operational definitions
-- define target populations
-- define deployment conditions
+- frozen operational definitions
+- target populations
+- deployment conditions
 - speaker disjoint evaluation
 - cross dataset evaluation
 - recording condition stress tests
@@ -261,91 +213,81 @@ Research expansion and additional analytical methods continue in parallel but do
 - uncertainty analysis
 - external replication
 
-Only methods that satisfy the validation program may be promoted to validated inferential use.
-
-## Phase K — Controlled deception detection engine
-
-Future production work may enable a validated multimethod deception detection layer combining independently justified observations validated models reliability evidence convergence uncertainty alternative explanations and task specific calibration.
-
-Potential outputs include:
-
-- candidate deception classification
-- calibrated deception probability
-- confidence matrix
-- evidence convergence and conflict summary
-- alternative hypothesis analysis
-- final classification
-- final disposition
-
 ## Phase L — Product completion
 
-- persistent case management
-- saved analysis runs
-- report generation
-- comparison workflows
+- reports
+- history
+- comparisons
 - alerts
-- operational event history
-- secure audio storage
+- saved analysis runs
+- Evidence Explorer
+- secure media access
 - retention controls
 - deletion workflows
-- browser level verification
-- end to end verification
+- browser verification
 - accessibility verification
 - mobile verification
 - production reliability verification
 
+## Developer Console roadmap
+
+The Developer Console is the engineering cockpit.
+
+Priority capabilities:
+
+- runtime health
+- API workbench
+- request inspection
+- lifecycle events
+- error reports
+- runtime diagnostics
+- methodology navigation
+- architecture navigation
+- pipeline navigation
+- prioritized MVP board
+- persistent task checkoffs
+- phase completion
+- dependency visibility
+- next task visibility
+
 ## Product experience completion sequence
 
-The recommended implementation order is:
-
 1. Product shell
-2. Analysis intake
+2. Case intake
 3. Audio playback
 4. Synchronized waveform
-5. Pipeline visualization
-6. Real feature tracks
-7. Speaker intelligence
-8. Transcription
-9. Alignment
+5. Real pipeline lifecycle
+6. Speaker intelligence
+7. Transcription
+8. Alignment
+9. Real analytical tracks
 10. Linguistic intelligence
 11. Question and answer intelligence
 12. Evidence synthesis
-13. Evidence Explorer
-14. Candidate classification
-15. Validation and calibration
-16. Final assessment
-17. Reports
-18. History
-19. Comparisons
-20. Alerts
-21. Production hardening
+13. Assessment
+14. Reports
+15. History
+16. Comparisons
+17. Alerts
+18. Production hardening
 
-## Current engineering plan
+## Research expansion rule
 
-The detailed implementation sequence is maintained in `docs/IMPLEMENTATION_PLAN.md`.
+Research feature expansion continues in parallel.
 
-The fastest connected MVP sequence is maintained in `docs/MVP_BUILD_PLAN.md`.
+It must not displace the connected case workflow.
 
-The product experience contract is maintained in `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
+A method becomes part of the active runtime only after implementation integration QA and the required validation pathway are established.
 
-The canonical technical architecture is maintained in `docs/ARCHITECTURE.md`.
+## Documentation synchronization
 
-The canonical 21 stage pipeline is maintained in `docs/ANALYSIS_PIPELINE.md`.
+The roadmap is synchronized with:
 
-The method library remains in `docs/MASTER_METHOD_INDEX.md` and `docs/ANALYSIS_METHODS.md`.
-
-## Product and deployment targets
-
-- public React frontend at `https://darenprince.com/voxvector/`
-- protected Developer Console at `https://darenprince.com/voxvector/developer/`
-- canonical FastAPI backend at `https://voxvector.crownlabs.tech`
-- authenticated user and case management
-- secure audio storage
-- analysis job lifecycle
-- result persistence
-- polished responsive UX
-- monitoring
-- provenance
-- operational audit trails
-
-Every roadmap stage remains subject to the Operating Charter and Project Decision Log.
+- `docs/ANALYSIS_PIPELINE.md`
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/MVP_BUILD_PLAN.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/MASTER_METHOD_INDEX.md`
+- `docs/METHOD_QA_MATRIX.md`
+- `docs/VALIDATION.md`
+- `docs/DOCS_ALIGNMENT_2026-08-20.md`
