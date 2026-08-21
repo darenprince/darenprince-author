@@ -1,241 +1,503 @@
-# VoxVector Master Method Index
+# VoxVector Master Method Index — Individual Data Points
 
-**Canonical method inventory for current, implemented, integrated, planned, research, and future analysis capabilities.**
+**Canonical inventory of individual measurements, derived statistics, inputs, outputs, quality fields, and planned analysis data points.**
 
-**Product objective:** VoxVector is being built as a vocal and audio deception detection system. The current runtime is an observational analysis foundation with guarded indeterminate classification. No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature proves deception.
+This document is intentionally more granular than a method list. A method is a container; the bullets under it are the individual data points that the method can produce, consume, or is intended to produce. Current implementation status is preserved separately from planned research.
 
-**Status discipline:** `Implemented` means code exists. `Integrated` means the method is orchestrated by the primary pipeline. `Implemented, not primary integrated` means reusable implementation exists but is not currently emitted by the primary pipeline. `Planned` means documented future implementation or research. `Validated inferential` is reserved for methods that complete the VoxVector scientific validation requirements. Nothing in this index is promoted to deception inference merely by being listed here.
+**Status vocabulary**
+- **CURRENT / INTEGRATED** — implemented and emitted or orchestrated by the primary runtime.
+- **CURRENT / ASSET** — implemented reusable code, but not currently primary-pipeline integrated.
+- **PLANNED** — documented future implementation or research candidate.
+- **VALIDATION** — required evaluation data point or control, not a production inference feature.
+- **NOT VALIDATED** — implemented software behavior does not establish deception-detection validity.
 
----
-
-## D01 — Signal and Acoustic Analysis
-
-### Current / implemented
-
-- RMS / energy
-- Frame-level RMS
-- Relative intensity / decibel measurements
-- Zero crossing rate
-- Signal amplitude characteristics
-- Voiced fraction
-- Basic signal-level summary statistics
-
-### Reliability and boundary controls
-
-- Empty-input handling
-- Silence handling
-- Non-finite value handling
-- Explicit unavailable states
-- Segment-level provenance
-- Signal quality metadata
+**Scientific boundary:** no individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature proves deception. VoxVector must preserve observations, convergence, conflict, uncertainty, alternative explanations, and reliability separately.
 
 ---
 
-## D02 — Spectral Analysis
+# D01 — Signal / Acoustic Fundamentals
 
-### Current / integrated
+## D01.01 Frame construction — CURRENT
+- Input waveform samples
+- Sample count
+- Sample rate
+- Frame size
+- Hop size
+- Frame count
+- Frame start index
+- Frame end index
+- Frame duration
+- Segment start time
+- Segment end time
 
-- Spectral centroid
-- Spectral spread
-- Spectral flux
-- Spectral rolloff
-- FFT-derived spectral descriptors
-- Frame-level spectral summaries
+## D01.02 RMS energy — CURRENT / INTEGRATED
+- Frame RMS
+- Mean RMS
+- Median RMS
+- RMS standard deviation
+- RMS minimum
+- RMS maximum
+- RMS range
+- Finite RMS count
+- RMS unavailable count
 
-### Planned expansion
+## D01.03 Intensity — CURRENT / INTEGRATED
+- Relative intensity / dB
+- Reference level
+- Mean intensity
+- Median intensity
+- Intensity standard deviation
+- Intensity minimum
+- Intensity maximum
+- Intensity range
+- Finite intensity count
+- Intensity unavailable count
 
-- Broader spectral tilt measures
-- Additional harmonic measures
-- Expanded interpretable spectral descriptor families
+## D01.04 Zero-crossing rate — CURRENT
+- Zero crossings per frame
+- Mean zero-crossing rate
+- Median zero-crossing rate
+- Standard deviation
+- Minimum
+- Maximum
+- Range
+
+## D01.05 Signal-level quality — CURRENT
+- Empty input state
+- Silence state
+- Non-finite sample state
+- Signal availability
+- Segment quality
+- Segment duration
+- Method ID
+- Segment provenance
+
+---
+
+# D02 — Spectral Analysis
+
+## D02.01 Spectrum — CURRENT
+- Windowed waveform
+- Magnitude spectrum
+- FFT bin index
+- FFT output width
+- Frequency-bin vector
+- Nyquist frequency
+- Sample-rate-to-bin mapping
+
+## D02.02 Spectral centroid — CURRENT / INTEGRATED
+- Spectral centroid in Hz per frame
+- Mean centroid
+- Median centroid
+- Standard deviation
+- Minimum
+- Maximum
+- Range
+- Spectral-energy denominator
+- Zero-spectrum / unavailable state
+
+## D02.03 Spectral spread — CURRENT / INTEGRATED
+- Spectral spread in Hz per frame
+- Weighted spectral variance
+- Square-root spectral spread
+- Mean spread
+- Median spread
+- Standard deviation
+- Minimum
+- Maximum
+- Range
+- Zero-spectrum / unavailable state
+
+## D02.04 Spectral flux — CURRENT / INTEGRATED
+- Frame-to-frame spectral change
+- Normalized spectral flux
+- Previous-frame spectrum
+- Current-frame spectrum
+- Flux vector length
+- Flux mean
+- Flux median
+- Flux standard deviation
+- Flux minimum
+- Flux maximum
+- Flux range
+
+## D02.05 Spectral rolloff — CURRENT / INTEGRATED
+- Rolloff fraction
+- Default rolloff fraction: 0.85
+- Cumulative spectral energy
+- Rolloff threshold
+- Rolloff bin index
+- Rolloff frequency in Hz
+- Per-frame rolloff
+- Mean rolloff
+- Median rolloff
+- Standard deviation
+- Minimum
+- Maximum
+- Range
+
+## D02.06 Planned spectral data points
+- Spectral slope
+- Spectral tilt
+- Spectral skewness
+- Spectral kurtosis
+- Additional spectral flux variants
+- Spectral entropy
+- Spectral flatness
+- Spectral bandwidth
+- Additional harmonic spectral descriptors
 - openSMILE / eGeMAPS-style spectral descriptors
 
 ---
 
-## D03 — Cepstral Analysis
+# D03 — Cepstral Analysis
 
-### Current / integrated
-
-- MFCCs
-- Thirteen MFCC coefficient means
-- Per-coefficient summary statistics
+## D03.01 MFCC — CURRENT / INTEGRATED
+- MFCC coefficient 1
+- MFCC coefficient 2
+- MFCC coefficient 3
+- MFCC coefficient 4
+- MFCC coefficient 5
+- MFCC coefficient 6
+- MFCC coefficient 7
+- MFCC coefficient 8
+- MFCC coefficient 9
+- MFCC coefficient 10
+- MFCC coefficient 11
+- MFCC coefficient 12
+- MFCC coefficient 13
+- Per-coefficient mean
+- Per-coefficient finite count
 - Cepstral provenance
+- Segment provenance
+- Method ID
 
-### Implemented but not primary integrated
+## D03.02 Planned MFCC expansion
+- Per-coefficient median
+- Per-coefficient standard deviation
+- Per-coefficient minimum
+- Per-coefficient maximum
+- Delta MFCCs
+- Delta-delta MFCCs
+- Frame-level MFCC trajectories
 
-- Additional cepstral summary utilities
+## D03.03 LPCC — PLANNED
+- LPCC coefficient vector
+- LPC order
+- Prediction coefficients
+- Cepstral coefficient statistics
+- Stability / failed-LPC state
 
-### Planned
-
-- LPCC — Linear Predictive Cepstral Coefficients
-- GFCC — Gammatone Frequency Cepstral Coefficients
-- Expanded cepstral descriptor families
+## D03.04 GFCC — PLANNED
+- Gammatone filterbank outputs
+- GFCC coefficient vector
+- Per-coefficient statistics
+- Configuration metadata
+- Failed-configuration state
 
 ---
 
-## D04 — Fundamental Frequency and Pitch
+# D04 — Fundamental Frequency / Pitch
 
-### Current / integrated
-
-- Fundamental frequency estimation
+## D04.01 F0 — CURRENT / INTEGRATED
+- F0 Hz per frame
+- Minimum F0 search frequency
+- Maximum F0 search frequency
+- F0 lag
+- Autocorrelation peak
+- Voicing threshold
+- Voiced F0 count
+- Unvoiced F0 count
+- F0 mean
+- F0 median
+- F0 standard deviation
 - F0 range
-- F0 dispersion
+- F0 p10
+- F0 p90
 - F0 slope
-- F0 delta / change
-- F0 contour summaries
-- F0 dynamics
-- Voiced / unvoiced handling
+- F0 first-to-last delta
 
-### Boundary behavior
+## D04.02 F0 quality states — CURRENT
+- Unvoiced frame
+- Short frame
+- Zero-energy frame
+- Non-finite frame
+- Insufficient lag range
+- F0 unavailable / NaN
 
-- Unvoiced-frame handling
-- Short-frame handling
-- Non-finite contour handling
-- Explicit unavailable observations
-
----
-
-## D05 — Prosody and Intonation
-
-### Current / integrated
-
-- Prosodic contour summaries
-- F0 dynamics
-- Intensity dynamics
-- Contour statistics
-- Prosodic range
-- Prosodic dispersion
-- Prosodic slope
-- Prosodic change / delta
-- Temporal contour behavior
-- Voiced / unvoiced behavior
-
-### Planned expansion
-
-- Richer prosodic descriptors
-- More contextual prosody modeling
-- Learned prosodic representations
-- Temporal prosody modeling
+## D04.03 Planned pitch data points
+- Pitch contour smoothing
+- Pitch excursion
+- Pitch acceleration
+- Pitch variability over time
+- Local pitch perturbation
+- Phrase-level pitch movement
+- Question / answer pitch contour comparison
+- Baseline-relative pitch deviation
 
 ---
 
-## D06 — Intensity and Energy
+# D05 — Prosody / Intonation
 
-### Current / integrated
+## D05.01 Generic contour summary — CURRENT
+For each supported contour:
+- Mean
+- Median
+- Standard deviation
+- Range
+- P10
+- P90
+- Slope
+- Finite sample count
+- Missing sample count
 
-- RMS / signal energy
-- Relative intensity / dB
+## D05.02 F0 dynamics — CURRENT
+- F0 mean
+- F0 median
+- F0 standard deviation
+- F0 range
+- F0 p10
+- F0 p90
+- F0 slope
+- F0 delta
+
+## D05.03 Intensity dynamics — CURRENT
+- Intensity mean
+- Intensity median
+- Intensity standard deviation
 - Intensity range
-- Intensity dispersion
+- Intensity p10
+- Intensity p90
 - Intensity slope
-- Intensity delta / change
-- Intensity dynamics
-- Intensity contour statistics
+- Intensity delta
 
-### Planned
-
-- Broader energy descriptor families
-- Context-aware energy dynamics
-- Learned energy representations
+## D05.04 Planned prosodic data points
+- Intonation contour shape
+- Pitch reset
+- Phrase-final movement
+- Phrase-initial movement
+- Prosodic boundary strength
+- Accent prominence
+- Prosodic variability
+- Prosodic acceleration
+- Prosodic change-point locations
+- Context-relative prosodic deviation
 
 ---
 
-## D07 — Voice Quality
+# D06 — Intensity / Energy Dynamics
 
-### Current / implemented
+## D06.01 CURRENT
+- RMS mean
+- RMS median
+- RMS standard deviation
+- RMS range
+- dB mean
+- dB median
+- dB standard deviation
+- dB range
+- Intensity p10
+- Intensity p90
+- Intensity slope
+- Intensity delta
+- Energy contour
+- Intensity contour
 
-- Harmonicity / periodicity
-- HNR — Harmonics-to-Noise Ratio
+## D06.02 PLANNED
+- Energy acceleration
+- Energy change points
+- Relative intensity against speaker baseline
+- Question / answer intensity comparison
+- Phrase-level intensity dynamics
+- Context-relative loudness deviation
+
+---
+
+# D07 — Voice Quality
+
+## D07.01 Harmonicity — CURRENT
+- Normalized autocorrelation harmonicity
+- Maximum valid autocorrelation within F0 search range
+- Harmonicity mean
+- Harmonicity median
+- Harmonicity standard deviation
+- Harmonicity range
+- Harmonicity unavailable count
+
+## D07.02 HNR — CURRENT / INTEGRATED
+- HNR in dB
+- Valid HNR count
+- Invalid HNR count
+- Infinite HNR state when harmonicity >= 1
+- NaN state for invalid harmonicity
+- HNR mean
+- HNR median
+- HNR standard deviation
+- HNR range
+
+## D07.03 Jitter — CURRENT / ASSET
 - Local jitter
+- Valid period count
+- Mean period
+- Absolute adjacent period differences
+- Period perturbation ratio
+- Insufficient-period state
+
+## D07.04 Shimmer — CURRENT / ASSET
 - Local shimmer
-- Pulse period utilities
+- Valid amplitude count
+- Mean cycle amplitude
+- Absolute adjacent amplitude differences
+- Amplitude perturbation ratio
+- Insufficient-amplitude state
+
+## D07.05 Signal quality — CURRENT
 - Clipping ratio
+- Clipping threshold
 - DC offset
-- Voice-quality summary observations
+- Empty-signal state
+- Non-finite-sample state
 
-### Integration status
-
-- HNR is integrated into the primary pipeline.
-- Jitter and shimmer are implemented reusable analysis assets but are not currently primary-pipeline integrated.
-
-### Planned expansion
-
-- Richer voice-quality descriptors
-- Broader harmonic measures
+## D07.06 Planned voice-quality data points
+- Additional harmonicity measures
 - Spectral tilt
-- Glottal-source descriptors
-- openSMILE / eGeMAPS-style voice-quality families
-
----
-
-## D08 — Glottal Source Analysis
-
-### Planned research
-
-- IAIF — Iterative Adaptive Inverse Filtering
-- NAQ — Normalized Amplitude Quotient
-- CQ — Closed Quotient
-- OQ — Open Quotient
 - H1-H2
-- Related glottal-source measures
-- Richer source-excitation descriptors
-- Glottal waveform characterization
-
-These are research candidates and are not current validated deception indicators.
-
----
-
-## D09 — Formant and Vocal-Tract Analysis
-
-### Current / integrated
-
-- Spectral peak / formant candidate detection
-- Frame-level formant candidate tracking
-- Candidate-frequency extraction
-- Frame-level candidate summaries
-
-### Current limitation
-
-- FFT boundary handling has been hardened.
-- Current formant tracking is observational and is not phonetic validated.
-
-### Planned expansion
-
-- Stronger formant tracking
-- Formant stability controls
-- Better frame-to-frame tracking
-- Phonetic validation
-- More robust handling of unstable or insufficient frames
+- Harmonic amplitude differences
+- Voice-quality perturbation statistics
+- OpenSMILE / eGeMAPS voice-quality descriptors
+- Glottal excitation descriptors
 
 ---
 
-## D10 — Temporal and Speech-Rate Analysis
+# D08 — Glottal Source
 
-### Current / implemented
+## D08.01 PLANNED
+- Glottal waveform
+- Glottal cycle duration
+- Open quotient (OQ)
+- Closed quotient (CQ)
+- Normalized amplitude quotient (NAQ)
+- H1-H2
+- H1-A1
+- H1-A3
+- Glottal spectral tilt
+- Maximum flow derivative
+- Glottal closure characteristics
+- IAIF residual
+- Inverse-filtered source signal
+- Source-excitation statistics
+- Glottal-cycle variability
 
-- Speech rate
-- Articulation rate
+---
+
+# D09 — Formants / Vocal Tract
+
+## D09.01 Formant candidate extraction — CURRENT
+- Candidate F1 frequency
+- Candidate F2 frequency
+- Candidate F3 frequency
+- Candidate F4 frequency
+- Number of requested formants
+- Minimum formant frequency
+- Maximum formant frequency
+- Effective maximum frequency
+- FFT frequency vector
+- Spectral peak amplitude
+- Peak rank
+- Peak spacing
+- Per-frame candidate availability
+
+Current defaults:
+- n_formants = 4
+- min_hz = 200 Hz
+- max_hz = 5000 Hz, bounded by Nyquist
+- minimum peak spacing = max(100 Hz, sample_rate / frame_size)
+
+## D09.02 Formant tracking — CURRENT
+- Frame index
+- F1 trajectory
+- F2 trajectory
+- F3 trajectory
+- F4 trajectory
+- Stable candidate state
+- Unstable frame state
+- Missing candidate state
+- Frame-level provenance
+
+## D09.03 Planned formant data points
+- Formant bandwidths
+- Formant amplitudes
+- Formant trajectories
+- Formant slope
+- Formant range
+- Formant variability
+- Formant transition dynamics
+- Formant stability
+- Phonetic vowel association
+- Phoneme-conditioned formant measures
+
+**Boundary:** current formant output is a spectral candidate observation, not a phonetic formant claim.
+
+---
+
+# D10 — Temporal / Speech Rate
+
+## D10.01 Voicing — CURRENT
+- Voiced frame count
+- Total frame count
 - Voiced fraction
-- Turn duration
-- Temporal segment duration
+- Energy threshold
+- F0 finite state
+- Voiced mask
+
+## D10.02 Pause detection — CURRENT
+- Energy threshold
+- Quiet-frame mask
+- Contiguous quiet runs
+- Pause run start
+- Pause run end
 - Pause duration
+- Minimum pause duration
+- Pause count
+- Total pause duration
+- Mean pause duration
+
+Current pause primitive defaults:
+- Energy threshold = 1e-4
+- Minimum pause duration = 0.20 s
+
+## D10.03 Pause topology — CURRENT / RESEARCH ASSET
 - Pause count
 - Pause density
-- Pause topology
+- Longest pause
+- Pause median
+- Pause P90
+- Voiced-run mean duration
+- Pause duration vector
+- Voiced-run duration vector
+- Total analyzed duration
 
-### Planned expansion
+The research timing topology function uses a default energy threshold of 0.01 and computes pause and voiced runs from frame masks.
 
-- Richer temporal structure
-- Context-dependent speech-rate analysis
-- Question-relative timing
-- Interaction-aware temporal modeling
-- Sequence-level temporal modeling
+## D10.04 Speech rate — CURRENT / RESEARCH ASSET
+- Syllable count input
+- Voiced seconds input
+- Syllables per voiced second
+- Zero-duration state
+- Invalid negative-input state
+
+## D10.05 Articulation rate — CURRENT / RESEARCH ASSET
+- Syllable count input
+- Articulation seconds input
+- Syllables per articulation second
+- Zero-duration state
+- Invalid negative-input state
 
 ---
 
-## D11 — Pause and Hesitation Analysis
+# D11 — Pause / Hesitation
 
-### Current / integrated
-
+## D11.01 CURRENT data points
 - Pause count
 - Pause density
 - Mean pause duration
@@ -244,681 +506,727 @@ These are research candidates and are not current validated deception indicators
 - Median pause duration
 - P90 pause duration
 - Voiced-run mean duration
-- Pause topology
-- Temporal placement of pauses
-- Response latency
+- Pause start time
+- Pause end time
+- Pause position within segment
+- Pause duration distribution
 
-### Planned expansion
-
-- Expanded pause topology
-- Question-relative pause placement
-- Answer-initial latency
-- Mid-answer hesitation
-- Strategic pause pattern analysis
-- Interaction-specific hesitation structure
-- Richer pause distribution modeling
+## D11.02 PLANNED
+- Initial response pause
+- Mid-answer pause count
+- Mid-answer pause duration
+- Final-answer pause behavior
+- Question-relative pause position
+- Pause clustering
+- Pause spacing
+- Pause acceleration / change over answer
+- Baseline-relative pause deviation
+- Pause topology by conversational context
 
 ---
 
-## D12 — Response Latency
+# D12 — Response Latency
 
-### Current / implemented when explicit timing boundaries are supplied
+## D12.01 CURRENT / ASSET
+- Question end timestamp
+- First speech timestamp
+- First substantive speech timestamp
+- First speech latency
+- First substantive latency
+- Filler-before-content latency
 
-- Response latency
-- Question-to-response interval
-- Timestamp-based response timing
-- Invalid / reversed timestamp rejection
+## D12.02 Validation controls
+- First speech must not precede question end
+- First substantive speech must not precede first speech
+- First substantive speech must not precede question end
+- Numeric timestamp validation
+- Reversed interval rejection
 
-### Planned expansion
-
-- Answer-initial latency
-- Context-aware latency
+## D12.03 PLANNED
 - Question-type-specific latency
-- Latency relative to speaker baseline
-- Latency interaction with linguistic and prosodic evidence
+- Baseline-relative latency
+- Latency distribution across answers
+- Latency median
+- Latency P90
+- Latency variance
+- Latency change across interview
+- Latency relative to semantic difficulty
 
 ---
 
-## D13 — Turn-Taking and Interaction
+# D13 — Turn Taking / Interaction
 
-### Current / implemented assets
-
+## D13.01 CURRENT / ASSET
+- Turn start timestamp
+- Turn end timestamp
 - Turn duration
-- Turn timing
+- Speaker A start
+- Speaker A end
+- Speaker B start
+- Speaker B end
 - Overlap duration
-- Speaker / segment provenance when available
+- Non-overlap duration
 - Response latency
+- Speaker / segment provenance
 
-### Planned expansion
-
-- Richer turn-taking analysis
-- Turn transitions
-- Interruption patterns
-- Overlap topology
+## D13.02 PLANNED
+- Turn transition count
+- Turn transition latency
+- Interruption count
+- Interruption duration
+- Overlap count
+- Overlap density
+- Backchannel count
+- Backchannel timing
+- Turn-length distribution
+- Speaker dominance / floor time
 - Conversational rhythm
-- Speaker interaction structure
-- Question-response timing
-- Interaction context modeling
+- Turn-taking irregularity
 
 ---
 
-## D14 — Speaker Baseline Analysis
+# D14 — Speaker Baseline
 
-### Current / integrated when supplied
-
-- Within-speaker baseline
-- Baseline-relative change
+## D14.01 CURRENT
+- Baseline median
+- Baseline MAD
+- Baseline sample count
+- Current value
 - Baseline-relative deviation
+- Robust scale = max(1.4826 × MAD, minimum MAD)
 - Baseline eligibility
-- Baseline provenance
-- Baseline leakage control
+- Independent baseline provenance
 
-### Planned expansion
-
-- Improved baseline selection
-- Multiple baseline windows
-- Context-specific baselines
-- Baseline drift detection
-- Speaker adaptation
-- Leakage-resistant baseline construction
-- Independent baseline qualification
+## D14.02 PLANNED
+- Baseline mean
+- Baseline standard deviation
+- Baseline percentile distribution
+- Baseline by feature
+- Baseline by context
+- Baseline by question type
+- Baseline drift
+- Baseline stability
+- Baseline segment quality
+- Baseline contamination state
+- Baseline leakage state
+- Multiple independent baseline windows
 
 ---
 
-## D15 — Transcript and Linguistic Analysis
+# D15 — Transcript / Linguistic
 
-### Current when transcript data is supplied
-
-- Transcript disfluency analysis
-- Filled pauses
-- Repetitions
+## D15.01 CURRENT when transcript is supplied
+- Token sequence
+- Token count
+- Transcript provenance
+- Transcript confidence where supplied
+- Filled-pause tokens
+- Repetition tokens
+- Filled-pause count
+- Repetition count
 - Filled-pause rate
 - Repetition rate
-- Transcript provenance
-- Transcript confidence as an input to reliability where available
 
-### Planned expansion
+## D15.02 Current filler vocabulary
+- um
+- uh
+- er
+- erm
+- hmm
 
-- Production-grade ASR
+Custom filler sets are supported.
+
+## D15.03 PLANNED
 - Word timestamps
 - Phoneme timestamps
-- Forced alignment
-- Transformer linguistic representations
+- Word duration
+- Phoneme duration
+- Word rate
+- Syllable rate
 - Lexical diversity
-- Negation analysis
-- Hedging analysis
-- Certainty analysis
-- Discourse structure
-- Richer lexical analysis
-- Contextual linguistic representations
+- Type-token ratio
+- Content-word rate
+- Function-word rate
+- Pronoun use
+- Negation count
+- Hedging count
+- Certainty language
+- Intensifier use
+- Modal verbs
+- Quantifiers
+- Temporal expressions
+- Spatial expressions
+- Discourse markers
+- Topic terms
+- Named entities
+- Semantic embeddings
+- Transformer representations
+- Transcript confidence by word
 
 ---
 
-## D16 — Disfluency, False Starts and Repairs
+# D16 — Disfluency / Repairs
 
-### Current / implemented
-
-- Filled-pause detection
-- Repetition detection
-- Filled-pause rate
+## D16.01 CURRENT data model
+- Filled pauses
+- False starts
+- Repairs
+- Repetitions
+- Fragments
+- Abandoned phrases
+- Total disfluencies
+- Token count
+- Disfluency rate
 - Repetition rate
 
-### Planned
+The reusable data model already represents false starts, repairs, fragments, and abandoned phrases even though automated detection/alignment remains a planned capability.
 
-- False-start detection
-- Repair detection
-- False-start / repair timing
-- Alignment-aware disfluency analysis
-- More detailed hesitation taxonomy
-- Transcript confidence propagation into disfluency reliability
-
-The false-start and repair method is currently registered as planned and must fail closed when alignment is unavailable.
-
----
-
-## D17 — Question / Answer Alignment
-
-### Current foundation
-
-- Response latency when explicit timing boundaries are supplied
-- Interaction timing primitives
-
-### Planned
-
-- Question segmentation
-- Answer segmentation
-- Question / answer alignment
-- Question-relative pause placement
-- Question-relative hesitation
-- Answer completeness
-- Answer duration
-- Question repetition
-- Directness of response
-- Topic alignment
-- Question / answer relevance
-- Question / answer temporal structure
+## D16.02 PLANNED
+- False-start locations
+- False-start duration
+- Repair locations
+- Repair duration
+- Repaired token count
+- Fragment count
+- Fragment rate
+- Abandoned phrase count
+- Abandoned phrase rate
+- Disfluency clustering
+- Disfluency timing relative to question onset
+- Disfluency timing relative to answer completion
 - Alignment confidence
 
-The canonical `interaction.question_answer_alignment` method is planned and must fail closed when segmentation is unreliable.
-
 ---
 
-## D18 — Semantic, Contradiction and Consistency Analysis
+# D17 — Question / Answer Alignment
 
-### Planned research
-
-- Contradiction analysis
-- Consistency analysis
-- Cross-answer consistency
-- Semantic question / answer alignment
+## D17.01 PLANNED data points
+- Question start
+- Question end
+- Answer start
+- Answer end
+- First speech start
+- First substantive speech start
+- Question duration
+- Answer duration
+- Response latency
+- Filler-before-content latency
+- Question token count
+- Answer token count
+- Question / answer semantic similarity
 - Topic alignment
 - Answer relevance
-- Claim consistency
-- Internal narrative consistency
+- Direct-answer indicator
+- Question repetition indicator
+- Answer completeness
+- Alignment confidence
+- Segmentation confidence
+
+---
+
+# D18 — Semantic / Consistency Analysis
+
+## D18.01 PLANNED
+- Claim extraction
+- Claim count
+- Claim embeddings
+- Claim-to-claim similarity
+- Contradiction probability
+- Entailment probability
+- Neutrality probability
+- Cross-answer consistency
 - Temporal consistency
-- Transformer-based linguistic representations
-- Context-aware semantic analysis
+- Entity consistency
+- Numerical consistency
+- Location consistency
+- Relationship consistency
+- Event-order consistency
+- Topic consistency
+- Answer relevance
+- Question-answer semantic similarity
+- Narrative coherence
+- Semantic change across repeated answers
 
-These methods are intended as evidence sources and must not be treated as direct proof of deception.
-
----
-
-## D19 — Learned Speech Representations
-
-### Planned research
-
-- WavLM
-- wav2vec 2.0
-- HuBERT
-- Conformer
-- Audio Spectrogram Transformer
-- Learned audio embeddings
-- Learned acoustic representations
-- Learned prosodic representations
-- Learned voice-quality representations
-- Utterance-level representations
-- Segment-level representations
-
-### Required evaluation controls
-
-- Speaker identity leakage testing
-- Recording-condition leakage testing
-- Dataset artifact testing
-- Speaker-disjoint evaluation
-- Cross-dataset evaluation
+These are candidate evidence measures, not direct deception proof.
 
 ---
 
-## D20 — Temporal Neural Modeling
+# D19 — Learned Speech Representations
 
-### Planned research
+## D19.01 PLANNED model families
+- WavLM embeddings
+- wav2vec 2.0 embeddings
+- HuBERT embeddings
+- Conformer representations
+- Audio Spectrogram Transformer representations
+- Segment embeddings
+- Utterance embeddings
+- Frame embeddings
+- Temporal embeddings
+- Learned acoustic embeddings
+- Learned prosodic embeddings
+- Learned voice-quality embeddings
 
-- Temporal attention
-- Sequence models
-- Long-range temporal modeling
-- Segment-level aggregation
-- Utterance-level aggregation
-- Context-aware temporal representations
-- Evidence sequence modeling
-- Cross-feature temporal interactions
-- Temporal fusion of acoustic and linguistic representations
-
----
-
-## D21 — Speaker Diarization and Speaker Separation
-
-### Planned
-
-- Speaker diarization
-- Speaker segmentation
-- Speaker attribution
-- Speaker / channel separability controls
-- Speaker-specific feature extraction
-- Turn assignment
-- Cross-speaker contamination detection
-- Multi-speaker evidence separation
-- Speaker-conditioned analysis
+## D19.02 Required metadata
+- Model name
+- Model version
+- Model configuration
+- Sampling rate requirement
+- Input duration
+- Embedding dimension
+- Segment boundaries
+- Speaker identity metadata
+- Recording-condition metadata
 
 ---
 
-## D22 — Recording, Channel and Media Integrity
+# D20 — Temporal Neural Modeling
 
-### Current / implemented
-
-- Clipping detection
-- DC offset detection
-- Empty-input checks
-- Silence handling
-- Non-finite-value handling
-- Signal-quality observations
-- Segment quality metadata
-- Recording provenance
-
-### Planned expansion
-
-- Stronger channel-quality controls
-- Recording-condition characterization
-- Environmental-noise assessment
-- Noise robustness analysis
-- Channel mismatch detection
-- Microphone effects
-- Compression artifact analysis
-- Recording-condition stress testing
-- Audio authenticity checks
+## D20.01 PLANNED
+- Sequence embedding
+- Temporal attention weights
+- Segment importance
+- Utterance-level representation
+- Long-range dependency representation
+- Temporal pooling
+- Attention pooling
+- Segment aggregation
+- Evidence sequence representation
+- Cross-feature temporal interaction
+- Acoustic-linguistic temporal fusion
+- Temporal confidence
 
 ---
 
-## D23 — Eligibility and Reliability Analysis
+# D21 — Speaker Diarization / Separation
 
-### Current / integrated
+## D21.01 PLANNED
+- Speaker count
+- Speaker labels
+- Speaker segment start
+- Speaker segment end
+- Speaker duration
+- Speaker speaking fraction
+- Speaker turn count
+- Speaker overlap
+- Cross-speaker contamination
+- Speaker attribution confidence
+- Channel attribution
+- Speaker-conditioned feature vectors
+- Speaker-specific baseline
 
-- Recording eligibility
-- Signal-quality checks
-- Clipping checks
-- Duration adequacy checks
-- Channel integrity checks
-- Speaker separability when available
-- Transcript confidence when available
-- Context completeness
+---
+
+# D22 — Recording / Channel / Media Integrity
+
+## D22.01 CURRENT
+- Clipping ratio
+- Clipping threshold
+- DC offset
+- Empty input
+- Silence state
+- Non-finite input state
+- Signal duration
+- Sample rate
+- Channel count
+- Segment quality
+- Method provenance
+
+## D22.02 PLANNED
+- Noise floor
+- Signal-to-noise ratio
+- Reverberation estimate
+- Compression artifact score
+- Microphone/channel fingerprint
+- Channel mismatch
+- Background-noise class
+- Environmental-noise level
+- Codec metadata
+- Resampling detection
+- Splicing/artifact indicators
+- Recording-condition confidence
+- Audio authenticity indicators
+
+---
+
+# D23 — Eligibility / Reliability
+
+## D23.01 CURRENT data points
+- Input present
+- Duration
+- Sample rate
+- Channel availability
+- Signal quality
+- Clipping state
+- Silence state
+- Finite-sample state
+- Speaker availability where applicable
+- Transcript availability where applicable
+- Transcript confidence where supplied
+- Baseline availability
 - Baseline eligibility
-- Missing-data handling
-- Invalid-input rejection
-- Deterministic failure behavior
-- Explicit unavailable states
-- Reliability gate
+- Context completeness
+- Missing-data state
+- Method availability
+- Segment quality
+- Reliability gate state
 
-### Planned expansion
-
-- Expanded reliability scoring / gating
-- Stronger resource-aware eligibility controls
-- Context sufficiency checks
-- Out-of-distribution checks
-- Population / task compatibility checks
-- Recording-condition eligibility
-- Evidence sufficiency thresholds
-
-Reliability is a distinct stage and must not be collapsed into the final deception score.
+## D23.02 PLANNED
+- Minimum usable duration
+- Minimum voiced duration
+- Minimum independent baseline duration
+- Speaker separation confidence
+- Transcript quality threshold
+- Recording-condition threshold
+- Out-of-distribution distance
+- Population compatibility
+- Task compatibility
+- Evidence sufficiency
+- Reliability confidence
+- Explicit rejection reason
 
 ---
 
-## D24 — Evidence Grouping and Multimethod Convergence
+# D24 — Evidence Convergence / Conflict
 
-### Current / integrated foundation
+## D24.01 CURRENT foundation
+- Method ID
+- Feature name
+- Observed value
+- Unit
+- Segment
+- Quality
+- Direction / descriptive state where available
+- Provenance
+- Missing/unavailable state
 
-- Evidence grouping
-- Neutral observational evidence organization
-- Feature-level provenance
-- Segment-level provenance
-- Evidence direction representation
-- Evidence conflict representation
-
-### Planned research
-
-- Dependence-aware multimethod convergence
-- Cross-feature convergence
+## D24.02 PLANNED
+- Evidence count
+- Independent evidence count
 - Evidence agreement
-- Evidence conflict analysis
-- Independent evidence weighting
-- Evidence provenance graphs
-- Evidence sufficiency assessment
-- Multimethod fusion
-- Convergent evidence modeling
-
-No fixed universal feature threshold may be treated as a deception threshold without task-, population-, recording-, and deployment-specific validation.
+- Evidence disagreement
+- Evidence conflict count
+- Evidence convergence strength
+- Method dependence estimate
+- Evidence redundancy
+- Evidence coverage
+- Evidence sufficiency
+- Cross-method consistency
+- Evidence provenance graph
+- Convergence confidence
+- Conflict confidence
 
 ---
 
-## D25 — Alternative Explanation Analysis
+# D25 — Alternative Explanations / Confounders
 
-### Planned / required for future inference
-
-- Fatigue as an alternative explanation
-- Illness as an alternative explanation
-- Anxiety as an alternative explanation
-- Topic sensitivity as an alternative explanation
-- Microphone effects
-- Environmental noise
-- Language effects
-- Accent effects
+## D25.01 PLANNED data points
+- Fatigue indicator
+- Illness / voice-quality context
+- Anxiety/stress context
+- Topic sensitivity
+- Emotional-arousal context
+- Cognitive-load context
+- Language mismatch
+- Accent mismatch
 - Speaker adaptation
+- Microphone effect
+- Channel effect
+- Environmental noise
+- Compression effect
+- Recording artifact
+- Dataset artifact
+- Speaker identity leakage
+- Model shortcut signal
+- Baseline contamination
 - Ordinary conversational variation
-- Recording artifacts
-- Channel effects
-- Cognitive-load alternatives
-- Emotional-arousal alternatives
-- Stress-related alternatives
-- Model / dataset artifact analysis
-- Confounder analysis
-
-Alternative explanations must remain visible rather than being hidden inside a single score.
+- Alternative-explanation confidence
 
 ---
 
-## D26 — Uncertainty and Calibration
+# D26 — Uncertainty / Calibration
 
-### Planned research
-
-- Probability calibration
-- Confidence estimation
-- Uncertainty estimation
-- Evidence uncertainty
+## D26.01 PLANNED
+- Raw model score
+- Calibrated probability
+- Calibration error
+- Confidence estimate
 - Data-quality uncertainty
 - Model uncertainty
-- Epistemic uncertainty where supported
+- Evidence uncertainty
 - Evidence-conflict uncertainty
+- Epistemic uncertainty where supported
+- Aleatoric uncertainty where supported
+- Confidence interval
+- Reliability-adjusted confidence
+- Abstention threshold
+- Out-of-distribution uncertainty
+- Calibration curve data
+- Brier score
+- Expected calibration error
+- Reliability diagram data
+
+---
+
+# D27 — Candidate Classification
+
+## D27.01 Current boundary
+- Candidate classification state
+- Indeterminate state
+- Fail-closed state
+- Insufficient-evidence state
+
+## D27.02 Planned
+- Candidate deception hypothesis
+- Candidate non-deception hypothesis
+- Candidate probability
+- Evidence support
+- Evidence contradiction
+- Alternative-explanation burden
+- Classification confidence
+- Classification uncertainty
+- Classification eligibility
+- Classifier provenance
+- Model version
+- Calibration version
+
+---
+
+# D28 — Deception Inference
+
+## D28.01 Planned / validation gated
+- Operational task definition
+- Target claim
+- Evidence vector
+- Feature vector
+- Multimethod evidence representation
+- Candidate deception probability
+- Candidate non-deception probability
+- Calibrated probability
 - Confidence matrix
-- Calibrated confidence
-- Calibration curves
-- Reliability / confidence interaction
+- Evidence convergence
+- Evidence conflict
+- Alternative explanations
+- Reliability state
+- Uncertainty state
+- Model provenance
+- Dataset provenance
+- Validation population
+- Validation condition
+- Final classification
 
-### Required behavior
-
-- Never manufacture confidence from missing data
-- Expose uncertainty when evidence conflicts
-- Preserve unavailable states
-- Support explicit abstention thresholds
-
----
-
-## D27 — Candidate Classification
-
-### Current boundary
-
-- Candidate classification interface
-- Guarded indeterminate classification
-- Fail-closed behavior
-
-### Planned
-
-- Candidate deception hypotheses
-- Candidate non-deception hypotheses
-- Task-specific classification
-- Evidence-backed provisional classification
-- Uncertainty-aware candidate classification
-- Alternative-explanation-aware classification
-- Validated classifier integration
-
-The canonical `classifier.deception` method is currently inactive / not validated.
-
----
-
-## D28 — Deception Inference
-
-### Future research / validation only
-
-- Operational deception-task definitions
-- Candidate deception classifiers
-- Interpretable statistical classifiers
-- Logistic models
+## D28.02 Candidate model families
+- Logistic regression
 - Tree-based models
 - SVM-style models
 - Ensemble methods
 - Neural classifiers
 - Learned-representation classifiers
-- Multimethod fusion models
+- Temporal classifiers
+- Multimethod fusion classifiers
 - Task-specific classifiers
-- Calibrated deception probability
-- Deception confidence matrix
-- Evidence convergence / conflict synthesis
-- Alternative-explanation analysis
-- Final deception classification
 
-### Scientific gate
-
-No deception inference capability may be promoted to validated use until the required VoxVector validation program is completed.
+No model family is validated merely by implementation.
 
 ---
 
-## D29 — Multimodal Audio / Video Analysis
+# D29 — Multimodal Audio / Video
 
-### Planned
-
+## D29.01 PLANNED audio/video data points
+- Video frame timestamps
 - Facial Action Units
-- Facial behavior analysis
-- Audio / video synchronization
+- Facial movement
+- Facial expression features
+- Head movement
+- Eye-region behavior where technically supported
+- Audio/video synchronization offset
 - Cross-modal temporal alignment
-- Cross-modal evidence fusion
-- Audio / video evidence convergence
-- Audio / video evidence conflict
-- Multimodal context modeling
-- Cross-modal reliability controls
-
-These are future evidence streams, not standalone proof of deception.
-
----
-
-## D30 — Synthetic Speech and Media Integrity
-
-### Planned
-
-- Synthetic speech detection
-- Voice-cloning detection
-- Generated-audio artifact analysis
-- Provenance-aware evaluation
-- Audio authenticity assessment
-- Synthetic-speech benchmark evaluation
-- Audio / video synchronization integrity
-- Media provenance analysis
-- Recording authenticity controls
-
-Synthetic-speech detection is a media-integrity capability and is distinct from deception inference.
+- Audio evidence vector
+- Visual evidence vector
+- Cross-modal agreement
+- Cross-modal conflict
+- Cross-modal confidence
+- Multimodal reliability
 
 ---
 
-## D31 — Scientific Validation and Robustness
+# D30 — Synthetic Speech / Media Integrity
 
-### Required before validated inference
+## D30.01 PLANNED
+- Synthetic-speech probability
+- Voice-cloning probability
+- Generated-audio artifact score
+- Source-model artifact indicators
+- Spectral generation artifacts
+- Phase artifacts
+- Prosodic generation artifacts
+- Voice-identity consistency
+- Audio/video generation mismatch
+- Provenance metadata
+- Authenticity confidence
+- Benchmark performance
 
+This is media integrity analysis, distinct from deception inference.
+
+---
+
+# D31 — Scientific Validation / Robustness Data Points
+
+## D31.01 Dataset controls
+- Speaker-disjoint training split
+- Speaker-disjoint validation split
+- Speaker-disjoint test split
+- Cross-dataset test set
+- Recording-condition partitions
+- Language partitions
+- Accent partitions where applicable
+- Population partitions
+- Task partitions
+
+## D31.02 Performance data points
+- Accuracy
+- Balanced accuracy
+- Precision
+- Recall / sensitivity
+- Specificity
+- F1
+- ROC-AUC
+- PR-AUC
+- Confusion matrix
+- False-positive rate
+- False-negative rate
+- Calibration error
+- Brier score
+- Abstention rate
+- Coverage
+- Selective risk
+- Confidence-stratified performance
+
+## D31.03 Robustness / leakage data points
+- Speaker identity leakage
+- Recording-condition leakage
+- Dataset artifact leakage
+- Microphone leakage
+- Channel leakage
+- Language effect
+- Accent effect
+- Population effect
+- Task effect
+- Cross-dataset degradation
+- Distribution shift
+- Out-of-distribution behavior
+
+## D31.04 Validation controls
 - Operational definition freeze
-- Defined target populations
-- Defined deployment conditions
-- Speaker-disjoint development datasets
-- Speaker-disjoint evaluation datasets
-- Cross-dataset evaluation
-- Recording-condition stress tests
-- Identity sensitivity analysis
-- Speaker leakage testing
-- Recording-condition leakage testing
-- Dataset artifact testing
-- Subgroup robustness where applicable
-- Language robustness where applicable
-- Accent robustness where applicable
-- Calibration analysis
-- Uncertainty analysis
-- Explicit abstention testing
-- Alternative-explanation testing
-- Confounder evaluation
-- External replication
-- Independent validation
-- Reproducible evaluation procedures
-- Population-level performance evaluation
-- Task-specific performance evaluation
-
-A passing software test establishes implementation behavior. It does not establish scientific deception-detection validity.
+- Population definition
+- Deployment condition definition
+- Reproducible preprocessing
+- Frozen evaluation protocol
+- Independent replication
+- External validation
+- Scientific review
+- Failure analysis
+- Abstention analysis
 
 ---
 
-## D32 — Final Classification, Disposition and Abstention
+# D32 — Final Classification / Disposition / Abstention
 
-### Current / integrated boundary
-
-- Final disposition gate
-- Abstain
+## D32.01 CURRENT boundary outputs
+- Eligible / ineligible
+- Reliable / unreliable
+- Evidence available / unavailable
 - Insufficient evidence
-- Guarded indeterminate outcome
+- Abstain
+- Indeterminate
+- Final disposition gate state
 
-### Planned future outputs
-
+## D32.02 PLANNED final output data points
 - Final candidate classification
 - Calibrated deception probability
 - Confidence matrix
+- Reliability state
 - Evidence convergence summary
 - Evidence conflict summary
-- Reliability state
-- Uncertainty summary
 - Alternative explanations
-- Task-specific final disposition
-- Explicit abstention reason
-- Provenance-backed case result
-
-### Final gate requirements
-
-A final classification may only be issued when configured eligibility and scientific validation gates are satisfied. Otherwise the correct result is abstention or insufficient evidence.
+- Uncertainty summary
+- Model provenance
+- Method provenance
+- Dataset provenance
+- Validation status
+- Abstention reason
+- Task definition
+- Population definition
+- Recording-condition definition
 
 ---
 
-# Cross-Cutting Analysis Capabilities
+# Cross-Cutting Data Fields — Every Observation
 
-These capabilities apply across multiple D-Series families rather than representing a single feature family.
+Where applicable, every observation should retain:
 
-## Provenance
-
-- Method identifier
-- Segment provenance
-- Audio provenance
-- Transcript provenance
-- Baseline provenance
+- Method ID
+- Feature name
+- Value
+- Unit
+- Segment start
+- Segment end
+- Segment duration
+- Quality score/state
+- Input provenance
 - Speaker provenance
-- Recording-condition provenance
+- Baseline provenance
+- Transcript provenance
 - Model provenance
-- Versioned analytical configuration
-- Input-quality metadata
-- Failure-state provenance
+- Version
+- Availability state
+- Missing-data reason
+- Failure state
+- Validation status
+- Inferential status
 
-## Missing-data and failure semantics
+# Cross-Cutting Failure Semantics
 
 - No fabricated values
 - Explicit unavailable states
-- NaN / unavailable preservation where appropriate
+- NaN preservation where mathematically appropriate
 - Deterministic empty-input handling
 - Deterministic invalid-input rejection
-- Fail-closed behavior
-- Abstention when evidence is inadequate
+- Fail-closed planned methods
+- Reversed timestamp rejection
+- Invalid frequency-range rejection
+- Invalid sample-rate rejection
+- Insufficient-frame handling
+- Insufficient-period handling
+- Insufficient-amplitude handling
+- Missing-alignment handling
+- Missing-baseline handling
+- Missing-speaker-attribution handling
+- Missing-transcript handling
+- Missing-context handling
 
-## Evidence reporting
+# Cross-Cutting Scientific Controls
 
-- What was measured
-- What data were used
-- What was unavailable
-- Reliability state
-- Evidence direction
-- Evidence convergence
-- Evidence conflict
-- Uncertainty
-- Alternative explanations
-- Whether the system abstained
+- Observation is not inference.
+- A feature is not a deception label.
+- A model score is not automatically a probability.
+- A probability is not automatically calibrated.
+- A passing software test is not scientific validation.
+- Research findings are not automatically product capabilities.
+- Population performance must be measured rather than assumed.
+- Speaker-disjoint evaluation is required for meaningful speaker generalization claims.
+- Recording-condition and identity leakage must be tested.
+- Evidence convergence and evidence conflict must remain visible.
+- Alternative explanations must remain visible.
+- Reliability and eligibility remain separate from evidence and final disposition.
+- Abstention is a valid result when evidence or validation is insufficient.
 
-## Speaker and dataset controls
+# Canonical Status References
 
-- Speaker-disjoint splits
-- Identity leakage detection
-- Recording-condition leakage detection
-- Baseline leakage control
-- Cross-dataset testing
-- Subgroup analysis
-- Language robustness
-- Accent robustness where applicable
-- Population compatibility
+- `docs/OPERATING_CHARTER.md` — governing scientific and product rules
+- `docs/PROJECT_DECISION_LOG.md` — project decisions
+- `docs/CAPABILITY_STATUS.md` — implementation/capability state
+- `docs/METHOD_QA_MATRIX.md` — implementation-level QA matrix
+- `docs/ROADMAP.md` — planned research and development sequence
 
----
-
-# Status Summary
-
-## Currently integrated observational methods
-
-- RMS / energy
-- Relative intensity / dB
-- Zero crossing rate
-- Spectral centroid
-- Spectral spread
-- Fundamental frequency
-- Harmonicity / periodicity
-- F0 dynamics
-- Intensity dynamics
-- HNR
-- Spectral flux
-- Spectral rolloff
-- MFCC / cepstral coefficients
-- Formant candidate tracking
-- Voiced fraction
-- Pause count
-- Pause duration statistics
-- Pause topology
-- Response latency when supplied
-- Transcript disfluency when supplied
-- Within-speaker baseline when supplied
-- Evidence grouping
-- Reliability gate
-- Guarded candidate-classification boundary
-- Final disposition / abstention gate
-
-## Implemented reusable assets not currently primary integrated
-
-- Additional cepstral summary utilities
-- Local jitter
-- Local shimmer
-- Pulse period utilities
-- Generic turn-duration utilities
-- Generic overlap-duration utilities
-
-## Planned research families
-
-- openSMILE / eGeMAPS-style descriptors
-- LPCC
-- GFCC
-- Teager Energy Operator
-- Advanced glottal-source measures
-- Stronger formant analysis
-- Production ASR
-- Word and phoneme timestamps
-- Forced alignment
-- Transformer linguistic representations
-- Contradiction and consistency analysis
-- False starts and repairs
-- Hedging and certainty analysis
-- Lexical diversity
-- Negation and discourse analysis
-- Question / answer alignment
-- Speaker diarization
-- WavLM
-- wav2vec 2.0
-- HuBERT
-- Conformer
-- Audio Spectrogram Transformer
-- Temporal attention and sequence models
-- Multimodal audio / video analysis
-- Facial Action Units
-- Cross-modal fusion
-- Synthetic speech detection
-- Provenance-aware media integrity
-- Validated deception classifiers
-- Calibrated deception probability
-- Confidence / uncertainty matrix
-- External replication
-
----
-
-# Scientific Boundary
-
-VoxVector must never interpret an individual feature as proof of deception. Pitch changes, hesitation, pauses, stress, arousal, emotion, cognitive load, speaking rate, prosody, linguistic markers, acoustic measurements, or any other individual signal are evidence only.
-
-The analytical architecture therefore remains separated into four stages:
-
-1. **Eligibility and reliability**
-2. **Evidence collection and analysis**
-3. **Candidate classification**
-4. **Final classification / disposition**
-
-Research findings are not automatically VoxVector capabilities. A research candidate becomes an implemented method only when code exists, an integrated method only when the primary runtime orchestrates it, and a validated inferential method only after the defined scientific validation program is completed.
-
-This document is an inventory and roadmap. Listing a method does not claim implementation, integration, scientific validation, or production readiness.
-
----
-
-# Canonical References
-
-- `docs/OPERATING_CHARTER.md` — governing project and scientific rules
-- `docs/PROJECT_DECISION_LOG.md` — authoritative project decisions
-- `docs/CAPABILITY_STATUS.md` — capability-state summary
-- `docs/METHOD_QA_MATRIX.md` — method implementation and QA control
-- `docs/ROADMAP.md` — development roadmap and validation sequence
+**This index is intentionally exhaustive at the data-point level. It does not claim that planned data points currently exist in runtime output. Current runtime status remains authoritative.**
