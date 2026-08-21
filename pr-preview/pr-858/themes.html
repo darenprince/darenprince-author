@@ -1,0 +1,638 @@
+<!doctype html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cloud UI Kit — Surgical Match</title>
+
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;800&family=Roboto:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css">
+
+<style>
+/* ===================== SURGICAL COLOR PALETTE (tuned by eye to screenshots) ===================== */
+:root{
+  /* sizing */
+  --tile: 64px;
+  --gap: 12px;
+  --icon: 28px;
+  --r-sm: 14px;
+
+  /* Greens (download button & tiles) */
+  --g-top:   #A7E392;  /* soft mint top sheen (button / light tiles) */
+  --g-mid:   #7ED06E;  /* mid stop */
+  --g-bot:   #5FB55B;  /* button base */
+  --g-deep:  #3E8F43;  /* dark tile base */
+
+  /* Bright outline green seen in borders */
+  --g-outline:#8BE28C;
+
+  /* Grays / blacks (panels & tiles) */
+  --dark-1: #353535;
+  --dark-2: #2B2B2B;
+  --dark-3: #232323;
+  --dark-4: #1F1F1F;
+
+  --gray-1: #EDEDED;
+  --gray-2: #E6E6E6;
+  --gray-3: #DCDCDC;
+  --gray-4: #CFCFCF;
+  --gray-5: #B8B8B8;
+
+  /* Icon tones */
+  --icon-white:#FFFFFF;
+  --icon-dim:  #7C7C7C;
+  --icon-dark: #303030;
+  --icon-green:#7ED06E;
+
+  /* Strokes / highlights */
+  --stroke-on-dark: rgba(255,255,255,.08);
+  --stroke-on-light: rgba(0,0,0,.16);
+  --inner-light: rgba(255,255,255,.85);
+  --inner-dark:  rgba(255,255,255,.20);
+
+  /* Shadows */
+  --shadow-xl-dark: 0 22px 44px -20px rgba(0,0,0,.70), 0 6px 16px -8px rgba(0,0,0,.55);
+  --shadow-xl-light:0 20px 36px -18px rgba(0,0,0,.18), 0 6px 14px -8px rgba(0,0,0,.12);
+}
+
+/* ===================== Base ===================== */
+*{box-sizing:border-box}
+body{
+  margin:0; padding:36px;
+  background:#7b7b7b;
+  font-family:"Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
+  color:#141414;
+}
+.wrap{display:flex; gap:38px; justify-content:center; align-items:flex-start; flex-wrap:wrap}
+
+/* ===================== Panels ===================== */
+.panel{width:360px;border-radius:18px;overflow:hidden}
+.panel.dark{
+  background:linear-gradient(#2D2D2D,#222);
+  box-shadow:var(--shadow-xl-dark);
+  border:1px solid var(--stroke-on-dark); color:#EEE;
+}
+.panel.light{
+  background:linear-gradient(#FBFBFB,#E9E9E9);
+  box-shadow:var(--shadow-xl-light);
+  border:1px solid rgba(0,0,0,.07); color:#1B1B1B;
+}
+.toolbar{display:flex;gap:12px;align-items:center;padding:12px 14px}
+.panel.dark .toolbar{background:linear-gradient(#363636,#262626);border-bottom:1px solid var(--stroke-on-dark)}
+.panel.light .toolbar{background:linear-gradient(#F4F4F4,#E6E6E6);border-bottom:1px solid rgba(0,0,0,.08)}
+.content{padding:16px 16px 22px}
+
+/* Pebble */
+.pebble{width:22px;height:16px;border-radius:10px;margin-right:auto;
+  background:linear-gradient(#A9E594,#67C964);
+  box-shadow:0 0 0 1px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.45)
+}
+
+/* Toolbar buttons */
+.btn{font-weight:700;font-size:14px;letter-spacing:.2px;padding:12px 18px;border-radius:14px;border:0;display:inline-flex;gap:10px;align-items:center;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.download{
+  color:#2a3628;
+  background:linear-gradient(var(--g-top), var(--g-bot));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45), 0 0 0 1px rgba(0,0,0,.22), 0 14px 24px -12px rgba(91,181,91,.55)
+}
+.btn.night.dark{
+  color:#E7E7E7;background:linear-gradient(#3A3A3A,#2A2A2A);
+  box-shadow:inset 0 2px 0 rgba(0,0,0,.25), 0 0 0 1px var(--stroke-on-dark)
+}
+.btn.night.light{
+  color:#222;background:linear-gradient(#F0F0F0,#DEDEDE);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.85), 0 0 0 1px var(--stroke-on-light)
+}
+
+/* ===================== Cloud Icon (CSS-only) ===================== */
+.icon{width:var(--icon);height:var(--icon);display:inline-block}
+.icon.cloud{
+  --c: currentColor;
+  background:
+    radial-gradient(12px 12px at 60% 50%, var(--c) 98%, transparent 100%) 53% 46%/50% 60% no-repeat,
+    radial-gradient(10px 10px at 38% 54%, var(--c) 98%, transparent 100%) 38% 48%/40% 55% no-repeat,
+    radial-gradient(16px 16px at 50% 62%, var(--c) 98%, transparent 100%) 50% 60%/70% 55% no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 66%/100% 32% no-repeat;
+  -webkit-mask:
+    radial-gradient(12px 12px at 60% 50%, #000 98%, transparent 100%) 53% 46%/50% 60% no-repeat,
+    radial-gradient(10px 10px at 38% 54%, #000 98%, transparent 100%) 38% 48%/40% 55% no-repeat,
+    radial-gradient(16px 16px at 50% 62%, #000 98%, transparent 100%) 50% 60%/70% 55% no-repeat,
+    linear-gradient(#000,#000) 0 66%/100% 32% no-repeat;
+  mask:-webkit-mask; filter:drop-shadow(0 1px 0 rgba(0,0,0,.15));
+}
+
+/* ===================== Tile System ===================== */
+.grid{display:grid;gap:var(--gap);grid-template-columns:repeat(6,var(--tile))}
+.tile{
+  width:var(--tile);aspect-ratio:1/1;border-radius:14px;position:relative;display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 20px 30px -18px rgba(0,0,0,.35)
+}
+.tile:active{transform:translateY(1px)}
+.tile::before{
+  content:"";position:absolute;inset:1px;border-radius:12px;pointer-events:none
+}
+
+/* ----- DARK FILLS ----- */
+.fill-green-dark{
+  background:linear-gradient(#6FCF72, var(--g-deep));
+  box-shadow:0 0 0 1px rgba(0,0,0,.25), 0 18px 30px -18px rgba(0,0,0,.7)
+}
+.fill-green-dark::before{background:linear-gradient(180deg, rgba(255,255,255,.55) 0%, transparent 40%)}
+.fill-black-dark{
+  background:linear-gradient(#474747,#2C2C2C);
+  box-shadow:0 0 0 1px var(--stroke-on-dark), 0 18px 30px -18px rgba(0,0,0,.75)
+}
+.fill-black-dark::before{background:linear-gradient(180deg, var(--inner-dark) 0%, transparent 40%)}
+.fill-ghost-dark{
+  background:linear-gradient(#2F2F2F,#222);
+  box-shadow:0 0 0 1px var(--stroke-on-dark), 0 18px 30px -18px rgba(0,0,0,.7)
+}
+.fill-ghost-dark::before{background:linear-gradient(180deg, rgba(255,255,255,.18) 0%, transparent 38%)}
+.fill-white-dark{
+  background:linear-gradient(#FBFBFB,#DCDCDC);
+  box-shadow:0 0 0 1px rgba(0,0,0,.40), 0 18px 30px -18px rgba(0,0,0,.6)
+}
+.fill-white-dark::before{background:linear-gradient(180deg, rgba(255,255,255,.78) 0%, transparent 38%)}
+
+/* ----- LIGHT FILLS ----- */
+.fill-green-light{
+  background:linear-gradient(var(--g-top), var(--g-bot));
+  box-shadow:0 0 0 1px var(--stroke-on-light), 0 18px 28px -18px rgba(72,160,84,.35)
+}
+.fill-green-light::before{background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, transparent 45%)}
+.fill-black-light{
+  background:linear-gradient(#4A4A4A,#2D2D2D);
+  box-shadow:0 0 0 1px rgba(0,0,0,.35), 0 18px 28px -18px rgba(0,0,0,.35)
+}
+.fill-black-light::before{background:linear-gradient(180deg, rgba(255,255,255,.12) 0%, transparent 42%)}
+.fill-ghost-light{
+  background:linear-gradient(#F0F0F0,#DCDCDC);
+  box-shadow:0 0 0 1px var(--stroke-on-light), 0 18px 28px -18px rgba(0,0,0,.12)
+}
+.fill-ghost-light::before{background:linear-gradient(180deg, var(--inner-light) 0%, transparent 42%)}
+.fill-white-light{
+  background:linear-gradient(#FFFFFF,#EEEEEE);
+  box-shadow:0 0 0 1px var(--stroke-on-light), 0 18px 28px -18px rgba(0,0,0,.12)
+}
+.fill-white-light::before{background:linear-gradient(180deg, var(--inner-light) 0%, transparent 40%)}
+
+/* ----- OUTLINES (thin neon-green rim like screenshots) ----- */
+.outline{background:linear-gradient(#3F8F44,#3F8F44) padding-box, linear-gradient(var(--g-outline),var(--g-outline)) border-box;border:2px solid transparent}
+.outline-light{background:linear-gradient(#F7F7F7,#EDEDED) padding-box, linear-gradient(var(--g-outline),var(--g-outline)) border-box;border:2px solid transparent}
+.round{border-radius:14px}
+
+.icon-white{color:var(--icon-white)}
+.icon-dim{color:var(--icon-dim)}
+.icon-dark{color:var(--icon-dark)}
+.icon-green{color:var(--icon-green)}
+
+/* ===================== Typography ===================== */
+.card{
+  border-radius:14px;padding:16px;background:linear-gradient(#FFFFFF,#EFEFEF);
+  box-shadow:0 0 0 1px var(--stroke-on-light),0 16px 28px rgba(0,0,0,.10)
+}
+.kicker{font:700 12px/1 "Roboto",system-ui;color:#6F6F6F;letter-spacing:.2px}
+.h-spartan{font:800 24px/1.1 "League Spartan",system-ui;letter-spacing:.25px}
+.h-roboto{font:700 22px/1.2 "Roboto",system-ui}
+.p-helv{font:400 14px/1.55 "Helvetica Neue",Helvetica,Arial,system-ui;color:#3c3c3c}
+
+/* ===================== Footer blocks ===================== */
+.block{
+  width:360px;height:92px;border-radius:14px;margin-top:16px;
+  background:linear-gradient(#2A2A2A,#191919);
+  box-shadow:0 0 0 1px var(--stroke-on-dark),0 22px 30px rgba(0,0,0,.55)
+}
+.block.light{
+  background:linear-gradient(#FFFFFF,#EEEEEE);
+  box-shadow:0 0 0 1px var(--stroke-on-light),0 18px 24px rgba(0,0,0,.10)
+}
+
+/* responsive tweak */
+@media (max-width:840px){ .grid{grid-template-columns:repeat(5,var(--tile))} }
+</style>
+  <!-- Apple PWA + Safari enhancements -->
+    <!-- Smart App banner is rendered by js/main.js -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#456f3a">
+    <meta name="application-name" content="Daren Prince Official Site">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+    <meta name="msapplication-TileColor" content="#456f3a">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+  <!-- End Apple PWA + Safari enhancements -->
+</head>
+<body class="theme-dark">
+
+<div class="wrap">
+
+  <!-- ================= DARK PANEL ================= -->
+  <section class="panel dark" aria-label="Dark panel">
+    <div class="toolbar">
+      <div class="pebble"></div>
+      <button class="btn download"><span class="icon cloud"></span>Download</button>
+      <button class="btn night dark"><span class="icon cloud" style="color:#EAEAEA"></span>Nights</button>
+    </div>
+
+    <div class="content">
+      <div class="grid">
+        <!-- EXACT 6×6 ORDER; includes outline variants where screenshots show green rims -->
+        <!-- Row 1 -->
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-white"><span class="icon cloud"></span></div>
+        <!-- Row 2 -->
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <!-- Row 3 -->
+        <div class="tile fill-ghost-dark icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <!-- Row 4 -->
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-dark"><span class="icon cloud"></span></div>
+        <!-- Row 5 -->
+        <div class="tile fill-ghost-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-dark icon-dark"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-green"><span class="icon cloud"></span></div>
+        <!-- Row 6 -->
+        <div class="tile fill-black-dark icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile outline round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-dark icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-dark icon-white"><span class="icon cloud"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LIGHT PANEL (mirrors order & feel) ================= -->
+  <section class="panel light" aria-label="Light panel">
+    <div class="toolbar">
+      <div class="pebble"></div>
+      <button class="btn download"><span class="icon cloud"></span>Download</button>
+      <button class="btn night light"><span class="icon cloud" style="color:#3A3A3A"></span>Nights</button>
+    </div>
+
+    <div class="content">
+      <!-- mirrored 6×6 with light-mode fills & outlines -->
+      <div class="grid" style="margin-bottom:14px">
+        <!-- Row 1 -->
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-dark"><span class="icon cloud"></span></div>
+        <!-- Row 2 -->
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <!-- Row 3 -->
+        <div class="tile fill-ghost-light icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-dark"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <!-- Row 4 -->
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-green"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-dark"><span class="icon cloud"></span></div>
+        <!-- Row 5 -->
+        <div class="tile fill-ghost-light icon-dark"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-green-light icon-dark"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-green"><span class="icon cloud"></span></div>
+        <!-- Row 6 -->
+        <div class="tile fill-black-light icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile outline-light round icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+        <div class="tile fill-ghost-light icon-dim"><span class="icon cloud"></span></div>
+        <div class="tile fill-black-light icon-white"><span class="icon cloud"></span></div>
+      </div>
+
+      <!-- Typography sample -->
+      <div class="card">
+        <div class="kicker">Helvetica Body</div>
+        <div class="h-spartan" style="margin:6px 0 8px">LEAGUE SPARTAN — Display</div>
+        <div class="h-roboto" style="margin-bottom:8px">ROBOTO BOLD — Section Heading</div>
+        <p class="p-helv">
+          Here is some sample text in the Helvetica system stack. Contrast and bevels match the dark panel’s feel while respecting light-theme luminance.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- footer pads like the mock -->
+<div class="block" aria-hidden="true"></div>
+<div class="block light" aria-hidden="true"></div>
+
+    <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/assets/logos/logo-footer-white.png" alt="Daren Prince" class="footer-logo" />
+        <p class="footer-tagline">Confident, psychology-backed storytelling, systems, and tools for real transformation.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Follow on Facebook">
+            <img src="/assets/icons/facebook-32.png" alt="" />
+            <span class="sr-only">Facebook</span>
+          </a>
+          <a href="#" aria-label="Follow on X">
+            <img src="/assets/icons/twitter-x-32.png" alt="" />
+            <span class="sr-only">X (Twitter)</span>
+          </a>
+          <a href="#" aria-label="Follow on YouTube">
+            <img src="/assets/icons/youtube-32.png" alt="" />
+            <span class="sr-only">YouTube</span>
+          </a>
+          <a href="#" aria-label="Follow on TikTok">
+            <img src="/assets/icons/tiktok-32.png" alt="" />
+            <span class="sr-only">TikTok</span>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="book.html">Book</a></li>
+          <li><a href="meet-daren-prince.html">Meet Daren</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="sitemap.html">Site Index</a></li>
+        </ul>
+      </div>
+      <details class="footer-collapse">
+        <summary>Creator &amp; Platform Links</summary>
+        <div class="footer-collapse-grid">
+          <div>
+            <h4>Creator Tools</h4>
+            <ul class="footer-links">
+              <li><a href="components.html">Components</a></li>
+              <li><a href="themes.html">Themes</a></li>
+              <li><a href="style-classes.html">Style Classes</a></li>
+              <li><a href="loaders.html">Loaders</a></li>
+              <li><a href="promotion-tools.html">Promotion Tools</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Developer Docs</h4>
+            <ul class="footer-links">
+              <li><a href="iconifty.html">Iconify</a></li>
+              <li><a href="docs/style-guide.html">Style Guide</a></li>
+              <li><a href="docs/buttons-demo.html">Buttons Demo</a></li>
+              <li><a href="style-classes.html">Utility Classes</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Account</h4>
+            <ul class="footer-links">
+              <li><a href="login.html">Login</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="reset-password.html">Reset Password</a></li>
+              <li><a href="verify-email.html">Verify Email</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Admin</h4>
+            <ul class="footer-links">
+              <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+              <li><a href="admin-user-management.html">User Management</a></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+      <div class="footer-signup">
+        <h4>Mailing List</h4>
+        <p class="footer-note">Join for drops, tools, and private updates.</p>
+        <form action="#" method="post">
+          <label for="footer-email-themes" class="sr-only">Email address</label>
+          <input id="footer-email-themes" name="email" type="email" placeholder="you@email.com" required />
+          <button type="submit" class="primary-btn">Join the List</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span>© 2025 Daren Prince. All rights reserved.</span>
+        <a href="labs.html" class="footer-labs-link">
+          <img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" class="footer-labs-logo" />
+        </a>
+      </div>
+    </div>
+  </footer>
+
+<script type="module" src="/js/seo-indexing.js"></script>
+</body>
+</html>
+
+

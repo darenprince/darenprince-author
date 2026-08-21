@@ -1,0 +1,47 @@
+@use '../tokens/colors' as *;
+
+body.theme-dark {
+  position: relative;
+  min-height: 100vh;
+  color: $white;
+  background-color: #020202;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      circle,
+      rgba(58, 58, 60, 1),
+      rgba(34, 34, 36, 1),
+      rgba(12, 12, 13, 1)
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  @media (max-width: 768px) {
+    &::before {
+      background-size: auto 120%;
+      background-position: center top;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  a {
+    color: $medium-gray;
+
+    &:hover {
+      color: $bright-green;
+    }
+
+    &.active {
+      color: $lime-green;
+    }
+  }
+}
