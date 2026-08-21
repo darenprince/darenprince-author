@@ -14,6 +14,8 @@ VoxVector is a standalone vocal and audio deception analysis platform designed t
 
 The product architecture spans audio ingestion, preparation, provenance, recording assessment, speaker intelligence, transcription, alignment, acoustic analysis, prosodic analysis, voice quality, temporal analysis, linguistic analysis, conversational context, within-speaker baselines, evidence synthesis, classification, validation, and final disposition.
 
+The canonical product pipeline contains 21 connected stages. The detailed Crown Labs Bible mirror is available in `docs/crownlabsbible/04-product-dossiers/VoxVector/analysis-pipeline.md` and the public CrownDocs site exposes the same architecture at `/docs/product-dossiers/voxvector/analysis-pipeline`.
+
 The analytical engine already provides a substantial measurement foundation across acoustic, temporal, spectral, formant, voice-quality, prosodic, interaction, transcript, baseline, MFCC, reliability, and evidence analysis. The broader product program expands this foundation into richer speaker intelligence, transcription, alignment, conversational intelligence, multimethod inference, calibrated classification, and validated deception detection.
 
 A durable operational diagnostics layer is integrated into the API using the existing Supabase architecture. `/v1/analyze` requests receive correlation IDs and emit sanitized lifecycle, stage, and error records to the diagnostics architecture.
