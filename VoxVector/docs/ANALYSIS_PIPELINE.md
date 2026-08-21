@@ -52,6 +52,57 @@ Stages 10 through 15 generate signal language temporal speaker and contextual ob
 
 Stages 16 through 21 transform observations into evidence relationships candidate assessment validation controlled final disposition and auditable output.
 
+## Stage 06 — Speech Segmentation
+
+Stage 06 is now an implemented foundation in the primary `VoxVectorPipeline`.
+
+### Input
+
+- frame level RMS energy
+- frame level F0 voicing state
+- frame hop duration
+- canonical source duration
+
+### Processing
+
+The current deterministic segmenter:
+
+1. establishes a relative energy threshold from the recording
+2. combines energy activity with F0 derived voicing
+3. removes active runs shorter than the configured minimum speech duration
+4. bridges inactive gaps shorter than the configured silence gap
+5. emits contiguous speech intervals
+6. assigns a segmentation confidence based on the active frame state
+
+### Output
+
+Each speech segment contains:
+
+- segment ID
+- start time
+- end time
+- duration
+- confidence
+- method ID
+
+The pipeline also emits aggregate observations for:
+
+- speech segment count
+- total speech duration
+- speech activity ratio
+
+This stage provides the time regions consumed by the downstream speaker identification and transcription work. It does not assign speaker identity and does not generate transcript text.
+
+### QA
+
+The segmenter has deterministic tests for:
+
+- active region detection
+- short gap bridging
+- short active run rejection
+- invalid hop handling
+- pipeline result integration
+
 ## Connected case model
 
 Every stage attaches to the same analysis case and analysis run.
@@ -262,16 +313,17 @@ The fastest connected implementation path follows the pipeline dependency order:
 3. decode and provenance
 4. playback and waveform
 5. pipeline lifecycle
-6. speaker processing
-7. transcription
-8. alignment
-9. real analytical tracks
-10. evidence records
-11. evidence synthesis
-12. assessment
-13. report
-14. history and reopen
-15. browser end to end verification
+6. speech segmentation
+7. speaker processing
+8. transcription
+9. alignment
+10. real analytical tracks
+11. evidence records
+12. evidence synthesis
+13. assessment
+14. report
+15. history and reopen
+16. browser end to end verification
 
 ## Related architecture
 
