@@ -6,7 +6,7 @@ VoxVector is being engineered as a complete vocal intelligence and deception ana
 
 The architecture connects recording intake speaker processing transcription synchronized audio analysis evidence synthesis classification reporting and audit into one case centered workflow.
 
-The architecture deliberately separates product experience from analytical engine responsibilities while keeping both connected through canonical data contracts.
+The architecture is designed around the supplied Analysis Workspace reference experience. The reference establishes the information architecture and interaction model. The active visual system is governed separately.
 
 ## Application boundary
 
@@ -56,11 +56,11 @@ Supabase
 Auth / case data / diagnostics / persistence
 ```
 
-The public React application is presentation and interaction only.
+The React application is presentation and interaction code.
 
 The frontend must not recreate the analysis engine.
 
-The FastAPI adapter is an interface and runtime boundary only.
+The FastAPI adapter is an interface and runtime boundary.
 
 It must import and execute the canonical engine.
 
@@ -109,36 +109,36 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 
 ### Prepare
 
-1. **File Upload / Ingest**
-2. **File Decode and Normalization**
-3. **Provenance and Integrity**
-4. **Channel and Recording Assessment**
+1. File Upload / Ingest
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
 
 ### Understand
 
-5. **Speaker Identification / Diarization**
-6. **Speech Segmentation**
-7. **Transcription Generation**
-8. **Transcript Alignment**
-9. **Eligibility and Reliability**
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility and Reliability
 
 ### Analyze
 
-10. **Acoustic Feature Extraction**
-11. **Prosodic and Voice Quality Analysis**
-12. **Temporal and Pause Analysis**
-13. **Linguistic and Disfluency Analysis**
-14. **Question / Answer Alignment**
-15. **Within Speaker Baseline**
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
 
 ### Synthesize and Decide
 
-16. **Cross Method Evidence Assembly**
-17. **Evidence Convergence and Conflict**
-18. **Candidate Classification**
-19. **Validation and Calibration Gate**
-20. **Final Classification / Disposition**
-21. **Audit and Provenance Output**
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
+18. Candidate Classification
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
 
 ## Core analytical layers
 
@@ -232,13 +232,46 @@ Responsible for:
 - pipeline state
 - final output provenance
 
+## Case centered data architecture
+
+One analysis case is the root object for the complete user workflow.
+
+The case model must connect:
+
+- case ID
+- analysis ID
+- analysis run ID
+- source asset ID
+- source metadata
+- provenance
+- recording metadata
+- speaker records
+- speaker segments
+- speech segments
+- transcript records
+- transcript segments
+- transcript words
+- alignment records
+- analytical track records
+- feature observations
+- evidence records
+- evidence relationships
+- pipeline stage states
+- lifecycle events
+- findings
+- assessment
+- reports
+- final disposition
+
+Upload playback transcription analysis evidence assessment and reporting must share this identity chain.
+
 ## Product experience architecture
 
 The product is a unified case centered intelligence workspace.
 
 The detailed UX contract is defined in `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
 
-### Primary application surfaces
+Primary surfaces:
 
 - Overview
 - New Analysis
@@ -249,10 +282,9 @@ The detailed UX contract is defined in `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
 - Comparisons
 - Alerts
 - Settings
+- Developer Console
 
-### Core Analysis Workspace
-
-The Analysis Workspace combines:
+The core Analysis Workspace combines:
 
 - source metadata
 - audio playback
@@ -266,7 +298,7 @@ The Analysis Workspace combines:
 - evidence timeline
 - assessment state
 
-### Synchronized analytical viewer
+## Synchronized analytical viewer
 
 The primary viewer is built around one shared time axis.
 
@@ -279,9 +311,7 @@ Initial tracks:
 - speech activity
 - pauses
 
-The viewer must support additional timestamped tracks without changing the underlying interaction model.
-
-Potential expanded tracks:
+Expanded tracks can include:
 
 - formants
 - HNR
@@ -298,6 +328,21 @@ Potential expanded tracks:
 
 Every track is driven by canonical analysis data.
 
+## Transcript and speaker synchronization
+
+The workspace treats speaker regions and transcript content as first class synchronized layers.
+
+The interaction model supports:
+
+- speaker turn selection
+- speaker region highlighting
+- overlap visualization
+- transcript segment selection
+- word selection
+- audio to transcript navigation
+- transcript to audio navigation
+- evidence marker synchronization
+
 ## Analysis Overview architecture
 
 The overview surface contains:
@@ -311,6 +356,7 @@ The overview surface contains:
 - key analytical metrics
 - assessment state
 - evidence timeline
+- pipeline state
 
 The metric system is data driven.
 
@@ -354,54 +400,15 @@ A report may contain:
 - final disposition
 - audit and provenance
 
-## Comparison architecture
-
-The product supports comparison between compatible analytical objects.
-
-Examples include:
-
-- recordings
-- speakers
-- baseline segments
-- question responses
-- evidence regions
-- analysis runs
-
-All comparison results preserve source identity and provenance.
-
-## Case data model
-
-The canonical analysis case model must support:
-
-- case ID
-- analysis ID
-- source file metadata
-- provenance
-- recording metadata
-- speaker records
-- speaker segments
-- transcript records
-- alignment records
-- feature observations
-- evidence records
-- evidence relationships
-- pipeline stage states
-- lifecycle events
-- findings
-- reports
-- final disposition
-
-The frontend consumes these structures through canonical API contracts.
-
 ## Runtime orchestration
 
 `VoxVectorPipeline.analyze()` remains the canonical engine entry point.
 
-Current orchestration includes the implemented acoustic and temporal foundation and optional transcript and baseline inputs.
+The current runtime provides the foundational observational analysis documented in `docs/CAPABILITY_STATUS.md`.
 
-The end state expands the same orchestration boundary to production speaker processing transcription alignment deeper linguistic analysis evidence synthesis classification and reporting.
+The product architecture expands the same orchestration boundary to speaker processing transcription alignment richer linguistic analysis evidence synthesis classification validation and reporting.
 
-No new frontend component may imply an engine capability that lacks a corresponding backend contract.
+No frontend component may imply that a backend stage has executed when the backend has not produced the corresponding state.
 
 ## Reliability boundary
 
@@ -459,6 +466,29 @@ The root `voxvector.html` is a compatibility redirect only.
 
 It must not contain a second VoxVector implementation.
 
+## MVP engineering boundary
+
+The fastest connected MVP path is maintained in `docs/MVP_BUILD_PLAN.md`.
+
+The dependency chain is:
+
+1. case identity
+2. intake and provenance
+3. audio playback and waveform
+4. real pipeline lifecycle
+5. speaker processing
+6. transcription
+7. transcript alignment
+8. analytical tracks
+9. evidence normalization
+10. evidence synthesis
+11. assessment
+12. reporting
+13. history and reopen
+14. browser verification
+
+The Developer Console is the engineering cockpit for this path.
+
 ## Engineering principles
 
 - one canonical analysis engine
@@ -475,3 +505,9 @@ It must not contain a second VoxVector implementation.
 - accessibility remains part of product completion
 - responsive behavior remains part of product completion
 - animation is presentation state and never analytical evidence
+
+## Documentation synchronization
+
+When the pipeline changes update the architecture pipeline implementation plan MVP plan roadmap capability status and AI project instructions together.
+
+The cross document audit record is `docs/DOCS_ALIGNMENT_2026-08-20.md`.
