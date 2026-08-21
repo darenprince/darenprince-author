@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nate's World</title>
+  <style>
+    :root {
+      --neon-lime: #39ff14;
+      --bg-black: #050505;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-black);
+      color: var(--neon-lime);
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -50% -50% 0 -50%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(57, 255, 20, 0.15), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(57, 255, 20, 0.08), transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(57, 255, 20, 0.12), transparent 50%),
+        linear-gradient(120deg, #000000 0%, #080808 40%, #000000 100%);
+      filter: blur(0px);
+      animation: drift 18s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(57, 255, 20, 0.15) 1px, transparent 1px),
+        radial-gradient(rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+      background-size: 120px 120px, 80px 80px;
+      background-position: 0 0, 40px 20px;
+      animation: scan 12s linear infinite;
+      opacity: 0.35;
+      z-index: 0;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1.1);
+      }
+      50% {
+        transform: translate3d(3%, -4%, 0) scale(1.15);
+      }
+      100% {
+        transform: translate3d(-2%, 2%, 0) scale(1.1);
+      }
+    }
+
+    @keyframes scan {
+      0% {
+        background-position: 0 0, 40px 20px;
+      }
+      100% {
+        background-position: 160px 120px, -40px -60px;
+      }
+    }
+
+    .title {
+      position: relative;
+      text-align: center;
+      margin-top: 3rem;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
+      z-index: 2;
+    }
+
+    .sayings {
+      position: relative;
+      width: 100vw;
+      height: 70vh;
+      z-index: 2;
+    }
+
+    .saying {
+      position: absolute;
+      font-size: clamp(1rem, 2.2vw, 2rem);
+      font-weight: 600;
+      text-shadow: 0 0 12px rgba(57, 255, 20, 0.75);
+      animation: float 12s ease-in-out infinite;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(57, 255, 20, 0.35);
+    }
+
+    .saying:nth-child(1) { top: 10%; left: 5%; animation-duration: 14s; }
+    .saying:nth-child(2) { top: 25%; left: 60%; animation-duration: 16s; animation-delay: -4s; }
+    .saying:nth-child(3) { top: 40%; left: 20%; animation-duration: 18s; animation-delay: -6s; }
+    .saying:nth-child(4) { top: 55%; left: 65%; animation-duration: 15s; animation-delay: -2s; }
+    .saying:nth-child(5) { top: 70%; left: 10%; animation-duration: 17s; animation-delay: -8s; }
+    .saying:nth-child(6) { top: 15%; left: 75%; animation-duration: 20s; animation-delay: -10s; }
+    .saying:nth-child(7) { top: 35%; left: 40%; animation-duration: 13s; animation-delay: -5s; }
+    .saying:nth-child(8) { top: 60%; left: 35%; animation-duration: 19s; animation-delay: -7s; }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      25% {
+        transform: translate3d(40px, -20px, 0);
+      }
+      50% {
+        transform: translate3d(-20px, 30px, 0);
+      }
+      75% {
+        transform: translate3d(25px, 15px, 0);
+      }
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 5;
+    }
+
+    .modal-backdrop.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      width: min(420px, 90vw);
+      background: #0a0a0a;
+      border: 1px solid rgba(57, 255, 20, 0.4);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+      text-align: center;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
+    }
+
+    .modal p {
+      margin-bottom: 1.5rem;
+      color: #c8ffc0;
+    }
+
+    .modal label {
+      display: block;
+      text-align: left;
+      margin-bottom: 0.4rem;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(57, 255, 20, 0.4);
+      background: #050505;
+      color: var(--neon-lime);
+      margin-bottom: 1rem;
+    }
+
+    .modal button {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--neon-lime);
+      color: #020202;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+      transition: transform 0.2s ease;
+    }
+
+    .modal button:hover {
+      transform: translateY(-2px);
+    }
+
+    .modal small {
+      display: block;
+      margin-top: 1rem;
+      color: #a6dba0;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Welcome to Nate's World</h1>
+
+  <section class="sayings" aria-label="Motivational sayings floating around the screen">
+    <div class="saying">Stay relentless. Be unstoppable.</div>
+    <div class="saying">Grind today. Glory tomorrow.</div>
+    <div class="saying">No fear. Just focus.</div>
+    <div class="saying">Discipline builds legends.</div>
+    <div class="saying">Every rep is a revolution.</div>
+    <div class="saying">Dream big. Move bigger.</div>
+    <div class="saying">Own the moment. Own the mission.</div>
+    <div class="saying">Rise, roar, repeat.</div>
+  </section>
+
+  <div class="modal-backdrop" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">Login to Nate's World</h2>
+      <p>Enter the portal and claim your power.</p>
+      <form>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="Enter your name" required />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter your code" required />
+        <button type="submit">Enter Nate's World</button>
+      </form>
+      <small>Powered by pure motivation.</small>
+    </div>
+  </div>
+
+  <script>
+    const loginModal = document.getElementById("loginModal");
+
+    setTimeout(() => {
+      loginModal.classList.add("show");
+    }, 5000);
+  </script>
+</body>
+</html>
