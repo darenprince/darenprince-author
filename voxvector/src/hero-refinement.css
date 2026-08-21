@@ -32,6 +32,11 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .vv-api-glyph{display:inline-grid;place-items:center;width:22px;height:18px;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;letter-spacing:-.08em;color:#c99a66}
 .vv-hero-primary-cta+.vv-hero-api-cta{margin-left:0}
 #product h1+div{display:none!important}
+
+/* Keep animated section fields behind content and out of document flow. */
+.vv-section-signal{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;z-index:0!important;pointer-events:none!important;overflow:hidden!important}
+.vv-section-signal~*{position:relative;z-index:1}
+
 @media(max-width:900px){
  header.sticky{position:sticky!important;top:0!important;z-index:70!important}
  header.sticky>div:first-child{height:64px!important}
