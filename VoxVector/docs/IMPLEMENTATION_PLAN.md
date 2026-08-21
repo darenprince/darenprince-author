@@ -42,6 +42,39 @@ The Developer Console target contains:
 - task checkoffs
 - phase completion
 
+## Current execution checkpoint — 2026-08-20
+
+Engineering has moved from documentation alignment into the first real connected case workflow.
+
+### Implemented now
+
+- durable case identity
+- authenticated case ownership
+- case creation listing and retrieval APIs
+- source asset identity
+- source recording metadata
+- SHA-256 source provenance
+- private Supabase media storage primitives
+- signed playback URL API
+- case bound source upload API
+- case bound analysis API
+- analysis run persistence
+- canonical 21 stage state records for each case run
+- frontend API client contracts for case creation upload playback and case analysis
+- case store ownership and persistence tests
+
+### Immediate next engineering work
+
+1. wire the Developer Console Workbench to case creation and case source upload
+2. add case selection and reopen controls to the console
+3. connect signed media playback to the Analysis Workspace
+4. create the shared audio time axis and waveform contract
+5. expose persisted 21 stage state in the workspace
+6. replace the current direct analysis workbench flow with the case bound flow while preserving the compatibility endpoint
+7. then move directly into speaker processing and production transcription
+
+This checkpoint is intentionally implementation focused. The repository remains the authority for what is actually executable and the validation program remains a separate engineering workstream.
+
 ## Fastest MVP execution path
 
 The critical path is dependency first:
@@ -87,22 +120,25 @@ Architecture schemas pipeline and implementation plan describe the same system.
 
 ### Deliver
 
-- case creation
-- analysis run creation
-- file picker
-- drag and drop
-- format validation
-- metadata extraction
-- source hashing
-- provenance
-- storage reference
-- upload progress
-- upload cancellation
-- authenticated ownership
+- [x] case creation
+- [x] analysis run creation
+- [x] file picker contract
+- [x] drag and drop contract
+- [x] format validation
+- [x] metadata extraction
+- [x] source hashing
+- [x] provenance
+- [x] storage reference
+- [x] upload progress contract
+- [ ] upload cancellation on case route
+- [x] authenticated ownership
+- [x] signed playback access
 
 ### Exit
 
 A supported recording enters a durable case with complete source identity.
+
+**Current state:** backend case and media contracts are implemented. Browser wiring is the next task.
 
 ## Phase 2 — Audio workspace
 
@@ -129,20 +165,22 @@ The user can inspect the recording and every audio interaction is tied to the ca
 
 ### Deliver
 
-- all 21 stage identifiers
-- stage state model
-- stage timing
-- stage outputs
-- stage errors
-- current stage
-- lifecycle events
-- request correlation
-- eligibility state
-- recording quality state
+- [x] all 21 stage identifiers
+- [x] stage state model
+- [x] stage timing
+- [x] stage outputs
+- [x] stage errors
+- [x] current stage
+- [x] lifecycle events
+- [x] request correlation
+- [x] eligibility state
+- [x] recording quality state
 
 ### Exit
 
 The Analysis Pipeline UI reflects actual backend lifecycle state.
+
+**Current state:** case runs persist the 21 stage contract and distinguish executed stages from pending and not-run stages. Workspace consumption is next.
 
 ## Phase 4 — Speaker intelligence
 
