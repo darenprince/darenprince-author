@@ -2,22 +2,53 @@
 
 ## Core Positioning Statement
 
-VoxVector is an auditable vocal and audio intelligence platform for structured evidence collection, acoustic and speech analysis, reliability assessment, and controlled deception research.
+VoxVector is an advanced vocal and audio deception analysis platform built to transform spoken conversation into structured intelligence through multimethod evidence collection analysis synthesis and classification.
 
 ## Market Position
 
-VoxVector operates at the intersection of audio intelligence, speech analytics, evidence organization, research instrumentation, reliability-aware analytical systems, and future deception-related inference.
+VoxVector operates at the intersection of:
+
+- deception detection
+- vocal intelligence
+- audio intelligence
+- speech analytics
+- forensic-style evidence organization
+- conversational analysis
+- multimethod analytical systems
+- AI-assisted evidence synthesis
+- intelligent classification
 
 ## Product Identity
 
-VoxVector is not a generic recorder, voice changer, transcription utility, stress detector presented as a lie detector, or unvalidated automated truth machine.
+VoxVector is purpose-built for vocal deception analysis.
 
-It is positioned as a structured audio-analysis platform, auditable evidence and measurement system, research foundation for multimethod vocal analysis, and future validated inference platform.
+The platform is designed as an end-to-end intelligence system spanning recording ingestion, audio preparation, speaker processing, transcription, alignment, acoustic analysis, prosodic analysis, temporal analysis, linguistic analysis, conversational context, within-speaker comparison, evidence synthesis, classification, validation, and final disposition.
 
 ## Strategic Differentiation
 
-The product emphasizes stage-separated eligibility and inference controls, explicit reliability states, method-level provenance, neutral evidence grouping, within-speaker baseline support, abstention, reproducible run fingerprints, and strict separation of research candidates from validated methods.
+The product emphasizes:
+
+- deep vocal analysis
+- multimethod evidence synthesis
+- speaker-aware processing
+- transcription-aware analysis
+- question and answer alignment
+- within-speaker baselines
+- evidence convergence and conflict analysis
+- stage-separated analytical architecture
+- provenance and reproducibility
+- calibrated classification architecture
+- auditable analytical workflows
+- premium user experience
+
+## Product Experience
+
+VoxVector should feel like an advanced intelligence platform rather than a collection of disconnected audio tools.
+
+The experience moves from recording to structured evidence through a visible analytical pipeline so users can understand the journey from source material to final disposition.
 
 ## Long-Term Positioning
 
-The objective is to establish VoxVector as a credible audio-intelligence platform that can progress from observational measurement to validated task-specific inference without sacrificing traceability or scientific integrity.
+VoxVector is being built to become a leading premium vocal deception analysis and audio-intelligence platform with sophisticated multimethod analysis, scalable infrastructure, speaker-aware intelligence, conversational understanding, calibrated inference, and validated classification.
+
+Scientific rigor is part of the engineering advantage. It strengthens the product architecture and the credibility of the intelligence it produces.
