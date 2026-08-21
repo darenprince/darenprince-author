@@ -5,3 +5,25 @@
 #product svg[aria-label="Illustrative speech waveform"] stop:nth-of-type(4) { stop-color: #9f744f !important; }
 #product svg[aria-label="Illustrative speech waveform"] rect { opacity: .5 !important; filter: drop-shadow(0 0 2px rgba(205, 157, 111, .28)); }
 #product svg[aria-label="Illustrative speech waveform"] line { stroke: rgba(205, 157, 111, .32) !important; }
+
+/* Landing wordmark: visually match the 40px icon height. */
+header a[aria-label="VoxVector home"] > span:last-child > span:first-child {
+  font-size: 36px !important;
+  line-height: .9 !important;
+  letter-spacing: .08em !important;
+}
+
+/* Hero CTA group: centered beneath the headline. */
+#product .mt-9.flex.flex-wrap.gap-3 {
+  justify-content: center !important;
+}
+
+@media (max-width: 640px) {
+  header a[aria-label="VoxVector home"] > span:last-child > span:first-child {
+    font-size: 31px !important;
+  }
+
+  #product .mt-9.flex.flex-wrap.gap-3 > * {
+    justify-content: center !important;
+  }
+}
