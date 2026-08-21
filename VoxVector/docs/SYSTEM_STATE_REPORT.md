@@ -5,7 +5,7 @@
 **Backend root:** `VoxVector/`
 **Frontend root:** `voxvector/`
 **Backend software version:** `0.2.25`
-**Frontend version:** `0.2.35`
+**Frontend version:** `0.2.36`
 
 ## Executive summary
 
@@ -41,12 +41,6 @@ The target connects:
 - reports
 - history
 
-## Canonical pipeline
-
-The product pipeline contains 21 stages from File Upload / Ingest through Audit and Provenance Output.
-
-The canonical definition is `docs/ANALYSIS_PIPELINE.md`.
-
 ## Current implementation state
 
 ### Repository and deployment boundary
@@ -57,8 +51,25 @@ The canonical definition is `docs/ANALYSIS_PIPELINE.md`.
 - `VoxVector/src/voxvector/` is the canonical analysis engine.
 - GitHub Pages hosts the public React application.
 - Render hosts the backend.
-- Supabase provides authentication persistence and durable diagnostics.
+- Supabase provides authentication persistence and durable diagnostics and is now the durable media backend for the case intake slice.
 - Vercel is retired.
+
+### Case spine and intake
+
+The backend now contains a durable case first workflow with authenticated ownership:
+
+- case creation
+- case listing
+- case retrieval
+- source asset creation
+- source metadata
+- SHA-256 provenance
+- private WAV media storage
+- signed playback URLs
+- case bound analysis runs
+- persisted 21 stage state records
+
+The frontend API client now exposes the case contracts for the Developer Console and Analysis Workspace integration.
 
 ### Current analysis pipeline
 
@@ -108,15 +119,15 @@ The fastest connected path is:
 14. browser verification
 15. production hardening
 
-The Developer Console exposes this path through the MVP task board.
+### Current checkpoint
+
+The case identity and backend intake foundation are implemented in code. The immediate next task is wiring the Developer Console to create a case upload a source obtain signed playback access and invoke the case bound analysis endpoint. The next Analysis Workspace task is the shared audio playback and waveform contract.
 
 ## QA state
 
-The documented GitHub Actions run `32212539187` failed on commit `b66551897170b035dd8b2ca7c3d843d18124d00f` with 72 passed and 11 failed.
-
-Later repository work repaired the documented dependency and test issues.
-
 A fresh workflow run on the current main commit is still required before the current state is recorded as green.
+
+Automated case-store ownership and persistence tests have been added for the new case foundation.
 
 ## Scientific validation state
 
@@ -139,6 +150,12 @@ The validation architecture requires:
 ## Documentation state
 
 The active canonical documentation set was reviewed and synchronized against the reference experience and MVP dependency chain.
+
+The implementation checkpoint is recorded in:
+
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/MVP_BUILD_PLAN.md`
+- `docs/CAPABILITY_STATUS.md`
 
 The cross document record is `docs/DOCS_ALIGNMENT_2026-08-20.md`.
 
