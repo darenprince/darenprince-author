@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from VoxVector.api.case_store import CaseNotFound, CaseStore
-from VoxVector.api.storage import StorageError
+from api.case_store import CaseNotFound, CaseStore
+from api.storage import StorageError
 
 
 class FakeStorage:
