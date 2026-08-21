@@ -2,40 +2,44 @@
 
 ## Purpose
 
-This document defines the shortest defensible engineering path from the current repository state to a working end-to-end VoxVector product experience.
+This document defines the shortest engineering path from the current repository state to a working connected VoxVector product experience.
 
-The plan is intentionally execution oriented. It prioritizes the connected workflow shown by the Analysis Workspace reference instead of expanding the method library first.
+The plan is execution oriented. It prioritizes the connected Analysis Workspace represented by the reference screens instead of expanding the method library first.
 
-The target MVP is one connected case workflow:
+## MVP definition
+
+The MVP is one complete connected case workflow:
 
 1. create an analysis case
 2. upload a recording
-3. validate the input
+3. validate the source
 4. persist provenance
-5. process the recording
+5. decode the recording
 6. play the audio
 7. render the waveform
-8. expose the real pipeline state
+8. expose real pipeline state
 9. identify speakers
 10. generate a timestamped transcript
 11. synchronize transcript and audio
 12. expose real analytical tracks
 13. create timestamped evidence
 14. synthesize evidence
-15. produce an assessment object
+15. create an assessment object
 16. generate a report
-17. save the case
+17. persist the case
 18. reopen the case
+
+The MVP is defined by connected real workflows rather than the number of screens.
 
 ## Priority rule
 
 Work in dependency order.
 
-Do not expand downstream presentation surfaces before the data contract that powers them exists.
+Do not build downstream presentation surfaces before the contract that powers them exists.
 
-Do not add a second implementation of an existing backend capability merely to make the UI appear complete.
+Do not create a second backend capability in the frontend merely to make a screen appear complete.
 
-Every visible state should be backed by a real API response or an explicit local UI state.
+Every visible state must come from a real API response or an explicit local interaction state.
 
 ## P0 — Case spine
 
@@ -45,19 +49,22 @@ Create the persistent object that every later feature attaches to.
 
 ### Tasks
 
-- define canonical analysis case schema
-- define analysis run identity
-- define source asset identity
-- define provenance record
-- define lifecycle state
-- persist request ID
-- persist source metadata
-- connect authenticated user to case
-- expose case creation response
+- canonical case schema
+- analysis run schema
+- source asset schema
+- provenance record
+- lifecycle state
+- request ID
+- source metadata
+- authenticated user relation
+- case creation endpoint
+- case retrieval endpoint
+- run identity
+- version identity
 
 ### Exit
 
-An uploaded recording can receive a durable case identity before analysis begins.
+A recording can receive a durable case identity before analysis begins.
 
 ## P1 — Intake and audio foundation
 
@@ -75,16 +82,18 @@ Make recording intake reliable and immediately useful.
 - sample rate inspection
 - bit depth inspection where available
 - file size validation
+- MIME validation
 - upload progress
 - upload cancellation
-- storage reference creation
+- storage reference
 - provenance creation
 - audio metadata response
 - playback asset access
+- source hashing
 
 ### Exit
 
-A supported recording can be uploaded and played from the canonical case.
+A supported recording can be uploaded stored identified and played from the canonical case.
 
 ## P2 — Synchronized analysis canvas
 
@@ -105,6 +114,7 @@ Build the primary analytical surface around the real audio asset.
 - time ruler
 - region selection
 - fullscreen
+- speaker region layer
 - event marker model
 - synchronized track contract
 
@@ -125,25 +135,28 @@ Selecting an audio position updates every available analytical view to the same 
 
 ### Goal
 
-Make the Analysis Pipeline component a direct representation of backend processing.
+Make the Analysis Pipeline a direct representation of backend processing.
 
 ### Tasks
 
-- expose canonical 21 stage pipeline state
-- map backend stage identifiers to product stages
-- persist stage start time
-- persist stage completion time
-- persist stage outcome
-- persist stage errors
-- expose current stage
-- expose completed stages
-- expose processing request identity
-- expose eligibility state
-- expose quality state
+- canonical 21 stage identifiers
+- stage ordering
+- stage state enum
+- stage start time
+- stage completion time
+- stage duration
+- stage outcome
+- stage error reference
+- current stage
+- completed stages
+- processing request identity
+- eligibility state
+- recording quality state
+- lifecycle event linkage
 
 ### Exit
 
-The workspace can show the actual processing path for a case without synthetic progress values.
+The workspace can show actual processing state without synthetic percentages.
 
 ## P4 — Speaker intelligence
 
@@ -160,7 +173,9 @@ Turn a multi speaker recording into speaker aware analytical regions.
 - turn boundaries
 - overlap detection
 - speaker confidence
-- speaker separation quality
+- separation quality
+- speaker aware waveform regions
+- speaker aware transcript attribution
 - speaker aware evidence intervals
 
 ### Exit
@@ -171,7 +186,7 @@ Speech regions are associated with speaker identities or speaker segments in the
 
 ### Goal
 
-Generate the transcript from the recording inside the product workflow.
+Generate the transcript inside the product workflow.
 
 ### Tasks
 
@@ -184,6 +199,7 @@ Generate the transcript from the recording inside the product workflow.
 - transcript persistence
 - transcript search
 - transcript selection
+- transcript provenance
 
 ### Exit
 
@@ -193,7 +209,7 @@ A recording can move from audio input to a persistent timestamped speaker attrib
 
 ### Goal
 
-Make audio and language behave as one synchronized evidence surface.
+Make audio and language one synchronized evidence surface.
 
 ### Tasks
 
@@ -204,6 +220,7 @@ Make audio and language behave as one synchronized evidence surface.
 - selected audio region to transcript synchronization
 - transcript confidence mapping
 - speaker turn synchronization
+- evidence marker synchronization
 
 ### Exit
 
@@ -213,7 +230,7 @@ Selecting transcript text moves the audio playhead and selecting audio moves the
 
 ### Goal
 
-Expose the measurements already supported by the engine through stable timestamped contracts.
+Expose the measurements supported by the engine through stable timestamped contracts.
 
 ### Priority families
 
@@ -232,14 +249,16 @@ Expose the measurements already supported by the engine through stable timestamp
 
 ### Tasks
 
-- normalize observation schema
-- attach method identity
-- attach source interval
-- attach quality metadata
-- attach provenance
-- expose track data through API
-- connect tracks to waveform time
-- connect observations to evidence records
+- observation schema
+- method identity
+- source interval
+- unit
+- quality metadata
+- provenance
+- stage identity
+- track API
+- waveform time mapping
+- evidence references
 
 ### Exit
 
@@ -256,6 +275,7 @@ Make every meaningful observation traceable.
 - normalized evidence record
 - evidence family
 - method identity
+- stage identity
 - source interval
 - observation reference
 - evidence direction
@@ -274,7 +294,7 @@ Every evidence item can be traced from the UI to the originating observation and
 
 ### Goal
 
-Create the intelligence layer between raw observations and assessment.
+Create the intelligence layer between observations and assessment.
 
 ### Tasks
 
@@ -286,10 +306,11 @@ Create the intelligence layer between raw observations and assessment.
 - dependency awareness
 - alternative hypothesis grouping
 - evidence strength representation
+- evidence relationship graph
 
 ### Exit
 
-The product can explain how multiple observations relate without collapsing the evidence record into one opaque value.
+The product can explain how observations relate without collapsing the evidence record into one opaque value.
 
 ## P10 — Assessment and report
 
@@ -301,18 +322,19 @@ Complete the user facing analysis loop.
 
 - candidate assessment object
 - assessment trace
-- confidence matrix
+- confidence matrix contract
 - evidence summary
 - convergence summary
 - conflict summary
 - alternative hypothesis summary
-- report data contract
+- report schema
 - report generation
 - report persistence
+- source evidence links
 
 ### Exit
 
-A completed case produces a structured report that remains linked to the source evidence.
+A completed case produces a structured report linked to the source evidence.
 
 ## P11 — Case persistence and return path
 
@@ -330,6 +352,7 @@ Make the product useful beyond one browser session.
 - versioned analysis runs
 - saved report reference
 - saved evidence state
+- case activity timeline
 
 ### Exit
 
@@ -361,14 +384,16 @@ Verify the connected workflow from browser through API and persistence.
 - cancellation verification
 - resource limit verification
 - secure media access verification
+- provenance verification
+- reproducibility verification
 
 ### Exit
 
 The complete MVP journey passes reproducible browser level verification.
 
-## Parallel work that does not block the core path
+## Parallel work
 
-These tracks can proceed while the critical path is being built:
+These tracks can proceed while the critical path is built:
 
 - expanded method library
 - research feature families
@@ -381,36 +406,52 @@ These tracks can proceed while the critical path is being built:
 - developer observability improvements
 - performance optimization
 
-They should not displace the case spine speaker transcript alignment and evidence workflow.
+They must not displace the case spine speaker transcript alignment and evidence workflow.
 
 ## Developer Console operating model
 
 The Developer Console is the engineering cockpit for this plan.
 
-It should answer five questions immediately:
+It must answer five questions immediately:
 
 1. What should I build next?
 2. What is already complete?
-3. What is the dependency blocking the next step?
-4. What does the backend actually report right now?
+3. What dependency is blocking the next step?
+4. What does the backend report right now?
 5. Where is the canonical methodology or architecture document?
 
-The MVP Build Plan in the console provides persistent browser local checkoffs.
+### Required console functions
 
-The methodology links provide direct access to the canonical method register.
+- prioritized phase board
+- individual task checkboxes
+- persistent browser local task state
+- phase completion state
+- expand and collapse controls
+- methodology navigator
+- architecture navigator
+- pipeline navigator
+- API workbench
+- request inspection
+- lifecycle inspection
+- error inspection
+- runtime health
+- developer profile
 
-The API Workbench provides a real recording request path.
+## Methodology links
 
-The diagnostic views provide runtime evidence for failures and lifecycle behavior.
+The console should route directly to:
 
-## Definition of MVP
+- `docs/MASTER_METHOD_INDEX.md`
+- `docs/ANALYSIS_METHODS.md`
+- `docs/METHOD_QA_MATRIX.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/ANALYSIS_PIPELINE.md`
+- `docs/VALIDATION.md`
 
-MVP is reached when the product can execute one complete connected case workflow from recording intake through synchronized analysis evidence assessment and report persistence.
+## Definition of done
 
-The MVP is not defined by the number of marketing screens.
-
-The MVP is defined by the number of connected real workflows that work end to end.
+MVP is reached when one connected case can move from recording intake through synchronized audio speaker and transcript analysis evidence synthesis assessment reporting persistence and reopening.
 
 ## After MVP
 
-Once the connected workflow is stable the engineering program moves toward deeper analytical coverage calibrated classification validation datasets external evaluation and production scale.
+Once the connected workflow is stable the engineering program moves toward deeper analytical coverage calibrated classification validation datasets external evaluation comparative analysis advanced reporting and production scale.
