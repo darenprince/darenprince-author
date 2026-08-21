@@ -23,10 +23,10 @@ The intended product combines multiple evidence families through a connected cas
 
 | Stage | Current state | Product target |
 |---|---|---|
-| File Upload / Ingest | Implemented | Durable multi format case intake |
-| File Decode and Normalization | Implemented | Canonical normalized media pipeline |
+| File Upload / Ingest | Integrated | Durable multi format case intake |
+| File Decode and Normalization | Integrated | Canonical normalized media pipeline |
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
-| Channel and Recording Assessment | Implemented / expanding | Full recording and artifact assessment |
+| Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
 | Speaker Identification / Diarization | Planned research | Production speaker aware analysis |
 | Speech Segmentation | Integrated foundation | Production speech region segmentation |
 | Transcription Generation | Planned research | Production timestamped ASR |
@@ -74,11 +74,23 @@ The intended product combines multiple evidence families through a connected cas
 
 ## Current input capabilities
 
-The Developer Console currently supports WAV upload through the canonical `/v1/analyze` path.
+The authenticated case intake workflow now supports:
 
-The frontend also provides local WAV metadata extraction playback and waveform preview.
+- case creation
+- case listing
+- case retrieval
+- WAV source upload
+- WAV metadata extraction
+- source SHA-256 hashing
+- durable private media storage
+- signed playback URL generation
+- source provenance persistence
+- case bound analysis run creation
+- run stage state persistence
 
-The product intake target expands this into a persistent case based upload workflow with storage references provenance and reusable media access.
+The legacy `/v1/analyze` endpoint remains available as the direct analysis compatibility path.
+
+The next frontend intake step is to connect the Developer Console and Analysis Workspace to the case contracts and signed playback media.
 
 ## Planned speaker and transcript capabilities
 
@@ -153,8 +165,12 @@ The product architecture preserves the full path toward:
 | Request correlation | implemented |
 | Lifecycle diagnostics | implemented |
 | Durable diagnostic storage adapter | implemented |
+| Durable media storage adapter | implemented in code |
+| Case persistence API | implemented in code |
+| Case bound analysis API | implemented in code |
 | `/v1/analyze` normal path stability | open incident history remains under investigation |
 | Production diagnostic secret configuration | verification required |
+| Production media bucket configuration | verification required |
 | Current frontend CI | fresh verification required on the current main commit |
 
 ## Frontend status
@@ -166,12 +182,15 @@ The product architecture preserves the full path toward:
 | Developer Console | implemented foundation |
 | API workbench | implemented |
 | Real upload progress | implemented |
+| Case API client contracts | implemented |
 | Audio player | implemented foundation |
 | Local WAV waveform | implemented foundation |
 | Diagnostic event browser | implemented foundation |
 | Methodology navigation | implemented |
 | MVP task board | implemented foundation |
 | Analysis Workspace | active implementation target |
+| Case intake UI wiring | next implementation step |
+| Signed media playback wiring | next implementation step |
 | Full 21 stage backend lifecycle integration | active implementation target |
 | Browser end to end verification | required |
 
