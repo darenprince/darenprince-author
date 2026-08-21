@@ -1,1232 +1,703 @@
-# VoxVector Master Method Index — Individual Data Points
+# VoxVector Master Method Index
 
-**Canonical inventory of individual measurements, derived statistics, inputs, outputs, quality fields, and planned analysis data points.**
+## Individual Data Point Reference
 
-This document is intentionally more granular than a method list. A method is a container; the bullets under it are the individual data points that the method can produce, consume, or is intended to produce. Current implementation status is preserved separately from planned research.
+This is the canonical master index of VoxVector analysis data points.
 
-**Status vocabulary**
-- **CURRENT / INTEGRATED** — implemented and emitted or orchestrated by the primary runtime.
-- **CURRENT / ASSET** — implemented reusable code, but not currently primary-pipeline integrated.
-- **PLANNED** — documented future implementation or research candidate.
-- **VALIDATION** — required evaluation data point or control, not a production inference feature.
-- **NOT VALIDATED** — implemented software behavior does not establish deception-detection validity.
+Every analysis category is organized into columns.
 
-**Scientific boundary:** no individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature proves deception. VoxVector must preserve observations, convergence, conflict, uncertainty, alternative explanations, and reliability separately.
+Every individual data point remains separately listed.
+
+No comma separated data point lists are used.
+
+**CURRENT** means implemented in the repository.
+
+**ASSET** means reusable implementation exists but is not primary pipeline output.
+
+**PLANNED** means retained research or development scope.
+
+**VALIDATION** means an evaluation control rather than a production inference feature.
+
+**Scientific boundary:** an individual feature does not prove deception. Eligibility and reliability remain separate from evidence collection. Candidate classification remains separate from final disposition. Uncertainty and alternative explanations remain visible.
 
 ---
 
-# D01 — Signal / Acoustic Fundamentals
+# D01 — Signal and Acoustic Fundamentals
 
-## D01.01 Frame construction — CURRENT
-- Input waveform samples
-- Sample count
-- Sample rate
-- Frame size
-- Hop size
-- Frame count
-- Frame start index
-- Frame end index
-- Frame duration
-- Segment start time
-- Segment end time
-
-## D01.02 RMS energy — CURRENT / INTEGRATED
-- Frame RMS
-- Mean RMS
-- Median RMS
-- RMS standard deviation
-- RMS minimum
-- RMS maximum
-- RMS range
-- Finite RMS count
-- RMS unavailable count
-
-## D01.03 Intensity — CURRENT / INTEGRATED
-- Relative intensity / dB
-- Reference level
-- Mean intensity
-- Median intensity
-- Intensity standard deviation
-- Intensity minimum
-- Intensity maximum
-- Intensity range
-- Finite intensity count
-- Intensity unavailable count
-
-## D01.04 Zero-crossing rate — CURRENT
-- Zero crossings per frame
-- Mean zero-crossing rate
-- Median zero-crossing rate
-- Standard deviation
-- Minimum
-- Maximum
-- Range
-
-## D01.05 Signal-level quality — CURRENT
-- Empty input state
-- Silence state
-- Non-finite sample state
-- Signal availability
-- Segment quality
-- Segment duration
-- Method ID
-- Segment provenance
+| Signal construction | Energy | Intensity | Quality |
+|---|---|---|---|
+| Input waveform samples | Frame RMS | Relative intensity | Empty input state |
+| Sample count | Mean RMS | Reference level | Silence state |
+| Sample rate | Median RMS | Mean intensity | Non finite sample state |
+| Frame size | RMS standard deviation | Median intensity | Signal availability |
+| Hop size | RMS minimum | Intensity standard deviation | Segment quality |
+| Frame count | RMS maximum | Intensity minimum | Segment duration |
+| Frame start index | RMS range | Intensity maximum | Method ID |
+| Frame end index | Finite RMS count | Intensity range | Segment provenance |
+| Frame duration | RMS unavailable count | Finite intensity count | |
+| Segment start time | | Intensity unavailable count | |
+| Segment end time | | | |
+| Zero crossings per frame | | | |
+| Mean zero crossing rate | | | |
+| Median zero crossing rate | | | |
+| Zero crossing standard deviation | | | |
+| Zero crossing minimum | | | |
+| Zero crossing maximum | | | |
+| Zero crossing range | | | |
 
 ---
 
 # D02 — Spectral Analysis
 
-## D02.01 Spectrum — CURRENT
-- Windowed waveform
-- Magnitude spectrum
-- FFT bin index
-- FFT output width
-- Frequency-bin vector
-- Nyquist frequency
-- Sample-rate-to-bin mapping
+| Spectrum | Centroid | Spread | Flux and rolloff |
+|---|---|---|---|
+| Windowed waveform | Spectral centroid per frame | Spectral spread per frame | Frame to frame spectral change |
+| Magnitude spectrum | Mean centroid | Weighted spectral variance | Normalized spectral flux |
+| FFT bin index | Median centroid | Square root spectral spread | Previous frame spectrum |
+| FFT output width | Centroid standard deviation | Mean spread | Current frame spectrum |
+| Frequency bin vector | Centroid minimum | Median spread | Flux vector length |
+| Nyquist frequency | Centroid maximum | Spread standard deviation | Flux mean |
+| Sample rate to bin mapping | Centroid range | Spread minimum | Flux median |
+| | Spectral energy denominator | Spread maximum | Flux standard deviation |
+| | Zero spectrum state | Spread range | Flux minimum |
+| | Unavailable state | Zero spectrum state | Flux maximum |
+| | | Unavailable state | Flux range |
+| | | | Rolloff fraction |
+| | | | Default rolloff fraction |
+| | | | Cumulative spectral energy |
+| | | | Rolloff threshold |
+| | | | Rolloff bin index |
+| | | | Rolloff frequency |
+| | | | Per frame rolloff |
+| | | | Mean rolloff |
+| | | | Median rolloff |
+| | | | Rolloff standard deviation |
+| | | | Rolloff minimum |
+| | | | Rolloff maximum |
+| | | | Rolloff range |
 
-## D02.02 Spectral centroid — CURRENT / INTEGRATED
-- Spectral centroid in Hz per frame
-- Mean centroid
-- Median centroid
-- Standard deviation
-- Minimum
-- Maximum
-- Range
-- Spectral-energy denominator
-- Zero-spectrum / unavailable state
+### D02 Planned
 
-## D02.03 Spectral spread — CURRENT / INTEGRATED
-- Spectral spread in Hz per frame
-- Weighted spectral variance
-- Square-root spectral spread
-- Mean spread
-- Median spread
-- Standard deviation
-- Minimum
-- Maximum
-- Range
-- Zero-spectrum / unavailable state
-
-## D02.04 Spectral flux — CURRENT / INTEGRATED
-- Frame-to-frame spectral change
-- Normalized spectral flux
-- Previous-frame spectrum
-- Current-frame spectrum
-- Flux vector length
-- Flux mean
-- Flux median
-- Flux standard deviation
-- Flux minimum
-- Flux maximum
-- Flux range
-
-## D02.05 Spectral rolloff — CURRENT / INTEGRATED
-- Rolloff fraction
-- Default rolloff fraction: 0.85
-- Cumulative spectral energy
-- Rolloff threshold
-- Rolloff bin index
-- Rolloff frequency in Hz
-- Per-frame rolloff
-- Mean rolloff
-- Median rolloff
-- Standard deviation
-- Minimum
-- Maximum
-- Range
-
-## D02.06 Planned spectral data points
-- Spectral slope
-- Spectral tilt
-- Spectral skewness
-- Spectral kurtosis
-- Additional spectral flux variants
-- Spectral entropy
-- Spectral flatness
-- Spectral bandwidth
-- Additional harmonic spectral descriptors
-- openSMILE / eGeMAPS-style spectral descriptors
+| Spectral shape | Spectral distribution | Harmonic descriptors | Descriptor layer |
+|---|---|---|---|
+| Spectral slope | Spectral entropy | Additional harmonic spectral descriptors | openSMILE style descriptors |
+| Spectral tilt | Spectral flatness | Additional spectral flux variants | eGeMAPS style descriptors |
+| Spectral skewness | Spectral bandwidth | | |
+| Spectral kurtosis | | | |
 
 ---
 
 # D03 — Cepstral Analysis
 
-## D03.01 MFCC — CURRENT / INTEGRATED
-- MFCC coefficient 1
-- MFCC coefficient 2
-- MFCC coefficient 3
-- MFCC coefficient 4
-- MFCC coefficient 5
-- MFCC coefficient 6
-- MFCC coefficient 7
-- MFCC coefficient 8
-- MFCC coefficient 9
-- MFCC coefficient 10
-- MFCC coefficient 11
-- MFCC coefficient 12
-- MFCC coefficient 13
-- Per-coefficient mean
-- Per-coefficient finite count
-- Cepstral provenance
-- Segment provenance
-- Method ID
-
-## D03.02 Planned MFCC expansion
-- Per-coefficient median
-- Per-coefficient standard deviation
-- Per-coefficient minimum
-- Per-coefficient maximum
-- Delta MFCCs
-- Delta-delta MFCCs
-- Frame-level MFCC trajectories
-
-## D03.03 LPCC — PLANNED
-- LPCC coefficient vector
-- LPC order
-- Prediction coefficients
-- Cepstral coefficient statistics
-- Stability / failed-LPC state
-
-## D03.04 GFCC — PLANNED
-- Gammatone filterbank outputs
-- GFCC coefficient vector
-- Per-coefficient statistics
-- Configuration metadata
-- Failed-configuration state
+| MFCC current | MFCC expansion | LPCC planned | GFCC planned |
+|---|---|---|---|
+| MFCC coefficient 1 | Per coefficient median | LPCC coefficient vector | Gammatone filterbank outputs |
+| MFCC coefficient 2 | Per coefficient standard deviation | LPC order | GFCC coefficient vector |
+| MFCC coefficient 3 | Per coefficient minimum | Prediction coefficients | Per coefficient statistics |
+| MFCC coefficient 4 | Per coefficient maximum | Cepstral coefficient statistics | Configuration metadata |
+| MFCC coefficient 5 | Delta MFCC | Stability state | Failed configuration state |
+| MFCC coefficient 6 | Delta delta MFCC | Failed LPC state | |
+| MFCC coefficient 7 | Frame level MFCC trajectories | | |
+| MFCC coefficient 8 | | | |
+| MFCC coefficient 9 | | | |
+| MFCC coefficient 10 | | | |
+| MFCC coefficient 11 | | | |
+| MFCC coefficient 12 | | | |
+| MFCC coefficient 13 | | | |
+| Per coefficient mean | | | |
+| Per coefficient finite count | | | |
+| Cepstral provenance | | | |
+| Segment provenance | | | |
+| Method ID | | | |
 
 ---
 
-# D04 — Fundamental Frequency / Pitch
+# D04 — Fundamental Frequency and Pitch
 
-## D04.01 F0 — CURRENT / INTEGRATED
-- F0 Hz per frame
-- Minimum F0 search frequency
-- Maximum F0 search frequency
-- F0 lag
-- Autocorrelation peak
-- Voicing threshold
-- Voiced F0 count
-- Unvoiced F0 count
-- F0 mean
-- F0 median
-- F0 standard deviation
-- F0 range
-- F0 p10
-- F0 p90
-- F0 slope
-- F0 first-to-last delta
-
-## D04.02 F0 quality states — CURRENT
-- Unvoiced frame
-- Short frame
-- Zero-energy frame
-- Non-finite frame
-- Insufficient lag range
-- F0 unavailable / NaN
-
-## D04.03 Planned pitch data points
-- Pitch contour smoothing
-- Pitch excursion
-- Pitch acceleration
-- Pitch variability over time
-- Local pitch perturbation
-- Phrase-level pitch movement
-- Question / answer pitch contour comparison
-- Baseline-relative pitch deviation
+| F0 measurement | F0 distribution | F0 dynamics | F0 quality |
+|---|---|---|---|
+| F0 per frame | F0 mean | F0 slope | Unvoiced frame |
+| Minimum F0 search frequency | F0 median | F0 first to last delta | Short frame |
+| Maximum F0 search frequency | F0 standard deviation | Pitch excursion | Zero energy frame |
+| F0 lag | F0 range | Pitch acceleration | Non finite frame |
+| Autocorrelation peak | F0 P10 | Pitch variability over time | Insufficient lag range |
+| Voicing threshold | F0 P90 | Phrase level pitch movement | F0 unavailable state |
+| Voiced F0 count | | Local pitch perturbation | NaN state |
+| Unvoiced F0 count | | Question answer pitch comparison | |
+| | | Baseline relative pitch deviation | |
 
 ---
 
-# D05 — Prosody / Intonation
+# D05 — Prosody and Intonation
 
-## D05.01 Generic contour summary — CURRENT
-For each supported contour:
-- Mean
-- Median
-- Standard deviation
-- Range
-- P10
-- P90
-- Slope
-- Finite sample count
-- Missing sample count
-
-## D05.02 F0 dynamics — CURRENT
-- F0 mean
-- F0 median
-- F0 standard deviation
-- F0 range
-- F0 p10
-- F0 p90
-- F0 slope
-- F0 delta
-
-## D05.03 Intensity dynamics — CURRENT
-- Intensity mean
-- Intensity median
-- Intensity standard deviation
-- Intensity range
-- Intensity p10
-- Intensity p90
-- Intensity slope
-- Intensity delta
-
-## D05.04 Planned prosodic data points
-- Intonation contour shape
-- Pitch reset
-- Phrase-final movement
-- Phrase-initial movement
-- Prosodic boundary strength
-- Accent prominence
-- Prosodic variability
-- Prosodic acceleration
-- Prosodic change-point locations
-- Context-relative prosodic deviation
+| Contour statistics | F0 dynamics | Intensity dynamics | Planned prosody |
+|---|---|---|---|
+| Mean | F0 mean | Intensity mean | Intonation contour shape |
+| Median | F0 median | Intensity median | Pitch reset |
+| Standard deviation | F0 standard deviation | Intensity standard deviation | Phrase final movement |
+| Range | F0 range | Intensity range | Phrase initial movement |
+| P10 | F0 P10 | Intensity P10 | Prosodic boundary strength |
+| P90 | F0 P90 | Intensity P90 | Accent prominence |
+| Slope | F0 slope | Intensity slope | Prosodic variability |
+| Finite sample count | F0 delta | Intensity delta | Prosodic acceleration |
+| Missing sample count | | | Change point locations |
+| | | | Context relative deviation |
 
 ---
 
-# D06 — Intensity / Energy Dynamics
+# D06 — Intensity and Energy Dynamics
 
-## D06.01 CURRENT
-- RMS mean
-- RMS median
-- RMS standard deviation
-- RMS range
-- dB mean
-- dB median
-- dB standard deviation
-- dB range
-- Intensity p10
-- Intensity p90
-- Intensity slope
-- Intensity delta
-- Energy contour
-- Intensity contour
-
-## D06.02 PLANNED
-- Energy acceleration
-- Energy change points
-- Relative intensity against speaker baseline
-- Question / answer intensity comparison
-- Phrase-level intensity dynamics
-- Context-relative loudness deviation
+| Current measurements | Distribution | Dynamics | Planned |
+|---|---|---|---|
+| RMS mean | RMS median | Energy contour | Energy acceleration |
+| RMS standard deviation | RMS range | Intensity contour | Energy change points |
+| dB mean | Intensity P10 | Intensity slope | Baseline relative intensity |
+| dB median | Intensity P90 | Intensity delta | Question answer intensity comparison |
+| dB standard deviation | | | Phrase level intensity dynamics |
+| dB range | | | Context relative loudness deviation |
 
 ---
 
 # D07 — Voice Quality
 
-## D07.01 Harmonicity — CURRENT
-- Normalized autocorrelation harmonicity
-- Maximum valid autocorrelation within F0 search range
-- Harmonicity mean
-- Harmonicity median
-- Harmonicity standard deviation
-- Harmonicity range
-- Harmonicity unavailable count
+| Harmonicity | HNR | Jitter and shimmer | Signal quality |
+|---|---|---|---|
+| Normalized autocorrelation harmonicity | HNR in dB | Local jitter | Clipping ratio |
+| Maximum valid autocorrelation | Valid HNR count | Valid period count | Clipping threshold |
+| Harmonicity mean | Invalid HNR count | Mean period | DC offset |
+| Harmonicity median | Infinite HNR state | Adjacent period differences | Empty signal state |
+| Harmonicity standard deviation | NaN HNR state | Period perturbation ratio | Non finite sample state |
+| Harmonicity range | HNR mean | Insufficient period state | |
+| Harmonicity unavailable count | HNR median | Local shimmer | |
+| | HNR standard deviation | Valid amplitude count | |
+| | HNR range | Mean cycle amplitude | |
+| | | Adjacent amplitude differences | |
+| | | Amplitude perturbation ratio | |
+| | | Insufficient amplitude state | |
 
-## D07.02 HNR — CURRENT / INTEGRATED
-- HNR in dB
-- Valid HNR count
-- Invalid HNR count
-- Infinite HNR state when harmonicity >= 1
-- NaN state for invalid harmonicity
-- HNR mean
-- HNR median
-- HNR standard deviation
-- HNR range
+### D07 Planned
 
-## D07.03 Jitter — CURRENT / ASSET
-- Local jitter
-- Valid period count
-- Mean period
-- Absolute adjacent period differences
-- Period perturbation ratio
-- Insufficient-period state
-
-## D07.04 Shimmer — CURRENT / ASSET
-- Local shimmer
-- Valid amplitude count
-- Mean cycle amplitude
-- Absolute adjacent amplitude differences
-- Amplitude perturbation ratio
-- Insufficient-amplitude state
-
-## D07.05 Signal quality — CURRENT
-- Clipping ratio
-- Clipping threshold
-- DC offset
-- Empty-signal state
-- Non-finite-sample state
-
-## D07.06 Planned voice-quality data points
-- Additional harmonicity measures
-- Spectral tilt
-- H1-H2
-- Harmonic amplitude differences
-- Voice-quality perturbation statistics
-- OpenSMILE / eGeMAPS voice-quality descriptors
-- Glottal excitation descriptors
+| Harmonic measures | Spectral voice quality | Glottal excitation | Descriptor layer |
+|---|---|---|---|
+| Additional harmonicity measures | Spectral tilt | Glottal excitation descriptors | openSMILE voice quality |
+| | H1 H2 | | eGeMAPS voice quality |
+| | Harmonic amplitude differences | | |
+| | Voice quality perturbation statistics | | |
 
 ---
 
 # D08 — Glottal Source
 
-## D08.01 PLANNED
-- Glottal waveform
-- Glottal cycle duration
-- Open quotient (OQ)
-- Closed quotient (CQ)
-- Normalized amplitude quotient (NAQ)
-- H1-H2
-- H1-A1
-- H1-A3
-- Glottal spectral tilt
-- Maximum flow derivative
-- Glottal closure characteristics
-- IAIF residual
-- Inverse-filtered source signal
-- Source-excitation statistics
-- Glottal-cycle variability
+| Source reconstruction | Quotient measures | Harmonic measures | Source dynamics |
+|---|---|---|---|
+| Glottal waveform | Open quotient | H1 H2 | Glottal cycle variability |
+| IAIF residual | Closed quotient | H1 A1 | Source excitation statistics |
+| Inverse filtered source signal | Normalized amplitude quotient | H1 A3 | Glottal closure characteristics |
+| Maximum flow derivative | | Glottal spectral tilt | Glottal cycle duration |
 
 ---
 
-# D09 — Formants / Vocal Tract
+# D09 — Formants and Vocal Tract
 
-## D09.01 Formant candidate extraction — CURRENT
-- Candidate F1 frequency
-- Candidate F2 frequency
-- Candidate F3 frequency
-- Candidate F4 frequency
-- Number of requested formants
-- Minimum formant frequency
-- Maximum formant frequency
-- Effective maximum frequency
-- FFT frequency vector
-- Spectral peak amplitude
-- Peak rank
-- Peak spacing
-- Per-frame candidate availability
+| Current candidates | Tracking | Planned formant data | Configuration |
+|---|---|---|---|
+| Candidate F1 | Frame index | Formant bandwidths | Number of formants |
+| Candidate F2 | F1 trajectory | Formant amplitudes | Minimum formant frequency |
+| Candidate F3 | F2 trajectory | Formant trajectories | Maximum formant frequency |
+| Candidate F4 | F3 trajectory | Formant slope | Effective maximum frequency |
+| Spectral peak amplitude | F4 trajectory | Formant range | FFT frequency vector |
+| Peak rank | Stable candidate state | Formant variability | Peak spacing |
+| Peak spacing | Unstable frame state | Formant transition dynamics | Minimum peak spacing |
+| Per frame candidate availability | Missing candidate state | Formant stability | |
+| | Frame provenance | Phonetic vowel association | |
+| | | Phoneme conditioned formant measures | |
 
-Current defaults:
-- n_formants = 4
-- min_hz = 200 Hz
-- max_hz = 5000 Hz, bounded by Nyquist
-- minimum peak spacing = max(100 Hz, sample_rate / frame_size)
+### Current configuration
 
-## D09.02 Formant tracking — CURRENT
-- Frame index
-- F1 trajectory
-- F2 trajectory
-- F3 trajectory
-- F4 trajectory
-- Stable candidate state
-- Unstable frame state
-- Missing candidate state
-- Frame-level provenance
+| Parameter | Value |
+|---|---|
+| Number of formants | 4 |
+| Minimum frequency | 200 Hz |
+| Maximum frequency | 5000 Hz |
+| Maximum frequency boundary | Nyquist |
+| Minimum peak spacing | max 100 Hz or sample rate divided by frame size |
 
-## D09.03 Planned formant data points
-- Formant bandwidths
-- Formant amplitudes
-- Formant trajectories
-- Formant slope
-- Formant range
-- Formant variability
-- Formant transition dynamics
-- Formant stability
-- Phonetic vowel association
-- Phoneme-conditioned formant measures
+Current formant output is a spectral candidate observation.
 
-**Boundary:** current formant output is a spectral candidate observation, not a phonetic formant claim.
+It is not a phonetic formant claim.
 
 ---
 
-# D10 — Temporal / Speech Rate
+# D10 — Temporal and Speech Rate
 
-## D10.01 Voicing — CURRENT
-- Voiced frame count
-- Total frame count
-- Voiced fraction
-- Energy threshold
-- F0 finite state
-- Voiced mask
+| Voicing | Pause detection | Speech rate | Articulation rate |
+|---|---|---|---|
+| Voiced frame count | Energy threshold | Syllable count input | Syllable count input |
+| Total frame count | Quiet frame mask | Voiced seconds input | Articulation seconds input |
+| Voiced fraction | Contiguous quiet runs | Syllables per voiced second | Syllables per articulation second |
+| F0 finite state | Pause run start | Zero duration state | Zero duration state |
+| Voiced mask | Pause run end | Invalid negative input state | Invalid negative input state |
+| | Pause duration | | |
+| | Minimum pause duration | | |
+| | Pause count | | |
+| | Total pause duration | | |
+| | Mean pause duration | | |
 
-## D10.02 Pause detection — CURRENT
-- Energy threshold
-- Quiet-frame mask
-- Contiguous quiet runs
-- Pause run start
-- Pause run end
-- Pause duration
-- Minimum pause duration
-- Pause count
-- Total pause duration
-- Mean pause duration
+### Current pause defaults
 
-Current pause primitive defaults:
-- Energy threshold = 1e-4
-- Minimum pause duration = 0.20 s
+| Parameter | Value |
+|---|---|
+| Energy threshold | 1e-4 |
+| Minimum pause duration | 0.20 s |
 
-## D10.03 Pause topology — CURRENT / RESEARCH ASSET
-- Pause count
-- Pause density
-- Longest pause
-- Pause median
-- Pause P90
-- Voiced-run mean duration
-- Pause duration vector
-- Voiced-run duration vector
-- Total analyzed duration
+### Research timing topology
 
-The research timing topology function uses a default energy threshold of 0.01 and computes pause and voiced runs from frame masks.
-
-## D10.04 Speech rate — CURRENT / RESEARCH ASSET
-- Syllable count input
-- Voiced seconds input
-- Syllables per voiced second
-- Zero-duration state
-- Invalid negative-input state
-
-## D10.05 Articulation rate — CURRENT / RESEARCH ASSET
-- Syllable count input
-- Articulation seconds input
-- Syllables per articulation second
-- Zero-duration state
-- Invalid negative-input state
+| Data point | Status |
+|---|---|
+| Pause count | ASSET |
+| Pause density | ASSET |
+| Longest pause | ASSET |
+| Pause median | ASSET |
+| Pause P90 | ASSET |
+| Voiced run mean duration | ASSET |
+| Pause duration vector | ASSET |
+| Voiced run duration vector | ASSET |
+| Total analyzed duration | ASSET |
+| Research energy threshold | 0.01 |
 
 ---
 
-# D11 — Pause / Hesitation
+# D11 — Pause and Hesitation
 
-## D11.01 CURRENT data points
-- Pause count
-- Pause density
-- Mean pause duration
-- Total pause duration
-- Longest pause
-- Median pause duration
-- P90 pause duration
-- Voiced-run mean duration
-- Pause start time
-- Pause end time
-- Pause position within segment
-- Pause duration distribution
-
-## D11.02 PLANNED
-- Initial response pause
-- Mid-answer pause count
-- Mid-answer pause duration
-- Final-answer pause behavior
-- Question-relative pause position
-- Pause clustering
-- Pause spacing
-- Pause acceleration / change over answer
-- Baseline-relative pause deviation
-- Pause topology by conversational context
+| Current | Planned response timing | Planned topology | Context |
+|---|---|---|---|
+| Pause count | Initial response pause | Pause clustering | Question relative pause position |
+| Pause density | Mid answer pause count | Pause spacing | Baseline relative pause deviation |
+| Mean pause duration | Mid answer pause duration | Pause acceleration | Conversational context |
+| Total pause duration | Final answer pause behavior | Change over answer | Pause topology by context |
+| Longest pause | | | |
+| Median pause duration | | | |
+| P90 pause duration | | | |
+| Voiced run mean duration | | | |
+| Pause start time | | | |
+| Pause end time | | | |
+| Pause position within segment | | | |
+| Pause duration distribution | | | |
 
 ---
 
 # D12 — Response Latency
 
-## D12.01 CURRENT / ASSET
-- Question end timestamp
-- First speech timestamp
-- First substantive speech timestamp
-- First speech latency
-- First substantive latency
-- Filler-before-content latency
-
-## D12.02 Validation controls
-- First speech must not precede question end
-- First substantive speech must not precede first speech
-- First substantive speech must not precede question end
-- Numeric timestamp validation
-- Reversed interval rejection
-
-## D12.03 PLANNED
-- Question-type-specific latency
-- Baseline-relative latency
-- Latency distribution across answers
-- Latency median
-- Latency P90
-- Latency variance
-- Latency change across interview
-- Latency relative to semantic difficulty
+| Timing inputs | Current derived values | Validation controls | Planned |
+|---|---|---|---|
+| Question end timestamp | First speech latency | First speech cannot precede question end | Question type specific latency |
+| First speech timestamp | First substantive latency | First substantive speech cannot precede first speech | Baseline relative latency |
+| First substantive speech timestamp | Filler before content latency | First substantive speech cannot precede question end | Latency distribution |
+| | | Numeric timestamp validation | Latency median |
+| | | Reversed interval rejection | Latency P90 |
+| | | | Latency variance |
+| | | | Latency change across interview |
+| | | | Latency relative to semantic difficulty |
 
 ---
 
-# D13 — Turn Taking / Interaction
+# D13 — Turn Taking and Interaction
 
-## D13.01 CURRENT / ASSET
-- Turn start timestamp
-- Turn end timestamp
-- Turn duration
-- Speaker A start
-- Speaker A end
-- Speaker B start
-- Speaker B end
-- Overlap duration
-- Non-overlap duration
-- Response latency
-- Speaker / segment provenance
-
-## D13.02 PLANNED
-- Turn transition count
-- Turn transition latency
-- Interruption count
-- Interruption duration
-- Overlap count
-- Overlap density
-- Backchannel count
-- Backchannel timing
-- Turn-length distribution
-- Speaker dominance / floor time
-- Conversational rhythm
-- Turn-taking irregularity
+| Current timing | Current overlap | Planned interaction | Planned floor behavior |
+|---|---|---|---|
+| Turn start timestamp | Overlap duration | Turn transition count | Speaker dominance |
+| Turn end timestamp | Non overlap duration | Turn transition latency | Floor time |
+| Turn duration | Response latency | Interruption count | Turn length distribution |
+| Speaker A start | | Interruption duration | Conversational rhythm |
+| Speaker A end | | Overlap count | Turn taking irregularity |
+| Speaker B start | | Overlap density | Backchannel count |
+| Speaker B end | | Backchannel timing | Backchannel timing |
+| Speaker provenance | | | |
+| Segment provenance | | | |
 
 ---
 
 # D14 — Speaker Baseline
 
-## D14.01 CURRENT
-- Baseline median
-- Baseline MAD
-- Baseline sample count
-- Current value
-- Baseline-relative deviation
-- Robust scale = max(1.4826 × MAD, minimum MAD)
-- Baseline eligibility
-- Independent baseline provenance
-
-## D14.02 PLANNED
-- Baseline mean
-- Baseline standard deviation
-- Baseline percentile distribution
-- Baseline by feature
-- Baseline by context
-- Baseline by question type
-- Baseline drift
-- Baseline stability
-- Baseline segment quality
-- Baseline contamination state
-- Baseline leakage state
-- Multiple independent baseline windows
+| Current baseline | Current deviation | Baseline controls | Planned baseline |
+|---|---|---|---|
+| Baseline median | Current value | Baseline eligibility | Baseline mean |
+| Baseline MAD | Baseline relative deviation | Independent baseline provenance | Baseline standard deviation |
+| Baseline sample count | Robust scale | | Baseline percentile distribution |
+| Minimum MAD | | | Baseline by feature |
+| | | | Baseline by context |
+| | | | Baseline by question type |
+| | | | Baseline drift |
+| | | | Baseline stability |
+| | | | Baseline segment quality |
+| | | | Baseline contamination state |
+| | | | Baseline leakage state |
+| | | | Multiple independent baseline windows |
 
 ---
 
-# D15 — Transcript / Linguistic
+# D15 — Transcript and Linguistic Analysis
 
-## D15.01 CURRENT when transcript is supplied
-- Token sequence
-- Token count
-- Transcript provenance
-- Transcript confidence where supplied
-- Filled-pause tokens
-- Repetition tokens
-- Filled-pause count
-- Repetition count
-- Filled-pause rate
-- Repetition rate
+| Current transcript | Current disfluency | Planned lexical | Planned linguistic |
+|---|---|---|---|
+| Token sequence | Filled pause tokens | Lexical diversity | Pronoun use |
+| Token count | Repetition tokens | Type token ratio | Negation count |
+| Transcript provenance | Filled pause count | Content word rate | Hedging count |
+| Transcript confidence | Repetition count | Function word rate | Certainty language |
+| Filled pause rate | | Word rate | Intensifier use |
+| Repetition rate | | Syllable rate | Modal verbs |
+| | | | Quantifiers |
+| | | | Temporal expressions |
+| | | | Spatial expressions |
+| | | | Discourse markers |
+| | | | Topic terms |
+| | | | Named entities |
+| | | | Semantic embeddings |
+| | | | Transformer representations |
+| | | | Transcript confidence by word |
 
-## D15.02 Current filler vocabulary
-- um
-- uh
-- er
-- erm
-- hmm
+### Current filler vocabulary
+
+| Filler 1 | Filler 2 | Filler 3 | Filler 4 | Filler 5 |
+|---|---|---|---|---|
+| um | uh | er | erm | hmm |
 
 Custom filler sets are supported.
 
-## D15.03 PLANNED
-- Word timestamps
-- Phoneme timestamps
-- Word duration
-- Phoneme duration
-- Word rate
-- Syllable rate
-- Lexical diversity
-- Type-token ratio
-- Content-word rate
-- Function-word rate
-- Pronoun use
-- Negation count
-- Hedging count
-- Certainty language
-- Intensifier use
-- Modal verbs
-- Quantifiers
-- Temporal expressions
-- Spatial expressions
-- Discourse markers
-- Topic terms
-- Named entities
-- Semantic embeddings
-- Transformer representations
-- Transcript confidence by word
+---
+
+# D16 — Disfluency and Repairs
+
+| Current data model | Planned locations | Planned repair data | Planned rates |
+|---|---|---|---|
+| Filled pauses | False start locations | Repair locations | Total disfluency rate |
+| False starts | False start duration | Repair duration | Repetition rate |
+| Repairs | Fragment locations | Repaired token count | Fragment rate |
+| Repetitions | Abandoned phrase locations | Fragment count | Abandoned phrase rate |
+| Fragments | | Abandoned phrase count | |
+| Abandoned phrases | | | |
+| Total disfluencies | | | |
+| Token count | | | |
+| Disfluency rate | | | |
+| Repetition rate | | | |
+
+Automated detection and alignment remain planned where the current implementation only provides the reusable data model.
 
 ---
 
-# D16 — Disfluency / Repairs
+# D17 — Question and Answer Alignment
 
-## D16.01 CURRENT data model
-- Filled pauses
-- False starts
-- Repairs
-- Repetitions
-- Fragments
-- Abandoned phrases
-- Total disfluencies
-- Token count
-- Disfluency rate
-- Repetition rate
-
-The reusable data model already represents false starts, repairs, fragments, and abandoned phrases even though automated detection/alignment remains a planned capability.
-
-## D16.02 PLANNED
-- False-start locations
-- False-start duration
-- Repair locations
-- Repair duration
-- Repaired token count
-- Fragment count
-- Fragment rate
-- Abandoned phrase count
-- Abandoned phrase rate
-- Disfluency clustering
-- Disfluency timing relative to question onset
-- Disfluency timing relative to answer completion
-- Alignment confidence
+| Temporal alignment | Content alignment | Quality | Planned semantic alignment |
+|---|---|---|---|
+| Question start | Question token count | Alignment confidence | Question answer semantic similarity |
+| Question end | Answer token count | Segmentation confidence | Topic alignment |
+| Answer start | Direct answer indicator | | Answer relevance |
+| Answer end | Question repetition indicator | | Answer completeness |
+| First speech start | | | |
+| First substantive speech start | | | |
+| Question duration | | | |
+| Answer duration | | | |
+| Response latency | | | |
+| Filler before content latency | | | |
 
 ---
 
-# D17 — Question / Answer Alignment
+# D18 — Semantic and Consistency Analysis
 
-## D17.01 PLANNED data points
-- Question start
-- Question end
-- Answer start
-- Answer end
-- First speech start
-- First substantive speech start
-- Question duration
-- Answer duration
-- Response latency
-- Filler-before-content latency
-- Question token count
-- Answer token count
-- Question / answer semantic similarity
-- Topic alignment
-- Answer relevance
-- Direct-answer indicator
-- Question repetition indicator
-- Answer completeness
-- Alignment confidence
-- Segmentation confidence
+| Claim analysis | Logical relation | Consistency | Narrative |
+|---|---|---|---|
+| Claim extraction | Contradiction probability | Cross answer consistency | Narrative coherence |
+| Claim count | Entailment probability | Temporal consistency | Semantic change |
+| Claim embeddings | Neutrality probability | Entity consistency | Topic consistency |
+| | | Numerical consistency | Answer relevance |
+| | | Location consistency | Question answer semantic similarity |
+| | | Relationship consistency | |
+| | | Event order consistency | |
 
----
+These are candidate evidence measures.
 
-# D18 — Semantic / Consistency Analysis
-
-## D18.01 PLANNED
-- Claim extraction
-- Claim count
-- Claim embeddings
-- Claim-to-claim similarity
-- Contradiction probability
-- Entailment probability
-- Neutrality probability
-- Cross-answer consistency
-- Temporal consistency
-- Entity consistency
-- Numerical consistency
-- Location consistency
-- Relationship consistency
-- Event-order consistency
-- Topic consistency
-- Answer relevance
-- Question-answer semantic similarity
-- Narrative coherence
-- Semantic change across repeated answers
-
-These are candidate evidence measures, not direct deception proof.
+They are not direct deception proof.
 
 ---
 
 # D19 — Learned Speech Representations
 
-## D19.01 PLANNED model families
-- WavLM embeddings
-- wav2vec 2.0 embeddings
-- HuBERT embeddings
-- Conformer representations
-- Audio Spectrogram Transformer representations
-- Segment embeddings
-- Utterance embeddings
-- Frame embeddings
-- Temporal embeddings
-- Learned acoustic embeddings
-- Learned prosodic embeddings
-- Learned voice-quality embeddings
-
-## D19.02 Required metadata
-- Model name
-- Model version
-- Model configuration
-- Sampling rate requirement
-- Input duration
-- Embedding dimension
-- Segment boundaries
-- Speaker identity metadata
-- Recording-condition metadata
+| Model family | Representation level | Embedding data | Metadata |
+|---|---|---|---|
+| WavLM | Frame | Frame embeddings | Model name |
+| wav2vec 2.0 | Segment | Segment embeddings | Model version |
+| HuBERT | Utterance | Utterance embeddings | Model configuration |
+| Conformer | Temporal | Learned acoustic embeddings | Sampling rate requirement |
+| Audio Spectrogram Transformer | | Learned prosodic embeddings | Input duration |
+| | | Learned voice quality embeddings | Embedding dimension |
+| | | Temporal embeddings | Segment boundaries |
+| | | | Speaker identity metadata |
+| | | | Recording condition metadata |
 
 ---
 
 # D20 — Temporal Neural Modeling
 
-## D20.01 PLANNED
-- Sequence embedding
-- Temporal attention weights
-- Segment importance
-- Utterance-level representation
-- Long-range dependency representation
-- Temporal pooling
-- Attention pooling
-- Segment aggregation
-- Evidence sequence representation
-- Cross-feature temporal interaction
-- Acoustic-linguistic temporal fusion
-- Temporal confidence
+| Sequence | Attention | Aggregation | Fusion |
+|---|---|---|---|
+| Sequence embedding | Temporal attention weights | Temporal pooling | Evidence sequence representation |
+| Temporal representation | Segment importance | Attention pooling | Cross feature temporal interaction |
+| Long range dependency representation | Utterance importance | Segment aggregation | Acoustic linguistic fusion |
+| Utterance representation | | | Temporal confidence |
 
 ---
 
-# D21 — Speaker Diarization / Separation
+# D21 — Speaker Diarization and Separation
 
-## D21.01 PLANNED
-- Speaker count
-- Speaker labels
-- Speaker segment start
-- Speaker segment end
-- Speaker duration
-- Speaker speaking fraction
-- Speaker turn count
-- Speaker overlap
-- Cross-speaker contamination
-- Speaker attribution confidence
-- Channel attribution
-- Speaker-conditioned feature vectors
-- Speaker-specific baseline
+| Speaker identity | Speaker timing | Speaker behavior | Attribution quality |
+|---|---|---|---|
+| Speaker count | Segment start | Speaker speaking fraction | Speaker attribution confidence |
+| Speaker labels | Segment end | Speaker turn count | Cross speaker contamination |
+| Channel identity | Speaker duration | Speaker overlap | Channel attribution |
+| | | Speaker conditioned feature vectors | |
+| | | Speaker specific baseline | |
 
 ---
 
-# D22 — Recording / Channel / Media Integrity
+# D22 — Recording and Media Integrity
 
-## D22.01 CURRENT
-- Clipping ratio
-- Clipping threshold
-- DC offset
-- Empty input
-- Silence state
-- Non-finite input state
-- Signal duration
-- Sample rate
-- Channel count
-- Segment quality
-- Method provenance
-
-## D22.02 PLANNED
-- Noise floor
-- Signal-to-noise ratio
-- Reverberation estimate
-- Compression artifact score
-- Microphone/channel fingerprint
-- Channel mismatch
-- Background-noise class
-- Environmental-noise level
-- Codec metadata
-- Resampling detection
-- Splicing/artifact indicators
-- Recording-condition confidence
-- Audio authenticity indicators
+| Current signal integrity | Recording environment | Channel integrity | Planned authenticity |
+|---|---|---|---|
+| Clipping ratio | Noise floor | Channel mismatch | Splicing indicators |
+| Clipping threshold | Signal to noise ratio | Microphone fingerprint | Artifact indicators |
+| DC offset | Reverberation estimate | Channel fingerprint | Audio authenticity indicators |
+| Empty input | Background noise class | Codec metadata | Authenticity confidence |
+| Silence state | Environmental noise level | Resampling detection | Provenance metadata |
+| Non finite input | Compression artifact score | Recording condition confidence | |
+| Signal duration | | | |
+| Sample rate | | | |
+| Channel count | | | |
+| Segment quality | | | |
 
 ---
 
-# D23 — Eligibility / Reliability
+# D23 — Eligibility and Reliability
 
-## D23.01 CURRENT data points
-- Input present
-- Duration
-- Sample rate
-- Channel availability
-- Signal quality
-- Clipping state
-- Silence state
-- Finite-sample state
-- Speaker availability where applicable
-- Transcript availability where applicable
-- Transcript confidence where supplied
-- Baseline availability
-- Baseline eligibility
-- Context completeness
-- Missing-data state
-- Method availability
-- Segment quality
-- Reliability gate state
-
-## D23.02 PLANNED
-- Minimum usable duration
-- Minimum voiced duration
-- Minimum independent baseline duration
-- Speaker separation confidence
-- Transcript quality threshold
-- Recording-condition threshold
-- Out-of-distribution distance
-- Population compatibility
-- Task compatibility
-- Evidence sufficiency
-- Reliability confidence
-- Explicit rejection reason
+| Current eligibility | Current quality | Context | Planned controls |
+|---|---|---|---|
+| Input present | Signal quality | Speaker availability | Minimum usable duration |
+| Duration | Clipping state | Transcript availability | Minimum voiced duration |
+| Sample rate | Silence state | Transcript confidence | Minimum independent baseline duration |
+| Channel availability | Finite sample state | Baseline availability | Speaker separation confidence |
+| | Segment quality | Context completeness | Transcript quality threshold |
+| | Missing data state | Method availability | Recording condition threshold |
+| | | | Out of distribution distance |
+| | | | Population compatibility |
+| | | | Task compatibility |
+| | | | Evidence sufficiency |
+| | | | Reliability confidence |
+| | | | Explicit rejection reason |
 
 ---
 
-# D24 — Evidence Convergence / Conflict
+# D24 — Evidence Convergence and Conflict
 
-## D24.01 CURRENT foundation
-- Method ID
-- Feature name
-- Observed value
-- Unit
-- Segment
-- Quality
-- Direction / descriptive state where available
-- Provenance
-- Missing/unavailable state
-
-## D24.02 PLANNED
-- Evidence count
-- Independent evidence count
-- Evidence agreement
-- Evidence disagreement
-- Evidence conflict count
-- Evidence convergence strength
-- Method dependence estimate
-- Evidence redundancy
-- Evidence coverage
-- Evidence sufficiency
-- Cross-method consistency
-- Evidence provenance graph
-- Convergence confidence
-- Conflict confidence
+| Observation identity | Evidence content | Convergence | Conflict |
+|---|---|---|---|
+| Method ID | Observed value | Evidence count | Evidence disagreement |
+| Feature name | Unit | Independent evidence count | Evidence conflict count |
+| Segment | Quality | Evidence agreement | Method dependence estimate |
+| Provenance | Direction where available | Convergence strength | Evidence redundancy |
+| Availability state | Missing state | Evidence coverage | Conflict confidence |
+| | | Evidence sufficiency | Evidence provenance graph |
+| | | Cross method consistency | |
+| | | Convergence confidence | |
 
 ---
 
-# D25 — Alternative Explanations / Confounders
+# D25 — Alternative Explanations and Confounders
 
-## D25.01 PLANNED data points
-- Fatigue indicator
-- Illness / voice-quality context
-- Anxiety/stress context
-- Topic sensitivity
-- Emotional-arousal context
-- Cognitive-load context
-- Language mismatch
-- Accent mismatch
-- Speaker adaptation
-- Microphone effect
-- Channel effect
-- Environmental noise
-- Compression effect
-- Recording artifact
-- Dataset artifact
-- Speaker identity leakage
-- Model shortcut signal
-- Baseline contamination
-- Ordinary conversational variation
-- Alternative-explanation confidence
+| Physiological and emotional | Recording | Speaker | Context |
+|---|---|---|---|
+| Fatigue | Microphone effect | Speaker adaptation | Topic sensitivity |
+| Illness | Channel effect | Identity leakage | Language mismatch |
+| Anxiety or stress | Environmental noise | Baseline contamination | Accent mismatch |
+| Emotional arousal | Compression effect | Model shortcut signal | Cognitive load |
+| Voice condition | Recording artifact | Speaker variation | Ordinary conversational variation |
+| | Dataset artifact | | Alternative explanation confidence |
 
 ---
 
-# D26 — Uncertainty / Calibration
+# D26 — Uncertainty and Calibration
 
-## D26.01 PLANNED
-- Raw model score
-- Calibrated probability
-- Calibration error
-- Confidence estimate
-- Data-quality uncertainty
-- Model uncertainty
-- Evidence uncertainty
-- Evidence-conflict uncertainty
-- Epistemic uncertainty where supported
-- Aleatoric uncertainty where supported
-- Confidence interval
-- Reliability-adjusted confidence
-- Abstention threshold
-- Out-of-distribution uncertainty
-- Calibration curve data
-- Brier score
-- Expected calibration error
-- Reliability diagram data
+| Model output | Calibration | Uncertainty | Reliability |
+|---|---|---|---|
+| Raw model score | Calibrated probability | Data quality uncertainty | Reliability adjusted confidence |
+| Candidate probability | Calibration error | Model uncertainty | Confidence interval |
+| | Brier score | Evidence uncertainty | Abstention threshold |
+| | Expected calibration error | Evidence conflict uncertainty | Out of distribution uncertainty |
+| | Calibration curve data | Epistemic uncertainty where supported | |
+| | Reliability diagram data | Aleatoric uncertainty where supported | |
 
 ---
 
 # D27 — Candidate Classification
 
-## D27.01 Current boundary
-- Candidate classification state
-- Indeterminate state
-- Fail-closed state
-- Insufficient-evidence state
-
-## D27.02 Planned
-- Candidate deception hypothesis
-- Candidate non-deception hypothesis
-- Candidate probability
-- Evidence support
-- Evidence contradiction
-- Alternative-explanation burden
-- Classification confidence
-- Classification uncertainty
-- Classification eligibility
-- Classifier provenance
-- Model version
-- Calibration version
+| Current boundary | Candidate hypothesis | Evidence | Controls |
+|---|---|---|---|
+| Candidate classification state | Candidate deception hypothesis | Evidence support | Classification eligibility |
+| Indeterminate state | Candidate non deception hypothesis | Evidence contradiction | Classification confidence |
+| Fail closed state | Candidate probability | Alternative explanation burden | Classification uncertainty |
+| Insufficient evidence state | | | Classifier provenance |
+| | | | Model version |
+| | | | Calibration version |
 
 ---
 
 # D28 — Deception Inference
 
-## D28.01 Planned / validation gated
-- Operational task definition
-- Target claim
-- Evidence vector
-- Feature vector
-- Multimethod evidence representation
-- Candidate deception probability
-- Candidate non-deception probability
-- Calibrated probability
-- Confidence matrix
-- Evidence convergence
-- Evidence conflict
-- Alternative explanations
-- Reliability state
-- Uncertainty state
-- Model provenance
-- Dataset provenance
-- Validation population
-- Validation condition
-- Final classification
+| Target definition | Evidence representation | Model output | Validation gate |
+|---|---|---|---|
+| Operational task definition | Evidence vector | Candidate deception probability | Validation population |
+| Target claim | Feature vector | Candidate non deception probability | Validation condition |
+| | Multimethod evidence representation | Calibrated probability | Dataset provenance |
+| | | Confidence matrix | Model provenance |
+| | | Evidence convergence | Reliability state |
+| | | Evidence conflict | Uncertainty state |
+| | | Alternative explanation burden | Final classification |
 
-## D28.02 Candidate model families
-- Logistic regression
-- Tree-based models
-- SVM-style models
-- Ensemble methods
-- Neural classifiers
-- Learned-representation classifiers
-- Temporal classifiers
-- Multimethod fusion classifiers
-- Task-specific classifiers
+### Candidate model families
 
-No model family is validated merely by implementation.
+| Statistical | Machine learning | Neural | Fusion |
+|---|---|---|---|
+| Logistic regression | Tree based models | Neural classifiers | Multimethod fusion classifiers |
+| | SVM style models | Learned representation classifiers | Task specific classifiers |
+| | Ensemble methods | Temporal classifiers | |
+
+No model family becomes validated by implementation alone.
 
 ---
 
-# D29 — Multimodal Audio / Video
+# D29 — Multimodal Audio and Video
 
-## D29.01 PLANNED audio/video data points
-- Video frame timestamps
-- Facial Action Units
-- Facial movement
-- Facial expression features
-- Head movement
-- Eye-region behavior where technically supported
-- Audio/video synchronization offset
-- Cross-modal temporal alignment
-- Audio evidence vector
-- Visual evidence vector
-- Cross-modal agreement
-- Cross-modal conflict
-- Cross-modal confidence
-- Multimodal reliability
+| Video | Facial | Synchronization | Fusion |
+|---|---|---|---|
+| Video frame timestamps | Facial Action Units | Audio video synchronization offset | Audio evidence vector |
+| | Facial movement | Cross modal temporal alignment | Visual evidence vector |
+| | Facial expression features | | Cross modal agreement |
+| | Head movement | | Cross modal conflict |
+| | Eye region behavior where supported | | Cross modal confidence |
+| | | | Multimodal reliability |
 
 ---
 
-# D30 — Synthetic Speech / Media Integrity
+# D30 — Synthetic Speech and Media Integrity
 
-## D30.01 PLANNED
-- Synthetic-speech probability
-- Voice-cloning probability
-- Generated-audio artifact score
-- Source-model artifact indicators
-- Spectral generation artifacts
-- Phase artifacts
-- Prosodic generation artifacts
-- Voice-identity consistency
-- Audio/video generation mismatch
-- Provenance metadata
-- Authenticity confidence
-- Benchmark performance
+| Generation detection | Artifact analysis | Identity | Provenance |
+|---|---|---|---|
+| Synthetic speech probability | Spectral generation artifacts | Voice identity consistency | Provenance metadata |
+| Voice cloning probability | Phase artifacts | | Authenticity confidence |
+| Generated audio artifact score | Prosodic generation artifacts | | Benchmark performance |
+| Source model artifact indicators | | | |
+| Audio video generation mismatch | | | |
 
-This is media integrity analysis, distinct from deception inference.
+This category is media integrity analysis.
+
+It is distinct from deception inference.
 
 ---
 
-# D31 — Scientific Validation / Robustness Data Points
+# D31 — Scientific Validation and Robustness
 
-## D31.01 Dataset controls
-- Speaker-disjoint training split
-- Speaker-disjoint validation split
-- Speaker-disjoint test split
-- Cross-dataset test set
-- Recording-condition partitions
-- Language partitions
-- Accent partitions where applicable
-- Population partitions
-- Task partitions
+| Dataset controls | Performance | Calibration | Robustness |
+|---|---|---|---|
+| Speaker disjoint training split | Accuracy | Calibration error | Speaker identity leakage |
+| Speaker disjoint validation split | Balanced accuracy | Brier score | Recording condition leakage |
+| Speaker disjoint test split | Precision | Expected calibration error | Dataset artifact leakage |
+| Cross dataset test set | Recall | Reliability diagram data | Microphone leakage |
+| Recording condition partitions | Sensitivity | Calibration curve data | Channel leakage |
+| Language partitions | Specificity | | Language effect |
+| Accent partitions | F1 | | Accent effect |
+| Population partitions | ROC AUC | | Accent effect |
+| Task partitions | PR AUC | | Population effect |
+| | Confusion matrix | | Task effect |
+| | False positive rate | | Cross dataset degradation |
+| | False negative rate | | Distribution shift |
+| | Abstention rate | | Out of distribution behavior |
+| | Coverage | | |
+| | Selective risk | | |
+| | Confidence stratified performance | | |
 
-## D31.02 Performance data points
-- Accuracy
-- Balanced accuracy
-- Precision
-- Recall / sensitivity
-- Specificity
-- F1
-- ROC-AUC
-- PR-AUC
-- Confusion matrix
-- False-positive rate
-- False-negative rate
-- Calibration error
-- Brier score
-- Abstention rate
-- Coverage
-- Selective risk
-- Confidence-stratified performance
+### Validation controls
 
-## D31.03 Robustness / leakage data points
-- Speaker identity leakage
-- Recording-condition leakage
-- Dataset artifact leakage
-- Microphone leakage
-- Channel leakage
-- Language effect
-- Accent effect
-- Population effect
-- Task effect
-- Cross-dataset degradation
-- Distribution shift
-- Out-of-distribution behavior
-
-## D31.04 Validation controls
-- Operational definition freeze
-- Population definition
-- Deployment condition definition
-- Reproducible preprocessing
-- Frozen evaluation protocol
-- Independent replication
-- External validation
-- Scientific review
-- Failure analysis
-- Abstention analysis
+| Protocol | Reproducibility | Review | Failure analysis |
+|---|---|---|---|
+| Operational definition freeze | Reproducible preprocessing | Scientific review | Failure analysis |
+| Population definition | Frozen evaluation protocol | Independent replication | Abstention analysis |
+| Deployment condition definition | | External validation | |
 
 ---
 
-# D32 — Final Classification / Disposition / Abstention
+# D32 — Final Classification and Disposition
 
-## D32.01 CURRENT boundary outputs
-- Eligible / ineligible
-- Reliable / unreliable
-- Evidence available / unavailable
-- Insufficient evidence
-- Abstain
-- Indeterminate
-- Final disposition gate state
-
-## D32.02 PLANNED final output data points
-- Final candidate classification
-- Calibrated deception probability
-- Confidence matrix
-- Reliability state
-- Evidence convergence summary
-- Evidence conflict summary
-- Alternative explanations
-- Uncertainty summary
-- Model provenance
-- Method provenance
-- Dataset provenance
-- Validation status
-- Abstention reason
-- Task definition
-- Population definition
-- Recording-condition definition
+| Current gate | Final output | Evidence context | Provenance |
+|---|---|---|---|
+| Eligible | Final candidate classification | Evidence convergence summary | Model provenance |
+| Ineligible | Calibrated deception probability | Evidence conflict summary | Method provenance |
+| Reliable | Confidence matrix | Alternative explanations | Dataset provenance |
+| Unreliable | Reliability state | Uncertainty summary | Validation status |
+| Evidence available | Abstention reason | | Task definition |
+| Evidence unavailable | | | Population definition |
+| Insufficient evidence | | | Recording condition definition |
+| Abstain | | | |
+| Indeterminate | | | |
 
 ---
 
-# Cross-Cutting Data Fields — Every Observation
+# Cross Cutting Observation Fields
 
-Where applicable, every observation should retain:
+| Identity | Timing | Quality | Provenance |
+|---|---|---|---|
+| Method ID | Segment start | Quality score or state | Input provenance |
+| Feature name | Segment end | Availability state | Speaker provenance |
+| Value | Segment duration | Missing data reason | Baseline provenance |
+| Unit | | Failure state | Transcript provenance |
+| Version | | Validation status | Model provenance |
+| Inferential status | | | |
 
-- Method ID
-- Feature name
-- Value
-- Unit
-- Segment start
-- Segment end
-- Segment duration
-- Quality score/state
-- Input provenance
-- Speaker provenance
-- Baseline provenance
-- Transcript provenance
-- Model provenance
-- Version
-- Availability state
-- Missing-data reason
-- Failure state
-- Validation status
-- Inferential status
+---
 
-# Cross-Cutting Failure Semantics
+# Cross Cutting Failure States
 
-- No fabricated values
-- Explicit unavailable states
-- NaN preservation where mathematically appropriate
-- Deterministic empty-input handling
-- Deterministic invalid-input rejection
-- Fail-closed planned methods
-- Reversed timestamp rejection
-- Invalid frequency-range rejection
-- Invalid sample-rate rejection
-- Insufficient-frame handling
-- Insufficient-period handling
-- Insufficient-amplitude handling
-- Missing-alignment handling
-- Missing-baseline handling
-- Missing-speaker-attribution handling
-- Missing-transcript handling
-- Missing-context handling
+| Input failure | Signal failure | Context failure | Analysis failure |
+|---|---|---|---|
+| Empty input | Silence | Missing baseline | Insufficient frames |
+| Invalid input | Clipping | Missing transcript | Insufficient periods |
+| Non finite input | Channel failure | Missing speaker attribution | Insufficient amplitudes |
+| Invalid sample rate | Recording artifact | Missing context | Missing alignment |
+| Invalid frequency range | | | Missing speaker separation |
+| Reversed timestamps | | | Missing timing boundary |
 
-# Cross-Cutting Scientific Controls
+---
 
-- Observation is not inference.
-- A feature is not a deception label.
-- A model score is not automatically a probability.
-- A probability is not automatically calibrated.
-- A passing software test is not scientific validation.
-- Research findings are not automatically product capabilities.
-- Population performance must be measured rather than assumed.
-- Speaker-disjoint evaluation is required for meaningful speaker generalization claims.
-- Recording-condition and identity leakage must be tested.
-- Evidence convergence and evidence conflict must remain visible.
-- Alternative explanations must remain visible.
-- Reliability and eligibility remain separate from evidence and final disposition.
-- Abstention is a valid result when evidence or validation is insufficient.
+# Cross Cutting Scientific Controls
 
-# Canonical Status References
+| Evidence discipline | Inference discipline | Validation discipline | Reporting discipline |
+|---|---|---|---|
+| Observation is not inference | Model score is not automatically probability | Software test is not scientific validation | Report what was measured |
+| Feature is not deception label | Probability is not automatically calibrated | Research finding is not automatically capability | Report unavailable data |
+| Convergence remains visible | Abstention remains available | Speaker disjoint evaluation | Report reliability |
+| Conflict remains visible | Alternative explanations remain visible | Cross dataset evaluation | Report evidence direction |
+| Dependence remains visible | Eligibility remains separate | Leakage testing | Report uncertainty |
+| Provenance remains visible | Final disposition remains gated | Population evaluation | Report alternatives |
 
-- `docs/OPERATING_CHARTER.md` — governing scientific and product rules
-- `docs/PROJECT_DECISION_LOG.md` — project decisions
-- `docs/CAPABILITY_STATUS.md` — implementation/capability state
-- `docs/METHOD_QA_MATRIX.md` — implementation-level QA matrix
-- `docs/ROADMAP.md` — planned research and development sequence
+---
 
-**This index is intentionally exhaustive at the data-point level. It does not claim that planned data points currently exist in runtime output. Current runtime status remains authoritative.**
+# Status Rule
+
+The master index preserves future capability even when implementation is pending.
+
+The repository implementation remains authoritative for current runtime behavior.
+
+A planned data point must not be presented as a current runtime output.
+
+A current runtime output must not be presented as scientifically validated deception inference without completed validation.
+
+The product objective remains deception detection.
+
+The evidence standard determines when a specific inference capability can be promoted.
