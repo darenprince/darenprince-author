@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from VoxVector.api.case_store import CaseNotFound, CaseStore
+from VoxVector.api.storage import StorageError
+
 
 class FakeStorage:
     def __init__(self):
         self.json = {}
         self.media = {}
-        self.config = type("Config", (), {"media_bucket": "voxvector-media"})()
 
     def put_json(self, path, payload):
         self.json[path] = payload
@@ -13,7 +15,7 @@ class FakeStorage:
 
     def get_json(self, path):
         if path not in self.json:
-            raise RuntimeError("missing")
+            raise StorageError("missing")
         return self.json[path]
 
     def list_json(self, prefix, limit=100, offset=0):
@@ -24,8 +26,6 @@ class FakeStorage:
     def put_bytes(self, path, body, content_type="application/octet-stream"):
         self.media[path] = body
         return f"voxvector-media/{path}"
-
-from api.case_store import CaseStore, CaseNotFound
 
 
 def test_case_creation_and_source_persistence():
