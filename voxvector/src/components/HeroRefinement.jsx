@@ -174,6 +174,32 @@ function refineHeroActions() {
   }
 }
 
+function removeHeroDisclaimer(hero) {
+  if (!hero) return
+  const content = hero.querySelector('.vv-hero-content')
+  if (!content) return
+  content.querySelectorAll('p,small,span,div').forEach((element) => {
+    if (element.classList.contains('vv-hero-body') || element.closest('.vv-hero-cta-row')) return
+    const text = element.textContent?.trim().replace(/\s+/g, ' ').toLowerCase()
+    if (!text) return
+    if (/no credit card|credit card required|secure,? private|secure\.\s*private|private\.\s*powerful|secure and private|no card required/.test(text)) {
+      element.style.display = 'none'
+      element.dataset.vvHeroDisclaimer = 'true'
+    }
+  })
+}
+
+function createHeroTechnologyLink() {
+  const hero = document.querySelector('#product')
+  if (!hero || hero.querySelector('.vv-hero-technology-link')) return
+  const link = document.createElement('a')
+  link.href = '#technology'
+  link.className = 'vv-hero-technology-link'
+  link.setAttribute('aria-label', 'Explore the Technology')
+  link.innerHTML = '<span>Explore the Technology</span><span class="vv-hero-technology-arrow" aria-hidden="true">↓</span>'
+  hero.appendChild(link)
+}
+
 function establishHeroOnlyReveal() {
   document.documentElement.classList.add('vv-hero-only-reveal')
   const normalizeNonHero = () => {
@@ -253,6 +279,8 @@ export default function HeroRefinement() {
     createSectionSignalField('#technology', 'radar')
     createSectionSignalField('#workflow', 'evidence')
     refineHeroActions()
+    removeHeroDisclaimer(hero)
+    createHeroTechnologyLink()
     const observer = new MutationObserver(() => {
       normalizeNonHero()
       hideLegacyHeroCopy(hero)
@@ -260,6 +288,8 @@ export default function HeroRefinement() {
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
       refineHeroActions()
+      removeHeroDisclaimer(hero)
+      createHeroTechnologyLink()
     })
     observer.observe(document.body, { childList: true, subtree: true })
     const timeout = window.setTimeout(() => {
@@ -269,6 +299,8 @@ export default function HeroRefinement() {
       createSectionSignalField('#technology', 'radar')
       createSectionSignalField('#workflow', 'evidence')
       refineHeroActions()
+      removeHeroDisclaimer(hero)
+      createHeroTechnologyLink()
     }, 80)
     return () => {
       observer.disconnect()
@@ -280,7 +312,12 @@ export default function HeroRefinement() {
         element.style.display = ''
         delete element.dataset.vvLegacyHeroCopy
       })
+      document.querySelectorAll('[data-vv-hero-disclaimer="true"]').forEach((element) => {
+        element.style.display = ''
+        delete element.dataset.vvHeroDisclaimer
+      })
       document.querySelector('.vv-hero-body')?.remove()
+      document.querySelector('.vv-hero-technology-link')?.remove()
       heroContent?.classList.remove('vv-hero-content')
     }
   }, [])
