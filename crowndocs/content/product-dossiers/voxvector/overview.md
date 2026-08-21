@@ -18,6 +18,21 @@ The platform brings together audio ingestion, signal preparation, speaker intell
 
 The architecture deliberately separates eligibility and reliability, evidence collection and analysis, candidate classification, and final classification or disposition so each layer contributes a defined role to the analytical system.
 
+## Canonical Analysis Pipeline
+
+The complete product workflow contains 21 connected stages from file upload through audit and provenance output.
+
+**[Open the complete 21-stage VoxVector Analysis Pipeline →](/docs/product-dossiers/voxvector/analysis-pipeline)**
+
+The pipeline is organized into four product groups:
+
+1. Prepare
+2. Understand
+3. Analyze
+4. Synthesize and Decide
+
+The public pipeline experience and engineering architecture use this same canonical stage model.
+
 ## Analytical Scope
 
 The primary analytical architecture spans acoustic energy and intensity, zero-crossing rate, spectral centroid and spread, fundamental frequency, harmonicity, F0 and intensity dynamics, HNR, spectral flux and rolloff, formant candidate tracking, pause topology, response latency, transcript disfluency observations, and within-speaker baseline deviations.
@@ -37,3 +52,9 @@ VoxVector combines multiple analytical dimensions to create a deeper representat
 VoxVector is being engineered toward a world-class multimethod vocal deception analysis platform with increasingly sophisticated audio intelligence, speaker-aware processing, conversational intelligence, evidence synthesis, calibrated probabilistic models, and rigorous validation.
 
 The product roadmap advances from foundational signal measurement through increasingly capable classification and validated deception inference while preserving the complete end-to-end architecture.
+
+## Documentation Authority
+
+The VoxVector repository is the technical source of truth for implementation and engineering state.
+
+The Crown Labs documentation site is the executive and product-facing documentation mirror. Changes to the canonical product architecture are reflected here so the public documentation remains synchronized with the engineering model.
