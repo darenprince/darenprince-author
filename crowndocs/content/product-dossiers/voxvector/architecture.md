@@ -28,7 +28,7 @@ The FastAPI layer is the interface boundary. The analysis engine remains canonic
 
 ## Complete Product Pipeline
 
-The VoxVector analytical architecture spans:
+The complete VoxVector product architecture contains 21 connected stages:
 
 1. File upload and ingest
 2. Decode and normalization
@@ -52,6 +52,8 @@ The VoxVector analytical architecture spans:
 20. Final classification and disposition
 21. Audit and provenance output
 
+**[View the detailed 21-stage pipeline →](/docs/product-dossiers/voxvector/analysis-pipeline)**
+
 ## Analysis Engine
 
 `VoxVectorPipeline.analyze()` provides the foundational reliability assessment and structured feature extraction layer across acoustic, prosodic, spectral, formant, temporal, baseline, interaction, and transcript observations.
@@ -63,6 +65,31 @@ The broader product architecture extends this foundation with speaker intelligen
 VoxVector preserves identifiers, input hashing, schema and software versions, eligibility state, observation provenance, evidence relationships, uncertainty, and the complete analytical pathway.
 
 Reliability and evidence relationships are first-class components of the architecture. Multiple evidence families are brought together through a stage-separated analytical workflow rather than an opaque single score.
+
+## Analysis Workspace
+
+The target application is a persistent case-centered workspace connecting:
+
+- source metadata
+- audio playback
+- synchronized waveform
+- speaker regions
+- transcript
+- analytical tracks
+- evidence timeline
+- evidence explorer
+- pipeline state
+- assessment
+- reports
+- history
+
+The shared timeline connects audio, speaker, transcript, analytical observations, and evidence events so a selected interval can be inspected across the relevant analytical layers.
+
+## Implementation Boundary
+
+The 21 stage architecture is the canonical product model. Runtime implementation state is tracked separately in the VoxVector capability records and MVP engineering plan.
+
+The frontend must represent actual backend stage state. It must not manufacture execution progress or present planned analytical stages as completed runtime behavior.
 
 ## Deployment Boundary
 
