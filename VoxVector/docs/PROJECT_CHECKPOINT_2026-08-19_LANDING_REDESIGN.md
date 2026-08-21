@@ -95,3 +95,21 @@ Mobile navigation includes the same three destinations rather than hiding develo
 This refinement preserves the existing evidence first language, readability floor, restrained rounded treatment, warm black and copper palette, and scientific distinction between product objective and current observational capability.
 
 Verification remains pending until a fresh GitHub Actions frontend build and browser level GitHub Pages verification are observed. Source commits alone are not treated as successful production verification.
+
+## 2026-08-21 animated landing signal layer correction
+
+The landing refinement introduced two animated canvas signal fields for the `#technology` and `#workflow` sections. The canvas elements were prepended into those sections by `HeroRefinement.jsx`, but their stacking behavior was not explicitly defined in the shared stylesheet. This allowed the animated layer to participate in normal document painting rather than behaving as a dedicated decorative background layer and could visually interfere with the section content.
+
+The correction establishes a dedicated stacking context for sections containing `.vv-section-signal` and forces the canvas to:
+
+* occupy the full section bounds
+* remain absolutely positioned as the first background layer
+* remain non interactive with `pointer-events: none`
+* use `z-index: 0`
+* keep all subsequent section content in a `z-index: 1` content layer
+
+No analytical behavior was changed. The animated fields remain presentation only; this change fixes their rendering layer and prevents them from competing with landing-page content.
+
+Source change: `voxvector/src/index.css` commit `0e2c34f15559d77cb0f7d42daa936995d0aff323`.
+
+Verification: source-level stacking correction completed. Browser-level verification should confirm the technology and workflow sections render with the animated field behind all text, cards, controls and links at desktop and mobile widths.
