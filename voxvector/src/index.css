@@ -105,6 +105,21 @@ html[data-theme='light'] [class*='border-white'] { border-color: var(--vv-border
 .vv-card-hover:hover { border-color: var(--vv-border-strong); transform: translateY(-1px); }
 .vv-surface-gradient { background: linear-gradient(145deg, var(--vv-surface), var(--vv-panel)); }
 
+/* Animated landing signal fields are decorative background layers. They must never enter the content stacking context. */
+main section:has(> .vv-section-signal) { position: relative; isolation: isolate; }
+main section > .vv-section-signal {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
+
 /* Developer console */
 .vv-app { min-height: 100vh; background: var(--vv-bg); color: var(--vv-text); }
 .vv-header { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid var(--vv-border); background: color-mix(in srgb, var(--vv-bg) 92%, transparent); backdrop-filter: blur(18px); }
