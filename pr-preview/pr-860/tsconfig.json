@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "types": ["vitest/globals"],
+    "skipLibCheck": true
+  },
+  "include": [
+    "tests/**/*.ts",
+    "src/nexuswho/**/*.ts",
+    "src/nexuswho/**/*.tsx",
+    "vite.config.ts",
+    "tailwind.config.ts"
+  ]
+}

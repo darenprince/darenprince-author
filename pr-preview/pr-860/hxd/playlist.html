@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HxD Playground — Soundtrack</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <div class="access-gate">
+    <div class="gate-panel">
+      <div class="gate-title">HXD Playground</div>
+      <div class="gate-subtitle">Private Access</div>
+      <form id="access-form">
+        <input class="input" id="access-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary" type="submit">Enter</button>
+        <div class="gate-error" id="gate-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-flame">🔥</span>
+          <span class="brand-heart">🤍</span>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-title">HXD Playground</span>
+          <span class="brand-subtitle">Flying high. No safe words.</span>
+        </div>
+      </div>
+      <button class="menu-button" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay-menu">
+    <div class="menu-panel">
+      <ul>
+        <li><a href="index.html"><span class="material-symbols-outlined">home</span> Lounge</a></li>
+        <li><a href="playlist.html"><span class="material-symbols-outlined">music_note</span> Soundtrack</a></li>
+        <li><a href="calendar.html"><span class="material-symbols-outlined">calendar_month</span> Schedule</a></li>
+        <li><a href="games.html"><span class="material-symbols-outlined">casino</span> Playground</a></li>
+        <li><a href="vault.html"><span class="material-symbols-outlined">lock</span> Vault</a></li>
+        <li><a href="backstage.html"><span class="material-symbols-outlined">chat</span> Backstage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="section-title">Our Soundtrack</h1>
+    <div class="card">
+      <h3>Play it loud. Or don’t.</h3>
+      <p class="hero-subtitle" id="playlist-lines">You know what this playlist leads to.</p>
+      <div class="dark-glass" style="margin:16px 0;">
+        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/73MrckfWzMJHswdNFCbi5S?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <p class="section-subtle" data-spotify-status>Loading Spotify…</p>
+      <div class="actions">
+        <button class="btn" id="mood-btn">Set the Mood</button>
+        <button class="btn ghost" data-selection-target="playlist-lines" data-selection-subject="Playlist vibe">Submit this soundtrack</button>
+        <a class="btn" href="https://open.spotify.com/playlist/73MrckfWzMJHswdNFCbi5S" target="_blank" rel="noreferrer">Open in Spotify</a>
+      </div>
+    </div>
+  </main>
+
+  <section class="container selection-console">
+    <div class="selection-top">
+      <div>
+        <p class="section-eyebrow">Your picks queue</p>
+        <h2 class="section-title">Send it when you’re sure</h2>
+      </div>
+      <div class="glow-dot" aria-hidden="true"></div>
+    </div>
+    <div class="dark-glass selection-body">
+      <p class="selection-label">Latest selection</p>
+      <p class="selection-output" id="selection-output">Waiting for your move.</p>
+      <label class="selection-note-label" for="selection-note">Add a note</label>
+      <textarea class="input selection-note" id="selection-note" rows="3" placeholder="Which track, when, with whom…"></textarea>
+      <div class="actions">
+        <button class="btn" id="selection-clear">Clear</button>
+        <button class="btn btn-primary" id="selection-submit" disabled>Submit to Daren</button>
+      </div>
+      <p class="selection-status" id="selection-status" role="status" aria-live="polite"></p>
+      <p class="selection-hint">Anything you pick, spin, or suggest is sent straight to author@darenprince.com — never from your inbox.</p>
+    </div>
+  </section>
+
+  <script src="js/email-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
