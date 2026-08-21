@@ -19,23 +19,83 @@ export async function apiRequest(path, options = {}) {
   return result
 }
 
+function authHeaders(accessToken) {
+  if (!accessToken) throw new Error('Developer session token unavailable.')
+  return { Authorization: `Bearer ${accessToken}` }
+}
+
 export async function getHealth() {
   return apiRequest('/health')
 }
 
 export async function getDiagnosticErrors(accessToken, { days = 14, limit = 100 } = {}) {
-  if (!accessToken) throw new Error('Developer session token unavailable.')
-  return apiRequest(`/v1/diagnostics/errors?days=${encodeURIComponent(days)}&limit=${encodeURIComponent(limit)}`, {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  })
+  return apiRequest(`/v1/diagnostics/errors?days=${encodeURIComponent(days)}&limit=${encodeURIComponent(limit)}`, { headers: authHeaders(accessToken) })
 }
 
 export async function getDiagnosticEvents(accessToken, { requestId = '', days = 2, limit = 100 } = {}) {
-  if (!accessToken) throw new Error('Developer session token unavailable.')
   const query = new URLSearchParams({ days: String(days), limit: String(limit) })
   if (requestId) query.set('request_id', requestId)
-  return apiRequest(`/v1/diagnostics/events?${query.toString()}`, {
-    headers: { Authorization: `Bearer ${accessToken}` }
+  return apiRequest(`/v1/diagnostics/events?${query.toString()}`, { headers: authHeaders(accessToken) })
+}
+
+export async function createAnalysisCase(accessToken, title = '') {
+  return apiRequest('/v1/cases', {
+    method: 'POST',
+    headers: { ...authHeaders(accessToken), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title })
+  })
+}
+
+export async function listAnalysisCases(accessToken, limit = 50) {
+  return apiRequest(`/v1/cases?limit=${encodeURIComponent(limit)}`, { headers: authHeaders(accessToken) })
+}
+
+export async function getAnalysisCase(accessToken, caseId) {
+  return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}`, { headers: authHeaders(accessToken) })
+}
+
+export function uploadCaseSource(accessToken, caseId, file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    const body = new FormData()
+    body.append('file', file)
+    const requestId = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+    xhr.open('POST', `${API_BASE}/v1/cases/${encodeURIComponent(caseId)}/sources`)
+    xhr.setRequestHeader('Accept', 'application/json')
+    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`)
+    xhr.setRequestHeader('X-Request-ID', requestId)
+    xhr.upload.addEventListener('progress', event => {
+      if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100))
+    })
+    xhr.addEventListener('error', () => reject(Object.assign(new Error('Network error while uploading case source.'), { requestId })))
+    xhr.addEventListener('load', () => {
+      const contentType = xhr.getResponseHeader('content-type') || ''
+      let payload = xhr.responseText
+      if (contentType.includes('application/json')) {
+        try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ }
+      }
+      const response = { status: xhr.status, ok: xhr.status >= 200 && xhr.status < 300 }
+      const result = { response, payload, requestId: xhr.getResponseHeader('X-Request-ID') || requestId }
+      if (!response.ok) {
+        const detail = typeof payload === 'object' ? payload?.detail : payload
+        reject(Object.assign(new Error(detail || `HTTP ${xhr.status}`), result))
+        return
+      }
+      onProgress?.(100)
+      resolve(result)
+    })
+    xhr.send(body)
+  })
+}
+
+export async function getCasePlaybackUrl(accessToken, caseId, sourceId, expires = 900) {
+  return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}/sources/${encodeURIComponent(sourceId)}/playback?expires=${encodeURIComponent(expires)}`, { headers: authHeaders(accessToken) })
+}
+
+export async function analyzeCaseSource(accessToken, caseId, sourceId) {
+  return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}/sources/${encodeURIComponent(sourceId)}/analyze`, {
+    method: 'POST',
+    headers: authHeaders(accessToken)
   })
 }
 
@@ -58,17 +118,8 @@ export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onS
     xhr.setRequestHeader('X-Request-ID', requestId)
     onRequestCreated?.({ requestId, abort: () => xhr.abort() })
     onState?.('uploading')
-
-    xhr.upload.addEventListener('progress', (event) => {
-      if (event.lengthComputable) {
-        const progress = Math.min(100, (event.loaded / event.total) * 100)
-        onProgress?.(progress)
-      }
-    })
-    xhr.upload.addEventListener('load', () => {
-      onProgress?.(100)
-      onState?.('uploaded')
-    })
+    xhr.upload.addEventListener('progress', event => { if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100)) })
+    xhr.upload.addEventListener('load', () => { onProgress?.(100); onState?.('uploaded') })
     xhr.addEventListener('error', () => {
       const error = new Error('Network error while uploading audio.')
       error.requestId = requestId
