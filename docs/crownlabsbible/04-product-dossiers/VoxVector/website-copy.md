@@ -10,7 +10,7 @@
 
 ### Subheadline
 
-VoxVector examines the voice for measurable patterns, behavioral changes, and converging evidence that may reveal signals associated with deception.
+VoxVector analyzes speech across acoustic vocal linguistic temporal and behavioral dimensions to surface measurable patterns and converging evidence associated with deception.
 
 ### Primary CTA
 
@@ -22,56 +22,60 @@ VoxVector examines the voice for measurable patterns, behavioral changes, and co
 
 ## Product Introduction
 
-VoxVector turns complex vocal and audio measurements into structured, traceable analytical evidence. The platform evaluates whether an input is suitable for analysis, records what was measured, preserves provenance, and keeps observation separate from inference.
+VoxVector transforms complex vocal and audio signals into structured intelligence. The platform moves from audio ingestion through speaker processing transcription specialized analysis evidence synthesis and classification to create a comprehensive view of the voice.
 
 ## Key Value Propositions
 
-### Reliability First
+### Intelligent Signal Analysis
 
-Know whether the recording is technically suitable before relying on downstream observations.
+Analyze the voice across multiple specialized evidence families and discover patterns that single-method tools can miss.
 
 ### Multimethod Analysis
 
-Combine acoustic, temporal, spectral, prosodic, formant, interaction, transcript, and baseline observations where supported.
+Combine acoustic temporal spectral prosodic voice-quality linguistic transcript speaker and baseline observations through a unified analysis architecture.
 
-### Evidence You Can Audit
+### End-to-End Vocal Intelligence
 
-Every analytical run preserves method identity, provenance, quality context, limitations, and input fingerprinting.
+Move from recording to structured evidence through a coordinated pipeline covering ingestion speaker processing transcription alignment analysis synthesis and classification.
 
-### Uncertainty Is Visible
+### Evidence You Can Explore
 
-VoxVector does not hide missing data or uncertainty behind a dramatic single score.
+See how individual analytical methods contribute to the larger picture through structured evidence views and an auditable analytical workflow.
 
-## Scientific Position
+## Technology
 
-Individual vocal signals can have many causes. VoxVector does not treat pitch, pauses, stress, hesitation, speaking rate, emotion, or other individual features as proof of deception.
+VoxVector brings together advanced signal processing vocal analysis speech transcription linguistic analysis speaker intelligence and multimethod evidence synthesis in one platform.
 
-The current system is an observational research foundation. Validated deception inference remains a future capability gated by task-specific scientific validation.
+The architecture is designed to grow from foundational measurements into increasingly sophisticated calibrated deception analysis models and validated classification workflows.
 
 ## Workflow
 
-**1. Ingest**
+**1. Upload**
 
-Provide supported audio and available context.
+Bring a recording into the VoxVector analysis environment.
 
-**2. Check Eligibility**
+**2. Prepare**
 
-Assess recording quality and reliability.
+Decode normalize and establish the recording and speaker structure.
 
-**3. Analyze Evidence**
+**3. Transcribe and Align**
 
-Extract supported observations with provenance.
+Generate language context and connect speech with its precise audio timeline.
 
-**4. Review Convergence and Conflict**
+**4. Analyze**
 
-Understand what the evidence does and does not support.
+Extract acoustic prosodic temporal voice-quality linguistic and contextual evidence.
 
-**5. Classify or Abstain**
+**5. Synthesize**
 
-Apply configured validation and reliability gates.
+Bring evidence families together to identify convergence patterns and meaningful changes.
+
+**6. Classify**
+
+Apply the VoxVector analytical and classification architecture to the complete evidence record.
 
 ## Closing CTA
 
-**Build better audio intelligence with evidence you can inspect.**
+**Reveal more from every conversation.**
 
 Explore VoxVector at `voxvector.crownlabs.tech`.
