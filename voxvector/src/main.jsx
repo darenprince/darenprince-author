@@ -13,6 +13,7 @@ import './hero-refinement.css'
 import './evidence-motion.css'
 import './audio-player.css'
 import './console-menu-effects.css'
+import './console-polish.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
