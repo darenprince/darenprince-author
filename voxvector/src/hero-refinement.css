@@ -80,7 +80,10 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 #product .vv-hero-content{position:relative;z-index:5}
 #product .vv-hero-cta-row{justify-content:center!important;width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important}
 #product .vv-hero-cta-row + p,#product .vv-hero-cta-row + small,#product .vv-hero-cta-row + div[class*="text"]{display:none!important}
-#product::after{content:"Explore the Technology  ↓";position:absolute;left:50%;bottom:26px;z-index:6;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;color:rgba(255,255,255,.78);font-size:12px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:color .2s ease,transform .2s ease}
-#product:hover::after{color:#fff}
+#product::after{content:none!important}
+.vv-hero-technology-link{position:absolute;left:50%;bottom:26px;z-index:7;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;color:rgba(255,255,255,.78);font-size:12px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:color .2s ease,transform .2s ease}
+.vv-hero-technology-link:hover{color:#fff;transform:translateX(-50%) translateY(-2px)}
+.vv-hero-technology-arrow{font-size:18px;line-height:.7;font-weight:500;transition:transform .2s ease}
+.vv-hero-technology-link:hover .vv-hero-technology-arrow{transform:translateY(2px)}
 @media(max-width:900px){#product{background-position:center top!important}}
-@media(max-width:620px){#product{background-position:58% top!important}#product::after{bottom:20px;font-size:10px;letter-spacing:.12em}.vv-hero-cta-row{gap:8px!important}}
+@media(max-width:620px){#product{background-position:58% top!important}.vv-hero-technology-link{bottom:20px;font-size:10px;letter-spacing:.12em}.vv-hero-cta-row{gap:8px!important}}
