@@ -17,7 +17,8 @@ from .hnr import harmonic_to_noise_ratio
 from .reliability import assess_signal
 from .research_interaction import response_latency
 from .research_timing import pause_topology
-from .schemas import AnalysisResult, Eligibility, Observation
+from .schemas import AnalysisResult, Eligibility, Observation, SpeechSegment as ResultSpeechSegment
+from .speech_segmentation import segment_speech
 from .spectral import spectral_flux, spectral_rolloff
 from .acoustic import fundamental_frequency, harmonicity, intensity_db, rms, spectral_centroid, spectral_spread, summarize, zero_crossing_rate
 
@@ -50,10 +51,10 @@ def _concat(parts: list[np.ndarray]) -> np.ndarray:
 
 
 class VoxVectorPipeline:
-    """Comprehensive auditable observational audio pipeline; no deception inference."""
+    """Comprehensive auditable observational audio pipeline with persisted speech segmentation."""
 
-    schema_version = "0.2"
-    software_version = "0.2.25"
+    schema_version = "0.3"
+    software_version = "0.2.26"
 
     def analyze(
         self,
@@ -66,8 +67,6 @@ class VoxVectorPipeline:
         first_substantive_s: float | None = None,
         baseline_values: Mapping[str, np.ndarray] | None = None,
     ) -> AnalysisResult:
-        # Validate complete optional timing context before any expensive audio
-        # feature extraction so contract errors are deterministic and primary.
         if question_end_s is not None or first_speech_s is not None or first_substantive_s is not None:
             if question_end_s is None or first_speech_s is None:
                 raise ValueError("question_end_s and first_speech_s are required for response latency")
@@ -90,6 +89,7 @@ class VoxVectorPipeline:
             },
         )
         observations: list[Observation] = []
+        speech_segments: list[ResultSpeechSegment] = []
 
         def add(feature: str, value: float | None, unit: str, provenance: dict) -> None:
             if value is None or not np.isfinite(value):
@@ -144,10 +144,7 @@ class VoxVectorPipeline:
                 time_parts.append(times)
 
                 spectra = np.abs(np.fft.rfft(frames * np.hanning(frame_size), axis=1))
-                if previous_spectrum is None:
-                    flux_values = spectral_flux(spectra)
-                else:
-                    flux_values = spectral_flux(np.vstack((previous_spectrum[None, :], spectra)))
+                flux_values = spectral_flux(spectra if previous_spectrum is None else np.vstack((previous_spectrum[None, :], spectra)))
                 if flux_values.size:
                     flux_parts.append(flux_values)
                 frequencies = np.fft.rfftfreq(frame_size, 1.0 / sample_rate)
@@ -170,25 +167,31 @@ class VoxVectorPipeline:
                 times = _concat(time_parts)
                 flux_values = _concat(flux_parts)
                 rolloff_values = _concat(rolloff_parts)
-                for method_id, feature, values, unit in (
-                    ("acoustic.rms", "rms", rms_values, "linear"),
-                    ("acoustic.intensity_db", "intensity_db", intensity_values, "dB"),
-                    ("acoustic.zero_crossing_rate", "zero_crossing_rate", zcr_values, "ratio"),
-                    ("acoustic.spectral_centroid", "spectral_centroid", centroid_values, "Hz"),
-                    ("acoustic.spectral_spread", "spectral_spread", spread_values, "Hz"),
-                    ("acoustic.fundamental_frequency", "fundamental_frequency", f0_values, "Hz"),
-                    ("acoustic.harmonicity", "harmonicity", harmonicity_values, "ratio"),
-                ):
+                voiced = np.isfinite(f0_values)
+                speech = segment_speech(rms_values, voiced, hop / sample_rate)
+                speech_segments.extend(
+                    ResultSpeechSegment(
+                        segment_id=f"{run_id}:speech:{index + 1}",
+                        start_s=segment.start_s,
+                        end_s=min(duration, segment.end_s + frame_size / sample_rate),
+                        confidence=segment.confidence,
+                        method_id=segment.method_id,
+                    )
+                    for index, segment in enumerate(speech)
+                )
+                if speech_segments:
+                    speech_duration = sum(segment.end_s - segment.start_s for segment in speech_segments)
+                    add("speech_segment_count", float(len(speech_segments)), "count", {"method_id": "speech_segmentation.energy_voicing", "segment_count": len(speech_segments)})
+                    add("speech_duration", speech_duration, "s", {"method_id": "speech_segmentation.energy_voicing", "segment_count": len(speech_segments)})
+                    add("speech_activity_ratio", speech_duration / duration if duration else None, "ratio", {"method_id": "speech_segmentation.energy_voicing", "segment_count": len(speech_segments)})
+                for method_id, feature, values, unit in (("acoustic.rms", "rms", rms_values, "linear"), ("acoustic.intensity_db", "intensity_db", intensity_values, "dB"), ("acoustic.zero_crossing_rate", "zero_crossing_rate", zcr_values, "ratio"), ("acoustic.spectral_centroid", "spectral_centroid", centroid_values, "Hz"), ("acoustic.spectral_spread", "spectral_spread", spread_values, "Hz"), ("acoustic.fundamental_frequency", "fundamental_frequency", f0_values, "Hz"), ("acoustic.harmonicity", "harmonicity", harmonicity_values, "ratio")):
                     summary = summarize(values)
                     add(feature, summary["mean"], unit, {"method_id": method_id, "summary": summary, "frame_size_samples": frame_size, "hop_samples": hop, "source": "raw_audio", "reliability_status": reliability.status, "frame_processing": "bounded_chunks"})
                 for coefficient_index in range(mfcc_values.shape[1]):
                     coefficient = mfcc_values[:, coefficient_index]
                     summary = summarize(coefficient)
                     add(f"mfcc_{coefficient_index}", summary["mean"], "dB", {"method_id": "cepstral.mfcc", "coefficient_index": coefficient_index, "summary": summary, "n_coefficients": MFCC_COEFFICIENTS, "source": "raw_audio", "reliability_status": reliability.status, "frame_processing": "bounded_chunks"})
-                for method_id, prefix, values, unit in (
-                    ("prosody.f0_dynamics", "f0", f0_values, "Hz"),
-                    ("prosody.intensity_dynamics", "intensity", intensity_values, "dB"),
-                ):
+                for method_id, prefix, values, unit in (("prosody.f0_dynamics", "f0", f0_values, "Hz"), ("prosody.intensity_dynamics", "intensity", intensity_values, "dB")):
                     dynamics = contour_dynamics(values, times)
                     add(f"{prefix}_range", dynamics["range"], unit, {"method_id": method_id, "statistics": dynamics})
                     add(f"{prefix}_std", dynamics["std"], unit, {"method_id": method_id, "statistics": dynamics})
@@ -208,7 +211,6 @@ class VoxVectorPipeline:
                     if values.size:
                         summary = summarize(values)
                         add(f"F{index + 1}_candidate", summary["mean"], "Hz", {"method_id": "formants.frame_tracking", "summary": summary, "formant_index": index + 1})
-                voiced = np.isfinite(f0_values)
                 topology = pause_topology(rms_values, voiced, hop / sample_rate)
                 for name, value in topology.items():
                     unit = "count" if name == "pause_count" else ("ratio" if name == "pause_density" else "s")
@@ -249,6 +251,8 @@ class VoxVectorPipeline:
             limitations.append("No transcript was supplied; transcript-derived observations were not computed.")
         if question_end_s is None:
             limitations.append("No question/answer timing boundaries were supplied; response latency was not computed.")
+        if not speech_segments:
+            limitations.append("No speech segments were detected by the energy/voicing segmentation stage.")
         if reliability.status != "eligible":
             limitations.append("Input quality did not satisfy full eligibility criteria.")
         disposition = "abstain" if reliability.status != "eligible" else "insufficient_evidence"
@@ -256,6 +260,7 @@ class VoxVectorPipeline:
             run_id=run_id,
             schema_version=self.schema_version,
             eligibility=eligibility,
+            speech_segments=tuple(speech_segments),
             observations=tuple(observations),
             evidence=evidence,
             candidate="indeterminate",
