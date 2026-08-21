@@ -1,0 +1,97 @@
+.vv-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #050403;
+  color: #fff;
+  isolation: isolate;
+  animation: vv-loader-enter 300ms ease-out both;
+}
+
+.vv-loader__stage {
+  position: relative;
+  z-index: 1;
+  width: min(72vw, 520px);
+  display: grid;
+  place-items: center;
+}
+
+.vv-loader__mark-wrap {
+  position: relative;
+  width: min(46vw, 280px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.vv-loader__mark {
+  position: relative;
+  z-index: 4;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: saturate(0.72) brightness(0.96);
+  animation: vv-loader-mark 2.1s ease-in-out infinite;
+}
+
+.vv-loader__orbit {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: rgba(203, 150, 105, 0.9);
+  border-right-color: rgba(177, 126, 88, 0.58);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.vv-loader__orbit--outer {
+  width: 104%;
+  height: 33%;
+  transform: translate(-50%, -50%) rotate(-16deg);
+  animation: vv-loader-orbit 2.9s linear infinite;
+}
+
+.vv-loader__orbit--inner {
+  width: 88%;
+  height: 28%;
+  transform: translate(-50%, -50%) rotate(24deg);
+  opacity: 0.48;
+  animation: vv-loader-orbit-reverse 3.7s linear infinite;
+}
+
+@keyframes vv-loader-mark {
+  0%, 100% { transform: scale(0.99); }
+  50% { transform: scale(1.01); }
+}
+
+@keyframes vv-loader-orbit {
+  from { transform: translate(-50%, -50%) rotate(-16deg) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-16deg) rotate(360deg); }
+}
+
+@keyframes vv-loader-orbit-reverse {
+  from { transform: translate(-50%, -50%) rotate(24deg) rotate(360deg); }
+  to { transform: translate(-50%, -50%) rotate(24deg) rotate(0deg); }
+}
+
+@keyframes vv-loader-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .vv-loader__mark-wrap { width: min(58vw, 230px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vv-loader *,
+  .vv-loader::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
