@@ -2,192 +2,250 @@
 
 ## 1. Canonical source and scope
 
-The GitHub repository is the operational memory and technical source of truth for VoxVector:
+The GitHub repository is the operational memory and technical source of truth for VoxVector.
 
 `https://github.com/darenprince/darenprince-author/tree/main/VoxVector`
 
-The canonical VoxVector application root is `VoxVector/`.
+The canonical VoxVector backend and analysis root is `VoxVector/`.
 
-All VoxVector source code, runtime configuration, tests, application documentation, and implementation work must remain under `VoxVector/`. Do not create a second VoxVector implementation, shadow API, duplicate analysis engine, or competing deployment root elsewhere in the repository.
+The canonical public React application is `voxvector/`.
 
-The Crown Labs Bible is an authorized documentation mirror for executive/product context. When a material VoxVector change affects that mirror, synchronize the relevant Bible records as required by the project documentation. This exception does not permit application code or runtime implementations outside `VoxVector/`.
+All VoxVector source code runtime configuration tests application documentation and implementation work must remain within the established repository boundaries.
 
-External research may be consulted when appropriate, but external sources do not override the GitHub canon and must not be presented as implemented VoxVector capability without documented provenance, implementation, testing, and validation status.
+The Crown Labs Bible is an authorized documentation mirror for executive and product context.
 
-## 2. Mandatory preflight before substantive work
+## 2. Mandatory preflight
 
 Before substantive VoxVector work:
 
-1. Review the complete current contents of `VoxVector/docs/` sufficiently to understand the active project state.
-2. Read `VoxVector/docs/OPERATING_CHARTER.md` first because it defines project authority and invariants.
-3. Read `VoxVector/docs/PROJECT_DECISION_LOG.md` when a decision, conflict, historical transition, or architectural boundary matters.
-4. Read `VoxVector/docs/CAPABILITY_STATUS.md` and `VoxVector/docs/ROADMAP.md` whenever feature scope, research methods, product capabilities, or future development are involved.
-5. Read `VoxVector/docs/VERSION_MAP.md`, `VoxVector/docs/QA_STATUS.md`, and `VoxVector/docs/METHOD_QA_MATRIX.md` when implementation, dependencies, testing, validation status, or release state matters.
-6. Read the relevant architecture, deployment, incident, analysis-method, or system-state documentation for the task.
-7. Inspect the actual current implementation and runtime configuration before making claims about behavior.
-8. Prefer current active files over historical material while preserving historical material needed for traceability.
-9. Preserve repository terminology and factual basis.
-10. Never invent measurements, model results, capabilities, tool execution, deployment verification, or validation.
+1. Read `VoxVector/docs/OPERATING_CHARTER.md`.
+2. Read `VoxVector/docs/PROJECT_DECISION_LOG.md` when decisions or architectural boundaries matter.
+3. Review the active contents of `VoxVector/docs/` sufficiently to understand the current project state.
+4. Read `VoxVector/docs/CAPABILITY_STATUS.md` and `VoxVector/docs/ROADMAP.md` for capability scope.
+5. Read `VoxVector/docs/ANALYSIS_PIPELINE.md` for pipeline work.
+6. Read `VoxVector/docs/ARCHITECTURE.md` for architecture work.
+7. Read `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md` for product experience work.
+8. Read `VoxVector/docs/IMPLEMENTATION_PLAN.md` and `VoxVector/docs/MVP_BUILD_PLAN.md` for engineering sequence.
+9. Read `VoxVector/docs/MASTER_METHOD_INDEX.md` and `VoxVector/docs/ANALYSIS_METHODS.md` for method work.
+10. Read `VoxVector/docs/METHOD_QA_MATRIX.md` and `VoxVector/docs/VALIDATION.md` when QA or validation matters.
+11. Inspect actual implementation and runtime configuration before making capability claims.
+12. Preserve historical records while keeping active canonical records current.
+13. Never invent measurements model results capabilities tool execution deployment verification or validation.
 
-If documentation and implementation disagree, determine the authority order from the Operating Charter, inspect the implementation, and record a decision when the conflict is material.
-
-## 3. Identity
+## 3. End product identity
 
 Use **VoxVector** exclusively as the current system identity.
 
-VoxVector is the end product being built: a modern world-class full-stack vocal and audio deception analysis platform.
+VoxVector is the end product being built: a modern full stack vocal and audio deception analysis platform.
 
-Do not reintroduce historical system names or treat historical implementations as alternate active systems.
+The supplied reference screens define the target product experience.
 
-## 4. Runtime and stage-separation rule
+The product target is a connected case centered workflow from recording intake through synchronized analysis evidence synthesis assessment reporting and final disposition.
 
-Maintain these stages as distinct architectural boundaries:
+## 4. Canonical pipeline
 
-- eligibility and reliability controls
+The canonical product pipeline contains 21 stages:
+
+1. File Upload / Ingest
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility and Reliability
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
+18. Candidate Classification
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
+
+Do not recreate the older six stage presentation as the canonical pipeline.
+
+## 5. Stage separation
+
+Maintain these distinct architectural layers:
+
+- eligibility and reliability
 - evidence collection and analysis
 - candidate classification
-- final classification/disposition
-
-Never collapse these stages into a single opaque score or bypass an earlier gate to produce a downstream result.
-
-Reliability is an architectural input to the analytical system.
-
-Observations, candidate classification, and final disposition remain distinct processing layers.
-
-## 5. Scientific engineering rule
-
-VoxVector's analysis architecture must treat individual vocal, acoustic, linguistic, temporal, behavioral, or psychological signals as evidence within a larger system rather than as standalone proof.
-
-The engineering system must preserve provenance, reliability, uncertainty, alternative explanations, dependence, and validation requirements.
-
-This rule governs implementation and internal validation. It is not a reason to weaken public product positioning or describe VoxVector as merely experimental.
-
-## 6. Deception analysis architecture
-
-VoxVector is designed to combine supported multimethod evidence for deception analysis.
-
-The architecture may incorporate:
-
-- acoustic features
-- prosodic features
-- voice quality
-- temporal and pause behavior
-- transcription
-- linguistic analysis
-- disfluency analysis
-- speaker identification and diarization
-- question and answer alignment
-- within-speaker baselines
-- evidence convergence and conflict
-- calibrated probabilistic models
-- confidence matrices
-- alternative-hypothesis analysis
 - final classification and disposition
 
-When a capability is under construction, preserve it as product scope and continue development rather than reframing the product around the currently available subset.
+Never collapse them into one opaque score.
 
-## 7. Capability preservation and status
+## 6. Scientific engineering rule
 
-A feature, analysis method, model, dataset, integration, or product capability documented as planned, research-backed, or future development remains valid canonical project context even when it is not currently implemented.
+Individual vocal acoustic linguistic temporal behavioral or psychological signals are evidence within a larger analytical system.
 
-Do not delete, silently downgrade, or call a capability obsolete merely because it has not yet been built.
+Engineering must preserve:
 
-Internal capability status must remain explicit. Use the repository's established status vocabulary for engineering and validation records.
+- provenance
+- reliability
+- uncertainty
+- alternative explanations
+- evidence dependence
+- validation requirements
 
-The public product should present the platform architecture and capability direction as one coherent end product. Internal records can separately track implementation maturity.
+This rule governs engineering and internal validation.
 
-## 8. Research discipline
+It must not weaken the identity of VoxVector as the end product being built.
 
-Research may identify candidate methods, architectures, datasets, psychological models, acoustic markers, or hypotheses.
+## 7. Product architecture
 
-Research claims must not be fabricated as executed results. Actual implementation and validation status belongs in repository-side technical records.
+The connected product must support:
 
-When a requested capability is not yet implemented, preserve it in the roadmap and continue the engineering plan. Do not invent an execution result to make the system appear complete.
+- persistent analysis cases
+- source asset identity
+- audio playback
+- synchronized waveform
+- speaker regions
+- transcript
+- transcript alignment
+- analytical tracks
+- evidence timeline
+- evidence explorer
+- pipeline state
+- assessment
+- reports
+- history
+- comparisons
+- alerts
+- developer tooling
 
-Do not use negative framing to communicate ordinary development status to customers. Use accurate capability-oriented language and keep detailed maturity records in developer documentation.
+All surfaces share one case identity.
 
-## 9. Product messaging and tone
+## 8. Developer Console
 
-Customer-facing VoxVector communication must be:
+The Developer Console is the engineering cockpit.
+
+Use it to answer:
+
+1. What should be built next?
+2. What is complete?
+3. What dependency blocks the next task?
+4. What does the backend report now?
+5. Where is the canonical methodology or architecture record?
+
+The console should expose:
+
+- runtime health
+- API workbench
+- request inspection
+- lifecycle events
+- errors
+- diagnostics
+- methodology navigation
+- architecture navigation
+- pipeline navigation
+- MVP board
+- task checkoffs
+- phase completion
+- dependency visibility
+- next task visibility
+
+A task checkbox represents developer workflow state only.
+
+It does not certify implementation or validation.
+
+## 9. Fastest MVP rule
+
+The primary engineering sequence is:
+
+1. case identity
+2. intake and provenance
+3. playback and waveform
+4. real pipeline lifecycle
+5. speaker processing
+6. transcription
+7. alignment
+8. analytical tracks
+9. evidence normalization
+10. evidence synthesis
+11. assessment
+12. report
+13. history and reopen
+14. browser verification
+15. production hardening
+
+Do not displace this dependency chain with lower priority visual work.
+
+## 10. Methodology hierarchy
+
+Use these records in this order:
+
+1. `MASTER_METHOD_INDEX.md` — complete data point inventory
+2. `ANALYSIS_METHODS.md` — method definitions
+3. `METHOD_QA_MATRIX.md` — software QA controls
+4. `CAPABILITY_STATUS.md` — implementation maturity
+5. `VALIDATION.md` — scientific validation
+6. `ROADMAP.md` — future development
+
+Keep status consistent across all six records.
+
+## 11. Capability preservation
+
+A planned research method or future capability remains canonical product scope until explicitly retired.
+
+Do not delete or silently downgrade a capability because implementation is pending.
+
+Do not confuse product scope with current runtime state.
+
+## 12. Research discipline
+
+Research may identify candidate methods architectures datasets models and hypotheses.
+
+Research claims must not be fabricated as executed results.
+
+When a capability is not implemented preserve it in the roadmap and continue the engineering path.
+
+## 13. Product messaging
+
+Customer facing VoxVector communication must be:
 
 - confident
 - direct
 - premium
 - modern
-- technology-forward
+- technology forward
 - ambitious
-- evidence-oriented
-- focused on the end product
+- evidence oriented
 
-The customer should understand that VoxVector is building a serious advanced vocal deception analysis platform.
+Lead with capability technology workflow intelligence and product value.
 
-Lead with capability, technology, workflow, intelligence, evidence, analysis, and product value.
+Keep detailed implementation maturity in developer documentation.
 
-Do not lead public pages, hero copy, feature cards, pipeline explainers, or marketing sections with internal limitations or negative framing.
+Do not invent execution results to strengthen messaging.
 
-Avoid customer-facing phrases such as:
+## 14. Deployment boundary
 
-- `does not yet`
-- `cannot`
-- `not a deception detector`
-- `merely research`
-- `only observational`
-- `limitations`
-- `not validated`
-- `cannot prove`
-- `insufficient evidence`
-- `abstention`
-- `guarded`
-- `experimental only`
+The canonical backend is:
 
-Those terms may remain in developer, QA, validation, security, or repository-side documentation when technically necessary.
+- `VoxVector/api/app.py`
+- `VoxVector/src/voxvector/`
 
-Do not replace negative framing with fabricated claims. If a capability is not implemented, communicate the platform architecture or product direction without claiming that an unavailable execution already occurred.
+The public frontend is:
 
-Public messaging is about the product. Developer documentation is about implementation maturity.
+- `voxvector/`
 
-## 10. Change control and documentation synchronization
+GitHub Pages hosts the public React application.
 
-For substantive changes:
+Render hosts the FastAPI backend.
 
-- update affected canonical documentation;
-- update dependent documentation when runtime behavior changes;
-- synchronize the method registry, capability status, version map, QA matrix, and roadmap when applicable;
-- preserve historical material needed for traceability;
-- record material architectural or scientific decisions in the Project Decision Log;
-- perform a readback/integrity check before completion;
-- distinguish observed facts from inference, research, and planned work in developer records.
+Supabase provides authentication persistence and durable diagnostics.
 
-When a material VoxVector change affects the Crown Labs Bible mirror, update the relevant product documentation so the mirror does not contradict the canonical repository.
+Vercel is retired from the VoxVector architecture.
 
-Do not delete project context solely because implementation is pending.
+## 15. Capability honesty
 
-## 11. Deployment and runtime-verification rule
-
-The canonical application root is `VoxVector/`.
-
-The canonical HTTP adapter is `VoxVector/api/app.py`.
-
-The canonical analysis engine is `VoxVector/src/voxvector/`.
-
-The root-level `./api/` directory is not VoxVector and must not be recreated or used as its deployment root.
-
-Render must use:
-
-- Root Directory: `VoxVector`
-- Entry point: `api.app:app`
-
-The intended public target is:
-
-`voxvector.crownlabs.tech`
-
-Repository configuration, DNS, a successful build, or a green CI run is not by itself proof that the public deployment is serving the current canonical runtime.
-
-Do not claim deployment verified until the documented runtime readback is actually performed, including `/health` provenance/self-test and the known WAV `/v1/analyze` fixture where applicable.
-
-## 12. Capability honesty
-
-Never claim that a tool, model, dataset, integration, dependency, deployment, analysis method, test, validation result, or runtime behavior was executed or verified unless it actually was.
+Never claim that a tool model dataset integration dependency deployment analysis method test validation result or runtime behavior was executed or verified unless it actually was.
 
 Never manufacture:
 
@@ -201,39 +259,37 @@ Never manufacture:
 - tool execution
 - scientific validation
 
-Accuracy is mandatory. Negative framing is not.
+Accuracy is mandatory.
 
-## 13. Boot behavior
+## 16. Change control
 
-At startup:
+For substantive changes:
 
-1. identify VoxVector;
-2. load the current GitHub canon;
-3. review the current documentation state;
-4. determine actual runtime capability status;
-5. check the current version map;
-6. inspect relevant implementation and configuration;
-7. follow the active architecture and Project Decision Log;
-8. preserve planned capabilities as product scope;
-9. establish what is actually verified before making internal status claims;
-10. use confident product language for customer-facing work.
+- update affected canonical documentation
+- update dependent documentation when runtime behavior changes
+- synchronize the method registry
+- synchronize capability status
+- synchronize the roadmap
+- synchronize the QA matrix when applicable
+- update version records when appropriate
+- record material decisions
+- perform a readback and integrity check
+- preserve historical traceability
 
-## 14. Completion rule
+Use `docs/DOCS_ALIGNMENT_2026-08-20.md` as the current cross document synchronization record.
 
-Do not call a substantive task complete merely because files were edited or a build command was configured.
+## 17. Completion rule
 
-Before completion, perform the applicable readback and integrity checks and report internally:
+Do not call a substantive task complete merely because files were edited.
 
-- what changed;
-- what was actually verified;
-- current implementation status;
-- current QA status;
-- affected documentation status;
-- planned work that remains preserved.
+Before completion establish:
 
-Do not transfer internal QA or validation caveats into customer-facing copy unless a legal, safety, or product requirement specifically requires them.
-
-VoxVector must remain auditable, reproducible, evidence-based, scientifically disciplined, and capable of growing into its full end-state product.
+- what changed
+- what was actually verified
+- current implementation state
+- current QA state
+- affected documentation state
+- preserved planned work
 
 ## Final rule
 
@@ -241,10 +297,16 @@ Build from the GitHub canon.
 
 Build the end product.
 
-Preserve the full capability roadmap.
+Use the reference experience as the product target.
 
-Keep scientific rigor in the engineering and validation layer.
+Use the 21 stage pipeline as the canonical workflow.
 
-Keep customer-facing communication confident and technology-forward.
+Use the MVP plan as the fastest dependency path.
 
-Never fabricate execution, measurements, validation, or results.
+Use the Developer Console as the engineering cockpit.
+
+Preserve scientific rigor in engineering and validation.
+
+Keep customer communication confident and technology forward.
+
+Never fabricate execution measurements validation or results.
