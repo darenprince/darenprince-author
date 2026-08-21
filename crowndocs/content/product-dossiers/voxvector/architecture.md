@@ -21,20 +21,48 @@ evidence collection and analysis
 candidate classification
           |
           v
-final disposition gate
+final classification / disposition
 ```
 
-The FastAPI layer is an interface boundary only. The analysis engine remains canonical under `VoxVector/src/voxvector/`.
+The FastAPI layer is the interface boundary. The analysis engine remains canonical under `VoxVector/src/voxvector/`.
 
-## Current Pipeline
+## Complete Product Pipeline
 
-`VoxVectorPipeline.analyze()` performs reliability assessment and structured feature extraction across acoustic, prosodic, spectral, formant, temporal, baseline, interaction, and optional transcript observations.
+The VoxVector analytical architecture spans:
 
-Runs preserve identifiers, input hashing, schema and software versions, eligibility state, observation provenance, evidence, limitations, and disposition.
+1. File upload and ingest
+2. Decode and normalization
+3. Provenance and integrity
+4. Recording and channel assessment
+5. Speaker identification and diarization
+6. Speech segmentation
+7. Transcription generation
+8. Transcript alignment
+9. Eligibility and reliability
+10. Acoustic analysis
+11. Prosodic and voice-quality analysis
+12. Temporal and pause analysis
+13. Linguistic and disfluency analysis
+14. Question and answer alignment
+15. Within-speaker baseline
+16. Evidence assembly
+17. Evidence convergence and conflict
+18. Candidate classification
+19. Validation and calibration
+20. Final classification and disposition
+21. Audit and provenance output
 
-## Scientific Boundary
+## Analysis Engine
 
-Reliability is not deception probability. Observations are not deception labels. Correlated measurements are not silently treated as independent evidence. Missing data and alternative explanations remain explicit.
+`VoxVectorPipeline.analyze()` provides the foundational reliability assessment and structured feature extraction layer across acoustic, prosodic, spectral, formant, temporal, baseline, interaction, and transcript observations.
+
+The broader product architecture extends this foundation with speaker intelligence, transcription, alignment, richer linguistic analysis, multimethod evidence synthesis, calibrated classification, and validated inference.
+
+## Evidence Architecture
+
+VoxVector preserves identifiers, input hashing, schema and software versions, eligibility state, observation provenance, evidence relationships, uncertainty, and the complete analytical pathway.
+
+Reliability and evidence relationships are first-class components of the architecture. Multiple evidence families are brought together through a stage-separated analytical workflow rather than an opaque single score.
 
 ## Deployment Boundary
 
