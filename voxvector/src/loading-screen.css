@@ -8,41 +8,20 @@
   background: #050403;
   color: #fff;
   isolation: isolate;
-  animation: vv-loader-enter 360ms ease-out both;
-}
-
-.vv-loader::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(circle at 50% 44%, rgba(224, 153, 61, 0.12), transparent 25%), radial-gradient(circle at 50% 50%, rgba(170, 78, 22, 0.08), transparent 45%);
-  pointer-events: none;
-}
-
-.vv-loader__ambient {
-  position: absolute;
-  width: min(74vw, 820px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 174, 62, 0.13) 0, rgba(255, 111, 24, 0.05) 28%, transparent 67%);
-  filter: blur(12px);
-  animation: vv-loader-breathe 2.2s ease-in-out infinite;
-  pointer-events: none;
+  animation: vv-loader-enter 300ms ease-out both;
 }
 
 .vv-loader__stage {
   position: relative;
   z-index: 1;
-  width: min(88vw, 720px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: min(72vw, 520px);
+  display: grid;
+  place-items: center;
 }
 
 .vv-loader__mark-wrap {
   position: relative;
-  width: min(66vw, 430px);
+  width: min(46vw, 280px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -51,20 +30,11 @@
 .vv-loader__mark {
   position: relative;
   z-index: 4;
-  width: 76%;
-  height: 76%;
+  width: 70%;
+  height: 70%;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(255, 167, 38, 0.28)) drop-shadow(0 0 42px rgba(221, 87, 17, 0.18));
+  filter: saturate(0.72) brightness(0.96);
   animation: vv-loader-mark 2.1s ease-in-out infinite;
-}
-
-.vv-loader__halo {
-  position: absolute;
-  inset: 13%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 188, 67, 0.08), transparent 64%);
-  box-shadow: 0 0 65px rgba(255, 137, 27, 0.12);
-  animation: vv-loader-halo 1.9s ease-in-out infinite;
 }
 
 .vv-loader__orbit {
@@ -72,131 +42,31 @@
   z-index: 5;
   left: 50%;
   top: 50%;
-  border: 2px solid transparent;
-  border-top-color: rgba(255, 119, 29, 0.95);
-  border-right-color: rgba(255, 172, 47, 0.72);
+  border: 1.5px solid transparent;
+  border-top-color: rgba(203, 150, 105, 0.9);
+  border-right-color: rgba(177, 126, 88, 0.58);
   border-radius: 50%;
   pointer-events: none;
-  filter: drop-shadow(0 0 7px rgba(255, 115, 18, 0.72));
 }
 
 .vv-loader__orbit--outer {
-  width: 112%;
-  height: 36%;
+  width: 104%;
+  height: 33%;
   transform: translate(-50%, -50%) rotate(-16deg);
-  animation: vv-loader-orbit 2.7s linear infinite;
+  animation: vv-loader-orbit 2.9s linear infinite;
 }
 
 .vv-loader__orbit--inner {
-  width: 96%;
-  height: 30%;
+  width: 88%;
+  height: 28%;
   transform: translate(-50%, -50%) rotate(24deg);
-  opacity: 0.52;
-  animation: vv-loader-orbit-reverse 3.5s linear infinite;
-}
-
-.vv-loader__wave {
-  position: relative;
-  width: min(82vw, 620px);
-  height: 74px;
-  margin-top: -12px;
-  overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
-
-.vv-loader__wave-line {
-  position: absolute;
-  left: 2%;
-  right: 2%;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 183, 48, 0.75), transparent);
-  box-shadow: 0 0 9px rgba(255, 157, 30, 0.65);
-}
-
-.vv-loader__bars {
-  position: absolute;
-  inset: 8px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(2px, 0.45vw, 4px);
-}
-
-.vv-loader__bars i {
-  display: block;
-  width: clamp(2px, 0.45vw, 4px);
-  height: var(--vv-bar-height);
-  min-height: 5px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffd36a 0%, #f39a1e 48%, #b84b13 100%);
-  box-shadow: 0 0 8px rgba(255, 153, 29, 0.55);
-  transform-origin: center;
-  animation: vv-loader-wave 760ms ease-in-out var(--vv-bar-delay) infinite alternate;
-}
-
-.vv-loader__label {
-  margin-top: 8px;
-  font-size: clamp(20px, 3vw, 30px);
-  font-weight: 800;
-  letter-spacing: 0.24em;
-  text-indent: 0.24em;
-}
-
-.vv-loader__subline {
-  margin-top: 8px;
-  color: rgba(255, 206, 137, 0.54);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.34em;
-  text-indent: 0.34em;
-}
-
-.vv-loader__progress {
-  width: min(72vw, 460px);
-  margin-top: 28px;
-}
-
-.vv-loader__track {
-  height: 3px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.09);
-  box-shadow: inset 0 0 0 1px rgba(255, 181, 74, 0.08);
-}
-
-.vv-loader__track span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #b94f16, #f6a52a, #ffe08a);
-  box-shadow: 0 0 12px rgba(247, 158, 38, 0.72);
-  transition: width 80ms linear;
-}
-
-.vv-loader__meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 9px;
-  color: rgba(255, 255, 255, 0.34);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 8px;
-  letter-spacing: 0.14em;
-}
-
-.vv-loader__meta strong {
-  color: rgba(255, 190, 83, 0.82);
-  font-weight: 700;
+  opacity: 0.48;
+  animation: vv-loader-orbit-reverse 3.7s linear infinite;
 }
 
 @keyframes vv-loader-mark {
-  0%, 100% { transform: scale(0.985); }
-  50% { transform: scale(1.015); }
-}
-
-@keyframes vv-loader-halo {
-  0%, 100% { opacity: 0.55; transform: scale(0.94); }
-  50% { opacity: 1; transform: scale(1.06); }
+  0%, 100% { transform: scale(0.99); }
+  50% { transform: scale(1.01); }
 }
 
 @keyframes vv-loader-orbit {
@@ -209,26 +79,13 @@
   to { transform: translate(-50%, -50%) rotate(24deg) rotate(0deg); }
 }
 
-@keyframes vv-loader-wave {
-  from { transform: scaleY(0.55); opacity: 0.42; }
-  to { transform: scaleY(1.18); opacity: 0.98; }
-}
-
-@keyframes vv-loader-breathe {
-  0%, 100% { transform: scale(0.9); opacity: 0.65; }
-  50% { transform: scale(1.06); opacity: 1; }
-}
-
 @keyframes vv-loader-enter {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @media (max-width: 640px) {
-  .vv-loader__mark-wrap { width: min(82vw, 390px); }
-  .vv-loader__wave { width: 94vw; height: 62px; }
-  .vv-loader__progress { margin-top: 22px; }
-  .vv-loader__subline { font-size: 7px; }
+  .vv-loader__mark-wrap { width: min(58vw, 230px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
