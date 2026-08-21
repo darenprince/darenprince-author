@@ -12,6 +12,8 @@ Applied the requested public landing and loading-screen refinement directly to `
 - Added a restrained logo pulse.
 - Added animated high-tech waveform signal paths behind the loader.
 - Removed the hero disclaimer treatment below the CTA row.
+- Removed the public header notice stating that pauses pitch changes hesitation or stress responses are observations and that no individual vocal signal proves deception.
+- Increased spacing between public header navigation items and utility controls.
 - Tightened vertical spacing between hero heading body and CTA elements.
 - Reduced the `IN YOUR AUDIO` hero line scale.
 - Changed the shared VoxVector Button component from `rounded-md` to `rounded-full` so actual buttons consistently render as pills.
