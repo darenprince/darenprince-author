@@ -25,13 +25,24 @@ VoxVector/api/app.py
         v
 VoxVector/src/voxvector/
         |
+        +--> file upload / ingest
+        +--> decode / normalization
+        +--> provenance / integrity
+        +--> recording / channel assessment
+        +--> speaker identification / diarization
+        +--> speech segmentation
+        +--> transcription generation
+        +--> transcript alignment
         +--> eligibility / reliability
-        |
-        +--> evidence collection and analysis
-        |
+        +--> acoustic / prosodic / temporal / linguistic analysis
+        +--> question / answer alignment
+        +--> baseline comparison
+        +--> evidence assembly
+        +--> convergence / conflict analysis
         +--> candidate classification
-        |
-        +--> final classification / disposition gate
+        +--> validation / calibration gate
+        +--> final classification / disposition
+        +--> audit / provenance output
         |
         v
 Supabase
@@ -50,7 +61,7 @@ The FastAPI adapter is an interface/runtime boundary only. It must import and ex
 
 It contains:
 
-- React 19 application
+- React application
 - Tailwind styling
 - Motion for React
 - TanStack Query
@@ -75,36 +86,38 @@ base: /voxvector/
 - Render root: `VoxVector`
 - Render entry point: `api.app:app`
 
-## Frontend stack
-
-The approved frontend stack is:
-
-- **React** — application runtime
-- **shadcn/ui** — application-owned UI foundation; formal component installation remains incremental
-- **Tailwind CSS** — styling, responsive layout, tokens, and theming
-- **Motion for React** — state-driven animation and interaction
-- **TanStack Query** — server-state management and API lifecycle handling
-
-Current implementation status is tracked in `docs/UI_APPLICATION_ARCHITECTURE.md` and `docs/ROADMAP.md`.
-
 ## Analysis stages
 
-1. **Ingest and provenance**: accept supported audio, normalize input representation, record provenance, and identify the analysis run.
-2. **Eligibility and reliability**: determine whether the input is technically meaningful. This stage can downgrade or reject an input before substantive analysis.
-3. **Evidence collection and analysis**: compute measurable acoustic, temporal, voice-quality, spectral, formant, prosodic, interaction, transcript, and baseline observations as supported by the current pipeline and supplied context.
-4. **Evidence grouping and convergence**: organize observations for downstream deception research while preserving feature dependence, conflicts, alternative explanations, and provenance.
-5. **Candidate classification**: combine supported evidence into a provisional candidate state. The current implementation remains indeterminate-only.
-6. **Final classification or disposition**: apply reliability and scientific validation gates. Current outputs remain abstention or insufficient evidence unless a future validation program establishes otherwise.
+The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
+
+1. **File upload / ingest** — accept supported audio and establish the analysis request.
+2. **Decode and normalization** — decode media and establish the analysis representation.
+3. **Provenance and integrity** — hash the input and preserve run identity and source metadata.
+4. **Channel and recording assessment** — inspect duration clipping signal integrity and recording conditions.
+5. **Speaker identification / diarization** — identify speaker regions and assess separability. This remains planned research.
+6. **Speech segmentation** — identify analyzable speech regions within the recording.
+7. **Transcription generation** — produce a transcript for linguistic and conversational analysis. This remains planned research.
+8. **Transcript alignment** — associate transcript content with audio timing. This remains planned research.
+9. **Eligibility and reliability** — determine whether the available material is adequate for analysis.
+10. **Evidence collection and analysis** — compute supported acoustic prosodic voice quality temporal formant spectral transcript and baseline observations.
+11. **Question / answer alignment** — connect responses with prompts and response boundaries when available.
+12. **Evidence assembly and convergence** — organize observations into neutral evidence while preserving dependence conflict uncertainty and alternative explanations.
+13. **Candidate classification** — produce a provisional candidate state. The current implementation remains indeterminate only.
+14. **Validation and calibration gate** — require task specific validation calibration robustness and out of distribution controls before inferential use.
+15. **Final classification / disposition** — issue a validated disposition only when the configured gates are satisfied. Otherwise abstain or report insufficient evidence.
+16. **Audit and provenance output** — report measurements data availability reliability evidence direction uncertainty alternatives and provenance.
 
 ## Current primary pipeline
 
-`VoxVectorPipeline.analyze()` currently orchestrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux/rolloff, MFCC observations, formant tracking, pause topology, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
+`VoxVectorPipeline.analyze()` currently orchestrates acoustic summaries F0 and intensity dynamics HNR spectral flux and rolloff MFCC observations formant tracking pause topology optional within speaker baselines optional response latency and optional transcript disfluency observations.
 
-MFCC observations are part of the primary pipeline and are emitted with documented provenance and bounded processing behavior. Additional research utilities remain available according to `docs/CAPABILITY_STATUS.md`.
+The current runtime does not yet contain production grade ASR speaker diarization word or phoneme alignment or a validated deception classifier. Those capabilities remain planned or research status and must not be represented as implemented.
 
 ## Reliability boundary
 
 Reliability is an eligibility control. It is not a probability of deception and must not be merged into a deception score.
+
+Reliability must eventually incorporate more than signal amplitude quality. Speaker separability transcript confidence channel integrity clipping duration recording artifacts and contextual completeness can affect whether downstream observations are interpretable.
 
 ## Classification boundary
 
@@ -112,7 +125,7 @@ A measured observation is not a candidate label. Candidate classification must r
 
 ## Future inference boundary
 
-A future validated deception engine may combine independently justified methods, evidence convergence, uncertainty, reliability, alternative explanations, and task-specific models. A deception probability or confidence matrix may only be enabled after the required scientific validation and calibration work is completed.
+A future validated deception engine may combine independently justified methods evidence convergence uncertainty reliability alternative explanations and task specific models. A deception probability or confidence matrix may only be enabled after the required scientific validation and calibration work is completed.
 
 ## Operational observability boundary
 
