@@ -27,8 +27,8 @@ a[aria-label='VoxVector home'] > span:first-child > * {
 }
 
 a[aria-label='VoxVector home'] > span:nth-child(2) {
-  width: 148px !important;
-  height: 32px !important;
+  width: 185px !important;
+  height: 40px !important;
   background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
   display: block !important;
 }
@@ -63,8 +63,8 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
   }
 
   a[aria-label='VoxVector home'] > span:nth-child(2) {
-    width: 126px !important;
-    height: 28px !important;
+    width: 157px !important;
+    height: 34px !important;
   }
 
   .vv-brand-mark {
