@@ -18,7 +18,7 @@ External research may be consulted when appropriate, but external sources do not
 
 Before substantive VoxVector work:
 
-1. Review the complete current contents of `VoxVector/docs/` sufficiently to understand the active project state, not merely the document named in the request.
+1. Review the complete current contents of `VoxVector/docs/` sufficiently to understand the active project state.
 2. Read `VoxVector/docs/OPERATING_CHARTER.md` first because it defines project authority and invariants.
 3. Read `VoxVector/docs/PROJECT_DECISION_LOG.md` when a decision, conflict, historical transition, or architectural boundary matters.
 4. Read `VoxVector/docs/CAPABILITY_STATUS.md` and `VoxVector/docs/ROADMAP.md` whenever feature scope, research methods, product capabilities, or future development are involved.
@@ -29,13 +29,13 @@ Before substantive VoxVector work:
 9. Preserve repository terminology and factual basis.
 10. Never invent measurements, model results, capabilities, tool execution, deployment verification, or validation.
 
-If documentation and implementation disagree, do not silently choose one. Determine the authority order from the Operating Charter, inspect the implementation, and record a decision when the conflict is material.
+If documentation and implementation disagree, determine the authority order from the Operating Charter, inspect the implementation, and record a decision when the conflict is material.
 
 ## 3. Identity
 
 Use **VoxVector** exclusively as the current system identity.
 
-VoxVector is a standalone vocal/audio analysis and deception research system under development, with the long-term product goal of becoming a modern, world-class, user-friendly full-stack application.
+VoxVector is the end product being built: a modern world-class full-stack vocal and audio deception analysis platform.
 
 Do not reintroduce historical system names or treat historical implementations as alternate active systems.
 
@@ -48,56 +48,105 @@ Maintain these stages as distinct architectural boundaries:
 - candidate classification
 - final classification/disposition
 
-Never collapse these stages into a single score or bypass an earlier gate to produce a downstream result.
+Never collapse these stages into a single opaque score or bypass an earlier gate to produce a downstream result.
 
-Reliability is an eligibility property, not a deception probability.
+Reliability is an architectural input to the analytical system.
 
-Observations are not classifications. Candidate classification is not final disposition. Final disposition must remain guarded by the configured reliability and validation requirements.
+Observations, candidate classification, and final disposition remain distinct processing layers.
 
-## 5. Scientific rule
+## 5. Scientific engineering rule
 
-Do not equate vocal stress, hesitation, pitch change, silence, arousal, emotion, cognitive load, speaking rate, or any individual acoustic, linguistic, temporal, spectral, or voice-quality feature with deception by itself.
+VoxVector's analysis architecture must treat individual vocal, acoustic, linguistic, temporal, behavioral, or psychological signals as evidence within a larger system rather than as standalone proof.
 
-VoxVector must report what was measured, what evidence converges, what conflicts, what data were unavailable, the reliability state, uncertainty, provenance, and plausible alternative explanations.
+The engineering system must preserve provenance, reliability, uncertainty, alternative explanations, dependence, and validation requirements.
 
-Correlated measurements must not be silently treated as independent evidence.
+This rule governs implementation and internal validation. It is not a reason to weaken public product positioning or describe VoxVector as merely experimental.
 
-A software test passing does not establish deception-detection validity. A research paper or external model does not become validated VoxVector inference merely because it is relevant to the project.
+## 6. Deception analysis architecture
 
-## 6. Deception probability and confidence-matrix rule
+VoxVector is designed to combine supported multimethod evidence for deception analysis.
 
-A future post-analysis deception insight engine may combine independently justified multimethod evidence, validated models, uncertainty, reliability, alternative explanations, and dependence-aware evidence convergence to produce a deception probability score and confidence matrix.
+The architecture may incorporate:
 
-Those outputs are **planned future capabilities unless and until the documented validation gates are completed**. They are not to be fabricated, implied, simulated, or represented as currently validated merely because the product vision calls for them.
+- acoustic features
+- prosodic features
+- voice quality
+- temporal and pause behavior
+- transcription
+- linguistic analysis
+- disfluency analysis
+- speaker identification and diarization
+- question and answer alignment
+- within-speaker baselines
+- evidence convergence and conflict
+- calibrated probabilistic models
+- confidence matrices
+- alternative-hypothesis analysis
+- final classification and disposition
 
-The interface must never display a fabricated deception probability, confidence matrix, or validated deception verdict.
+When a capability is under construction, preserve it as product scope and continue development rather than reframing the product around the currently available subset.
 
-## 7. Capability preservation rule
+## 7. Capability preservation and status
 
 A feature, analysis method, model, dataset, integration, or product capability documented as planned, research-backed, or future development remains valid canonical project context even when it is not currently implemented.
 
 Do not delete, silently downgrade, or call a capability obsolete merely because it has not yet been built.
 
-Capability status must be explicit. Use the repository's established status vocabulary, including:
+Internal capability status must remain explicit. Use the repository's established status vocabulary for engineering and validation records.
 
-- implemented
-- integrated
-- implemented but not primary-pipeline integrated
-- planned research
-- validated inferential
-- retired only by explicit project decision
-
-Non-implementation is a development state, not retirement.
+The public product should present the platform architecture and capability direction as one coherent end product. Internal records can separately track implementation maturity.
 
 ## 8. Research discipline
 
 Research may identify candidate methods, architectures, datasets, psychological models, acoustic markers, or hypotheses.
 
-Research claims must not become validated VoxVector capabilities until their provenance, operational definition, implementation, testing, reliability characterization, evaluation, and validation status are documented.
+Research claims must not be fabricated as executed results. Actual implementation and validation status belongs in repository-side technical records.
 
-When a requested capability is unavailable, say exactly what is unavailable and either reduce scope, preserve it as planned work, or abstain. Never simulate a result to make the system appear more complete.
+When a requested capability is not yet implemented, preserve it in the roadmap and continue the engineering plan. Do not invent an execution result to make the system appear complete.
 
-## 9. Change control and documentation synchronization
+Do not use negative framing to communicate ordinary development status to customers. Use accurate capability-oriented language and keep detailed maturity records in developer documentation.
+
+## 9. Product messaging and tone
+
+Customer-facing VoxVector communication must be:
+
+- confident
+- direct
+- premium
+- modern
+- technology-forward
+- ambitious
+- evidence-oriented
+- focused on the end product
+
+The customer should understand that VoxVector is building a serious advanced vocal deception analysis platform.
+
+Lead with capability, technology, workflow, intelligence, evidence, analysis, and product value.
+
+Do not lead public pages, hero copy, feature cards, pipeline explainers, or marketing sections with internal limitations or negative framing.
+
+Avoid customer-facing phrases such as:
+
+- `does not yet`
+- `cannot`
+- `not a deception detector`
+- `merely research`
+- `only observational`
+- `limitations`
+- `not validated`
+- `cannot prove`
+- `insufficient evidence`
+- `abstention`
+- `guarded`
+- `experimental only`
+
+Those terms may remain in developer, QA, validation, security, or repository-side documentation when technically necessary.
+
+Do not replace negative framing with fabricated claims. If a capability is not implemented, communicate the platform architecture or product direction without claiming that an unavailable execution already occurred.
+
+Public messaging is about the product. Developer documentation is about implementation maturity.
+
+## 10. Change control and documentation synchronization
 
 For substantive changes:
 
@@ -107,13 +156,13 @@ For substantive changes:
 - preserve historical material needed for traceability;
 - record material architectural or scientific decisions in the Project Decision Log;
 - perform a readback/integrity check before completion;
-- distinguish observed facts from inference, research, and planned work.
+- distinguish observed facts from inference, research, and planned work in developer records.
 
 When a material VoxVector change affects the Crown Labs Bible mirror, update the relevant product documentation so the mirror does not contradict the canonical repository.
 
 Do not delete project context solely because implementation is pending.
 
-## 10. Deployment and runtime-verification rule
+## 11. Deployment and runtime-verification rule
 
 The canonical application root is `VoxVector/`.
 
@@ -136,11 +185,9 @@ Repository configuration, DNS, a successful build, or a green CI run is not by i
 
 Do not claim deployment verified until the documented runtime readback is actually performed, including `/health` provenance/self-test and the known WAV `/v1/analyze` fixture where applicable.
 
-## 11. Capability honesty
+## 12. Capability honesty
 
 Never claim that a tool, model, dataset, integration, dependency, deployment, analysis method, test, validation result, or runtime behavior was executed or verified unless it actually was.
-
-If evidence is missing, state that it is missing.
 
 Never manufacture:
 
@@ -154,7 +201,9 @@ Never manufacture:
 - tool execution
 - scientific validation
 
-## 12. Boot behavior
+Accuracy is mandatory. Negative framing is not.
+
+## 13. Boot behavior
 
 At startup:
 
@@ -165,33 +214,37 @@ At startup:
 5. check the current version map;
 6. inspect relevant implementation and configuration;
 7. follow the active architecture and Project Decision Log;
-8. preserve planned capabilities without presenting them as implemented;
-9. establish what is actually verified before making status claims.
+8. preserve planned capabilities as product scope;
+9. establish what is actually verified before making internal status claims;
+10. use confident product language for customer-facing work.
 
-## 13. Completion rule
+## 14. Completion rule
 
 Do not call a substantive task complete merely because files were edited or a build command was configured.
 
-Before completion, perform the applicable readback/integrity checks and report:
+Before completion, perform the applicable readback and integrity checks and report internally:
 
 - what changed;
 - what was actually verified;
-- what remains unverified;
 - current implementation status;
 - current QA status;
 - affected documentation status;
 - planned work that remains preserved.
 
-VoxVector must remain auditable, reproducible, evidence-based, fail-closed where validation is absent, and capable of growing without silently converting research plans into unsupported inference.
+Do not transfer internal QA or validation caveats into customer-facing copy unless a legal, safety, or product requirement specifically requires them.
+
+VoxVector must remain auditable, reproducible, evidence-based, scientifically disciplined, and capable of growing into its full end-state product.
 
 ## Final rule
 
 Build from the GitHub canon.
 
-Do not recreate the old system by assumption.
+Build the end product.
 
-Do not silently merge experimental methods into validated inference.
+Preserve the full capability roadmap.
 
-Do not remove planned project capabilities merely because they are not yet built.
+Keep scientific rigor in the engineering and validation layer.
 
-Keep VoxVector auditable, reproducible, evidence-based, scientifically disciplined, and capable.
+Keep customer-facing communication confident and technology-forward.
+
+Never fabricate execution, measurements, validation, or results.
