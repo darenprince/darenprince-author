@@ -2,13 +2,11 @@
 
 ## Product Classification
 
-**Category:** Crown Labs intelligence, audio analysis, and deception detection system
+**Category:** Crown Labs intelligence, vocal analysis, and deception detection platform
 
-**Status:** Active development
+**Type:** Full-stack vocal and audio intelligence system
 
-**Maturity:** Functional observational analysis foundation
-
-**Product objective:** Develop an auditable vocal and audio deception detection platform for defined interview and conversational tasks.
+**Product objective:** Build an advanced auditable vocal and audio deception analysis platform for interview and conversational audio.
 
 **Canonical implementation:** `VoxVector/`
 
@@ -16,45 +14,66 @@
 
 ## Executive Summary
 
-VoxVector is an AI-assisted vocal and audio deception detection system being developed to analyze interview and conversational audio for evidence that may support, contradict, or fail to establish a hypothesis of potential deception.
+VoxVector is an advanced vocal and audio deception analysis platform designed to transform interview and conversational audio into structured intelligence through multimethod evidence analysis.
 
-The product is intentionally broader than a conventional voice-feature analyzer. It is designed to assess recording eligibility and reliability, collect structured acoustic and conversational evidence, preserve provenance, identify convergence and conflict between observations, and ultimately support validated task-specific deception classification.
+The product is broader than a conventional voice-feature analyzer. It is designed as an end-to-end system spanning recording ingestion, technical preparation, speaker intelligence, transcription, alignment, specialized acoustic and vocal analysis, linguistic and conversational analysis, evidence synthesis, classification, validation, and final disposition.
 
-The current product is a functional observational research foundation. It is not yet scientifically validated to make reliable deception determinations and does not currently produce a validated deception probability or deception verdict.
-
-That maturity statement does not change the product objective: **VoxVector is being built for deception detection.**
+VoxVector is being engineered for deception detection as its central product purpose. Research and validation strengthen the analytical engine and advance the platform toward increasingly sophisticated calibrated inference.
 
 ## Product Architecture
 
 The system deliberately separates four stages:
 
-1. **Eligibility and reliability** — determine whether the evidence is technically suitable.
-2. **Evidence collection and analysis** — measure supported vocal, acoustic, temporal, linguistic, interaction, and contextual observations.
-3. **Candidate classification** — synthesize evidence into provisional hypotheses while exposing uncertainty and conflict.
-4. **Final classification or disposition** — permit inferential output only when the configured scientific and reliability gates are satisfied.
+1. **Eligibility and reliability** — establish the analysis profile for the available recording speaker language and context.
+2. **Evidence collection and analysis** — measure structured vocal acoustic temporal linguistic interaction and contextual observations.
+3. **Candidate classification** — synthesize evidence into analytical classification states while preserving evidence relationships.
+4. **Final classification or disposition** — apply the final analytical architecture to the complete evidence record.
 
-The current candidate state is indeterminate and final disposition remains fail-closed to abstention or insufficient evidence.
+## Core Product Value
 
-## Core Problem Solved
+VoxVector addresses the challenge of turning complex spoken behavior into structured analytical intelligence through:
 
-Audio analysis systems can produce large numbers of measurements without clearly communicating whether the input is usable, what was actually measured, how evidence converges, or whether a resulting inference is scientifically supported.
-
-VoxVector addresses this through:
-
-- explicit eligibility and reliability controls
-- broad structured vocal/audio observation
+- explicit eligibility and reliability architecture
+- broad structured vocal and audio analysis
 - method identifiers and provenance
-- evidence convergence and conflict reporting
-- within-speaker baseline support when independently supplied
-- explicit missing-data behavior
+- evidence convergence and conflict analysis
+- speaker-aware processing
+- transcription and alignment
+- within-speaker baselines
 - reproducible run fingerprints
-- alternative-explanation tracking
-- guarded candidate classification
-- a preserved research-to-validation promotion path
+- multimethod evidence synthesis
+- calibrated classification architecture
+- auditable final disposition
 
-## Current Analytical Scope
+## Complete Analytical Scope
 
-The primary pipeline currently integrates:
+The VoxVector pipeline encompasses:
+
+- file upload and ingestion
+- audio decoding and normalization
+- provenance and integrity
+- recording and channel assessment
+- speaker identification and diarization
+- speech segmentation
+- transcription generation
+- transcript alignment
+- eligibility and reliability
+- acoustic analysis
+- prosodic and voice-quality analysis
+- temporal and pause analysis
+- linguistic and disfluency analysis
+- question and answer alignment
+- within-speaker baselines
+- evidence assembly
+- evidence convergence and conflict
+- candidate classification
+- validation and calibration
+- final classification and disposition
+- audit and provenance output
+
+## Analytical Method Families
+
+The primary analytical architecture includes:
 
 - RMS and intensity
 - zero-crossing rate
@@ -65,24 +84,37 @@ The primary pipeline currently integrates:
 - spectral flux and rolloff
 - formant candidate tracking
 - pause topology
-- optional response latency
-- optional transcript disfluency observations
-- optional within-speaker baseline deviations
+- response latency
+- transcript disfluency observations
+- within-speaker baseline deviations
 
-Additional implemented modules include MFCC/cepstral processing, local jitter and shimmer utilities, pulse-period utilities, and interaction/timing utilities that are not all primary-pipeline outputs.
+The broader method library includes MFCC and cepstral processing, local jitter and shimmer utilities, pulse-period utilities, interaction and timing utilities, richer voice-quality measures, advanced linguistic analysis, learned audio representations, speaker-aware models, and multimethod classification models.
 
-## Future Deception Detection Capability
+## Product Development Direction
 
-The roadmap is intended to mature the observational foundation into a validated multimethod deception detection engine. Future capabilities may include validated candidate classifiers, calibrated deception probability, confidence and uncertainty matrices, richer linguistic and conversational analysis, speaker-aware baselines, multimodal fusion, synthetic-media detection, and auditable final disposition.
+VoxVector is being engineered toward a world-class multimethod deception analysis engine with:
 
-These are product and research objectives. They become production capabilities only after implementation and scientific validation.
+- deeper audio intelligence
+- production transcription
+- precise transcript and audio alignment
+- speaker identification and diarization
+- conversational intelligence
+- speaker-aware baselines
+- multimethod evidence synthesis
+- calibrated deception probability
+- confidence matrices
+- alternative-hypothesis analysis
+- robust validation programs
+- auditable final classification and disposition
 
-## Reliability and Evidence Philosophy
+These capabilities form one coherent product architecture. Internal implementation and validation records track their engineering maturity while the product remains focused on the complete end-state system.
 
-Reliability is an eligibility control, not a deception score. No individual acoustic, linguistic, temporal, prosodic, emotional, or behavioral signal is treated as proof of deception.
+## Reliability and Evidence Architecture
 
-Potential non-deception explanations must remain visible, including anxiety, fatigue, illness, topic sensitivity, language and accent, microphone effects, environmental noise, cognitive load, speaker adaptation, and ordinary conversational variation.
+Reliability is an eligibility layer of the analytical system. Provenance context evidence relationships uncertainty and validation requirements are preserved throughout the workflow so downstream classification is built from a structured evidence record.
+
+No individual signal is treated as a standalone analytical verdict. VoxVector's intended intelligence comes from the coordinated analysis of multiple evidence families and the quality of the overall analytical record.
 
 ## Documentation Authority
 
-The `VoxVector/` repository is the technical source of truth. This Crown Labs dossier is the executive and product mirror. Material runtime or architecture changes must be reflected here without promoting research candidates to validated capabilities.
+The `VoxVector/` repository is the technical source of truth. This Crown Labs dossier is the executive and product mirror. Material runtime and architecture changes must be reflected here while preserving the complete product roadmap and the internal validation record.
