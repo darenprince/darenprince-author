@@ -1,231 +1,194 @@
 # VoxVector Capability Status
 
-This document distinguishes the product we are building from what the current runtime has implemented and what science has validated. An unimplemented capability is not an obsolete capability.
+This document distinguishes the product end state from current implementation state and scientific validation state.
+
+An unimplemented capability remains active product scope.
 
 ## Product objective
 
-**VoxVector is being built as a vocal and audio deception detection system.** The intended analytical product combines multiple evidence families to identify patterns that may support or contradict a deception hypothesis in defined interview or conversational tasks.
+VoxVector is being built as a vocal and audio deception detection system.
 
-The current implementation is an observational foundation. It must not be represented as scientifically validated deception detection until the required validation program is completed.
+The intended product combines multiple evidence families through a connected case centered pipeline.
 
 ## Status vocabulary
 
-* **Implemented**: code exists with repository level QA coverage or deterministic boundary tests.
-* **Integrated**: implemented and currently orchestrated by the primary `VoxVectorPipeline`.
-* **Implemented, not primary integrated**: reusable code exists but is not currently emitted by the primary pipeline.
-* **Planned research**: documented candidate retained for future implementation, evaluation, or validation.
-* **Validated inferential**: reserved for a method or model that has completed the VoxVector validation requirements for a defined task and population.
-* **Retired**: removed from the active roadmap only by an explicit documented decision.
+- **Implemented** — code exists with repository QA coverage or deterministic boundary tests.
+- **Integrated** — implemented and orchestrated by the primary `VoxVectorPipeline`.
+- **Implemented but not primary integrated** — reusable implementation exists outside the primary output contract.
+- **Planned research** — retained product capability awaiting implementation evaluation or validation.
+- **Validated inferential** — reserved for a defined method and task that has completed the validation program.
+- **Retired** — removed only through an explicit project decision.
 
-## Pipeline capability map
+## Canonical 21 stage capability map
 
-| Pipeline capability | Status | Notes |
+| Stage | Current state | Product target |
 |---|---|---|
-| File upload / ingest | Implemented | Developer Console accepts supported WAV input and sends it to the canonical API |
-| File decode | Implemented | API request path decodes audio before analysis |
-| Input hashing / provenance | Integrated | Pipeline records input SHA256 run ID sample rate and software version |
-| Signal quality / eligibility | Integrated | Reliability assessment and eligibility record are first class outputs |
-| Channel and recording condition assessment | Implemented / expanding | Duration clipping and signal metrics exist; broader channel and artifact controls remain planned |
-| Speaker identification / diarization | Planned research | Required for robust multi speaker analysis and speaker attribution |
-| Speech segmentation | Integrated foundation | Bounded frame processing and pause topology provide analyzable speech structure |
-| Transcription generation | Planned research | Production grade ASR is not currently integrated |
-| Word / phoneme alignment | Planned research | Needed for timed linguistic and audio language correspondence |
-| Transcript ingestion | Implemented when supplied | Pipeline accepts transcript tokens as optional context |
-| Transcript disfluency | Integrated when supplied | Filled pauses repetitions and rates |
-| Question / answer timing | Integrated when supplied | Requires explicit timing boundaries |
-| Question / answer semantic alignment | Planned research | Requires richer transcript and prompt context |
-| Within speaker baseline | Integrated when supplied | Requires independent baseline input |
-| Cross method evidence assembly | Integrated | Neutral evidence grouping with provenance and quality |
-| Evidence convergence | Integrated foundation | Dependence aware expansion remains planned |
-| Candidate classification | Integrated boundary | Returns `indeterminate` only |
-| Validation / calibration gate | Planned research | Required before validated inferential use |
-| Final disposition | Integrated boundary | Abstain or insufficient evidence under current runtime |
-| Audit / provenance output | Integrated | Results expose measured observations limitations and provenance |
+| File Upload / Ingest | Implemented | Durable multi format case intake |
+| File Decode and Normalization | Implemented | Canonical normalized media pipeline |
+| Provenance and Integrity | Integrated | Immutable source and run provenance |
+| Channel and Recording Assessment | Implemented / expanding | Full recording and artifact assessment |
+| Speaker Identification / Diarization | Planned research | Production speaker aware analysis |
+| Speech Segmentation | Integrated foundation | Production speech region segmentation |
+| Transcription Generation | Planned research | Production timestamped ASR |
+| Transcript Alignment | Planned research | Word and audio synchronization |
+| Eligibility and Reliability | Integrated | Complete eligibility and reliability gate |
+| Acoustic Feature Extraction | Integrated | Expanded acoustic observation layer |
+| Prosodic and Voice Quality Analysis | Integrated foundation | Expanded prosodic and source analysis |
+| Temporal and Pause Analysis | Integrated | Expanded interaction timing |
+| Linguistic and Disfluency Analysis | Integrated when transcript supplied | Production linguistic intelligence |
+| Question / Answer Alignment | Integrated when supplied | Full conversational alignment |
+| Within Speaker Baseline | Integrated when supplied | Persistent baseline workflows |
+| Cross Method Evidence Assembly | Integrated | Expanded evidence graph |
+| Evidence Convergence and Conflict | Integrated foundation | Dependence aware multimethod synthesis |
+| Candidate Classification | Integrated boundary | Validated task specific candidate models |
+| Validation and Calibration Gate | Planned research | Production validation gate |
+| Final Classification / Disposition | Integrated boundary | Validated final disposition architecture |
+| Audit and Provenance Output | Integrated | Complete auditable case package |
 
-## Current implemented and integrated observations
+## Current primary observations
 
-| Capability | Status | Notes |
+| Method | Status | Primary output |
 |---|---|---|
-| RMS / energy | Integrated | Primary acoustic pipeline |
-| Relative intensity / dB | Integrated | Primary acoustic pipeline |
-| Zero crossing rate | Integrated | Primary acoustic pipeline |
-| Spectral centroid | Integrated | FFT width aware |
-| Spectral spread | Integrated | FFT width aware |
-| Fundamental frequency | Integrated | Observational F0 estimation |
-| Harmonicity / periodicity | Integrated | Acoustic observation |
-| F0 and intensity dynamics | Integrated | Range dispersion slope delta |
-| HNR | Integrated | Derived from usable harmonicity |
-| Spectral flux | Integrated | Canonical spectral implementation |
-| Spectral rolloff | Integrated | Canonical spectral implementation |
-| MFCC / cepstral coefficients | Integrated | 13 coefficient means emitted per bounded audio chunk stream |
-| Formant candidate tracking | Integrated | FFT boundary hardened; not phonetic validated |
-| Pause topology | Integrated | Count density longest median p90 voiced run mean |
-| Response latency | Integrated when supplied | Requires explicit timing boundaries |
-| Transcript disfluency | Integrated when supplied | Filled pauses repetitions rates |
-| Within speaker baseline | Integrated when supplied | Independent baseline required |
-| Evidence grouping | Integrated | Neutral observational evidence |
-| Candidate classification | Integrated boundary | Indeterminate only |
-| Final disposition gate | Integrated boundary | Abstain / insufficient evidence |
-| Reliability gate | Integrated | Eligibility control only |
+| RMS / energy | Integrated | acoustic observation |
+| Relative intensity / dB | Integrated | acoustic observation |
+| Zero crossing rate | Integrated | acoustic observation |
+| Spectral centroid | Integrated | spectral observation |
+| Spectral spread | Integrated | spectral observation |
+| Fundamental frequency | Integrated | F0 observation |
+| Harmonicity | Integrated | periodicity observation |
+| F0 dynamics | Integrated | prosodic observation |
+| Intensity dynamics | Integrated | prosodic observation |
+| HNR | Integrated | voice quality observation |
+| Spectral flux | Integrated | spectral observation |
+| Spectral rolloff | Integrated | spectral observation |
+| MFCC | Integrated | 13 coefficient observations |
+| Formant candidate tracking | Integrated | spectral candidate observations |
+| Pause topology | Integrated | temporal observations |
+| Response latency | Integrated when timing supplied | interaction observation |
+| Transcript disfluency | Integrated when transcript supplied | linguistic observation |
+| Within speaker baseline deviation | Integrated when baseline supplied | baseline observation |
+| Evidence grouping | Integrated | evidence records |
+| Reliability gate | Integrated | eligibility state |
+| Candidate classification boundary | Integrated | candidate indeterminate boundary |
+| Final disposition boundary | Integrated | configured disposition boundary |
 
-## Operational reliability and observability status
+## Current input capabilities
 
-| Area | Status | Current state |
-|---|---|---|
-| Render build | Working | Canonical `VoxVector` root builds successfully on the pinned production runtime |
-| Render process startup | Working | Uvicorn starts `api.app:app` successfully |
-| `/health` | Working | Repeated HTTP 200 responses observed |
-| Runtime self test | Working | Reported `passed` during successful deployment |
-| Durable diagnostic storage adapter | Implemented | Supabase Storage adapter with private JSON bucket support |
-| Request correlation | Implemented | `/v1/analyze` receives a request ID and returns `X-Request-ID` |
-| Lifecycle diagnostics | Implemented | Start completion rejection stage and exception events |
-| `/v1/analyze` normal path stability | **Open incident** | A public request returned HTTP 502; origin cause remains under investigation |
-| Resource safeguards | Planned next | Must fail safely before origin process termination |
-| Full CI after latest frontend visual correction | Pending | Fresh green CI evidence is required |
-| Production storage configuration | Pending | Render must receive the Supabase URL and service role secret |
+The Developer Console currently supports WAV upload through the canonical `/v1/analyze` path.
 
-## Frontend application status
+The frontend also provides local WAV metadata extraction playback and waveform preview.
 
-| Area | Status | Current state |
-|---|---|---|
-| React application shell | **Implemented** | React/Vite application under `voxvector/` with responsive product shell and Motion interactions |
-| React build pipeline | **Implemented** | Dedicated Vite build under `voxvector/`; GitHub Pages workflow builds and stages `/voxvector/` |
-| shadcn style component foundation | **Implemented** | Application owned Card Sheet Button Badge and ThemeToggle composition follows shadcn patterns and uses Base UI primitives |
-| Tremor analytical UI | **Implemented** | Tremor Card AreaChart and ProgressBar are first class dependencies and are used by the landing and console surfaces |
-| Tailwind CSS design system | **Implemented** | Dedicated frontend Tailwind/PostCSS configuration semantic tokens responsive utility styling and light/dark themes |
-| Motion for React | **Implemented** | State and presentation animations use Motion; animation does not represent analytical truth |
-| TanStack Query | **Implemented** | Query client and API lifecycle integration are present at the application boundary |
-| Lucide icon system | **Implemented** | Product and console iconography uses Lucide React |
-| Developer Console | **Implemented** | Functional `/voxvector/developer` console with developer gate dashboard API workbench and unavailable telemetry states |
-| Analysis Workspace | Planned | Must consume real `/v1/analyze` state and preserve analytical stage separation |
-| Browser/end to end verification | Planned | Required before frontend workflows are considered complete |
+The product intake target expands this into a persistent case based upload workflow with storage references provenance and reusable media access.
 
-## Frontend design system state
+## Planned speaker and transcript capabilities
 
-The approved active visual system is the Shadcnblocks inspired neutral foundation supplied during the 2026-08-19 refinement cycle:
+- production speaker identification
+- diarization
+- speaker separation
+- overlap handling
+- speaker confidence
+- speaker aware transcript attribution
+- production ASR
+- segment timestamps
+- word timestamps
+- transcript confidence
+- forced alignment
+- audio transcript synchronization
+- question and response alignment
 
-* black and near black foundations
-* white and warm white typography
-* quiet gray surfaces and dividers
-* coffee copper and tan accents
-* subtle surface gradients
-* thin low contrast strokes
-* stronger contrast reserved for controls focus states and semantic status
-* no active blue or cyan product accent
+## Planned analytical expansion
 
-Tremor's default blue theme tokens are overridden in `voxvector/tailwind.config.js`. Landing charts use explicit warm custom colors and the landing analytical cards disable the default Tremor ring so the interface cannot silently revert to blue framing.
+- broader acoustic descriptors
+- openSMILE style descriptors
+- eGeMAPS style descriptors
+- LPCC
+- GFCC
+- Teager Energy Operator
+- richer glottal source measures
+- IAIF
+- NAQ
+- CQ
+- OQ
+- H1 H2
+- WavLM
+- wav2vec 2.0
+- HuBERT
+- Conformer
+- Audio Spectrogram Transformer
+- temporal attention
+- sequence models
+- transformer linguistic representations
+- contradiction and consistency analysis
+- richer lexical analysis
+- richer question and answer intelligence
+- expanded baseline workflows
 
-## Vercel status
+## Deception inference development
 
-Vercel is retired from the VoxVector architecture.
+The product architecture preserves the full path toward:
 
-The canonical frontend host is GitHub Pages. The canonical backend host is Render. The `voxvector/` package contains no Vercel dependency or configuration and the VoxVector GitHub Actions workflow does not deploy to Vercel.
+- multimethod evidence convergence
+- dependence aware evidence synthesis
+- calibrated uncertainty
+- explicit decision thresholds
+- speaker disjoint evaluation
+- cross dataset evaluation
+- recording condition stress tests
+- identity sensitivity testing
+- subgroup robustness
+- language robustness where appropriate
+- external replication
+- validated candidate classifiers
+- calibrated deception probability
+- confidence matrices
+- final classification and disposition
 
-If a Vercel check remains visible in GitHub it is an external integration or repository status configuration and must be removed outside the application source. Reintroducing Vercel code to satisfy that check would violate the deployment decision.
+## Operational status
 
-## Frontend migration boundary
+| Area | State |
+|---|---|
+| Render backend | working baseline |
+| `/health` | observed working |
+| Runtime self test | observed passed during successful deployment |
+| Request correlation | implemented |
+| Lifecycle diagnostics | implemented |
+| Durable diagnostic storage adapter | implemented |
+| `/v1/analyze` normal path stability | open incident history remains under investigation |
+| Production diagnostic secret configuration | verification required |
+| Current frontend CI | fresh verification required on the current main commit |
 
-The canonical public landing implementation is `voxvector/index.html` and its React source under `voxvector/src/`. The public React application is presentation and API interface code only. It does not recreate the analysis engine.
+## Frontend status
 
-The canonical backend remains under `VoxVector/` including `VoxVector/api/` and `VoxVector/src/voxvector/`. API driven analysis telemetry request lifecycle state and protected Developer Console behavior must remain connected to the canonical backend rather than duplicated in the frontend.
+| Area | State |
+|---|---|
+| React application shell | implemented |
+| GitHub Pages deployment configuration | implemented |
+| Developer Console | implemented foundation |
+| API workbench | implemented |
+| Real upload progress | implemented |
+| Audio player | implemented foundation |
+| Local WAV waveform | implemented foundation |
+| Diagnostic event browser | implemented foundation |
+| Methodology navigation | implemented |
+| MVP task board | implemented foundation |
+| Analysis Workspace | active implementation target |
+| Full 21 stage backend lifecycle integration | active implementation target |
+| Browser end to end verification | required |
 
-## Implemented but not primary pipeline integrated
+## Scientific status rule
 
-* Cepstral summary utilities beyond the primary MFCC observation path
-* Local jitter from supplied periods
-* Local shimmer from supplied cycle amplitudes
-* Pulse period utilities
-* Generic temporal observation utilities such as turn duration and overlap duration
+Implementation does not equal scientific validation.
 
-These are real implementation assets and remain available for the deception detection development program.
+A measured feature remains an observation until the defined validation program supports inferential use for a specified task and population.
 
-## Planned research and future development
+The product objective remains deception detection throughout the engineering program.
 
-### Input and speaker processing
+## Documentation authority
 
-* broader file format ingestion beyond the current supported workflow
-* production channel and recording artifact assessment
-* speaker identification / diarization
-* speaker/channel separability controls
-* robust overlap handling
-* speaker attribution confidence propagation into reliability
-
-### Speech and transcript processing
-
-* production grade ASR
-* word and phoneme timestamps
-* forced alignment
-* transcript confidence propagation into reliability
-* speaker aware transcript attribution
-* question / answer alignment
-* proposition and response boundary construction
-
-### Acoustic and voice quality expansion
-
-* openSMILE / eGeMAPS style descriptor layer
-* broader spectral tilt and harmonic measures
-* LPCC
-* GFCC
-* Teager Energy Operator descriptors
-* richer voice quality and glottal source measures
-* stronger channel and recording condition quality controls
-* IAIF NAQ CQ OQ H1 H2 and related source measures
-
-### Learned representations and temporal modeling
-
-* WavLM
-* wav2vec 2.0
-* HuBERT
-* Conformer
-* Audio Spectrogram Transformer
-* temporal attention and sequence models
-* speaker and recording condition leakage evaluation
-
-### Linguistic and conversational intelligence
-
-* transformer linguistic representations
-* contradiction and consistency analysis
-* repair and false start detection
-* hedging and certainty measures
-* lexical diversity negation and discourse structure
-* richer question and answer alignment
-
-### Speaker and interaction analysis
-
-* diarization
-* speaker/channel separability controls
-* richer turn taking and overlap analysis
-* baseline selection and leakage controls
-
-### Multimodal and media integrity
-
-* facial action units
-* audio/video synchronization
-* cross modal fusion
-* synthetic speech detection and provenance aware benchmark evaluation
-
-### Deception inference infrastructure
-
-* dependence aware multimethod convergence
-* calibrated uncertainty
-* explicit abstention thresholds
-* speaker disjoint and cross dataset evaluation
-* recording condition stress tests
-* identity sensitivity analysis
-* subgroup and language robustness where applicable
-* externally replicated evaluation
-* validated candidate classifiers
-* eventual calibrated deception probability and confidence matrix logic
-* case level evidence synthesis and final disposition controls
-
-## Scientific rule
-
-No item becomes a deception indicator simply because it is implemented or researched. No feature representation model or classifier is promoted to validated deception inference by documentation alone.
-
-The product objective remains deception detection; the scientific discipline determines when and how that objective can be responsibly enabled in the runtime.
-
-## Current checkpoint
-
-The active engineering checkpoint is `docs/PROJECT_CHECKPOINT_2026-08-19.md`. The frontend refinement record is `docs/PROJECT_CHECKPOINT_2026-08-19_UI_REFINEMENT.md`. These records preserve current progress open incidents and the next verification sequence.
-
-The frontend architecture and implementation contract are defined in `docs/UI_APPLICATION_ARCHITECTURE.md`.
+- `docs/MASTER_METHOD_INDEX.md` — complete data point inventory
+- `docs/ANALYSIS_METHODS.md` — method definitions
+- `docs/METHOD_QA_MATRIX.md` — software QA controls
+- `docs/VALIDATION.md` — scientific validation requirements
+- `docs/ROADMAP.md` — future development
+- `docs/MVP_BUILD_PLAN.md` — fastest connected implementation path
+- `docs/DOCS_ALIGNMENT_2026-08-20.md` — cross document synchronization record
