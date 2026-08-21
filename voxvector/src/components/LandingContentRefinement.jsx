@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 
 const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png'
 const COFFEE = '#c99a66'
+const WORKFLOW_HEADING = 'Deep Forensic Vocal Analysis + State of the art Linguistics'
+const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
 
 function refineWorkflowContent() {
   const section = document.querySelector('#workflow')
@@ -11,20 +13,17 @@ function refineWorkflowContent() {
   const description = heading?.parentElement?.querySelector('p')
   const link = heading?.parentElement?.querySelector('a[href="#technology"]')
 
-  if (heading) {
+  if (heading && heading.textContent?.trim() !== WORKFLOW_HEADING) {
     heading.innerHTML = 'Deep Forensic Vocal Analysis + <span class="vv-state-of-art">State of the art Linguistics</span>'
-    heading.dataset.vvLandingContent = 'true'
   }
 
-  if (description) {
-    description.textContent = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-    description.dataset.vvLandingContent = 'true'
+  if (description && description.textContent?.trim() !== WORKFLOW_DESCRIPTION) {
+    description.textContent = WORKFLOW_DESCRIPTION
   }
 
   if (link) {
     const textNode = Array.from(link.childNodes).find((node) => node.nodeType === Node.TEXT_NODE)
-    if (textNode) textNode.textContent = 'Deep Analysis Methods'
-    link.dataset.vvLandingContent = 'true'
+    if (textNode && textNode.textContent?.trim() !== 'Deep Analysis Methods') textNode.textContent = 'Deep Analysis Methods'
   }
 
   if (!section.querySelector('.vv-console-feature')) {
