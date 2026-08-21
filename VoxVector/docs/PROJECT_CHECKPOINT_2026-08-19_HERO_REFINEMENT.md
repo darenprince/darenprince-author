@@ -1,26 +1,22 @@
-# VoxVector Hero Refinement — 2026-08-19
+# VoxVector Hero Refinement — 2026-08-21
 
 ## Scope
 
-Public landing hero hierarchy, header proportions, hero background treatment, headline motion, and preservation of the surrounding landing-page sections.
+Public landing hero hierarchy, full-width hero artwork, CTA alignment, hero end-navigation, and preservation of the surrounding landing-page sections.
 
 ## Implemented
 
-- Removed the hero eyebrow copy `Advanced vocal deception analysis`.
-- Removed the hero eyebrow label `Evidence first`.
-- Replaced the secondary hero headline with the requested semantic headline structure: `Reveal the truth` followed immediately by `in your audio` on the next line.
-- Preserved the existing display type scale and tightened line spacing between the two headline lines.
-- Added a restrained animated coffee-gold shine to the words `truth` only.
-- Reduced the public header height from the prior 76px desktop treatment to 68px, with a 64px mobile treatment.
-- Allowed the hero artwork to extend behind the transparent/translucent sticky header so the visual begins at the top of the viewport.
-- Added the full-bleed SVG hero artwork using a dark charcoal field, subtle dimensional wave paths, fine spectral lines, restrained coffee-gold illumination, and sparse particles.
-- Reduced the hero overlay contrast so the artwork remains visible without competing with the headline.
-- Added reduced-motion handling for the animated gold shine.
-- Refined `IN YOUR AUDIO` to a slightly smaller, darker secondary line, especially on mobile.
-- Sequenced the hero reveal so the waveform opens clearly, recedes, `Reveal the` appears, `TRUTH` reveals with an earlier shine, then `IN YOUR AUDIO`, body copy, and CTAs reveal in sequence.
-- Increased the opening waveform visibility while retaining its deliberate fade.
-- Preserved the landing-page section structure. Hero refinement must not move, remove, or overwrite the Technology section, its feature cards, or the analytical-path heading and copy.
-- Removed the prior DOM relocation behavior that was incorrectly treating the section immediately after the hero as a movable principles grid and deleting that entire section.
+- Preserved the refined hero headline hierarchy: `Reveal the TRUTH` followed by `IN YOUR AUDIO`.
+- Uses `voxvector/public/assets/voxvector-hero-cinematic-v2.svg` as the hero background.
+- The artwork is now applied directly to the hero container so it spans the full viewport width and is anchored to the top edge of the hero.
+- Removed the previous grayscale treatment from the hero artwork so the supplied artwork renders as authored.
+- Reduced the nested hero overlay opacity so the background remains visibly present behind the content instead of collapsing into an effectively black field.
+- Kept the hero waveform as a separate animated evidence layer.
+- Centered the two primary hero CTA controls while keeping them on one horizontal row.
+- Added the text-only `Explore the Technology` control with a downward arrow at the bottom of the hero, immediately above the following content. It links to `#technology`.
+- Removed common CTA-adjacent disclaimer copy such as credit-card and secure/private/powerful promotional lines from the hero presentation layer.
+- Preserved responsive behavior and the existing mobile navigation.
+- Preserved the landing-page section structure and technology section.
 
 ## Implementation
 
@@ -35,4 +31,4 @@ Presentation-only change. No VoxVector analysis method, evidence model, reliabil
 
 ## Verification status
 
-The section-preservation fix is committed to the GitHub source of truth. Browser-level production visual QA still needs to be performed after the resulting GitHub Actions deployment before rendered production behavior is claimed as verified.
+Source changes are committed to GitHub. Production browser verification remains a deployment/runtime check and should be performed against the resulting GitHub Pages build.
