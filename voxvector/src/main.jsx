@@ -8,6 +8,7 @@ import LoadingScreen from './components/LoadingScreen'
 import LandingChrome from './components/LandingChrome'
 import HeroRefinement from './components/HeroRefinement'
 import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
+import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
 import './index.css'
 import './landing-chrome.css'
 import './hero-refinement.css'
@@ -35,7 +36,7 @@ function ThemeLayer() {
 function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
-  return <><HeroRefinement /><EvidenceBarsRefinement /><LandingChrome /></>
+  return <><HeroRefinement /><EvidenceBarsRefinement /><LandingChrome /><HeaderNoticeCleanup /></>
 }
 
 function LoadingLayer() {
