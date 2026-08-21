@@ -1,3 +1,7 @@
+# CANONICAL PRODUCTION FRONTEND DEPLOYMENT
+# VoxVector public frontend is deployed ONLY through GitHub Pages Actions.
+# Vercel and Netlify are retired from the VoxVector frontend architecture.
+# Backend API remains on Render at https://voxvector.crownlabs.tech.
 name: Deploy GitHub Pages
 
 on:
