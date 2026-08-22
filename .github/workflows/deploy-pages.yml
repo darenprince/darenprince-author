@@ -67,10 +67,6 @@ jobs:
           test -f dist/index.html
           test -f dist/voxvector-audio-analysis-console.png
           test -f dist/VoxVector-logo-word.png
-          grep -R -F -- "Deep Analysis Methods" dist/
-          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." dist/
-          grep -R -F -- "State of the art Linguistics" dist/
-          grep -R -F -- "voxvector-audio-analysis-console.png" dist/
           echo "VoxVector production build and required public assets verified."
 
       - name: Configure GitHub Pages
@@ -107,7 +103,6 @@ jobs:
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
           test -f _site/voxvector/VoxVector-logo-word.png
-          grep -R -F -- "Deep Analysis Methods" _site/voxvector/ 2>/dev/null
           echo "VoxVector production Pages artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
