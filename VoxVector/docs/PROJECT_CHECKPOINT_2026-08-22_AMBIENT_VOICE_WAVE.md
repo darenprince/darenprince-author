@@ -1,18 +1,17 @@
-# VoxVector Project Checkpoint — 2026-08-22 Ambient Voice Wave
+# VoxVector Project Checkpoint — 2026-08-22 Landing Visual Refinement
 
 ## Change
 
-Added a thin ambient voice waveform beneath the landing page console image in the public React application.
+Refined the public React landing workflow section to restore the VoxVector audio analysis console presentation and spacing while removing the animated gold scan/wave background treatment.
 
 ## Behavior
 
-- The waveform is decorative UI only and does not consume microphone, recording, API, or live analysis input.
-- Bar heights are randomized in short pulses to create an organic speech-like visual rhythm.
-- The animation uses the approved coffee, tan, copper, and warm neutral palette.
-- The waveform is intentionally thinner and quieter than the primary console visual so it supports the section without competing with the product image.
-- Reduced-motion users receive a static version.
-- Browser-safe scaling avoids unsupported CSS arithmetic for the bar heights.
-- The animation is scoped to the existing `LandingContentRefinement` workflow section.
+- The canonical console image remains `/voxvector/voxvector-audio-analysis-console.png` and is displayed at 90% width on the workflow section.
+- The workflow section uses a restrained charcoal and neutral-gray gradient treatment.
+- Gold/copper is retained only where intentionally specified for the `State of the art Linguistics` accent and CTA treatment.
+- The animated ambient gold waveform/scan background has been removed.
+- The console uses only a restrained entrance animation; it is not presented as live telemetry.
+- Mobile spacing and image sizing remain explicitly controlled.
 
 ## Implementation
 
@@ -22,16 +21,16 @@ Canonical implementation:
 
 Refinement version:
 
-`2026-08-22-v10`
+`2026-08-22-v11`
 
 ## Scientific boundary
 
-The waveform is a visual interface illustration. It is not an audio measurement, live telemetry stream, or analytical result.
+The console visual is product-interface imagery. It is not a live analysis result or audio measurement.
 
 ## Verification
 
-Final source change committed to GitHub as:
+Source change committed to GitHub as:
 
-`a489f728227db0d78d24042c3daf2f80354da0d7`
+`ac36214bd2ecd368456f0c238e1c5d879306899e`
 
 A fresh GitHub Actions build remains the required production verification step.
