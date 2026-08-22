@@ -3,14 +3,12 @@ import { useEffect } from 'react'
 const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png?v=20260822-2'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-22-v4'
+const REFINEMENT_VERSION = '2026-08-22-v5'
 
 function getWorkflowTarget() {
   const section = document.querySelector('#workflow')
   if (!section) return null
 
-  // HeroRefinement prepends its animated canvas to #workflow. Do not use
-  // section.firstElementChild or a guessed grid selector here.
   const heading = Array.from(section.querySelectorAll('h2')).find((element) => {
     const text = element.textContent?.trim() || ''
     return /Deep Forensic Vocal Analysis/i.test(text) || /State of the art Linguistics/i.test(text)
@@ -18,9 +16,6 @@ function getWorkflowTarget() {
 
   if (!heading) return null
 
-  // Walk upward until we reach the actual heading/content block. The block
-  // must contain the descriptive paragraph and the technology CTA. This is
-  // resilient to layout wrappers, motion wrappers, and the hero canvas.
   let block = heading.parentElement
   for (let depth = 0; block && depth < 8; depth += 1) {
     const hasParagraph = Boolean(block.querySelector('p'))
@@ -35,7 +30,7 @@ function getWorkflowTarget() {
   const link = Array.from(block.querySelectorAll('a')).find((element) => {
     const text = element.textContent?.trim() || ''
     const href = element.getAttribute('href') || ''
-    return /Explore the evidence model|Deep Analysis Methods/i.test(text) || href.includes('#technology')
+    return /Explore the evidence model|Deep Analysis Methods|VoxVector Analysis Methods/i.test(text) || href.includes('#technology')
   }) || block.querySelector('a')
 
   return { section, heading, block, description, link }
@@ -58,8 +53,8 @@ function refineWorkflowContent() {
   }
 
   if (link) {
-    link.textContent = 'Deep Analysis Methods'
-    link.setAttribute('aria-label', 'Deep Analysis Methods')
+    link.textContent = 'VoxVector Analysis Methods'
+    link.setAttribute('aria-label', 'VoxVector Analysis Methods')
     link.setAttribute('data-vv-cta-version', REFINEMENT_VERSION)
     link.classList.add('vv-pill-cta')
   }
@@ -77,10 +72,6 @@ function refineWorkflowContent() {
     image.decoding = 'async'
     image.setAttribute('fetchpriority', 'high')
     feature.appendChild(image)
-
-    // Put the console immediately before the heading block, not before a
-    // guessed grid. This guarantees the requested visual appears above the
-    // workflow heading regardless of wrapper changes.
     block.parentElement?.insertBefore(feature, block)
   }
 
