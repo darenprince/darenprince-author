@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 
-const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png?v=20260822-v8'
+const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png?v=20260822-v11'
 const ICON_IMAGE = '/voxvector/assets/voxvector-icon-final-color.png'
-const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png?v=20260822-v8'
+const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png?v=20260822-v11'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-22-v10'
+const REFINEMENT_VERSION = '2026-08-22-v11'
 
 function getWorkflowTarget() {
   const section = document.querySelector('#workflow')
@@ -64,46 +64,6 @@ function ensureWorkflowStructure(target) {
   return feature
 }
 
-function ensureAmbientVoiceWave(feature) {
-  if (!feature || feature.querySelector('.vv-ambient-voice-wave')) return
-
-  const wave = document.createElement('div')
-  wave.className = 'vv-ambient-voice-wave'
-  wave.setAttribute('aria-hidden', 'true')
-  wave.setAttribute('data-vv-wave-version', REFINEMENT_VERSION)
-
-  const bars = Array.from({ length: 72 }, (_, index) => {
-    const bar = document.createElement('span')
-    const center = 1 - Math.abs(index - 35.5) / 35.5
-    const base = 0.22 + center * 0.42 + Math.random() * 0.28
-    bar.className = 'vv-voice-bar'
-    bar.style.setProperty('--vv-wave-base', `${Math.max(0.16, Math.min(0.92, base))}`)
-    bar.style.setProperty('--vv-wave-delay', `${Math.round(Math.random() * 240)}ms`)
-    wave.appendChild(bar)
-    return bar
-  })
-
-  feature.appendChild(wave)
-
-  let pulseTimer
-  const pulse = () => {
-    const phrase = 0.55 + Math.random() * 0.45
-    let previous = phrase
-    bars.forEach((bar, index) => {
-      const neighbor = 0.62 * previous + 0.38 * (0.18 + Math.random() * 0.82)
-      const phraseShape = 0.7 + 0.3 * Math.sin((index / bars.length) * Math.PI * 2 + Math.random() * 0.6)
-      const base = Number.parseFloat(bar.style.getPropertyValue('--vv-wave-base')) || 0.5
-      const scale = Math.max(0.08, Math.min(1.35, neighbor * phraseShape * (0.72 + Math.random() * 0.52) * (0.72 + base * 0.38)))
-      bar.style.setProperty('--vv-wave-scale', scale.toFixed(3))
-      previous = scale
-    })
-  }
-
-  pulse()
-  pulseTimer = window.setInterval(pulse, 430 + Math.round(Math.random() * 190))
-  wave._vvCleanup = () => window.clearInterval(pulseTimer)
-}
-
 function refineWorkflowContent() {
   const target = getWorkflowTarget()
   if (!target) return
@@ -111,8 +71,6 @@ function refineWorkflowContent() {
   const { section, heading, contentRoot, description, link } = target
   const feature = ensureWorkflowStructure(target)
   if (!feature) return
-
-  ensureAmbientVoiceWave(feature)
 
   heading.innerHTML = '<span class="vv-workflow-prefix">Deep Forensic Vocal Analysis +</span><span class="vv-state-of-art">State of the art Linguistics</span>'
 
@@ -149,14 +107,15 @@ function addStyles() {
   const style = document.createElement('style')
   style.id = 'vv-landing-content-refinement-styles'
   style.textContent = `
+    /* Charcoal section treatment: neutral, restrained, and deliberately not gold. */
     #workflow {
       position: relative !important;
       overflow: hidden !important;
       background:
-        radial-gradient(circle at 82% 8%, rgba(201,154,102,.11), transparent 34%),
-        radial-gradient(circle at 12% 82%, rgba(126,91,67,.10), transparent 36%),
-        linear-gradient(135deg, #171615 0%, #211e1b 48%, #111110 100%) !important;
-      border-top: 1px solid rgba(201,154,102,.10) !important;
+        radial-gradient(circle at 78% 12%, rgba(255,255,255,.035), transparent 34%),
+        radial-gradient(circle at 18% 78%, rgba(255,255,255,.025), transparent 38%),
+        linear-gradient(145deg, #151515 0%, #1b1b1b 48%, #111111 100%) !important;
+      border-top: 1px solid rgba(255,255,255,.07) !important;
     }
 
     #workflow > div:first-child {
@@ -165,6 +124,7 @@ function addStyles() {
       z-index: 1 !important;
     }
 
+    /* Preserve the console as the hero visual. Keep the original breathing room around it. */
     #workflow .vv-console-feature {
       box-sizing: border-box !important;
       width: 100% !important;
@@ -173,29 +133,14 @@ function addStyles() {
       min-height: 0 !important;
       max-height: none !important;
       display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
       align-items: center !important;
+      justify-content: center !important;
       overflow: visible !important;
-      margin: -1.5rem auto 1rem !important;
+      margin: -0.75rem auto 2.25rem !important;
       padding: 0 !important;
       position: relative !important;
       z-index: 2 !important;
       flex: none !important;
-    }
-
-    #workflow .vv-console-feature::after {
-      content: '';
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      bottom: 7%;
-      height: 18%;
-      border-radius: 50%;
-      background: rgba(201,154,102,.12);
-      filter: blur(30px);
-      pointer-events: none;
-      z-index: -1;
     }
 
     #workflow .vv-console-feature img {
@@ -208,54 +153,9 @@ function addStyles() {
       object-fit: contain !important;
       opacity: 1 !important;
       visibility: visible !important;
-      filter: drop-shadow(0 24px 42px rgba(0,0,0,.38));
-      animation: vv-console-arrive .8s cubic-bezier(.22,1,.36,1) both, vv-console-float 7s ease-in-out 1s infinite;
+      filter: drop-shadow(0 24px 42px rgba(0,0,0,.42));
+      animation: vv-console-arrive .8s cubic-bezier(.22,1,.36,1) both;
     }
-
-    #workflow .vv-ambient-voice-wave {
-      width: 86% !important;
-      max-width: 1120px !important;
-      height: 38px !important;
-      margin: -.2rem auto .15rem !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: clamp(1px, .12vw, 2px) !important;
-      opacity: .72 !important;
-      pointer-events: none !important;
-      position: relative !important;
-    }
-
-    #workflow .vv-ambient-voice-wave::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 50%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,154,102,.22) 14%, rgba(201,154,102,.34) 50%, rgba(201,154,102,.22) 86%, transparent);
-    }
-
-    #workflow .vv-voice-bar {
-      position: relative !important;
-      z-index: 1 !important;
-      display: block !important;
-      width: 1.35px !important;
-      height: 100% !important;
-      min-height: 3px !important;
-      max-height: 92% !important;
-      border-radius: 999px !important;
-      background: linear-gradient(180deg, #d9ae7c 0%, #b77c4a 52%, #8f5d35 100%) !important;
-      box-shadow: 0 0 7px rgba(201,154,102,.12) !important;
-      transform: scaleY(var(--vv-wave-scale, .5)) !important;
-      transform-origin: center !important;
-      transition: transform .38s cubic-bezier(.22,1,.36,1), opacity .38s ease !important;
-      animation: vv-voice-shimmer 3.8s ease-in-out var(--vv-wave-delay) infinite alternate !important;
-      opacity: .56 !important;
-    }
-
-    #workflow .vv-voice-bar:nth-child(3n) { opacity: .7 !important; }
-    #workflow .vv-voice-bar:nth-child(5n) { opacity: .44 !important; }
 
     #workflow .vv-workflow-lower {
       display: grid !important;
@@ -332,16 +232,6 @@ function addStyles() {
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    @keyframes vv-console-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    @keyframes vv-voice-shimmer {
-      from { filter: brightness(.86); }
-      to { filter: brightness(1.08); }
-    }
-
     @media (max-width: 1023px) {
       #workflow .vv-workflow-lower {
         grid-template-columns: 1fr !important;
@@ -359,21 +249,11 @@ function addStyles() {
         padding-bottom: 4rem !important;
       }
       #workflow .vv-console-feature {
-        margin: -.35rem auto .65rem !important;
+        margin: -.15rem auto 1.35rem !important;
       }
       #workflow .vv-console-feature img {
         width: 90% !important;
         max-height: 430px !important;
-      }
-      #workflow .vv-ambient-voice-wave {
-        width: 88% !important;
-        height: 30px !important;
-        margin: -.05rem auto .1rem !important;
-        gap: 1px !important;
-      }
-      #workflow .vv-voice-bar {
-        width: 1px !important;
-        min-height: 2px !important;
       }
       #workflow .vv-workflow-lower {
         gap: 1.75rem !important;
@@ -404,10 +284,8 @@ function addStyles() {
     }
 
     @media (prefers-reduced-motion: reduce) {
-      #workflow .vv-console-feature img,
-      #workflow .vv-voice-bar {
+      #workflow .vv-console-feature img {
         animation: none !important;
-        transition: none !important;
       }
     }
   `
@@ -425,8 +303,6 @@ export default function LandingContentRefinement() {
     const timers = [80, 300, 700].map((delay) => window.setTimeout(apply, delay))
     return () => {
       timers.forEach(window.clearTimeout)
-      const wave = document.querySelector('.vv-ambient-voice-wave')
-      wave?._vvCleanup?.()
       document.querySelector('#vv-landing-content-refinement-styles')?.remove()
     }
   }, [])
