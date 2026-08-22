@@ -1,0 +1,4 @@
+VoxVector API deployment revision: 2026-08-19 canonical project layout
+
+The deployable HTTP adapter is part of ./VoxVector/ and must be built with Render Root Directory=VoxVector.
+The root-level ./api/ directory is not part of the VoxVector application and must not be used as the deployment root.

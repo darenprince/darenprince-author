@@ -1,0 +1,97 @@
+/* Final landing polish: spacing, button geometry, hero scale, and disclaimer cleanup. */
+
+/* Keep the hero hierarchy tight and deliberate. */
+#product .vv-hero-content {
+  gap: 0 !important;
+}
+
+#product .vv-hero-content > h1 {
+  margin-bottom: 14px !important;
+}
+
+#product .vv-hero-body {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1.62 !important;
+}
+
+#product .vv-hero-cta-row {
+  margin-top: 24px !important;
+  gap: 12px !important;
+}
+
+#product .vv-hero-audio-line {
+  font-size: .40em !important;
+  line-height: .98 !important;
+  letter-spacing: .16em !important;
+  margin-top: .08em !important;
+}
+
+/* Buttons are pills. Structural surfaces and ordinary links are not. */
+button,
+[role="button"],
+a.vv-hero-primary-cta,
+a.vv-hero-api-cta {
+  border-radius: 999px !important;
+}
+
+#product .vv-hero-primary-cta,
+#product .vv-hero-api-cta {
+  min-height: 46px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* The hero CTA group is followed by no disclaimer or other supporting copy. */
+#product .vv-hero-cta-row ~ p,
+#product .vv-hero-cta-row ~ small,
+#product .vv-hero-cta-row ~ div:not(.vv-hero-technology-link) {
+  display: none !important;
+}
+
+#product .vv-hero-technology-link {
+  margin-top: 18px !important;
+}
+
+@media (max-width: 900px) {
+  #product .vv-hero-content > h1 {
+    margin-bottom: 12px !important;
+  }
+
+  #product .vv-hero-body {
+    line-height: 1.58 !important;
+  }
+
+  #product .vv-hero-cta-row {
+    margin-top: 22px !important;
+  }
+
+  #product .vv-hero-technology-link {
+    margin-top: 16px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  #product .vv-hero-audio-line {
+    font-size: .38em !important;
+    letter-spacing: .14em !important;
+  }
+
+  #product .vv-hero-content > h1 {
+    margin-bottom: 10px !important;
+  }
+
+  #product .vv-hero-cta-row {
+    margin-top: 20px !important;
+    gap: 10px !important;
+  }
+
+  #product .vv-hero-primary-cta,
+  #product .vv-hero-api-cta {
+    min-height: 44px !important;
+  }
+
+  #product .vv-hero-technology-link {
+    margin-top: 14px !important;
+  }
+}

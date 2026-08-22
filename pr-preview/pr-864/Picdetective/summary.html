@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html data-site-root="darenprince-author" lang="en">
+<head>
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const explicitRoot = html.getAttribute('data-site-root');
+        const host = window.location.hostname || '';
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const normalizedExplicit = explicitRoot ? explicitRoot.trim().replace(/^\/+|\/+$/g, '') : '';
+        let prefix = '';
+        if (normalizedExplicit) {
+          prefix = '/' + normalizedExplicit;
+        } else if (host.endsWith('.github.io') && pathSegments.length) {
+          prefix = '/' + pathSegments[0];
+        }
+        const firstSegment = pathSegments[0] || '';
+        const shouldUsePrefix =
+          Boolean(prefix) &&
+          (host.endsWith('.github.io') ? Boolean(pathSegments.length) : firstSegment === normalizedExplicit);
+        if (!shouldUsePrefix || prefix === '/') {
+          html.dataset.assetPrefix = '';
+          return;
+        }
+        if (prefix.endsWith('/')) {
+          prefix = prefix.slice(0, -1);
+        }
+        html.dataset.assetPrefix = prefix;
+        const URL_ATTRS = new Map([
+          ['A', ['href']],
+          ['LINK', ['href']],
+          ['SCRIPT', ['src']],
+          ['IMG', ['src', 'srcset']],
+          ['SOURCE', ['src', 'srcset']],
+          ['VIDEO', ['src', 'poster']],
+          ['AUDIO', ['src']],
+          ['IFRAME', ['src']],
+          ['USE', ['href', 'xlink:href']],
+          ['FORM', ['action']],
+        ]);
+        const shouldIgnore = (value) =>
+          !value || /^(?:[a-z]+:|\/\/|#|data:|mailto:|tel:)/i.test(value);
+        const resolve = (value) => {
+          if (!value || shouldIgnore(value)) return value;
+          if (value === prefix || value.startsWith(prefix + '/')) {
+            return value;
+          }
+          if (value.startsWith('/')) {
+            return prefix + value;
+          }
+          return value;
+        };
+        const patchSrcset = (value) =>
+          value
+            .split(',')
+            .map((chunk) => {
+              const parts = chunk.trim().split(/\s+/);
+              if (!parts.length || !parts[0]) {
+                return chunk;
+              }
+              parts[0] = resolve(parts[0]);
+              return parts.join(' ');
+            })
+            .join(', ');
+        const patchNode = (node) => {
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+          const attrs = URL_ATTRS.get(node.tagName);
+          if (!attrs) return;
+          for (const attr of attrs) {
+            const current = node.getAttribute(attr);
+            if (!current) continue;
+            if (attr === 'srcset') {
+              const next = patchSrcset(current);
+              if (next !== current) {
+                node.setAttribute(attr, next);
+              }
+              continue;
+            }
+            const next = resolve(current);
+            if (next === current) continue;
+            if (node.tagName === 'SCRIPT' && attr === 'src') {
+              const replacement = document.createElement('script');
+              node.getAttributeNames().forEach((name) => {
+                if (name === 'src') return;
+                replacement.setAttribute(name, node.getAttribute(name));
+              });
+              replacement.src = next;
+              if (node.parentNode) {
+                node.parentNode.insertBefore(replacement, node.nextSibling);
+              } else {
+                document.head.appendChild(replacement);
+              }
+              node.remove();
+            } else {
+              node.setAttribute(attr, next);
+            }
+          }
+        };
+        const patchSubtree = (root) => {
+          if (!root || !root.querySelectorAll) return;
+          URL_ATTRS.forEach((_, tag) => {
+            root.querySelectorAll(tag.toLowerCase()).forEach(patchNode);
+          });
+        };
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => {
+            record.addedNodes.forEach((added) => {
+              if (added.nodeType === Node.ELEMENT_NODE) {
+                patchNode(added);
+                if (added.querySelectorAll) {
+                  added.querySelectorAll('*').forEach(patchNode);
+                }
+              }
+            });
+          });
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        const finalize = () => {
+          patchSubtree(document);
+          observer.disconnect();
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', finalize, { once: true });
+        } else {
+          finalize();
+        }
+      })();
+    </script>
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PicDetective Report</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Apple PWA + Safari enhancements -->
+    <!-- Smart App banner is rendered by js/main.js -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/generated/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/generated/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/generated/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/generated/favicon-48x48.png">
+    <link rel="manifest" href="/assets/icons/generated/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#456f3a">
+    <meta name="application-name" content="Daren Prince Official Site">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/generated/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/generated/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/generated/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/generated/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/generated/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/generated/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/generated/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/generated/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/generated/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/generated/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/icons/generated/apple-touch-icon-1024x1024.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daren Prince">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1136x640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1334x750.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2436x1125.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1170x2532.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2532x1170.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1179x2556.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2556x1179.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-1792x828.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2688x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2208x1242.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1284x2778.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2778x1284.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1290x2796.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2796x1290.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1488x2266.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2266x1488.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2048x1536.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1620x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1620.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1640x2160.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 820px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2160x1640.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2388x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2224x1668.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/assets/icons/generated/apple-touch-startup-image-2048x2732.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/assets/icons/generated/apple-touch-startup-image-2732x2048.png">
+    <meta name="msapplication-TileColor" content="#456f3a">
+    <meta name="msapplication-TileImage" content="/assets/icons/generated/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/icons/generated/browserconfig.xml">
+    <link rel="yandex-tableau-widget" href="/assets/icons/generated/yandex-browser-manifest.json">
+  <!-- End Apple PWA + Safari enhancements -->
+</head>
+<body>
+<div id="loadingScreen" class="loading-screen">
+  <video class="loading-bg" src="detbgvid.webm" autoplay muted loop playsinline></video>
+  <div class="progress"><div class="bar"></div></div>
+</div>
+<div id="loginOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <a href="/index.html"><img src="detlogo2.PNG" alt="PicDetective" class="login-logo"></a>
+    <p class="tagline">Ai Powered Forensic Image Analysis</p>
+    <h2>Login</h2>
+    <div class="input-group">
+      <input type="text" id="loginUser" placeholder="Username">
+    </div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="loginPass" placeholder="Password">
+      <span class="toggle-pass" data-target="loginPass"><i class="fa fa-eye"></i></span>
+    </div>
+    <button onclick="login()" class="login-btn">Unlock</button>
+    <p id="loginError" class="error" style="display:none;">Incorrect credentials.</p>
+    <button id="showRegister" class="register-btn">Register</button>
+    <a href="#" id="forgotLink" class="forgot-link">Forgot password?</a>
+  </div>
+</div>
+<div id="registerOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Register</h2>
+    <div class="input-group"><input type="text" id="regFirst" placeholder="First Name"></div>
+    <div class="input-group"><input type="text" id="regLast" placeholder="Last Name"></div>
+    <div class="input-group"><input type="email" id="regEmail" placeholder="Email"></div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass" placeholder="Password">
+      <span class="toggle-pass" data-target="regPass"><i class="fa fa-eye"></i></span>
+    </div>
+    <div id="passStatus" class="pass-status">Must be 8 chars with number & symbol</div>
+    <div class="input-group" style="position:relative;">
+      <input type="password" id="regPass2" placeholder="Confirm Password">
+      <span class="toggle-pass" data-target="regPass2"><i class="fa fa-eye"></i></span>
+    </div>
+    <div class="terms"><input type="checkbox" id="agree"> <label for="agree">I agree to <a href="#">Terms of Use</a> and electronic signature.</label></div>
+    <button onclick="registerUser()">Register</button>
+    <button id="closeRegister" class="link-btn">Cancel</button>
+  </div>
+</div>
+<div id="forgotOverlay" class="overlay" style="display:none;">
+  <div class="login-box">
+    <h2>Forgot Password</h2>
+    <div class="input-group"><input type="email" id="resetEmail" placeholder="Email"></div>
+    <button id="sendReset" class="login-btn">Send Reset Link</button>
+    <button id="backLogin" class="link-btn" style="margin-top:0.5rem;">Back to Login</button>
+  </div>
+</div>
+<aside class="sidebar">
+  <div class="logo">
+    <a href="/index.html">
+      <img src="deticon.png" alt="logo">
+      <span class="logo-text">PIC Detective</span>
+    </a>
+    <button id="sidebarClose" class="close-sidebar"><i class="fa fa-angle-left"></i></button>
+  </div>
+  <ul class="nav-links">
+    <li><a href="/index.html"><i class="fa fa-home"></i><span class="link-name">Home</span></a></li>
+    <li class="menu-item has-sub">
+      <a href="#"><i class="fa fa-file-alt"></i><span class="link-name">Sections</span><i class="fa fa-chevron-down arrow"></i></a>
+      <ul class="sub-menu" id="sectionMenu"></ul>
+    </li>
+    <li><a href="#"><i class="fa fa-plus"></i><span class="link-name">New Analysis</span></a></li>
+    <li><a href="analysis.html"><i class="fa fa-chart-bar"></i><span class="link-name">Full Analysis</span></a></li>
+    <li><a href="#" id="logoutBtn"><i class="fa fa-door-open"></i><span class="link-name">Logout</span></a></li>
+  </ul>
+</aside>
+
+<main class="content">
+  <div class="topbar" id="topbar">
+    <button id="toggleBtn"><i class="fa fa-bars"></i></button>
+    <span class="title"><strong>Forensic Image Report</strong></span>
+    <button id="searchToggle"><i class="fa fa-search"></i></button>
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterContent()">
+    <div class="actions">
+      <button id="printBtn"><i class="fa fa-print"></i></button>
+      <button id="settingsBtn"><i class="fa fa-cog"></i></button>
+      <button id="logoutIcon"><i class="fa fa-sign-out-alt"></i></button>
+    </div>
+  </div>
+  <section id="reportContent">
+    <button id="copyBtn" class="copy-btn" title="Copy report"><i class="fa fa-clipboard"></i></button>
+<section id="final-summary">
+    <h2>🧠 Final Summary: Full Forensic Behavioral & Environmental Analysis</h2>
+    <p>This report has synthesized high-resolution insights across 15 processed images.</p>
+    <h3>Global Behavioral Themes Identified:</h3>
+    <ul>
+        <li><strong>Controlled Chaos:</strong> A recurring behavioral motif where function trumps form. Objects are placed based on emotional reinforcement, not visual order.</li>
+        <li><strong>Sensory-Based Self-Regulation:</strong> Heavy reliance on nicotine, sugar, caffeine, scent, and tech as methods of emotional grounding and energy management.</li>
+        <li><strong>Trauma-Survival Adaptations:</strong> Drawer clustering, mixed domain storage, overstocking, and impulsive item usage patterns are all indicative of coping mechanisms from past instability.</li>
+        <li><strong>Emotional Burnout & Executive Dysfunction:</strong> Hygiene and organization cycles exist, but degrade under load. Evidence of alternating high-function and complete drop-off zones.</li>
+        <li><strong>Solo Patterning & Lack of Social Oversight:</strong> Most spaces are configured for individual access and emotional maintenance, not cohabitation or public presentation.</li>
+    </ul>
+
+    <h3>Key Environmental Risk Flags:</h3>
+    <ul>
+        <li>Fire hazards: tangled cords, overloaded outlets, smoking/vaping near fabric.</li>
+        <li>Cross-contamination: storage of food, medication, and hygiene in single zones.</li>
+        <li>Trip and clutter risk: low-floor piles, drawers left open, tools scattered.</li>
+    </ul>
+
+    <h3>Clinical Considerations (Preliminary):</h3>
+    <ul>
+        <li>Possible stimulant use history (nicotine/meth/caffeine-based cycle behavior).</li>
+        <li>Indicators of ADHD, trauma-recovery, or emotional regulation disorder.</li>
+        <li>Patterns consistent with post-acute stimulant withdrawal (oral fixation, clutter tolerance, low hygiene friction).</li>
+    </ul>
+
+    <p>🔍 This document reflects a complete analysis up to <strong>Image 15</strong>. Images 16–18 pending re-upload or manual inclusion.</p>
+    <p>📁 <strong>HTML forensic report is finalized and ready for archival, presentation, or continued updates.</strong></p>
+</section>
+  </section>
+  
+</main>
+<div id="fontControl">
+  <i class="fa fa-text-height"></i>
+  <input type="range" id="fontSlider" min="14" max="24" value="16">
+</div>
+<footer class="site-footer">
+  <a href="/index.html" class="footer-logo"><img src="deticon.png" alt="logo"><span>Pic Detective</span></a>
+  <ul class="footer-links">
+    <li><a href="#">Terms</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+  <span class="copyright">&copy; 2025 Daren Prince</span>
+</footer>
+<script type="module" src="/js/ui.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+

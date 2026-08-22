@@ -1,0 +1,6 @@
+/* Hero layout adjustment pass. Keep this file separate from the larger visual refinement stylesheet so spacing changes remain easy to audit. */
+#product{background-size:130% auto!important;background-position:center top!important}
+#product h1{transform:translateY(-18px)!important;margin-bottom:34px!important}
+.vv-hero-body{margin-top:0!important}
+@media(max-width:900px){#product{background-size:130% auto!important;background-position:center top!important}}
+@media(max-width:620px){#product{background-size:130% auto!important;background-position:58% top!important}}
