@@ -13,9 +13,7 @@ function SignalField() {
             <stop offset="0.52" stopColor="#c99a72" stopOpacity="0.58" />
             <stop offset="1" stopColor="#5f4636" stopOpacity="0" />
           </linearGradient>
-          <filter id="vv-loader-soft-glow">
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
+          <filter id="vv-loader-soft-glow"><feGaussianBlur stdDeviation="3" /></filter>
         </defs>
         <g className="vv-loader__signal-track">
           <path className="vv-loader__signal vv-loader__signal--primary" d="M-40 360 C 80 360 100 235 205 360 S 340 485 455 360 S 590 235 705 360 S 840 485 955 360 S 1090 235 1240 360" />
@@ -23,9 +21,7 @@ function SignalField() {
           <path className="vv-loader__signal vv-loader__signal--tertiary" d="M-80 275 C 40 275 105 190 220 275 S 365 360 485 275 S 625 190 745 275 S 885 360 1005 275 S 1130 190 1280 275" />
         </g>
         <g className="vv-loader__signal-grid">
-          <path d="M0 350 H1200" />
-          <path d="M0 280 H1200" />
-          <path d="M0 420 H1200" />
+          <path d="M0 350 H1200" /><path d="M0 280 H1200" /><path d="M0 420 H1200" />
         </g>
       </svg>
     </div>
@@ -34,9 +30,10 @@ function SignalField() {
 
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(true)
+  const [logoFailed, setLogoFailed] = useState(false)
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => setVisible(false), 2100)
+    const timeout = window.setTimeout(() => setVisible(false), 1400)
     return () => window.clearTimeout(timeout)
   }, [])
 
@@ -50,8 +47,13 @@ export default function LoadingScreen() {
           <div className="vv-loader__orbit vv-loader__orbit--outer" aria-hidden="true" />
           <div className="vv-loader__orbit vv-loader__orbit--inner" aria-hidden="true" />
           <div className="vv-loader__pulse" aria-hidden="true" />
-          <img className="vv-loader__mark" src={LOGO} alt="VoxVector" />
+          {logoFailed ? (
+            <span className="vv-loader__fallback" aria-hidden="true">VV</span>
+          ) : (
+            <img className="vv-loader__mark" src={LOGO} alt="VoxVector" onError={() => setLogoFailed(true)} />
+          )}
         </div>
+        <div className="vv-loader__label">VOXVECTOR</div>
       </div>
     </div>
   )
