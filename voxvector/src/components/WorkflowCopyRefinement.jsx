@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 
-const COFFEE = '#c99a66'
 const NEW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
 
 function findLeafByText(root, text) {
