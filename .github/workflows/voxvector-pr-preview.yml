@@ -1,59 +1,47 @@
-# VOXVECTOR PR PREVIEW
+# VOXVECTOR PR BUILD PREVIEW
 #
-# A PR preview is published under /voxvector-preview/pr-<number>/ on the same
-# GitHub Pages site while preserving the production /voxvector/ artifact from
-# the current main branch. The PR build never replaces production source.
-name: VoxVector PR Preview
+# GitHub's supported Pages workflow deliberately does not deploy a
+# pull_request-triggered build. This workflow therefore builds the exact PR
+# frontend and stores it as a downloadable artifact without touching the
+# production Pages deployment.
+#
+# A public Pages preview will use a separate Pages repository/site so that a
+# PR can never replace the production deployment.
+name: VoxVector PR Preview Build
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
 
 concurrency:
-  group: pages-production-and-preview
-  cancel-in-progress: false
+  group: voxvector-pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  build:
-    if: github.event.action != 'closed'
+  build-preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout production main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: production
-
       - name: Checkout pull request
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          path: preview
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install root dependencies for production artifact
-        working-directory: production
-        run: npm ci
-
-      - name: Build production site
-        working-directory: production
-        run: npm run deploy:github-pages
-
-      - name: Install VoxVector preview dependencies
-        working-directory: preview/voxvector
+      - name: Install VoxVector dependencies
+        working-directory: voxvector
         run: npm install --no-audit --no-fund
 
-      - name: Build VoxVector preview
-        working-directory: preview/voxvector
+      - name: Build isolated VoxVector preview
+        working-directory: voxvector
         env:
           VITE_BASE_PATH: /voxvector-preview/pr-${{ github.event.pull_request.number }}/
           VITE_SUPABASE_URL: ${{ secrets.VOXVECTOR_SUPABASE_URL }}
@@ -61,121 +49,19 @@ jobs:
           VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm run build
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Assemble production plus isolated preview artifact
+      - name: Verify preview artifact
+        working-directory: voxvector
         run: |
           set -euo pipefail
-          rm -rf _site
-          mkdir -p _site/voxvector
-          rsync -a production/ _site/ \
-            --exclude _site \
-            --exclude .git \
-            --exclude node_modules \
-            --exclude voxvector/dist \
-            --exclude 'VoxVector/**' \
-            --exclude 'docs/**' \
-            --exclude 'tests/**' \
-            --exclude '*.log'
-          rsync -a production/voxvector/dist/ _site/voxvector/
-          mkdir -p _site/docs/crownlabsbible
-          rsync -a production/docs/crownlabsbible/ _site/docs/crownlabsbible/
-          mkdir -p _site/VoxVector/docs
-          rsync -a production/VoxVector/docs/ _site/VoxVector/docs/
-          mkdir -p _site/voxvector/developer
-          cp production/voxvector/dist/index.html _site/voxvector/developer/index.html
-          cp production/voxvector/dist/index.html _site/voxvector/404.html
+          test -f dist/index.html
+          test -f dist/voxvector-audio-analysis-console.png
+          test -f dist/VoxVector-logo-word.png
+          echo "VoxVector PR build completed and required assets are present."
 
-          mkdir -p _site/voxvector-preview/pr-${{ github.event.pull_request.number }}
-          rsync -a preview/voxvector/dist/ _site/voxvector-preview/pr-${{ github.event.pull_request.number }}/
-
-          test -f _site/voxvector/index.html
-          test -f _site/voxvector-preview/pr-${{ github.event.pull_request.number }}/index.html
-          test -f _site/voxvector-preview/pr-${{ github.event.pull_request.number }}/voxvector-audio-analysis-console.png
-
-          cat > _site/voxvector-preview/index.html <<'EOF'
-          <!doctype html>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width,initial-scale=1">
-          <title>VoxVector PR Preview</title>
-          <style>body{font-family:system-ui,sans-serif;margin:40px;line-height:1.5}a{font-weight:700}</style>
-          <h1>VoxVector PR Preview</h1>
-          <p>This directory contains isolated pull request previews.</p>
-          EOF
-
-      - name: Upload combined Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload PR preview artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: _site
+          name: voxvector-pr-preview-${{ github.event.pull_request.number }}
+          path: voxvector/dist/
+          if-no-files-found: error
           retention-days: 7
-
-  deploy:
-    if: github.event.action != 'closed'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy production plus PR preview
-        uses: actions/deploy-pages@v4
-        id: deployment
-
-  cleanup:
-    if: github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout current main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Install root dependencies
-        run: npm ci
-
-      - name: Build current production site
-        run: npm run deploy:github-pages
-
-      - name: Stage production artifact after preview cleanup
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site/voxvector
-          rsync -a ./ _site/ \
-            --exclude _site \
-            --exclude .git \
-            --exclude node_modules \
-            --exclude voxvector/dist \
-            --exclude 'VoxVector/**' \
-            --exclude 'docs/**' \
-            --exclude 'tests/**' \
-            --exclude '*.log'
-          rsync -a ./voxvector/dist/ _site/voxvector/
-          mkdir -p _site/docs/crownlabsbible
-          rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
-          mkdir -p _site/VoxVector/docs
-          rsync -a ./VoxVector/docs/ _site/VoxVector/docs/
-          mkdir -p _site/voxvector/developer
-          cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
-          cp ./voxvector/dist/index.html ./_site/voxvector/404.html
-          test -f _site/voxvector/index.html
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload cleaned production artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-          retention-days: 7
-
-      - name: Deploy cleaned production Pages artifact
-        uses: actions/deploy-pages@v4
