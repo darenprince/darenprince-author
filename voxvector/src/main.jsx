@@ -22,6 +22,7 @@ import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
 import './loading-screen.css'
+import './landing-runtime-recovery.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
