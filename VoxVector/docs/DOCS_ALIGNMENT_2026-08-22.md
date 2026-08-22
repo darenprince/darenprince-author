@@ -12,7 +12,7 @@ Record the documentation synchronization for the new development, editing, pull 
 - `VoxVector/docs/DEVELOPMENT_WORKFLOW.md` — active development and deployment procedure
 - `VoxVector/docs/PROJECT_DECISION_2026-08-22_DEVELOPMENT_WORKFLOW.md` — material decision record
 - `.github/workflows/deploy-pages.yml` — production Pages deployment
-- `.github/workflows/voxvector-pr-preview.yml` — PR build preview artifact workflow
+- `.github/workflows/deploy-pr-preview.yml` — PR build preview artifact workflow
 - `docs/BUILD_PIPELINE.md` — repository-level build documentation with the VoxVector workflow overlay
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/development-workflow.md` — Crown Labs mirror
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/overview.md` — Crown Labs product mirror updated with workflow rules
@@ -33,7 +33,7 @@ Production frontend deployment is from `main` only.
 
 Existing pages are edited surgically. Existing functionality must be preserved. Duplicate page versions are prohibited unless a page is genuinely new product functionality.
 
-GitHub's supported custom Pages workflow does not deploy a `pull_request` run to the Pages site. A public PR preview therefore requires a separate isolated Pages site/repository. Until that target is established, the PR workflow produces a downloadable build artifact and never touches production.
+GitHub's supported custom Pages workflow does not deploy a `pull_request` run to the Pages site. A public PR preview therefore requires a separate isolated Pages site/repository. Until that target is established, `.github/workflows/deploy-pr-preview.yml` produces a downloadable build artifact and never touches production.
 
 ## Verification state
 
