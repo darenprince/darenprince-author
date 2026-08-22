@@ -116,6 +116,20 @@ It provides:
 - task checkoffs
 - phase completion
 
+## Development and Deployment Workflow
+
+VoxVector development uses a controlled pull request workflow:
+
+**feature branch → pull request → production-like build → isolated preview → manual visual and functional review → merge to `main` → GitHub Pages production deployment**
+
+Existing pages and product surfaces are edited surgically. AI agents must preserve the current implementation, existing functionality, responsive behavior, routes, and interactions unless an explicit rewrite or architectural replacement is requested.
+
+There is one canonical implementation for each existing page or route. Duplicate versions such as `v2`, `new`, `final`, or replacement page copies are prohibited. New pages are created only for genuinely new product surfaces.
+
+GitHub Pages production deployment is sourced from `main` only. Pull request builds do not deploy to the production Pages environment. The active PR workflow builds the exact VoxVector frontend and stores it as an artifact for review. A public browser preview will use a separate isolated Pages repository/site so that a PR cannot replace production.
+
+The active engineering procedure is mirrored from `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`.
+
 ## Product Development Direction
 
 VoxVector is being engineered toward a world class multimethod deception analysis engine with:
