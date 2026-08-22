@@ -40,6 +40,15 @@ jobs:
       - name: Build existing site
         run: npm run deploy:github-pages
 
+      - name: Stage VoxVector public assets before Vite build
+        run: |
+          set -euo pipefail
+          test -f VoxVector/voxvector-audio-analysis-console.png
+          mkdir -p voxvector/public
+          cp VoxVector/voxvector-audio-analysis-console.png voxvector/public/voxvector-audio-analysis-console.png
+          test -f voxvector/public/voxvector-audio-analysis-console.png
+          echo "Console image staged into the canonical Vite public directory."
+
       - name: Build VoxVector React application
         working-directory: voxvector
         env:
@@ -55,18 +64,19 @@ jobs:
           test -f dist/index.html
           test -f dist/voxvector-audio-analysis-console.png
 
-          # The landing refinements are runtime DOM enhancements. Their source
-          # strings are therefore verified against the canonical source while
-          # the production build itself is verified by Vite completing above.
-          grep -R -F -- "Deep Analysis Methods" src/
-          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." src/
-          grep -R -F -- "State of the art Linguistics" src/
-          grep -R -F -- "2026-08-21-v2" src/
+          # LandingContentRefinement is deliberately deterministic: the
+          # workflow verifies its canonical source markers, while Vite verifies
+          # the production compilation and copies the image into dist itself.
+          grep -R -F -- "Deep Analysis Methods" src/components/LandingContentRefinement.jsx
+          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." src/components/LandingContentRefinement.jsx
+          grep -R -F -- "State of the art Linguistics" src/components/LandingContentRefinement.jsx
+          grep -R -F -- "2026-08-22-v3" src/components/LandingContentRefinement.jsx
           grep -R -F -- "LandingContentRefinement" src/main.jsx
+          grep -R -F -- "voxvector-audio-analysis-console.png" dist/
 
           echo "Landing refinement source verified."
           echo "Vite production build verified."
-          echo "Console image verified in production artifact."
+          echo "Console image verified inside Vite production output."
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -86,7 +96,6 @@ jobs:
             --exclude 'tests/**' \
             --exclude '*.log'
           rsync -a ./voxvector/dist/ _site/voxvector/
-          cp ./VoxVector/voxvector-audio-analysis-console.png ./_site/voxvector/voxvector-audio-analysis-console.png
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
           mkdir -p _site/VoxVector/docs
@@ -102,6 +111,8 @@ jobs:
           test -f _site/voxvector/developer/index.html
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
+          grep -R -F -- "Deep Analysis Methods" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
+          grep -R -F -- "2026-08-22-v3" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
           echo "VoxVector production artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
