@@ -5,7 +5,7 @@ const ICON_IMAGE = '/voxvector/assets/voxvector-icon-final-color.png'
 const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png?v=20260822-v8'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-22-v9'
+const REFINEMENT_VERSION = '2026-08-22-v10'
 
 function getWorkflowTarget() {
   const section = document.querySelector('#workflow')
@@ -92,7 +92,8 @@ function ensureAmbientVoiceWave(feature) {
     bars.forEach((bar, index) => {
       const neighbor = 0.62 * previous + 0.38 * (0.18 + Math.random() * 0.82)
       const phraseShape = 0.7 + 0.3 * Math.sin((index / bars.length) * Math.PI * 2 + Math.random() * 0.6)
-      const scale = Math.max(0.08, Math.min(1.35, neighbor * phraseShape * (0.72 + Math.random() * 0.52)))
+      const base = Number.parseFloat(bar.style.getPropertyValue('--vv-wave-base')) || 0.5
+      const scale = Math.max(0.08, Math.min(1.35, neighbor * phraseShape * (0.72 + Math.random() * 0.52) * (0.72 + base * 0.38)))
       bar.style.setProperty('--vv-wave-scale', scale.toFixed(3))
       previous = scale
     })
@@ -240,7 +241,7 @@ function addStyles() {
       z-index: 1 !important;
       display: block !important;
       width: 1.35px !important;
-      height: calc(var(--vv-wave-base) * 100%) !important;
+      height: 100% !important;
       min-height: 3px !important;
       max-height: 92% !important;
       border-radius: 999px !important;
