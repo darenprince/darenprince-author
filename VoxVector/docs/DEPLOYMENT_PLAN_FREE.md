@@ -1,75 +1,32 @@
-# VoxVector Deployment Plan
+# VoxVector Deployment Plan — Historical Record
 
-**Status:** active deployment runbook
-**Canonical repository:** `darenprince/darenprince-author`
-**Canonical root:** `VoxVector/`
-**Runtime:** FastAPI + canonical Python analysis engine
-**Render target:** `voxvector.crownlabs.tech`
-**Reviewed:** 2026-08-19
+**Status:** Superseded historical record
+**Canonical active deployment procedure:** `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`
+**Canonical backend deployment records:** `VoxVector/docs/PROJECT_DECISION_LOG.md` and current Render configuration
+**Reviewed:** 2026-08-22
 
-## Canonical deployment layout
+## Why this document is retained
 
-```text
-VoxVector/
-  api/
-    app.py
-    requirements.txt
-  src/voxvector/
-  tests/
-  docs/
-```
+This file is retained for historical traceability. It contains earlier deployment assumptions that are no longer the active VoxVector workflow.
 
-Render must use:
+It must **not** be used as the current frontend or backend deployment instruction.
 
-- Root Directory: `VoxVector`
-- Build Command: `pip install -r api/requirements.txt`
-- Start Command: `uvicorn api.app:app --host 0.0.0.0 --port $PORT`
-- Python baseline: 3.12
+## Current architecture
 
-The root-level `./api/` directory is not part of VoxVector and must not be used.
+- `voxvector/` is the canonical public React frontend.
+- GitHub Pages is the canonical public frontend host.
+- `main` is the production frontend deployment source.
+- Pull requests use isolated previews or build artifacts and must never replace production Pages.
+- `VoxVector/` is the canonical backend and analysis-engine root.
+- Render is the canonical backend host.
+- Supabase remains part of the existing authentication, persistence, and diagnostic architecture.
 
-## Public target
+## Historical notes
 
-The intended public product URL is:
+The original document was created to evaluate free hosting and deployment constraints. Earlier Python and dependency values in that record were superseded by later project decisions. Do not use its historical runtime values for new deployments.
 
-`https://voxvector.crownlabs.tech`
+Provider research remains preserved in `FREE_HOSTING_RESEARCH_2026-08-18.md` for historical evidence and does not itself establish an active deployment target.
 
-This is a deployment target, not a repository assertion that the domain is currently serving the latest build.
+## Active rule
 
-## Required deployment verification
-
-A successful Render build is not enough. After deployment:
-
-1. Open `/health`.
-2. Confirm `runtime_self_test` reports success.
-3. Confirm canonical package, acoustic module, and pipeline module paths point into `VoxVector/src/voxvector`.
-4. Confirm source fingerprints are present.
-5. Submit the known WAV fixture to `/v1/analyze`.
-6. Confirm the response contains provenance and the configured observational disposition.
-7. Confirm no fabricated deception probability is returned.
-8. Confirm the public domain serves the same verified runtime.
-
-## Current incident context
-
-A prior Render runtime returned a NumPy spectral matrix dimension error. A later runtime wrapper deployment exited before Uvicorn startup. The remediation moved the adapter into `VoxVector/api/app.py`, added runtime fingerprinting and a spectral self-test, and made `/v1/analyze` fail closed when the self-test fails. See `RENDER_RUNTIME_INCIDENT_2026-08-19.md`.
-
-## Frontend boundary
-
-A production frontend may be added or expanded separately from the Python engine. It must call the canonical API and must not recreate analysis logic in browser code. The frontend must clearly distinguish real analysis results from demo or placeholder data.
-
-## Scientific verification boundary
-
-Deployment verification confirms software/runtime integrity only. It does not validate deception-detection accuracy. Scientific validation requires the process defined in `VALIDATION.md`.
-
-## Dependency baseline
-
-The current pinned runtime is:
-
-- Python 3.12+
-- NumPy 2.5.1
-- FastAPI 0.140.8
-- Uvicorn 0.51.0
-- python-multipart 0.0.32
-- pytest 9.1.1 for development QA
-
-Re-check provider and package release state before a future upgrade.
+For current work, follow the VoxVector Operating Charter and `DEVELOPMENT_WORKFLOW.md`. If this historical document conflicts with either, the active canonical records control.
