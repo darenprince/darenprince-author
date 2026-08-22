@@ -28,9 +28,10 @@ Before substantive VoxVector work:
 8. Read `VoxVector/docs/IMPLEMENTATION_PLAN.md` and `VoxVector/docs/MVP_BUILD_PLAN.md` for engineering sequence.
 9. Read `VoxVector/docs/MASTER_METHOD_INDEX.md` and `VoxVector/docs/ANALYSIS_METHODS.md` for method work.
 10. Read `VoxVector/docs/METHOD_QA_MATRIX.md` and `VoxVector/docs/VALIDATION.md` when QA or validation matters.
-11. Inspect actual implementation and runtime configuration before making capability claims.
-12. Preserve historical records while keeping active canonical records current.
-13. Never invent measurements model results capabilities tool execution deployment verification or validation.
+11. Read `VoxVector/docs/DEVELOPMENT_WORKFLOW.md` for editing, branch, PR, preview, and deployment rules.
+12. Inspect actual implementation and runtime configuration before making capability claims.
+13. Preserve historical records while keeping active canonical records current.
+14. Never invent measurements model results capabilities tool execution deployment verification or validation.
 
 ## 3. End product identity
 
@@ -243,6 +244,10 @@ Supabase provides authentication persistence and durable diagnostics.
 
 Vercel is retired from the VoxVector architecture.
 
+Production frontend deployment is from `main` only. Feature branches and pull requests must not deploy to the production Pages target.
+
+The PR workflow and isolated preview requirements are defined in `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`.
+
 ## 15. Capability honesty
 
 Never claim that a tool model dataset integration dependency deployment analysis method test validation result or runtime behavior was executed or verified unless it actually was.
@@ -261,7 +266,28 @@ Never manufacture:
 
 Accuracy is mandatory.
 
-## 16. Change control
+## 16. Surgical editing and page preservation
+
+Existing pages, components, routes, and features must be edited surgically by default.
+
+When asked to edit an existing page:
+
+- read the existing implementation first;
+- identify the canonical page or route;
+- change only the smallest region necessary;
+- preserve unrelated code, features, imports, state, routes, responsive behavior, accessibility, and styling;
+- inspect the resulting diff and read back the modified file;
+- verify that existing functionality was not accidentally removed.
+
+AI agents must not completely recreate or overwrite an existing page file unless the user explicitly requests a rewrite, replacement, migration, or architectural restructuring.
+
+Do not create alternate versions of an existing page to avoid editing the canonical page. Names such as `landing-v2`, `dashboard-new`, `dashboard-final`, `index2`, or replacement copies are prohibited unless they are explicitly defined as genuinely new product surfaces.
+
+A new page or route may be created only when it is truly an additional page in the site architecture.
+
+A screenshot or reference image is a visual target, not permission to remove existing functionality that is not visible in the reference.
+
+## 17. Change control
 
 For substantive changes:
 
@@ -275,10 +301,12 @@ For substantive changes:
 - record material decisions
 - perform a readback and integrity check
 - preserve historical traceability
+- use a feature branch and pull request for substantive work
+- inspect an isolated preview before merging when available
 
-Use `docs/DOCS_ALIGNMENT_2026-08-20.md` as the current cross document synchronization record.
+Use `docs/DOCS_ALIGNMENT_2026-08-20.md` as the current cross document synchronization record and `docs/DEVELOPMENT_WORKFLOW.md` as the active editing and deployment procedure.
 
-## 17. Completion rule
+## 18. Completion rule
 
 Do not call a substantive task complete merely because files were edited.
 
@@ -290,6 +318,7 @@ Before completion establish:
 - current QA state
 - affected documentation state
 - preserved planned work
+- confirmation that no duplicate or competing page implementation was introduced
 
 ## Final rule
 
@@ -308,5 +337,13 @@ Use the Developer Console as the engineering cockpit.
 Preserve scientific rigor in engineering and validation.
 
 Keep customer communication confident and technology forward.
+
+Edit existing pages surgically.
+
+Never recreate an existing page unless explicitly instructed.
+
+Never create duplicate versions of existing pages.
+
+Use pull requests and isolated previews to review substantive changes before production.
 
 Never fabricate execution measurements validation or results.
