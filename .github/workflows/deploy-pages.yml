@@ -63,17 +63,12 @@ jobs:
           set -euo pipefail
           test -f dist/index.html
           test -f dist/voxvector-audio-analysis-console.png
-
-          # LandingContentRefinement is deliberately deterministic: the
-          # workflow verifies its canonical source markers, while Vite verifies
-          # the production compilation and copies the image into dist itself.
-          grep -R -F -- "VoxVector Analysis Methods" src/components/LandingContentRefinement.jsx
+          grep -R -F -- "Deep Analysis Methods" src/components/LandingContentRefinement.jsx
           grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." src/components/LandingContentRefinement.jsx
           grep -R -F -- "State of the art Linguistics" src/components/LandingContentRefinement.jsx
-          grep -R -F -- "2026-08-22-v5" src/components/LandingContentRefinement.jsx
+          grep -R -F -- "2026-08-22-v6" src/components/LandingContentRefinement.jsx
           grep -R -F -- "LandingContentRefinement" src/main.jsx
           grep -R -F -- "voxvector-audio-analysis-console.png" dist/
-
           echo "Landing refinement source verified."
           echo "Vite production build verified."
           echo "Console image verified inside Vite production output."
@@ -111,8 +106,8 @@ jobs:
           test -f _site/voxvector/developer/index.html
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
-          grep -R -F -- "VoxVector Analysis Methods" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
-          grep -R -F -- "2026-08-22-v5" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
+          grep -R -F -- "Deep Analysis Methods" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
+          grep -R -F -- "2026-08-22-v6" _site/voxvector/assets/ _site/voxvector/ 2>/dev/null
           echo "VoxVector production artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
