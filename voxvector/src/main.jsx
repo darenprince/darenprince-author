@@ -10,6 +10,7 @@ import HeroRefinement from './components/HeroRefinement'
 import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
 import LandingContentRefinement from './components/LandingContentRefinement'
 import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
+import WorkflowCopyRefinement from './components/WorkflowCopyRefinement'
 import './index.css'
 import './landing-chrome.css'
 import './hero-refinement.css'
@@ -22,6 +23,7 @@ import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
 import './loading-screen.css'
+import './workflow-copy-refinement.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,7 +42,7 @@ function ThemeLayer() {
 function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
-  return <><HeroRefinement /><EvidenceBarsRefinement /><LandingContentRefinement /><LandingChrome /><HeaderNoticeCleanup /></>
+  return <><HeroRefinement /><EvidenceBarsRefinement /><LandingContentRefinement /><LandingChrome /><HeaderNoticeCleanup /><WorkflowCopyRefinement /></>
 }
 
 function Root() {
