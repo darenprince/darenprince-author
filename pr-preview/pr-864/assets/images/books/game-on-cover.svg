@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1350" viewBox="0 0 900 1350" role="img" aria-labelledby="t d">
+  <title id="t">Game On cover</title><desc id="d">Book cover for Game On: The Dating Playbook</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10181b"/><stop offset="1" stop-color="#0a0e0f"/></linearGradient></defs>
+  <rect width="900" height="1350" fill="url(#bg)"/>
+  <text x="80" y="250" fill="#ffffff" font-size="138" font-family="Arial Black, Arial, sans-serif">GAME</text>
+  <text x="80" y="365" fill="#ffffff" font-size="138" font-family="Arial Black, Arial, sans-serif">ON!</text>
+  <text x="80" y="430" fill="#8ee46f" font-size="36" font-family="Arial, sans-serif" letter-spacing="2">THE DATING PLAYBOOK</text>
+  <rect x="80" y="490" width="740" height="3" fill="#8ee46f" opacity=".65"/>
+  <text x="80" y="1160" fill="#d3f3c8" font-size="56" font-family="Arial, sans-serif">DAREN M. PRINCE</text>
+</svg>
