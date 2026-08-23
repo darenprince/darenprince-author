@@ -1,49 +1,70 @@
-name: Deploy PR previews
+# VOXVECTOR PR PREVIEW BUILD
+#
+# This workflow builds the exact PR frontend for review but does not deploy it
+# to the production Pages environment. GitHub's supported Pages workflow
+# intentionally skips deployment for pull_request events.
+#
+# A public browser preview will be deployed later from an isolated Pages
+# preview repository/site. Until then the PR artifact is the review boundary.
+name: VoxVector PR Preview Build
 
 on:
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - reopened
       - synchronize
-      - closed
 
 concurrency:
-  group: preview-${{ github.ref }}
+  group: voxvector-pr-preview-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  deploy-preview:
+  build-preview:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
-      - name: Checkout repository
+      - name: Checkout pull request
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
-        if: github.event.action != 'closed'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
 
-      - name: Install dependencies
-        if: github.event.action != 'closed'
-        run: npm ci
+      - name: Install VoxVector dependencies
+        working-directory: voxvector
+        run: npm install --no-audit --no-fund
 
-      - name: Build site assets
-        if: github.event.action != 'closed'
+      - name: Build VoxVector preview
+        working-directory: voxvector
+        env:
+          VITE_BASE_PATH: /voxvector-preview/pr-${{ github.event.pull_request.number }}/
+          VITE_SUPABASE_URL: ${{ secrets.VOXVECTOR_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VOXVECTOR_SUPABASE_ANON_KEY }}
+          VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm run build
 
-      - name: Remove build dependencies
-        if: github.event.action != 'closed'
-        run: rm -rf node_modules
+      - name: Verify preview artifact
+        working-directory: voxvector
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          test -f dist/voxvector-audio-analysis-console.png
+          test -f dist/VoxVector-logo-word.png
+          echo "VoxVector PR preview build completed and required assets are present."
 
-      - name: Deploy preview to GitHub Pages
-        uses: rossjrw/pr-preview-action@v1
+      - name: Upload PR preview artifact
+        uses: actions/upload-artifact@v4
         with:
-          preview-branch: gh-pages
-          source-dir: .
+          name: voxvector-pr-preview-${{ github.event.pull_request.number }}
+          path: voxvector/dist/
+          if-no-files-found: error
+          retention-days: 7

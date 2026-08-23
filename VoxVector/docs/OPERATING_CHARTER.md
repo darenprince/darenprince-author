@@ -151,4 +151,30 @@ Render must never be used as the public landing-page host. GitHub Pages must nev
 
 Runtime changes require corresponding documentation updates. New methods require a method definition, provenance, validation plan, and failure behavior before being promoted to active status. Documentation must preserve future capabilities rather than deleting them merely because implementation is pending.
 
-Product-facing changes must follow the communication policy in `docs/PRODUCT_MESSAGING_POLICY.md`.
+### Editing and page preservation
+
+Existing pages, routes, components, stylesheets, and product surfaces are canonical assets and must be edited surgically by default.
+
+An AI agent must read the existing implementation before editing it and make the smallest defensible change that satisfies the request. It must preserve unrelated functionality, imports, state, routes, responsive behavior, accessibility, styling, and existing interactions.
+
+An AI agent must **not completely recreate, regenerate, or overwrite an existing page** for a normal edit request. A full rewrite, replacement, migration, or architectural restructuring requires explicit authorization.
+
+Do not create alternate versions of an existing page such as `v2`, `new`, `final`, `index2`, or replacement copies. Create a new page only when it is genuinely a new additional page in the product architecture. Compatibility redirects are permitted only when they contain no competing implementation.
+
+Reference screenshots describe visual intent; they do not authorize deletion of existing functionality that is not visible in the reference.
+
+The complete editing and deployment procedure is defined in `docs/DEVELOPMENT_WORKFLOW.md` and the AI-specific controls are defined in `docs/AI_EDITING_GUARDRAILS.md`.
+
+### Branch and review boundary
+
+Substantive changes should be made on a feature branch and reviewed through a pull request before reaching `main`.
+
+GitHub Pages production deployment is sourced from `main` only. Pull requests must use an isolated preview or build artifact and must never replace the production Pages deployment.
+
+Deployment gates should validate stable build and artifact integrity. They must not depend on brittle marketing-copy grep assertions or temporary implementation markers.
+
+## 13. Scientific and engineering integrity
+
+VoxVector must remain auditable, reproducible, evidence-based, and honest about actual capability.
+
+No workflow, preview, successful build, or deployment status may be represented as scientific validation.

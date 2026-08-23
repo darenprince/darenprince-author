@@ -1,0 +1,186 @@
+# VoxVector Development, Editing, and Deployment Workflow
+
+**Status:** Canonical active workflow
+**Effective:** 2026-08-22
+**Scope:** VoxVector frontend, backend, documentation, GitHub workflow, and AI assisted development
+
+## 1. Authority
+
+The GitHub repository is the technical source of truth. The VoxVector Operating Charter remains the highest project authority. This document is the canonical operating procedure for day to day code editing, pull requests, previews, and production deployment.
+
+The Crown Labs Bible is an executive and product mirror. It must not override repository implementation or architecture decisions.
+
+## 2. Surgical editing is mandatory
+
+Existing pages and components are assets to preserve, not templates to replace.
+
+When a request is to edit an existing page, component, stylesheet, route, or feature:
+
+1. Read the current implementation before changing it.
+2. Identify the exact file and smallest region that satisfies the request.
+3. Make the smallest defensible change.
+4. Preserve unrelated markup, components, imports, logic, routes, state, accessibility behavior, responsive behavior, animations, styling, and existing functionality.
+5. Read back the changed file and inspect the diff before considering the edit complete.
+6. Search for duplicate implementations or references created by the change.
+
+### Explicit prohibition
+
+AI agents must **not completely recreate, regenerate, or overwrite an existing page file** merely because a page needs editing.
+
+A page may be substantially rewritten only when the user explicitly requests a rewrite, replacement, architectural migration, or other change that requires it.
+
+If the requested change can be made surgically, it must be made surgically.
+
+Do not replace an existing page with a new simplified version from memory, a screenshot, a prompt, or an earlier design. This has previously caused working features and UI behavior to disappear.
+
+## 3. No duplicate pages
+
+Do not create another version of an existing page to avoid editing the canonical page.
+
+Before creating a page, route, component, or HTML entry point:
+
+- search for the existing page or route;
+- determine its canonical implementation;
+- edit that implementation when it already exists;
+- confirm the new page represents genuinely new product functionality.
+
+A new page is permitted only when it is a truly additional page or route in the product architecture.
+
+Do not create files such as `landing-new`, `landing-v2`, `dashboard-new`, `dashboard-final`, `index2`, replacement HTML copies, or competing route implementations as a workaround for editing an existing surface.
+
+Compatibility redirects are allowed when they are intentionally documented as redirects and do not contain a second implementation.
+
+## 4. Preserve existing product surfaces
+
+For frontend work, preserve the existing application structure unless restructuring is explicitly requested.
+
+In particular:
+
+- do not replace the existing landing page with a newly invented page;
+- do not replace the existing Developer Console or Analysis Workspace with a new dashboard simply to implement a visual request;
+- do not remove working controls because they are not visible in a reference image;
+- do not silently remove routes, API integrations, authentication, state management, or analytical views;
+- do not introduce competing navigation, header, waveform, console, or analysis systems;
+- do not treat a screenshot as a complete specification of the existing application.
+
+Reference images describe desired visual changes. They do not authorize deletion of functionality that is not shown.
+
+## 5. Change classification
+
+Before editing, classify the request:
+
+- **Content edit:** change copy only.
+- **Visual edit:** change styling, spacing, color, imagery, or animation while preserving behavior.
+- **Behavior edit:** change an existing interaction or data flow.
+- **Feature addition:** add genuinely new functionality to an existing surface.
+- **New page:** add a genuinely new route or product surface.
+- **Architecture change:** intentionally restructure implementation.
+
+The default is the smallest category that satisfies the request.
+
+## 6. Development flow
+
+All substantive VoxVector changes should use:
+
+```text
+main
+  ↓
+feature/fix branch
+  ↓
+pull request
+  ↓
+production-like build
+  ↓
+PR preview
+  ↓
+manual visual / functional review
+  ↓
+merge
+  ↓
+production GitHub Pages deployment
+```
+
+Do not use `main` as the working branch for iterative visual development.
+
+A PR is the review boundary. The PR should contain one coherent change set and should not mix unrelated redesigns or speculative rewrites.
+
+## 7. Preview principle
+
+A preview must be isolated from production.
+
+The production GitHub Pages deployment must never be replaced by a feature branch or PR preview.
+
+The intended preview architecture is a dedicated Pages preview host/repository or equivalent isolated Pages deployment. Preview URLs must identify the PR or branch and must not share the production deployment target.
+
+If the isolated preview infrastructure is unavailable, use a build artifact or local browser preview rather than deploying a feature branch to the production Pages site.
+
+## 8. Production deployment
+
+Production frontend deployment has one canonical source: `main`.
+
+GitHub Pages is the only canonical public frontend host for VoxVector.
+
+Render remains the canonical backend host.
+
+Production deployment must build the canonical `voxvector/` React application and publish the generated artifact under `/voxvector/`.
+
+Feature branches must not trigger production deployment.
+
+The legacy root `voxvector.html` remains a compatibility redirect only and must never become a second frontend implementation.
+
+## 9. Deployment checks
+
+Deployment checks must be stable and directly related to deployment integrity.
+
+Keep checks for:
+
+- successful dependency installation;
+- successful application build;
+- required production artifacts existing;
+- required assets being present;
+- successful Pages artifact creation;
+- successful Pages deployment.
+
+Do not use brittle marketing-copy grep assertions as the primary deployment gate.
+
+Do not make deployment depend on a particular sentence, temporary design marker, generated class name, or internal component name unless that item is itself a required deployment artifact.
+
+Scientific QA and application testing remain separate from the Pages publishing mechanism.
+
+## 10. Verification discipline
+
+A green GitHub Actions run means the workflow completed successfully. It does not automatically prove that the live browser experience is correct.
+
+For substantive frontend changes:
+
+- inspect the PR diff;
+- inspect the production build output;
+- inspect the PR preview when available;
+- verify desktop and mobile behavior;
+- verify the requested change;
+- verify that unrelated functionality remains present;
+- merge only after the change is visually and functionally acceptable.
+
+After merge, verify the production URL and confirm that the deployed revision corresponds to the merged commit.
+
+## 11. Documentation synchronization
+
+When this workflow or editing discipline changes, synchronize:
+
+- `VoxVector/docs/OPERATING_CHARTER.md`
+- `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md`
+- `VoxVector/docs/AI_EDITING_GUARDRAILS.md`
+- `VoxVector/docs/PROJECT_DECISION_LOG.md`
+- `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`
+- relevant deployment/build documentation
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/`
+
+Historical records may be retained, but obsolete instructions must be explicitly marked superseded rather than left looking active.
+
+## 12. Final preservation rule
+
+When uncertain, stop before broadening the change.
+
+Inspect the current implementation, identify the canonical page, make the smallest defensible edit, and verify that existing functionality survived.
+
+**Do not rebuild the wheel when the request is to adjust the wheel.**

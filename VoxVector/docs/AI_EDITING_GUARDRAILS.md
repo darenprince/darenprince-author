@@ -6,6 +6,10 @@ This document defines the editing discipline for AI agents modifying VoxVector. 
 
 VoxVector is the end product being built. AI work should advance the complete product architecture rather than optimize for superficial completion of isolated screens.
 
+## Canonical workflow
+
+The active branch, PR, preview, and deployment rules are defined in `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`. This document governs the editing behavior inside that workflow.
+
 ## Surgical editing is the default
 
 When changing an existing file:
@@ -18,6 +22,35 @@ When changing an existing file:
 6. Never remove existing functionality merely because it is not directly relevant to the current request.
 7. Do not normalize reformat minify reorder or restyle unrelated code as part of a feature change.
 8. When a requested change affects architecture update every dependent surface that must remain synchronized rather than patching only the most visible file.
+
+## Existing page preservation is mandatory
+
+When the user asks to edit an existing page, component, route, or feature, the existing implementation is canonical unless the user explicitly authorizes replacement.
+
+AI agents must **not completely recreate, regenerate, or overwrite an existing page file** for a normal edit request.
+
+Do not:
+
+- rewrite an entire page from a screenshot;
+- generate a replacement page from memory;
+- simplify an existing page by removing controls that were not mentioned;
+- replace a working dashboard with a new dashboard because the requested visual change is easier to implement that way;
+- copy an old page into a new filename and modify the copy;
+- create `v2`, `new`, `final`, `backup`, or similar competing page implementations.
+
+A full rewrite is allowed only when the user explicitly requests a rewrite, replacement, migration, or architectural restructuring.
+
+## No duplicate pages
+
+Before creating a new page or route:
+
+1. Search for an existing implementation serving the same purpose.
+2. Identify its canonical route and source file.
+3. Edit that implementation when it already exists.
+4. Create a new page only when the requested feature is genuinely a new product surface.
+5. Confirm that no competing route or duplicate page was introduced.
+
+Compatibility redirects may exist when intentionally documented, but they must not contain a second implementation.
 
 ## Thoroughness standard
 
@@ -76,6 +109,8 @@ For landing-page and console work:
 - avoid duplicate competing implementations of the same interaction;
 - do not introduce a second menu header waveform or navigation system when one already exists;
 - make interactive analysis views genuinely functional rather than static mockups.
+
+Reference screenshots are visual guidance only. They do not authorize removal of existing application behavior that is not shown in the reference.
 
 ## Product communication rules
 
@@ -146,7 +181,8 @@ Completion requires:
 - documentation synchronization;
 - readback and integrity check;
 - applicable build or test verification;
-- confirmation that no duplicate or contradictory implementation was introduced.
+- confirmation that no duplicate or contradictory implementation was introduced;
+- confirmation that an existing page was not unintentionally recreated or overwritten.
 
 If verification is unavailable record that internally. Do not use missing verification as customer-facing messaging.
 
