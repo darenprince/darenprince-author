@@ -30,6 +30,20 @@ Do not create alternate versions such as `landing-v2`, `dashboard-new`, `index2`
 
 Compatibility redirects are permitted when intentionally documented and when they do not contain a second implementation.
 
+## Canonical Frontend Asset Boundary
+
+The public React application is `voxvector/`. The backend and analysis-engine workspace is `VoxVector/`.
+
+Canonical VoxVector design assets live under `VoxVector/Assets/`. Frontend builds may stage those source assets into `voxvector/public/` as a build-time operation so Vite emits them into the production artifact. Do not create a second permanent canonical asset directory merely to make a deployment work.
+
+The current canonical landing assets include:
+
+- `VoxVector/Assets/voxvector-audio-analysis-console.png`
+- `VoxVector/Assets/VoxVector-logo-word.png`
+- `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
+
+A deployment workflow must reference the exact case-sensitive canonical paths and must stage required assets before the Vite build, not after it.
+
 ## Development and Review Flow
 
 The active engineering workflow is:

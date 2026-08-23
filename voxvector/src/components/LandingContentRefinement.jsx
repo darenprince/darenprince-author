@@ -1,26 +1,23 @@
 import { useEffect } from 'react'
 
 const CONSOLE_IMAGE = '/voxvector/voxvector-audio-analysis-console.png'
-const ICON_IMAGE = '/voxvector/assets/voxvector-icon-final-color.png'
+const ICON_IMAGE = '/voxvector/voxvector-icon-final-color.png.PNG'
 const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-22-restored'
+const REFINEMENT_VERSION = '2026-08-23-assets-v4'
 
 function refineWorkflowContent() {
   const section = document.querySelector('#workflow')
-  if (!section) return
-
-  const layout = section.firstElementChild
-  const heading = section.querySelector('h2')
-  if (!layout || !heading) return
+  const heading = section?.querySelector('h2')
+  if (!section || !heading) return
 
   section.setAttribute('data-vv-content-refinement', REFINEMENT_VERSION)
 
-  /* Never move, wrap, replace, or reconstruct the existing workflow DOM. */
+  /* Preserve the existing workflow structure. Change only the requested copy. */
   heading.innerHTML = '<span class="vv-workflow-prefix">Deep Forensic Vocal Analysis +</span><span class="vv-state-of-art">State of the art Linguistics</span>'
 
-  const description = heading.closest('div')?.parentElement?.querySelector('p') || section.querySelector('p')
+  const description = heading.parentElement?.querySelector('p') || section.querySelector('p')
   if (description) {
     description.textContent = WORKFLOW_DESCRIPTION
     description.setAttribute('data-vv-description-version', REFINEMENT_VERSION)
@@ -37,8 +34,8 @@ function refineWorkflowContent() {
     link.classList.add('vv-pill-cta')
   }
 
-  /* Add the requested console image without altering the original workflow structure. */
-  let feature = layout.querySelector(':scope > .vv-console-feature')
+  /* Insert the canonical developer console immediately below the section heading. */
+  let feature = section.querySelector(':scope > .vv-workflow-inner .vv-console-feature, :scope > .vv-console-feature')
   if (!feature) {
     feature = document.createElement('div')
     feature.className = 'vv-console-feature'
@@ -50,7 +47,7 @@ function refineWorkflowContent() {
     image.decoding = 'async'
     image.fetchPriority = 'high'
     feature.appendChild(image)
-    layout.insertBefore(feature, layout.firstChild)
+    heading.insertAdjacentElement('afterend', feature)
   }
 }
 
@@ -93,13 +90,12 @@ function addStyles() {
         linear-gradient(145deg, #151515 0%, #1b1b1b 48%, #111111 100%) !important;
     }
 
-    /* Important: this is only an inserted visual. Existing workflow children are untouched. */
     #workflow .vv-console-feature {
       width: 100% !important;
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      margin: 0 auto 1.4rem !important;
+      margin: 1.1rem auto 1rem !important;
       padding: 0 !important;
       position: relative !important;
       z-index: 2 !important;
@@ -146,8 +142,8 @@ function addStyles() {
 
     .vv-header-wordmark {
       display: block !important;
-      width: 124px !important;
-      height: 44px !important;
+      width: auto !important;
+      height: 35.2px !important;
       object-fit: contain !important;
       object-position: left center !important;
       flex: 0 0 auto !important;
@@ -160,7 +156,7 @@ function addStyles() {
 
     @media (max-width: 767px) {
       #workflow .vv-console-feature {
-        margin: 0 auto 1rem !important;
+        margin: .8rem auto .8rem !important;
       }
       #workflow .vv-console-feature img {
         width: 90% !important;
@@ -178,8 +174,8 @@ function addStyles() {
         height: 46px !important;
       }
       .vv-header-wordmark {
-        width: 118px !important;
-        height: 46px !important;
+        width: auto !important;
+        height: 36.8px !important;
       }
     }
 
