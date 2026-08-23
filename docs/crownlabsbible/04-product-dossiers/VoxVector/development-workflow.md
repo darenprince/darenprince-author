@@ -42,7 +42,11 @@ The current canonical landing assets include:
 - `VoxVector/Assets/VoxVector-logo-word.png`
 - `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
 
-A deployment workflow must reference the exact case-sensitive canonical paths and must stage required assets before the Vite build, not after it.
+The landing refinement references the emitted console image as `/voxvector/voxvector-audio-analysis-console.png` and the emitted wordmark as `/voxvector/VoxVector-logo-word.png`. When paired with the icon, the wordmark is rendered at exactly 80% of the icon height.
+
+The obsolete source path `VoxVector/voxvector-audio-analysis-console.png` must not be recreated. Neither should a competing permanent copy of the wordmark be placed at `VoxVector/VoxVector-logo-word.png`.
+
+Production and PR preview workflows must reference the exact case-sensitive canonical paths, stage assets before Vite builds, and verify the resulting files in `dist/`. If an obsolete duplicate source path appears, the workflow should fail clearly rather than choose between competing files.
 
 ## Development and Review Flow
 
@@ -60,7 +64,7 @@ The active engineering workflow is:
 - The public React application remains the canonical `voxvector/` workspace.
 - The legacy root `voxvector.html` is a compatibility redirect only.
 
-The intended PR preview architecture uses an isolated GitHub Pages preview target so that reviewing a PR cannot overwrite production.
+The current PR workflow builds the exact PR frontend and uploads a review artifact. A public browser preview still requires an isolated Pages preview target so that reviewing a PR cannot overwrite production.
 
 ## Verification
 
