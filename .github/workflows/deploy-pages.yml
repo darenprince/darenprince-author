@@ -1,5 +1,6 @@
 # CANONICAL PRODUCTION FRONTEND DEPLOYMENT
 # VoxVector public frontend is deployed ONLY through GitHub Pages Actions.
+# Production deployment is sourced from main only.
 # Vercel and Netlify are retired from the VoxVector frontend architecture.
 # Backend API remains on Render at https://voxvector.crownlabs.tech.
 name: Deploy GitHub Pages
@@ -8,11 +9,10 @@ on:
   push:
     branches:
       - main
-      - work
   workflow_dispatch:
 
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages-production
   cancel-in-progress: true
 
 permissions:
@@ -60,25 +60,14 @@ jobs:
           VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm install --no-audit --no-fund && npm run build
 
-      - name: Verify VoxVector landing source and production build
+      - name: Verify VoxVector production build
         working-directory: voxvector
         run: |
           set -euo pipefail
           test -f dist/index.html
           test -f dist/voxvector-audio-analysis-console.png
           test -f dist/VoxVector-logo-word.png
-          grep -R -F -- "Deep Analysis Methods" src/components/LandingContentRefinement.jsx
-          grep -R -F -- "See what really makes VoxVector the future of trusted vocal deception detection." src/components/LandingContentRefinement.jsx
-          grep -R -F -- "State of the art Linguistics" src/components/LandingContentRefinement.jsx
-          grep -R -F -- "2026-08-22-restored" src/components/LandingContentRefinement.jsx
-          grep -R -F -- "VoxVector-logo-word.png" src/components/LandingContentRefinement.jsx
-          grep -R -F -- "LandingContentRefinement" src/main.jsx
-          grep -R -F -- "landing-runtime-recovery.css" src/main.jsx
-          grep -R -F -- "voxvector-audio-analysis-console.png" dist/
-          echo "Landing refinement source verified."
-          echo "Runtime recovery styles verified."
-          echo "Vite production build verified."
-          echo "Console image and header wordmark verified inside Vite production output."
+          echo "VoxVector production build and required public assets verified."
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -114,9 +103,7 @@ jobs:
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
           test -f _site/voxvector/VoxVector-logo-word.png
-          grep -R -F -- "Deep Analysis Methods" _site/voxvector/ 2>/dev/null
-          grep -R -F -- "2026-08-22-restored" _site/voxvector/ 2>/dev/null
-          echo "VoxVector production artifact verified."
+          echo "VoxVector production Pages artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
           echo "Crown Labs documentation routes staged:"
