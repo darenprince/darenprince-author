@@ -40,19 +40,37 @@ jobs:
       - name: Build existing site
         run: npm run deploy:github-pages
 
-      # These files are canonical source assets under VoxVector/Assets.
-      # They are staged into the React public directory before Vite builds so
-      # they become deterministic production artifacts instead of post-build copies.
+      # Canonical source assets live only under VoxVector/Assets.
+      # They are staged into the React public directory before Vite builds.
+      # Keep these paths case-sensitive and do not introduce permanent copies
+      # under VoxVector/ or another competing asset directory.
       - name: Stage VoxVector canonical public assets
         run: |
           set -euo pipefail
-          test -f VoxVector/Assets/voxvector-audio-analysis-console.png
-          test -f VoxVector/Assets/VoxVector-logo-word.png
-          test -f VoxVector/Assets/voxvector-icon-final-color.png.PNG
+          CONSOLE_SOURCE="VoxVector/Assets/voxvector-audio-analysis-console.png"
+          WORDMARK_SOURCE="VoxVector/Assets/VoxVector-logo-word.png"
+          ICON_SOURCE="VoxVector/Assets/voxvector-icon-final-color.png.PNG"
+
+          test -f "$CONSOLE_SOURCE"
+          test -f "$WORDMARK_SOURCE"
+          test -f "$ICON_SOURCE"
+
+          # Fail loudly if an obsolete permanent source copy is reintroduced.
+          if test -e "VoxVector/voxvector-audio-analysis-console.png"; then
+            echo "ERROR: obsolete duplicate console asset path exists: VoxVector/voxvector-audio-analysis-console.png"
+            echo "Use the canonical source: $CONSOLE_SOURCE"
+            exit 1
+          fi
+          if test -e "VoxVector/VoxVector-logo-word.png"; then
+            echo "ERROR: obsolete duplicate wordmark asset path exists: VoxVector/VoxVector-logo-word.png"
+            echo "Use the canonical source: $WORDMARK_SOURCE"
+            exit 1
+          fi
+
           mkdir -p voxvector/public
-          cp VoxVector/Assets/voxvector-audio-analysis-console.png voxvector/public/voxvector-audio-analysis-console.png
-          cp VoxVector/Assets/VoxVector-logo-word.png voxvector/public/VoxVector-logo-word.png
-          cp VoxVector/Assets/voxvector-icon-final-color.png.PNG voxvector/public/voxvector-icon-final-color.png.PNG
+          cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
+          cp "$WORDMARK_SOURCE" voxvector/public/VoxVector-logo-word.png
+          cp "$ICON_SOURCE" voxvector/public/voxvector-icon-final-color.png.PNG
           test -f voxvector/public/voxvector-audio-analysis-console.png
           test -f voxvector/public/VoxVector-logo-word.png
           test -f voxvector/public/voxvector-icon-final-color.png.PNG
