@@ -40,17 +40,23 @@ jobs:
       - name: Build existing site
         run: npm run deploy:github-pages
 
-      - name: Stage VoxVector public assets before Vite build
+      # These files are canonical source assets under VoxVector/Assets.
+      # They are staged into the React public directory before Vite builds so
+      # they become deterministic production artifacts instead of post-build copies.
+      - name: Stage VoxVector canonical public assets
         run: |
           set -euo pipefail
-          test -f VoxVector/voxvector-audio-analysis-console.png
+          test -f VoxVector/Assets/voxvector-audio-analysis-console.png
           test -f VoxVector/Assets/VoxVector-logo-word.png
+          test -f VoxVector/Assets/voxvector-icon-final-color.png.PNG
           mkdir -p voxvector/public
-          cp VoxVector/voxvector-audio-analysis-console.png voxvector/public/voxvector-audio-analysis-console.png
+          cp VoxVector/Assets/voxvector-audio-analysis-console.png voxvector/public/voxvector-audio-analysis-console.png
           cp VoxVector/Assets/VoxVector-logo-word.png voxvector/public/VoxVector-logo-word.png
+          cp VoxVector/Assets/voxvector-icon-final-color.png.PNG voxvector/public/voxvector-icon-final-color.png.PNG
           test -f voxvector/public/voxvector-audio-analysis-console.png
           test -f voxvector/public/VoxVector-logo-word.png
-          echo "Console image and header wordmark staged into the canonical Vite public directory."
+          test -f voxvector/public/voxvector-icon-final-color.png.PNG
+          echo "Canonical VoxVector image assets staged before Vite build."
 
       - name: Build VoxVector React application
         working-directory: voxvector
@@ -67,6 +73,7 @@ jobs:
           test -f dist/index.html
           test -f dist/voxvector-audio-analysis-console.png
           test -f dist/VoxVector-logo-word.png
+          test -f dist/voxvector-icon-final-color.png.PNG
           echo "VoxVector production build and required public assets verified."
 
       - name: Configure GitHub Pages
@@ -103,6 +110,7 @@ jobs:
           test -f _site/voxvector/404.html
           test -f _site/voxvector/voxvector-audio-analysis-console.png
           test -f _site/voxvector/VoxVector-logo-word.png
+          test -f _site/voxvector/voxvector-icon-final-color.png.PNG
           echo "VoxVector production Pages artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
