@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
-import { AlertTriangle, ArrowLeft, KeyRound, LogIn, ShieldCheck } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, BookOpen, KeyRound, LogIn, ShieldCheck } from 'lucide-react'
 import { isDeveloper, supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
+
+const VIEWER = '/docs/crownlabsbible/docs/viewer.html'
 
 export default function DeveloperGate({ children, onBack }) {
   const [session, setSession] = useState(null)
@@ -25,10 +27,7 @@ export default function DeveloperGate({ children, onBack }) {
     setSigningOut(true)
     setError('')
     const { error: signOutError } = await supabase.auth.signOut()
-    if (signOutError) {
-      setError(signOutError.message)
-      setSigningOut(false)
-    }
+    if (signOutError) { setError(signOutError.message); setSigningOut(false) }
   }
 
   if (!supabaseConfigured) return <GateShell onBack={onBack}><div role="alert" className="border border-amber-300/20 bg-amber-300/[.05] p-6"><AlertTriangle className="text-amber-200" /><h2 className="mt-5 text-xl font-semibold">Developer access is not configured</h2><p className="mt-2 text-sm leading-6 text-white/55">The frontend requires VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY. No developer identity is hard coded into the application.</p></div></GateShell>
@@ -40,6 +39,61 @@ export default function DeveloperGate({ children, onBack }) {
   return children({ session, signOut: handleSignOut })
 }
 
-function GateShell({ children, onBack }) { return <div className="min-h-screen bg-[#080a0e] px-5 py-8 text-white"><div className="mx-auto max-w-lg"><Button type="button" onClick={onBack} className="mb-10 bg-transparent p-0 text-sm text-white/50 hover:text-white"><ArrowLeft size={16} /> Public application</Button><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>{children}</motion.div></div></div> }
+function GateShell({ children, onBack }) {
+  return <div className="vv-developer-login">
+    <header className="vv-developer-login-header"><div className="vv-developer-login-header-inner">
+      <a href="/voxvector/" className="vv-developer-login-brand" aria-label="VoxVector home"><img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="vv-login-icon" /><img src="/voxvector/assets/voxvector-wordmark-final-white.png" alt="VoxVector" className="vv-login-wordmark" /></a>
+      <a href={VIEWER} className="inline-flex items-center gap-2 text-xs text-white/[.48] no-underline hover:text-white"><BookOpen size={14}/> Documentation</a>
+    </div></header>
+    <main className="vv-developer-login-main"><div className="w-full max-w-lg">
+      <Button type="button" onClick={onBack} className="mb-7 bg-transparent p-0 text-sm text-white/50 hover:text-white"><ArrowLeft size={16} /> Public application</Button>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>{children}</motion.div>
+    </div></main>
+    <footer className="vv-developer-login-footer"><a href={VIEWER} className="vv-developer-login-crown" aria-label="Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /></a><div>© 2026 Crown Labs · VoxVector Developer Console</div></footer>
+  </div>
+}
 
-function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubmit }) { return <form onSubmit={onSubmit} className="border border-white/10 bg-white/[.025] p-7"><div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div><h1 className="mt-6 text-2xl font-semibold">VoxVector Developer Console</h1><p className="mt-2 text-sm leading-6 text-white/50">Sign in with an approved developer account. Access is controlled by Supabase Auth and the user's trusted application metadata.</p>{error && <div role="alert" aria-live="polite" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{error}</div>}<label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(error)} className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label><label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label><Button type="submit" disabled={busy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90"> <LogIn size={16} />{busy ? 'Authenticating…' : 'Sign in'}</Button></form> }
+function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubmit }) {
+  const [mode, setMode] = useState('login')
+  const [message, setMessage] = useState('')
+  const [forgotBusy, setForgotBusy] = useState(false)
+
+  const forgotPassword = async (event) => {
+    event.preventDefault()
+    setMessage('')
+    setErrorLocal('')
+    if (!email.trim()) { setErrorLocal('Enter your developer email first.'); return }
+    setForgotBusy(true)
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/voxvector/developer` })
+    if (resetError) setErrorLocal(resetError.message)
+    else setMessage('If that developer account exists, a password reset email has been sent.')
+    setForgotBusy(false)
+  }
+
+  const [localError, setErrorLocal] = useState('')
+  const displayError = localError || error
+
+  if (mode === 'forgot') return <section className="vv-developer-login-card" aria-labelledby="forgot-title">
+    <div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div>
+    <h1 id="forgot-title" className="mt-6 text-2xl font-semibold">Reset developer password</h1>
+    <p className="mt-2 text-sm leading-6 text-white/50">Enter your approved developer email and we’ll send a secure Supabase password reset link.</p>
+    {displayError && <div role="alert" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{displayError}</div>}
+    {message && <div role="status" className="mt-5 border border-emerald-300/20 bg-emerald-300/[.04] p-3 text-sm text-emerald-100">{message}</div>}
+    <form onSubmit={forgotPassword}>
+      <label className="mt-6 block text-sm text-white/65">Developer email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="email" required className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+      <Button type="submit" disabled={forgotBusy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90">{forgotBusy ? 'Sending…' : 'Send reset link'}</Button>
+    </form>
+    <button type="button" onClick={() => { setMode('login'); setMessage(''); setErrorLocal('') }} className="mt-5 text-sm text-white/50 hover:text-white">Back to sign in</button>
+  </section>
+
+  return <form onSubmit={onSubmit} className="vv-developer-login-card">
+    <div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div>
+    <h1 className="mt-6 text-2xl font-semibold">VoxVector Developer Console</h1>
+    <p className="mt-2 text-sm leading-6 text-white/50">Sign in with an approved developer account. Access is controlled by Supabase Auth and trusted application metadata.</p>
+    {displayError && <div role="alert" aria-live="polite" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{displayError}</div>}
+    <label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(displayError)} className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+    <label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+    <button type="button" className="vv-login-forgot" onClick={() => { setMode('forgot'); setMessage(''); setErrorLocal('') }}>Forgot password?</button>
+    <Button type="submit" disabled={busy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90"><LogIn size={16} />{busy ? 'Authenticating…' : 'Sign in'}</Button>
+  </form>
+}
