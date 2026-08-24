@@ -59,6 +59,26 @@ The run record preserves:
 - source identity
 - canonical analysis result
 
+## Developer and API Product Surface
+
+VoxVector is designed to operate both as an analytical application and as an intelligence service.
+
+The canonical FastAPI API currently exposes:
+
+- runtime health
+- direct WAV analysis
+- authenticated case creation
+- case listing and retrieval
+- source upload and provenance
+- signed media playback
+- case-bound analysis execution
+- persisted pipeline stage state
+- request correlation and diagnostics
+
+The API is an interface to the canonical VoxVector analysis engine. It does not duplicate feature extraction or maintain a separate analytical implementation.
+
+The broader VoxVector method library contains more than 300 individually defined analytical data points and evidence fields across the product architecture. The exact data returned by a given API analysis depends on the implemented methods and the inputs available to that request.
+
 ## Render
 
 Render is configured from the repository root with:
