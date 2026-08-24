@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { cva } from 'class-variance-authority'
 
-const cardVariants = cva('rounded-lg border text-[var(--vv-text)]', {
+const cardVariants = cva('rounded-[9px] border text-[var(--vv-text)]', {
   variants: {
     tone: {
       default: 'border-[var(--vv-border)] bg-[var(--vv-surface)] shadow-[0_24px_70px_var(--vv-shadow)]',
