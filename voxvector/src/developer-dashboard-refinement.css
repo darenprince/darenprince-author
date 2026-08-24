@@ -1,0 +1,41 @@
+/* Developer dashboard consistency pass. */
+.vv-app{
+  --vv-console-radius:5px;
+}
+.vv-app .vv-header,
+.vv-app .vv-panel,
+.vv-app .vv-metric,
+.vv-app .vv-card,
+.vv-app .vv-code,
+.vv-app .vv-sidebar,
+.vv-app .vv-sheet-head,
+.vv-app .vv-upload-state,
+.vv-app .vv-file-info-panel,
+.vv-app .vv-clipping-meter,
+.vv-app .vv-analysis-state,
+.vv-app .vv-log-banner,
+.vv-app .vv-log-stream,
+.vv-app .vv-api-visualizer,
+.vv-app input,
+.vv-app textarea,
+.vv-app select{
+  border-radius:var(--vv-console-radius)!important;
+}
+.vv-app .vv-header{background:linear-gradient(180deg,rgba(14,14,14,.96),rgba(9,9,9,.92));border-color:var(--vv-border)}
+.vv-app .vv-sidebar{border-color:var(--vv-border);background:linear-gradient(180deg,var(--vv-surface),rgba(12,12,12,.98))}
+.vv-app .vv-nav-item{border-radius:5px!important}
+.vv-app .vv-nav-item.active{box-shadow:inset 2px 0 0 var(--vv-gold),inset 0 0 0 1px rgba(255,255,255,.025)}
+.vv-app .vv-panel-head{min-height:30px}
+.vv-app .vv-panel-head h2{letter-spacing:-.015em}
+.vv-app .vv-eyebrow{letter-spacing:.16em}
+.vv-app .vv-metrics{gap:10px}
+.vv-app .vv-content-grid{gap:10px}
+.vv-app .vv-metric{background:linear-gradient(145deg,var(--vv-surface),var(--vv-panel));box-shadow:none}
+.vv-app button,
+.vv-app a[class*="border"]{border-radius:5px!important}
+.vv-app .vv-stop-analysis{border-radius:5px!important}
+.vv-app .vv-upload-track,.vv-app .vv-meter-track,.vv-app .vv-upload-fill,.vv-app .vv-meter-fill{border-radius:4px!important}
+
+/* Keep developer actions on the same restrained radius as the rest of the console. */
+.vv-app .vv-header-actions .rounded-full,
+.vv-app .vv-sidebar-content .rounded-full{border-radius:5px!important}
