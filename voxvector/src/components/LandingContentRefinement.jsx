@@ -71,7 +71,7 @@ function refineHeaderBrand() {
   if (originalIcon) originalIcon.replaceWith(icon)
   if (originalText) originalText.replaceWith(wordmark)
   logo.classList.remove('gap-3')
-  logo.classList.add('gap-2')
+  logo.classList.add('gap-2', 'vv-header-brand')
 }
 
 function addStyles() {
@@ -132,6 +132,15 @@ function addStyles() {
       font-size: clamp(2.15rem, 4.7vw, 4.7rem) !important;
     }
 
+    /* Header brand owns 60% of the available header width allocation. The
+       navigation and action cluster remain in the remaining space. */
+    .vv-header-brand {
+      width: 60% !important;
+      max-width: 60% !important;
+      min-width: 0 !important;
+      flex: 0 1 60% !important;
+    }
+
     .vv-header-icon {
       --vv-header-icon-height: 44px;
       display: block !important;
@@ -148,11 +157,20 @@ function addStyles() {
       object-fit: contain !important;
       object-position: left center !important;
       flex: 0 0 auto !important;
+      max-width: 100% !important;
     }
 
     @keyframes vv-console-arrive {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1023px) {
+      .vv-header-brand {
+        width: 60% !important;
+        max-width: 60% !important;
+        flex-basis: 60% !important;
+      }
     }
 
     @media (max-width: 767px) {
@@ -169,6 +187,11 @@ function addStyles() {
       #workflow .vv-workflow-prefix,
       #workflow .vv-state-of-art {
         white-space: normal !important;
+      }
+      .vv-header-brand {
+        width: 60% !important;
+        max-width: 60% !important;
+        flex-basis: 60% !important;
       }
       .vv-header-icon {
         --vv-header-icon-height: 46px;
