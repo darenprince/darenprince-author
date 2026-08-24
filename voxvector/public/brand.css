@@ -59,22 +59,22 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
 }
 
 @media (max-width: 620px) {
-  /* ~60% of the available mobile header width at common phone widths. */
+  /* 50% mobile treatment: compact, cohesive lockup without changing the header layout. */
   a[aria-label='VoxVector home'] {
-    gap: 10px !important;
-    width: min(60vw, 203px);
+    gap: 8px !important;
+    width: min(50vw, 170px);
   }
 
   a[aria-label='VoxVector home'] > span:first-child {
-    width: 34px !important;
-    height: 34px !important;
-    flex-basis: 34px;
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px;
   }
 
   a[aria-label='VoxVector home'] > span:nth-child(2) {
-    width: 157px !important;
-    height: 34px !important;
-    flex-basis: 157px;
+    width: 126px !important;
+    height: 28px !important;
+    flex-basis: 126px;
   }
 
   .vv-brand-mark {
