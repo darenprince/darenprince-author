@@ -12,6 +12,7 @@
 | Prosodic dynamics | 0.1 | integrated / observational |
 | Spectral dynamics / rolloff | 0.1 | integrated / observational |
 | Formant frame tracking | 0.1 | integrated / observational |
+| Speech segmentation | 0.1 | integrated / observational |
 | Speaker baseline | 0.1 | optional integrated / observational |
 | Response latency | 0.1 | optional integrated / observational |
 | Transcript disfluency | 0.1 | optional integrated / observational |
