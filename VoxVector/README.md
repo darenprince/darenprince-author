@@ -2,7 +2,7 @@
 
 **VoxVector is a vocal intelligence and deception detection platform being engineered as a complete end to end analysis system.**
 
-It is built around a case centered workflow that turns conversational audio into a structured analytical record through recording intake speaker processing transcription synchronized signal analysis evidence synthesis classification and auditable reporting.
+It is built around a case centered workflow that turns conversational audio into a structured analytical record through recording intake speaker processing transcription synchronized audio analysis evidence synthesis classification and auditable reporting.
 
 > **Product objective:** build the end product rather than a collection of disconnected analysis utilities.
 
@@ -113,9 +113,9 @@ The complete stage specification is maintained in `docs/ANALYSIS_PIPELINE.md`.
 
 ## Analysis methods
 
-The current engine already provides a broad set of signal and behavioral observations. These are the building blocks for the larger evidence system.
+The current engine already provides a broad set of vocal, acoustic, temporal, and behavioral observations. These are the building blocks for the larger evidence system.
 
-### Acoustic and signal observations
+### Acoustic and audio observations
 
 - RMS / energy
 - relative intensity / dB
@@ -489,7 +489,7 @@ The root `voxvector.html` is a compatibility redirect and is not a second applic
 - `docs/SYSTEM_STATE_REPORT.md` — repository and runtime state
 - `docs/VERSION_MAP.md` — version and deployment state
 - `docs/DEPLOYMENT_PLAN_FREE.md` — deployment runbook
-- `docs/DOCS_ALIGNMENT_2026-08-20.md` — documentation synchronization audit
+- `docs/DOCS_ALIGNMENT_2026-08-24.md` — active documentation synchronization audit
 - `docs/PROJECT_CHECKPOINT_2026-08-20_WORKSPACE_PIPELINE_INSPECTION.md` — recent workspace pipeline implementation checkpoint
 
 ---
@@ -498,7 +498,7 @@ The root `voxvector.html` is a compatibility redirect and is not a second applic
 
 ### Requirements
 
-- Python 3.12+
+- Python 3.11 through 3.14
 - Node.js / npm for the React frontend
 - Supabase configuration for authenticated persistence workflows
 - Render configuration for the backend deployment
