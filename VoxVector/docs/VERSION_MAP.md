@@ -3,7 +3,7 @@
 | Area | Version | Status |
 |---|---:|---|
 | Backend runtime | 0.2.25 | active |
-| Public React application | 0.2.35 | active |
+| Public React application | 0.2.36 | active |
 | Result schema | 0.2 | active |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -52,7 +52,7 @@ The product pipeline also defines the future speaker transcription alignment lin
 
 The canonical React workspace is `voxvector/`.
 
-The current public application version is `0.2.35`.
+The current public application version is `0.2.36`.
 
 It uses React Tailwind CSS Tremor React Motion for React TanStack Query Lucide React application owned shadcn style composition and Base UI primitives.
 
@@ -88,4 +88,4 @@ Eligibility and reliability evidence analysis candidate classification and final
 
 ## Documentation synchronization
 
-The current cross document synchronization record is `docs/DOCS_ALIGNMENT_2026-08-20.md`.
+The active cross document synchronization record is `docs/DOCS_ALIGNMENT_2026-08-24.md`.
