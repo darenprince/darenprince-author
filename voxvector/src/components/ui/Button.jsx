@@ -2,7 +2,7 @@ import { Button as BaseButton } from '@base-ui/react/button'
 import { cva } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--vv-accent-bright)]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--vv-bg)] disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[5px] text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--vv-accent-bright)]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--vv-bg)] disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
