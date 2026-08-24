@@ -5,7 +5,7 @@ const ICON_IMAGE = '/voxvector/voxvector-icon-final-color.png.PNG'
 const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-23-assets-v6'
+const REFINEMENT_VERSION = '2026-08-23-assets-v7'
 
 function addWaveform(feature) {
   if (!feature || feature.querySelector('.vv-console-waveform')) return
@@ -237,7 +237,7 @@ function addStyles() {
       width: 60% !important;
       max-width: 60% !important;
       min-width: 0 !important;
-      flex: 0 1 60% !important;
+      flex: 0 0 60% !important;
     }
 
     .vv-header-icon {
@@ -251,11 +251,11 @@ function addStyles() {
 
     .vv-header-wordmark {
       display: block !important;
-      width: auto !important;
-      height: calc(var(--vv-header-icon-height) * .8) !important;
+      width: calc(100% - var(--vv-header-icon-height) - 8px) !important;
+      height: auto !important;
       object-fit: contain !important;
       object-position: left center !important;
-      flex: 0 0 auto !important;
+      flex: 0 1 auto !important;
       max-width: 100% !important;
     }
 
