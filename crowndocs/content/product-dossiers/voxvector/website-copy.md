@@ -4,19 +4,19 @@
 
 ### Headline
 
-**Reveal the Truth.**
+**What did you miss?**
 
 ### Subheadline
 
-**With the world's most advanced vocal analysis platform.**
+**Go beyond the transcript. Examine the conversation.**
 
 ### Supporting Copy
 
-VoxVector transforms spoken conversation into structured intelligence through advanced acoustic, vocal, linguistic, temporal, speaker, and multimethod evidence analysis.
+VoxVector transforms recorded human conversation into structured intelligence through advanced vocal, acoustic, linguistic, temporal, speaker, and multimethod analysis.
 
 ### Primary CTA
 
-**Start an Analysis**
+**Analyze a Recording**
 
 ### Secondary CTA
 
@@ -24,31 +24,67 @@ VoxVector transforms spoken conversation into structured intelligence through ad
 
 ## Product Introduction
 
-VoxVector is an advanced vocal and audio deception analysis platform built around a complete analytical pipeline. The platform moves from recording ingestion through speaker processing transcription alignment specialized analysis evidence synthesis classification validation and final disposition.
+### You know what was said.
+
+### The recording contains more.
+
+VoxVector gives investigators, analysts, researchers, security professionals, and organizations a deeper way to examine recorded conversations.
+
+The platform brings together hundreds of individually defined analytical data points and evidence fields across its broader method library, with the current runtime extracting a supported subset based on the recording and available inputs.
 
 ## Key Value Propositions
 
-### Deep Vocal Intelligence
+### More to Examine
 
-Analyze the voice across acoustic, spectral, prosodic, temporal, voice-quality, and conversational dimensions.
+A transcript captures the words. VoxVector examines the voice, audio, timing, language, and conversational context surrounding them.
+
+### Hundreds of Analytical Data Points
+
+VoxVector's canonical method library contains more than 300 individually defined analytical data points and evidence fields across acoustic, spectral, pitch, prosodic, voice-quality, temporal, linguistic, speaker, integrity, evidence, uncertainty, classification, and validation domains.
+
+The exact data extracted from an analysis depends on the implemented methods and the information available in the recording.
 
 ### Multimethod Analysis
 
-Bring multiple evidence families together through a unified analytical architecture designed for sophisticated deception analysis.
+Bring multiple analytical perspectives together so findings can be compared for agreement, conflict, uncertainty, context, and alternative explanations.
 
 ### Speaker-Aware Intelligence
 
-Organize speech by speaker and build speaker-aware analytical context through diarization, interaction analysis, and within-speaker baselines.
+Organize conversations by speaker and build richer analytical context through speaker processing, interaction analysis, and within-speaker comparison as supported by the analysis configuration.
 
-### Evidence Synthesis
+### Evidence You Can Examine
 
-Move beyond isolated measurements by organizing relationships, convergence, divergence, provenance, and analytical context across specialized methods.
+See what was measured, where findings converge, where they conflict, how reliable the recording was, and what the evidence supports.
 
-### End-to-End Workflow
+### API Access
 
-Move from file upload through preparation, transcription, alignment, analysis, synthesis, classification, validation, and final disposition in one coordinated platform.
+Integrate VoxVector into your own applications and workflows through the canonical API.
 
-## The 21-Stage Pipeline
+Use VoxVector as a product or as an analytical service.
+
+## How VoxVector Works
+
+### 1. Recording
+
+Bring a conversation into the VoxVector analysis environment.
+
+### 2. Analysis
+
+Examine supported vocal, acoustic, linguistic, temporal, and conversational characteristics.
+
+### 3. Assessment
+
+Bring findings together and examine agreement, conflict, uncertainty, and alternative explanations.
+
+### 4. Result
+
+Determine what the available evidence supports and how confidently it can be understood.
+
+## The 21-Stage Technical Pipeline
+
+The customer experience is expressed simply as **Recording → Analysis → Assessment → Result**.
+
+Underneath that experience, the technical pipeline contains 21 stages:
 
 ### Prepare
 
@@ -63,7 +99,7 @@ Move from file upload through preparation, transcription, alignment, analysis, s
 6. Speech Segmentation
 7. Transcription Generation
 8. Transcript Alignment
-9. Eligibility & Reliability
+9. Analysis Readiness & Reliability
 
 ### Analyze
 
@@ -80,7 +116,7 @@ Move from file upload through preparation, transcription, alignment, analysis, s
 17. Evidence Convergence & Conflict
 18. Candidate Classification
 19. Validation & Calibration
-20. Final Classification / Disposition
+20. Final Classification / Result
 21. Audit & Provenance Output
 
 ## Analysis Families
@@ -120,38 +156,32 @@ Move from file upload through preparation, transcription, alignment, analysis, s
 
 ## Technology
 
-VoxVector brings together signal processing, vocal analysis, speech intelligence, linguistic analysis, speaker intelligence, evidence synthesis, and classification architecture in one platform.
+VoxVector brings together audio processing, vocal analysis, speech intelligence, linguistic analysis, speaker intelligence, evidence synthesis, classification architecture, and a developer-accessible API in one platform.
 
 The system is designed to advance from foundational measurements into increasingly sophisticated multimethod inference and validated deception classification.
 
-## Workflow
+## Developer & API Experience
 
-**1. Upload**
+Developers can connect to VoxVector through the canonical FastAPI service.
 
-Bring a recording into the VoxVector analysis environment.
+Current API capabilities include:
 
-**2. Prepare**
+- health and runtime inspection
+- direct WAV analysis
+- authenticated case creation
+- case listing and retrieval
+- source upload and provenance
+- signed media playback
+- case-bound analysis runs
+- persisted pipeline state
+- request correlation and diagnostics
 
-Decode normalize and establish the recording and speaker structure.
-
-**3. Transcribe & Align**
-
-Generate language context and connect speech to its precise audio timeline.
-
-**4. Analyze**
-
-Extract acoustic prosodic temporal voice-quality linguistic speaker and contextual evidence.
-
-**5. Synthesize**
-
-Bring evidence families together to identify convergence patterns and analytical relationships.
-
-**6. Classify**
-
-Apply the VoxVector classification architecture to the complete evidence record.
+The API provides an integration path for applications that need VoxVector intelligence without replacing the canonical analysis engine.
 
 ## Closing CTA
 
-**Reveal more from every conversation.**
+**What did you miss?**
+
+**Go back to the recording.**
 
 **Experience VoxVector.**
