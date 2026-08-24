@@ -1,7 +1,7 @@
 # VoxVector Development, Editing, and Deployment Workflow
 
 **Status:** Canonical active workflow
-**Effective:** 2026-08-23
+**Effective:** 2026-08-24
 **Scope:** VoxVector frontend, backend, documentation, GitHub workflow, and AI assisted development
 
 ## 1. Authority
@@ -61,7 +61,8 @@ In particular:
 - do not remove working controls because they are not visible in a reference image;
 - do not silently remove routes, API integrations, authentication, state management, or analytical views;
 - do not introduce competing navigation, header, waveform, console, or analysis systems;
-- do not treat a screenshot as a complete specification of the existing application.
+- do not treat a screenshot as a complete specification of the existing application;
+- if the user requests an application change, implement it in the application rather than substituting a static image mockup unless an image/design artifact was explicitly requested.
 
 Reference images describe desired visual changes. They do not authorize deletion of functionality that is not shown.
 
@@ -77,7 +78,7 @@ Current canonical landing assets are:
 - `VoxVector/Assets/VoxVector-logo-word.png`
 - `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
 
-The console image is referenced by the landing refinement as `/voxvector/voxvector-audio-analysis-console.png`. The wordmark is referenced as `/voxvector/VoxVector-logo-word.png` and is paired with the icon at exactly 80% of the icon height.
+The console image is referenced by the landing refinement as `/voxvector/voxvector-audio-analysis-console.png`. The wordmark is referenced as `/voxvector/VoxVector-logo-word.png` and is paired with the icon at the same visual height.
 
 Do not use or create these obsolete competing source paths:
 
@@ -180,9 +181,10 @@ For substantive frontend changes:
 - verify desktop and mobile behavior;
 - verify the requested change;
 - verify that unrelated functionality remains present;
+- verify accessibility and reduced-motion behavior where relevant;
 - merge only after the change is visually and functionally acceptable.
 
-After merge, verify the production URL and confirm that the deployed revision corresponds to the merged commit.
+After merge, verify the production URL and confirm that the deployed revision corresponds to the merged commit when tooling permits.
 
 ## 12. Landing refinement integrity
 
@@ -192,9 +194,11 @@ The workflow console is a single canonical image inserted immediately after the 
 
 The console presentation includes one full-width, coffee-colored animated waveform layer behind the supplied console image. The waveform is decorative interface motion only and is not analysis telemetry or a scientific result.
 
-The public header icon and wordmark lockup is allocated 60% of the available header width. The footer repeats the supplied brand lockup as a centered icon above wordmark immediately before the copyright row.
+The public header icon and wordmark lockup is allocated **50% of the available header width on mobile**. The icon and wordmark are a single cohesive lockup at the same visual height. Desktop uses a restrained professional SaaS/application size rather than the oversized mobile treatment.
 
-All three are presentation-layer changes. They must preserve the existing landing DOM, navigation, responsive behavior, accessibility behavior, and deployment asset boundary.
+The footer repeats the supplied brand lockup as a centered icon above wordmark immediately before the copyright row.
+
+All are presentation-layer changes. They must preserve the existing landing DOM, navigation, responsive behavior, accessibility behavior, and deployment asset boundary.
 
 ## 13. Documentation synchronization
 
