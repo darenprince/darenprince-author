@@ -1,0 +1,36 @@
+.vv-header-brand {
+  width: 60% !important;
+  max-width: 60% !important;
+  flex: 0 0 60% !important;
+  align-items: center !important;
+}
+
+.vv-header-icon {
+  --vv-header-icon-height: 54px !important;
+  width: 54px !important;
+  height: 54px !important;
+  flex: 0 0 54px !important;
+}
+
+.vv-header-wordmark {
+  width: auto !important;
+  height: 40px !important;
+  max-width: calc(100% - 62px) !important;
+  flex: 0 1 auto !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+@media (max-width: 767px) {
+  .vv-header-icon {
+    --vv-header-icon-height: 52px !important;
+    width: 52px !important;
+    height: 52px !important;
+    flex-basis: 52px !important;
+  }
+
+  .vv-header-wordmark {
+    height: 34px !important;
+    max-width: calc(100% - 60px) !important;
+  }
+}
