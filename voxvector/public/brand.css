@@ -1,8 +1,4 @@
-/* Canonical VoxVector brand assets
- * Source: VoxVector/public/assets/voxvector-icon-final-color.png
- *         VoxVector/public/assets/voxvector-wordmark-final-white.png
- * These presentation rules replace temporary iconography and text lockups in the React application.
- */
+/* Canonical VoxVector brand assets */
 
 .vv-canonical-brand-icon {
   background: url('/voxvector/assets/voxvector-icon-final-color.png') center / contain no-repeat !important;
@@ -12,34 +8,7 @@
   background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
 }
 
-/* Public landing header and footer Logo() */
-a[aria-label='VoxVector home'] > span:first-child {
-  width: 32px !important;
-  height: 32px !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: url('/voxvector/assets/voxvector-icon-final-color.png') center / contain no-repeat !important;
-  overflow: visible !important;
-  flex: 0 0 32px;
-}
-
-a[aria-label='VoxVector home'] > span:first-child > * {
-  display: none !important;
-}
-
-a[aria-label='VoxVector home'] > span:nth-child(2) {
-  width: 125px !important;
-  height: 32px !important;
-  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
-  display: block !important;
-  flex: 0 0 125px;
-}
-
-a[aria-label='VoxVector home'] > span:nth-child(2) > * {
-  display: none !important;
-}
-
-/* Canonical landing logo lockup. Desktop stays professional; mobile is capped at 50vw. */
+/* React-owned landing header Logo() */
 .vv-logo-lockup {
   display: flex !important;
   align-items: center !important;
@@ -86,12 +55,17 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
   background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
 }
 
-@media (max-width: 620px) {
-  /* 50% mobile treatment: the complete logo lockup occupies about half the header width. */
+@media (max-width: 1023px) {
   .vv-logo-lockup {
-    width: min(50vw, 170px) !important;
+    width: 50vw !important;
+    max-width: 50vw !important;
+    flex-basis: 50vw;
+  }
+}
+
+@media (max-width: 620px) {
+  .vv-logo-lockup {
     height: 30px !important;
-    flex-basis: min(50vw, 170px);
     gap: 7px !important;
   }
 
@@ -103,7 +77,6 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
 
   .vv-logo-wordmark {
     height: 26px !important;
-    width: auto !important;
     flex: 1 1 auto;
   }
 
