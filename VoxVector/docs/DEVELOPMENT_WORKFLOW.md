@@ -184,7 +184,19 @@ For substantive frontend changes:
 
 After merge, verify the production URL and confirm that the deployed revision corresponds to the merged commit.
 
-## 12. Documentation synchronization
+## 12. Landing refinement integrity
+
+Landing refinements that are applied after React render must be idempotent. Delayed re-application or runtime recovery must never create duplicate visual components.
+
+The workflow console is a single canonical image inserted immediately after the existing workflow heading. Its refinement selector must locate the existing `.vv-console-feature` directly rather than depending on an optional wrapper class or child position.
+
+The console presentation includes one full-width, coffee-colored animated waveform layer behind the supplied console image. The waveform is decorative interface motion only and is not analysis telemetry or a scientific result.
+
+The public header icon and wordmark lockup is allocated 60% of the available header width. The footer repeats the supplied brand lockup as a centered icon above wordmark immediately before the copyright row.
+
+All three are presentation-layer changes. They must preserve the existing landing DOM, navigation, responsive behavior, accessibility behavior, and deployment asset boundary.
+
+## 13. Documentation synchronization
 
 When this workflow or editing discipline changes, synchronize:
 
@@ -198,7 +210,7 @@ When this workflow or editing discipline changes, synchronize:
 
 Historical records may be retained, but obsolete instructions must be explicitly marked superseded rather than left looking active.
 
-## 13. Final preservation rule
+## 14. Final preservation rule
 
 When uncertain, stop before broadening the change.
 
