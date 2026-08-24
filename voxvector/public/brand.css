@@ -1,6 +1,6 @@
 /* Canonical VoxVector brand assets
- * Source: VoxVector/Assets/VoxVector-logo-word.png
- *         VoxVector/Assets/voxvector-icon-final-color.png.PNG
+ * Source: VoxVector/public/assets/voxvector-icon-final-color.png
+ *         VoxVector/public/assets/voxvector-wordmark-final-white.png
  * These presentation rules replace temporary iconography and text lockups in the React application.
  */
 
@@ -9,17 +9,18 @@
 }
 
 .vv-canonical-brand-wordmark {
-  background: url('/voxvector/assets/VoxVector-logo-word.png') left center / contain no-repeat !important;
+  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
 }
 
 /* Public landing header and footer Logo() */
 a[aria-label='VoxVector home'] > span:first-child {
-  width: 40px !important;
-  height: 40px !important;
+  width: 32px !important;
+  height: 32px !important;
   border: 0 !important;
   border-radius: 0 !important;
   background: url('/voxvector/assets/voxvector-icon-final-color.png') center / contain no-repeat !important;
   overflow: visible !important;
+  flex: 0 0 32px;
 }
 
 a[aria-label='VoxVector home'] > span:first-child > * {
@@ -27,10 +28,11 @@ a[aria-label='VoxVector home'] > span:first-child > * {
 }
 
 a[aria-label='VoxVector home'] > span:nth-child(2) {
-  width: 185px !important;
-  height: 40px !important;
-  background: url('/voxvector/assets/VoxVector-logo-word.png') left center / contain no-repeat !important;
+  width: 125px !important;
+  height: 32px !important;
+  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
   display: block !important;
+  flex: 0 0 125px;
 }
 
 a[aria-label='VoxVector home'] > span:nth-child(2) > * {
@@ -53,18 +55,26 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
   width: 148px !important;
   height: 28px !important;
   font-size: 0 !important;
-  background: url('/voxvector/assets/VoxVector-logo-word.png') left center / contain no-repeat !important;
+  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
 }
 
 @media (max-width: 620px) {
+  /* 50% mobile treatment: compact, cohesive lockup without changing the header layout. */
+  a[aria-label='VoxVector home'] {
+    gap: 8px !important;
+    width: min(50vw, 170px);
+  }
+
   a[aria-label='VoxVector home'] > span:first-child {
-    width: 34px !important;
-    height: 34px !important;
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px;
   }
 
   a[aria-label='VoxVector home'] > span:nth-child(2) {
-    width: 157px !important;
-    height: 34px !important;
+    width: 126px !important;
+    height: 28px !important;
+    flex-basis: 126px;
   }
 
   .vv-brand-mark {
