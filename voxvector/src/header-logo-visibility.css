@@ -1,10 +1,35 @@
-.vv-header-brand {
+.vv-header-brand,
+.vv-logo-lockup {
   width: 60% !important;
   max-width: 60% !important;
+  min-width: 0 !important;
   flex: 0 0 60% !important;
   align-items: center !important;
+  display: inline-flex !important;
+  gap: 8px !important;
 }
 
+/* These are the classes actually rendered by App.jsx. */
+.vv-logo-icon {
+  display: block !important;
+  width: 54px !important;
+  height: 54px !important;
+  flex: 0 0 54px !important;
+  object-fit: contain !important;
+}
+
+.vv-logo-wordmark {
+  display: block !important;
+  width: auto !important;
+  height: 40px !important;
+  max-width: calc(100% - 62px) !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+/* Runtime refinement classes remain supported for compatibility. */
 .vv-header-icon {
   --vv-header-icon-height: 54px !important;
   width: 54px !important;
@@ -21,7 +46,30 @@
   object-position: left center !important;
 }
 
+#workflow h2 {
+  font-size: clamp(1.75rem, 3.55vw, 3.45rem) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.025em !important;
+}
+
 @media (max-width: 767px) {
+  .vv-logo-lockup {
+    width: 60% !important;
+    max-width: 60% !important;
+    flex-basis: 60% !important;
+  }
+
+  .vv-logo-icon {
+    width: 52px !important;
+    height: 52px !important;
+    flex-basis: 52px !important;
+  }
+
+  .vv-logo-wordmark {
+    height: 34px !important;
+    max-width: calc(100% - 60px) !important;
+  }
+
   .vv-header-icon {
     --vv-header-icon-height: 52px !important;
     width: 52px !important;
@@ -32,5 +80,10 @@
   .vv-header-wordmark {
     height: 34px !important;
     max-width: calc(100% - 60px) !important;
+  }
+
+  #workflow h2 {
+    font-size: clamp(1.6rem, 7.2vw, 2.6rem) !important;
+    line-height: 1.07 !important;
   }
 }
