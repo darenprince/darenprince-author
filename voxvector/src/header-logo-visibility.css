@@ -9,7 +9,8 @@
   gap: 8px !important;
 }
 
-/* These are the classes actually rendered by App.jsx. */
+/* These are the classes actually rendered by App.jsx. Keep the icon at its
+   existing size; the wordmark is intentionally 85% of the icon height. */
 .vv-logo-icon {
   display: block !important;
   width: 54px !important;
@@ -21,7 +22,7 @@
 .vv-logo-wordmark {
   display: block !important;
   width: auto !important;
-  height: 40px !important;
+  height: 45.9px !important;
   max-width: calc(100% - 62px) !important;
   flex: 0 1 auto !important;
   min-width: 0 !important;
@@ -39,7 +40,7 @@
 
 .vv-header-wordmark {
   width: auto !important;
-  height: 40px !important;
+  height: 45.9px !important;
   max-width: calc(100% - 62px) !important;
   flex: 0 1 auto !important;
   object-fit: contain !important;
@@ -66,7 +67,7 @@
   }
 
   .vv-logo-wordmark {
-    height: 34px !important;
+    height: 44.2px !important;
     max-width: calc(100% - 60px) !important;
   }
 
@@ -78,7 +79,7 @@
   }
 
   .vv-header-wordmark {
-    height: 34px !important;
+    height: 44.2px !important;
     max-width: calc(100% - 60px) !important;
   }
 
