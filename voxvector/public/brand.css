@@ -39,6 +39,34 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
   display: none !important;
 }
 
+/* Canonical landing logo lockup. Desktop stays professional; mobile is capped at 50vw. */
+.vv-logo-lockup {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 180px !important;
+  height: 38px !important;
+  flex: 0 0 180px;
+}
+
+.vv-logo-icon {
+  display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  flex: 0 0 30px;
+  object-fit: contain;
+}
+
+.vv-logo-wordmark {
+  display: block !important;
+  width: 142px !important;
+  height: 30px !important;
+  min-width: 0;
+  flex: 1 1 auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
 /* Authenticated Developer Console header */
 .vv-brand-mark {
   width: 38px !important;
@@ -59,22 +87,24 @@ a[aria-label='VoxVector home'] > span:nth-child(2) > * {
 }
 
 @media (max-width: 620px) {
-  /* 50% mobile treatment: compact, cohesive lockup without changing the header layout. */
-  a[aria-label='VoxVector home'] {
-    gap: 8px !important;
-    width: min(50vw, 170px);
+  /* 50% mobile treatment: the complete logo lockup occupies about half the header width. */
+  .vv-logo-lockup {
+    width: min(50vw, 170px) !important;
+    height: 30px !important;
+    flex-basis: min(50vw, 170px);
+    gap: 7px !important;
   }
 
-  a[aria-label='VoxVector home'] > span:first-child {
-    width: 28px !important;
-    height: 28px !important;
-    flex-basis: 28px;
+  .vv-logo-icon {
+    width: 26px !important;
+    height: 26px !important;
+    flex-basis: 26px;
   }
 
-  a[aria-label='VoxVector home'] > span:nth-child(2) {
-    width: 126px !important;
-    height: 28px !important;
-    flex-basis: 126px;
+  .vv-logo-wordmark {
+    height: 26px !important;
+    width: auto !important;
+    flex: 1 1 auto;
   }
 
   .vv-brand-mark {
