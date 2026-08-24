@@ -1,7 +1,7 @@
 # VoxVector Development, Editing, and Deployment Workflow
 
 **Status:** Canonical active workflow
-**Effective:** 2026-08-22
+**Effective:** 2026-08-23
 **Scope:** VoxVector frontend, backend, documentation, GitHub workflow, and AI assisted development
 
 ## 1. Authority
@@ -65,7 +65,28 @@ In particular:
 
 Reference images describe desired visual changes. They do not authorize deletion of functionality that is not shown.
 
-## 5. Change classification
+## 5. Canonical frontend asset boundary
+
+The backend and analysis-engine workspace is `VoxVector/`. The public React application is `voxvector/`.
+
+Canonical VoxVector design assets live under `VoxVector/Assets/`. The frontend build may stage required assets into `voxvector/public/` as a build-time operation so Vite emits them into `voxvector/dist/`. Those staged files are build inputs, not a second canonical source directory.
+
+Current canonical landing assets are:
+
+- `VoxVector/Assets/voxvector-audio-analysis-console.png`
+- `VoxVector/Assets/VoxVector-logo-word.png`
+- `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
+
+The console image is referenced by the landing refinement as `/voxvector/voxvector-audio-analysis-console.png`. The wordmark is referenced as `/voxvector/VoxVector-logo-word.png` and is paired with the icon at exactly 80% of the icon height.
+
+Do not use or create these obsolete competing source paths:
+
+- `VoxVector/voxvector-audio-analysis-console.png`
+- `VoxVector/VoxVector-logo-word.png`
+
+The production and PR preview workflows must use the exact case-sensitive `VoxVector/Assets/` paths, stage the assets before Vite runs, and verify the emitted assets in `dist/`. If an obsolete permanent source copy is reintroduced, the workflow must fail with a clear diagnostic rather than silently choosing one of two files.
+
+## 6. Change classification
 
 Before editing, classify the request:
 
@@ -78,7 +99,7 @@ Before editing, classify the request:
 
 The default is the smallest category that satisfies the request.
 
-## 6. Development flow
+## 7. Development flow
 
 All substantive VoxVector changes should use:
 
@@ -91,7 +112,7 @@ pull request
   ↓
 production-like build
   ↓
-PR preview
+PR preview artifact / isolated preview
   ↓
 manual visual / functional review
   ↓
@@ -104,17 +125,17 @@ Do not use `main` as the working branch for iterative visual development.
 
 A PR is the review boundary. The PR should contain one coherent change set and should not mix unrelated redesigns or speculative rewrites.
 
-## 7. Preview principle
+## 8. Preview principle
 
 A preview must be isolated from production.
 
 The production GitHub Pages deployment must never be replaced by a feature branch or PR preview.
 
-The intended preview architecture is a dedicated Pages preview host/repository or equivalent isolated Pages deployment. Preview URLs must identify the PR or branch and must not share the production deployment target.
+The current PR workflow builds the exact PR frontend and uploads a review artifact. A public browser preview requires an isolated Pages preview target; until that infrastructure exists, the artifact or a local browser preview is the review boundary.
 
 If the isolated preview infrastructure is unavailable, use a build artifact or local browser preview rather than deploying a feature branch to the production Pages site.
 
-## 8. Production deployment
+## 9. Production deployment
 
 Production frontend deployment has one canonical source: `main`.
 
@@ -128,7 +149,7 @@ Feature branches must not trigger production deployment.
 
 The legacy root `voxvector.html` remains a compatibility redirect only and must never become a second frontend implementation.
 
-## 9. Deployment checks
+## 10. Deployment checks
 
 Deployment checks must be stable and directly related to deployment integrity.
 
@@ -147,7 +168,7 @@ Do not make deployment depend on a particular sentence, temporary design marker,
 
 Scientific QA and application testing remain separate from the Pages publishing mechanism.
 
-## 10. Verification discipline
+## 11. Verification discipline
 
 A green GitHub Actions run means the workflow completed successfully. It does not automatically prove that the live browser experience is correct.
 
@@ -155,7 +176,7 @@ For substantive frontend changes:
 
 - inspect the PR diff;
 - inspect the production build output;
-- inspect the PR preview when available;
+- inspect the PR preview artifact when available;
 - verify desktop and mobile behavior;
 - verify the requested change;
 - verify that unrelated functionality remains present;
@@ -163,7 +184,7 @@ For substantive frontend changes:
 
 After merge, verify the production URL and confirm that the deployed revision corresponds to the merged commit.
 
-## 11. Documentation synchronization
+## 12. Documentation synchronization
 
 When this workflow or editing discipline changes, synchronize:
 
@@ -177,7 +198,7 @@ When this workflow or editing discipline changes, synchronize:
 
 Historical records may be retained, but obsolete instructions must be explicitly marked superseded rather than left looking active.
 
-## 12. Final preservation rule
+## 13. Final preservation rule
 
 When uncertain, stop before broadening the change.
 
