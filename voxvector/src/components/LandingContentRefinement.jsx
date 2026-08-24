@@ -5,7 +5,31 @@ const ICON_IMAGE = '/voxvector/voxvector-icon-final-color.png.PNG'
 const WORDMARK_IMAGE = '/voxvector/VoxVector-logo-word.png'
 const COFFEE = '#c99a66'
 const WORKFLOW_DESCRIPTION = 'See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.'
-const REFINEMENT_VERSION = '2026-08-23-assets-v5'
+const REFINEMENT_VERSION = '2026-08-23-assets-v6'
+
+function addWaveform(feature) {
+  if (!feature || feature.querySelector('.vv-console-waveform')) return
+
+  const waveform = document.createElement('div')
+  waveform.className = 'vv-console-waveform'
+  waveform.setAttribute('aria-hidden', 'true')
+
+  const center = document.createElement('span')
+  center.className = 'vv-console-waveform-center'
+  waveform.appendChild(center)
+
+  const bars = 96
+  for (let index = 0; index < bars; index += 1) {
+    const bar = document.createElement('i')
+    const envelope = 0.2 + Math.abs(Math.sin(index * 0.19)) * 0.48 + Math.abs(Math.sin(index * 0.067 + 1.4)) * 0.22
+    bar.style.setProperty('--vv-wave-height', `${Math.round(12 + envelope * 42)}%`)
+    bar.style.setProperty('--vv-wave-delay', `${(index % 16) * -0.08}s`)
+    bar.style.setProperty('--vv-wave-opacity', `${0.32 + (index % 8) * 0.04}`)
+    waveform.appendChild(bar)
+  }
+
+  feature.insertBefore(waveform, feature.firstChild)
+}
 
 function refineWorkflowContent() {
   const section = document.querySelector('#workflow')
@@ -34,8 +58,10 @@ function refineWorkflowContent() {
     link.classList.add('vv-pill-cta')
   }
 
-  /* Insert the canonical developer console immediately below the section heading. */
-  let feature = section.querySelector(':scope > .vv-workflow-inner .vv-console-feature, :scope > .vv-console-feature')
+  /* Insert exactly one canonical developer console. The prior selector only
+     checked a non-existent wrapper class, so each delayed re-apply created
+     another copy. Query the feature directly and make the operation idempotent. */
+  let feature = section.querySelector('.vv-console-feature')
   if (!feature) {
     feature = document.createElement('div')
     feature.className = 'vv-console-feature'
@@ -49,6 +75,8 @@ function refineWorkflowContent() {
     feature.appendChild(image)
     heading.insertAdjacentElement('afterend', feature)
   }
+
+  addWaveform(feature)
 }
 
 function refineHeaderBrand() {
@@ -72,6 +100,32 @@ function refineHeaderBrand() {
   if (originalText) originalText.replaceWith(wordmark)
   logo.classList.remove('gap-3')
   logo.classList.add('gap-2', 'vv-header-brand')
+}
+
+function refineFooterBrand() {
+  const footer = document.querySelector('footer')
+  if (!footer || footer.querySelector('.vv-footer-brand')) return
+
+  const copyright = Array.from(footer.querySelectorAll('span')).find((element) => element.textContent?.includes('© 2026 Crown Labs'))
+  const bottomRow = copyright?.parentElement
+  if (!bottomRow) return
+
+  const lockup = document.createElement('div')
+  lockup.className = 'vv-footer-brand'
+
+  const icon = document.createElement('img')
+  icon.src = ICON_IMAGE
+  icon.alt = ''
+  icon.setAttribute('aria-hidden', 'true')
+  icon.className = 'vv-footer-icon'
+
+  const wordmark = document.createElement('img')
+  wordmark.src = WORDMARK_IMAGE
+  wordmark.alt = 'VoxVector'
+  wordmark.className = 'vv-footer-wordmark'
+
+  lockup.append(icon, wordmark)
+  bottomRow.parentElement.insertBefore(lockup, bottomRow)
 }
 
 function addStyles() {
@@ -99,6 +153,49 @@ function addStyles() {
       padding: 0 !important;
       position: relative !important;
       z-index: 2 !important;
+      min-height: clamp(220px, 28vw, 430px) !important;
+      isolation: isolate !important;
+    }
+
+    #workflow .vv-console-waveform {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: clamp(2px, .35vw, 6px) !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      z-index: 0 !important;
+      pointer-events: none !important;
+      opacity: .58 !important;
+    }
+
+    #workflow .vv-console-waveform-center {
+      position: absolute !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: 50% !important;
+      height: 1px !important;
+      transform: translateY(-50%) !important;
+      background: rgba(201,154,102,.18) !important;
+      box-shadow: 0 0 18px rgba(201,154,102,.18) !important;
+    }
+
+    #workflow .vv-console-waveform i {
+      display: block !important;
+      width: clamp(2px, .28vw, 5px) !important;
+      height: var(--vv-wave-height) !important;
+      min-height: 8px !important;
+      border-radius: 999px !important;
+      background: linear-gradient(180deg, rgba(201,154,102,.12), rgba(201,154,102,.88), rgba(201,154,102,.12)) !important;
+      box-shadow: 0 0 10px rgba(201,154,102,.12) !important;
+      transform-origin: center !important;
+      animation: vv-console-wave-pulse 1.8s ease-in-out infinite !important;
+      animation-delay: var(--vv-wave-delay) !important;
+      opacity: var(--vv-wave-opacity) !important;
     }
 
     #workflow .vv-console-feature img {
@@ -111,6 +208,8 @@ function addStyles() {
       opacity: 1 !important;
       visibility: visible !important;
       filter: drop-shadow(0 22px 40px rgba(0,0,0,.42));
+      position: relative !important;
+      z-index: 2 !important;
       animation: vv-console-arrive .7s cubic-bezier(.22,1,.36,1) both;
     }
 
@@ -160,9 +259,41 @@ function addStyles() {
       max-width: 100% !important;
     }
 
+    .vv-footer-brand {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      width: 100% !important;
+      margin: 3.25rem auto 0 !important;
+      padding-top: 2rem !important;
+      border-top: 1px solid var(--vv-border) !important;
+    }
+
+    .vv-footer-icon {
+      display: block !important;
+      width: 42px !important;
+      height: 42px !important;
+      object-fit: contain !important;
+    }
+
+    .vv-footer-wordmark {
+      display: block !important;
+      width: auto !important;
+      height: 22px !important;
+      max-width: min(190px, 70vw) !important;
+      object-fit: contain !important;
+    }
+
     @keyframes vv-console-arrive {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes vv-console-wave-pulse {
+      0%, 100% { transform: scaleY(.72); opacity: .46; }
+      50% { transform: scaleY(1.12); opacity: .9; }
     }
 
     @media (max-width: 1023px) {
@@ -176,9 +307,17 @@ function addStyles() {
     @media (max-width: 767px) {
       #workflow .vv-console-feature {
         margin: .8rem auto .8rem !important;
+        min-height: 180px !important;
       }
       #workflow .vv-console-feature img {
-        width: 90% !important;
+        width: 92% !important;
+      }
+      #workflow .vv-console-waveform {
+        gap: 2px !important;
+        opacity: .5 !important;
+      }
+      #workflow .vv-console-waveform i {
+        width: 2px !important;
       }
       #workflow h2 {
         font-size: clamp(2rem, 9vw, 3.2rem) !important;
@@ -199,7 +338,8 @@ function addStyles() {
     }
 
     @media (prefers-reduced-motion: reduce) {
-      #workflow .vv-console-feature img {
+      #workflow .vv-console-feature img,
+      #workflow .vv-console-waveform i {
         animation: none !important;
       }
     }
@@ -213,6 +353,7 @@ export default function LandingContentRefinement() {
     const apply = () => {
       refineWorkflowContent()
       refineHeaderBrand()
+      refineFooterBrand()
     }
     apply()
     const timers = [80, 300, 700].map((delay) => window.setTimeout(apply, delay))
