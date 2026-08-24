@@ -4,38 +4,48 @@
 
 **Category:** Crown Labs intelligence vocal analysis and deception detection platform
 
-**Type:** Full stack vocal and audio intelligence system
+**Type:** Full stack vocal and audio intelligence system with API access
 
 **Product objective:** Build an advanced auditable vocal and audio deception analysis platform for interview and conversational audio.
 
-**Canonical implementation:** `VoxVector/`
+**Canonical implementation:** VoxVector/
 
-**Public application:** `voxvector/`
+**Public application:** voxvector/
 
-**Backend target:** `voxvector.crownlabs.tech`
+**Backend target:** voxvector.crownlabs.tech
 
 ## Executive Summary
 
 VoxVector is an advanced vocal and audio deception analysis platform designed to transform interview and conversational audio into structured intelligence through a connected multimethod evidence workflow.
 
-The product spans recording ingestion technical preparation speaker intelligence transcription alignment acoustic and vocal analysis linguistic and conversational analysis evidence synthesis classification validation and final disposition.
+The product spans recording ingestion, technical preparation, speaker intelligence, transcription, alignment, acoustic and vocal analysis, linguistic and conversational analysis, evidence synthesis, classification, validation, final disposition, and audit.
 
 VoxVector is being engineered for deception detection as its central product purpose.
 
+## Analytical Depth
+
+One of VoxVector's core product advantages is the breadth of its analytical method library.
+
+The canonical Master Method Index contains **more than 300 individually defined data points and evidence fields** across acoustic, spectral, cepstral, pitch, prosodic, voice-quality, temporal, linguistic, speaker, integrity, evidence, uncertainty, classification, and validation domains.
+
+That number represents the breadth of the analytical vocabulary maintained by the product architecture. It does not mean every analysis run emits every data point. Current runtime output depends on implementation status and the inputs available for a particular recording.
+
+This distinction allows VoxVector to market the depth of its analytical system without misrepresenting planned capabilities as current runtime output.
+
 ## Product Architecture
 
-The system deliberately separates four stages:
+The system is organized around four understandable product stages:
 
-1. Eligibility and reliability
-2. Evidence collection and analysis
-3. Candidate classification
-4. Final classification or disposition
+1. **Analysis Readiness** — determine whether the recording and available context are suitable for analysis.
+2. **Evidence Analysis** — examine the voice, audio, language, timing, and conversational characteristics supported by the current analysis configuration.
+3. **Analytical Assessment** — bring findings together and examine agreement, conflict, uncertainty, and alternative explanations.
+4. **Final Result** — communicate what the evidence supports after the required analytical and validation gates.
 
-The complete product pipeline contains 21 stages from file intake through audit and provenance output.
+The complete product pipeline contains 21 technical stages from file intake through audit and provenance output.
 
 ## Core Product Experience
 
-The target experience is one persistent case centered workspace containing:
+The target experience is one persistent case-centered workspace containing:
 
 - source metadata
 - audio playback
@@ -50,8 +60,6 @@ The target experience is one persistent case centered workspace containing:
 - reports
 - history
 
-The supplied reference screens define the target interaction architecture.
-
 ## Complete Analytical Scope
 
 The VoxVector pipeline encompasses:
@@ -64,19 +72,39 @@ The VoxVector pipeline encompasses:
 - speech segmentation
 - transcription generation
 - transcript alignment
-- eligibility and reliability
+- analysis readiness and reliability
 - acoustic analysis
-- prosodic and voice quality analysis
+- prosodic and voice-quality analysis
 - temporal and pause analysis
 - linguistic and disfluency analysis
 - question and answer alignment
-- within speaker baselines
+- within-speaker baselines
 - evidence assembly
 - evidence convergence and conflict
 - candidate classification
 - validation and calibration
 - final classification and disposition
 - audit and provenance output
+
+## API and Developer Platform
+
+VoxVector exposes its canonical backend through a FastAPI service.
+
+The API currently supports:
+
+- runtime health
+- direct WAV analysis
+- authenticated case creation
+- case listing and retrieval
+- source upload and provenance
+- signed source playback
+- case-bound analysis runs
+- persisted pipeline stage state
+- request correlation and diagnostics
+
+The API is not a separate analysis engine. It is the interface to the canonical VoxVector engine.
+
+This enables VoxVector to serve both as a premium analytical application and as an integration layer for developers building investigative, security, research, or enterprise workflows.
 
 ## Analytical Method Families
 
@@ -96,7 +124,7 @@ The current analytical foundation includes:
 - transcript disfluency when transcript is supplied
 - within speaker baseline deviations when a baseline is supplied
 
-The broader method library preserves deeper voice quality spectral glottal linguistic speaker learned representation and multimethod classification capabilities for continued engineering and validation.
+The broader method library preserves deeper voice quality, spectral, glottal, linguistic, speaker, learned representation, multimethod classification, media integrity, and validation capabilities for continued engineering and validation.
 
 ## Developer Experience
 
@@ -116,30 +144,16 @@ It provides:
 - task checkoffs
 - phase completion
 
-## Development and Deployment Workflow
-
-VoxVector development uses a controlled pull request workflow:
-
-**feature branch → pull request → production-like build → isolated preview → manual visual and functional review → merge to `main` → GitHub Pages production deployment**
-
-Existing pages and product surfaces are edited surgically. AI agents must preserve the current implementation, existing functionality, responsive behavior, routes, and interactions unless an explicit rewrite or architectural replacement is requested.
-
-There is one canonical implementation for each existing page or route. Duplicate versions such as `v2`, `new`, `final`, or replacement page copies are prohibited. New pages are created only for genuinely new product surfaces.
-
-GitHub Pages production deployment is sourced from `main` only. Pull request builds do not deploy to the production Pages environment. The active PR workflow builds the exact VoxVector frontend and stores it as an artifact for review. A public browser preview will use a separate isolated Pages repository/site so that a PR cannot replace production.
-
-The active engineering procedure is mirrored from `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`.
-
 ## Product Development Direction
 
-VoxVector is being engineered toward a world class multimethod deception analysis engine with:
+VoxVector is being engineered toward a world-class multimethod deception analysis engine with:
 
 - deeper audio intelligence
 - production transcription
 - precise transcript and audio alignment
 - speaker identification and diarization
 - conversational intelligence
-- speaker aware baselines
+- speaker-aware baselines
 - multimethod evidence synthesis
 - calibrated deception probability
 - confidence matrices
@@ -151,7 +165,7 @@ These capabilities form one coherent product architecture.
 
 ## Documentation Authority
 
-The `VoxVector/` repository is the technical source of truth.
+The VoxVector/ repository is the technical source of truth.
 
 This Crown Labs dossier is the executive and product mirror.
 
