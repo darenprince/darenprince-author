@@ -1,9 +1,9 @@
 /* Hero layout adjustment pass. Keep this file separate from the larger visual refinement stylesheet so spacing changes remain easy to audit. */
 
-/* Lift the complete hero heading stack while giving the copy below it a clearer breathing zone. */
+/* Lift the complete hero heading stack slightly while giving the copy below it a clearer breathing zone. */
 #product h1{
-  transform:translateY(-34px)!important;
-  margin-bottom:58px!important;
+  transform:translateY(-44px)!important;
+  margin-bottom:70px!important;
 }
 
 /* Keep the cinematic hero background anchored to the very top of the header/hero field. */
@@ -27,7 +27,7 @@
     background-position:58% top!important;
   }
   #product h1{
-    transform:translateY(-26px)!important;
-    margin-bottom:48px!important;
+    transform:translateY(-34px)!important;
+    margin-bottom:58px!important;
   }
 }
