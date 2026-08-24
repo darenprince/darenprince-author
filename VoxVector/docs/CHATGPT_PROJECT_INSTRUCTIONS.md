@@ -1,417 +1,402 @@
-# VoxVector — ChatGPT Project Instructions
+# VoxVector — ChatGPT Agent Instructions
 
-## 1. Identity and authority
+## PURPOSE
 
-Use **VoxVector** exclusively as the current system identity.
+These instructions are for **AI agents working on VoxVector**. They are execution instructions, not a product policy document.
 
-VoxVector is the end product being built: a modern full stack vocal and audio deception analysis platform.
+The agent's job is to make the requested change **in the correct existing place, without breaking anything else, and then prove what changed**.
 
-The GitHub repository is the operational memory and technical source of truth. Never reconstruct VoxVector from conversation memory, screenshots, assumptions, or historical snapshots.
+The GitHub repository is the source of truth. Conversation memory, screenshots, previous assistant output, assumptions, and generated mockups are not authoritative.
 
-Canonical repository:
+## 1. FIRST RULE: FIND THE REAL CODE BEFORE TOUCHING ANYTHING
 
-`https://github.com/darenprince/darenprince-author/tree/main/VoxVector`
+Never start editing because a filename looks likely.
 
-Canonical application boundaries:
-
-- Backend and analysis engine: `VoxVector/`
-- Backend HTTP adapter: `VoxVector/api/app.py`
-- Analysis engine: `VoxVector/src/voxvector/`
-- Public React application: `voxvector/`
-- Public frontend path: `/voxvector/`
-- Developer Console path: `/voxvector/developer/`
-- Production frontend host: GitHub Pages at `https://darenprince.com/voxvector/`
-- Production backend host: Render at `https://voxvector.crownlabs.tech`
-- Durable operational diagnostics and auth: Supabase
-- Vercel: retired from VoxVector architecture
-
-The Crown Labs Bible is an authorized executive and product mirror. It never overrides repository implementation, architecture, validation state, or deployment truth.
-
-## 2. Mandatory preflight
-
-Before substantive work:
+Before changing anything:
 
 1. Read `VoxVector/docs/OPERATING_CHARTER.md`.
-2. Read `VoxVector/docs/PROJECT_DECISION_LOG.md` when architecture, workflow, or prior decisions matter.
-3. Read `VoxVector/docs/DEVELOPMENT_WORKFLOW.md` for editing, branch, PR, preview, and deployment rules.
-4. Read `VoxVector/docs/AI_EDITING_GUARDRAILS.md` before substantive editing.
-5. Read `VoxVector/docs/CAPABILITY_STATUS.md` and `VoxVector/docs/ROADMAP.md` for capability scope and maturity.
-6. Read `VoxVector/docs/ANALYSIS_PIPELINE.md` for pipeline work.
-7. Read `VoxVector/docs/ARCHITECTURE.md` for architecture work.
-8. Read `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md` for product experience work.
-9. Read `VoxVector/docs/MASTER_METHOD_INDEX.md`, `ANALYSIS_METHODS.md`, and `METHOD_QA_MATRIX.md` for methodology work.
-10. Read `VoxVector/docs/VALIDATION.md` when QA or scientific validation matters.
-11. Inspect the actual implementation, package configuration, workflow files, and runtime configuration before making capability or deployment claims.
-12. Search for related implementations before creating new files, routes, components, or methods.
-13. Preserve historical records while keeping active canonical records current.
-14. Never invent measurements, model results, capabilities, tool execution, deployment verification, QA results, or scientific validation.
-
-For `continue`, `go`, `keep developing`, or similar commands, resume from the actual repository state. Do not restart the project from memory.
-
-## 3. Canonical product pipeline
-
-The canonical product workflow contains 21 stages:
-
-1. File Upload / Ingest
-2. File Decode and Normalization
-3. Provenance and Integrity
-4. Channel and Recording Assessment
-5. Speaker Identification / Diarization
-6. Speech Segmentation
-7. Transcription Generation
-8. Transcript Alignment
-9. Eligibility and Reliability
-10. Acoustic Feature Extraction
-11. Prosodic and Voice Quality Analysis
-12. Temporal and Pause Analysis
-13. Linguistic and Disfluency Analysis
-14. Question / Answer Alignment
-15. Within Speaker Baseline
-16. Cross Method Evidence Assembly
-17. Evidence Convergence and Conflict
-18. Candidate Classification
-19. Validation and Calibration Gate
-20. Final Classification / Disposition
-21. Audit and Provenance Output
-
-Do not recreate the obsolete six stage presentation as the canonical pipeline.
-
-Maintain these architectural layers as separate controls:
-
-- eligibility and reliability
-- evidence collection and analysis
-- candidate classification
-- final classification and disposition
-
-Never collapse the system into one opaque score.
-
-## 4. Scientific and evidence policy
-
-No individual vocal, acoustic, linguistic, temporal, behavioral, emotional, psychological, or conversational signal independently proves deception.
-
-Signals are evidence within a larger analytical system. Preserve:
-
-- provenance
-- measurement context
-- reliability
-- uncertainty
-- evidence direction
-- evidence convergence and conflict
-- dependence between evidence sources
-- alternative explanations
-- calibration requirements
-- validation status
-
-VoxVector may combine supported analysis engines, acoustic and linguistic measurements, psychological or behavioral models, and other evidence in downstream analysis to generate a deception probability score and confidence matrix when the configured methodology and validation gates support those outputs.
-
-Never manufacture a probability, confidence value, classification, measurement, or validation result.
-
-A successful build, passing software test, working API request, browser preview, or deployment is software verification. It is not scientific validation.
-
-## 5. Capability maturity policy
-
-Keep these states distinct:
-
-- research candidate
-- planned
-- implemented
-- integrated
-- tested
-- validated
-- production capability
-- retired by explicit project decision
-
-Research findings are not automatically VoxVector capabilities.
-
-A planned or research backed capability remains canonical product scope until explicitly retired. Do not delete or silently downgrade future capabilities because implementation is pending.
-
-Use the canonical methodology hierarchy:
-
-1. `MASTER_METHOD_INDEX.md`
-2. `ANALYSIS_METHODS.md`
-3. `METHOD_QA_MATRIX.md`
-4. `CAPABILITY_STATUS.md`
-5. `VALIDATION.md`
-6. `ROADMAP.md`
+2. Read `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`.
+3. Read `VoxVector/docs/AI_EDITING_GUARDRAILS.md`.
+4. Read the relevant architecture, pipeline, capability, or product documentation for the requested area.
+5. Search the repository for the exact page, route, component, text, selector, asset, API endpoint, or feature being changed.
+6. Open the actual implementation.
+7. Trace imports, references, route registration, CSS, runtime refinements, and related files before deciding where the change belongs.
 
-Keep status synchronized across these records.
+**Do not guess the implementation location.**
 
-## 6. Connected product architecture
+If multiple files appear to implement the same thing, determine which one is canonical before editing. Do not blindly modify the first match.
 
-The product target is one case centered workflow from recording intake through synchronized analysis, evidence synthesis, assessment, reporting, and disposition.
+## 2. SECOND RULE: CLASSIFY THE USER'S REQUEST
 
-Shared case identity must connect:
+Determine what the user actually asked for:
 
-- persistent analysis case
-- source asset identity
-- audio playback
-- synchronized waveform
-- speaker regions
-- transcript
-- transcript alignment
-- analytical tracks
-- evidence timeline
-- evidence explorer
-- pipeline state
-- assessment
-- reports
-- history and reopen
-- comparisons
-- alerts
-- developer tooling
+- copy/text change
+- styling/visual change
+- responsive change
+- existing interaction change
+- bug fix
+- feature addition
+- backend/API change
+- analysis-engine change
+- documentation change
+- new page/route
+- architecture change
 
-The frontend is an interface over the canonical API. It must never duplicate the analysis engine, fabricate telemetry, or use animation as evidence that analysis occurred.
+Default to the **smallest change category** that satisfies the request.
 
-## 7. Developer Console policy
+If the request is "change this", do not interpret it as "redesign this".
 
-The Developer Console is the engineering cockpit.
+If the request is "make this smaller", do not replace the component.
 
-It should expose real system state where a real contract exists, including:
+If the request is "fix this", do not rewrite unrelated code.
 
-- runtime health
-- API workbench
-- request inspection
-- request correlation IDs
-- upload lifecycle
-- server lifecycle events
-- errors and diagnostics
-- methodology navigation
-- architecture navigation
-- pipeline navigation
-- MVP board
-- task state
-- phase completion
-- dependency visibility
-- next task visibility
+## 3. EDIT THE CANONICAL IMPLEMENTATION, NOT A COPY
 
-A task checkbox is developer workflow state only. It never certifies implementation or scientific validation.
+When the requested thing already exists, edit the existing canonical implementation.
 
-Where the backend does not expose numeric progress, keep progress indeterminate rather than inventing percentages.
+Never create:
 
-Live UI animation must reflect actual request or runtime state where possible. Decorative animation remains decorative and must never imply scientific evidence, telemetry, or completed analysis that did not occur.
+- `v2`
+- `new`
+- `final`
+- `backup`
+- `old`
+- `copy`
+- `index2`
+- `dashboard-new`
+- `landing-new`
+- alternate route copies
+- duplicate components
+- duplicate asset sources
 
-## 8. Current frontend system
+These are not solutions. They create ambiguity and make future agents edit the wrong place.
 
-The public application is standardized on:
+A new file is appropriate only when the user requested genuinely new functionality or the architecture requires a new implementation.
 
-- React 18.3.1
-- shadcn style application owned composition
-- Base UI interaction primitives
-- Tremor React analytical components
-- Tailwind CSS
-- Lucide React
-- Motion for React
-- TanStack Query
-- Supabase Auth and persistence
+## 4. NEVER RECREATE AN EXISTING PAGE FOR A SMALL CHANGE
 
-Tremor remains the dominant analytical visual language. shadcn style composition and Base UI provide application owned interaction structure. Motion provides purposeful state driven animation. Do not introduce a competing visual system without an explicit architecture decision.
+This is a hard rule.
 
-The approved active visual language is restrained and premium: espresso black, warm brown, copper, muted amber, warm white, neutral black/white/gray foundations, thin low contrast borders, and purposeful semantic state colors. The approved landing palette does not use blue or cyan accents.
+If an existing page contains 500 lines and the user asks to change one heading, button, image, spacing value, color, or component size, modify the relevant lines.
 
-## 9. Current landing and brand rules
+**Do not regenerate the entire page.**
 
-The landing page is an existing canonical application surface. Edit it surgically.
+Do not rebuild a page from:
 
-Current workflow presentation includes:
+- a screenshot
+- an image reference
+- conversation memory
+- a description of the desired appearance
+- an older version of the page
+- a simplified approximation
 
-- `Deep Forensic Vocal Analysis + State of the art Linguistics`
-- `State of the art Linguistics` uses the approved coffee accent
-- CTA text: `Deep Analysis Methods`
-- current workflow description: `See what really makes VoxVector the future of trusted vocal deception detection. Explore the audio intelligence architecture, data extraction processing engines, analysis frameworks, psychological inference models, and long term vision behind VoxVector.`
-- the supplied audio analysis console image remains the canonical workflow visual
-- the coffee colored animated waveform behind it is decorative interface motion only
+A screenshot is a visual reference, not a replacement source file.
 
-Current header brand treatment:
+A page rewrite is permitted only when the user explicitly asks for a rewrite/replacement/migration or when an architectural change genuinely requires it.
 
-- icon and wordmark are one cohesive lockup
-- mobile header allocation is approximately 50% of the available header width
-- icon and wordmark maintain the same visual height
-- desktop uses a restrained professional SaaS/application size rather than the oversized mobile treatment
-- footer uses the supplied icon above wordmark as the canonical centered lockup
+## 5. PRESERVE EVERYTHING THE USER DID NOT ASK TO CHANGE
 
-Do not replace the landing page with a new page or recreate it from a screenshot.
+When making a targeted change, assume everything else is intentional and must survive.
 
-## 10. Surgical editing policy
+Preserve:
 
-Existing pages, routes, components, stylesheets, and product surfaces are canonical assets.
+- existing components
+- routes
+- navigation
+- buttons
+- forms
+- state
+- API calls
+- authentication
+- data loading
+- event handlers
+- responsive behavior
+- accessibility
+- keyboard behavior
+- mobile behavior
+- desktop behavior
+- animations
+- analytics
+- error handling
+- imports
+- asset references
+- existing copy
+- existing visual hierarchy
 
-For an edit request:
+Do not remove something merely because it is not visible in a screenshot or not mentioned in the latest request.
 
-1. Read the current implementation.
-2. Classify the request as content, visual, behavior, feature, new page, or architecture change.
-3. Identify the smallest exact region that satisfies the request.
-4. Make the smallest defensible change.
-5. Preserve unrelated code, imports, routes, state, API behavior, authentication, responsive behavior, accessibility, animation, and styling.
-6. Read back the modified file.
-7. Inspect the diff and search for duplicate or competing implementations.
-8. Run applicable build, test, or browser verification when available.
-9. Synchronize affected documentation.
+## 6. BEFORE EDITING A FILE, KNOW WHY THAT FILE IS THE RIGHT FILE
 
-Never completely recreate, regenerate, or overwrite an existing page for a normal edit request.
+For every substantive change, be able to answer internally:
 
-A full rewrite is permitted only when the user explicitly requests a rewrite, replacement, migration, or architectural restructuring.
+**"Why is this the canonical place for this change?"**
 
-Never create workaround files such as `v2`, `new`, `final`, `backup`, `index2`, or replacement copies for an existing page.
+Examples:
 
-A screenshot is a visual target, not permission to remove functionality that is not visible in it.
+- If text is rendered by a React component, change the component, not an unrelated HTML file.
+- If styling is controlled by a component stylesheet or Tailwind classes, change the actual style source, not a generated artifact.
+- If a runtime refinement changes a rendered component, modify the refinement responsible for that behavior rather than creating another component.
+- If an asset is canonical under `VoxVector/Assets/`, do not create a second permanent copy under another directory.
+- If a route is registered centrally, change the route registration and canonical page rather than creating a second route with a similar name.
+- If behavior originates in the backend, do not fake the behavior in the frontend.
 
-If the user asks for a UI or application change, implement it in the actual application. Do not substitute an image mockup for working code unless the user explicitly requests an image/design artifact.
+## 7. TRACE THE CHANGE THROUGH THE APPLICATION
 
-## 11. Development and branch policy
+For anything beyond a trivial copy edit, trace the complete path:
 
-Substantive work follows:
+`user request → UI/component → state/event → API → backend/engine → response → UI`
 
-`main → feature/fix branch → pull request → production-like build → PR build artifact or isolated preview → manual visual/functional review → merge → production Pages deployment`
+Determine which layer actually owns the behavior.
 
-Do not use `main` as the iterative development branch for substantive changes.
+Do not patch a symptom in the wrong layer simply because that file is easier to edit.
 
-Production frontend deployment comes from `main` only.
+If the user reports that something "isn't changing", inspect:
 
-PRs must never replace the production GitHub Pages deployment. Until a separate isolated Pages preview target exists, the PR workflow must use a downloadable build artifact or local browser preview.
+1. whether the edited file is actually imported;
+2. whether another implementation overrides it;
+3. whether runtime code modifies it after render;
+4. whether CSS specificity overrides the change;
+5. whether the build is using a different asset;
+6. whether the deployed site is serving the latest commit;
+7. whether caching is involved.
 
-Keep each PR coherent. Do not mix unrelated redesigns, speculative rewrites, or architecture changes into a narrow fix.
+Do not declare a fix until the actual cause is identified or the available evidence is clearly stated.
 
-## 12. Deployment policy
+## 8. SEARCH BEFORE CREATE
 
-GitHub Pages is the only canonical public frontend host.
+Before creating a component, page, route, CSS rule, asset, API endpoint, utility, or documentation section:
 
-Render is the only canonical VoxVector backend host.
+1. Search for an existing implementation.
+2. Search for related names and terminology.
+3. Search for imports/usages.
+4. Search for duplicate or competing implementations.
+5. Reuse or modify the canonical implementation when possible.
 
-GitHub Pages must build the `voxvector/` React application and publish the generated artifact under `/voxvector/`.
+This is especially important for landing pages, headers, footers, waveforms, dashboards, analysis views, navigation, and shared components.
 
-Render must serve the canonical FastAPI backend from `VoxVector` using `api.app:app`.
+## 9. MAKE THE SMALLEST SAFE DIFF
 
-The root `voxvector.html` is a compatibility redirect only. It must never contain a competing implementation.
+Prefer:
 
-The GitHub Pages workflow must stage `docs/crownlabsbible/` so the public Crown Labs documentation viewer is preserved in the deployed artifact.
+- one selector change over stylesheet replacement;
+- one component edit over page reconstruction;
+- one asset reference correction over copying assets;
+- one route correction over adding another route;
+- one API change over frontend simulation;
+- one targeted text replacement over rewriting surrounding markup.
 
-Never reintroduce Vercel deployment code, configuration, or dependencies into VoxVector.
+Avoid unrelated formatting changes.
 
-Deployment success must be verified rather than assumed. A green workflow does not by itself prove the live browser experience is correct.
+Do not reformat entire files unless necessary.
 
-## 13. QA and verification policy
+Do not reorder imports or rewrite surrounding code just because a different structure looks cleaner.
 
-For substantive frontend changes:
+The smaller the requested change, the smaller the expected diff.
 
-- inspect the diff
-- inspect the production build output
-- inspect the PR artifact or isolated preview when available
-- verify desktop and mobile behavior
-- verify the requested behavior
-- verify unrelated functionality remains present
-- verify accessibility and reduced motion behavior where relevant
-- after merge, verify the production URL and deployed revision when tooling permits
+## 10. READ BACK AFTER EVERY WRITE
 
-For backend/runtime changes, verify applicable tests, health state, API behavior, diagnostics, and deployment state when tooling permits.
+After modifying a file:
 
-Never claim a test, build, deployment, browser check, live API call, or scientific validation unless it actually occurred.
+1. Read the modified file back.
+2. Confirm the requested change is actually present.
+3. Confirm important surrounding code still exists.
+4. Confirm imports and references remain valid.
+5. Search for accidental duplicate components, selectors, routes, or assets.
+6. Inspect the diff.
 
-## 14. Documentation synchronization policy
+Never assume a successful write means a correct edit.
 
-When a substantive change affects behavior, architecture, workflow, methodology, capability, deployment, or persistent project policy, update the affected canonical documentation.
+## 11. VERIFY THAT NOTHING BROKE
 
-At minimum consider:
+For substantive changes, verification is mandatory whenever tooling permits.
 
-- `OPERATING_CHARTER.md`
-- `CHATGPT_PROJECT_INSTRUCTIONS.md`
-- `AI_EDITING_GUARDRAILS.md`
-- `DEVELOPMENT_WORKFLOW.md`
-- `PROJECT_DECISION_LOG.md`
-- `CAPABILITY_STATUS.md`
-- `ROADMAP.md`
-- method and QA records
-- deployment/build documentation
-- Crown Labs Bible mirrors
+At minimum:
 
-Historical records remain available for traceability, but obsolete instructions must be explicitly marked superseded.
+1. Build the application.
+2. Check for build errors and warnings that affect the change.
+3. Verify the changed page or component.
+4. Verify the relevant desktop and mobile state.
+5. Verify the requested behavior.
+6. Verify that important pre-existing functionality remains present.
+7. If the change affects runtime/API behavior, exercise the relevant path.
+8. If deployment is involved, inspect the actual deployed result when tooling permits.
 
-## 15. Product communication policy
+A build passing is not the same thing as the feature being correct.
 
-Customer facing VoxVector communication should be confident, direct, premium, modern, technology forward, ambitious, and evidence oriented.
+A screenshot looking correct is not proof that the underlying application still works.
 
-Lead with:
+## 12. USE BROWSER VERIFICATION WHEN VISUAL BEHAVIOR MATTERS
 
-- what VoxVector is
-- analysis depth
-- technology and intelligence
-- multimethod workflow
-- evidence synthesis
-- product experience
-- end state capability
-- value
+For UI changes, browser verification should be used when available.
 
-Do not turn public product pages into internal QA reports or lead with development limitations.
+Check:
 
-At the same time, accuracy is absolute. Never claim an implemented, tested, validated, deployed, or scientifically established capability that the repository does not support.
+- the actual route;
+- the changed element;
+- mobile viewport;
+- desktop viewport;
+- console errors;
+- missing assets;
+- broken interactions;
+- layout overflow;
+- duplicated elements;
+- responsive regressions.
 
-Internal maturity, failure modes, validation requirements, uncertainty, and engineering caveats belong in the appropriate developer, QA, validation, and repository records.
+Do not rely only on source code when the request concerns what the user sees.
 
-## 16. Evidence presentation policy
+## 13. DO NOT CONFUSE SOURCE CODE WITH GENERATED OUTPUT
 
-Analysis screens must not hide uncertainty behind a dramatic single score.
+Never make permanent edits to generated build output when the source implementation is elsewhere.
 
-Where implemented and supported, present:
+Never treat `dist/` as the canonical source.
 
-- eligibility and data quality
-- evidence sources and provenance
-- contributing methods
-- evidence convergence and conflict
-- uncertainty
-- alternative explanations
-- candidate classification
-- validation/calibration state
-- final classification or disposition
-- audit/provenance information
+Never edit generated deployment artifacts to hide a source problem.
 
-A final result must be traceable to the evidence and methodology that produced it.
+Determine the actual source → build → deployment path before changing deployment-related files.
 
-## 17. Change completion rule
+## 14. ASSET RULES
 
-A substantive task is not complete merely because a file was written or a UI appears correct.
+Before changing an image, logo, icon, waveform, or other asset:
 
-Completion requires, as applicable:
+1. Search for all copies.
+2. Identify the canonical source asset.
+3. Identify where the application references it.
+4. Identify whether the build stages/copies it.
+5. Change the canonical source/reference rather than creating another copy.
+6. Verify the emitted asset exists after build.
 
-- implementation review
-- dependency review
-- readback and integrity check
-- duplicate/competing implementation check
-- applicable build/test/browser verification
-- documentation synchronization
-- preservation of planned work and historical traceability
-- clear statement of what was actually verified
+Do not solve a missing asset by creating a duplicate in a random directory.
 
-If verification is unavailable, record that internally and do not imply verification occurred.
+## 15. DEPLOYMENT RULES
 
-## Final directive
+Current architecture:
 
-Build from the GitHub canon.
+- frontend: GitHub Pages
+- backend: Render
+- operational/auth data: Supabase
+- Vercel: retired
 
-Build the end product.
+Production frontend comes from `main`.
 
-Resume from actual repository state.
+Never deploy a feature branch directly over production.
 
-Use the 21 stage pipeline as the canonical workflow.
+Current review flow:
 
-Keep eligibility, evidence, candidate classification, and final disposition separate.
+`feature branch → PR → build → artifact/isolated preview → review → merge → production`
 
-Preserve scientific rigor without weakening the product identity.
+A successful GitHub Actions run does not prove the live site is correct.
 
-Treat research as research until implementation and validation establish capability.
+When a user says a change "isn't there", investigate the entire chain:
 
-Use the Developer Console as the engineering cockpit.
+`source file → commit → workflow → build artifact → deployed revision → browser`
 
-Edit existing pages surgically.
+Do not immediately make another code change until you determine where the previous change disappeared.
 
-Never recreate an existing page unless explicitly instructed.
+## 16. DOCUMENTATION IS NOT THE IMPLEMENTATION
 
-Never create duplicate versions of existing pages.
+Documentation must describe the actual implementation. It must never be used as evidence that functionality exists.
 
-Use feature branches and pull requests for substantive changes.
+When runtime behavior changes, update the affected canonical documentation after the implementation is verified.
 
-Keep PR previews isolated from production.
+Do not update documentation first and then assume the feature exists.
 
-GitHub Pages is frontend. Render is backend. Vercel is retired.
+## 17. SCIENTIFIC INTEGRITY
 
-Never fabricate telemetry, measurements, results, probabilities, confidence, testing, deployment, or validation.
+No single vocal, acoustic, linguistic, behavioral, emotional, psychological, or temporal feature proves deception.
 
-Keep VoxVector auditable, reproducible, evidence based, technically capable, and honest about what it can actually do.
+Never fabricate:
+
+- analysis results
+- probabilities
+- confidence scores
+- measurements
+- validation
+- datasets
+- model performance
+- telemetry
+- completed pipeline stages
+
+Keep eligibility, evidence collection, candidate classification, and final disposition separate.
+
+Software verification is not scientific validation.
+
+## 18. WHEN THE REQUEST IS AMBIGUOUS
+
+Do not make a broad interpretation.
+
+Inspect the repository and choose the smallest defensible interpretation.
+
+Ask a clarification question only when the ambiguity materially changes which code should be changed or what behavior should result.
+
+Otherwise make the narrow change that best matches the user's words and preserve everything else.
+
+## 19. WHEN SOMETHING IS ALREADY BROKEN
+
+Do not stack another workaround on top of an unknown problem.
+
+First determine:
+
+- what is broken;
+- where it is implemented;
+- what changed recently;
+- whether the canonical implementation is actually being used;
+- whether another file overrides it;
+- whether the failure is source, build, deployment, or runtime.
+
+Fix the underlying cause in the correct layer.
+
+## 20. COMPLETION CHECKLIST
+
+Before telling the user a change is done, confirm as applicable:
+
+- [ ] Correct repository and canonical project path used.
+- [ ] Current implementation inspected before editing.
+- [ ] Correct canonical file/component/route identified.
+- [ ] No duplicate implementation created.
+- [ ] Change was scoped to the requested area.
+- [ ] Existing functionality preserved.
+- [ ] Modified file read back.
+- [ ] Diff inspected.
+- [ ] Related references searched.
+- [ ] Build completed successfully when applicable.
+- [ ] Browser/UI behavior checked when applicable.
+- [ ] Mobile behavior checked when applicable.
+- [ ] Runtime/API behavior checked when applicable.
+- [ ] Deployment checked when applicable.
+- [ ] Documentation synchronized when required.
+- [ ] No unverified claim made.
+
+If a check could not be performed, say so. Never imply that it happened.
+
+## 21. RESPONSE TO THE USER
+
+Do not bury the result in a long explanation.
+
+When the work is complete, tell the user:
+
+1. **what changed**;
+2. **where it was changed**;
+3. **what was verified**;
+4. **anything that could not be verified**.
+
+If something failed, say exactly what failed and why.
+
+Do not say "done" merely because a file was edited.
+
+## FINAL AGENT DIRECTIVE
+
+**Find it. Understand it. Change the right place. Change only what was requested. Read it back. Build it. Verify it. Make sure the old functionality survived. Then report exactly what happened.**
+
+Never rebuild an existing page when a targeted edit will do.
+
+Never create a duplicate to avoid finding the canonical implementation.
+
+Never fake behavior in a different layer because the correct layer is harder to reach.
+
+Never assume a change deployed.
+
+Never claim verification that did not happen.
+
+When something goes wrong, investigate the chain instead of stacking workarounds.
+
+The goal is not merely to produce code. The goal is to make the **correct change to the real VoxVector application without breaking the product around it**.
