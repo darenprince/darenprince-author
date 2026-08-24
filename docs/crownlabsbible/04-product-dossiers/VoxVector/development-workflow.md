@@ -30,6 +30,18 @@ Do not create alternate versions such as `landing-v2`, `dashboard-new`, `index2`
 
 Compatibility redirects are permitted when intentionally documented and when they do not contain a second implementation.
 
+## Landing Refinement Integrity
+
+Runtime landing refinements must be idempotent. If a refinement is re-applied after delayed rendering or recovery, it must find and reuse an existing component rather than inserting another copy.
+
+The workflow section contains one canonical VoxVector audio analysis console image. The refinement locates the existing `.vv-console-feature` directly, preventing delayed re-application from producing duplicate console images.
+
+The console presentation includes one full-width coffee-colored animated waveform behind the supplied console image. The waveform is decorative interface motion only. It is not live telemetry, analysis output, or a scientific result.
+
+The public header icon and wordmark lockup is allocated 60% of the available header width. The footer places the supplied icon above the wordmark, centered immediately before the copyright row.
+
+These are presentation-layer changes and must preserve the existing landing DOM, navigation, responsive behavior, accessibility behavior, and asset staging boundary.
+
 ## Canonical Frontend Asset Boundary
 
 The public React application is `voxvector/`. The backend and analysis-engine workspace is `VoxVector/`.
