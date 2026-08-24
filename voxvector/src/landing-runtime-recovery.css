@@ -34,6 +34,13 @@ body { margin: 0; overflow-x: hidden; background: #080807; }
   overflow: hidden !important;
 }
 
+/* The workflow heading is intentionally more restrained than the original oversized treatment. */
+#workflow h2 {
+  font-size: clamp(1.75rem, 3.55vw, 3.45rem) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -.025em !important;
+}
+
 #workflow .vv-console-feature {
   flex: none !important;
   contain: layout paint !important;
@@ -54,14 +61,8 @@ body { margin: 0; overflow-x: hidden; background: #080807; }
 }
 
 @media (max-width: 767px) {
-  #product {
-    min-height: 720px !important;
-  }
-  #product .vv-hero-waveform {
-    height: 40% !important;
-    max-height: 300px !important;
-  }
-  #workflow .vv-console-feature img {
-    max-height: 380px !important;
-  }
+  #product { min-height: 720px !important; }
+  #product .vv-hero-waveform { height: 40% !important; max-height: 300px !important; }
+  #workflow h2 { font-size: clamp(1.6rem, 7.2vw, 2.6rem) !important; line-height: 1.07 !important; }
+  #workflow .vv-console-feature img { max-height: 380px !important; }
 }
