@@ -91,7 +91,10 @@ function FooterEnhancement() {
       <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={16} /></a>
       <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
     </div>
-    <a className="vv-crownlabs-lockup" href={CROWN_LABS_VIEWER} aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /><span>Corporate documents</span></a>
+    <div className="vv-footer-crownlabs">
+      <a className="vv-crownlabs-lockup" href={CROWN_LABS_VIEWER} aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /></a>
+      <div className="vv-footer-copyright">© 2026 Crown Labs. All rights reserved.</div>
+    </div>
   </div>, target)
 }
 
