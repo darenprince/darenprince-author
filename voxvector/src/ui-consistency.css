@@ -1,0 +1,29 @@
+/* VoxVector geometry system: one structural radius, pills remain pills. */
+:root { --vv-radius: 6px; --vv-radius-lg: 6px; --vv-space-section: clamp(5rem, 9vw, 8rem); }
+.rounded-lg, .rounded-md, .rounded-sm { border-radius: var(--vv-radius) !important; }
+.vv-panel, .vv-metric, .vv-board-item, .vv-doc, .vv-upload-state, .vv-file-info-panel, .vv-clipping-meter, .vv-api-visualizer, .vv-analysis-state { border-radius: var(--vv-radius) !important; }
+.vv-nav-item, .vv-code, .vv-input, .vv-profile-form textarea, .vv-error-meta span { border-radius: var(--vv-radius) !important; }
+.rounded-full, .vv-file-ready, .vv-meter-track, .vv-upload-track, .vv-upload-fill { border-radius: 999px !important; }
+.vv-main { padding-block: clamp(24px, 4vw, 40px); }
+.vv-panel + .vv-panel { margin-top: 12px; }
+.vv-panel-head { min-height: 24px; }
+.vv-public-header { min-height: 76px; }
+.vv-public-controls { gap: 8px !important; }
+.vv-public-icon-button, .vv-public-menu-button { border-radius: var(--vv-radius) !important; }
+.vv-side-menu { border-radius: var(--vv-radius) 0 0 var(--vv-radius) !important; }
+
+/* Keep the public landing rhythm deliberate and prevent utility overlays from changing layout. */
+#product .max-w-\[780px\] { padding-block: clamp(48px, 7vw, 88px); }
+#workflow, #technology, #use-cases, #briefing { scroll-margin-top: 96px; }
+
+/* Console media stays bounded instead of forcing horizontal overflow on narrow screens. */
+.vv-waveform-hit, .vv-spectrogram-body, .vv-api-wave-stage { max-width: 100%; overflow: hidden; }
+.vv-playback-controls { min-width: 0; }
+.vv-playback-controls label { min-width: min(220px, 100%); flex: 1 1 220px; }
+
+@media (max-width: 700px) {
+  .vv-main { padding: 18px 14px 28px; }
+  .vv-panel { padding: 14px; }
+  .vv-content-grid { gap: 10px; }
+  #product .max-w-\[780px\] { padding-block: 32px 52px; }
+}
