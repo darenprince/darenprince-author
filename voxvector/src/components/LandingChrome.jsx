@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useEffect, useState } from 'react'
-import { ArrowUp, ArrowUpRight, BookOpen, Code2, FileText, Github, Globe2, Instagram, Linkedin, Menu, ShieldCheck, Share2, Terminal, X, Youtube, UserRound, Twitter } from 'lucide-react'
+import { ArrowUp, ArrowUpRight, BookOpen, Code2, FileText, Globe2, Menu, ShieldCheck, Share2, Terminal, X, UserRound, } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 
 const CROWN_LABS_VIEWER = '/docs/crownlabsbible/docs/viewer.html'
@@ -51,7 +51,7 @@ function SideMenu({ open, onClose }) {
         <a href="https://voxvector.crownlabs.tech/docs" target="_blank" rel="noreferrer" onClick={onClose}><span className="vv-side-menu-icon"><Code2 size={18} /></span><span>API Documentation</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
         <a href={CROWN_LABS_VIEWER} onClick={onClose}><span className="vv-side-menu-icon"><ShieldCheck size={18} /></span><span>Crown Labs Documents</span><ArrowUpRight size={14} className="vv-side-menu-arrow" /></a>
       </nav>
-      <div className="vv-side-menu-foot"><span>Built by Crown Labs</span><a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer"><Github size={15} /> Frontend source</a></div>
+      <div className="vv-side-menu-foot"><span>Built by Crown Labs</span><a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer"><Code2 size={15} /> Frontend source</a></div>
     </motion.aside>
   </div>}</AnimatePresence>, document.body)
 }
@@ -86,10 +86,10 @@ function FooterEnhancement() {
   const target = footer.querySelector('.footer-enhancement-mount') || (() => { const node = document.createElement('div'); node.className = 'footer-enhancement-mount'; footer.appendChild(node); return node })()
   return createPortal(<div className="vv-footer-enhancement">
     <div className="vv-footer-socials" aria-label="Social media">
-      <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16} /></a>
-      <a href="https://x.com/" target="_blank" rel="noreferrer" aria-label="X"><Twitter size={16} /></a>
-      <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={16} /></a>
-      <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram"><Share2 size={16} /></a>
+      <a href="https://x.com/" target="_blank" rel="noreferrer" aria-label="X"><X size={16} /></a>
+      <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube"><Play size={16} /></a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><UserRound size={16} /></a>
     </div>
     <div className="vv-footer-crownlabs">
       <a className="vv-crownlabs-lockup" href={CROWN_LABS_VIEWER} aria-label="Open Crown Labs documents"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" /></a>
