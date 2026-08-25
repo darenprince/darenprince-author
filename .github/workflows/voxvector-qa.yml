@@ -37,29 +37,6 @@ jobs:
       - name: Install React application dependencies
         working-directory: voxvector
         run: npm install
-      - name: Repair VoxVector frontend compatibility
-        working-directory: voxvector
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          for p in Path('src').rglob('*.jsx'):
-              s=p.read_text()
-              original=s
-              if p.name == 'App.jsx': s=s.replace("Know when the evidence isn't enough", "Know when the evidence isn\\'t enough")
-              if "from 'lucide-react'" in s:
-                  for a,b in [('Github','Code2'),('Instagram','Share2'),('Linkedin','UserRound'),('Youtube','Play'),('Twitter','X')]:
-                      for token in (f', {a}', f'{a}, ', f', {a} '): s=s.replace(token, '')
-                      s=s.replace(f'{a} }} from \'lucide-react\'', '} from \'lucide-react\'')
-                      s=s.replace(f'<{a}', f'<{b}')
-              if s != original: p.write_text(s)
-          PY
-          if ! git diff --quiet -- src; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add src
-            git commit -m 'fix frontend icon compatibility'
-            git push
-          fi
       - name: Build React application
         working-directory: voxvector
         run: npm run build
