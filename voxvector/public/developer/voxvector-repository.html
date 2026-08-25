@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VoxVector · Repository Index</title>
+<link rel="stylesheet" href="/voxvector/developer/voxvector-dev-index.css">
+</head>
+<body>
+<div class="vv-shell">
+<header class="vv-topbar">
+  <div class="vv-brand"><div class="vv-mark">V</div><div><div class="vv-kicker">Developer Console</div><div class="vv-title">Repository Index</div></div></div>
+  <div class="vv-actions"><a class="vv-btn" href="/voxvector/developer/voxvector-images.html">Visual Assets ↗</a><a class="vv-btn primary" href="https://github.com/darenprince/darenprince-author/tree/feature/voxvector-action-visual-assets/voxvector" target="_blank" rel="noopener">Open ./voxvector/ on GitHub ↗</a></div>
+</header>
+<main>
+<section class="vv-hero"><div class="vv-kicker">./voxvector/</div><h1>The VoxVector source tree, at a glance.</h1><p>A live index of every file and folder beneath <strong>./voxvector/</strong>. Use it as a developer map, jump directly to source files, or open the visual asset index for individual previews.</p><div class="vv-meta"><span class="vv-chip" id="file-count">Loading…</span><span class="vv-chip" id="folder-count">Loading…</span><span class="vv-chip">Live repository tree</span><span class="vv-chip">All links open in a new window</span></div></section>
+<section class="vv-grid">
+  <article class="vv-card wide"><div class="vv-card-head"><h2>Visual folder / file hierarchy</h2><span id="tree-status">Fetching repository tree…</span></div><div class="vv-card-body"><input id="tree-search" class="vv-search" type="search" placeholder="Filter paths…" aria-label="Filter VoxVector paths"><div id="tree" class="vv-tree" style="margin-top:12px"><div class="vv-loading">Building hierarchy…</div></div></div></article>
+  <article class="vv-card"><div class="vv-card-head"><h2>Developer navigation</h2><span>Quick access</span></div><div class="vv-card-body" id="quick-links"><div class="vv-loading">Loading…</div></div></article>
+  <article class="vv-card full"><div class="vv-card-head"><h2>Repository path</h2><span>Copyable canonical root</span></div><div class="vv-card-body"><div class="vv-code"><button class="vv-copy" data-copy="./voxvector/">Copy</button><code>./voxvector/</code></div><p style="color:var(--muted);margin:12px 0 0">This index is intentionally read-only. It points to the GitHub source of truth rather than duplicating repository files into the developer UI.</p></div></article>
+</section>
+</main>
+<footer class="vv-footer">VoxVector developer tooling · source of truth: GitHub repository · branch: feature/voxvector-action-visual-assets</footer>
+</div>
+<script>
+const REPO='darenprince/darenprince-author';
+const BRANCH='feature/voxvector-action-visual-assets';
+const ROOT='voxvector/';
+const API=`https://api.github.com/repos/${REPO}/git/trees/${encodeURIComponent(BRANCH)}?recursive=1`;
+const WEB=`https://github.com/${REPO}/blob/${BRANCH}/`;
+const TREE=`https://github.com/${REPO}/tree/${BRANCH}/`;
+let entries=[];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ext=p=>p.includes('.')?p.split('.').pop().toUpperCase():'DIR';
+function row(item){const rel=item.path.slice(ROOT.length);const depth=rel.split('/').length-1;const isDir=item.type==='tree';const href=isDir?TREE+item.path.slice(ROOT.length):WEB+item.path.slice(ROOT.length);const icon=isDir?'▾':'·';const meta=isDir?'folder':`${ext(item.path)} · ${(item.size||0).toLocaleString()} B`;return `<div class="vv-tree-row" data-path="${esc(item.path.toLowerCase())}"><span style="padding-left:${depth*16}px"></span><span class="vv-kind">${icon}</span><span class="vv-path"><a class="vv-link" href="${href}" target="_blank" rel="noopener">${esc(rel)}</a></span><span class="vv-file-meta">${meta}</span></div>`}
+function render(list){const target=document.getElementById('tree');if(!list.length){target.innerHTML='<div class="vv-empty">No paths match that filter.</div>';return}target.innerHTML=list.map(row).join('')}
+function quick(){const dirs=[['Source','src/'],['Public','public/'],['Visual Assets','public/assets/'],['Action Visuals','public/assets/marketing/action/'],['Documentation','docs/']];document.getElementById('quick-links').innerHTML=dirs.map(([label,path])=>`<a class="vv-btn" style="display:flex;justify-content:space-between;margin-bottom:8px" href="${TREE}${path}" target="_blank" rel="noopener"><span>${esc(label)}</span><span>↗</span></a>`).join('')+`<a class="vv-btn primary" style="display:flex;justify-content:space-between;margin-top:14px" href="/voxvector/developer/voxvector-images.html"><span>Image index</span><span>→</span></a>`}
+async function load(){try{const r=await fetch(API,{headers:{Accept:'application/vnd.github+json'}});if(!r.ok)throw new Error(`GitHub API ${r.status}`);const data=await r.json();entries=(data.tree||[]).filter(x=>x.path.startsWith(ROOT)).sort((a,b)=>a.path.localeCompare(b.path));const files=entries.filter(x=>x.type==='blob');const folders=entries.filter(x=>x.type==='tree');document.getElementById('file-count').textContent=`${files.length} files`;document.getElementById('folder-count').textContent=`${folders.length} folders`;document.getElementById('tree-status').innerHTML='<span class="vv-status">Indexed</span>';render(entries);quick()}catch(e){document.getElementById('tree-status').innerHTML='<span class="vv-error">Unable to load tree</span>';document.getElementById('tree').innerHTML=`<div class="vv-empty">${esc(e.message)}</div>`}}
+document.getElementById('tree-search').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();render(entries.filter(x=>x.path.toLowerCase().includes(q)))});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(!b)return;navigator.clipboard?.writeText(b.dataset.copy).then(()=>{const old=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=old,1100)}).catch(()=>{})});
+load();
+</script>
+</body>
+</html>
