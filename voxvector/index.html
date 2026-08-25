@@ -55,7 +55,11 @@
           if(loader)loader.classList.add('vv-boot-loader--hide');
           if(failure)failure.classList.add('is-visible');
         };
-        window.addEventListener('error',function(){window.setTimeout(window.__voxvectorBootFailed,0)});
+        window.addEventListener('error',function(event){
+          var target=event.target;
+          var scriptError=target && target.tagName === 'SCRIPT';
+          if(event.error || scriptError) window.setTimeout(window.__voxvectorBootFailed,0);
+        });
         window.addEventListener('unhandledrejection',function(){window.setTimeout(window.__voxvectorBootFailed,0)});
         window.setTimeout(function(){if(!ready)window.__voxvectorBootFailed()},5000);
       }());
