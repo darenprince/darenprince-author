@@ -37,6 +37,18 @@ jobs:
       - name: Install React application dependencies
         working-directory: voxvector
         run: npm install
+      - name: Inspect App.jsx parser region
+        working-directory: voxvector
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          source = Path('src/App.jsx').read_text()
+          for position in (24836, 24851, 24899, 25056, 25071, 25119):
+              start = max(0, position - 220)
+              end = min(len(source), position + 220)
+              print(f'--- source offset {position} ---')
+              print(source[start:end])
+          PY
       - name: Build React application
         working-directory: voxvector
         run: npm run build
