@@ -5,21 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import LandingChrome from './components/LandingChrome'
-import HeroRefinement from './components/HeroRefinement'
-import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
-import LandingContentRefinement from './components/LandingContentRefinement'
-import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
 import { EnhancementBoundary, RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
 import './landing-chrome.css'
 import './footer-crownlabs.css'
-import './hero-refinement.css'
-import './hero-layout-adjustments.css'
-import './hero-final-adjustments.css'
-import './landing-final-polish.css'
-import './header-spacing.css'
-import './header-logo-visibility.css'
-import './evidence-motion.css'
 import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
@@ -43,13 +32,7 @@ function ThemeLayer() {
 function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
-  return <>
-    <EnhancementBoundary><HeroRefinement /></EnhancementBoundary>
-    <EnhancementBoundary><EvidenceBarsRefinement /></EnhancementBoundary>
-    <EnhancementBoundary><LandingContentRefinement /></EnhancementBoundary>
-    <EnhancementBoundary><LandingChrome /></EnhancementBoundary>
-    <EnhancementBoundary><HeaderNoticeCleanup /></EnhancementBoundary>
-  </>
+  return <EnhancementBoundary><LandingChrome /></EnhancementBoundary>
 }
 
 function AppReadyMarker() {
