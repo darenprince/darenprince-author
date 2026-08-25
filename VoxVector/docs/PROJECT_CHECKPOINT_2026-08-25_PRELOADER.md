@@ -1,38 +1,56 @@
-# VoxVector Initial Boot / Preloader Incident — 2026-08-25
+# VoxVector Initial Boot / Runtime Blank Page Incident — 2026-08-25
+
+## Incident
+
+After the static boot preloader was restored, the public application could still present as a dark blank page after the loader disappeared.
 
 ## Diagnosis
 
-The public preloader was implemented as a React component mounted inside the React render tree. That made the loader dependent on React successfully rendering the application. A render or module failure could therefore produce the exact failure state the loader was intended to hide: a dark or blank initial screen with no independent recovery surface.
+The preloader was only one layer of the failure. The React application had no runtime error boundary around the application or the DOM-heavy landing refinements. If a render or enhancement error occurred after the React module loaded, the static preloader could still release and leave the user looking at the empty `#root` surface.
 
-The loader also referenced `/voxvector/assets/voxvector-icon-final-color.png`, while the canonical Pages asset is staged as `voxvector-icon-final-color.png.PNG`. The existing component had an image error fallback, so the incorrect path did not by itself create a permanent loader, but it was an asset-boundary defect.
+The public landing composition contains several browser-side enhancement components that mutate the DOM after React render:
 
-The 2026-08-25 removal of the React loading overlay eliminated the blocking layer but also removed the intended product preloader entirely. That was not the correct long-term architecture.
+- `HeroRefinement`
+- `EvidenceBarsRefinement`
+- `LandingContentRefinement`
+- `LandingChrome`
+- `HeaderNoticeCleanup`
+
+These are presentation enhancements and must never be allowed to take down the core landing application.
 
 ## Correction
 
-The public preloader is now owned by `voxvector/index.html` and appears before the React module executes.
+The frontend now has two explicit runtime protections:
 
-The loader is released by `main.jsx` only after React has rendered and the browser has had two animation frames to paint the application surface.
+1. `RuntimeBoundary` wraps the core `App` and renders a visible recovery surface when the application throws during rendering or lifecycle execution.
+2. `EnhancementBoundary` isolates each optional landing enhancement. A failed enhancement is discarded while the core application remains available.
 
-A 3.5 second static fail-safe releases the loader even if React fails during startup. This prevents a loader from becoming an infinite black screen.
+The static HTML boot boundary now uses a readiness handshake instead of hiding after an arbitrary animation-frame delay.
 
-The preloader uses the canonical staged icon asset path and retains the existing VoxVector signal, orbit, pulse, and warm monochrome visual language.
+- React calls `window.__voxvectorMarkReady()` from a mounted readiness effect.
+- The boot loader remains visible until the application reaches that readiness point.
+- A five second timeout is a bounded failure path, not a silent hide.
+- Global `error` and `unhandledrejection` events switch the boot surface to a visible initialization failure state rather than exposing a blank page.
+- The failure state provides a reload action.
 
 ## Architectural rule
 
-The boot preloader must remain independent of the application render tree. It is a boot boundary, not an application component.
+A successful module download or production build is not proof that the browser application successfully initialized.
 
-The preloader must:
+The startup contract is now:
 
-- render before React;
-- have no runtime dependency on React, Supabase, TanStack Query, or application components;
-- release after the first successful application paint;
-- have a finite fail-safe timeout;
-- remain pointer-inert after release;
-- respect reduced-motion preferences;
-- use canonical production asset paths;
-- never obscure a failed application indefinitely.
+`static boot surface → React mount → runtime boundary → readiness handshake → loader release`
 
-## Verification required
+Any failure before readiness must produce a visible recovery state. Any failure in a noncritical enhancement must not destroy the application surface.
 
-The feature branch must pass the production-like frontend build and Pages artifact checks. Browser verification must confirm the loader appears briefly on desktop and mobile, disappears after the application paints, does not return during navigation, and does not trap the page when JavaScript fails or an application render error occurs.
+## Verification
+
+The branch must pass the production-like frontend build and Pages artifact checks. Browser verification must confirm:
+
+- preloader appears on initial load;
+- landing page becomes visible after React mount;
+- no blank state remains after loader dismissal;
+- a forced runtime error produces the recovery surface rather than a blank page;
+- a failed optional enhancement does not remove the landing page;
+- Developer Console remains reachable;
+- desktop and mobile startup both behave correctly.
