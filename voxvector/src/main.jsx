@@ -14,6 +14,7 @@ import './console-menu-effects.css'
 import './console-polish.css'
 import './landing-runtime-recovery.css'
 import './runtime-failure.css'
+import './ui-consistency.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
