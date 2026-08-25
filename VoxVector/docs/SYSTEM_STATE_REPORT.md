@@ -1,6 +1,6 @@
 # VoxVector System State Report
 
-**State date:** 2026-08-24
+**State date:** 2026-08-25
 **Repository:** `darenprince/darenprince-author`
 **Backend root:** `VoxVector/`
 **Frontend root:** `voxvector/`
@@ -53,6 +53,12 @@ The target connects:
 - Render hosts the backend.
 - Supabase provides authentication persistence and durable diagnostics and is now the durable media backend for the case intake slice.
 - Vercel is retired.
+
+### Frontend boot reliability
+
+The public React application no longer mounts a full viewport blocking loading overlay during initial render. The previous `LoadingScreen` implementation deliberately covered the application with an opaque dark layer for 1.4 seconds and could present as a black screen while the React surface initialized. The public entry document also referenced stale boot assets that were no longer present in the frontend root.
+
+The current boot path mounts the React application directly and removes those stale entry references. The loading component and stylesheet remain in the repository as preserved assets but are no longer part of the public render path.
 
 ### Case spine and intake
 
