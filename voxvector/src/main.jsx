@@ -8,6 +8,7 @@ import LandingChrome from './components/LandingChrome'
 import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
 import LandingContentRefinement from './components/LandingContentRefinement'
 import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
+import CanonicalHeroCopy from './components/CanonicalHeroCopy'
 import { EnhancementBoundary, RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
 import './landing-chrome.css'
@@ -37,6 +38,7 @@ function PublicChromeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   if (isDeveloper) return null
   return <>
+    <EnhancementBoundary><CanonicalHeroCopy /></EnhancementBoundary>
     <EnhancementBoundary><EvidenceBarsRefinement /></EnhancementBoundary>
     <EnhancementBoundary><LandingContentRefinement /></EnhancementBoundary>
     <EnhancementBoundary><LandingChrome /></EnhancementBoundary>
