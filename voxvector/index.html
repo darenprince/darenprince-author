@@ -1,14 +1,38 @@
 <!doctype html>
-<html lang="en" class="dark antialiased">
+<html lang="en" class="dark antialiased vv-booting">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#070a0f" />
+    <meta name="theme-color" content="#080706" />
     <meta name="description" content="VoxVector is an advanced vocal deception analysis engine built around measurable evidence, reliability and disciplined interpretation." />
     <title>VoxVector | Advanced Vocal Deception Analysis</title>
+    <style>
+      html.vv-booting,html.vv-booting body{background:#080706}html.vv-booting body{overflow:hidden}
+      #vv-boot-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;overflow:hidden;background:#080706;color:#fff;isolation:isolate;opacity:1;visibility:visible;transition:opacity 220ms ease,visibility 220ms ease}
+      #vv-boot-loader.vv-boot-loader--hide{opacity:0;visibility:hidden;pointer-events:none}
+      #vv-boot-loader .vv-boot-signals{position:absolute;inset:0;opacity:.56;pointer-events:none}#vv-boot-loader .vv-boot-signals svg{width:120%;height:100%;margin-left:-10%}
+      #vv-boot-loader .vv-boot-signal{fill:none;stroke:url(#vv-boot-signal-gradient);stroke-linecap:round;vector-effect:non-scaling-stroke}.vv-boot-signal--primary{stroke-width:2.2;stroke-dasharray:18 12 70 20;filter:url(#vv-boot-soft-glow);animation:vv-boot-flow 5.5s linear infinite}.vv-boot-signal--secondary{stroke-width:1.25;opacity:.7;stroke-dasharray:10 22 44 16;animation:vv-boot-flow-reverse 7s linear infinite}
+      #vv-boot-loader .vv-boot-grid path{fill:none;stroke:rgba(154,111,79,.055);stroke-width:1;stroke-dasharray:2 18;animation:vv-boot-grid 8s linear infinite}
+      #vv-boot-loader .vv-boot-stage{position:relative;z-index:2;width:min(72vw,360px);display:grid;place-items:center}#vv-boot-loader .vv-boot-mark-wrap{position:relative;width:min(34vw,176px);aspect-ratio:1;display:grid;place-items:center}
+      #vv-boot-loader .vv-boot-mark{position:relative;z-index:4;width:64%;height:64%;object-fit:contain;animation:vv-boot-mark 1.6s ease-in-out infinite}#vv-boot-loader .vv-boot-fallback{position:relative;z-index:4;display:grid;place-items:center;width:64%;height:64%;border:1px solid rgba(201,154,102,.5);color:#c99a66;font:800 30px/1 system-ui,sans-serif;letter-spacing:-.08em}
+      #vv-boot-loader .vv-boot-pulse{position:absolute;z-index:2;width:68%;height:68%;border:1px solid rgba(154,111,79,.16);border-radius:50%;box-shadow:0 0 34px rgba(126,89,63,.08),inset 0 0 24px rgba(171,126,91,.035);animation:vv-boot-pulse 1.6s ease-in-out infinite}
+      #vv-boot-loader .vv-boot-orbit{position:absolute;z-index:5;left:50%;top:50%;border:1.5px solid transparent;border-top-color:rgba(126,88,62,.92);border-right-color:rgba(102,72,54,.68);border-bottom-color:rgba(169,122,87,.30);border-radius:50%;pointer-events:none}.vv-boot-orbit--outer{width:102%;height:32%;transform:translate(-50%,-50%) rotate(-16deg);animation:vv-boot-orbit 2.6s linear infinite}.vv-boot-orbit--inner{width:84%;height:27%;transform:translate(-50%,-50%) rotate(24deg);opacity:.52;animation:vv-boot-orbit-reverse 3.4s linear infinite}
+      #vv-boot-loader .vv-boot-label{margin-top:18px;color:rgba(201,154,102,.78);font:700 10px/1 system-ui,sans-serif;letter-spacing:.34em}
+      @keyframes vv-boot-mark{0%,100%{transform:scale(.97);opacity:.92}50%{transform:scale(1.035);opacity:1}}@keyframes vv-boot-pulse{0%,100%{transform:scale(.92);opacity:.35}50%{transform:scale(1.12);opacity:.72}}@keyframes vv-boot-orbit{from{transform:translate(-50%,-50%) rotate(-16deg) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(-16deg) rotate(360deg)}}@keyframes vv-boot-orbit-reverse{from{transform:translate(-50%,-50%) rotate(24deg) rotate(360deg)}to{transform:translate(-50%,-50%) rotate(24deg) rotate(0deg)}}@keyframes vv-boot-flow{from{stroke-dashoffset:0;transform:translateX(-18px)}to{stroke-dashoffset:-220px;transform:translateX(18px)}}@keyframes vv-boot-flow-reverse{from{stroke-dashoffset:0;transform:translateX(20px)}to{stroke-dashoffset:260px;transform:translateX(-20px)}}@keyframes vv-boot-grid{from{stroke-dashoffset:0}to{stroke-dashoffset:-80px}}
+      @media(max-width:640px){#vv-boot-loader .vv-boot-mark-wrap{width:min(42vw,158px)}#vv-boot-loader .vv-boot-signals{opacity:.48}}@media(prefers-reduced-motion:reduce){#vv-boot-loader *{animation-duration:1ms!important;animation-iteration-count:1!important}}
+    </style>
   </head>
   <body>
+    <div id="vv-boot-loader" role="status" aria-live="polite" aria-label="Loading VoxVector">
+      <div class="vv-boot-signals" aria-hidden="true"><svg viewBox="0 0 1200 700" preserveAspectRatio="none"><defs><linearGradient id="vv-boot-signal-gradient" x1="0" x2="1"><stop offset="0" stop-color="#5f4636" stop-opacity="0"/><stop offset=".48" stop-color="#a77b58" stop-opacity=".42"/><stop offset=".52" stop-color="#c99a72" stop-opacity=".58"/><stop offset="1" stop-color="#5f4636" stop-opacity="0"/></linearGradient><filter id="vv-boot-soft-glow"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="vv-boot-signal vv-boot-signal--primary" d="M-40 360 C80 360 100 235 205 360 S340 485 455 360 S590 235 705 360 S840 485 955 360 S1090 235 1240 360"/><path class="vv-boot-signal vv-boot-signal--secondary" d="M-60 430 C55 430 105 330 195 430 S330 530 440 430 S575 330 690 430 S825 530 940 430 S1080 330 1260 430"/><g class="vv-boot-grid"><path d="M0 350 H1200"/><path d="M0 280 H1200"/><path d="M0 420 H1200"/></g></svg></div>
+      <div class="vv-boot-stage"><div class="vv-boot-mark-wrap"><div class="vv-boot-orbit vv-boot-orbit--outer" aria-hidden="true"></div><div class="vv-boot-orbit vv-boot-orbit--inner" aria-hidden="true"></div><div class="vv-boot-pulse" aria-hidden="true"></div><img class="vv-boot-mark" src="/voxvector/voxvector-icon-final-color.png.PNG" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vv-boot-fallback',textContent:'VV'}))"/></div><div class="vv-boot-label">VOXVECTOR</div></div>
+    </div>
     <div id="root"></div>
+    <script>
+      window.__voxvectorHideBootLoader=function(){document.documentElement.classList.remove('vv-booting');var loader=document.getElementById('vv-boot-loader');if(!loader)return;loader.classList.add('vv-boot-loader--hide');window.setTimeout(function(){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader)},260)};
+      if (/\/voxvector\/developer\/?$/.test(window.location.pathname)) window.__voxvectorHideBootLoader();
+      else window.setTimeout(window.__voxvectorHideBootLoader,3500);
+    </script>
     <script type="module" src="./src/main.jsx"></script>
   </body>
 </html>

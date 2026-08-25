@@ -55,3 +55,12 @@ function Root() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<Root />)
+
+// The visual preloader is owned by index.html so it can appear before React
+// and cannot trap the user behind a failed React render. Release it only after
+// the first browser paint, with the static HTML fail-safe handling boot errors.
+if (typeof window.__voxvectorHideBootLoader === 'function') {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => window.__voxvectorHideBootLoader())
+  })
+}

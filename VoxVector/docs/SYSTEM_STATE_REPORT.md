@@ -56,9 +56,13 @@ The target connects:
 
 ### Frontend boot reliability
 
-The public React application no longer mounts a full viewport blocking loading overlay during initial render. The previous `LoadingScreen` implementation deliberately covered the application with an opaque dark layer for 1.4 seconds and could present as a black screen while the React surface initialized. The public entry document also referenced stale boot assets that were no longer present in the frontend root.
+The public application now uses a **static boot preloader in `voxvector/index.html`**, rather than placing the initial preloader inside the React render tree.
 
-The current boot path mounts the React application directly and removes those stale entry references. The loading component and stylesheet remain in the repository as preserved assets but are no longer part of the public render path.
+This boundary is intentional. The preloader must be able to render before React executes and must not depend on React, Supabase, TanStack Query, or any application component successfully mounting. The previous React `LoadingScreen` could only appear after the React render tree mounted, while its opaque full viewport surface could also present as a black screen during startup. The 2026-08-25 overlay removal corrected the blocking symptom but removed the intended product preloader, so the preloader has now been restored at the correct boot boundary.
+
+The static preloader uses the canonical staged VoxVector icon asset, releases after the React application has rendered and two browser frames have painted, and has a 3.5 second fail-safe that releases it even when application startup fails. The Developer Console route bypasses the preloader immediately.
+
+The preserved `LoadingScreen.jsx` component remains corrected for the canonical asset path, but the public boot experience is intentionally owned by the static HTML boundary.
 
 ### Case spine and intake
 
@@ -135,6 +139,8 @@ A fresh workflow run on the current main commit is still required before the cur
 
 Automated case-store ownership and persistence tests have been added for the new case foundation.
 
+The healthy preloader change requires production-like frontend build verification and desktop/mobile browser verification before it is considered complete.
+
 ## Scientific validation state
 
 Scientific validation remains a separate program.
@@ -164,5 +170,7 @@ The implementation checkpoint is recorded in:
 - `docs/CAPABILITY_STATUS.md`
 
 The active cross document record is `docs/DOCS_ALIGNMENT_2026-08-24.md`.
+
+The preloader incident and architectural correction are recorded in `docs/PROJECT_CHECKPOINT_2026-08-25_PRELOADER.md`.
 
 The decision record is `docs/PROJECT_DECISION_2026-08-20_REFERENCE_MVP_ALIGNMENT.md`.

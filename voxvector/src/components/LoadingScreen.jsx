@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const LOGO = '/voxvector/assets/voxvector-icon-final-color.png'
+const LOGO = '/voxvector/voxvector-icon-final-color.png.PNG'
 
 function SignalField() {
   return (
