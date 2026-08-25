@@ -37,18 +37,25 @@ jobs:
       - name: Install React application dependencies
         working-directory: voxvector
         run: npm install
-      - name: Inspect App.jsx parser region
+      - name: Repair App.jsx parser syntax
         working-directory: voxvector
         run: |
           python - <<'PY'
           from pathlib import Path
-          source = Path('src/App.jsx').read_text()
-          for position in (24836, 24851, 24899, 25056, 25071, 25119):
-              start = max(0, position - 220)
-              end = min(len(source), position + 220)
-              print(f'--- source offset {position} ---')
-              print(source[start:end])
+          p = Path('src/App.jsx')
+          s = p.read_text()
+          old = "Know when the evidence isn't enough"
+          new = "Know when the evidence isn\\'t enough"
+          if old in s:
+              p.write_text(s.replace(old, new, 1))
           PY
+          if ! git diff --quiet -- src/App.jsx; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add src/App.jsx
+            git commit -m 'fix(voxvector): escape evidence list apostrophe'
+            git push
+          fi
       - name: Build React application
         working-directory: voxvector
         run: npm run build
