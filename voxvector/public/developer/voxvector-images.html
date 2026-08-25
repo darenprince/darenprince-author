@@ -23,8 +23,8 @@ const REPO='darenprince/darenprince-author';
 const BRANCH='feature/voxvector-action-visual-assets';
 const ROOT='voxvector/';
 const API=`https://api.github.com/repos/${REPO}/git/trees/${encodeURIComponent(BRANCH)}?recursive=1`;
-const RAW=`https://raw.githubusercontent.com/${REPO}/${encodeURIComponent(BRANCH)}/`;
-const WEB=`https://github.com/${REPO}/blob/${encodeURIComponent(BRANCH)}/`;
+const RAW=`https://raw.githubusercontent.com/${REPO}/${BRANCH}/`;
+const WEB=`https://github.com/${REPO}/blob/${BRANCH}/`;
 const IMAGE_EXT=/\.(png|jpe?g|webp|gif|svg|avif)$/i;
 const desc={
  'voxvector-action-laptop-dashboard.jpg':'Product-in-context laptop scene showing the VoxVector analysis workspace in use.',
