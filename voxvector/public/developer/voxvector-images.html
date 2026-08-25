@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VoxVector · Visual Asset Index</title>
+<link rel="stylesheet" href="/voxvector/developer/voxvector-dev-index.css">
+</head>
+<body>
+<div class="vv-shell">
+<header class="vv-topbar">
+  <div class="vv-brand"><div class="vv-mark">V</div><div><div class="vv-kicker">Developer Console</div><div class="vv-title">Visual Asset Index</div></div></div>
+  <div class="vv-actions"><a class="vv-btn" href="/voxvector/developer/voxvector-repository.html">Repository Index ↗</a><a class="vv-btn primary" href="https://github.com/darenprince/darenprince-author/tree/feature/voxvector-action-visual-assets/voxvector/public/assets" target="_blank" rel="noopener">Open assets on GitHub ↗</a></div>
+</header>
+<main>
+<section class="vv-hero"><div class="vv-kicker">/voxvector/public/assets</div><h1>Visual assets, individually indexed.</h1><p>Every image under VoxVector is presented as an individual working asset with a live preview, exact Git path, description, and direct source link. No contact sheets. No generated labels baked into the imagery.</p><div class="vv-meta"><span class="vv-chip" id="asset-count">Loading assets…</span><span class="vv-chip">Live repository tree</span><span class="vv-chip">New-window source links</span></div></section>
+<section class="vv-card full"><div class="vv-card-head"><h2>Image library</h2><span id="asset-status">Fetching repository tree…</span></div><div class="vv-card-body"><input id="image-search" class="vv-search" type="search" placeholder="Filter by filename or path…" aria-label="Filter image assets"><div id="image-grid" class="vv-images" style="margin-top:14px"><div class="vv-loading">Loading individual image assets…</div></div></div></section>
+</main>
+<footer class="vv-footer">VoxVector developer tooling · source of truth: GitHub repository · branch: feature/voxvector-action-visual-assets</footer>
+</div>
+<script>
+const REPO='darenprince/darenprince-author';
+const BRANCH='feature/voxvector-action-visual-assets';
+const ROOT='voxvector/';
+const API=`https://api.github.com/repos/${REPO}/git/trees/${encodeURIComponent(BRANCH)}?recursive=1`;
+const RAW=`https://raw.githubusercontent.com/${REPO}/${encodeURIComponent(BRANCH)}/`;
+const WEB=`https://github.com/${REPO}/blob/${encodeURIComponent(BRANCH)}/`;
+const IMAGE_EXT=/\.(png|jpe?g|webp|gif|svg|avif)$/i;
+const desc={
+ 'voxvector-action-laptop-dashboard.jpg':'Product-in-context laptop scene showing the VoxVector analysis workspace in use.',
+ 'voxvector-action-mobile-analysis.jpg':'Mobile analysis scene focused on VoxVector signal and evidence review.',
+ 'voxvector-human-voice-profile.jpg':'Cinematic voice intelligence visual connecting a human profile with acoustic signal activity.',
+ 'voxvector-interview-observation.jpg':'Interview setting with a subject and test administrator observing the session.',
+ 'voxvector-law-enforcement-field.jpg':'Field-use visual representing law-enforcement investigative workflows.',
+ 'voxvector-live-audio-analysis.jpg':'Live audio analysis workspace with waveform and signal activity presented in context.'
+};
+let images=[];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function description(path){const name=path.split('/').pop();if(desc[name])return desc[name];const stem=name.replace(/\.[^.]+$/,'').replace(/[-_]+/g,' ');return `VoxVector visual asset: ${stem}. Indexed directly from the repository asset tree.`}
+function pathBlock(path){return `<div class="vv-code"><button class="vv-copy" data-copy="${esc(path)}">Copy</button><code>${esc(path)}</code></div>`}
+function render(list){const grid=document.getElementById('image-grid');if(!list.length){grid.innerHTML='<div class="vv-empty" style="grid-column:1/-1">No image assets match that filter.</div>';return}grid.innerHTML=list.map(item=>{const raw=RAW+item.path.split('/').map(encodeURIComponent).join('/');const web=WEB+item.path.split('/').map(encodeURIComponent).join('/');const name=item.path.split('/').pop();return `<article class="vv-image-card"><a class="vv-image-preview" href="${web}" target="_blank" rel="noopener" aria-label="Open ${esc(name)} on GitHub"><img loading="lazy" src="${raw}" alt="${esc(name)}"></a><div class="vv-image-info"><div class="vv-image-name">${esc(name)}</div><p class="vv-image-desc">${esc(description(item.path))}</p><div class="vv-image-path">${esc(item.path)}</div>${pathBlock(item.path)}<div class="vv-row-actions" style="margin-top:10px"><a class="vv-btn" href="${raw}" target="_blank" rel="noopener">Open asset ↗</a><a class="vv-btn" href="${web}" target="_blank" rel="noopener">View source ↗</a></div></div></article>`}).join('')}
+async function load(){try{const r=await fetch(API,{headers:{Accept:'application/vnd.github+json'}});if(!r.ok)throw new Error(`GitHub API ${r.status}`);const data=await r.json();images=(data.tree||[]).filter(x=>x.type==='blob'&&x.path.startsWith(ROOT)&&IMAGE_EXT.test(x.path)).sort((a,b)=>a.path.localeCompare(b.path));document.getElementById('asset-count').textContent=`${images.length} image assets`;document.getElementById('asset-status').innerHTML='<span class="vv-status">Indexed</span>';render(images)}catch(e){document.getElementById('asset-status').innerHTML='<span class="vv-error">Unable to load tree</span>';document.getElementById('image-grid').innerHTML=`<div class="vv-empty" style="grid-column:1/-1">${esc(e.message)}<br><br>Open the repository index to inspect the source tree directly.</div>`}}
+document.getElementById('image-search').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();render(images.filter(x=>x.path.toLowerCase().includes(q)))});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(!b)return;navigator.clipboard?.writeText(b.dataset.copy).then(()=>{const old=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=old,1100)}).catch(()=>{})});
+load();
+</script>
+</body>
+</html>
