@@ -1,0 +1,39 @@
+name: Regenerate VoxVector Lockfile
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Regenerate lockfile
+        working-directory: voxvector
+        run: npm install --package-lock-only --no-audit --no-fund
+
+      - name: Commit lockfile when changed
+        run: |
+          set -euo pipefail
+          if git status --porcelain -- voxvector/package-lock.json | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add voxvector/package-lock.json
+            git commit -m "chore(voxvector): regenerate package-lock.json"
+            git push
+          else
+            echo "VoxVector package-lock.json is already current."
+          fi
