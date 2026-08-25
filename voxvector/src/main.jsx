@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
-import LoadingScreen from './components/LoadingScreen'
 import LandingChrome from './components/LandingChrome'
 import HeroRefinement from './components/HeroRefinement'
 import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
@@ -23,7 +22,6 @@ import './evidence-motion.css'
 import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
-import './loading-screen.css'
 import './landing-runtime-recovery.css'
 
 const queryClient = new QueryClient({
@@ -49,7 +47,6 @@ function PublicChromeLayer() {
 function Root() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LoadingScreen />
       <App />
       <ThemeLayer />
       <PublicChromeLayer />
