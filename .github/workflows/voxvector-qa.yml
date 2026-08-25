@@ -37,23 +37,21 @@ jobs:
       - name: Install React application dependencies
         working-directory: voxvector
         run: npm install
-      - name: Repair App.jsx parser syntax
+      - name: Repair VoxVector frontend compatibility
         working-directory: voxvector
         run: |
           python - <<'PY'
           from pathlib import Path
-          p = Path('src/App.jsx')
-          s = p.read_text()
-          old = "Know when the evidence isn't enough"
-          new = "Know when the evidence isn\\'t enough"
-          if old in s:
-              p.write_text(s.replace(old, new, 1))
+          p=Path('src/App.jsx'); s=p.read_text().replace("Know when the evidence isn't enough", "Know when the evidence isn\\'t enough").replace('Github, ', '').replace('<Github', '<Code2'); p.write_text(s)
+          p=Path('src/components/LandingChrome.jsx'); s=p.read_text()
+          for a,b in [('Github, ',''),('Instagram, ',''),('Linkedin, ',''),('Youtube, ',''),('Twitter }','}'),('<Github','<Code2'),('<Instagram','<Share2'),('<Youtube','<Play'),('<Linkedin','<UserRound'),('<Twitter','<X')]: s=s.replace(a,b,1)
+          p.write_text(s)
           PY
-          if ! git diff --quiet -- src/App.jsx; then
+          if ! git diff --quiet -- src/App.jsx src/components/LandingChrome.jsx; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add src/App.jsx
-            git commit -m 'fix(voxvector): escape evidence list apostrophe'
+            git add src/App.jsx src/components/LandingChrome.jsx
+            git commit -m 'fix frontend icons'
             git push
           fi
       - name: Build React application
