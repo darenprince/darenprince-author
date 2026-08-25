@@ -9,6 +9,7 @@ Individual visual assets generated for the VoxVector product experience. These a
 - `voxvector-human-voice-profile.jpg` — human voice / acoustic intelligence visual
 - `voxvector-live-audio-analysis.jpg` — desktop live audio analysis interface
 - `voxvector-interview-observation.jpg` — interview and administrator observation scene
+- `voxvector-law-enforcement-field.jpg` — law enforcement field scene
 
 ## Visual direction
 
