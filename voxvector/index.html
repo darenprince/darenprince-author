@@ -25,12 +25,13 @@
   <body>
     <div id="vv-boot-loader" role="status" aria-live="polite" aria-label="Loading VoxVector">
       <div class="vv-boot-signals" aria-hidden="true"><svg viewBox="0 0 1200 700" preserveAspectRatio="none"><defs><linearGradient id="vv-boot-signal-gradient" x1="0" x2="1"><stop offset="0" stop-color="#5f4636" stop-opacity="0"/><stop offset=".48" stop-color="#a77b58" stop-opacity=".42"/><stop offset=".52" stop-color="#c99a72" stop-opacity=".58"/><stop offset="1" stop-color="#5f4636" stop-opacity="0"/></linearGradient><filter id="vv-boot-soft-glow"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="vv-boot-signal vv-boot-signal--primary" d="M-40 360 C80 360 100 235 205 360 S340 485 455 360 S590 235 705 360 S840 485 955 360 S1090 235 1240 360"/><path class="vv-boot-signal vv-boot-signal--secondary" d="M-60 430 C55 430 105 330 195 430 S330 530 440 430 S575 330 690 430 S825 530 940 430 S1080 330 1260 430"/><g class="vv-boot-grid"><path d="M0 350 H1200"/><path d="M0 280 H1200"/><path d="M0 420 H1200"/></g></svg></div>
-      <div class="vv-boot-stage"><div class="vv-boot-mark-wrap"><div class="vv-boot-orbit vv-boot-orbit--outer" aria-hidden="true"></div><div class="vv-boot-orbit vv-boot-orbit--inner" aria-hidden="true"></div><div class="vv-boot-pulse" aria-hidden="true"></div><img class="vv-boot-mark" src="./voxvector-icon-final-color.png.PNG" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vv-boot-fallback',textContent:'VV'}))"/></div><div class="vv-boot-label">VOXVECTOR</div></div>
+      <div class="vv-boot-stage"><div class="vv-boot-mark-wrap"><div class="vv-boot-orbit vv-boot-orbit--outer" aria-hidden="true"></div><div class="vv-boot-orbit vv-boot-orbit--inner" aria-hidden="true"></div><div class="vv-boot-pulse" aria-hidden="true"></div><img class="vv-boot-mark" src="/voxvector/voxvector-icon-final-color.png.PNG" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vv-boot-fallback',textContent:'VV'}))"/></div><div class="vv-boot-label">VOXVECTOR</div></div>
     </div>
     <div id="root"></div>
     <script>
       window.__voxvectorHideBootLoader=function(){document.documentElement.classList.remove('vv-booting');var loader=document.getElementById('vv-boot-loader');if(!loader)return;loader.classList.add('vv-boot-loader--hide');window.setTimeout(function(){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader)},260)};
-      window.setTimeout(window.__voxvectorHideBootLoader,3500);
+      if (/\/voxvector\/developer\/?$/.test(window.location.pathname)) window.__voxvectorHideBootLoader();
+      else window.setTimeout(window.__voxvectorHideBootLoader,3500);
     </script>
     <script type="module" src="./src/main.jsx"></script>
   </body>
