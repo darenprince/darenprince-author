@@ -4,20 +4,11 @@ import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
-import LandingChrome from './components/LandingChrome'
-import EvidenceBarsRefinement from './components/EvidenceBarsRefinement'
-import LandingContentRefinement from './components/LandingContentRefinement'
-import HeaderNoticeCleanup from './components/HeaderNoticeCleanup'
-import CanonicalHeroCopy from './components/CanonicalHeroCopy'
-import { EnhancementBoundary, RuntimeBoundary } from './components/RuntimeBoundary'
+import { RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
-import './landing-chrome.css'
-import './footer-crownlabs.css'
 import './audio-player.css'
 import './console-menu-effects.css'
 import './console-polish.css'
-import './landing-runtime-recovery.css'
-import './runtime-failure.css'
 import './ui-consistency.css'
 
 const queryClient = new QueryClient({
@@ -32,18 +23,6 @@ function ThemeLayer() {
   useEffect(() => { applyTheme(theme) }, [theme])
   if (isDeveloper) return null
   return <div className="fixed right-28 top-4 z-[70] lg:right-52 lg:top-5"><ThemeToggle theme={theme} onThemeChange={setTheme} className="bg-[var(--vv-surface)]/90 shadow-lg backdrop-blur-md" /></div>
-}
-
-function PublicChromeLayer() {
-  const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
-  if (isDeveloper) return null
-  return <>
-    <EnhancementBoundary><CanonicalHeroCopy /></EnhancementBoundary>
-    <EnhancementBoundary><EvidenceBarsRefinement /></EnhancementBoundary>
-    <EnhancementBoundary><LandingContentRefinement /></EnhancementBoundary>
-    <EnhancementBoundary><LandingChrome /></EnhancementBoundary>
-    <EnhancementBoundary><HeaderNoticeCleanup /></EnhancementBoundary>
-  </>
 }
 
 function AppReadyMarker() {
@@ -61,7 +40,6 @@ function Root() {
       </RuntimeBoundary>
       <AppReadyMarker />
       <ThemeLayer />
-      <PublicChromeLayer />
     </QueryClientProvider>
   )
 }
