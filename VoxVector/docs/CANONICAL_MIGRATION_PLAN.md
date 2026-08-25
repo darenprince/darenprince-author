@@ -22,7 +22,7 @@ Restore a single canonical implementation for every feature while preserving fun
 | LandingContentRefinement.jsx | Canonical workflow/landing sections | Preserve console visual, waveform/spectrum treatment, markers and legitimate copy | Archaeology complete |
 | EvidenceBarsRefinement.jsx | Canonical evidence section | Move evidence presentation/animation into owning markup | Archaeology complete |
 | HeaderNoticeCleanup.jsx | Canonical header/page | Resolve notice at source; remove MutationObserver workaround | Archaeology complete |
-| DeveloperConsole.jsx | Canonical console shell | Remove runtime sidebar injection; establish explicit composition | Migration in progress |
+| DeveloperConsole.jsx | Canonical console shell | Remove runtime sidebar injection; establish explicit composition | Complete |
 | DeveloperConsoleMVP.jsx | Developer Console / workspace | Preserve existing console functionality; compare history before rename/removal | Preserve |
 | CaseAnalysisWorkspace.jsx | Canonical analysis workspace | Preserve waveform, spectrogram, gain, playback, speed, position, pipeline and analysis controls | Preserve |
 | LandingChrome.jsx | Shared public shell/header/footer | Preserve navigation/account/menu functionality; remove DOM portal patching where possible | Migration pending |
