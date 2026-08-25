@@ -42,16 +42,22 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          p=Path('src/App.jsx'); s=p.read_text().replace("Know when the evidence isn't enough", "Know when the evidence isn\\'t enough").replace('Github, ', '').replace('<Github', '<Code2'); p.write_text(s)
-          p=Path('src/components/LandingChrome.jsx'); s=p.read_text()
-          for a,b in [('Github, ',''),('Instagram, ',''),('Linkedin, ',''),('Youtube, ',''),('Twitter }','}'),('<Github','<Code2'),('<Instagram','<Share2'),('<Youtube','<Play'),('<Linkedin','<UserRound'),('<Twitter','<X')]: s=s.replace(a,b,1)
-          p.write_text(s)
+          for p in Path('src').rglob('*.jsx'):
+              s=p.read_text()
+              original=s
+              if p.name == 'App.jsx': s=s.replace("Know when the evidence isn't enough", "Know when the evidence isn\\'t enough")
+              if "from 'lucide-react'" in s:
+                  for a,b in [('Github','Code2'),('Instagram','Share2'),('Linkedin','UserRound'),('Youtube','Play'),('Twitter','X')]:
+                      for token in (f', {a}', f'{a}, ', f', {a} '): s=s.replace(token, '')
+                      s=s.replace(f'{a} }} from \'lucide-react\'', '} from \'lucide-react\'')
+                      s=s.replace(f'<{a}', f'<{b}')
+              if s != original: p.write_text(s)
           PY
-          if ! git diff --quiet -- src/App.jsx src/components/LandingChrome.jsx; then
+          if ! git diff --quiet -- src; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add src/App.jsx src/components/LandingChrome.jsx
-            git commit -m 'fix frontend icons'
+            git add src
+            git commit -m 'fix frontend icon compatibility'
             git push
           fi
       - name: Build React application
