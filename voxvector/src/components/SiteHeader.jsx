@@ -21,14 +21,14 @@ function Logo() {
 export default function SiteHeader({ userMenu = null, actions = null, mobileActions = null, mobileMenuButton = null, active = null }) {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
-      <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-4 px-5 lg:px-10">
+    <header className="vv-public-header sticky top-0 z-50 border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
+      <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-7 px-5 lg:px-10">
         <Logo />
-        <nav className="hidden items-center gap-7 text-sm font-medium text-white/[.54] lg:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-[2.35rem] text-sm font-medium text-white/[.54] lg:flex" aria-label="Primary navigation">
           {navigation.map(([label, href]) => <a key={label} href={href} aria-current={active === label ? 'page' : undefined} className="transition-colors hover:text-white no-underline">{label}</a>)}
           <a href="/voxvector/developer" className="inline-flex items-center gap-2 transition-colors hover:text-white no-underline"><Terminal size={15} />Developer</a>
         </nav>
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Code2 size={16} />GitHub</a>}
           {userMenu}
         </div>
