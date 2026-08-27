@@ -18,7 +18,7 @@ function Logo() {
   )
 }
 
-export default function SiteHeader({ userMenu = null, actions = null, active = null }) {
+export default function SiteHeader({ userMenu = null, actions = null, mobileActions = null, mobileMenuButton = null, active = null }) {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
@@ -32,9 +32,9 @@ export default function SiteHeader({ userMenu = null, actions = null, active = n
           {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Code2 size={16} />GitHub</a>}
           {userMenu}
         </div>
-        <button type="button" className="inline-flex h-10 w-10 items-center justify-center border border-[var(--vv-border)] text-white lg:hidden" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(value => !value)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
+        {mobileMenuButton || <button type="button" className="inline-flex h-10 w-10 items-center justify-center border border-[var(--vv-border)] text-white lg:hidden" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(value => !value)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>}
       </div>
-      {menuOpen && <nav className="border-t border-[var(--vv-border)] bg-[var(--vv-bg)] px-5 py-5 lg:hidden" aria-label="Mobile navigation">{navigation.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)} className="block border-b border-[var(--vv-border)] py-4 text-base font-medium text-white/[.68] no-underline">{label}</a>)}<a href="/voxvector/developer" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-4 text-base font-semibold text-white no-underline"><Terminal size={16} />Developer</a>{userMenu && <div className="border-t border-[var(--vv-border)] pt-4">{userMenu}</div>}</nav>}
+      {menuOpen && <nav className="border-t border-[var(--vv-border)] bg-[var(--vv-bg)] px-5 py-5 lg:hidden" aria-label="Mobile navigation">{navigation.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)} className="block border-b border-[var(--vv-border)] py-4 text-base font-medium text-white/[.68] no-underline">{label}</a>)}<a href="/voxvector/developer" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-4 text-base font-semibold text-white no-underline"><Terminal size={16} />Developer</a>{mobileActions}{userMenu && <div className="border-t border-[var(--vv-border)] pt-4">{userMenu}</div>}</nav>}
     </header>
   )
 }
