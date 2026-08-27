@@ -8,34 +8,37 @@
   background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
 }
 
-/* Canonical React SiteHeader logo lockup. Responsive proportions migrated from the latest header sizing refinement. */
+/* Canonical React SiteHeader logo lockup.
+   The sizing below incorporates the latest logo-visibility refinement so the
+   canonical header owns the actual rendered dimensions rather than a patch. */
 .vv-logo-lockup {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
   width: 60% !important;
-  max-width: 360px !important;
-  min-width: 180px;
-  height: 38px !important;
-  flex: 0 0 60%;
+  max-width: 60% !important;
+  min-width: 0 !important;
+  flex: 0 0 60% !important;
+  height: 54px !important;
 }
 
 .vv-logo-icon {
   display: block !important;
-  width: 30px !important;
-  height: 30px !important;
-  flex: 0 0 30px;
-  object-fit: contain;
+  width: 54px !important;
+  height: 54px !important;
+  flex: 0 0 54px !important;
+  object-fit: contain !important;
 }
 
 .vv-logo-wordmark {
   display: block !important;
-  width: 142px !important;
-  height: 30px !important;
-  min-width: 0;
-  flex: 1 1 auto;
-  object-fit: contain;
-  object-position: left center;
+  width: auto !important;
+  height: 45.9px !important;
+  max-width: calc(100% - 62px) !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  object-fit: contain !important;
+  object-position: left center !important;
 }
 
 /* Authenticated Developer Console legacy brand selectors remain available to preserve existing console-specific surfaces during migration. */
@@ -60,6 +63,7 @@
 @media (max-width: 1100px) and (min-width: 901px) {
   .vv-logo-lockup {
     width: 42% !important;
+    max-width: 42% !important;
     flex-basis: 42% !important;
   }
 }
@@ -67,26 +71,27 @@
 @media (max-width: 900px) {
   .vv-logo-lockup {
     width: 60% !important;
-    max-width: none !important;
+    max-width: 60% !important;
     flex-basis: 60% !important;
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 767px) {
   .vv-logo-lockup {
-    height: 30px !important;
-    gap: 7px !important;
+    width: 60% !important;
+    max-width: 60% !important;
+    flex-basis: 60% !important;
   }
 
   .vv-logo-icon {
-    width: 26px !important;
-    height: 26px !important;
-    flex-basis: 26px;
+    width: 52px !important;
+    height: 52px !important;
+    flex-basis: 52px !important;
   }
 
   .vv-logo-wordmark {
-    height: 26px !important;
-    flex: 1 1 auto;
+    height: 44.2px !important;
+    max-width: calc(100% - 60px) !important;
   }
 
   .vv-brand-mark {
