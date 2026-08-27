@@ -9,6 +9,7 @@
 /* Migrated from the later hero-layout-adjustments revision. */
 #product { background-size: 125% auto !important; background-position: center top !important; }
 #product h1 { transform: translateY(-44px) !important; margin-bottom: 70px !important; }
+#product .vv-hero-body { margin-top: 0 !important; }
 
 @media (max-width: 900px) {
   #product { background-size: 125% auto !important; background-position: center top !important; }
