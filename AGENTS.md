@@ -45,7 +45,34 @@ If you discover competing implementations, stop and determine which one is canon
 
 Do not add a third implementation.
 
-## 4. NEVER REGENERATE A LARGE FILE FOR A SMALL REQUEST
+## 4. MIGRATE BEHAVIOR BEFORE RETIRING A PATCH
+
+**Architectural cleanup is not a deletion exercise.** A patch, refinement, override, recovery layer, compatibility file, or workaround can contain newer or otherwise valuable behavior even when its architecture is undesirable.
+
+Never delete such a layer merely because its filename looks temporary or because it does not fit the target architecture.
+
+Before retiring it:
+
+1. Read its complete contents.
+2. Identify every behavior it introduces or modifies.
+3. Trace imports, consumers, selectors, assets, dependencies, and runtime effects.
+4. Inspect git history and identify when each significant behavior was introduced or last changed.
+5. Compare that behavior with the current canonical implementation.
+6. Classify each behavior as already canonical, missing, conflicting, obsolete, or requiring a canonical fix.
+7. Identify the correct canonical owner.
+8. Migrate all required or newer behavior into that owner.
+9. Read the canonical implementation back and verify the behavior is actually present.
+10. Verify the resulting visual, functional, responsive, accessibility, and runtime behavior as applicable.
+11. Search for remaining competing ownership and stale references.
+12. Only then remove the obsolete layer.
+
+A patch may be architecturally wrong while containing the newest correct logo sizing, spacing, breakpoint, animation, accessibility, or interaction behavior. **Preserve the behavior by moving it into the canonical implementation before retiring the patch.**
+
+A patch may also be only partially obsolete. Migrate the useful portions and retire only what is genuinely obsolete.
+
+Git history is evidence of chronology and intent, not an automatic verdict that newer code is correct or older code is obsolete. The actual contents must always be inspected.
+
+## 5. NEVER REGENERATE A LARGE FILE FOR A SMALL REQUEST
 
 If a 2,000-line file needs one button changed, change the button.
 
@@ -55,7 +82,7 @@ Do not reconstruct it from screenshots, memory, prompts, summaries, or an older 
 
 Preserve everything the user did not ask to change.
 
-## 5. LARGE EDITS MUST BE PERFORMED IN PLACE
+## 6. LARGE EDITS MUST BE PERFORMED IN PLACE
 
 If an edit is genuinely large:
 
@@ -72,45 +99,51 @@ If an edit is genuinely large:
 
 Agent convenience is subordinate to architectural integrity.
 
-## 6. DO NOT USE RUNTIME DOM SURGERY AS A SUBSTITUTE FOR SOURCE EDITING
+## 7. DO NOT USE RUNTIME DOM SURGERY AS A SUBSTITUTE FOR SOURCE EDITING
 
 If React renders the UI, change the React source.
 
 Do not use `document.querySelector`, `textContent`, `style.display`, injected nodes, delayed mutation, or similar runtime DOM surgery to rewrite existing application UI when the canonical JSX/component can be edited directly.
 
-Runtime behavior is not a convenient escape hatch from editing the source.
+If a legacy runtime layer contains required behavior, migrate that behavior into the canonical source first; then remove the runtime mutation mechanism.
 
-## 7. DO NOT LET CSS OVERRIDES BECOME AN ARCHITECTURE
+## 8. DO NOT LET CSS OVERRIDES BECOME AN ARCHITECTURE
 
 If a component's geometry, spacing, radius, typography, or behavior is wrong, fix the owning component or its canonical stylesheet.
 
 Do not accumulate increasingly specific selectors to fight earlier selectors.
 
-When conflicting layers exist, consolidate them instead of adding another override.
+When conflicting layers exist, inspect every layer's actual behavior and history, migrate required behavior into the canonical owner, and then consolidate the competing layers.
 
-## 8. PRESERVE THE PRODUCT
+A stylesheet is not disposable merely because its name says `fix`, `override`, `refinement`, or `patch`.
+
+## 9. PRESERVE THE PRODUCT
 
 Never remove existing controls, features, copy, routes, state, API behavior, responsive behavior, accessibility, or analysis UI merely because they were not mentioned in the latest request.
 
 A screenshot shows what should change visually. It does not authorize deletion of functionality outside the screenshot.
 
-## 9. DEPENDENCY MIGRATIONS PRESERVE THE EXISTING PRODUCT
+## 10. DEPENDENCY MIGRATIONS PRESERVE THE EXISTING PRODUCT
 
 A migration such as Tremor → Recharts 3 means replacing the dependency implementation while preserving the existing UI, behavior, data, layout, controls, and product surface.
 
 It does not authorize rebuilding the page in a simplified form.
 
-## 10. BEFORE CREATING ANY FILE
+## 11. BEFORE CREATING OR DELETING ANY FILE
 
 Ask:
 
-> **Does this functionality already have an owner?**
+> **What functionality does this file contain, who consumes it, when was that behavior introduced, and where should that behavior live canonically?**
 
-If yes, edit that owner.
+Search the repository and inspect relevant history before creating or deleting anything.
+
+If the functionality already has an owner, edit or migrate into that owner.
 
 Only create a new file when the functionality is genuinely new or an architectural extraction is explicitly justified.
 
-## 11. REQUIRED RESPONSE TO "THIS FILE IS TOO LARGE"
+Only delete a file after confirming that required behavior has been migrated or that the file is genuinely obsolete.
+
+## 12. REQUIRED RESPONSE TO "THIS FILE IS TOO LARGE"
 
 The correct response is **not** to create a patch layer.
 
@@ -118,7 +151,17 @@ The correct response is:
 
 > Read the existing file in sections, identify the canonical implementation, make the requested changes in place, and verify the result.
 
-## 12. HIGHEST PRIORITY
+## 13. REQUIRED MIGRATION QUESTION
+
+Before retiring any competing implementation, answer:
+
+> **What does this implementation do today that the canonical implementation does not?**
+
+If the answer is anything nontrivial, migrate that behavior before deletion.
+
+Do not use file naming, age, aesthetic preference, or architectural preference as a substitute for this analysis.
+
+## 14. HIGHEST PRIORITY
 
 When these rules conflict with agent convenience, generation limits, or a desire to produce a smaller diff, **these rules win**.
 
