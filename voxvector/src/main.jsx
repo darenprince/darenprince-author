@@ -6,10 +6,6 @@ import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import { RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
-import './audio-player.css'
-import './console-menu-effects.css'
-import './console-polish.css'
-import './ui-consistency.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
