@@ -12,8 +12,8 @@ const navigation = [
 function Logo() {
   return (
     <a href="/voxvector/" className="vv-logo-lockup group no-underline" aria-label="VoxVector home">
-      <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="vv-logo-icon" />
-      <img src="/voxvector/assets/voxvector-wordmark-final-white.png" alt="VoxVector" className="vv-logo-wordmark" />
+      <img src="/voxvector/voxvector-icon-final-color.png.PNG" alt="" className="vv-logo-icon" />
+      <img src="/voxvector/VoxVector-logo-word.png" alt="VoxVector" className="vv-logo-wordmark" />
     </a>
   )
 }
