@@ -45,22 +45,22 @@ export default function DeveloperGate({ children, onBack }) {
 function GateShell({ children, onBack }) {
   return <div className="min-h-screen bg-[#080a0e] text-white flex flex-col">
     <header className="border-b border-white/10 bg-black/75 backdrop-blur-md">
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 max-[640px]:h-[68px]">
         <a href="/voxvector/" aria-label="VoxVector home" className="inline-flex items-center no-underline">
-          <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="h-10 w-10 object-contain" />
-          <img src="/voxvector/assets/voxvector-wordmark-final-white.png" alt="VoxVector" className="ml-2 h-[34px] w-auto object-contain" />
+          <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="h-[42px] w-[42px] object-contain max-[640px]:h-9 max-[640px]:w-9" />
+          <img src="/voxvector/assets/voxvector-wordmark-final-white.png" alt="VoxVector" className="ml-2 h-[35.7px] w-auto object-contain max-[640px]:h-[30.6px]" />
         </a>
         <a href={VIEWER} className="inline-flex items-center gap-2 text-xs text-white/50 no-underline transition hover:text-white"><BookOpen size={14} /> Documentation</a>
       </div>
     </header>
-    <main className="flex flex-1 items-center justify-center px-5 py-12 sm:px-8 sm:py-16">
-      <div className="w-full max-w-lg">
+    <main className="flex flex-1 items-center justify-center px-5 py-14 sm:px-8 sm:py-[72px]">
+      <div className="w-full max-w-[500px]">
         <Button type="button" onClick={onBack} className="mb-8 bg-transparent p-0 text-sm text-white/50 hover:text-white"><ArrowLeft size={16} /> Public application</Button>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>{children}</motion.div>
       </div>
     </main>
     <footer className="border-t border-white/10 px-5 pb-7 pt-6 text-center text-[10px] uppercase tracking-[.07em] text-white/35">
-      <a href={VIEWER} aria-label="Crown Labs documents" className="mb-3 inline-flex opacity-60 transition hover:opacity-80"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" className="h-7 w-auto max-w-[145px] object-contain" /></a>
+      <a href={VIEWER} aria-label="Crown Labs documents" className="mb-3 inline-flex opacity-60 transition hover:opacity-80"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" className="h-9 w-auto max-w-[145px] object-contain" /></a>
       <div>© 2026 Crown Labs · VoxVector Developer Console</div>
     </footer>
   </div>
@@ -94,7 +94,7 @@ function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubm
     {resetError && <div role="alert" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{resetError}</div>}
     {message && <div role="status" className="mt-5 border border-emerald-300/20 bg-emerald-300/[.04] p-3 text-sm text-emerald-100">{message}</div>}
     <form onSubmit={requestReset}>
-      <label className="mt-6 block text-sm text-white/65">Developer email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="email" required className="mt-2 w-full rounded-[6px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+      <label className="mt-6 block text-sm text-white/65">Developer email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="email" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
       <Button type="submit" disabled={resetBusy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90">{resetBusy ? 'Sending…' : 'Send reset link'}</Button>
     </form>
     <button type="button" onClick={() => { setMode('login'); setMessage(''); setResetError('') }} className="mt-5 text-sm text-white/50 hover:text-white">Back to sign in</button>
@@ -105,8 +105,8 @@ function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubm
     <h1 className="mt-6 text-2xl font-semibold">VoxVector Developer Console</h1>
     <p className="mt-2 text-sm leading-6 text-white/50">Sign in with an approved developer account. Access is controlled by Supabase Auth and the user's trusted application metadata.</p>
     {error && <div role="alert" aria-live="polite" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{error}</div>}
-    <label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(error)} className="mt-2 w-full rounded-[6px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
-    <label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full rounded-[6px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+    <label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(error)} className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
+    <label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
     <button type="button" onClick={() => { setMode('forgot'); setMessage(''); setResetError('') }} className="mt-3 text-left text-xs text-white/50 transition hover:text-white">Forgot password?</button>
     <Button type="submit" disabled={busy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90"><LogIn size={16} />{busy ? 'Authenticating…' : 'Sign in'}</Button>
   </form>
