@@ -42,23 +42,73 @@ verify canonical behavior
 retire obsolete layer
 ```
 
+## Behavior migration: landing refinements
+
+Historical landing refinements were inspected by contents and git history rather than filename.
+
+Migrated into the canonical `voxvector/public/landing.css` layer:
+
+- later hero background scale and responsive positioning;
+- later hero heading lift and responsive spacing;
+- hero prefix and secondary-line hierarchy adjustments;
+- hero waveform positioning/visibility behavior expressed declaratively;
+- hero description sizing;
+- hero technology-link positioning/scale;
+- hero action pill treatment;
+- recovered workflow visual treatment;
+- evidence-bar visual motion.
+
+The historical `hero-layout-adjustments.css` and `hero-final-adjustments.css` layers were retired only after their relevant rules were migrated into the canonical landing layer.
+
+Runtime DOM mutation from the historical hero refinement was not copied back. Its visual intent is represented declaratively where the current application structure supports it.
+
+## Canonical asset recovery
+
+The canonical image source tree is `VoxVector/Assets/`.
+
+The repository currently contains:
+
+- `VoxVector/Assets/voxvector-audio-analysis-console.png`
+- `VoxVector/Assets/VoxVector-logo-word.png`
+- `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
+
+The production Pages workflow stages these assets into the React public directory before the Vite build. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
+
+The canonical landing workflow visual now references the staged console asset at `/voxvector/voxvector-audio-analysis-console.png`.
+
+## Behavior migration: developer dashboard refinement
+
+Historical commit `3d6938fd3976ca2ff014a886133c12a0738738d8` removed `developer-dashboard-refinement.css` after describing it as unnecessary. Its complete 41-line contents were inspected before migration.
+
+The refinement contained a later console geometry system, including a 5px radius, tighter metric/content-grid gaps, panel/header rhythm, sidebar treatment, active-navigation treatment, and restrained button/control geometry.
+
+Those behaviors were migrated into the existing canonical console visual owner `voxvector/src/console-polish.css`. The old refinement file is not being recreated.
+
 ## Protected functionality
 
 Historical analysis functionality including waveform, spectrogram, gain, playback, timeline, pipeline and evidence controls must remain intact. Historical commit `c1e64b5de4cf71ee8ef1ea03699aacd84a7497dc` remains a recovery reference for these controls.
 
 The canonical Developer Console and `CaseAnalysisWorkspace` must be inspected before any change that could affect these surfaces. Do not rebuild either surface to accomplish shared chrome cleanup.
 
+## Historical layers deliberately not blindly migrated
+
+Some retired refinement behavior changed product copy through runtime DOM mutation. Those copy substitutions are not automatically canonical behavior.
+
+In particular, `WorkflowCopyRefinement.jsx` replaced workflow messaging at runtime. Because the current canonical application contains deliberate scientific and product language, the historical replacement copy must not be reintroduced merely because it was newer. Any copy migration requires a separate product-copy decision.
+
+Likewise, historical global selectors or runtime mutations that conflict with current component ownership must be evaluated for their intended visual result before migration. The desired result may be retained while the implementation mechanism is replaced.
+
 ## Current migration candidates
 
 The following candidates require content-level reconciliation before retirement. Their names do not determine disposition:
 
-- landing refinement components that still exist
-- landing/hero CSS refinements and recovery styles
+- remaining landing refinement components that still exist
+- remaining landing/hero CSS refinements and recovery styles
 - header/logo visibility and sizing styles
-- duplicate or wrapper components around the Developer Console
 - competing navigation, user-menu, footer, and button implementations
 - runtime DOM mutation and injected UI
 - CSS selectors that override canonical components
+- historical asset references and staging assumptions
 
 For every candidate, record:
 
@@ -84,7 +134,7 @@ That complete implementation has now been moved into `DeveloperConsole.jsx` and 
 
 ## Next work
 
-1. Perform content-level archaeology on the remaining landing/header/CSS candidates.
+1. Continue content-level archaeology on the remaining landing/header/CSS candidates.
 2. Compare each candidate's behavior against the canonical implementation and relevant git history.
 3. Migrate required behavior directly into the canonical owner.
 4. Remove runtime DOM mutation where equivalent declarative React/CSS ownership is confirmed.
