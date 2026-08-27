@@ -8,7 +8,7 @@
 
 /* Migrated from the later hero-layout-adjustments revision. */
 #product { background-size: 125% auto !important; background-position: center top !important; }
-#product h1 { transform: translateY(-34px) !important; margin-bottom: 58px !important; }
+#product h1 { transform: translateY(-44px) !important; margin-bottom: 70px !important; }
 
 @media (max-width: 900px) {
   #product { background-size: 125% auto !important; background-position: center top !important; }
@@ -16,7 +16,7 @@
 
 @media (max-width: 620px) {
   #product { background-size: 125% auto !important; background-position: 58% top !important; }
-  #product h1 { transform: translateY(-26px) !important; margin-bottom: 48px !important; }
+  #product h1 { transform: translateY(-34px) !important; margin-bottom: 58px !important; }
 }
 
 /* Declarative replacement for the historical hero waveform runtime layer. */
