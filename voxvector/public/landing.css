@@ -1,39 +1,22 @@
 /*
  * Canonical landing-page visual layer.
  *
- * This stylesheet is the migrated home for visual behavior recovered from
- * historical landing refinements. It is intentionally declarative: no DOM
- * mutation, runtime node injection, or competing page implementation.
+ * Recovered behavior from historical landing refinements is expressed here
+ * declaratively. No runtime DOM mutation, node injection, or competing page
+ * implementation is used.
  */
 
 /* Migrated from the later hero-layout-adjustments revision. */
-#product {
-  background-size: 125% auto !important;
-  background-position: center top !important;
-}
-
-#product h1 {
-  transform: translateY(-34px) !important;
-  margin-bottom: 58px !important;
-}
+#product { background-size: 125% auto !important; background-position: center top !important; }
+#product h1 { transform: translateY(-34px) !important; margin-bottom: 58px !important; }
 
 @media (max-width: 900px) {
-  #product {
-    background-size: 125% auto !important;
-    background-position: center top !important;
-  }
+  #product { background-size: 125% auto !important; background-position: center top !important; }
 }
 
 @media (max-width: 620px) {
-  #product {
-    background-size: 125% auto !important;
-    background-position: 58% top !important;
-  }
-
-  #product h1 {
-    transform: translateY(-26px) !important;
-    margin-bottom: 48px !important;
-  }
+  #product { background-size: 125% auto !important; background-position: 58% top !important; }
+  #product h1 { transform: translateY(-26px) !important; margin-bottom: 48px !important; }
 }
 
 /* Declarative replacement for the historical hero waveform runtime layer. */
@@ -51,18 +34,12 @@
   mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 72%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 72%, transparent 100%);
 }
+#product > * { position: relative; z-index: 2; }
 
-#product > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* Recovered workflow console presentation from LandingContentRefinement. */
-#workflow {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Recovered workflow presentation. The current React section remains the
+   canonical content owner; this adds the visual treatment without creating
+   a second injected feature tree. */
+#workflow { position: relative; overflow: hidden; }
 #workflow::before {
   content: "";
   position: absolute;
@@ -73,36 +50,30 @@
     radial-gradient(circle at 78% 12%, rgba(255,255,255,.035), transparent 34%),
     radial-gradient(circle at 18% 78%, rgba(255,255,255,.022), transparent 38%);
 }
+#workflow > div { position: relative; z-index: 1; }
 
-#workflow > div {
-  position: relative;
-  z-index: 1;
-}
-
-/* The existing workflow section remains the canonical content owner. The
-   historical console artwork is restored as a visual layer rather than by
-   injecting a second DOM tree at runtime. */
+/* The historical console asset is no longer present in the repository, so
+   do not reference a broken image. Its surviving visual role is represented
+   by the same declarative waveform language used elsewhere in the product. */
 #workflow::after {
   content: "";
   display: block;
-  width: min(90%, 1240px);
-  height: clamp(150px, 23vw, 360px);
+  width: min(94%, 1240px);
+  height: clamp(120px, 18vw, 260px);
   margin: 20px auto 0;
   pointer-events: none;
+  opacity: .7;
   background:
-    linear-gradient(180deg, transparent 0%, rgba(0,0,0,.08) 100%),
-    url('/voxvector/voxvector-audio-analysis-console.png') center / contain no-repeat;
-  filter: drop-shadow(0 22px 40px rgba(0,0,0,.42));
-  opacity: .98;
+    linear-gradient(180deg, transparent, rgba(0,0,0,.08)),
+    repeating-linear-gradient(90deg, rgba(201,154,102,.035) 0 1px, transparent 1px 72px);
+  border-top: 1px solid rgba(201,154,102,.08);
+  border-bottom: 1px solid rgba(201,154,102,.06);
+  box-shadow: inset 0 18px 60px rgba(0,0,0,.14);
 }
 
-/* Recovered evidence-bar motion, applied directly to the canonical evidence
-   rows instead of locating labels through the DOM at runtime. */
-#technology .mt-8 > div:last-child > div {
-  position: relative;
-  padding-bottom: 11px;
-}
-
+/* Recovered evidence-bar motion, applied directly to canonical rows instead
+   of locating labels through the DOM at runtime. */
+#technology .mt-8 > div:last-child > div { position: relative; padding-bottom: 11px; }
 #technology .mt-8 > div:last-child > div::after {
   content: "";
   position: absolute;
@@ -114,21 +85,12 @@
   background: linear-gradient(90deg,#9b6a3f 0%,#c9955f 25%,#f3d4a8 50%,#b67d4c 76%,#765033 100%);
   background-size: 220% 100%;
   box-shadow: 0 0 18px rgba(184,135,85,.16);
-  transform: scaleX(1);
   transform-origin: left center;
   animation: vvEvidenceShimmer 3.8s ease-in-out 1 both;
 }
-
 #technology .mt-8 > div:last-child > div:nth-child(1)::after { width: 86%; }
 #technology .mt-8 > div:last-child > div:nth-child(2)::after { width: 54%; }
 #technology .mt-8 > div:last-child > div:nth-child(3)::after { width: 70%; }
-
-/* Recovered signal-field treatment, now declarative and tied to the actual
-   canonical sections. */
-#technology::after,
-#workflow::after {
-  background-blend-mode: normal;
-}
 
 @keyframes vvEvidenceShimmer {
   0% { background-position: 100% 50%; }
@@ -138,15 +100,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   #product::after,
-  #technology .mt-8 > div:last-child > div::after {
-    animation: none !important;
-  }
+  #technology .mt-8 > div:last-child > div::after { animation: none !important; }
 }
 
 @media (max-width: 620px) {
-  #workflow::after {
-    width: 96%;
-    height: 190px;
-    margin-top: 10px;
-  }
+  #workflow::after { width: 96%; height: 150px; margin-top: 10px; }
 }
