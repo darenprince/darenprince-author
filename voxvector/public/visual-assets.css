@@ -1,214 +1,53 @@
-/* VoxVector landing visual asset layer.
-   Uses only artwork already staged in public/assets/marketing.
-   Decorative imagery is atmospheric and does not represent analytical results. */
+/* VoxVector landing visual asset layer. Production artwork only. */
 
-/* HERO — put the real artwork on the section itself. The previous rule targeted
-   an assumed first child, so the asset could be present in the repository while
-   never becoming the rendered hero background. */
 #product {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background-color: var(--vv-bg) !important;
+  position:relative!important; isolation:isolate!important; overflow:hidden!important;
+  background-color:var(--vv-bg)!important;
   background-image:
-    linear-gradient(180deg, rgba(7,6,5,.04) 0%, rgba(7,6,5,.10) 48%, rgba(7,6,5,.72) 78%, var(--vv-bg) 100%),
-    linear-gradient(90deg, rgba(7,6,5,.96) 0%, rgba(7,6,5,.82) 30%, rgba(7,6,5,.42) 62%, rgba(7,6,5,.18) 100%),
-    url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg") !important;
-  background-repeat: no-repeat !important;
-  background-size: 100% 100%, 100% 100%, cover !important;
-  background-position: center, center, center center !important;
+    linear-gradient(90deg,rgba(5,5,5,.80) 0%,rgba(5,5,5,.52) 38%,rgba(5,5,5,.14) 74%,rgba(5,5,5,.22) 100%),
+    linear-gradient(180deg,rgba(5,5,5,.02) 0%,rgba(5,5,5,.06) 48%,rgba(5,5,5,.34) 78%,var(--vv-bg) 100%),
+    url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;
+  background-repeat:no-repeat!important; background-size:100% 100%,100% 100%,cover!important; background-position:center,center,center!important;
 }
+#product::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 52% 70% at 78% 45%,rgba(201,154,102,.20),transparent 68%),linear-gradient(180deg,transparent 48%,rgba(7,6,5,.04) 60%,rgba(7,6,5,.42) 80%,var(--vv-bg) 100%)}
+#product>*{position:relative;z-index:2}
+#product>div.absolute:first-child{opacity:0!important}
 
-/* Keep the existing illustrative waveform, but let the new photographic-style
-   signal artwork remain visible underneath it. */
-#product::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 62% at 78% 40%, rgba(201,154,102,.10), transparent 68%),
-    linear-gradient(180deg, transparent 42%, rgba(7,6,5,.12) 58%, rgba(7,6,5,.58) 78%, var(--vv-bg) 100%);
-}
+#product .vv-hero-technology-link{position:absolute!important;left:50%!important;right:auto!important;bottom:24px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 13px!important;border:1px solid rgba(255,255,255,.12)!important;background:rgba(7,6,5,.42)!important;color:rgba(255,255,255,.68)!important;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);text-decoration:none!important;white-space:nowrap!important}
+#product .vv-hero-technology-link:hover{color:#fff!important;border-color:rgba(201,154,102,.42)!important;background:rgba(7,6,5,.62)!important}
+#product .vv-hero-technology-arrow{display:inline-flex!important;font-size:19px!important;line-height:1!important}
 
-#product > * { position: relative; z-index: 2; }
+/* WORKFLOW: network artwork plus the existing canonical console, displayed full width without cropping. */
+#workflow{position:relative;overflow:hidden;isolation:isolate}
+#workflow::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.38;background:linear-gradient(90deg,rgba(7,7,7,.92),rgba(7,7,7,.62)),url("/voxvector/assets/marketing/voxvector-bg-network-1920x1080.svg") center/cover no-repeat}
+#workflow>div{position:relative;z-index:1}
+#workflow::after{content:"";display:block;width:100%;height:clamp(280px,42vw,640px);margin:38px auto 0;pointer-events:none;opacity:1;background:url("/voxvector/voxvector-audio-analysis-console.png") center top/100% auto no-repeat;filter:drop-shadow(0 24px 65px rgba(0,0,0,.42))}
 
-/* The technology cue is a true bottom-center scroll affordance, rather than
-   an independently positioned element drifting into the hero content. */
-#product .vv-hero-technology-link {
-  position: absolute !important;
-  left: 50% !important;
-  right: auto !important;
-  bottom: 22px !important;
-  z-index: 7 !important;
-  display: flex !important;
-  width: max-content !important;
-  transform: translateX(-50%) !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 7px !important;
-  margin: 0 !important;
-  padding: 8px 12px !important;
-  border: 1px solid rgba(255,255,255,.08) !important;
-  background: rgba(7,6,5,.30) !important;
-  color: rgba(255,255,255,.55) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  text-decoration: none !important;
-  white-space: nowrap !important;
-}
+/* Technology: visible topographic atmosphere. */
+#technology{position:relative;overflow:hidden;isolation:isolate}
+#technology::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.30;background:linear-gradient(180deg,rgba(9,9,9,.40),rgba(9,9,9,.72)),url("/voxvector/assets/marketing/voxvector-bg-topography-1920x1080.svg") center/cover no-repeat}
+#technology>div{position:relative;z-index:1}
 
-#product .vv-hero-technology-link:hover {
-  color: rgba(255,255,255,.88) !important;
-  border-color: rgba(201,154,102,.30) !important;
-  background: rgba(7,6,5,.48) !important;
-}
+/* Analytical Interface: editorial evidence-analysis artwork as a visible composition. */
+main>section:nth-of-type(5){position:relative;overflow:hidden;isolation:isolate}
+main>section:nth-of-type(5)::before{content:"";position:absolute;inset:5% 0 3% 34%;z-index:0;pointer-events:none;opacity:.28;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-analysis-1200x628.svg") right center/min(960px,76vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 26%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 26%,#000 90%,transparent)}
+main>section:nth-of-type(5)>div{position:relative;z-index:1}
 
-#product .vv-hero-technology-arrow {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 18px !important;
-  line-height: 1 !important;
-  transform: translateY(1px) !important;
-}
+/* Scientific Discipline: evidence path visual. */
+main>section:nth-of-type(6){position:relative;overflow:hidden;isolation:isolate}
+main>section:nth-of-type(6)::before{content:"";position:absolute;inset:0 0 0 36%;z-index:0;pointer-events:none;opacity:.24;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-path-1200x628.svg") right center/min(960px,76vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 25%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 25%,#000 88%,transparent)}
+main>section:nth-of-type(6)>div{position:relative;z-index:1}
 
-/* WORKFLOW — network field behind the existing console artwork. */
-#workflow {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
+/* Use Cases: science-of-voice artwork. */
+#use-cases{position:relative;overflow:hidden;isolation:isolate}
+#use-cases::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.24;background:linear-gradient(180deg,rgba(7,7,7,.60),rgba(7,7,7,.46)),url("/voxvector/assets/marketing/voxvector-blog-science-of-voice-1200x628.svg") center 55%/min(1250px,96vw) auto no-repeat;mask-image:linear-gradient(180deg,transparent 2%,#000 18%,#000 82%,transparent 98%);-webkit-mask-image:linear-gradient(180deg,transparent 2%,#000 18%,#000 82%,transparent 98%)}
+#use-cases>div{position:relative;z-index:1}
 
-#workflow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: .42;
-  background:
-    radial-gradient(circle at 76% 20%, rgba(201,154,102,.075), transparent 30%),
-    linear-gradient(90deg, rgba(7,7,7,.98) 0%, rgba(7,7,7,.72) 58%, rgba(7,7,7,.92) 100%),
-    url("/voxvector/assets/marketing/voxvector-bg-network-1920x1080.svg") center / cover no-repeat;
-}
+/* Closing briefing: hex-grid texture. */
+#briefing{position:relative}
+#briefing>div{position:relative;overflow:hidden;isolation:isolate}
+#briefing>div::after{content:"";position:absolute;inset:0 0 0 40%;z-index:0;pointer-events:none;opacity:.24;background:url("/voxvector/assets/marketing/voxvector-bg-hex-grid-1920x1080.svg") center/cover no-repeat;mask-image:linear-gradient(90deg,transparent,#000 28%,#000);-webkit-mask-image:linear-gradient(90deg,transparent,#000 28%,#000)}
+#briefing>div>*{position:relative;z-index:1}
 
-#workflow > div { position: relative; z-index: 1; }
-
-/* TECHNOLOGY — topographic texture gives the evidence section more depth. */
-#technology {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-#technology::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .20;
-  background:
-    linear-gradient(180deg, rgba(9,9,9,.78), rgba(9,9,9,.93)),
-    url("/voxvector/assets/marketing/voxvector-bg-topography-1920x1080.svg") center / cover no-repeat;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
-}
-
-#technology > div { position: relative; z-index: 1; }
-
-/* ANALYTICAL INTERFACE — editorial evidence-analysis artwork as a quiet
-   product visual rather than another generic card background. */
-main > section:nth-of-type(5) {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-main > section:nth-of-type(5)::before {
-  content: "";
-  position: absolute;
-  inset: 12% 0 8% 46%;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .20;
-  background: url("/voxvector/assets/marketing/voxvector-blog-evidence-analysis-1200x628.svg") right center / min(760px,72vw) auto no-repeat;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%);
-}
-
-/* SCIENTIFIC DISCIPLINE — evidence-path artwork supports convergence/conflict. */
-main > section:nth-of-type(6) {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-main > section:nth-of-type(6)::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 0 48%;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .13;
-  background: url("/voxvector/assets/marketing/voxvector-blog-evidence-path-1200x628.svg") right center / min(720px,68vw) auto no-repeat;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 82%, transparent 100%);
-}
-
-/* USE CASES — science-of-voice artwork provides a subtle visual atmosphere. */
-#use-cases {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-#use-cases::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .14;
-  background: url("/voxvector/assets/marketing/voxvector-blog-science-of-voice-1200x628.svg") center 62% / min(1100px,86vw) auto no-repeat;
-  mask-image: linear-gradient(180deg, transparent 8%, #000 30%, #000 72%, transparent 94%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 8%, #000 30%, #000 72%, transparent 94%);
-}
-
-@media (max-width: 900px) {
-  #product {
-    background-size: 100% 100%, 100% 100%, cover !important;
-    background-position: center, center, 62% center !important;
-  }
-  #product .vv-hero-technology-link { bottom: 18px !important; }
-  main > section:nth-of-type(5)::before { inset: 22% -10% 4% 32%; opacity: .13; }
-  main > section:nth-of-type(6)::before { inset: 28% -8% 0 30%; opacity: .10; }
-}
-
-@media (max-width: 620px) {
-  #product {
-    background-image:
-      linear-gradient(180deg, rgba(7,6,5,.08) 0%, rgba(7,6,5,.16) 46%, rgba(7,6,5,.78) 76%, var(--vv-bg) 100%),
-      linear-gradient(90deg, rgba(7,6,5,.94) 0%, rgba(7,6,5,.70) 100%),
-      url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg") !important;
-    background-size: 100% 100%, 100% 100%, cover !important;
-    background-position: center, center, 64% center !important;
-  }
-  #product .vv-hero-technology-link {
-    bottom: 14px !important;
-    padding: 6px 10px !important;
-    font-size: 11px !important;
-  }
-  #workflow::before { opacity: .26; }
-  #technology::before { opacity: .12; }
-  main > section:nth-of-type(5)::before,
-  main > section:nth-of-type(6)::before { inset: 30% -25% 0 10%; opacity: .08; }
-  #use-cases::before { opacity: .08; background-size: 150% auto; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #product::before,
-  #product::after { transition: none !important; }
-}
+@media(max-width:900px){#product{background-position:center,center,62% center!important}#workflow::after{height:clamp(200px,52vw,420px)}main>section:nth-of-type(5)::before{inset:20% -10% 2% 12%;opacity:.18}main>section:nth-of-type(6)::before{inset:24% -8% 0 12%;opacity:.16}}
+@media(max-width:620px){#product{background-image:linear-gradient(90deg,rgba(5,5,5,.78),rgba(5,5,5,.48)),linear-gradient(180deg,rgba(5,5,5,.03),rgba(5,5,5,.14) 52%,rgba(5,5,5,.52) 78%,var(--vv-bg) 100%),url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,64% center!important}#product .vv-hero-technology-link{bottom:15px!important;padding:7px 10px!important;font-size:11px!important}#workflow::before{opacity:.28}#workflow::after{height:180px;margin-top:18px}#technology::before{opacity:.20}main>section:nth-of-type(5)::before,main>section:nth-of-type(6)::before{opacity:.12}#use-cases::before{opacity:.14;background-size:145% auto}#briefing>div::after{opacity:.13}}
