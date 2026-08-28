@@ -55,15 +55,21 @@ The canonical React workspace is `voxvector/`.
 
 The current public application version is `0.2.36`.
 
-It uses React Tailwind CSS Tremor React Motion for React TanStack Query Lucide React application owned shadcn style composition and Base UI primitives.
+Current frontend package authority is `voxvector/package.json`. The active stack includes React `19.2.8`, React DOM `19.2.8`, Recharts `3.10.1`, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, and application owned shadcn style composition.
+
+Historical documentation describing the earlier Tremor React / React 18 frontend remains historical and is not the current dependency baseline.
 
 ## Deployment boundary
 
-GitHub Pages is the canonical public frontend host.
+GitHub Pages is the canonical and only supported public frontend host.
 
 Render is the canonical backend host.
 
-Vercel is retired and is not part of the frontend dependency graph source configuration or deployment workflow.
+Supabase remains the operational/authentication data layer.
+
+Vercel is retired and prohibited for VoxVector. It is not a supported frontend host, backend host, preview host, build target, dependency, configuration source, or deployment workaround.
+
+See `docs/DEPLOYMENT_BOUNDARY.md` for the current deployment policy.
 
 ## QA boundary
 
@@ -89,4 +95,6 @@ Eligibility and reliability evidence analysis candidate classification and final
 
 ## Documentation synchronization
 
-The active cross document synchronization record is `docs/DOCS_ALIGNMENT_2026-08-24.md`.
+The current cross document synchronization record is `docs/DOCS_ALIGNMENT_2026-08-28.md`.
+
+Historical alignment records remain available for traceability.
