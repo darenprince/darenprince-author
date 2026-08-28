@@ -185,3 +185,26 @@ body::after { content:""; position:fixed; inset:0; z-index:-1; pointer-events:no
  .vv-hero-primary-cta,.vv-hero-api-cta { transition:none !important; }
  .vv-hero-primary-cta:hover,.vv-hero-api-cta:hover { transform:none !important; }
 }
+
+/* Recovered non-conflicting spacing and CTA behavior from the historical
+   final landing polish layer. Newer canonical hero positioning above remains
+   authoritative where values differ. */
+#product .vv-hero-content { gap: 0 !important; }
+#product .vv-hero-body { margin-bottom: 0 !important; line-height: 1.62 !important; }
+#product .vv-hero-cta-row { margin-top: 24px !important; gap: 12px !important; }
+#product .vv-hero-primary-cta,
+#product .vv-hero-api-cta { min-height: 46px !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+#product .vv-hero-technology-link { margin-top: 18px !important; }
+
+@media (max-width: 900px) {
+  #product .vv-hero-body { line-height: 1.58 !important; }
+  #product .vv-hero-cta-row { margin-top: 22px !important; }
+  #product .vv-hero-technology-link { margin-top: 16px !important; }
+}
+
+@media (max-width: 620px) {
+  #product .vv-hero-cta-row { margin-top: 20px !important; gap: 10px !important; }
+  #product .vv-hero-primary-cta,
+  #product .vv-hero-api-cta { min-height: 44px !important; }
+  #product .vv-hero-technology-link { margin-top: 14px !important; }
+}
