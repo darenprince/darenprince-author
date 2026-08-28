@@ -64,6 +64,20 @@ The historical `hero-layout-adjustments.css`, `hero-final-adjustments.css`, `her
 
 Runtime DOM mutation from the historical hero refinement was not copied back. Where the current component structure supports the intended result, the behavior is expressed declaratively in the canonical owner.
 
+## Restored canonical hero and workflow copy
+
+The current canonical landing implementation now contains the approved historical hero direction directly in `voxvector/src/App.jsx` rather than applying it through a runtime copy patch:
+
+- `Reveal the` + `TRUTH` + `IN YOUR AUDIO` hero stack;
+- the advanced vocal intelligence supporting paragraph;
+- the existing working `Analyze a Recording` and `See How It Works` actions;
+- the `Explore the Technology` navigation link;
+- `Deep Forensic Vocal Analysis + State of the art Linguistics` workflow heading;
+- the long-form workflow description from the August 21 approved landing copy checkpoint;
+- `Deep Analysis Methods` workflow link.
+
+The earlier runtime `CanonicalHeroCopy.jsx` mechanism is not restored. The content is now owned by the canonical React implementation.
+
 ## Canonical asset recovery
 
 The canonical image source tree is `VoxVector/Assets/`.
