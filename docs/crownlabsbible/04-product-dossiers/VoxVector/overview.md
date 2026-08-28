@@ -60,6 +60,21 @@ The target experience is one persistent case-centered workspace containing:
 - reports
 - history
 
+## Public Landing Visual System
+
+The canonical public landing page uses a restrained black, white, gray, espresso, copper, and warm-amber visual language. The production visual asset library under `voxvector/public/assets/marketing/` provides atmospheric imagery for the product story.
+
+The current landing composition uses:
+
+- the 1920×1080 audio-signal artwork as the hero background, with a controlled bottom fade into the page
+- the network background behind the analytical workflow and existing console artwork
+- the topographic background in the Technology section
+- evidence-analysis editorial artwork in the Analytical Interface section
+- evidence-path editorial artwork in the Scientific Discipline section
+- science-of-voice editorial artwork in the Use Cases section
+
+These assets are presentation imagery only. They are not live telemetry, analytical measurements, scientific validation, or deception results.
+
 ## Complete Analytical Scope
 
 The VoxVector pipeline encompasses:
