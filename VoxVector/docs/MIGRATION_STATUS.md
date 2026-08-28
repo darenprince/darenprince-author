@@ -17,6 +17,7 @@ Before retirement, its complete contents, consumers, dependencies, runtime effec
 - Public landing header is consumed from `src/components/SiteHeader.jsx`.
 - Developer Console now consumes the same canonical `SiteHeader` for shared public chrome.
 - The former `DeveloperConsoleMVP.jsx` implementation has been migrated intact into the canonical `DeveloperConsole.jsx` owner; the duplicate wrapper/implementation boundary has been removed.
+- Shared console/audio/UI stylesheet behavior has been consolidated into canonical `src/index.css`; the separate stylesheet entrypoints were retired only after content migration.
 - Developer Console remains a protected product surface. Case creation, source upload, secure playback, analysis execution, pipeline state, Analysis Workspace, diagnostics, authentication, theme controls, mobile navigation, and existing console behavior must survive migration.
 - Recharts 3 migration and lockfile regeneration remain in place.
 
@@ -51,16 +52,17 @@ Migrated into the canonical `voxvector/public/landing.css` layer:
 - later hero background scale and responsive positioning;
 - later hero heading lift and responsive spacing;
 - hero prefix and secondary-line hierarchy adjustments;
-- hero waveform positioning/visibility behavior expressed declaratively;
-- hero description sizing;
-- hero technology-link positioning/scale;
+- hero waveform positioning, layering, visibility, and entrance behavior expressed declaratively;
+- hero description sizing and spacing;
+- hero technology-link positioning and scale;
 - hero action pill treatment;
-- recovered workflow visual treatment;
-- evidence-bar visual motion.
+- recovered workflow visual treatment using the supplied `VoxVector/Assets/voxvector-audio-analysis-console.png` asset;
+- evidence-bar visual motion;
+- applicable non-conflicting behavior from the historical final landing polish layer.
 
-The historical `hero-layout-adjustments.css` and `hero-final-adjustments.css` layers were retired only after their relevant rules were migrated into the canonical landing layer.
+The historical `hero-layout-adjustments.css`, `hero-final-adjustments.css`, `hero-refinement.css`, `hero-refinement-overrides.css`, and `landing-final-polish.css` layers were retired only after their relevant behavior was reconciled against the canonical landing implementation.
 
-Runtime DOM mutation from the historical hero refinement was not copied back. Its visual intent is represented declaratively where the current application structure supports it.
+Runtime DOM mutation from the historical hero refinement was not copied back. Where the current component structure supports the intended result, the behavior is expressed declaratively in the canonical owner.
 
 ## Canonical asset recovery
 
@@ -78,11 +80,30 @@ The canonical landing workflow visual now references the staged console asset at
 
 ## Behavior migration: developer dashboard refinement
 
-Historical commit `3d6938fd3976ca2ff014a886133c12a0738738d8` removed `developer-dashboard-refinement.css` after describing it as unnecessary. Its complete 41-line contents were inspected before migration.
+Historical `developer-dashboard-refinement.css` behavior was inspected from its complete contents before retirement.
 
-The refinement contained a later console geometry system, including a 5px radius, tighter metric/content-grid gaps, panel/header rhythm, sidebar treatment, active-navigation treatment, and restrained button/control geometry.
+Its later console geometry system included a 5px radius, tighter metric/content-grid gaps, panel/header rhythm, sidebar treatment, active-navigation treatment, and restrained button/control geometry.
 
-Those behaviors were migrated into the existing canonical console visual owner `voxvector/src/console-polish.css`. The old refinement file is not being recreated.
+That behavior was migrated into the canonical console stylesheet and subsequently consolidated into `voxvector/src/index.css` with the other shared console/audio/UI style behavior. The old refinement file is not being recreated.
+
+## Shared stylesheet consolidation
+
+The following active stylesheet layers were inspected by contents before retirement:
+
+- `audio-player.css`
+- `console-menu-effects.css`
+- `console-polish.css`
+- `ui-consistency.css`
+
+Their behavior was consolidated into canonical `voxvector/src/index.css`, and `main.jsx` was reduced to the canonical stylesheet entry. The historical files were then retired individually.
+
+This consolidation preserved audio upload/player behavior, console status/panel geometry, mobile navigation effects, active-state treatment, reduced-motion behavior, and shared UI geometry instead of deleting those rules with their original files.
+
+## Landing runtime recovery disposition
+
+`landing-runtime-recovery.css` was inspected in full before retirement. Its current selectors included product height/background safety rules, waveform geometry, section-signal containment, workflow selectors targeting a historical `.vv-console-feature` surface, and loader sizing.
+
+The product and waveform rules conflicted with newer canonical landing behavior; the historical `.vv-console-feature` selectors did not match current canonical markup; and loader behavior already belongs to the active `loading-screen.css` owner. No unique required behavior remained to be migrated from that layer, so it was retired.
 
 ## Protected functionality
 
@@ -131,6 +152,12 @@ The former `DeveloperConsoleMVP.jsx` contained the actual full console implement
 That complete implementation has now been moved into `DeveloperConsole.jsx` and its exported component is canonical `DeveloperConsole`. `App.jsx` already consumed `DeveloperConsole`, so the route/import boundary did not need to change.
 
 `DeveloperConsoleMVP.jsx` was removed only after its complete contents were migrated. No console functionality was intentionally redesigned or rewritten as part of this consolidation.
+
+## Completed landing-style consolidation
+
+The historical landing refinement stack was reconciled against the current canonical `App.jsx` markup and `voxvector/public/landing.css` contents. Applicable behavior from the later final polish and hero refinement layers was moved into the canonical landing stylesheet before retirement.
+
+The canonical landing layer now owns the recovered declarative hero artwork treatment, typography hierarchy, CTA treatment, waveform layering/entrance, workflow visual, evidence motion, responsive rules, and reduced-motion behavior that remain relevant to the current structure.
 
 ## Next work
 
