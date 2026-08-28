@@ -208,3 +208,9 @@ body::after { content:""; position:fixed; inset:0; z-index:-1; pointer-events:no
   #product .vv-hero-api-cta { min-height: 44px !important; }
   #product .vv-hero-technology-link { margin-top: 14px !important; }
 }
+
+/* Recovered missing declarative waveform entrance behavior from the historical
+   hero-refinement layer. Later canonical geometry remains authoritative. */
+.vv-hero-waveform { mix-blend-mode: screen; animation: vvHeroWaveReveal 2.15s cubic-bezier(.22,.72,.22,1) both; }
+@keyframes vvHeroWaveReveal { 0% { opacity: .58; filter: brightness(1.16); } 28% { opacity: .48; } 55% { opacity: .30; } 100% { opacity: .15; filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { .vv-hero-waveform { animation: none !important; } }
