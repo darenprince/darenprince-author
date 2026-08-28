@@ -1,0 +1,167 @@
+/* VoxVector landing visual asset layer.
+   Uses only artwork already staged in public/assets/marketing.
+   Decorative imagery is atmospheric and does not represent analytical results. */
+
+/* HERO — purpose-built audio signal with a controlled bottom dissolve. */
+#product > div:first-child {
+  background-image: url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  opacity: .62 !important;
+  filter: saturate(.72) contrast(1.04);
+}
+
+#product::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.98) 0%, rgba(0,0,0,.90) 28%, rgba(0,0,0,.48) 61%, rgba(0,0,0,.28) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.08) 46%, rgba(7,6,5,.74) 78%, var(--vv-bg) 100%);
+}
+
+#product::after {
+  z-index: 1;
+  opacity: .18;
+}
+
+/* WORKFLOW — network field behind the existing console artwork. */
+#workflow::before {
+  opacity: .42;
+  background:
+    radial-gradient(circle at 76% 20%, rgba(201,154,102,.075), transparent 30%),
+    linear-gradient(90deg, rgba(7,7,7,.98) 0%, rgba(7,7,7,.72) 58%, rgba(7,7,7,.92) 100%),
+    url("/voxvector/assets/marketing/voxvector-bg-network-1920x1080.svg") center / cover no-repeat;
+}
+
+/* TECHNOLOGY — topographic texture gives the evidence section more depth. */
+#technology {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#technology::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .20;
+  background:
+    linear-gradient(180deg, rgba(9,9,9,.82), rgba(9,9,9,.96)),
+    url("/voxvector/assets/marketing/voxvector-bg-topography-1920x1080.svg") center / cover no-repeat;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+}
+
+#technology > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* ANALYTICAL INTERFACE — editorial evidence-analysis artwork as a quiet
+   product visual rather than another generic card background. */
+main > section:nth-of-type(5) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+main > section:nth-of-type(5)::before {
+  content: "";
+  position: absolute;
+  inset: 12% 0 8% 46%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .20;
+  background: url("/voxvector/assets/marketing/voxvector-blog-evidence-analysis-1200x628.svg") right center / min(760px,72vw) auto no-repeat;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%);
+}
+
+/* SCIENTIFIC DISCIPLINE — evidence-path artwork supports the section's
+   convergence/conflict narrative without becoming a data graphic. */
+main > section:nth-of-type(6) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+main > section:nth-of-type(6)::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 48%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .13;
+  background: url("/voxvector/assets/marketing/voxvector-blog-evidence-path-1200x628.svg") right center / min(720px,68vw) auto no-repeat;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 82%, transparent 100%);
+}
+
+/* USE CASES — science-of-voice artwork provides a subtle visual atmosphere. */
+#use-cases {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#use-cases::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .14;
+  background: url("/voxvector/assets/marketing/voxvector-blog-science-of-voice-1200x628.svg") center 62% / min(1100px,86vw) auto no-repeat;
+  mask-image: linear-gradient(180deg, transparent 8%, #000 30%, #000 72%, transparent 94%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 8%, #000 30%, #000 72%, transparent 94%);
+}
+
+@media (max-width: 900px) {
+  #product > div:first-child {
+    background-position: 62% center !important;
+    opacity: .55 !important;
+  }
+  main > section:nth-of-type(5)::before {
+    inset: 22% -10% 4% 32%;
+    opacity: .13;
+  }
+  main > section:nth-of-type(6)::before {
+    inset: 28% -8% 0 30%;
+    opacity: .10;
+  }
+}
+
+@media (max-width: 620px) {
+  #product > div:first-child {
+    background-position: 64% center !important;
+    opacity: .46 !important;
+  }
+  #product::before {
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.97) 0%, rgba(0,0,0,.84) 100%),
+      linear-gradient(180deg, rgba(0,0,0,.04) 0%, rgba(0,0,0,.16) 55%, var(--vv-bg) 100%);
+  }
+  #workflow::before { opacity: .26; }
+  #technology::before { opacity: .12; }
+  main > section:nth-of-type(5)::before,
+  main > section:nth-of-type(6)::before {
+    inset: 30% -25% 0 10%;
+    opacity: .08;
+  }
+  #use-cases::before {
+    opacity: .08;
+    background-size: 150% auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #product::before,
+  #product::after {
+    transition: none !important;
+  }
+}
