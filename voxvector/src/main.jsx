@@ -6,7 +6,6 @@ import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import { RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
-import './hero-final.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
