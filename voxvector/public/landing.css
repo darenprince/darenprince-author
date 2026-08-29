@@ -1,85 +1,110 @@
-/*
- * Canonical landing-page visual layer.
- *
- * Recovered behavior from historical landing refinements is expressed here
- * declaratively. No runtime DOM mutation, node injection, or competing page
- * implementation is used.
- */
+/* VoxVector canonical landing-page presentation. */
 
-#product { background-size: 125% auto !important; background-position: center top !important; }
-#product h1 { transform: translateY(-44px) !important; margin-bottom: 70px !important; }
-#product .vv-hero-body { margin-top: 0 !important; }
-
-@media (max-width: 900px) {
-  #product { background-size: 125% auto !important; background-position: center top !important; }
-}
-
-@media (max-width: 620px) {
-  #product { background-size: 125% auto !important; background-position: 58% top !important; }
-  #product h1 { transform: translateY(-34px) !important; margin-bottom: 58px !important; }
-}
-
-/* The hero artwork, typography and CTA rules below intentionally supersede
-   older landing refinements above. */
+/* HERO */
 #product{
-  background-image:linear-gradient(90deg,rgba(5,5,5,.94) 0%,rgba(5,5,5,.78) 34%,rgba(5,5,5,.34) 58%,rgba(5,5,5,.08) 100%),linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.02) 55%,rgba(5,5,5,.28) 78%,#050505 100%),url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;
-  background-size:100% 100%,100% 100%,100% 100%!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
+  position:relative!important;
+  isolation:isolate!important;
+  min-height:clamp(720px,calc(100svh - 64px),900px)!important;
+  overflow:hidden!important;
+  background:#050505!important;
 }
-#product::before{content:none!important}
-#product::after{content:""!important;inset:auto 0 0!important;height:25%!important;z-index:1!important;opacity:1!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.38) 45%,#050505 100%)!important}
-#product h1,.vv-hero-heading{
-  transform:none!important;
-  max-width:760px!important;
+#product > div:first-child{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  background-image:url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;
+  background-repeat:no-repeat!important;
+  background-size:118% auto!important;
+  background-position:82% 52%!important;
+  opacity:.56!important;
+  filter:none!important;
+}
+#product > div:nth-child(2),#product > div:nth-child(3){display:none!important}
+#product > div:last-child{
+  position:relative!important;
+  z-index:2!important;
+  min-height:100%!important;
+  width:100%!important;
+  align-items:flex-start!important;
+  padding-top:clamp(64px,9vh,104px)!important;
+  padding-bottom:clamp(86px,10vh,112px)!important;
+}
+#product > div:last-child > div{max-width:760px!important}
+#product h1{
+  max-width:710px!important;
   margin:0!important;
+  transform:none!important;
   font-family:inherit!important;
-  font-size:clamp(3.55rem,6.2vw,6.35rem)!important;
+  font-size:clamp(3.05rem,6vw,6rem)!important;
   font-weight:500!important;
-  letter-spacing:-.055em!important;
-  word-spacing:-.025em!important;
+  letter-spacing:-.058em!important;
+  word-spacing:-.022em!important;
   line-height:.91!important;
   text-wrap:balance!important;
 }
 #product h1 span{letter-spacing:inherit!important;line-height:inherit!important}
-#product h1~p,.vv-hero-body{
-  max-width:670px!important;
+#product .vv-hero-body{
+  max-width:590px!important;
   margin-top:28px!important;
-  font-size:clamp(1rem,1.55vw,1.28rem)!important;
-  line-height:1.55!important;
+  font-size:clamp(1rem,1.35vw,1.18rem)!important;
+  line-height:1.54!important;
   letter-spacing:-.012em!important;
-  color:rgba(255,255,255,.66)!important;
+  color:rgba(255,255,255,.64)!important;
 }
-#product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{
-  min-height:52px!important;
-  padding:0 24px!important;
+#product .vv-hero-cta-row{margin-top:30px!important;gap:12px!important}
+#product .vv-hero-cta-row > *{flex:0 0 auto!important}
+#product .vv-hero-primary-cta,#product .vv-hero-api-cta{
+  min-height:50px!important;
+  padding:0 21px!important;
   border-radius:8px!important;
   border:1px solid rgba(255,255,255,.20)!important;
   font-size:15px!important;
   font-weight:600!important;
-  letter-spacing:-.01em!important;
+  letter-spacing:-.012em!important;
   line-height:1!important;
   box-shadow:none!important;
 }
 #product .vv-hero-primary-cta{background:#f5f5f5!important;color:#070707!important}
-#product .vv-hero-api-cta{background:rgba(10,10,10,.62)!important;color:rgba(255,255,255,.88)!important}
+#product .vv-hero-api-cta{background:rgba(7,7,7,.72)!important;color:rgba(255,255,255,.88)!important}
+#product .vv-hero-primary-cta:hover,#product .vv-hero-api-cta:hover{border-color:rgba(255,255,255,.38)!important;transform:translateY(-1px)!important}
 #product .vv-hero-technology-link{
-  position:absolute!important;left:50%!important;right:auto!important;bottom:30px!important;z-index:8!important;
-  display:flex!important;width:max-content!important;transform:translateX(-50%)!important;
-  align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 13px!important;
-  border:1px solid rgba(255,255,255,.14)!important;background:rgba(7,7,7,.55)!important;
-  color:rgba(255,255,255,.66)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  text-decoration:none!important;white-space:nowrap!important;font-size:12px!important;letter-spacing:-.01em!important;
+  position:absolute!important;
+  left:50%!important;
+  bottom:26px!important;
+  z-index:8!important;
+  display:flex!important;
+  width:max-content!important;
+  transform:translateX(-50%)!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0!important;
+  padding:7px 12px!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  background:rgba(7,7,7,.52)!important;
+  color:rgba(255,255,255,.64)!important;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  text-decoration:none!important;
+  white-space:nowrap!important;
+  font-size:11px!important;
+  font-weight:700!important;
+  letter-spacing:.02em!important;
 }
 #product .vv-hero-technology-arrow{font-size:18px!important;line-height:1!important}
+#product::after{content:""!important;position:absolute!important;inset:auto 0 0!important;height:22%!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.40) 48%,#050505 100%)!important}
 
-/* Console: real React image, 110% bleed with a controlled bottom fade. */
-#workflow{overflow:visible!important}
+/* ANALYTICAL PATH / CONSOLE */
+#workflow{position:relative;overflow:visible!important;isolation:isolate}
+#workflow>div{position:relative;z-index:1}
 #workflow .vv-console-visual{position:relative;width:110%;margin-left:-5%;margin-top:40px;overflow:visible;line-height:0}
 #workflow .vv-console-visual::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.95) 100%)}
-#workflow .vv-console-visual img{position:relative;z-index:1;display:block;width:100%;height:auto;max-width:none;filter:drop-shadow(0 24px 65px rgba(0,0,0,.40))}
-#workflow .vv-future-subheading{margin-top:26px;letter-spacing:-.03em}
+#workflow .vv-console-visual img{display:block;width:100%;height:auto;max-width:none;filter:drop-shadow(0 24px 65px rgba(0,0,0,.40))}
+#workflow .vv-future-subheading{margin-top:26px!important;letter-spacing:-.03em!important}
 
+/* TECHNOLOGY */
+#technology{position:relative;overflow:hidden;isolation:isolate}
+#technology>div{position:relative;z-index:1}
 #technology .mt-8 > div:last-child > div{position:relative;padding-bottom:11px}
 #technology .mt-8 > div:last-child > div::after{content:"";position:absolute;left:0;bottom:0;width:72%;height:4px;border-radius:999px;background:linear-gradient(90deg,#9b6a3f 0%,#c9955f 25%,#f3d4a8 50%,#b67d4c 76%,#765033 100%);background-size:220% 100%;box-shadow:0 0 18px rgba(184,135,85,.16);transform-origin:left center;animation:vvEvidenceShimmer 3.8s ease-in-out 1 both}
 #technology .mt-8 > div:last-child > div:nth-child(1)::after{width:86%}
@@ -87,20 +112,47 @@
 #technology .mt-8 > div:last-child > div:nth-child(3)::after{width:70%}
 @keyframes vvEvidenceShimmer{0%{background-position:100% 50%}55%{background-position:0% 50%}100%{background-position:100% 50%}}
 
+/* ANALYTICAL INTERFACE */
+main>section:nth-of-type(5){position:relative;overflow:hidden;isolation:isolate}
+main>section:nth-of-type(5)::before{content:"";position:absolute;inset:0 0 0 30%;z-index:0;pointer-events:none;opacity:.38;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-analysis-1200x628.svg") right center/min(1050px,82vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent)}
+main>section:nth-of-type(5)>div{position:relative;z-index:1}
+
+/* SCIENTIFIC DISCIPLINE */
+main>section:nth-of-type(6){position:relative;overflow:hidden;isolation:isolate}
+main>section:nth-of-type(6)::before{content:"";position:absolute;inset:0 0 0 30%;z-index:0;pointer-events:none;opacity:.34;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-path-1200x628.svg") right center/min(1050px,82vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent)}
+main>section:nth-of-type(6)>div{position:relative;z-index:1}
+
+/* USE CASES */
+#use-cases{position:relative;overflow:hidden;isolation:isolate}
+#use-cases::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.34;background:linear-gradient(180deg,rgba(7,7,7,.46),rgba(7,7,7,.34)),url("/voxvector/assets/marketing/voxvector-blog-science-of-voice-1200x628.svg") center 55%/min(1350px,100vw) auto no-repeat;mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%)}
+#use-cases>div{position:relative;z-index:1}
+
+/* CLOSING BRIEFING */
+#briefing{position:relative}
+#briefing>div{position:relative;overflow:hidden;isolation:isolate}
+#briefing>div::after{content:"";position:absolute;inset:0 0 0 34%;z-index:0;pointer-events:none;opacity:.32;background:url("/voxvector/assets/marketing/voxvector-bg-hex-grid-1920x1080.svg") center/cover no-repeat;mask-image:linear-gradient(90deg,transparent,#000 24%,#000);-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%,#000)}
+#briefing>div>*{position:relative;z-index:1}
+
 @media(max-width:900px){
-  #product{min-height:720px!important;background-size:100% 100%,100% 100%,auto 100%!important;background-position:center,center,58% center!important}
-  #product h1,.vv-hero-heading{max-width:650px!important;font-size:clamp(3.35rem,8vw,5.1rem)!important;line-height:.91!important;letter-spacing:-.055em!important}
-  #product h1~p,.vv-hero-body{max-width:610px!important;font-size:1.08rem!important;line-height:1.5!important;margin-top:24px!important}
+  #product{min-height:760px!important}
+  #product > div:first-child{background-size:145% auto!important;background-position:82% 57%!important;opacity:.48!important}
+  #product > div:last-child{padding-top:56px!important;padding-bottom:88px!important}
+  #product > div:last-child > div{max-width:620px!important}
+  #product h1{max-width:600px!important;font-size:clamp(3rem,8vw,5rem)!important;line-height:.92!important;letter-spacing:-.06em!important}
+  #product .vv-hero-body{max-width:560px!important;font-size:1.07rem!important;line-height:1.52!important;margin-top:25px!important}
 }
 @media(max-width:620px){
-  #product{min-height:760px!important;background-size:100% 100%,100% 100%,auto 78%!important;background-position:center,center,59% 63%!important}
-  #product::after{height:22%!important}
-  #product h1,.vv-hero-heading{max-width:360px!important;font-size:clamp(3.05rem,13.5vw,4.15rem)!important;font-weight:500!important;letter-spacing:-.062em!important;word-spacing:-.03em!important;line-height:.88!important}
-  #product h1~p,.vv-hero-body{max-width:350px!important;margin-top:26px!important;font-size:1rem!important;line-height:1.52!important;letter-spacing:-.012em!important}
-  #product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:54px!important;padding:0 21px!important;font-size:15px!important;border-radius:8px!important}
-  #product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}
+  #product{min-height:760px!important}
+  #product > div:first-child{background-size:175% auto!important;background-position:88% 65%!important;opacity:.40!important}
+  #product > div:last-child{padding-top:36px!important;padding-left:20px!important;padding-right:20px!important;padding-bottom:82px!important}
+  #product > div:last-child > div{max-width:100%!important}
+  #product h1{max-width:100%!important;font-size:clamp(2.78rem,9.55vw,3.8rem)!important;line-height:.90!important;letter-spacing:-.062em!important;word-spacing:-.028em!important}
+  #product .vv-hero-body{max-width:100%!important;margin-top:27px!important;font-size:1rem!important;line-height:1.54!important}
+  #product .vv-hero-cta-row{margin-top:28px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:11px!important}
+  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:50px!important;padding:0 20px!important;font-size:15px!important}
+  #product .vv-hero-technology-link{bottom:22px!important;font-size:10px!important;padding:7px 11px!important}
   #workflow .vv-console-visual{width:110%;margin-left:-5%;margin-top:24px}
   #workflow .vv-console-visual::after{height:16%}
-  #workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}
+  #workflow .vv-future-subheading{margin-top:20px!important;font-size:1.35rem!important}
 }
-@media(prefers-reduced-motion:reduce){#technology .mt-8 > div:last-child > div::after{animation:none!important}}
+@media(prefers-reduced-motion:reduce){#product .vv-hero-primary-cta:hover,#product .vv-hero-api-cta:hover{transform:none!important}#technology .mt-8 > div:last-child > div::after{animation:none!important}}
