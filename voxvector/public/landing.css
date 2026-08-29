@@ -8,18 +8,23 @@
   overflow:hidden!important;
   background:#050505!important;
 }
-#product > div:first-child{
-  display:block!important;
+#product::before{
+  content:""!important;
   position:absolute!important;
   inset:0!important;
   z-index:0!important;
+  pointer-events:none!important;
   background-image:url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;
   background-repeat:no-repeat!important;
   background-size:118% auto!important;
   background-position:84% 52%!important;
   opacity:.56!important;
 }
-#product > div:nth-child(2),#product > div:nth-child(3){display:none!important}
+/* The React hero contains legacy background/overlay layers. Hide those layers
+   so the canonical section-owned visual above is the only hero artwork. */
+#product > div:nth-child(1),
+#product > div:nth-child(2),
+#product > div:nth-child(3){display:none!important}
 #product > div:last-child{
   position:relative!important;
   z-index:2!important;
@@ -126,13 +131,14 @@
 /* RESPONSIVE HERO */
 @media(max-width:900px){
   #product{min-height:700px!important}
+  #product::before{background-size:132% auto!important;background-position:88% 58%!important;opacity:.48!important}
   #product > div:last-child{padding-top:48px!important;padding-bottom:86px!important}
   #product h1{max-width:610px!important;font-size:clamp(2.95rem,8vw,5rem)!important;line-height:.92!important;letter-spacing:-.06em!important}
   #product .vv-hero-body{max-width:560px!important;font-size:1.06rem!important;line-height:1.51!important;margin-top:24px!important}
 }
 @media(max-width:620px){
   #product{min-height:700px!important}
-  #product > div:first-child{background-size:178% auto!important;background-position:92% 68%!important;opacity:.34!important}
+  #product::before{background-size:178% auto!important;background-position:92% 68%!important;opacity:.34!important}
   #product > div:last-child{padding-top:30px!important;padding-left:20px!important;padding-right:20px!important;padding-bottom:84px!important}
   #product > div:last-child > div{max-width:100%!important}
   #product h1{
