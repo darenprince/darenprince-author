@@ -17,14 +17,16 @@ Increase the visual depth of the canonical VoxVector public landing page by usin
 - Added `voxvector-blog-science-of-voice-1200x628.svg` to the Use Cases section.
 - Added responsive opacity, positioning, masking, and mobile reductions so imagery remains subordinate to content.
 - Linked the visual stylesheet from `voxvector/index.html` without replacing the existing landing implementation.
+- Corrected the remaining hero layering bug by moving the canonical waveform artwork from a child selector to the `#product::before` layer and explicitly hiding the three legacy React hero background layers.
+- Added a landing stylesheet cache-bust query to the HTML stylesheet references so a previously cached `landing.css` cannot mask the deployed correction.
 
 ## Asset boundary
 
 All artwork was already present in the repository. No new external imagery was introduced. The visual assets are decorative and atmospheric; they do not represent live telemetry, measurements, validation results, or deception classifications.
 
-## Root cause of first attempt
+## Root cause of remaining unchanged appearance
 
-The first implementation placed the hero artwork on `#product > div:first-child`. The canonical React landing structure did not provide the assumed background-owning child, so the stylesheet could load successfully while the visible hero remained unchanged. The correction applies the artwork to `#product` itself and retains the existing hero waveform as a separate visual layer.
+The React hero currently contains three direct-child visual layers followed by the content wrapper. The prior stylesheet correction still assumed the first child was the canonical artwork layer. That allowed the legacy cinematic background to remain authoritative in the rendered composition. The current correction owns the artwork at `#product::before`, suppresses all three legacy background layers, and leaves the content wrapper above the visual layer.
 
 ## Verification status
 
@@ -32,6 +34,7 @@ The first implementation placed the hero artwork on `#product > div:first-child`
 - Inspected the existing landing stylesheet and production visual asset inventory.
 - Confirmed the required marketing SVG assets exist under `voxvector/public/assets/marketing/`.
 - Read back the corrected stylesheet after the change.
+- Read back the updated `voxvector/index.html` and confirmed the cache-busting stylesheet references.
 - GitHub source changes committed to `main`.
-- GitHub Pages deployment workflow was triggered by the corrected commit and was still in progress at the time of this checkpoint.
-- Browser verification and final production visual inspection remain required before claiming visual success.
+- GitHub Pages deployment is expected from the `main` push through the canonical workflow, but the resulting production page has not been browser verified in this environment.
+- Do not claim visual success until the deployed page is inspected on desktop and mobile.
