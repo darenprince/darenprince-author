@@ -19,116 +19,88 @@
   #product h1 { transform: translateY(-34px) !important; margin-bottom: 58px !important; }
 }
 
-#product::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: .26;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 520' preserveAspectRatio='none'%3E%3Cpath d='M0 180 C18 180 25 142 42 174 S68 224 84 180 S112 112 130 168 S158 244 176 180 S204 128 222 171 S250 218 268 180 S296 100 314 168 S342 250 360 180 S388 124 406 171 S434 220 452 180 S480 102 498 168 S526 246 544 180 S572 120 590 171 S618 216 636 180 S664 108 682 168 S710 246 728 180 S756 126 774 171 S802 218 820 180 S848 104 866 168 S894 244 912 180 S940 120 958 171 S986 220 1004 180 S1032 108 1050 168 S1078 246 1096 180 S1124 126 1142 171 S1170 218 1200 180' fill='none' stroke='%23c99a66' stroke-width='2' stroke-linecap='round' stroke-dasharray='42 18 7 16'/%3E%3Cpath d='M0 180 C26 178 30 164 52 177 S78 201 96 180 S122 146 142 176 S168 210 190 180 S218 148 238 176 S264 204 284 180 S312 152 334 179 S360 198 382 180 S408 150 430 176 S456 208 478 180 S504 158 526 179 S552 202 574 180 S600 150 622 177 S648 208 670 180 S696 156 718 179 S744 202 766 180 S792 150 814 177 S840 208 862 180 S888 154 910 179 S936 201 958 180 S984 150 1006 176 S1032 208 1054 180 S1080 156 1102 179 S1128 201 1150 180 S1174 154 1200 180' fill='none' stroke='%23ead0a8' stroke-width='1' opacity='.42'/%3E%3C/svg%3E");
-  background-size: 100% 72%;
-  background-position: center 8%;
-  background-repeat: no-repeat;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 72%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 72%, transparent 100%);
+/* The hero artwork, typography and CTA rules below intentionally supersede
+   older landing refinements above. */
+#product{
+  background-image:linear-gradient(90deg,rgba(5,5,5,.94) 0%,rgba(5,5,5,.78) 34%,rgba(5,5,5,.34) 58%,rgba(5,5,5,.08) 100%),linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.02) 55%,rgba(5,5,5,.28) 78%,#050505 100%),url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;
+  background-size:100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
 }
-#product > * { position: relative; z-index: 2; }
+#product::before{content:none!important}
+#product::after{content:""!important;inset:auto 0 0!important;height:25%!important;z-index:1!important;opacity:1!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.38) 45%,#050505 100%)!important}
+#product h1,.vv-hero-heading{
+  transform:none!important;
+  max-width:760px!important;
+  margin:0!important;
+  font-family:inherit!important;
+  font-size:clamp(3.55rem,6.2vw,6.35rem)!important;
+  font-weight:500!important;
+  letter-spacing:-.055em!important;
+  word-spacing:-.025em!important;
+  line-height:.91!important;
+  text-wrap:balance!important;
+}
+#product h1 span{letter-spacing:inherit!important;line-height:inherit!important}
+#product h1~p,.vv-hero-body{
+  max-width:670px!important;
+  margin-top:28px!important;
+  font-size:clamp(1rem,1.55vw,1.28rem)!important;
+  line-height:1.55!important;
+  letter-spacing:-.012em!important;
+  color:rgba(255,255,255,.66)!important;
+}
+#product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{
+  min-height:52px!important;
+  padding:0 24px!important;
+  border-radius:8px!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  font-size:15px!important;
+  font-weight:600!important;
+  letter-spacing:-.01em!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#product .vv-hero-primary-cta{background:#f5f5f5!important;color:#070707!important}
+#product .vv-hero-api-cta{background:rgba(10,10,10,.62)!important;color:rgba(255,255,255,.88)!important}
+#product .vv-hero-technology-link{
+  position:absolute!important;left:50%!important;right:auto!important;bottom:30px!important;z-index:8!important;
+  display:flex!important;width:max-content!important;transform:translateX(-50%)!important;
+  align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 13px!important;
+  border:1px solid rgba(255,255,255,.14)!important;background:rgba(7,7,7,.55)!important;
+  color:rgba(255,255,255,.66)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  text-decoration:none!important;white-space:nowrap!important;font-size:12px!important;letter-spacing:-.01em!important;
+}
+#product .vv-hero-technology-arrow{font-size:18px!important;line-height:1!important}
 
-/* Hero typography: sentence case with tighter optical tracking and cleaner
-   line construction inspired by the supplied mobile reference. */
-#product .vv-hero-heading {
-  letter-spacing: -.042em !important;
-  word-spacing: -.018em !important;
-  line-height: .89 !important;
-  text-wrap: balance;
-}
-#product .vv-hero-prefix {
-  font-size: inherit !important;
-  line-height: inherit !important;
-  letter-spacing: inherit !important;
-}
-#product .vv-hero-audio-line { margin-bottom: .30em !important; }
-#product .vv-hero-waveform { top: auto !important; bottom: -4% !important; height: 52% !important; opacity: .19 !important; z-index: 2 !important; }
-#product .vv-hero-primary-cta,
-#product .vv-hero-api-cta,
-#product a.vv-hero-primary-cta,
-#product button.vv-hero-primary-cta { border-radius: 999px !important; border: 1px solid rgba(255,255,255,.16) !important; }
-#product .vv-hero-body { font-size: 17px !important; }
-#product .vv-hero-technology-link { bottom: 31px !important; font-size: 13px !important; }
-#product .vv-hero-technology-arrow { font-size: 19px !important; }
+/* Console: real React image, 110% bleed with a controlled bottom fade. */
+#workflow{overflow:visible!important}
+#workflow .vv-console-visual{position:relative;width:110%;margin-left:-5%;margin-top:40px;overflow:visible;line-height:0}
+#workflow .vv-console-visual::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.95) 100%)}
+#workflow .vv-console-visual img{position:relative;z-index:1;display:block;width:100%;height:auto;max-width:none;filter:drop-shadow(0 24px 65px rgba(0,0,0,.40))}
+#workflow .vv-future-subheading{margin-top:26px;letter-spacing:-.03em}
 
-/* Console: real React image, 110% bleed. The wrapper owns the fade so the
-   browser does not depend on an image mask implementation. */
-#workflow { overflow: visible !important; }
-#workflow .vv-console-visual {
-  position: relative;
-  width: 110%;
-  margin-left: -5%;
-  margin-top: 40px;
-  overflow: visible;
-  line-height: 0;
-}
-#workflow .vv-console-visual::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 16%;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.95) 100%);
-}
-#workflow .vv-console-visual img {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: none;
-  filter: drop-shadow(0 24px 65px rgba(0,0,0,.40));
-}
-#workflow .vv-future-subheading {
-  margin-top: 26px;
-  letter-spacing: -.03em;
-}
+#technology .mt-8 > div:last-child > div{position:relative;padding-bottom:11px}
+#technology .mt-8 > div:last-child > div::after{content:"";position:absolute;left:0;bottom:0;width:72%;height:4px;border-radius:999px;background:linear-gradient(90deg,#9b6a3f 0%,#c9955f 25%,#f3d4a8 50%,#b67d4c 76%,#765033 100%);background-size:220% 100%;box-shadow:0 0 18px rgba(184,135,85,.16);transform-origin:left center;animation:vvEvidenceShimmer 3.8s ease-in-out 1 both}
+#technology .mt-8 > div:last-child > div:nth-child(1)::after{width:86%}
+#technology .mt-8 > div:last-child > div:nth-child(2)::after{width:54%}
+#technology .mt-8 > div:last-child > div:nth-child(3)::after{width:70%}
+@keyframes vvEvidenceShimmer{0%{background-position:100% 50%}55%{background-position:0% 50%}100%{background-position:100% 50%}}
 
-#technology .mt-8 > div:last-child > div { position: relative; padding-bottom: 11px; }
-#technology .mt-8 > div:last-child > div::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 72%;
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(90deg,#9b6a3f 0%,#c9955f 25%,#f3d4a8 50%,#b67d4c 76%,#765033 100%);
-  background-size: 220% 100%;
-  box-shadow: 0 0 18px rgba(184,135,85,.16);
-  transform-origin: left center;
-  animation: vvEvidenceShimmer 3.8s ease-in-out 1 both;
+@media(max-width:900px){
+  #product{min-height:720px!important;background-size:100% 100%,100% 100%,auto 100%!important;background-position:center,center,58% center!important}
+  #product h1,.vv-hero-heading{max-width:650px!important;font-size:clamp(3.35rem,8vw,5.1rem)!important;line-height:.91!important;letter-spacing:-.055em!important}
+  #product h1~p,.vv-hero-body{max-width:610px!important;font-size:1.08rem!important;line-height:1.5!important;margin-top:24px!important}
 }
-#technology .mt-8 > div:last-child > div:nth-child(1)::after { width: 86%; }
-#technology .mt-8 > div:last-child > div:nth-child(2)::after { width: 54%; }
-#technology .mt-8 > div:last-child > div:nth-child(3)::after { width: 70%; }
-
-@keyframes vvEvidenceShimmer {
-  0% { background-position: 100% 50%; }
-  55% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+@media(max-width:620px){
+  #product{min-height:760px!important;background-size:100% 100%,100% 100%,auto 78%!important;background-position:center,center,59% 63%!important}
+  #product::after{height:22%!important}
+  #product h1,.vv-hero-heading{max-width:360px!important;font-size:clamp(3.05rem,13.5vw,4.15rem)!important;font-weight:500!important;letter-spacing:-.062em!important;word-spacing:-.03em!important;line-height:.88!important}
+  #product h1~p,.vv-hero-body{max-width:350px!important;margin-top:26px!important;font-size:1rem!important;line-height:1.52!important;letter-spacing:-.012em!important}
+  #product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:54px!important;padding:0 21px!important;font-size:15px!important;border-radius:8px!important}
+  #product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}
+  #workflow .vv-console-visual{width:110%;margin-left:-5%;margin-top:24px}
+  #workflow .vv-console-visual::after{height:16%}
+  #workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}
 }
-
-@media (max-width: 620px) {
-  #product .vv-hero-waveform { bottom: -3% !important; height: 50% !important; opacity: .19 !important; }
-  #product .vv-hero-body { font-size: 16px !important; }
-  #product .vv-hero-technology-link { bottom: 25px !important; font-size: 11px !important; }
-  #workflow .vv-console-visual { width: 110%; margin-left: -5%; margin-top: 28px; }
-  #workflow .vv-console-visual::after { height: 16%; }
-  #workflow .vv-future-subheading { margin-top: 20px; font-size: 1.35rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #product::after,
-  #technology .mt-8 > div:last-child > div::after { animation: none !important; }
-}
+@media(prefers-reduced-motion:reduce){#technology .mt-8 > div:last-child > div::after{animation:none!important}}
