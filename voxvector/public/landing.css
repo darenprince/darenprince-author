@@ -58,23 +58,36 @@
 #product .vv-hero-technology-link { bottom: 31px !important; font-size: 13px !important; }
 #product .vv-hero-technology-arrow { font-size: 19px !important; }
 
-/* The console is a real React image element. Keep the entire artwork visible,
-   stretch it to the content width, and begin the fade only near its lower edge. */
+/* Console: real React image, 110% bleed. The wrapper owns the fade so the
+   browser does not depend on an image mask implementation. */
+#workflow { overflow: visible !important; }
 #workflow .vv-console-visual {
   position: relative;
-  width: 100%;
+  width: 110%;
+  margin-left: -5%;
   margin-top: 40px;
-  overflow: hidden;
+  overflow: visible;
   line-height: 0;
 }
+#workflow .vv-console-visual::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.95) 100%);
+}
 #workflow .vv-console-visual img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
   max-width: none;
   filter: drop-shadow(0 24px 65px rgba(0,0,0,.40));
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0,0,0,.96) 87%, rgba(0,0,0,.62) 94%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0,0,0,.96) 87%, rgba(0,0,0,.62) 94%, transparent 100%);
 }
 #workflow .vv-future-subheading {
   margin-top: 26px;
@@ -110,12 +123,8 @@
   #product .vv-hero-waveform { bottom: -3% !important; height: 50% !important; opacity: .19 !important; }
   #product .vv-hero-body { font-size: 16px !important; }
   #product .vv-hero-technology-link { bottom: 25px !important; font-size: 11px !important; }
-  #workflow .vv-console-visual { margin-top: 28px; }
-  #workflow .vv-console-visual img {
-    width: 100%;
-    -webkit-mask-image: linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.90) 88%,transparent 100%);
-    mask-image: linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.90) 88%,transparent 100%);
-  }
+  #workflow .vv-console-visual { width: 110%; margin-left: -5%; margin-top: 28px; }
+  #workflow .vv-console-visual::after { height: 16%; }
   #workflow .vv-future-subheading { margin-top: 20px; font-size: 1.35rem; }
 }
 
