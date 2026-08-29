@@ -1,0 +1,96 @@
+/* Canonical hero QA layer. Scoped only to the landing hero. */
+#product{
+  position:relative!important;
+  isolation:isolate!important;
+  min-height:clamp(720px,calc(100svh - 64px),900px)!important;
+  overflow:hidden!important;
+  padding:0!important;
+  background:#050505!important;
+  background-image:linear-gradient(90deg,rgba(5,5,5,.97) 0%,rgba(5,5,5,.91) 42%,rgba(5,5,5,.52) 68%,rgba(5,5,5,.16) 100%),linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,0) 70%,rgba(5,5,5,.52) 86%,#050505 100%)!important;
+  background-size:100% 100%,100% 100%!important;
+}
+/* Replace the old full-canvas background layers with the intended signal field. */
+#product > div:first-child,#product > div:nth-child(2),#product > div:nth-child(3){display:none!important}
+#product::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:url("/voxvector/assets/marketing/voxvector-hero-waveform.svg") no-repeat!important;
+  background-size:118% auto!important;
+  background-position:84% 51%!important;
+  opacity:.60!important;
+  mix-blend-mode:screen!important;
+}
+#product::after{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  height:23%!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background:linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.40) 48%,#050505 100%)!important;
+}
+#product > div:last-child{
+  position:relative!important;
+  z-index:2!important;
+  min-height:100%!important;
+  padding-top:clamp(70px,9vh,100px)!important;
+  padding-bottom:96px!important;
+}
+/* Optical type correction: sentence case, compact line rhythm, controlled measure. */
+#product h1{
+  max-width:700px!important;
+  margin:0!important;
+  transform:none!important;
+  font-size:clamp(3.15rem,5.8vw,5.9rem)!important;
+  line-height:.91!important;
+  letter-spacing:-.058em!important;
+  word-spacing:-.025em!important;
+  font-weight:500!important;
+  text-wrap:balance!important;
+}
+#product h1~p{
+  max-width:560px!important;
+  margin-top:30px!important;
+  font-size:clamp(1rem,1.35vw,1.18rem)!important;
+  line-height:1.53!important;
+  letter-spacing:-.012em!important;
+  color:rgba(255,255,255,.64)!important;
+}
+/* Keep the two actual hero actions compact and aligned. */
+#product button,#product a[href*="developer"]{
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:52px!important;
+  padding:0 22px!important;
+  border-radius:8px!important;
+  font-size:15px!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#product button{border:1px solid rgba(255,255,255,.20)!important}
+#product a[href*="developer"]{border:1px solid rgba(255,255,255,.20)!important}
+#product .vv-hero-technology-link{bottom:24px!important}
+
+@media(max-width:900px){
+  #product{min-height:760px!important}
+  #product::before{background-size:145% auto!important;background-position:87% 55%!important;opacity:.52!important}
+  #product > div:last-child{padding-top:64px!important;padding-bottom:90px!important}
+  #product h1{max-width:570px!important;font-size:clamp(3rem,8vw,5rem)!important;line-height:.92!important;letter-spacing:-.06em!important}
+  #product h1~p{max-width:540px!important;font-size:1.07rem!important;line-height:1.52!important;margin-top:26px!important}
+}
+@media(max-width:620px){
+  #product{min-height:760px!important}
+  #product::before{background-size:175% auto!important;background-position:93% 63%!important;opacity:.44!important}
+  #product::after{height:25%!important}
+  #product > div:last-child{padding-top:42px!important;padding-left:19px!important;padding-right:19px!important;padding-bottom:78px!important}
+  #product h1{max-width:430px!important;font-size:clamp(2.82rem,9.6vw,3.82rem)!important;line-height:.90!important;letter-spacing:-.061em!important;word-spacing:-.028em!important}
+  #product h1~p{max-width:430px!important;margin-top:28px!important;font-size:1rem!important;line-height:1.55!important;letter-spacing:-.01em!important}
+  #product button,#product a[href*="developer"]{min-height:50px!important;padding:0 20px!important;border-radius:8px!important;font-size:15px!important}
+  #product .vv-hero-technology-link{bottom:22px!important}
+}
