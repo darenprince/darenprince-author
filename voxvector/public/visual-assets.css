@@ -7,47 +7,48 @@
 #product>*{position:relative;z-index:2}
 #product>div.absolute:first-child{opacity:0!important}
 
-/* HERO SCROLL CUE: fixed to the bottom center of the hero with breathing room below. */
+/* HERO SCROLL CUE */
 #product .vv-hero-technology-link{position:absolute!important;left:50%!important;right:auto!important;bottom:38px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 14px!important;border:1px solid rgba(255,255,255,.18)!important;background:rgba(7,6,5,.58)!important;color:rgba(255,255,255,.78)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none!important;white-space:nowrap!important}
 #product .vv-hero-technology-link:hover{color:#fff!important;border-color:rgba(201,154,102,.50)!important;background:rgba(7,6,5,.76)!important}
 #product .vv-hero-technology-arrow{display:inline-flex!important;font-size:19px!important;line-height:1!important}
 
-/* WORKFLOW: real React console visual. Do not manufacture a second image or heading with pseudo-elements. */
-#workflow{position:relative;overflow:hidden;isolation:isolate}
+/* WORKFLOW: real React console visual. */
+#workflow{position:relative;overflow:visible!important;isolation:isolate}
 #workflow::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.48;background:linear-gradient(90deg,rgba(7,7,7,.82),rgba(7,7,7,.46)),url("/voxvector/assets/marketing/voxvector-bg-network-1920x1080.svg") center/cover no-repeat}
 #workflow>div{position:relative;z-index:1;display:grid!important;grid-template-columns:1fr!important;gap:48px!important}
 #workflow>div>div:first-child{width:100%!important;min-width:0!important}
 #workflow>div>div:nth-child(2){width:100%!important;min-width:0!important}
 #workflow .lg\:sticky{position:relative!important;top:auto!important}
-#workflow .vv-console-visual{position:relative;width:100%;margin-top:40px;overflow:hidden;line-height:0}
-#workflow .vv-console-visual img{display:block;width:100%;height:auto;max-width:none;filter:drop-shadow(0 24px 65px rgba(0,0,0,.40));-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 90%,rgba(0,0,0,.05) 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 90%,rgba(0,0,0,.05) 100%)}
+#workflow .vv-console-visual{position:relative;width:110%;margin-left:-5%;margin-top:40px;overflow:visible;line-height:0}
+#workflow .vv-console-visual::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.95) 100%)}
+#workflow .vv-console-visual img{position:relative;z-index:1;display:block;width:100%;height:auto;max-width:none;filter:drop-shadow(0 24px 65px rgba(0,0,0,.40))}
 #workflow .vv-future-subheading{margin-top:26px;letter-spacing:-.03em}
 
-/* TECHNOLOGY: topographic atmosphere. */
+/* TECHNOLOGY */
 #technology{position:relative;overflow:hidden;isolation:isolate}
 #technology::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.42;background:linear-gradient(180deg,rgba(9,9,9,.26),rgba(9,9,9,.62)),url("/voxvector/assets/marketing/voxvector-bg-topography-1920x1080.svg") center/cover no-repeat}
 #technology>div{position:relative;z-index:1}
 
-/* ANALYTICAL INTERFACE: evidence-analysis artwork. */
+/* ANALYTICAL INTERFACE */
 main>section:nth-of-type(5){position:relative;overflow:hidden;isolation:isolate}
 main>section:nth-of-type(5)::before{content:"";position:absolute;inset:0 0 0 30%;z-index:0;pointer-events:none;opacity:.38;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-analysis-1200x628.svg") right center/min(1050px,82vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent)}
 main>section:nth-of-type(5)>div{position:relative;z-index:1}
 
-/* SCIENTIFIC DISCIPLINE: evidence-path artwork. */
+/* SCIENTIFIC DISCIPLINE */
 main>section:nth-of-type(6){position:relative;overflow:hidden;isolation:isolate}
 main>section:nth-of-type(6)::before{content:"";position:absolute;inset:0 0 0 30%;z-index:0;pointer-events:none;opacity:.34;background:url("/voxvector/assets/marketing/voxvector-blog-evidence-path-1200x628.svg") right center/min(1050px,82vw) auto no-repeat;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 92%,transparent)}
 main>section:nth-of-type(6)>div{position:relative;z-index:1}
 
-/* USE CASES: science-of-voice artwork. */
+/* USE CASES */
 #use-cases{position:relative;overflow:hidden;isolation:isolate}
 #use-cases::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.34;background:linear-gradient(180deg,rgba(7,7,7,.46),rgba(7,7,7,.34)),url("/voxvector/assets/marketing/voxvector-blog-science-of-voice-1200x628.svg") center 55%/min(1350px,100vw) auto no-repeat;mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%)}
 #use-cases>div{position:relative;z-index:1}
 
-/* CLOSING BRIEFING: hex-grid technical field. */
+/* CLOSING BRIEFING */
 #briefing{position:relative}
 #briefing>div{position:relative;overflow:hidden;isolation:isolate}
 #briefing>div::after{content:"";position:absolute;inset:0 0 0 34%;z-index:0;pointer-events:none;opacity:.32;background:url("/voxvector/assets/marketing/voxvector-bg-hex-grid-1920x1080.svg") center/cover no-repeat;mask-image:linear-gradient(90deg,transparent,#000 24%,#000);-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%,#000)}
 #briefing>div>*{position:relative;z-index:1}
 
 @media(max-width:900px){#product{background-position:center,center,60% center!important}#product::before{opacity:.58}#workflow>div{gap:34px!important}main>section:nth-of-type(5)::before{inset:18% -8% 0 6%;opacity:.25}main>section:nth-of-type(6)::before{inset:20% -8% 0 6%;opacity:.22}}
-@media(max-width:620px){#product{background-image:linear-gradient(90deg,rgba(5,5,5,.68),rgba(5,5,5,.30)),linear-gradient(180deg,rgba(5,5,5,.02),rgba(5,5,5,.12) 52%,rgba(5,5,5,.42) 78%,var(--vv-bg) 100%),url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,62% center!important}#product::before{opacity:.46;background-size:100% 100%,auto 100%;background-position:center,58% center}#product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}#workflow>div{gap:24px!important}#workflow .vv-console-visual{margin-top:24px}#workflow .vv-console-visual img{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 90%,rgba(0,0,0,.05) 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 90%,rgba(0,0,0,.05) 100%)}#workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}#workflow::before{opacity:.34}#technology::before{opacity:.28}main>section:nth-of-type(5)::before,main>section:nth-of-type(6)::before{opacity:.18}#use-cases::before{opacity:.20;background-size:155% auto}#briefing>div::after{opacity:.18}}
+@media(max-width:620px){#product{background-image:linear-gradient(90deg,rgba(5,5,5,.68),rgba(5,5,5,.30)),linear-gradient(180deg,rgba(5,5,5,.02),rgba(5,5,5,.12) 52%,rgba(5,5,5,.42) 78%,var(--vv-bg) 100%),url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,62% center!important}#product::before{opacity:.46;background-size:100% 100%,auto 100%;background-position:center,58% center}#product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}#workflow>div{gap:24px!important}#workflow .vv-console-visual{width:110%;margin-left:-5%;margin-top:24px}#workflow .vv-console-visual::after{height:16%}#workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}#workflow::before{opacity:.34}#technology::before{opacity:.28}main>section:nth-of-type(5)::before,main>section:nth-of-type(6)::before{opacity:.18}#use-cases::before{opacity:.20;background-size:155% auto}#briefing>div::after{opacity:.18}}
