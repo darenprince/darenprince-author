@@ -1,20 +1,21 @@
 /* VoxVector canonical landing-page presentation. */
 
 /* Shared landing typography */
-#main-content section p{font-size:1.08rem!important;line-height:1.68!important}
+#main-content section p{font-size:1.125rem!important;line-height:1.68!important}
 #main-content section h2{line-height:1.04!important}
 
 /* HERO */
 #product{position:relative!important;isolation:isolate!important;min-height:clamp(680px,calc(100svh - 64px),860px)!important;overflow:hidden!important;background:#050505!important}
-#product::before{content:""!important;position:absolute!important;inset:0!important;z-index:0!important;pointer-events:none!important;background-image:url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;background-repeat:no-repeat!important;background-size:96% auto!important;background-position:100% 58%!important;opacity:.48!important}
+/* The hero signal is intentionally built as a lightweight inline SVG background so it remains sharp and responsive without adding another asset or adjustment stylesheet. */
+#product::before{content:""!important;position:absolute!important;inset:0!important;z-index:0!important;pointer-events:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23373737' stop-opacity='.12'/%3E%3Cstop offset='.42' stop-color='%23b8b8b8' stop-opacity='.48'/%3E%3Cstop offset='.72' stop-color='%23f0b16f' stop-opacity='.78'/%3E%3Cstop offset='1' stop-color='%23ff7a00' stop-opacity='.9'/%3E%3C/linearGradient%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3C/defs%3E%3Cg stroke='url(%23b)' stroke-width='1'%3E%3Cpath opacity='.30' d='M300 260v-20m8 20v-42m8 42v-12m8 12v-66m8 66v-30m8 30v-78m8 78v-50m8 50v-92m8 92v-36m8 36v-112m8 112v-62m8 62v-126m8 126v-76m8 76v-142m8 142v-94m8 94v-165m8 165v-116m8 116v-182m8 182v-130m8 130v-198m8 198v-148m8 148v-176m8 176v-112m8 112v-202m8 202v-145m8 145v-224m8 224v-170m8 170v-142m8 142v-212m8 212v-154m8 154v-192m8 192v-126m8 126v-166m8 166v-112m8 112v-146m8 146v-96m8 96v-132m8 132v-80m8 80v-112m8 112v-58m8 58v-92m8 92v-44m8 44v-70m8 70v-32m8 32v-55m8 55v-24m8 24v-44' transform='translate(0 0)'/%3E%3C/g%3E%3Cpath d='M270 280 C335 275 350 250 375 260 C402 272 420 315 450 286 C478 258 492 230 518 242 C548 256 558 306 590 278 C620 250 637 218 665 236 C694 255 705 300 738 274 C770 249 790 222 818 240 C844 256 856 286 900 264' fill='none' stroke='url(%23b)' stroke-width='3' filter='url(%23g)' opacity='.30'/%3E%3Cpath d='M270 280 C335 275 350 250 375 260 C402 272 420 315 450 286 C478 258 492 230 518 242 C548 256 558 306 590 278 C620 250 637 218 665 236 C694 255 705 300 738 274 C770 249 790 222 818 240 C844 256 856 286 900 264' fill='none' stroke='url(%23b)' stroke-width='1.6' opacity='.95'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-size:62% auto!important;background-position:100% 56%!important;opacity:.72!important}
 #product>div:nth-child(1),#product>div:nth-child(2),#product>div:nth-child(3){display:none!important}
 #product>div:last-child{position:relative!important;z-index:2!important;min-height:100%!important;width:100%!important;align-items:flex-start!important;padding-top:clamp(58px,8vh,96px)!important;padding-bottom:100px!important}
 #product>div:last-child>div{max-width:790px!important;width:100%!important}
 #product h1{max-width:760px!important;margin:0!important;font-family:inherit!important;font-size:clamp(3.15rem,6.2vw,6.25rem)!important;font-weight:500!important;letter-spacing:-.058em!important;word-spacing:-.018em!important;line-height:.91!important;text-wrap:balance!important}
 #product h1 span{letter-spacing:inherit!important;line-height:inherit!important}
 #product .vv-hero-line{display:block!important}
-#product .vv-hero-body{max-width:610px!important;margin-top:34px!important;font-size:clamp(1.08rem,1.45vw,1.25rem)!important;line-height:1.62!important;letter-spacing:-.012em!important;color:rgba(255,255,255,.68)!important}
-#product .vv-hero-cta-row{margin-top:34px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:14px!important}
+#product .vv-hero-body{max-width:610px!important;margin-top:38px!important;font-size:clamp(1.14rem,1.5vw,1.28rem)!important;line-height:1.62!important;letter-spacing:-.012em!important;color:rgba(255,255,255,.68)!important}
+#product .vv-hero-cta-row{margin-top:36px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:14px!important}
 #product .vv-hero-cta-row>*{flex:0 0 auto!important;width:auto!important;max-width:none!important}
 #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:52px!important;width:auto!important;padding:0 23px!important;border-radius:8px!important;border:1px solid rgba(255,255,255,.22)!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.012em!important;line-height:1!important;box-shadow:none!important;white-space:nowrap!important}
 #product .vv-hero-primary-cta{background:#f5f5f5!important;color:#070707!important}
@@ -33,33 +34,33 @@
 #workflow .vv-future-subheading{margin-top:30px!important;letter-spacing:-.03em!important}
 
 /* Technology and body copy */
-#technology p,#workflow p,main>section p{font-size:1.08rem!important;line-height:1.68!important}
+#technology p,#workflow p,main>section p{font-size:1.125rem!important;line-height:1.68!important}
 
 /* RESPONSIVE */
 @media(max-width:900px){
   #product{min-height:680px!important}
-  #product::before{background-size:112% auto!important;background-position:100% 61%!important;opacity:.42!important}
+  #product::before{background-size:78% auto!important;background-position:100% 62%!important;opacity:.68!important}
   #product>div:last-child{padding-top:52px!important;padding-bottom:88px!important}
   #product h1{max-width:670px!important;font-size:clamp(3rem,8vw,5.2rem)!important;line-height:.92!important;letter-spacing:-.06em!important}
-  #product .vv-hero-body{max-width:600px!important;font-size:1.1rem!important;line-height:1.62!important;margin-top:32px!important}
-  #product .vv-hero-cta-row{margin-top:34px!important;gap:12px!important}
+  #product .vv-hero-body{max-width:600px!important;font-size:1.16rem!important;line-height:1.62!important;margin-top:34px!important}
+  #product .vv-hero-cta-row{margin-top:36px!important;gap:12px!important}
 }
 @media(max-width:620px){
   #product{min-height:730px!important}
-  #product::before{background-size:132% auto!important;background-position:96% 68%!important;opacity:.32!important}
+  #product::before{background-size:108% auto!important;background-position:100% 73%!important;opacity:.56!important}
   #product>div:last-child{padding-top:36px!important;padding-left:20px!important;padding-right:20px!important;padding-bottom:86px!important}
   #product>div:last-child>div{max-width:100%!important}
   #product h1{max-width:none!important;width:100%!important;font-size:clamp(2.95rem,10.9vw,4rem)!important;line-height:.91!important;letter-spacing:-.064em!important;word-spacing:-.026em!important;text-wrap:balance!important}
   #product .vv-hero-line{white-space:nowrap!important}
-  #product .vv-hero-body{max-width:390px!important;margin-top:32px!important;font-size:1.08rem!important;line-height:1.62!important;letter-spacing:-.008em!important;color:rgba(255,255,255,.66)!important}
-  #product .vv-hero-cta-row{margin-top:34px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:9px!important;width:100%!important}
+  #product .vv-hero-body{max-width:390px!important;margin-top:34px!important;font-size:1.08rem!important;line-height:1.64!important;letter-spacing:-.008em!important;color:rgba(255,255,255,.66)!important}
+  #product .vv-hero-cta-row{margin-top:36px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:9px!important;width:100%!important}
   #product .vv-hero-cta-row>*{flex:0 1 auto!important;width:auto!important;max-width:calc(50% - 5px)!important}
-  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:50px!important;padding:0 15px!important;font-size:14px!important;gap:8px!important}
+  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:50px!important;padding:0 15px!important;font-size:14px!important}
   #product .vv-hero-technology-link{bottom:20px!important;font-size:10px!important;padding:6px 8px!important}
   #workflow .vv-console-visual{width:110%!important;margin-left:-5%!important;margin-top:28px!important}
   #workflow .vv-console-visual::after{height:17%!important}
   #workflow .vv-future-subheading{margin-top:22px!important;font-size:1.5rem!important}
-  #main-content section p{font-size:1.05rem!important;line-height:1.65!important}
+  #main-content section p{font-size:1.08rem!important;line-height:1.65!important}
 }
 @media(max-width:390px){
   #product h1{font-size:2.72rem!important}
