@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 760" preserveAspectRatio="none">
+<defs>
+  <linearGradient id="signal" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset=".18" stop-color="#b9b9b9" stop-opacity=".16"/>
+    <stop offset=".38" stop-color="#ffffff" stop-opacity=".52"/>
+    <stop offset=".55" stop-color="#f2d1a5" stop-opacity=".84"/>
+    <stop offset=".68" stop-color="#c87935" stop-opacity=".94"/>
+    <stop offset=".84" stop-color="#e5a56c" stop-opacity=".64"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="bars" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset=".35" stop-color="#d6d6d6" stop-opacity=".20"/>
+    <stop offset=".57" stop-color="#f4d6b1" stop-opacity=".46"/>
+    <stop offset=".72" stop-color="#c77b3e" stop-opacity=".50"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+  <filter id="glow" x="-20%" y="-50%" width="140%" height="200%">
+    <feGaussianBlur stdDeviation="5" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<g stroke="url(#bars)" stroke-width="2" stroke-linecap="round" opacity=".9">
+  <path d="M0 380 C40 380 58 380 78 380 S116 372 132 380 S158 389 176 380 S204 330 218 380 S240 430 258 380 S286 300 302 380 S330 455 348 380 S376 322 392 380 S420 440 438 380 S468 280 484 380 S512 468 530 380 S558 306 576 380 S604 450 622 380 S650 294 668 380 S696 438 714 380 S742 270 760 380 S788 470 806 380 S834 298 852 380 S880 446 898 380 S926 260 944 380 S972 470 990 380 S1018 310 1036 380 S1064 442 1082 380 S1110 278 1128 380 S1156 458 1174 380 S1202 304 1220 380 S1248 436 1266 380 S1294 250 1312 380 S1340 478 1358 380 S1386 300 1404 380 S1432 444 1450 380 S1478 278 1496 380 S1524 468 1542 380 S1570 322 1588 380 S1616 432 1634 380 S1662 292 1680 380 S1708 440 1726 380 S1750 374 1800 380"/>
+</g>
+<g stroke="url(#bars)" stroke-width="1.25" stroke-linecap="round" opacity=".58">
+  <path d="M0 380 C34 380 44 372 68 380 S106 392 124 380 S152 344 168 380 S198 418 214 380 S246 312 262 380 S292 444 310 380 S340 338 356 380 S386 430 404 380 S434 294 450 380 S480 450 498 380 S528 330 544 380 S574 424 592 380 S622 286 638 380 S668 454 686 380 S716 322 732 380 S762 434 780 380 S810 270 826 380 S856 458 874 380 S904 316 920 380 S950 436 968 380 S998 286 1014 380 S1044 452 1062 380 S1092 324 1108 380 S1138 432 1156 380 S1186 300 1202 380 S1232 446 1250 380 S1280 318 1296 380 S1326 430 1344 380 S1374 286 1390 380 S1420 454 1438 380 S1468 314 1484 380 S1514 434 1532 380 S1562 292 1578 380 S1608 450 1626 380 S1656 326 1672 380 S1702 430 1720 380 S1750 360 1800 380"/>
+</g>
+<g stroke="url(#bars)" stroke-width="2" stroke-linecap="round" opacity=".48">
+  <path d="M0 380 L18 380 M32 380 L40 370 L48 390 L56 380 M92 380 L104 352 L116 408 L128 380 M188 380 L198 344 L208 416 L218 380 M278 380 L290 320 L302 440 L314 380 M368 380 L380 338 L392 422 L404 380 M458 380 L470 310 L482 450 L494 380 M548 380 L560 330 L572 430 L584 380 M638 380 L650 300 L662 460 L674 380 M728 380 L740 315 L752 445 L764 380 M818 380 L830 286 L842 474 L854 380 M908 380 L920 320 L932 440 L944 380 M998 380 L1010 302 L1022 458 L1034 380 M1088 380 L1100 330 L1112 430 L1124 380 M1178 380 L1190 296 L1202 464 L1214 380 M1268 380 L1280 318 L1292 442 L1304 380 M1358 380 L1370 288 L1382 472 L1394 380 M1448 380 L1460 322 L1472 438 L1484 380 M1538 380 L1550 306 L1562 454 L1574 380 M1628 380 L1640 330 L1652 430 L1664 380 M1718 380 L1730 350 L1742 410 L1754 380"/>
+</g>
+<path d="M0 380 C120 380 155 370 220 380 C300 394 325 372 390 380 C470 390 510 348 575 380 C650 420 700 315 770 380 C840 448 900 300 980 380 C1055 456 1120 318 1190 380 C1260 438 1320 282 1400 380 C1480 474 1560 316 1640 380 C1710 430 1760 366 1800 380" fill="none" stroke="url(#signal)" stroke-width="6" stroke-linecap="round" filter="url(#glow)" opacity=".82"/>
+</svg>
