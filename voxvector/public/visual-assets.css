@@ -1,23 +1,38 @@
 /* VoxVector landing visual asset layer. Production artwork only. */
 
-/* HERO: visible audio signal + waveform artwork. */
-#product{position:relative!important;isolation:isolate!important;overflow:hidden!important;background-color:var(--vv-bg)!important;background-image:linear-gradient(90deg,rgba(5,5,5,.72) 0%,rgba(5,5,5,.34) 42%,rgba(5,5,5,.08) 74%,rgba(5,5,5,.12) 100%),linear-gradient(180deg,rgba(5,5,5,.02) 0%,rgba(5,5,5,.02) 48%,rgba(5,5,5,.20) 74%,var(--vv-bg) 100%),url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;background-repeat:no-repeat!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,center!important}
-#product::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(90deg,rgba(7,6,5,.16),transparent 54%,rgba(7,6,5,.08)),url("/voxvector/assets/marketing/voxvector-bg-waveform-1920x1080.svg");background-repeat:no-repeat;background-size:100% 100%,cover;background-position:center,center;opacity:.72;mix-blend-mode:screen}
-#product::after{content:"";position:absolute;inset:auto 0 0;z-index:1;height:32%;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(7,6,5,.32) 42%,var(--vv-bg) 100%)}
-#product>*{position:relative;z-index:2}
+/* HERO */
+#product{position:relative!important;isolation:isolate!important;overflow:hidden!important;background:#050505!important;background-image:linear-gradient(90deg,rgba(5,5,5,.94) 0%,rgba(5,5,5,.78) 34%,rgba(5,5,5,.34) 58%,rgba(5,5,5,.08) 100%),linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.02) 55%,rgba(5,5,5,.28) 78%,#050505 100%),url("/voxvector/assets/marketing/voxvector-hero-waveform.svg")!important;background-repeat:no-repeat!important;background-size:100% 100%,100% 100%,100% 100%!important;background-position:center!important}
+#product::before{content:""!important;position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(90deg,rgba(5,5,5,.10),transparent 48%,rgba(5,5,5,.08)),url("/voxvector/assets/marketing/voxvector-bg-waveform-1920x1080.svg") center/cover no-repeat!important;opacity:.24!important;mix-blend-mode:screen!important}
+#product::after{content:""!important;position:absolute!important;inset:auto 0 0!important;height:25%!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.38) 45%,#050505 100%)!important}
+#product>*{position:relative!important;z-index:2!important}
 #product>div.absolute:first-child{opacity:0!important}
 
-/* HERO SCROLL CUE */
-#product .vv-hero-technology-link{position:absolute!important;left:50%!important;right:auto!important;bottom:38px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 14px!important;border:1px solid rgba(255,255,255,.18)!important;background:rgba(7,6,5,.58)!important;color:rgba(255,255,255,.78)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none!important;white-space:nowrap!important}
-#product .vv-hero-technology-link:hover{color:#fff!important;border-color:rgba(201,154,102,.50)!important;background:rgba(7,6,5,.76)!important}
-#product .vv-hero-technology-arrow{display:inline-flex!important;font-size:19px!important;line-height:1!important}
+/* Hero type: restrained scale, tight optical tracking, deliberate line rhythm. */
+#product h1,.vv-hero-heading{max-width:760px!important;margin:0!important;font-family:inherit!important;font-size:clamp(3.55rem,6.2vw,6.35rem)!important;font-weight:500!important;letter-spacing:-.055em!important;word-spacing:-.025em!important;line-height:.91!important;text-wrap:balance!important}
+#product h1 span{letter-spacing:inherit!important;line-height:inherit!important}
+#product h1 br{line-height:.78!important}
+#product .vv-hero-prefix{font-size:inherit!important;line-height:inherit!important;letter-spacing:inherit!important}
+#product .vv-hero-audio-line{margin-bottom:.20em!important}
+
+/* Hero copy */
+#product h1~p,.vv-hero-body{max-width:670px!important;margin-top:28px!important;font-size:clamp(1rem,1.55vw,1.28rem)!important;line-height:1.55!important;letter-spacing:-.012em!important;color:rgba(255,255,255,.66)!important}
+
+/* CTA pair. Keep the scroll cue separate from the action buttons. */
+#product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:52px!important;padding:0 24px!important;border-radius:8px!important;border:1px solid rgba(255,255,255,.20)!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.01em!important;line-height:1!important;box-shadow:none!important;transition:border-color .2s ease,background-color .2s ease,transform .2s ease!important}
+#product a.inline-flex:not(.vv-hero-technology-link):hover,#product button.inline-flex:hover{transform:translateY(-1px)!important;border-color:rgba(255,255,255,.38)!important}
+#product .vv-hero-primary-cta{background:#f5f5f5!important;color:#070707!important}
+#product .vv-hero-api-cta{background:rgba(10,10,10,.62)!important;color:rgba(255,255,255,.88)!important}
+
+/* The technology cue is intentionally low and quiet. */
+#product .vv-hero-technology-link{position:absolute!important;left:50%!important;right:auto!important;bottom:30px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;justify-content:center!important;gap:8px!important;margin:0!important;padding:8px 13px!important;border:1px solid rgba(255,255,255,.14)!important;background:rgba(7,7,7,.55)!important;color:rgba(255,255,255,.66)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none!important;white-space:nowrap!important;font-size:12px!important;letter-spacing:-.01em!important}
+#product .vv-hero-technology-link:hover{color:#fff!important;border-color:rgba(201,154,102,.45)!important}
+#product .vv-hero-technology-arrow{display:inline-flex!important;font-size:18px!important;line-height:1!important}
 
 /* WORKFLOW: real React console visual. */
 #workflow{position:relative;overflow:visible!important;isolation:isolate}
 #workflow::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.48;background:linear-gradient(90deg,rgba(7,7,7,.82),rgba(7,7,7,.46)),url("/voxvector/assets/marketing/voxvector-bg-network-1920x1080.svg") center/cover no-repeat}
 #workflow>div{position:relative;z-index:1;display:grid!important;grid-template-columns:1fr!important;gap:48px!important}
-#workflow>div>div:first-child{width:100%!important;min-width:0!important}
-#workflow>div>div:nth-child(2){width:100%!important;min-width:0!important}
+#workflow>div>div:first-child,#workflow>div>div:nth-child(2){width:100%!important;min-width:0!important}
 #workflow .lg\:sticky{position:relative!important;top:auto!important}
 #workflow .vv-console-visual{position:relative;width:110%;margin-left:-5%;margin-top:40px;overflow:visible;line-height:0}
 #workflow .vv-console-visual::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.95) 100%)}
@@ -50,5 +65,31 @@ main>section:nth-of-type(6)>div{position:relative;z-index:1}
 #briefing>div::after{content:"";position:absolute;inset:0 0 0 34%;z-index:0;pointer-events:none;opacity:.32;background:url("/voxvector/assets/marketing/voxvector-bg-hex-grid-1920x1080.svg") center/cover no-repeat;mask-image:linear-gradient(90deg,transparent,#000 24%,#000);-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%,#000)}
 #briefing>div>*{position:relative;z-index:1}
 
-@media(max-width:900px){#product{background-position:center,center,60% center!important}#product::before{opacity:.58}#workflow>div{gap:34px!important}main>section:nth-of-type(5)::before{inset:18% -8% 0 6%;opacity:.25}main>section:nth-of-type(6)::before{inset:20% -8% 0 6%;opacity:.22}}
-@media(max-width:620px){#product{background-image:linear-gradient(90deg,rgba(5,5,5,.68),rgba(5,5,5,.30)),linear-gradient(180deg,rgba(5,5,5,.02),rgba(5,5,5,.12) 52%,rgba(5,5,5,.42) 78%,var(--vv-bg) 100%),url("/voxvector/assets/marketing/voxvector-bg-audio-signal-1920x1080.svg")!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,62% center!important}#product::before{opacity:.46;background-size:100% 100%,auto 100%;background-position:center,58% center}#product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}#workflow>div{gap:24px!important}#workflow .vv-console-visual{width:110%;margin-left:-5%;margin-top:24px}#workflow .vv-console-visual::after{height:16%}#workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}#workflow::before{opacity:.34}#technology::before{opacity:.28}main>section:nth-of-type(5)::before,main>section:nth-of-type(6)::before{opacity:.18}#use-cases::before{opacity:.20;background-size:155% auto}#briefing>div::after{opacity:.18}}
+@media(max-width:900px){
+ #product{background-size:100% 100%,100% 100%,auto 100%!important;background-position:center,center,58% center!important}
+ #product::before{opacity:.16!important}
+ #product h1,.vv-hero-heading{max-width:650px!important;font-size:clamp(3.35rem,8vw,5.1rem)!important;line-height:.91!important;letter-spacing:-.055em!important}
+ #product h1~p,.vv-hero-body{max-width:610px!important;font-size:1.08rem!important;line-height:1.5!important;margin-top:24px!important}
+ #workflow>div{gap:34px!important}
+ main>section:nth-of-type(5)::before{inset:18% -8% 0 6%;opacity:.25}
+ main>section:nth-of-type(6)::before{inset:20% -8% 0 6%;opacity:.22}
+}
+@media(max-width:620px){
+ #product{min-height:760px!important;background-size:100% 100%,100% 100%,auto 78%!important;background-position:center,center,59% 63%!important}
+ #product::before{opacity:.12!important}
+ #product::after{height:22%!important}
+ #product h1,.vv-hero-heading{max-width:360px!important;font-size:clamp(3.05rem,13.5vw,4.15rem)!important;font-weight:500!important;letter-spacing:-.062em!important;word-spacing:-.03em!important;line-height:.88!important}
+ #product h1~p,.vv-hero-body{max-width:350px!important;margin-top:26px!important;font-size:1rem!important;line-height:1.52!important;letter-spacing:-.012em!important}
+ #product a.inline-flex:not(.vv-hero-technology-link),#product button.inline-flex,#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:54px!important;padding:0 21px!important;font-size:15px!important;border-radius:8px!important}
+ #product .vv-hero-technology-link{bottom:24px!important;padding:7px 11px!important;font-size:11px!important}
+ #workflow>div{gap:24px!important}
+ #workflow .vv-console-visual{width:110%;margin-left:-5%;margin-top:24px}
+ #workflow .vv-console-visual::after{height:16%}
+ #workflow .vv-future-subheading{margin-top:20px;font-size:1.35rem}
+ #workflow::before{opacity:.34}
+ #technology::before{opacity:.28}
+ main>section:nth-of-type(5)::before,main>section:nth-of-type(6)::before{opacity:.18}
+ #use-cases::before{opacity:.20;background-size:155% auto}
+ #briefing>div::after{opacity:.18}
+}
+@media(prefers-reduced-motion:reduce){#technology .mt-8 > div:last-child > div::after{animation:none!important}}
