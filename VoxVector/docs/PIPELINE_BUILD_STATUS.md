@@ -91,9 +91,24 @@ The server-side Supabase media adapter was hardened to:
 - use a 10 second storage request timeout by default;
 - retry transient 429/502/503/504 and transport failures;
 - reject empty media objects;
-- enforce the configured media size limit before storage.
+- enforce the configured media size limit.
 
 These changes are operational reliability work. They do not create new scientific evidence or deception inference.
+
+## Developer Console chrome and API startup — 2026-08-30
+
+The canonical `SiteHeader` now owns the product and Developer Console header behavior.
+
+- The header is sticky to the top of the viewport.
+- Desktop logo dimensions are constrained so the wordmark and icon no longer blow out the header bar.
+- Mobile header dimensions are reduced proportionally.
+- The Developer Gate login shell also uses a sticky header.
+- The authenticated Developer Console automatically polls `/health` while the API is unavailable or waking from sleep.
+- The startup surface displays an animated initializing state while the health request is unresolved.
+- When the API reports healthy, the surface changes to a ready state and slides down/out automatically.
+- Failed health checks remain visible as a reconnecting state and continue retrying rather than requiring a manual restart.
+
+The health polling is a wake-up mechanism through the canonical API endpoint. It does not create a second API service or duplicate backend behavior.
 
 ## Next pipeline build sequence
 
@@ -130,7 +145,7 @@ Expose normalized evidence records and source intervals from the canonical backe
 
 ### 5. Validation gate
 
-Build the evaluation harness, calibration layer, uncertainty reporting, and speaker-disjoint testing before promoting any inferential classification capability.
+Build the evaluation harness, calibration layer, uncertainty reporting, and speaker-disjoint testing before promoting inferential classification capability.
 
 ## Verification boundary
 
