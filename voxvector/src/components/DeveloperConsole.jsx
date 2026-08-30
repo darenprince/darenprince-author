@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Activity, AlertTriangle, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, CircleCheck, Code2, FileAudio, ListChecks, LogOut, Menu, Play, RefreshCw, Terminal, UserRound, Waves, X, XCircle } from 'lucide-react'
+import { Activity, AlertTriangle, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, CircleCheck, Code2, FileAudio, Globe2, Images, ListChecks, LogOut, Menu, Play, RefreshCw, Terminal, UserRound, Waves, X, XCircle } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { analyzeCaseSource, API_BASE, createAnalysisCase, getCasePlaybackUrl, getAnalysisCase, getDiagnosticErrors, getDiagnosticEvents, getHealth, listAnalysisCases, uploadCaseSource } from '../lib/api'
 import Button from './ui/Button'
@@ -17,6 +17,15 @@ const DOCS = {
   mvp: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/MVP_BUILD_PLAN.md',
   methodsIndex: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/MASTER_METHOD_INDEX.md',
   capability: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/CAPABILITY_STATUS.md',
+}
+
+const PUBLIC = {
+  home: '/voxvector/',
+  developer: '/voxvector/developer/',
+  methods: '/voxvector/methods.html',
+  pipeline: '/voxvector/pipeline.html',
+  imageIndex: '/voxvector/image-index/',
+  sitemap: '/voxvector/sitemap.xml',
 }
 
 const phases = [
@@ -91,7 +100,7 @@ export default function DeveloperConsole({ session, signOut }) {
   </div>
 }
 
-function Sidebar({ section, choose }) { const items = [['dashboard','Dashboard',Activity],['api','Case Workbench',Code2],['workspace','Analysis Workspace',Waves],['mvp','MVP Build Plan',ListChecks],['docs','Methodology & Docs',BookOpen],['errors','Error Reports',AlertTriangle],['logs','Live Logs',Terminal],['profile','Profile',UserRound]]; return <div className="vv-sidebar-content"><div className="vv-sidebar-label">Build</div>{items.slice(0,5).map(([id,label,Icon]) => <button key={id} className={`vv-nav-item ${section === id ? 'active' : ''}`} onClick={() => choose(id)}><Icon size={17}/>{label}{id === 'mvp' && <span className="ml-auto text-[9px] font-bold tracking-[.1em] text-[var(--vv-accent-bright)]">MVP</span>}</button>)}<div className="vv-sidebar-divider"/><div className="vv-sidebar-label">Observe</div>{items.slice(5).map(([id,label,Icon]) => <button key={id} className={`vv-nav-item ${section === id ? 'active' : ''}`} onClick={() => choose(id)}><Icon size={17}/>{label}</button>)}<div className="vv-sidebar-divider"/><div className="vv-sidebar-label">Source</div><a className="vv-nav-item" href={DOCS.methodology} target="_blank" rel="noreferrer"><BookOpen size={17}/>Methodology</a><a className="vv-nav-item" href={DOCS.pipeline} target="_blank" rel="noreferrer"><Waves size={17}/>21 stage pipeline</a><a className="vv-nav-item" href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer"><Code2 size={17}/>Frontend source</a></div> }
+function Sidebar({ section, choose }) { const items = [['dashboard','Dashboard',Activity],['api','Case Workbench',Code2],['workspace','Analysis Workspace',Waves],['mvp','MVP Build Plan',ListChecks],['docs','Methodology & Docs',BookOpen],['errors','Error Reports',AlertTriangle],['logs','Live Logs',Terminal],['profile','Profile',UserRound]]; return <div className="vv-sidebar-content"><div className="vv-sidebar-label">Build</div>{items.slice(0,5).map(([id,label,Icon]) => <button key={id} className={`vv-nav-item ${section === id ? 'active' : ''}`} onClick={() => choose(id)}><Icon size={17}/>{label}{id === 'mvp' && <span className="ml-auto text-[9px] font-bold tracking-[.1em] text-[var(--vv-accent-bright)]">MVP</span>}</button>)}<div className="vv-sidebar-divider"/><div className="vv-sidebar-label">Observe</div>{items.slice(5).map(([id,label,Icon]) => <button key={id} className={`vv-nav-item ${section === id ? 'active' : ''}`} onClick={() => choose(id)}><Icon size={17}/>{label}</button>)}<div className="vv-sidebar-divider"/><div className="vv-sidebar-label">Source</div><a className="vv-nav-item" href={DOCS.methodology} target="_blank" rel="noreferrer"><BookOpen size={17}/>Methodology</a><a className="vv-nav-item" href={DOCS.pipeline} target="_blank" rel="noreferrer"><Waves size={17}/>21 stage pipeline</a><a className="vv-nav-item" href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer"><Code2 size={17}/>Frontend source</a><div className="vv-sidebar-divider"/><div className="vv-sidebar-label">Site</div><a className="vv-nav-item" href={PUBLIC.home}><Globe2 size={17}/>Public landing</a><a className="vv-nav-item" href={PUBLIC.methods}><BookOpen size={17}/>Methods page</a><a className="vv-nav-item" href={PUBLIC.pipeline}><Waves size={17}/>Pipeline page</a><a className="vv-nav-item" href={PUBLIC.imageIndex}><Images size={17}/>Image index</a><a className="vv-nav-item" href={PUBLIC.sitemap}><Code2 size={17}/>Sitemap</a></div> }
 
 function PageTitle({ eyebrow, title, action }) { return <div className="mb-5 flex flex-wrap items-end justify-between gap-3"><div><div className="vv-eyebrow">{eyebrow}</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{title}</h1></div>{action}</div> }
 function Metric({ label, value, detail, state }) { return <Card><div className="vv-eyebrow">{label}</div><div className="mt-2 text-xl font-semibold">{value}</div><div className="mt-1 text-xs text-[var(--vv-muted)]">{detail}</div><div className={`mt-3 vv-dot ${state}`}/></Card> }
