@@ -27,13 +27,19 @@ function authHeaders(accessToken) {
   return { Authorization: `Bearer ${accessToken}` }
 }
 
+function selectedDomFile() {
+  if (typeof document === 'undefined') return null
+  return document.querySelector('input[type="file"][accept*=".wav"]')?.files?.[0] || null
+}
+
 function validateWavFile(file) {
-  if (!file) throw new Error('Choose a WAV recording before uploading.')
-  const filename = String(file.name || '').trim()
+  const resolved = file || selectedDomFile()
+  if (!resolved) throw new Error('Choose a WAV recording before uploading.')
+  const filename = String(resolved.name || '').trim()
   if (!filename.toLowerCase().endsWith('.wav')) throw new Error('VoxVector case intake currently requires a WAV recording.')
-  if (!Number.isFinite(file.size) || file.size <= 0) throw new Error('The selected audio file is empty.')
-  if (file.size > MAX_UPLOAD_BYTES) throw new Error(`The selected recording exceeds the ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB upload limit.`)
-  return filename
+  if (!Number.isFinite(resolved.size) || resolved.size <= 0) throw new Error('The selected audio file is empty.')
+  if (resolved.size > MAX_UPLOAD_BYTES) throw new Error(`The selected recording exceeds the ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB upload limit.`)
+  return resolved
 }
 
 async function resolveCaseSourceId(accessToken, caseId, sourceId = '') {
@@ -84,12 +90,12 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress, { onStat
     try {
       if (!accessToken) throw new Error('Developer session token unavailable.')
       if (!caseId) throw new Error('Select or create an analysis case before uploading a recording.')
-      validateWavFile(file)
+      const resolvedFile = validateWavFile(file)
 
       const xhr = new XMLHttpRequest()
       const body = new FormData()
       const requestId = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
-      body.append('file', file, file.name || 'recording.wav')
+      body.append('file', resolvedFile, resolvedFile.name || 'recording.wav')
       xhr.open('POST', `${API_BASE}/v1/cases/${encodeURIComponent(caseId)}/sources`)
       xhr.timeout = 10 * 60 * 1000
       xhr.setRequestHeader('Accept', 'application/json')
@@ -161,16 +167,17 @@ export async function analyzeCaseSource(accessToken, caseId, sourceId) {
 }
 
 export async function analyzeWav(file) {
-  validateWavFile(file)
+  const resolvedFile = validateWavFile(file)
   const body = new FormData()
-  body.append('file', file, file.name || 'recording.wav')
+  body.append('file', resolvedFile, resolvedFile.name || 'recording.wav')
   return apiRequest('/v1/analyze', { method: 'POST', body, headers: {} })
 }
 
 export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onState } = {}) {
   return new Promise((resolve, reject) => {
+    let resolvedFile
     try {
-      validateWavFile(file)
+      resolvedFile = validateWavFile(file)
     } catch (error) {
       reject(error)
       return
@@ -179,7 +186,7 @@ export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onS
     const started = performance.now()
     const body = new FormData()
     const requestId = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
-    body.append('file', file, file.name || 'recording.wav')
+    body.append('file', resolvedFile, resolvedFile.name || 'recording.wav')
 
     xhr.open('POST', `${API_BASE}/v1/analyze`)
     xhr.timeout = 10 * 60 * 1000
