@@ -40,7 +40,7 @@ export default function DeveloperGate({ children, onBack }) {
 
   if (!isDeveloper(session.user)) return <GateShell onBack={onBack}><div role="alert" className="border border-red-300/20 bg-red-300/[.04] p-6"><ShieldCheck className="text-red-200" /><h2 className="mt-5 text-xl font-semibold">Developer role required</h2><p className="mt-2 text-sm leading-6 text-white/55">This account is authenticated, but its trusted Supabase <code>app_metadata</code> does not grant the VoxVector developer role.</p>{error && <div className="mt-4 text-sm text-red-100">{error}</div>}<Button type="button" disabled={signingOut} onClick={handleSignOut} className="mt-6 border border-white/15 bg-transparent px-4 py-2 text-sm hover:bg-white/[.06]">{signingOut ? 'Signing out…' : 'Sign out'}</Button></div></GateShell>
 
-  return <><DeveloperEngineeringStatus />{children({ session, signOut: handleSignOut })}</>
+  return <><DeveloperEngineeringStatus /><div className="vv-developer-page"><main className="vv-developer-content">{children({ session, signOut: handleSignOut })}</main><footer className="vv-developer-footer"><a href="/voxvector/" className="no-underline">VoxVector</a><span>Developer Console</span><span>© 2026 Crown Labs</span></footer></div></>
 }
 
 function GateShell({ children, onBack }) {
@@ -77,10 +77,7 @@ function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubm
     event.preventDefault()
     setMessage('')
     setResetError('')
-    if (!email.trim()) {
-      setResetError('Enter your developer email first.')
-      return
-    }
+    if (!email.trim()) { setResetError('Enter your developer email first.'); return }
     setResetBusy(true)
     const { error: authError } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/voxvector/developer` })
     if (authError) setResetError(authError.message)
@@ -88,27 +85,7 @@ function LoginForm({ email, password, setEmail, setPassword, busy, error, onSubm
     setResetBusy(false)
   }
 
-  if (mode === 'forgot') return <section className="border border-white/10 bg-white/[.025] p-7 sm:p-8">
-    <div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div>
-    <h1 className="mt-6 text-2xl font-semibold">Reset developer password</h1>
-    <p className="mt-2 text-sm leading-6 text-white/50">Enter your approved developer email and we’ll send a secure password reset link.</p>
-    {resetError && <div role="alert" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{resetError}</div>}
-    {message && <div role="status" className="mt-5 border border-emerald-300/20 bg-emerald-300/[.04] p-3 text-sm text-emerald-100">{message}</div>}
-    <form onSubmit={requestReset}>
-      <label className="mt-6 block text-sm text-white/65">Developer email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="email" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
-      <Button type="submit" disabled={resetBusy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90">{resetBusy ? 'Sending…' : 'Send reset link'}</Button>
-    </form>
-    <button type="button" onClick={() => { setMode('login'); setMessage(''); setResetError('') }} className="mt-5 text-sm text-white/50 hover:text-white">Back to sign in</button>
-  </section>
+  if (mode === 'forgot') return <section className="border border-white/10 bg-white/[.025] p-7 sm:p-8"><div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div><h1 className="mt-6 text-2xl font-semibold">Reset developer password</h1><p className="mt-2 text-sm leading-6 text-white/50">Enter your approved developer email and we’ll send a secure password reset link.</p>{resetError && <div role="alert" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{resetError}</div>}{message && <div role="status" className="mt-5 border border-emerald-300/20 bg-emerald-300/[.04] p-3 text-sm text-emerald-100">{message}</div>}<form onSubmit={requestReset}><label className="mt-6 block text-sm text-white/65">Developer email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="email" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label><Button type="submit" disabled={resetBusy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90">{resetBusy ? 'Sending…' : 'Send reset link'}</Button></form><button type="button" onClick={() => { setMode('login'); setMessage(''); setResetError('') }} className="mt-5 text-sm text-white/50 hover:text-white">Back to sign in</button></section>
 
-  return <form onSubmit={onSubmit} className="border border-white/10 bg-white/[.025] p-7 sm:p-8">
-    <div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div>
-    <h1 className="mt-6 text-2xl font-semibold">VoxVector Developer Console</h1>
-    <p className="mt-2 text-sm leading-6 text-white/50">Sign in with an approved developer account. Access is controlled by Supabase Auth and the user's trusted application metadata.</p>
-    {error && <div role="alert" aria-live="polite" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{error}</div>}
-    <label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(error)} className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
-    <label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label>
-    <button type="button" onClick={() => { setMode('forgot'); setMessage(''); setResetError('') }} className="mt-3 text-left text-xs text-white/50 transition hover:text-white">Forgot password?</button>
-    <Button type="submit" disabled={busy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90"><LogIn size={16} />{busy ? 'Authenticating…' : 'Sign in'}</Button>
-  </form>
+  return <form onSubmit={onSubmit} className="border border-white/10 bg-white/[.025] p-7 sm:p-8"><div className="flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[.04]"><KeyRound size={20} /></div><h1 className="mt-6 text-2xl font-semibold">VoxVector Developer Console</h1><p className="mt-2 text-sm leading-6 text-white/50">Sign in with an approved developer account. Access is controlled by Supabase Auth and the user's trusted application metadata.</p>{error && <div role="alert" aria-live="polite" className="mt-5 border border-red-300/20 bg-red-300/[.04] p-3 text-sm text-red-100">{error}</div>}<label className="mt-6 block text-sm text-white/65">Email<input value={email} onChange={e => setEmail(e.target.value)} type="email" autoComplete="username" required aria-invalid={Boolean(error)} className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label><label className="mt-4 block text-sm text-white/65">Password<input value={password} onChange={e => setPassword(e.target.value)} type="password" autoComplete="current-password" required className="mt-2 w-full rounded-[5px] border border-white/10 bg-black/30 px-3 py-3 outline-none focus:border-blue-300/60 focus:ring-2 focus:ring-blue-400/20" /></label><button type="button" onClick={() => { setMode('forgot'); setMessage(''); setResetError('') }} className="mt-3 text-left text-xs text-white/50 transition hover:text-white">Forgot password?</button><Button type="submit" disabled={busy} focusableWhenDisabled className="mt-6 w-full bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90"><LogIn size={16} />{busy ? 'Authenticating…' : 'Sign in'}</Button></form>
 }
