@@ -5,26 +5,10 @@ import { getHealth } from '../lib/api'
 import './DeveloperEngineeringStatus.css'
 
 const TRACE = {
-  source: {
-    label: 'CONSOLE SOURCE',
-    path: 'voxvector/src/components/DeveloperConsole.jsx',
-    href: 'https://github.com/darenprince/darenprince-author/blob/main/voxvector/src/components/DeveloperConsole.jsx',
-  },
-  pipeline: {
-    label: 'PIPELINE STATUS',
-    path: 'VoxVector/docs/PIPELINE_BUILD_STATUS.md',
-    href: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/PIPELINE_BUILD_STATUS.md',
-  },
-  workflow: {
-    label: 'QA WORKFLOW',
-    path: '.github/workflows/voxvector-qa.yml',
-    href: 'https://github.com/darenprince/darenprince-author/blob/main/.github/workflows/voxvector-qa.yml',
-  },
-  docs: {
-    label: 'SYNC RULES',
-    path: 'VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md',
-    href: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md',
-  },
+  source: { label: 'CONSOLE SOURCE', path: 'voxvector/src/components/DeveloperConsole.jsx', href: 'https://github.com/darenprince/darenprince-author/blob/main/voxvector/src/components/DeveloperConsole.jsx' },
+  pipeline: { label: 'PIPELINE STATUS', path: 'VoxVector/docs/PIPELINE_BUILD_STATUS.md', href: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/PIPELINE_BUILD_STATUS.md' },
+  workflow: { label: 'QA WORKFLOW', path: '.github/workflows/voxvector-qa.yml', href: 'https://github.com/darenprince/darenprince-author/blob/main/.github/workflows/voxvector-qa.yml' },
+  docs: { label: 'SYNC RULES', path: 'VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md', href: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md' },
 }
 
 const currentStage = 'UPLOAD AND INTAKE RELIABILITY'
@@ -37,31 +21,15 @@ function stateTone(state) {
 }
 
 function StateChip({ icon: Icon, label, value, tone }) {
-  return <div className={`vv-eng-state ${tone || stateTone(value)}`}>
-    <Icon size={15} aria-hidden="true" />
-    <div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div>
-  </div>
+  return <div className={`vv-eng-state ${tone || stateTone(value)}`}><Icon size={15} aria-hidden="true" /><div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div></div>
 }
 
 function CopyTrace({ item }) {
   const [copied, setCopied] = useState(false)
   const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(item.href)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 1600)
-    } catch {
-      setCopied(false)
-    }
+    try { await navigator.clipboard.writeText(item.href); setCopied(true); window.setTimeout(() => setCopied(false), 1600) } catch { setCopied(false) }
   }
-  return <div className="vv-trace-row">
-    <div className="vv-trace-copy"><span>{item.label}</span><code>{item.path}</code></div>
-    <div className="vv-trace-actions">
-      <a href={item.href} target="_blank" rel="noreferrer" aria-label={`Open ${item.label}`} title="Open in GitHub"><ExternalLink size={13}/></a>
-      <button type="button" onClick={copy} aria-label={`Copy ${item.label} GitHub link`} title={copied ? 'Copied' : 'Copy GitHub link'}><Clipboard size={13}/></button>
-    </div>
-    {copied && <span className="vv-trace-copied">COPIED</span>}
-  </div>
+  return <div className="vv-trace-row"><div className="vv-trace-copy"><span>{item.label}</span><code>{item.path}</code></div><div className="vv-trace-actions"><a href={item.href} target="_blank" rel="noreferrer" aria-label={`Open ${item.label}`} title="Open in GitHub"><ExternalLink size={13}/></a><button type="button" onClick={copy} aria-label={`Copy ${item.label} GitHub link`} title={copied ? 'Copied' : 'Copy GitHub link'}><Clipboard size={13}/></button></div>{copied && <span className="vv-trace-copied">COPIED</span>}</div>
 }
 
 function QACheck({ label, status, detail }) {
@@ -71,7 +39,7 @@ function QACheck({ label, status, detail }) {
 }
 
 export default function DeveloperEngineeringStatus() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const health = useQuery({ queryKey: ['engineering-status-health'], queryFn: getHealth, refetchInterval: 30000 })
   const h = health.data?.payload || health.data || {}
   const pipeline = h.pipeline_build || {}
@@ -102,21 +70,9 @@ export default function DeveloperEngineeringStatus() {
       <span className="vv-eng-status__summary"><span>{built} BUILT</span><span>{functional}</span><ChevronDown size={15} className={open ? 'rotate-180' : ''}/></span>
     </button>
     {open && <div className="vv-eng-status__body">
-      <div className="vv-eng-state-grid">
-        <StateChip icon={Hammer} label="BUILT" value={built} />
-        <StateChip icon={Activity} label="FUNCTIONAL" value={functional} />
-        <StateChip icon={TestTube2} label="TESTED" value={tested} />
-        <StateChip icon={ShieldCheck} label="VALIDATED" value={validated} />
-      </div>
-      <div className="vv-eng-current">
-        <div><span className="vv-eng-kicker">CURRENT ENGINEERING STAGE</span><strong>{currentStage}</strong></div>
-        <div><span className="vv-eng-kicker">NEXT DEPENDENCY</span><strong>{nextDependency}</strong></div>
-        <div><span className="vv-eng-kicker">SOURCE REVISION</span><code>{currentSha}</code></div>
-      </div>
-      <div className="vv-eng-grid">
-        <div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>QA CHECKS</span><span>{qaChecks.filter(item => item[1] === 'PASS').length} CURRENT PASSES</span></div><div className="vv-qa-list">{qaChecks.map(([label, status, detail]) => <QACheck key={label} label={label} status={status} detail={detail}/>)}</div></div>
-        <div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>SOURCE TRACEABILITY</span><span>GITHUB</span></div><div className="vv-trace-list">{Object.values(TRACE).map(item => <CopyTrace key={item.path} item={item}/>)}</div><div className="vv-trace-note">SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT / DEPLOYMENT → RUNTIME → CONSOLE</div></div>
-      </div>
+      <div className="vv-eng-state-grid"><StateChip icon={Hammer} label="BUILT" value={built} /><StateChip icon={Activity} label="FUNCTIONAL" value={functional} /><StateChip icon={TestTube2} label="TESTED" value={tested} /><StateChip icon={ShieldCheck} label="VALIDATED" value={validated} /></div>
+      <div className="vv-eng-current"><div><span className="vv-eng-kicker">CURRENT ENGINEERING STAGE</span><strong>{currentStage}</strong></div><div><span className="vv-eng-kicker">NEXT DEPENDENCY</span><strong>{nextDependency}</strong></div><div><span className="vv-eng-kicker">SOURCE REVISION</span><code>{currentSha}</code></div></div>
+      <div className="vv-eng-grid"><div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>QA CHECKS</span><span>{qaChecks.filter(item => item[1] === 'PASS').length} CURRENT PASSES</span></div><div className="vv-qa-list">{qaChecks.map(([label, status, detail]) => <QACheck key={label} label={label} status={status} detail={detail}/>)}</div></div><div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>SOURCE TRACEABILITY</span><span>GITHUB</span></div><div className="vv-trace-list">{Object.values(TRACE).map(item => <CopyTrace key={item.path} item={item}/>)}</div><div className="vv-trace-note">SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT / DEPLOYMENT → RUNTIME → CONSOLE</div></div></div>
     </div>}
   </section>
 }
