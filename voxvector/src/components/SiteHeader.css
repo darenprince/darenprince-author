@@ -6,6 +6,19 @@
   width: 100%;
 }
 
+.vv-public-header .vv-logo-lockup,
+.vv-developer-header a[aria-label="VoxVector Developer Console"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle;
+}
+
+.vv-public-header .vv-logo-lockup img,
+.vv-developer-header img {
+  display: block;
+}
+
 .vv-developer-header {
   isolation: isolate;
 }
@@ -14,13 +27,10 @@
   align-items: center !important;
 }
 
-.vv-developer-header .vv-developer-header__actions,
 .vv-developer-header > div > div:last-child {
   align-items: center !important;
 }
 
-.vv-developer-header .vv-developer-header__actions a,
-.vv-developer-header .vv-developer-header__actions button,
 .vv-developer-header > div > div:last-child a,
 .vv-developer-header > div > div:last-child button {
   align-self: center !important;
@@ -29,7 +39,6 @@
   box-shadow: none !important;
 }
 
-.vv-developer-header .vv-developer-header__actions svg,
 .vv-developer-header > div > div:last-child svg {
   display: block;
   flex: 0 0 auto;
