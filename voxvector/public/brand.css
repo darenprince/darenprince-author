@@ -1,106 +1,43 @@
 /* Canonical VoxVector brand assets */
+.vv-canonical-brand-icon{background:url('/voxvector/assets/voxvector-icon-final-color.png') center/contain no-repeat!important}
+.vv-canonical-brand-wordmark{background:url('/voxvector/assets/voxvector-wordmark-final-white.png') left center/contain no-repeat!important}
 
-.vv-canonical-brand-icon {
-  background: url('/voxvector/assets/voxvector-icon-final-color.png') center / contain no-repeat !important;
-}
+/* Canonical React SiteHeader. Keep the header compact enough that the logo
+   never determines the bar height or crowds desktop navigation. */
+.vv-public-header{position:sticky!important;top:0!important;z-index:100!important;width:100%!important}
+.vv-public-header>div{min-height:64px!important;height:64px!important;gap:28px!important}
+.vv-logo-lockup{display:inline-flex!important;align-items:center!important;gap:7px!important;width:auto!important;max-width:220px!important;min-width:0!important;flex:0 0 auto!important;height:44px!important;overflow:visible!important}
+.vv-logo-icon{display:block!important;width:38px!important;height:38px!important;flex:0 0 38px!important;object-fit:contain!important}
+.vv-logo-wordmark{display:block!important;width:auto!important;height:27px!important;max-width:175px!important;flex:0 1 auto!important;min-width:0!important;object-fit:contain!important;object-position:left center!important}
 
-.vv-canonical-brand-wordmark {
-  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
-}
+.vv-public-header nav{align-items:center!important}
+.vv-public-header nav a{white-space:nowrap!important}
+.vv-public-header nav.hidden{min-width:0!important}
 
-/* Canonical React SiteHeader logo lockup.
-   The sizing below incorporates the latest logo-visibility refinement so the
-   canonical header owns the actual rendered dimensions rather than a patch. */
-.vv-logo-lockup {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  width: 60% !important;
-  max-width: 60% !important;
-  min-width: 0 !important;
-  flex: 0 0 60% !important;
-  height: 54px !important;
-}
+/* API startup surface. It belongs to the real SiteHeader component and is
+   mounted only for the authenticated Developer Console path. */
+.vv-api-startup{position:fixed!important;left:0!important;right:0!important;top:64px!important;z-index:95!important;padding:10px 18px!important;pointer-events:none!important;animation:vv-api-startup-in .26s ease-out both!important}
+.vv-api-startup__inner{display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;width:max-content!important;max-width:calc(100vw - 28px)!important;margin:0 auto!important;padding:10px 14px!important;border:1px solid rgba(255,255,255,.10)!important;background:rgba(11,11,11,.94)!important;box-shadow:0 18px 48px rgba(0,0,0,.28)!important;backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important}
+.vv-api-startup__icon{display:grid!important;place-items:center!important;width:28px!important;height:28px!important;flex:0 0 28px!important;border:1px solid rgba(201,154,102,.24)!important;background:rgba(201,154,102,.08)!important;color:#d4ab7c!important}
+.vv-api-startup__icon.ready{border-color:rgba(52,211,153,.24)!important;background:rgba(52,211,153,.08)!important;color:#34d399!important}
+.vv-api-startup__spinner{animation:vv-api-spin 1s linear infinite!important}
+.vv-api-startup__copy{display:grid!important;gap:2px!important;min-width:0!important;text-align:left!important}
+.vv-api-startup__copy strong{color:#f4f1ec!important;font-size:12px!important;line-height:1.2!important}
+.vv-api-startup__copy span{color:rgba(244,241,236,.45)!important;font-size:10px!important;line-height:1.35!important}
+.vv-api-startup__pulse{width:7px!important;height:7px!important;border-radius:50%!important;background:#c99a66!important;box-shadow:0 0 0 0 rgba(201,154,102,.45)!important;animation:vv-api-pulse 1.5s infinite!important}
+.vv-api-startup.ready{animation:vv-api-startup-out .34s ease-in 0s 1 both!important;animation-delay:.78s!important}
+.vv-api-startup.ready .vv-api-startup__pulse{background:#34d399!important;box-shadow:0 0 0 0 rgba(52,211,153,.35)!important}
+@keyframes vv-api-startup-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes vv-api-startup-out{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(22px)}}
+@keyframes vv-api-spin{to{transform:rotate(360deg)}}
+@keyframes vv-api-pulse{70%{box-shadow:0 0 0 7px rgba(201,154,102,0)}100%{box-shadow:0 0 0 0 rgba(201,154,102,0)}}
 
-.vv-logo-icon {
-  display: block !important;
-  width: 54px !important;
-  height: 54px !important;
-  flex: 0 0 54px !important;
-  object-fit: contain !important;
-}
+/* Authenticated Developer Console legacy brand selectors remain available. */
+.vv-brand-mark{width:38px!important;height:38px!important;border-radius:0!important;background:url('/voxvector/assets/voxvector-icon-final-color.png') center/contain no-repeat!important}
+.vv-brand-mark>*{display:none!important}
+.vv-brand-title{width:148px!important;height:28px!important;font-size:0!important;background:url('/voxvector/assets/voxvector-wordmark-final-white.png') left center/contain no-repeat!important}
 
-.vv-logo-wordmark {
-  display: block !important;
-  width: auto !important;
-  height: 45.9px !important;
-  max-width: calc(100% - 62px) !important;
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-  object-fit: contain !important;
-  object-position: left center !important;
-}
-
-/* Authenticated Developer Console legacy brand selectors remain available to preserve existing console-specific surfaces during migration. */
-.vv-brand-mark {
-  width: 38px !important;
-  height: 38px !important;
-  border-radius: 0 !important;
-  background: url('/voxvector/assets/voxvector-icon-final-color.png') center / contain no-repeat !important;
-}
-
-.vv-brand-mark > * {
-  display: none !important;
-}
-
-.vv-brand-title {
-  width: 148px !important;
-  height: 28px !important;
-  font-size: 0 !important;
-  background: url('/voxvector/assets/voxvector-wordmark-final-white.png') left center / contain no-repeat !important;
-}
-
-@media (max-width: 1100px) and (min-width: 901px) {
-  .vv-logo-lockup {
-    width: 42% !important;
-    max-width: 42% !important;
-    flex-basis: 42% !important;
-  }
-}
-
-@media (max-width: 900px) {
-  .vv-logo-lockup {
-    width: 60% !important;
-    max-width: 60% !important;
-    flex-basis: 60% !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .vv-logo-lockup {
-    width: 60% !important;
-    max-width: 60% !important;
-    flex-basis: 60% !important;
-  }
-
-  .vv-logo-icon {
-    width: 52px !important;
-    height: 52px !important;
-    flex-basis: 52px !important;
-  }
-
-  .vv-logo-wordmark {
-    height: 44.2px !important;
-    max-width: calc(100% - 60px) !important;
-  }
-
-  .vv-brand-mark {
-    width: 32px !important;
-    height: 32px !important;
-  }
-
-  .vv-brand-title {
-    width: 126px !important;
-    height: 24px !important;
-  }
-}
+@media(max-width:1100px) and (min-width:901px){.vv-public-header>div{gap:20px!important}.vv-public-header nav{gap:1.5rem!important}.vv-logo-wordmark{max-width:150px!important}}
+@media(max-width:900px){.vv-public-header>div{min-height:64px!important;height:64px!important;padding-left:18px!important;padding-right:18px!important}.vv-logo-lockup{max-width:190px!important}.vv-logo-icon{width:36px!important;height:36px!important;flex-basis:36px!important}.vv-logo-wordmark{height:25px!important;max-width:150px!important}}
+@media(max-width:767px){.vv-public-header>div{min-height:60px!important;height:60px!important;gap:14px!important}.vv-logo-lockup{max-width:170px!important;height:40px!important}.vv-logo-icon{width:34px!important;height:34px!important;flex-basis:34px!important}.vv-logo-wordmark{height:23px!important;max-width:128px!important}.vv-api-startup{top:60px!important;padding:8px 12px!important}.vv-api-startup__inner{padding:9px 12px!important}}
+@media(prefers-reduced-motion:reduce){.vv-api-startup,.vv-api-startup.ready,.vv-api-startup__spinner,.vv-api-startup__pulse{animation:none!important}}
