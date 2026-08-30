@@ -1,0 +1,32 @@
+name: VoxVector Temporary Syntax Diagnostic
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show parser error context
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('voxvector/src/components/DeveloperConsole.jsx')
+          text = p.read_text()
+          pos = 34658
+          lines = text[:pos].splitlines()
+          print(f'FILE_SIZE={len(text)}')
+          print(f'LINE={len(lines)+1}')
+          line_start = text.rfind('\n', 0, pos) + 1
+          line_end = text.find('\n', pos)
+          if line_end == -1:
+              line_end = len(text)
+          print(f'COLUMN={pos-line_start+1}')
+          print('CONTEXT_START')
+          print(text[max(0,pos-900):min(len(text),pos+900)])
+          print('CONTEXT_END')
