@@ -1,5 +1,7 @@
 export const API_BASE = (import.meta.env.VITE_VOXVECTOR_API_URL || 'https://voxvector.crownlabs.tech').replace(/\/$/, '')
 
+const MAX_UPLOAD_BYTES = 250 * 1024 * 1024
+
 export async function apiRequest(path, options = {}) {
   const started = performance.now()
   const response = await fetch(`${API_BASE}${path}`, {
@@ -12,7 +14,8 @@ export async function apiRequest(path, options = {}) {
   const result = { response, payload, requestId, durationMs: Math.round(performance.now() - started) }
   if (!response.ok) {
     const detail = typeof payload === 'object' ? payload?.detail : payload
-    const error = new Error(detail || `HTTP ${response.status}`)
+    const suffix = requestId ? ` [request ${requestId}]` : ''
+    const error = new Error(`${detail || `HTTP ${response.status}`}${suffix}`)
     Object.assign(error, result)
     throw error
   }
@@ -22,6 +25,15 @@ export async function apiRequest(path, options = {}) {
 function authHeaders(accessToken) {
   if (!accessToken) throw new Error('Developer session token unavailable.')
   return { Authorization: `Bearer ${accessToken}` }
+}
+
+function validateWavFile(file) {
+  if (!file) throw new Error('Choose a WAV recording before uploading.')
+  const filename = String(file.name || '').trim()
+  if (!filename.toLowerCase().endsWith('.wav')) throw new Error('VoxVector case intake currently requires a WAV recording.')
+  if (!Number.isFinite(file.size) || file.size <= 0) throw new Error('The selected audio file is empty.')
+  if (file.size > MAX_UPLOAD_BYTES) throw new Error(`The selected recording exceeds the ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB upload limit.`)
+  return filename
 }
 
 async function resolveCaseSourceId(accessToken, caseId, sourceId = '') {
@@ -67,14 +79,12 @@ export async function getAnalysisCase(accessToken, caseId) {
   return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}`, { headers: authHeaders(accessToken) })
 }
 
-export function uploadCaseSource(accessToken, caseId, file, onProgress) {
+export function uploadCaseSource(accessToken, caseId, file, onProgress, { onState } = {}) {
   return new Promise((resolve, reject) => {
     try {
       if (!accessToken) throw new Error('Developer session token unavailable.')
       if (!caseId) throw new Error('Select or create an analysis case before uploading a recording.')
-      if (!file) throw new Error('Choose a WAV recording before uploading.')
-      const filename = String(file.name || '').toLowerCase()
-      if (!filename.endsWith('.wav')) throw new Error('VoxVector case intake currently requires a WAV recording.')
+      validateWavFile(file)
 
       const xhr = new XMLHttpRequest()
       const body = new FormData()
@@ -86,13 +96,30 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress) {
       xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`)
       xhr.setRequestHeader('X-Request-ID', requestId)
       onProgress?.(0)
+      onState?.({ state: 'uploading', requestId })
 
       xhr.upload.addEventListener('progress', event => {
         if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100))
       })
-      xhr.addEventListener('timeout', () => reject(Object.assign(new Error('The recording upload timed out. Check the connection and try again.'), { requestId, code: 'UPLOAD_TIMEOUT' })))
-      xhr.addEventListener('error', () => reject(Object.assign(new Error('Network error while uploading the recording. Check API connectivity and try again.'), { requestId, code: 'UPLOAD_NETWORK_ERROR' })))
-      xhr.addEventListener('abort', () => reject(Object.assign(new Error('Recording upload was cancelled.'), { requestId, code: 'UPLOAD_ABORTED' })))
+      xhr.upload.addEventListener('load', () => {
+        onProgress?.(100)
+        onState?.({ state: 'processing', requestId })
+      })
+      xhr.addEventListener('timeout', () => {
+        const error = Object.assign(new Error(`The recording upload timed out. Check the connection and try again. [request ${requestId}]`), { requestId, code: 'UPLOAD_TIMEOUT' })
+        onState?.({ state: 'failed', requestId, code: error.code })
+        reject(error)
+      })
+      xhr.addEventListener('error', () => {
+        const error = Object.assign(new Error(`Network error while uploading the recording. Check API connectivity and try again. [request ${requestId}]`), { requestId, code: 'UPLOAD_NETWORK_ERROR' })
+        onState?.({ state: 'failed', requestId, code: error.code })
+        reject(error)
+      })
+      xhr.addEventListener('abort', () => {
+        const error = Object.assign(new Error(`Recording upload was cancelled. [request ${requestId}]`), { requestId, code: 'UPLOAD_ABORTED' })
+        onState?.({ state: 'cancelled', requestId, code: error.code })
+        reject(error)
+      })
       xhr.addEventListener('load', () => {
         const contentType = xhr.getResponseHeader('content-type') || ''
         let payload = xhr.responseText
@@ -100,13 +127,17 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress) {
           try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ }
         }
         const response = { status: xhr.status, ok: xhr.status >= 200 && xhr.status < 300 }
-        const result = { response, payload, requestId: xhr.getResponseHeader('X-Request-ID') || requestId }
+        const responseRequestId = xhr.getResponseHeader('X-Request-ID') || requestId
+        const result = { response, payload, requestId: responseRequestId }
         if (!response.ok) {
           const detail = typeof payload === 'object' ? payload?.detail : payload
-          reject(Object.assign(new Error(detail || `Upload failed (HTTP ${xhr.status}).`), result))
+          const error = Object.assign(new Error(`${detail || `Upload failed (HTTP ${xhr.status}).`} [request ${responseRequestId}]`), result)
+          onState?.({ state: 'failed', requestId: responseRequestId, code: `HTTP_${xhr.status}` })
+          reject(error)
           return
         }
         onProgress?.(100)
+        onState?.({ state: 'completed', requestId: responseRequestId })
         resolve(result)
       })
       xhr.send(body)
@@ -130,7 +161,7 @@ export async function analyzeCaseSource(accessToken, caseId, sourceId) {
 }
 
 export async function analyzeWav(file) {
-  if (!file) throw new Error('Choose a WAV recording before analysis.')
+  validateWavFile(file)
   const body = new FormData()
   body.append('file', file, file.name || 'recording.wav')
   return apiRequest('/v1/analyze', { method: 'POST', body, headers: {} })
@@ -138,8 +169,10 @@ export async function analyzeWav(file) {
 
 export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onState } = {}) {
   return new Promise((resolve, reject) => {
-    if (!file) {
-      reject(new Error('Choose a WAV recording before analysis.'))
+    try {
+      validateWavFile(file)
+    } catch (error) {
+      reject(error)
       return
     }
     const xhr = new XMLHttpRequest()
@@ -157,14 +190,15 @@ export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onS
     xhr.upload.addEventListener('progress', event => { if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100)) })
     xhr.upload.addEventListener('load', () => { onProgress?.(100); onState?.('uploaded') })
     xhr.addEventListener('timeout', () => {
-      const error = new Error('The analysis upload timed out. Check the connection and try again.')
+      const error = new Error(`The analysis upload timed out. Check the connection and try again. [request ${requestId}]`)
       error.requestId = requestId
       error.code = 'UPLOAD_TIMEOUT'
       reject(error)
     })
     xhr.addEventListener('error', () => {
-      const error = new Error('Network error while uploading audio.')
+      const error = new Error(`Network error while uploading audio. [request ${requestId}]`)
       error.requestId = requestId
+      error.code = 'UPLOAD_NETWORK_ERROR'
       reject(error)
     })
     xhr.addEventListener('abort', () => {
@@ -184,7 +218,7 @@ export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onS
       const result = { response, payload, requestId: responseRequestId, durationMs: Math.round(performance.now() - started) }
       if (!response.ok) {
         const detail = typeof payload === 'object' ? payload?.detail : payload
-        const error = new Error(detail || `HTTP ${xhr.status}`)
+        const error = new Error(`${detail || `HTTP ${xhr.status}`} [request ${responseRequestId}]`)
         Object.assign(error, result)
         reject(error)
         return
