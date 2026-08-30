@@ -29,9 +29,9 @@ The file input remains restricted to WAV intake, matching the current case-sourc
 
 ### Upload workflow hardening
 
-`voxvector/src/lib/api.js` now validates the developer session, case selection, file selection, and WAV extension before attempting upload.
+`voxvector/src/lib/api.js` validates the developer session, case selection, file selection, WAV extension, non-zero size, and configured media ceiling before upload.
 
-The upload request now:
+The upload request:
 
 1. creates a request correlation ID;
 2. sends the original filename in the multipart body;
@@ -43,9 +43,25 @@ The upload request now:
 
 The browser does not manually set `Content-Type` for the multipart request so the browser can provide the correct multipart boundary.
 
+### Definitive client-side upload bug — 2026-08-30
+
+A production screenshot showed a WAV file visibly selected in the native browser file control while the console still displayed `Choose Recording` when **Upload Source** was pressed.
+
+Repository inspection identified the definitive failure point in `DeveloperConsole.jsx`: `handleUpload()` tested the component's transient React `file` state and returned before invoking the upload mutation when that state was null. The native input could still retain a selected `File` object, so the UI and mutation state could disagree.
+
+The canonical fix is now:
+
+- `handleUpload()` resolves the selected file from React state first and then the live `#audio-file` `FileList`;
+- it validates the resolved file before upload;
+- it passes that exact file as a mutation variable to `uploadCaseSource()` instead of relying on a stale closure;
+- the upload button is no longer disabled merely because transient React file state is empty when a selected case exists;
+- successful upload stores the returned persisted source separately from the local `File` object.
+
+This removes the specific pre-network guard that produced the screenshot's `Choose Recording` toast.
+
 ### Persisted-source workflow
 
-Playback and analysis now share the same persisted-source resolution behavior.
+Playback and analysis share the same persisted-source resolution behavior.
 
 If the Developer Console has no transient `source` state but the selected case contains a persisted source, the API helper retrieves the case and resolves the first available persisted `source_id` before calling playback or analysis.
 
@@ -70,8 +86,10 @@ The API target remains the configured VoxVector backend, defaulting to:
 
 ### Verification status
 
-The modified frontend API helper and application entry point were written directly to `main` and read from GitHub after the changes.
+The modified frontend API helper and Developer Console were written directly to `main` and read back from GitHub after the changes.
+
+The VoxVector QA workflow was triggered for commit `6288c85f7e89bba51e736b6f9c0599dcd62edf98`; at checkpoint time, the QA and GitHub Pages workflows were still in progress. A completed run is required before calling the new upload fix production-verified.
 
 The repository tools available in this session do not provide an authenticated browser session for the protected Developer Console, so this checkpoint does not claim successful end-to-end upload, playback, or analysis execution in production.
 
-Successful source modification is not treated as scientific validation.
+Successful source modification and a passing build are not treated as scientific validation.
