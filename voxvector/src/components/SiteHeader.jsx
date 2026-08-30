@@ -41,7 +41,7 @@ function DeveloperToolbar({ mobileMenuButton }) {
     window.location.href = '/voxvector/developer/'
   }
   return (
-    <header className="vv-public-header vv-developer-header sticky top-0 z-[100] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/95 backdrop-blur-xl">
+    <header className="vv-public-header vv-developer-header sticky top-0 z-[200] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/95 backdrop-blur-xl">
       <div className="relative mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex h-full min-w-[100px] items-center">
           {mobileMenuButton || <button type="button" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white/65 hover:text-white" aria-label="Open console navigation"><Menu size={18}/></button>}
@@ -59,23 +59,6 @@ function DeveloperToolbar({ mobileMenuButton }) {
       </div>
     </header>
   )
-}
-
-function FooterSiteMapLink() {
-  useEffect(() => {
-    const footer = document.querySelector('footer')
-    if (!footer || footer.querySelector('[data-vv-site-map-link]')) return undefined
-    const utilityRow = footer.querySelector('div.mt-14 span:last-child')
-    if (!utilityRow) return undefined
-    const link = document.createElement('a')
-    link.href = '/voxvector/sitemap.xml'
-    link.dataset.vvSiteMapLink = 'true'
-    link.className = 'inline-flex items-center gap-2 no-underline hover:text-white/[.65]'
-    link.textContent = 'Site Map'
-    utilityRow.appendChild(link)
-    return () => link.remove()
-  }, [])
-  return null
 }
 
 function ApiStartupWindow() {
@@ -120,7 +103,7 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
   if (developer) return <><DeveloperToolbar mobileMenuButton={mobileMenuButton}/><ApiStartupWindow/></>
   return (
     <>
-      <header className="vv-public-header sticky top-0 z-[100] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
+      <header className="vv-public-header sticky top-0 z-[200] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-7 px-5 lg:px-10">
           <Logo />
           <nav className="hidden items-center gap-[2.35rem] text-sm font-medium text-white/[.54] lg:flex" aria-label="Primary navigation">
@@ -135,7 +118,6 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
         </div>
         {menuOpen && <nav className="border-t border-[var(--vv-border)] bg-[var(--vv-bg)] px-5 py-5 lg:hidden" aria-label="Mobile navigation">{navigation.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)} className="block border-b border-[var(--vv-border)] py-4 text-base font-medium text-white/[.68] no-underline">{label}</a>)}<a href="/voxvector/developer" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-4 text-base font-semibold text-white no-underline"><Terminal size={16} />Developer</a>{mobileActions}{userMenu && <div className="border-t border-[var(--vv-border)] pt-4">{userMenu}</div>}</nav>}
       </header>
-      <FooterSiteMapLink />
       <ApiStartupWindow />
     </>
   )
