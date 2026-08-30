@@ -12,7 +12,18 @@ The immediate connected workflow remains:
 
 `create case → select compatible WAV → upload → persist → secure playback → run case-bound analysis → inspect stage state → Analysis Workspace`
 
-The next dependency is **real per-stage telemetry and lifecycle reporting**. The console status model must also distinguish BUILT, FUNCTIONAL, TESTED, and VALIDATED rather than treating a production build as proof of functionality.
+The next dependency is **real per-stage telemetry and lifecycle reporting**.
+
+## Engineering status model
+
+The Developer Console now has a dedicated authenticated engineering status surface that explicitly separates:
+
+- **BUILT** — implementation/build evidence
+- **FUNCTIONAL** — runtime execution evidence
+- **TESTED** — actual test evidence
+- **VALIDATED** — scientific or operational validation evidence
+
+A successful build is never treated as proof that a workflow is functional or scientifically validated.
 
 ## 21-stage build
 
@@ -22,34 +33,23 @@ The canonical pipeline contains 21 stages. Current engineering state is:
 - 4 conditional or intentionally not invoked without required inputs
 - 3 queued for deeper integration
 
-The Developer Console dashboard is required to project that matrix in an expandable 21-stage build surface. Collapsed state exposes the current engineering stage and next dependency. Expanded state lists all 21 stages with semantic status indicators.
-
-## Dashboard status model
-
-Primary console statistics are:
-
-- **API** — health/reachability
-- **RUNTIME** — operational/self-test state
-- **PIPELINE** — 21-stage implementation/execution state
-- **QA** — current verification state
-
-These must use consistent all-caps labels, meaningful icons, and explicit color-coded status. Build, functionality, testing, and validation are separate dimensions.
+The status surface exposes the current engineering stage, next dependency, source revision, detailed QA checks, and GitHub traceability. Authenticated browser workflow checks remain explicitly unverified until actually exercised.
 
 ## QA and traceability
 
-QA reporting must distinguish current test evidence from historical baselines and, where available, expose backend tests, frontend build, runtime self-test, upload, persistence, playback, analysis, pipeline execution, browser/E2E verification, artifact/deployment verification, and scientific validation.
+The console QA surface is designed to distinguish current test evidence from historical baselines and to expose backend tests, frontend build, runtime self-test, upload/persistence, secure playback, case-bound analysis, pipeline execution, browser/E2E verification, artifact/deployment verification, and scientific validation.
 
-Material dashboard status should be traceable through:
+Material status should remain traceable through:
 
-`GitHub → repository path → workflow → commit → artifact/deployment → runtime status → console`
+`GitHub → repository path → workflow → commit → artifact/deployment → runtime → console`
 
-The console should provide clickable source/documentation links and copy controls for paths, commits, and workflow references where available.
+The console includes clickable GitHub references and copy controls for the source path/documentation URLs.
 
 ## Console workflow
 
-Current Developer Console capabilities include runtime health, case management, compatible WAV intake, upload diagnostics/progress, secure playback path, case-bound analysis, stage-state inspection, diagnostic logs/errors, developer profile/sign-out, methodology navigation, and MVP task tracking.
+Current Developer Console capabilities include runtime health, case management, compatible WAV intake, upload diagnostics/progress, secure playback path, case-bound analysis, stage-state inspection, diagnostic logs/errors, developer profile/sign-out, methodology navigation, MVP task tracking, and engineering status/traceability.
 
-State-changing workflows must refresh relevant dashboard status so operator statistics do not remain stale after case creation, upload, persistence, playback preparation, analysis, diagnostics, or deployment verification.
+State-changing workflows must refresh relevant status sources so stale operator claims are not retained.
 
 ## Documentation synchronization
 
@@ -62,11 +62,17 @@ The current implementation and roadmap are mirrored against the canonical record
 - `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 
-When a connected workflow, pipeline state, task, or dependency changes, the relevant records and this Crown Labs mirror must be reviewed.
+The current console engineering status implementation is in:
+
+`voxvector/src/components/DeveloperEngineeringStatus.jsx`
+
+and its dedicated stylesheet:
+
+`voxvector/src/components/DeveloperEngineeringStatus.css`
 
 ## QA boundary
 
-The repository contains automated backend and frontend build workflows. A successful build is **BUILT**, not automatically FUNCTIONAL, TESTED, or VALIDATED. Historical test baselines remain historical evidence and must not be presented as current QA.
+The repository contains automated backend and frontend build workflows. A successful build is **BUILT**, not automatically FUNCTIONAL, TESTED, or VALIDATED. Historical baselines remain historical evidence.
 
 Authenticated production browser verification of the protected case workflow remains required before declaring upload, playback, and analysis end-to-end verified.
 
