@@ -73,7 +73,7 @@ export default function DeveloperConsole({ session, signOut }) {
 
   const notify = (type, titleText, message = '', extra = {}) => setToast({ type, title: titleText, message, ...extra })
   const create = useMutation({ mutationFn: () => createAnalysisCase(session.access_token, title.trim()), onSuccess: result => { const id = caseId(result); setSelectedCaseId(id); setTitle(''); setSource(null); setPlaybackUrl(''); setError(''); setProgress(0); queryClient.invalidateQueries({ queryKey: ['cases'] }); notify('success', 'Case Created', 'The analysis case is ready for recording intake.') }, onError: e => { setError(e.message); notify('error', 'Case Creation Failed', e.message, { requestId: e.requestId }) } })
-  const upload = useMutation({ mutationFn: () => uploadCaseSource(session.access_token, selectedCaseId, file, setProgress, { onState: state => { if (state?.state === 'processing') notify('info', 'Upload Received', 'The API is validating and persisting the recording.', { requestId: state.requestId }) } }), onSuccess: result => { setSource(sourceFrom(result)); setError(''); setProgress(100); queryClient.invalidateQueries({ queryKey: ['case', selectedCaseId] }); queryClient.invalidateQueries({ queryKey: ['cases'] }); notify('success', 'Recording Uploaded', 'The WAV source has been persisted to the selected case.', { requestId: result.requestId }) }, onError: e => { setProgress(0); setError(e.message); notify(e.code === 'UPLOAD_ABORTED' ? 'warning' : 'error', e.code === 'UPLOAD_ABORTED' ? 'Upload Cancelled' : 'Upload Failed', e.message, { requestId: e.requestId }) } })
+  const upload = useMutation({ mutationFn: ({ uploadFile }) => uploadCaseSource(session.access_token, selectedCaseId, uploadFile, setProgress, { onState: state => { if (state?.state === 'processing') notify('info', 'Upload Received', 'The API is validating and persisting the recording.', { requestId: state.requestId }) } }), onSuccess: result => { setSource(sourceFrom(result)); setFile(sourceFrom(result)); setError(''); setProgress(100); queryClient.invalidateQueries({ queryKey: ['case', selectedCaseId] }); queryClient.invalidateQueries({ queryKey: ['cases'] }); notify('success', 'Recording Uploaded', 'The WAV source has been persisted to the selected case.', { requestId: result.requestId }) }, onError: e => { setProgress(0); setError(e.message); notify(e.code === 'UPLOAD_ABORTED' ? 'warning' : 'error', e.code === 'UPLOAD_ABORTED' ? 'Upload Cancelled' : 'Upload Failed', e.message, { requestId: e.requestId }) } })
   const playback = useMutation({ mutationFn: () => getCasePlaybackUrl(session.access_token, selectedCaseId, source?.source_id), onSuccess: result => { setPlaybackUrl(unwrap(result)?.url || result?.payload?.url || ''); notify('success', 'Secure Playback Ready', 'The private recording URL has been prepared.') }, onError: e => { setError(e.message); notify('error', 'Playback Failed', e.message, { requestId: e.requestId }) } })
   const analyze = useMutation({ mutationFn: () => analyzeCaseSource(session.access_token, selectedCaseId, source?.source_id), onSuccess: result => { setError(''); queryClient.setQueryData(['case', selectedCaseId], result); queryClient.invalidateQueries({ queryKey: ['cases'] }); setSection('workspace'); notify('success', 'Analysis Run Completed', 'The case workspace now has the persisted pipeline state.', { requestId: result?.requestId }) }, onError: e => { setError(e.message); notify('error', 'Analysis Failed', e.message, { requestId: e.requestId }) } })
 
@@ -142,18 +142,20 @@ function CaseWorkbench({ list, selectedCaseId, setSelectedCaseId, title, setTitl
   const workflowStep = !selectedCaseId ? 1 : !source?.source_id ? 2 : 3
   const nextStep = !selectedCaseId ? 'Create a case' : !file ? 'Choose a WAV recording' : !source?.source_id ? 'Upload the recording' : 'Run analysis'
   const handleUpload = () => {
-    if (!file) {
+    const selectedFile = file || document.getElementById('audio-file')?.files?.[0] || null
+    if (!selectedFile) {
       notify('warning', 'Choose Recording', 'Select a WAV recording before uploading it to this case.')
       return
     }
-    upload.mutate()
+    setFile(selectedFile)
+    upload.mutate({ uploadFile: selectedFile })
   }
   return <div>
     <PageTitle eyebrow="CASE WORKBENCH" title="Build a Real Analysis Case" action={<Button variant="secondary" onClick={refresh}><RefreshCw size={14}/> Refresh</Button>}/>
     <section className="mb-4 border border-[var(--vv-border)] bg-[var(--vv-surface)] px-4 py-3 sm:px-5" aria-label="Case workflow">
       <div className="mb-2 text-[10px] font-bold uppercase tracking-[.16em] text-[var(--vv-muted)]">Case Workflow</div>
       <div className="grid grid-cols-3 gap-2">
-        {[[1,'Create Case','Define the case'],[2,'Upload Recording','Add WAV source'],[3,'Analyze','Open evidence workspace']].map(([number,label,detail]) => <div key={number} className={`min-w-0 border-t-2 px-1 pt-2 ${workflowStep === number ? 'border-white text-white' : workflowStep > number ? 'border-emerald-400/70 text-white/70' : 'border-white/10 text-white/35'}`} aria-current={workflowStep === number ? 'step' : undefined}><div className="text-[11px] font-semibold">{number}. {label}</div><div className="mt-0.5 text-[10px] text-inherit/60">{detail}</div></div>)}
+        {[[1,'Create Case','Define the case'],[2,'Upload Recording','Add WAV source'],[3,'Analyze','Open evidence workspace']].map(([number,label,detail]) => <div key={number} className={`min-w-0 border-t-2 px-1 pt-2 ${workflowStep === number ? 'border-white text-white' : workflowStep > number ? 'border-emerald-400/70 text-white/70' : 'border-white/10 text-white/35'}`} aria-current={workflowStep === number ? 'step' : undefined}><div className="text-[11px] font-semibold">{number}. {label}</div><div className="mt-0.5 text-[10px] text-white/50">{detail}</div></div>)}
       </div>
       <div className="mt-3 flex items-center gap-2 text-xs text-white/55"><span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden="true"/> Next: <strong className="text-white">{nextStep}</strong></div>
     </section>
