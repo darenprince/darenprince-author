@@ -39,7 +39,7 @@ The canonical FastAPI adapter currently exposes:
 
 The canonical analysis engine remains under `VoxVector/src/voxvector/` and is invoked by the API adapter rather than duplicated in the frontend.
 
-### Audio intake status
+## Audio intake status
 
 The intended case workflow is:
 
@@ -57,9 +57,18 @@ The canonical pipeline contains 21 stages. Current engineering status is:
 - 4 stages conditional or intentionally not invoked without required inputs
 - 3 stages queued for deeper integration
 
-The dashboard now exposes the same build matrix through an expandable 21-stage card. The collapsed state identifies the current engineering stage. The expanded state lists all 21 stages and presents their current engineering state with semantic status icons.
+The dashboard requirement is an expandable 21-stage build control. Its collapsed state must show the current engineering stage and next dependency. Its expanded state must list all 21 stages with semantic status icons. It must not infer functionality or scientific validation from source presence alone.
 
-This card is a build-status surface only. It does not imply that a stage is scientifically validated or that every stage executes on every recording.
+### Engineering status dimensions
+
+The console must keep these dimensions separate:
+
+- **BUILT** — implementation exists and compiles.
+- **FUNCTIONAL** — required runtime workflow has executed successfully.
+- **TESTED** — an actual automated or manual verification has passed.
+- **VALIDATED** — relevant scientific or operational validation has been completed and documented.
+
+Conditional, not-invoked, queued, failed, and blocked states remain explicit where applicable.
 
 ## Current engineering stage
 
@@ -73,18 +82,40 @@ Then:
 
 **Speaker and transcript foundation → evidence workspace → validation and calibration gate.**
 
-## Dashboard requirement
+## Dashboard requirements
 
 The Developer Console dashboard must expose:
 
-- API/runtime state
-- 21-stage build status
-- current engineering stage
-- next dependency
-- QA state
-- links to the canonical methodology, pipeline, architecture and MVP records
+- **API** state with icon and explicit all-caps status;
+- **RUNTIME** state with icon and explicit all-caps status;
+- **PIPELINE** state with 21-stage build/execution information;
+- **QA** state with current verification information;
+- current engineering stage;
+- next dependency;
+- detailed QA checks rather than a single aggregate number;
+- source traceability for material status claims;
+- links to canonical methodology, pipeline, architecture, and MVP records;
+- copy controls for GitHub paths/commit/workflow references where available.
 
-The 21-stage card must remain synchronized with `VoxVector/docs/PIPELINE_BUILD_STATUS.md` and the backend stage definition contract.
+Primary status labels must distinguish BUILT, FUNCTIONAL, TESTED, and VALIDATED. A successful build must never be presented as proof of functionality or scientific validation.
+
+## Workflow synchronization requirement
+
+State-changing workflows must refresh or invalidate relevant console status data so the dashboard does not retain stale claims. This applies to:
+
+- case creation;
+- source selection and upload;
+- source persistence;
+- secure playback preparation;
+- analysis execution;
+- pipeline stage transitions;
+- diagnostics and error events;
+- CI/test results;
+- artifact/deployment verification.
+
+Preferred provenance flow:
+
+`SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT/DEPLOYMENT → RUNTIME STATUS → CONSOLE`
 
 ## MVP plan synchronization requirement
 
@@ -95,15 +126,16 @@ For the current work cycle, the MVP task sequence is:
 1. stabilize and verify upload/persistence;
 2. complete secure browser playback verification;
 3. instrument actual per-stage runtime telemetry;
-4. build speaker identification/diarization;
-5. integrate production transcription;
-6. synchronize transcript/audio alignment;
-7. expose real analytical tracks;
-8. normalize and expose evidence;
-9. implement evidence synthesis;
-10. build assessment/report surfaces;
-11. complete case history/reopen;
-12. run reproducible browser-level verification.
+4. make console build/function/test/validation state explicit and traceable;
+5. build speaker identification/diarization;
+6. integrate production transcription;
+7. synchronize transcript/audio alignment;
+8. expose real analytical tracks;
+9. normalize and expose evidence;
+10. implement evidence synthesis;
+11. build assessment/report surfaces;
+12. complete case history/reopen;
+13. run reproducible browser-level verification.
 
 ## Documentation synchronization map
 
@@ -137,11 +169,14 @@ Every substantive code change should produce a synchronized engineering record c
 - canonical implementation owner
 - affected API/backend path
 - current build state
+- functional state
 - testing evidence
+- validation state
 - unresolved verification
 - current engineering stage
 - next dependency
 - documentation surfaces updated
+- source path / workflow / commit trace where available
 
 The Developer Console MVP board is the operator-facing work tracker. It is not a substitute for canonical engineering documentation.
 
@@ -149,13 +184,7 @@ The Developer Console MVP board is the operator-facing work tracker. It is not a
 
 Superseded synchronization records and historical deployment/design plans may be moved into `VoxVector/docs/archive/` or the corresponding frontend documentation archive after their contents and behavior have been reviewed. Historical context must remain recoverable through the archive or Git history. Active documents must not contain superseded deployment instructions.
 
-The following records were reviewed for redundancy during this pass:
-
-- 2026-08-20 documentation alignment
-- free-hosting deployment plan
-- 2026-08-19 visual neutral-theme checkpoint
-
-They were moved out of active locations after being explicitly marked historical/superseded.
+Previously reviewed historical records remain historical; they must not be used as current implementation or QA evidence.
 
 ## Verification boundary
 
