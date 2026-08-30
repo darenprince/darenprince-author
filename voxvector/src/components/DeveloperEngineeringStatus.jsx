@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Activity, CheckCircle2, ChevronDown, Clipboard, ExternalLink, GitBranch, Hammer, ShieldCheck, TestTube2, AlertTriangle, CircleDashed } from 'lucide-react'
+import { Activity, CheckCircle2, ChevronDown, Clipboard, ExternalLink, Hammer, ShieldCheck, TestTube2, AlertTriangle, CircleDashed } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
+import './DeveloperEngineeringStatus.css'
 
 const TRACE = {
   source: {
@@ -114,7 +115,7 @@ export default function DeveloperEngineeringStatus() {
       </div>
       <div className="vv-eng-grid">
         <div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>QA CHECKS</span><span>{qaChecks.filter(item => item[1] === 'PASS').length} CURRENT PASSES</span></div><div className="vv-qa-list">{qaChecks.map(([label, status, detail]) => <QACheck key={label} label={label} status={status} detail={detail}/>)}</div></div>
-        <div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>SOURCE TRACEABILITY</span><span>GITHUB</span></div><div className="vv-trace-list">{Object.values(TRACE).map(item => <CopyTrace key={item.path} item={item}/>)}</div><div className="vv-trace-note">{`SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT / DEPLOYMENT → RUNTIME → CONSOLE`}</div></div>
+        <div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>SOURCE TRACEABILITY</span><span>GITHUB</span></div><div className="vv-trace-list">{Object.values(TRACE).map(item => <CopyTrace key={item.path} item={item}/>)}</div><div className="vv-trace-note">SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT / DEPLOYMENT → RUNTIME → CONSOLE</div></div>
       </div>
     </div>}
   </section>
