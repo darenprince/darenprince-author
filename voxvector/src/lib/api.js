@@ -89,11 +89,20 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress) {
 }
 
 export async function getCasePlaybackUrl(accessToken, caseId, sourceId, expires = 900) {
+  if (!sourceId) throw new Error('A case source must be selected before playback.')
   return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}/sources/${encodeURIComponent(sourceId)}/playback?expires=${encodeURIComponent(expires)}`, { headers: authHeaders(accessToken) })
 }
 
 export async function analyzeCaseSource(accessToken, caseId, sourceId) {
-  return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}/sources/${encodeURIComponent(sourceId)}/analyze`, {
+  if (!caseId) throw new Error('An analysis case must be selected before analysis.')
+  let resolvedSourceId = sourceId
+  if (!resolvedSourceId) {
+    const caseResult = await getAnalysisCase(accessToken, caseId)
+    const caseData = caseResult?.payload?.case || caseResult?.payload?.data || caseResult?.payload || {}
+    resolvedSourceId = caseData?.sources?.[0]?.source_id || ''
+  }
+  if (!resolvedSourceId) throw new Error('This case has no uploaded WAV source to analyze.')
+  return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}/sources/${encodeURIComponent(resolvedSourceId)}/analyze`, {
     method: 'POST',
     headers: authHeaders(accessToken)
   })
