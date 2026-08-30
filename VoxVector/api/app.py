@@ -32,6 +32,7 @@ from .observability import DIAGNOSTICS, elapsed_ms, new_request_id, request_id, 
 from .storage import StorageError
 
 MAX_SAMPLE_RATE = 48_000
+MAX_MEDIA_BYTES = int(os.getenv("VOXVECTOR_MEDIA_MAX_BYTES", str(250 * 1024 * 1024)))
 SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
@@ -66,6 +67,30 @@ PIPELINE_STAGE_DEFINITIONS = [
     (21, "audit_provenance_output", "Audit and Provenance Output"),
 ]
 
+PIPELINE_FOUNDATION_STATUS = {
+    "file_upload_ingest": "implemented",
+    "file_decode_normalization": "implemented",
+    "provenance_integrity": "implemented",
+    "channel_recording_assessment": "implemented",
+    "speaker_identification_diarization": "queued",
+    "speech_segmentation": "implemented_foundation",
+    "transcription_generation": "queued",
+    "transcript_alignment": "queued",
+    "eligibility_reliability": "implemented",
+    "acoustic_feature_extraction": "implemented",
+    "prosodic_voice_quality": "implemented_foundation",
+    "temporal_pause_analysis": "implemented_foundation",
+    "linguistic_disfluency": "conditional",
+    "question_answer_alignment": "conditional",
+    "within_speaker_baseline": "conditional",
+    "cross_method_evidence": "implemented_foundation",
+    "evidence_convergence_conflict": "implemented_foundation",
+    "candidate_classification": "implemented_guarded",
+    "validation_calibration_gate": "not_invoked",
+    "final_disposition": "implemented_guarded",
+    "audit_provenance_output": "implemented_foundation",
+}
+
 
 def _new_stage_states() -> list[dict]:
     return [
@@ -79,6 +104,17 @@ def _set_stage(stage_states: list[dict], stage_id: str, status: str, *, started_
         if stage["id"] == stage_id:
             stage.update({"status": status, "started_at": started_at, "completed_at": completed_at, "duration_ms": duration_ms, "outcome": outcome, "error": error})
             return
+
+
+def _stage_build_summary() -> dict:
+    values = list(PIPELINE_FOUNDATION_STATUS.values())
+    return {
+        "total": len(PIPELINE_STAGE_DEFINITIONS),
+        "implemented_foundations": sum(value.startswith("implemented") for value in values),
+        "conditional_or_not_invoked": sum(value in {"conditional", "not_invoked"} for value in values),
+        "queued": sum(value == "queued" for value in values),
+        "status_by_stage": PIPELINE_FOUNDATION_STATUS,
+    }
 
 
 def _file_sha256(path: str) -> str:
@@ -149,33 +185,12 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
         response = await call_next(request)
         response.headers["X-Request-ID"] = rid
         if request.url.path in {"/v1/analyze"} or request.url.path.startswith("/v1/cases"):
-            await DIAGNOSTICS.emit(
-                "request.completed",
-                request_id=rid,
-                method=request.method,
-                path=request.url.path,
-                status_code=response.status_code,
-                duration_ms=elapsed_ms(started),
-            )
+            await DIAGNOSTICS.emit("request.completed", request_id=rid, method=request.method, path=request.url.path, status_code=response.status_code, duration_ms=elapsed_ms(started))
             if response.status_code >= 500:
-                await DIAGNOSTICS.emit(
-                    "request.server_error",
-                    request_id=rid,
-                    method=request.method,
-                    path=request.url.path,
-                    status_code=response.status_code,
-                    duration_ms=elapsed_ms(started),
-                )
+                await DIAGNOSTICS.emit("request.server_error", request_id=rid, method=request.method, path=request.url.path, status_code=response.status_code, duration_ms=elapsed_ms(started))
         return response
     except Exception as exc:
-        await DIAGNOSTICS.emit(
-            "request.unhandled_exception",
-            request_id=rid,
-            method=request.method,
-            path=request.url.path,
-            duration_ms=elapsed_ms(started),
-            **safe_error(exc),
-        )
+        await DIAGNOSTICS.emit("request.unhandled_exception", request_id=rid, method=request.method, path=request.url.path, duration_ms=elapsed_ms(started), **safe_error(exc))
         raise
 
 
@@ -196,7 +211,9 @@ async def health():
         "runtime_self_test": self_test,
         "diagnostic_storage": DIAGNOSTICS.status(),
         "media_storage": DIAGNOSTICS.storage.media_configured,
-        "analysis_limits": {"max_sample_rate_hz": MAX_SAMPLE_RATE},
+        "analysis_limits": {"max_sample_rate_hz": MAX_SAMPLE_RATE, "max_media_bytes": MAX_MEDIA_BYTES},
+        "pipeline_build": _stage_build_summary(),
+        "testing": {"current_commit_qa": "not_reported", "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}},
     }
 
 
@@ -297,6 +314,9 @@ async def analyze(request: Request, file: UploadFile = File(...)):
         await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="unsupported_file_type", status_code=415)
         raise HTTPException(status_code=415, detail="Initial runtime accepts WAV audio only")
     data = await file.read()
+    if len(data) > MAX_MEDIA_BYTES:
+        await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="media_too_large", status_code=413, bytes=len(data))
+        raise HTTPException(status_code=413, detail=f"Audio exceeds the {MAX_MEDIA_BYTES // (1024 * 1024)} MB upload limit")
     self_test_ok, self_test = _runtime_self_test()
     if not self_test_ok:
         await DIAGNOSTICS.emit("request.rejected", request_id=rid, reason="runtime_self_test_failed", status_code=503, detail=self_test)
@@ -355,40 +375,39 @@ async def get_case(case_id: str, user: dict = Depends(require_developer)):
 
 
 @app.post("/v1/cases/{case_id}/sources")
-async def upload_case_source(case_id: str, file: UploadFile = File(...), user: dict = Depends(require_developer)):
+async def upload_case_source(case_id: str, request: Request, file: UploadFile = File(...), user: dict = Depends(require_developer)):
+    rid = request_id()
+    await DIAGNOSTICS.emit("case.source_upload_started", request_id=rid, case_id=case_id, filename=file.filename or "", content_type=file.content_type or "unknown")
     if not file.filename or not file.filename.lower().endswith(".wav"):
+        await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="unsupported_file_type")
         raise HTTPException(status_code=415, detail="Initial case intake accepts WAV audio only")
     data = await file.read()
     if not data:
+        await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="empty_audio")
         raise HTTPException(status_code=400, detail="Audio file is empty")
+    if len(data) > MAX_MEDIA_BYTES:
+        await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="media_too_large", bytes=len(data))
+        raise HTTPException(status_code=413, detail=f"Audio exceeds the {MAX_MEDIA_BYTES // (1024 * 1024)} MB upload limit")
+    if not DIAGNOSTICS.storage.media_configured:
+        await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="media_storage_not_configured")
+        raise HTTPException(status_code=503, detail="VoxVector media storage is not configured on the API")
     try:
         audio, sample_rate = read_wav(data)
         if audio.size == 0:
             raise ValueError("Audio contains no samples")
         peak = float(np.nanmax(np.abs(audio))) if np.any(np.isfinite(audio)) else 0.0
         clipping_ratio = float(np.mean(np.abs(audio) >= 0.999))
-        source = await asyncio.to_thread(
-            CASE_STORE.add_source,
-            str(user["id"]),
-            case_id,
-            file.filename,
-            data,
-            {
-                "sample_rate": sample_rate,
-                "channels": "mixed_to_mono",
-                "duration_seconds": audio.size / sample_rate,
-                "peak_abs": peak,
-                "clipping_ratio": clipping_ratio,
-                "format": "wav",
-            },
-        )
-        await DIAGNOSTICS.emit("case.source_uploaded", case_id=case_id, source_id=source["source_id"], bytes=len(data), duration_seconds=source["duration_seconds"])
+        source = await asyncio.to_thread(CASE_STORE.add_source, str(user["id"]), case_id, file.filename, data, {"sample_rate": sample_rate, "channels": "mixed_to_mono", "duration_seconds": audio.size / sample_rate, "peak_abs": peak, "clipping_ratio": clipping_ratio, "format": "wav"})
+        await DIAGNOSTICS.emit("case.source_uploaded", request_id=rid, case_id=case_id, source_id=source["source_id"], bytes=len(data), duration_seconds=source["duration_seconds"])
         return {"status": "ok", "source": source}
     except CaseNotFound as exc:
+        await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="case_not_found")
         raise HTTPException(status_code=404, detail="Analysis case not found") from exc
     except StorageError as exc:
-        raise HTTPException(status_code=503, detail="Media storage is not configured or unavailable") from exc
+        await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="storage_error", **safe_error(exc))
+        raise HTTPException(status_code=503, detail=f"Media storage upload failed: {exc}") from exc
     except ValueError as exc:
+        await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="invalid_wav", detail=str(exc))
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
@@ -424,6 +443,7 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
         started = timer()
         result = await asyncio.to_thread(VoxVectorPipeline().analyze, audio, sample_rate)
         completed = datetime.now(timezone.utc).isoformat()
+        _set_stage(stage_states, "speech_segmentation", "complete" if result.speech_segments else "not_run", started_at=now, completed_at=completed, duration_ms=elapsed_ms(started), outcome=f"{len(result.speech_segments)} speech segments detected")
         _set_stage(stage_states, "eligibility_reliability", "complete", started_at=now, completed_at=completed, duration_ms=elapsed_ms(started), outcome=result.eligibility.status)
         for stage_id in ("acoustic_feature_extraction", "prosodic_voice_quality", "temporal_pause_analysis", "cross_method_evidence", "evidence_convergence_conflict", "candidate_classification", "final_disposition", "audit_provenance_output"):
             _set_stage(stage_states, stage_id, "complete", started_at=now, completed_at=completed, outcome="pipeline result recorded")
@@ -431,11 +451,14 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
         _set_stage(stage_states, "within_speaker_baseline", "not_run", outcome="baseline not attached")
         _set_stage(stage_states, "question_answer_alignment", "not_run", outcome="question context not attached")
         _set_stage(stage_states, "speaker_identification_diarization", "pending", outcome="speaker processing queued")
-        _set_stage(stage_states, "speech_segmentation", "pending", outcome="speaker processing queued")
         _set_stage(stage_states, "transcription_generation", "pending", outcome="production transcription queued")
         _set_stage(stage_states, "transcript_alignment", "pending", outcome="transcription queued")
         _set_stage(stage_states, "validation_calibration_gate", "not_run", outcome="inferential validation gate not invoked")
 
+        completed_count = sum(stage["status"] in {"complete", "completed", "success", "succeeded"} for stage in stage_states)
+        pending_count = sum(stage["status"] in {"pending", "running", "processing", "in_progress"} for stage in stage_states)
+        not_run_count = sum(stage["status"] == "not_run" for stage in stage_states)
+        failed_count = sum(stage["status"] in {"failed", "error"} for stage in stage_states)
         run = {
             "run_id": result.run_id,
             "request_id": rid,
@@ -444,11 +467,13 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
             "completed_at": completed,
             "source_id": source_id,
             "pipeline_version": VoxVectorPipeline.software_version,
+            "pipeline_build": {"total_stages": 21, "completed": completed_count, "pending": pending_count, "not_run": not_run_count, "failed": failed_count},
+            "testing": {"current_commit_qa": "not_reported", "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}},
             "stages": stage_states,
             "result": VoxVectorPipeline.to_dict(result),
         }
         updated_case = await asyncio.to_thread(CASE_STORE.update_run, str(user["id"]), case_id, run)
-        await DIAGNOSTICS.emit("case.analysis_completed", case_id=case_id, source_id=source_id, run_id=result.run_id, request_id=rid)
+        await DIAGNOSTICS.emit("case.analysis_completed", case_id=case_id, source_id=source_id, run_id=result.run_id, request_id=rid, completed_stages=completed_count, pending_stages=pending_count, not_run_stages=not_run_count)
         return {"status": "ok", "case": updated_case, "run": run}
     except CaseNotFound as exc:
         raise HTTPException(status_code=404, detail="Analysis case or source not found") from exc
