@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from dataclasses import dataclass
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
@@ -19,7 +20,7 @@ class StorageConfig:
     service_role_key: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
     bucket: str = os.getenv("VOXVECTOR_LOG_BUCKET", "voxvector-logs").strip()
     media_bucket: str = os.getenv("VOXVECTOR_MEDIA_BUCKET", "voxvector-media").strip()
-    timeout_seconds: float = float(os.getenv("VOXVECTOR_STORAGE_TIMEOUT_SECONDS", "5"))
+    timeout_seconds: float = float(os.getenv("VOXVECTOR_STORAGE_TIMEOUT_SECONDS", "10"))
     media_max_bytes: int = int(os.getenv("VOXVECTOR_MEDIA_MAX_BYTES", str(250 * 1024 * 1024)))
 
     @property
@@ -54,7 +55,7 @@ class SupabaseStorage:
             return "not_configured"
         return "configured_media_ready" if self.config.media_configured else "configured"
 
-    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None):
+    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None, *, retries: int = 0):
         if not self.config.configured:
             raise StorageError("Durable storage is not configured")
         headers = {
@@ -64,23 +65,48 @@ class SupabaseStorage:
         if content_type:
             headers["Content-Type"] = content_type
         request = Request(url, data=body, headers=headers, method=method)
-        try:
-            with urlopen(request, timeout=self.config.timeout_seconds) as response:
-                return response.status, response.read()
-        except HTTPError as exc:
-            detail = exc.read(512).decode("utf-8", errors="replace")
-            raise StorageError(f"Supabase Storage HTTP {exc.code}: {detail}") from exc
-        except URLError as exc:
-            raise StorageError(f"Supabase Storage connection error: {exc.reason}") from exc
-        except OSError as exc:
-            raise StorageError(f"Supabase Storage I/O error: {exc}") from exc
+        attempt = 0
+        while True:
+            try:
+                with urlopen(request, timeout=self.config.timeout_seconds) as response:
+                    return response.status, response.read()
+            except HTTPError as exc:
+                detail = exc.read(1024).decode("utf-8", errors="replace")
+                if exc.code in {429, 502, 503, 504} and attempt < retries:
+                    time.sleep(0.4 * (2 ** attempt))
+                    attempt += 1
+                    continue
+                raise StorageError(f"Supabase Storage HTTP {exc.code}: {detail}") from exc
+            except URLError as exc:
+                if attempt < retries:
+                    time.sleep(0.4 * (2 ** attempt))
+                    attempt += 1
+                    continue
+                raise StorageError(f"Supabase Storage connection error: {exc.reason}") from exc
+            except OSError as exc:
+                if attempt < retries:
+                    time.sleep(0.4 * (2 ** attempt))
+                    attempt += 1
+                    continue
+                raise StorageError(f"Supabase Storage I/O error: {exc}") from exc
 
     def _ensure_bucket(self, bucket: str, file_size_limit: int, allowed_mime_types: list[str] | None, ready_attr: str) -> None:
         if getattr(self, ready_attr):
             return
         if not self.config.configured:
             raise StorageError("Durable storage is not configured")
-        bucket_url = f"{self.config.supabase_url}/storage/v1/bucket"
+
+        bucket_url = f"{self.config.supabase_url}/storage/v1/bucket/{quote(bucket, safe='')}"
+        try:
+            status, _ = self._request("GET", bucket_url, retries=1)
+            if status == 200:
+                setattr(self, ready_attr, True)
+                return
+        except StorageError as exc:
+            if "HTTP 404" not in str(exc):
+                raise
+
+        create_url = f"{self.config.supabase_url}/storage/v1/bucket"
         payload = json.dumps({
             "id": bucket,
             "name": bucket,
@@ -89,7 +115,7 @@ class SupabaseStorage:
             "allowed_mime_types": allowed_mime_types,
         }).encode("utf-8")
         try:
-            self._request("POST", bucket_url, payload, "application/json")
+            self._request("POST", create_url, payload, "application/json", retries=2)
         except StorageError as exc:
             if "HTTP 409" not in str(exc) and "already exists" not in str(exc).lower():
                 raise
@@ -109,7 +135,7 @@ class SupabaseStorage:
         self._ensure_bucket(
             self.config.media_bucket,
             self.config.media_max_bytes,
-            ["audio/wav", "audio/x-wav", "audio/wave"],
+            ["audio/wav", "audio/x-wav", "audio/wave", "application/octet-stream"],
             "_media_bucket_ready",
         )
 
@@ -124,17 +150,22 @@ class SupabaseStorage:
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.bucket, safe='')}/{encoded_path}"
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-        self._request("POST", url, body, "application/json")
+        self._request("POST", url, body, "application/json", retries=2)
         return f"{self.config.bucket}/{object_path}"
 
     def put_bytes(self, object_path: str, body: bytes, content_type: str = "application/octet-stream") -> str:
         self._validate_object_path(object_path)
+        if len(body) <= 0:
+            raise StorageError("Media object is empty")
         if len(body) > self.config.media_max_bytes:
             raise StorageError("Media object exceeds configured size limit")
+        if not self.media_configured:
+            raise StorageError("Media storage is not configured")
         self.ensure_media_bucket()
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.media_bucket, safe='')}/{encoded_path}"
-        self._request("POST", url, body, content_type)
+        normalized_type = content_type if content_type in {"audio/wav", "audio/x-wav", "audio/wave", "application/octet-stream"} else "audio/wav"
+        self._request("POST", url, body, normalized_type, retries=2)
         return f"{self.config.media_bucket}/{object_path}"
 
     def create_signed_url(self, object_path: str, expires_seconds: int = 900) -> str:
@@ -146,7 +177,7 @@ class SupabaseStorage:
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/sign/{quote(self.config.media_bucket, safe='')}/{encoded_path}"
         body = json.dumps({"expiresIn": expires_seconds}).encode("utf-8")
-        _, raw = self._request("POST", url, body, "application/json")
+        _, raw = self._request("POST", url, body, "application/json", retries=2)
         try:
             payload = json.loads(raw.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -163,7 +194,7 @@ class SupabaseStorage:
         self.ensure_media_bucket()
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.media_bucket, safe='')}/{encoded_path}"
-        _, body = self._request("GET", url)
+        _, body = self._request("GET", url, retries=2)
         return body
 
     def list_json(self, prefix: str, limit: int = 100, offset: int = 0) -> list[dict]:
@@ -179,7 +210,7 @@ class SupabaseStorage:
             "offset": offset,
             "sortBy": {"column": "created_at", "order": "desc"},
         }).encode("utf-8")
-        _, raw = self._request("POST", url, body, "application/json")
+        _, raw = self._request("POST", url, body, "application/json", retries=2)
         try:
             payload = json.loads(raw.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -192,7 +223,7 @@ class SupabaseStorage:
         self._validate_object_path(object_path)
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.bucket, safe='')}/{encoded_path}"
-        _, body = self._request("GET", url)
+        _, body = self._request("GET", url, retries=2)
         try:
             return json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
