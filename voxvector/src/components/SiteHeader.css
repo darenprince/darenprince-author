@@ -4,6 +4,20 @@
   top: 0 !important;
   z-index: 300 !important;
   width: 100%;
+  align-self: flex-start;
+}
+
+html:has(.vv-public-header),
+body:has(.vv-public-header) {
+  overflow-x: clip !important;
+}
+
+#root {
+  overflow-x: clip !important;
+}
+
+.vv-app {
+  overflow: visible !important;
 }
 
 .vv-public-header .vv-logo-lockup,
@@ -51,6 +65,12 @@
 .vv-mobile-sheet {
   position: relative;
   z-index: 501 !important;
+}
+
+.vv-panel-head h2,
+.vv-panel-head h3 {
+  text-transform: capitalize;
+  letter-spacing: -.025em;
 }
 
 @media (max-width: 900px) {
