@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Code2, GitBranch, LoaderCircle, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
+import { Code2, Github, LoaderCircle, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { supabase } from '../lib/supabase'
@@ -22,7 +22,7 @@ function Logo() {
 }
 
 function IconButton({ href, label, children, onClick }) {
-  const className = 'inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[.025] text-white/55 transition hover:border-white/20 hover:bg-white/[.06] hover:text-white'
+  const className = 'inline-flex h-9 w-9 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white/55 transition hover:text-white'
   if (href) return <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={label} title={label}>{children}</a>
   return <button type="button" onClick={onClick} className={className} aria-label={label} title={label}>{children}</button>
 }
@@ -40,18 +40,18 @@ function DeveloperToolbar({ mobileMenuButton }) {
     window.location.href = '/voxvector/developer/'
   }
   return (
-    <header className="vv-public-header vv-developer-header sticky top-0 z-[70] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/95 backdrop-blur-xl">
+    <header className="vv-public-header vv-developer-header sticky top-0 z-[100] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/95 backdrop-blur-xl">
       <div className="relative mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex min-w-[100px] items-center">
-          {mobileMenuButton || <button type="button" className="inline-flex h-9 w-9 items-center justify-center border border-white/10 text-white/65 hover:bg-white/[.05]" aria-label="Open console navigation"><Menu size={18}/></button>}
+        <div className="flex h-full min-w-[100px] items-center">
+          {mobileMenuButton || <button type="button" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white/65 hover:text-white" aria-label="Open console navigation"><Menu size={18}/></button>}
         </div>
-        <a href="/voxvector/developer/" aria-label="VoxVector Developer Console" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center no-underline" title="VoxVector Developer Console">
-          <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="VoxVector" className="h-8 w-8 object-contain" />
+        <a href="/voxvector/developer/" aria-label="VoxVector Developer Console" className="absolute left-1/2 top-1/2 inline-flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center no-underline" title="VoxVector Developer Console">
+          <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="VoxVector" className="h-9 w-9 object-contain" />
         </a>
-        <div className="flex min-w-[100px] items-center justify-end gap-1.5">
-          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><GitBranch size={17}/></IconButton>
-          <IconButton href="/voxvector/developer/#profile" label="Developer profile"><UserRound size={17}/></IconButton>
-          <IconButton label={signingOut ? 'Signing out' : 'Sign out'} onClick={signOut}>{signingOut ? <LoaderCircle size={17} className="animate-spin"/> : <LogOut size={17}/>}</IconButton>
+        <div className="flex h-full min-w-[100px] items-center justify-end gap-3">
+          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><Github size={18} strokeWidth={1.8}/></IconButton>
+          <IconButton href="/voxvector/developer/#profile" label="Developer profile"><UserRound size={18} strokeWidth={1.8}/></IconButton>
+          <IconButton label={signingOut ? 'Signing out' : 'Sign out'} onClick={signOut}>{signingOut ? <LoaderCircle size={18} className="animate-spin"/> : <LogOut size={18} strokeWidth={1.8}/>}</IconButton>
         </div>
       </div>
     </header>
@@ -100,7 +100,7 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
   if (developer) return <><DeveloperToolbar mobileMenuButton={mobileMenuButton}/><ApiStartupWindow/></>
   return (
     <>
-      <header className="vv-public-header sticky top-0 z-50 border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
+      <header className="vv-public-header sticky top-0 z-[100] border-b border-[var(--vv-border)] bg-[var(--vv-bg)]/90 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-7 px-5 lg:px-10">
           <Logo />
           <nav className="hidden items-center gap-[2.35rem] text-sm font-medium text-white/[.54] lg:flex" aria-label="Primary navigation">
