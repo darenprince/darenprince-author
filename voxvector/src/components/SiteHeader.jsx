@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Code2, Github, Images, LoaderCircle, Map, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
+import { Code2, Images, LoaderCircle, Map, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { supabase } from '../lib/supabase'
@@ -13,6 +13,10 @@ const navigation = [
   ['Resources', '#briefing'],
 ]
 
+function GitHubMark({ size = 18 }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .297a12 12 0 0 0-3.79 23.385c.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 6.006 0c2.29-1.552 3.297-1.23 3.297-1.23.647 1.653.24 2.873.118 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222v3.293c0 .32.216.694.825.576A12 12 0 0 0 12 .297" /></svg>
+}
+
 function Logo() {
   return (
     <a href="/voxvector/" className="vv-logo-lockup group no-underline" aria-label="VoxVector home">
@@ -24,7 +28,7 @@ function Logo() {
 
 function IconButton({ href, label, children, onClick }) {
   const className = 'inline-flex h-9 w-9 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white/55 transition hover:text-white'
-  if (href) return <a href={href} className={className} aria-label={label} title={label}>{children}</a>
+  if (href) return <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={label} title={label}>{children}</a>
   return <button type="button" onClick={onClick} className={className} aria-label={label} title={label}>{children}</button>
 }
 
@@ -50,7 +54,7 @@ function DeveloperToolbar({ mobileMenuButton }) {
           <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="VoxVector" className="h-9 w-9 object-contain" />
         </a>
         <div className="flex h-full min-w-[100px] items-center justify-end gap-3">
-          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><Github size={18} strokeWidth={1.8}/></IconButton>
+          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><GitHubMark size={18}/></IconButton>
           <IconButton href="/voxvector/image-index/" label="VoxVector image index"><Images size={18} strokeWidth={1.8}/></IconButton>
           <IconButton href="/voxvector/sitemap.xml" label="VoxVector site map"><Map size={18} strokeWidth={1.8}/></IconButton>
           <IconButton href="/voxvector/developer/#profile" label="Developer profile"><UserRound size={18} strokeWidth={1.8}/></IconButton>
@@ -111,7 +115,7 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
             <a href="/voxvector/developer" className="inline-flex items-center gap-2 transition-colors hover:text-white no-underline"><Terminal size={15} />Developer</a>
           </nav>
           <div className="hidden items-center gap-3 md:flex">
-            {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Github size={16} />GitHub</a>}
+            {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Code2 size={16} />GitHub</a>}
             {userMenu}
           </div>
           {mobileMenuButton || <button type="button" className="inline-flex h-10 w-10 items-center justify-center border border-[var(--vv-border)] text-white lg:hidden" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(value => !value)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>}
