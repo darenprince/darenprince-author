@@ -33,7 +33,100 @@ The 21-stage build card must remain aligned with:
 - the current build-status matrix;
 - the documented implementation/conditional/queued states.
 
-The collapsed dashboard card must identify the current engineering stage and the next dependency. The expanded card must list all 21 stages with semantic state indicators.
+The collapsed dashboard card must identify the current engineering stage and next dependency. The expanded card must list all 21 stages with semantic state indicators.
+
+## Engineering status semantics
+
+The console must distinguish engineering states rather than treating a successful build as proof of functionality.
+
+Use these independent dimensions wherever applicable:
+
+- **BUILT** — source implementation compiles or exists in the intended canonical owner.
+- **FUNCTIONAL** — the implemented workflow has executed successfully with its required runtime inputs.
+- **TESTED** — an actual automated or manual test has passed for the behavior being reported.
+- **VALIDATED** — the relevant scientific, operational, or performance validation has actually been completed and documented.
+- **CONDITIONAL** — the behavior requires inputs or conditions not currently supplied.
+- **NOT INVOKED** — the stage is intentionally not executed by the current workflow.
+- **QUEUED** — the capability is represented in the architecture but deeper runtime integration remains outstanding.
+- **FAILED** — an execution or verification attempt failed.
+- **BLOCKED** — work cannot proceed because a documented dependency or environment constraint remains.
+
+A green build must never automatically produce a green FUNCTIONAL or VALIDATED state.
+
+## Main dashboard stats
+
+Primary dashboard statistics must use consistent all-caps labels and semantic status treatment.
+
+Required primary categories are:
+
+- **API** — current health/reachability state.
+- **RUNTIME** — runtime self-test or operational state.
+- **PIPELINE** — 21-stage implementation and execution state.
+- **QA** — current test/build verification state.
+
+Each primary stat should have a meaningful icon and color-coded status. Color is supplementary; the text state must remain explicit and accessible.
+
+## QA checks
+
+QA checks must expose more than a single historical test count. Where data exists, the console should distinguish:
+
+- backend tests
+- frontend production build
+- runtime self-test
+- upload contract
+- case creation
+- source persistence
+- secure playback
+- case-bound analysis
+- pipeline execution
+- browser/E2E verification
+- deployment/artifact verification
+- scientific validation
+
+Historical baselines must be explicitly labeled **HISTORICAL** and must never be displayed as current QA.
+
+## Current engineering state
+
+The dashboard must expose enough detail to answer:
+
+1. What is the current engineering stage?
+2. What is its BUILD state?
+3. What is its FUNCTIONAL state?
+4. What TEST evidence exists?
+5. What VALIDATION evidence exists?
+6. What is blocked or still unverified?
+7. What is the next dependency?
+8. Which source files, workflow, commit, and documentation establish the status?
+
+## Source traceability
+
+Every material dashboard status should have a traceable source when a repository or workflow source exists.
+
+The operator-facing trace should support:
+
+`GitHub → repository path → workflow → commit → artifact/deployment`
+
+Where applicable, expose:
+
+- clickable GitHub source/documentation link;
+- exact repository path;
+- commit SHA;
+- workflow name or run reference;
+- artifact/deployment reference;
+- copy-to-clipboard control;
+- copied confirmation feedback.
+
+The trace is evidence of provenance, not evidence that the underlying capability is scientifically validated.
+
+## Workflow synchronization
+
+Every substantive workflow must refresh or invalidate the relevant dashboard status data after a state-changing event. At minimum, case creation, upload, persistence, playback preparation, analysis execution, diagnostics, and deployment verification must not leave stale operator statistics displayed.
+
+The preferred state flow is:
+
+`SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT/DEPLOYMENT → RUNTIME STATUS → CONSOLE`
+
+If a workflow cannot update a downstream status automatically, the limitation must be documented rather than simulated.
 
 ## Editing workflow synchronization
 
