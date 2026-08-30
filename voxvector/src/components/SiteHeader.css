@@ -1,10 +1,32 @@
 .vv-public-header,
 .vv-developer-header {
+  position: -webkit-sticky !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 300 !important;
   width: 100%;
+  margin: 0 !important;
+  transform: none !important;
   align-self: flex-start;
+}
+
+.vv-public-header {
+  height: 76px !important;
+  min-height: 76px !important;
+  max-height: 76px !important;
+}
+
+.vv-developer-header {
+  height: 64px !important;
+  min-height: 64px !important;
+  max-height: 64px !important;
+}
+
+.vv-public-header > div,
+.vv-developer-header > div {
+  height: 100% !important;
+  min-height: 0 !important;
+  align-items: center !important;
 }
 
 html:has(.vv-public-header),
@@ -19,6 +41,7 @@ body:has(.vv-public-header) {
 .vv-app {
   position: static !important;
   overflow: visible !important;
+  transform: none !important;
 }
 
 .vv-public-header .vv-logo-lockup,
@@ -27,23 +50,32 @@ body:has(.vv-public-header) {
   align-items: center !important;
   justify-content: center !important;
   vertical-align: middle;
+  margin: 0 !important;
+}
+
+.vv-public-header .vv-logo-lockup {
+  height: 100% !important;
 }
 
 .vv-public-header .vv-logo-lockup img,
 .vv-developer-header img {
   display: block;
+  margin: 0 !important;
 }
 
 .vv-developer-header {
   isolation: isolate;
 }
 
-.vv-developer-header > div {
+.vv-developer-header > div > div:first-child,
+.vv-developer-header > div > div:last-child {
+  height: 100% !important;
+  display: flex !important;
   align-items: center !important;
 }
 
 .vv-developer-header > div > div:last-child {
-  align-items: center !important;
+  justify-content: flex-end !important;
 }
 
 .vv-developer-header > div > div:last-child a,
@@ -52,6 +84,7 @@ body:has(.vv-public-header) {
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
+  margin: 0 !important;
 }
 
 .vv-developer-header > div > div:last-child svg {
@@ -59,7 +92,7 @@ body:has(.vv-public-header) {
   flex: 0 0 auto;
 }
 
-/* Sheet currently renders with Tailwind z-[90]; raise that concrete instance rather than changing the shared primitive. */
+/* Keep the mobile console sheet above the sticky header. */
 .vv-app [class~="z-[90]"] {
   z-index: 500 !important;
 }
@@ -85,6 +118,18 @@ body:has(.vv-public-header) {
 }
 
 @media (max-width: 900px) {
+  .vv-public-header {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+  }
+
+  .vv-developer-header {
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+  }
+
   .vv-public-header,
   .vv-developer-header {
     z-index: 400 !important;
