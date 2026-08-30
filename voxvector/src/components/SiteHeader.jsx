@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Code2, Github, LoaderCircle, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
+import { Code2, GitBranch, LoaderCircle, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { supabase } from '../lib/supabase'
@@ -32,7 +32,11 @@ function DeveloperToolbar({ mobileMenuButton }) {
   const signOut = async () => {
     if (!supabase || signingOut) return
     setSigningOut(true)
-    await supabase.auth.signOut()
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      setSigningOut(false)
+      return
+    }
     window.location.href = '/voxvector/developer/'
   }
   return (
@@ -45,7 +49,7 @@ function DeveloperToolbar({ mobileMenuButton }) {
           <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="VoxVector" className="h-8 w-8 object-contain" />
         </a>
         <div className="flex min-w-[100px] items-center justify-end gap-1.5">
-          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><Github size={17}/></IconButton>
+          <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><GitBranch size={17}/></IconButton>
           <IconButton href="/voxvector/developer/#profile" label="Developer profile"><UserRound size={17}/></IconButton>
           <IconButton label={signingOut ? 'Signing out' : 'Sign out'} onClick={signOut}>{signingOut ? <LoaderCircle size={17} className="animate-spin"/> : <LogOut size={17}/>}</IconButton>
         </div>
