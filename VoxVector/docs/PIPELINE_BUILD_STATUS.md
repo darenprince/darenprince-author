@@ -39,6 +39,22 @@ This document is an engineering status record, not a claim that every pipeline s
 
 The 14 implemented foundations do not mean fourteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
 
+## Dashboard representation
+
+The Developer Console dashboard now exposes this same build matrix through an expandable **21-stage build** control. When collapsed, the control identifies the **current engineering stage** and key counts. When expanded, it lists all 21 stages with semantic build-state indicators.
+
+The dashboard representation is an operator view of this canonical document. It must not become an independent source of truth.
+
+## Current engineering stage
+
+**Upload and intake reliability** is the current engineering stage because downstream case workflow reliability depends on successful source acceptance, persistence, retrieval, and playback.
+
+**Next dependency:** stage telemetry and real per-stage lifecycle reporting.
+
+After that, the immediate dependency chain is:
+
+**speaker and transcript foundation → evidence workspace → validation and calibration gate.**
+
 ## Build status
 
 The latest GitHub Pages production deployment associated with commit `4b922c10356c8c12aff96c719db0a6f23afc42d1` completed successfully. The Pages build and artifact verification steps passed, and the Pages deployment completed successfully.
@@ -85,9 +101,9 @@ The Developer Console upload client was hardened again because the reported fail
 
 The server-side Supabase media adapter was hardened to:
 
-- check for an existing bucket before attempting creation;
-- tolerate the normal already-exists race;
-- accept WAV and common WAV content types plus `application/octet-stream`;
+- check for an existing media bucket before attempting creation;
+- tolerate the already-exists race;
+- accept WAV and common WAV MIME variants plus `application/octet-stream`;
 - use a 10 second storage request timeout by default;
 - retry transient 429/502/503/504 and transport failures;
 - reject empty media objects;
@@ -109,6 +125,22 @@ The canonical `SiteHeader` now owns the product and Developer Console header beh
 - Failed health checks remain visible as a reconnecting state and continue retrying rather than requiring a manual restart.
 
 The health polling is a wake-up mechanism through the canonical API endpoint. It does not create a second API service or duplicate backend behavior.
+
+## Documentation synchronization
+
+The Developer Console build-status surface, MVP task board, and relevant Crown Labs mirror must stay synchronized with this document.
+
+When pipeline state, stage execution, or the current engineering priority changes, update the appropriate canonical implementation records and review:
+
+- `VoxVector/docs/ANALYSIS_PIPELINE.md`
+- `VoxVector/docs/ARCHITECTURE.md`
+- `VoxVector/docs/MVP_BUILD_PLAN.md`
+- `VoxVector/docs/ROADMAP.md`
+- `VoxVector/docs/CAPABILITY_STATUS.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/`
 
 ## Next pipeline build sequence
 
