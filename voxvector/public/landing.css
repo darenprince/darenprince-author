@@ -6,24 +6,31 @@
 
 /* HERO */
 #product{position:relative!important;isolation:isolate!important;min-height:clamp(680px,calc(100svh - 64px),860px)!important;overflow:hidden!important;background:#050505!important}
-/* The hero signal is intentionally built as a lightweight inline SVG background so it remains sharp and responsive without adding another asset or adjustment stylesheet. */
-#product::before{content:""!important;position:absolute!important;inset:0!important;z-index:0!important;pointer-events:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23373737' stop-opacity='.12'/%3E%3Cstop offset='.42' stop-color='%23b8b8b8' stop-opacity='.48'/%3E%3Cstop offset='.72' stop-color='%23f0b16f' stop-opacity='.78'/%3E%3Cstop offset='1' stop-color='%23ff7a00' stop-opacity='.9'/%3E%3C/linearGradient%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3C/defs%3E%3Cg stroke='url(%23b)' stroke-width='1'%3E%3Cpath opacity='.30' d='M300 260v-20m8 20v-42m8 42v-12m8 12v-66m8 66v-30m8 30v-78m8 78v-50m8 50v-92m8 92v-36m8 36v-112m8 112v-62m8 62v-126m8 126v-76m8 76v-142m8 142v-94m8 94v-165m8 165v-116m8 116v-182m8 182v-130m8 130v-198m8 198v-148m8 148v-176m8 176v-112m8 112v-202m8 202v-145m8 145v-224m8 224v-170m8 170v-142m8 142v-212m8 212v-154m8 154v-192m8 192v-126m8 126v-166m8 166v-112m8 112v-146m8 146v-96m8 96v-132m8 132v-80m8 80v-112m8 112v-58m8 58v-92m8 92v-44m8 44v-70m8 70v-32m8 32v-55m8 55v-24m8 24v-44' transform='translate(0 0)'/%3E%3C/g%3E%3Cpath d='M270 280 C335 275 350 250 375 260 C402 272 420 315 450 286 C478 258 492 230 518 242 C548 256 558 306 590 278 C620 250 637 218 665 236 C694 255 705 300 738 274 C770 249 790 222 818 240 C844 256 856 286 900 264' fill='none' stroke='url(%23b)' stroke-width='3' filter='url(%23g)' opacity='.30'/%3E%3Cpath d='M270 280 C335 275 350 250 375 260 C402 272 420 315 450 286 C478 258 492 230 518 242 C548 256 558 306 590 278 C620 250 637 218 665 236 C694 255 705 300 738 274 C770 249 790 222 818 240 C844 256 856 286 900 264' fill='none' stroke='url(%23b)' stroke-width='1.6' opacity='.95'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-size:62% auto!important;background-position:100% 56%!important;opacity:.72!important}
-#product>div:nth-child(1),#product>div:nth-child(2),#product>div:nth-child(3){display:none!important}
-#product>div:last-child{position:relative!important;z-index:2!important;min-height:100%!important;width:100%!important;align-items:flex-start!important;padding-top:clamp(58px,8vh,96px)!important;padding-bottom:100px!important}
-#product>div:last-child>div{max-width:790px!important;width:100%!important}
-#product h1{max-width:760px!important;margin:0!important;font-family:inherit!important;font-size:clamp(3.15rem,6.2vw,6.25rem)!important;font-weight:500!important;letter-spacing:-.058em!important;word-spacing:-.018em!important;line-height:.91!important;text-wrap:balance!important}
+/* Use the existing cinematic hero asset as the primary visual. The React-owned background layers remain present; this stylesheet only establishes their composition. */
+#product>div:nth-child(1){display:block!important;position:absolute!important;inset:-2%!important;z-index:0!important;opacity:.78!important;background-size:cover!important;background-position:68% 50%!important;transform:scale(1.025)!important;filter:saturate(.82) contrast(1.05)!important}
+#product>div:nth-child(2){display:block!important;position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(90deg,rgba(3,3,3,.98) 0%,rgba(3,3,3,.92) 25%,rgba(3,3,3,.60) 52%,rgba(3,3,3,.20) 76%,rgba(3,3,3,.38) 100%)!important}
+#product>div:nth-child(3){display:block!important;position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;background:radial-gradient(circle at 78% 44%,rgba(210,155,101,.16),transparent 23%),linear-gradient(180deg,rgba(0,0,0,.10) 0%,transparent 48%,rgba(5,5,5,.72) 100%)!important}
+#product::before{content:""!important;position:absolute!important;left:52%!important;right:-8%!important;top:17%!important;bottom:9%!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.035) 45%,rgba(210,155,101,.07) 72%,transparent 100%)!important;mask-image:linear-gradient(90deg,transparent 0%,#000 22%,#000 80%,transparent 100%)!important;opacity:.8!important}
+#product>div:last-child{position:relative!important;z-index:2!important;min-height:100%!important;width:100%!important;align-items:center!important;padding-top:clamp(64px,8vh,96px)!important;padding-bottom:104px!important}
+#product>div:last-child>div{max-width:790px!important;width:100%!important;margin-right:auto!important}
+#product h1{max-width:760px!important;margin:0!important;font-family:inherit!important;font-size:clamp(3.35rem,6.4vw,6.4rem)!important;font-weight:500!important;letter-spacing:-.058em!important;word-spacing:-.018em!important;line-height:.90!important;text-wrap:balance!important;text-shadow:0 8px 40px rgba(0,0,0,.24)!important}
 #product h1 span{letter-spacing:inherit!important;line-height:inherit!important}
 #product .vv-hero-line{display:block!important}
-#product .vv-hero-body{max-width:610px!important;margin-top:38px!important;font-size:clamp(1.14rem,1.5vw,1.28rem)!important;line-height:1.62!important;letter-spacing:-.012em!important;color:rgba(255,255,255,.68)!important}
-#product .vv-hero-cta-row{margin-top:36px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:14px!important}
+#product .vv-hero-prefix{color:rgba(255,255,255,.92)!important}
+#product .vv-hero-truth{color:#fff!important}
+#product .vv-hero-audio-line{color:rgba(255,255,255,.58)!important}
+#product .vv-hero-body{max-width:620px!important;margin-top:34px!important;font-size:clamp(1.08rem,1.42vw,1.24rem)!important;line-height:1.66!important;letter-spacing:-.012em!important;color:rgba(255,255,255,.70)!important;text-wrap:pretty!important}
+#product .vv-hero-body strong{color:rgba(255,255,255,.96)!important;font-weight:650!important}
+#product .vv-hero-cta-row{margin-top:32px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:12px!important}
 #product .vv-hero-cta-row>*{flex:0 0 auto!important;width:auto!important;max-width:none!important}
-#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:52px!important;width:auto!important;padding:0 23px!important;border-radius:8px!important;border:1px solid rgba(255,255,255,.22)!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.012em!important;line-height:1!important;box-shadow:none!important;white-space:nowrap!important}
+#product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:52px!important;width:auto!important;padding:0 22px!important;border-radius:7px!important;border:1px solid rgba(255,255,255,.20)!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.012em!important;line-height:1!important;box-shadow:0 10px 34px rgba(0,0,0,.16)!important;white-space:nowrap!important;transition:transform .2s ease,border-color .2s ease,background-color .2s ease,box-shadow .2s ease!important}
 #product .vv-hero-primary-cta{background:#f5f5f5!important;color:#070707!important}
-#product .vv-hero-api-cta{background:rgba(7,7,7,.72)!important;color:rgba(255,255,255,.90)!important}
-#product .vv-hero-primary-cta:hover,#product .vv-hero-api-cta:hover{border-color:rgba(255,255,255,.42)!important;transform:translateY(-1px)!important}
-#product .vv-hero-technology-link{position:absolute!important;left:50%!important;bottom:27px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;gap:8px!important;margin:0!important;padding:6px 10px!important;border:0!important;background:transparent!important;color:rgba(255,255,255,.58)!important;text-decoration:none!important;white-space:nowrap!important;font-size:11px!important;font-weight:600!important;letter-spacing:.01em!important}
-#product .vv-hero-technology-arrow{font-size:18px!important;line-height:1!important;color:rgba(255,255,255,.78)!important}
-#product::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:20%!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.40) 50%,#050505 100%)!important}
+#product .vv-hero-api-cta{background:rgba(10,10,10,.68)!important;color:rgba(255,255,255,.92)!important;backdrop-filter:blur(10px)!important}
+#product .vv-hero-primary-cta:hover,#product .vv-hero-api-cta:hover{border-color:rgba(255,255,255,.48)!important;transform:translateY(-2px)!important;box-shadow:0 14px 38px rgba(0,0,0,.24)!important}
+#product .vv-hero-technology-link{position:absolute!important;left:50%!important;bottom:26px!important;z-index:8!important;display:flex!important;width:max-content!important;transform:translateX(-50%)!important;align-items:center!important;gap:8px!important;margin:0!important;padding:7px 10px!important;border:0!important;background:rgba(0,0,0,.12)!important;color:rgba(255,255,255,.62)!important;text-decoration:none!important;white-space:nowrap!important;font-size:11px!important;font-weight:650!important;letter-spacing:.08em!important;text-transform:uppercase!important;transition:color .2s ease,transform .2s ease!important}
+#product .vv-hero-technology-link:hover{color:#fff!important;transform:translateX(-50%) translateY(-1px)!important}
+#product .vv-hero-technology-arrow{font-size:18px!important;line-height:1!important;color:rgba(255,255,255,.82)!important}
+#product::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:24%!important;z-index:3!important;pointer-events:none!important;background:linear-gradient(180deg,transparent 0%,rgba(5,5,5,.28) 38%,rgba(5,5,5,.88) 82%,#050505 100%)!important}
 
 /* ANALYTICAL PATH / CONSOLE */
 #workflow{position:relative!important;overflow:visible!important;isolation:isolate!important}
@@ -39,24 +46,29 @@
 /* RESPONSIVE */
 @media(max-width:900px){
   #product{min-height:680px!important}
-  #product::before{background-size:78% auto!important;background-position:100% 62%!important;opacity:.68!important}
-  #product>div:last-child{padding-top:52px!important;padding-bottom:88px!important}
+  #product>div:nth-child(1){inset:-1%!important;background-position:70% 54%!important;opacity:.70!important}
+  #product>div:nth-child(2){background:linear-gradient(90deg,rgba(3,3,3,.97) 0%,rgba(3,3,3,.86) 36%,rgba(3,3,3,.34) 70%,rgba(3,3,3,.40) 100%)!important}
+  #product::before{left:42%!important;right:-18%!important;top:24%!important;opacity:.58!important}
+  #product>div:last-child{padding-top:56px!important;padding-bottom:92px!important}
   #product h1{max-width:670px!important;font-size:clamp(3rem,8vw,5.2rem)!important;line-height:.92!important;letter-spacing:-.06em!important}
-  #product .vv-hero-body{max-width:600px!important;font-size:1.16rem!important;line-height:1.62!important;margin-top:34px!important}
-  #product .vv-hero-cta-row{margin-top:36px!important;gap:12px!important}
+  #product .vv-hero-body{max-width:600px!important;font-size:1.14rem!important;line-height:1.64!important;margin-top:32px!important}
+  #product .vv-hero-cta-row{margin-top:32px!important;gap:10px!important}
 }
 @media(max-width:620px){
   #product{min-height:730px!important}
-  #product::before{background-size:108% auto!important;background-position:100% 73%!important;opacity:.56!important}
-  #product>div:last-child{padding-top:36px!important;padding-left:20px!important;padding-right:20px!important;padding-bottom:86px!important}
+  #product>div:nth-child(1){inset:0!important;background-position:72% 72%!important;background-size:auto 100%!important;opacity:.48!important;transform:scale(1.01)!important}
+  #product>div:nth-child(2){background:linear-gradient(180deg,rgba(3,3,3,.95) 0%,rgba(3,3,3,.80) 42%,rgba(3,3,3,.42) 68%,rgba(3,3,3,.84) 100%)!important}
+  #product>div:nth-child(3){background:radial-gradient(circle at 78% 58%,rgba(210,155,101,.13),transparent 30%),linear-gradient(180deg,rgba(0,0,0,.08),transparent 45%,rgba(5,5,5,.72) 100%)!important}
+  #product::before{left:24%!important;right:-35%!important;top:42%!important;bottom:8%!important;opacity:.38!important}
+  #product>div:last-child{padding-top:40px!important;padding-left:20px!important;padding-right:20px!important;padding-bottom:88px!important}
   #product>div:last-child>div{max-width:100%!important}
   #product h1{max-width:none!important;width:100%!important;font-size:clamp(2.95rem,10.9vw,4rem)!important;line-height:.91!important;letter-spacing:-.064em!important;word-spacing:-.026em!important;text-wrap:balance!important}
   #product .vv-hero-line{white-space:nowrap!important}
-  #product .vv-hero-body{max-width:390px!important;margin-top:34px!important;font-size:1.08rem!important;line-height:1.64!important;letter-spacing:-.008em!important;color:rgba(255,255,255,.66)!important}
-  #product .vv-hero-cta-row{margin-top:36px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:9px!important;width:100%!important}
-  #product .vv-hero-cta-row>*{flex:0 1 auto!important;width:auto!important;max-width:calc(50% - 5px)!important}
-  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:50px!important;padding:0 15px!important;font-size:14px!important}
-  #product .vv-hero-technology-link{bottom:20px!important;font-size:10px!important;padding:6px 8px!important}
+  #product .vv-hero-body{max-width:390px!important;margin-top:30px!important;font-size:1.06rem!important;line-height:1.64!important;letter-spacing:-.008em!important;color:rgba(255,255,255,.68)!important}
+  #product .vv-hero-cta-row{margin-top:32px!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:8px!important;width:100%!important}
+  #product .vv-hero-cta-row>*{flex:0 1 auto!important;width:auto!important;max-width:calc(50% - 4px)!important}
+  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{min-height:50px!important;padding:0 14px!important;font-size:14px!important}
+  #product .vv-hero-technology-link{bottom:19px!important;font-size:10px!important;padding:6px 8px!important;letter-spacing:.06em!important}
   #workflow .vv-console-visual{width:110%!important;margin-left:-5%!important;margin-top:28px!important}
   #workflow .vv-console-visual::after{height:17%!important}
   #workflow .vv-future-subheading{margin-top:22px!important;font-size:1.5rem!important}
@@ -65,6 +77,6 @@
 @media(max-width:390px){
   #product h1{font-size:2.72rem!important}
   #product .vv-hero-body{font-size:1rem!important}
-  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{padding:0 12px!important;font-size:13px!important}
+  #product .vv-hero-primary-cta,#product .vv-hero-api-cta{padding:0 11px!important;font-size:13px!important}
 }
 @media(prefers-reduced-motion:reduce){#product .vv-hero-primary-cta:hover,#product .vv-hero-api-cta:hover{transform:none!important}}
