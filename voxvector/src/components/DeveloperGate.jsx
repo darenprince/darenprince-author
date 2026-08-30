@@ -44,7 +44,7 @@ export default function DeveloperGate({ children, onBack }) {
 
 function GateShell({ children, onBack }) {
   return <div className="min-h-screen bg-[#080a0e] text-white flex flex-col">
-    <header className="border-b border-white/10 bg-black/75 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-md">
       <div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 max-[640px]:h-[68px]">
         <a href="/voxvector/" aria-label="VoxVector home" className="inline-flex items-center no-underline">
           <img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="h-[42px] w-[42px] object-contain max-[640px]:h-9 max-[640px]:w-9" />
