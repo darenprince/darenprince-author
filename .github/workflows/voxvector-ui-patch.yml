@@ -1,0 +1,99 @@
+name: VoxVector UI Patch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.head_commit.message != 'fix(voxvector): relocate engineering status and focus analysis cards'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch Developer Console, header, status dock, and coffee focus treatment
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          console = Path('voxvector/src/components/DeveloperConsole.jsx')
+          text = console.read_text()
+          text = text.replace("import SiteHeader from './SiteHeader'\n", "import SiteHeader from './SiteHeader'\nimport DeveloperEngineeringStatus from './DeveloperEngineeringStatus'\n")
+          old_tail = "    </main></div></div>\n}\n"
+          new_tail = "    </main></div><DeveloperEngineeringStatus /></div>\n}\n"
+          if old_tail not in text:
+              raise SystemExit('DeveloperConsole tail not found')
+          text = text.replace(old_tail, new_tail, 1)
+          console.write_text(text)
+
+          header = Path('voxvector/src/components/SiteHeader.jsx')
+          text = header.read_text()
+          text = text.replace("import DeveloperEngineeringStatus from './DeveloperEngineeringStatus'\n", '')
+          text = text.replace('<DeveloperEngineeringStatus/>', '')
+          header.write_text(text)
+
+          coffee = Path('voxvector/src/coffee-ui.css')
+          text = coffee.read_text()
+          start = text.find("section[aria-label='Case workflow'] [aria-current='step']")
+          if start != -1:
+              media = text.find("@media (prefers-reduced-motion: reduce)", start)
+              if media == -1:
+                  raise SystemExit('Workflow motion media block not found')
+              end = text.find('}\n', media)
+              if end == -1:
+                  raise SystemExit('Workflow motion media block end not found')
+              end += 2
+              text = text[:start] + text[end:]
+          focus = """
+          /* Focus the actual case input/analysis cards, not the workflow guide. */
+          section[aria-label='Case workflow'] + section.vv-panel,
+          section[aria-label='Case workflow'] + section.vv-panel + section.vv-panel,
+          section[aria-label='Case workflow'] + section.vv-panel + section.vv-panel + section.vv-panel {
+            border-color: var(--vv-coffee) !important;
+            box-shadow: 0 0 0 1px rgba(185, 139, 98, .18), 0 12px 34px rgba(0, 0, 0, .16);
+          }
+          section[aria-label='Case workflow'] + section.vv-panel:hover,
+          section[aria-label='Case workflow'] + section.vv-panel + section.vv-panel:hover,
+          section[aria-label='Case workflow'] + section.vv-panel + section.vv-panel + section.vv-panel:hover {
+            border-color: var(--vv-coffee-bright) !important;
+            box-shadow: 0 0 0 1px rgba(210, 167, 127, .28), 0 14px 38px rgba(0, 0, 0, .2);
+          }
+          """
+          text = text.rstrip() + "\n\n" + focus.strip() + "\n"
+          coffee.write_text(text)
+
+          status = Path('voxvector/src/components/DeveloperEngineeringStatus.jsx')
+          text = status.read_text()
+          text = text.replace("const [open, setOpen] = useState(false)", "const [open, setOpen] = useState(true)")
+          old = """  return <section className=\"vv-eng-status\" aria-label=\"Engineering status\">\n    <button type=\"button\" className=\"vv-eng-status__header\" onClick={() => setOpen(value => !value)} aria-expanded={open}>\n      <span className=\"vv-eng-status__heading\"><Activity size={16}/><span>ENGINEERING STATUS</span></span>\n      <span className=\"vv-eng-status__summary\"><span>{built} BUILT</span><span>{functional}</span><ChevronDown size={15} className={open ? 'rotate-180' : ''}/></span>\n    </button>\n    {open && <div className=\"vv-eng-status__body\">\n"""
+          new = """  return <section className={`vv-eng-status ${open ? 'is-open' : 'is-collapsed'}`} aria-label=\"Engineering status\">\n    <div className=\"vv-eng-status__header\">\n      <div className=\"vv-eng-status__current\"><Activity size={15}/><div><span className=\"vv-eng-status__eyebrow\">CURRENT STEP</span><strong>{currentStage}</strong></div></div>\n      <button type=\"button\" className=\"vv-eng-status__collapse\" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-label={open ? 'Collapse engineering status' : 'Expand engineering status'} title={open ? 'Collapse status' : 'Expand status'}>\n        <ChevronDown size={15} className={open ? '' : 'rotate-180'}/>\n      </button>\n    </div>\n    {open && <div className=\"vv-eng-status__body\">\n      <div className=\"vv-eng-status__expanded-title\"><span className=\"vv-eng-status__heading\"><Activity size={16}/><span>ENGINEERING STATUS</span></span><span className=\"vv-eng-status__summary\"><span>{built} BUILT</span><span>{functional}</span></span></div>\n"""
+          if old not in text:
+              raise SystemExit('Engineering status header block not found')
+          text = text.replace(old, new, 1)
+          status.write_text(text)
+
+          css = Path('voxvector/src/components/DeveloperEngineeringStatus.css')
+          css.write_text(""".vv-eng-status{position:fixed;left:0;right:0;bottom:0;z-index:180;margin:0;padding:0 18px calc(8px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.10);background:rgba(9,9,9,.97);color:#f5f5f5;backdrop-filter:blur(18px);box-shadow:0 -14px 40px rgba(0,0,0,.24)}.vv-eng-status__header{display:flex;width:100%;min-height:46px;align-items:center;justify-content:space-between;gap:18px}.vv-eng-status__current{display:flex;min-width:0;align-items:center;gap:9px}.vv-eng-status__current svg{color:#d9a06b;flex:0 0 auto}.vv-eng-status__current>div{min-width:0}.vv-eng-status__eyebrow{display:block;color:rgba(255,255,255,.34);font-size:7px;font-weight:800;letter-spacing:.14em}.vv-eng-status__current strong{display:block;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.82);font-size:10px;line-height:1.25;letter-spacing:.05em}.vv-eng-status__collapse{display:inline-grid;place-items:center;width:28px;height:28px;flex:0 0 28px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.035);color:rgba(255,255,255,.56);cursor:pointer}.vv-eng-status__collapse:hover{border-color:rgba(217,160,107,.42);color:#d9a06b}.vv-eng-status__body{max-height:min(48vh,520px);overflow:auto;padding:0 0 10px}.vv-eng-status__expanded-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 10px;padding-top:2px}.vv-eng-status__heading,.vv-eng-status__summary{display:flex;align-items:center;gap:9px}.vv-eng-status__heading{font-size:10px;font-weight:800;letter-spacing:.16em;color:rgba(255,255,255,.62)}.vv-eng-status__summary{font-size:10px;font-weight:750;letter-spacing:.08em;color:rgba(255,255,255,.48);text-transform:uppercase}.vv-eng-status__summary span{padding-left:8px;border-left:1px solid rgba(255,255,255,.09)}.vv-eng-state-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-bottom:12px}.vv-eng-state{display:flex;align-items:center;gap:10px;min-width:0;padding:12px;border:1px solid rgba(255,255,255,.09);background:#0d0d0d}.vv-eng-state svg{flex:0 0 auto}.vv-eng-state__label{font-size:8px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.38)}.vv-eng-state strong{display:block;margin-top:3px;font-size:11px;line-height:1.25;letter-spacing:.02em}.vv-eng-state.healthy{border-color:rgba(52,211,153,.18);color:#34d399}.vv-eng-state.warning{border-color:rgba(217,160,107,.18);color:#d9a06b}.vv-eng-state.error{border-color:rgba(239,107,115,.2);color:#ef6b73}.vv-eng-current{display:grid;grid-template-columns:1.25fr 1fr .8fr;gap:8px;margin-bottom:12px}.vv-eng-current>div{padding:12px;border:1px solid rgba(255,255,255,.08);background:#0d0d0d}.vv-eng-kicker{display:block;color:rgba(255,255,255,.34);font-size:8px;font-weight:800;letter-spacing:.14em}.vv-eng-current strong,.vv-eng-current code{display:block;margin-top:5px;color:rgba(255,255,255,.78);font-size:11px;line-height:1.45}.vv-eng-current code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.vv-eng-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:8px}.vv-eng-panel{min-width:0;padding:12px;border:1px solid rgba(255,255,255,.08);background:#0d0d0d}.vv-eng-panel__head{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:8px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.42)}.vv-qa-list{display:grid;gap:5px}.vv-qa-check{display:grid;grid-template-columns:17px 1fr;gap:8px;padding:9px;border:1px solid rgba(255,255,255,.07);background:#0a0a0a}.vv-qa-check__top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.vv-qa-check__top strong{font-size:10px;color:rgba(255,255,255,.68);letter-spacing:.05em}.vv-qa-check__top span{font-size:8px;font-weight:800;letter-spacing:.12em}.vv-qa-check p{margin:3px 0 0;color:rgba(255,255,255,.4);font-size:10px;line-height:1.45}.vv-qa-check.healthy{color:#34d399}.vv-qa-check.warning{color:#d9a06b}.vv-qa-check.error{color:#ef6b73}.vv-trace-list{display:grid;gap:5px}.vv-trace-row{position:relative;display:flex;align-items:center;gap:8px;padding:9px;border:1px solid rgba(255,255,255,.07);background:#0a0a0a}.vv-trace-copy{min-width:0;flex:1}.vv-trace-copy span{display:block;font-size:8px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.4)}.vv-trace-copy code{display:block;margin-top:3px;overflow-wrap:anywhere;color:rgba(255,255,255,.68);font:9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}.vv-trace-actions{display:flex;gap:4px;flex:0 0 auto}.vv-trace-actions a,.vv-trace-actions button{display:inline-grid;place-items:center;width:28px;height:28px;border:1px solid rgba(255,255,255,.1);background:#111;color:rgba(255,255,255,.52);cursor:pointer}.vv-trace-actions a:hover,.vv-trace-actions button:hover{border-color:rgba(255,255,255,.23);color:#fff}.vv-trace-copied{position:absolute;right:70px;padding:3px 6px;background:#34d399;color:#04130d;font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em}.vv-trace-note{margin-top:9px;color:rgba(255,255,255,.28);font:8px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em}.vv-main{padding-bottom:90px!important}@media(max-width:900px){.vv-eng-status{padding:0 14px calc(6px + env(safe-area-inset-bottom))}.vv-eng-state-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vv-eng-current{grid-template-columns:1fr}.vv-eng-grid{grid-template-columns:1fr}}@media(max-width:620px){.vv-eng-status__header{min-height:44px}.vv-eng-status__current strong{font-size:9px}.vv-eng-status__eyebrow{font-size:6px}.vv-eng-status__collapse{width:26px;height:26px;flex-basis:26px}.vv-eng-state-grid{grid-template-columns:1fr 1fr}.vv-eng-current>div,.vv-eng-panel,.vv-eng-state{padding:10px}.vv-eng-current strong,.vv-eng-current code{font-size:10px}.vv-qa-check__top strong{font-size:9px}.vv-trace-copy code{font-size:8px}.vv-eng-status__body{max-height:55vh}.vv-main{padding-bottom:72px!important}}""")
+
+          log = Path('VoxVector/docs/PROJECT_DECISION_LOG.md')
+          existing = log.read_text()
+          entry = """\n\n## 2026-08-30 — Developer status dock and analysis-card focus treatment\n\n**Decision:** Move the Developer Console engineering status from the header flow to a fixed bottom status dock. The dock shows the current engineering step in collapsed state and expands through a dedicated control without obscuring the primary workspace. Coffee/tan focus treatment is reserved for the actual case input and analysis cards rather than the workflow guide.\n\n**Implementation:**\n\n* engineering status is rendered from the Developer Console and no longer injected by `SiteHeader`\n* status dock is fixed to the bottom edge with safe-area support and workspace bottom padding\n* collapsed state shows only the current engineering step; expanded state retains the detailed engineering and QA information\n* a small explicit collapse/expand button controls the dock state\n* coffee/tan outline treatment applies to the three Case Workbench data-entry/analysis cards\n* the Case Workflow guide retains neutral/semantic styling instead of the coffee outline\n\n**Boundary:** This is a presentation and operator-interface change. It does not alter analysis logic, measurements, telemetry, classification, or validation state.\n"""
+          if '## 2026-08-30 — Developer status dock and analysis-card focus treatment' not in existing:
+              log.write_text(existing.rstrip() + entry + '\n')
+
+      - name: Verify changed frontend build
+        working-directory: voxvector
+        run: npm ci && npm run build
+
+      - name: Commit and push repaired UI
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --check
+          git add voxvector/src/components/DeveloperConsole.jsx voxvector/src/components/SiteHeader.jsx voxvector/src/components/DeveloperEngineeringStatus.jsx voxvector/src/components/DeveloperEngineeringStatus.css voxvector/src/coffee-ui.css VoxVector/docs/PROJECT_DECISION_LOG.md
+          git commit -m "fix(voxvector): relocate engineering status and focus analysis cards"
+          git push origin HEAD:main
