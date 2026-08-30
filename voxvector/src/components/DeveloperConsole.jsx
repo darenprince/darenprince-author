@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Activity, AlertTriangle, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, CircleCheck, Code2, FileAudio, Globe2, Images, Info, ListChecks, LogOut, Menu, Play, RefreshCw, Terminal, UserRound, Waves, X, XCircle } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { analyzeCaseSource, API_BASE, createAnalysisCase, getCasePlaybackUrl, getAnalysisCase, getDiagnosticErrors, getDiagnosticEvents, getHealth, listAnalysisCases, uploadCaseSource } from '../lib/api'
