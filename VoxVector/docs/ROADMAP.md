@@ -4,6 +4,16 @@ VoxVector is being built toward a comprehensive vocal and audio deception analys
 
 The roadmap preserves the complete product direction while enforcing a dependency first engineering sequence.
 
+## Current engineering priority — 2026-08-30
+
+**Current stage:** Upload and intake reliability.
+
+**Next dependency:** Real per-stage telemetry and lifecycle reporting.
+
+The Developer Console dashboard exposes the current engineering stage through the expandable 21-stage build status surface. The 21-stage build surface is an operator projection of the canonical pipeline build record and must not invent progress.
+
+Any substantive implementation change must be synchronized across the relevant canonical engineering records and the Crown Labs product mirror according to `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`.
+
 ## End state references
 
 - `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
@@ -11,6 +21,8 @@ The roadmap preserves the complete product direction while enforcing a dependenc
 - `docs/ANALYSIS_PIPELINE.md`
 - `docs/IMPLEMENTATION_PLAN.md`
 - `docs/MVP_BUILD_PLAN.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 
 ## Fastest connected MVP path
 
@@ -248,6 +260,9 @@ Priority capabilities:
 - persistent task checkoffs
 - phase completion
 - dependency visibility
+- current engineering stage visibility
+- 21-stage build status with expandable per-stage state
+- documentation synchronization visibility
 - next task visibility
 
 ## Product experience completion sequence
@@ -290,4 +305,7 @@ The roadmap is synchronized with:
 - `docs/MASTER_METHOD_INDEX.md`
 - `docs/METHOD_QA_MATRIX.md`
 - `docs/VALIDATION.md`
-- `docs/DOCS_ALIGNMENT_2026-08-20.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `docs/DOCS_ALIGNMENT_2026-08-28.md`
