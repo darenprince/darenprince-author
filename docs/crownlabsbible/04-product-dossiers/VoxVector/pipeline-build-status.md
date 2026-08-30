@@ -15,9 +15,15 @@ Current engineering status:
 - 3 stages remain queued for deeper runtime integration.
 - All 21 stages are represented in the canonical backend stage contract.
 
-The current runtime foundation includes file intake, WAV decoding, provenance, recording assessment, deterministic speech segmentation, eligibility/reliability, acoustic extraction, prosodic/voice-quality observations, temporal/pause analysis, evidence assembly, evidence convergence/conflict structures, guarded candidate classification, guarded disposition, and audit/provenance persistence.
+The Developer Console dashboard now exposes the same matrix through an expandable 21-stage build control. The collapsed card identifies the current engineering stage. Expanding it lists all 21 stages with semantic build-state indicators.
 
-Speaker diarization, production transcription, transcript alignment, and the validation/calibration gate remain active engineering priorities.
+Current engineering stage:
+
+**Upload and intake reliability**
+
+Next dependency:
+
+**Real per-stage telemetry and lifecycle reporting.**
 
 ## Upload reliability hardening
 
@@ -33,18 +39,35 @@ These changes improve operational reliability. They do not change the scientific
 
 The repository's VoxVector QA workflow runs the backend pytest suite and React production build. The latest known backend baseline recorded in the project decision log was **91 passed in 0.56s**, but that result predates the current upload/storage hardening and is therefore retained as historical baseline evidence rather than claimed as current QA.
 
-The latest GitHub Pages deployment associated with commit `4b922c10356c8c12aff96c719db0a6f23afc42d1` completed successfully, including production build and artifact verification.
+The latest known GitHub Pages deployment associated with commit `4b922c10356c8c12aff96c719db0a6f23afc42d1` completed successfully, including production build and artifact verification.
 
-A new post-hardening QA run and authenticated browser verification remain required before the upload path is declared production-verified.
+A current post-hardening QA result and authenticated browser verification remain required before the upload path or complete console workflow is declared production-verified.
+
+## Developer Console documentation contract
+
+The dashboard, MVP build plan, pipeline build record, capability status, roadmap, and Crown Labs mirror must move together when the connected workflow changes.
+
+Each substantive engineering change should record:
+
+- current implementation state
+- current engineering stage
+- next dependency
+- testing evidence
+- unresolved verification
+- affected documentation
+- any historical records moved to archive
+
+The operator dashboard is a projection of canonical engineering state, not a second source of truth.
 
 ## Engineering sequence
 
 The immediate sequence is:
 
 1. establish a reproducible upload/persistence pass;
-2. instrument actual stage execution rather than static stage labels;
-3. build speaker and transcript stages;
-4. expose normalized evidence records in the Analysis Workspace;
-5. implement the validation and calibration gate before promoting inferential classification.
+2. complete secure browser playback verification;
+3. instrument actual per-stage execution state;
+4. build speaker and transcript stages;
+5. expose normalized evidence records in the Analysis Workspace;
+6. implement the validation and calibration gate before promoting inferential classification.
 
 VoxVector documentation remains the technical authority; this document mirrors that status for Crown Labs.
