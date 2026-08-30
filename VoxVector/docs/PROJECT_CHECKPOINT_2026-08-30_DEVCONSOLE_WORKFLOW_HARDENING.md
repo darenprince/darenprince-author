@@ -72,6 +72,16 @@ Canonical routes remain:
 
 The backend remains the canonical analysis engine. The Developer Console does not duplicate pipeline behavior.
 
+### Developer Console presentation refinement — 2026-08-30
+
+The Engineering Status accordion now renders directly beneath the Developer Console header and is collapsed by default, keeping the primary work surface visible without losing the traceability panel.
+
+Case Workflow state cards now use a coffee/tan animated pulse on the active step. Completed steps transition to a subtle green treatment once their prerequisite input/state has been satisfied. Reduced-motion preferences disable the pulse animation.
+
+A sitewide focus treatment now uses the VoxVector coffee accent on active form fields, including the Developer Console login screen. Existing blue login focus styling was removed so the shared treatment is authoritative.
+
+The Developer Console toolbar no longer shows the GitHub source icon or image-index icon. Sitemap, profile, sign-out, and navigation controls remain available.
+
 ### Architecture discipline
 
 No alternate analysis engine, duplicate case implementation, or Vercel integration was introduced.
@@ -86,10 +96,8 @@ The API target remains the configured VoxVector backend, defaulting to:
 
 ### Verification status
 
-The modified frontend API helper and Developer Console were written directly to `main` and read back from GitHub after the changes.
+The modified frontend API helper, Developer Console workflow, and presentation surfaces were written directly to `main` and read back from GitHub after the changes.
 
-The VoxVector QA workflow was triggered for commit `6288c85f7e89bba51e736b6f9c0599dcd62edf98`; at checkpoint time, the QA and GitHub Pages workflows were still in progress. A completed run is required before calling the new upload fix production-verified.
+The current VoxVector QA and GitHub Pages workflows were triggered for the latest frontend commit. Production browser verification of the protected Developer Console remains unavailable in this environment, so this checkpoint does not claim authenticated end-to-end upload, playback, or analysis execution.
 
-The repository tools available in this session do not provide an authenticated browser session for the protected Developer Console, so this checkpoint does not claim successful end-to-end upload, playback, or analysis execution in production.
-
-Successful source modification and a passing build are not treated as scientific validation.
+Successful source modification and a passing software build are not treated as scientific validation.
