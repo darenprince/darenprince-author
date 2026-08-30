@@ -3,6 +3,7 @@ import { Code2, Github, Images, LoaderCircle, Map, Menu, Terminal, UserRound, X,
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { supabase } from '../lib/supabase'
+import './SiteHeader.css'
 
 const navigation = [
   ['Product', '#product'],
@@ -23,7 +24,7 @@ function Logo() {
 
 function IconButton({ href, label, children, onClick }) {
   const className = 'inline-flex h-9 w-9 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white/55 transition hover:text-white'
-  if (href) return <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={label} title={label}>{children}</a>
+  if (href) return <a href={href} className={className} aria-label={label} title={label}>{children}</a>
   return <button type="button" onClick={onClick} className={className} aria-label={label} title={label}>{children}</button>
 }
 
@@ -58,6 +59,23 @@ function DeveloperToolbar({ mobileMenuButton }) {
       </div>
     </header>
   )
+}
+
+function FooterSiteMapLink() {
+  useEffect(() => {
+    const footer = document.querySelector('footer')
+    if (!footer || footer.querySelector('[data-vv-site-map-link]')) return undefined
+    const utilityRow = footer.querySelector('div.mt-14 span:last-child')
+    if (!utilityRow) return undefined
+    const link = document.createElement('a')
+    link.href = '/voxvector/sitemap.xml'
+    link.dataset.vvSiteMapLink = 'true'
+    link.className = 'inline-flex items-center gap-2 no-underline hover:text-white/[.65]'
+    link.textContent = 'Site Map'
+    utilityRow.appendChild(link)
+    return () => link.remove()
+  }, [])
+  return null
 }
 
 function ApiStartupWindow() {
@@ -117,6 +135,7 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
         </div>
         {menuOpen && <nav className="border-t border-[var(--vv-border)] bg-[var(--vv-bg)] px-5 py-5 lg:hidden" aria-label="Mobile navigation">{navigation.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)} className="block border-b border-[var(--vv-border)] py-4 text-base font-medium text-white/[.68] no-underline">{label}</a>)}<a href="/voxvector/developer" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-4 text-base font-semibold text-white no-underline"><Terminal size={16} />Developer</a>{mobileActions}{userMenu && <div className="border-t border-[var(--vv-border)] pt-4">{userMenu}</div>}</nav>}
       </header>
+      <FooterSiteMapLink />
       <ApiStartupWindow />
     </>
   )
