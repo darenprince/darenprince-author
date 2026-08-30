@@ -47,7 +47,7 @@ The intended product combines multiple evidence families through a connected cas
 
 ## Speech segmentation implementation
 
-Stage 06 now has a real deterministic engine under `src/voxvector/speech_segmentation.py` and is integrated into `VoxVectorPipeline`.
+Stage 06 has a real deterministic engine under `src/voxvector/speech_segmentation.py` and is integrated into `VoxVectorPipeline`.
 
 The current implementation:
 
@@ -96,7 +96,7 @@ This is the first concrete implementation of the speaker/transcript dependency p
 
 ## Current input capabilities
 
-The authenticated case intake workflow now supports:
+The authenticated case intake workflow supports:
 
 - case creation
 - case listing
@@ -111,6 +111,25 @@ The authenticated case intake workflow now supports:
 - run stage state persistence
 
 The legacy `/v1/analyze` endpoint remains available as the direct analysis compatibility path.
+
+## Developer Console status
+
+The Developer Console is an implemented engineering cockpit with:
+
+- runtime health
+- case creation and selection
+- compatible WAV intake and upload progress
+- secure playback request path
+- case-bound analysis path
+- 21-stage build status projection
+- expandable per-stage engineering state
+- collapsed current engineering stage and next dependency
+- persisted MVP task checkoffs
+- methodology and pipeline navigation
+- diagnostic event and error surfaces
+- developer profile and sign out
+
+The console's 21-stage status is an engineering projection of the canonical stage contract. It does not imply that all stages are executed on every run or scientifically validated.
 
 ## Planned speaker and transcript capabilities
 
@@ -208,11 +227,25 @@ The product architecture preserves the full path toward:
 | Diagnostic event browser | implemented foundation |
 | Methodology navigation | implemented |
 | MVP task board | implemented foundation |
+| 21-stage dashboard status card | implemented |
+| Dashboard current engineering stage | implemented |
+| Expandable per-stage build state | implemented |
 | Analysis Workspace | active implementation target |
-| Case intake UI wiring | next implementation step |
-| Signed media playback wiring | next implementation step |
+| Case intake UI wiring | implemented foundation; browser verification required |
+| Signed media playback wiring | implemented foundation; browser verification required |
 | Full 21 stage backend lifecycle integration | active implementation target |
 | Browser end to end verification | required |
+
+## Documentation synchronization
+
+Current synchronization records:
+
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `docs/DOCS_ALIGNMENT_2026-08-28.md`
+
+The 2026-08-20 alignment record has been archived and is not a current authority.
 
 ## Scientific status rule
 
@@ -230,4 +263,7 @@ The product objective remains deception detection throughout the engineering pro
 - `docs/VALIDATION.md` — scientific validation requirements
 - `docs/ROADMAP.md` — future development
 - `docs/MVP_BUILD_PLAN.md` — fastest connected implementation path
-- `docs/DOCS_ALIGNMENT_2026-08-20.md` — cross document synchronization record
+- `docs/PIPELINE_BUILD_STATUS.md` — current 21-stage build state
+- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md` — current implementation audit
+- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md` — console-specific synchronization rules
+- `docs/DOCS_ALIGNMENT_2026-08-28.md` — latest cross-document synchronization record
