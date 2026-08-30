@@ -1,32 +1,108 @@
-name: VoxVector Temporary Syntax Diagnostic
+name: VoxVector Temporary Syntax Repair
 
 on:
   push:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  diagnose:
+  repair:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Show parser error context
+
+      - name: Replace malformed compressed MVP board with canonical formatted JSX
         shell: python
         run: |
           from pathlib import Path
-          p = Path('voxvector/src/components/DeveloperConsole.jsx')
-          text = p.read_text()
-          pos = 34658
-          lines = text[:pos].splitlines()
-          print(f'FILE_SIZE={len(text)}')
-          print(f'LINE={len(lines)+1}')
-          line_start = text.rfind('\n', 0, pos) + 1
-          line_end = text.find('\n', pos)
-          if line_end == -1:
-              line_end = len(text)
-          print(f'COLUMN={pos-line_start+1}')
-          print('CONTEXT_START')
-          print(text[max(0,pos-900):min(len(text),pos+900)])
-          print('CONTEXT_END')
+
+          path = Path('voxvector/src/components/DeveloperConsole.jsx')
+          lines = path.read_text().splitlines()
+          index = next(i for i, line in enumerate(lines) if line.startswith('function MvpBoard('))
+
+          replacement = '''function MvpBoard({ checks, setChecks, percent, complete, total }) {
+            const [open, setOpen] = useState(() => new Set(['P0', 'P1']))
+            const allOpen = open.size === phases.length
+            const togglePhase = id => setOpen(current => {
+              const next = new Set(current)
+              if (next.has(id)) next.delete(id)
+              else next.add(id)
+              return next
+            })
+            const toggle = id => setChecks(current => ({ ...current, [id]: !current[id] }))
+
+            return (
+              <div>
+                <PageTitle
+                  eyebrow="DELIVERY"
+                  title="Fastest Path to MVP"
+                  action={(
+                    <div className="flex gap-2">
+                      <Button variant="secondary" onClick={() => setOpen(allOpen ? new Set() : new Set(phases.map(p => p.id)))}>
+                        {allOpen ? 'Collapse All' : 'Expand All'}
+                      </Button>
+                      <Button variant="secondary" onClick={() => setChecks({})}>Reset Checks</Button>
+                    </div>
+                  )}
+                />
+                <section className="vv-panel mb-4">
+                  <div className="vv-eyebrow">MVP Execution Board</div>
+                  <div className="mt-1 text-2xl font-semibold">{percent}% complete</div>
+                  <p className="vv-copy mt-1">{complete} of {total} engineering tasks checked</p>
+                </section>
+                <div className="space-y-2">
+                  {phases.map(phase => {
+                    const done = phase.tasks.filter(([id]) => checks[id]).length
+                    const isOpen = open.has(phase.id)
+                    return (
+                      <section className="vv-panel" key={phase.id}>
+                        <button className="flex w-full items-center gap-3 text-left" onClick={() => togglePhase(phase.id)} aria-expanded={isOpen}>
+                          {isOpen ? <ChevronDown size={17} /> : <ChevronRight size={17} />}
+                          <span className="vv-eyebrow">{phase.id}</span>
+                          <strong className="text-sm">{phase.title}</strong>
+                          <span className="ml-auto text-xs text-[var(--vv-muted)]">{done}/{phase.tasks.length}</span>
+                        </button>
+                        {isOpen && (
+                          <div className="mt-4 space-y-1">
+                            {phase.tasks.map(([id, label, owner]) => (
+                              <button key={id} onClick={() => toggle(id)} className="vv-status-row w-full text-left">
+                                <span>{checks[id] ? <CircleCheck size={16} /> : <Circle size={16} />}</span>
+                                <span className={checks[id] ? 'line-through opacity-60' : ''}>{label}</span>
+                                <span className="ml-auto text-[10px] uppercase tracking-wider text-[var(--vv-muted)]">{owner}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                        <p className="vv-copy mt-3">{phase.detail}</p>
+                      </section>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          }'''.splitlines()
+
+          lines[index:index + 1] = replacement
+          path.write_text('\n'.join(lines) + '\n')
+          print(f'Replaced {path} line {index + 1}')
+
+      - name: Install VoxVector dependencies
+        working-directory: voxvector
+        run: npm ci
+
+      - name: Verify VoxVector production build
+        working-directory: voxvector
+        run: npm run build
+
+      - name: Check repository diff
+        run: git diff --check && git status --short
+
+      - name: Commit repaired source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add voxvector/src/components/DeveloperConsole.jsx
+          git commit -m "fix(voxvector): repair developer console JSX parse" || exit 0
+          git push origin HEAD:main
