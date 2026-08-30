@@ -1,0 +1,52 @@
+.vv-public-header,
+.vv-developer-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 300 !important;
+  width: 100%;
+}
+
+.vv-developer-header {
+  isolation: isolate;
+}
+
+.vv-developer-header > div {
+  align-items: center !important;
+}
+
+.vv-developer-header .vv-developer-header__actions,
+.vv-developer-header > div > div:last-child {
+  align-items: center !important;
+}
+
+.vv-developer-header .vv-developer-header__actions a,
+.vv-developer-header .vv-developer-header__actions button,
+.vv-developer-header > div > div:last-child a,
+.vv-developer-header > div > div:last-child button {
+  align-self: center !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.vv-developer-header .vv-developer-header__actions svg,
+.vv-developer-header > div > div:last-child svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.vv-mobile-overlay {
+  z-index: 500 !important;
+}
+
+.vv-mobile-sheet {
+  position: relative;
+  z-index: 501 !important;
+}
+
+@media (max-width: 900px) {
+  .vv-public-header,
+  .vv-developer-header {
+    z-index: 400 !important;
+  }
+}
