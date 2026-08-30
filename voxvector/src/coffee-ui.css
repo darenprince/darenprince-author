@@ -1,0 +1,49 @@
+:root {
+  --vv-coffee: #b98b62;
+  --vv-coffee-bright: #d2a77f;
+  --vv-satisfied: #34d399;
+}
+
+:where(input, textarea, select, [contenteditable='true']):focus {
+  border-color: var(--vv-coffee) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--vv-coffee) 22%, transparent) !important;
+  outline: none !important;
+}
+
+:where(input, textarea, select, [contenteditable='true']):focus-visible {
+  border-color: var(--vv-coffee) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--vv-coffee) 22%, transparent) !important;
+  outline: none !important;
+}
+
+section[aria-label='Case workflow'] [aria-current='step'] {
+  border: 1px solid var(--vv-coffee) !important;
+  border-top-width: 1px !important;
+  border-radius: 5px;
+  background: rgba(185, 139, 98, 0.035);
+  animation: vv-workflow-current-pulse 2.2s ease-in-out infinite;
+}
+
+section[aria-label='Case workflow'] [class*='border-emerald-400'] {
+  border: 1px solid rgba(52, 211, 153, 0.28) !important;
+  border-top-width: 1px !important;
+  border-radius: 5px;
+  background: rgba(52, 211, 153, 0.018);
+}
+
+@keyframes vv-workflow-current-pulse {
+  0%, 100% {
+    border-color: var(--vv-coffee);
+    box-shadow: 0 0 0 0 rgba(185, 139, 98, 0);
+  }
+  50% {
+    border-color: var(--vv-coffee-bright);
+    box-shadow: 0 0 0 3px rgba(185, 139, 98, 0.11);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section[aria-label='Case workflow'] [aria-current='step'] {
+    animation: none;
+  }
+}
