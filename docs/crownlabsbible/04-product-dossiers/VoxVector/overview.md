@@ -125,13 +125,33 @@ The Developer Console uses the authenticated case workflow as its canonical anal
 
 `create case → upload WAV source → secure playback → run case-bound analysis → Analysis Workspace`
 
-The console can display a persisted source from the selected case even when that source is not held in local component state. The frontend analysis helper therefore resolves the selected case's first persisted source when a local source ID is unavailable before issuing the case-bound analysis request. Cases without an uploaded source are rejected client-side before an invalid analysis request is sent.
+The console can display a persisted source from the selected case even when that source is not held in local component state. The frontend API helpers now resolve the selected case's first persisted source when a local source ID is unavailable for both secure playback and case-bound analysis. Cases without an uploaded source are rejected client-side before invalid playback or analysis requests are sent.
 
-The underlying endpoint remains:
+The case upload helper now validates the developer session, selected case, WAV filename, multipart body, progress state, timeout, cancellation, and API error response. The browser continues to manage the multipart boundary automatically.
+
+The underlying endpoints remain:
+
+`POST /v1/cases/{case_id}/sources`
+
+`GET /v1/cases/{case_id}/sources/{source_id}/playback`
 
 `POST /v1/cases/{case_id}/sources/{source_id}/analyze`
 
 The backend retrieves the authenticated case and source, reads the stored WAV, runs the canonical `VoxVectorPipeline`, persists the run and stage state, and returns the updated case and run.
+
+### Developer Console presentation
+
+The Developer Console now presents runtime state with explicit visual semantics:
+
+- green check indicators for healthy API/runtime conditions
+- red warning indicators for unavailable or unhealthy conditions
+- animated health-state feedback
+- clearer dashboard card hierarchy and spacing
+- dark themed case and recording form controls
+- improved mobile form stacking
+- clearer upload progress and failure states
+
+These are presentation and operator-experience improvements. They do not represent scientific validation or new analytical methods.
 
 This enables VoxVector to serve both as a premium analytical application and as an integration layer for developers building investigative, security, research, or enterprise workflows.
 
@@ -163,7 +183,7 @@ It provides:
 
 - runtime health
 - case creation and case selection
-- WAV source upload with progress
+- WAV source upload with progress and failure-state handling
 - secure signed playback
 - case-bound analysis execution
 - persisted pipeline stage inspection
@@ -207,8 +227,18 @@ This Crown Labs dossier is the executive and product mirror.
 
 Material runtime and architecture changes must be reflected here while preserving the complete product roadmap and internal validation record.
 
-## Sync Record — 2026-08-30
+## Sync Record — 2026-08-30 Developer Console hardening
 
-The Developer Console analysis path was corrected so analysis no longer depends exclusively on transient local source state when a persisted case source is already available. The implementation change is recorded in `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-30_DEVCONSOLE_ANALYZE_FIX.md`.
+The Developer Console workflow was hardened after the persisted-source analysis correction. The canonical API helper now shares persisted-source resolution between playback and analysis, validates case/file state before upload, preserves multipart request correlation, reports upload progress, and distinguishes timeout, network, cancellation, and HTTP failures.
 
-This dossier remains synchronized with that runtime behavior while preserving the broader product scope and analytical roadmap.
+The console presentation was also refined with explicit green healthy checks, red warning states, animated health indicators, tighter dashboard spacing, dark themed form controls, improved file-input treatment, and responsive console spacing.
+
+The technical implementation and verification record is maintained in:
+
+`VoxVector/docs/PROJECT_CHECKPOINT_2026-08-30_DEVCONSOLE_WORKFLOW_HARDENING.md`
+
+The earlier analysis-specific correction remains documented in:
+
+`VoxVector/docs/PROJECT_CHECKPOINT_2026-08-30_DEVCONSOLE_ANALYZE_FIX.md`
+
+The Crown Labs dossier remains the executive/product mirror; VoxVector implementation and canonical technical documentation remain authoritative.
