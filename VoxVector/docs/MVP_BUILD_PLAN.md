@@ -41,29 +41,27 @@ Do not create a second backend capability in the frontend merely to make a scree
 
 Every visible state must come from a real API response or an explicit local interaction state.
 
-## Current execution checkpoint — 2026-08-20
+## Current execution checkpoint — 2026-08-30
 
-The first connected case-spine slice is now implemented in the canonical backend.
+**Current engineering stage:** Upload and intake reliability.
 
-Implemented in this slice:
+**Next dependency:** Real per-stage telemetry and lifecycle reporting.
 
-- authenticated case creation
-- authenticated case listing
-- authenticated case retrieval
-- durable case metadata persistence through the existing Supabase Storage architecture
-- source asset identity
-- source SHA-256 provenance
-- source recording metadata
-- durable private audio media storage
-- signed playback URL generation
-- authenticated source upload endpoint
-- case-bound analysis endpoint
-- analysis run persistence
-- 21-stage run state records with actual implemented stages represented separately from queued or not-run stages
-- frontend API client contracts for case creation upload playback and case analysis
-- automated case-store ownership and persistence tests
+The Developer Console now has a dashboard 21-stage build status surface that expands to show all canonical stages and their current engineering state. The collapsed state identifies the current engineering stage and the expanded state provides stage-by-stage status indicators.
 
-The next engineering step is to connect the Developer Console Workbench to these case contracts and then build the shared audio playback and waveform contract in the Analysis Workspace.
+The console is an operator projection of this canonical plan. It must not invent engineering progress or convert planned work into completed work merely because UI controls exist.
+
+The immediate connected workflow remains:
+
+`create case → select compatible WAV → upload → persist source → secure playback → run case-bound analysis → inspect stage state → Analysis Workspace`
+
+The upload path has validation, progress, request correlation, timeout/network/cancellation error handling, and backend storage diagnostics. Production authenticated browser verification remains required before the intake path is declared end-to-end verified.
+
+## Current documentation synchronization requirement
+
+Any implementation, task status, dependency, or pipeline stage change that affects the MVP must be synchronized across the relevant canonical documentation and the Crown Labs VoxVector mirror.
+
+Use `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md` as the focused operating rule and keep `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md` aligned with the latest repository state.
 
 ## P0 — Case spine
 
@@ -466,6 +464,9 @@ It must answer five questions immediately:
 - error inspection
 - runtime health
 - developer profile
+- 21-stage build status with per-stage semantic status indicators
+- collapsed current engineering stage and next dependency
+- documentation synchronization visibility
 
 ## Methodology links
 
@@ -477,6 +478,9 @@ The console should route directly to:
 - `docs/CAPABILITY_STATUS.md`
 - `docs/ANALYSIS_PIPELINE.md`
 - `docs/VALIDATION.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 
 ## Definition of done
 
