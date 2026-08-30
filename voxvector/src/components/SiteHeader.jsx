@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Code2, Github, LoaderCircle, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
+import { Code2, Github, Images, LoaderCircle, Map, Menu, Terminal, UserRound, X, LogOut } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { supabase } from '../lib/supabase'
@@ -50,6 +50,8 @@ function DeveloperToolbar({ mobileMenuButton }) {
         </a>
         <div className="flex h-full min-w-[100px] items-center justify-end gap-3">
           <IconButton href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" label="VoxVector source on GitHub"><Github size={18} strokeWidth={1.8}/></IconButton>
+          <IconButton href="/voxvector/image-index/" label="VoxVector image index"><Images size={18} strokeWidth={1.8}/></IconButton>
+          <IconButton href="/voxvector/sitemap.xml" label="VoxVector site map"><Map size={18} strokeWidth={1.8}/></IconButton>
           <IconButton href="/voxvector/developer/#profile" label="Developer profile"><UserRound size={18} strokeWidth={1.8}/></IconButton>
           <IconButton label={signingOut ? 'Signing out' : 'Sign out'} onClick={signOut}>{signingOut ? <LoaderCircle size={18} className="animate-spin"/> : <LogOut size={18} strokeWidth={1.8}/>}</IconButton>
         </div>
@@ -108,7 +110,7 @@ export default function SiteHeader({ userMenu = null, actions = null, mobileActi
             <a href="/voxvector/developer" className="inline-flex items-center gap-2 transition-colors hover:text-white no-underline"><Terminal size={15} />Developer</a>
           </nav>
           <div className="hidden items-center gap-3 md:flex">
-            {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Code2 size={16} />GitHub</a>}
+            {actions || <a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 border border-[var(--vv-border-strong)] bg-[var(--vv-panel)] px-4 text-sm font-semibold text-white/[.78] no-underline transition-colors hover:border-[var(--vv-accent-bright)] hover:text-white"><Github size={16} />GitHub</a>}
             {userMenu}
           </div>
           {mobileMenuButton || <button type="button" className="inline-flex h-10 w-10 items-center justify-center border border-[var(--vv-border)] text-white lg:hidden" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(value => !value)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>}
