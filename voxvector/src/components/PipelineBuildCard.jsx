@@ -35,8 +35,8 @@ const STATUS = {
 export default function PipelineBuildCard({ className = '' }) {
   const [open, setOpen] = useState(false)
   const counts = useMemo(() => STAGES.reduce((acc, [, , state]) => { acc[state] = (acc[state] || 0) + 1; return acc }, {}), [])
-  const current = STAGES.find(([,, state]) => state === 'queued' || state === 'conditional') || STAGES[0]
-  const currentLabel = current[1]
+  const currentStage = STAGES[0]
+  const currentLabel = 'Upload and intake reliability'
 
   return (
     <section className={`rounded-[9px] border border-[var(--vv-border)] bg-[var(--vv-surface)] shadow-[0_24px_70px_var(--vv-shadow)] ${className}`}>
@@ -64,7 +64,7 @@ export default function PipelineBuildCard({ className = '' }) {
           {STAGES.map(([number, name, state, detail]) => {
             const config = STATUS[state] || STATUS.queued
             const Icon = config.Icon
-            const isCurrent = name === currentLabel
+            const isCurrent = number === currentStage[0]
             return <div key={number} className={`grid grid-cols-[34px_20px_1fr_auto] items-start gap-3 rounded-[7px] px-3 py-3 ${isCurrent ? 'bg-white/[.045] ring-1 ring-white/[.08]' : 'hover:bg-white/[.025]'}`}>
               <span className="pt-0.5 font-mono text-[10px] font-semibold tracking-[.12em] text-white/25">{number}</span>
               <Icon size={15} className={`${config.className} mt-0.5`} aria-hidden="true" />
@@ -74,7 +74,7 @@ export default function PipelineBuildCard({ className = '' }) {
           })}
         </div>
         <div className="mt-4 grid gap-2 border-t border-[var(--vv-border)] pt-4 sm:grid-cols-2">
-          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Next dependency</div><div className="mt-1 text-sm font-medium text-white/70">Stage 1–4 intake reliability</div></div>
+          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Next dependency</div><div className="mt-1 text-sm font-medium text-white/70">Real per-stage telemetry</div></div>
           <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Pipeline contract</div><div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-emerald-400"><GitBranch size={13}/> 21 stages represented</div></div>
         </div>
       </div>}
