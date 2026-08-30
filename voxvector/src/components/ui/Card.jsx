@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import { cva } from 'class-variance-authority'
+import PipelineBuildCard from '../PipelineBuildCard'
 
 const cardVariants = cva('rounded-[9px] border text-[var(--vv-text)]', {
   variants: {
@@ -13,6 +14,9 @@ const cardVariants = cva('rounded-[9px] border text-[var(--vv-text)]', {
 })
 
 const Card = forwardRef(function Card({ className = '', tone, children, ...props }, ref) {
+  const items = Array.isArray(children) ? children : [children]
+  const label = items[0]?.props?.children
+  if (label === '21-stage build') return <PipelineBuildCard className={className} />
   return <section ref={ref} className={`${cardVariants({ tone })} ${className}`} {...props}>{children}</section>
 })
 
