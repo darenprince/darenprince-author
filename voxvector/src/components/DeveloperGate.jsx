@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { AlertTriangle, ArrowLeft, BookOpen, KeyRound, LogIn, ShieldCheck } from 'lucide-react'
 import { isDeveloper, supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
+import DeveloperEngineeringStatus from './DeveloperEngineeringStatus'
 
 const VIEWER = '/docs/crownlabsbible/docs/viewer.html'
 
@@ -39,7 +40,7 @@ export default function DeveloperGate({ children, onBack }) {
 
   if (!isDeveloper(session.user)) return <GateShell onBack={onBack}><div role="alert" className="border border-red-300/20 bg-red-300/[.04] p-6"><ShieldCheck className="text-red-200" /><h2 className="mt-5 text-xl font-semibold">Developer role required</h2><p className="mt-2 text-sm leading-6 text-white/55">This account is authenticated, but its trusted Supabase <code>app_metadata</code> does not grant the VoxVector developer role.</p>{error && <div className="mt-4 text-sm text-red-100">{error}</div>}<Button type="button" disabled={signingOut} onClick={handleSignOut} className="mt-6 border border-white/15 bg-transparent px-4 py-2 text-sm hover:bg-white/[.06]">{signingOut ? 'Signing out…' : 'Sign out'}</Button></div></GateShell>
 
-  return children({ session, signOut: handleSignOut })
+  return <><DeveloperEngineeringStatus />{children({ session, signOut: handleSignOut })}</>
 }
 
 function GateShell({ children, onBack }) {
