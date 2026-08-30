@@ -17,6 +17,7 @@ body:has(.vv-public-header) {
 }
 
 .vv-app {
+  position: static !important;
   overflow: visible !important;
 }
 
@@ -56,6 +57,16 @@ body:has(.vv-public-header) {
 .vv-developer-header > div > div:last-child svg {
   display: block;
   flex: 0 0 auto;
+}
+
+/* Sheet currently renders with Tailwind z-[90]; raise that concrete instance rather than changing the shared primitive. */
+.vv-app [class~="z-[90]"] {
+  z-index: 500 !important;
+}
+
+.vv-app [role="dialog"][aria-modal="true"] {
+  position: relative;
+  z-index: 501 !important;
 }
 
 .vv-mobile-overlay {
