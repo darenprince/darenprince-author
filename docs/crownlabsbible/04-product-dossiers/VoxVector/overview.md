@@ -119,6 +119,20 @@ The API currently supports:
 
 The API is not a separate analysis engine. It is the interface to the canonical VoxVector engine.
 
+### Developer Console analysis workflow
+
+The Developer Console uses the authenticated case workflow as its canonical analysis path:
+
+`create case → upload WAV source → secure playback → run case-bound analysis → Analysis Workspace`
+
+The console can display a persisted source from the selected case even when that source is not held in local component state. The frontend analysis helper therefore resolves the selected case's first persisted source when a local source ID is unavailable before issuing the case-bound analysis request. Cases without an uploaded source are rejected client-side before an invalid analysis request is sent.
+
+The underlying endpoint remains:
+
+`POST /v1/cases/{case_id}/sources/{source_id}/analyze`
+
+The backend retrieves the authenticated case and source, reads the stored WAV, runs the canonical `VoxVectorPipeline`, persists the run and stage state, and returns the updated case and run.
+
 This enables VoxVector to serve both as a premium analytical application and as an integration layer for developers building investigative, security, research, or enterprise workflows.
 
 ## Analytical Method Families
@@ -148,7 +162,12 @@ The Developer Console is the engineering cockpit for the connected MVP path.
 It provides:
 
 - runtime health
-- API workbench
+- case creation and case selection
+- WAV source upload with progress
+- secure signed playback
+- case-bound analysis execution
+- persisted pipeline stage inspection
+- Analysis Workspace routing
 - request inspection
 - lifecycle events
 - errors
@@ -158,6 +177,8 @@ It provides:
 - MVP task board
 - task checkoffs
 - phase completion
+
+The Developer Console remains a protected application surface backed by the canonical FastAPI API and private case/media storage.
 
 ## Product Development Direction
 
@@ -185,3 +206,9 @@ The VoxVector/ repository is the technical source of truth.
 This Crown Labs dossier is the executive and product mirror.
 
 Material runtime and architecture changes must be reflected here while preserving the complete product roadmap and internal validation record.
+
+## Sync Record — 2026-08-30
+
+The Developer Console analysis path was corrected so analysis no longer depends exclusively on transient local source state when a persisted case source is already available. The implementation change is recorded in `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-30_DEVCONSOLE_ANALYZE_FIX.md`.
+
+This dossier remains synchronized with that runtime behavior while preserving the broader product scope and analytical roadmap.
