@@ -47,9 +47,7 @@ Every visible state must come from a real API response or an explicit local inte
 
 **Next dependency:** Real per-stage telemetry and lifecycle reporting.
 
-The Developer Console now has a dashboard 21-stage build status surface that expands to show all canonical stages and their current engineering state. The collapsed state identifies the current engineering stage and the expanded state provides stage-by-stage status indicators.
-
-The console is an operator projection of this canonical plan. It must not invent engineering progress or convert planned work into completed work merely because UI controls exist.
+The Developer Console is being expanded into an engineering status surface rather than a visual progress board. Its 21-stage view must distinguish **BUILT**, **FUNCTIONAL**, **TESTED**, and **VALIDATED**. A successful frontend/backend build is not evidence that the corresponding user workflow is functional or scientifically validated.
 
 The immediate connected workflow remains:
 
@@ -467,6 +465,34 @@ It must answer five questions immediately:
 - 21-stage build status with per-stage semantic status indicators
 - collapsed current engineering stage and next dependency
 - documentation synchronization visibility
+- explicit BUILT / FUNCTIONAL / TESTED / VALIDATED status dimensions
+- detailed QA check list with current versus historical evidence
+- source traceability for status claims
+- GitHub path/workflow/commit links with copy controls
+- status refresh after state-changing workflows
+
+### Status semantics
+
+The console must never use a build result as a proxy for functionality.
+
+- **BUILT:** source implementation exists and compiles.
+- **FUNCTIONAL:** required runtime workflow has executed successfully.
+- **TESTED:** an actual test or verification has passed.
+- **VALIDATED:** relevant scientific or operational validation is complete and documented.
+
+Conditional, queued, not-invoked, failed, and blocked states remain explicit.
+
+### Dashboard synchronization
+
+Case creation, upload, persistence, playback preparation, analysis execution, pipeline transitions, diagnostics, CI results, and deployment verification must refresh or invalidate the relevant status data. If a status cannot be refreshed from a real source, the console must say so rather than displaying a stale or simulated result.
+
+### Traceability
+
+Material status claims should resolve to:
+
+`GitHub → repository path → workflow → commit → artifact/deployment → runtime status`
+
+The operator should be able to open the source documentation and copy the relevant path, commit SHA, workflow reference, or artifact/deployment reference.
 
 ## Methodology links
 
