@@ -106,6 +106,21 @@ Optional:
 
 The API creates private buckets when the configured service role has permission to do so.
 
+## 2026-08-31 production upload incident
+
+A production verification of the connected VoxVector Supabase project found that `voxvector-logs` existed but the required `voxvector-media` bucket did not exist. This allowed case metadata and diagnostic operations to continue while case audio persistence could fail at the media-storage boundary.
+
+The missing `voxvector-media` bucket was provisioned as a private bucket with the documented 250 MB limit and compatible WAV MIME types:
+
+- `audio/wav`
+- `audio/x-wav`
+- `audio/wave`
+- `application/octet-stream`
+
+This was an infrastructure remediation, not a frontend simulation. The repository backend already contains the canonical media-storage path and the required media-bucket configuration. The production storage configuration is now aligned with that contract.
+
+The incident also confirmed that diagnostic log storage was functioning independently; the production project was actively writing and reading the `voxvector-logs` bucket during the investigation.
+
 ## What is stored in diagnostics
 
 Diagnostics deliberately exclude raw audio and raw transcript content. Each request is assigned a request ID and can produce lifecycle objects under:
