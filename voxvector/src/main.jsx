@@ -15,6 +15,26 @@ const queryClient = new QueryClient({
   }
 })
 
+function ScrollRestoration() {
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+    const previous = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    scrollTop()
+    window.addEventListener('pageshow', scrollTop)
+    window.addEventListener('popstate', scrollTop)
+    window.addEventListener('hashchange', scrollTop)
+    return () => {
+      window.removeEventListener('pageshow', scrollTop)
+      window.removeEventListener('popstate', scrollTop)
+      window.removeEventListener('hashchange', scrollTop)
+      window.history.scrollRestoration = previous
+    }
+  }, [])
+  return null
+}
+
 function ThemeLayer() {
   const isDeveloper = window.location.pathname.replace(/\/+$/, '') === '/voxvector/developer' || window.location.hash === '#/developer'
   const [theme, setTheme] = useState(getStoredTheme)
@@ -33,6 +53,7 @@ function AppReadyMarker() {
 function Root() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollRestoration />
       <RuntimeBoundary>
         <App />
       </RuntimeBoundary>
