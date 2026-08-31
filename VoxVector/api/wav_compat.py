@@ -4,7 +4,9 @@ import struct
 from dataclasses import dataclass
 
 
-_PCM_EXTENSIBLE_GUID = bytes.fromhex("01000000100000800000AA00389B71")
+# KSDATAFORMAT_SUBTYPE_PCM as it appears in a WAVE_FORMAT_EXTENSIBLE chunk.
+# 01000000-0000-0010-8000-00AA00389B71
+_PCM_EXTENSIBLE_GUID = bytes.fromhex("0100000000001000800000AA00389B71")
 
 
 @dataclass
@@ -49,12 +51,10 @@ def _read_u16(data: bytes, offset: int, endian: str) -> int:
 def _normalize_big_endian_pcm(payload: bytes, sample_width: int) -> bytes:
     if sample_width <= 1:
         return payload
-    if len(payload) % sample_width:
-        payload = payload[: len(payload) - (len(payload) % sample_width)]
-    out = bytearray(len(payload))
-    for offset in range(0, len(payload), sample_width):
-        sample = payload[offset : offset + sample_width]
-        out[offset : offset + sample_width] = sample[::-1]
+    usable = len(payload) - (len(payload) % sample_width)
+    out = bytearray(usable)
+    for offset in range(0, usable, sample_width):
+        out[offset : offset + sample_width] = payload[offset : offset + sample_width][::-1]
     return bytes(out)
 
 
@@ -74,8 +74,7 @@ def parse_pcm_wave(data: bytes) -> CompatWaveReader:
 
     while offset + 8 <= len(data):
         chunk_id = data[offset : offset + 4]
-        raw_size = data[offset + 4 : offset + 8]
-        chunk_size = struct.unpack(f"{endian}I", raw_size)[0]
+        chunk_size = _read_u32(data, offset + 4, endian)
         chunk_start = offset + 8
         chunk_end = chunk_start + chunk_size
         if chunk_end > len(data):
