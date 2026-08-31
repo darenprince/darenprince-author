@@ -130,7 +130,6 @@ ACOUSTIC_RUNTIME_SIGNATURE = getattr(_acoustic_module, "RUNTIME_SIGNATURE", "mis
 
 
 def _runtime_self_test() -> tuple[bool, str]:
-    """Check the canonical acoustic implementation without killing the worker."""
     try:
         smoke_frames = np.zeros((2, 1200), dtype=float)
         _acoustic_module.spectral_centroid(smoke_frames, 24000)
@@ -175,16 +174,14 @@ def read_wav(data: bytes):
 
 @app.middleware("http")
 async def diagnostic_middleware(request: Request, call_next) -> Response:
-    """Persist lifecycle markers for analysis requests so abrupt origin failures leave evidence."""
     if not request.url.path.startswith("/v1/"):
         return await call_next(request)
-
     rid = new_request_id(request.headers.get("X-Request-ID"))
     started = timer()
     try:
         response = await call_next(request)
         response.headers["X-Request-ID"] = rid
-        if request.url.path in {"/v1/analyze"} or request.url.path.startswith("/v1/cases"):
+        if request.url.path == "/v1/analyze" or request.url.path.startswith("/v1/cases"):
             await DIAGNOSTICS.emit("request.completed", request_id=rid, method=request.method, path=request.url.path, status_code=response.status_code, duration_ms=elapsed_ms(started))
             if response.status_code >= 500:
                 await DIAGNOSTICS.emit("request.server_error", request_id=rid, method=request.method, path=request.url.path, status_code=response.status_code, duration_ms=elapsed_ms(started))
@@ -215,6 +212,25 @@ async def health():
         "pipeline_build": _stage_build_summary(),
         "testing": {"current_commit_qa": "not_reported", "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}},
     }
+
+
+@app.get("/v1/diagnostics/storage")
+async def diagnostic_storage(_: dict = Depends(require_developer)):
+    """Verify the API can reach and initialize the private media bucket without exposing secrets."""
+    rid = new_request_id()
+    storage = DIAGNOSTICS.storage
+    if not storage.media_configured:
+        return {"status": "not_configured", "media_storage": False, "provider": storage.config.provider, "request_id": rid}
+    started = timer()
+    try:
+        await asyncio.to_thread(storage.ensure_media_bucket)
+        elapsed = elapsed_ms(started)
+        await DIAGNOSTICS.emit("storage.media_health", request_id=rid, status="ok", duration_ms=elapsed)
+        return {"status": "ok", "media_storage": True, "provider": storage.config.provider, "bucket": storage.config.media_bucket, "duration_ms": elapsed, "request_id": rid}
+    except StorageError as exc:
+        elapsed = elapsed_ms(started)
+        await DIAGNOSTICS.emit("storage.media_health", request_id=rid, status="error", duration_ms=elapsed, **safe_error(exc))
+        raise HTTPException(status_code=503, detail=f"Media storage connectivity check failed [request {rid}]") from exc
 
 
 async def _read_storage_prefix(prefix: str, limit: int) -> list[dict]:
@@ -263,7 +279,6 @@ async def diagnostic_errors(
     days: int = Query(default=14, ge=1, le=30),
     limit: int = Query(default=100, ge=1, le=250),
 ):
-    """Return recent persisted errors to authenticated VoxVector developers only."""
     storage = DIAGNOSTICS.storage
     if not DIAGNOSTICS.enabled or not storage.configured:
         raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
@@ -289,7 +304,6 @@ async def diagnostic_events(
     days: int = Query(default=2, ge=1, le=7),
     limit: int = Query(default=100, ge=1, le=250),
 ):
-    """Return sanitized lifecycle events for the developer console's live polling stream."""
     storage = DIAGNOSTICS.storage
     if not DIAGNOSTICS.enabled or not storage.configured:
         raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
@@ -345,7 +359,6 @@ async def analyze(request: Request, file: UploadFile = File(...)):
 
 @app.post("/v1/cases")
 async def create_case(payload: dict | None = None, user: dict = Depends(require_developer)):
-    """Create the durable root object for an analysis workflow."""
     try:
         case = await asyncio.to_thread(CASE_STORE.create_case, str(user["id"]), (payload or {}).get("title"))
         await DIAGNOSTICS.emit("case.created", case_id=case["case_id"], user_id=user["id"])
@@ -377,6 +390,7 @@ async def get_case(case_id: str, user: dict = Depends(require_developer)):
 @app.post("/v1/cases/{case_id}/sources")
 async def upload_case_source(case_id: str, request: Request, file: UploadFile = File(...), user: dict = Depends(require_developer)):
     rid = request_id()
+    started = timer()
     await DIAGNOSTICS.emit("case.source_upload_started", request_id=rid, case_id=case_id, filename=file.filename or "", content_type=file.content_type or "unknown")
     if not file.filename or not file.filename.lower().endswith(".wav"):
         await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="unsupported_file_type")
@@ -398,14 +412,14 @@ async def upload_case_source(case_id: str, request: Request, file: UploadFile = 
         peak = float(np.nanmax(np.abs(audio))) if np.any(np.isfinite(audio)) else 0.0
         clipping_ratio = float(np.mean(np.abs(audio) >= 0.999))
         source = await asyncio.to_thread(CASE_STORE.add_source, str(user["id"]), case_id, file.filename, data, {"sample_rate": sample_rate, "channels": "mixed_to_mono", "duration_seconds": audio.size / sample_rate, "peak_abs": peak, "clipping_ratio": clipping_ratio, "format": "wav"})
-        await DIAGNOSTICS.emit("case.source_uploaded", request_id=rid, case_id=case_id, source_id=source["source_id"], bytes=len(data), duration_seconds=source["duration_seconds"])
-        return {"status": "ok", "source": source}
+        await DIAGNOSTICS.emit("case.source_uploaded", request_id=rid, case_id=case_id, source_id=source["source_id"], bytes=len(data), duration_seconds=source["duration_seconds"], duration_ms=elapsed_ms(started))
+        return {"status": "ok", "source": source, "request_id": rid}
     except CaseNotFound as exc:
         await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="case_not_found")
         raise HTTPException(status_code=404, detail="Analysis case not found") from exc
     except StorageError as exc:
-        await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="storage_error", **safe_error(exc))
-        raise HTTPException(status_code=503, detail=f"Media storage upload failed: {exc}") from exc
+        await DIAGNOSTICS.emit("case.source_upload_failed", request_id=rid, case_id=case_id, reason="storage_error", **safe_error(exc), duration_ms=elapsed_ms(started))
+        raise HTTPException(status_code=503, detail=f"Media storage upload failed [request {rid}]") from exc
     except ValueError as exc:
         await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="invalid_wav", detail=str(exc))
         raise HTTPException(status_code=400, detail=str(exc)) from exc
