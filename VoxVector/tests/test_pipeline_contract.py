@@ -19,7 +19,7 @@ def _extensible_pcm_wav(sample_rate=16000, frames=800):
     block_align = channels * (bits // 8)
     byte_rate = sample_rate * block_align
     pcm = np.zeros(frames, dtype=np.int16).tobytes()
-    pcm_subformat_guid = bytes.fromhex('01000000100000800000AA00389B71')
+    pcm_subformat_guid = bytes.fromhex('0100000000001000800000AA00389B71')
     fmt_payload = struct.pack(
         '<HHIIHHHHI16s',
         0xFFFE,
