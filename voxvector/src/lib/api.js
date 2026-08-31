@@ -29,27 +29,14 @@ function authHeaders(accessToken) {
 
 function selectedDomFile() {
   if (typeof document === 'undefined') return null
-  return document.querySelector('input[type="file"][accept*=".wav"]')?.files?.[0] || null
+  return document.getElementById('audio-file')?.files?.[0] || null
 }
 
-function validateUploadFile(file) {
+function resolveUploadFile(file) {
   const resolved = file || selectedDomFile()
   if (!resolved) throw new Error('Choose a WAV recording before uploading.')
   if (!Number.isFinite(resolved.size) || resolved.size <= 0) throw new Error('The selected audio file is empty.')
   if (resolved.size > MAX_UPLOAD_BYTES) throw new Error(`The selected recording exceeds the ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB upload limit.`)
-  return resolved
-}
-
-async function validateWavFile(file) {
-  const resolved = validateUploadFile(file)
-  try {
-    const header = new Uint8Array(await resolved.slice(0, 12).arrayBuffer())
-    const riff = String.fromCharCode(...header.slice(0, 4))
-    const wave = String.fromCharCode(...header.slice(8, 12))
-    if (header.length >= 12 && riff === 'RIFF' && wave === 'WAVE') return resolved
-  } catch {
-    // Let the API perform authoritative container validation.
-  }
   return resolved
 }
 
@@ -97,17 +84,17 @@ export async function getAnalysisCase(accessToken, caseId) {
 }
 
 export function uploadCaseSource(accessToken, caseId, file, onProgress, { onState } = {}) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
       if (!accessToken) throw new Error('Developer session token unavailable.')
       if (!caseId) throw new Error('Select or create an analysis case before uploading a recording.')
-      const resolvedFile = await validateWavFile(file)
+      const resolvedFile = resolveUploadFile(file)
 
       const xhr = new XMLHttpRequest()
       const body = new FormData()
       const requestId = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
-      // Normalize only the multipart filename. Preserve the File bytes/type exactly.
-      body.append('file', resolvedFile, 'recording.wav')
+      // Keep the exact browser File and its original filename, matching the previously working path.
+      body.append('file', resolvedFile)
       xhr.open('POST', `${API_BASE}/v1/cases/${encodeURIComponent(caseId)}/sources`)
       xhr.timeout = 10 * 60 * 1000
       xhr.setRequestHeader('Accept', 'application/json')
@@ -115,14 +102,8 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress, { onStat
       xhr.setRequestHeader('X-Request-ID', requestId)
       onProgress?.(0)
       onState?.({ state: 'uploading', requestId })
-
-      xhr.upload.addEventListener('progress', event => {
-        if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100))
-      })
-      xhr.upload.addEventListener('load', () => {
-        onProgress?.(100)
-        onState?.({ state: 'processing', requestId })
-      })
+      xhr.upload.addEventListener('progress', event => { if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100)) })
+      xhr.upload.addEventListener('load', () => { onProgress?.(100); onState?.({ state: 'processing', requestId }) })
       xhr.addEventListener('timeout', () => {
         const error = Object.assign(new Error(`The recording upload timed out. Check the connection and try again. [request ${requestId}]`), { requestId, code: 'UPLOAD_TIMEOUT' })
         onState?.({ state: 'failed', requestId, code: error.code })
@@ -179,27 +160,21 @@ export async function analyzeCaseSource(accessToken, caseId, sourceId) {
 }
 
 export async function analyzeWav(file) {
-  const resolvedFile = await validateWavFile(file)
+  const resolvedFile = resolveUploadFile(file)
   const body = new FormData()
-  body.append('file', resolvedFile, 'recording.wav')
+  body.append('file', resolvedFile)
   return apiRequest('/v1/analyze', { method: 'POST', body, headers: {} })
 }
 
 export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onState } = {}) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let resolvedFile
-    try {
-      resolvedFile = await validateWavFile(file)
-    } catch (error) {
-      reject(error)
-      return
-    }
+    try { resolvedFile = resolveUploadFile(file) } catch (error) { reject(error); return }
     const xhr = new XMLHttpRequest()
     const started = performance.now()
     const body = new FormData()
     const requestId = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
-    body.append('file', resolvedFile, 'recording.wav')
-
+    body.append('file', resolvedFile)
     xhr.open('POST', `${API_BASE}/v1/analyze`)
     xhr.timeout = 10 * 60 * 1000
     xhr.setRequestHeader('Accept', 'application/json')
@@ -208,43 +183,18 @@ export function analyzeWavWithProgress(file, onProgress, { onRequestCreated, onS
     onState?.('uploading')
     xhr.upload.addEventListener('progress', event => { if (event.lengthComputable) onProgress?.(Math.min(100, (event.loaded / event.total) * 100)) })
     xhr.upload.addEventListener('load', () => { onProgress?.(100); onState?.('uploaded') })
-    xhr.addEventListener('timeout', () => {
-      const error = new Error(`The analysis upload timed out. Check the connection and try again. [request ${requestId}]`)
-      error.requestId = requestId
-      error.code = 'UPLOAD_TIMEOUT'
-      reject(error)
-    })
-    xhr.addEventListener('error', () => {
-      const error = new Error(`Network error while uploading audio. [request ${requestId}]`)
-      error.requestId = requestId
-      error.code = 'UPLOAD_NETWORK_ERROR'
-      reject(error)
-    })
-    xhr.addEventListener('abort', () => {
-      const error = new Error('Audio analysis was stopped.')
-      error.name = 'AbortError'
-      error.requestId = requestId
-      reject(error)
-    })
+    xhr.addEventListener('timeout', () => { const error = Object.assign(new Error(`The analysis upload timed out. Check the connection and try again. [request ${requestId}]`), { requestId, code: 'UPLOAD_TIMEOUT' }); reject(error) })
+    xhr.addEventListener('error', () => { const error = Object.assign(new Error(`Network error while uploading audio. [request ${requestId}]`), { requestId, code: 'UPLOAD_NETWORK_ERROR' }); reject(error) })
+    xhr.addEventListener('abort', () => { const error = Object.assign(new Error('Audio analysis was stopped.'), { name: 'AbortError', requestId }); reject(error) })
     xhr.addEventListener('load', () => {
       const responseRequestId = xhr.getResponseHeader('X-Request-ID') || requestId
       const contentType = xhr.getResponseHeader('content-type') || ''
       let payload = xhr.responseText
-      if (contentType.includes('application/json')) {
-        try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ }
-      }
+      if (contentType.includes('application/json')) { try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ } }
       const response = { status: xhr.status, ok: xhr.status >= 200 && xhr.status < 300 }
       const result = { response, payload, requestId: responseRequestId, durationMs: Math.round(performance.now() - started) }
-      if (!response.ok) {
-        const detail = typeof payload === 'object' ? payload?.detail : payload
-        const error = new Error(`${detail || `HTTP ${xhr.status}`} [request ${responseRequestId}]`)
-        Object.assign(error, result)
-        reject(error)
-        return
-      }
-      onProgress?.(100)
-      onState?.('completed')
-      resolve(result)
+      if (!response.ok) { const detail = typeof payload === 'object' ? payload?.detail : payload; const error = new Error(`${detail || `HTTP ${xhr.status}`} [request ${responseRequestId}]`); Object.assign(error, result); reject(error); return }
+      onProgress?.(100); onState?.('completed'); resolve(result)
     })
     xhr.send(body)
   })
