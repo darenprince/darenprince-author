@@ -24,12 +24,16 @@ class StorageConfig:
     media_max_bytes: int = int(os.getenv("VOXVECTOR_MEDIA_MAX_BYTES", str(250 * 1024 * 1024)))
 
     @property
+    def credentials_configured(self) -> bool:
+        return bool(self.provider == "supabase" and self.supabase_url and self.service_role_key)
+
+    @property
     def configured(self) -> bool:
-        return bool(self.provider == "supabase" and self.supabase_url and self.service_role_key and self.bucket)
+        return bool(self.credentials_configured and self.bucket)
 
     @property
     def media_configured(self) -> bool:
-        return bool(self.provider == "supabase" and self.supabase_url and self.service_role_key and self.media_bucket)
+        return bool(self.credentials_configured and self.media_bucket)
 
 
 class SupabaseStorage:
@@ -51,13 +55,18 @@ class SupabaseStorage:
     def status(self) -> str:
         if self.config.provider != "supabase":
             return "unsupported_provider"
-        if not self.config.configured:
+        if not self.config.credentials_configured:
             return "not_configured"
-        return "configured_media_ready" if self.config.media_configured else "configured"
-
-    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None, *, retries: int = 0):
+        if not self.config.media_configured:
+            return "media_not_configured"
         if not self.config.configured:
-            raise StorageError("Durable storage is not configured")
+            return "media_ready_logs_not_configured"
+        return "configured_media_ready"
+
+    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None, *, retries: int = 0, require_log_config: bool = False):
+        configured = self.config.configured if require_log_config else self.config.credentials_configured
+        if not configured:
+            raise StorageError("Durable storage credentials are not configured")
         headers = {
             "Authorization": f"Bearer {self.config.service_role_key}",
             "apikey": self.config.service_role_key,
@@ -93,8 +102,8 @@ class SupabaseStorage:
     def _ensure_bucket(self, bucket: str, file_size_limit: int, allowed_mime_types: list[str] | None, ready_attr: str) -> None:
         if getattr(self, ready_attr):
             return
-        if not self.config.configured:
-            raise StorageError("Durable storage is not configured")
+        if not self.config.credentials_configured:
+            raise StorageError("Durable storage credentials are not configured")
 
         bucket_url = f"{self.config.supabase_url}/storage/v1/bucket/{quote(bucket, safe='')}"
         try:
@@ -122,22 +131,14 @@ class SupabaseStorage:
         setattr(self, ready_attr, True)
 
     def ensure_bucket(self) -> None:
-        self._ensure_bucket(
-            self.config.bucket,
-            1 * 1024 * 1024,
-            ["application/json"],
-            "_bucket_ready",
-        )
+        if not self.config.configured:
+            raise StorageError("Log storage is not configured")
+        self._ensure_bucket(self.config.bucket, 1 * 1024 * 1024, ["application/json"], "_bucket_ready")
 
     def ensure_media_bucket(self) -> None:
         if not self.config.media_configured:
             raise StorageError("Media storage is not configured")
-        self._ensure_bucket(
-            self.config.media_bucket,
-            self.config.media_max_bytes,
-            ["audio/wav", "audio/x-wav", "audio/wave", "application/octet-stream"],
-            "_media_bucket_ready",
-        )
+        self._ensure_bucket(self.config.media_bucket, self.config.media_max_bytes, ["audio/wav", "audio/x-wav", "audio/wave", "application/octet-stream"], "_media_bucket_ready")
 
     @staticmethod
     def _validate_object_path(object_path: str) -> None:
@@ -150,7 +151,7 @@ class SupabaseStorage:
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.bucket, safe='')}/{encoded_path}"
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-        self._request("POST", url, body, "application/json", retries=2)
+        self._request("POST", url, body, "application/json", retries=2, require_log_config=True)
         return f"{self.config.bucket}/{object_path}"
 
     def put_bytes(self, object_path: str, body: bytes, content_type: str = "application/octet-stream") -> str:
@@ -170,7 +171,7 @@ class SupabaseStorage:
 
     def create_signed_url(self, object_path: str, expires_seconds: int = 900) -> str:
         self._validate_object_path(object_path)
-        if not self.config.media_configured:
+        if not self.media_configured:
             raise StorageError("Media storage is not configured")
         self.ensure_media_bucket()
         expires_seconds = max(60, min(int(expires_seconds), 86_400))
@@ -189,7 +190,7 @@ class SupabaseStorage:
 
     def get_bytes(self, object_path: str) -> bytes:
         self._validate_object_path(object_path)
-        if not self.config.media_configured:
+        if not self.media_configured:
             raise StorageError("Media storage is not configured")
         self.ensure_media_bucket()
         encoded_path = quote(object_path, safe="/")
@@ -198,19 +199,15 @@ class SupabaseStorage:
         return body
 
     def list_json(self, prefix: str, limit: int = 100, offset: int = 0) -> list[dict]:
-        """List storage entries below a prefix; entries may be folders or JSON objects."""
         if not prefix or prefix.startswith("/") or ".." in prefix.split("/"):
             raise ValueError("Invalid storage prefix")
         limit = max(1, min(int(limit), 1000))
         offset = max(0, int(offset))
+        if not self.config.configured:
+            raise StorageError("Log storage is not configured")
         url = f"{self.config.supabase_url}/storage/v1/object/list/{quote(self.config.bucket, safe='')}"
-        body = json.dumps({
-            "prefix": prefix.rstrip("/") + "/",
-            "limit": limit,
-            "offset": offset,
-            "sortBy": {"column": "created_at", "order": "desc"},
-        }).encode("utf-8")
-        _, raw = self._request("POST", url, body, "application/json", retries=2)
+        body = json.dumps({"prefix": prefix.rstrip("/") + "/", "limit": limit, "offset": offset, "sortBy": {"column": "created_at", "order": "desc"}}).encode("utf-8")
+        _, raw = self._request("POST", url, body, "application/json", retries=2, require_log_config=True)
         try:
             payload = json.loads(raw.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -221,9 +218,11 @@ class SupabaseStorage:
 
     def get_json(self, object_path: str) -> dict:
         self._validate_object_path(object_path)
+        if not self.config.configured:
+            raise StorageError("Log storage is not configured")
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.bucket, safe='')}/{encoded_path}"
-        _, body = self._request("GET", url, retries=2)
+        _, body = self._request("GET", url, retries=2, require_log_config=True)
         try:
             return json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
