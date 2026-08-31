@@ -7,6 +7,7 @@ import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeTo
 import { RuntimeBoundary } from './components/RuntimeBoundary'
 import './index.css'
 import './coffee-ui.css'
+import './console-workflow-state.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
