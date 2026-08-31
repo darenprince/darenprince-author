@@ -1,0 +1,60 @@
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel + section.vv-panel {
+  transition: border-color .28s ease, box-shadow .28s ease, background-color .28s ease;
+}
+
+/* The active work surface gets the coffee pulse. Completed prerequisite surfaces turn green. */
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:not(:has(.vv-status-row)) {
+  border-color: rgba(185,139,98,.78) !important;
+  box-shadow: 0 0 0 1px rgba(185,139,98,.12), 0 0 28px rgba(185,139,98,.055);
+  animation: vv-case-card-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:has(.vv-status-row) {
+  border-color: rgba(52,211,153,.30) !important;
+  box-shadow: 0 0 0 1px rgba(52,211,153,.06);
+}
+
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) {
+  border-color: rgba(185,139,98,.80) !important;
+  box-shadow: 0 0 0 1px rgba(185,139,98,.12), 0 0 28px rgba(185,139,98,.055);
+  animation: vv-case-card-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) {
+  border-color: rgba(52,211,153,.30) !important;
+  box-shadow: 0 0 0 1px rgba(52,211,153,.06);
+}
+
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) .self-end,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) button {
+  animation: vv-action-pulse 1.8s ease-in-out infinite;
+}
+
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:not(:has(.vv-status-row)) {
+  border-color: rgba(185,139,98,.80) !important;
+  box-shadow: 0 0 0 1px rgba(185,139,98,.12), 0 0 28px rgba(185,139,98,.055);
+  animation: vv-case-card-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:has(.vv-status-row) {
+  border-color: rgba(52,211,153,.30) !important;
+  box-shadow: 0 0 0 1px rgba(52,211,153,.06);
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:not(:has(.vv-status-row)) .flex.flex-wrap > button:nth-child(2) {
+  animation: vv-action-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes vv-case-card-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(185,139,98,.08), 0 0 18px rgba(185,139,98,.025); }
+  50% { box-shadow: 0 0 0 1px rgba(185,139,98,.23), 0 0 32px rgba(185,139,98,.09); }
+}
+@keyframes vv-action-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(185,139,98,0); }
+  50% { transform: scale(1.012); box-shadow: 0 0 0 6px rgba(185,139,98,.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel + section.vv-panel {
+    animation: none !important;
+  }
+}
