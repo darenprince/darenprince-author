@@ -55,10 +55,7 @@ function encodePcmWav(audio, sampleRate) {
 export async function convertToPcmWav(file, onProgress) {
   if (!supportedAudioFile(file)) throw new Error('Unsupported audio type. Choose WAV, MP3, M4A, MP4, AAC, OGG, WebM, or FLAC.')
   if (file.size <= 0) throw new Error('The selected audio file is empty.')
-  if (isNativeWav(file)) {
-    onProgress?.(100)
-    return file
-  }
+  if (isNativeWav(file)) return file
   const AudioContextCtor = globalThis.AudioContext || globalThis.webkitAudioContext
   const OfflineContextCtor = globalThis.OfflineAudioContext || globalThis.webkitOfflineAudioContext
   if (!AudioContextCtor || !OfflineContextCtor) throw new Error('This browser cannot convert the selected audio format. Choose a WAV recording instead.')
