@@ -66,6 +66,20 @@ The case API provides:
 
 The browser never receives the Supabase service-role key and does not access the private bucket directly with administrative credentials.
 
+## WAV intake compatibility
+
+The case intake contract remains PCM WAV audio. The backend first uses Python's native WAV reader for standard PCM files and then applies the compatibility parser in `api/wav_compat.py` when the native reader rejects a container variation.
+
+The compatibility layer accepts standard RIFF/WAVE, WAVE_FORMAT_EXTENSIBLE PCM, RF64/BW64 PCM containers, and RIFX PCM containers while normalizing supported PCM sample widths to the existing analysis path.
+
+The WAVE_FORMAT_EXTENSIBLE subtype comparison uses the complete 16-byte `KSDATAFORMAT_SUBTYPE_PCM` GUID:
+
+`01000000-0000-0010-8000-00AA00389B71`
+
+This is important because an incomplete GUID literal can make a valid extensible PCM recording fail with the misleading generic error `Only PCM WAV audio is supported by the initial runtime`.
+
+The compatibility tests cover standard PCM, extensible PCM, RF64 PCM, and continued native decoding of standard PCM.
+
 ## Live Render console stream
 
 Every enabled diagnostic event is emitted as a single sanitized JSON line to the application's standard output with the prefix:
