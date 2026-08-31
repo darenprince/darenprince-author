@@ -1,0 +1,140 @@
+name: VoxVector Functional Hotfix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.head_commit.message != 'fix(voxvector): restore tolerant upload path and active workflow states'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch canonical upload validation and workflow styling
+        shell: python
+        run: |
+          from pathlib import Path
+
+          # Backend: validate the actual WAV payload, not the browser-supplied filename.
+          app = Path('VoxVector/api/app.py')
+          text = app.read_text()
+          old = '''    if not file.filename or not file.filename.lower().endswith(".wav"):\n        await DIAGNOSTICS.emit("case.source_upload_rejected", request_id=rid, case_id=case_id, reason="unsupported_file_type")\n        raise HTTPException(status_code=415, detail="Initial case intake accepts WAV audio only")\n    data = await file.read()\n    if not data:'''
+          new = '''    data = await file.read()\n    if not data:'''
+          if old not in text:
+              raise SystemExit('case upload filename gate not found')
+          text = text.replace(old, new, 1)
+          old = '''        audio, sample_rate = read_wav(data)\n        if audio.size == 0:'''
+          new = '''        audio, sample_rate = read_wav(data)\n        if audio.size == 0:'''
+          if old not in text:
+              raise SystemExit('case upload WAV parse location not found')
+          text = text.replace(old, new, 1)
+          app.write_text(text)
+
+          # Frontend/API: keep the browser File bytes intact and normalize only the multipart filename.
+          api = Path('voxvector/src/lib/api.js')
+          api_text = api.read_text()
+          if "body.append('file', resolvedFile, 'recording.wav')" not in api_text:
+              raise SystemExit('normalized multipart upload handoff missing')
+
+          # UI: active work surface gets coffee treatment; satisfied surface becomes green; action buttons pulse.
+          css = Path('voxvector/src/console-workflow-state.css')
+          css.write_text(r'''/* Canonical Case Workbench workflow state. No synthetic data; styling follows actual DOM state. */
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel + section.vv-panel {
+  border-color: rgba(185,139,98,.22);
+  transition: border-color .28s ease, box-shadow .28s ease, background-color .28s ease;
+}
+
+/* STEP 1: case card is active until a persisted case status row exists. */
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:not(:has(.vv-status-row)) {
+  border-color: rgba(185,139,98,.78);
+  box-shadow: 0 0 0 1px rgba(185,139,98,.14), 0 0 26px rgba(185,139,98,.07);
+  animation: vv-case-active-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:has(.vv-status-row) {
+  border-color: rgba(52,211,153,.30);
+  box-shadow: 0 0 0 1px rgba(52,211,153,.07);
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:has(#case-title:not(:placeholder-shown)) .self-end,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel:has(#case-title:not(:placeholder-shown)) button {
+  animation: vv-action-pulse 1.8s ease-in-out infinite;
+}
+
+/* STEP 2: upload card becomes active once a case exists; green once a persisted source grid exists. */
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) {
+  border-color: rgba(185,139,98,.80);
+  box-shadow: 0 0 0 1px rgba(185,139,98,.14), 0 0 26px rgba(185,139,98,.07);
+  animation: vv-case-active-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) {
+  border-color: rgba(52,211,153,.30);
+  box-shadow: 0 0 0 1px rgba(52,211,153,.07);
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) .self-end,
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(#audio-file:not(:disabled)):not(:has(.vv-data-grid)) button {
+  animation: vv-action-pulse 1.8s ease-in-out infinite;
+}
+
+/* STEP 3: analysis card becomes active after source persistence; green after a run exists. */
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:not(:has(.vv-status-row)) {
+  border-color: rgba(185,139,98,.80);
+  box-shadow: 0 0 0 1px rgba(185,139,98,.14), 0 0 26px rgba(185,139,98,.07);
+  animation: vv-case-active-pulse 2.6s ease-in-out infinite;
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:has(.vv-status-row) {
+  border-color: rgba(52,211,153,.30);
+  box-shadow: 0 0 0 1px rgba(52,211,153,.07);
+}
+.vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel:has(.vv-data-grid) + section.vv-panel:not(:has(.vv-status-row)) .flex.flex-wrap > button:nth-child(2) {
+  animation: vv-action-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes vv-case-active-pulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(185,139,98,.10), 0 0 16px rgba(185,139,98,.025); }
+  50% { box-shadow: 0 0 0 1px rgba(185,139,98,.22), 0 0 30px rgba(185,139,98,.09); }
+}
+@keyframes vv-action-pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(185,139,98,0); }
+  50% { transform: scale(1.012); box-shadow: 0 0 0 6px rgba(185,139,98,.09); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel + section.vv-panel,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel button,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel button,
+  .vv-app main.vv-main section[aria-label="Case workflow"] + section.vv-panel + section.vv-panel + section.vv-panel button {
+    animation: none !important;
+  }
+}
+''')
+
+          main = Path('voxvector/src/main.jsx')
+          main_text = main.read_text()
+          if "import './console-workflow-state.css'" not in main_text:
+              main_text = main_text.replace("import './coffee-ui.css'", "import './coffee-ui.css'\nimport './console-workflow-state.css'")
+              main.write_text(main_text)
+
+      - name: Run backend tests
+        working-directory: VoxVector
+        run: |
+          python -m pip install -e '.[dev]'
+          pytest -q
+
+      - name: Build frontend
+        working-directory: voxvector
+        run: npm install --no-audit --no-fund && npm run build
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --check
+          git add VoxVector/api/app.py VoxVector/pyproject.toml voxvector/src/lib/api.js voxvector/src/main.jsx voxvector/src/console-workflow-state.css
+          git commit -m "fix(voxvector): restore tolerant upload path and active workflow states"
+          git push origin HEAD:main
