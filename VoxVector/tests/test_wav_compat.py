@@ -29,7 +29,7 @@ def _extensible_pcm_wav(sample_rate=16000, frames=400):
     channels = 1
     bits = 16
     pcm = np.zeros(frames, dtype=np.int16).tobytes()
-    guid = bytes.fromhex('01000000100000800000AA00389B71')
+    guid = bytes.fromhex('0100000000001000800000AA00389B71')
     fmt = struct.pack('<HHIIHHHHI16s', 0xFFFE, channels, sample_rate, sample_rate * 2, 2, bits, 22, bits, 0, guid)
     buf = io.BytesIO()
     riff_size = 4 + 8 + len(fmt) + 8 + len(pcm)
