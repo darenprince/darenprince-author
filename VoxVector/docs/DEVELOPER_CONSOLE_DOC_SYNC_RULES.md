@@ -184,3 +184,8 @@ Never archive a document merely because its filename looks old or inconvenient.
 A repository write is not verification.
 
 For substantive changes, build/test/browser verification must be performed when available. If a protected authenticated path cannot be exercised in the available environment, record that limitation explicitly rather than claiming success.
+
+
+## Audits and observability surfaces
+
+The Developer Console includes a structured Audits surface for recent evidence-based engineering audits. Audit reports must distinguish repository evidence, connected infrastructure evidence, source repair, build verification, deployment verification, and runtime/browser verification. Live Logs and Error Reports must render real persisted diagnostics, never synthetic frontend records.
