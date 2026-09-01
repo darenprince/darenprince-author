@@ -89,7 +89,7 @@ export function uploadCaseSource(accessToken, caseId, file, onProgress, { onStat
         const contentType = xhr.getResponseHeader('content-type') || ''; let payload = xhr.responseText
         if (contentType.includes('application/json')) { try { payload = JSON.parse(xhr.responseText) } catch { /* preserve raw response */ } }
         const response = { status:xhr.status, ok:xhr.status >= 200 && xhr.status < 300 }; const responseRequestId = xhr.getResponseHeader('X-Request-ID') || requestId; const result = { response, payload, requestId:responseRequestId }
-        if (!response.ok) { const detail = typeof payload === 'object' ? payload?.detail : payload; reject(Object.assign(new Error(`${detail || `Upload failed (HTTP ${xhr.status}).`} [request ${responseRequestId}]`), result)); return }
+        if (!response.ok) { const detail = typeof payload === 'object' ? payload?.detail : payload; const message = String(detail || `Upload failed (HTTP ${xhr.status}).`); const suffix = message.includes(`[request ${responseRequestId}]`) ? '' : ` [request ${responseRequestId}]`; reject(Object.assign(new Error(`${message}${suffix}`), result)); return }
         onProgress?.(100); onState?.({ state:'completed', requestId:responseRequestId }); resolve(result)
       })
       xhr.send(body)
