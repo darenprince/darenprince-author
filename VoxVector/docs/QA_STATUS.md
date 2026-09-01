@@ -6,9 +6,9 @@ This document records repository-level software QA. It is not a scientific valid
 
 ## Current source and verification state
 
-The current `main` revision contains speech-intelligence provider, acquisition, and observability changes after the latest verified code gate. The exact current revision must pass its own GitHub Actions workflow before it can be recorded as QA-green.
+This feature slice is developed on `feature/devconsole-render-live-history` from the canonical `main` branch. A repository write is not a QA result. The branch must pass its GitHub Actions workflow before this slice is recorded as QA-green.
 
-Latest previously verified code-affecting gate: `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. That run completed successfully.
+Latest previously verified code-affecting gate remains historical evidence only. The current feature branch requires a fresh backend test run and React production build.
 
 The verified software suite establishes implementation behavior for the tested paths. It does not establish scientific deception-detection validity.
 
@@ -25,32 +25,48 @@ The verified software suite establishes implementation behavior for the tested p
 | Reliability | deterministic and non-finite controls | implemented | eligibility only |
 | Evidence | grouping and convergence | implemented | neutral |
 | Evidence acquisition | media profile, speech/silence timeline, provider states | implemented foundation | none |
-| faster-whisper adapter | provider implementation, timestamp extraction, Render-visible progress | implemented, provider-gated | none |
-| pyannote Community-1 adapter | provider implementation, speaker turns, Render-visible progress | implemented, provider-gated | none |
+| faster-whisper adapter | provider implementation, timestamp extraction, runtime events | implemented, provider-gated | none |
+| pyannote Community-1 adapter | provider implementation, speaker turns, runtime events | implemented, provider-gated | none |
 | Transcript/speaker alignment | timestamp overlap foundation | implemented + tested | none |
 | Results envelope | identity, acquisition, explicit gaps, composed result shape | implemented + tested | none |
 | Stage telemetry | timing, failure, non-execution states, transitions | implemented + tested | none |
 | Analysis execution trace | request/trace/run correlation, lifecycle events, progress | implemented + tested | none |
+| Case persistence | case/source/run storage and owner scoping | implemented | none |
+| Live case run state | running → lifecycle updates → completed/failed persistence | implemented | none |
+| Render API bridge | server-side service/deploy/instance/log read path | implemented, environment-gated | none |
 | Classification | guarded boundary | controlled | no validated inference |
 | Disposition | guarded boundary | controlled | no validated inference |
 | Analysis Workspace | browser workflow | active implementation | none |
-| Developer Console | connected workflow + speech runtime readiness | implemented | none |
+| Developer Console | case workflow, history, live run projection, Render surface | active implementation | none |
 
 ## Current integration state — 2026-09-01
 
-The case-analysis path integrates the acquisition artifact and canonical results envelope. Configured speech providers are selected lazily through the acquisition layer.
+The case-analysis path integrates acquisition artifacts and the canonical results envelope. Configured speech providers are selected lazily through the acquisition layer.
 
-Default deployments with no provider configuration remain functional and explicitly report `not_configured` states. When a speech-enabled runtime is configured, the acquisition layer can invoke the faster-whisper transcription adapter and pyannote diarization adapter.
+The case-analysis route now persists a run record before entering the measured analysis path, updates the case record as route-boundary stages progress, and persists a completed or failed final state. The console polls the selected case so the active run becomes visible while it is executing.
 
-The provider adapters now emit structured `VOXVECTOR_SPEECH` stdout events for model loading, start, progress, completion, and failure. These logs are directly visible to Render Live Tail and can be correlated with request and trace identifiers.
+The current analytical engine remains composite. The internal engine has not yet gained callbacks for every canonical stage, so the Developer Console uses determinate completion counts only for persisted stage states and an explicit indeterminate activity treatment while the composite engine is executing.
 
-The repository also includes `VoxVector/scripts/render-observe.sh` and `VoxVector/docs/RENDER_OBSERVABILITY.md` for repeatable Render CLI debugging and centralized log-stream operations.
+The repository contains a server-side Render API bridge under `VoxVector/api/render_api.py`. The bridge is protected by the same Developer Console authentication boundary and reads `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtime environment. These values must be configured separately in Render; GitHub repository secrets are not automatically inherited by the Render process.
 
-The current repository contains provider integration code and contract tests, but production model execution and target-condition evaluation are not yet verified.
+The repository workflow `.github/workflows/render-observability.yml` consumes the GitHub `RENDER_API_KEY` and `RENDER_SERVICE_ID` secrets for infrastructure inspection from GitHub Actions. It defaults to the repository service ID and supports a controlled manual override.
 
-## Internal telemetry boundary
+## Console UX QA targets
 
-The route now measures decode/normalization, provenance/integrity, and recording assessment independently. The monolithic analytical engine still does not expose callbacks for every internal method family, so those composite stages must not be assigned fabricated durations.
+The feature branch adds:
+
+- Case History page backed by the authenticated case list/retrieve routes;
+- reopen behavior that retrieves an existing case without silently creating a new run;
+- collapsible Step 01, Step 02, and Step 03 workbench sections;
+- Expand All / Collapse All controls;
+- sidebar vertical scrolling;
+- route scroll reset to the top of the console main surface;
+- human-readable status normalization for runs, tests, logs, and infrastructure;
+- animated startup initialization progress after real API readiness;
+- live Render Runtime service/deployment/log surface;
+- live analysis run indicator and persisted stage progress.
+
+Authenticated browser verification remains required for all of the above.
 
 ## Connected workflow QA
 
@@ -72,19 +88,20 @@ The intended MVP QA path remains:
 14. history
 15. reopen
 
-The CI workflow verifies backend tests and the production frontend build. Browser-level authenticated verification remains a separate requirement.
+The CI workflow verifies backend tests and the production frontend build. Browser-level authenticated verification remains separate.
 
 ## Current engineering gates
 
-- exact-commit QA result for current `main`
+- fresh exact-commit GitHub Actions QA result for this feature branch
 - speech-enabled provider smoke test in an isolated environment
 - real model acquisition and execution verification
 - pyannote model-access verification
 - persisted transcript/speaker/alignment artifact verification
 - real internal per-stage lifecycle telemetry verification
-- Developer Console diagnostics verification against real deployed data
-- authenticated browser Analysis Workspace verification
+- authenticated Developer Console verification against real deployed case data
+- authenticated Render API bridge verification after Render environment configuration
 - signed playback verification
+- case-history reopen verification
 - mobile and keyboard verification
 - reduced-motion verification
 - API failure, timeout, and provider-unavailable verification
@@ -106,4 +123,6 @@ A passing software suite establishes implementation behavior only. Scientific va
 - `docs/SPEECH_INTELLIGENCE_ENGINEERING.md`
 - `docs/SPEECH_RUNTIME_DEPLOYMENT.md`
 - `docs/RENDER_OBSERVABILITY.md`
-- `docs/DOCS_ALIGNMENT_2026-09-01.md`
+- `docs/RENDER_GITHUB_ACTIONS_OBSERVABILITY.md`
+- `docs/ENGINEERING_PLAN_2026-09-01.md`
+- `docs/ENGINEERING_SYNC_2026-09-01.md`

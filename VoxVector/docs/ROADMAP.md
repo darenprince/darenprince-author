@@ -2,15 +2,15 @@
 
 VoxVector is being built toward a comprehensive vocal and audio deception analysis system.
 
-The roadmap preserves the complete product direction while enforcing a dependency first engineering sequence.
+The roadmap preserves the complete product direction while enforcing a dependency-first engineering sequence.
 
-## Current engineering priority — 2026-08-30
+## Current engineering priority — 2026-09-01
 
-**Current stage:** Upload and intake reliability.
+**Current stage:** Evidence acquisition, runtime observability, and connected case workflow.
 
-**Next dependency:** Real per-stage telemetry and lifecycle reporting.
+**Immediate product dependency:** make the running case and its infrastructure observable while preserving durable case history.
 
-The Developer Console dashboard exposes the current engineering stage through the expandable 21-stage build status surface. The 21-stage build surface is an operator projection of the canonical pipeline build record and must not invent progress.
+The Developer Console is now an operator projection of the canonical case and runtime APIs. It must not invent progress, QA, infrastructure metrics, stage timings, or scientific results.
 
 Any substantive implementation change must be synchronized across the relevant canonical engineering records and the Crown Labs product mirror according to `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`.
 
@@ -58,6 +58,7 @@ This is the primary engineering path.
 - current CI verification
 - reproducibility controls
 - runtime fingerprinting
+- server-side Render API bridge for Developer Console infrastructure state
 
 ## Phase B — Case centered product shell
 
@@ -74,6 +75,10 @@ This is the primary engineering path.
 - evidence timeline
 - assessment surface
 - responsive analytical layout
+- Case History with persisted case/run reopen
+- live analysis workflow state
+- collapsible workbench sections
+- scroll-safe Developer Console navigation
 
 ## Phase C — Speaker and transcript intelligence
 
@@ -245,7 +250,7 @@ This is the primary engineering path.
 
 The Developer Console is the engineering cockpit.
 
-Priority capabilities:
+Implemented or active capabilities now include:
 
 - runtime health
 - API workbench
@@ -264,6 +269,14 @@ Priority capabilities:
 - 21-stage build status with expandable per-stage state
 - documentation synchronization visibility
 - next task visibility
+- Case History and persisted case reopen
+- live case-run progress projection
+- server-side Render service/deployment/instance/log status
+- sidebar scrolling
+- workbench section collapse/expand
+- startup initialization progress
+
+The remaining console work is not decorative. It is to connect these surfaces to fresh deployment evidence and real speech-processing execution, then provide evidence/provenance views without implying scientific validation.
 
 ## Product experience completion sequence
 
@@ -308,23 +321,31 @@ The roadmap is synchronized with:
 - `docs/PIPELINE_BUILD_STATUS.md`
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `docs/ENGINEERING_PLAN_2026-09-01.md`
+- `docs/ENGINEERING_SYNC_2026-09-01.md`
 - `docs/DOCS_ALIGNMENT_2026-08-28.md`
 
 ## 2026-09-01 roadmap checkpoint
 
 The production case execution clears the basic upload → persistence → case-bound analysis blocker for the observed configured workflow.
 
-The roadmap priority therefore advances to the **post-analysis experience** before deeper research expansion:
+The roadmap priority therefore advances to the post-analysis experience and runtime observability without skipping evidence acquisition dependencies:
 
-`Analysis completion → Analysis Results / Review Evidence → full audit timeline → real stage telemetry → speaker/transcript foundation → evidence workspace → assessment/reporting`
+`Analysis execution → live run state → Analysis Results / Review Evidence → full audit timeline → speaker/transcript foundation → evidence workspace → assessment/reporting`
 
 The duration projection defect found during production execution is isolated to the Developer Console relational observability surface. Its repair is implemented in the canonical backend and regression tested without changing the existing database schema. This work supports, rather than replaces, the broader roadmap item for developer observability.
 
 The 21-stage roadmap remains unchanged in scope. Current production execution does not promote queued, conditional, or not-invoked stages to implemented or validated status.
 
+## 2026-09-01 live console checkpoint
+
+The Developer Console now has a first-class Case History destination, persisted run-state polling, a server-side Render API bridge, scroll-safe navigation, collapsible workbench steps, human-readable status labels, and a moving startup initialization indicator.
+
+The next dependency is deployment-level verification: configure protected Render runtime variables, execute the live Render bridge, run a short controlled case, and verify that the console observes the actual run and infrastructure state.
+
 ## Active engineering sequence — Evidence Acquisition
 
-The immediate development sequence is now:
+The immediate development sequence remains:
 
 1. Evidence acquisition foundation — implemented foundation
 2. Recording/media profile expansion — next
@@ -334,5 +355,5 @@ The immediate development sequence is now:
 6. Transcript/audio alignment — next
 7. Multimodal evidence timeline — next
 8. Linguistic, interaction, baseline, and convergence expansion — follows acquired data
-
-Telemetry continues alongside these engines but must instrument real execution rather than drive the roadmap ahead of data acquisition.
+9. Full internal stage callback instrumentation — follows actual method-boundary integration
+10. Scientific validation only after engineering evidence is stable

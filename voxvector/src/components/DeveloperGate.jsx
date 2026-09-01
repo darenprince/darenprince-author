@@ -26,6 +26,7 @@ export default function DeveloperGate({ children, onBack }) {
 
 function DeveloperStartup({ session, signOut, children }) {
   const [phase, setPhase] = useState('startup')
+  const [preloadProgress, setPreloadProgress] = useState(0)
   const health = useQuery({ queryKey: ['developer-startup-health'], queryFn: getHealth, refetchInterval: 1500, retry: false, staleTime: 0 })
   const apiReady = health.isSuccess && health.data?.payload?.status === 'ok' && health.data?.payload?.runtime_self_test === 'passed'
 
@@ -43,17 +44,23 @@ function DeveloperStartup({ session, signOut, children }) {
 
   useEffect(() => {
     if (phase !== 'preloader') return undefined
-    const timer = window.setTimeout(() => setPhase('ready'), 730)
-    return () => window.clearTimeout(timer)
+    setPreloadProgress(12)
+    const started = performance.now()
+    const timer = window.setInterval(() => {
+      const elapsed = performance.now() - started
+      setPreloadProgress(Math.min(94, Math.round(12 + (elapsed / 730) * 82)))
+    }, 45)
+    const finish = window.setTimeout(() => { setPreloadProgress(100); setPhase('ready') }, 730)
+    return () => { window.clearInterval(timer); window.clearTimeout(finish) }
   }, [phase])
 
   if (phase === 'startup' || phase === 'leaving') return <ApiStartup health={health} session={session} leaving={phase === 'leaving'} />
-  if (phase === 'preloader') return <StartupPreloader />
+  if (phase === 'preloader') return <StartupPreloader progress={preloadProgress} />
   return children({ session, signOut })
 }
 
-function StartupPreloader() {
-  return <motion.main className="vv-console-preloader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} role="status" aria-live="polite" aria-label="Loading VoxVector developer dashboard"><div className="vv-console-preloader__mark"><img src="/voxvector/assets/voxvector-icon-final-color.png" alt=""/><span /></div><div className="vv-console-preloader__eyebrow">VOXVECTOR DEVELOPER CONSOLE</div><div className="vv-console-preloader__title">Loading dashboard</div><div className="vv-console-preloader__bar"><div /></div><div className="vv-console-preloader__detail">API ready · restoring the developer workspace</div></motion.main>
+function StartupPreloader({ progress }) {
+  return <motion.main className="vv-console-preloader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} role="status" aria-live="polite" aria-label="Loading VoxVector developer dashboard"><div className="vv-console-preloader__mark"><img src="/voxvector/assets/voxvector-icon-final-color.png" alt=""/><span /></div><div className="vv-console-preloader__eyebrow">VOXVECTOR DEVELOPER CONSOLE</div><div className="vv-console-preloader__title">Loading dashboard</div><div className="vv-console-preloader__bar"><div style={{ width: `${progress}%` }} /></div><div className="vv-console-preloader__progress">Initializing workspace · {progress}%</div><div className="vv-console-preloader__detail">API ready · restoring the developer workspace</div></motion.main>
 }
 
 function GateShell({ children, onBack }) { return <div className="min-h-screen bg-[#080a0e] text-white flex flex-col"><header className="sticky top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-md"><div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 max-[640px]:h-[68px]"><a href="/voxvector/" aria-label="VoxVector home" className="inline-flex items-center no-underline"><img src="/voxvector/assets/voxvector-icon-final-color.png" alt="" className="h-[42px] w-[42px] object-contain max-[640px]:h-9 max-[640px]:w-9" /><img src="/voxvector/assets/voxvector-wordmark-final-white.png" alt="VoxVector" className="ml-2 h-[35.7px] w-auto object-contain max-[640px]:h-[30.6px]" /></a><a href={VIEWER} className="inline-flex items-center gap-2 text-xs text-white/50 no-underline transition hover:text-white"><BookOpen size={14} /> Documentation</a></div></header><main className="flex flex-1 items-center justify-center px-5 py-14 sm:px-8 sm:py-[72px]"><div className="w-full max-w-[500px]"><Button type="button" onClick={onBack} className="mb-8 bg-transparent p-0 text-sm text-white/50 hover:text-white"><ArrowLeft size={16} /> Public application</Button><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>{children}</motion.div></div></main><footer className="border-t border-white/10 px-5 pb-7 pt-6 text-center text-[10px] uppercase tracking-[.07em] text-white/35"><a href={VIEWER} aria-label="Crown Labs documents" className="mb-3 inline-flex opacity-60 transition hover:opacity-80"><img src="/labs/assets/crown-labs-logo.png" alt="Crown Labs" className="h-9 w-auto max-w-[145px] object-contain" /></a><div>© 2026 Crown Labs · VoxVector Developer Console</div></footer></div> }

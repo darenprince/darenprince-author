@@ -69,6 +69,8 @@ export async function getDiagnosticEvents(accessToken, { requestId = '', days = 
 export async function createAnalysisCase(accessToken, title = '') { const normalizedTitle = String(title || '').trim(); if (!normalizedTitle) throw new Error('Enter a case title before creating the case.'); return apiRequest('/v1/cases', { method: 'POST', headers: { ...authHeaders(accessToken), 'Content-Type': 'application/json' }, body: JSON.stringify({ title: normalizedTitle }) }) }
 export async function listAnalysisCases(accessToken, limit = 50) { return apiRequest(`/v1/cases?limit=${encodeURIComponent(limit)}`, { headers: authHeaders(accessToken) }) }
 export async function getAnalysisCase(accessToken, caseId) { if (!caseId) throw new Error('An analysis case must be selected first.'); return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}`, { headers: authHeaders(accessToken) }) }
+export async function getRenderStatus(accessToken, { serviceId = '', logMinutes = 30 } = {}) { const query = new URLSearchParams(); if (serviceId) query.set('service_id', serviceId); query.set('log_minutes', String(logMinutes)); return apiRequest(`/v1/developer/render/status?${query.toString()}`, { headers: authHeaders(accessToken) }) }
+export async function getRenderLogs(accessToken, { serviceId = '', minutes = 10, limit = 200 } = {}) { const query = new URLSearchParams(); if (serviceId) query.set('service_id', serviceId); query.set('minutes', String(minutes)); query.set('limit', String(limit)); return apiRequest(`/v1/developer/render/logs?${query.toString()}`, { headers: authHeaders(accessToken) }) }
 
 export function uploadCaseSource(accessToken, caseId, file, onProgress, { onState } = {}) {
   return new Promise(async (resolve, reject) => {
