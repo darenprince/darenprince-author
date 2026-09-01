@@ -125,3 +125,17 @@ Stage 01 preserves its prior persisted-source lifecycle evidence without fabrica
 The current monolithic `VoxVectorPipeline` still does not expose independently timed callbacks for every internal analytical boundary. Those stages therefore remain explicitly marked as completed inside the composite pipeline with `duration_ms: null` rather than receiving fabricated per-stage durations.
 
 The run now records `pipeline_duration_ms` separately from route-boundary stage telemetry and declares its telemetry scope. Full internal callback instrumentation remains an open engineering task.
+
+## Evidence acquisition pipeline status — 2026-09-01
+
+The canonical analysis path now persists an acquisition artifact containing:
+
+- media profile
+- speech timeline
+- silence timeline
+- transcription provider state
+- transcript artifact when a configured provider actually produces one
+
+Current provider state is explicitly not configured when no transcription provider is installed. No transcript is fabricated.
+
+The next implementation target is provider-backed speaker and transcription extraction, followed by alignment.
