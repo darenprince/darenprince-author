@@ -33,6 +33,16 @@ def _safe_text(value: Any, limit: int = 600) -> str:
     return text[:limit]
 
 
+def _duration_ms_for_projection(value: Any) -> int | None:
+    """Relational api_request_logs.duration_ms is an integer column; preserve console precision in the immutable event record."""
+    if value is None:
+        return None
+    try:
+        return int(round(float(value)))
+    except (TypeError, ValueError):
+        return None
+
+
 def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for key, value in fields.items():
@@ -95,7 +105,7 @@ class DiagnosticStore:
                 "route": record.get("path"),
                 "method": record.get("method"),
                 "status_code": record.get("status_code"),
-                "duration_ms": record.get("duration_ms"),
+                "duration_ms": _duration_ms_for_projection(record.get("duration_ms")),
                 "source_revision": record.get("source_revision"),
                 "pipeline_version": record.get("pipeline"),
                 "metadata": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
