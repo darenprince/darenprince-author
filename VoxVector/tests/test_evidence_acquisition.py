@@ -27,7 +27,8 @@ def test_build_evidence_acquisition_profiles_audio_and_timeline():
     assert result.media_profile.sample_rate == 8000
     assert result.media_profile.duration_seconds == len(signal) / 8000
     assert result.media_profile.sha256
-    assert result.provider_state == "not_configured"
+    assert result.transcription_state == "not_configured"
+    assert result.diarization_state == "not_configured"
     assert result.transcript is None
     assert result.speech_timeline.method_id == "evidence_acquisition.energy_activity"
 
@@ -36,6 +37,6 @@ def test_transcription_provider_contract_is_optional_and_explicit():
     result = build_evidence_acquisition(
         np.ones(1600) * 0.1, 8000, transcript_provider=StubProvider()
     )
-    assert result.provider_state == "completed"
+    assert result.transcription_state == "completed"
     assert result.transcript is not None
     assert result.transcript.text == "test transcript"
