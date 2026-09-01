@@ -64,3 +64,14 @@ When deployment behavior is uncertain, inspect the repository's current GitHub A
 Do not introduce a second hosting path to work around an unresolved deployment problem.
 
 Never claim a VoxVector deployment succeeded unless the applicable GitHub Actions run and deployed result have actually been verified.
+
+
+## System data-flow clarification
+
+The production upload path is:
+
+`Browser → GitHub Pages frontend → Render-hosted FastAPI API → Supabase private media storage`
+
+Render executes the API request but is not the durable media-storage provider. GitHub Pages serves the frontend artifact but is not the API runtime. A healthy host or successful build verifies only its own boundary; failures must be traced across the complete request chain.
+
+The consolidated architecture and verification workflow is maintained in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
