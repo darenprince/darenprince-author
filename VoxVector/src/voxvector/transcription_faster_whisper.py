@@ -2,21 +2,18 @@ from __future__ import annotations
 
 import io
 import os
+import time
 import wave
 from functools import lru_cache
 
 import numpy as np
 
 from .evidence_acquisition import TranscriptResult, TranscriptSegment, TranscriptWord
+from .speech_runtime_logging import speech_log
 
 
 class FasterWhisperProvider:
-    """Provider adapter for local faster-whisper inference.
-
-    The dependency is intentionally optional. Model loading occurs lazily on first
-    transcription so the core API can remain lightweight when speech ML is not
-    enabled on a deployment.
-    """
+    """Provider adapter for local faster-whisper inference."""
 
     provider_id = "faster_whisper"
 
@@ -57,6 +54,7 @@ class FasterWhisperProvider:
             raise RuntimeError(
                 "faster-whisper is not installed; enable the VoxVector speech runtime"
             ) from exc
+        speech_log("transcription.model_loaded", model_size=model_size, device=device, compute_type=compute_type)
         return WhisperModel(model_size, device=device, compute_type=compute_type)
 
     def transcribe(self, signal: np.ndarray, sample_rate: int) -> TranscriptResult:
@@ -72,59 +70,92 @@ class FasterWhisperProvider:
                 limitations=("Input audio is empty.",),
             )
 
-        stream = self._wav_bytes(signal, sample_rate)
-        model = self._model(self.model_size, self.device, self.compute_type)
-        segments, info = model.transcribe(
-            stream,
-            language=self.language,
-            beam_size=self.beam_size,
-            word_timestamps=True,
-            vad_filter=True,
+        started = time.perf_counter()
+        speech_log(
+            "transcription.started",
+            started=started,
+            model_size=self.model_size,
+            device=self.device,
+            compute_type=self.compute_type,
+            audio_duration_seconds=round(signal.size / sample_rate, 3),
         )
-
-        normalized_segments: list[TranscriptSegment] = []
-        normalized_words: list[TranscriptWord] = []
-        text_parts: list[str] = []
-        for segment in segments:
-            segment_text = str(getattr(segment, "text", "") or "").strip()
-            start = getattr(segment, "start", None)
-            end = getattr(segment, "end", None)
-            # faster-whisper exposes avg_logprob as a log-likelihood diagnostic,
-            # not a calibrated probability. Preserve segment confidence as null
-            # rather than converting that diagnostic into a misleading score.
-            normalized_segments.append(
-                TranscriptSegment(
-                    start_s=float(start) if start is not None else None,
-                    end_s=float(end) if end is not None else None,
-                    text=segment_text,
-                    confidence=None,
-                )
+        try:
+            stream = self._wav_bytes(signal, sample_rate)
+            model = self._model(self.model_size, self.device, self.compute_type)
+            segments, info = model.transcribe(
+                stream,
+                language=self.language,
+                beam_size=self.beam_size,
+                word_timestamps=True,
+                vad_filter=True,
             )
-            if segment_text:
-                text_parts.append(segment_text)
-            for word in getattr(segment, "words", ()) or ():
-                word_text = str(getattr(word, "word", "") or "").strip()
-                if not word_text:
-                    continue
-                word_start = getattr(word, "start", None)
-                word_end = getattr(word, "end", None)
-                probability = getattr(word, "probability", None)
-                normalized_words.append(
-                    TranscriptWord(
-                        text=word_text,
-                        start_s=float(word_start) if word_start is not None else None,
-                        end_s=float(word_end) if word_end is not None else None,
-                        confidence=float(np.clip(float(probability), 0.0, 1.0)) if probability is not None else None,
+
+            normalized_segments: list[TranscriptSegment] = []
+            normalized_words: list[TranscriptWord] = []
+            text_parts: list[str] = []
+            segment_count = 0
+            for segment in segments:
+                segment_count += 1
+                segment_text = str(getattr(segment, "text", "") or "").strip()
+                start = getattr(segment, "start", None)
+                end = getattr(segment, "end", None)
+                normalized_segments.append(
+                    TranscriptSegment(
+                        start_s=float(start) if start is not None else None,
+                        end_s=float(end) if end is not None else None,
+                        text=segment_text,
+                        confidence=None,
                     )
                 )
+                if segment_text:
+                    text_parts.append(segment_text)
+                for word in getattr(segment, "words", ()) or ():
+                    word_text = str(getattr(word, "word", "") or "").strip()
+                    if not word_text:
+                        continue
+                    word_start = getattr(word, "start", None)
+                    word_end = getattr(word, "end", None)
+                    probability = getattr(word, "probability", None)
+                    normalized_words.append(
+                        TranscriptWord(
+                            text=word_text,
+                            start_s=float(word_start) if word_start is not None else None,
+                            end_s=float(word_end) if word_end is not None else None,
+                            confidence=float(np.clip(float(probability), 0.0, 1.0)) if probability is not None else None,
+                        )
+                    )
+                if segment_count == 1 or segment_count % 10 == 0:
+                    speech_log(
+                        "transcription.progress",
+                        started=started,
+                        segments=segment_count,
+                        words=len(normalized_words),
+                        last_segment_end_s=float(end) if end is not None else None,
+                    )
 
-        return TranscriptResult(
-            provider_id=self.provider_id,
-            language=getattr(info, "language", None),
-            text=" ".join(text_parts),
-            segments=tuple(normalized_segments),
-            words=tuple(normalized_words),
-            limitations=(
-                "Transcription output is model-generated and requires provider/task-specific quality evaluation before inferential use.",
-            ),
-        )
+            result = TranscriptResult(
+                provider_id=self.provider_id,
+                language=getattr(info, "language", None),
+                text=" ".join(text_parts),
+                segments=tuple(normalized_segments),
+                words=tuple(normalized_words),
+                limitations=(
+                    "Transcription output is model-generated and requires provider/task-specific quality evaluation before inferential use.",
+                ),
+            )
+            speech_log(
+                "transcription.completed",
+                started=started,
+                segments=len(result.segments),
+                words=len(result.words),
+                language=result.language,
+            )
+            return result
+        except Exception as exc:
+            speech_log(
+                "transcription.failed",
+                started=started,
+                error_type=type(exc).__name__,
+                error_message=str(exc),
+            )
+            raise
