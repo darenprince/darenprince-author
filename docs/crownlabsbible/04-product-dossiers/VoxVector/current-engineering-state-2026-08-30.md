@@ -16,11 +16,11 @@ The immediate dependency is now:
 
 `Analysis complete → Analysis Results → Review Evidence`
 
-followed by granular per-stage telemetry, speaker/transcript integration, evidence synthesis, assessment/reporting, browser verification, and validation work.
+The infrastructure work now underway is granular stage telemetry: real lifecycle timing at the actual pipeline execution points, persisted stage audit records, and console presentation of that audit trail.
 
 ## Current QA
 
-GitHub Actions `VoxVector QA` run `33500649854` passed on the current `main` commit. The run completed API tests, React dependency installation, and the production build. Historical failed runs remain historical evidence.
+A fresh QA run is required for the latest `main` commit before current `main` is recorded as green. Earlier passing runs remain historical evidence tied to their exact source revision.
 
 ## Engineering status model
 
@@ -41,17 +41,17 @@ Current pipeline state remains:
 - 4 conditional or intentionally not invoked
 - 3 queued for deeper integration
 
-The 21-stage records are real persisted state, but granular timing for many grouped stages remains an engineering task.
+The new `VoxVector/src/voxvector/stage_telemetry.py` utility provides real monotonic elapsed timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and lifecycle transition guards. The utility is built and regression-tested, but is not yet wired into every internal pipeline execution boundary. Existing case runs therefore do not gain retroactive fabricated per-stage timing.
 
 ## Console workflow
 
 Current Developer Console capabilities include runtime health, case management, compatible WAV intake, upload diagnostics/progress, secure playback path, case-bound analysis, stage-state inspection, diagnostic logs/errors, GitHub-backed QA/deployment status, methodology navigation, MVP task tracking, and engineering traceability.
 
-The Analysis Workspace now includes the persisted run result review: eligibility, observations, evidence, candidate state, disposition, limitations, and provenance.
+The Analysis Workspace includes the persisted run result review: eligibility, observations, evidence, candidate state, disposition, limitations, provenance, and stage state.
 
 ## Observability
 
-The canonical diagnostic implementation retains immutable sanitized Storage records and projects operational data to the relational console surfaces. Case-specific source rejection/failure events are now classified as diagnostic errors as well as lifecycle events.
+The canonical diagnostic implementation retains immutable sanitized Storage records and projects operational data to the relational console surfaces. Case-specific source rejection/failure events are classified as diagnostic errors as well as lifecycle events.
 
 Production relational-row proof remains an explicit verification gate.
 
