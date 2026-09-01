@@ -202,3 +202,22 @@ This record reflects repository inspection and source-level synchronization. It 
 **Client hardening:** browser MIME labels are no longer allowed to reject an otherwise selected File before authoritative upload validation, and the multipart request preserves the original selected filename for backend diagnostics.
 
 **Verification boundary:** Supabase production logs verified the pre-fix media write and subsequent case-record failure. The code fix and regression test are committed; successful deployed end-to-end upload still requires the updated backend revision to be running and the browser path to be exercised.
+
+
+## 2026-09-01 production analysis milestone and observability repair
+
+**Observed production evidence:** A real production case completed the connected workflow from case workflow through source upload, private media persistence, case-bound analysis, and analysis completion. During the successful run, `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and the Render runtime emitted valid `VOXVECTOR_DIAGNOSTIC` records.
+
+**Operational conclusion:** The previous basic upload/analysis blocker is cleared at the production runtime boundary. Case creation, audio upload, private media persistence, PCM WAV intake, and case-bound analysis are now **production working / production executed** based on the observed run. This does not constitute scientific validation.
+
+**Observability finding:** Render logs isolated the remaining Developer Console gap to the relational projection into `public.api_request_logs`: diagnostic duration values retained fractional milliseconds while the existing `duration_ms` schema is integer. Observed values included `9339.07`, `0.26`, `635.3`, and `597.92` ms.
+
+**Repair:** `VoxVector/api/observability.py` now normalizes the relational duration with `_duration_ms_for_projection()` while preserving exact fractional duration in the immutable diagnostic JSON record. Regression coverage in `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid values.
+
+**Current engineering stage:** The primary blocker moves from upload/intake reliability to **post-analysis results and auditability**. The immediate product sequence is:
+
+`Analysis complete → Review Evidence / Analysis Results`
+
+followed by full run and stage telemetry, speaker/transcript foundations, evidence workspace, assessment/reporting, and production hardening.
+
+**Remaining verification:** Deploy the repaired backend revision and confirm real `api_request_logs` and `error_reports` rows appear from traffic, then verify Live Logs and Error Reports in the Developer Console. Browser playback and complete browser-level workflow verification remain separate verification tasks.
