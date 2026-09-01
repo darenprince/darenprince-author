@@ -275,3 +275,16 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 **Boundary:** These changes improve product/runtime UX and observability. They do not promote any analytical method to validated deception inference, and UI animation remains a representation of actual lifecycle state rather than evidence.
 
 **Verification requirement:** A fresh frontend build, backend test suite, live Render deployment, authenticated diagnostics query, controlled analysis using the known 17 MB WAV fixture, playback/clipping inspection, profile update test, and GitHub Pages artifact inspection are required before claiming production verification.
+
+
+## 2026-09-01 — System boundary and AUTO workflow consolidation
+
+**Decision:** Consolidate the active VoxVector system architecture and evidence-first operating workflow in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md` and synchronize the material architecture with the Crown Labs Bible.
+
+**Architecture:** `voxvector/` is the canonical React/Vite public application built and deployed through GitHub Actions to GitHub Pages. `VoxVector/` is the canonical FastAPI and analysis-engine workspace executed on Render. Supabase provides the configured authentication, persistence, diagnostics, and private media-storage services.
+
+**Critical clarification:** Audio is not durably stored on Render. The connected upload path is browser → frontend → API runtime on Render → Supabase private media storage.
+
+**Workflow:** Architecture → Ownership → Trace → Operate/verify. Every migration or failure investigation must identify the actual boundary and canonical owner before editing. Verification claims remain boundary-specific.
+
+**Rationale:** Recent debugging drift demonstrated that a healthy host, green build, or visible client error can each describe only one boundary. The workflow now explicitly requires end-to-end tracing instead of assumption-driven diagnosis.
