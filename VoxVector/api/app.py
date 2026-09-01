@@ -593,6 +593,11 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
             "result": result_dict,
             "acquisition": acquisition_dict,
             "transcript": acquisition_dict.get("transcript"),
+            "speakers": (
+                acquisition_dict.get("diarization", {}).get("speakers", [])
+                if acquisition_dict.get("diarization")
+                else []
+            ),
             "tracks": [],
         }
         envelope = compose_result_envelope(
