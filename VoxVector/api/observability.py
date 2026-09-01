@@ -4,6 +4,7 @@ import asyncio
 import contextvars
 import json
 import os
+import sys
 import time
 import uuid
 from datetime import datetime, timezone
@@ -101,7 +102,7 @@ class DiagnosticStore:
             }
             await asyncio.to_thread(insert_row, "api_request_logs", request_row)
         except StorageError as exc:
-            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=api_request_logs error={_safe_text(exc)}", flush=True)
+            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=api_request_logs error={_safe_text(exc)}", file=sys.stderr, flush=True)
 
         if event in _ERROR_EVENTS:
             try:
@@ -125,7 +126,7 @@ class DiagnosticStore:
                 }
                 await asyncio.to_thread(insert_error, "error_reports", error_row)
             except StorageError as exc:
-                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=error_reports error={_safe_text(exc)}", flush=True)
+                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=error_reports error={_safe_text(exc)}", file=sys.stderr, flush=True)
 
         try:
             storage_result = await asyncio.to_thread(self.storage.put_json, object_path, record)
