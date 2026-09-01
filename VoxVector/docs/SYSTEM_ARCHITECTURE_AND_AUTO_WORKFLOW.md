@@ -260,3 +260,8 @@ When uncertain:
 **inspect first, trace second, edit the canonical owner third, verify the complete chain fourth, document after the implementation is real.**
 
 Do not fill architectural gaps with assumptions.
+
+
+## Observability architecture
+
+Operational diagnostics follow: API runtime event → sanitized emitter → immutable Supabase Storage archive plus relational Supabase projection → authenticated diagnostics API → Developer Console. The archive supports provenance and fallback; relational projections support efficient Live Logs and Error Reports. Missing records are a tracing problem until the complete chain is verified.
