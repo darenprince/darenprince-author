@@ -216,6 +216,56 @@ class SupabaseStorage:
             raise StorageError("Supabase Storage list response has an unexpected shape")
         return [item for item in payload if isinstance(item, dict)]
 
+    def insert_table_row(self, table: str, payload: dict) -> None:
+        if not table or not table.replace("_", "").isalnum():
+            raise ValueError("Invalid database table")
+        if not self.config.credentials_configured:
+            raise StorageError("Durable storage credentials are not configured")
+        url = f"{self.config.supabase_url}/rest/v1/{quote(table, safe='')}"
+        body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        headers = {
+            "Authorization": f"Bearer {self.config.service_role_key}",
+            "apikey": self.config.service_role_key,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal",
+        }
+        request = Request(url, data=body, headers=headers, method="POST")
+        try:
+            with urlopen(request, timeout=self.config.timeout_seconds):
+                return
+        except HTTPError as exc:
+            detail = exc.read(1024).decode("utf-8", errors="replace")
+            raise StorageError(f"Supabase database HTTP {exc.code}: {detail}") from exc
+        except URLError as exc:
+            raise StorageError(f"Supabase database connection error: {exc.reason}") from exc
+
+    def select_table_rows(self, table: str, query: str = "") -> list[dict]:
+        if not table or not table.replace("_", "").isalnum():
+            raise ValueError("Invalid database table")
+        if not self.config.credentials_configured:
+            raise StorageError("Durable storage credentials are not configured")
+        suffix = f"?{query.lstrip('?')}" if query else ""
+        url = f"{self.config.supabase_url}/rest/v1/{quote(table, safe='')}{suffix}"
+        headers = {
+            "Authorization": f"Bearer {self.config.service_role_key}",
+            "apikey": self.config.service_role_key,
+            "Accept": "application/json",
+        }
+        request = Request(url, headers=headers, method="GET")
+        try:
+            with urlopen(request, timeout=self.config.timeout_seconds) as response:
+                raw = response.read()
+        except HTTPError as exc:
+            detail = exc.read(1024).decode("utf-8", errors="replace")
+            raise StorageError(f"Supabase database HTTP {exc.code}: {detail}") from exc
+        except URLError as exc:
+            raise StorageError(f"Supabase database connection error: {exc.reason}") from exc
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise StorageError("Supabase database response is not valid JSON") from exc
+        return payload if isinstance(payload, list) else []
+
     def get_json(self, object_path: str) -> dict:
         self._validate_object_path(object_path)
         if not self.config.configured:
