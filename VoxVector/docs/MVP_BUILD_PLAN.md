@@ -2,530 +2,139 @@
 
 ## Purpose
 
-This document defines the shortest engineering path from the current repository state to a working connected VoxVector product experience.
-
-The plan is execution oriented. It prioritizes the connected Analysis Workspace represented by the reference screens instead of expanding the method library first.
+This document defines the shortest dependency-ordered path from the current repository state to a complete connected VoxVector product experience.
 
 ## MVP definition
 
-The MVP is one complete connected case workflow:
+One real case must move through:
 
-1. create an analysis case
-2. upload a recording
-3. validate the source
-4. persist provenance
-5. decode the recording
-6. play the audio
-7. render the waveform
-8. expose real pipeline state
-9. identify speakers
-10. generate a timestamped transcript
-11. synchronize transcript and audio
-12. expose real analytical tracks
-13. create timestamped evidence
-14. synthesize evidence
-15. create an assessment object
-16. generate a report
-17. persist the case
-18. reopen the case
+`create case → upload recording → provenance → decode → playback → waveform → real pipeline state → speaker processing → transcription → alignment → analytical tracks → evidence → synthesis → assessment → report → persistence → reopen`
 
-The MVP is defined by connected real workflows rather than the number of screens.
+The MVP is defined by connected real workflows, not screen count.
 
-## Priority rule
+## Current execution checkpoint — 2026-09-01
 
-Work in dependency order.
+**Current engineering stage:** Post-analysis Results / Review Evidence.
 
-Do not build downstream presentation surfaces before the contract that powers them exists.
+The observed production case path has completed case creation, WAV source upload, private media persistence, case-bound analysis, and analysis completion. Current CI also passes on the same `main` commit, including API tests and the React production build. fileciteturn102file0L2-L10
 
-Do not create a second backend capability in the frontend merely to make a screen appear complete.
+**Primary next dependency:** canonical composed Analysis Results contract and Review Evidence surface.
 
-Every visible state must come from a real API response or an explicit local interaction state.
-
-## Current execution checkpoint — 2026-08-30
-
-**Current engineering stage:** Upload and intake reliability.
-
-**Next dependency:** Real per-stage telemetry and lifecycle reporting.
-
-The Developer Console is being expanded into an engineering status surface rather than a visual progress board. Its 21-stage view must distinguish **BUILT**, **FUNCTIONAL**, **TESTED**, and **VALIDATED**. A successful frontend/backend build is not evidence that the corresponding user workflow is functional or scientifically validated.
-
-The immediate connected workflow remains:
-
-`create case → select compatible WAV → upload → persist source → secure playback → run case-bound analysis → inspect stage state → Analysis Workspace`
-
-The upload path has validation, progress, request correlation, timeout/network/cancellation error handling, and backend storage diagnostics. Production authenticated browser verification remains required before the intake path is declared end-to-end verified.
-
-## Current documentation synchronization requirement
-
-Any implementation, task status, dependency, or pipeline stage change that affects the MVP must be synchronized across the relevant canonical documentation and the Crown Labs VoxVector mirror.
-
-Use `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md` as the focused operating rule and keep `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md` aligned with the latest repository state.
+**Following dependency:** true per-stage lifecycle telemetry, then speaker/transcript foundations and the full evidence workspace.
 
 ## P0 — Case spine
 
-### Goal
+Status: **FUNCTIONAL / TESTED** for the configured backend path.
 
-Create the persistent object that every later feature attaches to.
-
-### Tasks
-
-- [x] canonical case schema
-- [x] analysis run schema
-- [x] source asset schema
-- [x] provenance record
-- [x] lifecycle state
-- [x] request ID
-- [x] source metadata
-- [x] authenticated user relation
-- [x] case creation endpoint
-- [x] case retrieval endpoint
-- [x] run identity
-- [x] version identity
-
-### Exit
-
-A recording can receive a durable case identity before analysis begins.
-
-**Status:** backend contract implemented. Developer Console wiring and browser verification remain next.
+The canonical case model preserves case identity, authenticated ownership, sources, provenance, run identity, status, and current run.
 
 ## P1 — Intake and audio foundation
 
-### Goal
+Status: **FUNCTIONAL / TESTED** for the observed production API path.
 
-Make recording intake reliable and immediately useful.
+Implemented: supported-file validation, size checks, WAV decoding, private source persistence, SHA-256 provenance, signed playback endpoint, upload progress/error handling, request correlation, and storage diagnostics.
 
-### Tasks
+Remaining: authenticated browser playback verification and explicit upload cancellation handle for the case-upload client.
 
-- [x] file picker contract
-- [x] supported format validation
-- [x] duration validation
-- [x] channel inspection
-- [x] sample rate inspection
-- [x] bit depth inspection where available
-- [x] file size validation
-- [x] MIME validation
-- [x] upload progress contract
-- [ ] upload cancellation on case upload route
-- [x] storage reference
-- [x] provenance creation
-- [x] audio metadata response
-- [x] playback asset access
-- [x] source hashing
-- [ ] browser playback integration against signed case media
+## P2 — Analysis Workspace foundation
 
-### Exit
+Status: **ACTIVE IMPLEMENTATION**.
 
-A supported recording can be uploaded stored identified and played from the canonical case.
+Implemented: case workspace shell, persisted source metadata, waveform generation, playback controls, spectrogram view, and persisted pipeline-state inspection.
 
-**Status:** backend intake and media contract implemented. Frontend case workflow and shared playback contract are next.
-
-## P2 — Synchronized analysis canvas
-
-### Goal
-
-Build the primary analytical surface around the real audio asset.
-
-### Tasks
-
-- waveform generation
-- waveform rendering
-- audio playback
-- play and pause
-- seek
-- scrub
-- zoom
-- shared playhead
-- time ruler
-- region selection
-- fullscreen
-- speaker region layer
-- event marker model
-- synchronized track contract
-
-### Initial tracks
-
-- waveform
-- pitch F0
-- intensity
-- spectral energy
-- speech activity
-- pauses
-
-### Exit
-
-Selecting an audio position updates every available analytical view to the same time position.
+Next: composed Analysis Results and Review Evidence, followed by richer synchronized analytical tracks.
 
 ## P3 — Real pipeline lifecycle
 
-### Goal
+Status: **FUNCTIONAL / TESTED FOUNDATION**.
 
-Make the Analysis Pipeline a direct representation of backend processing.
+The 21 stage identifiers and persisted per-run state contract exist. The current case analysis path accurately distinguishes complete, pending, not-run, and guarded stages.
 
-### Tasks
-
-- [x] canonical 21 stage identifiers
-- [x] stage ordering
-- [x] stage state enum
-- [x] stage start time
-- [x] stage completion time
-- [x] stage duration
-- [x] stage outcome
-- [x] stage error reference
-- [x] current run identity
-- [x] completed stage records
-- [x] processing request identity
-- [x] eligibility state
-- [x] recording quality state
-- [x] lifecycle event linkage
-
-### Exit
-
-The workspace can show actual processing state without synthetic percentages.
-
-**Status:** backend stage-state contract implemented for the current case analysis path. Workspace consumption remains next.
+Remaining: granular per-stage timing, warnings, errors, and lifecycle events rather than coarse grouped timestamps.
 
 ## P4 — Speaker intelligence
 
-### Goal
+Status: **QUEUED**.
 
-Turn a multi speaker recording into speaker aware analytical regions.
-
-### Tasks
-
-- speech segmentation
-- speaker segmentation
-- diarization integration
-- speaker labels
-- turn boundaries
-- overlap detection
-- speaker confidence
-- separation quality
-- speaker aware waveform regions
-- speaker aware transcript attribution
-- speaker aware evidence intervals
-
-### Exit
-
-Speech regions are associated with speaker identities or speaker segments in the canonical result.
+Required: speaker segmentation, diarization, overlap handling, speaker confidence, and speaker-aware evidence.
 
 ## P5 — Production transcription
 
-### Goal
+Status: **QUEUED**.
 
-Generate the transcript inside the product workflow.
+Required: production ASR integration, timestamped transcript, confidence, persistence, and provenance.
 
-### Tasks
+## P6 — Audio/transcript alignment
 
-- ASR provider abstraction
-- production ASR integration
-- segment timestamps
-- word timestamps
-- transcript confidence
-- speaker attribution
-- transcript persistence
-- transcript search
-- transcript selection
-- transcript provenance
+Status: **QUEUED**.
 
-### Exit
-
-A recording can move from audio input to a persistent timestamped speaker attributed transcript without an externally supplied transcript.
-
-## P6 — Audio transcript alignment
-
-### Goal
-
-Make audio and language one synchronized evidence surface.
-
-### Tasks
-
-- word alignment
-- audio to transcript synchronization
-- transcript to audio synchronization
-- selected word to playhead synchronization
-- selected audio region to transcript synchronization
-- transcript confidence mapping
-- speaker turn synchronization
-- evidence marker synchronization
-
-### Exit
-
-Selecting transcript text moves the audio playhead and selecting audio moves the transcript selection.
+Required: word/segment alignment, synchronized selection, speaker synchronization, and evidence anchoring.
 
 ## P7 — Analytical observation layer
 
-### Goal
+Status: **FOUNDATION IMPLEMENTED**.
 
-Expose the measurements supported by the engine through stable timestamped contracts.
-
-### Priority families
-
-1. acoustic energy
-2. pitch
-3. intensity
-4. spectral measures
-5. temporal measures
-6. pauses
-7. speech rate
-8. voice quality
-9. MFCC
-10. formants
-11. transcript disfluency
-12. within speaker baseline
-
-### Tasks
-
-- observation schema
-- method identity
-- source interval
-- unit
-- quality metadata
-- provenance
-- stage identity
-- track API
-- waveform time mapping
-- evidence references
-
-### Exit
-
-The Analysis Workspace is populated by real observations from the analysis engine.
+Primary observations include acoustic energy, F0, intensity, spectral measures, HNR, MFCC, formants, temporal/pause measures, and optional baseline/interaction/transcript observations.
 
 ## P8 — Evidence architecture
 
-### Goal
+Status: **FOUNDATION IMPLEMENTED / ACTIVE UI INTEGRATION**.
 
-Make every meaningful observation traceable.
-
-### Tasks
-
-- normalized evidence record
-- evidence family
-- method identity
-- stage identity
-- source interval
-- observation reference
-- evidence direction
-- evidence quality
-- provenance
-- supporting evidence
-- conflicting evidence
-- dependency relationships
-- alternative explanation record
-
-### Exit
-
-Every evidence item can be traced from the UI to the originating observation and source interval.
+Observation and evidence records preserve method identity, source interval, quality, direction, and provenance. The next step is exposing these records as an inspectable review surface.
 
 ## P9 — Evidence synthesis
 
-### Goal
+Status: **FOUNDATION / NOT VALIDATED INFERENCE**.
 
-Create the intelligence layer between observations and assessment.
-
-### Tasks
-
-- cross method grouping
-- temporal clustering
-- speaker aware grouping
-- convergence representation
-- conflict representation
-- dependency awareness
-- alternative hypothesis grouping
-- evidence strength representation
-- evidence relationship graph
-
-### Exit
-
-The product can explain how observations relate without collapsing the evidence record into one opaque value.
+The architecture preserves convergence, conflict, dependence, and alternatives. Statistical dependence-aware inference remains part of the validation program.
 
 ## P10 — Assessment and report
 
-### Goal
+Status: **ACTIVE BUILD**.
 
-Complete the user facing analysis loop.
+Next deliverable is a canonical composed assessment/result contract followed by report generation from the persistent case.
 
-### Tasks
+## P11 — Case history and return path
 
-- candidate assessment object
-- assessment trace
-- confidence matrix contract
-- evidence summary
-- convergence summary
-- conflict summary
-- alternative hypothesis summary
-- report schema
-- report generation
-- report persistence
-- source evidence links
+Status: **FOUNDATION PRESENT / INCOMPLETE PRODUCT SURFACE**.
 
-### Exit
-
-A completed case produces a structured report linked to the source evidence.
-
-## P11 — Case persistence and return path
-
-### Goal
-
-Make the product useful beyond one browser session.
-
-### Tasks
-
-- analysis history
-- case list
-- case search
-- case filters
-- reopen case
-- versioned analysis runs
-- saved report reference
-- saved evidence state
-- case activity timeline
-
-### Exit
-
-A user can leave a case and return to the same analytical state.
+Case list and retrieval are implemented. History, saved evidence/report state, and polished reopen workflow remain outstanding.
 
 ## P12 — Browser verification and production hardening
 
-### Goal
+Status: **ACTIVE QA WORKSTREAM**.
 
-Verify the connected workflow from browser through API and persistence.
-
-### Tasks
-
-- upload journey verification
-- playback verification
-- waveform synchronization verification
-- pipeline verification
-- speaker workflow verification
-- transcript verification
-- alignment verification
-- evidence verification
-- report verification
-- history verification
-- mobile verification
-- keyboard verification
-- reduced motion verification
-- API failure verification
-- timeout verification
-- cancellation verification
-- resource limit verification
-- secure media access verification
-- provenance verification
-- reproducibility verification
-
-### Exit
-
-The complete MVP journey passes reproducible browser level verification.
-
-## Parallel work
-
-These tracks can proceed while the critical path is built:
-
-- expanded method library
-- research feature families
-- learned representations
-- deeper linguistic models
-- comparative analysis
-- alerts
-- advanced reports
-- Evidence Explorer refinements
-- developer observability improvements
-- performance optimization
-
-They must not displace the case spine speaker transcript alignment and evidence workflow.
+CI is green. Remaining verification must traverse the deployed browser workflow, signed media, Analysis Workspace, diagnostics, mobile, keyboard, reduced motion, failures, cancellation, and production readback.
 
 ## Developer Console operating model
 
-The Developer Console is the engineering cockpit for this plan.
+The Developer Console is the engineering cockpit. Its operator status model is:
 
-It must answer five questions immediately:
+- **BUILT** — implementation exists and compiles.
+- **FUNCTIONAL** — required runtime workflow has executed successfully.
+- **TESTED** — automated or manual verification has passed.
+- **VALIDATED** — relevant scientific or operational validation is complete and documented.
 
-1. What should I build next?
-2. What is already complete?
-3. What dependency is blocking the next step?
-4. What does the backend report right now?
-5. Where is the canonical methodology or architecture document?
+The console consumes GitHub-backed QA/deployment state and marks workflow results from another runtime revision as `STALE`.
 
-### Required console functions
+The local MVP task board is an operator tracker and never substitutes for backend capability evidence.
 
-- prioritized phase board
-- individual task checkboxes
-- persistent browser local task state
-- phase completion state
-- expand and collapse controls
-- methodology navigator
-- architecture navigator
-- pipeline navigator
-- API workbench
-- request inspection
-- lifecycle inspection
-- error inspection
-- runtime health
-- developer profile
-- 21-stage build status with per-stage semantic status indicators
-- collapsed current engineering stage and next dependency
-- documentation synchronization visibility
-- explicit BUILT / FUNCTIONAL / TESTED / VALIDATED status dimensions
-- detailed QA check list with current versus historical evidence
-- source traceability for status claims
-- GitHub path/workflow/commit links with copy controls
-- status refresh after state-changing workflows
+## Current dependency chain
 
-### Status semantics
-
-The console must never use a build result as a proxy for functionality.
-
-- **BUILT:** source implementation exists and compiles.
-- **FUNCTIONAL:** required runtime workflow has executed successfully.
-- **TESTED:** an actual test or verification has passed.
-- **VALIDATED:** relevant scientific or operational validation is complete and documented.
-
-Conditional, queued, not-invoked, failed, and blocked states remain explicit.
-
-### Dashboard synchronization
-
-Case creation, upload, persistence, playback preparation, analysis execution, pipeline transitions, diagnostics, CI results, and deployment verification must refresh or invalidate the relevant status data. If a status cannot be refreshed from a real source, the console must say so rather than displaying a stale or simulated result.
-
-### Traceability
-
-Material status claims should resolve to:
-
-`GitHub → repository path → workflow → commit → artifact/deployment → runtime status`
-
-The operator should be able to open the source documentation and copy the relevant path, commit SHA, workflow reference, or artifact/deployment reference.
-
-## Methodology links
-
-The console should route directly to:
-
-- `docs/MASTER_METHOD_INDEX.md`
-- `docs/ANALYSIS_METHODS.md`
-- `docs/METHOD_QA_MATRIX.md`
-- `docs/CAPABILITY_STATUS.md`
-- `docs/ANALYSIS_PIPELINE.md`
-- `docs/VALIDATION.md`
-- `docs/PIPELINE_BUILD_STATUS.md`
-- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
-- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+1. Analysis Results contract
+2. Review Evidence UI
+3. granular per-stage lifecycle telemetry
+4. production verification of relational diagnostics
+5. speaker processing
+6. production transcription
+7. transcript alignment
+8. real analytical tracks
+9. evidence explorer and synthesis
+10. assessment/reporting
+11. history/reopen
+12. browser-level end-to-end verification
+13. scientific validation program
 
 ## Definition of done
 
-MVP is reached when one connected case can move from recording intake through synchronized audio speaker and transcript analysis evidence synthesis assessment reporting persistence and reopening.
-
-## After MVP
-
-Once the connected workflow is stable the engineering program moves toward deeper analytical coverage calibrated classification validation datasets external evaluation comparative analysis advanced reporting and production scale.
-
-## 2026-09-01 production checkpoint
-
-**Milestone:** A real production case successfully completed the repaired operational path from case workflow through WAV source upload, private media persistence, case-bound analysis, and analysis completion.
-
-**Observed runtime evidence:** `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and valid `VOXVECTOR_DIAGNOSTIC` records were emitted by the Render runtime.
-
-**Engineering consequence:** P1 upload/intake and the case-bound analysis spine have crossed the basic production execution boundary for the observed path. They are no longer treated as wholly unverified foundations. Separate browser playback verification and complete browser-level MVP verification remain outstanding.
-
-**Observability finding:** Production logs isolated the remaining Developer Console gap to `public.api_request_logs.duration_ms`, whose integer schema rejected fractional timing values. The projection was repaired without changing the canonical schema: fractional milliseconds remain in immutable diagnostic records while relational values are normalized to integers.
-
-**Regression coverage:** `VoxVector/tests/test_observability.py` covers decimal durations, string durations, zero/sub-millisecond values, null values, and invalid values.
-
-**Next MVP dependency:** Move the user from completed processing into **Analysis Results / Review Evidence**, then expose full stage-by-stage audit telemetry before expanding speaker/transcript and evidence workflows.
+MVP is reached only when one connected case can move from recording intake through synchronized audio, speaker and transcript analysis, evidence synthesis, assessment, reporting, persistence, and reopening through reproducible browser verification.
