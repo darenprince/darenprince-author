@@ -16,6 +16,10 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1"]
+speech = [
+  "faster-whisper>=1.2,<2",
+  "pyannote.audio==4.0.7",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
