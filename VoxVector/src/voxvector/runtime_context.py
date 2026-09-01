@@ -24,6 +24,12 @@ def new_trace_id(value: str | None = None) -> str:
     return value
 
 
+def set_trace_id(value: str | None = None) -> str:
+    value = str(value or "").strip() or uuid.uuid4().hex
+    _trace_id.set(value)
+    return value
+
+
 def trace_id() -> str:
     return _trace_id.get() or new_trace_id()
 
