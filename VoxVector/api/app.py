@@ -321,7 +321,7 @@ async def diagnostic_events(_: dict = Depends(require_developer), request_id_fil
     try:
         for offset in range(days):
             day = now - timedelta(days=offset)
-            records.extend(await _read_event_prefix(day.strftime("%%Y/%%m/%%d"), request_id_filter or "", max(1, limit-len(records))))
+            records.extend(await _read_event_prefix(day.strftime("%Y/%m/%d"), request_id_filter or "", max(1, limit-len(records))))
             if len(records) >= limit: break
     except StorageError as exc:
         raise HTTPException(status_code=503, detail="Diagnostic event query failed") from exc
