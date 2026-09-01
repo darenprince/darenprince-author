@@ -103,3 +103,11 @@ A passing software suite establishes implementation behavior only. Scientific va
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `docs/PIPELINE_BUILD_STATUS.md`
 - `docs/DOCS_ALIGNMENT_2026-09-01.md`
+
+## Integration update — 2026-09-01
+
+The canonical case-analysis route now returns and persists the composed results envelope and records independently measured route-boundary timing for decode/normalization, provenance/integrity, and recording assessment.
+
+The monolithic pipeline remains only partially instrumented internally. Internal analytical stages without emitted callbacks continue to report no independent duration rather than fabricated timing.
+
+The exact current commit remains subject to the GitHub Actions QA gate after each source revision.
