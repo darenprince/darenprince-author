@@ -89,16 +89,15 @@ class FasterWhisperProvider:
             segment_text = str(getattr(segment, "text", "") or "").strip()
             start = getattr(segment, "start", None)
             end = getattr(segment, "end", None)
-            avg_logprob = getattr(segment, "avg_logprob", None)
-            normalized_confidence = None
-            if avg_logprob is not None:
-                normalized_confidence = float(np.clip(np.exp(float(avg_logprob)), 0.0, 1.0))
+            # faster-whisper exposes avg_logprob as a log-likelihood diagnostic,
+            # not a calibrated probability. Preserve segment confidence as null
+            # rather than converting that diagnostic into a misleading score.
             normalized_segments.append(
                 TranscriptSegment(
                     start_s=float(start) if start is not None else None,
                     end_s=float(end) if end is not None else None,
                     text=segment_text,
-                    confidence=normalized_confidence,
+                    confidence=None,
                 )
             )
             if segment_text:
