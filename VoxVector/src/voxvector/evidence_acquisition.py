@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from hashlib import sha256
-from typing import Any, Protocol, Sequence
+from typing import Any, Protocol
 
 import numpy as np
 
@@ -103,6 +103,7 @@ class EvidenceAcquisitionResult:
     diarization: DiarizationResult | None
     transcription_state: str
     diarization_state: str
+    multimodal_timeline: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -120,13 +121,13 @@ def _speech_from_frames(
     starts = np.arange(0, signal.size - frame_size + 1, hop_size, dtype=int)
     frames = np.stack([signal[start : start + frame_size] for start in starts])
     rms_values = np.sqrt(np.mean(np.square(frames), axis=1))
-    # Lightweight energy activity seed. The existing canonical pipeline has a
-    # stronger voicing-aware implementation; this foundation intentionally
-    # labels its method separately rather than pretending equivalence.
     positive = rms_values[np.isfinite(rms_values) & (rms_values > 0)]
     if positive.size == 0:
         return ()
-    threshold = max(float(np.percentile(positive, 20)), float(np.percentile(positive, 75)) * 0.18)
+    threshold = max(
+        float(np.percentile(positive, 20)),
+        float(np.percentile(positive, 75)) * 0.18,
+    )
     voiced = np.isfinite(rms_values) & (rms_values >= threshold)
     return segment_speech(rms_values, voiced, hop_size / sample_rate)
 
@@ -138,6 +139,13 @@ def build_evidence_acquisition(
     transcript_provider: TranscriptionProvider | None = None,
     diarization_provider: DiarizationProvider | None = None,
 ) -> EvidenceAcquisitionResult:
+    """Build normalized source evidence and optionally invoke configured providers.
+
+    Providers are selected lazily from environment configuration when callers do
+    not supply explicit provider instances. This keeps the base runtime free of
+    heavy ML dependencies while enabling real provider execution on speech-enabled
+    deployments.
+    """
     signal = np.asarray(signal, dtype=float).reshape(-1)
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
@@ -187,6 +195,12 @@ def build_evidence_acquisition(
         sha256=sha256(signal.tobytes()).hexdigest(),
     )
 
+    if transcript_provider is None and diarization_provider is None:
+        from .speech_providers import get_diarization_provider, get_transcription_provider
+
+        transcript_provider = get_transcription_provider()
+        diarization_provider = get_diarization_provider()
+
     transcript = None
     transcription_state = "not_configured"
     if transcript_provider is not None:
@@ -199,6 +213,14 @@ def build_evidence_acquisition(
         diarization = diarization_provider.diarize(signal, sample_rate)
         diarization_state = "completed"
 
+    multimodal_timeline = None
+    if transcript is not None:
+        from .alignment import align_transcript_to_speakers
+
+        multimodal_timeline = asdict(
+            align_transcript_to_speakers(transcript, diarization)
+        )
+
     return EvidenceAcquisitionResult(
         media_profile=profile,
         speech_timeline=SpeechTimeline(
@@ -210,4 +232,5 @@ def build_evidence_acquisition(
         diarization=diarization,
         transcription_state=transcription_state,
         diarization_state=diarization_state,
+        multimodal_timeline=multimodal_timeline,
     )
