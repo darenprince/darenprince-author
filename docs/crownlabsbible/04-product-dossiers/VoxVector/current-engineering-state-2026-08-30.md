@@ -72,3 +72,7 @@ Software build, runtime execution, deployment, and QA do not establish scientifi
 The canonical case-analysis API now persists and returns the composed results envelope. Independently measured route-boundary telemetry is integrated for decode/normalization, provenance/integrity, and recording assessment.
 
 Internal monolithic pipeline stages without emitted callbacks are not assigned fabricated per-stage durations. Full internal callback instrumentation remains open.
+
+## 2026-09-01 evidence acquisition pivot
+
+VoxVector engineering now prioritizes evidence acquisition before additional downstream inference work. The implemented foundation provides a media profile, speech/silence timeline, provider-neutral transcription contract, diarization provider boundary, and persisted acquisition artifact. Production diarization, transcription, timestamps, and alignment remain the next extraction tasks.
