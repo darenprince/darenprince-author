@@ -49,6 +49,11 @@ def compose_result_envelope(
     """
     provenance = dict(result.get("provenance") or {})
     acquisition = dict(run.get("acquisition") or {})
+    diarization = acquisition.get("diarization")
+    speakers = list(run.get("speakers") or [])
+    if not speakers and isinstance(diarization, dict):
+        speakers = list(diarization.get("speakers") or [])
+    aligned_timeline = acquisition.get("multimodal_timeline")
     source_provenance = {
         "source_id": source.get("source_id"),
         "media_path": source.get("media_path"),
@@ -77,11 +82,11 @@ def compose_result_envelope(
             "pipeline_duration_ms": run.get("pipeline_duration_ms"),
             "telemetry_scope": run.get("telemetry_scope"),
         },
-        "speakers": run.get("speakers") or acquisition.get("diarization", {}).get("speakers", []) if isinstance(acquisition.get("diarization"), dict) else run.get("speakers") or [],
+        "speakers": speakers,
         "speech_segments": result.get("speech_segments") or [],
         "transcript": run.get("transcript") if run.get("transcript") is not None else acquisition.get("transcript"),
-        "alignment": run.get("alignment"),
-        "multimodal_timeline": acquisition.get("multimodal_timeline"),
+        "alignment": run.get("alignment") or aligned_timeline,
+        "multimodal_timeline": aligned_timeline,
         "observations": result.get("observations") or [],
         "tracks": run.get("tracks") or [],
         "evidence": result.get("evidence") or [],
