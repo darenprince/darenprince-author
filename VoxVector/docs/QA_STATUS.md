@@ -6,13 +6,11 @@ This document records repository-level software QA. It is not a scientific valid
 
 ## Current source and verification state
 
-The current canonical `main` commit is:
+The current canonical `main` revision is documentation synchronization following the latest code-affecting integration commits.
 
-`2a57cffd769dc0516f9f8511283c9bd57d51a683`
+The latest verified code-affecting QA gate is `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. The run completed successfully.
 
-The latest verified QA result is `VoxVector QA` run `33505148274` on the immediately preceding implementation revision `5c88299679515604bfb9c0903c48b2b95650e6aa`. Its test job `99847332204` passed API package installation, the VoxVector API test suite, React dependency installation, and the React production build.
-
-A fresh `VoxVector QA` run `33505471299` is currently executing against `2a57cffd769dc0516f9f8511283c9bd57d51a683`. Therefore the current `main` revision is **not yet recorded as QA-green**. The repository must use the exact-commit workflow result as the authoritative gate.
+The immediately preceding API integration commit `c2307293789124be29b6c8d7a0c7df7234f82776` also passed `VoxVector QA` run `33505919157`.
 
 The verified software suite establishes implementation behavior for the tested paths. It does not establish scientific deception-detection validity.
 
