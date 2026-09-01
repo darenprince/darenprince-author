@@ -1,0 +1,4 @@
+# Optional VoxVector speech-intelligence runtime.
+# Keep separate from requirements.txt so the base Render deployment remains lightweight.
+faster-whisper>=1.2,<2
+pyannote.audio==4.0.7
