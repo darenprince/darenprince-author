@@ -6,28 +6,26 @@ Approved and in active implementation.
 
 The React application under `voxvector/` is the canonical public frontend. It is the interface layer for the VoxVector backend and is organized around the connected case workflow represented by the Analysis Workspace reference screens.
 
-The active visual system is intentionally separate from this architecture document.
-
 ## Technology architecture
 
 | Layer | Choice | Role |
 |---|---|---|
-| Application | React 18.3.1 | Product shell and route composition |
-| UI | shadcn style application owned composition with Base UI primitives | Accessible interaction primitives |
-| Analytical UI | Tremor React 3.18.7 | Analytical cards charts progress and dashboard blocks |
+| Application | React 19.2.8 | Product shell and route composition |
+| UI | application-owned shadcn-style composition with Base UI primitives | Accessible interaction primitives |
+| Analytical UI | Recharts 3.10.1 plus application-owned analytical components | Real and illustrative analytical visualizations |
 | Styling | Tailwind CSS | Responsive layout typography tokens and theming |
 | Icons | Lucide React | Product and interface iconography |
-| Animation | Motion for React | State driven transitions and interaction animation |
+| Animation | Motion for React | State-driven transitions and interaction animation |
 | Server state | TanStack Query | API lifecycle caching refresh mutations and diagnostics polling |
 | Authentication | Supabase Auth | Developer and user identity |
 | Authorization | Supabase metadata plus FastAPI enforcement | Developer access control |
 | API | FastAPI on Render | Canonical backend |
-| Persistence | Supabase | Case data authentication and diagnostics |
+| Persistence | Supabase | Case data authentication diagnostics and private media |
 | Deployment | GitHub Pages | Public React application |
 
 ## Product application model
 
-The frontend is a case centered application.
+The frontend is a case-centered application.
 
 The connected workflow is:
 
@@ -52,7 +50,7 @@ Audio Player + Waveform
     +--> Evidence Timeline
     |
     v
-Evidence Synthesis
+Analysis Results / Review Evidence
     |
     v
 Assessment
@@ -66,70 +64,9 @@ History + Reopen
 
 All surfaces share the same case identity.
 
-## Primary navigation
-
-- Overview
-- New Analysis
-- Analyses
-- Analysis History
-- Evidence Explorer
-- Reports
-- Comparisons
-- Alerts
-- Settings
-
-## Developer navigation
-
-- Dashboard
-- API Workbench
-- Requests
-- Errors
-- Events
-- Runtime
-- Methodology
-- Documentation
-- Development Board
-- Profile
-
-Developer functions remain separated from the customer analysis workflow.
-
-## Analysis intake
-
-The New Analysis flow is the entry point into the connected case.
-
-### Intake sequence
-
-1. Select or upload recording
-2. Inspect media
-3. Display metadata
-4. Establish provenance
-5. Assess recording quality
-6. Establish speaker context
-7. Generate transcript
-8. Establish alignment
-9. Start analysis
-10. Open Analysis Workspace
-
-### File intake data
-
-Display:
-
-- file name
-- duration
-- sample rate
-- bit depth when available
-- channel count
-- file size
-- detected format
-- upload state
-- processing state
-- provenance state
-- case ID
-- analysis ID
-
 ## Analysis Workspace
 
-The Analysis Workspace is the core product surface.
+The Analysis Workspace is the core product surface and is being extended from source/playback inspection into the persisted post-analysis review experience.
 
 It combines:
 
@@ -137,13 +74,34 @@ It combines:
 - source metadata
 - audio player
 - synchronized waveform
-- speaker regions
-- transcript
-- analytical tracks
-- evidence markers
-- evidence timeline
+- spectrogram/playback analysis view
+- analytical tracks when available
+- speaker regions when available
+- transcript when available
+- evidence markers when available
+- evidence timeline when available
 - pipeline state
+- analysis result summary
 - assessment state
+- uncertainty and alternative explanation state
+
+## Analysis Results / Review Evidence
+
+A completed run should expose the composed canonical case result without inventing unavailable values.
+
+The review surface is organized around:
+
+1. run identity and source provenance;
+2. eligibility and reliability;
+3. pipeline execution state;
+4. observations and evidence records;
+5. evidence convergence and conflict;
+6. candidate state;
+7. final disposition;
+8. uncertainty and alternative explanations;
+9. software provenance and validation status.
+
+Unavailable downstream stages must remain explicit as unavailable, pending, conditional, not-run, or planned rather than being rendered as completed analysis.
 
 ## Synchronized audio viewer
 
@@ -154,10 +112,10 @@ Display:
 - full recording waveform
 - current playhead
 - time scale
-- speech regions
-- pause regions
-- speaker regions
-- evidence markers
+- speech regions when available
+- pause regions when available
+- speaker regions when available
+- evidence markers when available
 - selected intervals
 
 ### Analytical tracks
@@ -186,19 +144,7 @@ Expanded tracks:
 - transcript alignment
 - evidence events
 
-### Interaction model
-
-- shared time axis
-- shared playhead
-- synchronized hover
-- click to seek
-- drag to scrub
-- region selection
-- zoom window
-- reset zoom
-- track visibility controls
-- event marker navigation
-- playback from selected region
+Tracks must be driven by canonical backend data when displayed as analysis rather than decorative interface examples.
 
 ## Speaker layer
 
@@ -211,7 +157,7 @@ Display:
 - selected speaker state
 - speaker evidence markers
 
-Speaker selection synchronizes with the waveform transcript and evidence surfaces.
+Speaker selection synchronizes with the waveform transcript and evidence surfaces when those records exist.
 
 ## Transcript layer
 
@@ -227,30 +173,7 @@ Display:
 - response boundaries
 - evidence markers
 
-Transcript selection moves the audio playhead.
-
-Audio selection reveals associated transcript content when available.
-
-## Analysis Overview
-
-The overview is the executive analytical surface for an individual case.
-
-Required regions:
-
-- source file
-- duration
-- recording quality
-- analysis state
-- current pipeline stage
-- condensed waveform
-- key metrics
-- assessment state
-- evidence timeline
-- pipeline state
-
-The metric system is data driven.
-
-Only backend supplied measurements may be displayed as actual analysis values.
+Transcript selection moves the audio playhead. Audio selection reveals associated transcript content when alignment exists.
 
 ## Analysis Pipeline UI
 
@@ -278,7 +201,7 @@ The pipeline component represents all 21 canonical stages:
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-Each stage exposes:
+Each stage exposes, when supplied by the backend:
 
 - name
 - purpose
@@ -290,6 +213,9 @@ Each stage exposes:
 - evidence
 - source regions
 - related events
+- warnings
+- errors
+- unavailable/skipped reason
 
 Stage status comes from real backend lifecycle state.
 
@@ -297,7 +223,7 @@ Stage status comes from real backend lifecycle state.
 
 ### Evidence timeline
 
-Events are anchored to source intervals and may include:
+Events may include:
 
 - response latency
 - pause events
@@ -325,18 +251,18 @@ Filters include:
 - question
 - response
 
-Every evidence item links to its originating method observation and source interval.
+Every evidence item links to its originating method observation and source interval when available.
 
 ## Assessment surface
 
-The assessment area is structured around:
+The assessment area remains structured around:
 
 - eligibility and reliability
 - evidence summary
 - evidence convergence
 - evidence conflict
 - candidate classification
-- confidence matrix
+- confidence matrix when configured
 - uncertainty
 - alternative hypotheses
 - final disposition
@@ -345,62 +271,40 @@ The interface does not reduce the complete analysis to a single decorative score
 
 ## Reports
 
-Reports are generated from the persistent case model.
-
-Report sections include:
-
-1. Case summary
-2. Recording information
-3. Speaker information
-4. Eligibility and reliability
-5. Analysis methods
-6. Acoustic findings
-7. Prosodic findings
-8. Temporal findings
-9. Linguistic findings
-10. Speaker findings
-11. Evidence timeline
-12. Convergence and conflict
-13. Candidate assessment
-14. Confidence and uncertainty
-15. Alternative hypotheses
-16. Final disposition
-17. Audit and provenance
+Reports are generated from the persistent case model and should preserve source, run, evidence, assessment, disposition, uncertainty, and provenance references.
 
 ## Developer Console
 
-The Developer Console is the engineering cockpit.
+The Developer Console is the engineering cockpit and must expose real operational state.
 
-It must expose:
+It must include:
 
 - runtime health
-- real API workbench
-- request inspection
-- lifecycle events
+- API workbench
+- request and lifecycle inspection
 - indexed errors
-- runtime diagnostics
-- methodology links
-- architecture links
-- pipeline links
+- diagnostic events
+- GitHub-backed QA state
+- deployment state
+- methodology and architecture links
 - MVP build board
-- phase expansion
-- task checkboxes
-- persistent browser task state
+- task persistence
 - completion counts
-- next task visibility
-- developer profile
+- current engineering stage
+- next dependency
+- source traceability
+- audit registry
 
-### MVP board behavior
+### Status semantics
 
-The board uses the canonical `docs/MVP_BUILD_PLAN.md` task order.
+The console keeps these independent:
 
-Each task can be checked locally.
+- **BUILT** — implementation exists and compiles.
+- **FUNCTIONAL** — required runtime workflow has executed successfully.
+- **TESTED** — automated or manual verification has passed.
+- **VALIDATED** — relevant scientific or operational validation is complete and documented.
 
-Each phase can be expanded or collapsed.
-
-The console calculates local completion state from the task set.
-
-The console must never present a local checkbox as proof that the backend capability is implemented.
+A local task checkbox is never proof that the corresponding backend capability exists.
 
 ## API boundary
 
@@ -414,49 +318,10 @@ It preserves:
 - client timing
 - backend error detail
 - upload progress
-- cancellable request handles
+- cancellable request handling
 - lifecycle event support
 
 The canonical API base defaults to `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`.
-
-## State driven animation
-
-Animation may represent actual:
-
-- upload progress
-- query state
-- mutation state
-- playback state
-- diagnostic state
-- navigation state
-
-Animation must never manufacture analytical progress or evidence.
-
-## Developer access
-
-The browser gate is an interface authorization layer.
-
-Sensitive diagnostic data remains protected by backend authorization.
-
-Current developer admission requires a trusted Supabase session and the configured developer role metadata.
-
-FastAPI diagnostic endpoints enforce the developer role before returning persistent diagnostics.
-
-## Accessibility
-
-The application must retain:
-
-- readable text sizes
-- strong contrast
-- keyboard accessible controls
-- semantic labels
-- visible focus states
-- reduced motion support
-- mobile usability
-- explicit error states
-- explicit loading states
-- explicit unavailable states
-- non color only status communication
 
 ## Deployment boundary
 
@@ -473,10 +338,20 @@ The public paths are:
 
 The root `voxvector.html` is a compatibility redirect only.
 
+## Accessibility
+
+The application must retain:
+
+- readable text sizes
+- strong contrast
+- keyboard-accessible controls
+- semantic labels
+- visible focus states
+- reduced-motion support
+- mobile usability
+- explicit loading, error, unavailable, skipped, and not-run states
+- non-color-only status communication
+
 ## Acceptance principle
 
-The UI is complete only when important workflows operate against real VoxVector API behavior and real data contracts.
-
-A polished mockup is not completion.
-
-The connected product workflow is the acceptance target.
+The UI is complete only when important workflows operate against real VoxVector API behavior and real data contracts. A polished mockup is not completion.
