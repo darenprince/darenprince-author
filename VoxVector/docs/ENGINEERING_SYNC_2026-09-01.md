@@ -2,17 +2,20 @@
 
 ## Current source of truth
 
-Canonical branch: `main`
+Canonical production branch: `main`.
 
-Current source revision: see GitHub `main` branch at time of use. Historical commit references in older records remain historical evidence.
+This feature slice is developed on an isolated branch and must pass repository QA before merge.
 
 ## Operational foundation
 
-- production case workflow has previously completed the observed case → upload → private media persistence → case-bound analysis path;
-- canonical results envelope is integrated at the case-analysis API boundary;
-- diagnostic duration projection is normalized to the existing integer schema;
-- relational diagnostic date filtering is enforced;
-- package/runtime version is synchronized at 0.2.26.
+Previously demonstrated:
+
+- production case workflow from case creation through source upload, private media persistence, and case-bound analysis;
+- canonical results envelope at the case-analysis API boundary;
+- durable sanitized diagnostics;
+- diagnostic relational duration normalization;
+- relational diagnostic date filtering;
+- synchronized backend package/runtime versioning.
 
 ## Evidence acquisition
 
@@ -26,9 +29,9 @@ Implemented foundation and contracts:
 - pyannote Community-1 adapter;
 - transcript/speaker overlap alignment;
 - multimodal timeline artifact;
-- explicit configured, not configured, completed, and unavailable provider states.
+- configured, unavailable, and provider-state handling.
 
-Production execution of the heavy providers is still an external runtime verification gate.
+Production execution of heavy providers remains an external runtime verification gate.
 
 ## Execution observability
 
@@ -40,80 +43,122 @@ Implemented:
 - UTC lifecycle timestamps;
 - monotonic duration measurements;
 - stage lifecycle records;
-- speech provider runtime log lines;
+- speech runtime diagnostic lines;
 - persistent sanitized diagnostics;
-- GitHub Actions Render observability bridge.
+- GitHub Actions Render observability workflow;
+- Developer Console live case polling.
 
-Internal per-stage callbacks remain incomplete in the monolithic analytical pipeline. No fabricated stage timing is permitted.
+The monolithic analytical pipeline still lacks complete internal callback instrumentation. The console therefore shows measured route-boundary stage state plus explicitly indeterminate activity during composite execution rather than fabricated internal timings.
 
 ## Render integration
 
-GitHub Actions workflow:
+### Repository automation
 
-`.github/workflows/render-observability.yml`
+`.github/workflows/render-observability.yml` now consumes:
 
-Secret:
+- `RENDER_API_KEY`
+- `RENDER_SERVICE_ID`
 
-`RENDER_API_KEY`
+`RENDER_SERVICE_ID` is the default target; the workflow also accepts an optional manual override.
 
-The key is consumed only in Actions and is not stored in the application or repository.
+The workflow retrieves service inventory, deployment history, and recent logs and stores a seven-day diagnostic artifact.
 
-Manual workflow inputs:
+### Authenticated Developer Console
 
-- Render service ID;
-- log lookback window.
+The backend now provides a server-side Render API bridge:
 
-The workflow gathers service inventory, deployment history, and recent service logs, then stores a seven-day diagnostic artifact.
+- `GET /v1/developer/render/status`
+- `GET /v1/developer/render/logs`
 
-Render's CLI supports API-key authentication through `RENDER_API_KEY`, service deploy inspection, and filtered log access. Render also provides dashboard log explorer/live tail, service CPU/memory metrics, and optional external log streaming. These remain infrastructure observability rather than substitutes for application timing truth.
+The frontend polls these endpoints only from the authenticated console. Render credentials are never passed to browser code.
 
-## Developer Console target state
+Critical deployment boundary: GitHub repository secrets are scoped to GitHub Actions. The Render service must separately contain protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables before the server-side console bridge can make authenticated Render API calls.
 
-The Console should expose:
+### Infrastructure versus application timing
 
-- source/runtime revision;
-- exact QA state;
-- Render deployment state;
-- speech provider readiness;
-- active analysis run;
-- trace correlation;
-- stage progress;
-- stage durations where measured;
-- provider progress/events;
-- evidence acquisition artifacts;
-- warnings/errors;
-- uncertainty and limitations.
+Render timestamps, deploy state, logs, and service metrics provide infrastructure evidence. Application `perf_counter` derived stage/run durations remain the source of truth for application timing.
 
-It must distinguish configured from installed from executed from validated.
+## Developer Console changes
 
-## Active engineering sequence
+### Navigation
 
-### P0
+Added first-class `Case History` and `Render Runtime` destinations.
 
-1. Verify the new GitHub Actions Render observability workflow with the configured repository secret.
-2. Run the short controlled WAV against the speech-enabled Render runtime.
-3. Record real faster-whisper transcription runtime and output.
-4. Record real pyannote diarization runtime and output.
-5. Persist and read back transcript, speaker, and multimodal artifacts.
+The sidebar now has constrained vertical scrolling so lower navigation items remain reachable on short desktop windows and mobile layouts.
 
-### P1
+### Case history
 
-6. Connect transcript output to the existing linguistic/disfluency analysis path.
-7. Make acoustic aggregation speaker-aware.
-8. Build within-speaker baseline acquisition from real speaker tracks.
-9. Build transcript/audio alignment validation fixtures.
-10. Expose trace-linked live analysis progress in the Developer Console.
-11. Add Render CPU/memory evidence to the engineering run record where the account/API exposes it.
+The console now lists authenticated persisted cases using the existing case APIs. Each entry exposes title, case ID, update time, source count, and most recent run summary. Selecting a case opens the persisted case in the Analysis Workspace without creating a new run.
 
-### P2
+### Workbench interaction
 
-12. Expand multimodal Evidence Explorer.
-13. Add question/answer context ingestion.
-14. Add evidence relationship graph and convergence/conflict views.
-15. Build assessment/reporting workflow.
-16. Add case history/reopen behavior.
-17. Complete authenticated browser/mobile verification.
+The three canonical workbench sections can be independently collapsed:
+
+- Step 01 — Analysis Case
+- Step 02 — File Upload
+- Step 03 — Playback + Analysis
+
+The workbench also provides Expand All and Collapse All controls.
+
+### Live analysis progress
+
+A case run is persisted in `running` state before the analysis work begins. Route-boundary lifecycle updates are persisted as the run progresses. The console polls the case at short intervals while the workbench/workspace is active.
+
+The visible progress model distinguishes:
+
+- reported completed stages;
+- current running stage where known;
+- pending/queued stages;
+- failed stages;
+- measured stage duration where available;
+- indeterminate animated activity while the composite pipeline is running without granular callbacks.
+
+No animation is presented as proof of a specific internal stage having executed.
+
+### Startup experience
+
+The Developer Console startup preloader now exposes a visibly advancing initialization percentage instead of a static bar. API readiness remains tied to the real `/health` request.
+
+### Consistent status language
+
+The console normalizes statuses into readable labels such as `Ready`, `Uploading`, `Converting`, `Persisting`, `Running`, `Completed`, `Queued`, `Not run`, `Not invoked`, and `Failed`. Logs and test surfaces use human-readable `Request`, `HTTP`, `Revision`, `Stages complete`, and `QA state` labels rather than raw field fragments.
+
+## Dashboard
+
+The dashboard now surfaces the live Render connection/deployment state when the Render bridge is configured and keeps case navigation, analysis workspace navigation, and the engineering plan in the primary workflow.
+
+The dashboard remains an operator projection. It must not fabricate production metrics or scientific results.
+
+## Documentation synchronization
+
+This change updates the active engineering plan and synchronization record and should be reflected in the following canonical/current surfaces as applicable:
+
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
+- `VoxVector/docs/ENGINEERING_SYNC_2026-09-01.md`
+- `VoxVector/docs/PROJECT_DECISION_LOG_DEVCONSOLE_2026-09-01.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/ROADMAP.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/api/README.md`
+- `VoxVector/docs/audits/`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/`
+
+Historical checkpoints remain historical evidence and are not overwritten merely because the implementation has advanced.
+
+## Verification state
+
+Repository source writes completed on the feature branch.
+
+Still required before production claims:
+
+- GitHub Actions backend tests and React build for the feature branch;
+- authenticated browser verification of console scroll reset, sidebar scroll, collapsible sections, case history reopen, Render Runtime state, and live run behavior;
+- Render environment configuration verification for `RENDER_API_KEY` and `RENDER_SERVICE_ID`;
+- controlled Render API request verification;
+- controlled analysis run with visible persisted progress;
+- final source → commit → workflow → artifact → runtime trace.
 
 ## Scientific boundary
 
-None of these engineering tasks establish deception-detection validity. Provider output, acoustic measurements, transcript content, diarization labels, and runtime confidence are observations/evidence inputs. Scientific inference requires the separate validation program.
+Case history, infrastructure telemetry, run lifecycle, transcription readiness, diarization state, acoustic measurements, transcript artifacts, and UI progress are engineering and evidence-acquisition state. None of these changes establish scientific deception-detection validity. Scientific inference remains governed by the separate validation program.
