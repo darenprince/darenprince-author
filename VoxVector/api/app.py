@@ -26,6 +26,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 
 from voxvector.pipeline import VoxVectorPipeline
 from voxvector.results_envelope import compose_result_envelope
+from voxvector.evidence_acquisition import build_evidence_acquisition
 from voxvector.stage_telemetry import StageTelemetry
 import voxvector.acoustic as _acoustic_module
 from .auth import require_developer
@@ -554,6 +555,10 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
         failed_count = sum(stage["status"] in {"failed", "error"} for stage in stage_states)
 
         result_dict = VoxVectorPipeline.to_dict(result)
+        acquisition = await asyncio.to_thread(
+            build_evidence_acquisition, audio, sample_rate
+        )
+        acquisition_dict = acquisition.to_dict()
         run = {
             "run_id": result.run_id,
             "analysis_id": result.run_id,
@@ -586,6 +591,9 @@ async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends
             },
             "stages": stage_states,
             "result": result_dict,
+            "acquisition": acquisition_dict,
+            "transcript": acquisition_dict.get("transcript"),
+            "tracks": [],
         }
         envelope = compose_result_envelope(
             case=case, source=source, run=run, result=result_dict
