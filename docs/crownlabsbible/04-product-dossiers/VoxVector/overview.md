@@ -251,3 +251,8 @@ VoxVector's current operating architecture is explicitly separated across GitHub
 The durable audio path is mediated by the API and terminates in Supabase storage; audio is not durably stored on Render.
 
 The engineering workflow is now consolidated as **Architecture → Ownership → Trace → Operate/verify**. The complete technical record is `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
+
+
+## 2026-09-01 Observability and Audit Surface
+
+The Developer Console includes Live Logs, Error Reports, and structured Audits. The observability design preserves immutable diagnostic archives while projecting sanitized lifecycle and error records into relational Supabase tables for operator-facing queries. Production verification remains separate from source implementation.
