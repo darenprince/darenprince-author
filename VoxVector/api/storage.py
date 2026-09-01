@@ -63,7 +63,7 @@ class SupabaseStorage:
             return "media_ready_logs_not_configured"
         return "configured_media_ready"
 
-    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None, *, retries: int = 0, require_log_config: bool = False):
+    def _request(self, method: str, url: str, body: bytes | None = None, content_type: str | None = None, *, retries: int = 0, require_log_config: bool = False, extra_headers: dict[str, str] | None = None):
         configured = self.config.configured if require_log_config else self.config.credentials_configured
         if not configured:
             raise StorageError("Durable storage credentials are not configured")
@@ -73,6 +73,8 @@ class SupabaseStorage:
         }
         if content_type:
             headers["Content-Type"] = content_type
+        if extra_headers:
+            headers.update(extra_headers)
         request = Request(url, data=body, headers=headers, method=method)
         attempt = 0
         while True:
@@ -151,7 +153,7 @@ class SupabaseStorage:
         encoded_path = quote(object_path, safe="/")
         url = f"{self.config.supabase_url}/storage/v1/object/{quote(self.config.bucket, safe='')}/{encoded_path}"
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-        self._request("POST", url, body, "application/json", retries=2, require_log_config=True)
+        self._request("POST", url, body, "application/json", retries=2, require_log_config=True, extra_headers={"x-upsert": "true"})
         return f"{self.config.bucket}/{object_path}"
 
     def put_bytes(self, object_path: str, body: bytes, content_type: str = "application/octet-stream") -> str:
