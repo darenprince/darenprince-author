@@ -1,7 +1,6 @@
 from urllib.parse import parse_qs, urlparse
 
-from voxvector.api.render_api import _owner_id, _rows
-from voxvector import api as _api_package  # noqa: F401
+from api.render_api import _owner_id, _rows
 
 
 def test_owner_id_accepts_render_casing_and_nested_owner():
