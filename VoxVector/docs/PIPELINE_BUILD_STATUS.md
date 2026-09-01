@@ -9,9 +9,9 @@ This document is an engineering status record, not a claim that every pipeline s
 | # | Stage | Current build state | Runtime state | QA state |
 |---:|---|---|---|---|
 | 01 | File Upload / Ingest | **implemented** | persisted case source intake | production executed on observed case path |
-| 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization | covered by API/runtime tests; production executed |
-| 03 | Provenance and Integrity | **implemented** | SHA-256 source/run provenance | covered by case-store tests; production executed |
-| 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile | runtime exercised by pipeline; production executed |
+| 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization; persisted run boundary | covered by API/runtime tests; production executed |
+| 03 | Provenance and Integrity | **implemented** | SHA-256 source verification; persisted run boundary | covered by case-store tests; production executed |
+| 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised by pipeline; production executed |
 | 05 | Speaker Identification / Diarization | **queued** | provider adapter implemented; production provider execution pending | contract tests; model execution required |
 | 06 | Speech Segmentation | **implemented foundation** | deterministic energy/voicing segmentation | deterministic tests exist; production executed |
 | 07 | Transcription Generation | **queued** | provider adapter implemented; production transcription execution pending | contract tests; model execution required |
@@ -35,7 +35,7 @@ This document is an engineering status record, not a claim that every pipeline s
 - **14 stages have implemented analytical/runtime foundations**
 - **4 stages remain conditional or intentionally not invoked without required inputs**
 - **3 stages remain queued for deeper production integration**
-- **Speech-intelligence adapters are now built, but provider execution remains deployment-gated**
+- **Speech-intelligence adapters are built, but provider execution remains deployment-gated**
 - **21 stages remain represented in the canonical pipeline contract**
 
 The maturity count does not mean fourteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
@@ -52,23 +52,37 @@ The supported provider architecture is:
 
 Heavy speech ML dependencies are optional and are intentionally excluded from the default runtime package. Provider execution activates only when the corresponding environment configuration and model/runtime requirements are present.
 
-faster-whisper documents word-level timestamps and integrated VAD support. citeturn162455search1turn162455search3
+faster-whisper documents word-level timestamps and integrated VAD support.
 
-pyannote Community-1 currently requires acceptance of model conditions and a Hugging Face token for model access, and the model pipeline is published under CC-BY-4.0. citeturn308595search0turn308595search13
+pyannote Community-1 requires acceptance of model conditions and a Hugging Face token for model access.
 
 ## Stage telemetry foundation — 2026-09-01
 
 Added `VoxVector/src/voxvector/stage_telemetry.py`, a persistence-neutral lifecycle recorder for the canonical 21-stage contract. It records real monotonic elapsed duration, UTC start/completion timestamps, explicit running/completed/failed/not-run/pending states, outcomes, and errors, and returns deterministic ordered snapshots suitable for case runs and diagnostic records.
 
+## Live case-run lifecycle — 2026-09-01
+
+The case-analysis API now persists a `running` run record before the main analysis call. The record is updated after the actual route-boundary stages for decode, provenance, and recording assessment, with `current_stage` and completed-stage counts available to the console during execution.
+
+When the composite analytical engine completes, the live record is replaced by the final persisted run with its canonical result, acquisition artifact, result envelope, and explicit pending/not-run states for unavailable downstream inputs. On failure, a failed run record is attempted so the case history retains the failure state and sanitized error metadata.
+
+The current composite engine remains only partially internally instrumented. The live console therefore shows real persisted state plus an indeterminate activity indicator during composite execution rather than fabricating durations for internal stages.
+
 ## Route telemetry and result envelope — 2026-09-01
 
-The case-analysis API now measures route-boundary stages 02–04, persists the composed `result_envelope`, and returns the composed envelope directly. The monolithic internal pipeline remains only partially instrumented; stages without real callbacks retain null independent durations.
+The case-analysis API measures route-boundary stages 02–04, persists the composed `result_envelope`, and returns the composed envelope directly. The monolithic internal pipeline remains only partially instrumented; stages without real callbacks retain null independent durations.
+
+## Render infrastructure bridge — 2026-09-01
+
+The Developer Console exposes server-side Render status and recent log observations through authenticated developer routes. The repository Actions workflow separately gathers Render service, deployment, and log artifacts using `RENDER_API_KEY` and `RENDER_SERVICE_ID` GitHub secrets.
+
+GitHub repository secrets do not automatically enter the Render service environment. The Render process must separately receive protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` variables for the in-console bridge to authenticate successfully.
 
 ## Current engineering stage
 
-**Evidence acquisition and speech intelligence.**
+**Evidence acquisition, runtime observability, and live case workflow.**
 
-The correct dependency order is now:
+The correct dependency order remains:
 
 **media extraction → speech segmentation → speaker diarization → transcription → timestamp normalization → transcript/audio alignment → multimodal evidence → downstream analysis.**
 
@@ -95,6 +109,7 @@ A completed analysis run does not prove any individual vocal feature proves dece
 5. Add speaker-aware acoustic aggregation and baseline inputs.
 6. Add question/answer context ingestion and interaction timing.
 7. Instrument the canonical internal pipeline boundaries where real method boundaries exist.
-8. Add evidence-linked UI exploration of the acquired timeline.
-9. Verify the complete browser workflow against deployed services.
-10. Begin scientific evaluation only after engineering evidence is stable.
+8. Verify Developer Console Render bridge after protected Render environment configuration.
+9. Verify Case History reopen and live run polling against a deployed case.
+10. Complete authenticated browser/mobile verification.
+11. Begin scientific evaluation only after engineering evidence is stable.
