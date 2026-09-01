@@ -8,7 +8,7 @@ An unimplemented capability remains active product scope.
 
 VoxVector is being built as a vocal and audio deception detection system.
 
-The intended product combines multiple evidence families through a connected case centered pipeline.
+The intended product combines multiple evidence families through a connected case-centered pipeline.
 
 ## Status vocabulary
 
@@ -23,11 +23,11 @@ The intended product combines multiple evidence families through a connected cas
 
 | Stage | Current state | Product target |
 |---|---|---|
-| File Upload / Ingest | Integrated | Durable multi format case intake |
+| File Upload / Ingest | Integrated | Durable multi-format case intake |
 | File Decode and Normalization | Integrated | Canonical normalized media pipeline |
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
-| Speaker Identification / Diarization | Planned research | Production speaker aware analysis |
+| Speaker Identification / Diarization | Planned research | Production speaker-aware analysis |
 | Speech Segmentation | **Integrated** | Production speech region segmentation |
 | Transcription Generation | Planned research | Production timestamped ASR |
 | Transcript Alignment | Planned research | Word and audio synchronization |
@@ -37,62 +37,13 @@ The intended product combines multiple evidence families through a connected cas
 | Temporal and Pause Analysis | Integrated | Expanded interaction timing |
 | Linguistic and Disfluency Analysis | Integrated when transcript supplied | Production linguistic intelligence |
 | Question / Answer Alignment | Integrated when supplied | Full conversational alignment |
-| Within Speaker Baseline | Integrated when supplied | Persistent baseline workflows |
+| Within Speaker Baseline | Integrated when baseline supplied | Persistent baseline workflows |
 | Cross Method Evidence Assembly | Integrated | Expanded evidence graph |
-| Evidence Convergence and Conflict | Integrated foundation | Dependence aware multimethod synthesis |
-| Candidate Classification | Integrated boundary | Validated task specific candidate models |
+| Evidence Convergence and Conflict | Integrated foundation | Dependence-aware multimethod synthesis |
+| Candidate Classification | Integrated boundary | Validated task-specific candidate models |
 | Validation and Calibration Gate | Planned research | Production validation gate |
 | Final Classification / Disposition | Integrated boundary | Validated final disposition architecture |
 | Audit and Provenance Output | Integrated | Complete auditable case package |
-
-## Speech segmentation implementation
-
-Stage 06 has a real deterministic engine under `src/voxvector/speech_segmentation.py` and is integrated into `VoxVectorPipeline`.
-
-The current implementation:
-
-- consumes frame level RMS energy
-- consumes frame level voicing derived from F0
-- establishes a relative energy threshold
-- removes very short active runs
-- bridges short inactive gaps
-- emits timestamped speech segments
-- emits a segmentation confidence value
-- assigns a method ID for provenance
-- adds speech segment count
-- adds total speech duration
-- adds speech activity ratio
-- persists segment IDs in the analysis result contract
-
-This is the first concrete implementation of the speaker/transcript dependency path. It provides speech intervals that later speaker diarization and transcription stages can consume.
-
-## Current primary observations
-
-| Method | Status | Primary output |
-|---|---|---|
-| RMS / energy | Integrated | acoustic observation |
-| Relative intensity / dB | Integrated | acoustic observation |
-| Zero crossing rate | Integrated | acoustic observation |
-| Spectral centroid | Integrated | spectral observation |
-| Spectral spread | Integrated | spectral observation |
-| Fundamental frequency | Integrated | F0 observation |
-| Harmonicity | Integrated | periodicity observation |
-| F0 dynamics | Integrated | prosodic observation |
-| Intensity dynamics | Integrated | prosodic observation |
-| HNR | Integrated | voice quality observation |
-| Spectral flux | Integrated | spectral observation |
-| Spectral rolloff | Integrated | spectral observation |
-| MFCC | Integrated | 13 coefficient observations |
-| Formant candidate tracking | Integrated | spectral candidate observations |
-| Pause topology | Integrated | temporal observations |
-| Speech segmentation | **Integrated** | timestamped speech segments |
-| Response latency | Integrated when timing supplied | interaction observation |
-| Transcript disfluency | Integrated when transcript supplied | linguistic observation |
-| Within speaker baseline deviation | Integrated when baseline supplied | baseline observation |
-| Evidence grouping | Integrated | evidence records |
-| Reliability gate | Integrated | eligibility state |
-| Candidate classification boundary | Integrated | candidate indeterminate boundary |
-| Final disposition boundary | Integrated | configured disposition boundary |
 
 ## Current input capabilities
 
@@ -107,29 +58,76 @@ The authenticated case intake workflow supports:
 - durable private media storage
 - signed playback URL generation
 - source provenance persistence
-- case bound analysis run creation
-- run stage state persistence
+- case-bound analysis run creation
+- live persisted run state updates
+- persisted prior runs for later review
 
 The legacy `/v1/analyze` endpoint remains available as the direct analysis compatibility path.
 
 ## Developer Console status
 
-The Developer Console is an implemented engineering cockpit with:
+The Developer Console is an active engineering cockpit with:
 
 - runtime health
 - case creation and selection
 - compatible WAV intake and upload progress
 - secure playback request path
 - case-bound analysis path
-- 21-stage build status projection
-- expandable per-stage engineering state
-- collapsed current engineering stage and next dependency
-- persisted MVP task checkoffs
-- methodology and pipeline navigation
+- persisted 21-stage run state
+- live run polling during active analysis
+- Case History with persisted case reopen
+- Analysis Workspace access
 - diagnostic event and error surfaces
+- server-side Render Runtime service/deployment/instance/log surface
+- methodology and pipeline navigation
+- MVP task tracking
 - developer profile and sign out
+- collapsible workbench sections
+- Expand All / Collapse All
+- scroll-safe sidebar navigation
+- route scroll reset
+- visible startup initialization progress
+- consistent human-readable runtime/test status labels
 
 The console's 21-stage status is an engineering projection of the canonical stage contract. It does not imply that all stages are executed on every run or scientifically validated.
+
+## Render integration status
+
+The repository contains `VoxVector/api/render_api.py` and authenticated routes:
+
+- `GET /v1/developer/render/status`
+- `GET /v1/developer/render/logs`
+
+The bridge is environment-gated and reads `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtime environment. The credentials are not exposed to browser code.
+
+The GitHub Actions workflow `.github/workflows/render-observability.yml` separately consumes repository secrets with those names. GitHub repository secrets are not automatically injected into the Render service process.
+
+## Live analysis capability
+
+The case-analysis endpoint persists a run in `running` state before the main processing call and updates persisted state at actual route-boundary lifecycle points. The console polls the case record while analysis is active.
+
+Where the monolithic analytical engine does not expose internal callbacks, the UI shows an indeterminate activity animation rather than inventing granular stage progress or timing.
+
+## Speech segmentation implementation
+
+Stage 06 has a real deterministic engine under `src/voxvector/speech_segmentation.py` and is integrated into `VoxVectorPipeline`.
+
+The current implementation:
+
+- consumes frame-level RMS energy
+- consumes frame-level voicing derived from F0
+- establishes a relative energy threshold
+- removes very short active runs
+- bridges short inactive gaps
+- emits timestamped speech segments
+- emits a segmentation confidence value
+- assigns a method ID for provenance
+- adds speech segment count
+- adds total speech duration
+- adds speech activity ratio
+- persists segment IDs in the analysis result contract
+
+This is the first concrete implementation of the speaker/transcript dependency path. It provides speech intervals that later speaker diarization and transcription stages can consume.
 
 ## Planned speaker and transcript capabilities
 
@@ -138,7 +136,7 @@ The console's 21-stage status is an engineering projection of the canonical stag
 - speaker separation
 - overlap handling
 - speaker confidence
-- speaker aware transcript attribution
+- speaker-aware transcript attribution
 - production ASR
 - segment timestamps
 - word timestamps
@@ -147,44 +145,17 @@ The console's 21-stage status is an engineering projection of the canonical stag
 - audio transcript synchronization
 - question and response alignment
 
-## Planned analytical expansion
-
-- broader acoustic descriptors
-- openSMILE style descriptors
-- eGeMAPS style descriptors
-- LPCC
-- GFCC
-- Teager Energy Operator
-- richer glottal source measures
-- IAIF
-- NAQ
-- CQ
-- OQ
-- H1 H2
-- WavLM
-- wav2vec 2.0
-- HuBERT
-- Conformer
-- Audio Spectrogram Transformer
-- temporal attention
-- sequence models
-- transformer linguistic representations
-- contradiction and consistency analysis
-- richer lexical analysis
-- richer question and answer intelligence
-- expanded baseline workflows
-
 ## Deception inference development
 
 The product architecture preserves the full path toward:
 
 - multimethod evidence convergence
-- dependence aware evidence synthesis
+- dependence-aware evidence synthesis
 - calibrated uncertainty
 - explicit decision thresholds
-- speaker disjoint evaluation
-- cross dataset evaluation
-- recording condition stress tests
+- speaker-disjoint evaluation
+- cross-dataset evaluation
+- recording-condition stress tests
 - identity sensitivity testing
 - subgroup robustness
 - language robustness where appropriate
@@ -205,12 +176,15 @@ The product architecture preserves the full path toward:
 | Lifecycle diagnostics | implemented |
 | Durable diagnostic storage adapter | implemented |
 | Durable media storage adapter | implemented in code |
-| Case persistence API | implemented in code |
-| Case bound analysis API | implemented in code |
+| Case persistence API | implemented |
+| Case-bound analysis API | implemented |
+| Persisted case history | implemented |
+| Live case run state | implemented, deployment verification required |
+| Server-side Render API bridge | implemented, Render env verification required |
 | `/v1/analyze` normal path stability | open incident history remains under investigation |
 | Production diagnostic secret configuration | verification required |
 | Production media bucket configuration | verification required |
-| Current frontend CI | fresh verification required on the current main commit |
+| Current frontend CI | fresh verification required for this feature branch |
 
 ## Frontend status
 
@@ -218,7 +192,7 @@ The product architecture preserves the full path toward:
 |---|---|
 | React application shell | implemented |
 | GitHub Pages deployment configuration | implemented |
-| Developer Console | implemented foundation |
+| Developer Console | active implementation |
 | API workbench | implemented |
 | Real upload progress | implemented |
 | Case API client contracts | implemented |
@@ -230,22 +204,15 @@ The product architecture preserves the full path toward:
 | 21-stage dashboard status card | implemented |
 | Dashboard current engineering stage | implemented |
 | Expandable per-stage build state | implemented |
+| Collapsible workbench steps | implemented |
+| Case History | implemented, browser verification required |
+| Live analysis progress projection | implemented, deployed verification required |
+| Render Runtime view | implemented, Render env verification required |
 | Analysis Workspace | active implementation target |
 | Case intake UI wiring | implemented foundation; browser verification required |
 | Signed media playback wiring | implemented foundation; browser verification required |
 | Full 21 stage backend lifecycle integration | active implementation target |
-| Browser end to end verification | required |
-
-## Documentation synchronization
-
-Current synchronization records:
-
-- `docs/PIPELINE_BUILD_STATUS.md`
-- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
-- `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
-- `docs/DOCS_ALIGNMENT_2026-08-28.md`
-
-The 2026-08-20 alignment record has been archived and is not a current authority.
+| Browser end-to-end verification | required |
 
 ## Scientific status rule
 
@@ -266,21 +233,15 @@ The product objective remains deception detection throughout the engineering pro
 - `docs/PIPELINE_BUILD_STATUS.md` — current 21-stage build state
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md` — current implementation audit
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md` — console-specific synchronization rules
-- `docs/DOCS_ALIGNMENT_2026-08-28.md` — latest cross-document synchronization record
+- `docs/ENGINEERING_PLAN_2026-09-01.md` — engineering plan and dependency order
+- `docs/ENGINEERING_SYNC_2026-09-01.md` — active synchronization record
+- `docs/QA_STATUS.md` — software QA state
 
-## 2026-09-01 production capability update
+## 2026-09-01 integration update
 
 A real production case successfully executed the configured connected path from case workflow through source upload, private media persistence, case-bound analysis, and analysis completion. Production `/health`, case listing, and case retrieval returned `200 OK`, and valid `VOXVECTOR_DIAGNOSTIC` events were emitted.
 
 This changes the operational maturity classification of the already implemented case/upload/analysis capabilities from source-only or unverified to **production executed for the observed workflow**. It does not promote any analytical method, candidate classifier, or final disposition to scientifically validated status.
-
-The 21-stage capability map remains unchanged in scope: queued, conditional, and not-invoked stages remain explicitly distinct from implemented stages.
-
-## 2026-09-01 observability capability update
-
-The relational diagnostic projection is implemented with an explicit compatibility boundary for the existing integer `api_request_logs.duration_ms` schema. Fractional diagnostic timings remain available in immutable Storage records while the relational projection receives normalized integer values. Regression coverage exists for decimal, string, zero/sub-millisecond, null, and invalid duration inputs.
-
-The next capability expansion is the completed-analysis review surface: structured results, stage-by-stage state, evidence and warnings, uncertainty/limitations, provenance, and a full analysis audit timeline.
 
 ## Evidence acquisition update — 2026-09-01
 
@@ -291,13 +252,14 @@ The next capability expansion is the completed-analysis review surface: structur
 - speech/silence timeline contract
 - optional provider-neutral transcription contract
 - persisted acquisition artifact attached to the canonical case analysis run
+- provider readiness state reporting
 
-**Not yet implemented**
+**Not yet verified in production**
 
-- production transcription provider
-- speaker diarization provider
+- production transcription execution
+- speaker diarization execution
 - word-level production timestamps
 - speaker assignment
-- transcript/audio alignment
+- transcript/audio alignment under real provider output
 
-These states are intentionally separated. The foundation provides contracts and artifacts without claiming that unavailable providers have produced data.
+These states remain intentionally separated. The foundation provides contracts and artifacts without claiming unavailable providers have produced data.
