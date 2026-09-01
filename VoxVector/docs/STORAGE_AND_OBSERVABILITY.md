@@ -210,3 +210,9 @@ The 2026-09-01 production run subsequently demonstrated successful case upload, 
 The remaining observability defect is isolated to the relational projection boundary. `VoxVector/api/observability.py` now applies `_duration_ms_for_projection()` so the existing integer database schema receives normalized values while the immutable Storage record preserves fractional timing precision. Regression coverage in `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid duration inputs.
 
 The production evidence changes the engineering priority from basic upload/analysis reliability to post-analysis results, stage auditability, and the completed-case review workflow. Verification of the repaired relational projection after redeployment remains a distinct pending check.
+
+## 2026-09-01 relational date-window correction
+
+The relational diagnostic endpoints now apply their requested `days` window directly to Supabase queries using an `occurred_at >= cutoff` filter before ordering and limiting results.
+
+This fixes the prior behavior where relational rows could be returned outside the requested time window even though the immutable Storage fallback respected the date range.
