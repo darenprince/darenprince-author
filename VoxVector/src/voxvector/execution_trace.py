@@ -5,7 +5,12 @@ from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable
 from uuid import uuid4
 
-from .observability import DIAGNOSTICS, elapsed_ms, new_trace_id, timer
+from .runtime_context import new_trace_id, set_analysis_run_id
+from .runtime_context import set_trace_id
+from .runtime_context import trace_id as current_trace_id
+from .runtime_context import request_id as current_request_id
+from .speech_runtime_logging import speech_log
+from time import perf_counter
 
 
 EmitFn = Callable[..., Awaitable[str | None]]
@@ -26,15 +31,24 @@ class StageTrace:
 
 
 class AnalysisExecutionTrace:
-    """Run-scoped execution telemetry that emits structured events and progress."""
+    """Run-scoped execution telemetry independent of the API layer."""
 
-    def __init__(self, stages: list[tuple[int, str, str]], *, request_id: str, run_id: str | None = None) -> None:
+    def __init__(self, stages: list[tuple[int, str, str]], *, request_id: str, run_id: str | None = None, emit: EmitFn | None = None) -> None:
         self.request_id = request_id
         self.trace_id = new_trace_id()
         self.run_id = run_id or uuid4().hex
+        self.emit = emit
         self._stages = {stage_id: StageTrace(stage_id, number, name) for number, stage_id, name in stages}
         self._timers: dict[str, float] = {}
-        self._overall_started = timer()
+        self._overall_started = perf_counter()
+        set_trace_id(self.trace_id)
+        set_analysis_run_id(self.run_id)
+
+    async def _emit(self, event: str, **fields: Any) -> None:
+        if self.emit is not None:
+            await self.emit(event, request_id=self.request_id, trace_id=self.trace_id, analysis_run_id=self.run_id, **fields)
+            return
+        speech_log(event, request_id=self.request_id, trace_id=self.trace_id, analysis_run_id=self.run_id, **fields)
 
     def _progress(self, stage_number: int) -> float:
         if not self._stages:
@@ -43,86 +57,36 @@ class AnalysisExecutionTrace:
 
     async def start(self, stage_id: str, *, detail: str | None = None) -> None:
         stage = self._stages[stage_id]
-        self._timers[stage_id] = timer()
+        self._timers[stage_id] = perf_counter()
         stage.status = "running"
         stage.started_at = datetime.now(timezone.utc).isoformat()
         stage.progress_percent = self._progress(stage.number)
-        await DIAGNOSTICS.emit(
-            "analysis.stage_started",
-            request_id=self.request_id,
-            trace_id=self.trace_id,
-            analysis_run_id=self.run_id,
-            stage_id=stage.stage_id,
-            stage_number=stage.number,
-            stage_name=stage.name,
-            progress_percent=stage.progress_percent,
-            detail=detail,
-        )
+        await self._emit("analysis.stage_started", stage_id=stage.stage_id, stage_number=stage.number, stage_name=stage.name, progress_percent=stage.progress_percent, detail=detail)
 
     async def complete(self, stage_id: str, *, outcome: str | None = None, metadata: dict[str, Any] | None = None) -> None:
         stage = self._stages[stage_id]
         started = self._timers.pop(stage_id, None)
         stage.status = "complete"
         stage.completed_at = datetime.now(timezone.utc).isoformat()
-        stage.duration_ms = elapsed_ms(started) if started is not None else None
+        stage.duration_ms = round((perf_counter() - started) * 1000.0, 2) if started is not None else None
         stage.outcome = outcome
         stage.progress_percent = round((stage.number / len(self._stages)) * 100.0, 2) if self._stages else 100.0
-        await DIAGNOSTICS.emit(
-            "analysis.stage_completed",
-            request_id=self.request_id,
-            trace_id=self.trace_id,
-            analysis_run_id=self.run_id,
-            stage_id=stage.stage_id,
-            stage_number=stage.number,
-            stage_name=stage.name,
-            progress_percent=stage.progress_percent,
-            duration_ms=stage.duration_ms,
-            outcome=outcome,
-            **(metadata or {}),
-        )
+        await self._emit("analysis.stage_completed", stage_id=stage.stage_id, stage_number=stage.number, stage_name=stage.name, progress_percent=stage.progress_percent, duration_ms=stage.duration_ms, outcome=outcome, **(metadata or {}))
 
     async def fail(self, stage_id: str, exc: Exception, *, detail: str | None = None) -> None:
         stage = self._stages[stage_id]
         started = self._timers.pop(stage_id, None)
         stage.status = "failed"
         stage.completed_at = datetime.now(timezone.utc).isoformat()
-        stage.duration_ms = elapsed_ms(started) if started is not None else None
+        stage.duration_ms = round((perf_counter() - started) * 1000.0, 2) if started is not None else None
         stage.error = str(exc)
-        await DIAGNOSTICS.emit(
-            "analysis.stage_failed",
-            request_id=self.request_id,
-            trace_id=self.trace_id,
-            analysis_run_id=self.run_id,
-            stage_id=stage.stage_id,
-            stage_number=stage.number,
-            stage_name=stage.name,
-            duration_ms=stage.duration_ms,
-            detail=detail,
-            error_type=type(exc).__name__,
-            error_message=str(exc),
-        )
+        await self._emit("analysis.stage_failed", stage_id=stage.stage_id, stage_number=stage.number, stage_name=stage.name, duration_ms=stage.duration_ms, detail=detail, error_type=type(exc).__name__, error_message=str(exc))
 
     async def run_started(self) -> None:
-        await DIAGNOSTICS.emit(
-            "analysis.run_started",
-            request_id=self.request_id,
-            trace_id=self.trace_id,
-            analysis_run_id=self.run_id,
-            total_stages=len(self._stages),
-            progress_percent=0,
-        )
+        await self._emit("analysis.run_started", total_stages=len(self._stages), progress_percent=0)
 
     async def run_completed(self, *, status: str = "completed", metadata: dict[str, Any] | None = None) -> None:
-        await DIAGNOSTICS.emit(
-            "analysis.run_completed",
-            request_id=self.request_id,
-            trace_id=self.trace_id,
-            analysis_run_id=self.run_id,
-            duration_ms=elapsed_ms(self._overall_started),
-            status=status,
-            progress_percent=100 if status == "completed" else None,
-            **(metadata or {}),
-        )
+        await self._emit("analysis.run_completed", duration_ms=round((perf_counter() - self._overall_started) * 1000.0, 2), status=status, progress_percent=100 if status == "completed" else None, **(metadata or {}))
 
     def snapshot(self) -> list[dict[str, Any]]:
         return [stage.__dict__.copy() for stage in sorted(self._stages.values(), key=lambda item: item.number)]
