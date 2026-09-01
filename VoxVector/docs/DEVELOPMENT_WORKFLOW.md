@@ -367,3 +367,17 @@ When uncertain, stop before broadening the change.
 Inspect the current implementation and its history. Understand what it actually does. Determine which behavior is current and valuable. Identify the correct canonical owner. Migrate the behavior into that owner. Verify it. Then retire only the obsolete ownership layer.
 
 **Do not rebuild the wheel when the request is to adjust the wheel. Do not throw away the wheel's newest improvements merely because they were bolted on in the wrong place. Move the improvements into the wheel.**
+
+
+## 19. AUTO system-tracing workflow
+
+For every substantive change or production failure, use the canonical **Architecture → Ownership → Trace → Operate/verify** workflow defined in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
+
+1. Establish the actual architecture and service boundary.
+2. Identify the canonical owner of the behavior.
+3. Trace the complete source/deployment/runtime/data chain rather than inferring the failure from one symptom.
+4. Edit the canonical owner.
+5. Verify each claimed boundary separately: source, build, deployment, runtime, persistence/provider, and browser behavior.
+6. Synchronize material architecture changes with the Crown Labs dossier.
+
+AUTO does not mean automatic assumptions. It means a repeatable evidence-first operating procedure.
