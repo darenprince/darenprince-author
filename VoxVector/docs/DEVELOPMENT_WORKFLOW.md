@@ -381,3 +381,8 @@ For every substantive change or production failure, use the canonical **Architec
 6. Synchronize material architecture changes with the Crown Labs dossier.
 
 AUTO does not mean automatic assumptions. It means a repeatable evidence-first operating procedure.
+
+
+## Observability repair rule
+
+When logs, errors, or operational state are missing, trace runtime event → diagnostic emitter → durable archive → relational projection/query → API endpoint → frontend query → rendered state. Inspect connected provider state before rewriting the UI.
