@@ -1,176 +1,95 @@
 # VoxVector System State Report
 
-**State date:** 2026-08-25
+**State date:** 2026-09-01
 **Repository:** `darenprince/darenprince-author`
+**Canonical branch:** `main`
+**Current commit:** `f2b31243c07fc466892693d2ff6aaf8038e413cc`
 **Backend root:** `VoxVector/`
 **Frontend root:** `voxvector/`
-**Backend software version:** `0.2.25`
+**Backend software version:** `0.2.26`
 **Frontend version:** `0.2.36`
 
 ## Executive summary
 
 VoxVector is a functional vocal and audio analysis foundation being developed into a complete deception analysis product.
 
-The repository now uses a case centered product architecture with a canonical 21 stage pipeline and a dependency ordered MVP build plan.
+The repository uses a case-centered architecture with one canonical analysis engine, one case identity chain, and one 21-stage product pipeline. The architecture keeps eligibility/reliability, evidence analysis, candidate classification, and final disposition separate.
 
-The most important invariant remains the separation of:
-
-1. eligibility and reliability controls
-2. evidence collection and analysis
-3. candidate classification
-4. final classification or disposition
-
-## Product experience target
-
-The supplied reference screens define the target Analysis Workspace.
-
-The target connects:
-
-- recording intake
-- source metadata
-- audio playback
-- waveform
-- spectral view
-- analytical tracks
-- speaker regions
-- transcript
-- flagged moments
-- evidence timeline
-- evidence synthesis
-- assessment
-- reports
-- history
-
-## Current implementation state
+## Current verified state
 
 ### Repository and deployment boundary
 
-- `VoxVector/` is the canonical backend and analysis root.
+- `VoxVector/` is the canonical backend and analysis-engine root.
 - `voxvector/` is the canonical public React application.
 - `VoxVector/api/app.py` is the HTTP adapter.
 - `VoxVector/src/voxvector/` is the canonical analysis engine.
 - GitHub Pages hosts the public React application.
 - Render hosts the backend.
-- Supabase provides authentication persistence and durable diagnostics and is now the durable media backend for the case intake slice.
+- Supabase provides authentication, persistence, diagnostics, and private media storage.
 - Vercel is retired.
 
-### Frontend boot reliability
+### Current CI verification
 
-The public application now uses a **static boot preloader in `voxvector/index.html`**, rather than placing the initial preloader inside the React render tree.
-
-This boundary is intentional. The preloader must be able to render before React executes and must not depend on React, Supabase, TanStack Query, or any application component successfully mounting. The previous React `LoadingScreen` could only appear after the React render tree mounted, while its opaque full viewport surface could also present as a black screen during startup. The 2026-08-25 overlay removal corrected the blocking symptom but removed the intended product preloader, so the preloader has now been restored at the correct boot boundary.
-
-The static preloader uses the canonical staged VoxVector icon asset, releases after the React application has rendered and two browser frames have painted, and has a 3.5 second fail-safe that releases it even when application startup fails. The Developer Console route bypasses the preloader immediately.
-
-The preserved `LoadingScreen.jsx` component remains corrected for the canonical asset path, but the public boot experience is intentionally owned by the static HTML boundary.
+GitHub Actions `VoxVector QA` run `33500649854` on current commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed. The job completed API package installation, API tests, React dependency installation, and the React production build. Historical failed runs remain historical evidence. fileciteturn102file0L2-L10
 
 ### Case spine and intake
 
-The backend now contains a durable case first workflow with authenticated ownership:
+The connected case path is implemented:
 
-- case creation
-- case listing
-- case retrieval
-- source asset creation
-- source metadata
-- SHA-256 provenance
-- private WAV media storage
-- signed playback URLs
-- case bound analysis runs
-- persisted 21 stage state records
+`create case → upload WAV → persist private source → obtain signed playback → execute case-bound analysis → persist run`
 
-The frontend API client now exposes the case contracts for the Developer Console and Analysis Workspace integration.
+Case records preserve ownership, source metadata, SHA-256 provenance, run identity, status, and current run state. Private media uses Supabase Storage and signed URLs.
 
 ### Current analysis pipeline
 
-The current `VoxVectorPipeline` integrates:
+The primary `VoxVectorPipeline` integrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux and rolloff, MFCC, formant tracking, pause topology, optional baseline comparison, optional response latency, and optional transcript disfluency observations.
 
-- RMS and intensity
-- zero crossing rate
-- spectral centroid and spread
-- fundamental frequency
-- harmonicity and HNR
-- F0 and intensity dynamics
-- spectral flux and rolloff
-- MFCC observations
-- formant candidate tracking
-- pause topology
-- optional within speaker baseline deviations
-- optional response latency
-- optional transcript disfluency observations
+Current 21-stage implementation state remains:
 
-Speaker diarization production ASR and transcript alignment remain product integration priorities.
+- 14 implemented runtime foundations;
+- 4 conditional or intentionally not invoked without required inputs;
+- 3 queued for deeper integration.
 
-### Evidence and classification
+### Analysis Results / Review Evidence
 
-Observation records preserve method ID feature value unit segment quality and provenance.
+The current product priority has moved from intake reliability to the post-analysis review path. The existing case result already persists the run result, observations, evidence, candidate state, disposition, limitations, and provenance. The next engineering layer is to make that composed result a first-class review contract and expose it directly in the Analysis Workspace.
 
-Evidence grouping remains structured and traceable.
+### Developer Console
 
-Candidate classification remains a controlled boundary until the validation architecture enables a validated inferential configuration.
+The console is connected to:
 
-## MVP execution state
+- `/health`
+- case creation/list/retrieval
+- source upload
+- signed playback
+- case-bound analysis
+- diagnostics
+- GitHub-backed QA/deployment status
+- the 21-stage engineering status surface
 
-The fastest connected path is:
+The engineering status component now compares workflow SHA to the runtime source revision and marks mismatches as `STALE` rather than presenting unrelated workflow results as current.
 
-1. case identity
-2. intake and provenance
-3. playback and waveform
-4. real pipeline lifecycle
-5. speaker processing
-6. transcription
-7. alignment
-8. analytical tracks
-9. evidence normalization
-10. evidence synthesis
-11. assessment
-12. report
-13. history and reopen
-14. browser verification
-15. production hardening
+## Current engineering priorities
 
-### Current checkpoint
+1. Complete the canonical composed Analysis Results contract.
+2. Expose Review Evidence immediately after successful analysis.
+3. Instrument true per-stage lifecycle timing and outcome telemetry.
+4. Verify production relational diagnostic projections and Developer Console rendering.
+5. Build speaker identification/diarization.
+6. Integrate production transcription and alignment.
+7. Expose real analytical tracks and normalized evidence.
+8. Implement evidence synthesis, assessment, reporting, and history/reopen.
+9. Complete browser-level production verification.
+10. Advance the separate scientific validation program.
 
-The case identity and backend intake foundation are implemented in code. The immediate next task is wiring the Developer Console to create a case upload a source obtain signed playback access and invoke the case bound analysis endpoint. The next Analysis Workspace task is the shared audio playback and waveform contract.
+## Verification boundaries
 
-## QA state
+CI passing does not prove browser functionality, production deployment health, or scientific validity.
 
-A fresh workflow run on the current main commit is still required before the current state is recorded as green.
+Scientific validation remains separate and requires task-specific operational definitions, speaker-disjoint evaluation, out-of-sample testing, calibration, uncertainty, leakage controls, robustness analysis, and replication as applicable.
 
-Automated case-store ownership and persistence tests have been added for the new case foundation.
+## Canonical synchronization
 
-The healthy preloader change requires production-like frontend build verification and desktop/mobile browser verification before it is considered complete.
+Current cross-document alignment: `docs/DOCS_ALIGNMENT_2026-09-01.md`.
 
-## Scientific validation state
-
-Scientific validation remains a separate program.
-
-The validation architecture requires:
-
-- frozen operational definitions
-- defined task and population
-- speaker disjoint evaluation
-- cross dataset evaluation
-- recording condition stress testing
-- identity sensitivity analysis
-- calibration
-- uncertainty analysis
-- leakage controls
-- robustness analysis
-- external replication where feasible
-
-## Documentation state
-
-The active canonical documentation set was reviewed and synchronized against the reference experience, current product positioning, analytical method library, API surface, and MVP dependency chain.
-
-The implementation checkpoint is recorded in:
-
-- `docs/IMPLEMENTATION_PLAN.md`
-- `docs/MVP_BUILD_PLAN.md`
-- `docs/CAPABILITY_STATUS.md`
-
-The active cross document record is `docs/DOCS_ALIGNMENT_2026-08-24.md`.
-
-The preloader incident and architectural correction are recorded in `docs/PROJECT_CHECKPOINT_2026-08-25_PRELOADER.md`.
-
-The decision record is `docs/PROJECT_DECISION_2026-08-20_REFERENCE_MVP_ALIGNMENT.md`.
+Historical checkpoints remain preserved for traceability and must not be used as current status evidence.
