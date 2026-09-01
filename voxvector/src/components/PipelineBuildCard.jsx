@@ -1,4 +1,7 @@
 import { useMemo, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getHealth } from '../lib/api'
+import { getGitHubWorkflowStatus } from '../lib/githubStatus'
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Circle, Clock3, GitBranch, Wrench } from 'lucide-react'
 
 const STAGES = [
@@ -34,9 +37,16 @@ const STATUS = {
 
 export default function PipelineBuildCard({ className = '' }) {
   const [open, setOpen] = useState(false)
+  const health = useQuery({ queryKey: ['pipeline-build-health'], queryFn: getHealth, refetchInterval: 30000 })
+  const workflows = useQuery({ queryKey: ['github-workflow-status'], queryFn: getGitHubWorkflowStatus, refetchInterval: 30000, staleTime: 10000 })
+  const live = health.data?.payload || health.data || {}
+  const livePipeline = live.pipeline_build || {}
+  const liveQa = workflows.data?.qa?.state || (workflows.isPending ? 'SYNCING' : workflows.isError ? 'UNAVAILABLE' : 'NOT REPORTED')
+  const liveDeploy = workflows.data?.deployment?.state || (workflows.isPending ? 'SYNCING' : workflows.isError ? 'UNAVAILABLE' : 'NOT REPORTED')
   const counts = useMemo(() => STAGES.reduce((acc, [, , state]) => { acc[state] = (acc[state] || 0) + 1; return acc }, {}), [])
-  const currentStage = STAGES[0]
-  const currentLabel = 'Upload and intake reliability'
+  const currentStage = STAGES.find(stage => stage[2] === 'implemented') || STAGES[0]
+  const currentLabel = livePipeline.current_stage || live.current_engineering_stage || 'Upload and intake reliability'
+  const implementedCount = livePipeline.total === 21 ? (livePipeline.implemented_foundations || counts.implemented || 0) : (counts.implemented || 0)
 
   return (
     <section className={`rounded-[9px] border border-[var(--vv-border)] bg-[var(--vv-surface)] shadow-[0_24px_70px_var(--vv-shadow)] ${className}`}>
@@ -45,15 +55,17 @@ export default function PipelineBuildCard({ className = '' }) {
         <span className="min-w-0 flex-1">
           <span className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-[.16em] text-white/45">21 stage build</span>
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-emerald-400"><CheckCircle2 size={12}/> {counts.implemented || 0} foundations</span>
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-emerald-400"><CheckCircle2 size={12}/> {implementedCount} foundations</span>
           </span>
           <span className="mt-2 block text-base font-semibold tracking-tight text-white">Current engineering stage</span>
           <span className="mt-1 block text-sm leading-5 text-white/55">{currentLabel}</span>
           <span className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-white/35">
-            <span>{STAGES.length} total</span>
+            <span>{livePipeline.total || STAGES.length} total</span>
             <span>{counts.queued || 0} queued</span>
             <span>{counts.conditional || 0} conditional</span>
             <span>{counts.not_invoked || 0} not invoked</span>
+            <span>QA {liveQa}</span>
+            <span>Deploy {liveDeploy}</span>
           </span>
         </span>
         <span className="hidden shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[.12em] text-white/30 sm:inline-flex"><Wrench size={12}/> Engineering</span>
@@ -74,8 +86,8 @@ export default function PipelineBuildCard({ className = '' }) {
           })}
         </div>
         <div className="mt-4 grid gap-2 border-t border-[var(--vv-border)] pt-4 sm:grid-cols-2">
-          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Next dependency</div><div className="mt-1 text-sm font-medium text-white/70">Real per-stage telemetry</div></div>
-          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Pipeline contract</div><div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-emerald-400"><GitBranch size={13}/> 21 stages represented</div></div>
+          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Next dependency</div><div className="mt-1 text-sm font-medium text-white/70">{livePipeline.current_dependency || 'Real per-stage telemetry'}</div></div>
+          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Pipeline contract</div><div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-emerald-400"><GitBranch size={13}/> QA {liveQa} · Deploy {liveDeploy}</div></div>
         </div>
       </div>}
     </section>
