@@ -80,3 +80,9 @@ All implemented analysis remains observational until the defined validation prog
 The current cross-document synchronization record is `docs/DOCS_ALIGNMENT_2026-09-01.md`.
 
 Historical alignment records remain available for traceability.
+
+## 2026-09-01 integration note
+
+Package metadata is synchronized at backend/runtime version `0.2.26`.
+
+The composed case results envelope is now integrated at the case-analysis API boundary. Route-boundary telemetry is integrated for decode, provenance, and recording assessment. Full internal per-stage callback telemetry remains an active engineering integration task.
