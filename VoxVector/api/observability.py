@@ -1,19 +1,16 @@
 from __future__ import annotations
 
 import asyncio
-import contextvars
 import json
 import os
 import sys
 import time
-import uuid
 from datetime import datetime, timezone
 from typing import Any
 
 from .storage import StorageError, SupabaseStorage
+from voxvector.runtime_context import new_request_id, new_trace_id, request_id, trace_id
 
-_request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
-_trace_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_trace_id", default="")
 _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
 _ERROR_EVENTS = {
     "request.rejected",
@@ -25,26 +22,6 @@ _ERROR_EVENTS = {
     "case.analysis_failed",
     "analysis.stage_failed",
 }
-
-
-def new_request_id(value: str | None = None) -> str:
-    request_value = str(value or "").strip() or uuid.uuid4().hex
-    _request_id.set(request_value)
-    return request_value
-
-
-def request_id() -> str:
-    return _request_id.get() or new_request_id()
-
-
-def new_trace_id(value: str | None = None) -> str:
-    value = str(value or "").strip() or uuid.uuid4().hex
-    _trace_id.set(value)
-    return value
-
-
-def trace_id() -> str:
-    return _trace_id.get() or new_trace_id()
 
 
 def _safe_text(value: Any, limit: int = 600) -> str:
