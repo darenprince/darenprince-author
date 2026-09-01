@@ -37,3 +37,16 @@ Backend:
 `VoxVector → Render → voxvector.crownlabs.tech`
 
 The frontend and backend hosting boundaries must remain distinct.
+
+
+## Data-flow clarification and AUTO workflow
+
+The connected media path is:
+
+`Browser → GitHub Pages frontend → Render-hosted FastAPI API → Supabase private media storage`
+
+Render runs the API and is not the durable media store. GitHub Pages serves the frontend and is not the API runtime.
+
+The canonical technical architecture and evidence-first AUTO workflow are maintained in:
+
+`VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`
