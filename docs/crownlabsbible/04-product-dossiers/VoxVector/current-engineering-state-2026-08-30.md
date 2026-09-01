@@ -2,25 +2,23 @@
 
 **Status date:** 2026-09-01
 
-This document mirrors the current technical state recorded in `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`.
+This document mirrors the current technical state recorded in the canonical `VoxVector/docs/` engineering records. The filename is retained for historical traceability; the content is maintained as the current mirror.
 
 ## Current engineering stage
 
-**Post-analysis Results / Review Evidence**
+**Evidence acquisition, runtime observability, and connected case workflow**
 
 The repaired production path has crossed the basic operational boundary:
 
 `create case → upload WAV → persist private source → secure playback path → case-bound analysis → analysis completion`
 
-The immediate dependency is now:
+The active dependency chain is now:
 
-`Analysis complete → Analysis Results → Review Evidence`
-
-The infrastructure work now underway is granular stage telemetry: real lifecycle timing at the actual pipeline execution points, persisted stage audit records, and console presentation of that audit trail.
+`live analysis state → evidence acquisition → speaker/transcription execution → alignment → evidence workspace → assessment/reporting`
 
 ## Current QA
 
-A fresh QA run is required for the latest `main` commit before current `main` is recorded as green. Earlier passing runs remain historical evidence tied to their exact source revision.
+A fresh QA run is required for the feature branch before the new console/Render integration is recorded as green. Earlier passing runs remain historical evidence tied to their exact source revision.
 
 ## Engineering status model
 
@@ -30,8 +28,13 @@ The Developer Console separates:
 - FUNCTIONAL
 - TESTED
 - VALIDATED
+- CONDITIONAL
+- QUEUED
+- NOT INVOKED
+- FAILED
+- BLOCKED
 
-GitHub workflow results are compared against the runtime source revision. A mismatched revision is displayed as `STALE` instead of current.
+Green source/build status must never be interpreted as scientific validation.
 
 ## 21-stage build
 
@@ -41,19 +44,48 @@ Current pipeline state remains:
 - 4 conditional or intentionally not invoked
 - 3 queued for deeper integration
 
-The new `VoxVector/src/voxvector/stage_telemetry.py` utility provides real monotonic elapsed timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and lifecycle transition guards. The utility is built and regression-tested, but is not yet wired into every internal pipeline execution boundary. Existing case runs therefore do not gain retroactive fabricated per-stage timing.
+The `VoxVector/src/voxvector/stage_telemetry.py` utility provides real monotonic elapsed timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and lifecycle transition guards.
 
-## Console workflow
+The case-analysis route now persists a `running` record before the main analysis call and updates real route-boundary state during execution. The monolithic analytical engine is still not internally callback-instrumented at every stage, so the console uses honest determinate counts plus indeterminate activity while the composite engine executes.
 
-Current Developer Console capabilities include runtime health, case management, compatible WAV intake, upload diagnostics/progress, secure playback path, case-bound analysis, stage-state inspection, diagnostic logs/errors, GitHub-backed QA/deployment status, methodology navigation, MVP task tracking, and engineering traceability.
+## Developer Console workflow
 
-The Analysis Workspace includes the persisted run result review: eligibility, observations, evidence, candidate state, disposition, limitations, provenance, and stage state.
+Current console capabilities include:
+
+- runtime health
+- case creation and source intake
+- compatible WAV upload and progress
+- secure playback preparation
+- case-bound analysis
+- persisted live run-state polling
+- 21-stage state inspection
+- Case History with persisted case reopen
+- Analysis Workspace
+- diagnostic logs and error reports
+- Render Runtime service/deployment/log status
+- GitHub-backed engineering QA/deployment surfaces
+- methodology and architecture navigation
+- MVP task tracking
+- engineering traceability
+- collapsible workbench steps
+- scroll-safe desktop/mobile navigation
+- moving initialization progress
+
+### Case History
+
+Case History reads the authenticated case list and opens persisted case records for later review. It does not fabricate case data and does not create a new run merely by opening a prior case.
+
+### Render Runtime
+
+The console's Render Runtime page uses server-side authenticated API routes to read the configured Render service, deployment history, instance state, and recent service logs.
+
+Render credentials are not exposed to the browser. The deployed Render service must separately contain protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables. GitHub repository secrets with those names are available to GitHub Actions only.
 
 ## Observability
 
 The canonical diagnostic implementation retains immutable sanitized Storage records and projects operational data to the relational console surfaces. Case-specific source rejection/failure events are classified as diagnostic errors as well as lifecycle events.
 
-Production relational-row proof remains an explicit verification gate.
+Application timing truth remains the backend monotonic duration measurement. Render timestamps/logs/deployments are infrastructure correlation evidence.
 
 ## Hosting boundary
 
@@ -61,18 +93,18 @@ Production relational-row proof remains an explicit verification gate.
 - FastAPI analysis backend: Render
 - authentication/persistence/diagnostics/private media: Supabase
 
-Vercel is retired and prohibited for VoxVector.
+## Current engineering records
+
+Canonical synchronization records now include:
+
+- `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
+- `VoxVector/docs/ENGINEERING_SYNC_2026-09-01.md`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/api/README.md`
+- `.github/workflows/render-observability.yml`
 
 ## Scientific boundary
 
-Software build, runtime execution, deployment, and QA do not establish scientific deception-detection validity. The validation program remains separate and task-specific.
-
-## 2026-09-01 integration update
-
-The canonical case-analysis API now persists and returns the composed results envelope. Independently measured route-boundary telemetry is integrated for decode/normalization, provenance/integrity, and recording assessment.
-
-Internal monolithic pipeline stages without emitted callbacks are not assigned fabricated per-stage durations. Full internal callback instrumentation remains open.
-
-## 2026-09-01 evidence acquisition pivot
-
-VoxVector engineering now prioritizes evidence acquisition before additional downstream inference work. The implemented foundation provides a media profile, speech/silence timeline, provider-neutral transcription contract, diarization provider boundary, and persisted acquisition artifact. Production diarization, transcription, timestamps, and alignment remain the next extraction tasks.
+Software build, runtime execution, deployment, telemetry, case history, transcription readiness, diarization labels, acoustic observations, and QA do not establish scientific deception-detection validity. Scientific validation remains separate and task-specific.
