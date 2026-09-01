@@ -4,17 +4,17 @@
 
 This document records repository-level software QA. It is not a scientific validation report.
 
-## Current verified QA evidence
+## Current source and verification state
 
 The current canonical `main` commit is:
 
-`5c88299679515604bfb9c0903c48b2b95650e6aa`
+`2a57cffd769dc0516f9f8511283c9bd57d51a683`
 
-GitHub Actions `VoxVector QA` run `33505148274` completed successfully on this commit. Its test job `99847332204` completed API package installation, the VoxVector API test suite, React dependency installation, and the React production build. No listed test/build step was skipped. This verifies the current source revision rather than relying on an older passing commit. 
+The latest verified QA result is `VoxVector QA` run `33505148274` on the immediately preceding implementation revision `5c88299679515604bfb9c0903c48b2b95650e6aa`. Its test job `99847332204` passed API package installation, the VoxVector API test suite, React dependency installation, and the React production build.
 
-The QA run also validates the newly added results-envelope and telemetry test modules because they are included in the API test suite for this revision.
+A fresh `VoxVector QA` run `33505471299` is currently executing against `2a57cffd769dc0516f9f8511283c9bd57d51a683`. Therefore the current `main` revision is **not yet recorded as QA-green**. The repository must use the exact-commit workflow result as the authoritative gate.
 
-A successful QA workflow establishes software execution behavior for the tested paths. It does not establish scientific deception-detection validity.
+The verified software suite establishes implementation behavior for the tested paths. It does not establish scientific deception-detection validity.
 
 ## Current QA coverage map
 
@@ -38,6 +38,22 @@ A successful QA workflow establishes software execution behavior for the tested 
 | Analysis Workspace | browser workflow | active implementation | none |
 | Developer Console | connected workflow foundation | implemented | none |
 
+## Debug finding — 2026-09-01
+
+Source inspection of the canonical `VoxVector/src/voxvector/pipeline.py` found that the newly added `StageTelemetry` utility is not yet wired into each internal analytical boundary of the monolithic pipeline. The pipeline therefore does not currently produce a trustworthy independently timed record for every implemented stage.
+
+The `VoxVector/src/voxvector/results_envelope.py` composer is present and regression-tested, but the case-analysis HTTP route does not yet return it as the canonical response envelope.
+
+These are implementation gaps, not QA failures. The correct status is:
+
+- telemetry utility: **BUILT + TESTED**;
+- results envelope utility: **BUILT + TESTED**;
+- full internal stage telemetry integration: **OPEN**;
+- case-analysis results-envelope integration: **OPEN**;
+- end-to-end persistence of granular stage timing: **NOT VERIFIED**.
+
+No production run should be credited with granular stage timings that the runtime did not emit.
+
 ## Connected workflow QA
 
 The intended MVP QA path remains:
@@ -59,29 +75,20 @@ The intended MVP QA path remains:
 15. history
 16. reopen
 
-The current CI workflow verifies backend tests and the production frontend build. Browser-level authenticated verification remains a separate requirement.
+The CI workflow verifies backend tests and the production frontend build. Browser-level authenticated verification remains a separate requirement.
 
-## Current engineering gate
+## Current engineering gates
 
-The next QA gates are not another generic repository build. They are:
-
+- exact-commit QA result for current `main`
 - authenticated browser Analysis Workspace verification
 - signed playback verification
-- actual internal per-stage lifecycle telemetry verification
+- real internal per-stage lifecycle telemetry verification
+- canonical composed results-envelope response verification
 - Developer Console diagnostics verification against real deployed data
-- production validation that composed result envelopes are returned through the case-analysis API
 - mobile and keyboard verification
 - reduced-motion verification
 - API failure, timeout, and cancellation verification
 - deployment readback
-
-## Debug finding — 2026-09-01
-
-The new `StageTelemetry` utility and `results_envelope` module are present and covered by the current API test suite, but source inspection of `VoxVector/src/voxvector/pipeline.py` showed that the canonical monolithic pipeline still uses its prior internal execution structure and does not yet emit `StageTelemetry` callbacks at every internal boundary.
-
-This is a real implementation gap and is intentionally tracked as open work. The QA result therefore proves the telemetry and result-envelope utilities are healthy in isolation; it does not prove end-to-end persistence of per-stage telemetry or API delivery of the composed result envelope.
-
-No documentation or status surface should represent those two integrations as complete until they are wired and exercised.
 
 ## Scientific boundary
 
@@ -94,4 +101,5 @@ A passing software suite establishes implementation behavior only. Scientific va
 - `docs/VALIDATION.md`
 - `docs/MVP_BUILD_PLAN.md`
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
 - `docs/DOCS_ALIGNMENT_2026-09-01.md`
