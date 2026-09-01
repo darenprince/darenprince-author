@@ -101,3 +101,8 @@ The active VoxVector workflow is **Architecture → Ownership → Trace → Oper
 Before editing or diagnosing a production failure, establish the actual frontend, API, storage, and deployment boundaries; identify the canonical owner; trace the complete chain; make the smallest safe canonical change; and verify source, build, deployment, runtime/provider, and browser behavior separately.
 
 This Crown Labs mirror follows the canonical technical procedure in `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
+
+
+## Observability tracing
+
+Operational dashboards follow the evidence-first chain: runtime event → persistence writer → provider state → authenticated API → Developer Console. Do not replace missing production records with simulated UI state. The 2026-09-01 audit identified and repaired a relational observability projection gap while preserving the immutable Storage archive.
