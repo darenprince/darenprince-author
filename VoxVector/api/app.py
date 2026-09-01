@@ -253,26 +253,80 @@ async def _read_event_prefix(date_path: str, request_id_filter: str, limit: int)
 @app.get("/v1/diagnostics/errors")
 async def diagnostic_errors(_: dict = Depends(require_developer), days: int = Query(default=14, ge=1, le=30), limit: int = Query(default=100, ge=1, le=250)):
     storage = DIAGNOSTICS.storage
-    if not DIAGNOSTICS.enabled or not storage.configured: raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+    if not DIAGNOSTICS.enabled or not storage.configured:
+        raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+    try:
+        rows = await asyncio.to_thread(
+            storage.select_table_rows,
+            "error_reports",
+            f"select=*&order=occurred_at.desc&limit={limit}",
+        )
+        if rows:
+            return {"status": "ok", "count": len(rows), "days": days, "events": [
+                {
+                    "event": (row.get("context") or {}).get("event", "error"),
+                    "timestamp": row.get("occurred_at") or row.get("created_at"),
+                    "request_id": row.get("request_id"),
+                    "error_type": row.get("error_type"),
+                    "error_message": row.get("message"),
+                    "status_code": row.get("status_code"),
+                    "source_revision": row.get("source_revision"),
+                    **({"context": row.get("context")} if row.get("context") else {}),
+                } for row in rows
+            ]}
+    except StorageError:
+        # Keep the immutable Storage archive as a compatible fallback.
+        pass
     now = datetime.now(timezone.utc); records = []
     try:
         for offset in range(days):
-            day = now - timedelta(days=offset); records.extend(await _read_storage_prefix(f"error-index/{day:%Y/%m/%d}", max(1, limit-len(records))))
+            day = now - timedelta(days=offset)
+            records.extend(await _read_storage_prefix(f"error-index/{day:%Y/%m/%d}", max(1, limit-len(records))))
             if len(records) >= limit: break
-    except StorageError as exc: raise HTTPException(status_code=503, detail="Diagnostic storage query failed") from exc
-    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True); return {"status": "ok", "count": len(records), "days": days, "events": records[:limit]}
+    except StorageError as exc:
+        raise HTTPException(status_code=503, detail="Diagnostic storage query failed") from exc
+    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True)
+    return {"status": "ok", "count": len(records[:limit]), "days": days, "events": records[:limit]}
 
 @app.get("/v1/diagnostics/events")
 async def diagnostic_events(_: dict = Depends(require_developer), request_id_filter: str | None = Query(default=None, alias="request_id"), days: int = Query(default=2, ge=1, le=7), limit: int = Query(default=100, ge=1, le=250)):
     storage = DIAGNOSTICS.storage
-    if not DIAGNOSTICS.enabled or not storage.configured: raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+    if not DIAGNOSTICS.enabled or not storage.configured:
+        raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
+    try:
+        filters = f"select=*&order=occurred_at.desc&limit={limit}"
+        if request_id_filter:
+            filters += f"&request_id=eq.{request_id_filter}"
+        rows = await asyncio.to_thread(storage.select_table_rows, "api_request_logs", filters)
+        if rows:
+            events = []
+            for row in rows:
+                metadata = row.get("metadata") or {}
+                events.append({
+                    "event": metadata.get("event", "request"),
+                    "timestamp": row.get("occurred_at") or row.get("created_at"),
+                    "request_id": row.get("request_id"),
+                    "status_code": row.get("status_code"),
+                    "duration_ms": row.get("duration_ms"),
+                    "stage": metadata.get("stage"),
+                    "detail": metadata.get("detail") or metadata.get("reason"),
+                    "error_type": metadata.get("error_type"),
+                    "error_message": metadata.get("error_message"),
+                    "source_revision": row.get("source_revision"),
+                })
+            return {"status": "ok", "count": len(events), "days": days, "request_id": request_id_filter, "events": events}
+    except StorageError:
+        pass
     now = datetime.now(timezone.utc); records = []
     try:
         for offset in range(days):
-            day = now - timedelta(days=offset); records.extend(await _read_event_prefix(day.strftime("%Y/%m/%d"), request_id_filter or "", max(1, limit-len(records))))
+            day = now - timedelta(days=offset)
+            records.extend(await _read_event_prefix(day.strftime("%%Y/%%m/%%d"), request_id_filter or "", max(1, limit-len(records))))
             if len(records) >= limit: break
-    except StorageError as exc: raise HTTPException(status_code=503, detail="Diagnostic event query failed") from exc
-    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True); return {"status": "ok", "count": len(records[:limit]), "days": days, "request_id": request_id_filter, "events": records[:limit]}
+    except StorageError as exc:
+        raise HTTPException(status_code=503, detail="Diagnostic event query failed") from exc
+    records.sort(key=lambda item: str(item.get("timestamp", "")), reverse=True)
+    return {"status": "ok", "count": len(records[:limit]), "days": days, "request_id": request_id_filter, "events": records[:limit]}
 
 @app.post("/v1/analyze")
 async def analyze(request: Request, file: UploadFile = File(...)):
