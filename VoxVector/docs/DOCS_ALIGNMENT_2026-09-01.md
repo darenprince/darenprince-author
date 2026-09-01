@@ -2,97 +2,117 @@
 
 ## Purpose
 
-Record the current cross-document synchronization after the production analysis milestone, current QA evidence, Developer Console status hardening, Analysis Results / Review Evidence work, stage telemetry foundation, and the canonical composed results envelope.
+Record the current cross-document synchronization for the production analysis milestone, Developer Console status, Analysis Results, stage telemetry, evidence acquisition, speech intelligence, and current QA boundaries.
 
 ## Current repository state
 
-The current engineering branch is `main`.
+The active engineering branch is `main`.
 
-The current product architecture remains:
+The active architecture remains:
 
 `GitHub Pages React frontend → FastAPI on Render → canonical VoxVector engine → Supabase persistence/diagnostics/private media`
 
-Historical systems and stale deployment instructions remain historical and do not define the active architecture.
+Historical systems and deployment notes remain historical unless explicitly reactivated by decision.
 
-## Current verification boundary
-
-Current source changes after the previously verified `f2b31243c07fc466892693d2ff6aaf8038e413cc` commit require their own workflow result before the current source revision is recorded as CI-green. Current GitHub Actions status is the authoritative verification source for the exact commit.
-
-Production browser verification, relational diagnostic proof, and scientific validation remain separate gates.
-
-## Production execution evidence retained
+## Production evidence retained
 
 The configured production path has demonstrated:
 
 `case workflow → source upload → private media persistence → case-bound analysis → analysis completion`
 
-Observed production requests included `/health`, `/v1/cases`, and `/v1/cases/{case_id}` with successful responses, and the Render runtime emitted `VOXVECTOR_DIAGNOSTIC` records.
+Observed requests included `/health`, `/v1/cases`, and `/v1/cases/{case_id}` with successful responses, and the Render runtime emitted `VOXVECTOR_DIAGNOSTIC` records.
 
-These are operational execution findings only, not scientific validation.
+These findings establish operational execution only.
+
+## Current analysis architecture
+
+The active engineering sequence is now evidence-first:
+
+`media profile → speech/silence timeline → speaker diarization → transcription → timestamp normalization → transcript/audio alignment → multimodal evidence → downstream analysis → guarded classification/disposition`
+
+The original acoustic/prosodic/temporal pipeline remains active and is now one consumer of the broader evidence acquisition layer.
 
 ## Current implementation changes
 
-### Developer Console status
+### Results envelope
 
-The engineering status subsystem queries GitHub Actions for `main` workflow evidence using the runtime source revision and marks a workflow result `STALE` when its commit differs from the current backend revision.
+The canonical case-analysis API persists and returns the composed result envelope under the existing case/run identity.
 
-The Console continues to separate BUILT, FUNCTIONAL, TESTED, and VALIDATED states.
+### Route telemetry
 
-### Analysis Results / Review Evidence
+Real independent timing is recorded for route-boundary stages 02–04. Internal composite pipeline stages continue to avoid fabricated per-stage timings.
 
-The Analysis Workspace surfaces the persisted run result after analysis completion, including eligibility, candidate state, disposition, evidence, observations, limitations, provenance, and run/source identity.
+### Evidence acquisition
 
-### Stage telemetry foundation
+`voxvector.evidence_acquisition` now produces:
 
-`VoxVector/src/voxvector/stage_telemetry.py` provides a persistence-neutral lifecycle recorder with real monotonic timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and transition guards. Unit coverage is in `VoxVector/tests/test_stage_telemetry.py`.
+- normalized media profile
+- speech/silence timeline
+- provider-neutral transcript artifact
+- provider-neutral diarization artifact
+- explicit provider states
+- multimodal timeline when timestamped transcript data are available
 
-This recorder is an implemented utility, not a claim that every internal `VoxVectorPipeline` computation is already independently timed. The next integration step is to connect it to actual stage boundaries and persist those measurements.
+### Speech providers
 
-### Canonical results envelope
+Provider adapters are implemented for:
 
-`VoxVector/src/voxvector/results_envelope.py` now composes a single post-analysis envelope from the connected case, source, run, and engine result. The envelope preserves identity and provenance while explicitly representing unavailable downstream families such as transcript, alignment, tracks, reports, uncertainty, or assessment. It does not invent measurements or validation.
+- faster-whisper transcription
+- pyannote Community-1 diarization
 
-Regression coverage is in `VoxVector/tests/test_results_envelope.py`.
+Provider selection is environment-driven and lazy. Heavy ML dependencies remain optional in the base runtime.
+
+faster-whisper documents word-level timestamps and VAD filtering support. citeturn162455search1turn162455search3
+
+pyannote Community-1 currently requires model-access acceptance and a Hugging Face token, and its model pipeline is distributed under CC-BY-4.0. citeturn308595search0turn308595search13
+
+### Alignment
+
+The VoxVector-owned alignment layer maps timestamped transcript words to overlapping diarization segments and preserves unattributed words when overlap is unavailable.
 
 ## Current 21-stage state
 
-The product pipeline remains 21 stages:
+The canonical product pipeline remains 21 stages. The existing documented maturity counts remain unchanged for the core pipeline. Speech-intelligence adapters are an enabling implementation layer and do not automatically promote a 21-stage production status without provider execution evidence.
 
-- 14 implemented runtime foundations;
-- 4 conditional or intentionally not invoked without required inputs;
-- 3 queued for deeper integration.
+## QA boundary
 
-The stage model is persisted. Granular internal timing is partially implemented through the telemetry utility but is not yet wired into every pipeline boundary.
+The latest verified code gate before the current speech-intelligence source revisions is `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`, which passed.
+
+Newer source revisions require their own exact-commit QA result before being marked green. CI verification is software evidence only and is separate from scientific validation.
 
 ## Current engineering priority
 
-1. Wire `StageTelemetry` into the actual analytical stage execution boundaries and persist the resulting lifecycle records.
-2. Connect `compose_result_envelope()` to the canonical case-analysis response path.
-3. Expand Review Evidence into an evidence explorer and audio-linked timeline.
-4. Prove relational diagnostic rows and Developer Console rendering in the deployed environment.
-5. Implement speaker identification/diarization.
-6. Implement production transcription and transcript/audio alignment.
-7. Add real analytical tracks and richer normalized evidence relationships.
-8. Build evidence synthesis, assessment, reporting, and history/reopen.
-9. Complete authenticated browser end-to-end verification.
-10. Execute the scientific validation program.
+1. Exact-commit QA for the speech-intelligence revision.
+2. Isolated faster-whisper execution with a controlled WAV fixture.
+3. Isolated pyannote Community-1 execution with required model access.
+4. Persist normalized transcript, diarization, and alignment artifacts under case/run identity.
+5. Feed the acquired transcript into linguistic/disfluency analysis.
+6. Add speaker-aware acoustic aggregation and within-speaker baselines.
+7. Add question/context boundaries and interaction timing.
+8. Instrument real internal method boundaries in the canonical pipeline.
+9. Verify full browser/deployed workflow.
+10. Begin target-condition scientific evaluation only after engineering evidence is stable.
 
-## Active canonical records synchronized in this cycle
+## Active canonical records
 
 - `VoxVector/docs/VERSION_MAP.md`
 - `VoxVector/docs/QA_STATUS.md`
-- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
-- `VoxVector/docs/SYSTEM_STATE_REPORT.md`
 - `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
 - `VoxVector/docs/MVP_BUILD_PLAN.md`
-- `VoxVector/docs/audits/FULL_AUTO_SYSTEM_AUDIT_2026-09-01.md`
+- `VoxVector/docs/ROADMAP.md`
+- `VoxVector/docs/CAPABILITY_STATUS.md`
+- `VoxVector/docs/SPEECH_INTELLIGENCE_ENGINEERING.md`
 - `VoxVector/docs/DOCS_ALIGNMENT_2026-09-01.md`
-- `docs/crownlabsbible/04-product-dossiers/VoxVector/full-auto-system-audit-2026-09-01.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-08-30.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/pipeline-build-status.md`
 
 ## Version truth
 
-Current documented runtime versions are backend `0.2.26`, frontend `0.2.36`, and engine result schema `0.3`.
+Backend/runtime: `0.2.26`.
 
-Historical decision records remain preserved for traceability and are not treated as current dependency or runtime truth when superseded by the active implementation.
+Frontend: `0.2.36`.
+
+Engine/result schema: `0.3`.
+
+Package metadata is synchronized to backend/runtime `0.2.26`.
