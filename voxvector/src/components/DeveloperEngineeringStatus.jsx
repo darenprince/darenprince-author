@@ -14,7 +14,7 @@ const TRACE = {
 
 function stateTone(state) {
   if (['HEALTHY','PASS','FUNCTIONAL','SUCCESS'].includes(state)) return 'healthy'
-  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','QUEUED'].includes(state)) return 'warning'
+  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','QUEUED','STALE','UNAVAILABLE','NOT REPORTED'].includes(state)) return 'warning'
   return 'error'
 }
 function StateChip({ icon: Icon, label, value, tone }) { return <div className={`vv-eng-state ${tone || stateTone(value)}`}><Icon size={15}/><div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div></div> }
@@ -24,27 +24,30 @@ function QACheck({ label,status,detail,url }) { const tone=stateTone(status); co
 export default function DeveloperEngineeringStatus(){
   const [open,setOpen]=useState(false)
   const health=useQuery({queryKey:['engineering-status-health'],queryFn:getHealth,refetchInterval:30000})
-  const workflows=useQuery({queryKey:['github-workflow-status'],queryFn:getGitHubWorkflowStatus,refetchInterval:30000,staleTime:10000})
   const h=health.data?.payload||health.data||{}
+  const currentRevision=h.source_revision&&h.source_revision!=='unknown'?h.source_revision:''
+  const workflows=useQuery({queryKey:['github-workflow-status',currentRevision],queryFn:()=>getGitHubWorkflowStatus(currentRevision),refetchInterval:30000,staleTime:10000})
   const pipeline=h.pipeline_build||{}
   const apiState=h.status==='ok'?'HEALTHY':health.isPending?'PENDING':'ERROR'
   const runtimeState=h.runtime_self_test==='passed'?'PASS':health.isPending?'PENDING':'FAIL'
   const built=pipeline.total===21?`${pipeline.implemented_foundations||0}/21`:'PENDING'
   const qa=workflows.data?.qa
   const deploy=workflows.data?.deployment
-  const tested=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':qa?.state||'NOT REPORTED'
-  const deployState=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':deploy?.state||'NOT REPORTED'
-  const currentSha=qa?.sha||h.source_revision&&h.source_revision!=='unknown'?h.source_revision:'NOT EXPOSED'
+  const qaFresh=Boolean(qa&&(!currentRevision||qa.sha===currentRevision))
+  const deployFresh=Boolean(deploy&&(!currentRevision||deploy.sha===currentRevision))
+  const tested=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':qa?(qaFresh?qa.state:'STALE'):'NOT REPORTED'
+  const deployState=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':deploy?(deployFresh?deploy.state:'STALE'):'NOT REPORTED'
+  const currentSha=currentRevision||qa?.sha||'NOT EXPOSED'
   const qaChecks=[
     ['API HEALTH',apiState,apiState==='HEALTHY'?'Canonical /health endpoint responding.':'Current API health has not been confirmed.'],
     ['RUNTIME SELF TEST',runtimeState,runtimeState==='PASS'?'Canonical acoustic runtime smoke test passed.':'Runtime self test requires attention.'],
-    ['BACKEND + FRONTEND QA',tested,qa?`GitHub Actions #${qa.runNumber||qa.id} · ${qa.updatedAt?new Date(qa.updatedAt).toLocaleString():'time unavailable'}`:'No VoxVector QA run was returned.',qa?.url],
-    ['PAGES DEPLOYMENT',deployState,deploy?`GitHub Actions #${deploy.runNumber||deploy.id} · ${deploy.updatedAt?new Date(deploy.updatedAt).toLocaleString():'time unavailable'}`:'No Pages deployment run was returned.',deploy?.url],
+    ['BACKEND + FRONTEND QA',tested,qa?`GitHub Actions #${qa.runNumber||qa.id} · ${qaFresh?'matches current source revision':'does not match current source revision'} · ${qa.updatedAt?new Date(qa.updatedAt).toLocaleString():'time unavailable'}`:'No VoxVector QA run was returned.',qa?.url],
+    ['PAGES DEPLOYMENT',deployState,deploy?`GitHub Actions #${deploy.runNumber||deploy.id} · ${deployFresh?'matches current source revision':'does not match current source revision'} · ${deploy.updatedAt?new Date(deploy.updatedAt).toLocaleString():'time unavailable'}`:'No Pages deployment run was returned.',deploy?.url],
     ['21-STAGE BUILD',`${pipeline.total===21?pipeline.implemented_foundations||0:0}/21 BUILT`,`${pipeline.queued||0} queued · ${pipeline.conditional_or_not_invoked||0} conditional/not invoked.`],
     ['SCIENTIFIC VALIDATION','NOT VALIDATED','Build and software tests are not scientific validation.'],
   ]
   return <section className={`vv-eng-status ${open?'is-open':'is-collapsed'}`} aria-label="Engineering status">
-    <div className="vv-eng-status__header"><div className="vv-eng-status__current"><Activity size={15}/><div><span className="vv-eng-status__eyebrow">LIVE ENGINEERING STATE</span><strong>{qa?.state==='PASS'?'QA VERIFIED · DEPLOYMENT '+deployState:workflows.isPending?'SYNCING GITHUB ACTIONS…':'WORKFLOW STATUS AVAILABLE'}</strong></div></div><div className="flex items-center gap-2"><button type="button" className="vv-eng-status__collapse" onClick={()=>workflows.refetch()} aria-label="Refresh workflow state"><RefreshCw size={14} className={workflows.isFetching?'animate-spin':''}/></button><button type="button" className="vv-eng-status__collapse" onClick={()=>setOpen(v=>!v)} aria-expanded={open}><ChevronDown size={15} className={open?'':'rotate-180'}/></button></div></div>
+    <div className="vv-eng-status__header"><div className="vv-eng-status__current"><Activity size={15}/><div><span className="vv-eng-status__eyebrow">LIVE ENGINEERING STATE</span><strong>{qa?.state==='PASS'&&qaFresh?'QA VERIFIED · DEPLOYMENT '+deployState:workflows.isPending?'SYNCING GITHUB ACTIONS…':'WORKFLOW STATUS AVAILABLE'}</strong></div></div><div className="flex items-center gap-2"><button type="button" className="vv-eng-status__collapse" onClick={() => { health.refetch(); workflows.refetch() }} aria-label="Refresh workflow state"><RefreshCw size={14} className={workflows.isFetching||health.isFetching?'animate-spin':''}/></button><button type="button" className="vv-eng-status__collapse" onClick={()=>setOpen(v=>!v)} aria-expanded={open}><ChevronDown size={15} className={open?'':'rotate-180'}/></button></div></div>
     {open&&<div className="vv-eng-status__body"><div className="vv-eng-status__expanded-title"><span className="vv-eng-status__heading"><Activity size={16}/><span>LIVE ENGINEERING STATUS</span></span><span className="vv-eng-status__summary"><span>{built} BUILT</span><span>{tested}</span></span></div>
       {workflows.isError&&<div className="vv-status-row error">GitHub workflow status could not be refreshed: {workflows.error?.message}</div>}
       <div className="vv-eng-state-grid"><StateChip icon={Hammer} label="BUILT" value={built}/><StateChip icon={Activity} label="API" value={apiState}/><StateChip icon={TestTube2} label="QA" value={tested}/><StateChip icon={ShieldCheck} label="DEPLOY" value={deployState}/></div>
