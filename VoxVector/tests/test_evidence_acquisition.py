@@ -1,6 +1,7 @@
 import numpy as np
 
 from voxvector.evidence_acquisition import (
+    DiarizationResult,
     TranscriptResult,
     build_evidence_acquisition,
 )
@@ -23,13 +24,21 @@ class StubDiarizationProvider:
     provider_id = "test.diarization"
 
     def diarize(self, signal, sample_rate):
-        from voxvector.evidence_acquisition import DiarizationResult
-
         return DiarizationResult(
             provider_id=self.provider_id,
             speakers=("SPEAKER_00",),
             segments=(),
         )
+
+
+class FailingProvider:
+    provider_id = "test.failing"
+
+    def transcribe(self, signal, sample_rate):
+        raise RuntimeError("model unavailable")
+
+    def diarize(self, signal, sample_rate):
+        raise RuntimeError("diarization unavailable")
 
 
 def test_build_evidence_acquisition_profiles_audio_and_timeline(monkeypatch):
@@ -80,3 +89,17 @@ def test_environment_provider_selection_is_used(monkeypatch):
     result = build_evidence_acquisition(np.ones(1600) * 0.1, 8000)
     assert result.transcription_state == "completed"
     assert result.transcript.text == "test transcript"
+
+
+def test_provider_failures_are_explicit_and_non_fatal():
+    result = build_evidence_acquisition(
+        np.ones(1600) * 0.1,
+        8000,
+        transcript_provider=FailingProvider(),
+        diarization_provider=FailingProvider(),
+    )
+    assert result.transcription_state == "unavailable"
+    assert result.diarization_state == "unavailable"
+    assert result.transcript is None
+    assert result.diarization is None
+    assert len(result.limitations) == 2
