@@ -2,85 +2,103 @@
 
 ## Purpose
 
-Record the cross-document synchronization performed after the successful 2026-09-01 production upload and analysis execution and the isolated Developer Console observability defect.
+Record the current cross-document synchronization after the production analysis milestone, current QA evidence, Developer Console status hardening, and the new Analysis Results / Review Evidence surface.
 
-## Production evidence digest
+## Current repository state
 
-Observed production execution completed:
+The current engineering branch is `main`.
+
+The current product architecture remains:
+
+`GitHub Pages React frontend → FastAPI on Render → canonical VoxVector engine → Supabase persistence/diagnostics/private media`
+
+Historical systems and stale deployment instructions remain historical and do not define the active architecture.
+
+## Current verified QA baseline
+
+The previously audited commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed `VoxVector QA` run `33500649854`, including API tests, React dependency installation, and the React production build.
+
+The present documentation/code synchronization introduces new source changes after that verified run. Therefore the current post-change commit requires its own workflow result before the repository is again recorded as green.
+
+## Production execution evidence retained
+
+The configured production path has demonstrated:
 
 `case workflow → source upload → private media persistence → case-bound analysis → analysis completion`
 
-Observed responses/events:
+Observed production requests included `/health`, `/v1/cases`, and `/v1/cases/{case_id}` with successful responses, and the Render runtime emitted `VOXVECTOR_DIAGNOSTIC` records.
 
-- `GET /health` → `200 OK`
-- `GET /v1/cases` → `200 OK`
-- `GET /v1/cases/{case_id}` → `200 OK`
-- `VOXVECTOR_DIAGNOSTIC` events emitted by the Render runtime
-- successful production source upload and private media persistence
-- successful completion of the configured case-bound analysis path
+These are operational execution findings only, not scientific validation.
 
-## Observability finding and repair
+## Current implementation changes
 
-The remaining Developer Console relational-log problem was isolated to `public.api_request_logs.duration_ms`, an integer field receiving fractional diagnostic durations such as `9339.07`, `0.26`, `635.3`, and `597.92` milliseconds.
+### Developer Console status
 
-The canonical implementation now normalizes the value at the relational projection boundary while retaining the original fractional precision in immutable diagnostic Storage records.
+The engineering status subsystem now queries GitHub Actions for `main` workflow evidence using the runtime source revision and marks a workflow result `STALE` when its commit differs from the current backend revision.
 
-Regression coverage in `VoxVector/tests/test_observability.py` covers decimal values, numeric strings, zero/sub-millisecond values, null values, and invalid values.
+The Console continues to separate BUILT, FUNCTIONAL, TESTED, and VALIDATED states.
 
-## Engineering maturity update
+### Analysis Results / Review Evidence
 
-The following operational capabilities have now crossed the production execution boundary for the observed configured path:
+The Analysis Workspace now surfaces the persisted run result after analysis completion, including:
 
-- case creation and retrieval
-- WAV source intake
-- private media persistence
-- PCM WAV processing path
-- case-bound analysis execution
-- diagnostic emission
+- eligibility state;
+- candidate state;
+- final disposition;
+- evidence counts and direction;
+- observations;
+- evidence records;
+- limitations and alternatives;
+- run/source identity;
+- result schema;
+- software provenance.
 
-These are operational/runtime findings only. They are not scientific validation and do not establish that any individual vocal or acoustic measurement indicates deception.
+The surface reports actual returned runtime data and preserves the guarded classification boundary.
 
-The 21-stage capability counts remain:
+### Observability
 
-- 14 implemented runtime foundations
-- 4 conditional or intentionally not invoked without required inputs
-- 3 queued for deeper runtime integration
+Case-source rejection and failure events are now part of the dedicated diagnostic error classification in addition to lifecycle event capture.
 
-## New engineering priority
+Relational duration normalization remains intact while immutable diagnostic Storage retains fractional precision.
 
-The primary blocker moves from basic upload reliability to the **post-analysis experience**.
+## Current 21-stage state
 
-Required sequence:
+The product pipeline remains 21 stages:
 
-1. completed Analysis Results contract;
-2. Review Evidence entry point after analysis completion;
-3. full analysis audit timeline with timestamps, durations, stage outcomes, warnings, errors, and unavailable/skipped reasons;
-4. real per-stage lifecycle telemetry in the Developer Console;
-5. speaker identification/diarization and production transcription;
-6. transcript/audio alignment;
-7. real analytical tracks and normalized evidence;
-8. evidence synthesis;
-9. assessment/reporting;
-10. broader production and scientific validation program.
+- 14 implemented runtime foundations;
+- 4 conditional or intentionally not invoked without required inputs;
+- 3 queued for deeper integration.
 
-## Updated canonical records
+The stage model is persisted, but granular independent timing for many grouped analytical stages remains open engineering work.
 
+## Current engineering priority
+
+1. Canonical composed Analysis Results contract.
+2. Expanded Review Evidence and evidence explorer workflow.
+3. Real per-stage lifecycle timing, warnings, and errors.
+4. Production proof of relational diagnostic rows and Developer Console rendering.
+5. Speaker identification/diarization.
+6. Production transcription and transcript/audio alignment.
+7. Real analytical tracks and normalized evidence.
+8. Evidence synthesis, assessment, reporting, and history/reopen.
+9. Authenticated browser end-to-end verification.
+10. Scientific validation.
+
+## Active canonical records synchronized in this cycle
+
+- `VoxVector/docs/VERSION_MAP.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
+- `VoxVector/docs/SYSTEM_STATE_REPORT.md`
 - `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
-- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
 - `VoxVector/docs/MVP_BUILD_PLAN.md`
-- `VoxVector/docs/CAPABILITY_STATUS.md`
-- `VoxVector/docs/ROADMAP.md`
-- `VoxVector/docs/STORAGE_AND_OBSERVABILITY.md`
-- `VoxVector/docs/audits/SYSTEM_ARCHITECTURE_AND_OBSERVABILITY_2026-09-01.md`
+- `VoxVector/docs/audits/FULL_AUTO_SYSTEM_AUDIT_2026-09-01.md`
 - `VoxVector/docs/DOCS_ALIGNMENT_2026-09-01.md`
-
-Updated Crown Labs mirrors:
-
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/full-auto-system-audit-2026-09-01.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-08-30.md`
-- `docs/crownlabsbible/04-product-dossiers/VoxVector/pipeline-build-status.md`
 
-The existing `PROJECT_DECISION_LOG.md` entry from 2026-09-01 remains the historical decision record for the observability projection architecture. This dated alignment record captures the subsequent production execution evidence and maturity transition.
+## Current verification boundary
 
-## Verification boundary
+Current source-level changes are implemented on `main`. The next exact-commit workflow result is required before this post-change state is called CI-green.
 
-This alignment reflects production evidence described by the repair-cycle runtime logs and source inspection. The repaired relational projection still requires deployment-level confirmation that real traffic creates rows in `api_request_logs` and `error_reports` and that the deployed Developer Console renders them. Browser playback and full end-to-end browser verification remain separate verification tasks. Scientific validation remains outstanding.
+Browser playback, authenticated end-to-end workflow verification, production relational observability proof, and scientific validation remain separate gates.
