@@ -40,6 +40,28 @@ class SpeechTimeline:
 
 
 @dataclass(frozen=True)
+class SpeakerSegment:
+    speaker_id: str
+    start_s: float
+    end_s: float
+    confidence: float | None = None
+
+
+@dataclass(frozen=True)
+class DiarizationResult:
+    provider_id: str
+    speakers: tuple[str, ...]
+    segments: tuple[SpeakerSegment, ...]
+    limitations: tuple[str, ...] = ()
+
+
+class DiarizationProvider(Protocol):
+    provider_id: str
+
+    def diarize(self, signal: np.ndarray, sample_rate: int) -> DiarizationResult: ...
+
+
+@dataclass(frozen=True)
 class TranscriptWord:
     text: str
     start_s: float | None
@@ -78,7 +100,9 @@ class EvidenceAcquisitionResult:
     media_profile: MediaProfile
     speech_timeline: SpeechTimeline
     transcript: TranscriptResult | None
-    provider_state: str
+    diarization: DiarizationResult | None
+    transcription_state: str
+    diarization_state: str
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -112,6 +136,7 @@ def build_evidence_acquisition(
     sample_rate: int,
     *,
     transcript_provider: TranscriptionProvider | None = None,
+    diarization_provider: DiarizationProvider | None = None,
 ) -> EvidenceAcquisitionResult:
     signal = np.asarray(signal, dtype=float).reshape(-1)
     if sample_rate <= 0:
@@ -163,10 +188,16 @@ def build_evidence_acquisition(
     )
 
     transcript = None
-    provider_state = "not_configured"
+    transcription_state = "not_configured"
     if transcript_provider is not None:
         transcript = transcript_provider.transcribe(signal, sample_rate)
-        provider_state = "completed"
+        transcription_state = "completed"
+
+    diarization = None
+    diarization_state = "not_configured"
+    if diarization_provider is not None:
+        diarization = diarization_provider.diarize(signal, sample_rate)
+        diarization_state = "completed"
 
     return EvidenceAcquisitionResult(
         media_profile=profile,
@@ -176,5 +207,7 @@ def build_evidence_acquisition(
             method_id="evidence_acquisition.energy_activity",
         ),
         transcript=transcript,
-        provider_state=provider_state,
+        diarization=diarization,
+        transcription_state=transcription_state,
+        diarization_state=diarization_state,
     )
