@@ -178,3 +178,12 @@ Deployment gates should validate stable build and artifact integrity. They must 
 VoxVector must remain auditable, reproducible, evidence-based, and honest about actual capability.
 
 No workflow, preview, successful build, or deployment status may be represented as scientific validation.
+
+
+## 14. System-boundary verification and AUTO workflow
+
+The active system architecture and mandatory Architecture → Ownership → Trace → Operate/verify workflow are consolidated in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
+
+Agents must distinguish the public frontend, API runtime, and persistent service boundaries before diagnosing failures. The active production model is GitHub Actions/GitHub Pages for the public React application, Render for the FastAPI runtime, and the configured Supabase services for authentication, persistence, diagnostics, and private media storage. Render hosting the API does not make Render the durable audio store.
+
+For substantive work, trace `source → commit → workflow → artifact/runtime → external service → browser` and do not replace missing evidence with assumptions.
