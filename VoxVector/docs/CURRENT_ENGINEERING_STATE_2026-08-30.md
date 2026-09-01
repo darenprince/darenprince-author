@@ -49,6 +49,14 @@ The heavy ML dependencies remain in the optional speech runtime profile rather t
 
 The user has configured the Hugging Face token and Community-1 access conditions in Render. The repository does not inspect or store the secret.
 
+## Observability state — 2026-09-01
+
+`voxvector.diagnostic.v2` now carries a run-correlatable `request_id`, `trace_id`, and, when used by the execution coordinator, `analysis_run_id`, together with UTC timestamps and measured durations. Immutable diagnostic records preserve precise timing while the relational projection remains integer-compatible.
+
+`VoxVector/src/voxvector/execution_trace.py` provides an analysis-run execution coordinator with explicit stage start, completion, failure, progress, and overall-run events. The application-side foundation is present and tested; complete internal pipeline callback instrumentation remains a separate integration task.
+
+The repository includes `VoxVector/scripts/render-observe.sh` and `VoxVector/docs/RENDER_OBSERVABILITY.md` for Render Live Tail and centralized-log operations.
+
 ## Current engineering priorities
 
 1. Run the optional speech runtime in a controlled deployed environment.
@@ -59,7 +67,7 @@ The user has configured the Hugging Face token and Community-1 access conditions
 6. Make acoustic aggregation speaker-aware and feed real speaker-separated baselines.
 7. Add question/answer context and interaction timing ingestion.
 8. Expand the Analysis Results / Review Evidence UI around the real multimodal timeline.
-9. Continue granular internal stage telemetry once the acquisition boundaries are stable.
+9. Wire the execution coordinator into every actual internal analysis boundary without duplicating the pipeline.
 10. Begin task-specific scientific evaluation only after engineering stability is established.
 
 ## Integrity boundary
