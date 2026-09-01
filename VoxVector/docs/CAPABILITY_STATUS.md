@@ -281,3 +281,23 @@ The 21-stage capability map remains unchanged in scope: queued, conditional, and
 The relational diagnostic projection is implemented with an explicit compatibility boundary for the existing integer `api_request_logs.duration_ms` schema. Fractional diagnostic timings remain available in immutable Storage records while the relational projection receives normalized integer values. Regression coverage exists for decimal, string, zero/sub-millisecond, null, and invalid duration inputs.
 
 The next capability expansion is the completed-analysis review surface: structured results, stage-by-stage state, evidence and warnings, uncertainty/limitations, provenance, and a full analysis audit timeline.
+
+## Evidence acquisition update — 2026-09-01
+
+**Implemented foundation**
+
+- evidence acquisition module
+- normalized media profile contract
+- speech/silence timeline contract
+- optional provider-neutral transcription contract
+- persisted acquisition artifact attached to the canonical case analysis run
+
+**Not yet implemented**
+
+- production transcription provider
+- speaker diarization provider
+- word-level production timestamps
+- speaker assignment
+- transcript/audio alignment
+
+These states are intentionally separated. The foundation provides contracts and artifacts without claiming that unavailable providers have produced data.
