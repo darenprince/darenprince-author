@@ -191,3 +191,10 @@ After configuring Render:
 10. verify diagnostic lifecycle events;
 11. confirm no service key or raw audio is emitted in diagnostic records;
 12. document the verified deployment revision in the active checkpoint.
+
+
+## 2026-09-01 observability projection audit and repair
+
+Connected Supabase inspection found Storage diagnostics populated while public.api_request_logs and public.error_reports contained zero rows. The canonical repair now keeps immutable JSON records in voxvector-logs, projects enabled lifecycle events into public.api_request_logs, projects error events into public.error_reports, and lets diagnostic APIs prefer relational records with Storage archive fallback.
+
+Production verification remains required after deployment. Audit record: VoxVector/docs/audits/SYSTEM_ARCHITECTURE_AND_OBSERVABILITY_2026-09-01.md.
