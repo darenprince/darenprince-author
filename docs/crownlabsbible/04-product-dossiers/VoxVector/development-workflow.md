@@ -92,3 +92,12 @@ Deployment checks should focus on stable build and artifact integrity rather tha
 ## Authority
 
 This document mirrors `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`. If the two ever conflict, the repository document and the VoxVector Operating Charter control.
+
+
+## AUTO system workflow
+
+The active VoxVector workflow is **Architecture → Ownership → Trace → Operate/verify**.
+
+Before editing or diagnosing a production failure, establish the actual frontend, API, storage, and deployment boundaries; identify the canonical owner; trace the complete chain; make the smallest safe canonical change; and verify source, build, deployment, runtime/provider, and browser behavior separately.
+
+This Crown Labs mirror follows the canonical technical procedure in `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
