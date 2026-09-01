@@ -49,7 +49,7 @@ def test_storage_put_bytes_uses_private_media_bucket():
     storage = FakeStorage()
     result = storage.put_bytes("media/case-a/source-a.wav", b"RIFF-WAV", "audio/wav")
     assert result == "voxvector-media/media/case-a/source-a.wav"
-    method, url, body, content_type, retries, require_log_config = storage.requests[0]
+    method, url, body, content_type, retries, require_log_config, extra_headers = storage.requests[0]
     assert method == "POST"
     assert "/storage/v1/object/voxvector-media/" in url
     assert body == b"RIFF-WAV"
