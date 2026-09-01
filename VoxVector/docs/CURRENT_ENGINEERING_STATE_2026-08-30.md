@@ -28,101 +28,52 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## Current verified QA
 
-The latest verified QA result is `VoxVector QA` run `33505148274` on commit `5c88299679515604bfb9c0903c48b2b95650e6aa`. Its test job passed API tests, React dependency installation, and the production React build.
+The latest verified QA result before the current speech-integration source revision is `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. That run passed.
 
-Subsequent documentation changes create a new source revision and therefore require a new exact-commit QA result before that revision is called green.
+The current source revision has a fresh QA workflow running; its result is required before the current revision is called green.
 
-## 21-stage pipeline state
+## Speech intelligence state — 2026-09-01
 
-The canonical pipeline contains 21 stages:
+The primary next engine layer is now implemented as a provider-backed evidence acquisition system:
 
-- 14 implemented runtime foundations
-- 4 conditional or intentionally not invoked without required inputs
-- 3 queued for deeper runtime integration
+- media profile and integrity metadata;
+- speech and silence timeline;
+- faster-whisper transcription adapter with word-level timestamps;
+- pyannote Community-1 diarization adapter;
+- transcript/speaker overlap alignment;
+- normalized multimodal timeline artifact;
+- explicit provider states and failure-tolerant degradation;
+- Developer Console speech-runtime readiness reporting through `/health`.
 
-`VoxVector/src/voxvector/stage_telemetry.py` provides a persistence-neutral recorder with monotonic duration timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and transition guards. `VoxVector/src/voxvector/results_envelope.py` provides the composed post-analysis result model joining case, source, run, pipeline, observations, evidence, candidate, disposition, provenance, and explicit downstream capability gaps.
+The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
 
-### Debug verification finding — 2026-09-01
+The user has configured the Hugging Face token and Community-1 access conditions in Render. The repository does not inspect or store the secret.
 
-Source inspection of the canonical `VoxVector/src/voxvector/pipeline.py` on `main` found that the telemetry utility has **not** been wired into every internal execution boundary of the monolithic pipeline. The pipeline continues to compute the implemented analytical families directly without emitting a recorder callback around each family.
+## Current engineering priorities
 
-The results-envelope utility is likewise present and tested, but is not yet connected as the canonical response envelope of the case-analysis HTTP route.
+1. Run the optional speech runtime in a controlled deployed environment.
+2. Verify faster-whisper model acquisition, transcription segments, word timestamps, runtime duration, and resource behavior.
+3. Verify pyannote Community-1 model access and speaker-turn output.
+4. Persist and inspect transcript, speaker, and multimodal alignment artifacts under the canonical case/run.
+5. Connect transcript-derived data to the existing linguistic/disfluency analysis path.
+6. Make acoustic aggregation speaker-aware and feed real speaker-separated baselines.
+7. Add question/answer context and interaction timing ingestion.
+8. Expand the Analysis Results / Review Evidence UI around the real multimodal timeline.
+9. Continue granular internal stage telemetry once the acquisition boundaries are stable.
+10. Begin task-specific scientific evaluation only after engineering stability is established.
 
-Therefore:
+## Integrity boundary
 
-- telemetry utility: **BUILT + TESTED**;
-- results envelope utility: **BUILT + TESTED**;
-- internal stage telemetry integration: **OPEN**;
-- case-analysis results-envelope integration: **OPEN**;
-- end-to-end persisted granular stage timing: **NOT YET VERIFIED**.
-
-No existing production run is retroactively credited with per-stage timings that were not actually emitted.
-
-## Current engineering stage
-
-**Post-analysis results and auditability.**
-
-The immediate implementation sequence is:
-
-`StageTelemetry → real pipeline stage boundaries → run persistence → diagnostic lifecycle events → Developer Console audit timeline`
-
-in parallel with:
-
-`engine result + case/source/run state → composed results envelope → canonical API response → Results / Evidence UI`
-
-## Developer Console operating state
-
-The engineering status surface compares GitHub workflow commit SHA to the backend runtime source revision and marks mismatched workflow evidence as `STALE` rather than current.
-
-The console continues to distinguish:
-
-- BUILT
-- FUNCTIONAL
-- TESTED
-- VALIDATED
-
-GitHub workflow results are software verification evidence only.
-
-## Active priorities
-
-1. Wire `StageTelemetry` into the real internal pipeline stage boundaries without creating a parallel pipeline implementation.
-2. Connect `compose_result_envelope()` to the canonical case-analysis API response path.
-3. Persist the composed result and stage audit data under the existing case/run identity.
-4. Expand Review Evidence into an audio-linked evidence explorer and timeline.
-5. Verify relational diagnostic projections and Developer Console rendering against real deployed data.
-6. Speaker identification/diarization.
-7. Production transcription and transcript/audio alignment.
-8. Real analytical tracks and normalized evidence.
-9. Evidence synthesis, assessment, reporting, history/reopen, and browser-level verification.
-10. Scientific validation program.
-
-## Documentation synchronization
-
-Current alignment record: `docs/DOCS_ALIGNMENT_2026-09-01.md`.
-
-Current versions: backend `0.2.26`, frontend `0.2.36`, engine result schema `0.3`.
+Provider output is data produced by the provider. Provider confidence is not deception confidence. Speaker labels are cluster labels, not verified identities. Transcript content is not evidence of truth by itself. No individual vocal or linguistic feature proves deception.
 
 Historical checkpoints remain historical evidence and are not current status sources.
 
-## Integration update — 2026-09-01
+## 2026-09-01 speech runtime hardening
 
-The results-envelope utility is now integrated into the canonical case-analysis API and persisted with the case run. The response returns the composed envelope directly.
+The acquisition layer now treats configured-provider failures as explicit `unavailable` states with limitations so optional speech capabilities cannot silently take down the base analysis path.
 
-Truthful route-boundary stage telemetry is now integrated for decode/normalization, provenance/integrity, and recording assessment. Composite internal pipeline stages are not assigned invented independent durations.
+The faster-whisper adapter no longer converts `avg_logprob` into a probability-like segment confidence value. Segment confidence remains null unless an actual probability field is provided.
 
-The next telemetry task is internal engine callback instrumentation, not another case/API wrapper.
+The pyannote adapter prefers Community-1 exclusive speaker diarization when the provider exposes it, improving alignment with transcript timestamps.
 
-## Engineering pivot — Evidence Acquisition
-
-The next primary engine layer is evidence acquisition.
-
-A first canonical foundation is implemented and integrated with case analysis:
-
-- media profile
-- speech timeline
-- silence timeline
-- provider-neutral transcript result contract
-- optional transcription provider protocol
-- persisted acquisition artifact
-
-The next build tasks are production diarization and transcription integration, followed by timestamp normalization and transcript/audio alignment. Downstream linguistic and interaction analysis should consume these acquired artifacts rather than rely indefinitely on manually supplied transcript tokens.
+Deployment procedure: `VoxVector/docs/SPEECH_RUNTIME_DEPLOYMENT.md`.
