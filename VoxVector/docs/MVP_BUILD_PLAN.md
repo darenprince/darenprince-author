@@ -515,3 +515,17 @@ MVP is reached when one connected case can move from recording intake through sy
 ## After MVP
 
 Once the connected workflow is stable the engineering program moves toward deeper analytical coverage calibrated classification validation datasets external evaluation comparative analysis advanced reporting and production scale.
+
+## 2026-09-01 production checkpoint
+
+**Milestone:** A real production case successfully completed the repaired operational path from case workflow through WAV source upload, private media persistence, case-bound analysis, and analysis completion.
+
+**Observed runtime evidence:** `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and valid `VOXVECTOR_DIAGNOSTIC` records were emitted by the Render runtime.
+
+**Engineering consequence:** P1 upload/intake and the case-bound analysis spine have crossed the basic production execution boundary for the observed path. They are no longer treated as wholly unverified foundations. Separate browser playback verification and complete browser-level MVP verification remain outstanding.
+
+**Observability finding:** Production logs isolated the remaining Developer Console gap to `public.api_request_logs.duration_ms`, whose integer schema rejected fractional timing values. The projection was repaired without changing the canonical schema: fractional milliseconds remain in immutable diagnostic records while relational values are normalized to integers.
+
+**Regression coverage:** `VoxVector/tests/test_observability.py` covers decimal durations, string durations, zero/sub-millisecond values, null values, and invalid values.
+
+**Next MVP dependency:** Move the user from completed processing into **Analysis Results / Review Evidence**, then expose full stage-by-stage audit telemetry before expanding speaker/transcript and evidence workflows.
