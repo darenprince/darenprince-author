@@ -28,7 +28,7 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## Current CI state
 
-`VoxVector QA` run `33500649854` passed on current `main` commit `f2b31243c07fc466892693d2ff6aaf8038e413cc`. The workflow completed API tests, React dependency installation, and the React production build. fileciteturn102file0L2-L10
+A fresh QA run is required for the latest `main` commit before current `main` is recorded as green. Earlier passing runs remain historical evidence tied to their exact source revision.
 
 ## 21-stage pipeline state
 
@@ -38,17 +38,21 @@ The canonical pipeline contains 21 stages:
 - 4 conditional or intentionally not invoked without required inputs
 - 3 queued for deeper runtime integration
 
-Stage state is persisted per run, but per-stage timing is still coarse for many grouped analytical stages. Granular stage instrumentation remains a current engineering task.
+Stage state is persisted per run. The newly added `VoxVector/src/voxvector/stage_telemetry.py` provides a persistence-neutral recorder with monotonic duration timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and transition guards.
+
+The telemetry recorder is now **BUILT** and **TESTED**. It is not yet wired into every internal `VoxVectorPipeline.analyze()` boundary, so existing runs must not be described as having complete per-stage timing. The next integration task is to connect the recorder to the real execution points for the implemented analytical stages and persist those snapshots through the canonical case run and diagnostics paths.
 
 ## Current engineering stage
 
 **Post-analysis results and auditability.**
 
-The basic upload/intake blocker is cleared for the observed production path. The immediate product dependency is now:
+The basic upload/intake blocker is cleared for the observed production path. The immediate product dependency is:
 
 `Analysis complete → Analysis Results → Review Evidence`
 
-The next infrastructure dependency is true per-stage lifecycle telemetry and a canonical composed result envelope that joins case, source, run, stage, observations, evidence, assessment, disposition, uncertainty, and provenance.
+The infrastructure dependency now being executed is:
+
+`stage telemetry recorder → real pipeline stage callbacks → persisted stage audit trail → Developer Console telemetry view`
 
 ## Developer Console operating state
 
@@ -67,7 +71,7 @@ GitHub workflow results are software verification evidence only.
 
 1. Canonical composed Analysis Results contract.
 2. Review Evidence surface driven by the persisted run result.
-3. Real per-stage lifecycle timing, warnings, and errors.
+3. Wire `StageTelemetry` into real internal pipeline boundaries and persist lifecycle events.
 4. Production verification of relational diagnostic projections and Developer Console rendering.
 5. Speaker identification/diarization.
 6. Production transcription and transcript/audio alignment.
