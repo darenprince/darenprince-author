@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       service_id:
-        description: 'Render service ID to inspect'
-        required: true
+        description: 'Optional Render service ID override; repository RENDER_SERVICE_ID is used by default'
+        required: false
         type: string
       log_minutes:
         description: 'Minutes of recent logs to inspect'
@@ -21,15 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-      RENDER_SERVICE_ID: ${{ inputs.service_id }}
+      RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
       LOG_MINUTES: ${{ inputs.log_minutes }}
     steps:
-      - name: Validate Render secret
+      - name: Resolve and validate Render configuration
+        env:
+          SERVICE_OVERRIDE: ${{ inputs.service_id }}
         run: |
-          test -n "$RENDER_API_KEY" || {
-            echo 'RENDER_API_KEY repository secret is not configured.' >&2
-            exit 1
-          }
+          test -n "$RENDER_API_KEY" || { echo 'RENDER_API_KEY repository secret is not configured.' >&2; exit 1; }
+          if [ -n "$SERVICE_OVERRIDE" ]; then RENDER_SERVICE_ID="$SERVICE_OVERRIDE"; fi
+          test -n "$RENDER_SERVICE_ID" || { echo 'RENDER_SERVICE_ID repository secret is not configured, and no workflow override was supplied.' >&2; exit 1; }
+          echo "RENDER_SERVICE_ID=$RENDER_SERVICE_ID" >> "$GITHUB_ENV"
+          echo "Selected Render service: $RENDER_SERVICE_ID"
       - name: Install Render CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/bin/install.sh | bash
@@ -44,13 +47,13 @@ jobs:
       - name: Select target service from workspace inventory
         run: |
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
           services=json.loads(Path('render-services.json').read_text())
-          target=next((item for item in services if item.get('id') == '${{ inputs.service_id }}'), None) if isinstance(services,list) else None
-          if target is None and isinstance(services,dict):
-              target=services.get('service') or services.get('services')
-          Path('render-service.json').write_text(json.dumps(target or {}, indent=2))
+          service_id=os.environ['RENDER_SERVICE_ID']
+          rows=services if isinstance(services,list) else services.get('services') or services.get('data') or []
+          target=next((item for item in rows if item.get('id') == service_id), {})
+          Path('render-service.json').write_text(json.dumps(target, indent=2))
           print('target_found=', bool(target))
           PY
       - name: Summarize VoxVector runtime evidence
@@ -72,10 +75,7 @@ jobs:
           print('service_id=', get(service,'id',default='unknown'))
           print('service_name=', get(service,'name',default='unknown'))
           print('service_suspended=', get(service,'suspended',default='unknown'))
-          if isinstance(deploys,dict):
-              deploy_rows=deploys.get('deploys') or deploys.get('data') or []
-          else:
-              deploy_rows=deploys
+          deploy_rows=deploys.get('deploys') or deploys.get('data') or [] if isinstance(deploys,dict) else deploys
           latest=deploy_rows[0] if deploy_rows else {}
           print('latest_deploy_id=', get(latest,'id',default='unknown'))
           print('latest_deploy_status=', get(latest,'status',default='unknown'))
@@ -84,8 +84,7 @@ jobs:
           if isinstance(log_rows,list):
               for item in log_rows[-50:]:
                   text=get(item,'message',default=get(item,'text',default=''))
-                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower():
-                      print(text)
+                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower(): print(text)
           PY
       - name: Upload diagnostic artifacts
         uses: actions/upload-artifact@v4
