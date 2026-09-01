@@ -6,6 +6,7 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
+from .runtime_context import analysis_run_id as current_analysis_run_id
 from .runtime_context import request_id as current_request_id
 from .runtime_context import trace_id as current_trace_id
 
@@ -19,6 +20,7 @@ def speech_log(
     analysis_run_id: str | None = None,
     **fields: Any,
 ) -> None:
+    run_id = analysis_run_id or current_analysis_run_id()
     record = {
         "schema": "voxvector.speech_runtime.v1",
         "event": event,
@@ -27,7 +29,7 @@ def speech_log(
         "trace_id": trace_id or current_trace_id(),
         "source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"),
         "pipeline_version": os.getenv("VOXVECTOR_PIPELINE_VERSION", "unknown"),
-        **({"analysis_run_id": analysis_run_id} if analysis_run_id else {}),
+        **({"analysis_run_id": run_id} if run_id else {}),
         **fields,
     }
     if started is not None:
