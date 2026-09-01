@@ -85,3 +85,8 @@ VoxVector production architecture remains:
 - authentication/persistence/diagnostic operational services: Supabase
 
 Vercel is retired and prohibited for VoxVector.
+
+
+## 2026-08-31 upload incident mirror
+
+Production Supabase Storage evidence showed that WAV media persistence succeeded, but the subsequent update of the owning case JSON failed with HTTP 400. The root cause was create-style JSON object persistence without Storage upsert semantics. Canonical backend storage now uses `x-upsert: true` for case/log JSON writes, with regression coverage added. Browser MIME labels are no longer allowed to reject a selected recording before authoritative upload validation. Deployment and end-to-end browser verification remain required before marking the workflow functional.
