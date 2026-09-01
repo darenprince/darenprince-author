@@ -1,10 +1,12 @@
 # VoxVector Version Map
 
-| Area | Version | Status |
+**State date:** 2026-09-01
+
+| Area | Version / reference | Status |
 |---|---:|---|
-| Backend runtime | 0.2.25 | active |
+| Backend runtime | 0.2.26 | active |
 | Public React application | 0.2.36 | active |
-| Result schema | 0.2 | active |
+| Result schema | 0.3 | active engine schema; composed case result remains under integration |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
 | Temporal observation integration | 0.2 | integrated |
@@ -24,77 +26,57 @@
 | Final disposition gate | 0.1 | implemented / controlled boundary |
 | Validation registry | 0.3 | synchronized with implemented and planned methods |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
-| CI QA workflow | 0.2 | fresh current run required |
+| CI QA workflow | 0.2 | current `main` run 33500649854 passed |
 | Research method expansion | 0.2 | active preserved backlog |
 | Capability status map | 0.1 | active |
 | Roadmap | 0.1 | active |
 | Deception classifier | not assigned | planned / not validated |
-| Speaker diarization | not assigned | planned |
-| Production transcription | not assigned | planned |
-| Transcript alignment | not assigned | planned |
+| Speaker diarization | not assigned | planned / queued |
+| Production transcription | not assigned | planned / queued |
+| Transcript alignment | not assigned | planned / queued |
 | Learned speech representations | not assigned | planned |
 | D Series validated inference | not assigned | not active |
 
-## Canonical location
+## Canonical locations
 
-VoxVector is maintained under `VoxVector/` in `darenprince-author`.
+VoxVector backend and analysis: `VoxVector/`
 
-The public React application is maintained under `voxvector/`.
+Public React application: `voxvector/`
 
 Historical systems remain historical source material and are not alternate active implementations.
 
 ## Primary pipeline integration
 
-`VoxVectorPipeline` currently orchestrates acoustic summaries F0 and intensity dynamics HNR spectral flux and rolloff formant tracking pause topology optional within speaker baselines optional response latency optional transcript disfluency and MFCC observations.
+`VoxVectorPipeline` currently orchestrates acoustic summaries, F0 and intensity dynamics, HNR, spectral flux and rolloff, formant tracking, pause topology, MFCC observations, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
 
-The product pipeline also defines the future speaker transcription alignment linguistic evidence synthesis classification validation reporting and audit stages.
+The product pipeline additionally defines speaker processing, transcription, alignment, evidence synthesis, classification, validation, reporting, and audit stages.
 
-## Public frontend
+## Frontend authority
 
-The canonical React workspace is `voxvector/`.
+Current frontend package authority is `voxvector/package.json`. The active stack is React 19.2.8, React DOM 19.2.8, Recharts 3.10.1, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, and application-owned shadcn-style composition.
 
-The current public application version is `0.2.36`.
-
-Current frontend package authority is `voxvector/package.json`. The active stack includes React `19.2.8`, React DOM `19.2.8`, Recharts `3.10.1`, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, and application owned shadcn style composition.
-
-Historical documentation describing the earlier Tremor React / React 18 frontend remains historical and is not the current dependency baseline.
+Historical React 18 / Tremor documentation is retained only as historical context.
 
 ## Deployment boundary
 
-GitHub Pages is the canonical and only supported public frontend host.
+GitHub Pages is the only supported public frontend host.
 
 Render is the canonical backend host.
 
-Supabase remains the operational/authentication data layer.
+Supabase is the operational/authentication/persistence/diagnostic/private-media service layer.
 
-Vercel is retired and prohibited for VoxVector. It is not a supported frontend host, backend host, preview host, build target, dependency, configuration source, or deployment workaround.
+Vercel is retired and prohibited for VoxVector.
 
-See `docs/DEPLOYMENT_BOUNDARY.md` for the current deployment policy.
+## Current QA evidence
 
-## QA boundary
-
-The repository contains historical evidence of both failed and repaired QA stages.
-
-The documented failed run must remain historical evidence.
-
-A fresh current workflow run is required before the current main commit is recorded as green.
-
-## Product pipeline boundary
-
-The canonical product workflow is the 21 stage pipeline defined in `docs/ANALYSIS_PIPELINE.md`.
-
-The connected MVP sequence is defined in `docs/MVP_BUILD_PLAN.md`.
-
-The Developer Console exposes that sequence as an engineering task board.
+GitHub Actions workflow `VoxVector QA` run `33500649854` on commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed. The successful job ran API tests, React dependency installation, and the React production build. Historical failed QA records remain historical evidence and are not current status.
 
 ## Scientific boundary
 
-All implemented analysis remains observational until the defined validation program promotes a method for a specific task.
-
-Eligibility and reliability evidence analysis candidate classification and final disposition remain separate stages.
+All implemented analysis remains observational until the defined validation program promotes a method for a specific task. Eligibility/reliability, evidence analysis, candidate classification, and final disposition remain distinct.
 
 ## Documentation synchronization
 
-The current cross document synchronization record is `docs/DOCS_ALIGNMENT_2026-08-28.md`.
+The current cross-document synchronization record is `docs/DOCS_ALIGNMENT_2026-09-01.md`.
 
 Historical alignment records remain available for traceability.
