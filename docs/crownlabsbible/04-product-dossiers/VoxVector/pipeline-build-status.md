@@ -89,3 +89,7 @@ The next dependency is now the **post-analysis results and auditability layer**:
 The canonical API now integrates the results envelope and route-boundary telemetry for decode, provenance, and recording assessment. Composite internal pipeline execution remains explicitly non-granular where the engine does not emit stage callbacks.
 
 This does not change the 21-stage implementation counts or scientific validation state.
+
+## 2026-09-01 evidence acquisition status
+
+The case analysis path now carries an acquisition artifact with media and timeline data plus explicit transcription and diarization provider states. No provider output is fabricated when a production provider is not configured. The next build targets are provider integration and transcript/audio alignment.
