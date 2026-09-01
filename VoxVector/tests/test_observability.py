@@ -80,3 +80,12 @@ def test_diagnostic_store_can_be_disabled(capsys):
     assert asyncio.run(diagnostics.emit("request.started", request_id="abc123")) is None
     assert storage.records == []
     assert capsys.readouterr().out == ""
+
+
+def test_duration_ms_projection_matches_integer_schema():
+    from api.observability import _duration_ms_for_projection
+    assert _duration_ms_for_projection(9339.07) == 9339
+    assert _duration_ms_for_projection(0.26) == 0
+    assert _duration_ms_for_projection("635.3") == 635
+    assert _duration_ms_for_projection(None) is None
+    assert _duration_ms_for_projection("invalid") is None
