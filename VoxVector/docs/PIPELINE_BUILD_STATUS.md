@@ -109,3 +109,19 @@ Production logs isolated the Developer Console log persistence defect to `public
 `VoxVector/api/observability.py` now normalizes relational duration values at the projection boundary while preserving fractional precision in immutable diagnostic Storage records. `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid inputs.
 
 The next engineering target is therefore **full internal stage-boundary instrumentation plus canonical case-analysis results-envelope delivery**, with the completed Analysis Results / Review Evidence surface remaining the operator-facing destination for the resulting audit record.
+
+## API integration update — 2026-09-01
+
+The case-analysis API now composes and persists the canonical `result_envelope` under the existing case/run identity and returns it directly from the analysis response.
+
+Route-boundary telemetry now records independently measured timing for:
+
+- Stage 02 File Decode and Normalization
+- Stage 03 Provenance and Integrity
+- Stage 04 Channel and Recording Assessment
+
+Stage 01 preserves its prior persisted-source lifecycle evidence without fabricating a new analysis-time duration.
+
+The current monolithic `VoxVectorPipeline` still does not expose independently timed callbacks for every internal analytical boundary. Those stages therefore remain explicitly marked as completed inside the composite pipeline with `duration_ms: null` rather than receiving fabricated per-stage durations.
+
+The run now records `pipeline_duration_ms` separately from route-boundary stage telemetry and declares its telemetry scope. Full internal callback instrumentation remains an open engineering task.
