@@ -69,7 +69,7 @@ Vercel is retired and prohibited for VoxVector.
 
 ## Current QA evidence
 
-GitHub Actions workflow `VoxVector QA` run `33500649854` on commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed. The successful job ran API tests, React dependency installation, and the React production build. Historical failed QA records remain historical evidence and are not current status.
+GitHub Actions workflow `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a` passed. The immediately preceding API integration commit `c2307293789124be29b6c8d7a0c7df7234f82776` also passed run `33505919157`. Historical failed QA records remain historical evidence and are not current status.
 
 ## Scientific boundary
 
