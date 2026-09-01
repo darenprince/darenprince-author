@@ -12,15 +12,14 @@ STAGES = [
 
 
 @pytest.mark.parametrize("failing", [False, True])
-def test_execution_trace_lifecycle(monkeypatch, failing):
+def test_execution_trace_lifecycle(failing):
     emitted = []
 
     async def fake_emit(event, **fields):
         emitted.append((event, fields))
         return None
 
-    monkeypatch.setattr("voxvector.execution_trace.DIAGNOSTICS.emit", fake_emit)
-    trace = AnalysisExecutionTrace(STAGES, request_id="req", run_id="run")
+    trace = AnalysisExecutionTrace(STAGES, request_id="req", run_id="run", emit=fake_emit)
 
     async def scenario():
         await trace.run_started()
