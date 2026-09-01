@@ -12,8 +12,8 @@ from typing import Any
 
 from .storage import StorageError, SupabaseStorage
 
-
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
+_trace_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_trace_id", default="")
 _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
 _ERROR_EVENTS = {
     "request.rejected",
@@ -23,6 +23,7 @@ _ERROR_EVENTS = {
     "case.source_upload_rejected",
     "case.source_upload_failed",
     "case.analysis_failed",
+    "analysis.stage_failed",
 }
 
 
@@ -36,13 +37,23 @@ def request_id() -> str:
     return _request_id.get() or new_request_id()
 
 
+def new_trace_id(value: str | None = None) -> str:
+    value = str(value or "").strip() or uuid.uuid4().hex
+    _trace_id.set(value)
+    return value
+
+
+def trace_id() -> str:
+    return _trace_id.get() or new_trace_id()
+
+
 def _safe_text(value: Any, limit: int = 600) -> str:
     text = str(value).replace("\x00", " ").strip()
     return text[:limit]
 
 
 def _duration_ms_for_projection(value: Any) -> int | None:
-    """Relational api_request_logs.duration_ms is an integer column; preserve console precision in the immutable event record."""
+    """Relational duration is integer typed; immutable events retain precise timing."""
     if value is None:
         return None
     try:
@@ -64,7 +75,7 @@ def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
 
 
 class DiagnosticStore:
-    """Sanitized diagnostics written to the Render console and durable storage."""
+    """Sanitized diagnostics written to stdout and durable observability storage."""
 
     def __init__(self, storage: SupabaseStorage | None = None):
         self.storage = storage or SupabaseStorage()
@@ -79,30 +90,23 @@ class DiagnosticStore:
         if not self.enabled:
             return None
         rid = fields.pop("request_id", None) or request_id()
+        tid = fields.pop("trace_id", None) or trace_id()
         now = datetime.now(timezone.utc)
         record = {
-            "schema": "voxvector.diagnostic.v1",
+            "schema": "voxvector.diagnostic.v2",
             "event": event,
             "request_id": rid,
+            "trace_id": tid,
             "timestamp": now.isoformat(),
             "pipeline": os.getenv("VOXVECTOR_PIPELINE_VERSION", "unknown"),
             "source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"),
             **_safe_fields(fields),
         }
-
-        print(
-            "VOXVECTOR_DIAGNOSTIC "
-            + json.dumps(record, separators=(",", ":"), sort_keys=True),
-            flush=True,
-        )
+        print("VOXVECTOR_DIAGNOSTIC " + json.dumps(record, separators=(",", ":"), sort_keys=True), flush=True)
 
         date_path = now.strftime("%Y/%m/%d")
         object_name = f"{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
         object_path = f"events/{date_path}/{rid}/{object_name}"
-        storage_result = None
-
-        # Database projections make the Developer Console observable without relying on
-        # nested object-list traversal. Storage remains the canonical immutable event archive.
         try:
             insert_row = getattr(self.storage, "insert_table_row", None)
             if not callable(insert_row):
@@ -116,11 +120,15 @@ class DiagnosticStore:
                 "duration_ms": _duration_ms_for_projection(record.get("duration_ms")),
                 "source_revision": record.get("source_revision"),
                 "pipeline_version": record.get("pipeline"),
-                "metadata": {"event": event, "error_event": event in _ERROR_EVENTS, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
+                "metadata": {
+                    "event": event,
+                    "error_event": event in _ERROR_EVENTS,
+                    **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "trace_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}},
+                },
             }
             await asyncio.to_thread(insert_row, "api_request_logs", request_row)
         except StorageError as exc:
-            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=api_request_logs error={_safe_text(exc)}", file=sys.stderr, flush=True)
+            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=api_request_logs error={_safe_text(exc)}", file=sys.stderr, flush=True)
 
         if event in _ERROR_EVENTS:
             try:
@@ -140,11 +148,15 @@ class DiagnosticStore:
                     "pipeline_version": record.get("pipeline"),
                     "error_type": record.get("error_type"),
                     "message": record.get("error_message") or record.get("reason") or event,
-                    "context": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "error_type", "error_message", "path", "method", "status_code", "source_revision", "pipeline"}}},
+                    "context": {
+                        "event": event,
+                        "trace_id": tid,
+                        **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "trace_id", "error_type", "error_message", "path", "method", "status_code", "source_revision", "pipeline"}},
+                    },
                 }
                 await asyncio.to_thread(insert_error, "error_reports", error_row)
             except StorageError as exc:
-                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=error_reports error={_safe_text(exc)}", file=sys.stderr, flush=True)
+                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=error_reports error={_safe_text(exc)}", file=sys.stderr, flush=True)
 
         try:
             storage_result = await asyncio.to_thread(self.storage.put_json, object_path, record)
@@ -153,9 +165,9 @@ class DiagnosticStore:
                 try:
                     await asyncio.to_thread(self.storage.put_json, index_path, record)
                 except StorageError as exc:
-                    print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} index=error-index error={_safe_text(exc)}", flush=True)
+                    print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} index=error-index error={_safe_text(exc)}", flush=True)
         except StorageError as exc:
-            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} error={_safe_text(exc)}", flush=True)
+            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} error={_safe_text(exc)}", flush=True)
         return storage_result
 
 
@@ -171,7 +183,4 @@ def elapsed_ms(start: float) -> float:
 
 
 def safe_error(exc: Exception) -> dict[str, str]:
-    return {
-        "error_type": type(exc).__name__,
-        "error_message": _safe_text(exc),
-    }
+    return {"error_type": type(exc).__name__, "error_message": _safe_text(exc)}
