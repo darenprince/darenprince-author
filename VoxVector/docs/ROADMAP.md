@@ -309,3 +309,15 @@ The roadmap is synchronized with:
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 - `docs/DOCS_ALIGNMENT_2026-08-28.md`
+
+## 2026-09-01 roadmap checkpoint
+
+The production case execution clears the basic upload → persistence → case-bound analysis blocker for the observed configured workflow.
+
+The roadmap priority therefore advances to the **post-analysis experience** before deeper research expansion:
+
+`Analysis completion → Analysis Results / Review Evidence → full audit timeline → real stage telemetry → speaker/transcript foundation → evidence workspace → assessment/reporting`
+
+The duration projection defect found during production execution is isolated to the Developer Console relational observability surface. Its repair is implemented in the canonical backend and regression tested without changing the existing database schema. This work supports, rather than replaces, the broader roadmap item for developer observability.
+
+The 21-stage roadmap remains unchanged in scope. Current production execution does not promote queued, conditional, or not-invoked stages to implemented or validated status.
