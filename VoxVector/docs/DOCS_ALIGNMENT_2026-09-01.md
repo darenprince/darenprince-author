@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Record the current cross-document synchronization after the production analysis milestone, current QA evidence, Developer Console status hardening, and the new Analysis Results / Review Evidence surface.
+Record the current cross-document synchronization after the production analysis milestone, current QA evidence, Developer Console status hardening, Analysis Results / Review Evidence work, stage telemetry foundation, and the canonical composed results envelope.
 
 ## Current repository state
 
@@ -14,11 +14,11 @@ The current product architecture remains:
 
 Historical systems and stale deployment instructions remain historical and do not define the active architecture.
 
-## Current verified QA baseline
+## Current verification boundary
 
-The previously audited commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed `VoxVector QA` run `33500649854`, including API tests, React dependency installation, and the React production build.
+Current source changes after the previously verified `f2b31243c07fc466892693d2ff6aaf8038e413cc` commit require their own workflow result before the current source revision is recorded as CI-green. Current GitHub Actions status is the authoritative verification source for the exact commit.
 
-The present documentation/code synchronization introduces new source changes after that verified run. Therefore the current post-change commit requires its own workflow result before the repository is again recorded as green.
+Production browser verification, relational diagnostic proof, and scientific validation remain separate gates.
 
 ## Production execution evidence retained
 
@@ -34,32 +34,25 @@ These are operational execution findings only, not scientific validation.
 
 ### Developer Console status
 
-The engineering status subsystem now queries GitHub Actions for `main` workflow evidence using the runtime source revision and marks a workflow result `STALE` when its commit differs from the current backend revision.
+The engineering status subsystem queries GitHub Actions for `main` workflow evidence using the runtime source revision and marks a workflow result `STALE` when its commit differs from the current backend revision.
 
 The Console continues to separate BUILT, FUNCTIONAL, TESTED, and VALIDATED states.
 
 ### Analysis Results / Review Evidence
 
-The Analysis Workspace now surfaces the persisted run result after analysis completion, including:
+The Analysis Workspace surfaces the persisted run result after analysis completion, including eligibility, candidate state, disposition, evidence, observations, limitations, provenance, and run/source identity.
 
-- eligibility state;
-- candidate state;
-- final disposition;
-- evidence counts and direction;
-- observations;
-- evidence records;
-- limitations and alternatives;
-- run/source identity;
-- result schema;
-- software provenance.
+### Stage telemetry foundation
 
-The surface reports actual returned runtime data and preserves the guarded classification boundary.
+`VoxVector/src/voxvector/stage_telemetry.py` provides a persistence-neutral lifecycle recorder with real monotonic timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and transition guards. Unit coverage is in `VoxVector/tests/test_stage_telemetry.py`.
 
-### Observability
+This recorder is an implemented utility, not a claim that every internal `VoxVectorPipeline` computation is already independently timed. The next integration step is to connect it to actual stage boundaries and persist those measurements.
 
-Case-source rejection and failure events are now part of the dedicated diagnostic error classification in addition to lifecycle event capture.
+### Canonical results envelope
 
-Relational duration normalization remains intact while immutable diagnostic Storage retains fractional precision.
+`VoxVector/src/voxvector/results_envelope.py` now composes a single post-analysis envelope from the connected case, source, run, and engine result. The envelope preserves identity and provenance while explicitly representing unavailable downstream families such as transcript, alignment, tracks, reports, uncertainty, or assessment. It does not invent measurements or validation.
+
+Regression coverage is in `VoxVector/tests/test_results_envelope.py`.
 
 ## Current 21-stage state
 
@@ -69,20 +62,20 @@ The product pipeline remains 21 stages:
 - 4 conditional or intentionally not invoked without required inputs;
 - 3 queued for deeper integration.
 
-The stage model is persisted, but granular independent timing for many grouped analytical stages remains open engineering work.
+The stage model is persisted. Granular internal timing is partially implemented through the telemetry utility but is not yet wired into every pipeline boundary.
 
 ## Current engineering priority
 
-1. Canonical composed Analysis Results contract.
-2. Expanded Review Evidence and evidence explorer workflow.
-3. Real per-stage lifecycle timing, warnings, and errors.
-4. Production proof of relational diagnostic rows and Developer Console rendering.
-5. Speaker identification/diarization.
-6. Production transcription and transcript/audio alignment.
-7. Real analytical tracks and normalized evidence.
-8. Evidence synthesis, assessment, reporting, and history/reopen.
-9. Authenticated browser end-to-end verification.
-10. Scientific validation.
+1. Wire `StageTelemetry` into the actual analytical stage execution boundaries and persist the resulting lifecycle records.
+2. Connect `compose_result_envelope()` to the canonical case-analysis response path.
+3. Expand Review Evidence into an evidence explorer and audio-linked timeline.
+4. Prove relational diagnostic rows and Developer Console rendering in the deployed environment.
+5. Implement speaker identification/diarization.
+6. Implement production transcription and transcript/audio alignment.
+7. Add real analytical tracks and richer normalized evidence relationships.
+8. Build evidence synthesis, assessment, reporting, and history/reopen.
+9. Complete authenticated browser end-to-end verification.
+10. Execute the scientific validation program.
 
 ## Active canonical records synchronized in this cycle
 
@@ -91,14 +84,15 @@ The stage model is persisted, but granular independent timing for many grouped a
 - `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
 - `VoxVector/docs/SYSTEM_STATE_REPORT.md`
 - `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
 - `VoxVector/docs/MVP_BUILD_PLAN.md`
 - `VoxVector/docs/audits/FULL_AUTO_SYSTEM_AUDIT_2026-09-01.md`
 - `VoxVector/docs/DOCS_ALIGNMENT_2026-09-01.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/full-auto-system-audit-2026-09-01.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-08-30.md`
 
-## Current verification boundary
+## Version truth
 
-Current source-level changes are implemented on `main`. The next exact-commit workflow result is required before this post-change state is called CI-green.
+Current documented runtime versions are backend `0.2.26`, frontend `0.2.36`, and engine result schema `0.3`.
 
-Browser playback, authenticated end-to-end workflow verification, production relational observability proof, and scientific validation remain separate gates.
+Historical decision records remain preserved for traceability and are not treated as current dependency or runtime truth when superseded by the active implementation.
