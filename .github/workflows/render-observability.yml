@@ -1,0 +1,80 @@
+name: Render Observability
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_id:
+        description: 'Render service ID to inspect'
+        required: true
+        type: string
+      log_minutes:
+        description: 'Minutes of recent logs to inspect'
+        required: false
+        default: '30'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      RENDER_SERVICE_ID: ${{ inputs.service_id }}
+      LOG_MINUTES: ${{ inputs.log_minutes }}
+    steps:
+      - name: Validate Render secret
+        run: |
+          test -n "$RENDER_API_KEY" || {
+            echo 'RENDER_API_KEY repository secret is not configured.' >&2
+            exit 1
+          }
+      - name: Install Render CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/bin/install.sh | bash
+          echo "$HOME/.render/bin" >> "$GITHUB_PATH"
+      - name: Inspect Render service
+        run: |
+          render services -o json > render-services.json
+          render services get "$RENDER_SERVICE_ID" -o json > render-service.json
+          render deploys list "$RENDER_SERVICE_ID" -o json > render-deploys.json
+      - name: Inspect recent logs
+        run: |
+          render logs --service "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 500 -o json > render-logs.json
+      - name: Summarize VoxVector runtime evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          service=json.loads(Path('render-service.json').read_text())
+          deploys=json.loads(Path('render-deploys.json').read_text())
+          logs=json.loads(Path('render-logs.json').read_text())
+          def get(obj, *keys, default=None):
+              cur=obj
+              for key in keys:
+                  if isinstance(cur, dict): cur=cur.get(key)
+                  else: return default
+              return cur if cur is not None else default
+          print('VOXVECTOR_RENDER_OBSERVABILITY')
+          print('service_id=', get(service,'id'))
+          print('service_name=', get(service,'name'))
+          print('service_status=', get(service,'suspended'))
+          print('latest_deploy=', get(deploys,0,'id',default='unknown') if isinstance(deploys,list) and deploys else 'unknown')
+          if isinstance(logs, list):
+              print('log_count=', len(logs))
+              for item in logs[-20:]:
+                  text=get(item,'message',default=get(item,'text',default=''))
+                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower():
+                      print(text)
+          PY
+      - name: Upload diagnostic artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-observability-${{ github.run_id }}
+          path: |
+            render-services.json
+            render-service.json
+            render-deploys.json
+            render-logs.json
+          retention-days: 7
