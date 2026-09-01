@@ -111,3 +111,18 @@ The results-envelope utility is now integrated into the canonical case-analysis 
 Truthful route-boundary stage telemetry is now integrated for decode/normalization, provenance/integrity, and recording assessment. Composite internal pipeline stages are not assigned invented independent durations.
 
 The next telemetry task is internal engine callback instrumentation, not another case/API wrapper.
+
+## Engineering pivot — Evidence Acquisition
+
+The next primary engine layer is evidence acquisition.
+
+A first canonical foundation is implemented and integrated with case analysis:
+
+- media profile
+- speech timeline
+- silence timeline
+- provider-neutral transcript result contract
+- optional transcription provider protocol
+- persisted acquisition artifact
+
+The next build tasks are production diarization and transcription integration, followed by timestamp normalization and transcript/audio alignment. Downstream linguistic and interaction analysis should consume these acquired artifacts rather than rely indefinitely on manually supplied transcript tokens.
