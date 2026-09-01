@@ -1,5 +1,5 @@
 const REPO = 'darenprince/darenprince-author'
-const RUNS_URL = `https://api.github.com/repos/${REPO}/actions/runs?per_page=30`
+const RUNS_URL = `https://api.github.com/repos/${REPO}/actions/runs?branch=main&per_page=50`
 
 function normalize(run) {
   if (!run) return null
@@ -27,7 +27,12 @@ function normalize(run) {
   }
 }
 
-export async function getGitHubWorkflowStatus() {
+function pickRun(runs, name, currentSha = '') {
+  return runs.find(run => run.name === name && (!currentSha || run.head_sha === currentSha))
+    || runs.find(run => run.name === name)
+}
+
+export async function getGitHubWorkflowStatus(currentSha = '') {
   const response = await fetch(RUNS_URL, {
     headers: { Accept: 'application/vnd.github+json' },
     cache: 'no-store',
@@ -35,11 +40,16 @@ export async function getGitHubWorkflowStatus() {
   if (!response.ok) throw new Error(`GitHub workflow status unavailable (HTTP ${response.status})`)
   const payload = await response.json()
   const runs = Array.isArray(payload.workflow_runs) ? payload.workflow_runs : []
-  const latest = name => normalize(runs.find(run => run.name === name))
+  const qaRun = pickRun(runs, 'VoxVector QA', currentSha)
+  const deploymentRun = pickRun(runs, 'Deploy GitHub Pages', currentSha)
+  const lockfileRun = pickRun(runs, 'Regenerate VoxVector Lockfile', currentSha)
   return {
     fetchedAt: new Date().toISOString(),
-    qa: latest('VoxVector QA'),
-    deployment: latest('Deploy GitHub Pages'),
-    lockfile: latest('Regenerate VoxVector Lockfile'),
+    sourceRevision: currentSha || '',
+    qa: normalize(qaRun),
+    deployment: normalize(deploymentRun),
+    lockfile: normalize(lockfileRun),
+    qaMatchesSource: Boolean(qaRun && (!currentSha || qaRun.head_sha === currentSha)),
+    deploymentMatchesSource: Boolean(deploymentRun && (!currentSha || deploymentRun.head_sha === currentSha)),
   }
 }
