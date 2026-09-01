@@ -6,11 +6,9 @@ This document records repository-level software QA. It is not a scientific valid
 
 ## Current source and verification state
 
-The current canonical `main` revision is documentation synchronization following the latest code-affecting integration commits.
+The current `main` revision contains speech-intelligence provider and acquisition changes after the latest verified code gate. The exact current revision must pass its own GitHub Actions workflow before it can be recorded as QA-green.
 
-The latest verified code-affecting QA gate is `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. The run completed successfully.
-
-The immediately preceding API integration commit `c2307293789124be29b6c8d7a0c7df7234f82776` also passed `VoxVector QA` run `33505919157`.
+Latest verified code-affecting gate: `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. The run completed successfully.
 
 The verified software suite establishes implementation behavior for the tested paths. It does not establish scientific deception-detection validity.
 
@@ -26,31 +24,28 @@ The verified software suite establishes implementation behavior for the tested p
 | Formant candidates | boundary | implemented | none |
 | Reliability | deterministic and non-finite controls | implemented | eligibility only |
 | Evidence | grouping and convergence | implemented | neutral |
-| Results envelope | identity, explicit gaps, composed result shape | implemented + tested | none |
+| Evidence acquisition | media profile, speech/silence timeline, provider states | implemented foundation | none |
+| faster-whisper adapter | contract implementation | implemented, provider-gated | none |
+| pyannote Community-1 adapter | contract implementation | implemented, provider-gated | none |
+| Transcript/speaker alignment | timestamp overlap foundation | implemented + tested | none |
+| Results envelope | identity, acquisition, explicit gaps, composed result shape | implemented + tested | none |
 | Stage telemetry | timing, failure, non-execution states, transitions | implemented + tested | none |
 | Classification | guarded boundary | controlled | no validated inference |
 | Disposition | guarded boundary | controlled | no validated inference |
-| Speaker diarization | integration coverage | planned / queued | none |
-| Transcription | integration coverage | planned / queued | none |
-| Alignment | integration coverage | planned / queued | none |
 | Analysis Workspace | browser workflow | active implementation | none |
 | Developer Console | connected workflow foundation | implemented | none |
 
-## Debug finding — 2026-09-01
+## Current integration state — 2026-09-01
 
-Source inspection of the canonical `VoxVector/src/voxvector/pipeline.py` found that the newly added `StageTelemetry` utility is not yet wired into each internal analytical boundary of the monolithic pipeline. The pipeline therefore does not currently produce a trustworthy independently timed record for every implemented stage.
+The case-analysis path integrates the acquisition artifact and canonical results envelope. Configured speech providers are selected lazily through the acquisition layer.
 
-The `VoxVector/src/voxvector/results_envelope.py` composer is present and regression-tested, but the case-analysis HTTP route does not yet return it as the canonical response envelope.
+Default deployments with no provider configuration remain functional and explicitly report `not_configured` states. When a speech-enabled runtime is configured, the acquisition layer can invoke the faster-whisper transcription adapter and pyannote diarization adapter.
 
-These are implementation gaps, not QA failures. The correct status is:
+The current repository contains provider integration code and contract tests, but production model execution and target-condition evaluation are not yet verified.
 
-- telemetry utility: **BUILT + TESTED**;
-- results envelope utility: **BUILT + TESTED**;
-- full internal stage telemetry integration: **OPEN**;
-- case-analysis results-envelope integration: **OPEN**;
-- end-to-end persistence of granular stage timing: **NOT VERIFIED**.
+## Internal telemetry boundary
 
-No production run should be credited with granular stage timings that the runtime did not emit.
+The route now measures decode/normalization, provenance/integrity, and recording assessment independently. The monolithic analytical engine still does not expose callbacks for every internal method family, so those composite stages must not be assigned fabricated durations.
 
 ## Connected workflow QA
 
@@ -61,31 +56,33 @@ The intended MVP QA path remains:
 3. provenance
 4. decode
 5. playback
-6. waveform
-7. pipeline lifecycle
-8. speaker processing
-9. transcription
-10. alignment
-11. analytical tracks
-12. evidence
-13. assessment
-14. report
-15. history
-16. reopen
+6. acquisition
+7. speaker processing
+8. transcription
+9. alignment
+10. analytical tracks
+11. evidence
+12. assessment
+13. report
+14. history
+15. reopen
 
 The CI workflow verifies backend tests and the production frontend build. Browser-level authenticated verification remains a separate requirement.
 
 ## Current engineering gates
 
 - exact-commit QA result for current `main`
+- speech-enabled provider smoke test in an isolated environment
+- real model acquisition and execution verification
+- pyannote model-access verification
+- persisted transcript/speaker/alignment artifact verification
+- real internal per-stage lifecycle telemetry verification
+- Developer Console diagnostics verification against real deployed data
 - authenticated browser Analysis Workspace verification
 - signed playback verification
-- real internal per-stage lifecycle telemetry verification
-- canonical composed results-envelope response verification
-- Developer Console diagnostics verification against real deployed data
 - mobile and keyboard verification
 - reduced-motion verification
-- API failure, timeout, and cancellation verification
+- API failure, timeout, and provider-unavailable verification
 - deployment readback
 
 ## Scientific boundary
@@ -100,12 +97,5 @@ A passing software suite establishes implementation behavior only. Scientific va
 - `docs/MVP_BUILD_PLAN.md`
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
 - `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/SPEECH_INTELLIGENCE_ENGINEERING.md`
 - `docs/DOCS_ALIGNMENT_2026-09-01.md`
-
-## Integration update — 2026-09-01
-
-The canonical case-analysis route now returns and persists the composed results envelope and records independently measured route-boundary timing for decode/normalization, provenance/integrity, and recording assessment.
-
-The monolithic pipeline remains only partially instrumented internally. Internal analytical stages without emitted callbacks continue to report no independent duration rather than fabricated timing.
-
-The exact current commit remains subject to the GitHub Actions QA gate after each source revision.
