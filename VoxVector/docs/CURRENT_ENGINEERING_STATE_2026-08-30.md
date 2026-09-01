@@ -189,3 +189,16 @@ Previously reviewed historical records remain historical; they must not be used 
 ## Verification boundary
 
 This record reflects repository inspection and source-level synchronization. It does not claim a production browser session, authenticated upload, or scientific validation that was not directly observed.
+
+
+## 2026-08-31 urgent upload incident resolution
+
+**Observed production evidence:** Supabase Storage logs showed the case-source workflow successfully wrote the WAV object to the private `voxvector-media` bucket, then failed while rewriting the owning case JSON in `voxvector-logs`. The failing object write returned HTTP 400 after media persistence, producing an upload failure despite the audio object already existing.
+
+**Root cause:** case JSON persistence used a create-style Storage POST without an upsert header. Updating an existing case after appending source metadata therefore failed as a duplicate/object conflict.
+
+**Fix:** canonical `VoxVector/api/storage.py` now sends `x-upsert: true` for JSON object persistence. Media writes remain private and unchanged. Regression coverage was updated in `VoxVector/tests/test_storage.py`.
+
+**Client hardening:** browser MIME labels are no longer allowed to reject an otherwise selected File before authoritative upload validation, and the multipart request preserves the original selected filename for backend diagnostics.
+
+**Verification boundary:** Supabase production logs verified the pre-fix media write and subsequent case-record failure. The code fix and regression test are committed; successful deployed end-to-end upload still requires the updated backend revision to be running and the browser path to be exercised.
