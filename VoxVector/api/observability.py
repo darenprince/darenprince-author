@@ -85,6 +85,9 @@ class DiagnosticStore:
         # Database projections make the Developer Console observable without relying on
         # nested object-list traversal. Storage remains the canonical immutable event archive.
         try:
+            insert_row = getattr(self.storage, "insert_table_row", None)
+            if not callable(insert_row):
+                raise StorageError("Diagnostic relational projection is unavailable")
             request_row = {
                 "occurred_at": record["timestamp"],
                 "request_id": rid,
@@ -96,12 +99,15 @@ class DiagnosticStore:
                 "pipeline_version": record.get("pipeline"),
                 "metadata": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
             }
-            await asyncio.to_thread(self.storage.insert_table_row, "api_request_logs", request_row)
+            await asyncio.to_thread(insert_row, "api_request_logs", request_row)
         except StorageError as exc:
             print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=api_request_logs error={_safe_text(exc)}", flush=True)
 
         if event in _ERROR_EVENTS:
             try:
+                insert_error = getattr(self.storage, "insert_table_row", None)
+                if not callable(insert_error):
+                    raise StorageError("Diagnostic relational projection is unavailable")
                 error_row = {
                     "occurred_at": record["timestamp"],
                     "severity": "error",
@@ -117,7 +123,7 @@ class DiagnosticStore:
                     "message": record.get("error_message") or record.get("reason") or event,
                     "context": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "error_type", "error_message", "path", "method", "status_code", "source_revision", "pipeline"}}},
                 }
-                await asyncio.to_thread(self.storage.insert_table_row, "error_reports", error_row)
+                await asyncio.to_thread(insert_error, "error_reports", error_row)
             except StorageError as exc:
                 print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=error_reports error={_safe_text(exc)}", flush=True)
 
