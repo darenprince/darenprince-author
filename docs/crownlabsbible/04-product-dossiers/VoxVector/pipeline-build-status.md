@@ -71,3 +71,15 @@ The immediate sequence is:
 6. implement the validation and calibration gate before promoting inferential classification.
 
 VoxVector documentation remains the technical authority; this document mirrors that status for Crown Labs.
+
+## 2026-09-01 production milestone mirror
+
+A real production case completed the connected operational path through source upload, private media persistence, case-bound analysis, and analysis completion. `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and the Render runtime emitted valid `VOXVECTOR_DIAGNOSTIC` events.
+
+This changes the operational status of the configured upload and case-bound analysis workflow to **production executed**. It does not change the 21-stage implementation counts or scientific validation status.
+
+## 2026-09-01 observability repair mirror
+
+The Developer Console relational log failure was isolated to fractional `duration_ms` values being written to an integer `api_request_logs.duration_ms` column. The canonical backend now normalizes the relational value while retaining precise fractional timing in the immutable diagnostic archive. Regression coverage covers decimal, string, zero/sub-millisecond, null, and invalid values.
+
+The next dependency is now the **post-analysis results and auditability layer**: completed Analysis Results, Review Evidence, full run/stage telemetry, and clear unavailable/skipped reasons, followed by speaker/transcript and evidence-workspace integration.
