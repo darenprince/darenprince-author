@@ -25,6 +25,8 @@ _package_paths = [p for p in _voxvector_package.__path__ if p != CANONICAL_PACKA
 _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 
 from voxvector.pipeline import VoxVectorPipeline
+from voxvector.results_envelope import compose_result_envelope
+from voxvector.stage_telemetry import StageTelemetry
 import voxvector.acoustic as _acoustic_module
 from .auth import require_developer
 from .case_store import CaseNotFound, CaseStore
@@ -225,7 +227,7 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
 @app.get("/health")
 async def health():
     self_test_ok, self_test = _runtime_self_test()
-    return {"status": "ok" if self_test_ok else "degraded", "service": "voxvector-analysis-api", "pipeline": VoxVectorPipeline.software_version, "source_revision": SOURCE_REVISION, "canonical_package": CANONICAL_PACKAGE, "acoustic_module": ACOUSTIC_MODULE_PATH, "acoustic_source_sha256": ACOUSTIC_SOURCE_SHA256, "acoustic_runtime_signature": ACOUSTIC_RUNTIME_SIGNATURE, "pipeline_module": PIPELINE_MODULE_PATH, "pipeline_source_sha256": PIPELINE_SOURCE_SHA256, "runtime_self_test": self_test, "diagnostic_storage": DIAGNOSTICS.status(), "media_storage": DIAGNOSTICS.storage.media_configured, "analysis_limits": {"max_sample_rate_hz": MAX_SAMPLE_RATE, "max_media_bytes": MAX_MEDIA_BYTES}, "pipeline_build": _stage_build_summary(), "testing": {"current_commit_qa": "not_reported", "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}}}
+    return {"status": "ok" if self_test_ok else "degraded", "service": "voxvector-analysis-api", "pipeline": VoxVectorPipeline.software_version, "source_revision": SOURCE_REVISION, "canonical_package": CANONICAL_PACKAGE, "acoustic_module": ACOUSTIC_MODULE_PATH, "acoustic_source_sha256": ACOUSTIC_SOURCE_SHA256, "acoustic_runtime_signature": ACOUSTIC_RUNTIME_SIGNATURE, "pipeline_module": PIPELINE_MODULE_PATH, "pipeline_source_sha256": PIPELINE_SOURCE_SHA256, "runtime_self_test": self_test, "diagnostic_storage": DIAGNOSTICS.status(), "media_storage": DIAGNOSTICS.storage.media_configured, "analysis_limits": {"max_sample_rate_hz": MAX_SAMPLE_RATE, "max_media_bytes": MAX_MEDIA_BYTES}, "pipeline_build": _stage_build_summary(), "testing": {"current_commit_qa": "external_workflow_required", "source_revision": SOURCE_REVISION, "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}}}
 
 async def _read_storage_prefix(prefix: str, limit: int) -> list[dict]:
     storage = DIAGNOSTICS.storage; entries = await asyncio.to_thread(storage.list_json, prefix, min(limit, 250), 0); records = []
@@ -404,23 +406,220 @@ async def source_playback_url(case_id: str, source_id: str, expires: int = Query
 
 @app.post("/v1/cases/{case_id}/sources/{source_id}/analyze")
 async def analyze_case_source(case_id: str, source_id: str, user: dict = Depends(require_developer)):
-    rid=request_id()
+    rid = request_id()
+    telemetry = StageTelemetry(PIPELINE_STAGE_DEFINITIONS)
     try:
-        case,source=await asyncio.to_thread(CASE_STORE.get_source,str(user["id"]),case_id,source_id); data=await asyncio.to_thread(DIAGNOSTICS.storage.get_bytes,source["media_path"].removeprefix(f"{DIAGNOSTICS.storage.config.media_bucket}/")); audio,sample_rate=read_wav(data)
-        if audio.size==0: raise ValueError("Audio contains no samples")
-        stage_states=_new_stage_states(); now=datetime.now(timezone.utc).isoformat()
-        _set_stage(stage_states,"file_upload_ingest","complete",started_at=source["created_at"],completed_at=source["created_at"],outcome="source persisted")
-        _set_stage(stage_states,"file_decode_normalization","complete",started_at=now,completed_at=now,outcome="PCM WAV decoded")
-        _set_stage(stage_states,"provenance_integrity","complete",started_at=now,completed_at=now,outcome="SHA-256 source hash recorded")
-        _set_stage(stage_states,"channel_recording_assessment","complete",started_at=now,completed_at=now,outcome="recording metadata captured")
-        started=timer(); result=await asyncio.to_thread(VoxVectorPipeline().analyze,audio,sample_rate); completed=datetime.now(timezone.utc).isoformat()
-        _set_stage(stage_states,"speech_segmentation","complete" if result.speech_segments else "not_run",started_at=now,completed_at=completed,duration_ms=elapsed_ms(started),outcome=f"{len(result.speech_segments)} speech segments detected")
-        _set_stage(stage_states,"eligibility_reliability","complete",started_at=now,completed_at=completed,duration_ms=elapsed_ms(started),outcome=result.eligibility.status)
-        for stage_id in ("acoustic_feature_extraction","prosodic_voice_quality","temporal_pause_analysis","cross_method_evidence","evidence_convergence_conflict","candidate_classification","final_disposition","audit_provenance_output"):_set_stage(stage_states,stage_id,"complete",started_at=now,completed_at=completed,outcome="pipeline result recorded")
-        _set_stage(stage_states,"linguistic_disfluency","not_run",outcome="transcript not attached"); _set_stage(stage_states,"within_speaker_baseline","not_run",outcome="baseline not attached"); _set_stage(stage_states,"question_answer_alignment","not_run",outcome="question context not attached"); _set_stage(stage_states,"speaker_identification_diarization","pending",outcome="speaker processing queued"); _set_stage(stage_states,"transcription_generation","pending",outcome="production transcription queued"); _set_stage(stage_states,"transcript_alignment","pending",outcome="transcription queued"); _set_stage(stage_states,"validation_calibration_gate","not_run",outcome="inferential validation gate not invoked")
-        completed_count=sum(stage["status"] in {"complete","completed","success","succeeded"} for stage in stage_states); pending_count=sum(stage["status"] in {"pending","running","processing","in_progress"} for stage in stage_states); not_run_count=sum(stage["status"]=="not_run" for stage in stage_states); failed_count=sum(stage["status"] in {"failed","error"} for stage in stage_states)
-        run={"run_id":result.run_id,"request_id":rid,"status":"completed","started_at":now,"completed_at":completed,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"pipeline_build":{"total_stages":21,"completed":completed_count,"pending":pending_count,"not_run":not_run_count,"failed":failed_count},"testing":{"current_commit_qa":"not_reported","historical_backend_baseline":{"passed":91,"duration_seconds":0.56}},"stages":stage_states,"result":VoxVectorPipeline.to_dict(result)}
-        updated_case=await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,run); await DIAGNOSTICS.emit("case.analysis_completed",case_id=case_id,source_id=source_id,run_id=result.run_id,request_id=rid,completed_stages=completed_count,pending_stages=pending_count,not_run_stages=not_run_count); return {"status":"ok","case":updated_case,"run":run}
-    except CaseNotFound as exc: raise HTTPException(status_code=404,detail="Analysis case or source not found") from exc
-    except StorageError as exc: raise HTTPException(status_code=503,detail="Case or media storage is unavailable") from exc
-    except Exception as exc: await DIAGNOSTICS.emit("request.analysis_error",request_id=rid,case_id=case_id,source_id=source_id,**safe_error(exc)); raise HTTPException(status_code=400,detail=str(exc)) from exc
+        case, source = await asyncio.to_thread(
+            CASE_STORE.get_source, str(user["id"]), case_id, source_id
+        )
+
+        # Stage 01 completed before this endpoint: preserve the persisted-source
+        # evidence without inventing a new execution duration.
+        stage_states = _new_stage_states()
+        _set_stage(
+            stage_states,
+            "file_upload_ingest",
+            "complete",
+            started_at=source.get("created_at"),
+            completed_at=source.get("created_at"),
+            outcome="source persisted before analysis run",
+        )
+
+        telemetry.start("file_decode_normalization")
+        data = await asyncio.to_thread(
+            DIAGNOSTICS.storage.get_bytes,
+            source["media_path"].removeprefix(
+                f"{DIAGNOSTICS.storage.config.media_bucket}/"
+            ),
+        )
+        audio, sample_rate = read_wav(data)
+        if audio.size == 0:
+            raise ValueError("Audio contains no samples")
+        telemetry.complete(
+            "file_decode_normalization",
+            outcome="PCM WAV decoded and normalized to mono",
+        )
+
+        telemetry.start("provenance_integrity")
+        expected_sha = str(source.get("sha256") or "")
+        actual_sha = hashlib.sha256(data).hexdigest()
+        if expected_sha and expected_sha != actual_sha:
+            raise ValueError("Persisted source SHA-256 does not match retrieved media")
+        telemetry.complete(
+            "provenance_integrity",
+            outcome="SHA-256 source integrity confirmed",
+        )
+
+        telemetry.start("channel_recording_assessment")
+        peak = float(np.nanmax(np.abs(audio))) if np.any(np.isfinite(audio)) else 0.0
+        clipping_ratio = float(np.mean(np.abs(audio) >= 0.999))
+        telemetry.complete(
+            "channel_recording_assessment",
+            outcome=f"recording assessed: sample_rate={sample_rate}, peak_abs={peak:.6f}, clipping_ratio={clipping_ratio:.6f}",
+        )
+
+        started_at = datetime.now(timezone.utc).isoformat()
+        pipeline_started = timer()
+        result = await asyncio.to_thread(
+            VoxVectorPipeline().analyze, audio, sample_rate
+        )
+        completed_at = datetime.now(timezone.utc).isoformat()
+        pipeline_duration = elapsed_ms(pipeline_started)
+
+        measured = {item["id"]: item for item in telemetry.snapshot()}
+        for stage in measured.values():
+            _set_stage(
+                stage_states,
+                stage["id"],
+                stage["status"],
+                started_at=stage["started_at"],
+                completed_at=stage["completed_at"],
+                duration_ms=stage["duration_ms"],
+                outcome=stage["outcome"],
+                error=stage["error"],
+            )
+
+        # The current monolithic engine does not expose independently timed
+        # callbacks for these internal boundaries. Record execution truthfully:
+        # complete result state is preserved, while duration remains null.
+        internal_completed = {
+            "speech_segmentation": (
+                "complete" if result.speech_segments else "not_run",
+                f"{len(result.speech_segments)} speech segments detected",
+            ),
+            "eligibility_reliability": ("complete", result.eligibility.status),
+            "acoustic_feature_extraction": (
+                "complete",
+                "completed inside composite pipeline; internal timing not independently instrumented",
+            ),
+            "prosodic_voice_quality": (
+                "complete",
+                "completed inside composite pipeline; internal timing not independently instrumented",
+            ),
+            "temporal_pause_analysis": (
+                "complete",
+                "completed inside composite pipeline; internal timing not independently instrumented",
+            ),
+            "cross_method_evidence": (
+                "complete",
+                "completed inside composite pipeline; internal timing not independently instrumented",
+            ),
+            "evidence_convergence_conflict": (
+                "complete",
+                "completed inside composite pipeline; internal timing not independently instrumented",
+            ),
+            "candidate_classification": (
+                "complete",
+                "guarded candidate state recorded",
+            ),
+            "final_disposition": (
+                "complete",
+                "guarded final disposition recorded",
+            ),
+            "audit_provenance_output": (
+                "complete",
+                "analysis provenance and run record assembled",
+            ),
+        }
+        for stage_id, (status, outcome) in internal_completed.items():
+            _set_stage(
+                stage_states,
+                stage_id,
+                status,
+                started_at=None,
+                completed_at=completed_at if status == "complete" else None,
+                duration_ms=None,
+                outcome=outcome,
+            )
+
+        _set_stage(stage_states, "linguistic_disfluency", "not_run", outcome="transcript not attached")
+        _set_stage(stage_states, "within_speaker_baseline", "not_run", outcome="baseline not attached")
+        _set_stage(stage_states, "question_answer_alignment", "not_run", outcome="question context not attached")
+        _set_stage(stage_states, "speaker_identification_diarization", "pending", outcome="speaker processing queued")
+        _set_stage(stage_states, "transcription_generation", "pending", outcome="production transcription queued")
+        _set_stage(stage_states, "transcript_alignment", "pending", outcome="transcription queued")
+        _set_stage(stage_states, "validation_calibration_gate", "not_run", outcome="inferential validation gate not invoked")
+
+        completed_count = sum(
+            stage["status"] in {"complete", "completed", "success", "succeeded"}
+            for stage in stage_states
+        )
+        pending_count = sum(
+            stage["status"] in {"pending", "running", "processing", "in_progress"}
+            for stage in stage_states
+        )
+        not_run_count = sum(stage["status"] == "not_run" for stage in stage_states)
+        failed_count = sum(stage["status"] in {"failed", "error"} for stage in stage_states)
+
+        result_dict = VoxVectorPipeline.to_dict(result)
+        run = {
+            "run_id": result.run_id,
+            "analysis_id": result.run_id,
+            "request_id": rid,
+            "status": "completed",
+            "started_at": started_at,
+            "completed_at": completed_at,
+            "source_id": source_id,
+            "pipeline_version": VoxVectorPipeline.software_version,
+            "pipeline_duration_ms": pipeline_duration,
+            "telemetry_scope": {
+                "route_boundary_stages": [
+                    "file_decode_normalization",
+                    "provenance_integrity",
+                    "channel_recording_assessment",
+                ],
+                "composite_pipeline_internal_timing": "not independently instrumented",
+            },
+            "pipeline_build": {
+                "total_stages": 21,
+                "completed": completed_count,
+                "pending": pending_count,
+                "not_run": not_run_count,
+                "failed": failed_count,
+            },
+            "testing": {
+                "current_commit_qa": "external_workflow_required",
+                "source_revision": SOURCE_REVISION,
+                "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56},
+            },
+            "stages": stage_states,
+            "result": result_dict,
+        }
+        envelope = compose_result_envelope(
+            case=case, source=source, run=run, result=result_dict
+        )
+        run["result_envelope"] = envelope
+
+        updated_case = await asyncio.to_thread(
+            CASE_STORE.update_run, str(user["id"]), case_id, run
+        )
+        await DIAGNOSTICS.emit(
+            "case.analysis_completed",
+            case_id=case_id,
+            source_id=source_id,
+            run_id=result.run_id,
+            request_id=rid,
+            completed_stages=completed_count,
+            pending_stages=pending_count,
+            not_run_stages=not_run_count,
+            pipeline_duration_ms=pipeline_duration,
+        )
+        return {
+            "status": "ok",
+            "case": updated_case,
+            "run": run,
+            "result_envelope": envelope,
+        }
+    except CaseNotFound as exc:
+        raise HTTPException(status_code=404, detail="Analysis case or source not found") from exc
+    except StorageError as exc:
+        raise HTTPException(status_code=503, detail="Case or media storage is unavailable") from exc
+    except Exception as exc:
+        await DIAGNOSTICS.emit(
+            "request.analysis_error",
+            request_id=rid,
+            case_id=case_id,
+            source_id=source_id,
+            **safe_error(exc),
+        )
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
