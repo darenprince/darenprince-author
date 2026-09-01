@@ -29,12 +29,15 @@ function DeveloperStartup({ session, signOut, children }) {
   const health = useQuery({ queryKey: ['developer-startup-health'], queryFn: getHealth, refetchInterval: 1500, retry: false, staleTime: 0 })
   const apiReady = health.isSuccess && health.data?.payload?.status === 'ok' && health.data?.payload?.runtime_self_test === 'passed'
   useEffect(() => {
-    if (!apiReady || phase !== 'startup') return undefined
+    if (!apiReady) return undefined
     setPhase('leaving')
     const preloader = window.setTimeout(() => setPhase('preloader'), 520)
     const dashboard = window.setTimeout(() => setPhase('ready'), 1250)
-    return () => { window.clearTimeout(preloader); window.clearTimeout(dashboard) }
-  }, [apiReady, phase])
+    return () => {
+      window.clearTimeout(preloader)
+      window.clearTimeout(dashboard)
+    }
+  }, [apiReady])
   if (phase === 'startup' || phase === 'leaving') return <ApiStartup health={health} session={session} leaving={phase === 'leaving'} />
   if (phase === 'preloader') return <StartupPreloader />
   return children({ session, signOut })
