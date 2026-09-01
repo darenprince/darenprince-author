@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 
-from .evidence_acquisition import DiarizationResult, TranscriptResult, TranscriptWord
+from .evidence_acquisition import DiarizationResult, TranscriptResult
 
 
 @dataclass(frozen=True)
@@ -68,7 +68,7 @@ def align_transcript_to_speakers(
 
     return MultimodalTimeline(
         words=tuple(aligned),
-        speaker_segments=[
+        speaker_segments=tuple(
             {
                 "speaker_id": item.speaker_id,
                 "start_s": item.start_s,
@@ -76,6 +76,6 @@ def align_transcript_to_speakers(
                 "confidence": item.confidence,
             }
             for item in diarization.segments
-        ],
+        ),
         limitations=tuple(diarization.limitations),
     )
