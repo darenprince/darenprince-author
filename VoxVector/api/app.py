@@ -258,10 +258,11 @@ async def diagnostic_errors(_: dict = Depends(require_developer), days: int = Qu
     if not DIAGNOSTICS.enabled or not storage.configured:
         raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
     try:
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat().replace("+00:00", "Z")
         rows = await asyncio.to_thread(
             storage.select_table_rows,
             "error_reports",
-            f"select=*&order=occurred_at.desc&limit={limit}",
+            f"select=*&occurred_at=gte.{cutoff}&order=occurred_at.desc&limit={limit}",
         )
         if rows:
             return {"status": "ok", "count": len(rows), "days": days, "events": [
@@ -296,7 +297,8 @@ async def diagnostic_events(_: dict = Depends(require_developer), request_id_fil
     if not DIAGNOSTICS.enabled or not storage.configured:
         raise HTTPException(status_code=503, detail="Diagnostic storage is not configured")
     try:
-        filters = f"select=*&order=occurred_at.desc&limit={limit}"
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat().replace("+00:00", "Z")
+        filters = f"select=*&occurred_at=gte.{cutoff}&order=occurred_at.desc&limit={limit}"
         if request_id_filter:
             filters += f"&request_id=eq.{request_id_filter}"
         rows = await asyncio.to_thread(storage.select_table_rows, "api_request_logs", filters)
