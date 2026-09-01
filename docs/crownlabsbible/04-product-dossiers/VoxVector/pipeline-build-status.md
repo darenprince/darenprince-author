@@ -83,3 +83,9 @@ This changes the operational status of the configured upload and case-bound anal
 The Developer Console relational log failure was isolated to fractional `duration_ms` values being written to an integer `api_request_logs.duration_ms` column. The canonical backend now normalizes the relational value while retaining precise fractional timing in the immutable diagnostic archive. Regression coverage covers decimal, string, zero/sub-millisecond, null, and invalid values.
 
 The next dependency is now the **post-analysis results and auditability layer**: completed Analysis Results, Review Evidence, full run/stage telemetry, and clear unavailable/skipped reasons, followed by speaker/transcript and evidence-workspace integration.
+
+## 2026-09-01 integration update
+
+The canonical API now integrates the results envelope and route-boundary telemetry for decode, provenance, and recording assessment. Composite internal pipeline execution remains explicitly non-granular where the engine does not emit stage callbacks.
+
+This does not change the 21-stage implementation counts or scientific validation state.
