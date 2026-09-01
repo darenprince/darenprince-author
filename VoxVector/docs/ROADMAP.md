@@ -321,3 +321,18 @@ The roadmap priority therefore advances to the **post-analysis experience** befo
 The duration projection defect found during production execution is isolated to the Developer Console relational observability surface. Its repair is implemented in the canonical backend and regression tested without changing the existing database schema. This work supports, rather than replaces, the broader roadmap item for developer observability.
 
 The 21-stage roadmap remains unchanged in scope. Current production execution does not promote queued, conditional, or not-invoked stages to implemented or validated status.
+
+## Active engineering sequence — Evidence Acquisition
+
+The immediate development sequence is now:
+
+1. Evidence acquisition foundation — implemented foundation
+2. Recording/media profile expansion — next
+3. Speaker diarization provider boundary — next
+4. Production transcription provider integration — next
+5. Word and segment timestamp normalization — next
+6. Transcript/audio alignment — next
+7. Multimodal evidence timeline — next
+8. Linguistic, interaction, baseline, and convergence expansion — follows acquired data
+
+Telemetry continues alongside these engines but must instrument real execution rather than drive the roadmap ahead of data acquisition.
