@@ -202,3 +202,11 @@ A real production case upload and analysis completed successfully on 2026-09-01,
 Connected Supabase inspection found Storage diagnostics populated while public.api_request_logs and public.error_reports contained zero rows. The canonical repair now keeps immutable JSON records in voxvector-logs, projects enabled lifecycle events into public.api_request_logs, projects error events into public.error_reports, and lets diagnostic APIs prefer relational records with Storage archive fallback.
 
 Production verification remains required after deployment. Audit record: VoxVector/docs/audits/SYSTEM_ARCHITECTURE_AND_OBSERVABILITY_2026-09-01.md.
+
+## 2026-09-01 production verification update
+
+The 2026-09-01 production run subsequently demonstrated successful case upload, private media persistence, and case-bound analysis completion. Production `/health`, `/v1/cases`, and case retrieval calls returned `200 OK`, and the Render runtime emitted valid `VOXVECTOR_DIAGNOSTIC` records during the run.
+
+The remaining observability defect is isolated to the relational projection boundary. `VoxVector/api/observability.py` now applies `_duration_ms_for_projection()` so the existing integer database schema receives normalized values while the immutable Storage record preserves fractional timing precision. Regression coverage in `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid duration inputs.
+
+The production evidence changes the engineering priority from basic upload/analysis reliability to post-analysis results, stage auditability, and the completed-case review workflow. Verification of the repaired relational projection after redeployment remains a distinct pending check.
