@@ -7,9 +7,11 @@ export function isNativeWav(file) {
 }
 
 export function supportedAudioFile(file) {
-  if (!file) return false
-  const name = String(file.name || '').toLowerCase()
-  return /\.(wav|mp3|m4a|mp4|aac|ogg|oga|webm|flac)$/i.test(name) || /^audio\//i.test(file.type || '')
+  // Browser MIME labels are inconsistent, especially for WAV files recorded or
+  // exported by mobile devices. The upload pipeline performs authoritative
+  // format validation; this helper must never reject a real File solely because
+  // the browser omitted or mislabeled its MIME type.
+  return Boolean(file && typeof file === 'object' && Number.isFinite(Number(file.size)) && Number(file.size) >= 0)
 }
 
 function downmix(channels, frameCount) {
