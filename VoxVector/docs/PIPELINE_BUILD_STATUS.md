@@ -75,3 +75,19 @@ A successful build means the software compiled and tests that actually ran passe
 A successful upload means the source was accepted and persisted. It is not evidence that the recording contains reliable deception indicators.
 
 A completed pipeline run means the configured software stages executed. It is not proof that any individual vocal feature proves deception.
+
+## 2026-09-01 production milestone
+
+A real production case completed the connected operational path through source upload, private media persistence, case-bound analysis, and analysis completion. During the successful run, `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and valid `VOXVECTOR_DIAGNOSTIC` records were emitted.
+
+This execution upgrades the operational status of Stages 01–04, 09, 10–12, 16–18, 20–21 from merely source-present to **production executed for the configured case path**, without changing their scientific validation status.
+
+The 21-stage counts remain unchanged because production execution of one configured path does not make queued, conditional, or not-invoked stages implemented.
+
+## 2026-09-01 observability repair
+
+Production logs isolated the Developer Console log persistence defect to `public.api_request_logs.duration_ms`, whose integer schema rejected fractional diagnostic timings such as `9339.07`, `0.26`, `635.3`, and `597.92` milliseconds.
+
+`VoxVector/api/observability.py` now normalizes relational duration values at the projection boundary while preserving fractional precision in immutable diagnostic Storage records. `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid inputs.
+
+The next engineering target is therefore **completed Analysis Results + full analysis audit telemetry**, followed by speaker/transcript integration and evidence presentation.
