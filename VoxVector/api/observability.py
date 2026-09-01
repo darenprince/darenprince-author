@@ -80,26 +80,58 @@ class DiagnosticStore:
         date_path = now.strftime("%Y/%m/%d")
         object_name = f"{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
         object_path = f"events/{date_path}/{rid}/{object_name}"
+        storage_result = None
+
+        # Database projections make the Developer Console observable without relying on
+        # nested object-list traversal. Storage remains the canonical immutable event archive.
         try:
-            result = await asyncio.to_thread(self.storage.put_json, object_path, record)
+            request_row = {
+                "occurred_at": record["timestamp"],
+                "request_id": rid,
+                "route": record.get("path"),
+                "method": record.get("method"),
+                "status_code": record.get("status_code"),
+                "duration_ms": record.get("duration_ms"),
+                "source_revision": record.get("source_revision"),
+                "pipeline_version": record.get("pipeline"),
+                "metadata": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
+            }
+            await asyncio.to_thread(self.storage.insert_table_row, "api_request_logs", request_row)
+        except StorageError as exc:
+            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=api_request_logs error={_safe_text(exc)}", flush=True)
+
+        if event in _ERROR_EVENTS:
+            try:
+                error_row = {
+                    "occurred_at": record["timestamp"],
+                    "severity": "error",
+                    "status": "open",
+                    "service": "voxvector-api",
+                    "route": record.get("path"),
+                    "method": record.get("method"),
+                    "status_code": record.get("status_code"),
+                    "request_id": rid,
+                    "source_revision": record.get("source_revision"),
+                    "pipeline_version": record.get("pipeline"),
+                    "error_type": record.get("error_type"),
+                    "message": record.get("error_message") or record.get("reason") or event,
+                    "context": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "error_type", "error_message", "path", "method", "status_code", "source_revision", "pipeline"}}},
+                }
+                await asyncio.to_thread(self.storage.insert_table_row, "error_reports", error_row)
+            except StorageError as exc:
+                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} event={event} table=error_reports error={_safe_text(exc)}", flush=True)
+
+        try:
+            storage_result = await asyncio.to_thread(self.storage.put_json, object_path, record)
             if event in _ERROR_EVENTS:
                 index_path = f"error-index/{date_path}/{rid}_{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
                 try:
                     await asyncio.to_thread(self.storage.put_json, index_path, record)
                 except StorageError as exc:
-                    print(
-                        f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} "
-                        f"event={event} index=error-index error={_safe_text(exc)}",
-                        flush=True,
-                    )
-            return result
+                    print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} index=error-index error={_safe_text(exc)}", flush=True)
         except StorageError as exc:
-            print(
-                f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} "
-                f"event={event} error={_safe_text(exc)}",
-                flush=True,
-            )
-            return None
+            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} event={event} error={_safe_text(exc)}", flush=True)
+        return storage_result
 
 
 DIAGNOSTICS = DiagnosticStore()
