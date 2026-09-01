@@ -8,13 +8,13 @@ This is the current engineering synchronization record for the connected VoxVect
 
 ### Public React application — `voxvector/`
 
-Current connected surfaces include the public landing page, shared `SiteHeader`, authenticated Developer Gate, Developer Console, Case Workbench, Analysis Workspace, audio upload/playback primitives, local waveform/spectrogram visualization, methodology/documentation navigation, MVP task board, diagnostic views, GitHub-backed engineering status, developer profile controls, and persisted Analysis Results / Review Evidence presentation.
+Current connected surfaces include the public landing page, shared `SiteHeader`, authenticated Developer Gate, Developer Console, Case Workbench, Case History, Analysis Workspace, audio upload/playback primitives, local waveform/spectrogram visualization, methodology/documentation navigation, MVP task board, diagnostic views, GitHub-backed engineering status, developer profile controls, and persisted Analysis Results / Review Evidence presentation.
 
-The Developer Console uses the canonical case API contracts for case creation, case retrieval, WAV source upload, signed playback, and case-bound analysis.
+The Developer Console uses the canonical case API contracts for case creation, case listing/retrieval, WAV source upload, signed playback, and case-bound analysis. It also has authenticated Render Runtime status/log surfaces through server-side API routes.
 
 ### Backend — `VoxVector/`
 
-The canonical FastAPI adapter exposes `/health`, direct `/v1/analyze`, authenticated case creation/list/retrieval, authenticated case-source upload, secure signed playback, authenticated case-bound analysis, and diagnostic events/errors.
+The canonical FastAPI adapter exposes `/health`, direct `/v1/analyze`, authenticated case creation/list/retrieval, authenticated case-source upload, secure signed playback, authenticated case-bound analysis, diagnostic events/errors, and developer-only Render runtime status/log routes.
 
 The canonical analysis engine remains under `VoxVector/src/voxvector/` and is invoked by the API adapter.
 
@@ -28,13 +28,11 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## Current verified QA
 
-The latest verified QA result before the current speech-integration source revision is `VoxVector QA` run `33505986385` on commit `661377afed8b5493b62bd7f13121f53f45895d6a`. That run passed.
-
-The current source revision has a fresh QA workflow running; its result is required before the current revision is called green.
+The latest previously verified QA result is historical evidence tied to its exact source revision. The current console/Render feature slice requires a fresh GitHub Actions QA run before it is recorded as green.
 
 ## Speech intelligence state — 2026-09-01
 
-The primary next engine layer is now implemented as a provider-backed evidence acquisition system:
+The primary next engine layer is implemented as a provider-backed evidence acquisition system:
 
 - media profile and integrity metadata;
 - speech and silence timeline;
@@ -47,28 +45,64 @@ The primary next engine layer is now implemented as a provider-backed evidence a
 
 The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
 
-The user has configured the Hugging Face token and Community-1 access conditions in Render. The repository does not inspect or store the secret.
+The user-configured Hugging Face token and Community-1 access conditions remain deployment configuration. The repository does not inspect or store the secret.
 
 ## Observability state — 2026-09-01
 
-`voxvector.diagnostic.v2` now carries a run-correlatable `request_id`, `trace_id`, and, when used by the execution coordinator, `analysis_run_id`, together with UTC timestamps and measured durations. Immutable diagnostic records preserve precise timing while the relational projection remains integer-compatible.
+`voxvector.diagnostic.v2` carries run-correlatable `request_id`, `trace_id`, and, when used by the execution coordinator, `analysis_run_id`, together with UTC timestamps and measured durations. Immutable diagnostic records preserve precise timing while the relational projection remains integer-compatible.
 
 `VoxVector/src/voxvector/execution_trace.py` provides an analysis-run execution coordinator with explicit stage start, completion, failure, progress, and overall-run events. The application-side foundation is present and tested; complete internal pipeline callback instrumentation remains a separate integration task.
 
-The repository includes `VoxVector/scripts/render-observe.sh` and `VoxVector/docs/RENDER_OBSERVABILITY.md` for Render Live Tail and centralized-log operations.
+Case-bound analysis now persists a `running` case run before main processing and updates actual route-boundary state. The Developer Console polls the selected case while the analysis is active and projects the stored state into a live workflow indicator.
+
+The repository includes `VoxVector/scripts/render-observe.sh`, `VoxVector/docs/RENDER_OBSERVABILITY.md`, and `.github/workflows/render-observability.yml` for Render infrastructure inspection.
+
+## Render Developer Console integration — 2026-09-01
+
+The authenticated console now reads Render infrastructure through server-side routes:
+
+- `GET /v1/developer/render/status`
+- `GET /v1/developer/render/logs`
+
+The bridge reads protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtime environment and never exposes the key to React/browser code.
+
+GitHub Actions separately consumes repository secrets `RENDER_API_KEY` and `RENDER_SERVICE_ID`. These GitHub secrets are not automatically injected into the Render service. The Render service must separately contain the protected variables before the live console bridge can authenticate.
+
+Render deployment state, instance state, logs, and metrics are infrastructure evidence. They do not replace application timing truth.
+
+## Developer Console workflow state — 2026-09-01
+
+The Developer Console now includes:
+
+- first-class Case History backed by persisted case records;
+- reopen of prior case analysis without creating a new run;
+- persisted live run status and completed-stage count;
+- visible current stage where known;
+- indeterminate activity treatment during uninstrumented composite execution;
+- individually collapsible Case Workbench steps;
+- Expand All / Collapse All controls;
+- vertically scrollable desktop/mobile sidebar;
+- route navigation scroll reset to the top of the main workspace;
+- consistent human-readable labels for pipeline, QA, logs, errors, and infrastructure states;
+- visibly moving startup initialization progress after real API readiness;
+- Render Runtime service/deployment/log surface.
+
+These are implementation changes. Authenticated browser verification and deployed runtime verification remain required.
 
 ## Current engineering priorities
 
-1. Run the optional speech runtime in a controlled deployed environment.
-2. Verify faster-whisper model acquisition, transcription segments, word timestamps, runtime duration, and resource behavior.
-3. Verify pyannote Community-1 model access and speaker-turn output.
-4. Persist and inspect transcript, speaker, and multimodal alignment artifacts under the canonical case/run.
-5. Connect transcript-derived data to the existing linguistic/disfluency analysis path.
-6. Make acoustic aggregation speaker-aware and feed real speaker-separated baselines.
-7. Add question/answer context and interaction timing ingestion.
-8. Expand the Analysis Results / Review Evidence UI around the real multimodal timeline.
-9. Wire the execution coordinator into every actual internal analysis boundary without duplicating the pipeline.
-10. Begin task-specific scientific evaluation only after engineering stability is established.
+1. Configure and verify Render-side `RENDER_API_KEY` and `RENDER_SERVICE_ID`.
+2. Verify GitHub Actions Render observability with the repository secrets.
+3. Verify faster-whisper model acquisition, transcription segments, word timestamps, runtime duration, and resource behavior.
+4. Verify pyannote Community-1 model access and speaker-turn output.
+5. Persist and inspect transcript, speaker, and multimodal alignment artifacts under the canonical case/run.
+6. Connect transcript-derived data to the existing linguistic/disfluency analysis path.
+7. Make acoustic aggregation speaker-aware and feed real speaker-separated baselines.
+8. Add question/answer context and interaction timing ingestion.
+9. Expand the Analysis Results / Review Evidence UI around the real multimodal timeline.
+10. Wire the execution coordinator into every actual internal analysis boundary without duplicating the pipeline.
+11. Complete authenticated browser/mobile verification of the Developer Console.
+12. Begin task-specific scientific evaluation only after engineering stability is established.
 
 ## Integrity boundary
 
@@ -78,9 +112,9 @@ Historical checkpoints remain historical evidence and are not current status sou
 
 ## 2026-09-01 speech runtime hardening
 
-The acquisition layer now treats configured-provider failures as explicit `unavailable` states with limitations so optional speech capabilities cannot silently take down the base analysis path.
+The acquisition layer treats configured-provider failures as explicit `unavailable` states with limitations so optional speech capabilities cannot silently take down the base analysis path.
 
-The faster-whisper adapter no longer converts `avg_logprob` into a probability-like segment confidence value. Segment confidence remains null unless an actual probability field is provided.
+The faster-whisper adapter does not convert `avg_logprob` into a probability-like segment confidence value. Segment confidence remains null unless an actual probability field is provided.
 
 The pyannote adapter prefers Community-1 exclusive speaker diarization when the provider exposes it, improving alignment with transcript timestamps.
 
