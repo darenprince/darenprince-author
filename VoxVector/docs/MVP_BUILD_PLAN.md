@@ -138,3 +138,16 @@ The local MVP task board is an operator tracker and never substitutes for backen
 ## Definition of done
 
 MVP is reached only when one connected case can move from recording intake through synchronized audio, speaker and transcript analysis, evidence synthesis, assessment, reporting, persistence, and reopening through reproducible browser verification.
+
+## Revised next build order
+
+The MVP build order now prioritizes evidence acquisition:
+
+**Phase EA1:** media profile and speech timeline foundation — implemented
+**Phase EA2:** speaker diarization contract/provider — next
+**Phase EA3:** transcription provider and normalized transcript artifact — next
+**Phase EA4:** word/segment timestamp normalization and speaker association
+**Phase EA5:** transcript/audio alignment and multimodal timeline
+**Phase EA6:** evidence consumers: linguistic, interaction, baseline, convergence
+
+Existing telemetry and results infrastructure remains supporting architecture around these real engines.
