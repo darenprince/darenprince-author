@@ -15,7 +15,15 @@ from .storage import StorageError, SupabaseStorage
 
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("voxvector_request_id", default="")
 _BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
-_ERROR_EVENTS = {"request.rejected", "request.analysis_error", "request.unhandled_exception", "request.server_error"}
+_ERROR_EVENTS = {
+    "request.rejected",
+    "request.analysis_error",
+    "request.unhandled_exception",
+    "request.server_error",
+    "case.source_upload_rejected",
+    "case.source_upload_failed",
+    "case.analysis_failed",
+}
 
 
 def new_request_id(value: str | None = None) -> str:
@@ -108,7 +116,7 @@ class DiagnosticStore:
                 "duration_ms": _duration_ms_for_projection(record.get("duration_ms")),
                 "source_revision": record.get("source_revision"),
                 "pipeline_version": record.get("pipeline"),
-                "metadata": {"event": event, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
+                "metadata": {"event": event, "error_event": event in _ERROR_EVENTS, **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}}},
             }
             await asyncio.to_thread(insert_row, "api_request_logs", request_row)
         except StorageError as exc:
