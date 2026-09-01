@@ -288,3 +288,8 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 **Workflow:** Architecture → Ownership → Trace → Operate/verify. Every migration or failure investigation must identify the actual boundary and canonical owner before editing. Verification claims remain boundary-specific.
 
 **Rationale:** Recent debugging drift demonstrated that a healthy host, green build, or visible client error can each describe only one boundary. The workflow now explicitly requires end-to-end tracing instead of assumption-driven diagnosis.
+
+
+## 2026-09-01 — Observability projection and Developer Console audit surface
+
+**Decision:** Preserve immutable Supabase Storage diagnostics while projecting sanitized lifecycle events into existing api_request_logs and error_reports tables. Connected inspection found both relational tables present with zero rows while Storage diagnostics existed, identifying a writer/projection gap rather than an absent archive. The canonical observability layer and Developer Console were updated accordingly. Source implementation is committed; production runtime verification remains pending until deployed traffic creates and displays real records.
