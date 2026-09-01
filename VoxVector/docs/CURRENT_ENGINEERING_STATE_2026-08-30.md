@@ -103,3 +103,11 @@ Current alignment record: `docs/DOCS_ALIGNMENT_2026-09-01.md`.
 Current versions: backend `0.2.26`, frontend `0.2.36`, engine result schema `0.3`.
 
 Historical checkpoints remain historical evidence and are not current status sources.
+
+## Integration update — 2026-09-01
+
+The results-envelope utility is now integrated into the canonical case-analysis API and persisted with the case run. The response returns the composed envelope directly.
+
+Truthful route-boundary stage telemetry is now integrated for decode/normalization, provenance/integrity, and recording assessment. Composite internal pipeline stages are not assigned invented independent durations.
+
+The next telemetry task is internal engine callback instrumentation, not another case/API wrapper.
