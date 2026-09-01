@@ -138,3 +138,13 @@
 .vv-audit-finding p { margin:5px 0 0; color:var(--vv-muted); font-size:11px; line-height:1.55; }
 .vv-audit-list { margin:8px 0 0; padding-left:18px; color:var(--vv-muted); font-size:11px; line-height:1.7; }
 @media (max-width:700px){.vv-audit-finding{grid-template-columns:1fr;gap:5px}}
+
+
+/* Workflow state belongs on the actual input/analysis surface, not the guide above it. */
+.vv-workflow-card{transition:border-color .28s ease,box-shadow .28s ease}
+.vv-workflow-card.vv-workflow-active{border-color:#b08968;animation:vvWorkflowPulse 1.9s ease-in-out infinite;box-shadow:0 0 0 1px rgba(176,137,104,.20),0 0 24px rgba(176,137,104,.10)}
+.vv-workflow-card.vv-workflow-complete{border-color:rgba(74,222,128,.62);box-shadow:0 0 0 1px rgba(74,222,128,.12)}
+.vv-workflow-action{animation:vvWorkflowButtonPulse 1.25s ease-in-out infinite}
+@keyframes vvWorkflowPulse{0%,100%{box-shadow:0 0 0 1px rgba(176,137,104,.18),0 0 12px rgba(176,137,104,.06)}50%{box-shadow:0 0 0 2px rgba(176,137,104,.72),0 0 32px rgba(176,137,104,.18)}}
+@keyframes vvWorkflowButtonPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 rgba(176,137,104,0)}50%{transform:scale(1.018);box-shadow:0 0 20px rgba(176,137,104,.30)}}
+@media (prefers-reduced-motion:reduce){.vv-workflow-card.vv-workflow-active,.vv-workflow-action{animation:none}}
