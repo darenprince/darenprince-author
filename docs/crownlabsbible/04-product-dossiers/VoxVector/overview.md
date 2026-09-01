@@ -242,3 +242,12 @@ The earlier analysis-specific correction remains documented in:
 `VoxVector/docs/PROJECT_CHECKPOINT_2026-08-30_DEVCONSOLE_ANALYZE_FIX.md`
 
 The Crown Labs dossier remains the executive/product mirror; VoxVector implementation and canonical technical documentation remain authoritative.
+
+
+## System Architecture and AUTO Workflow — 2026-09-01
+
+VoxVector's current operating architecture is explicitly separated across GitHub/GitHub Actions and GitHub Pages for the public React application, Render for the FastAPI runtime, and Supabase for configured authentication, persistence, diagnostics, and private media storage.
+
+The durable audio path is mediated by the API and terminates in Supabase storage; audio is not durably stored on Render.
+
+The engineering workflow is now consolidated as **Architecture → Ownership → Trace → Operate/verify**. The complete technical record is `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
