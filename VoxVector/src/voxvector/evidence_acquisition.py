@@ -104,6 +104,7 @@ class EvidenceAcquisitionResult:
     transcription_state: str
     diarization_state: str
     multimodal_timeline: dict[str, Any] | None = None
+    limitations: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -142,9 +143,9 @@ def build_evidence_acquisition(
     """Build normalized source evidence and optionally invoke configured providers.
 
     Providers are selected lazily from environment configuration when callers do
-    not supply explicit provider instances. This keeps the base runtime free of
-    heavy ML dependencies while enabling real provider execution on speech-enabled
-    deployments.
+    not supply explicit provider instances. Provider failures are represented as
+    unavailable acquisition states so an optional speech runtime cannot take down
+    the base case-analysis path.
     """
     signal = np.asarray(signal, dtype=float).reshape(-1)
     if sample_rate <= 0:
@@ -203,15 +204,28 @@ def build_evidence_acquisition(
 
     transcript = None
     transcription_state = "not_configured"
+    limitations: list[str] = []
     if transcript_provider is not None:
-        transcript = transcript_provider.transcribe(signal, sample_rate)
-        transcription_state = "completed"
+        try:
+            transcript = transcript_provider.transcribe(signal, sample_rate)
+            transcription_state = "completed"
+        except Exception as exc:
+            transcription_state = "unavailable"
+            limitations.append(
+                f"Transcription provider {getattr(transcript_provider, 'provider_id', 'unknown')} unavailable: {type(exc).__name__}."
+            )
 
     diarization = None
     diarization_state = "not_configured"
     if diarization_provider is not None:
-        diarization = diarization_provider.diarize(signal, sample_rate)
-        diarization_state = "completed"
+        try:
+            diarization = diarization_provider.diarize(signal, sample_rate)
+            diarization_state = "completed"
+        except Exception as exc:
+            diarization_state = "unavailable"
+            limitations.append(
+                f"Diarization provider {getattr(diarization_provider, 'provider_id', 'unknown')} unavailable: {type(exc).__name__}."
+            )
 
     multimodal_timeline = None
     if transcript is not None:
@@ -233,4 +247,5 @@ def build_evidence_acquisition(
         transcription_state=transcription_state,
         diarization_state=diarization_state,
         multimodal_timeline=multimodal_timeline,
+        limitations=tuple(limitations),
     )
