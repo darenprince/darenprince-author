@@ -293,3 +293,22 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 ## 2026-09-01 — Observability projection and Developer Console audit surface
 
 **Decision:** Preserve immutable Supabase Storage diagnostics while projecting sanitized lifecycle events into existing api_request_logs and error_reports tables. Connected inspection found both relational tables present with zero rows while Storage diagnostics existed, identifying a writer/projection gap rather than an absent archive. The canonical observability layer and Developer Console were updated accordingly. Source implementation is committed; production runtime verification remains pending until deployed traffic creates and displays real records.
+
+## 2026-09-01 — Evidence acquisition becomes the primary next engine layer
+
+**Decision:** Reorder the active engineering sequence so evidence acquisition precedes further downstream inference development.
+
+**Reason:** Transcription, speaker segmentation/diarization, transcript/audio alignment, and structured extraction are required inputs for major linguistic, interaction, baseline, and convergence capabilities. Building downstream inference without those evidence families would produce architecture without sufficient data.
+
+**Resolution:**
+
+1. media and recording profile extraction
+2. speech/silence timeline
+3. speaker processing foundation
+4. transcription provider architecture and production provider
+5. transcript/audio alignment
+6. structured multimodal evidence artifacts
+7. downstream evidence analysis and convergence
+8. candidate classification and final disposition under existing gates
+
+The existing acoustic pipeline remains active. The new work expands the evidence acquisition layer rather than replacing it.
