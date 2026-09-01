@@ -90,3 +90,23 @@ Vercel is retired and prohibited for VoxVector.
 ## 2026-08-31 upload incident mirror
 
 Production Supabase Storage evidence showed that WAV media persistence succeeded, but the subsequent update of the owning case JSON failed with HTTP 400. The root cause was create-style JSON object persistence without Storage upsert semantics. Canonical backend storage now uses `x-upsert: true` for case/log JSON writes, with regression coverage added. Browser MIME labels are no longer allowed to reject a selected recording before authoritative upload validation. Deployment and end-to-end browser verification remain required before marking the workflow functional.
+
+## 2026-09-01 production analysis milestone
+
+A real production case subsequently completed the repaired connected path through source upload, private media persistence, case-bound analysis, and analysis completion. Production `/health`, `/v1/cases`, and `/v1/cases/{case_id}` returned `200 OK`, and the Render runtime emitted valid `VOXVECTOR_DIAGNOSTIC` records.
+
+The engineering picture therefore changes at the operational boundary: the basic upload, persistence, PCM WAV intake, and case-bound analysis path has now been **production executed** for the observed workflow. Scientific validation remains a separate requirement.
+
+## 2026-09-01 observability repair mirror
+
+Production logs isolated the remaining Developer Console Logs issue to the relational projection of fractional diagnostic durations into the integer `api_request_logs.duration_ms` column. The canonical backend now normalizes that value at the projection boundary while preserving fractional precision in immutable diagnostic Storage records.
+
+Regression coverage includes decimal, string, zero/sub-millisecond, null, and invalid duration values. The remaining verification is to deploy the repaired revision and confirm real relational records populate Live Logs and Error Reports.
+
+## Next engineering phase
+
+The primary next product step is no longer basic upload reliability. It is the completed-analysis experience:
+
+`Analysis complete → Review Evidence / Analysis Results`
+
+followed by full run/stage audit telemetry, speaker and transcript integration, evidence presentation, assessment, reporting, and then broader validation work.
