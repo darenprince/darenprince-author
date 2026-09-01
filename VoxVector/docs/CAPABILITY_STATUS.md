@@ -267,3 +267,17 @@ The product objective remains deception detection throughout the engineering pro
 - `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md` — current implementation audit
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md` — console-specific synchronization rules
 - `docs/DOCS_ALIGNMENT_2026-08-28.md` — latest cross-document synchronization record
+
+## 2026-09-01 production capability update
+
+A real production case successfully executed the configured connected path from case workflow through source upload, private media persistence, case-bound analysis, and analysis completion. Production `/health`, case listing, and case retrieval returned `200 OK`, and valid `VOXVECTOR_DIAGNOSTIC` events were emitted.
+
+This changes the operational maturity classification of the already implemented case/upload/analysis capabilities from source-only or unverified to **production executed for the observed workflow**. It does not promote any analytical method, candidate classifier, or final disposition to scientifically validated status.
+
+The 21-stage capability map remains unchanged in scope: queued, conditional, and not-invoked stages remain explicitly distinct from implemented stages.
+
+## 2026-09-01 observability capability update
+
+The relational diagnostic projection is implemented with an explicit compatibility boundary for the existing integer `api_request_logs.duration_ms` schema. Fractional diagnostic timings remain available in immutable Storage records while the relational projection receives normalized integer values. Regression coverage exists for decimal, string, zero/sub-millisecond, null, and invalid duration inputs.
+
+The next capability expansion is the completed-analysis review surface: structured results, stage-by-stage state, evidence and warnings, uncertainty/limitations, provenance, and a full analysis audit timeline.
