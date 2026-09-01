@@ -66,3 +66,9 @@ Vercel is retired and prohibited for VoxVector.
 ## Scientific boundary
 
 Software build, runtime execution, deployment, and QA do not establish scientific deception-detection validity. The validation program remains separate and task-specific.
+
+## 2026-09-01 integration update
+
+The canonical case-analysis API now persists and returns the composed results envelope. Independently measured route-boundary telemetry is integrated for decode/normalization, provenance/integrity, and recording assessment.
+
+Internal monolithic pipeline stages without emitted callbacks are not assigned fabricated per-stage durations. Full internal callback instrumentation remains open.
