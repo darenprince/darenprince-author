@@ -1,81 +1,139 @@
 # VoxVector System Architecture and Observability Audit
 
 **Audit date:** 2026-09-01  
-**Status:** Active findings; source repair committed; production verification pending
+**Status:** Production case workflow successfully executed; relational projection repair implemented; deployed verification of the repaired projection remains pending
 
 ## Scope
 
-This audit reviewed the current repository implementation, Developer Console ownership, deployment boundaries, connected Supabase schema, private storage buckets, and diagnostic persistence path.
+This audit records the repaired production workflow, the observability failure isolated from that run, the canonical source repair, and the next engineering boundary.
 
-## Evidence reviewed
+## Production execution evidence
 
-- voxvector/src/components/DeveloperConsole.jsx
-- voxvector/src/lib/api.js
-- VoxVector/api/app.py
-- VoxVector/api/observability.py
-- VoxVector/api/storage.py
-- active VoxVector and Crown Labs documentation
-- connected Supabase project VoxVector
-- Supabase table/schema state
-- Supabase storage bucket state
+A real production case completed the connected operational workflow:
+
+`case workflow → source upload → private media persistence → case-bound analysis → analysis completion`
+
+Observed production behavior included:
+
+- `GET /health` → `200 OK`
+- `GET /v1/cases` → `200 OK`
+- `GET /v1/cases/{case_id}` → `200 OK`
+- valid `VOXVECTOR_DIAGNOSTIC` events emitted by the Render runtime
+- source upload and private media persistence completed successfully
+- case-bound analysis executed to completion
+
+This is an engineering/runtime milestone. It is not scientific validation and does not promote any individual signal or method to a validated deception indicator.
+
+## Observability defect isolated
+
+Production Render logs showed that application requests and analysis execution were succeeding while the relational projection into `public.api_request_logs` failed because diagnostic duration values retained fractional milliseconds while the existing database column is integer.
+
+Examples observed in production diagnostic output included:
+
+- `9339.07` ms
+- `0.26` ms
+- `635.3` ms
+- `597.92` ms
+
+The immutable diagnostic record retains fractional precision. The relational projection now normalizes the value through `_duration_ms_for_projection()`:
+
+- `9339.07` → `9339`
+- `0.26` → `0`
+- `"635.3"` → `635`
+- `None` → `None`
+- invalid values → `None`
+
+## Source repair
+
+The canonical implementation in `VoxVector/api/observability.py` now:
+
+1. emits sanitized diagnostics to Render stdout;
+2. projects lifecycle events into `public.api_request_logs`;
+3. projects error events into `public.error_reports`;
+4. normalizes fractional duration values to the existing integer schema at the projection boundary;
+5. preserves the original precise duration in the immutable Storage event record;
+6. retains Storage archive fallback behavior for diagnostic reads.
+
+Regression coverage in `VoxVector/tests/test_observability.py` explicitly covers decimal durations, string duration values, zero/sub-millisecond values, null values, and invalid values.
 
 ## Architecture findings
 
 ### Public application boundary — verified
 
-voxvector/ is the React/Vite public application. GitHub Actions builds and deploys the public artifact through GitHub Pages.
+`voxvector/` is the React/Vite public application. GitHub Actions builds and deploys the public artifact through GitHub Pages.
 
 ### API boundary — verified
 
-VoxVector/ contains the canonical FastAPI adapter and analysis-engine workspace. Render hosts the API runtime.
+`VoxVector/` contains the canonical FastAPI adapter and analysis-engine workspace. Render hosts the API runtime.
 
 ### Persistence boundary — verified
 
-The connected Supabase project contains private voxvector-logs and voxvector-media buckets. The media bucket limit is 262,144,000 bytes and is private.
+Supabase provides the private media and diagnostics storage boundary. Audio is not durably stored on Render.
 
-### Observability projection gap — critical
+### Observability model
 
-At audit time, Supabase schema inspection found:
+The active observability path is:
 
-- public.api_request_logs: 0 rows
-- public.error_reports: 0 rows
+`analysis lifecycle`
 
-The tables existed, but the canonical diagnostic implementation persisted events to the immutable voxvector-logs Storage archive rather than projecting them into the relational tables.
+`├─ Render stdout → VOXVECTOR_DIAGNOSTIC`
 
-This created a split between the intended Console dashboards and the actual durable event archive.
+`├─ Supabase Storage → immutable sanitized event archive`
 
-## Source repair
+`├─ public.api_request_logs → lifecycle relational projection`
 
-The canonical observability implementation was updated to:
+`└─ public.error_reports → error relational projection`
 
-1. emit sanitized diagnostics to Render stdout;
-2. persist the immutable JSON event archive in voxvector-logs;
-3. project lifecycle events into public.api_request_logs;
-4. project error events into public.error_reports;
-5. keep Storage reads as a compatibility fallback when relational reads are unavailable;
-6. expose the same normalized event shape to Live Logs and Error Reports.
+The relational tables provide the Developer Console query surface. Storage remains the immutable diagnostic archive.
 
-The Developer Console navigation was also reorganized into collapsible, grouped sections with a scrollable sidebar and a new Audits surface.
+## Engineering state after milestone
 
-## Verification status
+| Area | Current state |
+|---|---|
+| Case creation | Production working |
+| Audio upload | Production working |
+| Private media persistence | Production working |
+| PCM WAV intake | Production working |
+| Case-bound analysis | Production executed successfully |
+| Diagnostic emission | Production working |
+| Storage diagnostic archive | Production observed working |
+| Duration projection repair | Implemented and regression tested |
+| Relational request log projection | Repaired in source; deployed verification pending |
+| Analysis Results workflow | Next implementation phase |
+| Full analysis audit timeline | Next implementation phase |
+| 21-stage pipeline | Partial implementation |
+| Scientific validation | Not established by this run |
 
-The source changes were committed and read back through GitHub.
+## Next verification
 
-This audit does **not** claim production verification yet. The exact deployed Render revision must execute authenticated traffic before new relational rows can exist.
+The next production verification is narrow and targeted:
 
-Required next verification:
+1. run traffic against the deployed revision containing the duration projection repair;
+2. confirm new `api_request_logs` rows are created;
+3. confirm `error_reports` rows are created when real error events occur;
+4. confirm Live Logs and Error Reports display real relational records in the Developer Console;
+5. confirm immutable Storage diagnostics remain present.
 
-1. deploy the exact backend revision;
-2. execute an authenticated case/API request;
-3. confirm a new api_request_logs row;
-4. trigger or observe a real sanitized error;
-5. confirm a new error_reports row;
-6. verify Live Logs in the deployed Developer Console;
-7. verify Error Reports in the deployed Developer Console;
-8. confirm Storage archive records remain present.
+## Next engineering phase
 
-## Conclusion
+With upload and analysis no longer the primary blocker, the product path now moves to the post-analysis experience:
 
-The architecture is explicitly aligned around separate frontend, API-runtime, and persistence boundaries. The main observability defect identified by this audit was not the absence of diagnostic code; it was the absence of a reliable relational projection for the connected Supabase dashboards despite those tables already existing.
+`Analysis complete → Review Evidence / Analysis Results`
 
-The repair is implemented in the canonical backend. Production behavior remains pending deployment and authenticated runtime verification.
+The completed-analysis surface should expose:
+
+- completion status
+- structured analysis result
+- stage-by-stage state
+- successful stages
+- unavailable, not implemented, conditional, and skipped stages with reasons
+- evidence generated by implemented stages
+- warnings and errors
+- uncertainty, limitations, and alternative explanations
+- provenance and timestamps
+
+The full analysis log should provide an auditable lifecycle timeline from case creation through analysis completion, including timestamps, durations, outputs, warnings, and failure details.
+
+## Verification boundary
+
+This audit incorporates production evidence from the 2026-09-01 repair cycle and source-level confirmation of the projection fix. It does not claim that the repaired relational projection has already been observed after redeployment, does not claim browser verification of every frontend path, and does not claim scientific validation of deception inference.
