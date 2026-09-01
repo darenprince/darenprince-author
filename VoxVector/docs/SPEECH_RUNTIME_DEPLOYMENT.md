@@ -71,6 +71,30 @@ Do not immediately promote a long recording to production validation. First proc
 7. runtime duration and memory behavior are recorded;
 8. failures degrade to explicit `unavailable` state when a provider cannot run.
 
+## Render observability operating procedure
+
+Render's built-in logs and Live Tail remain the first-line runtime view. The current Render CLI supports `render logs --tail` plus filters for resource, instance, level, status code, method, path, and text; this is the preferred active-debug workflow during deployments and speech-model execution.
+
+Render's hosted MCP server can expose live service logs, deploy history, CPU/memory metrics, HTTP response metrics, service configuration, and deploy actions to a compatible coding agent. Render currently recommends the hosted MCP endpoint and supports OAuth in current agent integrations.
+
+The current ChatGPT tool session does not have the Render plugin/MCP connection installed, so no Render service configuration or deploy action is asserted as completed from this repository session. The repository-side instrumentation is ready for that connection.
+
+### Recommended operator setup
+
+Use the official Render plugin for Codex/ChatGPT or another supported coding agent and authorize the Render workspace. Verify the integration with workspace/service listing before allowing deploy or environment-variable mutation.
+
+For local CLI operations, install/upgrade the Render CLI, run `render login`, select the VoxVector workspace, then use `render logs --tail` for live debugging. For automation, Render documents `RENDER_API_KEY` for non-interactive CLI use.
+
+### Centralized log streaming
+
+Render can stream supported service logs to third-party observability providers over TLS syslog or HTTPS. Better Stack is a supported syslog destination and can be configured from Render's workspace Integrations → Observability → Log Streams area.
+
+For VoxVector, centralized streaming is a retention/search enhancement, not a substitute for the application's trace model. Every VoxVector event should carry `request_id`, `trace_id`, and `analysis_run_id` so an external system can correlate the complete run. Log streaming alone does not create end-to-end tracing.
+
+### Metrics
+
+Render metrics streaming is available to Pro workspaces and higher. It can forward CPU, memory, instance, response-count, and response-latency metrics to supported providers. This becomes valuable once Whisper/pyannote workloads are running and we need empirical memory/latency data.
+
 ## Scientific boundary
 
 A successful transcription or diarization run proves software execution and provider output. It does not validate VoxVector deception inference. Provider confidence is not truth confidence, and speaker cluster labels are not verified real-world identities.
