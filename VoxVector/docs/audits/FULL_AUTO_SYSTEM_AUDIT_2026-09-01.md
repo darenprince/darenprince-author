@@ -1,89 +1,109 @@
 # Full AUTO System Audit — 2026-09-01
 
-**Audit mode:** Automated repository and infrastructure evidence review  
-**Status:** Remediation committed; CI verification pending  
-**Scope:** Canonical GitHub source, GitHub Actions, deployment state, API tests, Developer Console, connected Supabase observability
+**Audit mode:** Automated repository, architecture, implementation, QA, and deployment-state review
+**Status:** Current source verification green; production observability and browser E2E remain open gates
+**Scope:** Canonical GitHub source, governing documentation, backend implementation, frontend implementation, GitHub Actions, deployment state, diagnostics, Developer Console, case workflow, and scientific-validation boundary
 
-## Audit snapshot
+## Current audit verdict
 
-The audit inspected the current canonical repository state and the latest workflow evidence rather than assuming that a successful deployment meant the system was healthy.
+**FOUNDATION PASSED / POST-ANALYSIS BUILD ACTIVE**
 
-### Verified
+The previous upload/persistence blocker is cleared for the observed configured production path. The current `main` commit is passing the repository QA workflow. The engineering focus is now the post-analysis results and evidence-review layer.
 
-- Latest GitHub Pages deployment observed by the audit completed successfully.
-- The repository contains the canonical observability projection implementation.
-- The Developer Console contains the structured Audits registry and grouped navigation.
-- The QA workflow correctly runs API tests before React dependency installation and production build.
+## Current source revision
 
-### Failed QA gate
+`f2b31243c07fc466892693d2ff6aaf8038e413cc`
 
-The latest audited QA run was:
+## Current QA evidence
 
-- Workflow: VoxVector QA
-- Run ID: 33472929781
-- Job ID: 99746188447
-- Result: failure
+GitHub Actions `VoxVector QA` run `33500649854` completed successfully on the current `main` commit. Job `99832947866` completed API package installation, the VoxVector API tests, React dependency installation, and the React production build. The current QA job therefore passes both backend and frontend build gates. fileciteturn102file0L2-L10
 
-The workflow reported:
+A successful software QA run does not establish scientific deception-detection validity.
 
-- 3 failed tests
-- 101 passed tests
-- React dependency installation skipped because pytest failed first
-- React production build skipped because pytest failed first
+## Production execution evidence
 
-## Root causes
+The configured production path has previously demonstrated:
 
-### 1. Diagnostic projection compatibility failure
+`case workflow → source upload → private media persistence → case-bound analysis → analysis completion`
 
-The observability layer directly assumed every storage implementation exposed insert_table_row. Existing lightweight test doubles intentionally only implemented immutable Storage behavior.
+The production runtime emitted `VOXVECTOR_DIAGNOSTIC` records and successfully served the core case endpoints during the observed repair cycle.
 
-This caused AttributeError failures before the existing archive behavior could complete.
+## Architecture assessment
 
-**Remediation committed:** relational projection is now capability-checked with getattr/callable and unavailable projections are handled as StorageError-compatible failures while immutable diagnostics continue.
+The canonical boundaries remain intact:
 
-### 2. Storage request tuple contract drift
+- public React application: `voxvector/`
+- HTTP adapter: `VoxVector/api/app.py`
+- analysis engine: `VoxVector/src/voxvector/`
+- durable/authentication/diagnostic/media services: Supabase
+- public frontend host: GitHub Pages
+- backend host: Render
 
-The storage fake now records request headers as part of the tuple, but one media upload assertion still unpacked the older six-field tuple.
+The four analytical boundaries remain separate: eligibility/reliability, evidence analysis, candidate classification, and final disposition.
 
-**Remediation committed:** the canonical test was aligned with the current request record contract.
+## Current analytical capability
 
-### 3. Full QA was blocked before frontend build
+Implemented runtime foundations include acoustic, spectral, prosodic, voice-quality, temporal, MFCC, formant, speech-segmentation, baseline, interaction, and conditional transcript observations.
 
-The Pages deployment was successful, but the QA workflow did not reach npm install or npm run build because the API test gate failed first.
+Speaker diarization, production transcription, transcript alignment, richer linguistic intelligence, and validated deception inference remain development/validation workstreams.
 
-This means successful Pages deployment must not be interpreted as a complete QA pass.
+No scientifically validated deception probability is enabled by the current runtime.
 
-## Observability status
+## Developer Console assessment
 
-The connected Supabase architecture includes the intended relational operational tables and private Storage buckets.
+The Developer Console is connected to real case APIs, diagnostics, GitHub Actions status, and the 21-stage engineering model.
 
-The previous architecture audit identified the key persistence gap: the relational operator-facing tables were empty while immutable diagnostics were being handled through Storage.
+The engineering status surface now compares workflow SHA to the backend runtime source revision. A workflow from another revision is reported as `STALE` instead of being presented as current.
 
-The canonical backend now contains relational projection plus immutable archive behavior.
+The Analysis Workspace now exposes a persisted Analysis Results / Review Evidence section using the run's returned observations, evidence, eligibility, candidate state, disposition, limitations, and provenance.
 
-**Production proof is still required:**
+## Key findings
 
-1. repaired backend revision deploys;
-2. authenticated API traffic reaches the deployed runtime;
-3. api_request_logs receives real records;
-4. an actual sanitized error produces an error_reports record;
-5. the deployed Developer Console displays those records.
+### 1. QA state is now current
 
-## AUTO audit decision
+The historical requirement for a fresh current QA run has been satisfied. The previous failed run remains historical evidence.
 
-No production capability is marked validated solely because source code exists.
+### 2. Result review is now the primary product dependency
 
-Current status:
+The case run already carries the runtime analysis result. The UI now surfaces that result directly instead of ending at waveform and pipeline inspection.
 
-- Source remediation: committed
-- Audit logging: committed
-- GitHub Pages deployment: observed successful on audited pre-remediation HEAD
-- Full QA: failed on audited pre-remediation HEAD
-- Post-remediation QA: pending workflow evidence
-- Production observability runtime proof: pending
+### 3. Per-stage telemetry is still coarse
 
-## Required automatic follow-up
+The 21-stage records exist, but several analytical stages currently share broad timestamps rather than independently measured start/end/duration values. Granular stage instrumentation remains required.
 
-The next workflow result is the gate for this audit. If pytest passes, the workflow must continue into the React dependency and production build steps. Only then can the QA finding be marked resolved in source verification.
+### 4. Diagnostic error taxonomy was incomplete
 
-This audit is intentionally evidence-based and should be updated from actual workflow and runtime observations, not expectation.
+Case-specific upload failures were not previously included in the dedicated `error_reports` classification. The canonical observability implementation now treats case source rejection/failure events as diagnostic error events.
+
+### 5. Production relational observability still needs deployment proof
+
+The source implementation contains relational projection plus immutable diagnostic Storage behavior. Production proof is still required that live traffic creates `api_request_logs` and `error_reports` records and that the deployed Developer Console displays them.
+
+### 6. Active documentation had stale state
+
+Current version, React stack, QA, engineering stage, and synchronization records were stale in multiple active documents. These records have been reconciled to the current engineering state while historical checkpoints remain preserved.
+
+## Current priority order
+
+1. finish the composed Analysis Results contract;
+2. expand Review Evidence into an auditable evidence explorer;
+3. instrument true per-stage lifecycle timing, warnings, and errors;
+4. verify production diagnostic projections and Developer Console rendering;
+5. build speaker identification/diarization;
+6. integrate production transcription and alignment;
+7. expose real analytical tracks and evidence relationships;
+8. implement assessment/reporting/history;
+9. complete authenticated browser E2E verification;
+10. advance the separate scientific validation program.
+
+## Scientific integrity gate
+
+The system must not treat implementation, QA, deployment, or UI completion as scientific validation. Validation remains task-specific and requires defined populations/tasks, speaker-disjoint evaluation, out-of-sample testing, calibration, uncertainty, leakage controls, robustness testing, and replication as applicable.
+
+## Historical audit disposition
+
+The earlier version of this audit recorded pre-remediation failures involving diagnostic projection compatibility and storage request tuple assertions. Those findings remain historical traceability and are superseded for current source status by the successful QA run on current `main`.
+
+## Verification boundary
+
+Current source and CI verification is green. The remaining open verification is primarily deployed-browser and deployed-observability proof, not another generic source build.
