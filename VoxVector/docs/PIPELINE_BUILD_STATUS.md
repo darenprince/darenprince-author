@@ -13,7 +13,7 @@ This document is an engineering status record, not a claim that every pipeline s
 | 03 | Provenance and Integrity | **implemented** | SHA-256 source/run provenance | covered by case-store tests; production executed |
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile | runtime exercised by pipeline; production executed |
 | 05 | Speaker Identification / Diarization | **queued** | not executed by current case run | test plan required |
-| 06 | Speech Segmentation | **implemented foundation** | deterministic energy/voicing segmentation | deterministic tests exist; production executed inside current pipeline run |
+| 06 | Speech Segmentation | **implemented foundation** | deterministic energy/voicing segmentation | deterministic tests exist; production executed |
 | 07 | Transcription Generation | **queued** | production transcription not attached | integration test required |
 | 08 | Transcript Alignment | **queued** | transcript alignment not attached | integration test required |
 | 09 | Eligibility and Reliability | **implemented** | recording eligibility/reliability result | covered by pipeline tests; production executed |
@@ -45,13 +45,27 @@ Added `VoxVector/src/voxvector/stage_telemetry.py`, a persistence-neutral lifecy
 
 Regression coverage was added in `VoxVector/tests/test_stage_telemetry.py` for successful timing, failure timing, explicit non-execution states, deterministic snapshot ordering, and invalid lifecycle transitions.
 
-**Important boundary:** the recorder is now **BUILT** and **TESTED** as an engine utility, but the existing monolithic `VoxVectorPipeline.analyze()` call has not yet been converted to emit callbacks at every internal stage boundary. Existing persisted case runs therefore continue to use their current API-level/composite pipeline timing representation. No per-stage duration is claimed until the actual pipeline execution points are wired to this recorder.
+## Results envelope — 2026-09-01
 
-**Next integration task:** wire `StageTelemetry` into the canonical pipeline execution path at the real stage boundaries for Stages 06, 09–12, 16–18 and 20, then have the API persist the resulting stage snapshot and diagnostic lifecycle events. Conditional, queued, and validation-gated stages must remain explicit rather than being timed as executed.
+Added `VoxVector/src/voxvector/results_envelope.py`, a pure composer for the documented post-analysis result contract. It preserves case/source/run identity, result schema, pipeline state, observations, evidence, candidate state, disposition, provenance, and explicit downstream capability gaps. Regression coverage was added in `VoxVector/tests/test_results_envelope.py`.
+
+## Debug verification finding — 2026-09-01
+
+Source inspection of the canonical `VoxVector/src/voxvector/pipeline.py` on `main` showed that the monolithic engine is still using its prior internal execution structure. The new telemetry recorder is not yet invoked at every internal stage boundary, and the composed result envelope is not yet the canonical HTTP response of the case-analysis route.
+
+This means:
+
+- the telemetry utility is **BUILT + TESTED**;
+- the results envelope utility is **BUILT + TESTED**;
+- actual end-to-end granular stage telemetry is **OPEN**;
+- canonical API results-envelope delivery is **OPEN**;
+- existing production runs must not be described as having granular internal stage timings that were never emitted.
+
+This finding supersedes any earlier wording that implied those integrations were complete.
 
 ## Console engineering status surface
 
-The authenticated Developer Console now includes an operator-facing **Engineering Status** surface supplied by `voxvector/src/components/DeveloperEngineeringStatus.jsx`.
+The authenticated Developer Console includes an operator-facing **Engineering Status** surface supplied by `voxvector/src/components/DeveloperEngineeringStatus.jsx`.
 
 It explicitly separates:
 
@@ -62,21 +76,15 @@ It explicitly separates:
 
 The surface also exposes the current engineering stage, next dependency, source revision, a QA checklist, and GitHub source traceability with open and copy controls.
 
-The status panel reads the canonical `/health` response for runtime and pipeline information. It intentionally reports authenticated browser workflow checks as **UNVERIFIED** until those workflows are actually exercised.
-
-## Dashboard representation
-
-The Developer Console dashboard must remain an operator projection of this canonical document. The status surface is not an independent source of truth and must never turn source existence or build success into a functionality or validation claim.
-
 ## Current engineering stage
 
 **Post-analysis Results / Review Evidence** is the current engineering stage following the successful production case execution through source intake, persistence, case-bound analysis, and analysis completion.
 
-**Next dependency:** complete real per-stage telemetry instrumentation and expose the resulting audit trail in the console.
+**Next dependency:** wire telemetry into the real internal pipeline stage boundaries, connect the composed result envelope to the case-analysis response, and persist both under the existing case/run identity.
 
 After that, the immediate dependency chain is:
 
-**speaker and transcript foundation → evidence workspace → validation and calibration gate.**
+**evidence explorer → speaker/transcript foundation → alignment → synthesis/assessment/reporting → browser verification → validation.**
 
 ## Verification boundary
 
@@ -100,4 +108,4 @@ Production logs isolated the Developer Console log persistence defect to `public
 
 `VoxVector/api/observability.py` now normalizes relational duration values at the projection boundary while preserving fractional precision in immutable diagnostic Storage records. `VoxVector/tests/test_observability.py` covers decimal, string, zero/sub-millisecond, null, and invalid inputs.
 
-The next engineering target is therefore **full internal stage-boundary instrumentation**, with the completed Analysis Results / Review Evidence surface remaining the operator-facing destination for the resulting audit record.
+The next engineering target is therefore **full internal stage-boundary instrumentation plus canonical case-analysis results-envelope delivery**, with the completed Analysis Results / Review Evidence surface remaining the operator-facing destination for the resulting audit record.
