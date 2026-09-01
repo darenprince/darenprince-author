@@ -34,14 +34,25 @@ jobs:
         run: |
           curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/bin/install.sh | bash
           echo "$HOME/.render/bin" >> "$GITHUB_PATH"
-      - name: Inspect Render service
+      - name: Inspect Render service and deployments
         run: |
           render services -o json > render-services.json
-          render services get "$RENDER_SERVICE_ID" -o json > render-service.json
           render deploys list "$RENDER_SERVICE_ID" -o json > render-deploys.json
       - name: Inspect recent logs
         run: |
-          render logs --service "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 500 -o json > render-logs.json
+          render logs "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 500 -o json > render-logs.json
+      - name: Select target service from workspace inventory
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          services=json.loads(Path('render-services.json').read_text())
+          target=next((item for item in services if item.get('id') == '${{ inputs.service_id }}'), None) if isinstance(services,list) else None
+          if target is None and isinstance(services,dict):
+              target=services.get('service') or services.get('services')
+          Path('render-service.json').write_text(json.dumps(target or {}, indent=2))
+          print('target_found=', bool(target))
+          PY
       - name: Summarize VoxVector runtime evidence
         run: |
           python - <<'PY'
@@ -54,18 +65,26 @@ jobs:
               cur=obj
               for key in keys:
                   if isinstance(cur, dict): cur=cur.get(key)
+                  elif isinstance(cur, list) and isinstance(key,int) and key < len(cur): cur=cur[key]
                   else: return default
               return cur if cur is not None else default
           print('VOXVECTOR_RENDER_OBSERVABILITY')
-          print('service_id=', get(service,'id'))
-          print('service_name=', get(service,'name'))
-          print('service_status=', get(service,'suspended'))
-          print('latest_deploy=', get(deploys,0,'id',default='unknown') if isinstance(deploys,list) and deploys else 'unknown')
-          if isinstance(logs, list):
-              print('log_count=', len(logs))
-              for item in logs[-20:]:
+          print('service_id=', get(service,'id',default='unknown'))
+          print('service_name=', get(service,'name',default='unknown'))
+          print('service_suspended=', get(service,'suspended',default='unknown'))
+          if isinstance(deploys,dict):
+              deploy_rows=deploys.get('deploys') or deploys.get('data') or []
+          else:
+              deploy_rows=deploys
+          latest=deploy_rows[0] if deploy_rows else {}
+          print('latest_deploy_id=', get(latest,'id',default='unknown'))
+          print('latest_deploy_status=', get(latest,'status',default='unknown'))
+          log_rows=logs.get('logs',[]) if isinstance(logs,dict) else logs
+          print('log_count=', len(log_rows) if isinstance(log_rows,list) else 0)
+          if isinstance(log_rows,list):
+              for item in log_rows[-50:]:
                   text=get(item,'message',default=get(item,'text',default=''))
-                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower():
+                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower():
                       print(text)
           PY
       - name: Upload diagnostic artifacts
