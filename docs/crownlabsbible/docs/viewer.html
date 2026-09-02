@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crown Labs canonical documentation system. Repository-sourced product, executive, investor, and operating intelligence." />
+  <meta name="theme-color" content="#090a0c" />
   <title>Crown Labs Documentation</title>
   <link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG" />
   <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /><link rel="stylesheet" href="assets/css/platform.css" />
@@ -39,7 +41,7 @@
               <img class="cl-header-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" data-dark-logo="https://www.darenprince.com/labs/assets/crown-labs-logo.png" data-light-logo="https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png" alt="Crown Labs" />
               <button class="cl-icon-btn cl-mobile-menu" id="mobileMenu" title="Open navigation"><span class="ms-icon" aria-hidden="true">menu</span></button>
             </div>
-            <div class="cl-breadcrumbs" id="breadcrumbRoot"></div>
+            <div class="cl-breadcrumbs" id="breadcrumbRoot" aria-label="Document breadcrumb"></div>
           </div>
           <div class="cl-tools">
             <button class="cl-tool-btn" id="themeToggle" title="Toggle theme"><span class="ms-icon">dark_mode</span><span>Theme</span></button>
@@ -53,7 +55,9 @@
         </div>
         <button class="cl-icon-btn cl-toolbar-toggle" id="toolbarToggle" title="Collapse toolbar"><span class="ms-icon">expand_less</span></button>
       </div>
-      <article class="cl-content" id="content"><p class="cl-empty">Choose a document from the navigation.</p></article>
+      <article class="cl-content" id="content" tabindex="-1"><p class="cl-empty">Choose a document from the navigation.</p></article>
+      <div class="cl-source-status" role="status"><span class="ms-icon" aria-hidden="true">verified</span><span>Canonical repository documentation • rendered from source markup</span></div>
+      <nav class="cl-doc-pager" id="docPager" aria-label="Document navigation"></nav>
       <footer class="cl-footer">
         <div class="cl-footer-grid">
           <div><img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" data-dark-logo="https://www.darenprince.com/labs/assets/crown-labs-logo.png" data-light-logo="https://www.darenprince.com/assets/images/30F807E6-DA8A-413C-8564-116375DDE082%202.png" alt="Crown Labs" /><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p><div class="cl-social"><a href="https://www.darenprince.com"><span class="ms-icon">language</span></a><a href="https://github.com/darenprince"><span class="ms-icon">code</span></a><a href="#"><span class="ms-icon">work</span></a><a href="#"><span class="ms-icon">alternate_email</span></a></div></div>
@@ -91,13 +95,38 @@ const tree=[
  {label:'Corporate Infrastructure',children:[{label:'Company Overview',path:'05-corporate-infrastructure/company-overview.md'},{label:'Executive Positioning',path:'05-corporate-infrastructure/executive-positioning.md'},{label:'Holdings Structure',path:'05-corporate-infrastructure/holdings-structure.md'},{label:'Portfolio Governance',path:'05-corporate-infrastructure/portfolio-governance.md'},{label:'Ecosystem Philosophy',path:'05-corporate-infrastructure/ecosystem-philosophy.md'},{label:'Expansion Roadmap',path:'05-corporate-infrastructure/expansion-roadmap.md'},{label:'Acquisition Strategy',path:'05-corporate-infrastructure/acquisition-strategy.md'}]},
  {label:'Product Documentation',children:[product('AI Cherry Pie','ai-cherry-pie',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy']),product('Crown Psychology','crown-psychology',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),product('Sentinel Vault','sentinel-vault',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),product('CrownCam','crowncam',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),product('Crown SOS','crown-sos',['Overview','Architecture','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),product('Crown WatchTower','crown-watchtower',['Overview','Architecture','Positioning','Valuation','Licensing','Website Copy','Ecosystem Role']),product('CrownCast','crowncast',['Overview','Positioning','Valuation','Monetization','Licensing','Website Copy','Ecosystem Role']),voxVector()]}
 ];
+const DOC_ROOT = '../'
 const normalizeDocPath = (value='') => {
   let path = decodeURIComponent(String(value || '')).trim().replace(/^\.\//, '').replace(/^\/+/, '')
   while (path.startsWith('../')) path = path.slice(3)
   return path
 }
 const docUrl = (path) => 'viewer.html?doc=' + encodeURIComponent(normalizeDocPath(path))
-const $=s=>document.querySelector(s),app=$('#app'),navRoot=$('#navRoot'),content=$('#content'),crumbs=$('#breadcrumbRoot'),search=$('#searchInput');let currentDoc=null,currentPath='',scale=Number(localStorage.getItem('readerScale')||1);
+const canonicalFetchPath = (path) => DOC_ROOT + normalizeDocPath(path)
+const renderDocPager = (tree, currentPath) => {
+  const flat = []
+  const walk = (nodes, trail = []) => (nodes || []).forEach(node => {
+    if (node.path) flat.push({ ...node, trail })
+    if (node.children) walk(node.children, [...trail, node.title || node.label || 'Documentation'])
+  })
+  walk(tree)
+  const index = flat.findIndex(node => normalizeDocPath(node.path) === normalizeDocPath(currentPath))
+  const root = document.getElementById('docPager')
+  if (!root || index < 0) return
+  const prev = flat[index - 1], next = flat[index + 1]
+  root.innerHTML = ''
+  ;[
+    prev && { label: 'Previous', node: prev, icon: 'arrow_back' },
+    next && { label: 'Next', node: next, icon: 'arrow_forward' }
+  ].filter(Boolean).forEach(({ label, node, icon }) => {
+    const a = document.createElement('a')
+    a.href = docUrl(node.path)
+    a.className = 'cl-doc-page-link'
+    a.innerHTML = `<span class="cl-doc-page-label">${label}</span><span class="cl-doc-page-title">${node.title || node.label || node.path}</span><span class="ms-icon">${icon}</span>`
+    root.appendChild(a)
+  })
+}
+const const $=s=>document.querySelector(s),app=$('#app'),navRoot=$('#navRoot'),content=$('#content'),crumbs=$('#breadcrumbRoot'),search=$('#searchInput');let currentDoc=null,currentPath='',scale=Number(localStorage.getItem('readerScale')||1);
 function applyTheme(theme){document.documentElement.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo)}applyTheme(localStorage.getItem('theme')||'dark');document.documentElement.style.setProperty('--reader-scale',scale);if(localStorage.getItem('navCollapsed')==='true')app.classList.add('nav-collapsed');
 function esc(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\\':'&#92;'})[c])}function icon(){return'<span class="ms-icon" aria-hidden="true">description</span>'}function flatten(nodes,p=[]){return nodes.flatMap(n=>n.children?flatten(n.children,[...p,n.label]):[{...n,crumb:[...p,n.label]}])}const flat=flatten(tree);flat.unshift({label:'Documentation Platform',path:'05-corporate-infrastructure/documentation-platform.md',crumb:['Corporate Infrastructure','Documentation Platform']});
 function match(n,q){return(n.label+' '+(n.path||'')).toLowerCase().includes(q)||(n.children||[]).some(x=>match(x,q))}function renderNav(q=''){q=q.toLowerCase().trim();navRoot.innerHTML='';tree.forEach(sec=>{if(q&&!match(sec,q))return;const s=document.createElement('div');s.className='cl-section';s.dataset.section=sec.label;s.innerHTML='<button class="cl-section-toggle"><span class="cl-label">'+icon()+'<span>'+esc(sec.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-children"></div>';s.querySelector('button').onclick=()=>s.classList.toggle('closed');const kids=s.querySelector('.cl-children');sec.children.forEach(ch=>{if(q&&!match(ch,q))return;if(ch.children){const g=document.createElement('div');g.className='cl-product';g.dataset.group=ch.label;g.innerHTML='<button class="cl-product-toggle"><span class="cl-label">'+icon()+'<span>'+esc(ch.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-leaves"></div>';g.querySelector('button').onclick=()=>g.classList.toggle('closed');ch.children.forEach(d=>{if(!q||match(d,q))g.querySelector('.cl-leaves').appendChild(link(d,[sec.label,ch.label,d.label]))});kids.appendChild(g)}else kids.appendChild(link(ch,[sec.label,ch.label]))});navRoot.appendChild(s)});syncActive()}
