@@ -3,9 +3,9 @@
   const dataUrl = currentScript?.dataset?.labsData || 'assets/labs-data.json'
 
   const canonicalDocsHref = (sourcePath = '') => {
-    const path = String(sourcePath || '').replace(/^\/+/, '')
+    const path = String(sourcePath || '').replace(/^\/+/, '').replace(/^docs\/crownlabsbible\//, '')
     return path
-      ? `../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(path.replace(/^docs\/crownlabsbible\//, ''))}`
+      ? `../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(path)}`
       : '../docs/crownlabsbible/docs/index.html'
   }
 
