@@ -5,7 +5,7 @@
   const canonicalDocsHref = (sourcePath = '') => {
     const path = String(sourcePath || '').replace(/^\/+/, '').replace(/^docs\/crownlabsbible\//, '')
     return path
-      ? `../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(path)}`
+      ? `../docs/crownlabsbible/docs/viewer.html?doc=${encodeURIComponent(path)}`
       : '../docs/crownlabsbible/docs/index.html'
   }
 
