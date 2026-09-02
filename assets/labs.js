@@ -16,6 +16,11 @@
     'voxvector': { src: '../VoxVector/Assets/voxvector-icon-final-color.png.PNG', alt: 'VoxVector' }
   }
 
+  const iconMap = {
+    'crown-watchtower': 'tabler:tower',
+    'crowncast': 'tabler:podcast'
+  }
+
   const createElement = (tag, className, text) => {
     const node = document.createElement(tag)
     if (className) node.className = className
@@ -57,6 +62,12 @@
       img.loading = 'lazy'
       img.decoding = 'async'
       media.append(img)
+    } else if (iconMap[product.id]) {
+      const icon = document.createElement('iconify-icon')
+      icon.setAttribute('icon', iconMap[product.id])
+      icon.setAttribute('aria-hidden', 'true')
+      icon.className = 'product-mark-icon'
+      media.append(icon)
     } else {
       media.append(createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1)))
     }
