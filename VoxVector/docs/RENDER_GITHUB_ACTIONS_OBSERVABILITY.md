@@ -1,6 +1,6 @@
 # VoxVector Render + GitHub Actions Observability
 
-**State date:** 2026-09-01
+**State date:** 2026-09-02
 
 ## Purpose
 
@@ -22,7 +22,19 @@ Neither value is written into repository files, frontend code, case artifacts, o
 
 `.github/workflows/render-observability.yml`
 
-The workflow is manually dispatched with an optional Render service-ID override and log lookback window. Without an override, the repository `RENDER_SERVICE_ID` secret is used. It validates the API key and service ID, installs the Render CLI, retrieves service/deployment information, retrieves recent logs, emits a compact diagnostic summary, and stores the raw inspection files as a short-retention Actions artifact.
+The workflow supports manual dispatch and a controlled push-triggered inspection when the workflow itself changes. It resolves the Render workspace, validates the protected credentials, installs the current Render CLI, retrieves service and deployment information, retrieves recent logs, and for the current incident investigation captures a fixed 2026-09-02 02:00–02:30 UTC log window plus Render memory telemetry at 30-second resolution. Raw inspection files are stored as a short-retention Actions artifact.
+
+The workflow had to be hardened against three CLI/runtime details observed during the first controlled investigation: the CLI installer path is `/home/runner/.local/bin`, a workspace must be selected before non-interactive service queries, and current `render logs` uses `--resources`, `--start`, and `--end` rather than the earlier `--since` form.
+
+## Incident evidence — 2026-09-02
+
+The connected VoxVector Render service is operating on a **512 MB RAM** free web-service budget. Incident-window telemetry recorded memory rising from approximately 94.9 MB at 02:10:00 UTC to 193.5 MB at 02:10:30, 197.0 MB at 02:11:00, 198.3 MB at 02:11:30, and 198.5 MB at 02:12:00 and 02:12:30. At 02:13:00 it dropped to approximately 73.6 MB and then stabilized around 89–93 MB.
+
+This is strong runtime evidence of a lifecycle discontinuity consistent with the Render-reported restart. It is not sufficient to identify the exact root cause because the highest sampled value remained below the 512 MB budget and the memory series has 30-second resolution.
+
+The same time period contained slow `/v1/cases` requests around 10.35 seconds and 8.11 seconds, which are separate reliability signals. They should be correlated with application diagnostics before attribution.
+
+The first successful incident capture produced Actions artifact `9829899743` from workflow run `33585450916`.
 
 ## Intended use
 
@@ -60,7 +72,8 @@ Neither bridge is a substitute for application-level lifecycle telemetry. The cu
 
 - Add deployment health assertions using Render service status and the VoxVector `/health` endpoint.
 - Add a workflow mode that captures a controlled speech-runtime smoke test result.
-- Add Render CPU and memory metrics when available through the account/API surface.
+- Add Render CPU metrics alongside the memory capture when available through the account/API surface.
+- Add controlled repeated speech-provider execution profiling.
 - Add centralized log streaming only after retention/search requirements justify the external service.
 - Keep all secret handling outside application code and client bundles.
 

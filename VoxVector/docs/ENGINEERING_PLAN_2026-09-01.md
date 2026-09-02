@@ -29,17 +29,17 @@ Status: active build.
 - transcript/speaker alignment: implemented foundation
 - multimodal timeline: implemented foundation
 - provider execution timing capture: implemented
+- heavy-provider cache release: implemented in memory-pressure repair branch
 
-Configured speech providers are invoked by `build_evidence_acquisition`; each provider attempt now records measured wall-clock execution duration in `provider_timings_ms`. Provider failures remain explicit acquisition states and do not silently become successful evidence.
+Configured speech providers are invoked by `build_evidence_acquisition`; each provider attempt records measured wall-clock execution duration in `provider_timings_ms`. Provider failures remain explicit acquisition states and do not silently become successful evidence. Heavy providers that expose a release path are released after each attempt so the long-lived API process does not retain cached model references between provider phases.
 
-Next:
+### Render runtime evidence checkpoint — 2026-09-02
 
-1. controlled faster-whisper deployment execution;
-2. controlled pyannote execution;
-3. persisted transcript and speaker artifacts;
-4. word/segment timestamp normalization;
-5. audio/transcript alignment validation;
-6. failure and resource profiling.
+The connected Render service is running on a **512 MB RAM** free web-service budget. The incident capture around 02:10–02:14 UTC showed memory rising from approximately 94.9 MB to 198.5 MB, followed by an abrupt drop to 73.6 MB and stabilization around 93 MB. This supports an instance/process reset pattern but does not prove the exact root cause or establish that a speech provider caused it.
+
+The incident capture also surfaced slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds in the same general runtime period. These are independent reliability signals requiring correlation rather than assumption.
+
+The Render observability workflow now collects service state, deployments, recent logs, incident-window logs, and memory metrics as a reproducible Actions artifact.
 
 ## Phase 3 — Evidence consumers
 
@@ -67,6 +67,8 @@ Status: active integration.
 - responsive, scroll-safe, collapsible workbench interaction
 - consistent human-readable status vocabulary across checks, tests, pipeline stages, and infrastructure state
 - startup activity feedback that distinguishes measured readiness from indeterminate work
+- compact, provenance-oriented data presentation
+- restrained 5–8% tonal gradients across analytical surfaces
 
 ## Phase 5 — Scientific validation
 
@@ -103,7 +105,7 @@ The UI must never turn indeterminate activity animation into a claim of granular
 
 ### GitHub Actions
 
-`.github/workflows/render-observability.yml` is the repository-side infrastructure evidence workflow.
+`.github/workflows/render-observability.yml` is the repository-side infrastructure evidence workflow. It can collect service inventory, deployment state, recent logs, a fixed incident window, and memory telemetry using the protected repository credentials.
 
 Required GitHub repository secrets:
 
@@ -125,9 +127,9 @@ These endpoints use `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtim
 
 The deployed Render service must be configured separately from GitHub repository secrets. Both boundaries use protected secret storage.
 
-## Console UX hardening
+## Console UX hardening and visual refinement
 
-Implemented in the current feature work:
+Implemented direction:
 
 - route navigation resets scroll position to the top of the console main surface;
 - sidebar navigation is vertically scrollable instead of clipping lower items;
@@ -137,11 +139,14 @@ Implemented in the current feature work:
 - checks, pipeline state, logs, error metadata, and QA state use consistent human-readable labels;
 - startup preloader progress is stateful and active bars visually move without pretending to report exact work completed;
 - dashboard surfaces live Render connection state when the bridge is configured;
-- active analysis shows a visible live workflow indicator while persisted run state is changing.
+- active analysis shows a visible live workflow indicator while persisted run state is changing;
+- shared analytical Cards use tighter padding, reduced rounding, and a restrained warm tonal gradient;
+- runtime, history, file metadata, upload, analysis, and log surfaces use compact spacing and coordinated tonal treatment;
+- startup branding uses a substantially smaller logo footprint and restrained local glow.
 
 ## QA repair checkpoint — 2026-09-02
 
-The diagnostic storage regression was repaired and merged. The exact post-repair GitHub Actions run for commit `04ac252b1497cc150c3b5058e8d240229c24a042` completed successfully for both `VoxVector QA` and `VoxVector PR Preview Build`.
+The diagnostic storage regression was repaired and merged. The exact post-repair GitHub Actions run completed successfully for the relevant backend and React build gates before the subsequent runtime incident investigation.
 
 ## Observability architecture
 
@@ -160,17 +165,20 @@ Infrastructure evidence:
 
 - Render logs
 - Render deployment state
-- Render service metrics
+- Render instance state
+- Render service memory metrics
 - GitHub Actions QA/deploy workflows
 
 ## Current gates
 
-- live Render API bridge verification
-- authenticated browser desktop/mobile verification
+- complete memory-pressure mitigation QA
+- correlate Render memory, CPU, request latency, and instance lifecycle around the restart
+- authenticated browser desktop/mobile verification of the refined console surfaces
 - speech-enabled runtime deployment
 - real short-WAV transcription
 - real Community-1 diarization
-- memory/CPU measurement
+- memory/CPU measurement before/during/after each provider
+- repeated-provider execution stress check
 - persisted transcript/speaker/multimodal readback
 - full internal 21-stage callback telemetry
 
