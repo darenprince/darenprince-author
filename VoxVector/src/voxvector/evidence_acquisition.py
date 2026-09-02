@@ -9,6 +9,7 @@ import numpy as np
 
 from .speech_segmentation import SpeechSegment as DetectedSpeechSegment
 from .speech_segmentation import segment_speech
+from .runtime_memory import measured_phase
 
 
 @dataclass(frozen=True)
@@ -118,12 +119,19 @@ def _speech_from_frames(
     *,
     frame_size: int,
     hop_size: int,
+    chunk_frames: int = 256,
 ) -> tuple[DetectedSpeechSegment, ...]:
+    """Compute frame RMS in bounded windows without a full-recording frame matrix."""
     if signal.size < frame_size:
         return ()
-    starts = np.arange(0, signal.size - frame_size + 1, hop_size, dtype=int)
-    frames = np.stack([signal[start : start + frame_size] for start in starts])
-    rms_values = np.sqrt(np.mean(np.square(frames), axis=1))
+    frame_count = 1 + (signal.size - frame_size) // hop_size
+    starts = np.arange(frame_count, dtype=np.int64) * hop_size
+    rms_parts: list[np.ndarray] = []
+    for first in range(0, frame_count, chunk_frames):
+        chunk_starts = starts[first : first + chunk_frames]
+        frames = np.stack([signal[int(start) : int(start) + frame_size] for start in chunk_starts])
+        rms_parts.append(np.sqrt(np.mean(np.square(frames), axis=1, dtype=np.float32)))
+    rms_values = np.concatenate(rms_parts) if len(rms_parts) > 1 else rms_parts[0]
     positive = rms_values[np.isfinite(rms_values) & (rms_values > 0)]
     if positive.size == 0:
         return ()
@@ -135,6 +143,17 @@ def _speech_from_frames(
     return segment_speech(rms_values, voiced, hop_size / sample_rate)
 
 
+def _release_provider(provider: Any) -> str | None:
+    release = getattr(provider, "release", None)
+    if not callable(release):
+        return None
+    try:
+        release()
+        return None
+    except Exception as exc:
+        return f"Provider {getattr(provider, 'provider_id', 'unknown')} release failed: {type(exc).__name__}."
+
+
 def build_evidence_acquisition(
     signal: np.ndarray,
     sample_rate: int,
@@ -142,14 +161,8 @@ def build_evidence_acquisition(
     transcript_provider: TranscriptionProvider | None = None,
     diarization_provider: DiarizationProvider | None = None,
 ) -> EvidenceAcquisitionResult:
-    """Build normalized source evidence and optionally invoke configured providers.
-
-    Providers are selected lazily from environment configuration when callers do
-    not supply explicit provider instances. Provider failures are represented as
-    unavailable acquisition states so an optional speech runtime cannot take down
-    the base case-analysis path.
-    """
-    signal = np.asarray(signal, dtype=float).reshape(-1)
+    """Build normalized source evidence and optionally invoke configured providers."""
+    signal = np.asarray(signal, dtype=np.float32).reshape(-1)
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
     if signal.size and not np.all(np.isfinite(signal)):
@@ -158,13 +171,11 @@ def build_evidence_acquisition(
     duration = signal.size / sample_rate
     peak = float(np.max(np.abs(signal))) if signal.size else 0.0
     clipping_ratio = float(np.mean(np.abs(signal) >= 0.999)) if signal.size else 0.0
-    rms_value = float(np.sqrt(np.mean(np.square(signal)))) if signal.size else None
+    rms_value = float(np.sqrt(np.mean(np.square(signal), dtype=np.float32))) if signal.size else None
 
     frame_size = max(1, int(sample_rate * 0.025))
     hop_size = max(1, int(sample_rate * 0.010))
-    detected = _speech_from_frames(
-        signal, sample_rate, frame_size=frame_size, hop_size=hop_size
-    )
+    detected = _speech_from_frames(signal, sample_rate, frame_size=frame_size, hop_size=hop_size)
 
     speech = tuple(
         TimelineSegment(
@@ -200,7 +211,6 @@ def build_evidence_acquisition(
 
     if transcript_provider is None and diarization_provider is None:
         from .speech_providers import get_diarization_provider, get_transcription_provider
-
         transcript_provider = get_transcription_provider()
         diarization_provider = get_diarization_provider()
 
@@ -214,46 +224,49 @@ def build_evidence_acquisition(
     if transcript_provider is not None:
         provider_id = getattr(transcript_provider, "provider_id", "unknown")
         started = time.perf_counter()
+        release_error: str | None = None
         try:
-            transcript = transcript_provider.transcribe(signal, sample_rate)
-            transcription_state = "completed"
-        except Exception as exc:
-            transcription_state = "unavailable"
-            limitations.append(
-                f"Transcription provider {provider_id} unavailable: {type(exc).__name__}."
-            )
+            with measured_phase(f"transcription:{provider_id}"):
+                try:
+                    transcript = transcript_provider.transcribe(signal, sample_rate)
+                    transcription_state = "completed"
+                except Exception as exc:
+                    transcription_state = "unavailable"
+                    limitations.append(f"Transcription provider {provider_id} unavailable: {type(exc).__name__}.")
+                finally:
+                    release_error = _release_provider(transcript_provider)
         finally:
             provider_timings_ms["transcription"] = (time.perf_counter() - started) * 1000.0
+        if release_error:
+            limitations.append(release_error)
 
     if diarization_provider is not None:
         provider_id = getattr(diarization_provider, "provider_id", "unknown")
         started = time.perf_counter()
+        release_error: str | None = None
         try:
-            diarization = diarization_provider.diarize(signal, sample_rate)
-            diarization_state = "completed"
-        except Exception as exc:
-            diarization_state = "unavailable"
-            limitations.append(
-                f"Diarization provider {provider_id} unavailable: {type(exc).__name__}."
-            )
+            with measured_phase(f"diarization:{provider_id}"):
+                try:
+                    diarization = diarization_provider.diarize(signal, sample_rate)
+                    diarization_state = "completed"
+                except Exception as exc:
+                    diarization_state = "unavailable"
+                    limitations.append(f"Diarization provider {provider_id} unavailable: {type(exc).__name__}.")
+                finally:
+                    release_error = _release_provider(diarization_provider)
         finally:
             provider_timings_ms["diarization"] = (time.perf_counter() - started) * 1000.0
+        if release_error:
+            limitations.append(release_error)
 
     multimodal_timeline = None
     if transcript is not None:
         from .alignment import align_transcript_to_speakers
-
-        multimodal_timeline = asdict(
-            align_transcript_to_speakers(transcript, diarization)
-        )
+        multimodal_timeline = asdict(align_transcript_to_speakers(transcript, diarization))
 
     return EvidenceAcquisitionResult(
         media_profile=profile,
-        speech_timeline=SpeechTimeline(
-            speech=speech,
-            silence=tuple(silence),
-            method_id="evidence_acquisition.energy_activity",
-        ),
+        speech_timeline=SpeechTimeline(speech=speech, silence=tuple(silence), method_id="evidence_acquisition.energy_activity"),
         transcript=transcript,
         diarization=diarization,
         transcription_state=transcription_state,
