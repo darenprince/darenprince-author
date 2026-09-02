@@ -72,7 +72,7 @@ const template = (product) => `<!doctype html>
         <p class="subtitle">${escapeHtml(product.tagline)}</p>
         <p>${escapeHtml(product.oneLiner)}</p>
         <div class="access-actions">
-          <a class="primary-btn" href="../../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(product.sourcePath.replace(/^docs\\/crownlabsbible\\//, ''))}">Open canonical dossier</a>
+          <a class="primary-btn" href="../../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(product.sourcePath.replace('docs/crownlabsbible/', ''))}">Open canonical dossier</a>
           <a class="ghost-btn" href="../#products">Explore Labs</a>
         </div>
       </div>
