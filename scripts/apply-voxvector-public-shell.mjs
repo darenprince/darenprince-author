@@ -24,7 +24,10 @@ const nav = (className = 'vv-static-primary-nav') => `<nav class="${className}" 
 const mobile = `<details class="mobile-public-menu"><summary aria-label="Open navigation"><span class="menu-glyph" aria-hidden="true"></span></summary>${nav('vv-static-mobile-nav')}</details>`
 
 const ensureHeadLink = (html, href) => html.includes('public-shell.css') ? html : html.replace('</head>', `  <link rel="stylesheet" href="${href}">\n</head>`)
-const markBody = html => html.replace(/<body([^>]*)>/, (_m, attrs) => `<body${attrs} class="${attrs.includes('class=') ? '' : 'vv-static-public'}${attrs.includes('class=') ? ' vv-static-public' : ''} vv-static-public">`)
+const markBody = html => html.replace(/<body([^>]*)>/, (_m, attrs) => {
+  const clean = attrs.replace(/\sclass="[^"]*"/i, '').trim()
+  return `<body${clean ? ` ${clean}` : ''} class="vv-static-public">`
+})
 
 async function transform(file) {
   let html = await fs.readFile(path.join(root, file), 'utf8')
@@ -35,13 +38,12 @@ async function transform(file) {
   if (file.endsWith('methods.html')) {
     html = html.replace(/<nav class="desktop-nav"[^>]*>[\s\S]*?<\/nav>/, nav())
     html = html.replace(/<nav class="side-nav"[^>]*>[\s\S]*?<\/nav>/, nav('side-nav'))
-    html = html.replace(/(<div[^>]*class="(?:[^\"]*menu|[^\"]*)"[^>]*id="menuButton"[^>]*>)/, '$1')
   } else if (file.endsWith('image-index/index.html')) {
     html = html.replace(/<nav class="desktop-nav"[^>]*>[\s\S]*?<\/nav>/, nav())
     if (!html.includes('class="mobile-public-menu"')) html = html.replace(/(<a class="mobile-header-link"[\s\S]*?<\/a>)/, `$1${mobile}`)
   } else if (file.endsWith('pipeline.html')) {
-    const oldTop = /<div class="shell top">[\s\S]*?<\/div>/
-    const replacement = `<div class="shell top"><a class="back" href="/voxvector/" aria-label="Back to VoxVector">VoxVector</a>${nav()}${mobile}<span class="eyebrow">Vocal intelligence architecture</span></div>`
+    const oldTop = /<div class="shell top">[\s\S]*?<div class="shell hero">/
+    const replacement = `<div class="shell top"><a class="back" href="/voxvector/" aria-label="Back to VoxVector">VoxVector</a>${nav()}${mobile}<span class="eyebrow">Vocal intelligence architecture</span></div><div class="shell hero">`
     html = html.replace(oldTop, replacement)
   }
 
