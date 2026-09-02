@@ -29,8 +29,9 @@ Status: active build.
 - transcript/speaker alignment: implemented foundation
 - multimodal timeline: implemented foundation
 - provider execution timing capture: implemented
+- heavy-provider cache release: implemented in current repair branch
 
-Configured speech providers are invoked by `build_evidence_acquisition`; each provider attempt now records measured wall-clock execution duration in `provider_timings_ms`. Provider failures remain explicit acquisition states and do not silently become successful evidence.
+Configured speech providers are invoked by `build_evidence_acquisition`; each provider attempt records measured wall-clock execution duration in `provider_timings_ms`. Provider failures remain explicit acquisition states and do not silently become successful evidence. Heavy provider caches are released after each attempt so a long-lived API worker does not retain both model families between provider phases.
 
 Next:
 
@@ -143,6 +144,14 @@ Implemented in the current feature work:
 
 The diagnostic storage regression was repaired and merged. The exact post-repair GitHub Actions run for commit `04ac252b1497cc150c3b5058e8d240229c24a042` completed successfully for both `VoxVector QA` and `VoxVector PR Preview Build`.
 
+## Render memory incident checkpoint — 2026-09-02
+
+Render reported that the `voxvector-api` web service exceeded its memory limit and an instance was automatically restarted. The notification establishes a real infrastructure incident but does not by itself establish the root cause.
+
+Code inspection identified an important memory-pressure risk in the current speech integration: faster-whisper and pyannote provider model loaders are process-cached with `lru_cache`, and the case acquisition flow invokes both providers in sequence. The repair branch now clears each provider's heavy model cache immediately after its execution attempt while preserving the resulting transcript/diarization data.
+
+The incident remains a runtime verification gate. Render logs/metrics must establish whether provider model residency was the actual trigger and whether the cache-release repair is sufficient under controlled audio execution.
+
 ## Observability architecture
 
 Application timing truth:
@@ -171,6 +180,7 @@ Infrastructure evidence:
 - real short-WAV transcription
 - real Community-1 diarization
 - memory/CPU measurement
+- verification of heavy-provider cache release under repeated execution
 - persisted transcript/speaker/multimodal readback
 - full internal 21-stage callback telemetry
 
