@@ -28,6 +28,9 @@ Status: active build.
 - pyannote Community-1 adapter: implemented, provider-gated
 - transcript/speaker alignment: implemented foundation
 - multimodal timeline: implemented foundation
+- provider execution timing capture: implemented
+
+Configured speech providers are invoked by `build_evidence_acquisition`; each provider attempt now records measured wall-clock execution duration in `provider_timings_ms`. Provider failures remain explicit acquisition states and do not silently become successful evidence.
 
 Next:
 
@@ -138,7 +141,7 @@ Implemented in the current feature work:
 
 ## QA repair checkpoint — 2026-09-02
 
-The uploaded QA evidence identified one regression in diagnostic storage failure handling: the storage result variable could be returned without initialization after a persistence exception. The canonical diagnostic store now initializes the value before the persistence attempt and returns safely on storage failure. A fresh exact-commit QA run is required to close the checkpoint.
+The diagnostic storage regression was repaired and merged. The exact post-repair GitHub Actions run for commit `04ac252b1497cc150c3b5058e8d240229c24a042` completed successfully for both `VoxVector QA` and `VoxVector PR Preview Build`.
 
 ## Observability architecture
 
@@ -151,6 +154,7 @@ Application timing truth:
 - analysis_run_id
 - stage_id
 - provider/model metadata
+- measured speech-provider execution durations when configured
 
 Infrastructure evidence:
 
@@ -161,7 +165,6 @@ Infrastructure evidence:
 
 ## Current gates
 
-- exact-commit QA after the diagnostic repair
 - live Render API bridge verification
 - authenticated browser desktop/mobile verification
 - speech-enabled runtime deployment
