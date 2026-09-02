@@ -10,7 +10,7 @@ This is the current engineering synchronization record for the connected VoxVect
 
 Current connected surfaces include the public landing page, shared `SiteHeader`, authenticated Developer Gate, Developer Console, Case Workbench, Case History, Analysis Workspace, audio upload/playback primitives, local waveform/spectrogram visualization, methodology/documentation navigation, MVP task board, diagnostic views, GitHub-backed engineering status, developer profile controls, and persisted Analysis Results / Review Evidence presentation.
 
-The Developer Console uses the canonical case API contracts for case creation, case listing/retrieval, WAV source upload, signed playback, and case-bound analysis. It also has authenticated Render Runtime status/log surfaces through server-side API routes.
+The Developer Console uses canonical case API contracts for case creation, case listing/retrieval, WAV source upload, signed playback, and case-bound analysis. It also has authenticated Render Runtime status/log surfaces through server-side API routes.
 
 ### Backend — `VoxVector/`
 
@@ -28,7 +28,7 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## QA state
 
-The diagnostic storage regression was repaired. The speech execution telemetry slice and the memory-pressure mitigation are under repository verification on their respective feature branches before merge.
+The diagnostic storage regression was repaired. The memory-efficiency branch has passed repository QA and the React production build before merge; subsequent production deployment remains a separate infrastructure verification gate.
 
 ## Speech intelligence state
 
@@ -42,7 +42,8 @@ The primary next engine layer is implemented as a provider-backed evidence acqui
 - normalized multimodal timeline artifact;
 - explicit provider states and failure-tolerant degradation;
 - measured provider execution timing;
-- heavy-provider cache release after execution in the memory-pressure repair branch;
+- heavy-provider cache release after execution;
+- constrained-runtime memory telemetry around heavyweight phases;
 - Developer Console speech-runtime readiness reporting through `/health`.
 
 The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
@@ -70,7 +71,7 @@ Render deployment state, instance state, and logs are infrastructure evidence. T
 
 ## Render memory incident evidence — 2026-09-02
 
-Render reported that an instance of `voxvector-api` exceeded its memory limit and was automatically restarted. The account/service runtime evidence confirms the applicable free web-service budget is **512 MB RAM**.
+Render reported that `voxvector-api` exceeded its memory limit and was automatically restarted. The account/service runtime evidence confirms the applicable free web-service budget is **512 MB RAM**.
 
 The captured Render memory telemetry for the incident window recorded approximately:
 
@@ -84,11 +85,11 @@ The captured Render memory telemetry for the incident window recorded approximat
 - 02:13:30 UTC — 89.0 MB
 - 02:14:00 UTC — 93.0 MB
 
-The abrupt reduction from approximately 198.5 MB to 73.6 MB is consistent with a process/instance lifecycle reset around the notification window. The telemetry does **not** prove that faster-whisper or pyannote caused the restart, because the observed peak sample remained below the published 512 MB service budget and the exact sub-sample peak/cause is not captured by the 30-second memory resolution.
+The abrupt reduction from approximately 198.5 MB to 73.6 MB is consistent with a process/instance lifecycle reset around the notification window. The telemetry does **not** prove that faster-whisper or pyannote caused the restart because the observed sample did not capture the instantaneous peak and the metric resolution was 30 seconds.
 
 The same incident window contains slow case-list requests: one `/v1/cases` request recorded 10,353.41 ms and another 8,109.76 ms. These are reliability signals worth investigation but are not themselves evidence of the memory root cause.
 
-The repository Render observability workflow now captures the incident-window memory telemetry and logs as a reproducible Actions artifact. The raw evidence captured for this incident was artifact `9829899743` from workflow run `33585450916`.
+The repository Render observability workflow now captures incident-window memory telemetry and logs as a reproducible Actions artifact. The raw evidence captured for this incident was artifact `9829899743` from workflow run `33585450916`.
 
 ## Memory-efficiency engineering response — 2026-09-02
 
@@ -100,19 +101,22 @@ The constrained faster-whisper default is `base` / CPU / `int8` / beam size `3`,
 
 These changes are resource-management and observability changes only. They do not alter analytical methodology or scientific validation state.
 
-## Developer Console presentation refinement — 2026-09-02
+## Developer Console visual system — 2026-09-02
 
-The console visual system is being tightened around compact analytical presentation:
+The public landing page and Developer Console now share the next typography/navigation baseline:
 
-- shared Card surfaces use restrained 5–6% warm tonal gradients rather than flat fills;
-- analytical card padding is reduced to tighten information density;
-- non-card runtime/data surfaces use the same subtle tonal treatment;
-- log, history, file metadata, upload, and runtime panels use more compact vertical spacing;
-- rounded treatment is reduced on the shared Card primitive to keep the interface more technical and less decorative;
-- the startup preloader logo is reduced substantially and given only a restrained local glow;
-- motion continues to communicate activity without turning animation into fabricated progress.
+- 56px primary header target to reduce vertical chrome;
+- compact two-line menu activation with an explicit X close state;
+- mobile navigation rendered as a slide-out Sheet rather than an expanding inline header block;
+- Sheet supports scrim dismissal, selection dismissal and horizontal swipe-to-close;
+- Inter is the canonical body/UI typeface;
+- Cal Sans is the canonical hero, page-title and section-heading typeface;
+- headings use sentence case, optical kerning, controlled negative tracking and tight display leading;
+- metadata may use uppercase only where it communicates utility rather than reading content;
+- Streamline Sharp is the canonical icon family for shared product chrome through the `SharpIcon` primitive;
+- surface depth remains restrained with approximately 5–8% tonal shifts rather than saturated gradients.
 
-These changes are presentation improvements only. They do not change analytical methodology, runtime capability, or scientific status.
+The changes are presentation and interaction-system refinements only. They do not change analytical methodology, runtime capability, or scientific status.
 
 ## Developer Console workflow state
 
@@ -138,19 +142,19 @@ Numeric progress is shown only when it represents measured transfer or persisted
 
 ## Current engineering priorities
 
-1. Complete and verify the memory-pressure mitigation before merge.
-2. Continue Render incident correlation using memory, CPU, deployment, instance, and request timing evidence.
+1. Monitor the first production deployment after the memory-efficiency merge for recurrence.
+2. Correlate `VOXVECTOR_MEMORY` provider telemetry with Render instance lifecycle behavior.
 3. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
 4. Execute pyannote Community-1 and verify speaker-turn output.
-5. Measure memory before, during, and after each provider and across repeated runs.
-6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
-7. Connect transcript-derived data to linguistic/disfluency analysis.
-8. Make acoustic aggregation speaker-aware and build real baseline inputs.
-9. Wire actual internal pipeline callback boundaries without duplicating the engine.
+5. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
+6. Connect transcript-derived data to linguistic/disfluency analysis.
+7. Make acoustic aggregation speaker-aware and build real baseline inputs.
+8. Wire actual internal pipeline callback boundaries without duplicating the engine.
+9. Complete browser verification of compact navigation, typography, swipe dismissal and Sharp icon rendering on desktop and mobile.
 10. Expand the Evidence Explorer and assessment/report workflow.
 
 ## Integrity boundary
 
-Provider output is data produced by the provider. Provider confidence is not deception confidence. Speaker labels are cluster labels, not verified identities. Transcript content is not evidence of truth by itself. No individual vocal or linguistic feature proves deception.
+Provider output is data produced by the provider. Provider confidence is not deception confidence. Speaker labels are not verified identities. Transcript content is not evidence of truth by itself. No individual vocal or linguistic feature proves deception.
 
 Historical checkpoints remain historical evidence and are not current status sources.

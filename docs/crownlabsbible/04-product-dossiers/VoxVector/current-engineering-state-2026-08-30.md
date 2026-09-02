@@ -34,17 +34,29 @@ The constrained faster-whisper default is `base` / CPU / `int8` / beam `3`, with
 
 These are resource-management and observability changes only.
 
-## Developer Console
+## Developer Console visual system
 
-The console includes Case History, persisted live run state, Render Runtime infrastructure visibility, collapsible workbench sections, scroll-safe navigation, consistent status language, state-derived startup activity, and compact premium presentation with restrained tonal gradients and tighter data density.
+The public landing page and Developer Console now share the same compact interface baseline:
+
+- primary header target of 56px;
+- two-line menu activation with explicit X close state;
+- mobile navigation as a slide-out Sheet with scrim, selection, and swipe dismissal;
+- Inter for all body and UI text;
+- Cal Sans for hero, page-title, and section-heading hierarchy;
+- sentence-case editorial headings with refined kerning, tracking, leading, and balanced wrapping;
+- Streamline Sharp as the canonical shared product icon family through the `SharpIcon` primitive;
+- restrained 5–8% tonal surface gradients.
+
+The changes are presentation and interaction-system refinements only.
 
 ## Current engineering priorities
 
-1. Complete repository QA for the memory-efficiency branch.
-2. Deploy the constrained speech runtime and capture real `VOXVECTOR_MEMORY` telemetry.
-3. Execute controlled faster-whisper and pyannote runs and verify actual artifacts.
-4. Correlate provider memory, request concurrency, and Render instance lifecycle behavior.
-5. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
+1. Verify the compact navigation and typography system in authenticated desktop and mobile browser states.
+2. Verify the Sharp icon collection renders correctly across shared navigation and core product surfaces.
+3. Deploy the constrained speech runtime and capture real `VOXVECTOR_MEMORY` telemetry.
+4. Execute controlled faster-whisper and pyannote runs and verify actual artifacts.
+5. Correlate provider memory, request concurrency, and Render instance lifecycle behavior.
+6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
 
 ## Scientific boundary
 
