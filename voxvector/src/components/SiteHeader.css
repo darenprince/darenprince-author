@@ -69,8 +69,8 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 .vv-menu-glyph > span:last-child { top: 9px; }
 .vv-menu-glyph--close > span:first-child { top: 6px; transform: rotate(45deg); }
 .vv-menu-glyph--close > span:last-child { top: 6px; transform: rotate(-45deg); }
-.vv-menu-trigger { color: var(--vv-muted-strong); transition: color .18s ease, background .18s ease, border-color .18s ease; }
-.vv-menu-trigger:hover { color: var(--vv-text); background: var(--vv-panel-soft); }
+.vv-menu-trigger { color: var(--vv-muted-strong); transition: color .18s ease; }
+.vv-menu-trigger:hover { color: var(--vv-text); background: transparent !important; }
 .vv-menu-proxy { display: inline-flex; }
 .vv-menu-proxy svg.lucide-menu { display: none; }
 .vv-menu-proxy > button { position: relative; color: var(--vv-muted-strong); }
@@ -87,8 +87,20 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 }
 .vv-menu-proxy > button::before { top: 11px; }
 .vv-menu-proxy > button::after { top: 17px; }
+
+.vv-public-primary-nav a,
+.vv-public-mobile-nav a {
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap;
+}
+.vv-public-primary-nav a { gap: 7px; }
+.vv-public-nav-icon { flex: 0 0 auto; opacity: .66; }
+.vv-public-primary-nav a:hover .vv-public-nav-icon,
+.vv-public-mobile-nav a:hover .vv-public-nav-icon { opacity: 1; color: var(--vv-accent-bright); }
+
 .vv-public-mobile-nav { display: grid; gap: 2px; padding: 6px 0 18px; }
-.vv-public-mobile-nav a { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 6px; border-bottom: 1px solid var(--vv-border); color: var(--vv-muted-strong); text-decoration: none; font-size: 16px; font-weight: 560; }
+.vv-public-mobile-nav a { gap: 11px; min-height: 48px; padding: 10px 6px; border-bottom: 1px solid var(--vv-border); color: var(--vv-muted-strong); text-decoration: none; font-size: 16px; font-weight: 560; }
 .vv-public-mobile-nav a:hover { color: var(--vv-text); }
 .vv-public-mobile-nav .vv-mobile-nav-action { border-bottom: 0; margin-top: 8px; color: var(--vv-text); font-weight: 650; }
 .vv-mobile-nav-meta { margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--vv-border); }
@@ -116,8 +128,5 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 @media (max-width: 900px) {
   .vv-public-header,
   .vv-developer-header { z-index: 400 !important; }
-
-  .vv-main [aria-label="Case workflow"] {
-    top: 56px !important;
-  }
+  .vv-main [aria-label="Case workflow"] { top: 56px !important; }
 }
