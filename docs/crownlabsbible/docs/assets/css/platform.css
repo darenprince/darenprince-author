@@ -942,3 +942,28 @@ button {
 .cl-sidebar-header .cl-icon-btn{width:34px;height:34px;border-radius:7px}
 @media(max-width:980px){.cl-toolbar{position:sticky;margin:0 -20px 20px;padding:0 16px;min-height:62px}.cl-toolbar-head{min-width:0}.cl-header-logo{max-width:135px;height:25px}.cl-tools{display:none}.cl-toolbar-toggle{display:none}.cl-menu-button{height:36px;padding:0 10px}.cl-menu-text{display:none}.cl-menu-button{width:38px;justify-content:center;padding:0}}
 @media(max-width:520px){.cl-toolbar{margin:0 -16px 18px;padding:0 12px}.cl-breadcrumbs{display:none}.cl-header-logo{max-width:122px}.cl-menu-button{width:38px}}
+
+/* Crown Labs Bible application refinement */
+:root{--docs-black:#050506;--docs-deep:#09090b;--docs-menu:#0d0d10;--docs-menu-2:#111116}
+body{background:radial-gradient(1200px 700px at 82% -10%,rgba(255,255,255,.035),transparent 52%),linear-gradient(135deg,#050506 0%,#09090b 52%,#040405 100%);min-height:100vh}
+.cl-sidebar{background:linear-gradient(180deg,var(--docs-menu-2),var(--docs-menu) 55%,#09090b);}
+.cl-sidebar-header{justify-content:flex-start;gap:14px}
+.cl-logo{height:46px;max-width:205px;object-position:left center}
+.cl-sidebar-header #navToggle{margin-left:auto}
+.cl-sidebar-header .cl-icon-btn,.cl-mobile-menu{width:28px;height:24px;border:0!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;position:relative;font-size:0;color:transparent}
+.cl-sidebar-header .cl-icon-btn .ms-icon,.cl-mobile-menu .ms-icon{display:none}
+.cl-sidebar-header .cl-icon-btn::before,.cl-sidebar-header .cl-icon-btn::after,.cl-mobile-menu::before,.cl-mobile-menu::after{content:'';position:absolute;left:2px;width:24px;height:1.5px;background:currentColor;color:var(--vv-ink);transition:transform .2s ease,top .2s ease}
+.cl-sidebar-header .cl-icon-btn::before,.cl-mobile-menu::before{top:7px}.cl-sidebar-header .cl-icon-btn::after,.cl-mobile-menu::after{top:15px}
+.cl-app.nav-collapsed .cl-sidebar-header .cl-icon-btn::before{top:11px;transform:rotate(45deg)}.cl-app.nav-collapsed .cl-sidebar-header .cl-icon-btn::after{top:11px;transform:rotate(-45deg)}
+.cl-toolbar{background:rgba(5,5,6,.9)}
+.cl-header-logo{height:32px;max-width:190px;object-position:left center}
+.cl-tool-btn{min-width:32px;padding:0 9px}.cl-tool-btn span:last-child{font-size:10px}
+.cl-github-mark{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:currentColor}
+.cl-github-link{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--vv-muted);text-decoration:none}.cl-github-link:hover{color:var(--vv-ink)}
+.cl-product-logo{width:28px;height:28px;object-fit:contain;border-radius:6px;flex:0 0 auto;background:#08090b}
+.cl-product-toggle .cl-label{gap:9px}
+.cl-product-toggle .cl-product-logo{width:24px;height:24px}
+.cl-content .cl-product-hero{float:right;width:clamp(72px,12vw,128px);height:clamp(72px,12vw,128px);object-fit:contain;margin:0 0 20px 28px;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid var(--border);padding:8px}
+.cl-content h1::after{content:'';display:block;width:46px;height:2px;margin-top:18px;background:var(--accent)}
+@media(max-width:980px){.cl-logo{height:42px}.cl-header-logo{height:30px}.cl-content .cl-product-hero{width:76px;height:76px;margin-left:16px}}
+@media(max-width:520px){.cl-sidebar-header{gap:8px}.cl-logo{height:38px;max-width:175px}.cl-content .cl-product-hero{float:none;display:block;margin:0 0 18px}}
