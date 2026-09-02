@@ -138,6 +138,10 @@
     if (path.includes('sentinel-vault')) return { brand:'Sentinel Vault',logo:assets.sentinelSymbol,icon:assets.sentinelIcon,hero:path.includes('/overview.md')?assets.sentinelHero:'',alt:'Sentinel Vault' }
     if (path.includes('crowncode-ai')) return { brand:'CrownCode.ai',logo:assets.crownCodeLogo,icon:assets.crownCodeIcon,hero:path.endsWith('.md')?assets.crownCodeScreenshot:'',alt:'CrownCode.ai' }
     if (path.includes('voxvector')) return { brand:'VoxVector',logo:assets.voxVectorFull,icon:assets.voxVectorSymbol,hero:'',alt:'VoxVector' }
+    if (path.includes('picdetective')) return { brand:'PicDetective',logo:assets.picDetectiveLogo,icon:assets.picDetectiveIcon,hero:'',alt:'PicDetective' }
+    if (path.includes('operation-phoenix')) return { brand:'Operation Phoenix',logo:'',icon:assets.operationPhoenixIcon,hero:'',alt:'Operation Phoenix' }
+    if (path.includes('vibe-prism')) return { brand:'Vibe Prism',logo:'',icon:assets.vibePrismIcon,hero:'',alt:'Vibe Prism' }
+    if (path.includes('create-vector')) return { brand:'Create Vector',logo:'',icon:assets.createVectorIcon,hero:'',alt:'Create Vector' }
     return null
   }
 
@@ -147,10 +151,15 @@
     const path = currentDocPath()
     const profile = profileForDoc(path)
     if (!profile || content.dataset.brandPath === path) return
+
     const wrap = document.createElement('div')
     wrap.className = 'cl-doc-brand'
     wrap.dataset.brandPath = path
-    wrap.innerHTML = '<div class="cl-doc-brand-lockup">' + (profile.logo ? '<img class="cl-doc-brand-logo" src="' + profile.logo + '" alt="' + profile.alt + ' logo" loading="lazy">' : '') + (profile.icon ? '<img class="cl-doc-brand-icon" src="' + profile.icon + '" alt="" loading="lazy">' : '') + '</div>' + (profile.hero ? '<img class="cl-doc-brand-hero" src="' + profile.hero + '" alt="' + profile.alt + ' documentation artwork" loading="lazy">' : '')
+    wrap.innerHTML =
+      (profile.logo ? '<img class="cl-doc-brand-logo" src="' + profile.logo + '" alt="' + profile.alt + ' full logo" loading="eager">' : '') +
+      (profile.hero ? '<img class="cl-doc-brand-hero" src="' + profile.hero + '" alt="' + profile.alt + ' documentation hero" loading="eager">' : '') +
+      (profile.icon ? '<img class="cl-doc-brand-icon" src="' + profile.icon + '" alt="' + profile.alt + ' app icon" loading="lazy">' : '')
+
     const firstHeading = content.querySelector('h1')
     firstHeading.parentNode.insertBefore(wrap, firstHeading)
     content.dataset.brandPath = path
@@ -160,7 +169,13 @@
     if (document.getElementById('cl-brand-registry-styles')) return
     const style = document.createElement('style')
     style.id = 'cl-brand-registry-styles'
-    style.textContent = '.cl-doc-brand{margin:0 0 30px}.cl-doc-brand-lockup{display:flex;align-items:center;gap:14px;min-height:62px;margin-bottom:18px}.cl-doc-brand-logo{max-width:260px;max-height:64px;width:auto;height:auto;object-fit:contain}.cl-doc-brand-icon{width:58px;height:58px;object-fit:contain;border-radius:12px}.cl-doc-brand-hero{display:block;width:100%;max-height:420px;object-fit:cover;border:1px solid var(--border);border-radius:10px;background:var(--surface-2)}@media(max-width:620px){.cl-doc-brand-logo{max-width:210px}.cl-doc-brand-hero{max-height:280px}}'
+    style.textContent = `
+      .cl-doc-brand{margin:0 0 34px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+      .cl-doc-brand-logo{display:block;max-width:min(420px,100%);max-height:96px;width:auto;height:auto;object-fit:contain}
+      .cl-doc-brand-hero{display:block;width:100%;max-height:460px;object-fit:cover;border:0;border-radius:0;background:transparent}
+      .cl-doc-brand-icon{display:block;width:88px;height:88px;max-width:none;object-fit:contain;border-radius:0;background:transparent;box-shadow:none;border:0}
+      @media(max-width:620px){.cl-doc-brand{gap:14px;margin-bottom:28px}.cl-doc-brand-logo{max-width:280px;max-height:74px}.cl-doc-brand-hero{max-height:300px}.cl-doc-brand-icon{width:72px;height:72px}}
+    `
     document.head.appendChild(style)
   }
 
