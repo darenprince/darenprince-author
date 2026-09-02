@@ -6,19 +6,17 @@ import threading
 import time
 from contextlib import contextmanager
 
-try:
-    import resource
-except ImportError:  # pragma: no cover
-    resource = None
-
 _LOCK = threading.Lock()
 
 
 def memory_usage_mb() -> float | None:
-    if resource is None:
+    """Return current process RSS in MiB when the runtime exposes it."""
+    try:
+        with open("/proc/self/statm", "r", encoding="utf-8") as handle:
+            pages = int(handle.read().split()[1])
+        return round(pages * os.sysconf("SC_PAGE_SIZE") / (1024.0 * 1024.0), 2)
+    except (FileNotFoundError, OSError, ValueError, IndexError):
         return None
-    usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    return round(usage / 1024.0, 2)
 
 
 def memory_limit_mb(default: float = 512.0) -> float:
@@ -31,6 +29,12 @@ def memory_limit_mb(default: float = 512.0) -> float:
 def collect_after_heavy_phase() -> None:
     gc.collect()
     try:
+        import ctypes
+        libc = ctypes.CDLL("libc.so.6")
+        libc.malloc_trim(0)
+    except (OSError, AttributeError, TypeError):
+        pass
+    try:
         import torch
         if hasattr(torch, "cuda") and torch.cuda.is_available():
             torch.cuda.empty_cache()
@@ -40,6 +44,7 @@ def collect_after_heavy_phase() -> None:
 
 @contextmanager
 def measured_phase(name: str):
+    """Serialize heavyweight phases and emit bounded-runtime memory telemetry."""
     with _LOCK:
         started = time.perf_counter()
         before = memory_usage_mb()
