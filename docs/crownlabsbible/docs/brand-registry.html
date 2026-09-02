@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Canonical Crown Labs registry of approved logos, icons, product artwork, and documentation hero assets." />
+  <meta name="theme-color" content="#090a0c" />
+  <title>Brand Logo & Icon Registry | Crown Labs</title>
+  <link rel="icon" type="image/png" href="https://www.darenprince.com/assets/images/Updated%20icon.PNG" />
+  <link rel="stylesheet" href="assets/css/platform.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100,0,-25" />
+  <style>
+    .brand-registry{max-width:1180px;margin:0 auto;padding:42px 34px 72px}
+    .registry-hero{display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:stretch;margin-bottom:28px}
+    .registry-intro,.registry-meta{background:var(--surface);border:1px solid var(--border);padding:26px;border-radius:10px}
+    .registry-intro h1{font-size:clamp(2rem,4vw,3.6rem);line-height:1.04;margin-bottom:14px}
+    .registry-intro p{max-width:780px;color:var(--muted);font-size:1.03rem}
+    .registry-meta strong{display:block;color:var(--heading);margin-bottom:5px}
+    .asset-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .asset-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-height:270px}
+    .asset-preview{height:150px;background:var(--surface-2);display:grid;place-items:center;padding:20px;border-bottom:1px solid var(--border)}
+    .asset-preview img{max-width:100%;max-height:110px;object-fit:contain}
+    .asset-body{padding:17px 18px 19px}
+    .asset-body h3{margin-bottom:5px;color:var(--heading);font-size:1rem}
+    .asset-role{color:var(--text);font-size:.9rem;margin-bottom:8px}
+    .asset-path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;line-height:1.45;color:var(--muted);word-break:break-all}
+    .registry-note{margin-top:24px;padding:16px 18px;border-left:3px solid var(--accent);background:var(--surface);color:var(--muted);font-size:.86rem}
+    @media(max-width:900px){.registry-hero{grid-template-columns:1fr}.asset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:620px){.brand-registry{padding:28px 18px 54px}.asset-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="cl-scrim" id="scrim"></div>
+<div class="cl-app" id="app">
+  <aside class="cl-sidebar">
+    <div class="cl-sidebar-header">
+      <a href="viewer.html"><img class="cl-logo" src="https://www.darenprince.com/labs/assets/Updated%20icon.PNG" alt="Crown Labs" /></a>
+      <button class="cl-icon-btn" id="navToggle" title="Toggle navigation" aria-label="Toggle navigation"><span class="ms-icon">menu</span></button>
+    </div>
+    <div class="cl-title">Crown Labs Documentation</div>
+    <div class="cl-subtitle">Canonical visual identity inventory for products, apps, and documentation.</div>
+  </aside>
+  <main class="cl-main"><div class="cl-reader">
+    <div class="cl-toolbar"><div class="cl-toolbar-body"><div class="cl-toolbar-meta"><div class="cl-toolbar-head"><img class="cl-header-logo" src="https://www.darenprince.com/labs/assets/Updated%20icon.PNG" alt="Crown Labs" /><button class="cl-icon-btn cl-mobile-menu" id="mobileMenu" title="Open navigation" aria-label="Open navigation"><span class="ms-icon">menu</span></button></div><div class="cl-breadcrumbs"><button onclick="location.href='viewer.html'"><span class="ms-icon">arrow_back</span>Docs</button><span class="sep">/</span><span class="current">Brand Logo & Icon Registry</span></div></div><div class="cl-tools"><a class="cl-tool-btn" href="viewer.html"><span class="ms-icon">description</span><span>Browse</span></a></div></div></div>
+    <article class="cl-content page">
+      <div class="brand-registry">
+        <div class="registry-hero">
+          <section class="registry-intro">
+            <div class="cl-eyebrow">Canonical visual identity system</div>
+            <h1>Brand Logo & Icon Registry</h1>
+            <p>The approved artwork inventory for Crown Labs documentation. Product pages, documentation heroes, portfolio cards, navigation, and brand references should draw from these repository assets rather than ad hoc replacements.</p>
+          </section>
+          <section class="registry-meta">
+            <strong>18 registered assets</strong><span class="asset-role">Logos, app icons, product imagery, and documentation heroes.</span>
+            <strong>Source of truth</strong><span class="asset-role"><code>docs/crownlabsbible/brand-registry.json</code></span>
+            <strong>Repository</strong><span class="asset-role">darenprince/darenprince-author</span>
+          </section>
+        </div>
+        <div class="asset-grid">
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/Crown-Psychology-Wordmark.png" alt="Crown Psychology full logo" loading="lazy"></div><div class="asset-body"><h3>Crown Psychology</h3><div class="asset-role">Full logo / wordmark</div><div class="asset-path">assets/images/Crown-Psychology-Wordmark.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../Picdetective/deticon.png" alt="PicDetective app icon" loading="lazy"></div><div class="asset-body"><h3>PicDetective</h3><div class="asset-role">App icon · supplied in request under the Crown Psychology label</div><div class="asset-path">Picdetective/deticon.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/create-vector-app-icon.png" alt="Create Vector app icon" loading="lazy"></div><div class="asset-body"><h3>Create Vector</h3><div class="asset-role">App icon</div><div class="asset-path">assets/images/create-vector-app-icon.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/NavLogo.PNG" alt="CrownCode.ai full logo" loading="lazy"></div><div class="asset-body"><h3>CrownCode.ai</h3><div class="asset-role">Full logo</div><div class="asset-path">assets/images/NavLogo.PNG</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png" alt="Operation Phoenix app icon" loading="lazy"></div><div class="asset-body"><h3>Operation Phoenix</h3><div class="asset-role">App icon</div><div class="asset-path">assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png" alt="Sentinel Vault logo symbol" loading="lazy"></div><div class="asset-body"><h3>Sentinel Vault</h3><div class="asset-role">Logo symbol only</div><div class="asset-path">assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/369614C7-0374-4409-AD16-E5CCB5CDBDEE.png" alt="Crown Psychology promo hero" loading="lazy"></div><div class="asset-body"><h3>Crown Psychology</h3><div class="asset-role">Promotional hero image</div><div class="asset-path">assets/images/369614C7-0374-4409-AD16-E5CCB5CDBDEE.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png" alt="Sentinel Vault app icon" loading="lazy"></div><div class="asset-body"><h3>Sentinel Vault</h3><div class="asset-role">App icon</div><div class="asset-path">assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/IMG_0267.png" alt="JustUs Scott chat icon" loading="lazy"></div><div class="asset-body"><h3>JustUs.chat / Scott</h3><div class="asset-role">Chat icon</div><div class="asset-path">assets/images/IMG_0267.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png" alt="Sentinel Vault docs hero" loading="lazy"></div><div class="asset-body"><h3>Sentinel Vault</h3><div class="asset-role">Documentation hero image</div><div class="asset-path">assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/EA6882C5-BB64-412B-9F58-395D1208F112.png" alt="Crown Psychology architecture hero" loading="lazy"></div><div class="asset-body"><h3>Crown Psychology</h3><div class="asset-role">Architecture page hero</div><div class="asset-path">assets/images/EA6882C5-BB64-412B-9F58-395D1208F112.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/Untitled%20design.png" alt="Crown Psychology premium app icon" loading="lazy"></div><div class="asset-body"><h3>Crown Psychology</h3><div class="asset-role">Premium app icon</div><div class="asset-path">assets/images/Untitled design.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/Updated%20icon.PNG" alt="Crown Labs and CrownCode universal app icon" loading="lazy"></div><div class="asset-body"><h3>Crown Labs / CrownCode.ai</h3><div class="asset-role">Main universal app icon</div><div class="asset-path">assets/images/Updated icon.PNG</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../Picdetective/detlogo2.PNG" alt="PicDetective full logo" loading="lazy"></div><div class="asset-body"><h3>PicDetective</h3><div class="asset-role">Full logo</div><div class="asset-path">Picdetective/detlogo2.PNG</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png" alt="Vibe Prism app icon" loading="lazy"></div><div class="asset-body"><h3>Vibe Prism</h3><div class="asset-role">App icon</div><div class="asset-path">assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../desktopui-Nobg.PNG" alt="CrownCode.ai product screenshot" loading="lazy"></div><div class="asset-body"><h3>CrownCode.ai</h3><div class="asset-role">Product screenshot</div><div class="asset-path">desktopui-Nobg.PNG</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../VoxVector/Assets/voxvector-icon-final-color.png.PNG" alt="VoxVector logo symbol" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">Logo symbol only</div><div class="asset-path">VoxVector/Assets/voxvector-icon-final-color.png.PNG</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img src="../../../../VoxVector/Assets/VoxVector-Full-logo-black-bg.png" alt="VoxVector full logo" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">Full logo</div><div class="asset-path">VoxVector/Assets/VoxVector-Full-logo-black-bg.png</div></div></article>
+        </div>
+        <div class="registry-note"><strong>Governance note:</strong> product documentation should reference the registered asset path, preserve the approved role, and avoid inventing replacement artwork. The supplied <code>Picdetective/deticon.png</code> path is registered to PicDetective because existing repository usage identifies it as the PicDetective icon.</div>
+      </div>
+    </article>
+  </div></main>
+</div>
+<script src="assets/js/navigation.js"></script>
+</body>
+</html>
