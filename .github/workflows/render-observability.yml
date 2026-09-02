@@ -70,7 +70,10 @@ jobs:
           render deploys list "$RENDER_SERVICE_ID" -o json > render-deploys.json
       - name: Inspect recent logs
         run: |
-          render logs "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 1000 -o json > render-logs.json
+          START_TIME="$(date -u -d "${LOG_MINUTES} minutes ago" +%Y-%m-%dT%H:%M:%SZ)"
+          END_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Querying Render logs from $START_TIME through $END_TIME"
+          render logs --resources "$RENDER_SERVICE_ID" --start "$START_TIME" --end "$END_TIME" --limit 1000 --output json > render-logs.json
       - name: Select target service from workspace inventory
         run: |
           python - <<'PY'
