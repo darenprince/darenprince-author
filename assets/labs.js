@@ -4,9 +4,18 @@
 
   const canonicalDocsHref = (sourcePath = '') => {
     const path = String(sourcePath || '').replace(/^\/+/, '').replace(/^docs\/crownlabsbible\//, '')
-    return path
-      ? `../docs/crownlabsbible/docs/viewer.html?doc=${encodeURIComponent(path)}`
-      : '../docs/crownlabsbible/docs/index.html'
+    return path ? `../docs/crownlabsbible/docs/viewer.html?doc=${encodeURIComponent(path)}` : '../docs/crownlabsbible/docs/index.html'
+  }
+
+  const assetMap = {
+    'crowncode-ai': { src: '../assets/images/Updated icon.PNG', alt: 'CrownCode.ai' },
+    'ai-cherry-pie': { src: '../assets/images/icon-master.PNG', alt: 'AI Cherry Pie' },
+    'crown-psychology': { src: '../assets/images/Untitled%20design.png', alt: 'Crown Psychology' },
+    'crown-sos': { src: '../emergency-911/CrownSOS-icon.PNG', alt: 'Crown SOS' },
+    'crown-watchtower': { src: '../assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png', alt: 'Crown WatchTower' },
+    'crowncast': { src: '../assets/images/IMG_0267.png', alt: 'CrownCast' },
+    'sentinel-vault': { src: '../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png', alt: 'Sentinel Vault' },
+    'voxvector': { src: '../VoxVector/Assets/voxvector-icon-final-color.png.PNG', alt: 'VoxVector' }
   }
 
   const createElement = (tag, className, text) => {
@@ -18,9 +27,7 @@
 
   const appendTextPair = (parent, label, value) => {
     const item = createElement('div')
-    const strong = createElement('strong', null, label)
-    const span = createElement('span', null, value || '—')
-    item.append(strong, span)
+    item.append(createElement('strong', null, label), createElement('span', null, value || '—'))
     parent.append(item)
   }
 
@@ -41,35 +48,22 @@
     update()
   }
 
-  const productTemplate = (product) => {
-    const article = createElement('article', 'product-card')
-    article.dataset.id = product.id
-
-    const head = createElement('div', 'card-head')
-    const titleWrap = createElement('div')
-    titleWrap.append(createElement('span', 'badge', product.status || 'Documented'))
-    titleWrap.append(createElement('h2', null, product.name || product.id))
-    titleWrap.append(createElement('p', 'subtitle', product.categoryLabel || product.category || 'Crown Labs'))
-    head.append(titleWrap, createElement('span', 'badge', product.category || 'Canonical'))
-
-    const summary = createElement('p', null, product.oneLiner || product.tagline || '')
-    const bullets = createElement('ul', 'bullets')
-    ;(product.bullets || []).slice(0, 4).forEach((item) => bullets.append(createElement('li', null, item)))
-
-    const meta = createElement('div', 'meta')
-    appendTextPair(meta, 'Readiness', product.readiness ? `${product.readiness}%` : '—')
-    appendTextPair(meta, 'Time to market', product.timeToMarket || 'Canonical dossier active')
-    appendTextPair(meta, 'Source', 'Crown Labs Bible')
-
-    const actions = createElement('div', 'card-actions')
-    const brief = createElement('a', 'text-link', 'View public brief')
-    brief.href = product.detailUrl || `labs/products/${product.id}.html`
-    const docs = createElement('a', 'text-link muted', 'Read documentation')
-    docs.href = canonicalDocsHref(product.sourcePath)
-    actions.append(brief, docs)
-
-    article.append(head, summary, bullets, meta, actions)
-    return article
+  const appendProductIdentity = (article, product) => {
+    const asset = assetMap[product.id]
+    const identity = createElement('div', 'product-identity')
+    const media = createElement('div', 'product-mark')
+    if (asset) {
+      const img = document.createElement('img')
+      img.src = asset.src
+      img.alt = asset.alt
+      img.loading = 'lazy'
+      img.decoding = 'async'
+      media.append(img)
+    } else {
+      media.append(createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1)))
+    }
+    identity.append(media)
+    article.prepend(identity)
   }
 
   const compactProductTemplate = (product) => {
@@ -81,6 +75,7 @@
     top.append(createElement('span', 'readiness-chip', product.readiness ? `${product.readiness}%` : 'Documented'))
 
     article.append(top)
+    appendProductIdentity(article, product)
     article.append(createElement('h3', null, product.name || product.id))
     article.append(createElement('p', 'subtitle', product.categoryLabel || product.category || 'Crown Labs product'))
     article.append(createElement('p', null, product.oneLiner || product.tagline || ''))
