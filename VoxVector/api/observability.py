@@ -135,6 +135,7 @@ class DiagnosticStore:
             except StorageError as exc:
                 print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=error_reports error={_safe_text(exc)}", file=sys.stderr, flush=True)
 
+        storage_result = None
         try:
             storage_result = await asyncio.to_thread(self.storage.put_json, object_path, record)
             if event in _ERROR_EVENTS:
