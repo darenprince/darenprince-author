@@ -43,8 +43,8 @@ jobs:
       - name: Install Render CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/render-oss/cli/main/bin/install.sh | sh
-          echo "$HOME/.render/bin" >> "$GITHUB_PATH"
-          "$HOME/.render/bin/render" --version
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/render" --version
       - name: Inspect Render service and deployments
         run: |
           render services -o json > render-services.json
