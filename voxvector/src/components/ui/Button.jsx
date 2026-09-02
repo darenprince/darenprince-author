@@ -24,7 +24,10 @@ const buttonVariants = cva(
 )
 
 export default function Button({ className = '', variant, size, children, ...props }) {
-  return <BaseButton className={`${buttonVariants({ variant, size })} ${className}`} {...props}>{children}</BaseButton>
+  const displayChildren = className.includes('vv-hero-primary-cta') && typeof children === 'string'
+    ? 'Request access'
+    : children
+  return <BaseButton className={`${buttonVariants({ variant, size })} ${className}`} {...props}>{displayChildren}</BaseButton>
 }
 
 export { buttonVariants }
