@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
   color-scheme: dark;
   --bg: #090a0c;
@@ -41,12 +43,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family:
-    Inter,
-    SF Pro Display,
-    Segoe UI,
-    system-ui,
-    sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   line-height: 1.66;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
