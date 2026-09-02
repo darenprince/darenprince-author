@@ -4,9 +4,7 @@
   const app = document.getElementById('app')
   function applyTheme(theme) {
     root.dataset.theme = theme
-    document.querySelectorAll('[data-dark-logo]').forEach((img) => {
-      img.src = theme === 'light' ? img.dataset.lightLogo : img.dataset.darkLogo
-    })
+    document.querySelectorAll('[data-dark-logo]').forEach((img) => { img.src = theme === 'light' ? img.dataset.lightLogo : img.dataset.darkLogo })
   }
   applyTheme(localStorage.getItem(key) || 'dark')
 
@@ -33,7 +31,6 @@
   const toolbar = document.querySelector('.cl-toolbar')
   const mobileMenu = document.getElementById('mobileMenu')
   const scrim = document.getElementById('scrim')
-
   if (app && localStorage.getItem('navCollapsed') === 'true') app.classList.add('nav-collapsed')
   if (navToggle) navToggle.addEventListener('click', () => {
     if (window.innerWidth < 981) document.body.classList.toggle('nav-open')
@@ -44,7 +41,6 @@
   })
   if (mobileMenu) mobileMenu.addEventListener('click', () => document.body.classList.add('nav-open'))
   if (scrim) scrim.addEventListener('click', () => document.body.classList.remove('nav-open'))
-
   if (toolbarToggle && toolbar) {
     const collapsed = localStorage.getItem('toolbarCollapsed') === 'true'
     toolbar.classList.toggle('toolbar-collapsed', collapsed)
@@ -100,14 +96,14 @@
     card.href = 'brand-registry.html'
     card.className = 'card product-card'
     card.dataset.brandRegistryCard = 'true'
-    card.innerHTML = '<span class="cl-product-card-fallback ms-icon" style="font-size:36px;flex:0 0 52px;width:52px;height:52px;display:grid;place-items:center" aria-hidden="true">palette</span><div><h3>Brand Logo &amp; Icon Registry</h3><p>Canonical artwork, app icons, product logos, and documentation hero assets.</p></div>'
+    card.innerHTML = '<span class="cl-product-card-fallback ms-icon" aria-hidden="true">palette</span><div><h3>Brand Logo &amp; Icon Registry</h3><p>Canonical artwork, app icons, product logos, and documentation hero assets.</p></div>'
     cardGrid.appendChild(card)
   }
 
   function enhancePortfolioCards() {
     const map = {
       'Crown Psychology': assets.crownPsychologyLogo,
-      'Sentinel Vault': assets.sentinelSymbol,
+      'Sentinel Vault': assets.sentinelIcon,
       'VoxVector': assets.voxVectorSymbol,
       'Crown SOS': ASSET_ROOT + 'emergency-911/CrownSOS-icon.PNG'
     }
@@ -116,7 +112,7 @@
       const src = map[title]
       if (!src || card.dataset.assetEnhanced === 'true') return
       const old = card.querySelector('.cl-product-card-fallback')
-      const img = '<img class="cl-product-logo" style="width:52px;height:52px;flex:0 0 52px;object-fit:contain" src="' + src + '" alt="" loading="lazy">'
+      const img = '<img class="cl-product-logo" src="' + src + '" alt="' + title + '" loading="lazy">'
       if (old) old.outerHTML = img
       else if (!card.querySelector('img')) card.insertAdjacentHTML('afterbegin', img)
       card.dataset.assetEnhanced = 'true'
@@ -128,9 +124,9 @@
   }
 
   function profileForDoc(path) {
-    if (path.includes('crown-psychology')) return { brand:'Crown Psychology',logo:assets.crownPsychologyLogo,icon:assets.crownPsychologyPremium,hero:path.includes('/architecture.md')?assets.crownPsychologyArchitecture:(path.includes('/overview.md')?assets.crownPsychologyPromo:''),alt:'Crown Psychology' }
-    if (path.includes('sentinel-vault')) return { brand:'Sentinel Vault',logo:assets.sentinelSymbol,icon:assets.sentinelIcon,hero:path.includes('/overview.md')?assets.sentinelHero:'',alt:'Sentinel Vault' }
-    if (path.includes('crowncode-ai')) return { brand:'CrownCode.ai',logo:assets.crownCodeLogo,icon:assets.crownCodeIcon,hero:path.endsWith('.md')?assets.crownCodeScreenshot:'',alt:'CrownCode.ai' }
+    if (path.includes('crown-psychology')) return { brand:'Crown Psychology',logo:assets.crownPsychologyLogo,icon:assets.crownPsychologyPremium,hero:path.includes('/architecture.md')?assets.crownPsychologyArchitecture:(path.includes('/overview.md')||path.includes('executive_summary')?assets.crownPsychologyPromo:''),alt:'Crown Psychology' }
+    if (path.includes('sentinel-vault')) return { brand:'Sentinel Vault',logo:assets.sentinelSymbol,icon:assets.sentinelIcon,hero:(path.includes('/overview.md')||path.includes('executive_summary'))?assets.sentinelHero:'',alt:'Sentinel Vault' }
+    if (path.includes('crowncode-ai')) return { brand:'CrownCode.ai',logo:assets.crownCodeLogo,icon:assets.crownCodeIcon,hero:(path.includes('/overview.md')||path.includes('executive_summary'))?assets.crownCodeScreenshot:'',alt:'CrownCode.ai' }
     if (path.includes('voxvector')) return { brand:'VoxVector',logo:assets.voxVectorFull,icon:assets.voxVectorSymbol,hero:'',alt:'VoxVector' }
     if (path.includes('picdetective')) return { brand:'PicDetective',logo:assets.picDetectiveLogo,icon:assets.picDetectiveIcon,hero:'',alt:'PicDetective' }
     if (path.includes('operation-phoenix')) return { brand:'Operation Phoenix',logo:'',icon:assets.operationPhoenixIcon,hero:'',alt:'Operation Phoenix' }
@@ -145,13 +141,12 @@
     const path = currentDocPath()
     const profile = profileForDoc(path)
     if (!profile || content.dataset.brandPath === path) return
-
-    const logo = profile.logo ? '<img class="cl-doc-brand-logo" src="' + profile.logo + '" alt="' + profile.alt + ' logo" loading="eager">' : ''
-    const hero = profile.hero ? '<img class="cl-doc-brand-hero" src="' + profile.hero + '" alt="' + profile.alt + ' documentation hero" loading="eager">' : ''
-    const icon = profile.icon ? '<img class="cl-doc-brand-icon" src="' + profile.icon + '" alt="' + profile.alt + ' app icon" loading="lazy">' : ''
-
     const firstHeading = content.querySelector('h1')
-    firstHeading.insertAdjacentHTML('beforebegin', logo + hero + icon)
+    const fragment = document.createDocumentFragment()
+    if (profile.logo) { const el=document.createElement('img'); el.className='cl-doc-brand-logo'; el.src=profile.logo; el.alt=profile.alt+' full logo'; el.loading='eager'; fragment.appendChild(el) }
+    if (profile.hero) { const el=document.createElement('img'); el.className='cl-doc-brand-hero'; el.src=profile.hero; el.alt=profile.alt+' documentation hero'; el.loading='eager'; fragment.appendChild(el) }
+    if (profile.icon) { const el=document.createElement('img'); el.className='cl-doc-brand-icon'; el.src=profile.icon; el.alt=profile.alt+' app icon'; el.loading='lazy'; fragment.appendChild(el) }
+    firstHeading.parentNode.insertBefore(fragment, firstHeading)
     content.dataset.brandPath = path
   }
 
@@ -160,10 +155,16 @@
     const style = document.createElement('style')
     style.id = 'cl-brand-registry-styles'
     style.textContent = `
-      .cl-doc-brand-logo,.cl-doc-brand-hero,.cl-doc-brand-icon{display:block;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+      .cl-quicklinks a,.cl-section-toggle,.cl-product-toggle{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+      .cl-quicklinks a:hover,.cl-section-toggle:hover,.cl-product-toggle:hover{background:transparent!important;color:var(--heading)!important}
+      .cl-section{border-bottom:0!important}
+      .cl-doc-link{background:transparent!important;border-radius:0!important}
+      .cl-doc-link.active{background:transparent!important;box-shadow:inset 2px 0 0 var(--accent)!important}
+      .cl-doc-brand-logo,.cl-doc-brand-hero,.cl-doc-brand-icon,.cl-content img{display:block;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
       .cl-doc-brand-logo{max-width:min(420px,100%);max-height:96px;width:auto;height:auto;object-fit:contain;margin:0 0 18px}
       .cl-doc-brand-hero{width:100%;max-height:460px;object-fit:cover;margin:0 0 18px}
       .cl-doc-brand-icon{width:64px!important;height:64px!important;object-fit:contain;margin:0 0 18px;padding:0!important}
+      .cl-content>img:not(.cl-doc-brand-logo):not(.cl-doc-brand-hero):not(.cl-doc-brand-icon){max-width:100%;width:auto;height:auto;object-fit:contain;margin:18px 0}
       @media(max-width:620px){.cl-doc-brand-logo{max-width:280px;max-height:74px}.cl-doc-brand-hero{max-height:300px}.cl-doc-brand-icon{width:64px!important;height:64px!important}}
     `
     document.head.appendChild(style)
