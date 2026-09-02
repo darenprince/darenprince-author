@@ -28,8 +28,18 @@ def test_faster_whisper_adapter_serializes_wav_without_loading_model(monkeypatch
     assert stream.getvalue()[8:12] == b"WAVE"
 
 
+def test_cached_whisper_models_can_be_released():
+    FasterWhisperProvider.release_models()
+    assert FasterWhisperProvider._model.cache_info().currsize == 0
+
+
 def test_pyannote_provider_requires_token_before_model_load(monkeypatch):
     monkeypatch.delenv("HF_TOKEN", raising=False)
     monkeypatch.delenv("HUGGINGFACE_TOKEN", raising=False)
     with pytest.raises(RuntimeError, match="Hugging Face access token"):
         PyannoteDiarizationProvider().diarize(np.zeros(1600), 16000)
+
+
+def test_cached_pyannote_pipelines_can_be_released():
+    PyannoteDiarizationProvider.release_models()
+    assert PyannoteDiarizationProvider._pipeline.cache_info().currsize == 0
