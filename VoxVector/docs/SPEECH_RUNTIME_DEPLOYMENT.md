@@ -1,10 +1,10 @@
 # VoxVector Speech Runtime Deployment
 
-**State date:** 2026-09-01
+**State date:** 2026-09-02
 
 ## Purpose
 
-Deploy the optional open-source speech intelligence runtime without weakening the lightweight base API deployment.
+Deploy the optional open-source speech intelligence runtime without weakening the lightweight base API deployment or exhausting the constrained Render memory budget.
 
 ## Runtime components
 
@@ -30,11 +30,15 @@ Transcription:
 
 `VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
 
-`VOXVECTOR_WHISPER_MODEL=small`
+`VOXVECTOR_WHISPER_MODEL=base`
 
 `VOXVECTOR_WHISPER_DEVICE=cpu`
 
 `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
+
+`VOXVECTOR_WHISPER_BEAM_SIZE=3`
+
+The default `base` + CPU `int8` profile is the constrained-runtime default. A larger-memory deployment can override the model and beam settings explicitly.
 
 Diarization:
 
@@ -45,6 +49,18 @@ Diarization:
 Credential:
 
 `HF_TOKEN` must contain the Hugging Face access token accepted for the gated Community-1 model. The secret is configured in Render and is never stored in GitHub documentation.
+
+Runtime memory telemetry:
+
+`VOXVECTOR_MEMORY_LIMIT_MB=512`
+
+This value is used as a diagnostic reference for the constrained Render service and does not override the platform memory limit.
+
+## Memory-safe execution behavior
+
+Heavy provider execution is serialized in-process so two provider/model allocations are not intentionally active at the same time. Provider caches are explicitly released after each attempt, followed by garbage collection and best-effort allocator trimming. The evidence acquisition speech detector also processes bounded frame groups instead of materializing all audio frames at once.
+
+The runtime emits `VOXVECTOR_MEMORY` lines around heavy provider phases containing current Linux RSS when available, elapsed duration, and the configured reference budget. These records are infrastructure/runtime evidence and do not represent analytical results.
 
 ## Health verification
 
@@ -68,22 +84,15 @@ Do not immediately promote a long recording to production validation. First proc
 4. speaker segments are returned;
 5. the multimodal alignment artifact is produced;
 6. the case run persists acquisition artifacts;
-7. runtime duration and memory behavior are recorded;
-8. failures degrade to explicit `unavailable` state when a provider cannot run.
+7. provider execution duration and `VOXVECTOR_MEMORY` boundaries are recorded;
+8. repeated sequential provider runs do not show unbounded retained memory;
+9. failures degrade to explicit `unavailable` state when a provider cannot run.
 
 ## Render observability operating procedure
 
 Render's built-in logs and Live Tail remain the first-line runtime view. The current Render CLI supports `render logs --tail` plus filters for resource, instance, level, status code, method, path, and text; this is the preferred active-debug workflow during deployments and speech-model execution.
 
-Render's hosted MCP server can expose live service logs, deploy history, CPU/memory metrics, HTTP response metrics, service configuration, and deploy actions to a compatible coding agent. Render currently recommends the hosted MCP endpoint and supports OAuth in current agent integrations.
-
-The current ChatGPT tool session does not have the Render plugin/MCP connection installed, so no Render service configuration or deploy action is asserted as completed from this repository session. The repository-side instrumentation is ready for that connection.
-
-### Recommended operator setup
-
-Use the official Render plugin for Codex/ChatGPT or another supported coding agent and authorize the Render workspace. Verify the integration with workspace/service listing before allowing deploy or environment-variable mutation.
-
-For local CLI operations, install/upgrade the Render CLI, run `render login`, select the VoxVector workspace, then use `render logs --tail` for live debugging. For automation, Render documents `RENDER_API_KEY` for non-interactive CLI use.
+The repository-side GitHub Actions workflow captures Render service/deployment/log evidence and a fixed memory incident window using protected repository credentials. The deployed Developer Console uses the separate server-side Render bridge when the Render runtime secrets are configured.
 
 ### Centralized log streaming
 
@@ -93,7 +102,7 @@ For VoxVector, centralized streaming is a retention/search enhancement, not a su
 
 ### Metrics
 
-Render metrics streaming is available to Pro workspaces and higher. It can forward CPU, memory, instance, response-count, and response-latency metrics to supported providers. This becomes valuable once Whisper/pyannote workloads are running and we need empirical memory/latency data.
+Render service metrics provide infrastructure CPU/memory evidence. The controlled speech runtime should be profiled at provider boundaries rather than inferred from application progress animation.
 
 ## Scientific boundary
 
@@ -101,4 +110,4 @@ A successful transcription or diarization run proves software execution and prov
 
 ## Current configuration record
 
-The user has reported that the Hugging Face token and required Community-1 access acceptance are complete in Render. Repository-side verification of the secret value is intentionally impossible and is not required. Actual provider execution remains a deployment/runtime verification gate.
+The Hugging Face token and required Community-1 access acceptance have been reported as complete in Render. Repository-side verification of the secret value is intentionally impossible and is not required. Actual provider execution remains a deployment/runtime verification gate.
