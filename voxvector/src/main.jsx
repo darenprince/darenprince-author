@@ -9,6 +9,7 @@ import './index.css'
 import './Typography.css'
 import './coffee-ui.css'
 import './console-workflow-state.css'
+import './public-hero-refinement.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
