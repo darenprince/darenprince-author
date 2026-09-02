@@ -31,7 +31,9 @@ h1, h2, h3, h4, h5, h6,
 .vv-display,
 .vv-hero-title,
 .vv-hero h1,
-.vv-hero h2 {
+.vv-hero h2,
+#vv-boot-loader .vv-boot-label,
+#vv-boot-failure h1 {
   font-family: var(--vv-font-display);
   font-optical-sizing: auto;
   font-weight: 600;
@@ -80,6 +82,22 @@ button, a, .vv-nav-item {
 .vv-field,
 .vv-nav-item {
   text-transform: none;
+}
+
+#vv-boot-loader .vv-boot-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  line-height: 1;
+}
+
+#vv-boot-failure {
+  font-family: var(--vv-font-body);
+}
+
+#vv-boot-failure h1 {
+  line-height: 1;
+  letter-spacing: -0.045em;
 }
 
 @media (max-width: 700px) {
