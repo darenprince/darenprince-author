@@ -42,6 +42,18 @@ Navigation uses API-backed Tabler icons through the existing Iconify web compone
 - Use `/docs/crownlabsbible/docs/viewer.html?doc=<canonical-markdown-path>#<label>` when a public product page needs to deep-link to an exact Bible dossier through the documentation application.
 - The viewer supports the `doc` query parameter while preserving the hash label, sidebar tree, search, quick links, and all existing documentation routes.
 
+## Documentation Synchronization Contract
+
+The canonical documentation source is the markup under `docs/crownlabsbible/`.
+
+- Never duplicate dossier copy into the Labs landing page as a hand-maintained source.
+- Product metadata must be generated from the Crown Labs Bible source and published through the existing metadata generation workflow.
+- Public documentation links must open through the Crown Labs Bible application:
+  `/docs/crownlabsbible/docs/viewer.html?doc=../<canonical-markdown-path>`
+- Preserve the viewer hierarchy, sidebar tree, quick links, search, and hash anchors when deep-linking.
+- A product page may summarize canonical metadata, but the dossier remains authoritative.
+- When a dossier changes, regenerate `data/products.json` and `assets/labs-data.json`, then regenerate `labs/products/*.html`.
+
 ## Rendering Rules
 
 - Product cards are rendered from `assets/labs-data.json` through `assets/labs.js`.
