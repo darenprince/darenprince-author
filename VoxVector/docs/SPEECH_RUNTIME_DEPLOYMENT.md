@@ -14,11 +14,15 @@ Deploy the optional open-source speech intelligence runtime without weakening th
 
 ## Current Render activation
 
-The repository contains a separate `api/requirements-speech.txt` so the current lightweight Render service is not forced to install heavy speech ML dependencies during ordinary API builds.
+## 2026-09-02 wiring correction
 
-To activate speech processing on the target Render service, the Build Command must install both sets of dependencies from the `VoxVector/` root:
+The transcription adapter was implemented but the canonical Render blueprint installed only `api/requirements.txt`. That meant the production service could report a configured provider while `faster_whisper` itself was absent. The root cause was therefore deployment wiring, not the transcription contract.
 
-`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+The canonical Render blueprint now installs a dedicated transcription dependency set:
+
+`pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
+
+`requirements-transcription.txt` contains faster-whisper only. pyannote remains outside the default 512 MB production dependency set so enabling transcription does not automatically load the separate diarization stack.
 
 Keep the existing Start Command:
 
@@ -61,6 +65,10 @@ This is a diagnostic reference only. It does not override Render's platform memo
 The evidence-acquisition speech detector uses bounded frame groups rather than materializing a full-recording frame matrix. Heavy transcription and diarization provider phases are serialized in-process. Provider caches are explicitly released after each attempt, including failed attempts, followed by Python garbage collection and best-effort Linux allocator trimming.
 
 The runtime emits `VOXVECTOR_MEMORY` lines around heavyweight provider phases containing current Linux process RSS when available, phase duration, and the configured memory reference. This provides direct application evidence to correlate with Render infrastructure telemetry.
+
+## Current verification state
+
+The source wiring is implemented in the current engineering branch. A successful Render deployment and a real short-WAV transcription are still required before runtime execution can be called verified.
 
 ## Health verification
 
