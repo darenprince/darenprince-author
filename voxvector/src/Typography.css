@@ -1,5 +1,6 @@
 /* Canonical VoxVector typography system */
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap');
+@import './components/DeveloperDashboard.css';
 
 @font-face{
   font-family:'Cal Sans';
