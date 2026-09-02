@@ -12,8 +12,6 @@
     'ai-cherry-pie': { src: '../assets/images/icon-master.PNG', alt: 'AI Cherry Pie' },
     'crown-psychology': { src: '../assets/images/Untitled%20design.png', alt: 'Crown Psychology' },
     'crown-sos': { src: '../emergency-911/CrownSOS-icon.PNG', alt: 'Crown SOS' },
-    'crown-watchtower': { src: '../assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png', alt: 'Crown WatchTower' },
-    'crowncast': { src: '../assets/images/IMG_0267.png', alt: 'CrownCast' },
     'sentinel-vault': { src: '../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png', alt: 'Sentinel Vault' },
     'voxvector': { src: '../VoxVector/Assets/voxvector-icon-final-color.png.PNG', alt: 'VoxVector' }
   }
