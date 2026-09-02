@@ -316,3 +316,81 @@ main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
 .vv-console-preloader__bar>div{height:100%;background:#fff;transition:width .12s linear}
 .vv-console-preloader__progress{margin-top:11px;font-size:11px;color:rgba(255,255,255,.48)}
 .vv-console-preloader__detail{margin-top:5px;font-size:10px;color:rgba(255,255,255,.28)}
+
+
+/* Public landing hero: dedicated mobile artwork and a stronger technology cue. */
+.vv-hero-technology-link {
+  align-items: center;
+  transition: color .2s ease, transform .2s ease;
+}
+.vv-hero-technology-link:hover {
+  color: #fff;
+  transform: translateY(-1px);
+}
+.vv-hero-technology-arrow {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25em;
+  font-size: 1.75rem;
+  line-height: 1;
+  animation: vvHeroArrowDown 1.45s ease-in-out infinite;
+}
+@keyframes vvHeroArrowDown {
+  0%, 100% { transform: translateY(0); opacity: .72; }
+  50% { transform: translateY(7px); opacity: 1; }
+}
+
+@media (max-width: 767px) {
+  #product {
+    min-height: 760px;
+    background: #000;
+  }
+  #product > .vv-hero-background {
+    background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png') !important;
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: none !important;
+  }
+  /* Preserve the artwork on mobile while keeping text readable and fading naturally into black. */
+  #product > div:nth-child(2) {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,.72) 0%,
+      rgba(0,0,0,.46) 20%,
+      rgba(0,0,0,.24) 48%,
+      rgba(0,0,0,.62) 76%,
+      #000 100%
+    ) !important;
+  }
+  #product > div:nth-child(3) {
+    background:
+      radial-gradient(circle at 62% 54%, rgba(210,155,101,.08), transparent 30%),
+      linear-gradient(180deg, rgba(0,0,0,.08), transparent 36%, rgba(0,0,0,.82) 100%) !important;
+  }
+  #product > .relative {
+    min-height: 760px;
+    align-items: flex-start;
+    padding-top: clamp(7rem, 18vw, 10rem);
+    padding-bottom: 4.5rem;
+  }
+  .vv-hero-heading {
+    font-size: clamp(3.45rem, 16vw, 5rem) !important;
+    line-height: .91 !important;
+  }
+  .vv-hero-body {
+    max-width: 34rem;
+  }
+  .vv-hero-technology-link {
+    margin-top: 2.35rem !important;
+    gap: .85rem !important;
+    font-size: 1rem !important;
+    letter-spacing: .18em !important;
+  }
+  .vv-hero-technology-arrow {
+    font-size: 2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vv-hero-technology-arrow { animation: none; }
+}
