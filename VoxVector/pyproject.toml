@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "voxvector"
-version = "0.2.26"
+version = "0.2.27"
 description = "VoxVector vocal and audio deception detection analysis system"
 requires-python = ">=3.11,<3.15"
 dependencies = [
