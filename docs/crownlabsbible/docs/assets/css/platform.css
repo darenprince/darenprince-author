@@ -906,3 +906,15 @@ button {
 .cl-doc-page-title{grid-column:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.88rem;font-weight:650}
 .cl-doc-page-link .ms-icon{grid-column:2;grid-row:1 / span 2;color:var(--accent-soft)}
 @media (max-width:680px){.cl-doc-pager{grid-template-columns:1fr;padding:14px 16px 28px}.cl-source-status{margin-top:10px;padding:10px 16px}}
+
+
+/* Canonical reader quality pass: content first */
+.cl-content{width:min(100%,920px);padding-bottom:24px}
+.cl-content>h1:first-child{margin-top:8px}
+.cl-content blockquote{margin:22px 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--surface-2);color:var(--muted);border-radius:0 var(--radius-md) var(--radius-md) 0}
+.cl-content pre{overflow:auto;margin:20px 0;padding:16px;background:#05070b;border:1px solid var(--border);border-radius:var(--radius-md)}
+.cl-content pre code{display:block;padding:0;border:0;background:transparent;line-height:1.65;font-size:.86em}
+.cl-content a{color:var(--heading);text-decoration-color:color-mix(in srgb,var(--accent) 60%,transparent);text-underline-offset:3px}
+.cl-content strong{color:var(--heading)}
+@media (min-width:981px){.cl-main{width:calc(100vw - 330px)}.cl-sidebar{width:330px}.cl-app.nav-collapsed .cl-main{width:calc(100vw - 72px)}}
+@media (max-width:980px){.cl-content h1{font-size:clamp(2rem,10vw,3.2rem)}.cl-tools{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}.cl-tool-btn{flex:0 0 auto}.cl-toolbar{margin-bottom:20px}.cl-content p{line-height:1.7}}
