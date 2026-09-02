@@ -1,6 +1,9 @@
 name: Render Observability
 
 on:
+  push:
+    branches:
+      - feat/voxvector-render-diagnostic
   workflow_dispatch:
     inputs:
       service_id:
@@ -22,7 +25,7 @@ jobs:
     env:
       RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
       RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-      LOG_MINUTES: ${{ inputs.log_minutes }}
+      LOG_MINUTES: ${{ inputs.log_minutes || '120' }}
     steps:
       - name: Resolve and validate Render configuration
         env:
@@ -82,9 +85,9 @@ jobs:
           log_rows=logs.get('logs',[]) if isinstance(logs,dict) else logs
           print('log_count=', len(log_rows) if isinstance(log_rows,list) else 0)
           if isinstance(log_rows,list):
-              for item in log_rows[-50:]:
+              for item in log_rows[-100:]:
                   text=get(item,'message',default=get(item,'text',default=''))
-                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower(): print(text)
+                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower() or 'memory' in str(text).lower() or 'oom' in str(text).lower(): print(text)
           PY
       - name: Upload diagnostic artifacts
         uses: actions/upload-artifact@v4
