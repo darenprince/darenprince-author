@@ -121,15 +121,16 @@ def _speech_from_frames(
     hop_size: int,
     chunk_frames: int = 256,
 ) -> tuple[DetectedSpeechSegment, ...]:
-    """Compute frame RMS in bounded windows without a full-recording frame matrix."""
+    """Compute frame RMS in bounded windows without materializing the full frame matrix."""
+    signal = np.asarray(signal, dtype=np.float32).reshape(-1)
     if signal.size < frame_size:
         return ()
     frame_count = 1 + (signal.size - frame_size) // hop_size
-    starts = np.arange(frame_count, dtype=np.int64) * hop_size
+    starts = np.arange(0, signal.size - frame_size + 1, hop_size, dtype=int)
     rms_parts: list[np.ndarray] = []
     for first in range(0, frame_count, chunk_frames):
         chunk_starts = starts[first : first + chunk_frames]
-        frames = np.stack([signal[int(start) : int(start) + frame_size] for start in chunk_starts])
+        frames = np.stack([signal[start : start + frame_size] for start in chunk_starts])
         rms_parts.append(np.sqrt(np.mean(np.square(frames), axis=1, dtype=np.float32)))
     rms_values = np.concatenate(rms_parts) if len(rms_parts) > 1 else rms_parts[0]
     positive = rms_values[np.isfinite(rms_values) & (rms_values > 0)]
@@ -161,8 +162,14 @@ def build_evidence_acquisition(
     transcript_provider: TranscriptionProvider | None = None,
     diarization_provider: DiarizationProvider | None = None,
 ) -> EvidenceAcquisitionResult:
-    """Build normalized source evidence and optionally invoke configured providers."""
-    signal = np.asarray(signal, dtype=np.float32).reshape(-1)
+    """Build normalized source evidence and optionally invoke configured providers.
+
+    Providers are selected lazily from environment configuration when callers do
+    not supply explicit provider instances. Provider failures are represented as
+    unavailable acquisition states so an optional speech runtime cannot take down
+    the base case-analysis path.
+    """
+    signal = np.asarray(signal, dtype=float).reshape(-1)
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
     if signal.size and not np.all(np.isfinite(signal)):
@@ -171,7 +178,7 @@ def build_evidence_acquisition(
     duration = signal.size / sample_rate
     peak = float(np.max(np.abs(signal))) if signal.size else 0.0
     clipping_ratio = float(np.mean(np.abs(signal) >= 0.999)) if signal.size else 0.0
-    rms_value = float(np.sqrt(np.mean(np.square(signal), dtype=np.float32))) if signal.size else None
+    rms_value = float(np.sqrt(np.mean(np.square(signal)))) if signal.size else None
 
     frame_size = max(1, int(sample_rate * 0.025))
     hop_size = max(1, int(sample_rate * 0.010))
@@ -211,6 +218,7 @@ def build_evidence_acquisition(
 
     if transcript_provider is None and diarization_provider is None:
         from .speech_providers import get_diarization_provider, get_transcription_provider
+
         transcript_provider = get_transcription_provider()
         diarization_provider = get_diarization_provider()
 
@@ -262,6 +270,7 @@ def build_evidence_acquisition(
     multimodal_timeline = None
     if transcript is not None:
         from .alignment import align_transcript_to_speakers
+
         multimodal_timeline = asdict(align_transcript_to_speakers(transcript, diarization))
 
     return EvidenceAcquisitionResult(
