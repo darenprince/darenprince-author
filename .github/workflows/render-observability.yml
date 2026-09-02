@@ -89,39 +89,75 @@ jobs:
       - name: Summarize VoxVector runtime evidence
         run: |
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
-          service=json.loads(Path('render-service.json').read_text())
-          deploys=json.loads(Path('render-deploys.json').read_text())
-          logs=json.loads(Path('render-logs.json').read_text())
-          def get(obj, *keys, default=None):
-              cur=obj
-              for key in keys:
-                  if isinstance(cur, dict): cur=cur.get(key)
-                  elif isinstance(cur, list) and isinstance(key,int) and key < len(cur): cur=default
-                  else: return default
-              return cur if cur is not None else default
+
+          def load_json_values(path):
+              text=Path(path).read_text().strip()
+              if not text:
+                  return []
+              decoder=json.JSONDecoder()
+              values=[]
+              index=0
+              while index < len(text):
+                  while index < len(text) and text[index].isspace():
+                      index += 1
+                  if index >= len(text):
+                      break
+                  value, next_index=decoder.raw_decode(text, index)
+                  values.append(value)
+                  index=next_index
+              return values
+
+          def rows_from(values, keys=()):
+              rows=[]
+              for value in values:
+                  if isinstance(value, list):
+                      rows.extend(value)
+                  elif isinstance(value, dict):
+                      found=None
+                      for key in keys:
+                          if isinstance(value.get(key), list):
+                              found=value[key]
+                              break
+                      rows.extend(found if found is not None else [value])
+              return rows
+
+          def message_from(item):
+              if not isinstance(item, dict):
+                  return str(item)
+              return str(item.get('message') or item.get('text') or item.get('msg') or '')
+
+          services=rows_from(load_json_values('render-services.json'), ('services','data'))
+          deploys=rows_from(load_json_values('render-deploys.json'), ('deploys','data'))
+          logs=rows_from(load_json_values('render-logs.json'), ('logs','data'))
+
           print('VOXVECTOR_RENDER_OBSERVABILITY')
-          print('service_id=', get(service,'id',default='unknown'))
-          print('service_name=', get(service,'name',default='unknown'))
-          print('service_suspended=', get(service,'suspended',default='unknown'))
-          deploy_rows=(deploys.get('deploys') or deploys.get('data') or []) if isinstance(deploys,dict) else deploys
-          latest=deploy_rows[0] if deploy_rows else {}
-          print('latest_deploy_id=', get(latest,'id',default='unknown'))
-          print('latest_deploy_status=', get(latest,'status',default='unknown'))
-          log_rows=logs.get('logs',[]) if isinstance(logs,dict) else logs
-          print('log_count=', len(log_rows) if isinstance(log_rows,list) else 0)
+          print('service_inventory_count=', len(services))
+          print('target_service_id=', os.environ['RENDER_SERVICE_ID'])
+          latest=deploys[0] if deploys else {}
+          if isinstance(latest, dict):
+              print('latest_deploy_id=', latest.get('id','unknown'))
+              print('latest_deploy_status=', latest.get('status','unknown'))
+          print('log_count=', len(logs))
+
           needles=('memory limit','out of memory','oom','killed','restart','error','critical','exception','VOXVECTOR_')
-          if isinstance(log_rows,list):
-              for item in log_rows:
-                  text=str(get(item,'message',default=get(item,'text',default='')))
-                  if any(n in text.lower() for n in needles): print(text)
+          matches=[]
+          for item in logs:
+              text=message_from(item)
+              if any(n in text.lower() for n in needles):
+                  matches.append(text)
+          print('incident_signal_count=', len(matches))
+          for text in matches[-100:]:
+              print(text)
           PY
       - name: Upload diagnostic artifacts
         uses: actions/upload-artifact@v4
         with:
           name: render-observability-${{ github.run_id }}
           path: |
+            render-workspaces.json
+            render-workspace-id.txt
             render-services.json
             render-service.json
             render-deploys.json
