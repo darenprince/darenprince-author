@@ -28,7 +28,7 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## QA state
 
-The diagnostic storage regression was repaired. The speech execution telemetry slice and the memory-pressure mitigation are under repository verification on their respective feature branches before merge.
+The diagnostic storage regression was repaired. The speech execution telemetry slice and memory-efficiency changes are under repository verification on their feature branches before merge.
 
 ## Speech intelligence state
 
@@ -42,7 +42,8 @@ The primary next engine layer is implemented as a provider-backed evidence acqui
 - normalized multimodal timeline artifact;
 - explicit provider states and failure-tolerant degradation;
 - measured provider execution timing;
-- heavy-provider cache release after execution in the memory-pressure repair branch;
+- heavy-provider cache release after execution;
+- constrained-runtime memory telemetry around heavy provider phases;
 - Developer Console speech-runtime readiness reporting through `/health`.
 
 The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
@@ -70,25 +71,27 @@ Render deployment state, instance state, and logs are infrastructure evidence. T
 
 ## Render memory incident evidence — 2026-09-02
 
-Render reported that an instance of `voxvector-api` exceeded its memory limit and was automatically restarted. The account/service runtime evidence confirms the applicable free web-service budget is **512 MB RAM**.
+Render reported that an instance of `voxvector-api` exceeded its memory limit and was automatically restarted. The connected service evidence identifies a **512 MB RAM** free web-service budget.
 
-The captured Render memory telemetry for the incident window recorded approximately:
+The captured incident window showed memory rising from approximately 94.9 MB to 193.5 MB, 197.0 MB, 198.3 MB, and 198.5 MB before an abrupt drop to 73.6 MB and later stabilization near 93 MB. Render's separate incident notifications explicitly report instances using **over 512 MB** before failure.
 
-- 02:10:00 UTC — 94.9 MB
-- 02:10:30 UTC — 193.5 MB
-- 02:11:00 UTC — 197.0 MB
-- 02:11:30 UTC — 198.3 MB
-- 02:12:00 UTC — 198.5 MB
-- 02:12:30 UTC — 198.5 MB
-- 02:13:00 UTC — 73.6 MB
-- 02:13:30 UTC — 89.0 MB
-- 02:14:00 UTC — 93.0 MB
+The evidence supports a recurring runtime reset/resource-exhaustion pattern. It does not by itself identify whether the transient peak came from speech-model loading, audio allocation, concurrent requests, another dependency, or a different application path.
 
-The abrupt reduction from approximately 198.5 MB to 73.6 MB is consistent with a process/instance lifecycle reset around the notification window. The telemetry does **not** prove that faster-whisper or pyannote caused the restart, because the observed peak sample remained below the published 512 MB service budget and the exact sub-sample peak/cause is not captured by the 30-second memory resolution.
+The same incident evidence contained slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds. Those are separate reliability signals requiring their own investigation.
 
-The same incident window contains slow case-list requests: one `/v1/cases` request recorded 10,353.41 ms and another 8,109.76 ms. These are reliability signals worth investigation but are not themselves evidence of the memory root cause.
+The raw incident capture is preserved as GitHub Actions artifact `9829899743` from workflow run `33585450916`.
 
-The repository Render observability workflow now captures the incident-window memory telemetry and logs as a reproducible Actions artifact. The raw evidence captured for this incident was artifact `9829899743` from workflow run `33585450916`.
+## Memory-efficiency engineering response — 2026-09-02
+
+The canonical evidence-acquisition speech detector previously materialized a complete frame matrix for the whole recording. It now calculates RMS in bounded groups and retains only the compact one-dimensional RMS stream used by the segmentation stage.
+
+Heavy speech providers are serialized in-process and release their model/pipeline cache references after each attempt. Cleanup performs Python garbage collection and best-effort Linux allocator trimming so freed provider memory has an opportunity to return to the process allocator.
+
+The constrained faster-whisper default is now `base` with CPU `int8` and beam size `3`, while retaining environment overrides for larger deployments. This reduces default model footprint without removing the provider or hard-coding the deployment to one model.
+
+`VOXVECTOR_MEMORY` log records now capture current Linux process RSS before and after heavyweight provider phases, phase elapsed time, and the configured memory reference. This is intended to establish exact runtime evidence during controlled provider execution.
+
+These changes are resource-management and observability changes only. They do not change the analytical evidence model or scientific validation state.
 
 ## Developer Console presentation refinement — 2026-09-02
 
@@ -128,11 +131,11 @@ Numeric progress is shown only when it represents measured transfer or persisted
 
 ## Current engineering priorities
 
-1. Complete and verify the memory-pressure mitigation before merge.
-2. Continue Render incident correlation using memory, CPU, deployment, instance, and request timing evidence.
-3. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
-4. Execute pyannote Community-1 and verify speaker-turn output.
-5. Measure memory before, during, and after each provider and across repeated runs.
+1. Verify the memory-efficiency branch with the full backend test suite and React build.
+2. Deploy the constrained speech runtime and capture real `VOXVECTOR_MEMORY` data.
+3. Correlate provider memory, request concurrency, and Render instance lifecycle behavior around repeated runs.
+4. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
+5. Execute pyannote Community-1 and verify speaker-turn output.
 6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
 7. Connect transcript-derived data to linguistic/disfluency analysis.
 8. Make acoustic aggregation speaker-aware and build real baseline inputs.
