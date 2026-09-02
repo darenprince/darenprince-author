@@ -1,79 +1,84 @@
 # VoxVector Runtime Memory Constraints
 
 **Status:** Active runtime guidance
-**Updated:** 2026-08-20
+**Updated:** 2026-09-02
 
 ## Incidents
 
 The initial Render Free deployment successfully started the FastAPI service and passed `/health`, but `/v1/analyze` could terminate the instance when processing a larger WAV. Render reported that the instance exceeded its 512 MB memory ceiling.
 
-The cause was identified in the canonical analysis pipeline: overlapping audio frames and FFT spectra were being materialized for the entire recording at once.
+The original peak-memory cause was identified in the canonical analysis pipeline: overlapping audio frames and FFT spectra were materialized for the entire recording at once. The primary pipeline was subsequently changed to bounded frame chunks while preserving the existing 25 ms frame size and 10 ms hop.
 
-After bounded framing was deployed, the API remained healthy but analysis exposed a separate spectral feature dimension mismatch: an FFT spectrum width and its frequency vector could diverge, producing a matrix multiplication error such as `size 258 is different from 601`.
+A separate spectral feature dimension mismatch was corrected by deriving the frequency vector from the actual FFT output width.
 
-A subsequent runtime fingerprinting change caused a Render deployment to exit before Uvicorn became available. The deployment failure was isolated to the wrapper's boot-time self-test behavior rather than the canonical spectral implementation. The wrapper now performs the same self-test without terminating the worker at import time and exposes the result through `/health`; `/v1/analyze` refuses analysis with HTTP 503 if that runtime self-test fails.
+The HTTP adapter now offloads the CPU-heavy canonical analysis call through `asyncio.to_thread(...)` so long-running analysis does not monopolize the FastAPI event loop.
 
-On 2026-08-20, the known 17 MB, 48 kHz WAV regression fixture reached the deployed API successfully and completed the decode stage. The diagnostic record reported 17,597,131 request bytes, 17,596,936 decoded bytes, 8,798,400 samples, and approximately 183.3 seconds of audio. The worker then restarted before an `analysis_pipeline` completion or application exception was emitted. This indicates a runtime termination during the CPU-heavy analysis stage; the supplied logs do not by themselves prove whether the termination was OOM or another host-level restart mechanism.
+## September 2026 recurring OOM evidence
 
-The same deployment showed Render health checks succeeding before analysis and then the process restarting during analysis. The HTTP adapter was executing the CPU-heavy pipeline directly inside the FastAPI async request handler, which can starve the event loop while long-running Python/NumPy analysis executes. The adapter has therefore been changed to offload the analysis call with `asyncio.to_thread(...)`, while `/health` is now an async handler. This keeps the event loop available for health probes and lifecycle diagnostics during long recordings without introducing a file-size or duration cutoff.
+Render subsequently reported multiple `voxvector-api` instance failures with the explicit message that the process **used over 512 MB**. The user-provided Render dashboard screenshots show separate failures on September 1 at approximately 7:54 PM and 8:09 PM, each followed by service recovery. A separate deployment at approximately 2:49 PM failed while waiting for the internal health check.
 
-## Resolutions
+The connected Render observability workflow captured a September 2 incident window in which sampled memory rose from approximately 94.9 MB to 193.5 MB, 197.0 MB, 198.3 MB, and 198.5 MB before dropping abruptly to 73.6 MB and later stabilizing near 89–93 MB. The 30-second sampling did not resolve the instantaneous peak, while the Render instance events separately establish that actual usage crossed the 512 MB service budget.
 
-VoxVector now processes audio frames in bounded chunks of 256 frames while preserving the existing 25 ms frame size and 10 ms hop.
+The same runtime period contained slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds. Those are tracked as separate reliability signals and are not attributed to the OOM without further correlation.
 
-The expensive frame and spectrum matrices are therefore bounded. Compact one-dimensional feature streams are retained for the existing observational summaries, prosodic dynamics, pause topology, baseline comparisons, and evidence construction.
+Raw incident evidence was captured as GitHub Actions artifact `9829899743` from workflow run `33585450916`.
 
-Spectral flux preserves continuity across chunk boundaries by carrying only the final spectrum from the preceding chunk into the next flux calculation.
+## Runtime efficiency strategy
 
-Spectral centroid and spread now derive their frequency vector directly from the actual FFT output width. This makes the matrix/vector dimensions explicit and prevents the observed 258/601 mismatch. Regression tests cover both the 514-sample analysis frame size and a 1200-sample frame.
+### Bounded audio processing
 
-The API wrapper explicitly places `VoxVector/src` before the API namespace package so the canonical `voxvector` implementation cannot be silently shadowed by a same-named wrapper package. The wrapper also reports the loaded acoustic and pipeline module paths and SHA-256 fingerprints through `/health`.
+The primary pipeline processes frames in bounded groups of 256 frames and carries only compact feature streams plus the prior spectrum needed for spectral continuity. The evidence-acquisition speech detector follows the same principle: it computes frame RMS in bounded groups and retains only the one-dimensional RMS stream needed for segmentation.
 
-The HTTP adapter no longer imposes an application-level file-size limit or an artificial duration cutoff. Upload capacity should not silently change the product contract. Resource protection belongs in the streaming/upload infrastructure and bounded analysis pipeline rather than an arbitrary API file-size ceiling.
+### Heavy provider serialization and release
 
-A **48 kHz maximum sample rate** remains an analysis-format constraint because the current decoder/runtime explicitly guards against unsupported sample rates.
+Configured faster-whisper and pyannote provider phases are serialized with a process-local lock so the constrained worker does not intentionally load both heavy provider families concurrently. Each provider exposes an explicit release path that clears its process-level model cache after the provider attempt completes, including after provider failure. The heavy-phase boundary then performs Python garbage collection and best-effort Linux allocator trimming.
 
-The HTTP adapter now runs the CPU-heavy `VoxVectorPipeline.analyze(...)` call through `asyncio.to_thread(...)` so long analyses do not monopolize the FastAPI event loop. This is a runtime responsiveness correction, not a scientific-method change.
+### Constrained Whisper profile
+
+The constrained runtime default is:
+
+- `VOXVECTOR_WHISPER_MODEL=base`
+- `VOXVECTOR_WHISPER_DEVICE=cpu`
+- `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
+- `VOXVECTOR_WHISPER_BEAM_SIZE=3`
+
+These remain environment-configurable for larger deployments.
+
+### Runtime memory telemetry
+
+`VoxVector/src/voxvector/runtime_memory.py` provides current Linux process RSS measurement and `VOXVECTOR_MEMORY` log records around heavyweight phases. Each record includes the phase name, elapsed time, RSS before/after, and the configured memory reference. Cleanup is recorded after provider cache release.
+
+The telemetry module deliberately avoids a new runtime dependency and degrades to unavailable measurements on non-Linux platforms.
 
 ## Current request limits
 
-- Application-level maximum upload size: **none**
+- Application-level maximum upload size: configured by `VOXVECTOR_MEDIA_MAX_BYTES` and currently defaults to 250 MB in the API adapter.
 - Maximum sample rate: 48,000 Hz
 - Initial format: PCM WAV
-- Application-level duration cutoff: **none**
+- Application-level duration cutoff: none
 
-`GET /health` exposes only the active sample-rate constraint under `analysis_limits`.
-
-Infrastructure or hosting providers may impose their own transport/request limits independently; those are deployment constraints, not VoxVector product limits, and must not be represented in the API contract as an arbitrary file-size cap.
-
-## Scientific and architectural boundary
-
-These are runtime correctness and resource changes only. They do not promote any analytical method to validated deception inference and do not change the required separation between:
-
-1. eligibility and reliability;
-2. evidence collection and analysis;
-3. candidate classification;
-4. final classification or disposition.
-
-The pipeline remains observational and returns `insufficient_evidence` for an otherwise eligible recording when no validated final inference gate is available.
+The upload ceiling is a transport-safety guard and must be evaluated against the actual Render service memory budget before enabling larger runtime workloads. It is not a scientific constraint.
 
 ## Verification requirement
 
-A deployment is not considered verified solely because the service starts. The following checks are required after deployment:
+A deployment is not considered memory-safe solely because the service starts. Required checks include:
 
-- `GET /health` returns success.
-- `/health` reports the expected canonical package path.
-- `/health` reports the expected acoustic module path and runtime self-test result.
-- `/health` reports the active sample-rate constraint.
-- `/v1/analyze` accepts the known 17 MB WAV regression fixture.
-- The service remains alive during analysis.
-- Health checks remain responsive while the analysis pipeline runs.
-- The analysis request reaches `analysis_pipeline` completion rather than terminating the worker.
-- Spectral feature dimensions remain aligned for the deployed sample rate/frame size.
-- The result includes provenance and the expected observational disposition.
-- Unsupported sample rates are rejected without killing the worker.
-- No deception probability is fabricated.
+- `/health` remains responsive during analysis;
+- the known long WAV fixture does not terminate the worker;
+- speech acquisition uses bounded frame groups;
+- provider caches are empty after provider attempts;
+- `VOXVECTOR_MEMORY` records actual RSS around heavyweight phases;
+- faster-whisper reports actual transcript segments and timestamps;
+- pyannote reports actual speaker turns;
+- repeated sequential provider executions are profiled for retained memory growth;
+- Render CPU/memory and instance lifecycle telemetry is correlated with provider execution;
+- persisted transcript, speaker, and alignment artifacts can be read back under the case/run identity;
+- no deception probability or confidence value is fabricated.
+
+## Scientific and architectural boundary
+
+These are runtime correctness, resource-management, and observability changes only. They do not promote any analytical method to validated deception inference and do not change the required separation between eligibility/reliability, evidence collection/analysis, candidate classification, and final disposition.
 
 ## Deployment note
 
-The canonical HTTP adapter is `api/app.py`. The Render service is configured by the repository deployment configuration and imports the canonical engine from `VoxVector/src/voxvector`. `VoxVector/` is the canonical application and deployment root.
+The canonical HTTP adapter is `VoxVector/api/app.py`. Render uses `VoxVector/` as its application/deployment root and starts `api.app:app`. Heavy speech dependencies remain in `api/requirements-speech.txt` so the base dependency set remains lightweight. The constrained speech runtime is treated as a measured resource profile, not as a reason to invent a scientific limitation.

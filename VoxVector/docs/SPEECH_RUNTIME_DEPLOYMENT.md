@@ -1,10 +1,10 @@
 # VoxVector Speech Runtime Deployment
 
-**State date:** 2026-09-01
+**State date:** 2026-09-02
 
 ## Purpose
 
-Deploy the optional open-source speech intelligence runtime without weakening the lightweight base API deployment.
+Deploy the optional open-source speech intelligence runtime without weakening the lightweight base API deployment or exhausting the constrained Render memory budget.
 
 ## Runtime components
 
@@ -16,7 +16,7 @@ Deploy the optional open-source speech intelligence runtime without weakening th
 
 The repository contains a separate `api/requirements-speech.txt` so the current lightweight Render service is not forced to install heavy speech ML dependencies during ordinary API builds.
 
-To activate speech processing on the target Render service, the Build Command must install both sets of dependencies. Use the repository root configured for the VoxVector API and run:
+To activate speech processing on the target Render service, the Build Command must install both sets of dependencies from the `VoxVector/` root:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
@@ -30,11 +30,15 @@ Transcription:
 
 `VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
 
-`VOXVECTOR_WHISPER_MODEL=small`
+`VOXVECTOR_WHISPER_MODEL=base`
 
 `VOXVECTOR_WHISPER_DEVICE=cpu`
 
 `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
+
+`VOXVECTOR_WHISPER_BEAM_SIZE=3`
+
+The constrained `base` / CPU / int8 / beam 3 profile is now the default in the canonical adapter. The model and beam remain explicitly configurable for larger deployments.
 
 Diarization:
 
@@ -46,59 +50,45 @@ Credential:
 
 `HF_TOKEN` must contain the Hugging Face access token accepted for the gated Community-1 model. The secret is configured in Render and is never stored in GitHub documentation.
 
+Runtime memory reference:
+
+`VOXVECTOR_MEMORY_LIMIT_MB=512`
+
+This is a diagnostic reference only. It does not override Render's platform memory limit.
+
+## Memory-safe execution behavior
+
+The evidence-acquisition speech detector uses bounded frame groups rather than materializing a full-recording frame matrix. Heavy transcription and diarization provider phases are serialized in-process. Provider caches are explicitly released after each attempt, including failed attempts, followed by Python garbage collection and best-effort Linux allocator trimming.
+
+The runtime emits `VOXVECTOR_MEMORY` lines around heavyweight provider phases containing current Linux process RSS when available, phase duration, and the configured memory reference. This provides direct application evidence to correlate with Render infrastructure telemetry.
+
 ## Health verification
 
-After deployment, `/health` exposes a non-secret `speech_runtime` object containing:
-
-- configured transcription provider
-- whether the faster-whisper package is installed
-- configured diarization provider
-- whether pyannote.audio is installed
-- whether the Hugging Face token variable is present
-
-The health check does not load models and does not expose credentials.
+After deployment, `/health` exposes non-secret speech runtime state including configured providers, adapter installation state, and Hugging Face token-variable presence. Health does not load the heavy models or expose credentials.
 
 ## Controlled first execution
 
-Do not immediately promote a long recording to production validation. First process a short known WAV fixture and verify:
+First execute a short known WAV fixture. Verify:
 
-1. transcription provider state becomes `completed`;
-2. transcript segments and word timestamps are present;
-3. diarization provider state becomes `completed`;
-4. speaker segments are returned;
-5. the multimodal alignment artifact is produced;
-6. the case run persists acquisition artifacts;
-7. runtime duration and memory behavior are recorded;
-8. failures degrade to explicit `unavailable` state when a provider cannot run.
+1. faster-whisper reaches `completed` and returns timestamped transcript segments/words;
+2. pyannote Community-1 reaches `completed` and returns speaker turns;
+3. the multimodal alignment artifact is produced;
+4. case/run persistence contains acquisition artifacts;
+5. provider durations and `VOXVECTOR_MEMORY` boundaries are captured;
+6. memory returns toward baseline after provider release/cleanup;
+7. repeated sequential provider executions do not show unbounded retained RSS;
+8. provider failures degrade to explicit `unavailable` acquisition states.
 
 ## Render observability operating procedure
 
-Render's built-in logs and Live Tail remain the first-line runtime view. The current Render CLI supports `render logs --tail` plus filters for resource, instance, level, status code, method, path, and text; this is the preferred active-debug workflow during deployments and speech-model execution.
+Render logs and Live Tail remain the first-line runtime view. The repository-side GitHub Actions workflow captures service, deployment, log, and incident-window memory evidence through protected repository credentials. The authenticated Developer Console Render Runtime surface reads the separate server-side Render bridge.
 
-Render's hosted MCP server can expose live service logs, deploy history, CPU/memory metrics, HTTP response metrics, service configuration, and deploy actions to a compatible coding agent. Render currently recommends the hosted MCP endpoint and supports OAuth in current agent integrations.
+Use infrastructure telemetry to correlate:
 
-The current ChatGPT tool session does not have the Render plugin/MCP connection installed, so no Render service configuration or deploy action is asserted as completed from this repository session. The repository-side instrumentation is ready for that connection.
+`provider start → memory rise → provider completion/failure → cache release → cleanup → memory baseline → instance lifecycle`
 
-### Recommended operator setup
-
-Use the official Render plugin for Codex/ChatGPT or another supported coding agent and authorize the Render workspace. Verify the integration with workspace/service listing before allowing deploy or environment-variable mutation.
-
-For local CLI operations, install/upgrade the Render CLI, run `render login`, select the VoxVector workspace, then use `render logs --tail` for live debugging. For automation, Render documents `RENDER_API_KEY` for non-interactive CLI use.
-
-### Centralized log streaming
-
-Render can stream supported service logs to third-party observability providers over TLS syslog or HTTPS. Better Stack is a supported syslog destination and can be configured from Render's workspace Integrations → Observability → Log Streams area.
-
-For VoxVector, centralized streaming is a retention/search enhancement, not a substitute for the application's trace model. Every VoxVector event should carry `request_id`, `trace_id`, and `analysis_run_id` so an external system can correlate the complete run. Log streaming alone does not create end-to-end tracing.
-
-### Metrics
-
-Render metrics streaming is available to Pro workspaces and higher. It can forward CPU, memory, instance, response-count, and response-latency metrics to supported providers. This becomes valuable once Whisper/pyannote workloads are running and we need empirical memory/latency data.
+Application provider duration remains the source of truth for provider execution time; Render timestamps remain infrastructure evidence.
 
 ## Scientific boundary
 
-A successful transcription or diarization run proves software execution and provider output. It does not validate VoxVector deception inference. Provider confidence is not truth confidence, and speaker cluster labels are not verified real-world identities.
-
-## Current configuration record
-
-The user has reported that the Hugging Face token and required Community-1 access acceptance are complete in Render. Repository-side verification of the secret value is intentionally impossible and is not required. Actual provider execution remains a deployment/runtime verification gate.
+Successful transcription or diarization establishes software execution and provider output. It does not validate VoxVector deception inference. Provider confidence is not deception confidence, and speaker cluster labels are not verified real-world identities.

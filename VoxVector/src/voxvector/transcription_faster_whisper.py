@@ -26,11 +26,11 @@ class FasterWhisperProvider:
         language: str | None = None,
         beam_size: int | None = None,
     ) -> None:
-        self.model_size = model_size or os.getenv("VOXVECTOR_WHISPER_MODEL", "small")
+        self.model_size = model_size or os.getenv("VOXVECTOR_WHISPER_MODEL", "base")
         self.device = device or os.getenv("VOXVECTOR_WHISPER_DEVICE", "cpu")
         self.compute_type = compute_type or os.getenv("VOXVECTOR_WHISPER_COMPUTE_TYPE", "int8")
         self.language = language or os.getenv("VOXVECTOR_WHISPER_LANGUAGE") or None
-        self.beam_size = int(beam_size or os.getenv("VOXVECTOR_WHISPER_BEAM_SIZE", "5"))
+        self.beam_size = int(beam_size or os.getenv("VOXVECTOR_WHISPER_BEAM_SIZE", "3"))
 
     @staticmethod
     def _wav_bytes(signal: np.ndarray, sample_rate: int) -> io.BytesIO:
@@ -46,7 +46,7 @@ class FasterWhisperProvider:
         return stream
 
     @staticmethod
-    @lru_cache(maxsize=4)
+    @lru_cache(maxsize=2)
     def _model(model_size: str, device: str, compute_type: str):
         try:
             from faster_whisper import WhisperModel
@@ -56,6 +56,14 @@ class FasterWhisperProvider:
             ) from exc
         speech_log("transcription.model_loaded", model_size=model_size, device=device, compute_type=compute_type)
         return WhisperModel(model_size, device=device, compute_type=compute_type)
+
+    @classmethod
+    def release_models(cls) -> None:
+        """Release cached Whisper model references between heavy provider phases."""
+        cls._model.cache_clear()
+
+    def release(self) -> None:
+        self.release_models()
 
     def transcribe(self, signal: np.ndarray, sample_rate: int) -> TranscriptResult:
         if sample_rate <= 0:

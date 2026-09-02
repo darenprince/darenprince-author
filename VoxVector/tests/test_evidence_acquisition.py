@@ -4,6 +4,7 @@ from voxvector.evidence_acquisition import (
     DiarizationResult,
     TranscriptResult,
     build_evidence_acquisition,
+    _speech_from_frames,
 )
 
 
@@ -57,6 +58,22 @@ def test_build_evidence_acquisition_profiles_audio_and_timeline(monkeypatch):
     assert result.diarization is None
     assert result.provider_timings_ms == {}
     assert result.speech_timeline.method_id == "evidence_acquisition.energy_activity"
+
+
+def test_speech_detection_processes_long_input_in_bounded_frame_chunks():
+    sample_rate = 8000
+    signal = np.zeros(sample_rate * 12, dtype=np.float32)
+    signal[2 * sample_rate : 10 * sample_rate] = 0.1
+    segments = _speech_from_frames(
+        signal,
+        sample_rate,
+        frame_size=200,
+        hop_size=80,
+        chunk_frames=32,
+    )
+    assert segments
+    assert segments[0].start_s <= 2.1
+    assert segments[-1].end_s >= 9.9
 
 
 def test_transcription_provider_contract_is_optional_and_explicit():

@@ -90,6 +90,16 @@ The same incident window contains slow case-list requests: one `/v1/cases` reque
 
 The repository Render observability workflow now captures the incident-window memory telemetry and logs as a reproducible Actions artifact. The raw evidence captured for this incident was artifact `9829899743` from workflow run `33585450916`.
 
+## Memory-efficiency engineering response — 2026-09-02
+
+The canonical primary pipeline already uses bounded analysis frame chunks. The speech evidence-acquisition path is now aligned with that principle and computes RMS in bounded frame groups rather than materializing a full-recording frame matrix.
+
+Heavy transcription and diarization provider phases are serialized in-process. Provider caches are explicitly released after each attempt, including failed attempts, followed by garbage collection and best-effort Linux allocator trimming.
+
+The constrained faster-whisper default is `base` / CPU / `int8` / beam size `3`, with environment overrides for larger memory budgets. Runtime memory boundaries emit `VOXVECTOR_MEMORY` records with current Linux RSS, phase duration, and cleanup state.
+
+These changes are resource-management and observability changes only. They do not alter analytical methodology or scientific validation state.
+
 ## Developer Console presentation refinement — 2026-09-02
 
 The console visual system is being tightened around compact analytical presentation:
