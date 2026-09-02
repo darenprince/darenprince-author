@@ -9,12 +9,19 @@ on:
 permissions:
   contents: write
 
+# Serialize lockfile writers so concurrent pushes to main do not race to update package-lock.json.
+concurrency:
+  group: voxvector-lockfile-main
+  cancel-in-progress: false
+
 jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -33,7 +40,28 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add voxvector/package-lock.json
             git commit -m "chore(voxvector): regenerate package-lock.json"
-            git push
+
+            # main may advance while npm is regenerating the lockfile. Rebase onto
+            # the current canonical tip before publishing the bot commit.
+            for attempt in 1 2 3; do
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort || true
+                echo "Lockfile rebase conflict; stopping for human/source review."
+                exit 1
+              fi
+
+              if git push origin HEAD:main; then
+                echo "VoxVector package-lock.json regenerated and pushed."
+                exit 0
+              fi
+
+              echo "Push raced with another main update (attempt $attempt/3); retrying."
+              sleep $((attempt * 2))
+            done
+
+            echo "Unable to publish lockfile after retries."
+            exit 1
           else
             echo "VoxVector package-lock.json is already current."
           fi
