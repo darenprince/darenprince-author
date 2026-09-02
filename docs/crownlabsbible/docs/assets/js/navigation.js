@@ -37,28 +37,19 @@
   const mobileMenu = document.getElementById('mobileMenu')
   const scrim = document.getElementById('scrim')
 
-  if (app && localStorage.getItem('navCollapsed') === 'true') {
-    app.classList.add('nav-collapsed')
-  }
+  if (app && localStorage.getItem('navCollapsed') === 'true') app.classList.add('nav-collapsed')
 
   if (navToggle) {
     navToggle.addEventListener('click', () => {
-      if (window.innerWidth < 981) {
-        document.body.classList.toggle('nav-open')
-      } else if (app) {
+      if (window.innerWidth < 981) document.body.classList.toggle('nav-open')
+      else if (app) {
         app.classList.toggle('nav-collapsed')
         localStorage.setItem('navCollapsed', app.classList.contains('nav-collapsed'))
       }
     })
   }
-
-  if (mobileMenu) {
-    mobileMenu.addEventListener('click', () => document.body.classList.add('nav-open'))
-  }
-
-  if (scrim) {
-    scrim.addEventListener('click', () => document.body.classList.remove('nav-open'))
-  }
+  if (mobileMenu) mobileMenu.addEventListener('click', () => document.body.classList.add('nav-open'))
+  if (scrim) scrim.addEventListener('click', () => document.body.classList.remove('nav-open'))
 
   if (toolbarToggle && toolbar) {
     const collapsed = localStorage.getItem('toolbarCollapsed') === 'true'
@@ -143,18 +134,10 @@
   }
 
   function profileForDoc(path) {
-    if (path.includes('crown-psychology')) {
-      return {
-        brand: 'Crown Psychology',
-        logo: assets.crownPsychologyLogo,
-        icon: assets.crownPsychologyPremium,
-        hero: path.includes('/architecture.md') ? assets.crownPsychologyArchitecture : (path.includes('/overview.md') ? assets.crownPsychologyPromo : ''),
-        alt: 'Crown Psychology'
-      }
-    }
-    if (path.includes('sentinel-vault')) return { brand:'Sentinel Vault', logo:assets.sentinelSymbol, icon:assets.sentinelIcon, hero:path.includes('/overview.md') ? assets.sentinelHero : '', alt:'Sentinel Vault' }
-    if (path.includes('crowncode-ai')) return { brand:'CrownCode.ai', logo:assets.crownCodeLogo, icon:assets.crownCodeIcon, hero:path.endsWith('.md') ? assets.crownCodeScreenshot : '', alt:'CrownCode.ai' }
-    if (path.includes('voxvector')) return { brand:'VoxVector', logo:assets.voxVectorFull, icon:assets.voxVectorSymbol, hero:'', alt:'VoxVector' }
+    if (path.includes('crown-psychology')) return { brand:'Crown Psychology',logo:assets.crownPsychologyLogo,icon:assets.crownPsychologyPremium,hero:path.includes('/architecture.md')?assets.crownPsychologyArchitecture:(path.includes('/overview.md')?assets.crownPsychologyPromo:''),alt:'Crown Psychology' }
+    if (path.includes('sentinel-vault')) return { brand:'Sentinel Vault',logo:assets.sentinelSymbol,icon:assets.sentinelIcon,hero:path.includes('/overview.md')?assets.sentinelHero:'',alt:'Sentinel Vault' }
+    if (path.includes('crowncode-ai')) return { brand:'CrownCode.ai',logo:assets.crownCodeLogo,icon:assets.crownCodeIcon,hero:path.endsWith('.md')?assets.crownCodeScreenshot:'',alt:'CrownCode.ai' }
+    if (path.includes('voxvector')) return { brand:'VoxVector',logo:assets.voxVectorFull,icon:assets.voxVectorSymbol,hero:'',alt:'VoxVector' }
     return null
   }
 
@@ -181,11 +164,29 @@
     document.head.appendChild(style)
   }
 
+  function installDocumentationChrome() {
+    if (document.getElementById('cl-documentation-chrome')) return
+    const style = document.createElement('style')
+    style.id = 'cl-documentation-chrome'
+    style.textContent = `
+      .cl-toolbar{position:sticky;top:max(0px,env(safe-area-inset-top));z-index:80;margin:0 -14px 30px;padding:10px 14px;border:1px solid color-mix(in srgb,var(--border) 90%,transparent);border-top:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.14)}
+      .cl-toolbar-body{min-height:42px;gap:18px}.cl-toolbar-head{gap:10px}.cl-header-logo{height:30px;max-width:170px}.cl-breadcrumbs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .cl-tools{padding-left:10px;border-left:1px solid var(--border);gap:6px}.cl-tool-btn{height:34px;border-radius:7px;padding:0 10px}.cl-tool-btn .ms-icon{font-size:17px}.cl-tool-btn:hover{box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 28%,transparent)}
+      .cl-github-link{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);color:var(--muted);margin-left:2px}.cl-github-link:hover{color:var(--text);border-color:var(--accent)}.cl-github-mark{width:17px;height:17px;fill:currentColor}
+      .cl-toolbar-toggle{height:30px;width:30px}.toolbar-collapsed{padding-bottom:9px}.toolbar-collapsed .cl-toolbar-toggle{margin-left:auto}
+      .cl-content{scroll-margin-top:86px}.cl-source-status{margin-top:34px}.cl-doc-page-link{border-color:var(--border);background:var(--surface-2)}
+      @media(max-width:980px){.cl-toolbar{margin:0 -10px 24px;padding:9px 10px}.cl-tools{border-left:0;padding-left:0}.cl-tool-btn span:last-child{display:none}.cl-tool-btn{width:36px;padding:0}.cl-github-link{width:36px;height:36px}.cl-breadcrumbs{display:none}}
+      @media(max-width:620px){.cl-toolbar{margin:0 -8px 22px;padding:8px}.cl-toolbar-body{gap:10px}.cl-tools{gap:5px;overflow-x:auto;flex-wrap:nowrap}.cl-header-logo{max-width:125px;height:26px}.cl-toolbar-toggle{display:none}.cl-tools{margin-left:auto}}
+    `
+    document.head.appendChild(style)
+  }
+
   function runBrandEnhancement() {
     injectRegistryLink()
     injectRegistryLinkOnPortfolio()
     enhancePortfolioCards()
     installBrandStyles()
+    installDocumentationChrome()
     applyDocumentBranding()
   }
 
