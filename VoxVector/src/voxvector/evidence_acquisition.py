@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 from dataclasses import asdict, dataclass
 from hashlib import sha256
 from typing import Any, Protocol
@@ -105,6 +106,7 @@ class EvidenceAcquisitionResult:
     diarization_state: str
     multimodal_timeline: dict[str, Any] | None = None
     limitations: tuple[str, ...] = ()
+    provider_timings_ms: dict[str, float] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -204,28 +206,38 @@ def build_evidence_acquisition(
 
     transcript = None
     transcription_state = "not_configured"
+    diarization = None
+    diarization_state = "not_configured"
     limitations: list[str] = []
+    provider_timings_ms: dict[str, float] = {}
+
     if transcript_provider is not None:
+        provider_id = getattr(transcript_provider, "provider_id", "unknown")
+        started = time.perf_counter()
         try:
             transcript = transcript_provider.transcribe(signal, sample_rate)
             transcription_state = "completed"
         except Exception as exc:
             transcription_state = "unavailable"
             limitations.append(
-                f"Transcription provider {getattr(transcript_provider, 'provider_id', 'unknown')} unavailable: {type(exc).__name__}."
+                f"Transcription provider {provider_id} unavailable: {type(exc).__name__}."
             )
+        finally:
+            provider_timings_ms["transcription"] = (time.perf_counter() - started) * 1000.0
 
-    diarization = None
-    diarization_state = "not_configured"
     if diarization_provider is not None:
+        provider_id = getattr(diarization_provider, "provider_id", "unknown")
+        started = time.perf_counter()
         try:
             diarization = diarization_provider.diarize(signal, sample_rate)
             diarization_state = "completed"
         except Exception as exc:
             diarization_state = "unavailable"
             limitations.append(
-                f"Diarization provider {getattr(diarization_provider, 'provider_id', 'unknown')} unavailable: {type(exc).__name__}."
+                f"Diarization provider {provider_id} unavailable: {type(exc).__name__}."
             )
+        finally:
+            provider_timings_ms["diarization"] = (time.perf_counter() - started) * 1000.0
 
     multimodal_timeline = None
     if transcript is not None:
@@ -248,4 +260,5 @@ def build_evidence_acquisition(
         diarization_state=diarization_state,
         multimodal_timeline=multimodal_timeline,
         limitations=tuple(limitations),
+        provider_timings_ms=provider_timings_ms,
     )
