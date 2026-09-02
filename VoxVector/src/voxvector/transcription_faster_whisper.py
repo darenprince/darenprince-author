@@ -57,6 +57,14 @@ class FasterWhisperProvider:
         speech_log("transcription.model_loaded", model_size=model_size, device=device, compute_type=compute_type)
         return WhisperModel(model_size, device=device, compute_type=compute_type)
 
+    @classmethod
+    def release_models(cls) -> None:
+        """Release cached Whisper model references between heavy provider phases."""
+        cls._model.cache_clear()
+
+    def release(self) -> None:
+        self.release_models()
+
     def transcribe(self, signal: np.ndarray, sample_rate: int) -> TranscriptResult:
         if sample_rate <= 0:
             raise ValueError("sample_rate must be positive")
