@@ -18,7 +18,7 @@ The active dependency chain is now:
 
 ## Current QA
 
-Exact-commit software QA for the current console/diagnostic repair slice has passed on the feature branch. Browser-authenticated verification and deployed Render bridge verification remain separate gates.
+The software QA path is maintained separately from scientific validation. The current memory-pressure mitigation and console refinement are undergoing fresh repository verification before merge.
 
 ## Engineering status model
 
@@ -70,6 +70,7 @@ Current console capabilities include:
 - collapsible workbench steps
 - scroll-safe desktop/mobile navigation
 - moving initialization progress
+- compact data presentation with restrained tonal gradients
 
 ### Case History
 
@@ -81,9 +82,33 @@ The console's Render Runtime page uses server-side authenticated API routes to r
 
 The deployed Render service uses protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables. GitHub repository secrets with those names are used independently by GitHub Actions. Render credentials are never exposed to the browser.
 
+## Render memory incident evidence — 2026-09-02
+
+Render reported that an instance of `voxvector-api` exceeded its memory limit and was automatically restarted. The connected runtime evidence confirms a **512 MB RAM** free web-service budget.
+
+The incident-window memory series rose from approximately 94.9 MB at 02:10:00 UTC to 193.5 MB at 02:10:30, 197.0 MB at 02:11:00, 198.3 MB at 02:11:30, and 198.5 MB at 02:12:00 and 02:12:30. At 02:13:00 it dropped to approximately 73.6 MB and then stabilized near 89–93 MB.
+
+The discontinuity supports a runtime reset pattern. It does not prove that a speech model caused the incident because the observed sampled peak was below the 512 MB service budget and the telemetry resolution does not capture the exact instantaneous peak.
+
+The same runtime window contained slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds. Those are separate reliability signals requiring correlation.
+
+Raw incident evidence was captured into GitHub Actions artifact `9829899743` from workflow run `33585450916`.
+
 ## Observability repair
 
-The supplied QA artifact found a diagnostic storage failure regression where `storage_result` could be returned without initialization after a persistence exception. The canonical implementation now initializes the value before the storage boundary and returns safely when persistence fails.
+The diagnostic storage regression was repaired. The Render observability workflow now resolves the authenticated workspace, collects service and deployment state, retrieves recent and incident-window logs, and captures memory telemetry for reproducible incident analysis.
+
+## Console visual refinement — 2026-09-02
+
+The shared console visual language is being tightened around compact analytical presentation:
+
+- shared analytical cards use restrained 5–6% warm tonal gradients;
+- data-heavy surfaces use the same subtle tonal shift for continuity;
+- card and metadata padding is reduced where density benefits readability;
+- log/history/runtime surfaces use more compact vertical rhythm;
+- shared card rounding is reduced;
+- the API startup preloader uses a much smaller logo and restrained glow;
+- motion remains state-driven and must not masquerade as measured analytical progress.
 
 ## Hosting boundary
 

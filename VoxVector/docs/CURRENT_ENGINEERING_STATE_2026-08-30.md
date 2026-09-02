@@ -28,9 +28,7 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## QA state
 
-The supplied QA log for the preceding feature slice reported `127 passed, 1 failed`. The failure was `tests/test_observability.py::test_diagnostic_store_survives_storage_failure`, caused by `storage_result` being returned after a storage exception without assignment. The canonical diagnostic store has been repaired to initialize the result and safely return after storage persistence failure.
-
-A fresh exact-commit GitHub Actions run remains the authoritative verification gate for the repair and UI changes.
+The diagnostic storage regression was repaired. The speech execution telemetry slice and the memory-pressure mitigation are under repository verification on their respective feature branches before merge.
 
 ## Speech intelligence state
 
@@ -43,6 +41,8 @@ The primary next engine layer is implemented as a provider-backed evidence acqui
 - transcript/speaker overlap alignment;
 - normalized multimodal timeline artifact;
 - explicit provider states and failure-tolerant degradation;
+- measured provider execution timing;
+- heavy-provider cache release after execution in the memory-pressure repair branch;
 - Developer Console speech-runtime readiness reporting through `/health`.
 
 The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
@@ -68,6 +68,42 @@ GitHub Actions separately consumes repository secrets `RENDER_API_KEY` and `REND
 
 Render deployment state, instance state, and logs are infrastructure evidence. They do not replace application timing truth.
 
+## Render memory incident evidence — 2026-09-02
+
+Render reported that an instance of `voxvector-api` exceeded its memory limit and was automatically restarted. The account/service runtime evidence confirms the applicable free web-service budget is **512 MB RAM**.
+
+The captured Render memory telemetry for the incident window recorded approximately:
+
+- 02:10:00 UTC — 94.9 MB
+- 02:10:30 UTC — 193.5 MB
+- 02:11:00 UTC — 197.0 MB
+- 02:11:30 UTC — 198.3 MB
+- 02:12:00 UTC — 198.5 MB
+- 02:12:30 UTC — 198.5 MB
+- 02:13:00 UTC — 73.6 MB
+- 02:13:30 UTC — 89.0 MB
+- 02:14:00 UTC — 93.0 MB
+
+The abrupt reduction from approximately 198.5 MB to 73.6 MB is consistent with a process/instance lifecycle reset around the notification window. The telemetry does **not** prove that faster-whisper or pyannote caused the restart, because the observed peak sample remained below the published 512 MB service budget and the exact sub-sample peak/cause is not captured by the 30-second memory resolution.
+
+The same incident window contains slow case-list requests: one `/v1/cases` request recorded 10,353.41 ms and another 8,109.76 ms. These are reliability signals worth investigation but are not themselves evidence of the memory root cause.
+
+The repository Render observability workflow now captures the incident-window memory telemetry and logs as a reproducible Actions artifact. The raw evidence captured for this incident was artifact `9829899743` from workflow run `33585450916`.
+
+## Developer Console presentation refinement — 2026-09-02
+
+The console visual system is being tightened around compact analytical presentation:
+
+- shared Card surfaces use restrained 5–6% warm tonal gradients rather than flat fills;
+- analytical card padding is reduced to tighten information density;
+- non-card runtime/data surfaces use the same subtle tonal treatment;
+- log, history, file metadata, upload, and runtime panels use more compact vertical spacing;
+- rounded treatment is reduced on the shared Card primitive to keep the interface more technical and less decorative;
+- the startup preloader logo is reduced substantially and given only a restrained local glow;
+- motion continues to communicate activity without turning animation into fabricated progress.
+
+These changes are presentation improvements only. They do not change analytical methodology, runtime capability, or scientific status.
+
 ## Developer Console workflow state
 
 The Developer Console includes:
@@ -83,7 +119,8 @@ The Developer Console includes:
 - console main viewport scroll reset;
 - consistent human-readable labels for pipeline, QA, logs, errors, and infrastructure states;
 - state-derived startup readiness with animated active bars;
-- Render Runtime service/deployment/log surface.
+- Render Runtime service/deployment/log surface;
+- compact, provenance-oriented data presentation with restrained tonal gradients.
 
 ## UI integrity rule
 
@@ -91,11 +128,11 @@ Numeric progress is shown only when it represents measured transfer or persisted
 
 ## Current engineering priorities
 
-1. Verify the repaired exact-commit QA and React build.
-2. Verify the live Render API bridge on the deployed VoxVector service.
-3. Verify startup, initial scroll position, sidebar scrolling, workbench collapse, and case-history reopen in authenticated desktop and mobile browsers.
-4. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
-5. Execute pyannote Community-1 and verify speaker-turn output.
+1. Complete and verify the memory-pressure mitigation before merge.
+2. Continue Render incident correlation using memory, CPU, deployment, instance, and request timing evidence.
+3. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
+4. Execute pyannote Community-1 and verify speaker-turn output.
+5. Measure memory before, during, and after each provider and across repeated runs.
 6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
 7. Connect transcript-derived data to linguistic/disfluency analysis.
 8. Make acoustic aggregation speaker-aware and build real baseline inputs.
