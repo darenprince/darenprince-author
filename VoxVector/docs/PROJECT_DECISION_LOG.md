@@ -312,3 +312,15 @@ Tremor's current installation documentation requires React 18.2.0 or newer. The 
 8. candidate classification and final disposition under existing gates
 
 The existing acoustic pipeline remains active. The new work expands the evidence acquisition layer rather than replacing it.
+
+
+
+## 2026-09-02 — Compact workflow state presentation
+
+**Decision:** Refine the Developer Console Case Workbench workflow tracker into a stateful, space-efficient surface.
+
+**Implementation direction:** Active workflow state uses restrained coffee/copper emphasis and subtle motion. Completed prerequisites use semantic green. The expanded tracker automatically settles into a compact current-step rail after a short dwell, while hover and keyboard focus expose the full state again. Status metadata in checks and workflow rows is right aligned, and redundant literal collapsed labels are removed from the workbench.
+
+**Reason:** The Case Workbench is operationally dense. Persistent expanded workflow chrome was consuming vertical space without adding equivalent value once the user understood the current step.
+
+**Boundary:** The visual state represents workflow lifecycle state only. It must not fabricate analytical completion, pipeline progress, or scientific evidence.
