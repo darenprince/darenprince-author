@@ -11,8 +11,8 @@ const pagesToValidate = [
   { file: 'book.html', brandColor: '#456f3a' },
   { file: 'contact.html', brandColor: '#456f3a' },
   { file: 'haley.html', brandColor: '#11162a' },
-  { file: 'labs.html', brandColor: '#070b14' },
-  { file: 'labs/index.html', brandColor: '#070b14' },
+  { file: 'labs.html', brandColor: '#090a0c' },
+  { file: 'labs/index.html', brandColor: '#090a0c' },
   { file: 'src/nexuswho/index.html', brandColor: '#456f3a' },
 ]
 
