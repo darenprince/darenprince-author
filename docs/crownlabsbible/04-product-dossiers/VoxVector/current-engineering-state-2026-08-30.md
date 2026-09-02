@@ -1,6 +1,6 @@
 # VoxVector Current Engineering State — Crown Labs Mirror
 
-**Status date:** 2026-09-01
+**Status date:** 2026-09-02
 
 This document mirrors the current technical state recorded in the canonical `VoxVector/docs/` engineering records. The filename is retained for historical traceability; the content is maintained as the current mirror.
 
@@ -18,7 +18,7 @@ The active dependency chain is now:
 
 ## Current QA
 
-A fresh QA run is required for the feature branch before the new console/Render integration is recorded as green. Earlier passing runs remain historical evidence tied to their exact source revision.
+Exact-commit software QA for the current console/diagnostic repair slice has passed on the feature branch. Browser-authenticated verification and deployed Render bridge verification remain separate gates.
 
 ## Engineering status model
 
@@ -46,7 +46,7 @@ Current pipeline state remains:
 
 The `VoxVector/src/voxvector/stage_telemetry.py` utility provides real monotonic elapsed timing, UTC lifecycle timestamps, explicit running/completed/failed/not-run/pending states, outcomes, errors, deterministic snapshots, and lifecycle transition guards.
 
-The case-analysis route now persists a `running` record before the main analysis call and updates real route-boundary state during execution. The monolithic analytical engine is still not internally callback-instrumented at every stage, so the console uses honest determinate counts plus indeterminate activity while the composite engine executes.
+The case-analysis route persists a `running` record before the main analysis call and updates real route-boundary state during execution. The monolithic analytical engine is still not internally callback-instrumented at every stage, so the console uses honest determinate counts plus indeterminate activity while the composite engine executes.
 
 ## Developer Console workflow
 
@@ -79,13 +79,11 @@ Case History reads the authenticated case list and opens persisted case records 
 
 The console's Render Runtime page uses server-side authenticated API routes to read the configured Render service, deployment history, instance state, and recent service logs.
 
-Render credentials are not exposed to the browser. The deployed Render service must separately contain protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables. GitHub repository secrets with those names are available to GitHub Actions only.
+The deployed Render service uses protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables. GitHub repository secrets with those names are used independently by GitHub Actions. Render credentials are never exposed to the browser.
 
-## Observability
+## Observability repair
 
-The canonical diagnostic implementation retains immutable sanitized Storage records and projects operational data to the relational console surfaces. Case-specific source rejection/failure events are classified as diagnostic errors as well as lifecycle events.
-
-Application timing truth remains the backend monotonic duration measurement. Render timestamps/logs/deployments are infrastructure correlation evidence.
+The supplied QA artifact found a diagnostic storage failure regression where `storage_result` could be returned without initialization after a persistence exception. The canonical implementation now initializes the value before the storage boundary and returns safely when persistence fails.
 
 ## Hosting boundary
 
@@ -95,13 +93,14 @@ Application timing truth remains the backend monotonic duration measurement. Ren
 
 ## Current engineering records
 
-Canonical synchronization records now include:
+Canonical synchronization records include:
 
 - `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
 - `VoxVector/docs/ENGINEERING_SYNC_2026-09-01.md`
 - `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 - `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
 - `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/ENGINEERING_AUDIT_2026-09-02.md`
 - `VoxVector/api/README.md`
 - `.github/workflows/render-observability.yml`
 
