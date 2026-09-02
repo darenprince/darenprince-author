@@ -99,3 +99,24 @@ input:focus-visible,select:focus-visible { outline:2px solid var(--accent); outl
 @media (max-width:860px) { .landing-hero,.definition-band,.split-section,.founder-section { grid-template-columns:1fr; } .landing-hero { padding-top:46px; } .landing-hero h1 { max-width:none; font-size:clamp(2.2rem,12vw,3.65rem); } .section-heading-row { display:block; } }
 @media (max-width:620px) { .shell { width:min(100% - 28px,1120px); } .header-inner { min-height:64px; } .brand span { display:none; } .featured-products { grid-template-columns:1fr; } .hero-actions a,.section-actions a,.doc-funnel a { width:100%; } .card-head,.featured-product-top { flex-direction:column; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
+
+
+/* Public landing: responsive navigation and accessible interaction polish */
+.labs-header .site-menu a:focus-visible,
+.primary-link:focus-visible,.secondary-link:focus-visible,.text-link:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;
+}
+@media (max-width:860px){
+  .labs-header{backdrop-filter:blur(20px)}
+  .labs-menu-toggle{border-radius:12px}
+  .site-menu{border-radius:18px;max-height:calc(100vh - 88px);overflow:auto}
+  .site-menu a{border-radius:12px}
+}
+@media (max-width:620px){
+  .landing-hero{padding:38px 0 34px;gap:20px}
+  .definition-band,.split-section,.product-overview,.founder-section{padding:36px 0}
+  .metrics{grid-template-columns:1fr;gap:8px;padding:16px 0}
+  .metrics article{padding:16px}
+  .hero-panel,.founder-card,.doc-funnel{padding:20px}
+  .featured-product-card{padding:18px}
+}
