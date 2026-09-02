@@ -324,3 +324,14 @@ The existing acoustic pipeline remains active. The new work expands the evidence
 **Reason:** The Case Workbench is operationally dense. Persistent expanded workflow chrome was consuming vertical space without adding equivalent value once the user understood the current step.
 
 **Boundary:** The visual state represents workflow lifecycle state only. It must not fabricate analytical completion, pipeline progress, or scientific evidence.
+
+
+## 2026-09-02 — Transcription runtime wiring correction
+
+**Observation:** The faster-whisper adapter and environment selection contract were implemented, but the canonical Render blueprint installed only the lightweight base API requirements. The production service therefore could be configured for transcription while the faster_whisper package was absent.
+
+**Decision:** Make transcription a first-class constrained production dependency through api/requirements-transcription.txt and the canonical render.yaml. Keep pyannote outside that default dependency path because the API service has a documented 512 MB memory budget and transcription activation must not implicitly add the separate diarization stack.
+
+**Runtime truth:** Source wiring is implemented. Successful Render rebuild and a real timestamped transcript persisted through the case workflow remain required before provider execution is recorded as verified.
+
+**Workflow correction:** Case analysis must project actual acquisition outcomes into the transcription, diarization, and alignment stage records rather than leaving those stages permanently queued after acquisition executes.
