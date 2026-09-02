@@ -10,8 +10,12 @@ on:
       log_minutes:
         description: 'Minutes of recent logs to inspect'
         required: false
-        default: '30'
+        default: '180'
         type: string
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/render-observability.yml'
 
 permissions:
   contents: read
@@ -31,8 +35,11 @@ jobs:
           test -n "$RENDER_API_KEY" || { echo 'RENDER_API_KEY repository secret is not configured.' >&2; exit 1; }
           if [ -n "$SERVICE_OVERRIDE" ]; then RENDER_SERVICE_ID="$SERVICE_OVERRIDE"; fi
           test -n "$RENDER_SERVICE_ID" || { echo 'RENDER_SERVICE_ID repository secret is not configured, and no workflow override was supplied.' >&2; exit 1; }
+          LOG_MINUTES="${LOG_MINUTES:-180}"
           echo "RENDER_SERVICE_ID=$RENDER_SERVICE_ID" >> "$GITHUB_ENV"
+          echo "LOG_MINUTES=$LOG_MINUTES" >> "$GITHUB_ENV"
           echo "Selected Render service: $RENDER_SERVICE_ID"
+          echo "Log lookback: ${LOG_MINUTES} minutes"
       - name: Install Render CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/bin/install.sh | bash
@@ -43,7 +50,7 @@ jobs:
           render deploys list "$RENDER_SERVICE_ID" -o json > render-deploys.json
       - name: Inspect recent logs
         run: |
-          render logs "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 500 -o json > render-logs.json
+          render logs "$RENDER_SERVICE_ID" --since "${LOG_MINUTES}m" --limit 1000 -o json > render-logs.json
       - name: Select target service from workspace inventory
         run: |
           python - <<'PY'
@@ -68,23 +75,24 @@ jobs:
               cur=obj
               for key in keys:
                   if isinstance(cur, dict): cur=cur.get(key)
-                  elif isinstance(cur, list) and isinstance(key,int) and key < len(cur): cur=cur[key]
+                  elif isinstance(cur, list) and isinstance(key,int) and key < len(cur): cur=default
                   else: return default
               return cur if cur is not None else default
           print('VOXVECTOR_RENDER_OBSERVABILITY')
           print('service_id=', get(service,'id',default='unknown'))
           print('service_name=', get(service,'name',default='unknown'))
           print('service_suspended=', get(service,'suspended',default='unknown'))
-          deploy_rows=deploys.get('deploys') or deploys.get('data') or [] if isinstance(deploys,dict) else deploys
+          deploy_rows=(deploys.get('deploys') or deploys.get('data') or []) if isinstance(deploys,dict) else deploys
           latest=deploy_rows[0] if deploy_rows else {}
           print('latest_deploy_id=', get(latest,'id',default='unknown'))
           print('latest_deploy_status=', get(latest,'status',default='unknown'))
           log_rows=logs.get('logs',[]) if isinstance(logs,dict) else logs
           print('log_count=', len(log_rows) if isinstance(log_rows,list) else 0)
+          needles=('memory limit','out of memory','oom','killed','restart','error','critical','exception','VOXVECTOR_')
           if isinstance(log_rows,list):
-              for item in log_rows[-50:]:
-                  text=get(item,'message',default=get(item,'text',default=''))
-                  if 'VOXVECTOR_' in str(text) or 'error' in str(text).lower() or 'critical' in str(text).lower(): print(text)
+              for item in log_rows:
+                  text=str(get(item,'message',default=get(item,'text',default='')))
+                  if any(n in text.lower() for n in needles): print(text)
           PY
       - name: Upload diagnostic artifacts
         uses: actions/upload-artifact@v4
