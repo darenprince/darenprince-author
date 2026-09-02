@@ -112,7 +112,6 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 .vv-panel-head h2,
 .vv-panel-head h3 { text-transform: none; letter-spacing: -.025em; }
 
-/* Keep the case workflow pinned directly beneath the canonical 56px developer header while the case is being built. */
 .vv-main [aria-label="Case workflow"] {
   position: -webkit-sticky !important;
   position: sticky !important;
@@ -123,6 +122,25 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 12px 28px rgba(0,0,0,.22);
+}
+
+/* Public header access icons: direct icon links, no decorative containers. */
+.vv-public-header .vv-icon-access-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--vv-muted-strong);
+  text-decoration: none;
+  transition: color .18s ease, transform .18s ease;
+}
+.vv-public-header .vv-icon-access-link:hover {
+  color: var(--vv-text);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 900px) {
