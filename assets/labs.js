@@ -2,6 +2,13 @@
   const currentScript = document.currentScript
   const dataUrl = currentScript?.dataset?.labsData || 'assets/labs-data.json'
 
+  const canonicalDocsHref = (sourcePath = '') => {
+    const path = String(sourcePath || '').replace(/^\/+/, '')
+    return path
+      ? `../docs/crownlabsbible/docs/viewer.html?doc=../${encodeURIComponent(path.replace(/^docs\/crownlabsbible\//, ''))}`
+      : '../docs/crownlabsbible/docs/index.html'
+  }
+
   const createElement = (tag, className, text) => {
     const node = document.createElement(tag)
     if (className) node.className = className
@@ -62,7 +69,7 @@
     const brief = createElement('a', 'text-link', 'View public brief')
     brief.href = product.detailUrl || `labs/products/${product.id}.html`
     const docs = createElement('a', 'text-link muted', 'Open source dossier')
-    docs.href = product.sourcePath || 'docs/crownlabsbible/'
+    docs.href = canonicalDocsHref(product.sourcePath)
     actions.append(brief, docs)
 
     article.append(head, summary, bullets, meta, actions)
@@ -94,7 +101,7 @@
     const brief = createElement('a', 'text-link', 'Brief')
     brief.href = product.detailUrl?.replace(/^labs\//, '') || `products/${product.id}.html`
     const docs = createElement('a', 'text-link muted', 'Docs')
-    docs.href = product.sourcePath ? `../${product.sourcePath}` : '../docs/crownlabsbible/'
+    docs.href = canonicalDocsHref(product.sourcePath)
     actions.append(brief, docs)
     article.append(actions)
 
@@ -171,6 +178,11 @@
           product.category,
           product.categoryLabel,
           product.sourcePath,
+          product.oneLiner,
+          product.tagline,
+          product.status,
+          product.timeToMarket,
+          ...(product.bullets || []),
           ...(product.keywords || []),
         ]
           .join(' ')
@@ -187,6 +199,12 @@
     }
 
     search.addEventListener('input', render)
+    search.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && search.value) {
+        search.value = ''
+        render()
+      }
+    })
     statusFilter.addEventListener('change', render)
     categoryFilter.addEventListener('change', render)
     render()
