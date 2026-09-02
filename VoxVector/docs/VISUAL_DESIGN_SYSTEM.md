@@ -6,9 +6,9 @@ Active implementation baseline for the public React application at `/voxvector/`
 
 ## Design objective
 
-VoxVector should look like a serious analytical product, not a generic AI landing page. The visual system prioritizes evidence, signal structure, readability, hierarchy and restraint.
+VoxVector should look like a serious analytical product, not a generic AI landing page. The visual system prioritizes evidence, signal structure, readability, hierarchy, restraint and fast comprehension.
 
-The current visual anchor combines the supplied Shadcnblocks neutral system with the supplied luxury reference. The foundation is absolute black, near black, white and quiet gray. Warm coffee, copper and tan tones are reserved for primary actions, signal emphasis and selected analytical details.
+The foundation is absolute black, near black, white and quiet gray, with restrained warm tonal depth. Accent color is reserved for meaningful actions and system state rather than decoration.
 
 ## Theme model
 
@@ -17,8 +17,6 @@ Light and dark themes are first class application states and persist through `lo
 Dark mode uses near black analytical surfaces with white hierarchy and restrained warm accents.
 
 Light mode uses a white canvas, near black typography, soft gray surfaces and the same restrained warm accents.
-
-The theme control is available on the public landing experience and in the Developer Console. Theme changes are stateful and do not depend on browser preference after the user makes a selection.
 
 ## Core palette
 
@@ -54,69 +52,75 @@ The theme control is available on the public landing experience and in the Devel
 | `vv-border` | `rgba(0,0,0,.085)` | Structural separation |
 | `vv-border-strong` | `rgba(0,0,0,.16)` | Focus and elevated separation |
 
-Semantic green, amber and red may communicate system state where required. They are not decorative brand colors.
+Semantic green, amber and red communicate system state where required. They are not decorative brand colors.
 
 ## Gradients and depth
 
-Gradients are environmental lighting, not decoration. They should remain subtle enough that the interface still reads correctly with gradients disabled.
+Gradients are environmental lighting, not decoration. Surface gradients should normally shift only about 5–8% from the base surface. They should be directional, quiet and barely perceptible at a glance.
 
 Use small directional surface gradients, faint radial warm glows and quiet tonal changes between black or white surfaces. Never use large saturated gradients as card fills.
 
 ## Typography
 
-The public landing page uses Inter with system fallbacks.
+### Body and interface
 
-Minimum intended body copy is 16px. Supporting copy should normally be 14px or larger. Navigation should normally be 14px. Section labels may be smaller when they function as metadata rather than reading content.
+**Inter** is the canonical typeface for all body copy, navigation, controls, labels, metadata and application UI. The implementation loads Inter from Google Fonts with system fallbacks.
 
-Primary headings use large responsive type with tight display leading. Body copy uses generous line height and a constrained measure. Text must remain readable at 200 percent resize and should not depend on low contrast or tiny metadata for essential meaning.
+Body copy is normally 16px or larger. Supporting copy is normally 14px or larger. Navigation is normally 14px. Utility metadata may be smaller when it is supplemental and never the sole carrier of essential meaning.
+
+### Display and headings
+
+**Cal Sans** is the canonical display face for hero headlines, page titles and section headings. Cal Sans is intentionally reserved for large hierarchy so its distinctive geometry remains a signal rather than visual noise.
+
+Heading treatment uses tight display leading, optical kerning and controlled negative tracking. Heading text should remain sentence case unless a specific brand lockup requires another treatment.
+
+### Typographic tuning
+
+- Body line height: approximately `1.45–1.60` depending on measure.
+- Display line height: approximately `0.96–1.05`.
+- Display tracking: approximately `-0.03em` to `-0.04em`.
+- Section heading tracking: approximately `-0.02em` to `-0.03em`.
+- Navigation and controls use neutral casing and restrained positive tracking.
+- Utility labels may use uppercase with generous tracking when they function as metadata.
+- Use `font-kerning: normal`, `font-feature-settings` for standard kerning/ligatures and `text-wrap: balance` for major headings.
 
 WCAG 2.2 requires normal text to meet at least 4.5:1 contrast and supports text resizing to 200 percent without loss of content or functionality.
 
-## Layout principles
+## Navigation and responsive behavior
 
-1. Use a strong editorial grid rather than stacking equal cards.
-2. Give the hero a clear reading path: product identity, headline, proposition, action, scientific boundary, then visual evidence surface.
-3. Use full width separators and open sections to create hierarchy.
-4. Prefer rows, columns and whitespace over nested rounded containers.
-5. Feature icons should often stand alone at 40 to 52px rather than being trapped in small square wrappers.
-6. Use large section headings and readable supporting copy so the page can be scanned without zooming.
-7. Keep calls to action visually distinct but limited.
-8. Alternate dense analytical sections with quiet editorial sections.
-9. Mobile layouts must preserve the same hierarchy instead of simply shrinking desktop cards.
+### Header
+
+The primary public and Developer Console header target is **56px**. Header chrome should be compact enough to leave the application workspace visually dominant while retaining clear touch targets.
+
+### Mobile menu
+
+Mobile navigation uses a slide-out `Sheet` rather than an expanding inline block. The menu trigger uses a restrained two-line glyph. Open state uses an explicit X treatment and an accessible label.
+
+The `Sheet` supports three intentional dismissal paths: selecting navigation, tapping the scrim, and swiping the panel horizontally. Swipe-to-close follows the direction from which the sheet entered and respects reduced-motion preferences.
+
+### Desktop console
+
+The Developer Console retains a persistent desktop sidebar. Mobile navigation uses the same compact sheet interaction model rather than maintaining a second competing navigation architecture.
 
 ## Component system
 
-The frontend uses a product owned shadcn style component system with Base UI headless primitives, Tremor React analytical components, Tailwind CSS, Lucide React and Motion for React.
+The frontend uses a product owned shadcn style component system with Base UI headless primitives, Tremor React analytical components, Tailwind CSS and Motion for React.
 
-Shared application owned primitives include Button, Badge, Card, Sheet and ThemeToggle. Components are intentionally small and composable so the product controls its own visual language rather than depending on a hosted design platform.
+Shared application owned primitives include Button, Badge, Card, Sheet and ThemeToggle. Components are intentionally small and composable so the product controls its own visual language.
 
-Tremor is the primary analytical block system for charts, progress indicators and analytical cards. It should be used directly where a Tremor component is appropriate rather than recreating equivalent chart primitives.
-
-## Navigation and responsive behavior
-
-Desktop authenticated views use a persistent sidebar. Mobile authenticated views use an animated slide out Sheet navigation with an accessible overlay and close control.
-
-The public landing page retains its editorial navigation hierarchy and exposes the same persistent light and dark theme state.
-
-## Audio visualization rules
-
-Landing page visualizations are interface illustrations, not production telemetry.
-
-The primary signal illustration uses a dense bar based speech waveform with irregular amplitude envelopes, phrase structure, explicit silence gaps and multi frequency variation. It is designed to read like an audio signal rather than a generic graph or decorative line.
-
-Tremor `AreaChart` components are used for secondary analytical relationships where a chart is appropriate. They are explicitly labeled as illustrative and must never be presented as real subject measurements.
-
-Do not display fabricated deception scores, confidence percentages, live processing percentages, request counts or scientific performance numbers on the public landing page.
+Tremor is used for analytical chart and data blocks where appropriate. Application-owned layout and typography remain the controlling visual layer.
 
 ## Iconography
 
-Lucide React is the canonical icon system. Icons should use consistent stroke weight and should be large enough to function as visual anchors. Where an icon communicates a primary feature, remove the decorative wrapper and let the icon occupy the layout directly.
+**Streamline Sharp** is the canonical icon family for the VoxVector product experience. The Sharp collection is used for its geometric precision, high legibility and technical character.
 
-## Motion
+The web implementation uses Iconify's on-demand `streamline-sharp` collection so only requested glyphs are resolved at runtime. The design source remains Streamline Sharp; the separate Streamline API is the authoritative route for licensed asset discovery, download and broader collection access.
 
-Motion for React is used for entrance, navigation and interaction refinement. API activity animation belongs in the Developer Console and must follow actual query or mutation state.
+Use the Line style for primary interface navigation and compact controls. Use Solid or Remix variants selectively where a stronger visual anchor is appropriate. Icons should normally be 16–20px in navigation and 18–24px for primary controls, with larger feature icons allowed where they function as visual anchors.
 
-All motion must respect `prefers-reduced-motion`.
+Do not mix unrelated icon families inside the same interaction cluster. Existing specialist visualizations may retain their own rendering primitives where an icon is part of the visualization itself, but shared application chrome should follow Sharp.
+
+Streamline's free Sharp distribution is attribution based and permits commercial use according to its stated license. Asset provenance should be retained when downloaded or bundled directly.
 
 ## Surfaces and strokes
 
@@ -124,11 +128,41 @@ Strokes are intentionally quiet. Default borders should be low contrast and thin
 
 Avoid heavy white framing, excessive glass effects and large decorative gradients. Rounded corners should be restrained and purposeful rather than applied to every block.
 
+Data surfaces may use a subtle 5–8% tonal shift to establish hierarchy. The shift must not overpower typography or analytical content.
+
+## Layout principles
+
+1. Use a strong editorial grid rather than stacking equal cards.
+2. Give the hero a clear reading path: product identity, headline, proposition, action, visual evidence.
+3. Use full-width separators and open sections to create hierarchy.
+4. Prefer rows, columns and whitespace over nested rounded containers.
+5. Feature icons may stand alone at 40–52px when they serve as visual anchors.
+6. Use large section headings and readable supporting copy so the page can be scanned without zooming.
+7. Keep calls to action visually distinct but limited.
+8. Alternate dense analytical sections with quiet editorial sections.
+9. Mobile layouts must preserve hierarchy rather than simply shrinking desktop cards.
+
+## Audio visualization rules
+
+Landing page visualizations are interface illustrations, not production telemetry.
+
+The primary signal illustration uses a dense bar-based speech waveform with irregular amplitude envelopes, phrase structure, explicit silence gaps and multi-frequency variation. It is designed to read like an audio signal rather than a generic graph or decorative line.
+
+Tremor `AreaChart` components are used for secondary analytical relationships where a chart is appropriate. They are explicitly labeled as illustrative and must never be presented as real subject measurements.
+
+Do not display fabricated deception scores, confidence percentages, live processing percentages, request counts or scientific performance numbers on the public landing page.
+
+## Motion
+
+Motion for React is used for entrance, navigation and interaction refinement. API activity animation belongs in the Developer Console and must follow actual query or mutation state.
+
+All motion must respect `prefers-reduced-motion`.
+
 ## Scientific communication
 
-The public page must distinguish product objective from current capability. Current runtime language should identify the system as an observational analysis foundation and should not imply scientifically validated deception inference.
+The public page must distinguish product objective from current capability. Internal implementation maturity and validation status belong in developer and validation documentation rather than being promoted into customer-facing visual clutter.
 
-The interface should emphasize observations, reliability, evidence convergence and conflict, uncertainty, alternative explanations, abstention and provenance.
+The interface should emphasize observations, reliability, evidence convergence and conflict, uncertainty, alternative explanations and provenance where those concepts are part of the relevant workflow.
 
 ## Accessibility baseline
 
