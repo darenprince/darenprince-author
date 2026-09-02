@@ -227,38 +227,44 @@ def build_evidence_acquisition(
     if transcript_provider is not None:
         provider_id = getattr(transcript_provider, "provider_id", "unknown")
         started = time.perf_counter()
+        release_error: str | None = None
         try:
             with measured_phase(f"transcription:{provider_id}"):
-                transcript = transcript_provider.transcribe(signal, sample_rate)
-            transcription_state = "completed"
-        except Exception as exc:
-            transcription_state = "unavailable"
-            limitations.append(
-                f"Transcription provider {provider_id} unavailable: {type(exc).__name__}."
-            )
+                try:
+                    transcript = transcript_provider.transcribe(signal, sample_rate)
+                    transcription_state = "completed"
+                except Exception as exc:
+                    transcription_state = "unavailable"
+                    limitations.append(
+                        f"Transcription provider {provider_id} unavailable: {type(exc).__name__}."
+                    )
+                finally:
+                    release_error = _release_provider(transcript_provider)
         finally:
             provider_timings_ms["transcription"] = (time.perf_counter() - started) * 1000.0
-            release_error = _release_provider(transcript_provider)
-            if release_error:
-                limitations.append(release_error)
+        if release_error:
+            limitations.append(release_error)
 
     if diarization_provider is not None:
         provider_id = getattr(diarization_provider, "provider_id", "unknown")
         started = time.perf_counter()
+        release_error: str | None = None
         try:
             with measured_phase(f"diarization:{provider_id}"):
-                diarization = diarization_provider.diarize(signal, sample_rate)
-            diarization_state = "completed"
-        except Exception as exc:
-            diarization_state = "unavailable"
-            limitations.append(
-                f"Diarization provider {provider_id} unavailable: {type(exc).__name__}."
-            )
+                try:
+                    diarization = diarization_provider.diarize(signal, sample_rate)
+                    diarization_state = "completed"
+                except Exception as exc:
+                    diarization_state = "unavailable"
+                    limitations.append(
+                        f"Diarization provider {provider_id} unavailable: {type(exc).__name__}."
+                    )
+                finally:
+                    release_error = _release_provider(diarization_provider)
         finally:
             provider_timings_ms["diarization"] = (time.perf_counter() - started) * 1000.0
-            release_error = _release_provider(diarization_provider)
-            if release_error:
-                limitations.append(release_error)
+        if release_error:
+            limitations.append(release_error)
 
     multimodal_timeline = None
     if transcript is not None:
