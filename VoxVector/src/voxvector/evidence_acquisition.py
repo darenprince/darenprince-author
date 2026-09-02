@@ -135,6 +135,17 @@ def _speech_from_frames(
     return segment_speech(rms_values, voiced, hop_size / sample_rate)
 
 
+def _release_provider(provider: Any) -> str | None:
+    release = getattr(provider, "release", None)
+    if not callable(release):
+        return None
+    try:
+        release()
+        return None
+    except Exception as exc:
+        return f"Provider {getattr(provider, 'provider_id', 'unknown')} release failed: {type(exc).__name__}."
+
+
 def build_evidence_acquisition(
     signal: np.ndarray,
     sample_rate: int,
@@ -147,7 +158,9 @@ def build_evidence_acquisition(
     Providers are selected lazily from environment configuration when callers do
     not supply explicit provider instances. Provider failures are represented as
     unavailable acquisition states so an optional speech runtime cannot take down
-    the base case-analysis path.
+    the base case-analysis path. Heavy providers that expose ``release`` are
+    released immediately after their attempt so cached model references do not
+    accumulate in the long-lived API process.
     """
     signal = np.asarray(signal, dtype=float).reshape(-1)
     if sample_rate <= 0:
@@ -224,6 +237,9 @@ def build_evidence_acquisition(
             )
         finally:
             provider_timings_ms["transcription"] = (time.perf_counter() - started) * 1000.0
+            release_error = _release_provider(transcript_provider)
+            if release_error:
+                limitations.append(release_error)
 
     if diarization_provider is not None:
         provider_id = getattr(diarization_provider, "provider_id", "unknown")
@@ -238,6 +254,9 @@ def build_evidence_acquisition(
             )
         finally:
             provider_timings_ms["diarization"] = (time.perf_counter() - started) * 1000.0
+            release_error = _release_provider(diarization_provider)
+            if release_error:
+                limitations.append(release_error)
 
     multimodal_timeline = None
     if transcript is not None:
