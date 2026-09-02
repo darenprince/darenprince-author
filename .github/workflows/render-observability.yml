@@ -42,8 +42,9 @@ jobs:
           echo "Log lookback: ${LOG_MINUTES} minutes"
       - name: Install Render CLI
         run: |
-          curl -fsSL https://raw.githubusercontent.com/render-oss/render-cli/main/bin/install.sh | bash
+          curl -fsSL https://raw.githubusercontent.com/render-oss/cli/main/bin/install.sh | sh
           echo "$HOME/.render/bin" >> "$GITHUB_PATH"
+          "$HOME/.render/bin/render" --version
       - name: Inspect Render service and deployments
         run: |
           render services -o json > render-services.json
