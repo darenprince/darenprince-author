@@ -15,7 +15,7 @@ const TRACE = {
 
 function stateTone(state) {
   if (['HEALTHY','PASS','FUNCTIONAL','SUCCESS','READY'].includes(state)) return 'healthy'
-  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','STALE','UNAVAILABLE','NOT REPORTED','NOT CONFIGURED','NOT INSTALLED'].includes(state)) return 'warning'
+  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','STALE','UNAVAILABLE','NOT REPORTED','NOT CONFIGURED','NOT INSTALLED','INSTALLED · EXECUTION UNVERIFIED','512 MB CONSTRAINED'].includes(state)) return 'warning'
   return 'error'
 }
 function StateChip({ icon: Icon, label, value, tone }) { return <div className={`vv-eng-state ${tone || stateTone(value)}`}><Icon size={15}/><div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div></div> }
