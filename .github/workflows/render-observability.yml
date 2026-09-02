@@ -74,6 +74,18 @@ jobs:
           END_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           echo "Querying Render logs from $START_TIME through $END_TIME"
           render logs --resources "$RENDER_SERVICE_ID" --start "$START_TIME" --end "$END_TIME" --limit 1000 --output json > render-logs.json
+      - name: Capture September 2 memory incident window
+        run: |
+          INCIDENT_START="2026-09-02T02:00:00Z"
+          INCIDENT_END="2026-09-02T02:30:00Z"
+          curl --fail-with-body --silent --show-error --get "https://api.render.com/v1/metrics/memory" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            --data-urlencode "startTime=$INCIDENT_START" \
+            --data-urlencode "endTime=$INCIDENT_END" \
+            --data-urlencode "resolutionSeconds=30" \
+            --data-urlencode "resource=$RENDER_SERVICE_ID" \
+            > render-memory-incident.json
+          render logs --resources "$RENDER_SERVICE_ID" --start "$INCIDENT_START" --end "$INCIDENT_END" --direction forward --limit 100 --output json > render-incident-logs.json
       - name: Select target service from workspace inventory
         run: |
           python - <<'PY'
@@ -131,6 +143,8 @@ jobs:
           services=rows_from(load_json_values('render-services.json'), ('services','data'))
           deploys=rows_from(load_json_values('render-deploys.json'), ('deploys','data'))
           logs=rows_from(load_json_values('render-logs.json'), ('logs','data'))
+          incident_logs=rows_from(load_json_values('render-incident-logs.json'), ('logs','data'))
+          memory_values=load_json_values('render-memory-incident.json')
 
           print('VOXVECTOR_RENDER_OBSERVABILITY')
           print('service_inventory_count=', len(services))
@@ -148,8 +162,13 @@ jobs:
               if any(n in text.lower() for n in needles):
                   matches.append(text)
           print('incident_signal_count=', len(matches))
+          print('incident_window_log_count=', len(incident_logs))
+          print('incident_memory_payloads=', len(memory_values))
           for text in matches[-100:]:
               print(text)
+          for item in incident_logs:
+              print('INCIDENT_LOG', message_from(item))
+          print('INCIDENT_MEMORY_RAW', json.dumps(memory_values, separators=(',', ':'))[:12000])
           PY
       - name: Upload diagnostic artifacts
         uses: actions/upload-artifact@v4
@@ -162,4 +181,6 @@ jobs:
             render-service.json
             render-deploys.json
             render-logs.json
+            render-memory-incident.json
+            render-incident-logs.json
           retention-days: 7
