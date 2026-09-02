@@ -13,8 +13,7 @@
   function setActiveQuicklink() {
     const current = window.location.pathname.split('/').pop() || 'index.html'
     document.querySelectorAll('.cl-quicklinks a').forEach((link) => {
-      const href = link.getAttribute('href') || ''
-      const target = href.split('#')[0]
+      const target = (link.getAttribute('href') || '').split('#')[0]
       link.classList.toggle('is-active', target === current)
       if (target === current) link.setAttribute('aria-current', 'page')
       else link.removeAttribute('aria-current')
@@ -23,13 +22,11 @@
   setActiveQuicklink()
 
   const toggle = document.getElementById('themeToggle')
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
-      localStorage.setItem(key, next)
-      applyTheme(next)
-    })
-  }
+  if (toggle) toggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
+    localStorage.setItem(key, next)
+    applyTheme(next)
+  })
 
   const navToggle = document.getElementById('navToggle')
   const toolbarToggle = document.getElementById('toolbarToggle')
@@ -38,30 +35,28 @@
   const scrim = document.getElementById('scrim')
 
   if (app && localStorage.getItem('navCollapsed') === 'true') app.classList.add('nav-collapsed')
-
-  if (navToggle) {
-    navToggle.addEventListener('click', () => {
-      if (window.innerWidth < 981) document.body.classList.toggle('nav-open')
-      else if (app) {
-        app.classList.toggle('nav-collapsed')
-        localStorage.setItem('navCollapsed', app.classList.contains('nav-collapsed'))
-      }
-    })
-  }
+  if (navToggle) navToggle.addEventListener('click', () => {
+    if (window.innerWidth < 981) document.body.classList.toggle('nav-open')
+    else if (app) {
+      app.classList.toggle('nav-collapsed')
+      localStorage.setItem('navCollapsed', app.classList.contains('nav-collapsed'))
+    }
+  })
   if (mobileMenu) mobileMenu.addEventListener('click', () => document.body.classList.add('nav-open'))
   if (scrim) scrim.addEventListener('click', () => document.body.classList.remove('nav-open'))
 
   if (toolbarToggle && toolbar) {
     const collapsed = localStorage.getItem('toolbarCollapsed') === 'true'
     toolbar.classList.toggle('toolbar-collapsed', collapsed)
-    const icon = toolbarToggle.querySelector('.ms-icon')
-    if (icon) icon.textContent = collapsed ? 'expand_more' : 'expand_less'
+    const setIcon = () => {
+      const icon = toolbarToggle.querySelector('.ms-icon')
+      if (icon) icon.textContent = toolbar.classList.contains('toolbar-collapsed') ? 'expand_more' : 'expand_less'
+    }
+    setIcon()
     toolbarToggle.addEventListener('click', () => {
-      const next = !toolbar.classList.contains('toolbar-collapsed')
-      toolbar.classList.toggle('toolbar-collapsed', next)
-      const nextIcon = toolbarToggle.querySelector('.ms-icon')
-      if (nextIcon) nextIcon.textContent = next ? 'expand_more' : 'expand_less'
-      localStorage.setItem('toolbarCollapsed', String(next))
+      toolbar.classList.toggle('toolbar-collapsed')
+      localStorage.setItem('toolbarCollapsed', String(toolbar.classList.contains('toolbar-collapsed')))
+      setIcon()
     })
   }
 
@@ -82,7 +77,6 @@
     picDetectiveIcon: ASSET_ROOT + 'Picdetective/deticon.png',
     picDetectiveLogo: ASSET_ROOT + 'Picdetective/detlogo2.PNG',
     operationPhoenixIcon: ASSET_ROOT + 'assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png',
-    justUsScott: ASSET_ROOT + 'assets/images/IMG_0267.png',
     vibePrismIcon: ASSET_ROOT + 'assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png',
     createVectorIcon: ASSET_ROOT + 'assets/images/create-vector-app-icon.png'
   }
@@ -99,8 +93,7 @@
 
   function injectRegistryLinkOnPortfolio() {
     const pageTitle = document.querySelector('.cl-content h1')
-    if (!pageTitle || !/product portfolio/i.test(pageTitle.textContent || '')) return
-    if (document.querySelector('[data-brand-registry-card]')) return
+    if (!pageTitle || !/product portfolio/i.test(pageTitle.textContent || '') || document.querySelector('[data-brand-registry-card]')) return
     const cardGrid = pageTitle.parentElement.querySelector('.card-grid')
     if (!cardGrid) return
     const card = document.createElement('a')
@@ -123,8 +116,9 @@
       const src = map[title]
       if (!src || card.dataset.assetEnhanced === 'true') return
       const old = card.querySelector('.cl-product-card-fallback')
-      if (old) old.outerHTML = '<img class="cl-product-logo" style="width:52px;height:52px;flex:0 0 52px;object-fit:contain" src="' + src + '" alt="" loading="lazy">'
-      else if (!card.querySelector('img')) card.insertAdjacentHTML('afterbegin','<img class="cl-product-logo" style="width:52px;height:52px;flex:0 0 52px;object-fit:contain" src="' + src + '" alt="" loading="lazy">')
+      const img = '<img class="cl-product-logo" style="width:52px;height:52px;flex:0 0 52px;object-fit:contain" src="' + src + '" alt="" loading="lazy">'
+      if (old) old.outerHTML = img
+      else if (!card.querySelector('img')) card.insertAdjacentHTML('afterbegin', img)
       card.dataset.assetEnhanced = 'true'
     })
   }
@@ -152,16 +146,12 @@
     const profile = profileForDoc(path)
     if (!profile || content.dataset.brandPath === path) return
 
-    const wrap = document.createElement('div')
-    wrap.className = 'cl-doc-brand'
-    wrap.dataset.brandPath = path
-    wrap.innerHTML =
-      (profile.logo ? '<img class="cl-doc-brand-logo" src="' + profile.logo + '" alt="' + profile.alt + ' full logo" loading="eager">' : '') +
-      (profile.hero ? '<img class="cl-doc-brand-hero" src="' + profile.hero + '" alt="' + profile.alt + ' documentation hero" loading="eager">' : '') +
-      (profile.icon ? '<img class="cl-doc-brand-icon" src="' + profile.icon + '" alt="' + profile.alt + ' app icon" loading="lazy">' : '')
+    const logo = profile.logo ? '<img class="cl-doc-brand-logo" src="' + profile.logo + '" alt="' + profile.alt + ' logo" loading="eager">' : ''
+    const hero = profile.hero ? '<img class="cl-doc-brand-hero" src="' + profile.hero + '" alt="' + profile.alt + ' documentation hero" loading="eager">' : ''
+    const icon = profile.icon ? '<img class="cl-doc-brand-icon" src="' + profile.icon + '" alt="' + profile.alt + ' app icon" loading="lazy">' : ''
 
     const firstHeading = content.querySelector('h1')
-    firstHeading.parentNode.insertBefore(wrap, firstHeading)
+    firstHeading.insertAdjacentHTML('beforebegin', logo + hero + icon)
     content.dataset.brandPath = path
   }
 
@@ -170,11 +160,11 @@
     const style = document.createElement('style')
     style.id = 'cl-brand-registry-styles'
     style.textContent = `
-      .cl-doc-brand{margin:0 0 34px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
-      .cl-doc-brand-logo{display:block;max-width:min(420px,100%);max-height:96px;width:auto;height:auto;object-fit:contain}
-      .cl-doc-brand-hero{display:block;width:100%;max-height:460px;object-fit:cover;border:0;border-radius:0;background:transparent}
-      .cl-doc-brand-icon{display:block;width:88px;height:88px;max-width:none;object-fit:contain;border-radius:0;background:transparent;box-shadow:none;border:0}
-      @media(max-width:620px){.cl-doc-brand{gap:14px;margin-bottom:28px}.cl-doc-brand-logo{max-width:280px;max-height:74px}.cl-doc-brand-hero{max-height:300px}.cl-doc-brand-icon{width:72px;height:72px}}
+      .cl-doc-brand-logo,.cl-doc-brand-hero,.cl-doc-brand-icon{display:block;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+      .cl-doc-brand-logo{max-width:min(420px,100%);max-height:96px;width:auto;height:auto;object-fit:contain;margin:0 0 18px}
+      .cl-doc-brand-hero{width:100%;max-height:460px;object-fit:cover;margin:0 0 18px}
+      .cl-doc-brand-icon{width:64px!important;height:64px!important;object-fit:contain;margin:0 0 18px;padding:0!important}
+      @media(max-width:620px){.cl-doc-brand-logo{max-width:280px;max-height:74px}.cl-doc-brand-hero{max-height:300px}.cl-doc-brand-icon{width:64px!important;height:64px!important}}
     `
     document.head.appendChild(style)
   }
@@ -206,7 +196,7 @@
   }
 
   runBrandEnhancement()
-  const observer = new MutationObserver(() => runBrandEnhancement())
+  const observer = new MutationObserver(runBrandEnhancement)
   const contentRoot = document.querySelector('.cl-content')
   if (contentRoot) observer.observe(contentRoot, { childList: true, subtree: true })
   window.addEventListener('hashchange', runBrandEnhancement)
