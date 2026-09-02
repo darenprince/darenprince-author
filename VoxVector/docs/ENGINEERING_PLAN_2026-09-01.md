@@ -1,4 +1,4 @@
-# VoxVector Engineering Plan — 2026-09-01
+# VoxVector Engineering Plan — 2026-09-01 / 2026-09-02
 
 ## Current objective
 
@@ -63,6 +63,7 @@ Status: active integration.
 - Render runtime/deployment/log visibility from the Developer Console
 - responsive, scroll-safe, collapsible workbench interaction
 - consistent human-readable status vocabulary across checks, tests, pipeline stages, and infrastructure state
+- startup activity feedback that distinguishes measured readiness from indeterminate work
 
 ## Phase 5 — Scientific validation
 
@@ -80,7 +81,7 @@ Case history is backed by the authenticated `/v1/cases` and `/v1/cases/{case_id}
 
 ### Live analysis workflow
 
-The case-analysis route now writes a run record in `running` state before processing begins, updates persisted stage state at measured route boundaries, and replaces the live record with the completed or failed run record at termination.
+The case-analysis route writes a run record in `running` state before processing begins, updates persisted stage state at measured route boundaries, and replaces the live record with the completed or failed run record at termination.
 
 The console polls the selected case while analysis is active and projects the stored lifecycle state into:
 
@@ -90,10 +91,10 @@ The console polls the selected case while analysis is active and projects the st
 - failed stages
 - measured route-boundary duration
 - active run/request identity
-- determinate completion percentage where the persisted stage state supports it
+- determinate completion percentage where persisted stage state supports it
 - indeterminate animated activity while the canonical composite pipeline is executing without internal callbacks
 
-The UI must never turn the indeterminate activity animation into a claim of granular internal stage timing.
+The UI must never turn indeterminate activity animation into a claim of granular internal stage timing.
 
 ## Render integration architecture
 
@@ -106,9 +107,7 @@ Required GitHub repository secrets:
 - `RENDER_API_KEY`
 - `RENDER_SERVICE_ID`
 
-The service ID is now the default workflow target. An optional manual service-ID override is supported for controlled inspection of another service.
-
-The workflow retrieves service inventory, deployment history, and recent logs and stores a seven-day artifact.
+The service ID is the default workflow target. An optional manual service-ID override is supported for controlled inspection of another service.
 
 ### Developer Console
 
@@ -121,9 +120,7 @@ Canonical frontend endpoints:
 
 These endpoints use `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtime environment. They must never receive or expose the secret through browser JavaScript.
 
-Important environment boundary: a GitHub repository secret is available to GitHub Actions, not automatically to the deployed Render process. The Render service must separately receive the same secret values as protected environment variables before the in-console Render API bridge can return live infrastructure state.
-
-Render infrastructure timing remains correlation evidence. Application timing truth remains the backend monotonic measurements.
+The deployed Render service must be configured separately from GitHub repository secrets. Both boundaries use protected secret storage.
 
 ## Console UX hardening
 
@@ -135,9 +132,13 @@ Implemented in the current feature work:
 - Expand All / Collapse All control is available for the workbench;
 - case history is a first-class navigation destination;
 - checks, pipeline state, logs, error metadata, and QA state use consistent human-readable labels;
-- startup preloader progress is stateful rather than a permanently static bar;
+- startup preloader progress is stateful and active bars visually move without pretending to report exact work completed;
 - dashboard surfaces live Render connection state when the bridge is configured;
 - active analysis shows a visible live workflow indicator while persisted run state is changing.
+
+## QA repair checkpoint — 2026-09-02
+
+The uploaded QA evidence identified one regression in diagnostic storage failure handling: the storage result variable could be returned without initialization after a persistence exception. The canonical diagnostic store now initializes the value before the persistence attempt and returns safely on storage failure. A fresh exact-commit QA run is required to close the checkpoint.
 
 ## Observability architecture
 
@@ -160,15 +161,14 @@ Infrastructure evidence:
 
 ## Current gates
 
-- Render runtime environment configured with `RENDER_API_KEY` and `RENDER_SERVICE_ID`
-- GitHub Actions Render workflow execution
-- exact current commit QA
+- exact-commit QA after the diagnostic repair
+- live Render API bridge verification
+- authenticated browser desktop/mobile verification
 - speech-enabled runtime deployment
 - real short-WAV transcription
 - real Community-1 diarization
 - memory/CPU measurement
 - persisted transcript/speaker/multimodal readback
-- browser verification of authenticated console desktop/mobile behavior
 - full internal 21-stage callback telemetry
 
 ## Engineering rule

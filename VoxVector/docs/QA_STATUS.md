@@ -1,14 +1,14 @@
 # VoxVector QA Status
 
-**State date:** 2026-09-01
+**State date:** 2026-09-02
 
 This document records repository-level software QA. It is not a scientific validation report.
 
 ## Current source and verification state
 
-This feature slice is developed on `feature/devconsole-render-live-history` from the canonical `main` branch. A repository write is not a QA result. The branch must pass its GitHub Actions workflow before this slice is recorded as QA-green.
+This audit and repair slice is developed from the canonical `main` branch on `fix/voxvector-observability-console-audit`. A repository write is not a QA result. The repair branch requires a fresh GitHub Actions backend test run and React production build before it is recorded as QA-green.
 
-Latest previously verified code-affecting gate remains historical evidence only. The current feature branch requires a fresh backend test run and React production build.
+The supplied QA artifact for the preceding runtime slice reported **127 passed and 1 failed**. The failure was `tests/test_observability.py::test_diagnostic_store_survives_storage_failure`, where `storage_result` could be returned after a storage exception without being initialized. The canonical diagnostic store has been repaired to initialize the result before the persistence boundary and return safely after storage failure.
 
 The verified software suite establishes implementation behavior for the tested paths. It does not establish scientific deception-detection validity.
 
@@ -39,34 +39,26 @@ The verified software suite establishes implementation behavior for the tested p
 | Analysis Workspace | browser workflow | active implementation | none |
 | Developer Console | case workflow, history, live run projection, Render surface | active implementation | none |
 
-## Current integration state — 2026-09-01
-
-The case-analysis path integrates acquisition artifacts and the canonical results envelope. Configured speech providers are selected lazily through the acquisition layer.
-
-The case-analysis route now persists a run record before entering the measured analysis path, updates the case record as route-boundary stages progress, and persists a completed or failed final state. The console polls the selected case so the active run becomes visible while it is executing.
-
-The current analytical engine remains composite. The internal engine has not yet gained callbacks for every canonical stage, so the Developer Console uses determinate completion counts only for persisted stage states and an explicit indeterminate activity treatment while the composite engine is executing.
-
-The repository contains a server-side Render API bridge under `VoxVector/api/render_api.py`. The bridge is protected by the same Developer Console authentication boundary and reads `RENDER_API_KEY` and `RENDER_SERVICE_ID` from the API runtime environment. These values must be configured separately in Render; GitHub repository secrets are not automatically inherited by the Render process.
-
-The repository workflow `.github/workflows/render-observability.yml` consumes the GitHub `RENDER_API_KEY` and `RENDER_SERVICE_ID` secrets for infrastructure inspection from GitHub Actions. It defaults to the repository service ID and supports a controlled manual override.
-
 ## Console UX QA targets
 
-The feature branch adds:
+The current console implementation includes:
 
-- Case History page backed by the authenticated case list/retrieve routes;
+- Case History backed by authenticated case persistence;
 - reopen behavior that retrieves an existing case without silently creating a new run;
-- collapsible Step 01, Step 02, and Step 03 workbench sections;
+- independently collapsible Case, Upload, and Analysis workbench sections;
 - Expand All / Collapse All controls;
-- sidebar vertical scrolling;
-- route scroll reset to the top of the console main surface;
-- human-readable status normalization for runs, tests, logs, and infrastructure;
-- animated startup initialization progress after real API readiness;
-- live Render Runtime service/deployment/log surface;
-- live analysis run indicator and persisted stage progress.
+- dedicated desktop sidebar scrolling;
+- console route scroll reset;
+- human-readable status normalization;
+- state-derived startup readiness with animated indeterminate active bars;
+- live Render Runtime service/deployment/log inspection;
+- live case run polling and persisted stage-state projection.
 
-Authenticated browser verification remains required for all of the above.
+Authenticated browser verification remains required for these behaviors.
+
+## Render configuration
+
+The VoxVector Render service is intended to receive `RENDER_API_KEY` and `RENDER_SERVICE_ID` as server-side environment variables. The browser never receives the Render credential. GitHub Actions independently consumes repository secrets with those names for infrastructure inspection.
 
 ## Connected workflow QA
 
@@ -92,20 +84,15 @@ The CI workflow verifies backend tests and the production frontend build. Browse
 
 ## Current engineering gates
 
-- fresh exact-commit GitHub Actions QA result for this feature branch
-- speech-enabled provider smoke test in an isolated environment
-- real model acquisition and execution verification
-- pyannote model-access verification
+- fresh exact-commit GitHub Actions QA result for the repair branch
+- authenticated Render API bridge verification on the deployed service
+- authenticated browser verification of Developer Console startup, navigation, case history, and Render Runtime
+- real speech-provider execution and resource profiling
 - persisted transcript/speaker/alignment artifact verification
 - real internal per-stage lifecycle telemetry verification
-- authenticated Developer Console verification against real deployed case data
-- authenticated Render API bridge verification after Render environment configuration
-- signed playback verification
-- case-history reopen verification
 - mobile and keyboard verification
 - reduced-motion verification
 - API failure, timeout, and provider-unavailable verification
-- Render CPU/memory benchmark for speech runtime
 - deployment readback
 
 ## Scientific boundary
@@ -124,5 +111,5 @@ A passing software suite establishes implementation behavior only. Scientific va
 - `docs/SPEECH_RUNTIME_DEPLOYMENT.md`
 - `docs/RENDER_OBSERVABILITY.md`
 - `docs/RENDER_GITHUB_ACTIONS_OBSERVABILITY.md`
-- `docs/ENGINEERING_PLAN_2026-09-01.md`
-- `docs/ENGINEERING_SYNC_2026-09-01.md`
+- `docs/CONSOLE_ENGINEERING_STATUS_2026-09-02.md`
+- `docs/ENGINEERING_AUDIT_2026-09-02.md`

@@ -1,10 +1,10 @@
-# VoxVector Engineering Synchronization — 2026-09-01
+# VoxVector Engineering Synchronization — 2026-09-01 / 2026-09-02
 
 ## Current source of truth
 
 Canonical production branch: `main`.
 
-This feature slice is developed on an isolated branch and must pass repository QA before merge.
+This audit/repair slice is developed on an isolated feature branch and must pass repository QA before merge.
 
 ## Operational foundation
 
@@ -54,25 +54,23 @@ The monolithic analytical pipeline still lacks complete internal callback instru
 
 ### Repository automation
 
-`.github/workflows/render-observability.yml` now consumes:
+`.github/workflows/render-observability.yml` consumes:
 
 - `RENDER_API_KEY`
 - `RENDER_SERVICE_ID`
 
 `RENDER_SERVICE_ID` is the default target; the workflow also accepts an optional manual override.
 
-The workflow retrieves service inventory, deployment history, and recent logs and stores a seven-day diagnostic artifact.
-
 ### Authenticated Developer Console
 
-The backend now provides a server-side Render API bridge:
+The backend provides a server-side Render API bridge:
 
 - `GET /v1/developer/render/status`
 - `GET /v1/developer/render/logs`
 
 The frontend polls these endpoints only from the authenticated console. Render credentials are never passed to browser code.
 
-Critical deployment boundary: GitHub repository secrets are scoped to GitHub Actions. The Render service must separately contain protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables before the server-side console bridge can make authenticated Render API calls.
+The deployed VoxVector Render service should contain protected `RENDER_API_KEY` and `RENDER_SERVICE_ID` environment variables. GitHub repository secrets are separate from Render runtime environment configuration.
 
 ### Infrastructure versus application timing
 
@@ -82,13 +80,11 @@ Render timestamps, deploy state, logs, and service metrics provide infrastructur
 
 ### Navigation
 
-Added first-class `Case History` and `Render Runtime` destinations.
-
-The sidebar now has constrained vertical scrolling so lower navigation items remain reachable on short desktop windows and mobile layouts.
+Added first-class `Case History` and `Render Runtime` destinations. The desktop sidebar has an independent vertical scroll region so lower navigation items remain reachable.
 
 ### Case history
 
-The console now lists authenticated persisted cases using the existing case APIs. Each entry exposes title, case ID, update time, source count, and most recent run summary. Selecting a case opens the persisted case in the Analysis Workspace without creating a new run.
+The console lists authenticated persisted cases using the existing case APIs. Selecting a case opens the persisted case in the Analysis Workspace without creating a new run.
 
 ### Workbench interaction
 
@@ -102,61 +98,56 @@ The workbench also provides Expand All and Collapse All controls.
 
 ### Live analysis progress
 
-A case run is persisted in `running` state before the analysis work begins. Route-boundary lifecycle updates are persisted as the run progresses. The console polls the case at short intervals while the workbench/workspace is active.
+A case run is persisted in `running` state before the analysis work begins. Route-boundary lifecycle updates are persisted as execution proceeds. The console polls the case at short intervals while the workbench/workspace is active.
 
-The visible progress model distinguishes:
-
-- reported completed stages;
-- current running stage where known;
-- pending/queued stages;
-- failed stages;
-- measured stage duration where available;
-- indeterminate animated activity while the composite pipeline is running without granular callbacks.
-
-No animation is presented as proof of a specific internal stage having executed.
+The visible progress model distinguishes completed stages, current running state where known, pending/queued stages, failed stages, measured durations where available, and indeterminate animated activity while the composite pipeline is running without granular callbacks.
 
 ### Startup experience
 
-The Developer Console startup preloader now exposes a visibly advancing initialization percentage instead of a static bar. API readiness remains tied to the real `/health` request.
+Startup readiness is derived from real `/health` state and authenticated session state. Active checks receive animated indeterminate activity without fabricated numeric progress. Completed checks contribute to the aggregate readiness percentage.
 
 ### Consistent status language
 
-The console normalizes statuses into readable labels such as `Ready`, `Uploading`, `Converting`, `Persisting`, `Running`, `Completed`, `Queued`, `Not run`, `Not invoked`, and `Failed`. Logs and test surfaces use human-readable `Request`, `HTTP`, `Revision`, `Stages complete`, and `QA state` labels rather than raw field fragments.
+The console normalizes status terms into readable labels such as `Ready`, `Uploading`, `Converting`, `Persisting`, `Running`, `Completed`, `Queued`, `Not run`, `Not invoked`, and `Failed`.
 
-## Dashboard
+## QA incident and repair — 2026-09-02
 
-The dashboard now surfaces the live Render connection/deployment state when the Render bridge is configured and keeps case navigation, analysis workspace navigation, and the engineering plan in the primary workflow.
+The supplied QA artifact for the preceding source revision reported `127 passed, 1 failed`. The failure was `tests/test_observability.py::test_diagnostic_store_survives_storage_failure`, where `storage_result` could be returned after a storage exception without first being initialized.
 
-The dashboard remains an operator projection. It must not fabricate production metrics or scientific results.
+The canonical diagnostic implementation now initializes `storage_result` before the persistence attempt and safely returns after a storage failure. This restores the documented non-fatal diagnostic-storage contract.
+
+A fresh exact-commit QA run is required before the repair branch is recorded as green.
 
 ## Documentation synchronization
 
-This change updates the active engineering plan and synchronization record and should be reflected in the following canonical/current surfaces as applicable:
+Current synchronized records include:
 
 - `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 - `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
 - `VoxVector/docs/ENGINEERING_SYNC_2026-09-01.md`
-- `VoxVector/docs/PROJECT_DECISION_LOG_DEVCONSOLE_2026-09-01.md`
-- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
-- `VoxVector/docs/ROADMAP.md`
 - `VoxVector/docs/QA_STATUS.md`
-- `VoxVector/api/README.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/CAPABILITY_STATUS.md`
+- `VoxVector/docs/ROADMAP.md`
+- `VoxVector/docs/RENDER_GITHUB_ACTIONS_OBSERVABILITY.md`
+- `VoxVector/docs/CONSOLE_ENGINEERING_STATUS_2026-09-02.md`
+- `VoxVector/docs/ENGINEERING_AUDIT_2026-09-02.md`
+- `VoxVector/docs/CONSOLE_RENDER_CONFIGURATION.md`
 - `VoxVector/docs/audits/`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/`
 
-Historical checkpoints remain historical evidence and are not overwritten merely because the implementation has advanced.
+Historical checkpoints remain historical evidence.
 
 ## Verification state
 
-Repository source writes completed on the feature branch.
+Repository source writes are complete for this engineering slice.
 
 Still required before production claims:
 
-- GitHub Actions backend tests and React build for the feature branch;
-- authenticated browser verification of console scroll reset, sidebar scroll, collapsible sections, case history reopen, Render Runtime state, and live run behavior;
-- Render environment configuration verification for `RENDER_API_KEY` and `RENDER_SERVICE_ID`;
-- controlled Render API request verification;
-- controlled analysis run with visible persisted progress;
+- exact-commit GitHub Actions backend tests and React production build;
+- authenticated browser verification of console scroll reset, sidebar scrolling, collapsible sections, case history reopen, Render Runtime state, and live run behavior;
+- controlled Render API verification against the deployed service;
+- controlled audio analysis with visible persisted progress;
 - final source → commit → workflow → artifact → runtime trace.
 
 ## Scientific boundary
