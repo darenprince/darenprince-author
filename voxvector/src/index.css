@@ -395,3 +395,42 @@ main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   .vv-hero-technology-arrow { animation: none; }
 }
+
+
+/* Stacked Explore cue: prominent label with a stemless chevron beneath. */
+.vv-hero-technology-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .65rem;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem) !important;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-align: center;
+}
+.vv-hero-technology-arrow {
+  min-width: 0;
+  height: .7em;
+  font-size: 2.25rem;
+  font-family: Arial, sans-serif;
+  font-weight: 300;
+  line-height: .55;
+}
+@keyframes vvHeroChevronDown {
+  0%, 100% { transform: translateY(0); opacity: .72; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+.vv-hero-technology-arrow {
+  animation-name: vvHeroChevronDown;
+}
+@media (max-width: 767px) {
+  .vv-hero-technology-link {
+    margin-top: 2.7rem !important;
+    gap: .8rem !important;
+    font-size: 1.18rem !important;
+    letter-spacing: .17em !important;
+  }
+  .vv-hero-technology-arrow {
+    font-size: 2.65rem !important;
+  }
+}
