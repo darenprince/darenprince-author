@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feat/voxvector-render-diagnostic
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       service_id:
