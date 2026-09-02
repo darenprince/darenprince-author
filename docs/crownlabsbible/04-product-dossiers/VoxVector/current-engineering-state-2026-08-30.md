@@ -6,58 +6,63 @@ This document mirrors the current technical state recorded in the canonical `Vox
 
 ## Current engineering stage
 
-**Evidence acquisition, runtime observability, and connected case workflow**
+**Evidence acquisition, runtime observability, connected case workflow, and deployment hardening**
 
-The repaired production path has crossed the basic operational boundary:
+## Current system statistics
 
-`create case → upload WAV → persist private source → secure playback path → case-bound analysis → analysis completion`
+- Public React application: `voxvector/`, version `0.2.36`
+- Backend/analysis engine: `VoxVector/`, version `0.2.26`
+- Canonical pipeline contract: 21 stages
+- Implemented foundations: 14
+- Conditional / not invoked: 4
+- Queued: 3
+- Public frontend host: GitHub Pages via GitHub Actions
+- Backend host: Render
+- Free Render web-service memory budget observed: 512 MB
 
-The active dependency chain is now:
+## Operational path
 
-`live analysis state → evidence acquisition → speaker/transcription execution → alignment → evidence workspace → assessment/reporting`
+`create case → upload WAV → persist private source → secure playback → case-bound analysis → persisted run/result state`
 
 ## Render incident evidence
 
-Render reported repeated `voxvector-api` instance failures explicitly exceeding the **512 MB** memory budget. The September 1 dashboard evidence shows separate OOM failures at approximately 7:54 PM and 8:09 PM with service recovery after each, plus a separate deployment health-check timeout earlier that day.
+Render reported repeated `voxvector-api` instance failures explicitly exceeding the **512 MB** memory budget. The September 1 dashboard evidence showed separate OOM failures at approximately 7:54 PM and 8:09 PM with recovery after each, plus a separate deployment health-check timeout earlier that day.
 
-The connected observability workflow captured a matching memory window that rose from approximately 94.9 MB to 193.5 MB, 197.0 MB, 198.3 MB, and 198.5 MB before a sharp drop to 73.6 MB and later stabilization near 89–93 MB. The sampled series does not resolve the instantaneous >512 MB peak, but the Render instance events independently establish that the service crossed its platform budget.
+The connected observability workflow captured a corresponding memory window rising from approximately 94.9 MB to 193.5 MB, 197.0 MB, 198.3 MB, and 198.5 MB before a sharp lifecycle discontinuity to 73.6 MB and stabilization near 89–93 MB. The sampled series does not resolve the instantaneous >512 MB peak, but the Render instance events independently establish that the service crossed its platform budget.
 
-Raw incident evidence is preserved as GitHub Actions artifact `9829899743` from workflow run `33585450916`.
+Raw incident evidence remains preserved as GitHub Actions artifact `9829899743` from workflow run `33585450916`.
 
 ## Memory-efficiency response
 
-The canonical primary pipeline uses bounded analysis frame chunks. The speech evidence-acquisition path now follows the same principle and computes RMS in bounded frame groups instead of materializing a full-recording frame matrix.
+The speech acquisition path uses bounded frame processing, heavy transcription and diarization phases are serialized, provider references are released after execution, and `VOXVECTOR_MEMORY` records capture RSS and phase timing around heavyweight work.
 
-Heavy transcription and diarization provider phases are serialized in-process. Provider caches are explicitly released after each attempt, followed by garbage collection and best-effort Linux allocator trimming.
+These changes are resource-management and observability controls only. They do not establish scientific validity.
 
-The constrained faster-whisper default is `base` / CPU / `int8` / beam `3`, with environment overrides for larger deployments. `VOXVECTOR_MEMORY` records capture current Linux RSS and phase duration around heavyweight provider phases.
+## Developer Console
 
-These are resource-management and observability changes only.
+The console currently uses the compact 56px navigation baseline, Inter for UI/body text, Cal Sans for display hierarchy, restrained 5–8% tonal surface gradients, Streamline Sharp for shared product chrome, mobile Sheet navigation with explicit X close and swipe dismissal, collapsible workbench sections, and state-oriented workflow presentation.
 
-## Developer Console visual system
+The Case Workbench tracker uses coffee/copper emphasis for the active state, semantic green for completed prerequisites, compact collapsed presentation, and right-aligned status metadata. Literal `Collapsed` text is removed from the workbench chrome.
 
-The public landing page and Developer Console now share the same compact interface baseline:
+The bottom engineering-status surface exposes current source revision, frontend/backend version information, pipeline maturity, API/runtime state, GitHub Actions QA/deployment state, speech-provider readiness, and the documented 512 MB Render memory constraint.
 
-- primary header target of 56px;
-- two-line menu activation with explicit X close state;
-- mobile navigation as a slide-out Sheet with scrim, selection, and swipe dismissal;
-- Inter for all body and UI text;
-- Cal Sans for hero, page-title, and section-heading hierarchy;
-- sentence-case editorial headings with refined kerning, tracking, leading, and balanced wrapping;
-- Streamline Sharp as the canonical shared product icon family through the `SharpIcon` primitive;
-- restrained 5–8% tonal surface gradients.
+## Verification and deployment audit
 
-The changes are presentation and interaction-system refinements only.
+The React typography repair was verified by the canonical `VoxVector QA` workflow and PR preview build before merge. A root GitHub Pages production workflow failure was then traced precisely to `scripts/generate-labs-product-pages.mjs`, where a malformed regular-expression literal in the generated dossier URL expression prevented the existing-site build from reaching VoxVector staging and React build steps.
+
+The corrective change replaces the fragile regex with direct canonical path-string replacement. The correction is now being verified through GitHub Actions before production deployment is considered healthy.
 
 ## Current engineering priorities
 
-1. Verify the compact navigation and typography system in authenticated desktop and mobile browser states.
-2. Verify the Sharp icon collection renders correctly across shared navigation and core product surfaces.
-3. Deploy the constrained speech runtime and capture real `VOXVECTOR_MEMORY` telemetry.
-4. Execute controlled faster-whisper and pyannote runs and verify actual artifacts.
-5. Correlate provider memory, request concurrency, and Render instance lifecycle behavior.
-6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
+1. Complete verification of the root GitHub Pages build repair and Pages artifact.
+2. Verify authenticated desktop/mobile browser rendering of the public React app and Developer Console.
+3. Validate deterministic timer/scroll behavior for workflow tracker auto-collapse.
+4. Deploy constrained speech runtime and capture real `VOXVECTOR_MEMORY` telemetry.
+5. Execute faster-whisper and pyannote Community-1 with actual provider outputs.
+6. Persist transcript, speaker and alignment artifacts under canonical case/run identity.
+7. Complete internal pipeline callback instrumentation where real boundaries exist.
+8. Continue downstream evidence consumers only from acquired real evidence.
 
 ## Scientific boundary
 
-Software build, runtime execution, deployment, telemetry, case history, transcription readiness, diarization labels, acoustic observations, and QA do not establish scientific deception-detection validity. Scientific validation remains separate and task-specific.
+Software builds, QA, deployment state, runtime telemetry, transcription output, diarization labels, acoustic observations and case completion do not establish scientific deception-detection validity. Eligibility/reliability, evidence analysis, candidate classification and final disposition remain separate stages.
