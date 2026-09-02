@@ -8,15 +8,15 @@
   margin: 0 !important;
   transform: none !important;
   align-self: flex-start;
-  height: 64px !important;
-  min-height: 64px !important;
-  max-height: 64px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px !important;
 }
 
 .vv-public-header > div,
 .vv-developer-header > div {
-  height: 64px !important;
-  min-height: 64px !important;
+  height: 56px !important;
+  min-height: 56px !important;
   align-items: center !important;
 }
 
@@ -34,32 +34,77 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   margin: 0 !important;
 }
 
-.vv-public-header .vv-logo-lockup { height: 64px !important; }
+.vv-public-header .vv-logo-lockup { height: 56px !important; }
 .vv-public-header .vv-logo-lockup img,
 .vv-developer-header img { display: block; margin: 0 !important; }
-.vv-public-header .vv-logo-icon { width: 36px !important; height: 36px !important; object-fit: contain; }
-.vv-public-header .vv-logo-wordmark { width: auto !important; max-width: 156px; max-height: 25px !important; object-fit: contain; }
+.vv-public-header .vv-logo-icon { width: 34px !important; height: 34px !important; object-fit: contain; }
+.vv-public-header .vv-logo-wordmark { width: auto !important; max-width: 148px; max-height: 24px !important; object-fit: contain; }
 .vv-developer-header { isolation: isolate; }
 .vv-developer-header > div > div:first-child,
-.vv-developer-header > div > div:last-child { height: 64px !important; display: flex !important; align-items: center !important; }
-.vv-developer-header > div > div:last-child { justify-content: flex-end !important; gap: 12px !important; }
+.vv-developer-header > div > div:last-child { height: 56px !important; display: flex !important; align-items: center !important; }
+.vv-developer-header > div > div:last-child { justify-content: flex-end !important; gap: 8px !important; }
 .vv-developer-header > div > div:last-child a,
 .vv-developer-header > div > div:last-child button { align-self: center !important; border: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; }
 .vv-developer-header > div > div:last-child svg { display: block; flex: 0 0 auto; }
-.vv-developer-header a[aria-label="VoxVector Developer Console"] img { width: 36px !important; height: 36px !important; object-fit: contain; }
+.vv-developer-header a[aria-label="VoxVector Developer Console"] img { width: 32px !important; height: 32px !important; object-fit: contain; }
+
+.vv-menu-glyph {
+  position: relative;
+  display: inline-flex;
+  width: 19px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.vv-menu-glyph > span {
+  position: absolute;
+  left: 0;
+  width: 19px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform .2s ease, top .2s ease;
+}
+.vv-menu-glyph > span:first-child { top: 3px; }
+.vv-menu-glyph > span:last-child { top: 9px; }
+.vv-menu-glyph--close > span:first-child { top: 6px; transform: rotate(45deg); }
+.vv-menu-glyph--close > span:last-child { top: 6px; transform: rotate(-45deg); }
+.vv-menu-trigger { color: var(--vv-muted-strong); transition: color .18s ease, background .18s ease, border-color .18s ease; }
+.vv-menu-trigger:hover { color: var(--vv-text); background: var(--vv-panel-soft); }
+.vv-menu-proxy { display: inline-flex; }
+.vv-menu-proxy svg.lucide-menu { display: none; }
+.vv-menu-proxy > button { position: relative; color: var(--vv-muted-strong); }
+.vv-menu-proxy > button::before,
+.vv-menu-proxy > button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 19px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: translateX(-50%);
+}
+.vv-menu-proxy > button::before { top: 11px; }
+.vv-menu-proxy > button::after { top: 17px; }
+.vv-public-mobile-nav { display: grid; gap: 2px; padding: 6px 0 18px; }
+.vv-public-mobile-nav a { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 6px; border-bottom: 1px solid var(--vv-border); color: var(--vv-muted-strong); text-decoration: none; font-size: 16px; font-weight: 560; }
+.vv-public-mobile-nav a:hover { color: var(--vv-text); }
+.vv-public-mobile-nav .vv-mobile-nav-action { border-bottom: 0; margin-top: 8px; color: var(--vv-text); font-weight: 650; }
+.vv-mobile-nav-meta { margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--vv-border); }
 
 .vv-app [class~="z-[90]"] { z-index: 500 !important; }
 .vv-app [role="dialog"][aria-modal="true"] { position: relative; z-index: 501 !important; }
 .vv-mobile-overlay { z-index: 500 !important; }
 .vv-mobile-sheet { position: relative; z-index: 501 !important; }
 .vv-panel-head h2,
-.vv-panel-head h3 { text-transform: capitalize; letter-spacing: -.025em; }
+.vv-panel-head h3 { text-transform: none; letter-spacing: -.025em; }
 
-/* Keep the case workflow pinned directly beneath the canonical 64px developer header while the case is being built. */
+/* Keep the case workflow pinned directly beneath the canonical 56px developer header while the case is being built. */
 .vv-main [aria-label="Case workflow"] {
   position: -webkit-sticky !important;
   position: sticky !important;
-  top: 64px !important;
+  top: 56px !important;
   z-index: 150 !important;
   margin-top: 0 !important;
   background: color-mix(in srgb, var(--vv-surface) 94%, transparent) !important;
@@ -73,6 +118,6 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   .vv-developer-header { z-index: 400 !important; }
 
   .vv-main [aria-label="Case workflow"] {
-    top: 64px !important;
+    top: 56px !important;
   }
 }
