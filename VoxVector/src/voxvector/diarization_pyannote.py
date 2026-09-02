@@ -35,6 +35,14 @@ class PyannoteDiarizationProvider:
         speech_log("diarization.model_loaded", model_id=model_id)
         return pipeline
 
+    @classmethod
+    def release_models(cls) -> None:
+        """Release cached diarization pipeline references between heavy provider phases."""
+        cls._pipeline.cache_clear()
+
+    def release(self) -> None:
+        self.release_models()
+
     @staticmethod
     def _wav_bytes(signal: np.ndarray, sample_rate: int) -> bytes:
         pcm = np.clip(np.asarray(signal, dtype=np.float32).reshape(-1), -1.0, 1.0)
