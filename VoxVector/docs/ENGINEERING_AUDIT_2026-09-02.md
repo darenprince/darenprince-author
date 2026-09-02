@@ -42,6 +42,14 @@ The console now has compact 56px navigation chrome, Inter for UI/body text, Cal 
 
 The Case Workbench workflow tracker uses subtle tonal differentiation, coffee/copper active emphasis, semantic green completed states, compact collapsed presentation, and right-aligned status metadata. Literal `Collapsed` labels are removed from the workbench chrome.
 
+## Transcription runtime root-cause analysis
+
+The transcription failure was traced through the canonical boundaries. The adapter and provider-selection code existed, but `render.yaml` built the Render service with only `api/requirements.txt`; `faster-whisper` lived in an optional dependency file and therefore was absent from the deployed runtime. This created a false appearance of readiness: configuration could name the provider while execution failed at import time.
+
+The repair creates a transcription-only dependency set, installs it in the canonical Render blueprint, and keeps pyannote out of the default 512 MB service. Case analysis now projects actual acquisition state back into the 21-stage run record instead of permanently leaving transcription/diarization/alignment as queued after acquisition executes.
+
+**Verification boundary:** the wiring repair is source-level until Render rebuild and real WAV execution provide runtime evidence.
+
 ## Current engineering gaps
 
 - Authenticated browser verification of public and Developer Console desktop/mobile presentation remains outstanding.

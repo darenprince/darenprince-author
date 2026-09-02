@@ -15,7 +15,7 @@ const TRACE = {
 
 function stateTone(state) {
   if (['HEALTHY','PASS','FUNCTIONAL','SUCCESS','READY'].includes(state)) return 'healthy'
-  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','STALE','UNAVAILABLE','NOT REPORTED','NOT CONFIGURED','NOT INSTALLED'].includes(state)) return 'warning'
+  if (['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','STALE','UNAVAILABLE','NOT REPORTED','NOT CONFIGURED','NOT INSTALLED','INSTALLED · EXECUTION UNVERIFIED','512 MB CONSTRAINED'].includes(state)) return 'warning'
   return 'error'
 }
 function StateChip({ icon: Icon, label, value, tone }) { return <div className={`vv-eng-state ${tone || stateTone(value)}`}><Icon size={15}/><div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div></div> }
@@ -41,18 +41,18 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar' }){
   const deployFresh=Boolean(deploy&&(!currentRevision||deploy.sha===currentRevision))
   const tested=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':qa?(qaFresh?qa.state:'STALE'):'NOT REPORTED'
   const deployState=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':deploy?(deployFresh?deploy.state:'STALE'):'NOT REPORTED'
-  const transcriptionState=transcription.configured_provider==='not_configured'?'NOT CONFIGURED':transcription.adapter_installed?'READY':'NOT INSTALLED'
+  const transcriptionState=transcription.configured_provider==='not_configured'?'NOT CONFIGURED':transcription.adapter_installed?'INSTALLED · EXECUTION UNVERIFIED':'NOT INSTALLED'
   const diarizationState=diarization.configured_provider==='not_configured'?'NOT CONFIGURED':diarization.adapter_installed&&diarization.hf_token_configured?'READY':!diarization.adapter_installed?'NOT INSTALLED':'TOKEN NOT DETECTED'
   const currentSha=currentRevision||qa?.sha||'NOT EXPOSED'
   const qaChecks=[
     ['API HEALTH',apiState,apiState==='HEALTHY'?'Canonical /health endpoint responding.':'Current API health has not been confirmed.'],
     ['RUNTIME SELF TEST',runtimeState,runtimeState==='PASS'?'Canonical acoustic runtime smoke test passed.':'Runtime self test requires attention.'],
-    ['TRANSCRIPTION RUNTIME',transcriptionState,`${transcription.configured_provider || 'not configured'} · ${transcription.adapter_installed?'faster-whisper adapter installed':'adapter package unavailable'}`],
+    ['TRANSCRIPTION RUNTIME',transcriptionState,`${transcription.configured_provider || 'not configured'} · ${transcription.adapter_installed?'package present; first successful provider execution still required':'adapter package unavailable; Render build is missing the transcription dependency'}`],
     ['DIARIZATION RUNTIME',diarizationState,`${diarization.configured_provider || 'not configured'} · ${diarization.adapter_installed?'pyannote adapter installed':'adapter package unavailable'} · HF token ${diarization.hf_token_configured?'configured':'not detected'}`],
     ['BACKEND + FRONTEND QA',tested,qa?`GitHub Actions #${qa.runNumber||qa.id} · ${qaFresh?'matches current source revision':'does not match current source revision'} · ${qa.updatedAt?new Date(qa.updatedAt).toLocaleString():'time unavailable'}`:'No VoxVector QA run was returned.',qa?.url],
     ['PAGES DEPLOYMENT',deployState,deploy?`GitHub Actions #${deploy.runNumber||deploy.id} · ${deployFresh?'matches current source revision':'does not match current source revision'} · ${deploy.updatedAt?new Date(deploy.updatedAt).toLocaleString():'time unavailable'}`:'No Pages deployment run was returned.',deploy?.url],
     ['21-STAGE BUILD',`${pipeline.total===21?pipeline.implemented_foundations||0:0}/21 BUILT`,`${pipeline.queued||0} queued · ${pipeline.conditional_or_not_invoked||0} conditional/not invoked.`],
-    ['RENDER MEMORY','INCIDENT','512 MB service budget · repeated platform OOM evidence is tracked separately from application telemetry.'],
+    ['RENDER MEMORY','512 MB CONSTRAINED','Transcription is isolated from pyannote in the production dependency set to reduce concurrent heavy-runtime pressure.'],
     ['SCIENTIFIC VALIDATION','NOT VALIDATED','Build and software tests are not scientific validation.'],
   ]
   return <section className={`vv-eng-status vv-eng-status--${mode} ${open?'is-open':'is-collapsed'}`} aria-label="Engineering status">

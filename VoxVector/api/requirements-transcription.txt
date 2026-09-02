@@ -1,0 +1,2 @@
+# Production transcription runtime kept separate from the base API and diarization stack.
+faster-whisper>=1.2,<2

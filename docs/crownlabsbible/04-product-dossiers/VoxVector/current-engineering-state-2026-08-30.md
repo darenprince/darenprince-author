@@ -10,8 +10,8 @@ This document mirrors the current technical state recorded in the canonical `Vox
 
 ## Current system statistics
 
-- Public React application: `voxvector/`, version `0.2.36`
-- Backend/analysis engine: `VoxVector/`, version `0.2.26`
+- Public React application: `voxvector/`, version `0.2.37`
+- Backend/analysis engine: `VoxVector/`, version `0.2.27`
 - Canonical pipeline contract: 21 stages
 - Implemented foundations: 14
 - Conditional / not invoked: 4
@@ -23,6 +23,14 @@ This document mirrors the current technical state recorded in the canonical `Vox
 ## Operational path
 
 `create case → upload WAV → persist private source → secure playback → case-bound analysis → persisted run/result state`
+
+## Transcription runtime repair
+
+The current audit found that the faster-whisper adapter existed but the canonical Render blueprint installed only base API requirements. The production runtime therefore lacked the transcription package. The active repair introduces a transcription-only dependency file, wires it into `render.yaml`, and enables the constrained CPU/int8/base configuration without automatically installing pyannote into the same 512 MB service.
+
+The case workflow also now projects actual acquisition outcomes back into transcription, diarization, and alignment pipeline stages rather than leaving those stages permanently queued after acquisition executes.
+
+Runtime verification remains pending until the repaired service deploys and produces a real persisted transcript.
 
 ## Render incident evidence
 

@@ -3,9 +3,19 @@ services:
     name: voxvector-api
     runtime: python
     rootDir: VoxVector
-    buildCommand: pip install -r api/requirements.txt
+    buildCommand: pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt
     startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: CORS_ORIGINS
         sync: false
+      - key: VOXVECTOR_TRANSCRIPTION_PROVIDER
+        value: faster_whisper
+      - key: VOXVECTOR_WHISPER_MODEL
+        value: base
+      - key: VOXVECTOR_WHISPER_DEVICE
+        value: cpu
+      - key: VOXVECTOR_WHISPER_COMPUTE_TYPE
+        value: int8
+      - key: VOXVECTOR_WHISPER_BEAM_SIZE
+        value: "3"
