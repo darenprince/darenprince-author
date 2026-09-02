@@ -28,9 +28,9 @@ Case records preserve source metadata, SHA-256 provenance, run identity, and pip
 
 ## QA state
 
-The supplied QA log for the preceding feature slice reported `127 passed, 1 failed`. The failure was `tests/test_observability.py::test_diagnostic_store_survives_storage_failure`, caused by `storage_result` being returned after a storage exception without assignment. The canonical diagnostic store has been repaired to initialize the result and safely return after storage persistence failure.
+The diagnostic storage regression was repaired and merged. The exact post-repair GitHub Actions verification for the merged speech telemetry change passed the API test suite and React production build before the change reached `main`.
 
-A fresh exact-commit GitHub Actions run remains the authoritative verification gate for the repair and UI changes.
+The current memory-pressure repair is under fresh GitHub Actions verification on PR #884.
 
 ## Speech intelligence state
 
@@ -43,6 +43,8 @@ The primary next engine layer is implemented as a provider-backed evidence acqui
 - transcript/speaker overlap alignment;
 - normalized multimodal timeline artifact;
 - explicit provider states and failure-tolerant degradation;
+- measured provider execution timing;
+- heavy-provider cache release after execution to reduce persistent model residency;
 - Developer Console speech-runtime readiness reporting through `/health`.
 
 The heavy ML dependencies remain in the optional speech runtime profile rather than the lightweight base API requirements.
@@ -68,6 +70,14 @@ GitHub Actions separately consumes repository secrets `RENDER_API_KEY` and `REND
 
 Render deployment state, instance state, and logs are infrastructure evidence. They do not replace application timing truth.
 
+## Render memory incident — 2026-09-02
+
+Render notified the project that an instance of the `voxvector-api` web service exceeded its memory limit and was automatically restarted. The notification establishes a real infrastructure incident; it does not by itself establish whether the cause was a memory leak, traffic spike, or speech model residency.
+
+Static inspection of the canonical speech providers found that both faster-whisper and pyannote model loaders use process-level `lru_cache` and the case evidence acquisition path invokes them sequentially. That creates a credible memory-pressure path in which the first heavy model remains resident while the second is loaded.
+
+A targeted repair branch now clears each provider's heavy model cache after its execution attempt while preserving returned evidence and timing. The repair is intentionally conservative: it reduces long-lived model residency without changing provider outputs or claiming the Render incident root cause has been proven.
+
 ## Developer Console workflow state
 
 The Developer Console includes:
@@ -91,16 +101,16 @@ Numeric progress is shown only when it represents measured transfer or persisted
 
 ## Current engineering priorities
 
-1. Verify the repaired exact-commit QA and React build.
-2. Verify the live Render API bridge on the deployed VoxVector service.
-3. Verify startup, initial scroll position, sidebar scrolling, workbench collapse, and case-history reopen in authenticated desktop and mobile browsers.
+1. Complete PR #884 QA and React build verification for the memory-pressure repair.
+2. Obtain actual Render logs/metrics around the restart to distinguish model residency from other memory pressure causes.
+3. Verify the live Render API bridge on the deployed VoxVector service.
 4. Execute faster-whisper in a controlled speech-enabled runtime and verify real transcript output/timestamps.
 5. Execute pyannote Community-1 and verify speaker-turn output.
-6. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
-7. Connect transcript-derived data to linguistic/disfluency analysis.
-8. Make acoustic aggregation speaker-aware and build real baseline inputs.
-9. Wire actual internal pipeline callback boundaries without duplicating the engine.
-10. Expand the Evidence Explorer and assessment/report workflow.
+6. Measure memory before, during, and after each provider and across repeated runs.
+7. Persist transcript, speaker, and alignment artifacts under canonical case/run identity.
+8. Connect transcript-derived data to linguistic/disfluency analysis.
+9. Make acoustic aggregation speaker-aware and build real baseline inputs.
+10. Wire actual internal pipeline callback boundaries without duplicating the engine.
 
 ## Integrity boundary
 
