@@ -1,0 +1,32 @@
+{
+  "title": "Crown Labs Brand Logo & Icon Registry",
+  "version": "1.0",
+  "canonical": true,
+  "source": "docs/crownlabsbible/brand-registry.json",
+  "notes": [
+    "Use this registry as the source of truth for documentation-facing brand artwork.",
+    "Binary image files are referenced by repository-relative path and are not duplicated into the documentation tree.",
+    "The supplied Picdetective/deticon.png pairing was classified as PicDetective because the repository identifies it with the PicDetective product.",
+    "VoxVector-Full-logo-black-bg.png was retained exactly as supplied; repository search did not independently index that filename."
+  ],
+  "assets": [
+    {"brand":"Crown Psychology","role":"Full logo / wordmark","path":"assets/images/Crown-Psychology-Wordmark.png","placement":["Crown Psychology documentation overview","product portfolio card","brand registry"]},
+    {"brand":"PicDetective","role":"App icon","path":"Picdetective/deticon.png","placement":["PicDetective documentation references","brand registry"]},
+    {"brand":"Create Vector","role":"App icon","path":"assets/images/create-vector-app-icon.png","placement":["Create Vector references","brand registry"]},
+    {"brand":"CrownCode.ai","role":"Full logo","path":"assets/images/NavLogo.PNG","placement":["CrownCode.ai documentation overview","product references","brand registry"]},
+    {"brand":"Operation Phoenix","role":"App icon","path":"assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png","placement":["Operation Phoenix references","brand registry"]},
+    {"brand":"Sentinel Vault","role":"Logo symbol only","path":"assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png","placement":["Sentinel Vault documentation overview","product references","brand registry"]},
+    {"brand":"Crown Psychology","role":"Promotional hero image","path":"assets/images/369614C7-0374-4409-AD16-E5CCB5CDBDEE.png","placement":["Crown Psychology overview","brand registry"]},
+    {"brand":"Sentinel Vault","role":"App icon","path":"assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png","placement":["Sentinel Vault documentation","product references","brand registry"]},
+    {"brand":"JustUs.chat / Scott","role":"Chat icon","path":"assets/images/IMG_0267.png","placement":["JustUs.chat references","brand registry"]},
+    {"brand":"Sentinel Vault","role":"Documentation hero image","path":"assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png","placement":["Sentinel Vault overview","brand registry"]},
+    {"brand":"Crown Psychology","role":"Architecture page hero","path":"assets/images/EA6882C5-BB64-412B-9F58-395D1208F112.png","placement":["Crown Psychology architecture","brand registry"]},
+    {"brand":"Crown Psychology","role":"Premium app icon","path":"assets/images/Untitled design.png","placement":["Crown Psychology product references","brand registry"]},
+    {"brand":"Crown Labs / CrownCode.ai","role":"Main universal app icon","path":"assets/images/Updated icon.PNG","placement":["Crown Labs documentation chrome","CrownCode.ai references","brand registry"]},
+    {"brand":"PicDetective","role":"Full logo","path":"Picdetective/detlogo2.PNG","placement":["PicDetective documentation references","brand registry"]},
+    {"brand":"Vibe Prism","role":"App icon","path":"assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png","placement":["Vibe Prism references","brand registry"]},
+    {"brand":"CrownCode.ai","role":"Product screenshot","path":"desktopui-Nobg.PNG","placement":["CrownCode.ai overview","brand registry"]},
+    {"brand":"VoxVector","role":"Logo symbol only","path":"VoxVector/Assets/voxvector-icon-final-color.png.PNG","placement":["VoxVector documentation","product portfolio card","brand registry"]},
+    {"brand":"VoxVector","role":"Full logo","path":"VoxVector/Assets/VoxVector-Full-logo-black-bg.png","placement":["VoxVector documentation","brand registry"]}
+  ]
+}
