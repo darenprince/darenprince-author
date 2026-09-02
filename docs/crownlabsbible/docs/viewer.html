@@ -132,12 +132,16 @@ const renderDocPager = (tree, currentPath) => {
 const $=s=>document.querySelector(s),app=$('#app'),navRoot=$('#navRoot'),content=$('#content'),crumbs=$('#breadcrumbRoot'),search=$('#searchInput');let currentDoc=null,currentPath='',scale=Number(localStorage.getItem('readerScale')||1);
 function applyTheme(theme){document.documentElement.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo)}applyTheme(localStorage.getItem('theme')||'dark');document.documentElement.style.setProperty('--reader-scale',scale);if(localStorage.getItem('navCollapsed')==='true')app.classList.add('nav-collapsed');
 function esc(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\\':'&#92;'})[c])}const productAssets={
-'AI Cherry Pie':'../../../../assets/images/icon-master.PNG',
-'Crown Psychology':'../../../../assets/images/logo-brain-symbol-only-crown-psychology.PNG',
+'AI Cherry Pie':'../../../../assets/images/Updated icon.PNG',
+'Crown Psychology':'../../../../assets/images/Untitled design.png',
+'Sentinel Vault':'../../../../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png',
 'Crown SOS':'../../../../emergency-911/CrownSOS-icon.PNG',
+'Operation Phoenix':'../../../../assets/images/05320CFA-0D08-4630-B4D0-40FF84B542D3.png',
+'PicDetective':'../../../../Picdetective/deticon.png',
+'Vibe Prism':'../../../../assets/images/09B332D7-924A-4FE6-A9C0-3380DCD5C861.png',
 'VoxVector':'../../../../VoxVector/Assets/voxvector-icon-final-color.png.PNG',
-'CrownCode.ai':'../../../../labs/crowncode/icons/crowncode-fav.png',
-'CrownCode AI':'../../../../labs/crowncode/icons/crowncode-fav.png'
+'CrownCode.ai':'../../../../assets/images/Updated icon.PNG',
+'CrownCode AI':'../../../../assets/images/Updated icon.PNG'
 };
 function icon(label=''){const src=productAssets[label];return src?'<img class="cl-product-logo" src="'+src+'" alt="" loading="lazy">':'<span class="ms-icon" aria-hidden="true">description</span>'}function flatten(nodes,p=[]){return nodes.flatMap(n=>n.children?flatten(n.children,[...p,n.label]):[{...n,crumb:[...p,n.label]}])}const flat=flatten(tree);flat.unshift({label:'Documentation Platform',path:'05-corporate-infrastructure/documentation-platform.md',crumb:['Corporate Infrastructure','Documentation Platform']});
 function match(n,q){return(n.label+' '+(n.path||'')).toLowerCase().includes(q)||(n.children||[]).some(x=>match(x,q))}function renderNav(q=''){q=q.toLowerCase().trim();navRoot.innerHTML='';tree.forEach(sec=>{if(q&&!match(sec,q))return;const s=document.createElement('div');s.className='cl-section';s.dataset.section=sec.label;s.innerHTML='<button class="cl-section-toggle"><span class="cl-label">'+icon(sec.label)+'<span>'+esc(sec.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-children"></div>';s.querySelector('button').onclick=()=>s.classList.toggle('closed');const kids=s.querySelector('.cl-children');sec.children.forEach(ch=>{if(q&&!match(ch,q))return;if(ch.children){const g=document.createElement('div');g.className='cl-product';g.dataset.group=ch.label;g.innerHTML='<button class="cl-product-toggle"><span class="cl-label">'+icon(ch.label)+'<span>'+esc(ch.label)+'</span></span><span class="cl-chevron">⌄</span></button><div class="cl-leaves"></div>';g.querySelector('button').onclick=()=>g.classList.toggle('closed');ch.children.forEach(d=>{if(!q||match(d,q))g.querySelector('.cl-leaves').appendChild(link(d,[sec.label,ch.label,d.label]))});kids.appendChild(g)}else kids.appendChild(link(ch,[sec.label,ch.label]))});navRoot.appendChild(s)});syncActive()}
