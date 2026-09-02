@@ -23,7 +23,7 @@ class PyannoteDiarizationProvider:
         self.model_id = model_id or os.getenv("VOXVECTOR_DIARIZATION_MODEL", self.model_id)
 
     @staticmethod
-    @lru_cache(maxsize=2)
+    @lru_cache(maxsize=1)
     def _pipeline(model_id: str, token: str):
         try:
             from pyannote.audio import Pipeline
@@ -34,6 +34,14 @@ class PyannoteDiarizationProvider:
         pipeline = Pipeline.from_pretrained(model_id, token=token)
         speech_log("diarization.model_loaded", model_id=model_id)
         return pipeline
+
+    @classmethod
+    def release_models(cls) -> None:
+        """Drop cached diarization pipeline references between heavy phases."""
+        cls._pipeline.cache_clear()
+
+    def release(self) -> None:
+        self.release_models()
 
     @staticmethod
     def _wav_bytes(signal: np.ndarray, sample_rate: int) -> bytes:
