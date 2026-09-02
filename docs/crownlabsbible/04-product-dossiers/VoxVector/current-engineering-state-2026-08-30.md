@@ -18,7 +18,7 @@ The active dependency chain is now:
 
 ## Current QA
 
-The software QA path is maintained separately from scientific validation. The current memory-pressure mitigation and console refinement are undergoing fresh repository verification before merge.
+The software QA path is maintained separately from scientific validation. The current memory-efficiency mitigation and console refinement are undergoing fresh repository verification before merge.
 
 ## Engineering status model
 
@@ -88,15 +88,23 @@ Render reported that an instance of `voxvector-api` exceeded its memory limit an
 
 The incident-window memory series rose from approximately 94.9 MB at 02:10:00 UTC to 193.5 MB at 02:10:30, 197.0 MB at 02:11:00, 198.3 MB at 02:11:30, and 198.5 MB at 02:12:00 and 02:12:30. At 02:13:00 it dropped to approximately 73.6 MB and then stabilized near 89–93 MB.
 
-The discontinuity supports a runtime reset pattern. It does not prove that a speech model caused the incident because the observed sampled peak was below the 512 MB service budget and the telemetry resolution does not capture the exact instantaneous peak.
+Separate Render instance notifications reported actual usage above 512 MB before failure, including repeated failures during the same production period. The exact instantaneous peak and component responsible remain a runtime investigation target.
 
 The same runtime window contained slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds. Those are separate reliability signals requiring correlation.
 
 Raw incident evidence was captured into GitHub Actions artifact `9829899743` from workflow run `33585450916`.
 
+## Memory-efficiency engineering response — 2026-09-02
+
+The evidence-acquisition speech detector now evaluates bounded frame groups rather than materializing a full-recording frame matrix. Heavy speech providers are serialized so concurrent model phases do not intentionally compete for the constrained memory budget.
+
+faster-whisper defaults to the constrained `base` CPU `int8` profile with beam size `3`, while environment overrides remain available. Whisper and pyannote cache references are explicitly released after each provider attempt, followed by garbage collection and best-effort allocator trimming.
+
+`VOXVECTOR_MEMORY` log records capture current Linux process RSS around heavyweight provider phases. This provides a direct runtime measurement path for controlled Render testing rather than relying on coarse platform samples alone.
+
 ## Observability repair
 
-The diagnostic storage regression was repaired. The Render observability workflow now resolves the authenticated workspace, collects service and deployment state, retrieves recent and incident-window logs, and captures memory telemetry for reproducible incident analysis.
+The diagnostic storage regression was repaired. The Render observability workflow resolves the authenticated workspace, collects service and deployment state, retrieves recent and incident-window logs, and captures memory telemetry for reproducible incident analysis.
 
 ## Console visual refinement — 2026-09-02
 
@@ -128,6 +136,8 @@ Canonical synchronization records include:
 - `VoxVector/docs/ENGINEERING_AUDIT_2026-09-02.md`
 - `VoxVector/api/README.md`
 - `.github/workflows/render-observability.yml`
+- `VoxVector/docs/RUNTIME_MEMORY_CONSTRAINTS.md`
+- `VoxVector/docs/SPEECH_RUNTIME_DEPLOYMENT.md`
 
 ## Scientific boundary
 
