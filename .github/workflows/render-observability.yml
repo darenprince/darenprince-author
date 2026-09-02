@@ -45,6 +45,25 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/render-oss/cli/main/bin/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           "$HOME/.local/bin/render" --version
+      - name: Resolve Render workspace
+        run: |
+          render workspaces -o json > render-workspaces.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('render-workspaces.json').read_text())
+          rows=data if isinstance(data,list) else data.get('workspaces') or data.get('data') or []
+          if len(rows) != 1:
+              names=[{'id':x.get('id'),'name':x.get('name')} for x in rows]
+              raise SystemExit(f'Expected exactly one workspace for this automation key; found: {names}')
+          workspace=rows[0]
+          workspace_id=workspace.get('id') or workspace.get('name')
+          if not workspace_id:
+              raise SystemExit('Workspace record did not contain an id or name')
+          Path('render-workspace-id.txt').write_text(str(workspace_id))
+          PY
+          render workspace set "$(cat render-workspace-id.txt)"
+          render workspace current
       - name: Inspect Render service and deployments
         run: |
           render services -o json > render-services.json
