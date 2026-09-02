@@ -8,7 +8,7 @@
     "build:search": "node ./src/search/build-index.mjs",
     "generate:images": "node scripts/generate-image-manifest.js",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "build:site": "npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run lint:metadata && npm run generate:images && npm run styles:build",
+    "build:site": "npm run lint:buttons && npm run build:search && npm run build:labs && npm run generate:icons && npm run prepare:voxvector-public && npm run lint:metadata && npm run generate:images && npm run styles:build",
     "build": "npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build",
     "preview": "vite preview",
     "watch": "npm run generate:icons && npm run generate:images && npm run styles:watch",
@@ -24,6 +24,7 @@
     "lint:metadata": "node scripts/check-deploy-metadata.mjs",
     "lint-staged": "lint-staged",
     "build:labs": "node scripts/generate-products-metadata.mjs && node scripts/generate-labs-product-pages.mjs",
+    "prepare:voxvector-public": "node scripts/apply-voxvector-public-shell.mjs",
     "styles:build": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css",
     "styles:watch": "sass --load-path=node_modules/@uswds/uswds/packages scss/styles.scss assets/styles.css --watch"
   },
@@ -52,7 +53,6 @@
     "tailwindcss": "^3.4.14",
     "the-noun-project-v2": "^1.0.4",
     "typescript": "^5.9.2",
-    "vite": "^7.3.1",
     "vitest": "^3.2.4"
   },
   "dependencies": {
