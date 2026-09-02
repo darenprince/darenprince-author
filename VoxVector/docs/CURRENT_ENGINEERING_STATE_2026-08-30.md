@@ -9,9 +9,9 @@ Current engineering synchronization record for the connected VoxVector applicati
 | Area | Current state |
 |---|---|
 | Public frontend | `voxvector/` React/Vite application |
-| Frontend version | `0.2.36` |
+| Frontend version | `0.2.37` |
 | Backend / analysis engine | `VoxVector/` FastAPI + `src/voxvector/` |
-| Backend version | `0.2.26` |
+| Backend version | `0.2.27` |
 | Public frontend deployment | GitHub Pages via GitHub Actions |
 | Backend deployment | Render |
 | Persistent/auth/media layer | Supabase services |
@@ -32,7 +32,11 @@ Case identity, source metadata, SHA-256 provenance, run identity and lifecycle s
 
 Implemented provider-backed acquisition foundations include media profiling, speech/silence timeline generation, faster-whisper transcription adapter, pyannote Community-1 diarization adapter, transcript/speaker timestamp overlap alignment, normalized multimodal timeline output, explicit provider states, measured provider execution timing, and heavy-provider cache release.
 
-Real provider execution remains deployment-gated. Provider adapter readiness does not establish model quality or deception validity.
+### Transcription incident and repair
+
+The transcription adapter was present in source, but the canonical `render.yaml` installed only the lightweight base requirements. As a result, the production service could configure `faster_whisper` while the `faster_whisper` package was not installed. The repair adds `api/requirements-transcription.txt`, wires it into the Render build, and sets the constrained CPU/int8/base transcription configuration in the canonical service blueprint. pyannote remains separately gated to avoid forcing both heavy stacks into the 512 MB service.
+
+Source wiring is now implemented; successful Render deployment and real transcript output remain the next runtime verification gate.
 
 ## Runtime observability
 
@@ -81,8 +85,10 @@ A separate root GitHub Pages workflow failure was audited and traced to `scripts
 1. Finish the root GitHub Pages build repair and verify the complete deployment artifact.
 2. Perform authenticated browser verification of the public React application and Developer Console on desktop and mobile.
 3. Verify compact workflow auto-collapse using deterministic React timer/scroll state.
-4. Deploy and execute the constrained speech runtime on Render with measured memory/CPU profiling.
-5. Verify real faster-whisper transcription and pyannote speaker turns.
+1. Deploy the transcription wiring repair to Render and confirm `/health` reports `faster_whisper` configured with the adapter installed.
+2. Execute a short known WAV and verify timestamped transcript segments/words persist in the case run.
+3. Capture `VOXVECTOR_MEMORY` before/during/after transcription and repeat sequential runs for retained-RSS behavior.
+4. Keep pyannote disabled on the constrained service until a separate memory-safe diarization deployment path is verified.
 6. Persist transcript, speaker and alignment artifacts under canonical case/run identity.
 7. Complete internal pipeline callback telemetry where real method boundaries exist.
 8. Continue evidence-consumer work only after real acquisition data is present.
