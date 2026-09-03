@@ -102,10 +102,24 @@ jobs:
           set -euo pipefail
           rm -rf _site
           mkdir -p _site/voxvector
-          # Stage only the production root-site output and runtime files.
-          # Never mirror the entire repository into the Pages artifact.
-          rsync -a ./dist/ _site/ \
-            --exclude 'voxvector/**'
+          # The root site Vite configuration intentionally emits its production
+          # files in-place (outDir: ".") for the existing NexusWho entrypoint.
+          # Stage the published runtime surface explicitly instead of assuming ./dist.
+          rsync -a ./ _site/ \
+            --exclude '_site/**' \
+            --exclude '.git/**' \
+            --exclude 'node_modules/**' \
+            --exclude 'voxvector/**' \
+            --exclude 'VoxVector/**' \
+            --exclude 'docs/**' \
+            --exclude 'src/**' \
+            --exclude 'scripts/**' \
+            --exclude 'tests/**' \
+            --exclude '.github/**' \
+            --exclude '*.log' \
+            --exclude 'package*.json' \
+            --exclude 'vite.config.*' \
+            --exclude 'tsconfig*.json'
           rsync -a --delete ./voxvector/dist/ _site/voxvector/
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
