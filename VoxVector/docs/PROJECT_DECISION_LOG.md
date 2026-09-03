@@ -387,3 +387,22 @@ This keeps deployment reliable while preserving build failures as the primary co
 **Migration gate:** No DNS, public frontend API routing, Supabase ownership, or production provider authority changes until the benchmark produces observed measurements and a decision record.
 
 **Audit projection:** The Developer Console audit dataset was updated with the 2026-09-03 Cloud Platform, API, Storage, and Deployment Architecture Audit. Its status is `migration-assessment-complete`; it records repository-observed architecture and recommendations separately from unmeasured provider performance.
+
+
+## 2026-09-03 — Connected Render infrastructure audit and cloud benchmark decision
+
+**Observed Render state:** The connected Render workspace contains one VoxVector web service, `voxvector-api`, rooted at `VoxVector` on `main`. It is currently live, unsuspended, externally reachable, and uses `/health` as its health check.
+
+**Runtime configuration observed:** Python runtime; build command installs both `api/requirements.txt` and `api/requirements-speech.txt`; start command is `uvicorn api.app:app --host 0.0.0.0 --port $PORT`. The service is on Render's free plan in Oregon with one instance and observed limits of 0.15 CPU and approximately 512 MiB memory.
+
+**Operational observation:** Recent logs show repeated successful `GET /health` responses with HTTP 200. Recent memory observations were approximately 92–100 MB during the sampled idle period and CPU observations were approximately 0.0016–0.00175 CPU. HTTP workload and latency metrics were unavailable in the sampled window, so no performance comparison is claimed.
+
+**Deployment observation:** The current live deployment completed successfully at 2026-09-03T07:51:27Z from canonical repository commit `ccbcbec261812c51920a9305ffb265607616d575`.
+
+**Decision:** The immediate infrastructure issue is not a demonstrated outage. The strongest migration rationale is the constrained 0.15 CPU / 512 MiB free-tier baseline, especially because the deployed build installs optional speech-intelligence dependencies. Preserve Render as the baseline and do not switch production routing yet.
+
+**AWS access finding:** AWS Core is connected and can provide region discovery and AWS architecture/deployment guidance. Direct account-resource enumeration was not successfully available through the connected execution surface during this audit, so no claim is made about existing ECS, ECR, billing, or credit state. AWS remains a controlled benchmark candidate rather than a declared migration target.
+
+**Azure/Cosmos boundary:** Cosmos DB must not replace Supabase merely because the connector is available. No observed canonical storage requirement currently justifies introducing a second primary database.
+
+**Next gate:** Containerize the canonical API reproducibly, benchmark equivalent workloads against the measured Render baseline, then record observed startup, readiness, upload, analysis, memory, CPU, failures, and cost before selecting a production compute provider.
