@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { Activity, Database, Gauge, Server, ShieldCheck, Waves, CheckCircle2, LoaderCircle } from 'lucide-react'
-import './ApiStartup.css'
 
 const STEPS = [
   { id: 'connection', label: 'API connection', detail: 'Establishing a connection to the canonical VoxVector API.', icon: Server },
