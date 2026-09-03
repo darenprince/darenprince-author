@@ -1,0 +1,193 @@
+name: VoxVector AWS ECS Benchmark
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'VoxVector/**'
+      - '.github/workflows/voxvector-aws-ecs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: voxvector-aws-ecs-benchmark
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: voxvector-api
+  ECS_CLUSTER: voxvector
+  ECS_SERVICE: voxvector-api
+  ECS_TASK_FAMILY: voxvector-api
+  ECS_EXECUTION_ROLE_ARN: arn:aws:iam::784917519733:role/VoxVectorECSTaskExecutionRole
+  ECS_LOG_GROUP: /ecs/voxvector-api
+  ECS_SUBNETS: subnet-0807abba894e8616e,subnet-0abedef9ddf7a2314
+  ECS_SECURITY_GROUP: sg-0c6668f81a485d251
+  ECS_CONTAINER_PORT: '8000'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials with GitHub OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::784917519733:role/VoxVectorGitHubActionsECSDeploy
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build canonical VoxVector API image
+        run: docker build --file VoxVector/Dockerfile --tag "$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA}" VoxVector
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+
+      - name: Push canonical image to ECR
+        run: docker push "$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA}"
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+
+      - name: Render ECS task definition
+        id: task-def
+        env:
+          IMAGE: ${{ steps.ecr-login.outputs.registry }}/voxvector-api:${{ github.sha }}
+        run: |
+          cat > "$RUNNER_TEMP/voxvector-task-definition.json" <<EOF
+          {
+            "family": "voxvector-api",
+            "networkMode": "awsvpc",
+            "requiresCompatibilities": ["FARGATE"],
+            "cpu": "1024",
+            "memory": "2048",
+            "executionRoleArn": "${ECS_EXECUTION_ROLE_ARN}",
+            "containerDefinitions": [
+              {
+                "name": "voxvector-api",
+                "image": "${IMAGE}",
+                "essential": true,
+                "portMappings": [
+                  {
+                    "containerPort": 8000,
+                    "hostPort": 8000,
+                    "protocol": "tcp"
+                  }
+                ],
+                "environment": [
+                  {"name":"PORT","value":"8000"},
+                  {"name":"VOXVECTOR_DIAGNOSTICS_ENABLED","value":"true"},
+                  {"name":"VOXVECTOR_STORAGE_PROVIDER","value":"supabase"},
+                  {"name":"VOXVECTOR_MEDIA_MAX_BYTES","value":"262144000"},
+                  {"name":"VOXVECTOR_STORAGE_TIMEOUT_SECONDS","value":"5"},
+                  {"name":"VOXVECTOR_LOG_BUCKET","value":"voxvector-logs"},
+                  {"name":"VOXVECTOR_MEDIA_BUCKET","value":"voxvector-media"}
+                ],
+                "healthCheck": {
+                  "command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)\""],
+                  "interval": 30,
+                  "timeout": 10,
+                  "retries": 3,
+                  "startPeriod": 90
+                },
+                "logConfiguration": {
+                  "logDriver": "awslogs",
+                  "options": {
+                    "awslogs-group": "/ecs/voxvector-api",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+          echo "task_definition=$RUNNER_TEMP/voxvector-task-definition.json" >> "$GITHUB_OUTPUT"
+
+      - name: Register ECS task definition
+        id: register
+        run: |
+          TASK_DEF_ARN="$(aws ecs register-task-definition --cli-input-json file://$RUNNER_TEMP/voxvector-task-definition.json --query 'taskDefinition.taskDefinitionArn' --output text)"
+          echo "task_definition_arn=$TASK_DEF_ARN" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update ECS service
+        env:
+          TASK_DEFINITION_ARN: ${{ steps.register.outputs.task_definition_arn }}
+        run: |
+          SERVICE_STATUS="$(aws ecs describe-services --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE" --query 'services[0].status' --output text 2>/dev/null || true)"
+          if [ "$SERVICE_STATUS" = "ACTIVE" ]; then
+            aws ecs update-service \
+              --cluster "$ECS_CLUSTER" \
+              --service "$ECS_SERVICE" \
+              --task-definition "$TASK_DEFINITION_ARN" \
+              --desired-count 1 \
+              --force-new-deployment
+          else
+            aws ecs create-service \
+              --cluster "$ECS_CLUSTER" \
+              --service-name "$ECS_SERVICE" \
+              --task-definition "$TASK_DEFINITION_ARN" \
+              --desired-count 1 \
+              --launch-type FARGATE \
+              --network-configuration "awsvpcConfiguration={subnets=[$ECS_SUBNETS],securityGroups=[$ECS_SECURITY_GROUP],assignPublicIp=ENABLED}"
+          fi
+
+      - name: Wait for ECS service stability
+        run: aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+
+      - name: Resolve benchmark task public endpoint
+        id: endpoint
+        run: |
+          TASK_ARN="$(aws ecs list-tasks --cluster "$ECS_CLUSTER" --service-name "$ECS_SERVICE" --desired-status RUNNING --query 'taskArns[0]' --output text)"
+          test -n "$TASK_ARN" -a "$TASK_ARN" != "None"
+          ENI_ID="$(aws ecs describe-tasks --cluster "$ECS_CLUSTER" --tasks "$TASK_ARN" --query 'tasks[0].attachments[0].details[?name==\`networkInterfaceId\`].value' --output text)"
+          test -n "$ENI_ID" -a "$ENI_ID" != "None"
+          PUBLIC_IP="$(aws ec2 describe-network-interfaces --network-interface-ids "$ENI_ID" --query 'NetworkInterfaces[0].Association.PublicIp' --output text)
+          test -n "$PUBLIC_IP" -a "$PUBLIC_IP" != "None"
+          ENDPOINT="http://${PUBLIC_IP}:8000"
+          echo "endpoint=$ENDPOINT" >> "$GITHUB_OUTPUT"
+          echo "ECS benchmark endpoint: $ENDPOINT"
+
+      - name: Verify AWS benchmark health endpoint
+        env:
+          ENDPOINT: ${{ steps.endpoint.outputs.endpoint }}
+        run: |
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent --show-error --max-time 15 "$ENDPOINT/health"; then
+              echo
+              echo "VoxVector AWS ECS /health verification passed."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "VoxVector AWS ECS /health verification failed." >&2
+          aws ecs describe-services --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+          exit 1
+
+      - name: Record benchmark deployment summary
+        env:
+          ENDPOINT: ${{ steps.endpoint.outputs.endpoint }}
+          TASK_DEFINITION_ARN: ${{ steps.register.outputs.task_definition_arn }}
+        run: |
+          {
+            echo '## VoxVector AWS ECS benchmark deployment'
+            echo
+            echo "Image: $ECR_REPOSITORY:${GITHUB_SHA}"
+            echo "Task definition: $TASK_DEFINITION_ARN"
+            echo "Cluster: $ECS_CLUSTER"
+            echo "Service: $ECS_SERVICE"
+            echo "Compute: 1 vCPU / 2 GiB memory"
+            echo "Health endpoint: $ENDPOINT/health"
+            echo
+            echo 'This deployment is a benchmark environment. Production frontend routing remains on GitHub Pages and production API routing remains on Render until measured comparison results justify a change.'
+            echo 'Supabase credentials are intentionally not copied into this benchmark by automation; full case-analysis parity requires the existing server-side secrets to be provisioned securely before using authenticated analysis workloads.'
+          } >> "$GITHUB_STEP_SUMMARY"
