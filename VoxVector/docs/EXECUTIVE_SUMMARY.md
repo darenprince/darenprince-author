@@ -74,9 +74,11 @@ Internally, the architecture preserves the detailed stage separation required fo
 
 ## API and developer platform
 
-VoxVector includes a canonical FastAPI backend at voxvector.crownlabs.tech.
+VoxVector includes a canonical FastAPI backend at `voxvector.crownlabs.tech`, the original API domain.
 
-The API provides a direct analysis endpoint plus an authenticated case-centered workflow for creating cases, uploading source audio, generating signed playback access, running analysis, and retrieving persisted analysis state.
+A separate AWS deployment environment is now available at `awsapi.crownlabs.tech` through an HTTPS Application Load Balancer backed by ECS Fargate. The AWS environment is separately addressed and does not silently replace the original API domain.
+
+The API provides a direct analysis endpoint plus an authenticated case-centered workflow for creating cases, uploading source audio, generating signed playback access, running analysis, and retrieving persisted analysis state where the configured environment has the required services.
 
 This creates a second product surface beyond the visual application:
 
@@ -136,6 +138,7 @@ It provides:
 - MVP task board
 - task checkoffs
 - phase completion
+- current endpoint and deployment-boundary traceability
 
 ## Intended product development
 
@@ -158,4 +161,4 @@ VoxVector is being engineered toward:
 
 The GitHub repository is the technical source of truth.
 
-The active architecture is defined by the canonical pipeline architecture, product experience, implementation plan, MVP plan, method registry, capability status, QA matrix, and validation records.
+The active architecture is defined by the canonical pipeline architecture, product experience, implementation plan, MVP plan, method registry, capability status, QA matrix, validation records, and `VoxVector/docs/ENDPOINT_REGISTRY.md`.
