@@ -335,3 +335,14 @@ The existing acoustic pipeline remains active. The new work expands the evidence
 **Runtime truth:** Source wiring is implemented. Successful Render rebuild and a real timestamped transcript persisted through the case workflow remain required before provider execution is recorded as verified.
 
 **Workflow correction:** Case analysis must project actual acquisition outcomes into the transcription, diarization, and alignment stage records rather than leaving those stages permanently queued after acquisition executes.
+
+
+## 2026-09-02 — GitHub Pages artifact staging hardening
+
+**Observation:** The Pages workflow could report a successful deployment while staging an overly broad artifact because it mirrored much of the repository into `_site` and then overlaid the VoxVector Vite build. This increased artifact size and made source/generated-file interactions harder to audit.
+
+**Decision:** Stage the root production build output as the Pages root, then stage the VoxVector Vite `dist` output explicitly at `/voxvector/` with stale files removed. Documentation remains copied intentionally to its public routes.
+
+**Guardrails:** The workflow now verifies generated VoxVector HTML, JavaScript, CSS, required public images, and the staged asset directory before uploading the Pages artifact. Deployment success is therefore tied to a clean production artifact rather than a repository mirror.
+
+**Verification boundary:** A successful Actions deployment verifies the built artifact and Pages deployment only. Browser/runtime smoke verification remains a separate source → commit → workflow → artifact → deployed URL check when diagnosing live delivery problems.
