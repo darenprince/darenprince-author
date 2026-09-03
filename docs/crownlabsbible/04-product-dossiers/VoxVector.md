@@ -10,6 +10,8 @@
 
 **Backend target:** `voxvector.crownlabs.tech`
 
+**AWS API environment:** `awsapi.crownlabs.tech`
+
 **Public target:** `darenprince.com/voxvector/`
 
 **Product objective:** Build an advanced full-stack vocal and audio deception analysis platform.
@@ -23,6 +25,16 @@ The platform spans recording ingestion audio preparation provenance recording as
 VoxVector is purpose built for deception analysis.
 
 The product architecture is designed to progress from foundational signal measurement into increasingly sophisticated multimethod inference calibrated models speaker aware intelligence conversational understanding and validated classification.
+
+## Current endpoint roles
+
+The public product experience is currently served from `https://darenprince.com/voxvector/`.
+
+The original API remains `https://voxvector.crownlabs.tech` and is preserved as the existing backend endpoint.
+
+A separate AWS API environment is available at `https://awsapi.crownlabs.tech`, using an AWS Application Load Balancer with HTTPS and an ECS Fargate backend.
+
+The AWS endpoint is an additional deployment environment. It does not silently replace the original API domain.
 
 ## Product experience target
 
@@ -287,6 +299,7 @@ It provides:
 - runtime diagnostics
 - documentation
 - development board
+- deployment endpoint traceability
 
 ## Current analytical foundation
 
@@ -345,7 +358,9 @@ The canonical backend and analysis engine live under `VoxVector/`.
 - `VoxVector/tests/` — QA
 - `VoxVector/docs/` — technical source of truth
 
-Render serves the backend.
+Render serves the original API environment.
+
+AWS provides the separately addressed `awsapi.crownlabs.tech` environment through an HTTPS Application Load Balancer and ECS Fargate.
 
 GitHub Pages serves the public React application.
 
@@ -397,5 +412,7 @@ The technical architecture is maintained in `VoxVector/docs/ARCHITECTURE.md`.
 The canonical pipeline is maintained in `VoxVector/docs/ANALYSIS_PIPELINE.md`.
 
 The method library remains in `VoxVector/docs/MASTER_METHOD_INDEX.md`.
+
+The endpoint map is maintained in `VoxVector/docs/ENDPOINT_REGISTRY.md`.
 
 Material product and architecture changes should be synchronized across these canonical surfaces.
