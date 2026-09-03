@@ -35,6 +35,12 @@ jobs:
       - name: Checkout canonical repository
         uses: actions/checkout@v4
 
+      - name: Run canonical backend QA before deployment
+        working-directory: VoxVector
+        run: |
+          python -m pip install -e ".[dev]"
+          pytest -q
+
       - name: Configure AWS credentials with GitHub OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -49,7 +55,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build canonical VoxVector API image
-        run: docker build --file VoxVector/Dockerfile --tag "$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA}" VoxVector
+        run: docker build --file VoxVector/Dockerfile --build-arg VOXVECTOR_SOURCE_REVISION="$GITHUB_SHA" --build-arg VOXVECTOR_CURRENT_COMMIT_QA="passed_for_source_revision" --tag "$ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA}" VoxVector
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
 
@@ -85,6 +91,8 @@ jobs:
                 ],
                 "environment": [
                   {"name":"PORT","value":"8000"},
+                  {"name":"VOXVECTOR_SOURCE_REVISION","value":"${GITHUB_SHA}"},
+                  {"name":"VOXVECTOR_CURRENT_COMMIT_QA","value":"passed_for_source_revision"},
                   {"name":"VOXVECTOR_DIAGNOSTICS_ENABLED","value":"true"},
                   {"name":"VOXVECTOR_STORAGE_PROVIDER","value":"supabase"},
                   {"name":"VOXVECTOR_MEDIA_MAX_BYTES","value":"262144000"},
