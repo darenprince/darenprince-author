@@ -352,22 +352,18 @@ main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
     background-repeat: no-repeat;
     filter: none !important;
   }
-  /* Preserve the artwork on mobile while keeping text readable and fading naturally into black. */
+  /* Mobile hero artwork stays unobstructed except for the requested 5% edge fades. */
   #product > div:nth-child(2) {
     background: linear-gradient(
       180deg,
-      rgba(0,0,0,.30) 0%,
-      rgba(0,0,0,.16) 22%,
-      rgba(0,0,0,.08) 50%,
-      rgba(0,0,0,.22) 74%,
-      rgba(0,0,0,.72) 92%,
+      #000 0%,
+      rgba(0,0,0,0) 5%,
+      rgba(0,0,0,0) 95%,
       #000 100%
     ) !important;
   }
   #product > div:nth-child(3) {
-    background:
-      radial-gradient(circle at 62% 54%, rgba(210,155,101,.08), transparent 30%),
-      linear-gradient(180deg, rgba(0,0,0,.03), transparent 42%, rgba(0,0,0,.55) 100%) !important;
+    background: transparent !important;
   }
   #product > .relative {
     min-height: 760px;
