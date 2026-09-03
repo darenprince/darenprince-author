@@ -355,3 +355,12 @@ The 2026-09-02 Pages hardening change incorrectly assumed the root application p
 **Correction:** The workflow now stages the root runtime from the canonical in-place output while explicitly excluding source, dependencies, workflows, repository metadata, VoxVector source trees, documentation source trees, tests, and build configuration. VoxVector and documentation remain staged separately from their canonical production/public locations.
 
 **Guardrail:** Do not assume a repository-wide `dist` convention. Verify each application's actual Vite `outDir` before changing deployment staging.
+
+
+### 2026-09-03 — Deployment checks simplified
+
+The Pages workflow had accumulated artifact-specific verification gates that could block a valid deployment because of assumptions about individual filenames, generated asset layouts, or route copies. These brittle checks were removed.
+
+**Current deployment gate:** dependencies install successfully and the root/VoxVector production builds complete. Artifact staging failures still fail the workflow. Post-build reporting is informational and does not block publication on optional file-layout assumptions.
+
+This keeps deployment reliable while preserving build failures as the primary correctness gate. Detailed runtime troubleshooting should be performed separately against the deployed site rather than repeatedly tightening publication checks.
