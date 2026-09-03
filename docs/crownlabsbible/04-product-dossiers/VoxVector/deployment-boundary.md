@@ -1,16 +1,19 @@
 # VoxVector Deployment Boundary
 
 **Status:** Current product mirror
-**Effective:** 2026-08-28
+**Effective:** 2026-09-03
 
 ## Canonical hosting architecture
 
 VoxVector has a deliberately separated deployment architecture:
 
-- **Public frontend:** the React application in `voxvector/`, deployed only through GitHub Pages.
-- **Backend and analysis engine:** the canonical `VoxVector/` workspace, served through Render.
+- **Public frontend:** the React application in `voxvector/`, deployed through GitHub Pages at `https://darenprince.com/voxvector/`.
+- **Original backend and analysis API:** the canonical `VoxVector/` workspace, served through Render at `https://voxvector.crownlabs.tech`.
+- **AWS backend environment:** the canonical `VoxVector/` workspace deployed through GitHub Actions to ECS Fargate behind an AWS Application Load Balancer at `https://awsapi.crownlabs.tech`.
 - **Operational and authentication data:** Supabase, using the existing project architecture.
-- **Deployment automation:** GitHub Actions for the public GitHub Pages build and release path.
+- **Deployment automation:** GitHub Actions for the public GitHub Pages build and AWS container deployment workflows.
+
+The original API hostname remains preserved. AWS does not silently replace it.
 
 ## Vercel
 
@@ -30,23 +33,38 @@ The active technical policy is `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`.
 
 Public frontend:
 
-`main → GitHub Actions → React build → GitHub Pages → darenprince.com/voxvector/`
+`main → GitHub Actions → React build → GitHub Pages → https://darenprince.com/voxvector/`
 
-Backend:
+Original API:
 
-`VoxVector → Render → voxvector.crownlabs.tech`
+`VoxVector → Render → https://voxvector.crownlabs.tech`
+
+AWS API environment:
+
+`VoxVector → GitHub Actions → ECR → ECS Fargate → ALB HTTPS → https://awsapi.crownlabs.tech`
 
 The frontend and backend hosting boundaries must remain distinct.
 
+## AWS HTTPS state
+
+The AWS Application Load Balancer terminates HTTPS for `awsapi.crownlabs.tech` using an ACM certificate validated through DNS. HTTP requests redirect to HTTPS. The ECS application port is protected behind the ALB security group.
+
+At the last infrastructure verification, the ALB was active and its VoxVector target was healthy.
 
 ## Data-flow clarification and AUTO workflow
 
-The connected media path is:
+The existing production media path is:
 
 `Browser → GitHub Pages frontend → Render-hosted FastAPI API → Supabase private media storage`
 
-Render runs the API and is not the durable media store. GitHub Pages serves the frontend and is not the API runtime.
+The AWS environment is separately addressed for controlled runtime evaluation. AWS container health does not by itself establish authenticated Supabase parity or a production routing cutover.
+
+Render runs the original API and is not the durable media store. GitHub Pages serves the frontend and is not the API runtime.
 
 The canonical technical architecture and evidence-first AUTO workflow are maintained in:
 
 `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`
+
+The authoritative endpoint map is:
+
+`VoxVector/docs/ENDPOINT_REGISTRY.md`
