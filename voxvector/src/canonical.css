@@ -1,0 +1,36 @@
+/*
+ * VoxVector canonical stylesheet entrypoint.
+ *
+ * Ownership order:
+ * 01 Foundation     - global reset, tokens, layout primitives
+ * 02 Typography     - type system
+ * 03 Shared chrome  - header, navigation, shared controls
+ * 04 Public landing - hero and public-page composition
+ * 05 Developer      - developer work-surface state styling
+ *
+ * Component-specific styles remain with their components only when they are
+ * genuinely local. No refinement, patch, or enhancement stylesheet is loaded
+ * from the application entrypoint.
+ */
+
+/* 01 Foundation */
+@import './index.css';
+
+/* 02 Typography */
+@import './Typography.css';
+
+/* 03 Shared chrome */
+@import './components/SiteHeader.css';
+
+/* 04 Public landing */
+@import './canonical-landing.css';
+
+/* 05 Developer work surfaces */
+@import './coffee-ui.css';
+@import './console-workflow-state.css';
+
+/*
+ * Cascade rule: later sections may intentionally specialize an earlier
+ * foundation rule, but there are no anonymous "override" layers. Every
+ * selector should have an identifiable owner from the sections above.
+ */
