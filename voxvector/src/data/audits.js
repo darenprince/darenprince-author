@@ -1,5 +1,44 @@
 export const AUDIT_REPORTS = [
   {
+    id: 'cloud-platform-architecture-audit-2026-09-03',
+    date: '2026-09-03',
+    title: 'Cloud Platform, API, Storage, and Deployment Architecture Audit',
+    status: 'migration-assessment-complete',
+    scope: ['Canonical repository','Frontend deployment','FastAPI runtime','Audio intake','Supabase services','Render constraints','AWS credit option','Azure credit option'],
+    summary: 'Canonical architecture audit completed before any cloud migration. The public React application is correctly separated from the FastAPI analysis runtime. The working production boundaries should be preserved: GitHub Pages remains the frontend host, Supabase remains the configured authentication, persistence, diagnostics, and private media layer, and only the Render-hosted API/compute boundary is a migration candidate.',
+    findings: [
+      { severity: 'verified', title: 'Frontend should not migrate', detail: 'The canonical voxvector/ React/Vite application is already deployed separately through GitHub Pages. Moving static frontend delivery to AWS or Azure would add cost and operational complexity without solving the API/runtime constraints.' },
+      { severity: 'verified', title: 'Backend migration boundary is clear', detail: 'VoxVector/ contains the canonical Python/FastAPI HTTP adapter and analysis-engine workspace. This is the isolated compute boundary that can be containerized and moved without relocating the public application.' },
+      { severity: 'verified', title: 'Supabase should remain in place initially', detail: 'Supabase is already the configured authentication, persistence, diagnostics, and private media-storage boundary. A cloud migration does not require duplicating this layer into S3, Blob Storage, or another database during the first compute migration.' },
+      { severity: 'high', title: 'Render resource pressure is the primary infrastructure candidate', detail: 'Current engineering status documents a constrained Render runtime and separates heavier transcription/diarization dependencies. Container-based compute with adjustable CPU and memory is the clearest infrastructure improvement target.' },
+      { severity: 'high', title: 'Current analysis request model is synchronous', detail: 'The browser uploads through the FastAPI case route and invokes case-bound analysis through the API. Before introducing queues, jobs, or serverless orchestration, lifecycle behavior must be measured because asynchronous migration should solve an observed runtime constraint rather than be added speculatively.' },
+      { severity: 'warning', title: 'Do not split AWS and Azure production paths', detail: 'Using both credits for one production request path would create unnecessary cross-cloud credentials, networking, billing, and observability complexity. Select one primary compute platform after a small benchmark.' },
+      { severity: 'recommended', title: 'Azure is the first benchmark candidate', detail: 'Given available Azure credit and the existing Python container/runtime boundary, benchmark Azure Container Apps for the FastAPI service first. AWS should remain a comparison target rather than an immediate parallel production migration.' },
+      { severity: 'recommended', title: 'AWS remains a valid second benchmark', detail: 'If Azure Container Apps does not meet cold-start, memory, CPU, deployment, or cost requirements, benchmark the same container on AWS Fargate/App Runner. Preserve the application and Supabase contracts so the comparison is infrastructure-only.' }
+    ],
+    next: [
+      'Build the canonical VoxVector API as a reproducible container without changing API contracts.',
+      'Measure the current Render baseline: startup time, health readiness, upload latency, analysis duration, memory pressure, and failure rate.',
+      'Deploy the identical container to Azure Container Apps using the available credit and run the same controlled smoke workload.',
+      'Compare Azure results against the measured Render baseline before changing DNS, frontend API configuration, or production routing.',
+      'Use AWS credit only for a controlled equivalent benchmark if Azure does not provide a clear operational advantage.',
+      'Keep GitHub Pages and Supabase unchanged during the compute benchmark.',
+      'Record runtime measurements in the audit surface; do not represent cloud-provider migration as scientific validation.'
+    ],
+    evidence: [
+      'VoxVector/docs/OPERATING_CHARTER.md',
+      'VoxVector/docs/DEPLOYMENT_BOUNDARY.md',
+      'VoxVector/docs/SYSTEM_STATE_REPORT.md',
+      'VoxVector/docs/CAPABILITY_STATUS.md',
+      'VoxVector/api/app.py',
+      'VoxVector/api/storage.py',
+      'VoxVector/api/README.md',
+      'voxvector/src/lib/api.js',
+      'voxvector/src/components/DeveloperConsole.jsx'
+    ]
+  },
+
+  {
     id: 'full-auto-audit-2026-09-01-0516',
     date: '2026-09-01',
     title: 'Full AUTO Repository, CI, Architecture, and Observability Audit',
