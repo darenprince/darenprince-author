@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Maximize2, Minus, Plus, Radio, ZoomIn } from 'lucide-react'
-import './Spectrogram.css'
 
 const TAU = Math.PI * 2
 const pad = (n, width = 2) => String(Math.max(0, Math.round(n))).padStart(width, '0')
