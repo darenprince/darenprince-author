@@ -5,10 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import ThemeToggle, { applyTheme, getStoredTheme } from './components/ui/ThemeToggle'
 import { RuntimeBoundary } from './components/RuntimeBoundary'
-import './index.css'
-import './Typography.css'
-import './coffee-ui.css'
-import './console-workflow-state.css'
+import './canonical.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
