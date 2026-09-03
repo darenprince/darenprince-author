@@ -406,3 +406,14 @@ This keeps deployment reliable while preserving build failures as the primary co
 **Azure/Cosmos boundary:** Cosmos DB must not replace Supabase merely because the connector is available. No observed canonical storage requirement currently justifies introducing a second primary database.
 
 **Next gate:** Containerize the canonical API reproducibly, benchmark equivalent workloads against the measured Render baseline, then record observed startup, readiness, upload, analysis, memory, CPU, failures, and cost before selecting a production compute provider.
+
+
+## 2026-09-03 — Runtime provenance and speech-provider readiness hardening
+
+**Decision:** Stop reporting deployment provenance as an implicit host property. Canonical container builds now accept and embed an explicit source revision and current-commit QA status, and the API resolves provenance from deployment environment or embedded build metadata.
+
+**Speech boundary:** The canonical container includes the configured speech dependencies, but transcription and diarization remain provider-gated execution capabilities. Runtime status distinguishes configured provider, dependency installation, token presence where required, selected model, and execution readiness. Dependency presence is not treated as completed speech analysis.
+
+**AWS workflow:** Canonical backend QA now runs before the ECS image is built and deployed. The deployed image receives the exact GitHub SHA and a QA status for that source revision.
+
+**Remaining external configuration:** A Hugging Face diarization token cannot be invented or committed to source. It must be provisioned as a deployment secret after the account has access to the selected model. Provider execution remains unverified until a real controlled run succeeds.
