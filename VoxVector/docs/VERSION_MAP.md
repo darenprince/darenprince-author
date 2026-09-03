@@ -1,6 +1,6 @@
 # VoxVector Version Map
 
-**State date:** 2026-09-01
+**State date:** 2026-09-03
 
 | Area | Version / reference | Status |
 |---|---:|---|
@@ -59,7 +59,7 @@ The product pipeline additionally defines speaker processing, transcription, ali
 
 The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. Heavy speech ML dependencies are optional and are not part of the default runtime dependency set.
 
-The supported current provider choices are faster-whisper for transcription and pyannote Community-1 for speaker diarization. Community-1 currently requires model-access acceptance and a Hugging Face token. citeturn308595search0turn308595search13
+The supported current provider choices are faster-whisper for transcription and pyannote Community-1 for speaker diarization. Community-1 currently requires model-access acceptance and a Hugging Face token. 
 
 ## Frontend authority
 
@@ -69,9 +69,11 @@ Historical React 18 / Tremor documentation is retained only as historical contex
 
 ## Deployment boundary
 
-GitHub Pages is the only supported public frontend host.
+GitHub Pages hosts the public frontend at `https://darenprince.com/voxvector/`.
 
-Render is the canonical backend host.
+The original VoxVector API remains at `https://voxvector.crownlabs.tech`.
+
+AWS provides the separately addressed API environment at `https://awsapi.crownlabs.tech`, using an HTTPS Application Load Balancer and ECS Fargate.
 
 Supabase is the operational/authentication/persistence/diagnostic/private-media service layer.
 
@@ -83,9 +85,11 @@ All implemented analysis remains observational until the defined validation prog
 
 ## Documentation synchronization
 
-The current cross-document synchronization record is `docs/DOCS_ALIGNMENT_2026-09-01.md`.
+The current endpoint map is `docs/ENDPOINT_REGISTRY.md`.
 
-Historical alignment records remain available for traceability.
+The current cloud runtime evidence is `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`.
+
+The current cross-document synchronization record remains available in the active documentation set. Historical alignment records remain available for traceability.
 
 ## 2026-09-01 speech intelligence integration note
 
