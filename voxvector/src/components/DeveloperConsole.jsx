@@ -22,6 +22,8 @@ const DOCS = {
   mvp: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/MVP_BUILD_PLAN.md',
   methodsIndex: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/MASTER_METHOD_INDEX.md',
   capability: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/CAPABILITY_STATUS.md',
+  liveApiAudit: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md',
+  deploymentVariables: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/DEPLOYMENT_VARIABLE_MATRIX.md',
 }
 const PUBLIC = { home: '/voxvector/', developer: '/voxvector/developer/', methods: '/voxvector/methods.html', pipeline: '/voxvector/pipeline.html', imageIndex: '/voxvector/image-index/', sitemap: '/voxvector/sitemap.xml' }
 const phases = [
