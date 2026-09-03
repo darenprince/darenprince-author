@@ -263,3 +263,7 @@ This changes the operational maturity classification of the already implemented 
 - transcript/audio alignment under real provider output
 
 These states remain intentionally separated. The foundation provides contracts and artifacts without claiming unavailable providers have produced data.
+
+## 2026-09-03 Live API configuration audit
+
+The observed live API health contract reported the acoustic foundation healthy with runtime self-test passed. Speech adapters were installed but transcription and diarization providers were not configured, and the expected Hugging Face credential was not visible to the running process. These remain configuration and execution-readiness work, not validated capability. See `docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md` and `docs/DEPLOYMENT_VARIABLE_MATRIX.md`.
