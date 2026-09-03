@@ -2,38 +2,39 @@
    04 Public landing
    ========================================================================== */
 
-/* The hero is a page-level surface. Content stays in the normal layout shell;
-   artwork belongs to the hero itself, not to a separate width-constrained box. */
+/* The hero owns the artwork. Content remains in its normal page shell. */
 #product.vv-hero {
   position: relative;
   width: 100%;
   max-width: none;
+  min-height: 720px;
   margin: 0;
   overflow: hidden;
-  background-color: #000;
+  background: #000;
+}
+
+/* The actual artwork layer. It is the only visual image layer in the hero. */
+#product.vv-hero > .vv-hero-background {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   background-image: url('/voxvector/assets/voxvector-hero-cinematic.svg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-/* The old background node is not a visual layer anymore. */
-#product.vv-hero > .vv-hero-background {
-  display: none;
-}
-
-/* The sole hero overlay. */
+/* No overlay element. The image itself carries the requested edge fade. */
 #product.vv-hero > .vv-hero-edge-fade {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: none;
+  display: none;
 }
 
 #product.vv-hero > .relative {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 /* Large, deliberate navigation cue. */
@@ -51,27 +52,34 @@
 }
 
 @media (max-width: 767px) {
-  /* The hero itself is the viewport width. No transforms or negative margins. */
+  /* The hero itself occupies the full mobile viewport width. */
   #product.vv-hero {
-    width: 100%;
-    max-width: none;
+    width: 100vw;
+    max-width: 100vw;
     min-height: 720px;
     margin: 0;
+    background: #000;
+  }
+
+  /* Full-width portrait artwork. Bottom excess is clipped by the hero. */
+  #product.vv-hero > .vv-hero-background {
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    width: 100vw;
+    max-width: none;
+    height: 100%;
     background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png');
     background-position: center top;
     background-repeat: no-repeat;
-    background-size: 100% auto;
-  }
-
-  /* Nothing darkens the artwork except these two 5% edge fades. */
-  #product.vv-hero > .vv-hero-edge-fade {
-    background: linear-gradient(
-      to bottom,
-      #000 0%,
-      rgba(0, 0, 0, 0) 5%,
-      rgba(0, 0, 0, 0) 95%,
-      #000 100%
-    );
+    background-size: 100vw auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
   }
 
   #product.vv-hero .relative.mx-auto {
