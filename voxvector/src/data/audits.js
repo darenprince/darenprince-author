@@ -1,5 +1,31 @@
 export const AUDIT_REPORTS = [
   {
+    id: 'live-api-speech-runtime-2026-09-03',
+    date: '2026-09-03',
+    title: 'Live API and Speech Runtime Configuration Audit',
+    status: 'remediation-required',
+    scope: ['Live API health','Render runtime','Speech adapters','Hugging Face configuration','Pipeline status','Deployment provenance'],
+    summary: 'The live VoxVector API is healthy and its acoustic analysis foundation passed runtime self-test, but transcription and diarization remain installed rather than operationally configured. The observed runtime cannot see the expected Hugging Face credential and does not report configured speech providers.',
+    findings: [
+      { severity: 'verified', title: 'Core API runtime is healthy', detail: 'The observed health response returned status ok and runtime_self_test passed.' },
+      { severity: 'high', title: 'Transcription adapter is installed but provider is not configured', detail: 'speech_runtime.transcription reported adapter_installed true and configured_provider not_configured.' },
+      { severity: 'high', title: 'Diarization adapter is installed but provider and token are absent', detail: 'speech_runtime.diarization reported adapter_installed true, configured_provider not_configured, and hf_token_configured false.' },
+      { severity: 'warning', title: 'Three speech-related pipeline stages remain queued', detail: 'Speaker identification/diarization, transcription generation, and transcript alignment were reported queued.' },
+      { severity: 'warning', title: 'Live deployment provenance is incomplete', detail: 'source_revision was unknown and current_commit_qa remained external_workflow_required in the observed health response.' },
+      { severity: 'recommended', title: 'Configure exact canonical environment variables before redeployment', detail: 'Cloud dashboard variables must match the backend configuration contract; installed dependencies alone are not execution readiness.' }
+    ],
+    next: [
+      'Inspect the canonical backend environment-variable contract.',
+      'Configure transcription provider and model using supported canonical names.',
+      'Configure diarization provider and model using supported canonical names.',
+      'Provision the Hugging Face credential through Render or AWS secret management.',
+      'Redeploy and verify live execution readiness plus source revision and commit QA metadata.',
+      'Export the post-remediation health evidence into the audit record.'
+    ],
+    evidence: ['Live /health response observed 2026-09-03','Render voxvector-api inspection','VoxVector/api/app.py','VoxVector/api/requirements-speech.txt','Connected Hugging Face account crownlabs-voxvector','VoxVector/docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md']
+  },
+
+  {
     id: 'connected-render-cloud-audit-2026-09-03',
     date: '2026-09-03',
     title: 'Connected Render Runtime and Multi-Cloud Readiness Audit',
