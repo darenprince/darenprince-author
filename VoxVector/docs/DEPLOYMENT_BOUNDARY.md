@@ -1,20 +1,23 @@
 # VoxVector Deployment Boundary
 
 **Status:** Canonical active policy  
-**Effective:** 2026-08-28
+**Effective:** 2026-09-03
 
 ## Purpose
 
-This document defines the deployment boundary for VoxVector so that developers, automation, and AI agents do not confuse historical provider research with the active production architecture.
+This document defines the deployment boundary for VoxVector so that developers, automation, and AI agents do not confuse historical provider research with the active architecture.
 
-## Canonical production architecture
+## Canonical deployment surfaces
 
-| Surface | Canonical system | Rule |
+| Surface | Canonical system | Current endpoint / responsibility |
 |---|---|---|
-| Public frontend | GitHub Pages | `voxvector/` is built from `main` and published under `/voxvector/`. |
-| Backend API | Render | `VoxVector/` is the canonical backend and analysis engine workspace. |
-| Authentication, persistence, diagnostics | Supabase | Use the existing documented Supabase architecture. |
-| Build and deployment automation | GitHub Actions | The public frontend deployment is the repository's GitHub Pages workflow. |
+| Public frontend | GitHub Pages | `https://darenprince.com/voxvector/` |
+| Original API | Render | `https://voxvector.crownlabs.tech` |
+| AWS API environment | AWS ALB + ECS Fargate | `https://awsapi.crownlabs.tech` |
+| Authentication, persistence, diagnostics | Supabase | Existing configured Supabase services |
+| Build and deployment automation | GitHub Actions | Repository controlled workflows |
+
+The original Render API domain is preserved. The AWS endpoint is an additional deployment environment and must not silently replace the Render endpoint.
 
 ## Vercel policy
 
@@ -37,41 +40,50 @@ AI agents and developers working on VoxVector must not configure, add, deploy to
 
 A Vercel result, integration, check, bookmark, cached deployment, or historical document reference must not be interpreted as evidence that Vercel is an active VoxVector platform.
 
-## Required deployment path
+## Required deployment paths
 
-The canonical public path is:
+Public application:
 
 `source on main → GitHub Actions → VoxVector React build → GitHub Pages artifact → https://darenprince.com/voxvector/`
 
-The canonical backend path is:
+Existing API:
 
 `VoxVector backend → Render → https://voxvector.crownlabs.tech`
 
-The frontend and backend deployment boundaries must remain separate.
+AWS API environment:
+
+`VoxVector backend → GitHub Actions → ECR → ECS Fargate → ALB HTTPS → https://awsapi.crownlabs.tech`
+
+The frontend and backend deployment boundaries remain separate.
+
+## AWS HTTPS boundary
+
+The AWS Application Load Balancer terminates HTTPS for `awsapi.crownlabs.tech` using an AWS Certificate Manager certificate validated by DNS. Port 80 redirects to HTTPS. The ECS application port 8000 is restricted to traffic from the ALB security group rather than direct internet ingress.
 
 ## Historical references
 
-Earlier project records contain Vercel references because Vercel was previously considered or used during earlier development exploration. Those records are retained where needed for traceability.
-
-Historical references do not authorize renewed use of Vercel.
-
-The 2026-08-19 project decision documenting Vercel retirement remains the historical decision record. This document establishes the current operational rule in one explicit location.
+Earlier project records contain provider and deployment references from previous development exploration. Historical records are retained where required for traceability and do not override this current boundary.
 
 ## Verification rule
 
-When deployment behavior is uncertain, inspect the repository's current GitHub Actions workflow, package configuration, deployment documentation, and resulting artifact before making changes.
+When deployment behavior is uncertain, inspect the repository's current GitHub Actions workflow, package configuration, deployment documentation, and resulting runtime before making changes.
 
-Do not introduce a second hosting path to work around an unresolved deployment problem.
+Do not introduce a second hosting path merely to work around an unresolved deployment problem.
 
-Never claim a VoxVector deployment succeeded unless the applicable GitHub Actions run and deployed result have actually been verified.
-
+Never claim a VoxVector deployment succeeded unless the applicable workflow and deployed result have actually been verified.
 
 ## System data-flow clarification
 
-The production upload path is:
+The existing production upload path remains:
 
 `Browser → GitHub Pages frontend → Render-hosted FastAPI API → Supabase private media storage`
 
-Render executes the API request but is not the durable media-storage provider. GitHub Pages serves the frontend artifact but is not the API runtime. A healthy host or successful build verifies only its own boundary; failures must be traced across the complete request chain.
+The AWS environment currently has separate compute and ingress infrastructure. Running the canonical container on AWS does not establish authenticated Supabase parity or make AWS the production API automatically.
+
+Render executes the original API request but is not the durable media-storage provider. GitHub Pages serves the frontend artifact but is not the API runtime.
+
+## Canonical endpoint registry
+
+See `docs/ENDPOINT_REGISTRY.md` for the current authoritative endpoint map and future cutover rules.
 
 The consolidated architecture and verification workflow is maintained in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
