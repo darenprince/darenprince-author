@@ -6,6 +6,7 @@
 **Backend root:** `VoxVector/`
 **Frontend root:** `voxvector/`
 **Backend software version:** `0.2.26`
+**Runtime provenance contract:** source revision embedded in container builds; current-commit QA status exposed when deployment workflow supplies it
 **Frontend version:** `0.2.36`
 
 ## Executive summary
@@ -63,6 +64,10 @@ The connected case path is implemented:
 
 Case records preserve ownership, source metadata, SHA-256 provenance, run identity, status, and current run state. Private media uses Supabase Storage and signed URLs.
 
+### Speech runtime configuration boundary
+
+The container includes the canonical speech dependencies (`faster-whisper` and `pyannote.audio`), but execution remains provider-gated. A deployment must explicitly configure the transcription provider/model and, for Hugging Face diarization, provide a runtime token with access to the selected model. The API now reports configuration, dependency presence, execution readiness, and selected model separately. Dependency installation alone is not represented as executed analysis.
+
 ### Current analysis pipeline
 
 The primary `VoxVectorPipeline` integrates acoustic summaries, F0/intensity dynamics, HNR, spectral flux and rolloff, MFCC, formant tracking, pause topology, optional baseline comparison, optional response latency, and optional transcript disfluency observations.
@@ -71,7 +76,7 @@ Current 21-stage implementation state remains:
 
 - 14 implemented runtime foundations;
 - 4 conditional or intentionally not invoked without required inputs;
-- 3 queued for deeper integration.
+- 3 queued for deeper integration.\n\nThose queued stages are not silently promoted by dependency installation. The current engineering work has established runtime readiness and provenance contracts; actual stage execution must be integrated and verified with real provider-backed runs before their status changes to implemented/integrated.
 
 ### Analysis Results / Review Evidence
 
