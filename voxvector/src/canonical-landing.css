@@ -27,11 +27,6 @@
   background-size: cover;
 }
 
-/* No overlay element. The image itself carries the requested edge fade. */
-#product.vv-hero > .vv-hero-edge-fade {
-  display: none;
-}
-
 #product.vv-hero > .relative {
   position: relative;
   z-index: 1;
@@ -73,9 +68,11 @@
     background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png');
     background-position: center top;
     background-repeat: no-repeat;
-    background-size: 100vw auto;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    background-size: cover;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-size: 100% 100%;
