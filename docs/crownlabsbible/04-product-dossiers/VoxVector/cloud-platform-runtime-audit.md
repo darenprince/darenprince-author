@@ -7,13 +7,15 @@
 
 The active VoxVector production architecture remains intentionally split by function: the public React application is delivered through GitHub Pages, the canonical FastAPI analysis runtime is hosted on Render, and Supabase provides the configured authentication, persistence, diagnostics, and private media boundary.
 
-The connected Render audit confirms that the API is live, but its current free runtime is constrained to approximately 0.15 CPU and 512 MiB memory with one instance. Recent sampled memory usage was approximately 92–100 MB and recent CPU usage was low, while repeated `/health` requests returned HTTP 200. These observations are operational evidence, not a controlled workload benchmark.
+The connected Render audit confirms that the API is live, but its current free runtime is constrained to approximately 0.15 CPU and 512 MiB memory with one instance. Recent sampled memory usage was approximately 92–100 MB and repeated `/health` requests returned HTTP 200. These observations are operational evidence, not a controlled workload benchmark.
+
+An AWS ECS/Fargate benchmark foundation has now been assembled in `us-east-1` from the canonical repository. It is a benchmark environment, not a second production route.
 
 ## Current migration decision
 
 The only production migration boundary under consideration is backend compute. GitHub Pages and Supabase remain unchanged during benchmarking.
 
-The next engineering step is to containerize the canonical API reproducibly and benchmark the identical runtime on one candidate cloud platform. Production DNS, frontend API configuration, and persistence ownership should not change until measured results justify the change.
+Render remains the production baseline. AWS is being used as the explicitly requested controlled comparison environment. Production DNS, frontend API configuration, and persistence ownership must not change until measured results justify the change.
 
 ## Connected cloud findings
 
@@ -21,15 +23,28 @@ The next engineering step is to containerize the canonical API reproducibly and 
 
 The live service is `voxvector-api`, rooted at `VoxVector`, on the `main` branch in the Oregon region. It uses Python/FastAPI, has automatic deploys enabled, and checks `/health`.
 
-The latest live deploy is commit `ccbcbec261812c51920a9305ffb265607616d575`.
+The latest live deploy observed in the audit is commit `ccbcbec261812c51920a9305ffb265607616d575`.
 
 No Render Postgres or Key Value instances were present in the connected workspace.
 
 ### AWS
 
-Selected connected AWS inventory checks returned zero S3 buckets, zero ECS clusters in `us-east-1`, and zero ECR repositories in `us-east-1`. The available wrapper did not provide a reliable complete account-wide enumeration for every requested service, so no broader resource, identity, or credit conclusion is recorded here.
+The benchmark foundation now includes:
 
-AWS remains a second benchmark option rather than an immediate production path.
+* ECR repository `voxvector-api` with scan-on-push enabled
+* ECS cluster `voxvector`
+* CloudWatch log group `/ecs/voxvector-api`
+* dedicated ECS execution role
+* GitHub Actions OIDC deployment role restricted to the repository's `main` branch
+* benchmark VPC subnets and security group
+* canonical `VoxVector/Dockerfile`
+* canonical `.github/workflows/voxvector-aws-ecs.yml`
+
+The workflow builds the canonical image, pushes a commit-SHA tag to ECR, registers a 1 vCPU / 2 GiB Fargate task definition, creates or updates the benchmark service, and verifies `/health` against the running task.
+
+At the time of this mirror update, the active workflow had successfully reached AWS credential configuration, identity verification, ECR login, and Docker build. ECS service and `/health` success remain pending direct workflow verification.
+
+The task has no Render or Supabase secret values. Therefore health verification will not by itself establish authenticated case intake or full analysis parity.
 
 ### Azure / Cosmos DB
 
@@ -37,7 +52,7 @@ No usable Azure Cosmos DB inspection capability was exposed in the connected too
 
 ## Required benchmark measurements
 
-The controlled comparison must capture startup/readiness, upload latency, analysis duration, peak CPU, peak memory, process stability, and request failure behavior using the same API container and representative test workload.
+The controlled comparison must capture startup/readiness, upload latency, analysis duration, peak CPU, peak memory, process stability, and request failure behavior using the same canonical API and representative test workload.
 
 A cloud migration result must be reported separately from VoxVector's scientific validation status. Infrastructure measurements do not validate deception inference.
 
