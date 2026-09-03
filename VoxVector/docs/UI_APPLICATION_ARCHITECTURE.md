@@ -19,7 +19,7 @@ The React application under `voxvector/` is the canonical public frontend. It is
 | Server state | TanStack Query | API lifecycle caching refresh mutations and diagnostics polling |
 | Authentication | Supabase Auth | Developer and user identity |
 | Authorization | Supabase metadata plus FastAPI enforcement | Developer access control |
-| API | FastAPI on Render | Canonical backend |
+| API | FastAPI via configured backend environments | Original Render API plus separately addressed AWS API environment |
 | Persistence | Supabase | Case data authentication diagnostics and private media |
 | Deployment | GitHub Pages | Public React application |
 
@@ -294,6 +294,7 @@ It must include:
 - next dependency
 - source traceability
 - audit registry
+- endpoint and deployment-boundary traceability
 
 ### Status semantics
 
@@ -321,7 +322,7 @@ It preserves:
 - cancellable request handling
 - lifecycle event support
 
-The canonical API base defaults to `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`.
+The frontend API base defaults to the original API environment at `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`. The separately addressed AWS environment is `https://awsapi.crownlabs.tech`; configuring the frontend to use AWS is an explicit deployment/configuration decision and is not implied by the existence of the AWS runtime.
 
 ## Deployment boundary
 
@@ -329,12 +330,17 @@ Vercel is retired.
 
 GitHub Pages is the canonical public frontend host.
 
-Render is the canonical backend host.
-
 The public paths are:
 
 - `/voxvector/`
 - `/voxvector/developer/`
+
+The backend environments are:
+
+- original Render API: `https://voxvector.crownlabs.tech`
+- AWS API environment: `https://awsapi.crownlabs.tech`
+
+The original API hostname is preserved. The AWS environment is separately addressed and does not silently replace the existing API.
 
 The root `voxvector.html` is a compatibility redirect only.
 
