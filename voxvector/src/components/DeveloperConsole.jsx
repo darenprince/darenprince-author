@@ -15,7 +15,6 @@ import SiteHeader from './SiteHeader'
 import DeveloperEngineeringStatus from './DeveloperEngineeringStatus'
 import { AUDIT_REPORTS } from '../data/audits'
 import './DeveloperConsole.css'
-import './DeveloperConsoleEnhancements.css'
 import './DeveloperDashboard.css'
 
 const DOCS = {
