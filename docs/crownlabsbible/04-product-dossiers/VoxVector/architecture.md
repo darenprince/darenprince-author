@@ -3,19 +3,28 @@
 ## Canonical Runtime Boundary
 
 ```text
-voxvector.crownlabs.tech / client
+Public React application
+https://darenprince.com/voxvector/
           |
-          v
-VoxVector/api/app.py
-          |
-          v
-VoxVector/src/voxvector/
-          |
-          v
-21 stage VoxVector pipeline
-          |
-          v
-Supabase persistence and diagnostics
+          | configured API endpoint
+          +------------------------------+
+          |                              |
+          v                              v
+https://voxvector.crownlabs.tech   https://awsapi.crownlabs.tech
+Original Render API               AWS ALB + ECS API environment
+          |                              |
+          +--------------+---------------+
+                         v
+                VoxVector/api/app.py
+                         |
+                         v
+                VoxVector/src/voxvector/
+                         |
+                         v
+                21 stage VoxVector pipeline
+                         |
+                         v
+                Supabase persistence and diagnostics
 ```
 
 The FastAPI layer is the interface boundary.
@@ -89,6 +98,12 @@ Render uses `VoxVector` as the backend root and `api.app:app` as the entry point
 
 GitHub Pages hosts the React application under `/voxvector/`.
 
+## AWS Endpoint
+
+`https://awsapi.crownlabs.tech` is the dedicated AWS API environment. It terminates HTTPS at an Application Load Balancer and forwards HTTP traffic to the canonical VoxVector API container on ECS Fargate port 8000.
+
+`https://voxvector.crownlabs.tech` remains the original API domain and is not repointed by this AWS deployment.
+
 ## Developer Console
 
 The Developer Console is the engineering cockpit for the connected MVP path.
@@ -105,6 +120,7 @@ It exposes:
 - MVP task board
 - task checkoffs
 - phase completion
+- endpoint and deployment-boundary traceability
 
 ## Design Properties
 
