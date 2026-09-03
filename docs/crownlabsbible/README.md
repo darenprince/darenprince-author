@@ -34,7 +34,11 @@ VoxVector is a canonical active Crown Labs product entry.
 - Master product dossier: `04-product-dossiers/VoxVector.md`
 - Companion dossier: `04-product-dossiers/VoxVector/`
 - Technical source of truth: `VoxVector/` in `darenprince-author`
-- Intended public target: `voxvector.crownlabs.tech`
+- Public application: `https://darenprince.com/voxvector/`
+- Original API: `https://voxvector.crownlabs.tech`
+- AWS API environment: `https://awsapi.crownlabs.tech`
+
+The public landing/application is currently served from the `/voxvector/` path on darenprince.com. The original API domain remains preserved. The AWS hostname is a separately addressed API environment behind an AWS Application Load Balancer and ECS Fargate.
 
 The companion dossier now follows the established Crown Labs product pattern with overview, executive summary, monetization, valuation, licensing, positioning, architecture, website copy, and ecosystem-role sections.
 
@@ -56,6 +60,8 @@ Documentation should:
 
 When a material VoxVector runtime or architecture change occurs, update `VoxVector/docs/` and the relevant Crown Labs Bible product records. The parallel `crowndocs/content/` mirror should remain synchronized where the same product dossier is maintained. Do not allow the executive mirror to contradict the canonical repository.
 
+For endpoint changes, `VoxVector/docs/ENDPOINT_REGISTRY.md` is the canonical endpoint map. Active product records should preserve the distinction between the public application, the original API domain, and the separately addressed AWS API environment.
+
 ## Status
 
-Active and maintained. VoxVector dossier expansion and CrownDocs synchronization added 2026-08-19.
+Active and maintained. VoxVector endpoint architecture synchronization added 2026-09-03.
