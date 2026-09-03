@@ -449,7 +449,9 @@ UI state must reflect real request and stage state.
 
 GitHub Pages is the public frontend host.
 
-Render is the backend host.
+Render remains the original API host.
+
+AWS provides a separately addressed deployment environment for benchmarking and controlled runtime evaluation.
 
 ```text
 https://darenprince.com/voxvector/
@@ -459,7 +461,10 @@ https://darenprince.com/voxvector/developer/
     authenticated Developer Console
 
 https://voxvector.crownlabs.tech
-    canonical FastAPI API
+    original VoxVector FastAPI API
+
+https://awsapi.crownlabs.tech
+    AWS ALB → ECS Fargate VoxVector API
 ```
 
 The root `voxvector.html` is a compatibility redirect only.
@@ -509,5 +514,7 @@ The Developer Console is the engineering cockpit for this path.
 ## Documentation synchronization
 
 When the pipeline changes update the architecture pipeline implementation plan MVP plan roadmap capability status and AI project instructions together.
+
+When deployment endpoints or hosting responsibilities change, update `docs/ENDPOINT_REGISTRY.md`, the deployment boundary, system architecture, cloud audit, developer engineering surfaces, and the synchronized Crown Labs VoxVector dossier.
 
 The cross document audit record is `docs/DOCS_ALIGNMENT_2026-08-20.md`.
