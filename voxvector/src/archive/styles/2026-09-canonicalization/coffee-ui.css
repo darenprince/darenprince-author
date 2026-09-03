@@ -1,0 +1,66 @@
+:root {
+  --vv-coffee: #b98b62;
+  --vv-coffee-bright: #d2a77f;
+  --vv-satisfied: #34d399;
+}
+
+:where(input, textarea, select, [contenteditable='true']):focus {
+  border-color: var(--vv-coffee) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--vv-coffee) 22%, transparent) !important;
+  outline: none !important;
+}
+
+:where(input, textarea, select, [contenteditable='true']):focus-visible {
+  border-color: var(--vv-coffee) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--vv-coffee) 22%, transparent) !important;
+  outline: none !important;
+}
+
+/* The engineering guide stays neutral. Coffee focus belongs to the real work surfaces. */
+section[aria-label='Case workflow'] > .vv-panel:has(#case-title),
+section[aria-label='Case workflow'] > .vv-panel:has(#audio-file),
+section[aria-label='Case workflow'] > .vv-panel:has(audio) {
+  border: 1px solid var(--vv-coffee) !important;
+  border-radius: 8px;
+  background: rgba(185, 139, 98, 0.028);
+  box-shadow: 0 0 0 1px rgba(185, 139, 98, 0.10), 0 10px 30px rgba(0, 0, 0, 0.14);
+  transition: border-color .28s ease, box-shadow .28s ease, background .28s ease;
+}
+
+section[aria-label='Case workflow'] > .vv-panel:has(#case-title):focus-within,
+section[aria-label='Case workflow'] > .vv-panel:has(#audio-file):focus-within,
+section[aria-label='Case workflow'] > .vv-panel:has(audio):focus-within {
+  border-color: var(--vv-coffee-bright) !important;
+  box-shadow: 0 0 0 2px rgba(185, 139, 98, 0.16), 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+/* Current work surface gets the subtle coffee pulse; green appears when its data is satisfied. */
+section[aria-label='Case workflow'] > .vv-panel:has(#audio-file) {
+  animation: vv-work-surface-pulse 2.8s ease-in-out infinite;
+}
+
+section[aria-label='Case workflow'] > .vv-panel:has(#audio-file):has(.vv-upload-state),
+section[aria-label='Case workflow'] > .vv-panel:has(#case-title):has(.vv-status-row:not(.error)),
+section[aria-label='Case workflow'] > .vv-panel:has(audio):has(audio[src]) {
+  animation: none;
+  border-color: rgba(52, 211, 153, 0.30) !important;
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.10), 0 10px 30px rgba(0, 0, 0, 0.14);
+  background: rgba(52, 211, 153, 0.018);
+}
+
+@keyframes vv-work-surface-pulse {
+  0%, 100% {
+    border-color: var(--vv-coffee);
+    box-shadow: 0 0 0 1px rgba(185, 139, 98, 0.10), 0 10px 30px rgba(0, 0, 0, 0.14);
+  }
+  50% {
+    border-color: var(--vv-coffee-bright);
+    box-shadow: 0 0 0 3px rgba(185, 139, 98, 0.10), 0 13px 34px rgba(0, 0, 0, 0.17);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section[aria-label='Case workflow'] > .vv-panel:has(#audio-file) {
+    animation: none;
+  }
+}
