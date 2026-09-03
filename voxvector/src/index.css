@@ -91,9 +91,6 @@ html[data-theme='light'] [class*='bg-[#0d0906]'] { background: var(--vv-surface-
 html[data-theme='light'] [class*='bg-[#171412]'] { background: var(--vv-text) !important; }
 html[data-theme='light'] [class*='border-white'] { border-color: var(--vv-border) !important; }
 
-/* The supplied hero artwork remains an image asset, but the public product palette is monochrome. */
-#product > div:first-child { filter: grayscale(1) contrast(1.04); }
-#product > div:nth-child(2), #product > div:nth-child(3) { filter: grayscale(1); }
 
 /* Shared shadcn style application primitives. */
 .vv-card {
