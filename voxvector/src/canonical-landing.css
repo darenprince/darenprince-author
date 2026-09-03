@@ -1,74 +1,27 @@
-/* 04 Public landing — hero ownership */
+/* ==========================================================================
+   04 Public landing
+   ========================================================================== */
 
 /*
- * The public landing hero owns its image composition here. The component is
- * responsible for content; CSS is responsible for the visual treatment.
+ * Hero ownership lives here. The component provides exactly two visual layers:
+ * artwork and the edge fade. Do not add overlay or refinement layers.
  */
-#product {
+#product,
+.vv-hero {
   position: relative;
   width: 100%;
   max-width: none;
+  margin: 0;
   overflow: hidden;
+  background: #000;
 }
 
-#product > .vv-hero-background {
+.vv-hero-background {
   position: absolute;
   inset: 0;
   width: 100%;
   max-width: none;
   pointer-events: none;
-  background-repeat: no-repeat;
-}
-
-@media (max-width: 767px) {
-  /* The supplied mobile artwork is portrait. Render it at the actual page
-     width so it is never narrowed by a content shell or cropped by cover. */
-  #product > .vv-hero-background {
-    left: 50%;
-    right: auto;
-    width: 100vw;
-    transform: translateX(-50%);
-    background-position: center top !important;
-    background-size: 100% auto !important;
-    background-repeat: no-repeat !important;
-    filter: none !important;
-  }
-
-  /* The two legacy overlay elements remain in the component for structural
-     compatibility but contribute no visual darkening. The only mobile fade
-     is the edge fade below. */
-  #product > div:nth-child(2),
-  #product > div:nth-child(3) {
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-
-  #product > .vv-hero-background::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      180deg,
-      #000 0%,
-      rgba(0, 0, 0, 0) 5%,
-      rgba(0, 0, 0, 0) 95%,
-      #000 100%
-    );
-  }
-}
-
-
-/* ==========================================================================
-   Public hero
-   ========================================================================== */
-.vv-hero {
-  width: 100%;
-  background: #000;
-}
-
-.vv-hero-background {
-  width: 100%;
   background-image: url('/voxvector/assets/voxvector-hero-cinematic.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -76,33 +29,77 @@
 }
 
 .vv-hero-edge-fade {
-  background: none;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  background: none;
+}
+
+/* Explore link is a deliberate navigation affordance, not secondary microcopy. */
+.vv-hero-technology-link {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .01em;
+}
+
+.vv-hero-technology-arrow {
+  margin-top: .4rem;
+  font-size: 1.75rem;
+  line-height: 1;
 }
 
 @media (max-width: 767px) {
+  /*
+   * Full viewport bleed. The negative viewport margin removes any inherited
+   * page shell inset, so the artwork reaches both physical viewport edges.
+   */
+  #product,
   .vv-hero {
-    min-height: 760px;
+    left: 50%;
     width: 100vw;
     max-width: 100vw;
+    min-height: 720px;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    transform: translateX(-50%);
+    border-left: 0;
+    border-right: 0;
   }
 
+  /*
+   * The portrait artwork is rendered at the actual viewport width. Its natural
+   * lower portion may extend beyond the hero and is intentionally clipped by
+   * the hero rather than shrinking the image or adding side margins.
+   */
   .vv-hero-background {
+    inset: 0;
     width: 100vw;
     max-width: 100vw;
     background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png');
     background-position: center top;
     background-size: 100% auto;
     background-repeat: no-repeat;
+    filter: none;
   }
 
+  /* The only hero overlay: a 5% fade at each edge. */
   .vv-hero-edge-fade {
     background: linear-gradient(
       to bottom,
       #000 0%,
-      rgba(0,0,0,0) 5%,
-      rgba(0,0,0,0) 95%,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 0) 95%,
       #000 100%
     );
+  }
+
+  .vv-hero-technology-link {
+    font-size: 1.25rem;
+    font-weight: 750;
+  }
+
+  .vv-hero-technology-arrow {
+    font-size: 2rem;
   }
 }
