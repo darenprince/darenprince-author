@@ -51,15 +51,15 @@
 
 @media (max-width: 767px) {
   /*
-   * The hero is a viewport-bleed surface. Do not translate it or rely on a
-   * parent content shell: this formula pins both edges to the viewport.
+   * Keep the hero section in normal document flow. Only the artwork bleeds to
+   * the viewport. Moving the section itself caused the clipped content shown
+   * in production screenshots.
    */
   #product.vv-hero {
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
+    max-width: none;
     min-height: 720px;
-    margin-left: calc(50% - 50vw);
-    margin-right: 0;
+    margin: 0;
     left: auto;
     right: auto;
     transform: none;
@@ -68,22 +68,31 @@
   }
 
   /*
-   * Render the supplied portrait artwork across the complete viewport width.
-   * The hero clips only the excess lower portion when necessary.
+   * Full viewport artwork without moving the hero's content coordinate system.
+   * The image is intentionally clipped at the hero bottom if its portrait
+   * height exceeds the available hero area.
    */
   #product.vv-hero > .vv-hero-background {
-    inset: 0;
-    width: 100%;
-    max-width: none;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    max-width: 100vw;
+    height: auto;
+    transform: translateX(-50%);
     background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png');
     background-position: center top;
-    background-size: 100% auto;
+    background-size: 100vw auto;
     background-repeat: no-repeat;
     filter: none;
   }
 
   /* The only visual overlay on the mobile hero. */
   #product.vv-hero > .vv-hero-edge-fade {
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
     background: linear-gradient(
       to bottom,
       #000 0%,
@@ -91,6 +100,13 @@
       rgba(0, 0, 0, 0) 95%,
       #000 100%
     );
+  }
+
+  #product.vv-hero .relative.mx-auto {
+    width: 100%;
+    max-width: none;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   #product.vv-hero .vv-hero-technology-link {
