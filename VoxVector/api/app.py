@@ -39,7 +39,22 @@ from .storage import StorageError
 
 MAX_SAMPLE_RATE = 48_000
 MAX_MEDIA_BYTES = int(os.getenv("VOXVECTOR_MEDIA_MAX_BYTES", str(250 * 1024 * 1024)))
-SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT", "unknown")
+def _source_revision() -> str:
+    for key in ("VOXVECTOR_SOURCE_REVISION", "RENDER_GIT_COMMIT", "GITHUB_SHA"):
+        value = os.getenv(key, "").strip()
+        if value:
+            return value
+    try:
+        with open("/app/.source-revision", "r", encoding="utf-8") as handle:
+            value = handle.read().strip()
+            if value:
+                return value
+    except OSError:
+        pass
+    return "unknown"
+
+SOURCE_REVISION = _source_revision()
+CURRENT_COMMIT_QA = os.getenv("VOXVECTOR_CURRENT_COMMIT_QA", "external_workflow_required").strip() or "external_workflow_required"
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
     CORSMiddleware,
@@ -173,7 +188,7 @@ async def diagnostic_middleware(request: Request, call_next) -> Response:
 @app.get("/health")
 async def health():
     self_test_ok,self_test=_runtime_self_test()
-    return {"status":"ok" if self_test_ok else "degraded","service":"voxvector-analysis-api","pipeline":VoxVectorPipeline.software_version,"source_revision":SOURCE_REVISION,"canonical_package":CANONICAL_PACKAGE,"acoustic_module":ACOUSTIC_MODULE_PATH,"acoustic_source_sha256":ACOUSTIC_SOURCE_SHA256,"acoustic_runtime_signature":ACOUSTIC_RUNTIME_SIGNATURE,"pipeline_module":PIPELINE_MODULE_PATH,"pipeline_source_sha256":PIPELINE_SOURCE_SHA256,"runtime_self_test":self_test,"diagnostic_storage":DIAGNOSTICS.status(),"media_storage":DIAGNOSTICS.storage.media_configured,"analysis_limits":{"max_sample_rate_hz":MAX_SAMPLE_RATE,"max_media_bytes":MAX_MEDIA_BYTES},"pipeline_build":_stage_build_summary(),"speech_runtime":_speech_runtime_status(),"testing":{"current_commit_qa":"external_workflow_required","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}}}
+    return {"status":"ok" if self_test_ok else "degraded","service":"voxvector-analysis-api","pipeline":VoxVectorPipeline.software_version,"source_revision":SOURCE_REVISION,"canonical_package":CANONICAL_PACKAGE,"acoustic_module":ACOUSTIC_MODULE_PATH,"acoustic_source_sha256":ACOUSTIC_SOURCE_SHA256,"acoustic_runtime_signature":ACOUSTIC_RUNTIME_SIGNATURE,"pipeline_module":PIPELINE_MODULE_PATH,"pipeline_source_sha256":PIPELINE_SOURCE_SHA256,"runtime_self_test":self_test,"diagnostic_storage":DIAGNOSTICS.status(),"media_storage":DIAGNOSTICS.storage.media_configured,"analysis_limits":{"max_sample_rate_hz":MAX_SAMPLE_RATE,"max_media_bytes":MAX_MEDIA_BYTES},"pipeline_build":_stage_build_summary(),"speech_runtime":_speech_runtime_status(),"testing":{"current_commit_qa":CURRENT_COMMIT_QA,"source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}}}
 
 async def _read_storage_prefix(prefix: str, limit: int) -> list[dict]:
     storage=DIAGNOSTICS.storage; entries=await asyncio.to_thread(storage.list_json,prefix,min(limit,250),0); records=[]
