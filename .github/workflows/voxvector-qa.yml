@@ -34,6 +34,10 @@ jobs:
         env:
           PYTHONPATH: .
         run: pytest -q
+      - name: Record tested source revision
+        run: |
+          echo "VOXVECTOR_QA_SOURCE_REVISION=$GITHUB_SHA" >> "$GITHUB_ENV"
+          echo "VoxVector QA passed for $GITHUB_SHA"
       - name: Install React application dependencies
         working-directory: voxvector
         run: npm install
