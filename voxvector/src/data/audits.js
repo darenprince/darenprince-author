@@ -1,5 +1,32 @@
 export const AUDIT_REPORTS = [
   {
+    id: 'connected-render-cloud-audit-2026-09-03',
+    date: '2026-09-03',
+    title: 'Connected Render Runtime and Multi-Cloud Readiness Audit',
+    status: 'baseline-verified-cloud-benchmark-pending',
+    scope: ['Connected Render workspace','Live VoxVector API','Deployment history','Runtime limits','CPU and memory telemetry','Health logs','AWS connectivity','Azure Cosmos boundary'],
+    summary: 'Connected infrastructure audit verified the live VoxVector API on Render and established an observed baseline before any migration. Render is currently operational; the main infrastructure limitation observed is its constrained free-tier compute envelope rather than a demonstrated production outage.',
+    findings: [
+      { severity: 'verified', title: 'Render API is live', detail: 'voxvector-api is live, unsuspended, externally reachable, and configured with /health. Recent sampled application logs show repeated HTTP 200 health responses.' },
+      { severity: 'verified', title: 'Canonical deployment is current', detail: 'The current live deployment completed on 2026-09-03 from commit ccbcbec261812c51920a9305ffb265607616d575.' },
+      { severity: 'high', title: 'Render compute envelope is constrained', detail: 'Observed service limits are 0.15 CPU and approximately 512 MiB memory on the free plan. This is the primary infrastructure reason to benchmark adjustable container compute.' },
+      { severity: 'verified', title: 'Idle runtime memory was below the observed limit', detail: 'Sampled idle memory was approximately 92 to 100 MB. This is not a peak analysis measurement and must not be treated as proof that heavy audio workloads fit comfortably.' },
+      { severity: 'warning', title: 'Performance baseline is incomplete', detail: 'HTTP request-count and latency metrics were unavailable in the sampled window. Startup, upload, and full analysis timings still require controlled measurement.' },
+      { severity: 'recommended', title: 'Keep Supabase as the storage boundary', detail: 'No observed requirement justifies replacing or duplicating Supabase with Cosmos DB during compute benchmarking.' },
+      { severity: 'recommended', title: 'AWS remains benchmark-ready but not selected', detail: 'AWS Core connectivity and region discovery are available. Account resource and credit conclusions were not fabricated because direct resource enumeration was unavailable in this audit surface.' }
+    ],
+    next: [
+      'Create a reproducible container for the canonical VoxVector API without changing API contracts.',
+      'Capture controlled Render startup, upload, and analysis measurements.',
+      'Deploy the identical container to one cloud benchmark environment using available credits.',
+      'Do not change production DNS or frontend routing until measured comparison results exist.',
+      'Keep Supabase unchanged and do not introduce Cosmos DB as a duplicate primary store.',
+      'Record every benchmark result and provider decision in canonical documentation and the Developer Console audit surface.'
+    ],
+    evidence: ['Render connected workspace audit','Render service configuration','Render deployment history','Render CPU and memory telemetry','Render application health logs','VoxVector/api/app.py','VoxVector/api/requirements.txt','VoxVector/api/requirements-speech.txt','VoxVector/docs/OPERATING_CHARTER.md']
+  },
+
+  {
     id: 'cloud-platform-architecture-audit-2026-09-03',
     date: '2026-09-03',
     title: 'Cloud Platform, API, Storage, and Deployment Architecture Audit',
