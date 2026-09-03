@@ -111,8 +111,26 @@ def _stage_build_summary() -> dict:
 def _speech_runtime_status() -> dict:
     transcription_provider = os.getenv("VOXVECTOR_TRANSCRIPTION_PROVIDER", "").strip().lower() or "not_configured"
     diarization_provider = os.getenv("VOXVECTOR_DIARIZATION_PROVIDER", "").strip().lower() or "not_configured"
-    return {"transcription": {"configured_provider": transcription_provider, "adapter_installed": importlib.util.find_spec("faster_whisper") is not None}, "diarization": {"configured_provider": diarization_provider, "adapter_installed": importlib.util.find_spec("pyannote.audio") is not None, "hf_token_configured": bool(os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_TOKEN"))}}
-
+    transcription_adapter = importlib.util.find_spec("faster_whisper") is not None
+    diarization_adapter = importlib.util.find_spec("pyannote.audio") is not None
+    hf_token = bool(os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_TOKEN"))
+    transcription_ready = transcription_provider != "not_configured" and transcription_adapter
+    diarization_ready = diarization_provider != "not_configured" and diarization_adapter and hf_token
+    return {
+        "transcription": {
+            "configured_provider": transcription_provider,
+            "adapter_installed": transcription_adapter,
+            "execution_ready": transcription_ready,
+            "model": os.getenv("VOXVECTOR_TRANSCRIPTION_MODEL", "").strip() or None,
+        },
+        "diarization": {
+            "configured_provider": diarization_provider,
+            "adapter_installed": diarization_adapter,
+            "hf_token_configured": hf_token,
+            "execution_ready": diarization_ready,
+            "model": os.getenv("VOXVECTOR_DIARIZATION_MODEL", "").strip() or None,
+        },
+    }
 def _file_sha256(path: str) -> str:
     with open(path, "rb") as handle: return hashlib.sha256(handle.read()).hexdigest()
 
