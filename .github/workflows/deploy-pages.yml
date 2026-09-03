@@ -102,16 +102,11 @@ jobs:
           set -euo pipefail
           rm -rf _site
           mkdir -p _site/voxvector
-          rsync -a ./ _site/ \
-            --exclude _site \
-            --exclude .git \
-            --exclude node_modules \
-            --exclude voxvector/dist \
-            --exclude 'VoxVector/**' \
-            --exclude 'docs/**' \
-            --exclude 'tests/**' \
-            --exclude '*.log'
-          rsync -a ./voxvector/dist/ _site/voxvector/
+          # Stage only the production root-site output and runtime files.
+          # Never mirror the entire repository into the Pages artifact.
+          rsync -a ./dist/ _site/ \
+            --exclude 'voxvector/**'
+          rsync -a --delete ./voxvector/dist/ _site/voxvector/
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
           mkdir -p _site/VoxVector/docs
@@ -129,6 +124,10 @@ jobs:
           test -f _site/voxvector/voxvector-audio-analysis-console.png
           test -f _site/voxvector/VoxVector-logo-word.png
           test -f _site/voxvector/voxvector-icon-final-color.png.PNG
+          # Fail if generated HTML points at assets that were not staged.
+          test -n "$(find _site/voxvector/assets -maxdepth 1 -type f -name '*.js' -print -quit)"
+          test -n "$(find _site/voxvector/assets -maxdepth 1 -type f -name '*.css' -print -quit)"
+          grep -q 'assets/' _site/voxvector/index.html
           echo "VoxVector production Pages artifact verified."
           echo "VoxVector routes staged:"
           find _site/voxvector -maxdepth 2 -type f | sort | head -80
@@ -136,7 +135,7 @@ jobs:
           find _site/docs/crownlabsbible/docs -maxdepth 1 -type f | sort | head -80
           echo "Local VoxVector technical docs mirrored for viewer:"
           find _site/VoxVector/docs -maxdepth 1 -type f | sort | head -80
-          du -sh _site/voxvector _site/docs/crownlabsbible _site/VoxVector/docs
+          du -sh _site _site/voxvector _site/docs/crownlabsbible _site/VoxVector/docs
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
