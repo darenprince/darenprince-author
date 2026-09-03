@@ -364,3 +364,26 @@ The Pages workflow had accumulated artifact-specific verification gates that cou
 **Current deployment gate:** dependencies install successfully and the root/VoxVector production builds complete. Artifact staging failures still fail the workflow. Post-build reporting is informational and does not block publication on optional file-layout assumptions.
 
 This keeps deployment reliable while preserving build failures as the primary correctness gate. Detailed runtime troubleshooting should be performed separately against the deployed site rather than repeatedly tightening publication checks.
+
+
+## 2026-09-03 — Cloud platform architecture audit and migration boundary
+
+**Audit scope:** canonical repository architecture, public frontend, FastAPI runtime, audio intake, Supabase services, Render constraints, and available AWS/Azure credits.
+
+**Observed canonical architecture:**
+
+- `voxvector/` is the React/Vite public application deployed through GitHub Pages.
+- `VoxVector/` is the canonical Python/FastAPI and analysis-engine workspace.
+- Render is the current API runtime.
+- Supabase is the configured authentication, persistence, diagnostics, and private media-storage boundary.
+- Browser upload and case-bound analysis currently traverse the FastAPI API contract; cloud migration must preserve those contracts.
+
+**Decision:** Do not migrate the public frontend or duplicate Supabase during the first infrastructure migration. The isolated candidate is the backend compute/runtime boundary.
+
+**Primary recommendation:** Benchmark the existing backend as an identical container on Azure Container Apps first, using available Azure credit. Azure is a benchmark candidate, not yet the production authority. Measure it against the current Render baseline using startup/readiness, upload behavior, analysis duration, memory pressure, failure behavior, and operational cost.
+
+**AWS role:** AWS remains a valid second benchmark using available credit if Azure does not provide a clear operational advantage. Do not split one production request path across AWS and Azure merely to consume credits.
+
+**Migration gate:** No DNS, public frontend API routing, Supabase ownership, or production provider authority changes until the benchmark produces observed measurements and a decision record.
+
+**Audit projection:** The Developer Console audit dataset was updated with the 2026-09-03 Cloud Platform, API, Storage, and Deployment Architecture Audit. Its status is `migration-assessment-complete`; it records repository-observed architecture and recommendations separately from unmeasured provider performance.
