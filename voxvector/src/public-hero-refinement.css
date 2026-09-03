@@ -48,24 +48,40 @@
 .vv-hero-body { margin-top: 2.15rem !important; }
 .vv-hero-cta-row { margin-top: 3rem !important; }
 
-/* Let the supplied mobile artwork read as artwork instead of a darkened texture. */
+/* Mobile hero: preserve the supplied artwork and use only the requested edge fades. */
 @media (max-width: 767px) {
+  #product > .vv-hero-background {
+    width: 100vw !important;
+    max-width: none !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    background-position: center top !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+
   #product > div:nth-child(2) {
+    width: 100vw !important;
+    max-width: none !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     background: linear-gradient(
       180deg,
-      rgba(0,0,0,.18) 0%,
-      rgba(0,0,0,.08) 22%,
-      rgba(0,0,0,.04) 52%,
-      rgba(0,0,0,.18) 76%,
-      rgba(0,0,0,.52) 92%,
+      #000 0%,
+      rgba(0,0,0,0) 5%,
+      rgba(0,0,0,0) 95%,
       #000 100%
     ) !important;
   }
+
+  /* Remove the additional darkening layer so the hero artwork is unobstructed. */
   #product > div:nth-child(3) {
-    background:
-      radial-gradient(circle at 62% 54%, rgba(210,155,101,.06), transparent 32%),
-      linear-gradient(180deg, rgba(0,0,0,0), transparent 45%, rgba(0,0,0,.42) 100%) !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
+
   .vv-hero-body { margin-top: 2.35rem !important; }
   .vv-hero-cta-row { margin-top: 3.25rem !important; }
   .vv-hero-technology-link {
