@@ -1,0 +1,59 @@
+/* 04 Public landing — hero ownership */
+
+/*
+ * The public landing hero owns its image composition here. The component is
+ * responsible for content; CSS is responsible for the visual treatment.
+ */
+#product {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+}
+
+#product > .vv-hero-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  pointer-events: none;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 767px) {
+  /* The supplied mobile artwork is portrait. Render it at the actual page
+     width so it is never narrowed by a content shell or cropped by cover. */
+  #product > .vv-hero-background {
+    left: 50%;
+    right: auto;
+    width: 100vw;
+    transform: translateX(-50%);
+    background-position: center top !important;
+    background-size: 100% auto !important;
+    background-repeat: no-repeat !important;
+    filter: none !important;
+  }
+
+  /* The two legacy overlay elements remain in the component for structural
+     compatibility but contribute no visual darkening. The only mobile fade
+     is the edge fade below. */
+  #product > div:nth-child(2),
+  #product > div:nth-child(3) {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #product > .vv-hero-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      #000 0%,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 0) 95%,
+      #000 100%
+    );
+  }
+}
