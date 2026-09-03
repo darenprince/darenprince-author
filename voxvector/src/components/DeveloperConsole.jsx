@@ -14,8 +14,6 @@ import CaseAnalysisWorkspace from './CaseAnalysisWorkspace'
 import SiteHeader from './SiteHeader'
 import DeveloperEngineeringStatus from './DeveloperEngineeringStatus'
 import { AUDIT_REPORTS } from '../data/audits'
-import './DeveloperConsole.css'
-import './DeveloperDashboard.css'
 
 const DOCS = {
   methodology: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/ANALYSIS_METHODS.md',
