@@ -136,10 +136,14 @@ Customer-facing confidence must never be created by inventing functionality or r
 
 ## 11. Deployment boundary
 
-VoxVector has two deliberately separated application surfaces in the monorepo:
+VoxVector has deliberately separated application and runtime surfaces in the monorepo:
 
 - **Public React application:** `voxvector/` is the canonical frontend workspace. GitHub Pages builds it and publishes the product landing/application under `https://darenprince.com/voxvector/`.
-- **Backend API:** `VoxVector/` remains the canonical backend and analysis-engine workspace. The HTTP adapter lives under `VoxVector/api/`, the analysis engine remains under `VoxVector/src/voxvector/`, and Render serves the API at `https://voxvector.crownlabs.tech`.
+- **Original API environment:** `VoxVector/` remains the canonical backend and analysis-engine workspace, with the original FastAPI runtime served through Render at `https://voxvector.crownlabs.tech`.
+- **AWS API environment:** the same canonical `VoxVector/` backend is deployed separately through GitHub Actions to AWS ECS Fargate behind an Application Load Balancer at `https://awsapi.crownlabs.tech`.
+- **Operational services:** Supabase provides the configured authentication, persistence, diagnostics, and private media services.
+
+The original API domain is preserved. The AWS endpoint is an additional deployment environment and must not be treated as an implicit production cutover.
 
 The legacy root `voxvector.html` is not a second application. It exists only as a compatibility redirect to `/voxvector/`. It must not contain an independent VoxVector implementation.
 
@@ -179,11 +183,10 @@ VoxVector must remain auditable, reproducible, evidence-based, and honest about 
 
 No workflow, preview, successful build, or deployment status may be represented as scientific validation.
 
-
 ## 14. System-boundary verification and AUTO workflow
 
 The active system architecture and mandatory Architecture → Ownership → Trace → Operate/verify workflow are consolidated in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
 
-Agents must distinguish the public frontend, API runtime, and persistent service boundaries before diagnosing failures. The active production model is GitHub Actions/GitHub Pages for the public React application, Render for the FastAPI runtime, and the configured Supabase services for authentication, persistence, diagnostics, and private media storage. Render hosting the API does not make Render the durable audio store.
+Agents must distinguish the public frontend, original Render API, AWS API environment, and persistent service boundaries before diagnosing failures. The original production model remains GitHub Actions/GitHub Pages for the public React application, Render for the existing API environment, AWS for the separately addressed API environment, and Supabase for authentication, persistence, diagnostics, and private media storage. Render hosting the API does not make Render the durable audio store.
 
 For substantive work, trace `source → commit → workflow → artifact/runtime → external service → browser` and do not replace missing evidence with assumptions.
