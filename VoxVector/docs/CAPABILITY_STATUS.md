@@ -27,9 +27,9 @@ The intended product combines multiple evidence families through a connected cas
 | File Decode and Normalization | Integrated | Canonical normalized media pipeline |
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
-| Speaker Identification / Diarization | Planned research | Production speaker-aware analysis |
+| Speaker Identification / Diarization | Runtime dependency installed; execution provider-gated | Production speaker-aware analysis |
 | Speech Segmentation | **Integrated** | Production speech region segmentation |
-| Transcription Generation | Planned research | Production timestamped ASR |
+| Transcription Generation | Runtime dependency installed; execution provider-gated | Production timestamped ASR |
 | Transcript Alignment | Planned research | Word and audio synchronization |
 | Eligibility and Reliability | Integrated | Complete eligibility and reliability gate |
 | Acoustic Feature Extraction | Integrated | Expanded acoustic observation layer |
