@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
 import { getGitHubWorkflowStatus } from '../lib/githubStatus'
 import appPackage from '../../package.json'
-import './DeveloperEngineeringStatus.css'
 
 const TRACE = {
   source: { label: 'CONSOLE SOURCE', path: 'voxvector/src/components/DeveloperConsole.jsx', href: 'https://github.com/darenprince/darenprince-author/blob/main/voxvector/src/components/DeveloperConsole.jsx' },
