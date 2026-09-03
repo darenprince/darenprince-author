@@ -1,7 +1,7 @@
 # VoxVector System Architecture and AUTO Workflow
 
 **Status:** Canonical active architecture and operating workflow  
-**Effective:** 2026-09-01  
+**Effective:** 2026-09-03  
 **Authority:** Technical implementation is controlled by the VoxVector repository. This document consolidates the current system boundary, deployment model, documentation structure, and mandatory engineering workflow.
 
 ## 1. System at a glance
@@ -49,15 +49,23 @@ Production path:
 
 GitHub Pages owns public static delivery. It does not execute the FastAPI backend.
 
-### Backend API
+### Original API
 
-The canonical backend is `VoxVector/`.
-
-Production path:
+The original VoxVector API remains:
 
 `VoxVector/api + canonical engine → Render runtime → https://voxvector.crownlabs.tech`
 
-Render hosts and executes the API. Render is not the durable media store and is not the public frontend host.
+This domain is preserved as the existing API endpoint.
+
+### AWS API environment
+
+The separately addressed AWS environment is:
+
+`VoxVector/api + canonical engine → GitHub Actions → ECR → ECS Fargate → Application Load Balancer → https://awsapi.crownlabs.tech`
+
+The AWS Application Load Balancer terminates HTTPS using the issued ACM certificate for `awsapi.crownlabs.tech`. HTTP requests on port 80 redirect to HTTPS. ECS application traffic remains on port 8000 behind the ALB security boundary.
+
+AWS is an additional deployment environment. It does not automatically replace the original Render API domain.
 
 ### Operational data
 
@@ -74,11 +82,11 @@ The API mediates authenticated server-side operations between the browser and pr
 
 Audio is **not persisted on Render**.
 
-The connected upload path is:
+The existing production upload path is:
 
 `Browser → GitHub Pages frontend → HTTPS API request → Render-hosted FastAPI runtime → Supabase private media storage`
 
-Render may process the request because it hosts the API, but durable source media belongs to the configured Supabase storage architecture.
+The AWS environment has separate compute/ingress infrastructure. AWS runtime health does not establish authenticated Supabase parity unless those dependencies are deliberately configured and verified there.
 
 ## 3. Application design
 
@@ -125,6 +133,7 @@ Core documents:
 - `PROJECT_DECISION_LOG.md` — durable architectural decisions
 - `ARCHITECTURE.md` — application and analysis architecture
 - `DEPLOYMENT_BOUNDARY.md` — production boundary and hosting responsibility
+- `ENDPOINT_REGISTRY.md` — current endpoint ownership and migration boundary
 - `DEVELOPMENT_WORKFLOW.md` — mandatory editing/migration workflow
 - `STORAGE_AND_OBSERVABILITY.md` — storage and diagnostic architecture
 - `SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md` — consolidated system map and AUTO workflow
@@ -247,11 +256,13 @@ As of this document:
 - `voxvector/` is the canonical public React/Vite workspace.
 - `VoxVector/` is the canonical FastAPI and analysis-engine workspace.
 - GitHub Actions builds/tests and deploys the public frontend artifact to GitHub Pages.
-- Render hosts the FastAPI runtime.
+- Render remains the original API host at `https://voxvector.crownlabs.tech`.
+- AWS exposes a separately addressed API environment at `https://awsapi.crownlabs.tech` through an HTTPS Application Load Balancer and ECS Fargate.
 - Supabase provides the configured authentication, persistence, diagnostics, and private media-storage services.
-- The Developer Console is part of the React application and communicates with the canonical API.
+- The Developer Console is part of the React application and communicates with the configured API endpoint.
 - Audio upload is mediated by the API and persisted through the storage architecture; it is not durable Render storage.
 - Crown Labs documentation mirrors material architecture without overriding repository canon.
+- `VoxVector/docs/ENDPOINT_REGISTRY.md` is the canonical endpoint map.
 
 ## 10. Mandatory agent rule
 
@@ -261,7 +272,16 @@ When uncertain:
 
 Do not fill architectural gaps with assumptions.
 
-
 ## Observability architecture
 
 Operational diagnostics follow: API runtime event → sanitized emitter → immutable Supabase Storage archive plus relational Supabase projection → authenticated diagnostics API → Developer Console. The archive supports provenance and fallback; relational projections support efficient Live Logs and Error Reports. Missing records are a tracing problem until the complete chain is verified.
+
+## 11. Endpoint synchronization rule
+
+The active endpoint roles are:
+
+- Public frontend: `https://darenprince.com/voxvector/`
+- Original API: `https://voxvector.crownlabs.tech`
+- AWS API: `https://awsapi.crownlabs.tech`
+
+Any production API cutover must be explicit, source controlled, tested, and documented. An AWS infrastructure change alone does not authorize changing the frontend API base or repointing the original API domain.
