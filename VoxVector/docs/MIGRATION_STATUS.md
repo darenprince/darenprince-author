@@ -186,3 +186,12 @@ The canonical landing layer now owns the recovered declarative hero artwork trea
 ## Non-negotiable rule
 
 **Never create a new patch to avoid editing the canonical implementation. Never delete an existing patch until its contents and history have been inspected and every required behavior has been migrated into the correct canonical owner or explicitly proven obsolete.**
+
+
+## September 2, 2026 CSS canonicalization
+
+The VoxVector React frontend now has one stylesheet entrypoint: `voxvector/src/canonical.css`, imported only by `voxvector/src/main.jsx`. The manifest defines the cascade in ownership order: foundation, typography, shared chrome, public landing, developer console, visualization, and runtime startup.
+
+Stale refinement and override layers were removed from the active source tree after their contents were either merged into their owning stylesheet or confirmed unreferenced. Historical copies are preserved under `voxvector/src/archive/styles/2026-09-canonicalization/` and are not imported by the production build.
+
+The developer console's former `DeveloperConsoleEnhancements.css`, `coffee-ui.css`, and `console-workflow-state.css` layers were consolidated into `components/DeveloperConsole.css`. Component JSX imports for active styles were removed so the production cascade is visible from the canonical manifest.
