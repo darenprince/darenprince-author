@@ -417,3 +417,18 @@ This keeps deployment reliable while preserving build failures as the primary co
 **AWS workflow:** Canonical backend QA now runs before the ECS image is built and deployed. The deployed image receives the exact GitHub SHA and a QA status for that source revision.
 
 **Remaining external configuration:** A Hugging Face diarization token cannot be invented or committed to source. It must be provisioned as a deployment secret after the account has access to the selected model. Provider execution remains unverified until a real controlled run succeeds.
+
+## 2026-09-03 — Live API audit export and deployment-variable matrix
+
+**Decision:** Preserve the observed live API and speech-runtime state as a canonical Markdown audit and project it into the Developer Console Structured Audits surface. The console must support user-controlled copy/download of audit records rather than trapping evidence inside the UI.
+
+**Observed state:** The live health response reported a healthy core API and passed runtime self-test, while transcription and diarization adapters were installed but providers were not configured and the expected Hugging Face credential was not visible to the runtime. The same response reported incomplete deployment provenance.
+
+**Resolution:**
+
+- canonical audit: `docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md`
+- canonical configuration checklist: `docs/DEPLOYMENT_VARIABLE_MATRIX.md`
+- Developer Console audit index includes the live API audit
+- Developer Console Structured Audits supports copy/download of the audit index and individual audit records
+- secret values remain excluded from documentation and client-side exports
+- variables must match the canonical backend configuration contract before being represented as active
