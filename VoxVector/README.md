@@ -234,6 +234,7 @@ It provides the operational path for:
 - MVP engineering priorities
 - Analysis Workspace access
 - expandable pipeline stage inspection
+- deployment endpoint traceability
 
 The console is intentionally connected to real backend contracts rather than maintaining a separate simulated application state.
 
@@ -381,12 +382,35 @@ The repository currently contains working foundations across the intake pipeline
 ### Operational architecture
 
 - GitHub Pages public frontend deployment
-- Render backend deployment
+- Render original backend API deployment
+- AWS HTTPS API environment at `https://awsapi.crownlabs.tech`
 - Supabase authentication and persistence integration
 - API request correlation
 - durable lifecycle diagnostics
 
 Implementation state is tracked in `docs/CAPABILITY_STATUS.md` rather than inferred from this overview.
+
+---
+
+## Deployment endpoint map
+
+```text
+https://darenprince.com/voxvector/
+        Public React application / landing page
+
+https://darenprince.com/voxvector/developer/
+        Authenticated Developer Console
+
+https://voxvector.crownlabs.tech
+        Original VoxVector API domain / Render environment
+
+https://awsapi.crownlabs.tech
+        Dedicated AWS API environment / ALB → ECS Fargate
+```
+
+The original API domain remains preserved. The AWS endpoint is a separate deployment environment and does not silently replace the original API.
+
+The complete endpoint ownership and migration rules are maintained in `docs/ENDPOINT_REGISTRY.md`.
 
 ---
 
@@ -444,12 +468,17 @@ https://darenprince.com/voxvector/developer/
         authenticated Developer Console
 
 https://voxvector.crownlabs.tech
-        canonical FastAPI API
+        original / canonical Render FastAPI API
+
+https://awsapi.crownlabs.tech
+        AWS HTTPS API environment
 ```
 
 GitHub Pages hosts the frontend.
 
-Render hosts the backend API.
+Render hosts the original backend API.
+
+AWS hosts the separately addressed AWS API environment.
 
 The root `voxvector.html` is a compatibility redirect and is not a second application.
 
@@ -461,6 +490,7 @@ The root `voxvector.html` is a compatibility redirect and is not a second applic
 
 - `docs/OPERATING_CHARTER.md` — product identity architecture authority and engineering rules
 - `docs/PROJECT_DECISION_LOG.md` — durable architectural decisions
+- `docs/ENDPOINT_REGISTRY.md` — current endpoint ownership and deployment boundary
 
 ### Architecture and product
 
@@ -487,6 +517,7 @@ The root `voxvector.html` is a compatibility redirect and is not a second applic
 ### Operations
 
 - `docs/SYSTEM_STATE_REPORT.md` — repository and runtime state
+- `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md` — connected Render/AWS operational audit
 - `docs/VERSION_MAP.md` — version and deployment state
 - `docs/DEPLOYMENT_PLAN_FREE.md` — deployment runbook
 - `docs/DOCS_ALIGNMENT_2026-08-24.md` — active documentation synchronization audit
@@ -501,7 +532,8 @@ The root `voxvector.html` is a compatibility redirect and is not a second applic
 - Python 3.11 through 3.14
 - Node.js / npm for the React frontend
 - Supabase configuration for authenticated persistence workflows
-- Render configuration for the backend deployment
+- Render configuration for the original backend API deployment
+- AWS credentials/workflow configuration for the separately addressed AWS environment
 
 ### Backend
 
