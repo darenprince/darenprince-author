@@ -1,9 +1,8 @@
 # VoxVector System State Report
 
-**State date:** 2026-09-01
+**State date:** 2026-09-03
 **Repository:** `darenprince/darenprince-author`
 **Canonical branch:** `main`
-**Current commit:** `f2b31243c07fc466892693d2ff6aaf8038e413cc`
 **Backend root:** `VoxVector/`
 **Frontend root:** `voxvector/`
 **Backend software version:** `0.2.26`
@@ -23,14 +22,38 @@ The repository uses a case-centered architecture with one canonical analysis eng
 - `voxvector/` is the canonical public React application.
 - `VoxVector/api/app.py` is the HTTP adapter.
 - `VoxVector/src/voxvector/` is the canonical analysis engine.
-- GitHub Pages hosts the public React application.
-- Render hosts the backend.
-- Supabase provides authentication, persistence, diagnostics, and private media storage.
+- GitHub Pages hosts the public React application at `https://darenprince.com/voxvector/`.
+- The original API remains on Render at `https://voxvector.crownlabs.tech`.
+- A separately addressed AWS API environment is available at `https://awsapi.crownlabs.tech` through AWS Application Load Balancer and ECS Fargate.
+- Supabase provides authentication, persistence, diagnostics, and private media storage for the configured architecture.
 - Vercel is retired.
+
+### AWS runtime
+
+The AWS deployment currently has:
+
+- ECR repository `voxvector-api`
+- ECS cluster `voxvector`
+- ECS service `voxvector-api`
+- Fargate task definition `voxvector-api:1`
+- Application Load Balancer `voxvector-api-alb`
+- target group `voxvector-api-tg`
+- HTTPS listener on port 443
+- HTTP port 80 redirecting to HTTPS
+- ACM certificate for `awsapi.crownlabs.tech`
+- DNS certificate validation status `SUCCESS`
+- certificate status `ISSUED`
+- healthy ECS target on port 8000
+
+The ECS application port is restricted to the ALB security group. Direct unrestricted public ingress to port 8000 was removed.
+
+AWS-side verification confirms the ALB is active and the target is healthy. CloudWatch application logs show repeated successful `/health` HTTP 200 responses.
+
+The public custom-domain request itself has not been independently browser-tested through the current tool surface. Therefore public DNS/HTTPS reachability is not recorded as browser-verified.
 
 ### Current CI verification
 
-GitHub Actions `VoxVector QA` run `33500649854` on current commit `f2b31243c07fc466892693d2ff6aaf8038e413cc` passed. The job completed API package installation, API tests, React dependency installation, and the React production build. Historical failed runs remain historical evidence. fileciteturn102file0L2-L10
+GitHub Actions verification must be tied to the exact source revision being evaluated. A green CI run does not by itself establish browser behavior, runtime parity, or scientific validity.
 
 ### Case spine and intake
 
@@ -52,7 +75,7 @@ Current 21-stage implementation state remains:
 
 ### Analysis Results / Review Evidence
 
-The current product priority has moved from intake reliability to the post-analysis review path. The existing case result already persists the run result, observations, evidence, candidate state, disposition, limitations, and provenance. The next engineering layer is to make that composed result a first-class review contract and expose it directly in the Analysis Workspace.
+The current product priority has moved from intake reliability to the post-analysis review path. The existing case result persists the run result, observations, evidence, candidate state, disposition, limitations, and provenance. The next engineering layer is to make that composed result a first-class review contract and expose it directly in the Analysis Workspace.
 
 ### Developer Console
 
@@ -67,7 +90,7 @@ The console is connected to:
 - GitHub-backed QA/deployment status
 - the 21-stage engineering status surface
 
-The engineering status component now compares workflow SHA to the runtime source revision and marks mismatches as `STALE` rather than presenting unrelated workflow results as current.
+The engineering status component compares workflow SHA to the runtime source revision and marks mismatches as `STALE` rather than presenting unrelated workflow results as current. It also exposes the distinct AWS endpoint configuration without changing the frontend's default API base.
 
 ## Current engineering priorities
 
@@ -79,17 +102,42 @@ The engineering status component now compares workflow SHA to the runtime source
 6. Integrate production transcription and alignment.
 7. Expose real analytical tracks and normalized evidence.
 8. Implement evidence synthesis, assessment, reporting, and history/reopen.
-9. Complete browser-level production verification.
+9. Complete browser-level production verification for both the existing and AWS deployment environments where configured.
 10. Advance the separate scientific validation program.
+
+## Endpoint registry
+
+The authoritative endpoint map is `docs/ENDPOINT_REGISTRY.md`.
+
+```text
+Public frontend
+https://darenprince.com/voxvector/
+
+Original API
+https://voxvector.crownlabs.tech
+
+AWS API environment
+https://awsapi.crownlabs.tech
+```
+
+The original API domain remains preserved. AWS is a separately addressed deployment environment.
 
 ## Verification boundaries
 
 CI passing does not prove browser functionality, production deployment health, or scientific validity.
 
+AWS container and ALB health prove cloud runtime readiness at those boundaries. They do not establish authenticated Supabase parity or end-to-end analysis parity with the original Render environment.
+
 Scientific validation remains separate and requires task-specific operational definitions, speaker-disjoint evaluation, out-of-sample testing, calibration, uncertainty, leakage controls, robustness analysis, and replication as applicable.
 
 ## Canonical synchronization
 
-Current cross-document alignment: `docs/DOCS_ALIGNMENT_2026-09-01.md`.
+Current endpoint and cloud architecture records:
+
+- `docs/ENDPOINT_REGISTRY.md`
+- `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
+- `docs/DEPLOYMENT_BOUNDARY.md`
+- `docs/ARCHITECTURE.md`
+- `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`
 
 Historical checkpoints remain preserved for traceability and must not be used as current status evidence.
