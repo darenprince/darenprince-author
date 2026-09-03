@@ -16,9 +16,14 @@
 - `voxvector/src/components/ui/Button.jsx`
 - `voxvector/src/components/SiteHeader.jsx`
 - `voxvector/src/components/SiteHeader.css`
-- `voxvector/src/public-hero-refinement.css`
+- Temporary `public-hero-refinement.css` was retired; hero styling now belongs to the canonical landing owner.
 - `voxvector/public/assets/voxvector-hero-bg-mobile.png`
 
 ## Verification
 
 Canonical source files were read back after editing. The mobile asset path, hero refinement stylesheet import, access CTA rendering logic, GitHub icon, and user/login icon are present in the current `main` source.
+
+
+## Canonicalization update
+
+On September 2, 2026, the temporary refinement layer was fully retired. The React application imports only `voxvector/src/canonical.css`; the hero is owned by the public landing stylesheet and canonical component structure rather than a late-stage override file.
