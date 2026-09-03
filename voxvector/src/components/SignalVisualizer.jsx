@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { AlertTriangle, Gauge, Volume2 } from 'lucide-react'
-import './SignalVisualizer.css'
 
 const GOLD = [201, 154, 102]
 function rgba(alpha, values = GOLD) { return `rgba(${values[0]},${values[1]},${values[2]},${alpha})` }
