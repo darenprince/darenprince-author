@@ -346,3 +346,12 @@ The existing acoustic pipeline remains active. The new work expands the evidence
 **Guardrails:** The workflow now verifies generated VoxVector HTML, JavaScript, CSS, required public images, and the staged asset directory before uploading the Pages artifact. Deployment success is therefore tied to a clean production artifact rather than a repository mirror.
 
 **Verification boundary:** A successful Actions deployment verifies the built artifact and Pages deployment only. Browser/runtime smoke verification remains a separate source → commit → workflow → artifact → deployed URL check when diagnosing live delivery problems.
+
+
+### 2026-09-03 — Correct root Pages staging assumption
+
+The 2026-09-02 Pages hardening change incorrectly assumed the root application produced `./dist`. The canonical root `vite.config.ts` intentionally uses `outDir: "."` and emits the existing root-site production runtime in place. This caused the Pages staging job to fail with `rsync ... ./dist: No such file or directory`.
+
+**Correction:** The workflow now stages the root runtime from the canonical in-place output while explicitly excluding source, dependencies, workflows, repository metadata, VoxVector source trees, documentation source trees, tests, and build configuration. VoxVector and documentation remain staged separately from their canonical production/public locations.
+
+**Guardrail:** Do not assume a repository-wide `dist` convention. Verify each application's actual Vite `outDir` before changing deployment staging.
