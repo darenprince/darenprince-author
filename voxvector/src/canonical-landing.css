@@ -51,31 +51,30 @@
 
 @media (max-width: 767px) {
   /*
-   * Full viewport bleed. The negative viewport margin removes any inherited
-   * page shell inset, so the artwork reaches both physical viewport edges.
+   * The hero is a viewport-bleed surface. Do not translate it or rely on a
+   * parent content shell: this formula pins both edges to the viewport.
    */
-  #product,
-  .vv-hero {
-    left: 50%;
+  #product.vv-hero {
     width: 100vw;
     max-width: 100vw;
     min-height: 720px;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    transform: translateX(-50%);
+    margin-left: calc(50% - 50vw);
+    margin-right: 0;
+    left: auto;
+    right: auto;
+    transform: none;
     border-left: 0;
     border-right: 0;
   }
 
   /*
-   * The portrait artwork is rendered at the actual viewport width. Its natural
-   * lower portion may extend beyond the hero and is intentionally clipped by
-   * the hero rather than shrinking the image or adding side margins.
+   * Render the supplied portrait artwork across the complete viewport width.
+   * The hero clips only the excess lower portion when necessary.
    */
-  .vv-hero-background {
+  #product.vv-hero > .vv-hero-background {
     inset: 0;
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
+    max-width: none;
     background-image: url('/voxvector/assets/voxvector-hero-bg-mobile.png');
     background-position: center top;
     background-size: 100% auto;
@@ -83,8 +82,8 @@
     filter: none;
   }
 
-  /* The only hero overlay: a 5% fade at each edge. */
-  .vv-hero-edge-fade {
+  /* The only visual overlay on the mobile hero. */
+  #product.vv-hero > .vv-hero-edge-fade {
     background: linear-gradient(
       to bottom,
       #000 0%,
@@ -94,12 +93,15 @@
     );
   }
 
-  .vv-hero-technology-link {
-    font-size: 1.25rem;
-    font-weight: 750;
+  #product.vv-hero .vv-hero-technology-link {
+    font-size: 1.375rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15;
+    letter-spacing: .015em;
   }
 
-  .vv-hero-technology-arrow {
-    font-size: 2rem;
+  #product.vv-hero .vv-hero-technology-arrow {
+    margin-top: .5rem;
+    font-size: 2.125rem !important;
   }
 }
