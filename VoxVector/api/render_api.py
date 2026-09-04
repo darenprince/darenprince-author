@@ -25,6 +25,33 @@ def _config(service_id: str | None = None) -> tuple[str, str]:
     return api_key, resolved_service
 
 
+def _deploy_hook_url() -> str:
+    value = os.getenv("RENDER_DEPLOY_HOOK_URL", "").strip()
+    if not value:
+        raise HTTPException(status_code=503, detail="Render deploy hook is not configured on the API runtime.")
+    return value
+
+
+def _trigger_deploy_hook() -> dict:
+    hook_url = _deploy_hook_url()
+    request = UrlRequest(
+        hook_url,
+        data=b"",
+        headers={"Accept": "application/json"},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=20) as response:
+            raw = response.read().decode("utf-8", errors="replace")
+            payload = json.loads(raw) if raw else {}
+            return {"response_status": getattr(response, "status", 200), "payload": payload}
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise HTTPException(status_code=502, detail=f"Render deploy hook returned HTTP {exc.code}: {detail[:240]}") from exc
+    except (URLError, TimeoutError) as exc:
+        raise HTTPException(status_code=502, detail="Unable to reach the configured Render deploy hook.") from exc
+
+
 def _render_get(path: str, api_key: str, params: dict | None = None) -> dict | list:
     query = f"?{urlencode(params or {}, doseq=True)}" if params else ""
     request = UrlRequest(
@@ -143,6 +170,17 @@ def render_status(
         "instances": instance_rows,
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "log_window_minutes": log_minutes,
+    }
+
+
+@render_router.post("/deploy")
+def render_deploy(_: dict = Depends(require_developer)):
+    result = _trigger_deploy_hook()
+    return {
+        "status": "accepted",
+        "trigger": "render_deploy_hook",
+        "response_status": result["response_status"],
+        "triggered_at": datetime.now(timezone.utc).isoformat(),
     }
 
 
