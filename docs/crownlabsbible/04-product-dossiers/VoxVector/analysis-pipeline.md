@@ -140,3 +140,10 @@ The fastest MVP dependency path is:
 `VoxVector/docs/` is the technical source of truth.
 
 This Crown Labs Bible page mirrors the canonical product architecture for executive and documentation use.
+
+
+## Implementation sync — 2026-09-04
+
+The canonical case-analysis path now deliberately invokes the configured faster-whisper provider when runtime execution readiness is present and persists normalized timestamped transcript segments and words with the case run. The Analysis Workspace projects that persisted artifact onto the shared audio playhead: waveform seeking, transcript segment selection, timestamped word seeking, and active interval highlighting use the same source timeline. When diarization artifacts are available, aligned word attribution is also used to derive conversation speaker labels for transcript segments.
+
+The synchronized transcript workspace is built. Controlled provider execution, persisted artifact readback, and browser/mobile verification remain the next functional gates.
