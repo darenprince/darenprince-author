@@ -1,75 +1,64 @@
 # VoxVector QA Status
 
-**State date:** 2026-09-02
+**State date:** 2026-09-04
 
 This document records repository-level software QA. It is not a scientific validation report.
 
-## Current source and verification state
+## Current source and runtime verification state
 
-`main` is the canonical source. The most recent verified VoxVector React repair was commit `ba03650549b1b49172eda60fc5d9c0bb91f7e548`, which restored the missing `voxvector/src/Typography.css` import target. Its `VoxVector QA` run completed successfully, including API tests, React dependency installation, and the React production build. The matching VoxVector PR preview build also completed successfully.
+`main` is the canonical source. The live Render VoxVector API currently reports source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`, pipeline `0.2.26`, runtime self-test `passed`, and configured media-ready storage. It also reports faster-whisper and pyannote Community-1 as execution-ready providers. The runtime health field `current_commit_qa` remains `external_workflow_required`, so exact-commit GitHub Actions QA must be verified before the live runtime is marked QA-current.
 
 ## Current implementation coverage
 
-| Area | Current state | Scientific claim |
-|---|---|---|
-| 21-stage pipeline contract | represented | none |
-| Implemented foundations | 14 | none |
-| Conditional / not invoked | 4 | none |
-| Queued stages | 3 | none |
-| Acoustic / temporal / voice quality | implemented foundations | observational only |
-| Reliability / eligibility | implemented | eligibility control |
-| Evidence acquisition | implemented foundation | none |
-| faster-whisper | implemented, provider-gated | none |
-| pyannote Community-1 | implemented, provider-gated | none |
-| Transcript/speaker alignment | implemented foundation | none |
-| Results envelope | implemented | none |
-| Stage/execution telemetry | implemented foundation | none |
-| Case persistence/history | implemented | none |
-| Render API bridge | implemented, environment-gated | none |
-| Developer Console | active implementation | none |
-| Classification/disposition | guarded boundary | no validated inference |
+| Area | Current state | Software evidence | Scientific claim |
+|---|---|---|---|
+| 21-stage pipeline contract | represented | canonical pipeline tests/contracts | none |
+| Implemented foundations | 14 | repository coverage and runtime evidence | none |
+| Conditional / not invoked | 4 | explicit state contracts | none |
+| Queued stages | 3 | canonical maturity record | none |
+| Acoustic / temporal / voice quality | implemented foundations | deterministic/unit/pipeline tests | observational only |
+| Reliability / eligibility | implemented | pipeline tests and runtime execution | eligibility control |
+| Evidence acquisition | implemented foundation | acquisition tests/contracts | none |
+| faster-whisper | configured / execution-ready | adapter and provider tests | none until provider run + task evaluation |
+| pyannote Community-1 | configured / execution-ready | adapter and provider tests | none until provider run + task evaluation |
+| Transcript/speaker alignment | foundation implemented | alignment regression tests | none until provider-backed execution |
+| Results envelope | implemented | API/case result tests | none |
+| Stage/execution telemetry | implemented foundation | lifecycle tests | none |
+| Case persistence/history | implemented | storage/API tests | none |
+| Render API bridge | implemented, environment-gated | bridge code and route tests | none |
+| Developer Console | active implementation | component build/QA | none |
+| Classification/disposition | guarded boundary | tests and explicit gate | no validated inference |
 
-## Render incident evidence
+## Live runtime evidence — 2026-09-04
 
-Render directly reported repeated `voxvector-api` OOM events exceeding the **512 MB** free web-service budget. The connected observability workflow captured an incident memory series from approximately 94.9 MB to 198.5 MB before a sharp lifecycle discontinuity. The sampled telemetry does not identify the instantaneous >512 MB peak or prove the responsible application component.
+Observed Render `/health` response:
 
-The raw incident artifact remains GitHub Actions artifact `9829899743` from workflow run `33585450916`.
-
-## Deployment failure audit
-
-A GitHub Pages workflow failure on run `33593774608` was traced to `Build existing site`, before VoxVector staging/build steps. The exact root cause was a malformed regular-expression literal in `scripts/generate-labs-product-pages.mjs` while constructing the generated Crown Labs dossier URL. A corrective commit replaces the fragile regex with direct canonical path-string replacement.
-
-This failure is a repository build-pipeline defect, not a VoxVector React compiler defect. It remains subject to its own GitHub Actions verification gate.
-
-## Developer Console QA state
-
-Implemented and tracked:
-
-- compact 56px navigation baseline;
-- Inter UI/body typography and Cal Sans display hierarchy;
-- mobile Sheet navigation with X close, scrim and swipe dismissal;
-- Streamline Sharp shared icon direction;
-- 5–8% tonal surface gradients;
-- collapsible workbench sections;
-- coffee/copper active workflow state and semantic green completion treatment;
-- right-aligned workflow/check statuses;
-- removal of redundant `Collapsed` text;
-- live case run projection and case history/reopen;
-- Render Runtime service/deployment/log surface;
-- engineering status surface with source revision, frontend/backend versions, pipeline maturity, QA/deployment state and Render memory constraint.
-
-Authenticated browser verification remains required for visual/interaction claims.
+- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- pipeline `0.2.26`
+- runtime self-test `passed`
+- diagnostic/media storage `configured_media_ready`
+- media storage `true`
+- transcription provider `faster_whisper`; adapter installed; execution-ready
+- diarization provider `pyannote`; adapter installed; Hugging Face token detected; execution-ready
+- diarization model `pyannote/speaker-diarization-community-1`
+- current commit QA `external_workflow_required`
 
 ## Current engineering gates
 
-1. Verify the root GitHub Pages build repair and complete Pages artifact.
-2. Verify authenticated browser behavior on desktop/mobile.
-3. Verify deterministic workflow tracker timer/scroll collapse behavior.
-4. Deploy and execute real speech providers on Render with memory/CPU profiling.
-5. Persist transcript, speaker and alignment artifacts and read them back through the case workflow.
-6. Complete internal 21-stage callback instrumentation where real method boundaries exist.
-7. Keep software QA and scientific validation separate.
+1. Verify the exact GitHub Actions QA result for `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
+2. Execute a controlled short WAV with faster-whisper and verify timestamped transcript segments and words.
+3. Execute the same fixture with pyannote Community-1 and verify speaker turns.
+4. Persist transcript, diarization and alignment artifacts under case/run identity.
+5. Capture provider timing and memory telemetry and inspect repeated sequential execution behavior.
+6. Complete internal 21-stage callback instrumentation at real method boundaries.
+7. Verify Analysis Results / Review Evidence / report / history flows in the deployed application.
+8. Complete authenticated browser, mobile, keyboard and failure-path verification.
+9. Keep software QA separate from scientific validation.
+
+## Render incident evidence
+
+Historical Render OOM and lifecycle evidence remains preserved in prior incident records and workflow artifacts. Current provider readiness must not be interpreted as proof that the heavier model execution fits the observed Render resource envelope. Controlled provider profiling is required.
 
 ## Scientific boundary
 
-A passing software suite establishes implementation behavior only. Provider adapter tests do not establish model quality, transcript truthfulness, speaker identity, or deception-detection validity.
+A passing software suite establishes implementation behavior only. Provider readiness or successful model execution does not establish transcript truthfulness, verified speaker identity, deception-detection validity, calibration, or generalization.
