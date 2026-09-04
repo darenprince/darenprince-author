@@ -443,3 +443,15 @@ This keeps deployment reliable while preserving build failures as the primary co
 
 **Verification boundary:** The connected Render service was observed healthy after the repair investigation with current `/health` 200 responses and stable low idle memory in the inspected window. GitHub Actions and deployed-browser verification remain separate checks; runtime health evidence is not scientific validation.
 
+
+## 2026-09-04 — Canonical transcription invocation and synchronized transcript workspace
+
+**Decision:** Promote the existing faster-whisper adapter from passive runtime readiness into the canonical case-analysis execution path without creating a second analysis engine or patch layer.
+
+**Implementation:** The case route now checks the live speech-runtime contract, deliberately supplies the configured transcription provider to evidence acquisition when ready, persists normalized timestamped transcript artifacts, and maps actual provider state back into stage 07. The Analysis Workspace consumes the persisted run artifact through the existing shared audio playhead, allowing waveform markers and transcript segment/word selection to stay synchronized.
+
+**Diarization boundary:** pyannote execution remains explicitly opt-in for the constrained Render runtime through `VOXVECTOR_ENABLE_DIARIZATION_RUNS`. This preserves the memory-hardening decision and avoids silently converting every case analysis into simultaneous heavyweight provider execution.
+
+**Developer Console:** The MVP board now has canonical implementation checkoffs for completed case, audio, pipeline, evidence, assessment/history, and synchronized transcript workspace surfaces. These checkoffs represent built implementation state and do not substitute for runtime verification or scientific validation.
+
+**Verification required:** controlled live transcription, persisted artifact readback, browser/mobile synchronization, and exact-commit QA.
