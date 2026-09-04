@@ -121,6 +121,7 @@ def render_status(
     api_key, resolved_service = _config(service_id)
     service_payload = _render_get(f"/services/{resolved_service}", api_key)
     service = _object(service_payload, "service", "data")
+    details = service.get("serviceDetails") if isinstance(service.get("serviceDetails"), dict) else {}
     deploy_payload = _render_get(f"/services/{resolved_service}/deploys", api_key, {"limit": 5})
     deploys = _rows(deploy_payload)
     instances_payload = _render_get(f"/services/{resolved_service}/instances", api_key, {"limit": 20})
@@ -132,10 +133,10 @@ def render_status(
             "name": service.get("name"),
             "type": service.get("type"),
             "suspended": _scalar(service.get("suspended")),
-            "state": _text(service.get("state") or service.get("status") or service.get("serviceState")),
-            "url": service.get("url") or service.get("serviceUrl"),
+            "state": _text(service.get("state") or service.get("status") or service.get("serviceState") or ("suspended" if service.get("suspended") else "active")),
+            "url": _text(service.get("url") or service.get("serviceUrl") or details.get("url")),
             "owner_id": _owner_id(service),
-            "region": _text(service.get("region") or service.get("regionName")),
+            "region": _text(service.get("region") or service.get("regionName") or details.get("region")),
         },
         "latest_deploy": deploys[0] if deploys else {},
         "deploys": deploys,
