@@ -76,3 +76,12 @@ At the current documentation checkpoint:
 - Live Render speech runtime: configured and execution-ready by health contract
 
 Infrastructure and provider readiness do not constitute scientific validation of VoxVector's analytical or deception-classification capability.
+
+
+## Protected Developer Console deployment trigger
+
+`POST /v1/developer/render/deploy`
+
+This authenticated developer route triggers the configured Render Deploy Hook from the server-side API runtime. The hook URL is stored only as `RENDER_DEPLOY_HOOK_URL` in protected runtime configuration and is never returned to the browser.
+
+The endpoint reports trigger acceptance only. Deployment completion remains observable through the Render status and log routes.
