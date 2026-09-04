@@ -26,6 +26,29 @@ def memory_limit_mb(default: float = 512.0) -> float:
         return default
 
 
+def memory_headroom_mb(default: float = 96.0) -> float:
+    try:
+        return max(0.0, float(os.getenv("VOXVECTOR_MEMORY_HEADROOM_MB", str(default))))
+    except ValueError:
+        return default
+
+
+def memory_admission_limit_mb() -> float:
+    return max(0.0, memory_limit_mb() - memory_headroom_mb())
+
+
+def ensure_memory_headroom(phase: str) -> float | None:
+    """Reject a new heavyweight phase before entering a configured RSS danger zone."""
+    current = memory_usage_mb()
+    limit = memory_admission_limit_mb()
+    if current is not None and limit > 0 and current >= limit:
+        raise RuntimeError(
+            f"Insufficient memory headroom for {phase}: rss_mb={current:.2f}, "
+            f"admission_limit_mb={limit:.2f}, limit_mb={memory_limit_mb():.2f}."
+        )
+    return current
+
+
 def collect_after_heavy_phase() -> None:
     gc.collect()
     try:
@@ -44,10 +67,10 @@ def collect_after_heavy_phase() -> None:
 
 @contextmanager
 def measured_phase(name: str):
-    """Serialize heavyweight phases and emit bounded-runtime memory telemetry."""
+    """Serialize heavyweight phases, enforce headroom, and emit RSS telemetry."""
     with _LOCK:
         started = time.perf_counter()
-        before = memory_usage_mb()
+        before = ensure_memory_headroom(name)
         try:
             yield
         finally:
@@ -58,6 +81,7 @@ def measured_phase(name: str):
                 f"phase={name} elapsed_ms={elapsed:.2f} "
                 f"before_mb={before if before is not None else 'unknown'} "
                 f"after_mb={after if after is not None else 'unknown'} "
+                f"admission_limit_mb={memory_admission_limit_mb():.2f} "
                 f"limit_mb={memory_limit_mb():.0f}",
                 flush=True,
             )
@@ -66,6 +90,8 @@ def measured_phase(name: str):
             print(
                 "VOXVECTOR_MEMORY "
                 f"phase={name} after_gc_mb={after_gc if after_gc is not None else 'unknown'} "
+                f"headroom_mb={memory_headroom_mb():.2f} "
+                f"admission_limit_mb={memory_admission_limit_mb():.2f} "
                 f"limit_mb={memory_limit_mb():.0f}",
                 flush=True,
             )
