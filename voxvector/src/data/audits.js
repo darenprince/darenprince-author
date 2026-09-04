@@ -1,28 +1,28 @@
 export const AUDIT_REPORTS = [
   {
-    id: 'live-api-speech-runtime-2026-09-03',
-    date: '2026-09-03',
+    id: 'live-api-speech-runtime-2026-09-04',
+    date: '2026-09-04',
     title: 'Live API and Speech Runtime Configuration Audit',
-    status: 'remediation-required',
-    scope: ['Live API health','Render runtime','Speech adapters','Hugging Face configuration','Pipeline status','Deployment provenance'],
-    summary: 'The live VoxVector API is healthy and its acoustic analysis foundation passed runtime self-test, but transcription and diarization remain installed rather than operationally configured. The observed runtime cannot see the expected Hugging Face credential and does not report configured speech providers.',
+    status: 'execution-ready-provider-runtime',
+    scope: ['Live API health','Render runtime','Speech adapters','Hugging Face configuration','21-stage pipeline','Deployment provenance'],
+    summary: 'The live VoxVector Render API is healthy and now reports a configured, execution-ready faster-whisper transcription provider and pyannote Community-1 diarization provider, with Hugging Face token presence detected. The underlying speech stages remain queued until real provider execution and artifact persistence are demonstrated.',
     findings: [
-      { severity: 'verified', title: 'Core API runtime is healthy', detail: 'The observed health response returned status ok and runtime_self_test passed.' },
-      { severity: 'high', title: 'Transcription adapter is installed but provider is not configured', detail: 'speech_runtime.transcription reported adapter_installed true and configured_provider not_configured.' },
-      { severity: 'high', title: 'Diarization adapter is installed but provider and token are absent', detail: 'speech_runtime.diarization reported adapter_installed true, configured_provider not_configured, and hf_token_configured false.' },
-      { severity: 'warning', title: 'Three speech-related pipeline stages remain queued', detail: 'Speaker identification/diarization, transcription generation, and transcript alignment were reported queued.' },
-      { severity: 'warning', title: 'Live deployment provenance is incomplete', detail: 'source_revision was unknown and current_commit_qa remained external_workflow_required in the observed health response.' },
-      { severity: 'recommended', title: 'Configure exact canonical environment variables before redeployment', detail: 'Cloud dashboard variables must match the backend configuration contract; installed dependencies alone are not execution readiness.' }
+      { severity: 'verified', title: 'Core API runtime is healthy', detail: 'The live health response returned status ok, runtime_self_test passed, and source revision 23677b258a60e5cf25287cc0dce3b199f472a7c1 was reported.' },
+      { severity: 'verified', title: 'Media storage is configured and ready', detail: 'The live response reports diagnostic/media storage configured_media_ready and media_storage true.' },
+      { severity: 'verified', title: 'Transcription runtime is execution-ready', detail: 'faster_whisper is configured, its adapter is installed, and the runtime reports execution_ready true. The Render profile uses base model, CPU, int8 compute, and beam size 3.' },
+      { severity: 'verified', title: 'Diarization runtime is execution-ready', detail: 'pyannote is configured, its adapter is installed, the Hugging Face token is detected, and execution_ready is true for pyannote/speaker-diarization-community-1.' },
+      { severity: 'warning', title: 'Speech stages remain queued', detail: 'Stages 05, 07, and 08 remain queued until real provider-backed execution, persistence, alignment, and integration evidence is recorded.' },
+      { severity: 'warning', title: 'Exact-commit QA remains separate', detail: 'The live runtime reports current_commit_qa external_workflow_required. A matching GitHub Actions QA result is required before the deployed runtime is considered QA-current.' }
     ],
     next: [
-      'Inspect the canonical backend environment-variable contract.',
-      'Configure transcription provider and model using supported canonical names.',
-      'Configure diarization provider and model using supported canonical names.',
-      'Provision the Hugging Face credential through Render or AWS secret management.',
-      'Redeploy and verify live execution readiness plus source revision and commit QA metadata.',
-      'Export the post-remediation health evidence into the audit record.'
+      'Verify exact-commit GitHub Actions QA for source revision 23677b258a60e5cf25287cc0dce3b199f472a7c1.',
+      'Execute faster-whisper on a controlled WAV and verify timestamped transcript segments and words.',
+      'Execute pyannote Community-1 on the same fixture and verify speaker turns.',
+      'Persist transcript and diarization artifacts by case and run identity.',
+      'Produce and persist multimodal transcript/speaker/audio alignment.',
+      'Promote queued stages only after real execution and integration evidence.'
     ],
-    evidence: ['Live /health response observed 2026-09-03','Render voxvector-api inspection','VoxVector/api/app.py','VoxVector/api/requirements-speech.txt','Connected Hugging Face account crownlabs-voxvector','VoxVector/docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md']
+    evidence: ['Live /health response observed 2026-09-04','Render voxvector-api deployment','VoxVector/api/app.py','VoxVector/src/voxvector/speech_providers.py','VoxVector/src/voxvector/transcription_faster_whisper.py','VoxVector/src/voxvector/diarization_pyannote.py','VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md']
   },
 
   {
