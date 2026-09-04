@@ -432,3 +432,14 @@ This keeps deployment reliable while preserving build failures as the primary co
 - Developer Console Structured Audits supports copy/download of the audit index and individual audit records
 - secret values remain excluded from documentation and client-side exports
 - variables must match the canonical backend configuration contract before being represented as active
+
+## 2026-09-04 — Render runtime health probe and console bridge repair
+
+**Observation:** Render log evidence from 2026-09-01 showed repeated `/health` HTTP 500 responses caused by `importlib.util.find_spec("pyannote.audio")` raising `ModuleNotFoundError` when the optional parent package was absent. The failure was operationally amplified by health polling. Separately, the Developer Console Render bridge projected only top-level service fields even though Render exposes the runtime URL under `serviceDetails.url`, producing incomplete infrastructure data on the console.
+
+**Decision:** Repair both faults in the canonical backend implementation rather than adding UI workarounds or patch layers.
+
+**Implementation:** `VoxVector/api/app.py` now uses a guarded module-availability helper so optional provider probes cannot crash `/health`. `VoxVector/api/render_api.py` now normalizes Render `serviceDetails` fields into the bridge's stable service contract, including runtime URL and fallback service state.
+
+**Verification boundary:** The connected Render service was observed healthy after the repair investigation with current `/health` 200 responses and stable low idle memory in the inspected window. GitHub Actions and deployed-browser verification remain separate checks; runtime health evidence is not scientific validation.
+
