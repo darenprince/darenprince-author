@@ -42,6 +42,26 @@ function StageList({ run }) {
 }
 
 function ResultState({ label, value, detail }) { return <div className="border border-white/5 p-3"><div className="vv-eyebrow">{label}</div><div className="mt-1 text-sm font-semibold">{value || '—'}</div>{detail && <p className="mt-1 text-[11px] leading-relaxed text-[var(--vv-muted)]">{detail}</p>}</div> }
+function PipelineOverview({ stages, active }) {
+  if (!stages.length) return <p className="vv-copy mt-4">No persisted stage records are attached to this run yet.</p>
+  return <div className="mt-4 grid gap-1 sm:grid-cols-2 xl:grid-cols-3" aria-label="21 stage analysis pipeline">
+    {stages.map((stage, index) => {
+      const id = stage.id || stage.stage_id || stage.name || String(index)
+      const status = stage.status || 'pending'
+      const done = COMPLETE.has(status)
+      const failed = FAILED.has(status)
+      const running = active && (active.id || active.stage_id || active.name) === id
+      const Icon = failed ? AlertTriangle : done ? CheckCircle2 : running ? Activity : Circle
+      const name = stage.name || STAGE_NAMES[id] || id
+      return <div key={id} className={`flex min-w-0 items-center gap-2 border px-2.5 py-2 text-[11px] ${failed ? 'border-red-400/30 bg-red-400/[.04]' : running ? 'border-[var(--vv-accent)] bg-[var(--vv-accent)]/[.06]' : done ? 'border-white/10 bg-white/[.02]' : 'border-white/5 bg-transparent'}`}>
+        <span className={`flex h-5 w-5 shrink-0 items-center justify-center font-mono text-[9px] ${done ? 'text-[var(--vv-accent-bright)]' : failed ? 'text-red-300' : running ? 'text-[var(--vv-accent-bright)]' : 'text-[var(--vv-muted)]'}`}><Icon size={14}/></span>
+        <span className="min-w-0 flex-1 truncate"><span className="mr-1.5 font-mono text-white/30">{String(stage.number || index + 1).padStart(2, '0')}</span>{name}</span>
+        <span className="shrink-0 text-[9px] uppercase tracking-[.1em] text-[var(--vv-muted)]">{running ? 'active' : done ? 'done' : failed ? 'failed' : status}</span>
+      </div>
+    })}
+  </div>
+}
+
 
 function AnalysisResultsReview({ data, run, source }) {
   const result = run?.result || {}
@@ -112,7 +132,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
     </section>
     <TranscriptPanel run={run} currentTime={time} onSeek={seek}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Waves size={16}/> Spectrogram</h2><span>{playing ? 'LIVE' : 'READY'}</span></div><div className="mt-4"><Spectrogram analyser={analyserRef.current} active={playing} currentTime={time} duration={duration}/></div><div className="mt-3 flex flex-wrap items-center gap-4 text-[10px] uppercase tracking-[.12em] text-[var(--vv-muted)]"><span>Frequency distribution</span><span>Time synchronized</span><span>FFT 2048</span><span className="ml-auto">Gain {gain.toFixed(2)}×</span></div></section>
-    <section className="vv-panel"><div className="vv-panel-head"><h2><Activity size={16}/> Pipeline state</h2><span>{run?.run_id?.slice(0, 12) || '—'}</span></div><div className="vv-data-grid mt-4"><Data label="Status" value={run?.status}/><Data label="Pipeline" value={run?.pipeline_version}/><Data label="Request" value={run?.request_id?.slice(0, 16)}/><Data label="Stages" value={stages.length ? `${completed}/${stages.length} complete` : '—'}/></div><div className="mt-4 grid gap-2 sm:grid-cols-3"><div className="vv-status-row"><span>Active</span><span className="ml-auto text-xs">{active ? (active.name || STAGE_NAMES[active.id] || active.id) : '—'}</span></div><div className="vv-status-row"><span>Failed</span><span className="ml-auto text-xs">{failed}</span></div><div className="vv-status-row"><span>Last outcome</span><span className="ml-auto text-xs">{stages.at(-1)?.outcome || '—'}</span></div></div><div className="mt-5"><StageList run={run}/></div></section>
+    <section className="vv-panel"><div className="vv-panel-head"><h2><Activity size={16}/> Pipeline state</h2><span>{run?.run_id?.slice(0, 12) || '—'}</span></div><div className="vv-data-grid mt-4"><Data label="Status" value={run?.status}/><Data label="Pipeline" value={run?.pipeline_version}/><Data label="Request" value={run?.request_id?.slice(0, 16)}/><Data label="Stages" value={stages.length ? `${completed}/${stages.length} complete` : '—'}/></div><div className="mt-4 grid gap-2 sm:grid-cols-3"><div className="vv-status-row"><span>Active</span><span className="ml-auto text-xs">{active ? (active.name || STAGE_NAMES[active.id] || active.id) : '—'}</span></div><div className="vv-status-row"><span>Failed</span><span className="ml-auto text-xs">{failed}</span></div><div className="vv-status-row"><span>Last outcome</span><span className="ml-auto text-xs">{stages.at(-1)?.outcome || '—'}</span></div></div><PipelineOverview stages={stages} active={active}/><div className="mt-5"><div className="vv-eyebrow mb-2">Stage details</div><StageList run={run}/></div></section>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Clock3 size={16}/> Source record</h2><span>provenance</span></div><div className="vv-data-grid mt-4">{sourceMeta.map(([label, value]) => <Data key={label} label={label} value={value}/>)}</div></section>
   </div>
 }
