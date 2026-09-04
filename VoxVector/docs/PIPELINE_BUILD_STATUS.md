@@ -32,14 +32,14 @@ This document is an engineering status record, not a claim that every pipeline s
 
 ## Current maturity count
 
-- **14 stages have implemented analytical/runtime foundations**
+- **16 stages have implemented analytical/runtime foundations**
 - **4 stages are conditional or intentionally not invoked without required inputs**
 - **speaker execution remains queued for deeper integration; transcription/alignment now have built integration paths pending controlled runtime verification**
 - **faster-whisper is configured and execution-ready on the live Render runtime**
 - **pyannote Community-1 is configured and execution-ready on the live Render runtime**
 - **21 stages remain represented in the canonical contract**
 
-The maturity count does not mean fourteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
+The maturity count does not mean sixteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
 
 ## Live API runtime evidence — 2026-09-04
 
