@@ -2,463 +2,210 @@
 
 ## Objective
 
-Build the complete VoxVector product represented by the supplied reference screens.
+Build the complete VoxVector product represented by the canonical product architecture and Analysis Workspace. The target is a unified vocal intelligence workspace that connects recording intake, speaker processing, transcription, synchronized visualization, analytical methods, evidence synthesis, assessment, reporting, persistence, and final disposition into one auditable case.
 
-The target is a unified vocal intelligence workspace that connects recording intake speaker processing transcription synchronized visualization analytical methods evidence synthesis assessment reporting and final disposition into one persistent case.
+This document defines the dependency ordered engineering sequence and is updated when the active implementation crosses a real dependency boundary.
 
-This document defines the engineering sequence.
+## Current execution checkpoint — 2026-09-04
 
-## Current execution checkpoint — 2026-08-20 — Analysis Workspace foundation
+The connected Render runtime has now demonstrated:
 
-Engineering has progressed from the case spine into the first persistent Analysis Workspace surface.
+- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- backend pipeline `0.2.26`
+- runtime self-test `passed`
+- diagnostic/media storage `configured_media_ready`
+- media storage `true`
+- faster-whisper provider configured and execution-ready
+- pyannote Community-1 provider configured and execution-ready
+- Hugging Face token presence detected by the runtime
+- 21-stage pipeline contract remains 14 implemented foundations, 4 conditional/not-invoked, and 3 queued
 
-### Implemented now
+Provider readiness is an infrastructure/runtime state. It does not by itself promote stages 05 or 07 to integrated production execution or establish scientific validity.
 
-- durable case identity
-- authenticated case ownership
-- case creation listing and retrieval APIs
-- source asset identity
-- source recording metadata
-- SHA-256 source provenance
-- private Supabase media storage primitives
-- signed playback URL API
-- case bound source upload API
-- case bound analysis API
-- analysis run persistence
-- canonical 21 stage state records for each case run
-- frontend API client contracts for case creation upload playback and case analysis
-- interactive Developer Console case workbench
-- interactive MVP engineering board with persistent developer checkoffs
-- persistent Analysis Workspace component
-- real source waveform generation from decoded audio when a source is available
-- case timeline with seek and playhead state
-- secure persisted source playback surface
-- persisted pipeline run state surface
-- source provenance surface
+The current engineering objective therefore moves from provider wiring to **controlled provider execution and artifact integration**.
 
-### Immediate next engineering work
+## Current implementation plan
 
-1. connect the new Analysis Workspace to the authenticated console navigation
-2. make the workspace the primary post analysis destination
-3. expose the canonical 21 stage lifecycle with stage timing outputs and errors
-4. add speaker segmentation and diarization contracts
-5. integrate production transcription generation
-6. persist speaker attributed transcript segments and word timestamps
-7. synchronize transcript speaker regions and audio on the shared time axis
-8. add real analytical tracks from backend observations
+### EA1 — Runtime and provenance foundation — implemented
 
-## Fastest MVP execution path
+- case identity and persistence
+- source upload and provenance
+- canonical 21-stage state contract
+- runtime self-test
+- source revision provenance support
+- Render runtime configuration
+- durable media storage
+- provider selection contracts
+- Developer Console runtime/status projection
 
-The critical path is dependency first:
+### EA2 — Speaker diarization execution — next
+
+1. Execute pyannote Community-1 against a controlled WAV fixture.
+2. Verify speaker turns and segment boundaries.
+3. Record provider duration and memory evidence.
+4. Persist the diarization artifact under case/run identity.
+5. Preserve provider limitations and confidence semantics.
+6. Promote Stage 05 from queued only after successful provider-backed execution is demonstrated.
+
+### EA3 — Transcription execution — next
+
+1. Execute faster-whisper against the same controlled fixture.
+2. Verify transcript segments and word timestamps.
+3. Record provider duration and memory evidence.
+4. Persist transcript and provenance under case/run identity.
+5. Preserve model-generated transcript quality limitations.
+6. Promote Stage 07 from queued only after successful provider-backed execution is demonstrated.
+
+### EA4 — Timestamp normalization and alignment
+
+1. Normalize transcript segment and word timing.
+2. Normalize diarization speaker intervals.
+3. Join transcript words to overlapping speaker regions.
+4. Preserve unattributed words/regions when overlap is unavailable.
+5. Produce the canonical multimodal timeline artifact.
+6. Promote Stage 08 only from real provider output and regression coverage.
+
+### EA5 — Evidence consumers
+
+1. Feed acquired transcript data into linguistic/disfluency analysis.
+2. Add question and response context boundaries.
+3. Add speaker-aware acoustic aggregation.
+4. Add independent within-speaker baseline inputs.
+5. Preserve evidence direction, quality, provenance, and alternatives.
+6. Keep convergence/conflict downstream of actual acquired evidence.
+
+### EA6 — Review and reporting
+
+1. Make the composed Analysis Results contract a first-class workspace artifact.
+2. Build Review Evidence from persistent case/run evidence.
+3. Add synchronized analytical tracks for real observations.
+4. Connect assessment and report generation to persistent case state.
+5. Complete case history and reopen behavior.
+
+### EA7 — Verification and production hardening
+
+1. Verify exact-commit GitHub QA.
+2. Verify authenticated browser workflow.
+3. Verify mobile and keyboard behavior.
+4. Verify failure/cancellation paths.
+5. Verify diagnostic projections and Render bridge.
+6. Verify provider execution on representative fixtures.
+7. Record resource behavior and failure evidence.
+
+### EA8 — Scientific validation
+
+Only after engineering evidence is stable:
+
+- freeze operational definitions
+- establish task-specific datasets
+- use speaker-disjoint evaluation
+- measure out-of-sample performance
+- evaluate recording-condition robustness
+- evaluate identity leakage
+- calibrate outputs
+- quantify uncertainty
+- replicate where applicable
+
+Scientific validation is a distinct gate and is never inferred from software execution, provider readiness, or deployment health.
+
+## Fastest connected MVP execution path
+
+The critical path is:
 
 1. case identity and persistence — implemented
 2. recording intake and provenance — implemented
 3. audio playback and waveform — foundation implemented
-4. real pipeline lifecycle — backend contract implemented and workspace consumption in progress
-5. speaker processing
-6. production transcription
-7. audio transcript alignment
-8. real analytical tracks
-9. evidence normalization
-10. evidence synthesis
-11. assessment
-12. report generation
-13. case history and reopen
-14. browser end to end verification
-15. production hardening
+4. real 21-stage lifecycle — implemented foundation
+5. speaker processing — provider configured; execution next
+6. production transcription — provider configured; execution next
+7. audio/transcript/speaker alignment — foundation implemented; provider-backed execution next
+8. real analytical tracks — foundation present; synchronized expansion next
+9. evidence normalization — implemented foundation
+10. evidence synthesis — implemented foundation; expanded consumer integration next
+11. assessment — guarded architecture
+12. report generation — active build
+13. case history and reopen — foundation present
+14. browser end-to-end verification — required
+15. production hardening — required
 
 Every downstream surface must consume a real upstream contract.
 
-## Reference driven product target
+## Canonical 21-stage pipeline dependency
 
-The Analysis Workspace target contains:
+### Prepare
+
+1. File Upload / Ingest
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
+
+### Understand
+
+5. Speaker Identification / Diarization
+6. Speech Segmentation
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility and Reliability
+
+### Analyze
+
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
+
+### Synthesize and Decide
+
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
+18. Candidate Classification
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
+
+The live runtime currently reports 14 implemented foundations, 4 conditional/not-invoked stages, and 3 queued stages. Runtime provider readiness does not alter the pipeline maturity count until the corresponding real execution and integration contracts are verified.
+
+## Analysis Workspace target
+
+The persistent workspace must ultimately contain:
 
 - case header
 - source metadata
+- recording quality
 - audio player
 - waveform
-- spectral view
-- synchronized analytical tracks
 - speaker regions
 - transcript
-- flagged moments
+- synchronized analytical tracks
+- evidence markers
+- pipeline state
 - evidence timeline
-- analytical indicators
-- evidence synthesis
-- assessment
+- Review Evidence
+- assessment state
 - report controls
-- persistent case history
-
-The Developer Console target contains:
-
-- runtime health
-- API workbench
-- request inspection
-- errors
-- events
-- diagnostics
-- methodology navigation
-- documentation navigation
-- prioritized MVP board
-- task checkoffs
-- phase completion
-
-## Phase 0 — Contract alignment
-
-### Deliver
-
-- canonical case schema
-- canonical analysis run schema
-- source asset schema
-- 21 stage pipeline registry
-- method registry mapping
-- evidence schema
-- lifecycle event schema
-- report schema
-- API route map
-- documentation synchronization
-
-### Exit
-
-Architecture schemas pipeline and implementation plan describe the same system.
-
-## Phase 1 — Case and intake foundation
-
-### Deliver
-
-- [x] case creation
-- [x] analysis run creation
-- [x] file picker contract
-- [x] drag and drop contract
-- [x] format validation
-- [x] metadata extraction
-- [x] source hashing
-- [x] provenance
-- [x] storage reference
-- [x] upload progress contract
-- [ ] upload cancellation on case route
-- [x] authenticated ownership
-- [x] signed playback access
-
-### Exit
-
-A supported recording enters a durable case with complete source identity.
-
-**Current state:** implemented and connected through the Developer Console Case Workbench.
-
-## Phase 2 — Audio workspace
-
-### Deliver
-
-- [x] audio access contract
-- [x] secure persisted playback surface
-- [x] play and pause
-- [x] seek
-- [x] source waveform generation foundation
-- [x] shared playhead state foundation
-- [ ] scrub refinement
-- [ ] zoom
-- [ ] fullscreen
-- [ ] time ruler refinement
-- [ ] region selection
-- [ ] workspace navigation integration
-
-### Exit
-
-The user can inspect the recording and every audio interaction is tied to the case.
-
-**Current state:** first persistent workspace component is implemented. Console routing and full synchronized analytical tracks remain next.
-
-## Phase 3 — Real pipeline lifecycle
-
-### Deliver
-
-- [x] all 21 stage identifiers
-- [x] stage state model
-- [x] stage timing
-- [x] stage outputs
-- [x] stage errors
-- [x] current stage
-- [x] lifecycle events
-- [x] request correlation
-- [x] eligibility state
-- [x] recording quality state
-- [x] workspace stage state surface
-- [ ] stage timing visualization
-- [ ] stage output inspection
-
-### Exit
-
-The Analysis Pipeline UI reflects actual backend lifecycle state.
-
-**Current state:** backend contracts and initial workspace consumption exist. Expanded stage inspection remains next.
-
-## Phase 4 — Speaker intelligence
-
-### Deliver
-
-- speech segmentation
-- speaker segmentation
-- diarization
-- speaker labels
-- turn boundaries
-- overlap detection
-- speaker confidence
-- separation quality
-- speaker regions
-- speaker aware evidence
-
-### Exit
-
-The workspace can display speaker aware audio regions and turns.
-
-## Phase 5 — Transcription
-
-### Deliver
-
-- ASR abstraction
-- production ASR integration
-- transcript segments
-- word timestamps
-- transcript confidence
-- speaker attribution
-- transcript persistence
-- transcript search
-- transcript provenance
-
-### Exit
-
-A recording produces a persistent timestamped speaker aware transcript.
-
-## Phase 6 — Alignment
-
-### Deliver
-
-- word alignment
-- audio to transcript navigation
-- transcript to audio navigation
-- selected word synchronization
-- selected region synchronization
-- speaker turn synchronization
-- transcript confidence mapping
-
-### Exit
-
-Audio transcript speaker and evidence surfaces share one time axis.
-
-## Phase 7 — Analytical track layer
-
-### Deliver
-
-Initial tracks:
-
-- waveform
-- pitch F0
-- intensity
-- spectral energy
-- speech activity
-- pauses
-
-Expanded tracks:
-
-- formants
-- HNR
-- spectral flux
-- spectral rolloff
-- MFCC
-- jitter
-- shimmer
-- voice quality
-- response latency
-- speaker turns
-- transcript alignment
-- evidence events
-
-### Exit
-
-The workspace renders real timestamped observations through a stable track contract.
-
-## Phase 8 — Linguistic and conversational intelligence
-
-### Deliver
-
-- lexical analysis
-- syntax analysis
-- semantic representation
-- disfluency analysis
-- repairs
-- false starts
-- hedging
-- certainty
-- negation
-- discourse structure
-- question identification
-- response boundaries
-- response latency
-- question and answer semantic alignment
-- contradiction and consistency context
-
-### Exit
-
-Language observations are linked to transcript and audio intervals.
-
-## Phase 9 — Speaker baseline
-
-### Deliver
-
-- baseline selection
-- baseline quality
-- baseline feature distributions
-- robust deviation measures
-- baseline provenance
-- leakage controls
-- baseline comparison views
-
-### Exit
-
-Compatible analysis segments can be compared with an independent speaker baseline.
-
-## Phase 10 — Evidence intelligence
-
-### Deliver
-
-- normalized evidence records
-- evidence family
-- method identity
-- stage identity
-- source interval
-- quality
-- direction
-- provenance
-- supporting evidence
-- conflicting evidence
-- dependencies
-- convergence
-- conflict
-- alternative hypotheses
-- evidence timeline
-- Evidence Explorer
-
-### Exit
-
-Every finding is traceable from final output to method observation and source interval.
-
-## Phase 11 — Classification and validation
-
-### Deliver
-
-- candidate assessment object
-- model feature assembly
-- classification trace
-- task definition
-- operational labels
-- speaker disjoint development split
-- speaker disjoint evaluation split
-- cross dataset evaluation
-- recording condition stress tests
-- leakage tests
-- calibration
-- uncertainty analysis
-- robustness analysis
-- external replication
-- final disposition architecture
-
-### Exit
-
-A defined classification task has a reproducible validation record before inferential promotion.
-
-## Phase 12 — Reports and case lifecycle
-
-### Deliver
-
-- report generator
-- report persistence
 - case history
-- case search
-- case filters
-- reopen case
-- versioned analysis runs
-- saved evidence state
-- saved reports
-- comparisons
-- alerts
 
-### Exit
-
-A completed case becomes a durable reusable analytical record.
-
-## Phase 13 — Production hardening
-
-### Deliver
-
-- resource limits
-- bounded processing
-- timeout controls
-- retry policy
-- cancellation
-- durable diagnostics
-- request correlation
-- stage timing
-- secure media access
-- retention controls
-- deletion workflow
-- authorization
-- browser verification
-- mobile verification
-- keyboard verification
-- reduced motion verification
-- deployment verification
-
-### Exit
-
-The connected product workflow passes reproducible browser and runtime verification.
-
-## Workstreams that run in parallel
-
-- method library expansion
-- research method integration
-- learned audio representations
-- advanced linguistic models
-- comparative analysis
-- advanced reports
-- alerts
-- developer observability
-- performance optimization
-- validation dataset preparation
-
-Parallel work must not displace the connected MVP critical path.
+The shared time axis remains the central synchronization contract across audio, speaker, transcript, analytical observations, and evidence.
 
 ## Developer Console operating contract
 
-The Developer Console is the engineering cockpit for the implementation plan.
+The Developer Console is the engineering cockpit for this plan. It must consume real runtime and CI evidence and distinguish:
 
-It must expose the canonical MVP plan directly.
+- built implementation
+- functional execution
+- automated/manual testing
+- validated scientific capability
+- current versus stale deployment evidence
 
-Required controls:
-
-- phase expansion
-- task checkoff
-- local persistence
-- completion counts
-- next task
-- dependency reference
-- methodology link
-- architecture link
-- pipeline link
-- API workbench
-- request inspection
-- event inspection
-- error inspection
-- runtime health
-- Analysis Workspace access
-
-A checkbox represents developer workflow state only. It does not certify implementation or validation.
+Current console capabilities include runtime health, API workbench, case workflow, 21-stage state, diagnostics, Render runtime, structured audits, and report/audit/log copy/download controls.
 
 ## Engineering rules
 
 - one canonical analysis engine
 - one canonical case model
-- one 21 stage pipeline
+- one 21-stage pipeline
 - one synchronized analytical time axis
 - one evidence provenance chain
 - one frontend API boundary
@@ -468,8 +215,8 @@ A checkbox represents developer workflow state only. It does not certify impleme
 - no orphaned analytical visualization
 - no unregistered method
 - no validation claim without validation evidence
-- no deletion of planned capabilities without a decision
+- no deletion of planned capabilities without a documented decision
 
 ## Definition of done
 
-VoxVector reaches the end state when a user can move through one persistent case from recording intake to playback waveform speaker processing transcription alignment analytical tracks evidence exploration synthesis assessment reporting and return to the saved case.
+VoxVector reaches the end state when a user can move through one persistent case from recording intake to playback, waveform, speaker processing, transcription, alignment, analytical tracks, evidence exploration, synthesis, assessment, reporting, persistence, and reopening through reproducible browser and runtime verification.
