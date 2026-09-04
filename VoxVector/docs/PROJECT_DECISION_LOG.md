@@ -455,3 +455,16 @@ This keeps deployment reliable while preserving build failures as the primary co
 **Developer Console:** The MVP board now has canonical implementation checkoffs for completed case, audio, pipeline, evidence, assessment/history, and synchronized transcript workspace surfaces. These checkoffs represent built implementation state and do not substitute for runtime verification or scientific validation.
 
 **Verification required:** controlled live transcription, persisted artifact readback, browser/mobile synchronization, and exact-commit QA.
+
+
+## 2026-09-04 — Deployment trigger isolation and revision provenance
+
+**Decision:** Stop treating every repository commit as a VoxVector deployment event.
+
+**Implementation:** GitHub Pages is filtered away from backend-only `VoxVector/` runtime changes while retaining the public React workspace, published documentation, and canonical asset paths. Render auto-deploy remains disabled and the existing protected deploy hook is the manual backend deployment boundary.
+
+**Traceability:** The Pages build injects the exact GitHub commit SHA into the React environment and the Developer Console displays that frontend build revision beside the backend runtime `source_revision` and workflow freshness state.
+
+**Reason:** Recent commits were changing source without a clear way to distinguish source revision, Pages artifact, Render runtime, and browser-visible revision. The system must expose those boundaries rather than implying that a successful commit changed every deployed surface.
+
+**Verification rule:** A commit is not evidence of a visible frontend change until the matching Pages workflow and frontend build revision are observed. A commit is not evidence of a backend change until the matching Render deployment and runtime `source_revision` are observed.
