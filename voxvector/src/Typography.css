@@ -21,7 +21,7 @@ html,body,button,input,textarea,select{
 h1,h2,h3,h4,h5,h6,.vv-display,.vv-hero-title{
   font-family:var(--vv-font-display);
   font-kerning:normal;
-  letter-spacing:calc(-.025em + 1pt);
+  letter-spacing:-.045em;
   text-wrap:balance;
 }
 
