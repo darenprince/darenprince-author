@@ -9,6 +9,15 @@ on:
   push:
     branches:
       - main
+    # Pages owns the public site, React application, and published documentation.
+    # Backend-only VoxVector runtime changes are deliberately excluded because Render
+    # is manually controlled through the protected deploy hook.
+    paths:
+      - '**'
+      - '!VoxVector/**'
+      - 'VoxVector/Assets/**'
+      - 'VoxVector/docs/**'
+      - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
 concurrency:
@@ -84,7 +93,8 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VOXVECTOR_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VOXVECTOR_SUPABASE_ANON_KEY }}
           VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
-        run: npm install --no-audit --no-fund && npm run build
+          VITE_GITHUB_SHA: ${{ github.sha }}
+        run: npm ci --no-audit --no-fund && npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
