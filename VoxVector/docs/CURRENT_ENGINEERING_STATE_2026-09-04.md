@@ -120,6 +120,7 @@ The Developer Console is the engineering cockpit and must show the above states 
 - structured audits
 - copy/download controls for reports, audits and logs
 - deployment variable matrix with service links
+- protected manual Render deployment trigger through the Developer Console
 
 The console must not treat AWS as an active QA gate, must not display retired AWS checks as current engineering status, and must not convert provider configuration into execution or validation claims.
 
@@ -128,3 +129,10 @@ The console must not treat AWS as an active QA gate, must not display retired AW
 No single vocal, acoustic, linguistic, behavioral, emotional or psychological feature proves deception. Candidate classification and final disposition remain separate from eligibility/reliability and evidence collection. Validation and calibration remain a distinct gate.
 
 Infrastructure health, model execution and successful software tests must not be represented as scientific validation.
+
+
+## Manual Render deployment control
+
+The canonical Developer Console now includes a **Deploy Now** control on the Render Runtime surface. It calls the authenticated server-side route `POST /v1/developer/render/deploy`. The API runtime reads the protected `RENDER_DEPLOY_HOOK_URL` environment variable and triggers Render without exposing the hook to the GitHub Pages client.
+
+A successful trigger response means Render accepted or queued the deploy request. It is not evidence that the new revision built, started, passed health checks, or completed browser verification. Those states remain observable through the existing Render status/log surfaces and deployment provenance.
