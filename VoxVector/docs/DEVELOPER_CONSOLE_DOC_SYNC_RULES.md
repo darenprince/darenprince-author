@@ -133,8 +133,9 @@ Canonical console routes:
 
 - `GET /v1/developer/render/status`
 - `GET /v1/developer/render/logs`
+- `POST /v1/developer/render/deploy`
 
-The Render API key must remain server-side. Never place `RENDER_API_KEY` in browser JavaScript, client configuration, repository source, or case artifacts.
+The Render API key and deploy hook must remain server-side. Never place `RENDER_API_KEY` or `RENDER_DEPLOY_HOOK_URL` in browser JavaScript, client configuration, repository source, case artifacts, or dashboard exports. The deploy route may return trigger state but must never return the hook URL.
 
 GitHub Actions and Render runtime have separate secret scopes. `RENDER_API_KEY` and `RENDER_SERVICE_ID` configured as GitHub repository secrets are available to Actions only. The Render service itself must separately contain protected environment variables with those names before the backend Render bridge can authenticate to the Render API.
 
