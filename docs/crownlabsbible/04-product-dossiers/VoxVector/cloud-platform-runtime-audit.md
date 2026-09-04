@@ -1,59 +1,92 @@
 # VoxVector Cloud Platform Runtime Audit
 
-**Audit date:** 2026-09-03  
+**Audit date:** 2026-09-04  
 **Source of truth:** `VoxVector/docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
 
 ## Executive status
 
-The active VoxVector production architecture remains intentionally split by function: the public React application is delivered through GitHub Pages, the canonical FastAPI analysis runtime is hosted on Render, and Supabase provides the configured authentication, persistence, diagnostics, and private media boundary.
+The current VoxVector deployment architecture remains intentionally separated by function: the public React application is delivered through GitHub Pages, the original canonical FastAPI API remains on Render at `https://voxvector.crownlabs.tech`, and a separately addressed AWS API environment is available at `https://awsapi.crownlabs.tech`.
 
-The connected Render audit confirms that the API is live, but its current free runtime is constrained to approximately 0.15 CPU and 512 MiB memory with one instance. Recent sampled memory usage was approximately 92–100 MB and repeated `/health` requests returned HTTP 200. These observations are operational evidence, not a controlled workload benchmark.
+Supabase remains the configured authentication, persistence, diagnostics, and private-media boundary. The AWS environment is an additional deployment environment and must not silently replace the original API or frontend API target.
 
-An AWS ECS/Fargate benchmark foundation has now been assembled in `us-east-1` from the canonical repository. It is a benchmark environment, not a second production route.
+## Current live Render runtime
 
-## Current migration decision
+The live `/health` response observed on 2026-09-04 reports:
 
-The only production migration boundary under consideration is backend compute. GitHub Pages and Supabase remain unchanged during benchmarking.
+- pipeline `0.2.26`
+- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- runtime self-test `passed`
+- diagnostic/media storage `configured_media_ready`
+- media storage `true`
+- maximum sample rate `48,000 Hz`
+- maximum media size `250 MiB`
+- faster-whisper provider configured and execution-ready
+- pyannote Community-1 provider configured and execution-ready
+- Hugging Face token presence detected by runtime
+- current commit QA field `external_workflow_required`
 
-Render remains the production baseline. AWS is being used as the explicitly requested controlled comparison environment. Production DNS, frontend API configuration, and persistence ownership must not change until measured results justify the change.
+The provider state demonstrates runtime configuration/readiness. It does not demonstrate successful model execution, model quality, or scientific validity.
 
-## Connected cloud findings
+## Current migration boundary
 
-### Render
+The backend compute boundary is the only migration boundary under consideration. GitHub Pages and Supabase remain unchanged. Render remains the original API runtime. AWS remains a separately addressed environment pending full authenticated runtime and workload verification.
 
-The live service is `voxvector-api`, rooted at `VoxVector`, on the `main` branch in the Oregon region. It uses Python/FastAPI, has automatic deploys enabled, and checks `/health`.
+## Render
 
-The latest live deploy observed in the audit is commit `ccbcbec261812c51920a9305ffb265607616d575`.
+The live service is `voxvector-api`, rooted at `VoxVector`, on the `main` branch in the Oregon region. It uses Python/FastAPI, automatic deployment, and `/health` checks.
 
-No Render Postgres or Key Value instances were present in the connected workspace.
+The latest live deployment observed in the current engineering checkpoint is the source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
 
-### AWS
+## AWS
 
-The benchmark foundation now includes:
+The AWS environment includes the previously created ECS/Fargate deployment, ECR image repository, Application Load Balancer, target group, HTTPS certificate, and CloudWatch logging boundary. The public AWS hostname is `awsapi.crownlabs.tech`.
 
-* ECR repository `voxvector-api` with scan-on-push enabled
-* ECS cluster `voxvector`
-* CloudWatch log group `/ecs/voxvector-api`
-* dedicated ECS execution role
-* GitHub Actions OIDC deployment role restricted to the repository's `main` branch
-* benchmark VPC subnets and security group
-* canonical `VoxVector/Dockerfile`
-* canonical `.github/workflows/voxvector-aws-ecs.yml`
+The target path is:
 
-The workflow builds the canonical image, pushes a commit-SHA tag to ECR, registers a 1 vCPU / 2 GiB Fargate task definition, creates or updates the benchmark service, and verifies `/health` against the running task.
+`awsapi.crownlabs.tech → HTTPS ALB → ECS Fargate → VoxVector API :8000`
 
-At the time of this mirror update, the active workflow had successfully reached AWS credential configuration, identity verification, ECR login, and Docker build. ECS service and `/health` success remain pending direct workflow verification.
+The AWS target was previously observed healthy and the ECS port was restricted to ALB-origin traffic rather than unrestricted public access.
 
-The task has no Render or Supabase secret values. Therefore health verification will not by itself establish authenticated case intake or full analysis parity.
+AWS still requires full authenticated case-workflow parity and controlled workload verification before it can be designated the primary production API runtime.
 
-### Azure / Cosmos DB
+## Speech-provider migration requirements
 
-No usable Azure Cosmos DB inspection capability was exposed in the connected tool surface during this audit. No claim is therefore made about the user's Cosmos resources. Cosmos DB is not required for the first compute benchmark because replacing or duplicating the current Supabase persistence layer would enlarge the migration surface without addressing the observed Render compute constraint.
+The target runtime must carry the same canonical provider configuration:
+
+- `VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
+- `VOXVECTOR_WHISPER_MODEL=base` or an explicitly evaluated model choice
+- `VOXVECTOR_WHISPER_DEVICE=cpu`
+- `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
+- `VOXVECTOR_WHISPER_BEAM_SIZE=3`
+- `VOXVECTOR_DIARIZATION_PROVIDER=pyannote`
+- `VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1`
+- `HF_TOKEN` as a protected deployment secret
+
+Provider configuration must be reproduced without placing the token in GitHub source, client code, documentation, or exported reports.
 
 ## Required benchmark measurements
 
-The controlled comparison must capture startup/readiness, upload latency, analysis duration, peak CPU, peak memory, process stability, and request failure behavior using the same canonical API and representative test workload.
+Before any production cutover, compare the same canonical container/workload across environments using:
 
-A cloud migration result must be reported separately from VoxVector's scientific validation status. Infrastructure measurements do not validate deception inference.
+- startup/readiness
+- upload latency
+- analysis duration
+- peak CPU
+- peak memory
+- provider memory behavior
+- process stability
+- request failure behavior
+- authenticated case persistence
+- transcript/speaker/alignment artifact persistence
+
+A cloud migration result is infrastructure evidence, not scientific validation.
+
+## Developer Console
+
+The Developer Console is the engineering cockpit and now exposes runtime health, 21-stage status, infrastructure status, structured audits, deployment-variable references, and copy/download controls for audit/report/log evidence.
+
+## Scientific boundary
+
+Neither Render health, AWS health, provider readiness, nor successful software execution establishes deception-detection validity. Scientific validation remains a separate workstream with task-specific operational definitions, speaker-disjoint evaluation, calibration, uncertainty, robustness, leakage controls, and replication as applicable.
 
 **Full canonical audit:** `VoxVector/docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
