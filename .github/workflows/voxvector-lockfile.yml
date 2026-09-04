@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'voxvector/package.json'
+      - '.github/workflows/voxvector-lockfile.yml'
   workflow_dispatch:
 
 permissions:
