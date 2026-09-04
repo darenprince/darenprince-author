@@ -70,17 +70,12 @@ Case records preserve ownership, source metadata, SHA-256 provenance, run identi
 
 The canonical 21-stage contract reports:
 
-- **16 implemented foundations**
-- **4 conditional / intentionally not invoked**
-- **3 queued for deeper integration**
+- **16 implemented or built runtime foundations**
+- **4 conditional / intentionally not invoked without required inputs**
+- **Stage 05 Speaker Identification / Diarization remains queued for controlled provider execution**
+- **Stages 07 Transcription Generation and 08 Transcript Alignment have built integration paths pending controlled provider-backed verification**
 
-The three queued stages are:
-
-- Stage 05 Speaker Identification / Diarization
-- Stage 07 Transcription Generation
-- Stage 08 Transcript Alignment
-
-The first two now have configured, execution-ready provider runtimes on Render. Stage 08 has the alignment foundation. These stages remain queued until real controlled provider-backed execution, artifact persistence, and integration evidence are obtained.
+Transcription and alignment now have canonical invocation, persistence, and synchronized workspace foundations. Their functional production state still requires real controlled provider execution, artifact persistence, and verification evidence.
 
 ## Primary analytical pipeline
 
