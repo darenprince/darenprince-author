@@ -52,8 +52,8 @@ def test_build_evidence_acquisition_profiles_audio_and_timeline(monkeypatch):
     assert result.media_profile.sample_rate == 8000
     assert result.media_profile.duration_seconds == len(signal) / 8000
     assert result.media_profile.sha256
-    assert result.transcription_state == "not_configured"
-    assert result.diarization_state == "not_configured"
+    assert result.transcription_state == "not_invoked"
+    assert result.diarization_state == "not_invoked"
     assert result.transcript is None
     assert result.diarization is None
     assert result.provider_timings_ms == {}
@@ -96,20 +96,15 @@ def test_explicit_diarization_provider_is_recorded():
     assert result.provider_timings_ms["diarization"] >= 0
 
 
-def test_environment_provider_selection_is_used(monkeypatch):
+def test_environment_provider_configuration_does_not_implicitly_invoke(monkeypatch):
     monkeypatch.setenv("VOXVECTOR_TRANSCRIPTION_PROVIDER", "faster_whisper")
     monkeypatch.setenv("VOXVECTOR_DIARIZATION_PROVIDER", "none")
-    import voxvector.speech_providers as providers
-
-    monkeypatch.setattr(
-        providers,
-        "get_transcription_provider",
-        lambda: StubProvider(),
-    )
     result = build_evidence_acquisition(np.ones(1600) * 0.1, 8000)
-    assert result.transcription_state == "completed"
-    assert result.transcript.text == "test transcript"
-    assert result.provider_timings_ms["transcription"] >= 0
+    assert result.transcription_state == "not_invoked"
+    assert result.diarization_state == "not_invoked"
+    assert result.transcript is None
+    assert result.diarization is None
+    assert result.provider_timings_ms == {}
 
 
 def test_provider_failures_are_explicit_and_non_fatal():
