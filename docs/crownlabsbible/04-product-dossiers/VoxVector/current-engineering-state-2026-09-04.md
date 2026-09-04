@@ -68,3 +68,12 @@ Canonical source was corrected in the VoxVector frontend and backend bridge:
 - retired AWS checks were removed from the live engineering status component.
 
 Deployment/browser verification remains required because screenshots can still reflect an older GitHub Pages artifact even after canonical source has changed.
+
+## Runtime repair update — 2026-09-04
+
+A direct connected Render investigation recovered a concrete historical health failure: an optional `pyannote.audio` probe could throw when the optional package was absent, causing `/health` to return HTTP 500 on the affected instance. The canonical backend was repaired so optional provider detection cannot crash the health contract.
+
+The Developer Console Render bridge was also corrected at the backend boundary to read the actual Render service shape, including the runtime URL exposed through `serviceDetails.url`. This replaces the previous incomplete infrastructure projection without adding a client-side patch layer.
+
+Latest connected Render evidence showed the service running with a 512 MB memory limit and approximately 84–95 MB idle memory in the latest sampled window. Speech-provider peak profiling remains a separate required verification item.
+
