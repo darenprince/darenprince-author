@@ -58,6 +58,8 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const deployState=workflows.isPending?'PENDING':workflows.isError?'UNAVAILABLE':deploy?(deployFresh?deploy.state:'STALE'):'NOT REPORTED'
   const transcriptionState=transcription.configured_provider==='not_configured'?'NOT CONFIGURED':transcription.execution_ready?'READY · EXECUTION UNVERIFIED':transcription.adapter_installed?'INSTALLED · EXECUTION UNVERIFIED':'NOT INSTALLED'
   const diarizationState=diarization.configured_provider==='not_configured'?'NOT CONFIGURED':diarization.execution_ready&&diarization.hf_token_configured?'READY · EXECUTION UNVERIFIED':!diarization.adapter_installed?'NOT INSTALLED':'TOKEN NOT DETECTED'
+  const frontendRevision=String(import.meta.env.VITE_GITHUB_SHA||'').trim()
+  const frontendRevisionShort=frontendRevision?frontendRevision.slice(0,12):'NOT EXPOSED'
   const currentSha=currentRevision||qa?.sha||'NOT EXPOSED'
   const qaChecks=[
     ['API HEALTH',apiState,apiState==='HEALTHY'?'Canonical /health endpoint responding.':'Current API health has not been confirmed.'],
@@ -82,7 +84,7 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
       {deployNotice&&<div className={`vv-eng-deploy-notice ${deployMutation.isError?'error':'success'}`} role="status">{deployMutation.isError?<AlertTriangle size={14}/>:<CheckCircle2 size={14}/>}<span>{deployNotice}</span></div>}
       {workflows.isError&&<div className="vv-status-row error"><Server size={14}/>GitHub workflow status could not be refreshed: {workflows.error?.message}</div>}
       <div className="vv-eng-state-grid"><StateChip icon={Hammer} label="BUILT" value={built}/><StateChip icon={Activity} label="API" value={apiState}/><StateChip icon={TestTube2} label="QA" value={tested}/><StateChip icon={ShieldCheck} label="DEPLOY" value={deployState}/><StateChip icon={Mic2} label="TRANSCRIBE" value={transcriptionState}/><StateChip icon={Server} label="RENDER" value="512 MB" tone="warning"/></div>
-      <div className="vv-eng-current"><div><span className="vv-eng-kicker">CURRENT SOURCE REVISION</span><code>{currentSha}</code></div><div><span className="vv-eng-kicker">FRONTEND</span><strong>{appPackage.version}</strong></div><div><span className="vv-eng-kicker">BACKEND</span><strong>{h.package_version||h.api_version||'0.2.26'}</strong></div></div>
+      <div className="vv-eng-current"><div><span className="vv-eng-kicker">CURRENT SOURCE REVISION</span><code>{currentSha}</code></div><div><span className="vv-eng-kicker">FRONTEND</span><strong>{appPackage.version}</strong><code>{frontendRevisionShort}</code></div><div><span className="vv-eng-kicker">BACKEND</span><strong>{h.package_version||h.api_version||'0.2.26'}</strong></div></div>
       <div className="vv-eng-grid"><div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>LIVE QA + PIPELINE CHECKS</span><span>{qaChecks.filter(item=>item[1]==='PASS'||item[1]==='READY').length} PASSES</span></div><div className="vv-qa-list">{qaChecks.map(([label,status,detail,url])=><QACheck key={label} label={label} status={status} detail={detail} url={url}/>)}</div></div><div className="vv-eng-panel"><div className="vv-eng-panel__head"><span>SOURCE TRACEABILITY</span><span>GITHUB</span></div><div className="vv-trace-list">{Object.values(TRACE).map(item=><CopyTrace key={item.path} item={item}/>)}</div><div className="vv-trace-note">SOURCE → COMMIT → WORKFLOW → TEST RESULT → ARTIFACT / DEPLOYMENT → RUNTIME → CONSOLE</div></div></div>
     </div>}
   </section>
