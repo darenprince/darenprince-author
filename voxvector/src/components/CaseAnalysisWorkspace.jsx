@@ -78,6 +78,61 @@ function AnalysisResultsReview({ data, run, source }) {
   return <section className="vv-panel"><div className="vv-panel-head"><h2><ShieldCheck size={16}/> Analysis Results / Review Evidence</h2><span>{run?.status || '—'}</span></div><div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4"><ResultState label="Candidate state" value={String(candidate).replaceAll('_',' ').toUpperCase()} detail="Candidate classification remains distinct from final disposition."/><ResultState label="Final disposition" value={String(disposition).replaceAll('_',' ').toUpperCase()} detail="The current runtime remains guarded and evidence-limited."/><ResultState label="Eligibility" value={eligibility.status ? String(eligibility.status).toUpperCase() : '—'} detail={(eligibility.reasons || []).slice?.(0,2).join?.(' · ') || 'Reliability state from the analysis result.'}/><ResultState label="Evidence records" value={`${evidence.length}`} detail={`${supports} supporting · ${conflicts} conflicting · ${neutral} neutral`}/></div><div className="mt-4 grid gap-2 lg:grid-cols-2"><div className="border border-white/5 p-3"><div className="flex items-center gap-2 text-xs font-semibold"><Info size={14}/> Observations</div>{observations.length ? <div className="mt-3 max-h-64 overflow-auto space-y-2">{observations.slice(0,80).map((item,index)=><div key={`${item?.method_id || 'observation'}-${index}`} className="grid grid-cols-[1fr_auto] gap-3 border-b border-white/5 pb-2 text-[11px]"><div><strong>{item?.feature || 'Unnamed feature'}</strong><div className="text-[var(--vv-muted)]">{item?.method_id || 'method unavailable'} · {item?.unit || 'unit unavailable'}</div></div><span className="font-mono">{item?.value ?? '—'}</span></div>)}</div> : <p className="vv-copy mt-3">No analytical observations were returned in this run.</p>}</div><div className="border border-white/5 p-3"><div className="flex items-center gap-2 text-xs font-semibold"><Activity size={14}/> Evidence</div>{evidence.length ? <div className="mt-3 max-h-64 overflow-auto space-y-2">{evidence.slice(0,80).map((item,index)=><div key={`evidence-${index}`} className="border-b border-white/5 pb-2 text-[11px]"><div className="flex items-center justify-between gap-3"><strong>{String(item?.direction || 'neutral').toUpperCase()}</strong><span>strength {item?.strength ?? '—'} · confidence {item?.confidence ?? '—'}</span></div>{Array.isArray(item?.alternative_explanations) && item.alternative_explanations.length > 0 && <div className="mt-1 text-[var(--vv-muted)]">Alternatives: {item.alternative_explanations.join(' · ')}</div>}</div>)}</div> : <p className="vv-copy mt-3">No normalized evidence records were returned in this run.</p>}</div></div><div className="mt-4 border border-white/5 p-3"><div className="flex items-center gap-2 text-xs font-semibold"><AlertTriangle size={14}/> Uncertainty and alternative explanations</div>{limitations.length ? <div className="mt-2 space-y-1">{limitations.map((item,index)=><p className="text-[11px] leading-relaxed text-[var(--vv-muted)]" key={index}>{item}</p>)}</div> : <p className="vv-copy mt-2">No additional limitation text was returned. Absence of text is not evidence of certainty.</p>}</div><div className="mt-4 grid gap-2 sm:grid-cols-3"><Data label="Run ID" value={run?.run_id}/><Data label="Source ID" value={source?.source_id}/><Data label="Result schema" value={result?.schema_version || run?.schema_version || '—'}/></div><div className="mt-3 text-[10px] text-[var(--vv-muted)]">Software provenance: {JSON.stringify(provenance).slice(0,900)}</div><div className="mt-3 flex items-start gap-2 border border-[var(--vv-border)] p-3 text-[11px] text-[var(--vv-muted)]"><Info size={14} className="mt-0.5 shrink-0"/>This review surface reports the persisted runtime result. It does not convert observations into a deception probability and does not imply scientific validation.</div></section>
 }
 
+
+function EvidenceExplorer({ run }) {
+  const result = run?.result || {}
+  const evidence = Array.isArray(result.evidence) ? result.evidence : []
+  const observations = Array.isArray(result.observations) ? result.observations : []
+  const [direction, setDirection] = useState('all')
+  const [method, setMethod] = useState('all')
+  const methods = useMemo(() => [...new Set([
+    ...observations.map(item => item?.method_id).filter(Boolean),
+    ...evidence.map(item => item?.method_id).filter(Boolean),
+  ])].sort(), [observations, evidence])
+  const filteredEvidence = evidence.filter(item => {
+    const itemDirection = String(item?.direction || 'neutral').toLowerCase()
+    const itemMethod = item?.method_id || ''
+    return (direction === 'all' || itemDirection === direction) && (method === 'all' || itemMethod === method)
+  })
+  const filteredObservations = observations.filter(item => method === 'all' || item?.method_id === method)
+  const counts = ['supports', 'contradicts', 'neutral'].map(key => [key, evidence.filter(item => String(item?.direction || 'neutral').toLowerCase() === key).length])
+  return <section className="vv-panel">
+    <div className="vv-panel-head"><h2><Activity size={16}/> Evidence explorer</h2><span>{evidence.length + observations.length} persisted records</span></div>
+    <p className="vv-copy mt-3">Inspect the measurements and normalized evidence returned by this run without collapsing them into a single opaque score.</p>
+    <div className="mt-4 flex flex-wrap gap-2">
+      <button type="button" onClick={() => setDirection('all')} className={`border px-3 py-1.5 text-[10px] uppercase tracking-[.12em] ${direction === 'all' ? 'border-[var(--vv-accent-bright)] bg-white/[.06] text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>All {evidence.length}</button>
+      {counts.map(([key, count]) => <button key={key} type="button" onClick={() => setDirection(key)} className={`border px-3 py-1.5 text-[10px] uppercase tracking-[.12em] ${direction === key ? 'border-[var(--vv-accent-bright)] bg-white/[.06] text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>{key} {count}</button>)}
+    </div>
+    {methods.length > 0 && <div className="mt-3 flex flex-wrap gap-2">
+      <button type="button" onClick={() => setMethod('all')} className={`border px-2.5 py-1 text-[10px] ${method === 'all' ? 'border-white/30 text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>All methods</button>
+      {methods.map(id => <button key={id} type="button" onClick={() => setMethod(id)} className={`border px-2.5 py-1 text-[10px] font-mono ${method === id ? 'border-white/30 text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>{id}</button>)}
+    </div>
+    <div className="mt-5 grid gap-3 xl:grid-cols-[.85fr_1.15fr]">
+      <div className="border border-white/5">
+        <div className="border-b border-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[var(--vv-muted)]">Measurements · {filteredObservations.length}</div>
+        <div className="max-h-[28rem] overflow-auto divide-y divide-white/5">
+          {filteredObservations.length ? filteredObservations.map((item, index) => <div key={`${item?.method_id || 'observation'}-${item?.feature || index}`} className="grid grid-cols-[1fr_auto] gap-3 px-3 py-2.5 text-[11px]"><div className="min-w-0"><strong className="block truncate">{item?.feature || 'Unnamed feature'}</strong><span className="block truncate text-[var(--vv-muted)]">{item?.method_id || 'method unavailable'}{item?.unit ? ` · ${item.unit}` : ''}</span></div><span className="self-center font-mono text-white/70">{item?.value ?? '—'}</span></div>) : <div className="p-4 text-[11px] text-[var(--vv-muted)]">No persisted measurements match the current filter.</div>}
+        </div>
+      </div>
+      <div className="border border-white/5">
+        <div className="border-b border-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[var(--vv-muted)]">Evidence records · {filteredEvidence.length}</div>
+        <div className="max-h-[28rem] overflow-auto divide-y divide-white/5">
+          {filteredEvidence.length ? filteredEvidence.map((item, index) => {
+            const itemDirection = String(item?.direction || 'neutral').toLowerCase()
+            const alternatives = Array.isArray(item?.alternative_explanations) ? item.alternative_explanations : []
+            return <div key={`evidence-map-${index}`} className="px-3 py-3 text-[11px]">
+              <div className="flex flex-wrap items-center justify-between gap-2"><strong className="uppercase tracking-[.12em]">{itemDirection}</strong><span className="font-mono text-[10px] text-[var(--vv-muted)]">strength {item?.strength ?? '—'} · confidence {item?.confidence ?? '—'}</span></div>
+              {item?.method_id && <div className="mt-1 font-mono text-[10px] text-[var(--vv-accent-bright)]">{item.method_id}</div>}
+              {item?.description && <p className="mt-2 leading-relaxed text-[var(--vv-muted)]">{item.description}</p>}
+              {alternatives.length > 0 && <div className="mt-2 border-l border-white/10 pl-2 text-[10px] leading-relaxed text-[var(--vv-muted)]">Alternatives: {alternatives.join(' · ')}</div>}
+            </div>
+          }) : <div className="p-4 text-[11px] text-[var(--vv-muted)]">No normalized evidence records match the current filter.</div>}
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
 function TranscriptPanel({ run, currentTime, onSeek }) {
   const transcript = run?.transcript || run?.acquisition?.transcript || null
   const timeline = run?.acquisition?.multimodal_timeline || null
@@ -124,6 +179,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
   const reset = () => { if (!audioRef.current) return; audioRef.current.pause(); audioRef.current.currentTime = 0; setTime(0); setPlaying(false) }
   return <div className="space-y-4"><div className="flex flex-wrap items-end justify-between gap-3"><div><div className="vv-eyebrow">ANALYSIS WORKSPACE</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{data?.title || 'Case analysis'}</h1><p className="vv-copy mt-1">Persistent case view · {data?.case_id || '—'}</p></div><Button variant="secondary" onClick={onRefresh}><RefreshCw size={14}/> Refresh case</Button></div>
     <AnalysisResultsReview data={data} run={run} source={source}/>
+    <EvidenceExplorer run={run}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><FileAudio size={16}/> Source timeline</h2><span>{run?.status || 'not started'}</span></div>{playbackUrl && <audio ref={audioRef} src={playbackUrl} preload="metadata" crossOrigin="anonymous" className="sr-only" />}
       <div className="mt-4">{(playbackUrl || file) ? <Waveform url={playbackUrl} file={file} duration={duration} currentTime={time} onSeek={seek} markers={(run?.acquisition?.multimodal_timeline?.words || run?.transcript?.words || []).map(word=>word?.start_s).filter(Number.isFinite)}/> : <p className="vv-copy">Open or upload a source in the Case Workbench to populate the timeline.</p>}</div>
       <div className="mt-4 flex flex-wrap items-center gap-2"><Button variant="accent" onClick={toggle} disabled={!playbackUrl}><span>{playing ? <Pause size={15}/> : <Play size={15}/>}</span>{playing ? 'Pause' : 'Play'}</Button><Button variant="secondary" onClick={reset} disabled={!playbackUrl}><SkipBack size={15}/> Reset</Button><div className="ml-auto flex items-center gap-2 text-xs font-mono text-[var(--vv-muted)]"><Gauge size={14}/>{fmt(time)} / {fmt(duration)}</div></div>
