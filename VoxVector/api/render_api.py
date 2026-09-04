@@ -46,11 +46,60 @@ def _render_get(path: str, api_key: str, params: dict | None = None) -> dict | l
 def _rows(payload: dict | list) -> list[dict]:
     if isinstance(payload, list):
         return [item for item in payload if isinstance(item, dict)]
+    if not isinstance(payload, dict):
+        return []
     for key in ("items", "data", "deploys", "logs", "services"):
-        value = payload.get(key) if isinstance(payload, dict) else None
+        value = payload.get(key)
         if isinstance(value, list):
             return [item for item in value if isinstance(item, dict)]
     return []
+
+
+def _object(payload: dict | list, *keys: str) -> dict:
+    if not isinstance(payload, dict):
+        return {}
+    for key in keys:
+        value = payload.get(key)
+        if isinstance(value, dict):
+            return value
+    return payload
+
+
+def _scalar(value):
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return None
+
+
+def _text(value, fallback: str = "") -> str:
+    if isinstance(value, str):
+        return value
+    if value is None:
+        return fallback
+    if isinstance(value, (int, float, bool)):
+        return str(value)
+    if isinstance(value, dict):
+        for key in ("message", "text", "event", "name", "detail"):
+            candidate = value.get(key)
+            if isinstance(candidate, str) and candidate.strip():
+                return candidate
+        try:
+            return json.dumps(value, separators=(",", ":"), ensure_ascii=False)[:1200]
+        except (TypeError, ValueError):
+            return fallback
+    return fallback
+
+
+def _normalize_log(record: dict) -> dict:
+    message = _text(record.get("message") or record.get("text") or record.get("event") or record.get("data"), "Render log event")
+    timestamp = _scalar(record.get("timestamp") or record.get("time") or record.get("createdAt") or record.get("created_at"))
+    return {
+        "message": message,
+        "timestamp": timestamp,
+        "level": _scalar(record.get("level")),
+        "type": _scalar(record.get("type")),
+        "raw": record,
+    }
 
 
 def _owner_id(service: dict) -> str | None:
@@ -71,7 +120,7 @@ def render_status(
 ):
     api_key, resolved_service = _config(service_id)
     service_payload = _render_get(f"/services/{resolved_service}", api_key)
-    service = service_payload if isinstance(service_payload, dict) else {}
+    service = _object(service_payload, "service", "data")
     deploy_payload = _render_get(f"/services/{resolved_service}/deploys", api_key, {"limit": 5})
     deploys = _rows(deploy_payload)
     instances_payload = _render_get(f"/services/{resolved_service}/instances", api_key, {"limit": 20})
@@ -82,10 +131,11 @@ def render_status(
             "id": service.get("id") or resolved_service,
             "name": service.get("name"),
             "type": service.get("type"),
-            "suspended": service.get("suspended"),
-            "url": service.get("url"),
+            "suspended": _scalar(service.get("suspended")),
+            "state": _text(service.get("state") or service.get("status") or service.get("serviceState")),
+            "url": service.get("url") or service.get("serviceUrl"),
             "owner_id": _owner_id(service),
-            "region": service.get("region"),
+            "region": _text(service.get("region") or service.get("regionName")),
         },
         "latest_deploy": deploys[0] if deploys else {},
         "deploys": deploys,
@@ -127,6 +177,6 @@ def render_logs(
         "status": "ok",
         "service_id": resolved_service,
         "owner_id": owner_id,
-        "logs": _rows(payload),
+        "logs": [_normalize_log(record) for record in _rows(payload)],
         "observed_at": end.isoformat(),
     }
