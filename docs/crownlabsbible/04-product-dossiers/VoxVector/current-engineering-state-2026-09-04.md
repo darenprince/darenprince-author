@@ -58,8 +58,13 @@ Supabase remains the configured authentication, persistence, diagnostics, and pr
 
 ## Developer Console
 
-The console is the engineering cockpit and surfaces runtime health, 21-stage status, commit-specific QA, Render runtime status and recent logs, speech-provider readiness, structured audits, deployment-variable guidance, and copy/download controls for engineering evidence. AWS is not an active QA gate.
+The console is the engineering cockpit and surfaces runtime health, 21-stage status, commit-specific QA, Render runtime status and recent logs, speech-provider readiness, structured audits, deployment-variable guidance, a protected manual Render deployment control, and copy/download controls for engineering evidence. AWS is not an active QA gate.
 
 ## Scientific boundary
 
 Operational readiness, provider execution, software QA, and scientific validation remain distinct. No individual vocal/acoustic/linguistic/behavioral feature is treated as proof of deception.
+
+
+## Manual Render deployment control
+
+The Render Runtime surface includes a protected **Deploy Now** control. The browser calls an authenticated VoxVector API route, while the API runtime keeps `RENDER_DEPLOY_HOOK_URL` server-side and sends the deploy request to Render. Trigger acceptance is distinct from completed deployment verification.
