@@ -10,8 +10,7 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Canonical frontend root: `voxvector/`
 - Backend pipeline version: `0.2.26`
 - Frontend version: `0.2.36`
-- Current observed live Render runtime source revision before the latest queued repair: `f005c68c872434e810947b934742895c4d8324d2`
-- Latest canonical backend repair commit awaiting Render activation: `b6f43f0ec33513be9c4e1cb9542eaf3426045245`
+- Latest documented observed live Render runtime source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
 - Runtime self-test on the observed live revision: `passed`
 - Maximum sample rate: `48,000 Hz`
 - Maximum media size: `262,144,000 bytes`
@@ -39,8 +38,8 @@ The original API domain is preserved. AWS remains separately addressed and is no
 | 04 Channel / Recording Assessment | implemented |
 | 05 Speaker Identification / Diarization | queued; provider runtime ready |
 | 06 Speech Segmentation | implemented foundation |
-| 07 Transcription Generation | queued; provider runtime ready |
-| 08 Transcript Alignment | queued |
+| 07 Transcription Generation | built integration path; controlled provider execution verification next |
+| 08 Transcript Alignment | built synchronized foundation; provider-backed verification next |
 | 09 Eligibility / Reliability | implemented |
 | 10 Acoustic Feature Extraction | implemented |
 | 11 Prosodic / Voice Quality | implemented foundation |
@@ -55,9 +54,9 @@ The original API domain is preserved. AWS remains separately addressed and is no
 | 20 Final Classification / Disposition | implemented guarded foundation |
 | 21 Audit / Provenance Output | implemented foundation |
 
-Current count remains **14 implemented foundations, 4 conditional/not invoked, and 3 queued**.
+Current maturity record is **16 implemented or built runtime foundations**, with **4 conditional or intentionally not-invoked stages**. Stage 05 speaker diarization remains queued for controlled provider execution; stages 07 transcription and 08 transcript alignment now have built integration paths pending controlled runtime verification.
 
-The queued count is an integration status, not a statement that the underlying provider packages are absent. Provider execution readiness is now configured separately from pipeline promotion.
+Provider execution readiness is distinct from successful provider execution and scientific validation.
 
 ## Speech runtime readiness
 
@@ -104,7 +103,7 @@ The current production memory objective is stability first, then measured provid
 
 The canonical API now supports explicit source-revision provenance from deployment environment or embedded container metadata.
 
-The latest canonical backend repair changes are still propagating through Render. The live health payload must be re-read after the deployment completes before the newer revision is treated as production runtime evidence.
+The latest documented live runtime provenance is the revision above. A subsequent deployment must be re-read from `/health` before a newer revision is treated as production runtime evidence.
 
 `current_commit_qa` remains `external_workflow_required` until the matching GitHub Actions result is observed for the exact deployed revision.
 
