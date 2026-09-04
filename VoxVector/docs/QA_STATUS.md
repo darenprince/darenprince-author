@@ -13,9 +13,9 @@ This document records repository-level software QA. It is not a scientific valid
 | Area | Current state | Software evidence | Scientific claim |
 |---|---|---|---|
 | 21-stage pipeline contract | represented | canonical pipeline tests/contracts | none |
-| Implemented foundations | 14 | repository coverage and runtime evidence | none |
+| Implemented / built runtime foundations | 16 | repository coverage and runtime evidence | none |
 | Conditional / not invoked | 4 | explicit state contracts | none |
-| Queued stages | 3 | canonical maturity record | none |
+| Queued deeper integration | 1 primary stage (diarization); transcription/alignment have built integration paths pending controlled verification | canonical maturity record | none |
 | Acoustic / temporal / voice quality | implemented foundations | deterministic/unit/pipeline tests | observational only |
 | Reliability / eligibility | implemented | pipeline tests and runtime execution | eligibility control |
 | Evidence acquisition | implemented foundation | acquisition tests/contracts | none |
