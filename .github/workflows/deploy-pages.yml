@@ -13,7 +13,9 @@ on:
 
 concurrency:
   group: pages-production
-  cancel-in-progress: true
+  # Do not cancel an in-flight production publish when documentation or other rapid main commits follow.
+  # Let the active publish finish, then run the newest queued revision.
+  cancel-in-progress: false
 
 permissions:
   contents: read
