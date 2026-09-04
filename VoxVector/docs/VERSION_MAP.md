@@ -1,6 +1,6 @@
 # VoxVector Version Map
 
-**State date:** 2026-09-03
+**State date:** 2026-09-04
 
 | Area | Version / reference | Status |
 |---|---:|---|
@@ -20,9 +20,9 @@
 | Transcript disfluency | 0.1 | optional integrated / observational |
 | MFCC / cepstral module | 0.1 | integrated / observational |
 | Evidence acquisition | 0.1 | implemented foundation |
-| faster-whisper adapter | provider-gated | implemented |
-| pyannote Community-1 adapter | provider-gated | implemented |
-| Transcript/speaker alignment | 0.1 | implemented foundation |
+| faster-whisper adapter | configured / execution-ready on live Render runtime | implemented; real execution verification next |
+| pyannote Community-1 adapter | configured / execution-ready on live Render runtime | implemented; real execution verification next |
+| Transcript/speaker alignment | 0.1 | foundation implemented; provider-backed verification next |
 | Jitter / shimmer utilities | 0.1 | implemented / outside primary pipeline |
 | Reliability gate | 0.1 | implemented / eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
@@ -30,16 +30,36 @@
 | Final disposition gate | 0.1 | implemented / controlled boundary |
 | Validation registry | 0.3 | synchronized with implemented and planned methods |
 | Reproducibility / QA | 0.1 | implemented / regression controls |
-| CI QA workflow | 0.2 | latest verified code gate 33505986385 passed; newer commits pending exact-commit QA |
+| CI QA workflow | 0.2 | exact-commit QA still required for current runtime source |
 | Research method expansion | 0.2 | active preserved backlog |
 | Capability status map | 0.1 | active |
 | Roadmap | 0.1 | active |
 | Deception classifier | not assigned | planned / not validated |
-| Speaker diarization | not assigned | adapter implemented; provider/model access required |
-| Production transcription | not assigned | adapter implemented; speech runtime required |
-| Transcript alignment | 0.1 | foundation implemented |
+| Speaker diarization | not assigned | adapter configured; execution-ready; real controlled execution next |
+| Production transcription | not assigned | adapter configured; execution-ready; real controlled execution next |
+| Transcript alignment | 0.1 | foundation implemented; provider-backed execution next |
 | Learned speech representations | not assigned | planned |
 | D Series validated inference | not assigned | not active |
+
+## Current runtime evidence — 2026-09-04
+
+Live Render `/health` reports:
+
+- source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- pipeline: `0.2.26`
+- runtime self-test: `passed`
+- diagnostic storage: `configured_media_ready`
+- media storage: `true`
+- transcription provider: `faster_whisper`
+- transcription adapter: installed
+- transcription execution readiness: `true`
+- diarization provider: `pyannote`
+- diarization adapter: installed
+- Hugging Face token presence: `true`
+- diarization execution readiness: `true`
+- diarization model: `pyannote/speaker-diarization-community-1`
+
+The health response reports `current_commit_qa: external_workflow_required`; that value remains separate from runtime health until exact-commit GitHub Actions verification is observed.
 
 ## Canonical locations
 
@@ -57,9 +77,9 @@ The product pipeline additionally defines speaker processing, transcription, ali
 
 ## Speech intelligence runtime
 
-The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. Heavy speech ML dependencies are optional and are not part of the default runtime dependency set.
+The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. Current live Render configuration makes both provider adapters execution-ready. Heavy model execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
 
-The supported current provider choices are faster-whisper for transcription and pyannote Community-1 for speaker diarization. Community-1 currently requires model-access acceptance and a Hugging Face token. 
+Supported current providers are faster-whisper for transcription and pyannote Community-1 for speaker diarization.
 
 ## Frontend authority
 
@@ -85,12 +105,16 @@ All implemented analysis remains observational until the defined validation prog
 
 ## Documentation synchronization
 
-The current endpoint map is `docs/ENDPOINT_REGISTRY.md`.
+Current canonical status records include:
 
-The current cloud runtime evidence is `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`.
+- `docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
+- `docs/ENDPOINT_REGISTRY.md`
+- `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
+- `docs/DEPLOYMENT_VARIABLE_MATRIX.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/MVP_BUILD_PLAN.md`
+- `docs/ROADMAP.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/QA_STATUS.md`
 
-The current cross-document synchronization record remains available in the active documentation set. Historical alignment records remain available for traceability.
-
-## 2026-09-01 speech intelligence integration note
-
-The evidence acquisition layer now includes provider-neutral transcription and diarization contracts, optional faster-whisper and pyannote adapters, provider selection, transcript-to-speaker timestamp alignment, and multimodal timeline output. These components are built and covered by contract tests; production model execution still requires a speech-enabled runtime and applicable model access.
