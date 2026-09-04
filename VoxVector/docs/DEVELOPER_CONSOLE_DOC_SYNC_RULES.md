@@ -278,3 +278,16 @@ For substantive changes, build/test/browser verification must be performed when 
 ## Audits and observability surfaces
 
 The Developer Console includes structured Audits, Live Logs, Error Reports, Render Runtime, and Case History surfaces. These must use real persisted or server-observed data. Synthetic records, fabricated telemetry, fabricated QA, and decorative values presented as runtime evidence are prohibited.
+
+## Transcript workspace synchronization
+
+When a run contains a persisted transcript artifact, the Analysis Workspace must consume that artifact from the canonical case/run response rather than generating client-side transcript data.
+
+The transcript surface must share the canonical audio playhead:
+
+- waveform timestamps and transcript timestamps use the same source timeline;
+- selecting a transcript segment or timestamped word seeks the persisted source audio;
+- audio playback highlights the active transcript interval when timing exists;
+- speaker labels are shown only when a persisted attribution artifact supplies them.
+
+The Developer Console may mark the synchronized transcript workspace as **BUILT** when the canonical frontend implementation exists. It must not mark provider execution **FUNCTIONAL** until a controlled case run and artifact readback have been observed.
