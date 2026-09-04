@@ -34,7 +34,7 @@ class FasterWhisperProvider:
 
     @staticmethod
     def _wav_bytes(signal: np.ndarray, sample_rate: int) -> io.BytesIO:
-        pcm = np.clip(np.asarray(signal, dtype=np.float32), -1.0, 1.0)
+        pcm = np.clip(np.asarray(signal, dtype=np.float32).reshape(-1), -1.0, 1.0)
         pcm16 = (pcm * 32767.0).astype("<i2", copy=False)
         stream = io.BytesIO()
         with wave.open(stream, "wb") as wav:
@@ -46,7 +46,7 @@ class FasterWhisperProvider:
         return stream
 
     @staticmethod
-    @lru_cache(maxsize=2)
+    @lru_cache(maxsize=1)
     def _model(model_size: str, device: str, compute_type: str):
         try:
             from faster_whisper import WhisperModel
@@ -59,7 +59,6 @@ class FasterWhisperProvider:
 
     @classmethod
     def release_models(cls) -> None:
-        """Release cached Whisper model references between heavy provider phases."""
         cls._model.cache_clear()
 
     def release(self) -> None:
@@ -87,6 +86,8 @@ class FasterWhisperProvider:
             compute_type=self.compute_type,
             audio_duration_seconds=round(signal.size / sample_rate, 3),
         )
+        stream: io.BytesIO | None = None
+        model = None
         try:
             stream = self._wav_bytes(signal, sample_rate)
             model = self._model(self.model_size, self.device, self.compute_type)
@@ -167,3 +168,7 @@ class FasterWhisperProvider:
                 error_message=str(exc),
             )
             raise
+        finally:
+            if stream is not None:
+                stream.close()
+            del model
