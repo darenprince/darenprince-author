@@ -51,7 +51,7 @@ The target experience is one persistent case-centered workspace containing:
 - audio playback
 - synchronized waveform
 - speaker regions
-- transcript
+- timestamped conversation transcript with shared-playhead synchronization
 - analytical tracks
 - evidence timeline
 - evidence explorer
