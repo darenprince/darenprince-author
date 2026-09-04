@@ -10,8 +10,9 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Canonical frontend root: `voxvector/`
 - Backend pipeline version: `0.2.26`
 - Frontend version: `0.2.36`
-- Current observed Render runtime source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
-- Runtime self-test: `passed`
+- Current observed live Render runtime source revision before the latest queued repair: `f005c68c872434e810947b934742895c4d8324d2`
+- Latest canonical backend repair commit awaiting Render activation: `b6f43f0ec33513be9c4e1cb9542eaf3426045245`
+- Runtime self-test on the observed live revision: `passed`
 - Maximum sample rate: `48,000 Hz`
 - Maximum media size: `262,144,000 bytes`
 - Diagnostic/media storage: `configured_media_ready`
@@ -23,10 +24,10 @@ This is the current engineering snapshot for the active VoxVector repository sta
 |---|---|---|
 | Public React application | `https://darenprince.com/voxvector/` | Active public frontend |
 | Original API | `https://voxvector.crownlabs.tech` | Preserved Render API |
-| AWS API environment | `https://awsapi.crownlabs.tech` | Separate AWS ALB/ECS environment |
+| AWS API environment | `https://awsapi.crownlabs.tech` | Separate historical benchmark environment; not part of active QA gating |
 | Authentication/persistence/diagnostics/private media | Supabase | Configured boundary |
 
-The original API domain is preserved. AWS is a separate deployment environment; frontend production API routing has not been silently changed.
+The original API domain is preserved. AWS remains separately addressed and is no longer part of the active QA/developer-status gating path.
 
 ## Current 21-stage pipeline
 
@@ -81,26 +82,31 @@ The queued count is an integration status, not a statement that the underlying p
 
 Readiness is distinct from successful provider execution and scientific validation. A real controlled speech run is required before the corresponding stages are promoted from queued to integrated production execution.
 
+## Render memory hardening
+
+The 512 MiB Render service is treated as a constrained runtime budget. The canonical runtime now:
+
+- serializes heavyweight provider phases through in-process memory admission control;
+- reserves 96 MiB of headroom, using an effective 416 MiB admission threshold by default;
+- emits process RSS before/after/after-cleanup measurements for heavyweight phases;
+- performs explicit provider/model cleanup after heavy phases;
+- uses bounded frame processing for speech activity analysis;
+- normalizes decoded audio to `float32` instead of default `float64`;
+- no longer implicitly invokes configured faster-whisper or pyannote providers from generic evidence acquisition when provider objects were not explicitly supplied.
+
+That last boundary is material: provider configuration/readiness must not silently turn every case analysis into a memory-heavy transcription plus diarization job. Stages 05 and 07 remain queued until the controlled provider execution architecture is deliberately invoked and persisted.
+
+Render environment safeguards currently include `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and `TOKENIZERS_PARALLELISM=false`.
+
+The current production memory objective is stability first, then measured provider execution. No Render plan upgrade is being assumed or used as a substitute for runtime optimization.
+
 ## Runtime provenance and QA
 
-The canonical API now supports explicit source-revision provenance from deployment environment or embedded container metadata. AWS deployment workflow changes also pass source revision and source-specific QA state into the image/runtime.
+The canonical API now supports explicit source-revision provenance from deployment environment or embedded container metadata.
 
-The currently observed Render health payload reports the correct source revision, but `current_commit_qa` remains `external_workflow_required` for the observed runtime. Exact-commit QA must be verified from GitHub Actions before that field can be treated as current runtime QA evidence.
+The latest canonical backend repair changes are still propagating through Render. The live health payload must be re-read after the deployment completes before the newer revision is treated as production runtime evidence.
 
-## Immediate implementation plan
-
-1. Verify the exact current GitHub commit's backend QA workflow and publish the result in the Developer Console.
-2. Run a controlled short WAV through faster-whisper and capture transcript segments and word timestamps.
-3. Run the same controlled WAV through pyannote Community-1 and capture speaker turns.
-4. Persist transcription, speaker and multimodal alignment artifacts under case/run identity.
-5. Promote stages 05 and 07 only from successful real execution, not from configuration alone.
-6. Complete transcript alignment and expose synchronized audio, speaker, transcript and evidence time axes.
-7. Feed transcript output into linguistic/disfluency analysis and question/answer context handling.
-8. Add speaker-aware acoustic aggregation and independent baseline inputs.
-9. Instrument true internal stage callbacks where method boundaries are real; keep null timing for boundaries without real instrumentation.
-10. Build the first complete Review Evidence surface, report generation and case history/reopen flow from persistent case state.
-11. Complete browser and mobile verification.
-12. Keep scientific validation separate: operational execution, provider quality, and deception-inference validation are distinct gates.
+`current_commit_qa` remains `external_workflow_required` until the matching GitHub Actions result is observed for the exact deployed revision.
 
 ## Developer Console requirements
 
@@ -110,11 +116,12 @@ The Developer Console is the engineering cockpit and must show the above states 
 - commit-specific QA
 - 21-stage status
 - speech runtime readiness
-- Render runtime
-- AWS environment status
+- Render runtime status, memory constraints, deployment revision, and recent logs
 - structured audits
 - copy/download controls for reports, audits and logs
 - deployment variable matrix with service links
+
+The console must not treat AWS as an active QA gate, must not display retired AWS checks as current engineering status, and must not convert provider configuration into execution or validation claims.
 
 ## Evidence and integrity boundary
 
