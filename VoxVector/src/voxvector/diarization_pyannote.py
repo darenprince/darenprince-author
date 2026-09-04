@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import os
-import tempfile
 import time
-import wave
 from functools import lru_cache
 
 import numpy as np
@@ -37,31 +35,10 @@ class PyannoteDiarizationProvider:
 
     @classmethod
     def release_models(cls) -> None:
-        """Release cached diarization pipeline references between heavy provider phases."""
         cls._pipeline.cache_clear()
 
     def release(self) -> None:
         self.release_models()
-
-    @staticmethod
-    def _wav_bytes(signal: np.ndarray, sample_rate: int) -> bytes:
-        pcm = np.clip(np.asarray(signal, dtype=np.float32).reshape(-1), -1.0, 1.0)
-        pcm16 = (pcm * 32767.0).astype("<i2", copy=False)
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as handle:
-            path = handle.name
-        try:
-            with wave.open(path, "wb") as wav:
-                wav.setnchannels(1)
-                wav.setsampwidth(2)
-                wav.setframerate(sample_rate)
-                wav.writeframes(pcm16.tobytes())
-            with open(path, "rb") as handle:
-                return handle.read()
-        finally:
-            try:
-                os.remove(path)
-            except OSError:
-                pass
 
     def diarize(self, signal: np.ndarray, sample_rate: int) -> DiarizationResult:
         if not self.token:
@@ -84,6 +61,9 @@ class PyannoteDiarizationProvider:
             model_id=self.model_id,
             audio_duration_seconds=round(signal.size / sample_rate, 3),
         )
+        pipeline = None
+        waveform = None
+        output = None
         try:
             pipeline = self._pipeline(self.model_id, self.token)
             pcm = np.asarray(signal, dtype=np.float32).reshape(-1)
@@ -142,3 +122,7 @@ class PyannoteDiarizationProvider:
                 error_message=str(exc),
             )
             raise
+        finally:
+            del output
+            del waveform
+            del pipeline
