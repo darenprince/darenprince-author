@@ -46,7 +46,7 @@ const CANONICAL_COMPLETED_CHECKS = {
   'evidence-schema': true, 'candidate': true, 'assessment': true, 'history': true,
   'transcript-workspace': true,
 }
-const readChecks = () => { try { return { ...CANONICAL_COMPLETED_CHECKS, ...JSON.parse(localStorage.getItem('voxvector-mvp-checks') || '{}') } } catch { return { ...CANONICAL_COMPLETED_CHECKS } } }
+const readChecks = () => { try { return { ...JSON.parse(localStorage.getItem('voxvector-mvp-checks') || '{}'), ...CANONICAL_COMPLETED_CHECKS } } catch { return { ...CANONICAL_COMPLETED_CHECKS } } }
 const serializeExport = value => JSON.stringify(value, null, 2)
 const copyExport = async (value, label = 'Report') => {
   const text = typeof value === 'string' ? value : serializeExport(value)
