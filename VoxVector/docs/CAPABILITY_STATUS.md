@@ -17,7 +17,7 @@ The live Render runtime now reports a healthy configured speech environment:
 - pyannote Community-1 provider configured and execution-ready
 - Hugging Face token presence detected by the runtime
 
-This changes the infrastructure state of the speech adapters from provider-unconfigured to **execution-ready**. It does not promote stages 05, 07, or 08 to integrated production capability until real controlled provider execution and artifact persistence are demonstrated.
+The canonical case-analysis route now contains the transcription invocation path and persists acquired transcript artifacts into the run record. This is a **built integration path**; stages 05, 07, and 08 are not promoted to functional production execution until controlled provider execution and artifact persistence are demonstrated on a real run.
 
 ## Canonical 21 stage capability map
 
@@ -29,8 +29,8 @@ This changes the infrastructure state of the speech adapters from provider-uncon
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
 | Speaker Identification / Diarization | **Execution-ready provider configured; controlled execution next** | Production speaker-aware analysis |
 | Speech Segmentation | **Integrated** | Production speech region segmentation |
-| Transcription Generation | **Execution-ready provider configured; controlled execution next** | Production timestamped ASR |
-| Transcript Alignment | **Foundation implemented; provider-backed artifact next** | Word and audio synchronization |
+| Transcription Generation | **Built invocation path; provider execution verification next** | Production timestamped ASR |
+| Transcript Alignment | **Built synchronized workspace foundation; provider-backed verification next** | Word and audio synchronization |
 | Eligibility and Reliability | Integrated | Complete eligibility and reliability gate |
 | Acoustic Feature Extraction | Integrated | Expanded acoustic observation layer |
 | Prosodic and Voice Quality Analysis | Integrated foundation | Expanded prosodic and source analysis |
@@ -71,7 +71,7 @@ The authenticated case intake workflow supports case creation/list/retrieval, WA
 
 ## Developer Console status
 
-The Developer Console remains the engineering cockpit with runtime health, case workflow, 21-stage status, live run polling, diagnostics, Render runtime, AWS environment status, methodology and pipeline navigation, structured audits, and report/audit/log copy/download controls.
+The Developer Console remains the engineering cockpit with runtime health, case workflow, 21-stage status, live run polling, synchronized waveform/transcript review, diagnostics, Render runtime, methodology and pipeline navigation, structured audits, and report/audit/log copy/download controls.
 
 The console must display execution readiness independently from provider execution and scientific validation.
 
@@ -89,7 +89,7 @@ The console must display execution readiness independently from provider executi
 | Transcription provider | configured / execution-ready |
 | Diarization provider | configured / execution-ready |
 | Hugging Face runtime credential | detected by `/health` |
-| Provider execution | controlled verification next |
+| Transcription invocation path | built in canonical case analysis |\n| Provider execution | controlled verification next |
 | Transcript/speaker alignment | foundation; provider-backed verification next |
 | Current-commit QA | exact revision verification required |
 
