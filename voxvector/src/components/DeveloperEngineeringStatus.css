@@ -14,4 +14,13 @@
 @media(max-width:900px){.vv-eng-status--toolbar .vv-eng-status__body{inset:56px 0 0;padding:20px 14px calc(24px + env(safe-area-inset-bottom))}.vv-eng-status--toolbar .vv-eng-status__summary{display:none}}
 
 /* Developer Console layering and touch interaction. */
-.vv-developer-header{z-index:260!important}.vv-dev-profile-menu{z-index:320!important}.vv-eng-status--toolbar .vv-eng-status__body{z-index:240;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}.vv-eng-status--toolbar .vv-eng-status__header{gap:2px}.vv-eng-status--toolbar .vv-eng-status__collapse{border:0;background:transparent;color:rgba(255,255,255,.62)}.vv-eng-status--toolbar .vv-eng-status__collapse:hover{background:rgba(255,255,255,.06);color:#fff}@media(max-width:900px){.vv-eng-status--toolbar .vv-eng-status__body{top:56px;bottom:0;max-height:none;padding-bottom:calc(28px + env(safe-area-inset-bottom));touch-action:pan-y}.vv-dev-profile-menu{position:fixed!important;top:56px!important;right:8px!important;left:8px!important;width:auto!important;max-height:calc(100dvh - 72px);overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}}
+.vv-developer-header{z-index:900!important;overflow:visible!important}.vv-dev-profile-menu{z-index:1100!important}.vv-eng-status--toolbar{z-index:1000!important}.vv-eng-status--toolbar .vv-eng-status__body{z-index:1050;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}.vv-eng-status--toolbar .vv-eng-status__header{gap:2px}.vv-eng-status--toolbar .vv-eng-status__collapse{border:0;background:transparent;color:rgba(255,255,255,.62)}.vv-eng-status--toolbar .vv-eng-status__collapse:hover{background:rgba(255,255,255,.06);color:#fff}@media(max-width:900px){.vv-eng-status--toolbar .vv-eng-status__body{top:56px;bottom:0;max-height:none;padding-bottom:calc(28px + env(safe-area-inset-bottom));touch-action:pan-y}.vv-dev-profile-menu{position:fixed!important;top:56px!important;right:8px!important;left:8px!important;width:auto!important;max-height:calc(100dvh - 72px);overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}}
+
+
+/* Canonical developer-navbar overlay stack: menus must clear console content and sticky workflow layers. */
+.vv-developer-header,
+.vv-developer-header > div { overflow:visible!important; }
+.vv-developer-header .vv-dev-profile-menu { z-index:1100!important; }
+.vv-developer-header .vv-eng-status--toolbar,
+.vv-developer-header .vv-eng-status--toolbar .vv-eng-status__header { position:relative; z-index:1000!important; }
+.vv-developer-header .vv-eng-status--toolbar .vv-eng-status__body { z-index:1050!important; }
