@@ -77,7 +77,7 @@ It combines:
 - spectrogram/playback analysis view
 - analytical tracks when available
 - speaker regions when available
-- transcript when available
+- persisted timestamped conversation transcript with segment and word selection when available
 - evidence markers when available
 - evidence timeline when available
 - pipeline state
@@ -173,7 +173,7 @@ Display:
 - response boundaries
 - evidence markers
 
-Transcript selection moves the audio playhead. Audio selection reveals associated transcript content when alignment exists.
+Transcript and word selection move the shared audio playhead. The live playhead highlights the active transcript segment and word timing when timestamps exist. Waveform markers use the same persisted transcript timestamps.
 
 ## Analysis Pipeline UI
 
