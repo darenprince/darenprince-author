@@ -91,7 +91,7 @@ PIPELINE_STAGE_DEFINITIONS = [
 ]
 PIPELINE_FOUNDATION_STATUS = {
     "file_upload_ingest": "implemented", "file_decode_normalization": "implemented", "provenance_integrity": "implemented", "channel_recording_assessment": "implemented",
-    "speaker_identification_diarization": "queued", "speech_segmentation": "implemented_foundation", "transcription_generation": "queued", "transcript_alignment": "queued",
+    "speaker_identification_diarization": "queued", "speech_segmentation": "implemented_foundation", "transcription_generation": "implemented_foundation", "transcript_alignment": "implemented_foundation",
     "eligibility_reliability": "implemented", "acoustic_feature_extraction": "implemented", "prosodic_voice_quality": "implemented_foundation", "temporal_pause_analysis": "implemented_foundation",
     "linguistic_disfluency": "conditional", "question_answer_alignment": "conditional", "within_speaker_baseline": "conditional", "cross_method_evidence": "implemented_foundation",
     "evidence_convergence_conflict": "implemented_foundation", "candidate_classification": "implemented_guarded", "validation_calibration_gate": "not_invoked", "final_disposition": "implemented_guarded", "audit_provenance_output": "implemented_foundation",
