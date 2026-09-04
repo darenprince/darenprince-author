@@ -1,5 +1,16 @@
 # VoxVector Project Decision Log
 
+## 2026-09-04 — Developer Console navigation consolidation
+
+**Decision:** The canonical Developer Console uses a single slide-out navigation surface instead of a persistent desktop sidebar.
+
+**Reason:** The analysis workspace requires more horizontal room for waveform, transcript, evidence, and pipeline data. A duplicate static rail and hamburger navigation created competing navigation models and reduced usable space.
+
+**Implementation:** The static `vv-sidebar` is removed from the canonical console shell. The existing slide-out navigation remains the single navigation owner and opens by default at console entry.
+
+**Boundary:** This is a frontend interaction and layout change only. It does not alter analysis methods, runtime results, pipeline state, provider execution, or validation status.
+
+
 ## 2026-08-19 — Product objective and deception detection identity
 
 **Decision:** VoxVector's canonical product objective is vocal and audio deception detection. Product, executive, and technical documentation must describe VoxVector as a deception detection system while separately reporting current implementation and scientific validation status.
