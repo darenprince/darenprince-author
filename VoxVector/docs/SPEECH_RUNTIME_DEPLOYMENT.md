@@ -1,6 +1,6 @@
 # VoxVector Speech Runtime Deployment
 
-**State date:** 2026-09-02
+**State date:** 2026-09-04
 
 ## Purpose
 
@@ -60,15 +60,21 @@ Runtime memory reference:
 
 This is a diagnostic reference only. It does not override Render's platform memory limit.
 
+Memory admission reserve:
+
+`VOXVECTOR_MEMORY_HEADROOM_MB=96`
+
+On the current 512 MiB reference budget, a heavyweight provider phase is admitted only while measured process RSS is below **416 MiB**. This protects a reserve for allocator overhead, transient tensors, request state, and runtime activity.
+
 ## Memory-safe execution behavior
 
-The evidence-acquisition speech detector uses bounded frame groups rather than materializing a full-recording frame matrix. Heavy transcription and diarization provider phases are serialized in-process. Provider caches are explicitly released after each attempt, including failed attempts, followed by Python garbage collection and best-effort Linux allocator trimming.
+The evidence-acquisition speech detector uses bounded frame groups rather than materializing a full-recording frame matrix. Heavy transcription and diarization provider phases are serialized in-process and checked against the configured RSS admission threshold before execution. Provider caches are explicitly released after each attempt, including failed attempts, followed by Python garbage collection and best-effort Linux allocator trimming.
 
 The runtime emits `VOXVECTOR_MEMORY` lines around heavyweight provider phases containing current Linux process RSS when available, phase duration, and the configured memory reference. This provides direct application evidence to correlate with Render infrastructure telemetry.
 
 ## Current verification state
 
-The source wiring is implemented in the current engineering branch. A successful Render deployment and a real short-WAV transcription are still required before runtime execution can be called verified.
+The source wiring is implemented in the current engineering branch. The live runtime is configured and execution-ready. Controlled provider execution and measured resource verification remain required before provider-backed pipeline stages are promoted beyond their current documented maturity.
 
 ## Health verification
 
