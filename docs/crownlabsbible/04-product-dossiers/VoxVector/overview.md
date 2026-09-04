@@ -51,7 +51,7 @@ The target experience is one persistent case-centered workspace containing:
 - audio playback
 - synchronized waveform
 - speaker regions
-- timestamped conversation transcript with shared-playhead synchronization
+- timestamped conversation transcript with shared-playhead synchronization and clickable word/segment seeking
 - analytical tracks
 - evidence timeline
 - evidence explorer
@@ -256,3 +256,10 @@ The engineering workflow is now consolidated as **Architecture → Ownership →
 ## 2026-09-01 Observability and Audit Surface
 
 The Developer Console includes Live Logs, Error Reports, and structured Audits. The observability design preserves immutable diagnostic archives while projecting sanitized lifecycle and error records into relational Supabase tables for operator-facing queries. Production verification remains separate from source implementation.
+
+
+## Implementation Sync — 2026-09-04
+
+The current canonical case-analysis workflow includes built transcription execution wiring and a synchronized transcript review surface. When faster-whisper execution succeeds, normalized timestamped segments and words are persisted with the analysis run and displayed against the same audio playhead used by waveform playback. Aligned speaker attribution is consumed when diarization artifacts exist. The Developer Console MVP board locks completed canonical implementation items so local operator toggles cannot accidentally uncheck built workflow surfaces; remaining optional work stays manually trackable.
+
+Controlled provider execution, persisted artifact readback, and deployed browser/mobile verification remain separate functional checks.
