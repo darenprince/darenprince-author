@@ -77,6 +77,7 @@ The queued count is an integration status, not a statement that the underlying p
 - execution ready: `true`
 - model: `pyannote/speaker-diarization-community-1`
 - Hugging Face token: configured in the live Render environment
+- model access note: `pyannote/speaker-diarization-community-1` is a gated Hugging Face repository; token presence and adapter readiness are not substituted for a successful controlled provider run
 
 Readiness is distinct from successful provider execution and scientific validation. A real controlled speech run is required before the corresponding stages are promoted from queued to integrated production execution.
 
