@@ -12,15 +12,15 @@ One real case must move through:
 
 The MVP is defined by connected real workflows, not screen count.
 
-## Current execution checkpoint — 2026-09-01
+## Current execution checkpoint — 2026-09-04
 
-**Current engineering stage:** Post-analysis Results / Review Evidence.
+**Current engineering stage:** Canonical transcription execution wiring and synchronized transcript review.
 
 The observed production case path has completed case creation, WAV source upload, private media persistence, case-bound analysis, and analysis completion. Current CI also passes on the same `main` commit, including API tests and the React production build. fileciteturn102file0L2-L10
 
-**Primary next dependency:** canonical composed Analysis Results contract and Review Evidence surface.
+**Primary next dependency:** controlled provider execution against a known case source and exact artifact verification.
 
-**Following dependency:** true per-stage lifecycle telemetry, then speaker/transcript foundations and the full evidence workspace.
+**Following dependency:** transcript-derived linguistic analysis, speaker execution, richer evidence anchoring, and granular per-stage lifecycle telemetry.
 
 ## P0 — Case spine
 
@@ -60,15 +60,19 @@ Required: speaker segmentation, diarization, overlap handling, speaker confidenc
 
 ## P5 — Production transcription
 
-Status: **QUEUED**.
+Status: **BUILT / EXECUTION VERIFICATION NEXT**.
 
-Required: production ASR integration, timestamped transcript, confidence, persistence, and provenance.
+Implemented: the canonical case-analysis route now invokes the configured faster-whisper provider when the runtime reports execution readiness and persists normalized timestamped transcript segments and words in the case run. The Analysis Workspace renders the persisted transcript against the shared audio playhead.
+
+Remaining: controlled live provider execution, artifact readback, and transcript quality verification.
 
 ## P6 — Audio/transcript alignment
 
-Status: **QUEUED**.
+Status: **BUILT FOUNDATION / EXECUTION VERIFICATION NEXT**.
 
-Required: word/segment alignment, synchronized selection, speaker synchronization, and evidence anchoring.
+Implemented: timestamped transcript words and segments are projected into the shared case timeline; waveform markers, transcript selection, and word selection synchronize through the canonical audio playhead. Speaker attribution remains dependent on a persisted diarization result.
+
+Remaining: controlled provider-backed alignment verification, speaker-turn synchronization, and evidence anchoring.
 
 ## P7 — Analytical observation layer
 
@@ -145,9 +149,9 @@ The MVP build order now prioritizes evidence acquisition:
 
 **Phase EA1:** media profile and speech timeline foundation — implemented
 **Phase EA2:** speaker diarization contract/provider — next
-**Phase EA3:** transcription provider and normalized transcript artifact — next
-**Phase EA4:** word/segment timestamp normalization and speaker association
-**Phase EA5:** transcript/audio alignment and multimodal timeline
+**Phase EA3:** transcription provider and normalized transcript artifact — built; controlled execution verification next
+**Phase EA4:** word/segment timestamp normalization and speaker association — transcript/audio foundation built; speaker execution next
+**Phase EA5:** transcript/audio alignment and multimodal timeline — synchronized workspace foundation built; provider-backed verification next
 **Phase EA6:** evidence consumers: linguistic, interaction, baseline, convergence
 
 Existing telemetry and results infrastructure remains supporting architecture around these real engines.
