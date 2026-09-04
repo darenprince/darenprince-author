@@ -70,7 +70,7 @@ Case records preserve ownership, source metadata, SHA-256 provenance, run identi
 
 The canonical 21-stage contract reports:
 
-- **14 implemented foundations**
+- **16 implemented foundations**
 - **4 conditional / intentionally not invoked**
 - **3 queued for deeper integration**
 
