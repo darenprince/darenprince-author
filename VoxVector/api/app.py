@@ -108,11 +108,18 @@ def _stage_build_summary() -> dict:
     values = list(PIPELINE_FOUNDATION_STATUS.values())
     return {"total": 21, "implemented_foundations": sum(value.startswith("implemented") for value in values), "conditional_or_not_invoked": sum(value in {"conditional", "not_invoked"} for value in values), "queued": sum(value == "queued" for value in values), "status_by_stage": PIPELINE_FOUNDATION_STATUS}
 
+def _module_available(module_name: str) -> bool:
+    try:
+        return importlib.util.find_spec(module_name) is not None
+    except (ImportError, ModuleNotFoundError, AttributeError, ValueError):
+        return False
+
+
 def _speech_runtime_status() -> dict:
     transcription_provider = os.getenv("VOXVECTOR_TRANSCRIPTION_PROVIDER", "").strip().lower() or "not_configured"
     diarization_provider = os.getenv("VOXVECTOR_DIARIZATION_PROVIDER", "").strip().lower() or "not_configured"
-    transcription_adapter = importlib.util.find_spec("faster_whisper") is not None
-    diarization_adapter = importlib.util.find_spec("pyannote.audio") is not None
+    transcription_adapter = _module_available("faster_whisper")
+    diarization_adapter = _module_available("pyannote.audio")
     hf_token = bool(os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_TOKEN"))
     transcription_ready = transcription_provider != "not_configured" and transcription_adapter
     diarization_ready = diarization_provider != "not_configured" and diarization_adapter and hf_token
