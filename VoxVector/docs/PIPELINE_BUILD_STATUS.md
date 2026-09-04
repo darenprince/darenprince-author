@@ -14,8 +14,8 @@ This document is an engineering status record, not a claim that every pipeline s
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised by pipeline |
 | 05 | Speaker Identification / Diarization | **queued** | pyannote adapter configured and execution-ready on live Render runtime; real controlled execution next | contract tests; provider-backed execution required |
 | 06 | Speech Segmentation | **implemented foundation** | deterministic energy/voicing segmentation | deterministic tests; production executed |
-| 07 | Transcription Generation | **queued** | faster-whisper adapter configured and execution-ready on live Render runtime; real controlled execution next | contract tests; provider-backed execution required |
-| 08 | Transcript Alignment | **foundation implemented** | timestamp overlap alignment contract exists; real provider-backed artifact required | regression tests; end-to-end provider execution required |
+| 07 | Transcription Generation | **built integration path** | canonical case analysis invokes faster-whisper when runtime-ready and persists normalized transcript artifacts; controlled execution verification next | contract tests; controlled provider-backed execution required |
+| 08 | Transcript Alignment | **built synchronized foundation** | persisted transcript words/segments drive shared waveform and audio playhead; speaker attribution awaits diarization artifact | regression tests; controlled provider-backed verification required |
 | 09 | Eligibility and Reliability | **implemented** | recording eligibility/reliability result | covered by pipeline tests; production executed |
 | 10 | Acoustic Feature Extraction | **implemented** | RMS, intensity, ZCR, centroid, spread, F0, harmonicity, MFCC and related observations | covered by acoustic/pipeline tests; production executed |
 | 11 | Prosodic and Voice Quality Analysis | **implemented foundation** | F0/intensity dynamics and HNR | feature tests; scientific validation separate |
@@ -34,7 +34,7 @@ This document is an engineering status record, not a claim that every pipeline s
 
 - **14 stages have implemented analytical/runtime foundations**
 - **4 stages are conditional or intentionally not invoked without required inputs**
-- **3 stages remain queued for deeper integration**
+- **speaker execution remains queued for deeper integration; transcription/alignment now have built integration paths pending controlled runtime verification**
 - **faster-whisper is configured and execution-ready on the live Render runtime**
 - **pyannote Community-1 is configured and execution-ready on the live Render runtime**
 - **21 stages remain represented in the canonical contract**
