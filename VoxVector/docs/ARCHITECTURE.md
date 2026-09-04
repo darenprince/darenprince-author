@@ -4,9 +4,23 @@
 
 VoxVector is being engineered as a complete vocal intelligence and deception analysis system.
 
-The architecture connects recording intake speaker processing transcription synchronized audio analysis evidence synthesis classification reporting and audit into one case centered workflow.
+The architecture connects recording intake, speaker processing, transcription, synchronized audio analysis, evidence synthesis, classification, reporting, and audit into one case-centered workflow.
 
-The architecture is designed around the supplied Analysis Workspace reference experience. The reference establishes the information architecture and interaction model. The active visual system is governed separately.
+## Current implementation checkpoint — 2026-09-04
+
+The live Render runtime now provides a configured speech-processing boundary in addition to the established acoustic/temporal analysis foundation:
+
+- backend pipeline `0.2.26`
+- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- runtime self-test `passed`
+- diagnostic/media storage `configured_media_ready`
+- media storage `true`
+- faster-whisper transcription provider configured and execution-ready
+- pyannote Community-1 diarization provider configured and execution-ready
+- Hugging Face token presence detected by runtime health
+- 21-stage maturity remains 14 implemented foundations, 4 conditional/not-invoked, 3 queued
+
+The configured speech providers are an enabling runtime state. Controlled provider execution and artifact persistence remain the next dependency before stages 05, 07, and 08 are promoted.
 
 ## Application boundary
 
@@ -53,57 +67,29 @@ VoxVector/src/voxvector/
         |
         v
 Supabase
-Auth / case data / diagnostics / persistence
+Auth / case data / diagnostics / persistence / private media
 ```
 
-The React application is presentation and interaction code.
+The React application is presentation and interaction code. The frontend must not recreate the analysis engine.
 
-The frontend must not recreate the analysis engine.
+The FastAPI adapter is an interface and runtime boundary. It must import and execute the canonical engine and must never become a second analysis implementation.
 
-The FastAPI adapter is an interface and runtime boundary.
-
-It must import and execute the canonical engine.
-
-It must never become a second analysis implementation.
-
-## Repository workspaces
-
-### Public frontend
-
-`voxvector/` is the canonical React and Vite frontend workspace.
-
-It contains:
-
-- React application
-- application owned UI components
-- Base UI interaction primitives
-- Tailwind styling
-- Motion for React
-- TanStack Query
-- Supabase browser authentication client
-- real API client
-- public product experience
-- Analysis Workspace
-- Developer Console
-
-Vite uses:
+## Deployment endpoints
 
 ```text
-base: /voxvector/
+https://darenprince.com/voxvector/
+    public React application + Developer Console
+
+https://voxvector.crownlabs.tech
+    original Render FastAPI API; preserved
+
+https://awsapi.crownlabs.tech
+    separate AWS ALB → ECS Fargate VoxVector API environment
 ```
 
-### Backend
+The original API domain remains preserved. AWS is a separate deployment environment until an explicit cutover decision is made and verified.
 
-`VoxVector/` remains the canonical backend and analysis workspace.
-
-- HTTP adapter: `VoxVector/api/app.py`
-- Analysis engine: `VoxVector/src/voxvector/`
-- Tests: `VoxVector/tests/`
-- Technical documentation: `VoxVector/docs/`
-- Render root: `VoxVector`
-- Render entry point: `api.app:app`
-
-## Canonical 21 stage analysis pipeline
+## Canonical 21-stage analysis pipeline
 
 The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 
@@ -140,167 +126,49 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-## Core analytical layers
+## Current stage maturity
 
-### Input layer
+The live health contract currently reports:
 
-Responsible for:
+- 14 implemented foundations
+- 4 conditional/not-invoked stages
+- 3 queued stages
 
-- file intake
-- decoding
-- normalization
-- metadata extraction
-- hashing
-- provenance
-- recording condition assessment
+Provider configuration and execution readiness do not change the maturity count. Real provider execution, persisted artifacts, integration tests, and runtime verification are required for stage promotion.
 
-### Speaker and speech layer
+## Evidence acquisition runtime
 
-Responsible for:
+The canonical acquisition layer provides a normalized media profile, speech/silence timeline, provider-neutral transcript and diarization contracts, provider selection, timestamp overlap alignment, and multimodal timeline output.
 
-- speech activity
-- segmentation
-- speaker regions
-- diarization
-- turn structure
-- overlap
-- speaker separation
+Current Render provider configuration:
 
-### Language layer
+```text
+VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
+VOXVECTOR_WHISPER_MODEL=base
+VOXVECTOR_WHISPER_DEVICE=cpu
+VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
+VOXVECTOR_WHISPER_BEAM_SIZE=3
 
-Responsible for:
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote
+VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1
+HF_TOKEN=<protected deployment secret>
+```
 
-- transcription
-- word timing
-- phoneme timing where supported
-- speaker attribution
-- disfluency
-- lexical analysis
-- semantic analysis
-- question and answer context
+The runtime health contract reports provider configuration/readiness without exposing the credential.
 
-### Signal analysis layer
-
-Responsible for:
-
-- pitch
-- intensity
-- energy
-- spectral features
-- harmonicity
-- HNR
-- MFCC
-- formant candidates
-- voice quality
-- prosody
-- temporal behavior
-
-### Evidence layer
-
-Responsible for:
-
-- normalized evidence
-- provenance
-- quality
-- evidence direction
-- convergence
-- conflict
-- dependency relationships
-- alternative hypotheses
-
-### Classification layer
-
-Responsible for:
-
-- candidate classification
-- model configuration
-- calibration
-- confidence
-- uncertainty
-- final disposition
-
-### Audit layer
-
-Responsible for:
-
-- run identity
-- source identity
-- method identity
-- configuration
-- measurements
-- evidence relationships
-- pipeline state
-- final output provenance
-
-## Case centered data architecture
+## Case-centered data architecture
 
 One analysis case is the root object for the complete user workflow.
 
-The case model must connect:
+The case model connects case ID, analysis ID, analysis run ID, source asset, source metadata, provenance, recording metadata, speaker records, speaker segments, speech segments, transcript records, transcript segments, transcript words, alignment records, analytical track records, feature observations, evidence records, evidence relationships, pipeline stage states, lifecycle events, findings, assessment, reports, and final disposition.
 
-- case ID
-- analysis ID
-- analysis run ID
-- source asset ID
-- source metadata
-- provenance
-- recording metadata
-- speaker records
-- speaker segments
-- speech segments
-- transcript records
-- transcript segments
-- transcript words
-- alignment records
-- analytical track records
-- feature observations
-- evidence records
-- evidence relationships
-- pipeline stage states
-- lifecycle events
-- findings
-- assessment
-- reports
-- final disposition
+## Analysis Workspace
 
-Upload playback transcription analysis evidence assessment and reporting must share this identity chain.
+The persistent workspace combines source metadata, audio playback, waveform, speaker regions, transcript, synchronized analytical tracks, evidence markers, pipeline state, evidence timeline, Review Evidence, assessment state, report controls, and case history.
 
-## Product experience architecture
-
-The product is a unified case centered intelligence workspace.
-
-The detailed UX contract is defined in `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
-
-Primary surfaces:
-
-- Overview
-- New Analysis
-- Analyses
-- History
-- Evidence Explorer
-- Reports
-- Comparisons
-- Alerts
-- Settings
-- Developer Console
-
-The core Analysis Workspace combines:
-
-- source metadata
-- audio playback
-- synchronized waveform
-- analytical tracks
-- speaker regions
-- transcript
-- evidence markers
-- analysis pipeline
-- key metrics
-- evidence timeline
-- assessment state
+A shared time axis remains the synchronization contract across audio, speaker, transcript, analytical observations, and evidence.
 
 ## Synchronized analytical viewer
-
-The primary viewer is built around one shared time axis.
 
 Initial tracks:
 
@@ -311,210 +179,55 @@ Initial tracks:
 - speech activity
 - pauses
 
-Expanded tracks can include:
+Expanded tracks can include formants, HNR, spectral flux, spectral rolloff, MFCC, jitter, shimmer, voice quality, response latency, speaker turns, transcript alignment, and evidence events.
 
-- formants
-- HNR
-- spectral flux
-- spectral rolloff
-- MFCC
-- jitter
-- shimmer
-- voice quality
-- response latency
-- speaker turns
-- transcript alignment
-- evidence events
+Every track is driven by canonical analysis data and never synthetic telemetry.
 
-Every track is driven by canonical analysis data.
+## Reliability and classification boundaries
 
-## Transcript and speaker synchronization
+Reliability is an eligibility control, not a deception probability.
 
-The workspace treats speaker regions and transcript content as first class synchronized layers.
+Candidate classification remains distinct from evidence collection, and final disposition remains distinct from candidate classification. Validation and calibration remain a separate gate.
 
-The interaction model supports:
+## Operational observability
 
-- speaker turn selection
-- speaker region highlighting
-- overlap visualization
-- transcript segment selection
-- word selection
-- audio to transcript navigation
-- transcript to audio navigation
-- evidence marker synchronization
+The API includes request correlation and sanitized lifecycle/stage diagnostics with durable storage support. The Developer Console consumes operational evidence rather than inventing telemetry.
 
-## Analysis Overview architecture
-
-The overview surface contains:
-
-- source file metadata
-- duration
-- recording quality
-- processing state
-- condensed waveform
-- evidence markers
-- key analytical metrics
-- assessment state
-- evidence timeline
-- pipeline state
-
-The metric system is data driven.
-
-The UI must never invent numerical telemetry.
-
-## Evidence Explorer architecture
-
-Evidence Explorer provides case wide access to normalized evidence.
-
-Filters include:
-
-- speaker
-- time
-- method family
-- evidence type
-- evidence direction
-- reliability
-- transcript context
-- question
-- response
-
-Every evidence record links back to its source interval and method.
-
-## Reports architecture
-
-Reports are generated from the persistent analysis case model.
-
-A report may contain:
-
-- case summary
-- source information
-- speaker information
-- eligibility and reliability
-- method summary
-- analytical findings
-- evidence timeline
-- convergence and conflict
-- candidate assessment
-- confidence and uncertainty
-- alternative hypotheses
-- final disposition
-- audit and provenance
-
-## Runtime orchestration
-
-`VoxVectorPipeline.analyze()` remains the canonical engine entry point.
-
-The current runtime provides the foundational observational analysis documented in `docs/CAPABILITY_STATUS.md`.
-
-The product architecture expands the same orchestration boundary to speaker processing transcription alignment richer linguistic analysis evidence synthesis classification validation and reporting.
-
-No frontend component may imply that a backend stage has executed when the backend has not produced the corresponding state.
-
-## Reliability boundary
-
-Reliability is an eligibility control.
-
-It is not a deception probability.
-
-Reliability should incorporate:
-
-- signal quality
-- clipping
-- duration
-- channel integrity
-- recording artifacts
-- speaker separability
-- transcript confidence
-- contextual completeness
-
-## Classification boundary
-
-A measured observation is not a candidate label.
-
-Candidate classification remains a distinct stage.
-
-Final disposition remains a distinct stage.
-
-Validation and calibration remain a distinct gate.
-
-## Operational observability boundary
-
-The API includes request correlation and sanitized lifecycle and stage diagnostics with durable Supabase Storage support.
-
-The Developer Console consumes operational evidence rather than inventing telemetry.
-
-UI state must reflect real request and stage state.
-
-## Deployment boundary
-
-GitHub Pages is the public frontend host.
-
-Render remains the original API host.
-
-AWS provides a separately addressed deployment environment for benchmarking and controlled runtime evaluation.
+## Current engineering sequence
 
 ```text
-https://darenprince.com/voxvector/
-    public React application
-
-https://darenprince.com/voxvector/developer/
-    authenticated Developer Console
-
-https://voxvector.crownlabs.tech
-    original VoxVector FastAPI API
-
-https://awsapi.crownlabs.tech
-    AWS ALB → ECS Fargate VoxVector API
+controlled provider execution
+        ↓
+persist transcript + speaker artifacts
+        ↓
+timestamp normalization
+        ↓
+transcript / speaker / audio alignment
+        ↓
+multimodal evidence timeline
+        ↓
+linguistic + interaction + baseline consumers
+        ↓
+Review Evidence
+        ↓
+assessment + reporting + history
+        ↓
+browser/mobile verification
+        ↓
+scientific validation
 ```
-
-The root `voxvector.html` is a compatibility redirect only.
-
-It must not contain a second VoxVector implementation.
-
-## MVP engineering boundary
-
-The fastest connected MVP path is maintained in `docs/MVP_BUILD_PLAN.md`.
-
-The dependency chain is:
-
-1. case identity
-2. intake and provenance
-3. audio playback and waveform
-4. real pipeline lifecycle
-5. speaker processing
-6. transcription
-7. transcript alignment
-8. analytical tracks
-9. evidence normalization
-10. evidence synthesis
-11. assessment
-12. reporting
-13. history and reopen
-14. browser verification
-
-The Developer Console is the engineering cockpit for this path.
 
 ## Engineering principles
 
 - one canonical analysis engine
 - one canonical case model
-- one 21 stage pipeline
+- one 21-stage pipeline
 - one synchronized analytical time axis
 - frontend state derived from real backend state
 - every visualization has a data contract
 - every evidence record has provenance
 - every analytical stage has defined inputs and outputs
 - implementation maturity remains an internal engineering property
-- scientific validation remains an explicit engineering workstream
+- provider readiness, execution, software QA, and scientific validation remain separate states
 - planned capabilities remain preserved in canonical documentation
-- accessibility remains part of product completion
-- responsive behavior remains part of product completion
-- animation is presentation state and never analytical evidence
-
-## Documentation synchronization
-
-When the pipeline changes update the architecture pipeline implementation plan MVP plan roadmap capability status and AI project instructions together.
-
-When deployment endpoints or hosting responsibilities change, update `docs/ENDPOINT_REGISTRY.md`, the deployment boundary, system architecture, cloud audit, developer engineering surfaces, and the synchronized Crown Labs VoxVector dossier.
-
-The cross document audit record is `docs/DOCS_ALIGNMENT_2026-08-20.md`.
+- accessibility and responsive behavior remain part of completion
