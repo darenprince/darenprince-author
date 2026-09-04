@@ -178,3 +178,5 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   .vv-public-mega-grid { grid-template-columns: 1fr; gap: 16px; }
   .vv-public-mega-footer { align-items: flex-start; flex-direction: column; }
 }
+
+.vv-public-workspace-trigger{cursor:pointer}.vv-public-workspace-trigger:focus-visible,.vv-public-mega-item:focus-visible{outline:2px solid var(--vv-accent-bright);outline-offset:3px}.vv-sheet-head{position:sticky;top:0;background:var(--vv-bg);z-index:2}@media(min-width:901px){.vv-app .vv-main{padding-left:clamp(20px,4vw,56px);padding-right:clamp(20px,4vw,56px)}}
