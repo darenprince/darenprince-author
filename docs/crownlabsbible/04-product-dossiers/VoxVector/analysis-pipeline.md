@@ -100,7 +100,7 @@ The target case-centered workspace connects:
 - reports
 - history
 
-The shared time axis connects audio speaker transcript analytical observations and evidence events.
+The shared time axis connects audio, speaker artifacts when available, transcript segments and words, analytical observations, and evidence events. The current workspace uses one canonical playhead so waveform seeking and timestamped transcript selection stay synchronized.
 
 ## Architectural separation
 
