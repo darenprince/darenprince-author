@@ -9,7 +9,10 @@
 | `VOXVECTOR_DIARIZATION_PROVIDER` | Select diarization provider | Render environment | ECS task environment | Use only supported canonical provider values. |
 | `VOXVECTOR_DIARIZATION_MODEL` | Select diarization model | Render environment | ECS task environment | Model availability must be verified at runtime. |
 | `VOXVECTOR_TRANSCRIPTION_PROVIDER` | Select transcription provider | Render environment | ECS task environment | Required before adapter becomes execution-ready. |
-| `VOXVECTOR_TRANSCRIPTION_MODEL` | Select transcription model | Render environment | ECS task environment | Keep aligned with provider capability. |
+| `VOXVECTOR_WHISPER_MODEL` | Select faster-whisper model | Render environment | ECS task environment | Canonical adapter reads this name; current profile uses `base`. |
+| `VOXVECTOR_WHISPER_DEVICE` | Select inference device | Render environment | ECS task environment | Current Render profile uses `cpu`. |
+| `VOXVECTOR_WHISPER_COMPUTE_TYPE` | Select inference compute type | Render environment | ECS task environment | Current Render profile uses `int8`. |
+| `VOXVECTOR_WHISPER_BEAM_SIZE` | Control decoding beam size | Render environment | ECS task environment | Current Render profile uses `3`. |
 | `VOXVECTOR_SOURCE_REVISION` | Deployment provenance | Render build/runtime metadata | ECS workflow/task definition | Prefer workflow-injected commit SHA. |
 | `VOXVECTOR_CURRENT_COMMIT_QA` | Source-specific QA provenance | Render deployment metadata | ECS workflow/task definition | Must come from real QA execution. |
 | Supabase server credentials | Diagnostics, persistence, private media | Render secret environment | AWS Secrets Manager | Existing canonical storage boundary; do not duplicate unnecessarily. |
@@ -23,6 +26,36 @@
 - [AWS Secrets Manager](https://console.aws.amazon.com/secretsmanager/)
 - [AWS ECR](https://console.aws.amazon.com/ecr/)
 - [Hugging Face settings](https://huggingface.co/settings/tokens)
+
+## Current verified configuration contract
+
+The canonical backend currently accepts:
+
+```text
+VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
+VOXVECTOR_WHISPER_MODEL=base
+VOXVECTOR_WHISPER_DEVICE=cpu
+VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
+VOXVECTOR_WHISPER_BEAM_SIZE=3
+
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote
+VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1
+```
+
+For the Hugging Face credential, the canonical pyannote adapter accepts either:
+
+```text
+HF_TOKEN
+HUGGINGFACE_TOKEN
+```
+
+Use `HF_TOKEN` as the preferred deployment secret name.
+
+**Important:** The pyannote token value was not written into GitHub, documentation, or any client-side export. It must be supplied through the deployment secret manager.
+
+## Render status update
+
+On 2026-09-03, the canonical non-secret speech configuration was applied to the connected `voxvector-api` Render service and Render triggered deployment `dep-dad476dg1s2s73evju20`. The Hugging Face token was intentionally not transmitted or stored by the repository tooling.
 
 ## Verification rule
 
