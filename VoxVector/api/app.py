@@ -29,6 +29,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 from voxvector.pipeline import VoxVectorPipeline
 from voxvector.results_envelope import compose_result_envelope
 from voxvector.evidence_acquisition import build_evidence_acquisition
+from voxvector.speech_providers import get_diarization_provider, get_transcription_provider
 from voxvector.stage_telemetry import StageTelemetry
 import voxvector.acoustic as _acoustic_module
 from .auth import require_developer
@@ -128,7 +129,7 @@ def _speech_runtime_status() -> dict:
             "configured_provider": transcription_provider,
             "adapter_installed": transcription_adapter,
             "execution_ready": transcription_ready,
-            "model": os.getenv("VOXVECTOR_TRANSCRIPTION_MODEL", "").strip() or None,
+            "model": os.getenv("VOXVECTOR_WHISPER_MODEL", "").strip() or None,
         },
         "diarization": {
             "configured_provider": diarization_provider,
@@ -356,7 +357,17 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         for stage_id,(status,outcome) in internal_completed.items(): _set_stage(stage_states,stage_id,status,completed_at=completed_at,duration_ms=None,outcome=outcome)
         _set_stage(stage_states,"linguistic_disfluency","not_run",outcome="transcript not attached"); _set_stage(stage_states,"within_speaker_baseline","not_run",outcome="baseline not attached"); _set_stage(stage_states,"question_answer_alignment","not_run",outcome="question context not attached"); _set_stage(stage_states,"speaker_identification_diarization","pending",outcome="speaker processing queued"); _set_stage(stage_states,"transcription_generation","pending",outcome="production transcription queued"); _set_stage(stage_states,"transcript_alignment","pending",outcome="transcription queued"); _set_stage(stage_states,"validation_calibration_gate","not_run",outcome="inferential validation gate not invoked")
         result_dict=VoxVectorPipeline.to_dict(result)
-        acquisition=await asyncio.to_thread(build_evidence_acquisition,audio,sample_rate)
+        speech_runtime=_speech_runtime_status()
+        transcription_provider=get_transcription_provider() if speech_runtime.get("transcription",{}).get("execution_ready") else None
+        diarization_enabled=os.getenv("VOXVECTOR_ENABLE_DIARIZATION_RUNS","").strip().lower() in {"1","true","yes","on"}
+        diarization_provider=get_diarization_provider() if diarization_enabled and speech_runtime.get("diarization",{}).get("execution_ready") else None
+        acquisition=await asyncio.to_thread(
+            build_evidence_acquisition,
+            audio,
+            sample_rate,
+            transcript_provider=transcription_provider,
+            diarization_provider=diarization_provider,
+        )
         acquisition_dict=acquisition.to_dict()
         transcription_state=str(acquisition_dict.get("transcription_state") or "not_configured")
         diarization_state=str(acquisition_dict.get("diarization_state") or "not_configured")
@@ -365,9 +376,13 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         transcription_outcome="timestamped transcript acquired" if transcription_state=="completed" else f"transcription {transcription_state}"
         diarization_outcome="speaker turns acquired" if diarization_state=="completed" else f"diarization {diarization_state}"
         alignment_status="complete" if multimodal_timeline else "not_run"
-        alignment_outcome="transcript/speaker timeline aligned" if multimodal_timeline else ("transcript unavailable" if transcript is None else "speaker alignment unavailable")
-        _set_stage(stage_states,"transcription_generation","complete" if transcription_state=="completed" else ("not_run" if transcription_state=="not_configured" else "not_run"),outcome=transcription_outcome)
-        _set_stage(stage_states,"speaker_identification_diarization","complete" if diarization_state=="completed" else ("not_run" if diarization_state=="not_configured" else "not_run"),outcome=diarization_outcome)
+        alignment_outcome="timestamped transcript/audio timeline assembled" if multimodal_timeline and diarization_state!="completed" else ("transcript/speaker timeline aligned" if multimodal_timeline else ("transcript unavailable" if transcript is None else "speaker alignment unavailable"))
+        transcription_status="complete" if transcription_state=="completed" else ("failed" if transcription_state=="unavailable" else "not_run")
+        diarization_status="complete" if diarization_state=="completed" else ("failed" if diarization_state=="unavailable" else "not_run")
+        if not diarization_enabled and diarization_provider is None and diarization_state in {"not_invoked","not_configured"}:
+            diarization_outcome="diarization provider not invoked in the constrained Render analysis path"
+        _set_stage(stage_states,"transcription_generation",transcription_status,outcome=transcription_outcome)
+        _set_stage(stage_states,"speaker_identification_diarization",diarization_status,outcome=diarization_outcome)
         _set_stage(stage_states,"transcript_alignment",alignment_status,outcome=alignment_outcome)
         if transcript is not None:
             _set_stage(stage_states,"linguistic_disfluency","pending",outcome="transcript evidence acquired; downstream linguistic analysis pending")
