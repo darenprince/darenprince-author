@@ -98,7 +98,7 @@ The Developer Console exposes real server-side Render status and recent logs thr
 
 ## Current engineering stage
 
-**Controlled speech-provider execution and evidence artifact integration.**
+**Controlled speech-provider execution, persisted transcript artifact readback, and speaker-aware evidence integration.**
 
 The dependency order is:
 
@@ -116,10 +116,10 @@ A completed analysis run does not prove any individual vocal feature proves dece
 
 ## Current next steps
 
-1. Exact-commit GitHub QA for `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
-2. Controlled faster-whisper execution.
+1. Exact-commit GitHub QA for the current deployed revision.
+2. Controlled faster-whisper execution and persisted transcript artifact readback.
 3. Controlled pyannote Community-1 execution.
-4. Persist transcript, speaker, and alignment artifacts.
+4. Persist transcript, speaker, and alignment artifacts; the canonical run contract and synchronized frontend projection are built.
 5. Feed transcript into linguistic/disfluency analysis.
 6. Add speaker-aware acoustic aggregation and independent baseline inputs.
 7. Add question/context boundaries and interaction timing.
