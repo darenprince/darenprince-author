@@ -9,7 +9,7 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Canonical backend root: `VoxVector/`
 - Canonical frontend root: `voxvector/`
 - Backend pipeline version: `0.2.26`
-- Frontend version: `0.2.37`
+- Frontend version: `0.2.38`
 - Latest documented observed live Render runtime source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
 - Runtime self-test on the observed live revision: `passed`
 - Maximum sample rate: `48,000 Hz`
@@ -160,3 +160,7 @@ A successful trigger response means Render accepted or queued the deploy request
 - `CaseAnalysisWorkspace` now includes a compact 21-stage overview generated from persisted stage records, followed by the existing expandable stage detail records.
 
 **Boundary:** The compact pipeline view is a projection of runtime stage data. It does not fabricate completion, execution, evidence, or validation status.
+
+## 2026-09-04 — Persisted Evidence Explorer
+
+The canonical `CaseAnalysisWorkspace` now includes an Evidence Explorer driven directly by the persisted runtime result. It exposes filterable normalized evidence directions, contributing method identifiers, observation records, strength/confidence fields when present, and recorded alternative explanations. The view does not synthesize or invent missing evidence and does not collapse observations into a replacement score.
