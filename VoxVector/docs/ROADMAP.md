@@ -4,25 +4,13 @@ VoxVector is being built toward a comprehensive vocal and audio deception analys
 
 The roadmap preserves the complete product direction while enforcing a dependency-first engineering sequence.
 
-## Current engineering priority — 2026-09-01
+## Current engineering priority — 2026-09-04
 
-**Current stage:** Evidence acquisition, runtime observability, and connected case workflow.
+**Current stage:** Controlled speech-provider execution, evidence artifact integration, and post-analysis review.
 
-**Immediate product dependency:** make the running case and its infrastructure observable while preserving durable case history.
+The live Render runtime now reports a configured and execution-ready faster-whisper transcription provider and pyannote Community-1 diarization provider, with Hugging Face token presence detected. The immediate priority is therefore to execute those providers on controlled real audio, persist their artifacts, and connect them to the shared case/run evidence model.
 
-The Developer Console is now an operator projection of the canonical case and runtime APIs. It must not invent progress, QA, infrastructure metrics, stage timings, or scientific results.
-
-Any substantive implementation change must be synchronized across the relevant canonical engineering records and the Crown Labs product mirror according to `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`.
-
-## End state references
-
-- `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
-- `docs/ARCHITECTURE.md`
-- `docs/ANALYSIS_PIPELINE.md`
-- `docs/IMPLEMENTATION_PLAN.md`
-- `docs/MVP_BUILD_PLAN.md`
-- `docs/PIPELINE_BUILD_STATUS.md`
-- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+The Developer Console remains the operator projection of canonical runtime and CI evidence. It must not invent provider execution, stage progress, QA, infrastructure metrics, or scientific results.
 
 ## Fastest connected MVP path
 
@@ -30,9 +18,9 @@ Any substantive implementation change must be synchronized across the relevant c
 2. recording intake and provenance
 3. audio playback and waveform
 4. real 21 stage lifecycle
-5. speaker processing
-6. production transcription
-7. transcript alignment
+5. controlled speaker processing
+6. controlled transcription
+7. timestamp normalization and transcript/speaker alignment
 8. real analytical tracks
 9. evidence normalization
 10. evidence synthesis
@@ -41,8 +29,7 @@ Any substantive implementation change must be synchronized across the relevant c
 13. case history and reopen
 14. browser verification
 15. production hardening
-
-This is the primary engineering path.
+16. scientific validation
 
 ## Phase A — Foundation and runtime hardening
 
@@ -58,7 +45,9 @@ This is the primary engineering path.
 - current CI verification
 - reproducibility controls
 - runtime fingerprinting
-- server-side Render API bridge for Developer Console infrastructure state
+- server-side Render API bridge
+- source revision provenance
+- speech-provider readiness reporting
 
 ## Phase B — Case centered product shell
 
@@ -69,7 +58,7 @@ This is the primary engineering path.
 - provenance
 - audio player
 - waveform viewer
-- 21 stage pipeline component
+- 21 stage pipeline
 - shared playhead
 - key metrics
 - evidence timeline
@@ -79,28 +68,31 @@ This is the primary engineering path.
 - live analysis workflow state
 - collapsible workbench sections
 - scroll-safe Developer Console navigation
+- structured audit copy/download
+- deployment variable matrix access
 
 ## Phase C — Speaker and transcript intelligence
 
 ### Speaker
 
-- speech segmentation
+- speech segmentation — implemented foundation
 - speaker identification
-- diarization
+- diarization — provider configured/execution-ready; controlled execution next
 - turn boundaries
 - overlap detection
 - speaker confidence
 - separation quality
-- speaker aware evidence
+- speaker-aware evidence
 
 ### Transcript
 
-- production ASR
+- production ASR — faster-whisper configured/execution-ready; controlled execution next
 - timestamped transcript
 - word timestamps
 - transcript confidence
 - speaker attribution
 - transcript persistence
+- transcript provenance
 
 ### Alignment
 
@@ -157,12 +149,12 @@ This is the primary engineering path.
 - baseline provenance
 - leakage controls
 - baseline visualization
-- context specific baselines
+- context-specific baselines
 
 ## Phase G — Research method expansion
 
-- openSMILE style descriptors
-- eGeMAPS style descriptors
+- openSMILE-style descriptors
+- eGeMAPS-style descriptors
 - LPCC
 - GFCC
 - Teager Energy Operator
@@ -172,7 +164,7 @@ This is the primary engineering path.
 - NAQ
 - CQ
 - OQ
-- H1 H2
+- H1-H2
 - richer glottal source measures
 
 ## Phase H — Learned representations
@@ -198,12 +190,13 @@ This is the primary engineering path.
 - alternative hypothesis analysis
 - evidence timeline
 - Evidence Explorer
+- Review Evidence surface
 
 ## Phase J — Deception inference development
 
 - operational task definitions
-- speaker disjoint development data
-- speaker disjoint evaluation data
+- speaker-disjoint development data
+- speaker-disjoint evaluation data
 - multimethod convergence evaluation
 - confounder analysis
 - identity leakage testing
@@ -220,9 +213,9 @@ This is the primary engineering path.
 - frozen operational definitions
 - target populations
 - deployment conditions
-- speaker disjoint evaluation
-- cross dataset evaluation
-- recording condition stress tests
+- speaker-disjoint evaluation
+- cross-dataset evaluation
+- recording-condition stress tests
 - identity sensitivity analysis
 - subgroup robustness where appropriate
 - language robustness where appropriate
@@ -250,110 +243,42 @@ This is the primary engineering path.
 
 The Developer Console is the engineering cockpit.
 
-Implemented or active capabilities now include:
+Active capabilities include runtime health, API workbench, request inspection, lifecycle events, error reports, runtime diagnostics, methodology navigation, architecture navigation, pipeline navigation, prioritized MVP board, task checkoffs, phase completion, dependency visibility, current engineering stage visibility, expandable 21-stage status, documentation synchronization, next task visibility, Case History, live case-run projection, Render service/deployment/log status, structured audits, deployment-variable links, and copy/download controls for audit records.
 
-- runtime health
-- API workbench
-- request inspection
-- lifecycle events
-- error reports
-- runtime diagnostics
-- methodology navigation
-- architecture navigation
-- pipeline navigation
-- prioritized MVP board
-- persistent task checkoffs
-- phase completion
-- dependency visibility
-- current engineering stage visibility
-- 21-stage build status with expandable per-stage state
-- documentation synchronization visibility
-- next task visibility
-- Case History and persisted case reopen
-- live case-run progress projection
-- server-side Render service/deployment/instance/log status
-- sidebar scrolling
-- workbench section collapse/expand
-- startup initialization progress
+The remaining console work connects these surfaces to fresh provider execution evidence, exact-commit QA, richer Review Evidence, and real case artifacts without implying scientific validation.
 
-The remaining console work is not decorative. It is to connect these surfaces to fresh deployment evidence and real speech-processing execution, then provide evidence/provenance views without implying scientific validation.
+## Active engineering sequence — 2026-09-04
 
-## Product experience completion sequence
-
-1. Product shell
-2. Case intake
-3. Audio playback
-4. Synchronized waveform
-5. Real pipeline lifecycle
-6. Speaker intelligence
-7. Transcription
-8. Alignment
-9. Real analytical tracks
-10. Linguistic intelligence
-11. Question and answer intelligence
-12. Evidence synthesis
-13. Assessment
-14. Reports
-15. History
-16. Comparisons
-17. Alerts
-18. Production hardening
+1. Exact-commit QA for source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
+2. Controlled faster-whisper execution on a known WAV fixture.
+3. Controlled pyannote Community-1 execution on the same fixture.
+4. Persist transcript and speaker artifacts under case/run identity.
+5. Normalize timestamps and produce the multimodal alignment artifact.
+6. Expose transcript, speaker and evidence synchronization in the Analysis Workspace.
+7. Feed acquired transcript into linguistic/disfluency analysis.
+8. Add question/response boundaries and interaction timing.
+9. Add speaker-aware acoustic aggregation and independent baseline inputs.
+10. Complete granular stage callbacks where actual method boundaries exist.
+11. Build Review Evidence, assessment, reporting, and history/reopen from persistent case state.
+12. Complete authenticated browser/mobile verification.
+13. Begin scientific evaluation only after the engineering evidence chain is stable.
 
 ## Research expansion rule
 
-Research feature expansion continues in parallel.
-
-It must not displace the connected case workflow.
-
-A method becomes part of the active runtime only after implementation integration QA and the required validation pathway are established.
+Research feature expansion continues in parallel but must not displace the connected case workflow. A research method becomes an active runtime capability only after implementation, integration, QA, and the required validation pathway are established.
 
 ## Documentation synchronization
 
-The roadmap is synchronized with:
+Current canonical records include:
 
-- `docs/ANALYSIS_PIPELINE.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
+- `docs/ENDPOINT_REGISTRY.md`
+- `docs/VERSION_MAP.md`
 - `docs/IMPLEMENTATION_PLAN.md`
 - `docs/MVP_BUILD_PLAN.md`
-- `docs/CAPABILITY_STATUS.md`
-- `docs/MASTER_METHOD_INDEX.md`
-- `docs/METHOD_QA_MATRIX.md`
-- `docs/VALIDATION.md`
 - `docs/PIPELINE_BUILD_STATUS.md`
-- `docs/CURRENT_ENGINEERING_STATE_2026-08-30.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/QA_STATUS.md`
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
-- `docs/ENGINEERING_PLAN_2026-09-01.md`
-- `docs/ENGINEERING_SYNC_2026-09-01.md`
-- `docs/DOCS_ALIGNMENT_2026-08-28.md`
-
-## 2026-09-01 roadmap checkpoint
-
-The production case execution clears the basic upload → persistence → case-bound analysis blocker for the observed configured workflow.
-
-The roadmap priority therefore advances to the post-analysis experience and runtime observability without skipping evidence acquisition dependencies:
-
-`Analysis execution → live run state → Analysis Results / Review Evidence → full audit timeline → speaker/transcript foundation → evidence workspace → assessment/reporting`
-
-The duration projection defect found during production execution is isolated to the Developer Console relational observability surface. Its repair is implemented in the canonical backend and regression tested without changing the existing database schema. This work supports, rather than replaces, the broader roadmap item for developer observability.
-
-The 21-stage roadmap remains unchanged in scope. Current production execution does not promote queued, conditional, or not-invoked stages to implemented or validated status.
-
-## 2026-09-01 live console checkpoint
-
-The Developer Console now has a first-class Case History destination, persisted run-state polling, a server-side Render API bridge, scroll-safe navigation, collapsible workbench steps, human-readable status labels, and a moving startup initialization indicator.
-
-The next dependency is deployment-level verification: configure protected Render runtime variables, execute the live Render bridge, run a short controlled case, and verify that the console observes the actual run and infrastructure state.
-
-## Active engineering sequence — Evidence Acquisition
-
-The immediate development sequence remains:
-
-1. Evidence acquisition foundation — implemented foundation
-2. Recording/media profile expansion — next
-3. Speaker diarization provider boundary — next
-4. Production transcription provider integration — next
-5. Word and segment timestamp normalization — next
-6. Transcript/audio alignment — next
-7. Multimodal evidence timeline — next
-8. Linguistic, interaction, baseline, and convergence expansion — follows acquired data
-9. Full internal stage callback instrumentation — follows actual method-boundary integration
-10. Scientific validation only after engineering evidence is stable
+- `docs/DEPLOYMENT_VARIABLE_MATRIX.md`
+- `docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md`
