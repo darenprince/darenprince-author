@@ -6,7 +6,7 @@ This document defines the engineering gate between a working multimethod analysi
 
 ## Current engineering position
 
-The product now has a connected case/run spine, timestamped transcript artifacts through the configured faster-whisper path, a synchronized waveform/transcript review surface, and an explicit software gate for inference readiness. Controlled provider execution and artifact readback remain required before the speech stages are promoted to functional production execution.
+The product now has a connected case/run spine, timestamped transcript artifacts through the configured faster-whisper path, a synchronized waveform/transcript review surface, an explicit software gate for inference readiness, and a pure-Python/NumPy research evaluation metrics module. Controlled provider execution and artifact readback remain required before the speech stages are promoted to functional production execution.
 
 ## Inference architecture
 
@@ -15,6 +15,21 @@ The future inferential workflow must remain:
 `eligibility → evidence acquisition → evidence normalization → candidate model → calibration/uncertainty → final disposition`
 
 A model must never bypass eligibility, provenance, evidence provenance, or the validation/calibration gate.
+
+## Software readiness gate
+
+The canonical `voxvector.research_readiness` module defines the minimum gate fields:
+
+- operational task definition
+- frozen label protocol
+- speaker-disjoint partitions
+- calibration separated from final test data
+- frozen final evaluation set
+- leakage audit complete
+- uncertainty reporting defined
+- external or cross-dataset evaluation
+
+The gate is deliberately fail-closed. Provider configuration, a successful software build, or an internal model result cannot mark the gate ready by itself.
 
 ## Evidence requirements
 
@@ -38,14 +53,17 @@ The speaker-disjoint requirement is critical because speech systems can carry su
 
 ## Required evaluation metrics
 
-At minimum, future binary candidate models should report:
+The canonical `voxvector.research_evaluation` module now provides guarded utilities for future validation runs:
 
-- AUROC and AUPRC on a held-out speaker-disjoint evaluation set;
-- sensitivity, specificity, precision, recall, and confusion matrix at the predeclared operating threshold;
-- Brier score and calibration error for probabilistic outputs;
-- uncertainty intervals for primary performance estimates;
-- performance by recording condition, task/context, and other predeclared subgroups where supported by sample size;
-- ablation or contribution analysis showing what changes when evidence families are removed or added.
+- AUROC and AUPRC;
+- sensitivity, specificity, precision, recall, and confusion matrix at a declared threshold;
+- Brier score;
+- expected calibration error;
+- structured binary evaluation output combining the above.
+
+These utilities accept only binary labels and finite probability scores in `[0, 1]`. They calculate metrics; they do not train a classifier or authorize an inference result.
+
+At minimum, future binary candidate models should report these metrics on a held-out speaker-disjoint evaluation set, together with uncertainty intervals, condition/subgroup analysis where supported, and ablation/contribution analysis.
 
 Accuracy alone is insufficient for production inference.
 
