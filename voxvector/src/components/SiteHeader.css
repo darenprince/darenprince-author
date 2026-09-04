@@ -148,3 +148,33 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   .vv-developer-header { z-index: 400 !important; }
   .vv-main [aria-label="Case workflow"] { top: 56px !important; }
 }
+
+/* The developer drawer is the sole console navigation surface. Keep its trigger
+   available at every viewport size and remove the redundant static desktop rail. */
+@media (min-width: 901px) {
+  .vv-app .vv-sidebar { display: none !important; }
+  .vv-app .vv-shell { display: block !important; }
+  .vv-app .vv-main { width: 100%; max-width: none; }
+}
+
+/* Landing navigation uses the same sharp, grouped language as the developer console. */
+.vv-public-mega-menu { padding: 2px 0 0; }
+.vv-public-mega-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+.vv-public-mega-label { margin: 0 0 8px; padding: 0 6px; color: var(--vv-muted); font-size: 9px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.vv-public-mega-items { display: grid; gap: 2px; }
+.vv-public-mega-item { display: grid; grid-template-columns: 28px minmax(0,1fr) 14px; gap: 10px; align-items: center; min-height: 58px; padding: 10px 8px; border: 1px solid transparent; color: var(--vv-muted-strong); text-decoration: none; transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease; }
+.vv-public-mega-item:hover { border-color: var(--vv-border); background: rgba(255,255,255,.025); color: var(--vv-text); transform: translateX(2px); }
+.vv-public-mega-icon { display: inline-grid; place-items: center; width: 28px; height: 28px; border-left: 2px solid var(--vv-border-strong); color: var(--vv-accent-bright); }
+.vv-public-mega-item strong { display: block; font-family: var(--vv-font-display); font-size: 14px; line-height: 1.05; letter-spacing: -.035em; }
+.vv-public-mega-item span > span { display: block; margin-top: 3px; color: var(--vv-muted); font-size: 10px; line-height: 1.45; }
+.vv-public-mega-arrow { color: var(--vv-muted); transition: transform .16s ease, color .16s ease; }
+.vv-public-mega-item:hover .vv-public-mega-arrow { color: var(--vv-accent-bright); transform: translateX(2px); }
+.vv-public-mega-note { display: flex; align-items: center; gap: 8px; margin: 10px 8px 0; padding-top: 10px; border-top: 1px solid var(--vv-border); color: var(--vv-muted); font: 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; }
+.vv-public-mega-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 18px; padding: 12px 6px 2px; border-top: 1px solid var(--vv-border); color: var(--vv-muted); font-size: 10px; }
+.vv-public-mega-footer a { display: inline-flex; align-items: center; gap: 7px; color: var(--vv-text); font-weight: 650; text-decoration: none; }
+.vv-sheet-title { margin-top: 2px; color: var(--vv-text); font-family: var(--vv-font-display); font-size: 18px; letter-spacing: -.04em; line-height: 1; }
+
+@media (max-width: 720px) {
+  .vv-public-mega-grid { grid-template-columns: 1fr; gap: 16px; }
+  .vv-public-mega-footer { align-items: flex-start; flex-direction: column; }
+}
