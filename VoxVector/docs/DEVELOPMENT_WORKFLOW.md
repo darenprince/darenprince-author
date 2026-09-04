@@ -386,3 +386,9 @@ AUTO does not mean automatic assumptions. It means a repeatable evidence-first o
 ## Observability repair rule
 
 When logs, errors, or operational state are missing, trace runtime event → diagnostic emitter → durable archive → relational projection/query → API endpoint → frontend query → rendered state. Inspect connected provider state before rewriting the UI.
+
+## GitHub Pages publish concurrency repair — 2026-09-04
+
+Rapid commits to `main` were repeatedly cancelling in-flight GitHub Pages production publishes because the canonical `.github/workflows/deploy-pages.yml` workflow used `cancel-in-progress: true`. This made documentation and follow-up commits capable of preventing a completed production artifact from reaching the site.
+
+The production Pages concurrency policy now uses `cancel-in-progress: false`. Active publishes are allowed to finish, and later revisions wait instead of cancelling the current production publish. This preserves deployment continuity while retaining serialized production deployment behavior.
