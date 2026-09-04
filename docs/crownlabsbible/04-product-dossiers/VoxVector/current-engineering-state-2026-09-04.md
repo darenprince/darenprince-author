@@ -54,3 +54,17 @@ The console is the engineering cockpit and now surfaces runtime health, 21-stage
 ## Scientific boundary
 
 Operational readiness, provider execution, software QA, and scientific validation remain distinct. No individual vocal/acoustic/linguistic/behavioral feature is treated as proof of deception.
+
+
+## Runtime UI repair status
+
+A mobile production inspection exposed three concrete presentation failures: an upload path that did not preserve structured server failure detail cleanly, Render logs capable of rendering as `[object Object]`, and stale engineering UI state still showing retired AWS checks.
+
+Canonical source was corrected in the VoxVector frontend and backend bridge:
+
+- upload completion now waits for a successful server response before presenting 100%;
+- structured API errors are converted into readable messages with request correlation preserved;
+- Render provider payloads and log records are normalized server-side and formatted defensively client-side;
+- retired AWS checks were removed from the live engineering status component.
+
+Deployment/browser verification remains required because screenshots can still reflect an older GitHub Pages artifact even after canonical source has changed.
