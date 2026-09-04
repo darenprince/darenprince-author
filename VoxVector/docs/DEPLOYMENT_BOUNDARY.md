@@ -87,3 +87,18 @@ Render executes the original API request but is not the durable media-storage pr
 See `docs/ENDPOINT_REGISTRY.md` for the current authoritative endpoint map and future cutover rules.
 
 The consolidated architecture and verification workflow is maintained in `docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
+
+
+## 2026-09-04 deployment provenance and trigger isolation
+
+GitHub Pages now ignores backend-only changes under `VoxVector/` while explicitly retaining published `VoxVector/Assets/` and `VoxVector/docs/` changes. Render remains manual with auto-deploy disabled and is triggered through the protected deploy hook.
+
+The React build receives the exact Git commit SHA as `VITE_GITHUB_SHA`. The Developer Console exposes that frontend build revision alongside the backend runtime `source_revision` and GitHub workflow status so a source, artifact, runtime, or browser mismatch is visible instead of being inferred.
+
+Operational verification is therefore:
+
+`source commit → matching Pages workflow → frontend build revision → browser`
+
+and separately:
+
+`source commit → protected Render deploy → backend source_revision → API health`
