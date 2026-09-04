@@ -14,7 +14,7 @@ The MVP is defined by connected real workflows, not screen count.
 
 ## Current execution checkpoint — 2026-09-04
 
-**Current engineering stage:** Canonical transcription execution wiring and synchronized transcript review.
+**Current engineering stage:** Controlled transcription execution verification, persisted transcript readback, and speaker-aware evidence integration.
 
 The observed production case path has completed case creation, WAV source upload, private media persistence, case-bound analysis, and analysis completion. Current CI also passes on the same `main` commit, including API tests and the React production build. fileciteturn102file0L2-L10
 
@@ -130,8 +130,8 @@ The local MVP task board is an operator tracker and never substitutes for backen
 3. granular per-stage lifecycle telemetry
 4. production verification of relational diagnostics
 5. speaker processing
-6. production transcription
-7. transcript alignment
+6. controlled production transcription verification
+7. controlled transcript alignment verification
 8. real analytical tracks
 9. evidence explorer and synthesis
 10. assessment/reporting
