@@ -1,7 +1,7 @@
 # VoxVector Runtime Memory Constraints
 
 **Status:** Active runtime guidance
-**Updated:** 2026-09-02
+**Updated:** 2026-09-04
 
 ## Incidents
 
@@ -44,6 +44,16 @@ The constrained runtime default is:
 
 These remain environment-configurable for larger deployments.
 
+### Memory admission control
+
+Before a heavyweight provider phase starts, VoxVector now checks current process RSS against a configurable admission threshold:
+
+- `VOXVECTOR_MEMORY_LIMIT_MB=512`
+- `VOXVECTOR_MEMORY_HEADROOM_MB=96`
+- effective admission threshold: **416 MiB**
+
+If current measured RSS is already at or above the admission threshold, the next heavy phase is rejected instead of knowingly entering the remaining platform headroom. This is a protective operational gate, not a scientific eligibility or analysis gate.
+
 ### Runtime memory telemetry
 
 `VoxVector/src/voxvector/runtime_memory.py` provides current Linux process RSS measurement and `VOXVECTOR_MEMORY` log records around heavyweight phases. Each record includes the phase name, elapsed time, RSS before/after, and the configured memory reference. Cleanup is recorded after provider cache release.
@@ -57,7 +67,7 @@ The telemetry module deliberately avoids a new runtime dependency and degrades t
 - Initial format: PCM WAV
 - Application-level duration cutoff: none
 
-The upload ceiling is a transport-safety guard and must be evaluated against the actual Render service memory budget before enabling larger runtime workloads. It is not a scientific constraint.
+The upload ceiling is a transport-safety guard and does not imply that a maximum-size upload is safe to decode or analyze entirely in RAM. The current deployment must continue to be validated against representative media sizes and provider execution profiles before increasing concurrency or service workload. It is not a scientific constraint.
 
 ## Verification requirement
 
