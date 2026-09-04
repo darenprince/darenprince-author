@@ -126,7 +126,7 @@ main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
 .vv-brand-title { font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
 .vv-brand-sub { margin-top: 2px; color: var(--vv-muted); font-size: 12px; }
 .vv-mobile-menu { display: none; }
-.vv-shell { width: min(100%, 1600px); min-height: calc(100vh - 65px); margin: 0 auto; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
+.vv-shell { width: min(100%, 1600px); min-height: calc(100vh - 56px); margin: 0 auto; display: block; }
 .vv-sidebar { border-right: 1px solid var(--vv-border); background: linear-gradient(180deg, var(--vv-surface), var(--vv-bg)); }
 .vv-sidebar-content { position: sticky; top: 65px; padding: 20px 14px; }
 .vv-sidebar-label, .vv-eyebrow { color: var(--vv-muted); font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
