@@ -32,6 +32,7 @@ Observed live Render `/health` state:
 - pyannote Community-1 configured and execution-ready
 - Hugging Face token detected by runtime
 - current commit QA field still `external_workflow_required`
+- pyannote Community-1 is a gated Hugging Face repository; configured token detection remains distinct from successful provider-backed diarization
 
 ## Current engineering stage
 
