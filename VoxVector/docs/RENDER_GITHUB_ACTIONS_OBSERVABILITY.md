@@ -80,3 +80,12 @@ Neither bridge is a substitute for application-level lifecycle telemetry. The cu
 ## Scientific boundary
 
 Infrastructure logs, provider timings, transcription output, diarization output, and execution traces establish software/runtime behavior only. They do not establish the validity of deception inference.
+
+## Canonical repair readback — 2026-09-04
+
+A direct Render log investigation recovered the concrete historical health failure without requiring a paid external logging upgrade. The failing instance raised `ModuleNotFoundError: No module named 'pyannote'` from the dotted optional probe `find_spec("pyannote.audio")` inside `/health`. The canonical backend now treats optional provider detection as non-fatal.
+
+The same repair pass normalized the Developer Console's server-side Render bridge against the actual Render service shape: the service runtime URL is read from `serviceDetails.url` when it is not present at the top level, and state has a stable fallback derived from the service suspension state. This removes the need for client-side object coercion or presentation patches.
+
+Current operational evidence from the connected Render workspace shows `voxvector-api` on the free 512 MB service budget with inspected idle memory around 84–95 MB in the latest sampled window. No current memory pressure was observed in that idle window. This does not characterize speech-provider peak memory; controlled execution profiling is still required before changing provider resource assumptions.
+
