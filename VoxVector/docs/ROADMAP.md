@@ -6,9 +6,9 @@ The roadmap preserves the complete product direction while enforcing a dependenc
 
 ## Current engineering priority — 2026-09-04
 
-**Current stage:** Controlled speech-provider execution, evidence artifact integration, and post-analysis review.
+**Current stage:** Controlled speech-provider execution and verification of the newly connected transcript workspace.
 
-The live Render runtime now reports a configured and execution-ready faster-whisper transcription provider and pyannote Community-1 diarization provider, with Hugging Face token presence detected. The immediate priority is therefore to execute those providers on controlled real audio, persist their artifacts, and connect them to the shared case/run evidence model.
+The live Render runtime reports configured and execution-ready faster-whisper and pyannote providers. The canonical case-analysis path now invokes transcription when ready and persists acquired transcript artifacts; the immediate priority is controlled real-audio execution and artifact readback before promoting runtime capability state.
 
 The Developer Console remains the operator projection of canonical runtime and CI evidence. It must not invent provider execution, stage progress, QA, infrastructure metrics, or scientific results.
 
@@ -86,9 +86,9 @@ The Developer Console remains the operator projection of canonical runtime and C
 
 ### Transcript
 
-- production ASR — faster-whisper configured/execution-ready; controlled execution next
-- timestamped transcript
-- word timestamps
+- production ASR invocation path — built; controlled execution verification next
+- timestamped transcript — canonical run artifact path built
+- word timestamps — canonical run artifact path built
 - transcript confidence
 - speaker attribution
 - transcript persistence
@@ -96,9 +96,9 @@ The Developer Console remains the operator projection of canonical runtime and C
 
 ### Alignment
 
-- word alignment
-- audio to transcript synchronization
-- transcript to audio synchronization
+- word alignment — foundation built
+- audio to transcript synchronization — shared-playhead workspace built
+- transcript to audio synchronization — shared-playhead workspace built
 - speaker turn synchronization
 - question and response boundaries
 
@@ -254,7 +254,7 @@ The remaining console work connects these surfaces to fresh provider execution e
 3. Controlled pyannote Community-1 execution on the same fixture.
 4. Persist transcript and speaker artifacts under case/run identity.
 5. Normalize timestamps and produce the multimodal alignment artifact.
-6. Expose transcript, speaker and evidence synchronization in the Analysis Workspace.
+6. Verify transcript/audio synchronization on a controlled provider-backed case and then expose speaker synchronization when diarization artifacts exist.
 7. Feed acquired transcript into linguistic/disfluency analysis.
 8. Add question/response boundaries and interaction timing.
 9. Add speaker-aware acoustic aggregation and independent baseline inputs.
