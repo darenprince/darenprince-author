@@ -9,7 +9,7 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Canonical backend root: `VoxVector/`
 - Canonical frontend root: `voxvector/`
 - Backend pipeline version: `0.2.26`
-- Frontend version: `0.2.36`
+- Frontend version: `0.2.37`
 - Latest documented observed live Render runtime source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
 - Runtime self-test on the observed live revision: `passed`
 - Maximum sample rate: `48,000 Hz`
@@ -150,3 +150,13 @@ A successful trigger response means Render accepted or queued the deploy request
 **Current state:** BUILT integration path. A repository change is not proof of provider execution. Controlled live transcription, persisted artifact readback, browser/mobile verification, and exact-commit QA remain required before functional production status is claimed.
 
 **Next dependency:** run the deployed revision against a controlled WAV through the authenticated case path and inspect stage 07, persisted transcript artifacts, waveform synchronization, and transcript playback seeking.
+
+## 2026-09-04 — Developer Console navigation and pipeline readability
+
+**Implemented canonical owners:**
+
+- The persistent desktop Developer Console sidebar has been removed from the canonical shell.
+- The existing slide-out navigation is now the single navigation owner and opens by default when the console is entered.
+- `CaseAnalysisWorkspace` now includes a compact 21-stage overview generated from persisted stage records, followed by the existing expandable stage detail records.
+
+**Boundary:** The compact pipeline view is a projection of runtime stage data. It does not fabricate completion, execution, evidence, or validation status.
