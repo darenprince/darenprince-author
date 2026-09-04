@@ -191,7 +191,7 @@ def build_evidence_acquisition(
     transcript_provider: TranscriptionProvider | None = None,
     diarization_provider: DiarizationProvider | None = None,
 ) -> EvidenceAcquisitionResult:
-    """Build normalized source evidence and optionally invoke configured providers."""
+    """Build normalized source evidence and invoke providers only when explicitly supplied."""
     signal = np.asarray(signal, dtype=np.float32).reshape(-1)
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
@@ -239,15 +239,10 @@ def build_evidence_acquisition(
         sha256=sha256(signal.tobytes()).hexdigest(),
     )
 
-    if transcript_provider is None and diarization_provider is None:
-        from .speech_providers import get_diarization_provider, get_transcription_provider
-        transcript_provider = get_transcription_provider()
-        diarization_provider = get_diarization_provider()
-
     transcript = None
-    transcription_state = "not_configured"
+    transcription_state = "not_invoked"
     diarization = None
-    diarization_state = "not_configured"
+    diarization_state = "not_invoked"
     limitations: list[str] = []
     provider_timings_ms: dict[str, float] = {}
 
