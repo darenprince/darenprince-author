@@ -153,3 +153,25 @@ Still required before production claims:
 ## Scientific boundary
 
 Case history, infrastructure telemetry, run lifecycle, transcription readiness, diarization state, acoustic measurements, transcript artifacts, and UI progress are engineering and evidence-acquisition state. None of these changes establish scientific deception-detection validity. Scientific inference remains governed by the separate validation program.
+
+
+## Runtime UI incident and canonical repair — 2026-09-04
+
+**Observed from mobile production screenshots**
+
+- case-workbench upload flow reached the transfer/processing boundary and then presented a failure surface without preserving enough structured error detail;
+- Render Runtime rendered provider data inconsistently, including a literal `[object Object]` log message and incomplete deployment/runtime fields;
+- the live engineering overlay and profile menu remained vulnerable to stale or lower-layer rendering when an older frontend artifact was still being served;
+- retired AWS status remained in the engineering-status component despite the later decision to remove AWS checks from QA/console gating.
+
+**Canonical repair**
+
+- upload progress now reserves the final completion state for a successful server response and serializes structured API error payloads instead of collapsing them into unhelpful object output;
+- the server-side Render bridge normalizes nested provider payloads and converts log messages to display-safe text;
+- the Render console view defensively formats object-valued provider fields and no longer renders `[object Object]`;
+- AWS status chips/checks were removed from the live engineering status component;
+- the existing high overlay stack remains canonical in the shared console styles. Production verification must confirm the deployed artifact actually contains the current source rather than assuming a source commit is live.
+
+**Verification boundary**
+
+These changes correct source behavior. They still require the normal source → commit → workflow → artifact → GitHub Pages/Render → browser verification chain before being represented as deployed.
