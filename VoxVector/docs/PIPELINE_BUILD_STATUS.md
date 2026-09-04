@@ -56,6 +56,7 @@ Observed live Render `/health` state:
 - diarization provider `pyannote`; adapter installed; Hugging Face token detected; execution-ready
 - diarization model `pyannote/speaker-diarization-community-1`
 - current commit QA field `external_workflow_required`
+- Hugging Face model repository `pyannote/speaker-diarization-community-1` is gated; configured token detection does not by itself prove provider download/access or successful diarization execution
 
 The `current_commit_qa` value is not treated as a current green QA claim until the exact source revision has a verified GitHub Actions result.
 
