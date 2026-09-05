@@ -33,3 +33,12 @@ def test_frame_processing_is_bounded():
     assert sum(frames.shape[0] for frames, _ in chunks) == 1 + (signal.size - 400) // 160
     assert chunks[0][1] == 0
     assert all(chunks[index][1] > chunks[index - 1][1] for index in range(1, len(chunks)))
+
+
+def test_pipeline_records_acoustic_feature_timing_breakdown():
+    signal = np.sin(2 * np.pi * 180 * np.arange(16000, dtype=float) / 16000)
+    result = VoxVectorPipeline().analyze(signal, 16000)
+    timings = result.provenance.get("acoustic_feature_timings_ms")
+    assert isinstance(timings, dict)
+    assert {"basic", "spectrum", "pitch_harmonicity", "mfcc", "formants"}.issubset(timings)
+    assert all(float(value) >= 0 for value in timings.values())
