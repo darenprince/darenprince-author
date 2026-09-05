@@ -48,6 +48,7 @@
 .vv-eng-status--toolbar .vv-eng-status__body{position:fixed;top:90px;left:0;right:0;bottom:0;z-index:870;max-height:none;padding:0 clamp(18px,4vw,64px) calc(32px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.06);box-shadow:0 24px 70px rgba(0,0,0,.55);animation:vvEngDrawerDown .24s ease both}
 .vv-eng-status--toolbar .vv-eng-status__expanded-title,.vv-eng-status--toolbar .vv-eng-state-grid,.vv-eng-status--toolbar .vv-eng-current,.vv-eng-status--toolbar .vv-eng-grid{max-width:1280px;margin-left:auto;margin-right:auto}
 .vv-app:has(.vv-eng-status--toolbar) .vv-main{padding-top:62px}
+.vv-app:has(.vv-eng-status--toolbar) main.vv-main section[aria-label="Case workflow"]{top:90px}
 .vv-developer-header{z-index:900!important;overflow:visible!important}.vv-developer-header>div{overflow:visible!important}.vv-dev-profile-menu{z-index:1100!important}
 @keyframes vvEngDrawerDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
 
