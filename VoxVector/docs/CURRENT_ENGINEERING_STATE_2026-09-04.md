@@ -171,3 +171,19 @@ The canonical `CaseAnalysisWorkspace` now includes an Evidence Explorer driven d
 The canonical backend now contains a real pyannoteAI cloud diarization adapter and explicit fallback orchestration. Render has been configured with the non-secret provider selection/model variables and the user reports protected `PYANNOTE_KEY` is present in the service environment. The repository does not read or record secret values.
 
 Current next verification remains controlled execution: exact deployed revision → authenticated cloud job → normalized speaker artifact → persistence/readback → optional explicit fallback exercise.
+
+
+## 2026-09-05 — Stage 10 acoustic performance instrumentation
+
+The canonical Stage 10 implementation was hardened after a live timeout investigation.
+
+Implemented changes:
+
+- duplicate FFT work between spectral measurements and MFCC extraction was removed from the primary pipeline path;
+- F0 and harmonicity now share one autocorrelation pass per frame;
+- the MFCC filterbank and DCT basis are built once per fixed frame configuration rather than per chunk;
+- Stage 10 records measured timing totals for basic frame features, shared spectrum work, pitch/harmonicity, MFCC projection, and formant tracking;
+- the Render case-run projection can persist the measured acoustic stage duration and timing breakdown;
+- the Case Analysis Workspace now presents clearer Waiting, Queued, Running, Done, Failed, Timed out, Not run, Skipped, and Blocked labels and shows elapsed time for active stages.
+
+**Verification boundary:** These changes are implemented and covered by repository regression tests. They are not yet evidence of a production latency improvement until the exact revision completes CI and a controlled live Render run is measured.
