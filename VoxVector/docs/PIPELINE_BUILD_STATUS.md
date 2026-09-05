@@ -157,3 +157,10 @@ The canonical Case Analysis Workspace now includes a request-scoped **Live execu
 ## Plain-English case execution updates — 2026-09-05
 
 The Case Analysis Workspace translates request-scoped operational diagnostic event codes into plain-English status updates for the product UI. Users see what started, what failed, what timed out, and whether independent work continues without needing to interpret internal event identifiers. Raw exception text and protocol details remain available under an expandable **Technical details** disclosure for debugging. This presentation layer does not alter the underlying diagnostic records.
+
+
+## Case workspace refresh and raw diagnostic export — 2026-09-05
+
+The canonical Case Analysis Workspace now provides a **Copy raw logs** control that copies the exact request-scoped diagnostic event records as formatted JSON for engineering investigation. The readable log remains the default product view, while raw operational data is available without leaving the case.
+
+Case refresh controls now refresh the active persisted case together with the case archive where applicable, and the workspace refresh button exposes an in-progress state instead of silently issuing overlapping requests. The workspace itself is intentionally frameless: individual analysis panels own their borders and spacing so the audio/player surface does not visually create a container around unrelated analysis components.
