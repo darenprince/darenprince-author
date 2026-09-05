@@ -43,59 +43,55 @@
   letter-spacing: .01em;
   text-transform: none;
 }
-.vv-panel-head__title {
-  display: flex;
-  min-width: 0;
-  flex: 0 1 auto;
-  align-items: center;
-  gap: 8px;
-}
-.vv-panel-head__title .vv-eyebrow { margin-right: 2px; }
-.vv-panel-head__meta {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 8px;
-}
-.vv-panel-toggle {
-  display: inline-grid;
-  width: 26px;
-  height: 26px;
-  margin-left: auto;
-  flex: 0 0 26px;
-  place-items: center;
-  border: 0;
-  background: transparent;
-  color: var(--vv-muted);
-  cursor: pointer;
-}
-.vv-panel-toggle:hover { color: var(--vv-text); background: rgba(255,255,255,.035); }
-.vv-panel-toggle svg { transition: transform .16s ease; }
-.vv-collapsible-panel.is-collapsed > .vv-panel-head { margin-bottom: -20px; }
-.vv-collapsible-panel.is-collapsed { padding-bottom: 20px; }
-.vv-panel-body { min-width: 0; }
+.vv-panel-head__title { display:flex;min-width:0;flex:0 1 auto;align-items:center;gap:8px; }
+.vv-panel-head__title .vv-eyebrow { margin-right:2px; }
+.vv-panel-head__meta { display:flex;min-width:0;align-items:center;gap:8px; }
+.vv-panel-toggle { display:inline-grid;width:26px;height:26px;margin-left:auto;flex:0 0 26px;place-items:center;border:0;background:transparent;color:var(--vv-muted);cursor:pointer; }
+.vv-panel-toggle:hover { color:var(--vv-text);background:rgba(255,255,255,.035); }
+.vv-panel-toggle svg { transition:transform .16s ease; }
+.vv-collapsible-panel.is-collapsed > .vv-panel-head { margin-bottom:-20px; }
+.vv-collapsible-panel.is-collapsed { padding-bottom:20px; }
+.vv-panel-body { min-width:0; }
 
-/* Analysis cards keep the subtle tonal alternation while the toolbar reaches every edge. */
-.vv-app .vv-analysis-workspace > section:nth-of-type(4n+1) > .vv-panel-head { background: rgba(255,255,255,.040); }
-.vv-app .vv-analysis-workspace > section:nth-of-type(4n+2) > .vv-panel-head { background: rgba(255,255,255,.027); }
-.vv-app .vv-analysis-workspace > section:nth-of-type(4n+3) > .vv-panel-head { background: color-mix(in srgb, var(--vv-panel) 93%, #c99a66 7%); }
-.vv-app .vv-analysis-workspace > section:nth-of-type(4n) > .vv-panel-head { background: color-mix(in srgb, var(--vv-surface) 95%, white 5%); }
+/* Analysis cards keep subtle tonal alternation while the toolbar reaches every edge. */
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+1) > .vv-panel-head { background:rgba(255,255,255,.040); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+2) > .vv-panel-head { background:rgba(255,255,255,.027); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+3) > .vv-panel-head { background:color-mix(in srgb,var(--vv-panel) 93%,#c99a66 7%); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n) > .vv-panel-head { background:color-mix(in srgb,var(--vv-surface) 95%,white 5%); }
 
-/* Existing Case Workbench collapsible cards use the same small far-right affordance. */
-.vv-workflow-card > .vv-panel-head .vv-collapse-button {
-  order: 20;
-  width: 26px;
-  height: 26px;
-  margin-left: auto;
-  border: 0;
-  background: transparent;
-}
+/* Existing workbench/MVP cards use the same small far-right affordance. */
+.vv-workflow-card > .vv-panel-head .vv-collapse-button { order:20;width:26px;height:26px;margin-left:auto;border:0;background:transparent;color:var(--vv-muted); }
+.vv-workflow-card > .vv-panel-head .vv-collapse-button:hover { color:var(--vv-text);background:rgba(255,255,255,.035); }
 
-@media (max-width: 640px) {
-  .vv-app .vv-panel > .vv-panel-head { margin: -20px -20px 13px; padding: 9px 10px; }
+/* Case History selection mode. */
+.vv-history-item { position:relative;display:flex;align-items:stretch; }
+.vv-history-open { min-width:0;flex:1;border:0;background:transparent;color:inherit;text-align:left; }
+.vv-history-select-toggle { display:inline-grid;width:42px;flex:0 0 42px;place-items:center;border:0;border-right:1px solid var(--vv-border);background:rgba(255,255,255,.018);color:var(--vv-muted);cursor:pointer; }
+.vv-history-select-toggle[aria-pressed='true'] { color:var(--vv-accent-bright);background:rgba(201,154,102,.07); }
+.vv-history-item.multi-selected { border-color:rgba(201,154,102,.42)!important;background:linear-gradient(145deg,rgba(201,154,102,.075),var(--vv-surface))!important; }
+.vv-history-bulk-delete { color:#ef8b91!important;border-color:rgba(239,107,115,.28)!important; }
+.vv-history-bulk-delete:hover:not(:disabled) { background:rgba(239,107,115,.08)!important; }
+
+/* Audit cards stay compact when closed: date, title, summary, status, then a single chevron. */
+.vv-audit-report > summary { list-style:none;cursor:pointer; }
+.vv-audit-report > summary::-webkit-details-marker { display:none; }
+.vv-audit-report:not([open]) > .vv-panel-head { margin-bottom:-20px; }
+.vv-audit-summary-copy { min-width:0;flex:1; }
+.vv-audit-summary-copy h2 { margin-top:2px!important; }
+.vv-audit-summary-copy p { display:-webkit-box;margin:5px 0 0;overflow:hidden;color:var(--vv-muted);font-size:10px;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:2; }
+.vv-audit-summary-status { flex:0 0 auto;white-space:nowrap; }
+.vv-audit-summary-chevron { flex:0 0 auto;margin-left:2px;color:var(--vv-muted);transition:transform .16s ease; }
+.vv-audit-report[open] .vv-audit-summary-chevron { transform:rotate(180deg); }
+.vv-audit-report[open] .vv-audit-summary-copy p { -webkit-line-clamp:1; }
+
+@media (max-width:640px) {
+  .vv-app .vv-panel > .vv-panel-head { margin:-20px -20px 13px;padding:9px 10px; }
   .vv-app .vv-panel > .vv-panel-head h2,
-  .vv-app .vv-panel > .vv-panel-head h3 { font-size: 11px; }
+  .vv-app .vv-panel > .vv-panel-head h3 { font-size:11px; }
   .vv-app .vv-panel > .vv-panel-head > span,
-  .vv-app .vv-panel-head__meta { font-size: 9px; }
+  .vv-app .vv-panel-head__meta { font-size:9px; }
+  .vv-panel-head__meta { max-width:50%; }
+  .vv-history-select-toggle { width:38px;flex-basis:38px; }
+  .vv-audit-summary-copy p { -webkit-line-clamp:1; }
 }
-@media (prefers-reduced-motion: reduce) { .vv-panel-toggle svg { transition: none; } }
+@media (prefers-reduced-motion:reduce) { .vv-panel-toggle svg,.vv-audit-summary-chevron { transition:none; } }
