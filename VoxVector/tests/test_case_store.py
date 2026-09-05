@@ -59,3 +59,19 @@ def test_case_ownership_is_enforced():
     except CaseNotFound:
         return
     raise AssertionError("cross-user case access must be rejected")
+
+
+def test_case_list_returns_owner_cases_sorted_by_updated_at():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    first = store.create_case("user-1", "First")
+    second = store.create_case("user-1", "Second")
+    other = store.create_case("user-2", "Other")
+
+    storage.json[f"cases/user-1/{first['case_id']}.json"]["updated_at"] = "2026-09-05T00:00:00+00:00"
+    storage.json[f"cases/user-1/{second['case_id']}.json"]["updated_at"] = "2026-09-05T01:00:00+00:00"
+
+    cases = store.list_cases("user-1", limit=50)
+
+    assert [item["case_id"] for item in cases] == [second["case_id"], first["case_id"]]
+    assert other["case_id"] not in {item["case_id"] for item in cases}
