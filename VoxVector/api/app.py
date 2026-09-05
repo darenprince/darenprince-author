@@ -119,11 +119,22 @@ def _module_available(module_name: str) -> bool:
 def _speech_runtime_status() -> dict:
     transcription_provider = os.getenv("VOXVECTOR_TRANSCRIPTION_PROVIDER", "").strip().lower() or "not_configured"
     diarization_provider = os.getenv("VOXVECTOR_DIARIZATION_PROVIDER", "").strip().lower() or "not_configured"
+    diarization_fallback = os.getenv("VOXVECTOR_DIARIZATION_FALLBACK", "").strip().lower() or None
+    fallback_enabled = os.getenv("VOXVECTOR_DIARIZATION_FALLBACK_ENABLED", "false").strip().lower() in {"1", "true", "yes", "on"}
     transcription_adapter = _module_available("faster_whisper")
-    diarization_adapter = _module_available("pyannote.audio")
+    local_diarization_adapter = _module_available("pyannote.audio")
     hf_token = bool(os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_TOKEN"))
+    pyannote_key = bool(os.getenv("PYANNOTE_KEY") or os.getenv("PYANNOTE_API_KEY"))
     transcription_ready = transcription_provider != "not_configured" and transcription_adapter
-    diarization_ready = diarization_provider != "not_configured" and diarization_adapter and hf_token
+    api_selected = diarization_provider in {"pyannote_api", "pyannote.api", "pyannoteai"}
+    local_selected = diarization_provider in {"pyannote", "pyannote_local", "pyannote.community-1", "community-1"}
+    primary_ready = (api_selected and pyannote_key) or (local_selected and local_diarization_adapter and hf_token)
+    fallback_ready = (
+        fallback_enabled
+        and diarization_fallback in {"pyannote", "pyannote_local", "pyannote.community-1", "community-1"}
+        and local_diarization_adapter
+        and hf_token
+    )
     return {
         "transcription": {
             "configured_provider": transcription_provider,
@@ -133,10 +144,19 @@ def _speech_runtime_status() -> dict:
         },
         "diarization": {
             "configured_provider": diarization_provider,
-            "adapter_installed": diarization_adapter,
+            "fallback_provider": diarization_fallback,
+            "fallback_enabled": fallback_enabled,
+            "local_adapter_installed": local_diarization_adapter,
             "hf_token_configured": hf_token,
-            "execution_ready": diarization_ready,
-            "model": os.getenv("VOXVECTOR_DIARIZATION_MODEL", "").strip() or None,
+            "pyannote_api_key_configured": pyannote_key,
+            "primary_execution_ready": primary_ready,
+            "fallback_execution_ready": fallback_ready,
+            "execution_ready": primary_ready,
+            "model": (
+                os.getenv("VOXVECTOR_PYANNOTE_API_MODEL", "").strip() or None
+                if api_selected
+                else os.getenv("VOXVECTOR_DIARIZATION_MODEL", "").strip() or None
+            ),
         },
     }
 def _file_sha256(path: str) -> str:
