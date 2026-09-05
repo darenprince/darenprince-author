@@ -61,26 +61,72 @@ def _frequencies_from_spectrum(spectrum: np.ndarray, frame_size: int, sample_rat
     return frequencies
 
 
+
+def spectral_moments_from_spectrum(spectrum: np.ndarray, sample_rate: int, frame_size: int) -> tuple[np.ndarray, np.ndarray]:
+    """Return centroid and spread from one already-computed magnitude spectrum."""
+    spectrum = np.asarray(spectrum, dtype=float)
+    if spectrum.ndim != 2:
+        raise ValueError("spectrum must be a 2D array")
+    if sample_rate <= 0 or frame_size <= 0:
+        raise ValueError("sample_rate and frame_size must be positive")
+    frequencies = _frequencies_from_spectrum(spectrum, frame_size, sample_rate)
+    weights = spectrum.sum(axis=1)
+    centroid = np.divide(spectrum @ frequencies, weights, out=np.zeros_like(weights), where=weights > 0)
+    squared_deviation = (frequencies[None, :] - centroid[:, None]) ** 2
+    weighted_variance = np.sum(spectrum * squared_deviation, axis=1)
+    variance = np.divide(weighted_variance, weights, out=np.zeros_like(weights), where=weights > 0)
+    return centroid, np.sqrt(np.maximum(variance, 0.0))
+
+
+def pitch_and_harmonicity(
+    frames: np.ndarray,
+    sample_rate: int,
+    min_hz: float = 60.0,
+    max_hz: float = 500.0,
+    voicing_threshold: float = 0.30,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Compute F0 and harmonicity from one autocorrelation pass per frame."""
+    frames = np.asarray(frames, dtype=float)
+    if frames.ndim != 2:
+        raise ValueError("frames must be a 2D array")
+    if sample_rate <= 0 or not (0 < min_hz < max_hz):
+        raise ValueError("invalid sample rate or frequency range")
+    min_lag = max(1, int(sample_rate / max_hz))
+    max_lag = min(frames.shape[1] - 1, int(sample_rate / min_hz))
+    f0 = np.full(frames.shape[0], np.nan, dtype=float)
+    harmonicity_values = np.full(frames.shape[0], np.nan, dtype=float)
+    if max_lag <= min_lag:
+        return f0, harmonicity_values
+    for index, frame in enumerate(frames):
+        centered = frame - np.mean(frame)
+        energy = float(np.dot(centered, centered))
+        if energy <= np.finfo(float).eps:
+            continue
+        corr = np.correlate(centered, centered, mode="full")[centered.size - 1 :]
+        corr = corr / corr[0]
+        region = corr[min_lag : max_lag + 1]
+        if not region.size:
+            continue
+        harmonicity_values[index] = float(np.max(region))
+        lag = min_lag + int(np.argmax(region))
+        if corr[lag] >= voicing_threshold:
+            f0[index] = sample_rate / lag
+    return f0, harmonicity_values
+
 def spectral_centroid(frames: np.ndarray, sample_rate: int) -> np.ndarray:
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
     spectrum, _ = _spectrum(frames)
-    frequencies = _frequencies_from_spectrum(spectrum, frames.shape[1], sample_rate)
-    denom = spectrum.sum(axis=1)
-    return np.divide(spectrum @ frequencies, denom, out=np.zeros_like(denom), where=denom > 0)
+    centroid, _ = spectral_moments_from_spectrum(spectrum, sample_rate, frames.shape[1])
+    return centroid
 
 
 def spectral_spread(frames: np.ndarray, sample_rate: int) -> np.ndarray:
     if sample_rate <= 0:
         raise ValueError("sample_rate must be positive")
     spectrum, _ = _spectrum(frames)
-    frequencies = _frequencies_from_spectrum(spectrum, frames.shape[1], sample_rate)
-    weights = spectrum.sum(axis=1)
-    centroid = np.divide(spectrum @ frequencies, weights, out=np.zeros_like(weights), where=weights > 0)
-    squared_deviation = (frequencies[None, :] - centroid[:, None]) ** 2
-    weighted_variance = np.sum(spectrum * squared_deviation, axis=1)
-    variance = np.divide(weighted_variance, weights, out=np.zeros_like(weights), where=weights > 0)
-    return np.sqrt(np.maximum(variance, 0.0))
+    _, spread = spectral_moments_from_spectrum(spectrum, sample_rate, frames.shape[1])
+    return spread
 
 
 def fundamental_frequency(frames: np.ndarray, sample_rate: int, min_hz: float = 60.0, max_hz: float = 500.0, voicing_threshold: float = 0.30) -> np.ndarray:
