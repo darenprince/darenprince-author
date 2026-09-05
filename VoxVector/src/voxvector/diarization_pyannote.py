@@ -106,6 +106,11 @@ class PyannoteDiarizationProvider:
                     "Diarization confidence is not supplied by this provider adapter; segment confidence remains null.",
                     "Diarization quality is recording- and task-dependent and requires evaluation on VoxVector target conditions.",
                 ),
+                provenance={
+                    "provider": self.provider_id,
+                    "model": self.model_id,
+                    "fallback_used": False,
+                },
             )
             speech_log(
                 "diarization.completed",

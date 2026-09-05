@@ -231,3 +231,18 @@ scientific validation
 - provider readiness, execution, software QA, and scientific validation remain separate states
 - planned capabilities remain preserved in canonical documentation
 - accessibility and responsive behavior remain part of completion
+
+
+## Diarization provider boundary — 2026-09-04
+
+VoxVector keeps provider execution separate from its evidence contracts:
+
+```text
+canonical diarization contract
+        |
+        +-- primary: pyannoteAI cloud API (PYANNOTE_KEY)
+        |
+        +-- explicit fallback: local Community-1 (HF_TOKEN)
+```
+
+The primary provider and fallback are selected by deployment configuration. A primary failure may use the fallback only when explicitly enabled. Provider identity, fallback state, and failure class are preserved in the resulting provenance. This prevents silent provider substitution and keeps case analysis reproducible.

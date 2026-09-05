@@ -2,8 +2,9 @@ import numpy as np
 import pytest
 
 from voxvector.diarization_pyannote import PyannoteDiarizationProvider
-from voxvector.evidence_acquisition import DiarizationResult, TranscriptResult
-from voxvector.speech_providers import get_diarization_provider, get_transcription_provider
+from voxvector.diarization_pyannote_api import PyannoteAPIDiarizationProvider
+from voxvector.evidence_acquisition import DiarizationResult, SpeakerSegment, TranscriptResult
+from voxvector.speech_providers import FallbackDiarizationProvider, get_diarization_provider, get_transcription_provider
 from voxvector.transcription_faster_whisper import FasterWhisperProvider
 
 
@@ -36,6 +37,54 @@ def test_pyannote_provider_requires_token_before_model_load(monkeypatch):
     monkeypatch.delenv("HUGGINGFACE_TOKEN", raising=False)
     with pytest.raises(RuntimeError, match="Hugging Face access token"):
         PyannoteDiarizationProvider().diarize(np.zeros(1600), 16000)
+
+
+def test_pyannote_api_provider_requires_key(monkeypatch):
+    monkeypatch.delenv("PYANNOTE_KEY", raising=False)
+    monkeypatch.delenv("PYANNOTE_API_KEY", raising=False)
+    with pytest.raises(RuntimeError, match="pyannoteAI API key"):
+        PyannoteAPIDiarizationProvider().diarize(np.zeros(1600), 16000)
+
+
+def test_pyannote_api_provider_selection(monkeypatch):
+    monkeypatch.setenv("VOXVECTOR_DIARIZATION_PROVIDER", "pyannote_api")
+    monkeypatch.setenv("PYANNOTE_KEY", "test-key")
+    provider = get_diarization_provider()
+    assert isinstance(provider, PyannoteAPIDiarizationProvider)
+
+
+def test_explicit_local_fallback_is_wrapped(monkeypatch):
+    monkeypatch.setenv("VOXVECTOR_DIARIZATION_PROVIDER", "pyannote_api")
+    monkeypatch.setenv("VOXVECTOR_DIARIZATION_FALLBACK", "pyannote_local")
+    monkeypatch.setenv("VOXVECTOR_DIARIZATION_FALLBACK_ENABLED", "true")
+    provider = get_diarization_provider()
+    assert isinstance(provider, FallbackDiarizationProvider)
+
+
+def test_fallback_records_provenance():
+    class Primary:
+        provider_id = "primary"
+        def diarize(self, signal, sample_rate):
+            raise RuntimeError("primary unavailable")
+        def release(self):
+            return None
+
+    class Secondary:
+        provider_id = "secondary"
+        def diarize(self, signal, sample_rate):
+            return DiarizationResult(
+                provider_id=self.provider_id,
+                speakers=("SPEAKER_00",),
+                segments=(SpeakerSegment("SPEAKER_00", 0.0, 1.0),),
+                provenance={"provider": self.provider_id, "fallback_used": False},
+            )
+        def release(self):
+            return None
+
+    result = FallbackDiarizationProvider(Primary(), Secondary()).diarize(np.zeros(1600), 16000)
+    assert result.provenance["fallback_used"] is True
+    assert result.provenance["primary_provider"] == "primary"
+    assert result.provenance["fallback_provider"] == "secondary"
 
 
 def test_cached_pyannote_pipelines_can_be_released():

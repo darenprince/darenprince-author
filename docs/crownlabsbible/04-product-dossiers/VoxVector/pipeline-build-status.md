@@ -96,3 +96,8 @@ The Console must never simulate provider execution or stage progress.
 The pipeline remains an evidence-analysis architecture, not a claim that an individual vocal feature proves deception. Candidate classification and final disposition remain distinct from eligibility/reliability and evidence collection. Scientific validation is a separate gate.
 
 **Canonical source:** `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+
+
+## pyannote provider synchronization — 2026-09-04
+
+Canonical VoxVector now supports pyannoteAI cloud diarization as an explicitly selected primary provider using a protected server-side API key, with local pyannote Community-1 retained as an explicit configuration-controlled fallback. Provider substitution is recorded in provenance and is not silent. Implementation does not itself claim successful provider execution or scientific validation.

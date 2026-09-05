@@ -55,6 +55,7 @@ class DiarizationResult:
     speakers: tuple[str, ...]
     segments: tuple[SpeakerSegment, ...]
     limitations: tuple[str, ...] = ()
+    provenance: dict[str, Any] | None = None
 
 
 class DiarizationProvider(Protocol):

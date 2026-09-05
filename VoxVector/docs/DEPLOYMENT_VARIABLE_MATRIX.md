@@ -72,3 +72,17 @@ The Developer Console can request an on-demand Render deployment through the pro
 The browser never receives the deploy-hook URL. The API runtime reads `RENDER_DEPLOY_HOOK_URL` from its protected environment, verifies the authenticated developer session, sends the server-side POST to Render, and returns only the accepted trigger state.
 
 This control requests a deployment; it does not prove the deployment completed successfully. The Render Runtime panel must be refreshed or allowed to poll for the subsequent deployment/runtime state.
+
+
+## pyannote provider policy update — 2026-09-04
+
+| Variable | Purpose | Secret boundary | Notes |
+|---|---|---|---|
+| `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` | Select pyannoteAI cloud as primary | Render/ECS environment | No local model load required for the cloud adapter. |
+| `PYANNOTE_KEY` | pyannoteAI cloud authentication | Protected server environment only | Preferred secret name; never expose to browser or repository. |
+| `PYANNOTE_API_KEY` | Alternate pyannoteAI secret name | Protected server environment only | Accepted alias. |
+| `VOXVECTOR_PYANNOTE_API_MODEL` | Optional cloud model selection | Render/ECS environment | Must be a provider-supported model. |
+| `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` | Explicit local fallback selection | Render/ECS environment | Does nothing unless fallback is enabled. |
+| `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true` | Permit fallback after primary failure | Render/ECS environment | Fallback use is recorded in provenance. |
+
+The existing `HF_TOKEN` / `HUGGINGFACE_TOKEN` variables remain credentials for the local Community-1 path and are not interchangeable with the pyannoteAI cloud API key.

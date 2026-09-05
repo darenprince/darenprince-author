@@ -479,3 +479,17 @@ This keeps deployment reliable while preserving build failures as the primary co
 **Reason:** Recent commits were changing source without a clear way to distinguish source revision, Pages artifact, Render runtime, and browser-visible revision. The system must expose those boundaries rather than implying that a successful commit changed every deployed surface.
 
 **Verification rule:** A commit is not evidence of a visible frontend change until the matching Pages workflow and frontend build revision are observed. A commit is not evidence of a backend change until the matching Render deployment and runtime `source_revision` are observed.
+
+
+## 2026-09-04 — pyannoteAI cloud primary with explicit local fallback
+
+**Decision:** VoxVector supports two distinct diarization provider paths behind the canonical provider-neutral contract. The pyannoteAI cloud API is the preferred production provider when explicitly configured; local pyannote Community-1 remains an explicit fallback path when enabled.
+
+**Configuration:**
+
+- primary cloud: `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` with protected `PYANNOTE_KEY` (or `PYANNOTE_API_KEY`)
+- optional fallback: `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true` with protected `HF_TOKEN`
+
+**Audit rule:** fallback is never silent. Provider selection, fallback use, primary failure class, and resulting provider identity are preserved in diarization provenance.
+
+**Boundary:** both providers answer speaker segmentation/attribution questions only. Neither provider result is deception evidence by itself.
