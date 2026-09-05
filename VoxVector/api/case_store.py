@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from hashlib import sha256
 from uuid import uuid4
@@ -59,20 +60,33 @@ class CaseStore:
         return self._read_case(user_id, case_id)
 
     def list_cases(self, user_id: str, limit: int = 50) -> list[dict]:
-        entries = self.storage.list_json(f"cases/{user_id}", max(1, min(limit, 100)))
+        bounded_limit = max(1, min(limit, 100))
+        entries = self.storage.list_json(f"cases/{user_id}", bounded_limit)
+        paths = [
+            f"cases/{user_id}/{str(entry.get('name', ''))}"
+            for entry in entries
+            if str(entry.get("name", "")).endswith(".json")
+        ]
+        if not paths:
+            return []
+
+        # Storage listing returns object metadata, not the case payload. Fetching each
+        # case sequentially amplified Supabase round-trip latency into multi-second
+        # archive refreshes. Keep the same storage model but bound concurrent reads.
+        workers = min(8, len(paths))
         cases: list[dict] = []
-        for entry in entries:
-            name = str(entry.get("name", ""))
-            if not name.endswith(".json"):
-                continue
-            try:
-                case = self.storage.get_json(f"cases/{user_id}/{name}")
-            except StorageError:
-                continue
-            if case.get("owner_id") == user_id:
-                cases.append(case)
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="voxvector-case-list") as executor:
+            futures = [executor.submit(self.storage.get_json, path) for path in paths]
+            for future in as_completed(futures):
+                try:
+                    case = future.result()
+                except StorageError:
+                    continue
+                if case.get("owner_id") == user_id:
+                    cases.append(case)
+
         cases.sort(key=lambda item: str(item.get("updated_at", "")), reverse=True)
-        return cases[:limit]
+        return cases[:bounded_limit]
 
     def add_source(self, user_id: str, case_id: str, filename: str, data: bytes, metadata: dict) -> dict:
         case = self._read_case(user_id, case_id)
