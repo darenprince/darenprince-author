@@ -1,0 +1,101 @@
+.vv-app .vv-panel > .vv-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  min-height: 38px;
+  margin: -20px -20px 14px;
+  padding: 9px 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,.055);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--vv-surface) 94%, white 6%);
+}
+.vv-app .vv-panel > .vv-panel-head h2,
+.vv-app .vv-panel > .vv-panel-head h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  color: var(--vv-text);
+  font-family: var(--vv-font-ui);
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.15;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+.vv-app .vv-panel > .vv-panel-head h2 svg,
+.vv-app .vv-panel > .vv-panel-head h3 svg {
+  flex: 0 0 auto;
+  color: var(--vv-accent-bright);
+  opacity: .84;
+}
+.vv-app .vv-panel > .vv-panel-head > span,
+.vv-app .vv-panel-head__meta {
+  min-width: 0;
+  color: var(--vv-muted);
+  font-family: var(--vv-font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+.vv-panel-head__title {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 8px;
+}
+.vv-panel-head__title .vv-eyebrow { margin-right: 2px; }
+.vv-panel-head__meta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+.vv-panel-toggle {
+  display: inline-grid;
+  width: 26px;
+  height: 26px;
+  margin-left: auto;
+  flex: 0 0 26px;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--vv-muted);
+  cursor: pointer;
+}
+.vv-panel-toggle:hover { color: var(--vv-text); background: rgba(255,255,255,.035); }
+.vv-panel-toggle svg { transition: transform .16s ease; }
+.vv-collapsible-panel.is-collapsed > .vv-panel-head { margin-bottom: -20px; }
+.vv-collapsible-panel.is-collapsed { padding-bottom: 20px; }
+.vv-panel-body { min-width: 0; }
+
+/* Analysis cards keep the subtle tonal alternation while the toolbar reaches every edge. */
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+1) > .vv-panel-head { background: rgba(255,255,255,.040); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+2) > .vv-panel-head { background: rgba(255,255,255,.027); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n+3) > .vv-panel-head { background: color-mix(in srgb, var(--vv-panel) 93%, #c99a66 7%); }
+.vv-app .vv-analysis-workspace > section:nth-of-type(4n) > .vv-panel-head { background: color-mix(in srgb, var(--vv-surface) 95%, white 5%); }
+
+/* Existing Case Workbench collapsible cards use the same small far-right affordance. */
+.vv-workflow-card > .vv-panel-head .vv-collapse-button {
+  order: 20;
+  width: 26px;
+  height: 26px;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .vv-app .vv-panel > .vv-panel-head { margin: -20px -20px 13px; padding: 9px 10px; }
+  .vv-app .vv-panel > .vv-panel-head h2,
+  .vv-app .vv-panel > .vv-panel-head h3 { font-size: 11px; }
+  .vv-app .vv-panel > .vv-panel-head > span,
+  .vv-app .vv-panel-head__meta { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) { .vv-panel-toggle svg { transition: none; } }
