@@ -112,18 +112,6 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 .vv-panel-head h2,
 .vv-panel-head h3 { text-transform: none; letter-spacing: -.025em; }
 
-.vv-main [aria-label="Case workflow"] {
-  position: -webkit-sticky !important;
-  position: sticky !important;
-  top: 56px !important;
-  z-index: 150 !important;
-  margin-top: 0 !important;
-  background: color-mix(in srgb, var(--vv-surface) 94%, transparent) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 12px 28px rgba(0,0,0,.22);
-}
-
 /* Public header access icons: direct icon links, no decorative containers. */
 .vv-public-header .vv-icon-access-link {
   display: inline-flex;
@@ -146,7 +134,6 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 @media (max-width: 900px) {
   .vv-public-header,
   .vv-developer-header { z-index: 400 !important; }
-  .vv-main [aria-label="Case workflow"] { top: 56px !important; }
 }
 
 /* The developer drawer is the sole console navigation surface. Keep its trigger
