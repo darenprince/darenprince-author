@@ -187,3 +187,9 @@ Implemented changes:
 - the Case Analysis Workspace now presents clearer Waiting, Queued, Running, Done, Failed, Timed out, Not run, Skipped, and Blocked labels and shows elapsed time for active stages.
 
 **Verification boundary:** These changes are implemented and covered by repository regression tests. They are not yet evidence of a production latency improvement until the exact revision completes CI and a controlled live Render run is measured.
+
+## 2026-09-04 — Transcript evidence integration
+
+The authenticated case-analysis path now converts an acquired normalized transcript into persisted linguistic/disfluency observations and normalized evidence records using the canonical `linguistic.transcript_evidence` method. The records are merged into the same persisted result envelope used by the Evidence Explorer while preserving candidate and disposition state unchanged.
+
+Stage 13 now reports completion only when transcript-derived evidence assembly actually succeeds. Failure is recorded as a stage failure with diagnostics while preserving the rest of the pipeline result. This is implementation and software-test coverage, not scientific validation.
