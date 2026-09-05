@@ -83,6 +83,15 @@ def _rows(payload: dict | list) -> list[dict]:
     return []
 
 
+def _unwrap_rows(payload: dict | list, key: str) -> list[dict]:
+    """Normalize Render list envelopes that wrap each resource under a named key."""
+    normalized: list[dict] = []
+    for row in _rows(payload):
+        nested = row.get(key)
+        normalized.append(nested if isinstance(nested, dict) else row)
+    return normalized
+
+
 def _object(payload: dict | list, *keys: str) -> dict:
     if not isinstance(payload, dict):
         return {}
@@ -118,6 +127,18 @@ def _text(value, fallback: str = "") -> str:
     return fallback
 
 
+def _is_suspended(value) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"suspended", "true", "yes", "1"}:
+            return True
+        if normalized in {"not_suspended", "active", "false", "no", "0", ""}:
+            return False
+    return False
+
+
 def _normalize_log(record: dict) -> dict:
     message = _text(record.get("message") or record.get("text") or record.get("event") or record.get("data"), "Render log event")
     timestamp = _scalar(record.get("timestamp") or record.get("time") or record.get("createdAt") or record.get("created_at"))
@@ -151,17 +172,20 @@ def render_status(
     service = _object(service_payload, "service", "data")
     details = service.get("serviceDetails") if isinstance(service.get("serviceDetails"), dict) else {}
     deploy_payload = _render_get(f"/services/{resolved_service}/deploys", api_key, {"limit": 5})
-    deploys = _rows(deploy_payload)
+    deploys = _unwrap_rows(deploy_payload, "deploy")
     instances_payload = _render_get(f"/services/{resolved_service}/instances", api_key, {"limit": 20})
-    instance_rows = _rows(instances_payload)
+    instance_rows = _unwrap_rows(instances_payload, "instance")
+    suspended = _is_suspended(service.get("suspended"))
+    explicit_state = _text(service.get("state") or service.get("status") or service.get("serviceState"))
+    service_state = explicit_state or ("suspended" if suspended else "active")
     return {
         "status": "ok",
         "service": {
             "id": service.get("id") or resolved_service,
             "name": service.get("name"),
             "type": service.get("type"),
-            "suspended": _scalar(service.get("suspended")),
-            "state": _text(service.get("state") or service.get("status") or service.get("serviceState") or ("suspended" if service.get("suspended") else "active")),
+            "suspended": suspended,
+            "state": service_state,
             "url": _text(service.get("url") or service.get("serviceUrl") or details.get("url")),
             "owner_id": _owner_id(service),
             "region": _text(service.get("region") or service.get("regionName") or details.get("region")),
