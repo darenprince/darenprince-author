@@ -125,3 +125,19 @@ class CaseStore:
         case["updated_at"] = self._now()
         self.storage.put_json(self._case_path(user_id, case_id), case)
         return case
+
+    def delete_case(self, user_id: str, case_id: str) -> dict:
+        case = self._read_case(user_id, case_id)
+        media_paths = []
+        for source in case.get("sources", []):
+            path = str(source.get("media_path") or "").strip()
+            if path and path not in media_paths:
+                media_paths.append(path)
+
+        for path in media_paths:
+            self.storage.delete_bytes(path)
+        self.storage.delete_json(self._case_path(user_id, case_id))
+        return {
+            "case_id": case_id,
+            "deleted_sources": len(media_paths),
+        }
