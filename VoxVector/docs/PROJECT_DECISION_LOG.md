@@ -1,3 +1,13 @@
+## 2026-09-05 — Public runtime hardening after mobile startup failure
+
+**Decision:** Harden the canonical public VoxVector startup path by removing nonessential public execution from the shared header, replacing the public button runtime primitive with the native browser control, and removing the Recharts runtime from the public illustrative charts.
+
+**Reason:** The previous route-level Developer Console isolation did not eliminate the mobile runtime boundary failure. The public path therefore required a narrower dependency and execution surface rather than another loading or recovery layer.
+
+**Implementation:** Public navigation no longer starts the API health query. The shared Button remains application-owned and preserves its variants while rendering through the native browser button element. Public illustrative charts render through application-owned SVG rather than the Recharts runtime. Runtime failures now expose a bounded startup diagnostic instead of hiding the error message in production.
+
+**Boundary:** This is frontend runtime hardening only. It does not change analysis methods, backend execution, classification behavior, validation status, or scientific claims.
+
 ## 2026-09-04 — Public application startup isolation
 
 **Decision:** Keep the public VoxVector product route independent from Developer Console module evaluation.
