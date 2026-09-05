@@ -299,3 +299,8 @@ Root cause identified in the canonical storage projection: the case archive list
 Mitigation implemented in `api/case_store.py`: archive payload reads now use a bounded pool of up to eight concurrent storage reads, preserving owner filtering and updated-time sorting while removing sequential round-trip amplification. Regression coverage was added in `tests/test_case_store.py` for archive ownership and ordering.
 
 A Render deploy of commit `03fadc1a12c53882942d4270c602c6ba90673164` was explicitly triggered because the production service has auto-deploy disabled. Runtime latency improvement remains pending post-deploy measurement and must not be considered verified until new production diagnostics are observed.
+
+
+## Stage 10 acoustic runtime observability — 2026-09-05
+
+The canonical acoustic extraction path now records a measured feature-family timing breakdown and the case workspace presents clearer execution states with elapsed time for active stages. Shared spectrum, pitch/harmonicity, and MFCC setup computations reduce duplicate work in the canonical implementation. This is an engineering performance and observability change; controlled production measurement remains required before claiming a specific live latency improvement.
