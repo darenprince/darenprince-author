@@ -1,7 +1,6 @@
 import { lazy, Suspense, useMemo } from 'react'
 import { Activity, ArrowRight, AudioLines, BarChart3, BookOpen, BrainCircuit, Check, ChevronRight, Code2, FileAudio, Globe2, Layers3, LockKeyhole, Microscope, Network, Play, Scale, Search, ShieldCheck, Terminal, Waves, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
-import { AreaChart as RechartsAreaChart, Area, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 const DeveloperGate = lazy(() => import('./components/DeveloperGate'))
 const DeveloperConsole = lazy(() => import('./components/DeveloperConsole'))
 import SiteHeader from './components/SiteHeader'
@@ -41,7 +40,41 @@ const CROWN_LABS_VOXVECTOR = `${CROWN_LABS_VIEWER}?doc=../04-product-dossiers/Vo
 const formatIndex = (value) => String(value) + ' index'
 function ChartCard({ children, className = '' }) { return <div className={`border border-[var(--vv-border)] bg-[var(--vv-surface)] ${className}`}>{children}</div> }
 function ProgressBar({ value, className = '' }) { const width = `${Math.max(0, Math.min(100, value))}%`; return <div className={`h-2 w-full overflow-hidden rounded-full bg-white/[.06] ${className}`} role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={value}><div className="h-full rounded-full bg-[var(--vv-accent-bright)] transition-[width] duration-500" style={{ width }} /></div> }
-function NativeAreaChart({ className = '', data, categories, showLegend = false, showGridLines = true, showYAxis = true, showXAxis = true, showTooltip = true, valueFormatter }) { return <div className={className}><ResponsiveContainer width="100%" height="100%"><RechartsAreaChart data={data} margin={{ top: 4, right: 4, bottom: showXAxis ? 4 : 0, left: 0 }} accessibilityLayer>{showGridLines && <CartesianGrid stroke="rgba(255,255,255,.07)" vertical={false} />}{showXAxis && <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 10 }} />}{showYAxis && <YAxis axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 10 }} width={28} />}{showTooltip && <Tooltip contentStyle={{ background: '#111111', border: '1px solid rgba(255,255,255,.12)', borderRadius: 6, color: '#fafafa' }} labelStyle={{ color: 'rgba(255,255,255,.5)' }} formatter={(value, name) => [valueFormatter ? valueFormatter(value) : value, name]} />}{showLegend && <Legend wrapperStyle={{ color: 'rgba(255,255,255,.55)', fontSize: 11 }} />}{categories.map((category, index) => <Area key={category} type="monotone" dataKey={category} stroke={chartColors[index % chartColors.length]} fill={chartColors[index % chartColors.length]} fillOpacity={0.08} strokeWidth={1.5} dot={false} activeDot={showTooltip ? { r: 3 } : false} isAnimationActive={false} />)}</RechartsAreaChart></ResponsiveContainer></div> }
+function NativeAreaChart({ className = '', data, categories, showLegend = false, showGridLines = true, showYAxis = true, showXAxis = true, valueFormatter }) {
+  const width = 1000
+  const height = 320
+  const values = data.flatMap(row => categories.map(category => Number(row[category]) || 0))
+  const maxValue = Math.max(1, ...values)
+  const minValue = Math.min(0, ...values)
+  const range = Math.max(1, maxValue - minValue)
+  const pad = { top: 18, right: 18, bottom: showXAxis ? 38 : 14, left: showYAxis ? 44 : 12 }
+  const innerWidth = width - pad.left - pad.right
+  const innerHeight = height - pad.top - pad.bottom
+  const point = (index, value) => {
+    const x = pad.left + (data.length <= 1 ? innerWidth / 2 : (index / (data.length - 1)) * innerWidth)
+    const y = pad.top + (1 - ((Number(value) - minValue) / range)) * innerHeight
+    return [x, y]
+  }
+  const linePath = category => data.map((row, index) => {
+    const [x, y] = point(index, row[category])
+    return `${index === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`
+  }).join(' ')
+  const grid = Array.from({ length: 4 }, (_, index) => pad.top + ((index + 1) / 5) * innerHeight)
+
+  return <div className={className}>
+    {showLegend && <div className="mb-3 flex flex-wrap gap-4 text-[11px] text-white/[.5]">{categories.map((category, index) => <span key={category} className="inline-flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full" style={{ background: chartColors[index % chartColors.length] }} />{category}</span>)}</div>}
+    <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="h-full w-full overflow-visible" role="img" aria-label="Illustrative analytical signal chart">
+      {showGridLines && grid.map(y => <line key={y} x1={pad.left} x2={width - pad.right} y1={y} y2={y} stroke="rgba(255,255,255,.07)" strokeWidth="1" />)}
+      {showYAxis && grid.map((y, index) => <text key={`y-${index}`} x="0" y={y + 4} fill="rgba(255,255,255,.3)" fontSize="22">{Math.round(maxValue - ((index + 1) / 5) * range)}</text>)}
+      {categories.map((category, index) => <path key={category} d={linePath(category)} fill="none" stroke={chartColors[index % chartColors.length]} strokeWidth="3" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" />)}
+      {showXAxis && data.filter((_, index) => index === 0 || index === data.length - 1 || index % Math.max(1, Math.floor(data.length / 4)) === 0).map((row, index, rows) => {
+        const sourceIndex = data.indexOf(row)
+        const [x] = point(sourceIndex, 0)
+        return <text key={`x-${sourceIndex}`} x={x} y={height - 6} textAnchor={index === 0 ? 'start' : index === rows.length - 1 ? 'end' : 'middle'} fill="rgba(255,255,255,.3)" fontSize="20">{row.time}</text>
+      })}
+    </svg>
+  </div>
+}
 function Logo() { return <a href="/voxvector/" className="vv-logo-lockup group no-underline" aria-label="VoxVector home"><img src="/voxvector/voxvector-icon-final-color.png.PNG" alt="" className="vv-logo-icon" /><img src="/voxvector/VoxVector-logo-word.png" alt="VoxVector" className="vv-logo-wordmark" /></a> }
 function SectionLabel({ children, icon: Icon }) { return <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--vv-accent-bright)]">{Icon && <Icon size={15} strokeWidth={2.1} />}{children}</div> }
 function Reveal({ children, delay = 0, className = '' }) { return <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.12 }} transition={{ duration: 0.55, delay }} className={className}>{children}</motion.div> }
