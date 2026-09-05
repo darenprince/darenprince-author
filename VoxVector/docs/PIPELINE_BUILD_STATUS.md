@@ -127,3 +127,13 @@ A completed analysis run does not prove any individual vocal feature proves dece
 9. Complete Review Evidence, report, and case history/reopen surfaces.
 10. Complete authenticated browser/mobile verification.
 11. Advance the separate scientific validation program.
+
+
+## Provider architecture update — 2026-09-04
+
+Stage 05 now has two implemented provider adapters behind the same canonical diarization contract:
+
+- **pyannoteAI cloud:** asynchronous job API using a protected deployment key, temporary media upload, job polling, and normalized speaker turns.
+- **local pyannote Community-1:** Hugging Face-gated local model path retained as an explicit fallback.
+
+The configured primary/fallback policy is operational engineering, not a stage promotion. Controlled provider-backed execution remains required before Stage 05 is promoted from its current maturity state. Provider provenance records whether a fallback occurred and why.
