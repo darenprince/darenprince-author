@@ -17,11 +17,12 @@ This directory contains the deployable HTTP adapter for the canonical VoxVector 
 - `POST /v1/cases` — create an authenticated analysis case
 - `GET /v1/cases` — list authenticated cases
 - `GET /v1/cases/{case_id}` — retrieve an authenticated case and persisted runs
+- `DELETE /v1/cases/{case_id}` — permanently delete an authenticated case and its persisted source media
 - `POST /v1/cases/{case_id}/sources` — persist a WAV source asset and provenance
 - `GET /v1/cases/{case_id}/sources/{source_id}/playback` — issue a time-limited signed media URL
 - `POST /v1/cases/{case_id}/sources/{source_id}/analyze` — execute the canonical pipeline against a persisted source and save the analysis run lifecycle
 
-Case routes require an authenticated Supabase developer session.
+Case routes require an authenticated Supabase developer session. Case deletion is owner-scoped and irreversible; the API deletes persisted source media before removing the case record and emits a `case.deleted` diagnostic event when the operation completes.
 
 ### Developer infrastructure
 
@@ -73,6 +74,8 @@ The current composite analytical pipeline does not expose internal callbacks for
 
 The case store is durable and owner-scoped. `GET /v1/cases` returns saved cases ordered by `updated_at`; `GET /v1/cases/{case_id}` returns persisted sources and prior analysis runs. This enables the Developer Console Case History surface to reopen prior work without creating a new run.
 
+`DELETE /v1/cases/{case_id}` permanently removes the owner-scoped case record and every persisted source-media path recorded by that case. The Developer Console requires explicit confirmation before issuing this request. The operation is not a soft delete and does not provide an undo path.
+
 Case records are stored through the existing private Supabase Storage-backed case store. The storage layer does not duplicate analytical feature extraction.
 
 ## Developer and API Product Surface
@@ -84,7 +87,7 @@ The canonical FastAPI API currently exposes:
 - runtime health
 - direct WAV analysis
 - authenticated case creation
-- case listing and retrieval
+- case listing, retrieval, and deletion
 - source upload and provenance
 - signed media playback
 - case-bound analysis execution
