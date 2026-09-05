@@ -35,6 +35,27 @@ function PlaybackControls({ audioRef, duration, currentTime, gain, setGain, spee
   return <div className="vv-playback-controls"><label><span>Gain</span><input aria-label="Audio gain" type="range" min="0" max="2" step="0.01" value={gain} onChange={e => setGain(Number(e.target.value))}/><output>{gain.toFixed(2)}×</output></label><label><span>Position</span><input aria-label="Audio position" type="range" min="0" max={Math.max(0.01, duration)} step="0.01" value={Math.min(currentTime, duration || 0)} onChange={e => onSeek(Number(e.target.value))}/><output>{fmt(currentTime)}</output></label><label><span>Speed</span><select aria-label="Playback speed" value={speed} onChange={e => setSpeed(Number(e.target.value))} className="border border-[var(--vv-border)] bg-[var(--vv-panel)] px-2 py-1 text-[10px] text-[var(--vv-text)]"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><span className="ml-auto inline-flex items-center gap-1.5" title="Playback level"><Volume2 size={13}/><span>{Math.round(meter)}%</span></span></div>
 }
 
+const STAGE_LABEL = id => STAGE_NAMES[id] || String(id || '').replaceAll('_', ' ').replace(/\b\w/g, char => char.toUpperCase()) || 'Analysis task'
+
+function plainEnglishEvent(event) {
+  const stage = STAGE_LABEL(event?.stage)
+  const name = String(event?.event || '').toLowerCase()
+  if (name === 'case.analysis_stage_started') return { title: stage + ' started', detail: 'VoxVector started this step and is waiting for it to finish.', tone: 'normal' }
+  if (name === 'case.analysis_timeout') return { title: stage + ' timed out', detail: 'This step took longer than the allowed time and was stopped from blocking the rest of the pipeline. VoxVector will continue with independent steps.', tone: 'failure' }
+  if (name === 'case.analysis_stage_failed') return { title: stage + ' failed', detail: 'This step encountered an error. The failure was recorded and VoxVector will continue with independent steps where possible.', tone: 'failure' }
+  if (name === 'case.analysis_completed') return { title: 'Analysis run finished', detail: 'The pipeline finished processing this request. Review the stage list for any failures or steps that could not run.', tone: 'success' }
+  if (name === 'request.analysis_error') return { title: 'Analysis request encountered an error', detail: 'VoxVector recorded an operational error for this request. Check the affected pipeline stage for details.', tone: 'failure' }
+  return { title: String(event?.event || 'Pipeline update').replaceAll('.', ' ').replaceAll('_', ' ').replace(/\b\w/g, char => char.toUpperCase()), detail: event?.detail || 'VoxVector recorded a pipeline update.', tone: 'normal' }
+}
+
+function technicalReason(event) {
+  const parts = []
+  if (event?.error_message) parts.push(event.error_message)
+  if (event?.error_type) parts.push('Error type: ' + event.error_type)
+  if (event?.status_code) parts.push('HTTP ' + event.status_code)
+  if (Number.isFinite(event?.duration_ms)) parts.push(event.duration_ms.toLocaleString() + ' ms')
+  return parts.join(' · ')
+}
 function CaseExecutionLog({ accessToken, run }) {
   const requestId = run?.request_id || ''
   const [events, setEvents] = useState([])
@@ -62,20 +83,20 @@ function CaseExecutionLog({ accessToken, run }) {
   }, [accessToken, requestId, run?.status])
   if (!requestId) return <section className="vv-panel"><div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>waiting for run</span></div><p className="vv-copy mt-3">This case has no persisted analysis request yet. Run the pipeline to attach live diagnostic events here.</p></section>
   return <section className="vv-panel">
-    <div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>{events.length} events</span></div>
+    <div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>{events.length} updates</span></div>
     <div className="mt-3 flex flex-wrap items-center justify-between gap-2"><div className="font-mono text-[10px] text-[var(--vv-muted)]">request {requestId}</div><Button variant="secondary" onClick={refresh} disabled={loading}><RefreshCw size={13} className={loading ? 'animate-spin' : ''}/> {loading ? 'Refreshing' : 'Refresh logs'}</Button></div>
     {error && <div className="mt-3 border border-red-400/30 bg-red-400/[.05] p-3 text-xs text-red-200">{error}</div>}
     <div className="mt-4 max-h-[32rem] overflow-auto border border-white/10 bg-black/20 font-mono text-[11px]">
       {events.length ? events.map((event, index) => {
-        const failure = String(event.event || '').includes('failed') || String(event.event || '').includes('timeout') || event.error_type
-        const detail = event.error_message || event.detail || ''
-        return <div key={String(event.timestamp || index) + '-' + String(event.event || 'event') + '-' + index} className={'border-b border-white/5 px-3 py-2.5 ' + (failure ? 'bg-red-400/[.05]' : '')}>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><span className="text-white/40">{event.timestamp ? new Date(event.timestamp).toLocaleTimeString() : '—'}</span><strong className={failure ? 'text-red-200' : 'text-[var(--vv-accent-bright)]'}>{event.event || 'event'}</strong>{event.stage && <span className="text-white/50">stage={event.stage}</span>}{event.status_code && <span className="text-white/40">HTTP {event.status_code}</span>}{Number.isFinite(event.duration_ms) && <span className="text-white/40">{event.duration_ms} ms</span>}</div>
-          {detail && <div className={'mt-1 break-words ' + (failure ? 'text-red-100/80' : 'text-[var(--vv-muted)]')}>{detail}</div>}
-          {event.error_type && <div className="mt-1 text-red-200/80">error_type={event.error_type}</div>}
-          {event.source_revision && <div className="mt-1 text-white/25">revision={String(event.source_revision).slice(0, 12)}</div>}
+        const message = plainEnglishEvent(event)
+        const failure = message.tone === 'failure'
+        const technical = technicalReason(event)
+        return <div key={String(event.timestamp || index) + '-' + String(event.event || 'event') + '-' + index} className={'border-b border-white/5 px-3 py-3 ' + (failure ? 'bg-red-400/[.05]' : '')}>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><span className="text-white/40">{event.timestamp ? new Date(event.timestamp).toLocaleTimeString() : '—'}</span><strong className={failure ? 'text-red-200' : message.tone === 'success' ? 'text-emerald-200' : 'text-[var(--vv-text)]'}>{message.title}</strong></div>
+          <div className={'mt-1.5 break-words text-[var(--vv-muted)] ' + (failure ? 'text-red-100/80' : '')}>{message.detail}</div>
+          {technical && <details className="mt-2 text-[10px] text-white/35"><summary className="cursor-pointer select-none">Technical details</summary><div className="mt-1 break-all font-mono">{technical}</div></details>}
         </div>
-      }) : <div className="p-4 text-[var(--vv-muted)]">{loading ? 'Loading live case diagnostics…' : 'No diagnostic events have been returned for this request yet.'}</div>}
+      }) : <div className="p-4 text-[var(--vv-muted)]">{loading ? 'Loading live case updates…' : 'No execution updates have been returned for this request yet.'}</div>}
     </div>
     <p className="mt-3 text-[10px] text-[var(--vv-muted)]">{PENDING.has(run?.status) ? 'Auto-refreshing every 2.5 seconds while this run is active.' : 'Persisted diagnostics remain attached to this request for post-run inspection.'}</p>
   </section>
