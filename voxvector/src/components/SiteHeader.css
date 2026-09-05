@@ -180,3 +180,53 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 }
 
 .vv-public-workspace-trigger{cursor:pointer}.vv-public-workspace-trigger:focus-visible,.vv-public-mega-item:focus-visible{outline:2px solid var(--vv-accent-bright);outline-offset:3px}.vv-sheet-head{position:sticky;top:0;background:var(--vv-bg);z-index:2}@media(min-width:901px){.vv-app .vv-main{padding-left:clamp(20px,4vw,56px);padding-right:clamp(20px,4vw,56px)}}
+
+/* Analysis workspace card headers: compact toolbar treatment with inline status metadata. */
+.vv-analysis-workspace > section > .vv-panel-head {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 36px;
+  margin: -3px -3px 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(255,255,255,.045);
+  border-radius: 4px;
+}
+.vv-analysis-workspace > section > .vv-panel-head h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  color: var(--vv-text);
+  font-family: var(--vv-font-ui);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.vv-analysis-workspace > section > .vv-panel-head h2 svg {
+  flex: 0 0 auto;
+  color: var(--vv-accent-bright);
+  opacity: .86;
+}
+.vv-analysis-workspace > section > .vv-panel-head > span {
+  margin-left: 0;
+  color: var(--vv-muted);
+  font-family: var(--vv-font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+.vv-analysis-workspace > section:nth-of-type(4n+1) > .vv-panel-head { background: rgba(255,255,255,.038); }
+.vv-analysis-workspace > section:nth-of-type(4n+2) > .vv-panel-head { background: rgba(255,255,255,.026); }
+.vv-analysis-workspace > section:nth-of-type(4n+3) > .vv-panel-head { background: color-mix(in srgb, var(--vv-panel) 92%, #c99a66 8%); }
+.vv-analysis-workspace > section:nth-of-type(4n) > .vv-panel-head { background: color-mix(in srgb, var(--vv-surface) 94%, white 6%); }
+@media (max-width: 640px) {
+  .vv-analysis-workspace > section > .vv-panel-head { gap: 6px 8px; padding: 9px 10px; }
+  .vv-analysis-workspace > section > .vv-panel-head h2 { font-size: 10px; letter-spacing: .105em; }
+  .vv-analysis-workspace > section > .vv-panel-head > span { font-size: 9px; }
+}
