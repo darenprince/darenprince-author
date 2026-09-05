@@ -263,3 +263,8 @@ The Developer Console includes Live Logs, Error Reports, and structured Audits. 
 The current canonical case-analysis workflow includes built transcription execution wiring and a synchronized transcript review surface. When faster-whisper execution succeeds, normalized timestamped segments and words are persisted with the analysis run and displayed against the same audio playhead used by waveform playback. Aligned speaker attribution is consumed when diarization artifacts exist. The Developer Console MVP board locks completed canonical implementation items so local operator toggles cannot accidentally uncheck built workflow surfaces; remaining optional work stays manually trackable.
 
 Controlled provider execution, persisted artifact readback, and deployed browser/mobile verification remain separate functional checks.
+
+
+## Live analysis timeout and failure visibility — 2026-09-05
+
+The canonical case analysis route now persists the live stage boundary before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition have configurable server-side deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). On timeout, VoxVector records the failed stage, request ID, timeout context, persisted run state, and a diagnostic event, then returns HTTP 504 instead of leaving the client indefinitely waiting. The frontend error formatter surfaces the message, failed stage, error type when available, and request ID. These controls improve operational observability; they do not imply cancellation of already-running background worker threads or scientific validation of any analysis output.
