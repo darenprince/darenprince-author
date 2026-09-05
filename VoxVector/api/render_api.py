@@ -380,10 +380,18 @@ async def render_analysis(
         _set_stage(stage_states, "transcription_generation", "complete" if transcription_state == "completed" else "not_run", completed_at=completed_at, outcome=("timestamped transcript acquired" if transcription_state == "completed" else f"transcription {transcription_state}"))
         _set_stage(stage_states, "transcript_alignment", "complete" if multimodal_timeline else "not_run", completed_at=completed_at, outcome=("timestamped transcript/audio timeline assembled" if multimodal_timeline else "transcript alignment not available"))
 
+        acoustic_timings = result_dict.get("provenance", {}).get("acoustic_feature_timings_ms") or {}
+        acoustic_duration_ms = sum(float(value) for value in acoustic_timings.values() if isinstance(value, (int, float)))
+        acoustic_breakdown = ", ".join(
+            f"{name.replace('_', ' ')} {float(value):.0f} ms"
+            for name, value in acoustic_timings.items()
+            if isinstance(value, (int, float))
+        ) or "timing breakdown unavailable"
+
         internal_completed = {
             "speech_segmentation": ("complete", f"{len(result.speech_segments)} speech segments detected"),
             "eligibility_reliability": ("complete", result.eligibility.status),
-            "acoustic_feature_extraction": ("complete", "completed inside composite pipeline"),
+            "acoustic_feature_extraction": ("complete", f"acoustic features completed · {acoustic_breakdown}"),
             "prosodic_voice_quality": ("complete", "completed inside composite pipeline"),
             "temporal_pause_analysis": ("complete", "completed inside composite pipeline"),
             "cross_method_evidence": ("complete", "completed inside composite pipeline"),
@@ -393,7 +401,14 @@ async def render_analysis(
             "audit_provenance_output": ("complete", "analysis provenance and run record assembled"),
         }
         for stage_id, (status, outcome) in internal_completed.items():
-            _set_stage(stage_states, stage_id, status, completed_at=completed_at, outcome=outcome)
+            _set_stage(
+                stage_states,
+                stage_id,
+                status,
+                completed_at=completed_at,
+                duration_ms=acoustic_duration_ms if stage_id == "acoustic_feature_extraction" and acoustic_duration_ms else None,
+                outcome=outcome,
+            )
 
         _set_stage(stage_states, "linguistic_disfluency", "complete" if transcript_tokens else "not_run", completed_at=completed_at, outcome=("transcript-derived observations computed" if transcript_tokens else "transcript unavailable"))
         _set_stage(stage_states, "question_answer_alignment", "not_run", completed_at=completed_at, outcome="question context not supplied")
@@ -414,7 +429,7 @@ async def render_analysis(
             "source_id": source_id,
             "pipeline_version": VoxVectorPipeline.software_version,
             "pipeline_duration_ms": pipeline_duration,
-            "telemetry_scope": {"route_boundary_stages": ["file_decode_normalization", "provenance_integrity", "channel_recording_assessment"], "composite_pipeline_internal_timing": "not independently instrumented"},
+            "telemetry_scope": {"route_boundary_stages": ["file_decode_normalization", "provenance_integrity", "channel_recording_assessment"], "composite_pipeline_internal_timing": {"acoustic_feature_extraction": acoustic_timings or "unavailable"}},
             "pipeline_build": {"total_stages": 21, "completed": completed_count, "pending": pending_count, "not_run": not_run_count, "failed": failed_count},
             "testing": {"current_commit_qa": "external_workflow_required", "source_revision": SOURCE_REVISION, "historical_backend_baseline": {"passed": 91, "duration_seconds": 0.56}},
             "stages": stage_states,
