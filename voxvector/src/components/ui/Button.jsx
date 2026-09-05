@@ -1,4 +1,3 @@
-import { Button as BaseButton } from '@base-ui/react/button'
 import { cva } from 'class-variance-authority'
 
 const buttonVariants = cva(
@@ -27,7 +26,7 @@ export default function Button({ className = '', variant, size, children, ...pro
   const displayChildren = className.includes('vv-hero-primary-cta') && typeof children === 'string'
     ? 'Request access'
     : children
-  return <BaseButton className={`${buttonVariants({ variant, size })} ${className}`} {...props}>{displayChildren}</BaseButton>
+  return <button type={props.type || 'button'} className={`${buttonVariants({ variant, size })} ${className}`} {...props}>{displayChildren}</button>
 }
 
 export { buttonVariants }
