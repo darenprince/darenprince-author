@@ -4,12 +4,13 @@ from dataclasses import asdict
 from hashlib import sha256
 from uuid import uuid4
 from typing import Iterator, Mapping, Sequence
+from time import perf_counter
 
 import numpy as np
 
 from .advanced_prosody import contour_dynamics, contour_delta
 from .baseline import baseline_deviation, robust_baseline
-from .cepstral import mfcc
+from .cepstral import mfcc_basis, mfcc_from_power_spectrum
 from .disfluency import count_filled_pauses, disfluency_rate, repetition_count, token_count
 from .evidence import observations_to_evidence
 from .formants import track_formants
@@ -20,7 +21,7 @@ from .research_timing import pause_topology
 from .schemas import AnalysisResult, Eligibility, Observation, SpeechSegment as ResultSpeechSegment
 from .speech_segmentation import segment_speech
 from .spectral import spectral_flux, spectral_rolloff
-from .acoustic import fundamental_frequency, harmonicity, intensity_db, rms, spectral_centroid, spectral_spread, summarize, zero_crossing_rate
+from .acoustic import intensity_db, pitch_and_harmonicity, rms, spectral_moments_from_spectrum, summarize, zero_crossing_rate
 
 FRAME_CHUNK_COUNT = 256
 MFCC_COEFFICIENTS = 13
@@ -90,6 +91,7 @@ class VoxVectorPipeline:
         )
         observations: list[Observation] = []
         speech_segments: list[ResultSpeechSegment] = []
+        feature_timings_ms: dict[str, float] = {}
 
         def add(feature: str, value: float | None, unit: str, provenance: dict) -> None:
             if value is None or not np.isfinite(value):
@@ -122,17 +124,31 @@ class VoxVectorPipeline:
             formant_parts: list[list[np.ndarray]] = [[], [], [], []]
             time_parts: list[np.ndarray] = []
             previous_spectrum: np.ndarray | None = None
+            window = np.hanning(frame_size)
+            frequencies = np.fft.rfftfreq(frame_size, 1.0 / sample_rate)
+            mfcc_filterbank, mfcc_dct = mfcc_basis(frame_size, sample_rate, n_coefficients=MFCC_COEFFICIENTS)
+            feature_timings_ms.update({"basic": 0.0, "spectrum": 0.0, "pitch_harmonicity": 0.0, "mfcc": 0.0, "formants": 0.0})
 
             for frames, first_frame in _iter_frame_chunks(signal, frame_size, hop):
                 times = (first_frame + np.arange(frames.shape[0], dtype=float)) * hop / sample_rate + frame_size / (2.0 * sample_rate)
+                phase_started = perf_counter()
                 rms_values = rms(frames)
                 intensity_values = intensity_db(frames)
                 zcr_values = zero_crossing_rate(frames)
-                centroid_values = spectral_centroid(frames, sample_rate)
-                spread_values = spectral_spread(frames, sample_rate)
-                f0_values = fundamental_frequency(frames, sample_rate)
-                harmonicity_values = harmonicity(frames, sample_rate)
-                mfcc_values = mfcc(frames, sample_rate, n_coefficients=MFCC_COEFFICIENTS)
+                feature_timings_ms["basic"] += (perf_counter() - phase_started) * 1000.0
+
+                phase_started = perf_counter()
+                spectra = np.abs(np.fft.rfft(frames * window, axis=1))
+                centroid_values, spread_values = spectral_moments_from_spectrum(spectra, sample_rate, frame_size)
+                feature_timings_ms["spectrum"] += (perf_counter() - phase_started) * 1000.0
+
+                phase_started = perf_counter()
+                f0_values, harmonicity_values = pitch_and_harmonicity(frames, sample_rate)
+                feature_timings_ms["pitch_harmonicity"] += (perf_counter() - phase_started) * 1000.0
+
+                phase_started = perf_counter()
+                mfcc_values = mfcc_from_power_spectrum(spectra * spectra, mfcc_filterbank, mfcc_dct)
+                feature_timings_ms["mfcc"] += (perf_counter() - phase_started) * 1000.0
                 rms_parts.append(rms_values)
                 intensity_parts.append(intensity_values)
                 zcr_parts.append(zcr_values)
@@ -143,15 +159,15 @@ class VoxVectorPipeline:
                 mfcc_parts.append(mfcc_values)
                 time_parts.append(times)
 
-                spectra = np.abs(np.fft.rfft(frames * np.hanning(frame_size), axis=1))
                 flux_values = spectral_flux(spectra if previous_spectrum is None else np.vstack((previous_spectrum[None, :], spectra)))
                 if flux_values.size:
                     flux_parts.append(flux_values)
-                frequencies = np.fft.rfftfreq(frame_size, 1.0 / sample_rate)
                 rolloff_parts.append(spectral_rolloff(spectra, frequencies))
                 previous_spectrum = spectra[-1].copy()
 
+                phase_started = perf_counter()
                 formant_matrix = track_formants(frames, sample_rate, n_formants=4)
+                feature_timings_ms["formants"] += (perf_counter() - phase_started) * 1000.0
                 for index in range(min(4, formant_matrix.shape[1])):
                     formant_parts[index].append(formant_matrix[:, index])
 
@@ -266,7 +282,12 @@ class VoxVectorPipeline:
             candidate="indeterminate",
             disposition=disposition,
             limitations=tuple(limitations),
-            provenance={"input_sha256": input_hash, "sample_rate": sample_rate, "software_version": self.software_version},
+            provenance={
+                "input_sha256": input_hash,
+                "sample_rate": sample_rate,
+                "software_version": self.software_version,
+                "acoustic_feature_timings_ms": {key: round(value, 3) for key, value in feature_timings_ms.items()},
+            },
         )
 
     @staticmethod
