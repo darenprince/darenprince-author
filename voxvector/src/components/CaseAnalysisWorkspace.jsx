@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Activity, AlertTriangle, CheckCircle2, Circle, Clipboard, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Terminal, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
-import { getDiagnosticEvents } from '../lib/api'
+import { getDiagnosticEvents, getRenderLogs } from '../lib/api'
 import Button from './ui/Button'
 
 const unwrap = result => result?.payload?.case || result?.payload?.data || result?.payload || {}
