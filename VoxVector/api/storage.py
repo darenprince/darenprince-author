@@ -279,3 +279,25 @@ class SupabaseStorage:
             return json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise StorageError("Stored object is not valid JSON") from exc
+
+    def _delete_object(self, bucket: str, object_path: str, *, require_log_config: bool = False) -> None:
+        self._validate_object_path(object_path)
+        encoded_path = quote(object_path, safe="/")
+        url = f"{self.config.supabase_url}/storage/v1/object/{quote(bucket, safe='')}/{encoded_path}"
+        try:
+            self._request("DELETE", url, retries=2, require_log_config=require_log_config)
+        except StorageError as exc:
+            if "HTTP 404" not in str(exc):
+                raise
+
+    def delete_json(self, object_path: str) -> None:
+        if not self.config.configured:
+            raise StorageError("Log storage is not configured")
+        self.ensure_bucket()
+        self._delete_object(self.config.bucket, object_path, require_log_config=True)
+
+    def delete_bytes(self, object_path: str) -> None:
+        if not self.media_configured:
+            raise StorageError("Media storage is not configured")
+        self.ensure_media_bucket()
+        self._delete_object(self.config.media_bucket, object_path)

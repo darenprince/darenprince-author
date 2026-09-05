@@ -27,6 +27,12 @@ class FakeStorage:
         self.media[path] = body
         return f"voxvector-media/{path}"
 
+    def delete_json(self, path):
+        self.json.pop(path, None)
+
+    def delete_bytes(self, path):
+        self.media.pop(path, None)
+
 
 def test_case_creation_and_source_persistence():
     storage = FakeStorage()
@@ -75,3 +81,42 @@ def test_case_list_returns_owner_cases_sorted_by_updated_at():
 
     assert [item["case_id"] for item in cases] == [second["case_id"], first["case_id"]]
     assert other["case_id"] not in {item["case_id"] for item in cases}
+
+
+def test_case_delete_removes_case_record_and_source_media():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Delete me")
+    source = store.add_source(
+        "user-1",
+        case["case_id"],
+        "sample.wav",
+        b"RIFF sample",
+        {"sample_rate": 48000, "duration_seconds": 2.0},
+    )
+
+    result = store.delete_case("user-1", case["case_id"])
+
+    assert result == {"case_id": case["case_id"], "deleted_sources": 1}
+    assert f"cases/user-1/{case['case_id']}.json" not in storage.json
+    assert source["media_path"] not in storage.media
+    try:
+        store.get_case("user-1", case["case_id"])
+    except CaseNotFound:
+        return
+    raise AssertionError("deleted cases must no longer be readable")
+
+
+def test_case_delete_rejects_cross_user_request():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Protected")
+
+    try:
+        store.delete_case("user-2", case["case_id"])
+    except CaseNotFound:
+        pass
+    else:
+        raise AssertionError("cross-user case deletion must be rejected")
+
+    assert f"cases/user-1/{case['case_id']}.json" in storage.json

@@ -457,3 +457,18 @@ html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-be
 @media (max-width: 640px) {
   .vv-panel-head { gap: 12px; }
 }
+
+/* Case History deletion: desktop affordance plus native-feeling mobile swipe reveal. */
+.vv-history-swipe{position:relative;overflow:hidden;border:1px solid var(--vv-border);background:rgba(115,30,30,.34)}
+.vv-history-swipe.active{border-color:rgba(217,160,107,.45)}
+.vv-history-swipe .vv-history-item{position:relative;z-index:2;display:flex;align-items:stretch;width:100%;padding:0;border:0;background:var(--vv-surface);transition:transform .18s ease,background .18s ease;touch-action:pan-y;will-change:transform}
+.vv-history-swipe .vv-history-item.active{background:linear-gradient(145deg,rgba(143,93,53,.09),var(--vv-panel))}
+.vv-history-open{display:block;min-width:0;flex:1;padding:14px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.vv-history-delete-icon{display:inline-flex;flex:0 0 48px;align-items:center;justify-content:center;border:0;border-left:1px solid var(--vv-border);background:transparent;color:rgba(248,113,113,.78);cursor:pointer;transition:color .16s ease,background .16s ease}
+.vv-history-delete-icon:hover{background:rgba(239,68,68,.08);color:#fca5a5}
+.vv-history-delete-icon:disabled,.vv-history-delete-rail:disabled{cursor:wait;opacity:.5}
+.vv-history-delete-rail{position:absolute;z-index:1;inset:0 0 0 auto;display:flex;width:88px;align-items:center;justify-content:center;gap:6px;border:0;background:linear-gradient(180deg,#8f262a,#681b1f);color:#fff;font-size:11px;font-weight:700;cursor:pointer}
+.vv-history-delete-rail span{display:inline-block}
+@media (hover:hover) and (pointer:fine){.vv-history-delete-rail{display:none}}
+@media (hover:none),(pointer:coarse){.vv-history-delete-icon{display:none}.vv-history-swipe .vv-history-item{cursor:grab}.vv-history-swipe.is-open .vv-history-item{cursor:grabbing}}
+@media (prefers-reduced-motion:reduce){.vv-history-swipe .vv-history-item{transition:none}}
