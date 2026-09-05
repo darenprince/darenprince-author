@@ -90,3 +90,8 @@ The Developer Console is the engineering cockpit and now exposes runtime health,
 Neither Render health, AWS health, provider readiness, nor successful software execution establishes deception-detection validity. Scientific validation remains a separate workstream with task-specific operational definitions, speaker-disjoint evaluation, calibration, uncertainty, robustness, leakage controls, and replication as applicable.
 
 **Full canonical audit:** `VoxVector/docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
+
+
+## pyannote provider synchronization — 2026-09-04
+
+Canonical VoxVector now supports pyannoteAI cloud diarization as an explicitly selected primary provider using a protected server-side API key, with local pyannote Community-1 retained as an explicit configuration-controlled fallback. Provider substitution is recorded in provenance and is not silent. Implementation does not itself claim successful provider execution or scientific validation.
