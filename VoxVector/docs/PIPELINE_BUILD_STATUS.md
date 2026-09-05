@@ -142,3 +142,8 @@ The configured primary/fallback policy is operational engineering, not a stage p
 ## Live analysis timeout and failure visibility — 2026-09-05
 
 The canonical case analysis route now persists the live stage boundary before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition have configurable server-side deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). On timeout, VoxVector records the failed stage, request ID, timeout context, persisted run state, and a diagnostic event, then returns HTTP 504 instead of leaving the client indefinitely waiting. The frontend error formatter surfaces the message, failed stage, error type when available, and request ID. These controls improve operational observability; they do not imply cancellation of already-running background worker threads or scientific validation of any analysis output.
+
+
+## Continue-after-failure pipeline policy — 2026-09-05
+
+A failed or timed-out task is recorded on its own pipeline stage with its sanitized error and outcome, but the orchestration continues into later stages that do not depend on that failed output. Dependent stages are marked `not_run` with an explicit dependency reason rather than being falsely reported as successful. Runs containing one or more stage failures finish as `completed_with_failures` when independent work and persistence can still complete. This preserves partial artifacts, stage visibility, diagnostics, and auditability without silently treating failure as success.
