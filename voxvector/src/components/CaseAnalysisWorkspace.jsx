@@ -9,8 +9,14 @@ const fmt = value => { const s = Math.max(0, Number(value) || 0); return `${Math
 const fmtMs = value => { const n = Number(value); return Number.isFinite(n) ? `${n.toLocaleString()} ms` : '—' }
 const STAGE_NAMES = { file_upload_ingest: 'File Upload / Ingest', file_decode_normalization: 'File Decode and Normalization', provenance_integrity: 'Provenance and Integrity', channel_recording_assessment: 'Channel and Recording Assessment', speaker_identification_diarization: 'Speaker Identification / Diarization', speech_segmentation: 'Speech Segmentation', transcription_generation: 'Transcription Generation', transcript_alignment: 'Transcript Alignment', eligibility_reliability: 'Eligibility and Reliability', acoustic_feature_extraction: 'Acoustic Feature Extraction', prosodic_voice_quality: 'Prosodic and Voice Quality Analysis', temporal_pause_analysis: 'Temporal and Pause Analysis', linguistic_disfluency: 'Linguistic and Disfluency Analysis', question_answer_alignment: 'Question / Answer Alignment', within_speaker_baseline: 'Within Speaker Baseline', cross_method_evidence: 'Cross Method Evidence Assembly', evidence_convergence_conflict: 'Evidence Convergence and Conflict', candidate_classification: 'Candidate Classification', validation_calibration_gate: 'Validation and Calibration Gate', final_disposition: 'Final Classification / Disposition', audit_provenance_output: 'Audit and Provenance Output' }
 const COMPLETE = new Set(['completed', 'complete', 'success', 'succeeded'])
-const FAILED = new Set(['failed', 'error'])
-const PENDING = new Set(['pending', 'running', 'processing', 'in_progress'])
+const FAILED = new Set(['failed', 'error', 'timed_out', 'timeout'])
+const PENDING = new Set(['pending', 'queued', 'running', 'processing', 'in_progress'])
+const STATUS_LABEL = status => ({
+  pending: 'Waiting', queued: 'Queued', running: 'Running', processing: 'Processing', in_progress: 'Running',
+  complete: 'Done', completed: 'Done', success: 'Done', succeeded: 'Done', failed: 'Failed', error: 'Failed',
+  timeout: 'Timed out', timed_out: 'Timed out', not_run: 'Not run', skipped: 'Skipped', blocked: 'Blocked',
+}[String(status || '').toLowerCase()] || String(status || 'Pending').replaceAll('_', ' '))
+const elapsedSince = (value, now = Date.now()) => { const started = Date.parse(value || ''); if (!Number.isFinite(started)) return ''; return fmt(Math.max(0, Math.floor((now - started) / 1000))) }
 
 function Waveform({ url, file, duration, currentTime, onSeek, markers = [] }) {
   const canvasRef = useRef(null)
@@ -41,8 +47,8 @@ function plainEnglishEvent(event) {
   const stage = STAGE_LABEL(event?.stage)
   const name = String(event?.event || '').toLowerCase()
   if (name === 'case.analysis_stage_started') return { title: stage + ' started', detail: 'VoxVector started this step and is waiting for it to finish.', tone: 'normal' }
-  if (name === 'case.analysis_timeout') return { title: stage + ' timed out', detail: 'This step took longer than the allowed time and was stopped from blocking the rest of the pipeline. VoxVector will continue with independent steps.', tone: 'failure' }
-  if (name === 'case.analysis_stage_failed') return { title: stage + ' failed', detail: 'This step encountered an error. The failure was recorded and VoxVector will continue with independent steps where possible.', tone: 'failure' }
+  if (name === 'case.analysis_timeout' || name === 'case.live_provider_analysis_timeout') return { title: stage + ' timed out', detail: 'This step took longer than the allowed time and was stopped from blocking the rest of the pipeline. VoxVector will continue with independent steps.', tone: 'failure' }
+  if (name === 'case.analysis_stage_failed' || name === 'case.live_provider_analysis_stage_failed') return { title: stage + ' failed', detail: 'This step encountered an error. The failure was recorded and VoxVector will continue with independent steps where possible.', tone: 'failure' }
   if (name === 'case.analysis_completed') return { title: 'Analysis run finished', detail: 'The pipeline finished processing this request. Review the stage list for any failures or steps that could not run.', tone: 'success' }
   if (name === 'request.analysis_error') return { title: 'Analysis request encountered an error', detail: 'VoxVector recorded an operational error for this request. Check the affected pipeline stage for details.', tone: 'failure' }
   return { title: String(event?.event || 'Pipeline update').replaceAll('.', ' ').replaceAll('_', ' ').replace(/\b\w/g, char => char.toUpperCase()), detail: event?.detail || 'VoxVector recorded a pipeline update.', tone: 'normal' }
@@ -130,8 +136,33 @@ function CaseExecutionLog({ accessToken, run }) {
 function StageList({ run }) {
   const stages = run?.stages || run?.stage_states || []
   const [open, setOpen] = useState(null)
+  const [now, setNow] = useState(Date.now())
+  const hasLiveStage = stages.some(stage => PENDING.has(String(stage?.status || '').toLowerCase()) && stage?.started_at)
+  useEffect(() => { if (!hasLiveStage) return undefined; const timer = window.setInterval(() => setNow(Date.now()), 1000); return () => window.clearInterval(timer) }, [hasLiveStage])
   if (!stages.length) return <p className="vv-copy">No persisted stage records are attached to this run yet.</p>
-  return <div className="space-y-1">{stages.map((stage, index) => { const id = stage.id || stage.stage_id || stage.name || String(index); const expanded = open === id; const status = stage.status || 'pending'; const done = COMPLETE.has(status); const failed = FAILED.has(status); const pending = PENDING.has(status); const name = stage.name || STAGE_NAMES[id] || id; const Icon = failed ? AlertTriangle : done ? CheckCircle2 : pending ? Circle : Info; return <div className="overflow-hidden border border-white/5" key={id}><button type="button" className="vv-status-row w-full text-left" onClick={() => setOpen(expanded ? null : id)} aria-expanded={expanded}><span><Icon size={14}/></span><span className="min-w-0"><span className="block truncate">{stage.number ? `${stage.number}. ` : ''}{name}</span><span className="block text-[10px] text-[var(--vv-muted)]">{id}</span></span><span className="ml-auto flex items-center gap-2 text-xs"><span>{status}</span>{expanded ? <ChevronDown size={14}/> : <ChevronRight size={14}/>}</span></button>{expanded && <div className="grid gap-3 border-t border-white/5 px-3 py-3 sm:grid-cols-2 lg:grid-cols-4"><Data label="Started" value={stage.started_at ? new Date(stage.started_at).toLocaleString() : '—'}/><Data label="Completed" value={stage.completed_at ? new Date(stage.completed_at).toLocaleString() : '—'}/><Data label="Duration" value={fmtMs(stage.duration_ms)}/><Data label="Outcome" value={stage.outcome || '—'}/>{stage.error && <div className="sm:col-span-2 lg:col-span-4"><Data label="Error" value={stage.error}/></div>}</div>}</div> })}</div>
+  return <div className="space-y-1">{stages.map((stage, index) => {
+    const id = stage.id || stage.stage_id || stage.name || String(index)
+    const expanded = open === id
+    const status = String(stage.status || 'pending').toLowerCase()
+    const done = COMPLETE.has(status)
+    const failed = FAILED.has(status)
+    const pending = PENDING.has(status)
+    const liveElapsed = pending && stage.started_at ? elapsedSince(stage.started_at, now) : ''
+    const name = stage.name || STAGE_NAMES[id] || id
+    const Icon = failed ? AlertTriangle : done ? CheckCircle2 : pending ? Circle : Info
+    return <div className={'overflow-hidden border ' + (failed ? 'border-red-400/30 bg-red-400/[.035]' : pending && status !== 'pending' ? 'border-[var(--vv-accent)]/35 bg-[var(--vv-accent)]/[.035]' : 'border-white/5')} key={id}>
+      <button type="button" className="vv-status-row w-full text-left" onClick={() => setOpen(expanded ? null : id)} aria-expanded={expanded}>
+        <span><Icon size={14}/></span>
+        <span className="min-w-0"><span className="block truncate">{stage.number ? `${stage.number}. ` : ''}{name}</span><span className="block text-[10px] text-[var(--vv-muted)]">{id}</span></span>
+        <span className="ml-auto flex items-center gap-2 text-xs"><span>{STATUS_LABEL(status)}{liveElapsed ? ` · ${liveElapsed}` : ''}</span>{expanded ? <ChevronDown size={14}/> : <ChevronRight size={14}/>}</span>
+      </button>
+      {expanded && <div className="grid gap-3 border-t border-white/5 px-3 py-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Data label="Status" value={STATUS_LABEL(status)}/><Data label="Started" value={stage.started_at ? new Date(stage.started_at).toLocaleString() : '—'}/><Data label="Completed" value={stage.completed_at ? new Date(stage.completed_at).toLocaleString() : '—'}/><Data label={pending && liveElapsed ? 'Running for' : 'Duration'} value={pending && liveElapsed ? liveElapsed : fmtMs(stage.duration_ms)}/>
+        <div className="sm:col-span-2 lg:col-span-4"><Data label="Outcome" value={stage.outcome || 'No outcome has been recorded yet.'}/></div>
+        {stage.error && <div className="sm:col-span-2 lg:col-span-4"><Data label="Error" value={stage.error}/></div>}
+      </div>}
+    </div>
+  })}</div>
 }
 
 function ResultState({ label, value, detail }) { return <div className="border border-white/5 p-3"><div className="vv-eyebrow">{label}</div><div className="mt-1 text-sm font-semibold">{value || '—'}</div>{detail && <p className="mt-1 text-[11px] leading-relaxed text-[var(--vv-muted)]">{detail}</p>}</div> }
@@ -140,7 +171,7 @@ function PipelineOverview({ stages, active }) {
   return <div className="mt-4 grid gap-1 sm:grid-cols-2 xl:grid-cols-3" aria-label="21 stage analysis pipeline">
     {stages.map((stage, index) => {
       const id = stage.id || stage.stage_id || stage.name || String(index)
-      const status = stage.status || 'pending'
+      const status = String(stage.status || 'pending').toLowerCase()
       const done = COMPLETE.has(status)
       const failed = FAILED.has(status)
       const running = active && (active.id || active.stage_id || active.name) === id
@@ -149,7 +180,7 @@ function PipelineOverview({ stages, active }) {
       return <div key={id} className={`flex min-w-0 items-center gap-2 border px-2.5 py-2 text-[11px] ${failed ? 'border-red-400/30 bg-red-400/[.04]' : running ? 'border-[var(--vv-accent)] bg-[var(--vv-accent)]/[.06]' : done ? 'border-white/10 bg-white/[.02]' : 'border-white/5 bg-transparent'}`}>
         <span className={`flex h-5 w-5 shrink-0 items-center justify-center font-mono text-[9px] ${done ? 'text-[var(--vv-accent-bright)]' : failed ? 'text-red-300' : running ? 'text-[var(--vv-accent-bright)]' : 'text-[var(--vv-muted)]'}`}><Icon size={14}/></span>
         <span className="min-w-0 flex-1 truncate"><span className="mr-1.5 font-mono text-white/30">{String(stage.number || index + 1).padStart(2, '0')}</span>{name}</span>
-        <span className="shrink-0 text-[9px] uppercase tracking-[.1em] text-[var(--vv-muted)]">{running ? 'active' : done ? 'done' : failed ? 'failed' : status}</span>
+        <span className="shrink-0 text-[9px] uppercase tracking-[.1em] text-[var(--vv-muted)]">{running ? 'running' : STATUS_LABEL(status)}</span>
       </div>
     })}
   </div>
