@@ -200,3 +200,11 @@ Stage 13 now reports completion only when transcript-derived evidence assembly a
 The public React route was isolated from the Developer Console dependency graph after a mobile runtime boundary reported a startup failure on the public product surface. Developer-only modules are now loaded lazily only for the developer route, preventing developer-console module evaluation from being part of public landing initialization.
 
 This is an implementation repair. Production resolution still requires exact revision build/deployment and mobile browser verification.
+
+## 2026-09-05 — Case History deletion control
+
+The authenticated Case History flow now includes an irreversible owner-scoped delete path. The Developer Console exposes swipe-left deletion on touch/coarse-pointer devices and a trash control on desktop/pointer layouts. Both interaction paths require an explicit browser confirmation that the operation cannot be undone before the API request is issued.
+
+The backend now exposes `DELETE /v1/cases/{case_id}` and removes persisted source media recorded by the case before removing the owner-scoped case JSON record. Supabase Storage deletion primitives treat already-missing objects as idempotent 404s, while other storage failures are surfaced rather than silently reported as successful deletion. A successful delete emits a `case.deleted` diagnostic event.
+
+**Verification:** The exact feature revision passed the VoxVector API test step, including new case-store deletion/ownership tests, and passed the React application build plus PR preview artifact verification. Production deployment and live browser interaction remain separate verification steps.
