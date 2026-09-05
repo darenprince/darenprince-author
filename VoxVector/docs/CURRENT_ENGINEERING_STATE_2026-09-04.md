@@ -193,3 +193,10 @@ Implemented changes:
 The authenticated case-analysis path now converts an acquired normalized transcript into persisted linguistic/disfluency observations and normalized evidence records using the canonical `linguistic.transcript_evidence` method. The records are merged into the same persisted result envelope used by the Evidence Explorer while preserving candidate and disposition state unchanged.
 
 Stage 13 now reports completion only when transcript-derived evidence assembly actually succeeds. Failure is recorded as a stage failure with diagnostics while preserving the rest of the pipeline result. This is implementation and software-test coverage, not scientific validation.
+
+
+## 2026-09-04 — Public startup isolation repair
+
+The public React route was isolated from the Developer Console dependency graph after a mobile runtime boundary reported a startup failure on the public product surface. Developer-only modules are now loaded lazily only for the developer route, preventing developer-console module evaluation from being part of public landing initialization.
+
+This is an implementation repair. Production resolution still requires exact revision build/deployment and mobile browser verification.

@@ -1,3 +1,11 @@
+## 2026-09-04 — Public application startup isolation
+
+**Decision:** Keep the public VoxVector product route independent from Developer Console module evaluation.
+
+**Implementation:** The Developer Gate and Developer Console are now route-level lazy imports. The public landing route no longer eagerly evaluates the developer-only dependency graph during startup. This reduces the public startup failure surface and keeps a developer-console regression from taking down the public product experience.
+
+**Verification boundary:** The change requires the exact branch build, GitHub Pages deployment, and mobile browser readback before it is treated as resolved production evidence.
+
 ## 2026-09-05 — Case workbench interaction and observability polish
 
 **Decision:** Improve the canonical Developer Console interaction layer without creating duplicate work surfaces.
