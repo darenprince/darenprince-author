@@ -18,8 +18,10 @@
 /* 04 Public landing */
 @import './canonical-landing.css';
 
-/* 05 Developer console: shell first, then workflow/dashboard/status specialization */
+/* 05 Developer console: shell first, then canonical work-surface components and status specialization */
 @import './components/DeveloperConsole.css';
+@import './components/ui/CollapsiblePanel.css';
+@import './components/DeveloperProfileEditor.css';
 @import './components/DeveloperDashboard.css';
 @import './components/DeveloperEngineeringStatus.css';
 
