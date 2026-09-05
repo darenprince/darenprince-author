@@ -293,14 +293,74 @@ async def render_analysis(
         transcription_provider = get_transcription_provider() if speech_runtime.get("transcription", {}).get("execution_ready") else None
         diarization_enabled = os.getenv("VOXVECTOR_ENABLE_DIARIZATION_RUNS", "").strip().lower() in {"1", "true", "yes", "on"}
         diarization_provider = get_diarization_provider() if diarization_enabled and speech_runtime.get("diarization", {}).get("execution_ready") else None
+        acquisition_timeout_seconds = float(os.getenv("VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS", "180"))
 
-        acquisition = await asyncio.to_thread(
-            build_evidence_acquisition,
-            audio,
-            sample_rate,
-            transcript_provider=transcription_provider,
-            diarization_provider=diarization_provider,
+        active_acquisition_stage = "speaker_identification_diarization" if diarization_provider else "transcription_generation"
+        _set_stage(
+            stage_states,
+            active_acquisition_stage,
+            "running",
+            started_at=datetime.now(timezone.utc).isoformat(),
+            outcome="provider-backed evidence acquisition started",
         )
+        await DIAGNOSTICS.emit(
+            "case.live_provider_analysis_stage_started",
+            case_id=case_id,
+            source_id=source_id,
+            request_id=rid,
+            stage=active_acquisition_stage,
+            timeout_seconds=acquisition_timeout_seconds,
+            diarization_enabled=bool(diarization_provider),
+            transcription_enabled=bool(transcription_provider),
+        )
+        try:
+            acquisition = await asyncio.wait_for(
+                asyncio.to_thread(
+                    build_evidence_acquisition,
+                    audio,
+                    sample_rate,
+                    transcript_provider=transcription_provider,
+                    diarization_provider=diarization_provider,
+                ),
+                timeout=acquisition_timeout_seconds,
+            )
+        except TimeoutError as exc:
+            _set_stage(
+                stage_states,
+                active_acquisition_stage,
+                "failed",
+                completed_at=datetime.now(timezone.utc).isoformat(),
+                outcome="provider-backed evidence acquisition timed out",
+                error=f"Timed out after {acquisition_timeout_seconds:.0f} seconds",
+            )
+            await DIAGNOSTICS.emit(
+                "case.live_provider_analysis_timeout",
+                case_id=case_id,
+                source_id=source_id,
+                request_id=rid,
+                stage=active_acquisition_stage,
+                timeout_seconds=acquisition_timeout_seconds,
+            )
+            raise TimeoutError(f"Evidence acquisition timed out at {active_acquisition_stage} after {acquisition_timeout_seconds:.0f} seconds") from exc
+        except Exception as exc:
+            _set_stage(
+                stage_states,
+                active_acquisition_stage,
+                "failed",
+                completed_at=datetime.now(timezone.utc).isoformat(),
+                outcome="provider-backed evidence acquisition failed",
+                error=f"{type(exc).__name__}: {str(exc)[:800]}",
+            )
+            await DIAGNOSTICS.emit(
+                "case.live_provider_analysis_stage_failed",
+                case_id=case_id,
+                source_id=source_id,
+                request_id=rid,
+                stage=active_acquisition_stage,
+                error_type=type(exc).__name__,
+                error_message=str(exc)[:1200],
+            )
+            raise
         acquisition_dict = acquisition.to_dict()
         transcript = acquisition_dict.get("transcript") or {}
         words = transcript.get("words") if isinstance(transcript, dict) else []
@@ -376,4 +436,23 @@ async def render_analysis(
             await asyncio.to_thread(CASE_STORE.update_run, str(user["id"]), case_id, failed_run)
         except Exception:
             pass
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        await DIAGNOSTICS.emit(
+            "case.live_provider_analysis_failed",
+            case_id=case_id,
+            source_id=source_id,
+            request_id=rid,
+            error_type=type(exc).__name__,
+            error_message=str(exc)[:1200],
+            failed_stage=next((stage.get("id") for stage in stage_states if stage.get("status") in {"failed", "error"}), None),
+        )
+        status_code = 504 if isinstance(exc, TimeoutError) else 400
+        raise HTTPException(
+            status_code=status_code,
+            detail={
+                "message": str(exc)[:1200],
+                "error_type": type(exc).__name__,
+                "request_id": rid,
+                "failed_stage": next((stage.get("id") for stage in stage_states if stage.get("status") in {"failed", "error"}), None),
+                "stage_states": stage_states,
+            },
+        ) from exc
