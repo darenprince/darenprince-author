@@ -8,6 +8,7 @@ import os
 import struct
 import sys
 import wave
+from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
@@ -29,6 +30,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 from voxvector.pipeline import VoxVectorPipeline
 from voxvector.results_envelope import compose_result_envelope
 from voxvector.evidence_acquisition import build_evidence_acquisition
+from voxvector.transcript_evidence import build_transcript_evidence
 from voxvector.speech_providers import get_diarization_provider, get_transcription_provider
 from voxvector.stage_telemetry import StageTelemetry
 import voxvector.acoustic as _acoustic_module
@@ -56,6 +58,34 @@ def _source_revision() -> str:
 
 SOURCE_REVISION = _source_revision()
 CURRENT_COMMIT_QA = os.getenv("VOXVECTOR_CURRENT_COMMIT_QA", "external_workflow_required").strip() or "external_workflow_required"
+
+
+def _merge_transcript_evidence(result_dict: dict | None, transcript_evidence: dict) -> tuple[dict, int, int]:
+    """Attach normalized transcript observations without changing candidate/disposition state."""
+    merged = dict(result_dict or {})
+    observations = list(merged.get("observations") or [])
+    evidence = list(merged.get("evidence") or [])
+    transcript_observations = [
+        asdict(item) if not isinstance(item, dict) else dict(item)
+        for item in transcript_evidence.get("observations") or ()
+    ]
+    transcript_records = [
+        asdict(item) if not isinstance(item, dict) else dict(item)
+        for item in transcript_evidence.get("evidence") or ()
+    ]
+    observations.extend(transcript_observations)
+    evidence.extend(transcript_records)
+    merged["observations"] = observations
+    merged["evidence"] = evidence
+    provenance = dict(merged.get("provenance") or {})
+    transcript_metrics = dict(transcript_evidence.get("metrics") or {})
+    transcript_metrics.pop("token_frequencies", None)
+    provenance["transcript_evidence"] = {
+        "method_id": "linguistic.transcript_evidence",
+        "metrics": transcript_metrics,
+    }
+    merged["provenance"] = provenance
+    return merged, len(transcript_observations), len(transcript_records)
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
     CORSMiddleware,
@@ -399,6 +429,7 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         _set_stage(stage_states,acquisition_stage,"running",started_at=datetime.now(timezone.utc).isoformat(),outcome="provider-backed evidence acquisition started")
         live_run["stages"]=stage_states; live_run["status"]="running"; live_run["current_stage"]={"id":acquisition_stage,"name":next((s["name"] for s in stage_states if s["id"]==acquisition_stage),acquisition_stage),"status":"running"}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
         await DIAGNOSTICS.emit("case.analysis_stage_started",request_id=rid,case_id=case_id,source_id=source_id,stage=acquisition_stage,timeout_seconds=acquisition_timeout_seconds)
+        acquisition=None
         acquisition_dict=None
         try:
             acquisition=await asyncio.wait_for(asyncio.to_thread(
@@ -415,6 +446,7 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         transcription_state=str(acquisition_dict.get("transcription_state") or "not_configured")
         diarization_state=str(acquisition_dict.get("diarization_state") or "not_configured")
         transcript=acquisition_dict.get("transcript")
+        transcript_result=getattr(acquisition,"transcript",None) if acquisition is not None else None
         multimodal_timeline=acquisition_dict.get("multimodal_timeline")
         transcription_outcome="timestamped transcript acquired" if transcription_state=="completed" else f"transcription {transcription_state}"
         diarization_outcome="speaker turns acquired" if diarization_state=="completed" else f"diarization {diarization_state}"
@@ -427,8 +459,54 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         _set_stage(stage_states,"transcription_generation",transcription_status,outcome=transcription_outcome)
         _set_stage(stage_states,"speaker_identification_diarization",diarization_status,outcome=diarization_outcome)
         _set_stage(stage_states,"transcript_alignment",alignment_status,outcome=alignment_outcome)
-        if transcript is not None:
-            _set_stage(stage_states,"linguistic_disfluency","pending",outcome="transcript evidence acquired; downstream linguistic analysis pending")
+        if transcript_result is not None:
+            linguistic_started=timer()
+            try:
+                transcript_evidence=build_transcript_evidence(transcript_result)
+                result_dict, transcript_observation_count, transcript_evidence_count=_merge_transcript_evidence(result_dict,transcript_evidence)
+                linguistic_duration=elapsed_ms(linguistic_started)
+                _set_stage(
+                    stage_states,
+                    "linguistic_disfluency",
+                    "complete",
+                    completed_at=datetime.now(timezone.utc).isoformat(),
+                    duration_ms=linguistic_duration,
+                    outcome=f"transcript evidence assembled: {transcript_observation_count} observations, {transcript_evidence_count} normalized evidence records",
+                )
+                await DIAGNOSTICS.emit(
+                    "case.analysis_stage_completed",
+                    request_id=rid,
+                    case_id=case_id,
+                    source_id=source_id,
+                    stage="linguistic_disfluency",
+                    duration_ms=linguistic_duration,
+                    observation_count=transcript_observation_count,
+                    evidence_count=transcript_evidence_count,
+                )
+            except Exception as exc:
+                linguistic_duration=elapsed_ms(linguistic_started)
+                message=f"{type(exc).__name__}: {str(exc)[:800]}"
+                _set_stage(
+                    stage_states,
+                    "linguistic_disfluency",
+                    "failed",
+                    completed_at=datetime.now(timezone.utc).isoformat(),
+                    duration_ms=linguistic_duration,
+                    outcome="transcript-derived linguistic evidence failed; pipeline result preserved",
+                    error=message,
+                )
+                await DIAGNOSTICS.emit(
+                    "case.analysis_stage_failed",
+                    request_id=rid,
+                    case_id=case_id,
+                    source_id=source_id,
+                    stage="linguistic_disfluency",
+                    duration_ms=linguistic_duration,
+                    error_type=type(exc).__name__,
+                    error_message=str(exc)[:1200],
+                )
+        else:
+            _set_stage(stage_states,"linguistic_disfluency","not_run",outcome="transcript not attached")
         completed_count=sum(stage["status"] in {"complete","completed","success","succeeded"} for stage in stage_states); pending_count=sum(stage["status"] in {"pending","running","processing","in_progress"} for stage in stage_states); not_run_count=sum(stage["status"]=="not_run" for stage in stage_states); failed_count=sum(stage["status"] in {"failed","error"} for stage in stage_states)
         final_run={"run_id":result.run_id if result is not None else live_run_id,"analysis_id":result.run_id if result is not None else live_run_id,"request_id":rid,"status":"completed" if not any(s["status"] in {"failed","error"} for s in stage_states) else "completed_with_failures","started_at":started_at,"completed_at":completed_at,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"pipeline_duration_ms":pipeline_duration,"telemetry_scope":{"route_boundary_stages":["file_decode_normalization","provenance_integrity","channel_recording_assessment"],"composite_pipeline_internal_timing":"not independently instrumented"},"pipeline_build":{"total_stages":21,"completed":completed_count,"pending":pending_count,"not_run":not_run_count,"failed":failed_count},"testing":{"current_commit_qa":"external_workflow_required","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}},"stages":stage_states,"result":result_dict,"acquisition":acquisition_dict,"transcript":acquisition_dict.get("transcript"),"speakers":acquisition_dict.get("diarization",{}).get("speakers",[]) if isinstance(acquisition_dict.get("diarization"),dict) else [],"tracks":[]}
         envelope=compose_result_envelope(case=case,source=source,run=final_run,result=result_dict or {}); final_run["result_envelope"]=envelope; updated_case=await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,final_run); await DIAGNOSTICS.emit("case.analysis_completed",case_id=case_id,source_id=source_id,run_id=final_run["run_id"],request_id=rid,completed_stages=completed_count,pending_stages=pending_count,not_run_stages=not_run_count,failed_stages=failed_count,pipeline_duration_ms=pipeline_duration); return {"status":"ok","case":updated_case,"run":final_run,"result_envelope":envelope}

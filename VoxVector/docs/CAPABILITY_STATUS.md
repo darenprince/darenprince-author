@@ -125,3 +125,9 @@ Implementation, configuration, execution, software testing, and scientific valid
 - `docs/QA_STATUS.md` — software QA state
 
 Historical capability statements remain preserved in versioned checkpoints; this file is the current capability record.
+
+## Transcript-derived linguistic evidence — implemented integration
+
+When provider-backed transcription returns a normalized transcript, the authenticated case-analysis path now runs the canonical transcript evidence builder and persists its observations and normalized evidence records into the case result. Stage 13 reports actual completion or failure from that execution boundary rather than remaining pending after a transcript is acquired.
+
+This establishes a connected runtime path from acquired transcript → linguistic/disfluency observations → normalized evidence → persisted Evidence Explorer. Controlled provider-backed production execution and scientific validation remain separate verification requirements.

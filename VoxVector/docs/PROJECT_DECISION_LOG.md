@@ -1,3 +1,11 @@
+## 2026-09-05 — Case workbench interaction and observability polish
+
+**Decision:** Improve the canonical Developer Console interaction layer without creating duplicate work surfaces.
+
+**Implementation:** The recording intake uses a tap-or-drag drop zone, the browser analysis request can be cancelled, structured audits are collapsible, smooth scrolling is enabled with a reduced-motion fallback, the case workspace exposes copyable full Render log output alongside execution logs, and console navigation includes an explicit close control. The Next Engineering Move panel spacing was tightened between explanatory copy and actions.
+
+**Cancellation boundary:** Cancel stops the browser HTTP request. It is not represented as guaranteed termination of computation that may already be executing on the server.
+
 # VoxVector Project Decision Log
 
 ## 2026-09-04 — Developer Console navigation consolidation

@@ -429,3 +429,31 @@ section[aria-label='Case workflow'] > .vv-panel:has(audio):has(audio[src]) {
     transform:none;
   }
 }
+
+
+/* Interaction polish: canonical console work surfaces. */
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.vv-dropzone{background:rgba(255,255,255,.018);border-color:var(--vv-border);min-height:128px}.vv-dropzone:hover,.vv-dropzone:focus-within,.vv-dropzone.is-dragging{border-color:var(--vv-accent-bright);background:rgba(201,154,102,.07);box-shadow:0 0 0 1px rgba(201,154,102,.14),0 14px 34px rgba(0,0,0,.16)}.vv-dropzone.is-dragging{transform:translateY(-1px)}
+.vv-sidebar-brand{position:relative}.vv-sidebar-close{position:absolute;right:0;top:0;display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border:1px solid var(--vv-border);background:transparent;color:var(--vv-muted)}.vv-sidebar-close:hover{color:var(--vv-text);border-color:var(--vv-border-strong)}
+.vv-dashboard-next .vv-copy{margin-bottom:18px}.vv-dashboard-next .vv-dashboard-actions{margin-top:0}.vv-audit-report>summary{list-style:none}.vv-audit-report>summary::-webkit-details-marker{display:none}
+
+
+/* Developer Console interaction polish: readable casing is handled in content, while compact metadata keeps its visual hierarchy. */
+.vv-audit-report > summary { list-style: none; }
+.vv-audit-report > summary::-webkit-details-marker { display: none; }
+.vv-audit-toggle-label { min-width: 58px; text-align: right; }
+.vv-audit-collapse { display: none; }
+.vv-audit-report[open] .vv-audit-expand { display: none; }
+.vv-audit-report[open] .vv-audit-collapse { display: inline; }
+
+.vv-panel-head > span {
+  line-height: 1.35;
+}
+
+.vv-copy {
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .vv-panel-head { gap: 12px; }
+}

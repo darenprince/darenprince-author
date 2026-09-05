@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Activity, AlertTriangle, CheckCircle2, Circle, Clipboard, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Terminal, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
-import { getDiagnosticEvents } from '../lib/api'
+import { getDiagnosticEvents, getRenderLogs } from '../lib/api'
 import Button from './ui/Button'
 
 const unwrap = result => result?.payload?.case || result?.payload?.data || result?.payload || {}
@@ -131,6 +131,15 @@ function CaseExecutionLog({ accessToken, run }) {
     </div>
     <p className="mt-3 text-[10px] text-[var(--vv-muted)]">{PENDING.has(run?.status) ? 'Auto-refreshing every 2.5 seconds while this run is active.' : 'Persisted diagnostics remain attached to this request for post-run inspection.'}</p>
   </section>
+}
+
+function RenderResultLog({ accessToken, run }) {
+  const [logs,setLogs]=useState([]),[loading,setLoading]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false)
+  const refresh=async()=>{if(!accessToken)return;setLoading(true);try{const response=await getRenderLogs(accessToken,{minutes:60,limit:500});const payload=response?.payload||{};setLogs(Array.isArray(payload.logs)?payload.logs:Array.isArray(payload.events)?payload.events:[]);setError('')}catch(exc){setError(exc?.message||'Render logs are unavailable.')}finally{setLoading(false)}}
+  useEffect(()=>{refresh()},[accessToken,run?.run_id])
+  const raw=JSON.stringify(logs,null,2)
+  const copy=async()=>{try{await copyPlainText(raw);setCopied(true);window.setTimeout(()=>setCopied(false),1800)}catch(exc){setError(exc?.message||'Unable to copy Render logs.')}}
+  return <section className="vv-panel"><div className="vv-panel-head"><h2><Terminal size={16}/> Render result log</h2><span>{logs.length} records</span></div><div className="mt-3 flex flex-wrap justify-end gap-2"><Button variant="secondary" onClick={copy} disabled={!logs.length}><Clipboard size={13}/>{copied?'Copied':'Copy full log'}</Button><Button variant="secondary" onClick={refresh} disabled={loading}><RefreshCw size={13} className={loading?'animate-spin':''}/>{loading?'Refreshing…':'Refresh log'}</Button></div>{error&&<div className="mt-3 border border-red-400/30 bg-red-400/[.05] p-3 text-xs text-red-200">{error}</div>}<pre className="mt-4 max-h-[32rem] overflow-auto border border-white/10 bg-black/20 p-3 text-[11px] leading-relaxed text-white/70">{logs.length?raw:'No Render log records were returned for the current window.'}</pre></section>
 }
 
 function StageList({ run }) {
@@ -304,7 +313,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
   const reset = () => { if (!audioRef.current) return; audioRef.current.pause(); audioRef.current.currentTime = 0; setTime(0); setPlaying(false) }
   const refreshCase = async () => { if (!onRefresh || refreshing) return; setRefreshing(true); try { await onRefresh() } finally { setRefreshing(false) } }
   return <div className="vv-analysis-workspace space-y-4"><div className="flex flex-wrap items-end justify-between gap-3"><div><div className="vv-eyebrow">ANALYSIS WORKSPACE</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{data?.title || 'Case analysis'}</h1><p className="vv-copy mt-1">Persistent case view · {data?.case_id || '—'}</p></div><Button variant="secondary" onClick={refreshCase} disabled={refreshing || !onRefresh}><RefreshCw size={14} className={refreshing ? 'animate-spin' : ''}/> {refreshing ? 'Refreshing…' : 'Refresh case'}</Button></div>
-    <AnalysisResultsReview data={data} run={run} source={source}/>
+    <AnalysisResultsReview data={data} run={run} source={source}/><div className="flex justify-end"><Button variant="secondary" onClick={()=>copyPlainText(JSON.stringify({case:data,run},null,2))}><Clipboard size={13}/> Copy case + report</Button></div>
     <EvidenceExplorer run={run}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><FileAudio size={16}/> Source timeline</h2><span>{run?.status || 'not started'}</span></div>{playbackUrl && <audio ref={audioRef} src={playbackUrl} preload="metadata" crossOrigin="anonymous" className="sr-only" />}
       <div className="mt-4">{(playbackUrl || file) ? <Waveform url={playbackUrl} file={file} duration={duration} currentTime={time} onSeek={seek} markers={(run?.acquisition?.multimodal_timeline?.words || run?.transcript?.words || []).map(word=>word?.start_s).filter(Number.isFinite)}/> : <p className="vv-copy">Open or upload a source in the Case Workbench to populate the timeline.</p>}</div>
@@ -315,7 +324,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
     <TranscriptPanel run={run} currentTime={time} onSeek={seek}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Waves size={16}/> Spectrogram</h2><span>{playing ? 'LIVE' : 'READY'}</span></div><div className="mt-4"><Spectrogram analyser={analyserRef.current} active={playing} currentTime={time} duration={duration}/></div><div className="mt-3 flex flex-wrap items-center gap-4 text-[10px] uppercase tracking-[.12em] text-[var(--vv-muted)]"><span>Frequency distribution</span><span>Time synchronized</span><span>FFT 2048</span><span className="ml-auto">Gain {gain.toFixed(2)}×</span></div></section>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Activity size={16}/> Pipeline state</h2><span>{run?.run_id?.slice(0, 12) || '—'}</span></div><div className="vv-data-grid mt-4"><Data label="Status" value={run?.status}/><Data label="Pipeline" value={run?.pipeline_version}/><Data label="Request" value={run?.request_id?.slice(0, 16)}/><Data label="Stages" value={stages.length ? `${completed}/${stages.length} complete` : '—'}/></div><div className="mt-4 grid gap-2 sm:grid-cols-3"><div className="vv-status-row"><span>Active</span><span className="ml-auto text-xs">{active ? (active.name || STAGE_NAMES[active.id] || active.id) : '—'}</span></div><div className="vv-status-row"><span>Failed</span><span className="ml-auto text-xs">{failed}</span></div><div className="vv-status-row"><span>Last outcome</span><span className="ml-auto text-xs">{stages.at(-1)?.outcome || '—'}</span></div></div><PipelineOverview stages={stages} active={active}/><div className="mt-5"><div className="vv-eyebrow mb-2">Stage details</div><StageList run={run}/></div></section>
-    <CaseExecutionLog accessToken={accessToken} run={run}/>
+    <CaseExecutionLog accessToken={accessToken} run={run}/><RenderResultLog accessToken={accessToken} run={run}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Clock3 size={16}/> Source record</h2><span>provenance</span></div><div className="vv-data-grid mt-4">{sourceMeta.map(([label, value]) => <Data key={label} label={label} value={value}/>)}</div></section>
   </div>
 }
