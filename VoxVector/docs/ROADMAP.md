@@ -282,3 +282,9 @@ Current canonical records include:
 - `docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
 - `docs/DEPLOYMENT_VARIABLE_MATRIX.md`
 - `docs/audits/LIVE_API_SPEECH_RUNTIME_AUDIT_2026-09-03.md`
+
+## 2026-09-04 — Transcript evidence connection
+
+The connected case workflow now feeds an actually acquired normalized transcript through the canonical transcript evidence builder and persists the resulting linguistic/disfluency observations and normalized evidence records into the case result. Stage 13 is updated from the actual transcript evidence execution outcome. Candidate and final disposition state are not modified by this integration.
+
+Next dependency: controlled provider-backed execution on a deployed revision, followed by persisted artifact readback and browser/mobile verification.
