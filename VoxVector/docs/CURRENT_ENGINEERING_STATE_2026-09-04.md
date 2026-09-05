@@ -164,3 +164,10 @@ A successful trigger response means Render accepted or queued the deploy request
 ## 2026-09-04 — Persisted Evidence Explorer
 
 The canonical `CaseAnalysisWorkspace` now includes an Evidence Explorer driven directly by the persisted runtime result. It exposes filterable normalized evidence directions, contributing method identifiers, observation records, strength/confidence fields when present, and recorded alternative explanations. The view does not synthesize or invent missing evidence and does not collapse observations into a replacement score.
+
+
+## pyannote provider implementation update
+
+The canonical backend now contains a real pyannoteAI cloud diarization adapter and explicit fallback orchestration. Render has been configured with the non-secret provider selection/model variables and the user reports protected `PYANNOTE_KEY` is present in the service environment. The repository does not read or record secret values.
+
+Current next verification remains controlled execution: exact deployed revision → authenticated cloud job → normalized speaker artifact → persistence/readback → optional explicit fallback exercise.
