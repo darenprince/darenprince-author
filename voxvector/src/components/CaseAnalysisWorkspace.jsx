@@ -106,7 +106,7 @@ function EvidenceExplorer({ run }) {
     {methods.length > 0 && <div className="mt-3 flex flex-wrap gap-2">
       <button type="button" onClick={() => setMethod('all')} className={`border px-2.5 py-1 text-[10px] ${method === 'all' ? 'border-white/30 text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>All methods</button>
       {methods.map(id => <button key={id} type="button" onClick={() => setMethod(id)} className={`border px-2.5 py-1 text-[10px] font-mono ${method === id ? 'border-white/30 text-white' : 'border-white/10 text-[var(--vv-muted)]'}`}>{id}</button>)}
-    </div>
+    </div>}
     <div className="mt-5 grid gap-3 xl:grid-cols-[.85fr_1.15fr]">
       <div className="border border-white/5">
         <div className="border-b border-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[var(--vv-muted)]">Measurements · {filteredObservations.length}</div>
