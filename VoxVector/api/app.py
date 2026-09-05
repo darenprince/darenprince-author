@@ -90,7 +90,7 @@ app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in os.getenv("CORS_ORIGINS", "*").split(",") if origin.strip()],
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 app.include_router(render_router)
@@ -126,6 +126,7 @@ PIPELINE_FOUNDATION_STATUS = {
     "linguistic_disfluency": "conditional", "question_answer_alignment": "conditional", "within_speaker_baseline": "conditional", "cross_method_evidence": "implemented_foundation",
     "evidence_convergence_conflict": "implemented_foundation", "candidate_classification": "implemented_guarded", "validation_calibration_gate": "not_invoked", "final_disposition": "implemented_guarded", "audit_provenance_output": "implemented_foundation",
 }
+
 
 def _new_stage_states() -> list[dict]:
     return [{"number": number, "id": stage_id, "name": name, "status": "pending", "started_at": None, "completed_at": None, "duration_ms": None, "outcome": None, "error": None} for number, stage_id, name in PIPELINE_STAGE_DEFINITIONS]
@@ -357,6 +358,15 @@ async def get_case(case_id:str,user:dict=Depends(require_developer)):
     try: return {"status":"ok","case":await asyncio.to_thread(CASE_STORE.get_case,str(user["id"]),case_id)}
     except CaseNotFound as exc: raise HTTPException(status_code=404,detail="Analysis case not found") from exc
     except StorageError as exc: raise HTTPException(status_code=503,detail="Case storage is unavailable") from exc
+
+@app.delete("/v1/cases/{case_id}")
+async def delete_case(case_id:str,user:dict=Depends(require_developer)):
+    try:
+        deleted=await asyncio.to_thread(CASE_STORE.delete_case,str(user["id"]),case_id)
+        await DIAGNOSTICS.emit("case.deleted",case_id=case_id,user_id=user["id"],deleted_sources=deleted.get("deleted_sources",0))
+        return {"status":"ok","deleted":deleted}
+    except CaseNotFound as exc: raise HTTPException(status_code=404,detail="Analysis case not found") from exc
+    except StorageError as exc: raise HTTPException(status_code=503,detail="Case or media storage deletion failed") from exc
 
 @app.post("/v1/cases/{case_id}/sources")
 async def upload_case_source(case_id:str,request:Request,file:UploadFile=File(...),user:dict=Depends(require_developer)):
