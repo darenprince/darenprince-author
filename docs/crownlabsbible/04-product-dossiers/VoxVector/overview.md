@@ -288,3 +288,14 @@ Case refresh controls now refresh the active persisted case together with the ca
 
 
 **Refresh controls:** Dashboard, Case Workbench, Case History, Analysis Workspace, Render Runtime, Live Logs, and Error Reports now invoke their backing queries with visible in-progress state; multi-source refresh actions await all required queries rather than silently firing disconnected requests.
+
+
+## 2026-09-05 case archive latency debugging
+
+Live Render diagnostics reproduced severe latency on authenticated `GET /v1/cases` requests, including observed successful responses around 69–87 seconds during concurrent archive refresh activity. The route was completing with HTTP 200 rather than failing, which explains refresh controls appearing to spin for a long time.
+
+Root cause identified in the canonical storage projection: the case archive listed storage object metadata and then fetched every case JSON payload sequentially. Each Supabase Storage round trip accumulated into the user-visible request duration.
+
+Mitigation implemented in `api/case_store.py`: archive payload reads now use a bounded pool of up to eight concurrent storage reads, preserving owner filtering and updated-time sorting while removing sequential round-trip amplification. Regression coverage was added in `tests/test_case_store.py` for archive ownership and ordering.
+
+A Render deploy of commit `03fadc1a12c53882942d4270c602c6ba90673164` was explicitly triggered because the production service has auto-deploy disabled. Runtime latency improvement remains pending post-deploy measurement and must not be considered verified until new production diagnostics are observed.
