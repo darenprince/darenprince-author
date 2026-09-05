@@ -285,3 +285,6 @@ The canonical Case Analysis Workspace now includes a request-scoped **Live execu
 The canonical Case Analysis Workspace now provides a **Copy raw logs** control that copies the exact request-scoped diagnostic event records as formatted JSON for engineering investigation. The readable log remains the default product view, while raw operational data is available without leaving the case.
 
 Case refresh controls now refresh the active persisted case together with the case archive where applicable, and the workspace refresh button exposes an in-progress state instead of silently issuing overlapping requests. The workspace itself is intentionally frameless: individual analysis panels own their borders and spacing so the audio/player surface does not visually create a container around unrelated analysis components.
+
+
+**Refresh controls:** Dashboard, Case Workbench, Case History, Analysis Workspace, Render Runtime, Live Logs, and Error Reports now invoke their backing queries with visible in-progress state; multi-source refresh actions await all required queries rather than silently firing disconnected requests.
