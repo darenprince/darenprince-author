@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Activity, AlertTriangle, CheckCircle2, Circle, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Terminal, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
+import { Activity, AlertTriangle, CheckCircle2, Circle, Clipboard, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Terminal, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
 import { getDiagnosticEvents } from '../lib/api'
 import Button from './ui/Button'
 
@@ -56,11 +56,35 @@ function technicalReason(event) {
   if (Number.isFinite(event?.duration_ms)) parts.push(event.duration_ms.toLocaleString() + ' ms')
   return parts.join(' · ')
 }
+async function copyPlainText(value) {
+  const text = String(value || '')
+  if (!text) throw new Error('There are no log records to copy.')
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text)
+    return
+  }
+  const area = document.createElement('textarea')
+  area.value = text
+  area.setAttribute('readonly', '')
+  area.style.position = 'fixed'
+  area.style.opacity = '0'
+  document.body.appendChild(area)
+  area.select()
+  const copied = document.execCommand('copy')
+  document.body.removeChild(area)
+  if (!copied) throw new Error('Clipboard access was unavailable.')
+}
+
+function rawLogText(events) {
+  return JSON.stringify(events, null, 2)
+}
+
 function CaseExecutionLog({ accessToken, run }) {
   const requestId = run?.request_id || ''
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
   const refresh = async () => {
     if (!accessToken || !requestId) return
     setLoading(true)
@@ -81,10 +105,11 @@ function CaseExecutionLog({ accessToken, run }) {
     const timer = window.setInterval(refresh, 2500)
     return () => window.clearInterval(timer)
   }, [accessToken, requestId, run?.status])
+  const copyRawLogs = async () => { try { await copyPlainText(rawLogText(events)); setCopied(true); window.setTimeout(() => setCopied(false), 1800) } catch (exc) { setError(exc?.message || 'Unable to copy raw logs.') } }
   if (!requestId) return <section className="vv-panel"><div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>waiting for run</span></div><p className="vv-copy mt-3">This case has no persisted analysis request yet. Run the pipeline to attach live diagnostic events here.</p></section>
   return <section className="vv-panel">
     <div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>{events.length} updates</span></div>
-    <div className="mt-3 flex flex-wrap items-center justify-between gap-2"><div className="font-mono text-[10px] text-[var(--vv-muted)]">request {requestId}</div><Button variant="secondary" onClick={refresh} disabled={loading}><RefreshCw size={13} className={loading ? 'animate-spin' : ''}/> {loading ? 'Refreshing' : 'Refresh logs'}</Button></div>
+    <div className="mt-3 flex flex-wrap items-center justify-between gap-2"><div className="font-mono text-[10px] text-[var(--vv-muted)]">request {requestId}</div><div className="flex flex-wrap gap-2"><Button variant="secondary" onClick={copyRawLogs} disabled={!events.length}><Clipboard size={13}/> {copied ? 'Copied' : 'Copy raw logs'}</Button><Button variant="secondary" onClick={refresh} disabled={loading}><RefreshCw size={13} className={loading ? 'animate-spin' : ''}/> {loading ? 'Refreshing…' : 'Refresh logs'}</Button></div></div>
     {error && <div className="mt-3 border border-red-400/30 bg-red-400/[.05] p-3 text-xs text-red-200">{error}</div>}
     <div className="mt-4 max-h-[32rem] overflow-auto border border-white/10 bg-black/20 font-mono text-[11px]">
       {events.length ? events.map((event, index) => {
@@ -232,6 +257,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
   const [duration, setDuration] = useState(Number(data?.sources?.[0]?.duration_seconds) || 0)
   const [gain, setGain] = useState(1)
   const [speed, setSpeed] = useState(1)
+  const [refreshing, setRefreshing] = useState(false)
   const source = data?.sources?.find(item => item.source_id === run?.source_id) || data?.sources?.[0]
   const sourceMeta = useMemo(() => source ? [['Source', source.source_id?.slice(0, 16)], ['SHA-256', source.sha256?.slice(0, 20)], ['Sample rate', source.sample_rate ? `${source.sample_rate} Hz` : '—'], ['Duration', source.duration_seconds ? `${Number(source.duration_seconds).toFixed(2)} s` : '—']] : [], [source])
   const stages = run?.stages || run?.stage_states || []
@@ -245,7 +271,8 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
   const seek = next => { if (!audioRef.current) return; audioRef.current.currentTime = Math.max(0, next); setTime(Math.max(0, next)) }
   const toggle = async () => { if (!audioRef.current) return; try { if (audioRef.current.paused) { await audioContextRef.current?.resume(); await audioRef.current.play(); setPlaying(true) } else { audioRef.current.pause(); setPlaying(false) } } catch {} }
   const reset = () => { if (!audioRef.current) return; audioRef.current.pause(); audioRef.current.currentTime = 0; setTime(0); setPlaying(false) }
-  return <div className="space-y-4"><div className="flex flex-wrap items-end justify-between gap-3"><div><div className="vv-eyebrow">ANALYSIS WORKSPACE</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{data?.title || 'Case analysis'}</h1><p className="vv-copy mt-1">Persistent case view · {data?.case_id || '—'}</p></div><Button variant="secondary" onClick={onRefresh}><RefreshCw size={14}/> Refresh case</Button></div>
+  const refreshCase = async () => { if (!onRefresh || refreshing) return; setRefreshing(true); try { await onRefresh() } finally { setRefreshing(false) } }
+  return <div className="vv-analysis-workspace space-y-4"><div className="flex flex-wrap items-end justify-between gap-3"><div><div className="vv-eyebrow">ANALYSIS WORKSPACE</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{data?.title || 'Case analysis'}</h1><p className="vv-copy mt-1">Persistent case view · {data?.case_id || '—'}</p></div><Button variant="secondary" onClick={refreshCase} disabled={refreshing || !onRefresh}><RefreshCw size={14} className={refreshing ? 'animate-spin' : ''}/> {refreshing ? 'Refreshing…' : 'Refresh case'}</Button></div>
     <AnalysisResultsReview data={data} run={run} source={source}/>
     <EvidenceExplorer run={run}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><FileAudio size={16}/> Source timeline</h2><span>{run?.status || 'not started'}</span></div>{playbackUrl && <audio ref={audioRef} src={playbackUrl} preload="metadata" crossOrigin="anonymous" className="sr-only" />}
