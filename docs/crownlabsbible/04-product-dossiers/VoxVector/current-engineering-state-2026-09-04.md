@@ -1,69 +1,89 @@
 # VoxVector Current Engineering State — 2026-09-04
 
-This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`.
+This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`. The repository implementation and canonical VoxVector documentation remain authoritative.
 
 ## Runtime snapshot
 
 - Backend pipeline: `0.2.26`
-- Live Render source revision before latest repair activation: `f005c68c872434e810947b934742895c4d8324d2`
-- Latest canonical backend repair awaiting Render activation: `b6f43f0ec33513be9c4e1cb9542eaf3426045245`
-- Runtime self-test on the observed live revision: passed
-- Diagnostic/media storage: configured and media-ready
-- Media storage: enabled
+- Frontend package: `0.2.37`
+- Latest confirmed live Render deployment revision: `145e3c64507f75a32e83a25a5e854ac15bae57e6`
+- Latest observed Render deployment state for that revision on 2026-09-05: `live`
+- Runtime self-test, media-storage readiness, and provider readiness are read from the live API health contract rather than inferred from Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB
 
 ## Speech runtime
 
-- faster-whisper transcription: configured and execution-ready
-- pyannote Community-1 diarization: configured and execution-ready
-- Hugging Face token presence: detected by runtime
-- Real provider execution: next verification gate
-- Provider execution is no longer implicitly invoked by generic evidence acquisition, preventing a configured heavy speech stack from silently running on every case analysis request.
+The canonical backend supports configured faster-whisper transcription plus pyannoteAI cloud diarization with an explicit local pyannote fallback path. Live provider selection and readiness are runtime-reported fields.
 
-## Render memory hardening
+The Developer Console now keeps these distinctions visible:
 
-The constrained Render runtime uses a 512 MiB reference budget with a 96 MiB protected headroom reserve. Canonical runtime hardening includes heavyweight phase serialization, RSS telemetry, provider cleanup, bounded speech-frame processing, float32 normalized audio, and conservative CPU/thread settings.
+- configured provider
+- adapter/package presence where applicable
+- pyannote API-key presence for the cloud path
+- Hugging Face token presence for the local path
+- primary execution readiness
+- fallback execution readiness
+- successful provider execution, which still requires a controlled run
 
-Configured Render safeguards include `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and `TOKENIZERS_PARALLELISM=false`.
+Provider readiness is not successful execution and is not scientific validation.
+
+## Render runtime discipline
+
+The Render service remains a constrained compute baseline. Runtime hardening includes heavyweight phase serialization, RSS telemetry, provider cleanup, bounded speech-frame processing, float32 normalized audio, and conservative CPU/thread settings.
+
+The engineering UI no longer hard-codes a memory-limit claim as live status. Infrastructure state is read from the authenticated Render bridge, while analysis runtime state is read from `/health`.
+
+Configured runtime safeguards may include `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and `TOKENIZERS_PARALLELISM=false`.
 
 ## 21-stage pipeline
 
-The canonical contract remains 21 stages with 14 implemented foundations, 4 conditional/not-invoked stages, and 3 queued stages.
+The canonical contract remains 21 stages with 16 implemented/built foundations, 4 conditional or intentionally not-invoked stages, and 1 queued stage in the current source mapping.
 
-Provider readiness does not promote queued stages. Stage promotion requires real provider-backed execution, persisted artifacts, integration behavior, and QA evidence.
+Provider readiness does not promote queued or conditional stages. Stage promotion requires real provider-backed execution, persisted artifacts, integration behavior, and QA evidence.
 
 ## Current implementation sequence
 
 1. Exact-commit software QA.
-2. Confirm the latest Render deployment revision and health contract.
+2. Confirm Render deployment revision and live API health contract.
 3. Controlled transcription execution.
 4. Controlled speaker diarization execution.
 5. Persist transcript and speaker artifacts.
 6. Produce synchronized multimodal alignment.
 7. Expand evidence consumers.
-8. Complete Review Evidence, assessment, reporting, history/reopen.
-9. Complete browser/mobile verification.
+8. Continue assessment/reporting refinement under the existing scientific gates.
+9. Complete authenticated desktop/mobile browser verification.
 10. Conduct scientific validation separately.
 
 ## Deployment boundary
 
 `https://darenprince.com/voxvector/` is the public application.
 
-`https://voxvector.crownlabs.tech` is the original API and remains preserved.
+`https://voxvector.crownlabs.tech` is the preserved canonical Render API domain.
 
-`https://awsapi.crownlabs.tech` is the separate AWS API environment and is not part of active QA gating.
+`https://awsapi.crownlabs.tech` is a separate historical benchmark environment and is not part of active QA gating.
 
-Supabase remains the configured authentication, persistence, diagnostics, and private-media boundary.
+Supabase remains the configured authentication, persistence, diagnostics, private-media, and developer-profile storage boundary.
 
-## Developer Console
+## Developer Console interaction state
 
-The console is the engineering cockpit and surfaces runtime health, 21-stage status, commit-specific QA, Render runtime status and recent logs, speech-provider readiness, structured audits, deployment-variable guidance, a protected manual Render deployment control, and copy/download controls for engineering evidence. AWS is not an active QA gate.
+The canonical Developer Console now uses one reusable collapsible-card title-bar system for applicable work surfaces. Title bars meet the top and side card edges, use only a subtle lower separator, keep supporting text subordinate, and put a small disclosure control at the far right. The Analysis Workspace uses the same pattern rather than maintaining a competing header override.
+
+Case History preserves swipe-to-delete on touch devices and desktop trash controls while adding Select mode for multi-case deletion. Multi-delete still calls the owner-scoped canonical case endpoint and requires irreversible confirmation.
+
+Structured audits are collapsed by default and show date, title, brief summary, status, and disclosure affordance until expanded.
+
+Developer profiles use the existing `public.profiles` record and a private `voxvector-avatars` Supabase Storage bucket. Avatar access is owner-scoped; accepted profile images are JPG, PNG, or WebP up to 5 MB. The profile editor supports display-name changes and avatar upload/change. The top-navigation profile menu uses an opaque surface.
+
+The Live Engineering State rail is full-width directly below the primary navigation. Opening it produces a page-filling slide-down drawer with scroll and swipe-to-collapse. Status is assembled from separate API health, exact-revision GitHub Actions, and authenticated Render evidence instead of a synthetic single health claim.
+
+## Verification boundary
+
+The Supabase avatar/profile migration was applied and its private bucket and RLS policies were read back successfully. Existing Supabase security-advisor warnings unrelated to this migration remain open. The exact frontend branch still requires GitHub QA, preview build, merge, Pages deployment, and authenticated desktop/mobile browser verification before these UI changes are considered production-verified.
 
 ## Scientific boundary
 
-Operational readiness, provider execution, software QA, and scientific validation remain distinct. No individual vocal/acoustic/linguistic/behavioral feature is treated as proof of deception.
-
+Operational readiness, provider execution, software QA, and scientific validation remain distinct. No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature is treated as proof of deception.
 
 ## Manual Render deployment control
 
