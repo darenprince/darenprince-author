@@ -106,3 +106,28 @@ Application provider duration remains the source of truth for provider execution
 ## Scientific boundary
 
 Successful transcription or diarization establishes software execution and provider output. It does not validate VoxVector deception inference. Provider confidence is not deception confidence, and speaker cluster labels are not verified real-world identities.
+
+
+## pyannoteAI cloud provider and fallback policy — 2026-09-04
+
+The runtime now supports a cloud diarization path that does not require loading the local pyannote model into the Render process.
+
+Primary cloud configuration:
+
+`VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api`
+
+`PYANNOTE_KEY=<protected pyannoteAI API key>`
+
+Optional model selection:
+
+`VOXVECTOR_PYANNOTE_API_MODEL=<provider-supported model>`
+
+Optional explicit local fallback:
+
+`VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`
+
+`VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`
+
+`HF_TOKEN=<protected Hugging Face token>`
+
+The cloud provider uploads normalized audio to pyannoteAI temporary media, submits a diarization job, polls for terminal status, and normalizes returned speaker turns into VoxVector evidence contracts. Results must be persisted immediately under the canonical case/run identity because provider job results are externally retained for a limited period. The local fallback is attempted only when explicitly enabled and the primary provider fails; the fallback event is recorded in provenance.
