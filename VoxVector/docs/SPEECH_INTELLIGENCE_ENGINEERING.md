@@ -139,3 +139,12 @@ pyannote.audio is MIT licensed, while the Community-1 model pipeline is CC-BY-4.
 ## Current conclusion
 
 The speech intelligence architecture is now a real provider-backed implementation path. The next milestone is controlled model execution and artifact persistence, not additional placeholder contracts. No production transcription or diarization capability is claimed until those runtime gates succeed.
+
+
+## pyannoteAI cloud adapter — 2026-09-04
+
+Implemented a second diarization adapter, `voxvector.diarization_pyannote_api`, using the pyannoteAI asynchronous API contract. The adapter authenticates server-side, uploads normalized WAV media to temporary provider storage, submits diarization, polls the job, prefers exclusive diarization when returned, and normalizes speaker turns into `DiarizationResult`.
+
+The cloud adapter and local Community-1 adapter are alternatives, not cumulative scoring engines. The provider selector supports `pyannote_api` as primary and `pyannote_local` as an explicit fallback. Fallback provenance records the primary provider, fallback provider, and primary failure class.
+
+No cloud API execution is claimed by this implementation update alone. Runtime execution remains a separate verification gate.
