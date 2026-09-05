@@ -88,7 +88,7 @@ export default function DeveloperConsole({ session, signOut }) {
   const analysisAbortRef = useRef(null)
   const queryClient = useQueryClient()
   useEffect(() => applyTheme(theme), [theme])
-  useEffect(() => { localStorage.setItem('voxvector-mvp-checks', JSON.stringify(checks)) }, [checks])
+  useEffect(() => { try { localStorage.setItem('voxvector-mvp-checks', JSON.stringify(checks)) } catch { /* optional browser persistence */ } }, [checks])
   useEffect(() => { if (!toast) return undefined; const timer = window.setTimeout(() => setToast(null), 4800); return () => window.clearTimeout(timer) }, [toast])
   const health = useQuery({ queryKey: ['health'], queryFn: getHealth, refetchInterval: 30000 })
   const cases = useQuery({ queryKey: ['cases'], queryFn: () => listAnalysisCases(session.access_token), enabled: Boolean(session.access_token), refetchInterval: section === 'history' ? 10000 : false })
