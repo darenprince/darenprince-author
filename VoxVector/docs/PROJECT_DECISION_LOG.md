@@ -493,3 +493,14 @@ This keeps deployment reliable while preserving build failures as the primary co
 **Audit rule:** fallback is never silent. Provider selection, fallback use, primary failure class, and resulting provider identity are preserved in diarization provenance.
 
 **Boundary:** both providers answer speaker segmentation/attribution questions only. Neither provider result is deception evidence by itself.
+
+
+## 2026-09-05 — Stage 10 shared-computation and timing telemetry
+
+**Decision:** The canonical acoustic extraction path reuses computations that were previously repeated independently inside the same frame loop.
+
+**Implementation:** Stage 10 now shares one magnitude spectrum for spectral moments, flux/rolloff, and MFCC power input; shares one autocorrelation pass for F0 and harmonicity; reuses a fixed MFCC basis for the run; and records measured feature-family timing totals in result provenance.
+
+**Operational boundary:** The timing breakdown is runtime observability, not scientific validation. It identifies where Stage 10 time is spent on a real execution without changing the meaning of the measured feature families.
+
+**UI projection:** Persisted stage records can expose the measured acoustic duration and feature-family breakdown. The Case Analysis Workspace also translates raw runtime states into clearer labels and shows elapsed time for active stages.
