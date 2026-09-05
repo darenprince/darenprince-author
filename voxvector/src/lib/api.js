@@ -7,6 +7,12 @@ function errorDetail(payload, fallback) {
   const detail = typeof payload === 'object' && payload !== null ? (payload.detail ?? payload.message ?? payload.error ?? payload) : payload
   if (typeof detail === 'string' && detail.trim()) return detail
   if (detail && typeof detail === 'object') {
+    const message = typeof detail.message === 'string' ? detail.message : ''
+    const stage = typeof detail.failed_stage === 'string' ? detail.failed_stage : ''
+    const request = typeof detail.request_id === 'string' ? detail.request_id : ''
+    const type = typeof detail.error?.type === 'string' ? detail.error.type : (typeof detail.error_type === 'string' ? detail.error_type : '')
+    const context = [stage && `stage: ${stage}`, type && `error: ${type}`, request && `request: ${request}`].filter(Boolean)
+    if (message) return context.length ? `${message} (${context.join(' · ')})` : message
     try { return JSON.stringify(detail) } catch { return fallback }
   }
   return fallback
