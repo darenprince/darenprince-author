@@ -303,6 +303,25 @@ main section > .vv-section-signal ~ * { position: relative; z-index: 1; }
 @media (max-width: 700px) { .vv-main { padding: 18px 14px 28px; } .vv-panel { padding: 14px; } .vv-content-grid { gap: 10px; } #product .max-w-\[780px\] { padding-block: 32px 52px; } }
 
 
+/* Analysis workspace owns no visual frame. Each analysis surface is independently bounded so a player or panel cannot visually extend around the rest of the workspace. */
+.vv-analysis-workspace {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vv-analysis-workspace > section {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+.vv-analysis-workspace > section + section {
+  margin-top: 16px;
+}
+
 /* Developer startup is intentionally black and minimal before the console appears. */
 .vv-console-preloader{min-height:100vh;background:#000;color:#fff;display:grid;place-content:center;justify-items:center;padding:28px;text-align:center}
 .vv-console-preloader__mark{display:grid;place-items:center;width:64px;height:64px;margin-bottom:20px}
