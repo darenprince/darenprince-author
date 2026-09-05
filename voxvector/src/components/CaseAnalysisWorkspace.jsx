@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Activity, AlertTriangle, CheckCircle2, Circle, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
+import { Activity, AlertTriangle, CheckCircle2, Circle, Clock3, FileAudio, Gauge, Info, Pause, Play, RefreshCw, ShieldCheck, SkipBack, Terminal, Volume2, Waves, ChevronDown, ChevronRight } from 'lucide-react'
+import { getDiagnosticEvents } from '../lib/api'
 import Button from './ui/Button'
 
 const unwrap = result => result?.payload?.case || result?.payload?.data || result?.payload || {}
@@ -32,6 +33,52 @@ function PlaybackControls({ audioRef, duration, currentTime, gain, setGain, spee
   const [meter, setMeter] = useState(0)
   useEffect(() => { let raf = 0; const tick = () => { const a = audioRef.current; setMeter(a ? Math.min(100, Math.max(0, (Math.abs(a.volume || 0) * 100))) : 0); raf = requestAnimationFrame(tick) }; raf = requestAnimationFrame(tick); return () => cancelAnimationFrame(raf) }, [audioRef])
   return <div className="vv-playback-controls"><label><span>Gain</span><input aria-label="Audio gain" type="range" min="0" max="2" step="0.01" value={gain} onChange={e => setGain(Number(e.target.value))}/><output>{gain.toFixed(2)}×</output></label><label><span>Position</span><input aria-label="Audio position" type="range" min="0" max={Math.max(0.01, duration)} step="0.01" value={Math.min(currentTime, duration || 0)} onChange={e => onSeek(Number(e.target.value))}/><output>{fmt(currentTime)}</output></label><label><span>Speed</span><select aria-label="Playback speed" value={speed} onChange={e => setSpeed(Number(e.target.value))} className="border border-[var(--vv-border)] bg-[var(--vv-panel)] px-2 py-1 text-[10px] text-[var(--vv-text)]"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><span className="ml-auto inline-flex items-center gap-1.5" title="Playback level"><Volume2 size={13}/><span>{Math.round(meter)}%</span></span></div>
+}
+
+function CaseExecutionLog({ accessToken, run }) {
+  const requestId = run?.request_id || ''
+  const [events, setEvents] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const refresh = async () => {
+    if (!accessToken || !requestId) return
+    setLoading(true)
+    try {
+      const response = await getDiagnosticEvents(accessToken, { requestId, days: 2, limit: 250 })
+      const payload = response?.payload || {}
+      setEvents(Array.isArray(payload.events) ? [...payload.events].sort((a, b) => String(a.timestamp || '').localeCompare(String(b.timestamp || ''))) : [])
+      setError('')
+    } catch (exc) {
+      setError(exc?.message || 'Diagnostic events are currently unavailable.')
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => { refresh() }, [accessToken, requestId])
+  useEffect(() => {
+    if (!accessToken || !requestId || !PENDING.has(run?.status)) return undefined
+    const timer = window.setInterval(refresh, 2500)
+    return () => window.clearInterval(timer)
+  }, [accessToken, requestId, run?.status])
+  if (!requestId) return <section className="vv-panel"><div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>waiting for run</span></div><p className="vv-copy mt-3">This case has no persisted analysis request yet. Run the pipeline to attach live diagnostic events here.</p></section>
+  return <section className="vv-panel">
+    <div className="vv-panel-head"><h2><Terminal size={16}/> Live execution log</h2><span>{events.length} events</span></div>
+    <div className="mt-3 flex flex-wrap items-center justify-between gap-2"><div className="font-mono text-[10px] text-[var(--vv-muted)]">request {requestId}</div><Button variant="secondary" onClick={refresh} disabled={loading}><RefreshCw size={13} className={loading ? 'animate-spin' : ''}/> {loading ? 'Refreshing' : 'Refresh logs'}</Button></div>
+    {error && <div className="mt-3 border border-red-400/30 bg-red-400/[.05] p-3 text-xs text-red-200">{error}</div>}
+    <div className="mt-4 max-h-[32rem] overflow-auto border border-white/10 bg-black/20 font-mono text-[11px]">
+      {events.length ? events.map((event, index) => {
+        const failure = String(event.event || '').includes('failed') || String(event.event || '').includes('timeout') || event.error_type
+        const detail = event.error_message || event.detail || ''
+        return <div key={String(event.timestamp || index) + '-' + String(event.event || 'event') + '-' + index} className={'border-b border-white/5 px-3 py-2.5 ' + (failure ? 'bg-red-400/[.05]' : '')}>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><span className="text-white/40">{event.timestamp ? new Date(event.timestamp).toLocaleTimeString() : '—'}</span><strong className={failure ? 'text-red-200' : 'text-[var(--vv-accent-bright)]'}>{event.event || 'event'}</strong>{event.stage && <span className="text-white/50">stage={event.stage}</span>}{event.status_code && <span className="text-white/40">HTTP {event.status_code}</span>}{Number.isFinite(event.duration_ms) && <span className="text-white/40">{event.duration_ms} ms</span>}</div>
+          {detail && <div className={'mt-1 break-words ' + (failure ? 'text-red-100/80' : 'text-[var(--vv-muted)]')}>{detail}</div>}
+          {event.error_type && <div className="mt-1 text-red-200/80">error_type={event.error_type}</div>}
+          {event.source_revision && <div className="mt-1 text-white/25">revision={String(event.source_revision).slice(0, 12)}</div>}
+        </div>
+      }) : <div className="p-4 text-[var(--vv-muted)]">{loading ? 'Loading live case diagnostics…' : 'No diagnostic events have been returned for this request yet.'}</div>}
+    </div>
+    <p className="mt-3 text-[10px] text-[var(--vv-muted)]">{PENDING.has(run?.status) ? 'Auto-refreshing every 2.5 seconds while this run is active.' : 'Persisted diagnostics remain attached to this request for post-run inspection.'}</p>
+  </section>
 }
 
 function StageList({ run }) {
@@ -152,7 +199,7 @@ function TranscriptPanel({ run, currentTime, onSeek }) {
   </section>
 }
 
-export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, onRefresh }) {
+export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, onRefresh, accessToken }) {
   const data = unwrap(caseResult)
   const run = latestRun(data)
   const audioRef = useRef(null)
@@ -189,6 +236,7 @@ export default function CaseAnalysisWorkspace({ caseResult, playbackUrl, file, o
     <TranscriptPanel run={run} currentTime={time} onSeek={seek}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Waves size={16}/> Spectrogram</h2><span>{playing ? 'LIVE' : 'READY'}</span></div><div className="mt-4"><Spectrogram analyser={analyserRef.current} active={playing} currentTime={time} duration={duration}/></div><div className="mt-3 flex flex-wrap items-center gap-4 text-[10px] uppercase tracking-[.12em] text-[var(--vv-muted)]"><span>Frequency distribution</span><span>Time synchronized</span><span>FFT 2048</span><span className="ml-auto">Gain {gain.toFixed(2)}×</span></div></section>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Activity size={16}/> Pipeline state</h2><span>{run?.run_id?.slice(0, 12) || '—'}</span></div><div className="vv-data-grid mt-4"><Data label="Status" value={run?.status}/><Data label="Pipeline" value={run?.pipeline_version}/><Data label="Request" value={run?.request_id?.slice(0, 16)}/><Data label="Stages" value={stages.length ? `${completed}/${stages.length} complete` : '—'}/></div><div className="mt-4 grid gap-2 sm:grid-cols-3"><div className="vv-status-row"><span>Active</span><span className="ml-auto text-xs">{active ? (active.name || STAGE_NAMES[active.id] || active.id) : '—'}</span></div><div className="vv-status-row"><span>Failed</span><span className="ml-auto text-xs">{failed}</span></div><div className="vv-status-row"><span>Last outcome</span><span className="ml-auto text-xs">{stages.at(-1)?.outcome || '—'}</span></div></div><PipelineOverview stages={stages} active={active}/><div className="mt-5"><div className="vv-eyebrow mb-2">Stage details</div><StageList run={run}/></div></section>
+    <CaseExecutionLog accessToken={accessToken} run={run}/>
     <section className="vv-panel"><div className="vv-panel-head"><h2><Clock3 size={16}/> Source record</h2><span>provenance</span></div><div className="vv-data-grid mt-4">{sourceMeta.map(([label, value]) => <Data key={label} label={label} value={value}/>)}</div></section>
   </div>
 }
