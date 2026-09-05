@@ -78,9 +78,11 @@ def _merge_transcript_evidence(result_dict: dict | None, transcript_evidence: di
     merged["observations"] = observations
     merged["evidence"] = evidence
     provenance = dict(merged.get("provenance") or {})
+    transcript_metrics = dict(transcript_evidence.get("metrics") or {})
+    transcript_metrics.pop("token_frequencies", None)
     provenance["transcript_evidence"] = {
         "method_id": "linguistic.transcript_evidence",
-        "metrics": dict(transcript_evidence.get("metrics") or {}),
+        "metrics": transcript_metrics,
     }
     merged["provenance"] = provenance
     return merged, len(transcript_observations), len(transcript_records)
