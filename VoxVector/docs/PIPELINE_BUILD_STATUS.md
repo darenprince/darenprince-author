@@ -152,3 +152,8 @@ A failed or timed-out task is recorded on its own pipeline stage with its saniti
 ## Case workspace live execution diagnostics — 2026-09-05
 
 The canonical Case Analysis Workspace now includes a request-scoped **Live execution log**. It reads the existing durable VoxVector diagnostics stream through the authenticated diagnostics API and filters events by the current analysis run's request ID. While a run is active, the panel refreshes every 2.5 seconds and can also be refreshed manually. Stage starts, failures, timeouts, diagnostic details, error types, durations, HTTP status, and source revision context are visible directly beside the case pipeline. This is an operational observability surface; it does not alter analytical results or validation status.
+
+
+## Plain-English case execution updates — 2026-09-05
+
+The Case Analysis Workspace translates request-scoped operational diagnostic event codes into plain-English status updates for the product UI. Users see what started, what failed, what timed out, and whether independent work continues without needing to interpret internal event identifiers. Raw exception text and protocol details remain available under an expandable **Technical details** disclosure for debugging. This presentation layer does not alter the underlying diagnostic records.
