@@ -131,3 +131,8 @@ Optional explicit local fallback:
 `HF_TOKEN=<protected Hugging Face token>`
 
 The cloud provider uploads normalized audio to pyannoteAI temporary media, submits a diarization job, polls for terminal status, and normalizes returned speaker turns into VoxVector evidence contracts. Results must be persisted immediately under the canonical case/run identity because provider job results are externally retained for a limited period. The local fallback is attempted only when explicitly enabled and the primary provider fails; the fallback event is recorded in provenance.
+
+
+## Live analysis timeout and failure visibility — 2026-09-05
+
+The canonical case analysis route now persists the live stage boundary before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition have configurable server-side deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). On timeout, VoxVector records the failed stage, request ID, timeout context, persisted run state, and a diagnostic event, then returns HTTP 504 instead of leaving the client indefinitely waiting. The frontend error formatter surfaces the message, failed stage, error type when available, and request ID. These controls improve operational observability; they do not imply cancellation of already-running background worker threads or scientific validation of any analysis output.
