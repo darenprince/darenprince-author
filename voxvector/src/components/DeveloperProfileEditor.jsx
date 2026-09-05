@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
 import CollapsiblePanel from './ui/CollapsiblePanel'
+import './DeveloperProfileEditor.css'
 
 const AVATAR_BUCKET = 'voxvector-avatars'
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024
