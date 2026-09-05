@@ -36,6 +36,6 @@ export default function CollapsiblePanel({
         <ChevronDown size={14} className={open ? '' : '-rotate-90'}/>
       </button>
     </div>
-    {open && <div className={`vv-panel-body ${bodyClassName}`.trim()}>{children}</div>}
+    <div className={`vv-panel-body ${bodyClassName}`.trim()} hidden={!open} aria-hidden={!open}>{children}</div>
   </section>
 }
