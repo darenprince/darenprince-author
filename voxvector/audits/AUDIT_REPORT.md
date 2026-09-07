@@ -48,6 +48,8 @@ Created [execution tracker #915](https://github.com/darenprince/darenprince-auth
 
 Workflow: Backlog → Ready → In progress → In review → Done; record Blocked with a reason and dependency. Status is recorded in issue bodies, not an automated board. Select one implementation task at a time, assign an owner when work starts, attach evidence and a PR, and close only after acceptance criteria are verified. Later prompt gates remain in #915's backlog. The archive PR does not close the full audit.
 
+Publication completed: [draft PR #916](https://github.com/darenprince/darenprince-author/pull/916) was opened on September 7, 2026 at 19:03:48 UTC. Its initial remote commit is `c96b48d3a4b2a57f5e317e2b8568fbde969b72d0`, based on `73ac03ded08c161e092ee2a4ecbbed7d036771c8`. The GitHub response confirms 82 changed files and zero deletions. The authenticated connector published the archive after shell authentication failed. The earlier approval blocker is historical and resolved by explicit user authorization. No merge or deployment occurred. This report-link update follows the initial archive commit.
+
 ## Next task
 
 Continue the outstanding documentation review from the recorded checkpoint. Do not repeat already completed service discovery without a specific evidence need. Next planned prompt after completing VV-GROUNDTRUTH is VV-TRUTHMODEL.
