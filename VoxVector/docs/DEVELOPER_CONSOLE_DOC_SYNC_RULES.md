@@ -1,7 +1,7 @@
 # Developer Console Documentation Synchronization Rules
 
-**Status:** Canonical active instruction
-**Effective:** 2026-09-01
+**Status:** Canonical active instruction  
+**Effective:** 2026-09-08
 
 This document supplements the general VoxVector editing workflow with the specific synchronization requirements for the Developer Console and connected case workflow.
 
@@ -21,7 +21,13 @@ At minimum, evaluate:
 - `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
 - `VoxVector/docs/ENGINEERING_SYNC_2026-09-01.md`
 - `VoxVector/docs/PROJECT_DECISION_LOG_DEVCONSOLE_2026-09-01.md`
+- `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`
+- `VoxVector/docs/ENDPOINT_REGISTRY.md`
+- `VoxVector/docs/DEPLOYMENT_VARIABLE_MATRIX.md`
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/`
+
+Only documents affected by the actual behavior change should be edited. Historical audit/checkpoint records must remain immutable; correct current canonical documents and the running audit report instead of rewriting old evidence.
 
 ## Dashboard synchronization
 
@@ -143,13 +149,37 @@ Canonical console routes:
 - `GET /v1/developer/render/logs`
 - `POST /v1/developer/render/deploy`
 
-The Render API key and deploy hook must remain server-side. Never place `RENDER_API_KEY` or `RENDER_DEPLOY_HOOK_URL` in browser JavaScript, client configuration, repository source, case artifacts, or dashboard exports. The deploy route may return trigger state but must never return the hook URL.
+The Render API key and deploy hook must remain server-side. Never place `RENDER_API_KEY` or `RENDER_DEPLOY_HOOK_URL` in browser JavaScript, client configuration, repository source, case artifacts, diagnostic payloads, or dashboard exports. The deploy route may return trigger state but must never return the hook URL.
 
 GitHub Actions and Render runtime have separate secret scopes. `RENDER_API_KEY` and `RENDER_SERVICE_ID` configured as GitHub repository secrets are available to Actions only. The Render service itself must separately contain protected environment variables with those names before the backend Render bridge can authenticate to the Render API.
 
 The repository Render observability workflow uses `RENDER_SERVICE_ID` as its default target and permits an optional controlled service override.
 
 Infrastructure state is evidence about the runtime environment. It is not application timing truth and is not scientific validation.
+
+### Manual Render deployment lifecycle — verified policy 2026-09-08
+
+The original VoxVector Render production service is deliberately **manual deployment only**. Connected Render inspection identified one workspace, `My Workspace` (`tea-da2errdg1s2s73cl4eeg`), and one service, `voxvector-api` (`srv-da2f88n40ujc73a8m26g`), with `autoDeploy=no` and the automatic deploy trigger off. The Developer Console must not imply that a GitHub push will automatically update the Render API.
+
+The deployment control path is:
+
+`Deploy Now → POST /v1/developer/render/deploy → authenticated FastAPI bridge → protected RENDER_DEPLOY_HOOK_URL → Render deploy hook`
+
+The UI and API must distinguish these states:
+
+1. **Requesting** — the browser is calling the authenticated VoxVector deploy endpoint.
+2. **Hook accepted** — the server-side hook request returned a successful HTTP status. This is not deployment completion.
+3. **Deploy observed** — Render status returns a new deployment record.
+4. **Revision matched** — the new deployment references the intended commit/revision.
+5. **Live** — Render reports the deployment in terminal `live` state.
+6. **Runtime verified** — `/health` and backend `source_revision` match the intended deployment.
+7. **Browser verified** — any required authenticated user-facing behavior was exercised against that deployment.
+
+A successful hook response body may be JSON, plain text, or empty. Successful non-JSON response content must not be treated as an application failure merely because it cannot be decoded as JSON, and it must not be treated as trusted proof of deployment completion. Historical Render diagnostics captured a `JSONDecodeError` on this boundary on 2026-09-05; issue #920 adds regression coverage for the supported successful response shapes.
+
+The deploy button should report **hook acceptance** in plain language and continue refreshing/polling Render status. It must not show `Deployed` or equivalent until the independent Render deployment evidence above is present. If no new deploy appears, the state must remain unresolved/failed rather than synthesizing success.
+
+Production auto-deploy must remain disabled unless an explicit future architecture decision authorizes a change and the affected canonical documentation is updated in the same task.
 
 ## Case history synchronization
 
