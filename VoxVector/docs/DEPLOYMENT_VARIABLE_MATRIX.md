@@ -1,6 +1,6 @@
 # VoxVector Deployment Variable Matrix
 
-**Date:** 2026-09-03  
+**Date:** 2026-09-08  
 **Purpose:** deployment configuration checklist. Do not place secret values in GitHub source, documentation, client bundles, or public dashboard exports.
 
 | Variable / setting | Purpose | Render | AWS ECS | Notes |
@@ -15,7 +15,10 @@
 | `VOXVECTOR_WHISPER_BEAM_SIZE` | Control decoding beam size | Render environment | ECS task environment | Current Render profile uses `3`. |
 | `VOXVECTOR_SOURCE_REVISION` | Deployment provenance | Render build/runtime metadata | ECS workflow/task definition | Prefer workflow-injected commit SHA. |
 | `VOXVECTOR_CURRENT_COMMIT_QA` | Source-specific QA provenance | Render deployment metadata | ECS workflow/task definition | Must come from real QA execution. |
-| `RENDER_DEPLOY_HOOK_URL` | Protected manual deploy trigger for the Developer Console | Render secret environment | Not used by active AWS path | Secret deploy-hook URL. Never expose to browser code, documentation exports, or GitHub source. |
+| `RENDER_API_KEY` | Server-side Render observability bridge | Render secret environment | Not used by active AWS path | Required by Developer Console Render status/log routes; never expose to browser. |
+| `RENDER_SERVICE_ID` | Select the original VoxVector Render service | Render environment | Not used by active AWS path | Connected service is `srv-da2f88n40ujc73a8m26g`; do not treat workspace ID as service ID. |
+| `RENDER_DEPLOY_HOOK_URL` | Protected manual deploy trigger for the Developer Console | Render secret environment | Not used by active AWS path | Secret deploy-hook URL. Never expose to browser code, documentation exports, GitHub source, diagnostics, or case artifacts. |
+| Render `autoDeploy` / automatic deploy trigger | Prevent automatic production deploys from repository pushes | **Disabled** | N/A | Connected 2026-09-08 inspection: `autoDeploy=no`, automatic deploy trigger off. Manual protected hook is the production Render deployment boundary. |
 | Supabase server credentials | Diagnostics, persistence, private media | Render secret environment | AWS Secrets Manager | Existing canonical storage boundary; do not duplicate unnecessarily. |
 
 ## Service links
@@ -52,27 +55,44 @@ HUGGINGFACE_TOKEN
 
 Use `HF_TOKEN` as the preferred deployment secret name.
 
-**Important:** The pyannote token value was not written into GitHub, documentation, or any client-side export. It must be supplied through the deployment secret manager.
+**Important:** secret values are not written into GitHub, documentation, or any client-side export. They must be supplied through the target deployment secret manager.
 
-## Render status update
+## Render deployment-control contract — verified 2026-09-08
+
+The connected Render account exposes one workspace, `My Workspace` (`tea-da2errdg1s2s73cl4eeg`), and one VoxVector Render service, `voxvector-api` (`srv-da2f88n40ujc73a8m26g`). The service reports automatic deployment disabled. That state is intentional and must remain the default unless a future explicit architecture decision changes it.
+
+The canonical manual deployment path is:
+
+`Developer Console → POST /v1/developer/render/deploy → authenticated server runtime → RENDER_DEPLOY_HOOK_URL → Render deploy hook`
+
+The browser never receives the deploy-hook URL. The API runtime verifies the authenticated developer session and sends the POST server-side.
+
+A 2xx hook response establishes only **trigger acceptance**. The response body may be JSON, empty, or text and is not trusted as deployment-completion evidence. Issue #920 adds regression coverage for all three successful response shapes after historical runtime evidence showed a non-JSON hook body could produce a `JSONDecodeError` and HTTP 500.
+
+After hook acceptance, verification must independently establish:
+
+1. a new Render deployment exists;
+2. it targets the intended Git commit;
+3. it reaches terminal `live` state;
+4. `/health` responds successfully;
+5. the runtime reports the intended backend `source_revision`;
+6. browser/runtime behavior is checked when required by the task.
+
+If any of those steps are not observed, report them as unresolved. Do not use `status: accepted` from the deploy route as a synonym for deployed.
+
+The current connector does not expose a read-back of secret environment values, so this document does **not** claim that the live `RENDER_DEPLOY_HOOK_URL` value was inspected on September 8. Its protected presence must be inferred only from successful authenticated runtime behavior or verified through an authorized secret-management surface that does not reveal the value in project records.
+
+## Historical Render status update — 2026-09-03
 
 On 2026-09-03, the canonical non-secret speech configuration was applied to the connected `voxvector-api` Render service and Render triggered deployment `dep-dad476dg1s2s73evju20`. The Hugging Face token was intentionally not transmitted or stored by the repository tooling.
+
+This is preserved as a dated historical observation and does not override the current manual deployment-control state above.
 
 ## Verification rule
 
 Create only variables actually accepted by the canonical API implementation. Before deployment, inspect the runtime configuration code and workflow environment mapping. A variable existing in a cloud dashboard is not evidence that the running application reads it.
 
-
-## Manual Developer Console deployment
-
-The Developer Console can request an on-demand Render deployment through the protected server-side route:
-
-`POST /v1/developer/render/deploy`
-
-The browser never receives the deploy-hook URL. The API runtime reads `RENDER_DEPLOY_HOOK_URL` from its protected environment, verifies the authenticated developer session, sends the server-side POST to Render, and returns only the accepted trigger state.
-
-This control requests a deployment; it does not prove the deployment completed successfully. The Render Runtime panel must be refreshed or allowed to poll for the subsequent deployment/runtime state.
-
+Likewise, a configured deploy-hook variable is not evidence that the Developer Console button executed it, and a successful hook request is not evidence that the resulting deployment reached `live`.
 
 ## pyannote provider policy update — 2026-09-04
 
