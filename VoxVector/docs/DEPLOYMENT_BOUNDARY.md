@@ -66,6 +66,8 @@ Earlier project records contain provider and deployment references from previous
 
 ## Verification rule
 
+Production and deployment work follows the issue lifecycle in [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Link the task issue, PR, source revision and target environment before changing deployment state. Record build and publish runs separately, trigger acceptance separately from completed deployment, and frontend revision separately from backend runtime revision. Include UTC observation time, health/browser evidence and unresolved gates in the issue and `voxvector/audits/AUDIT_REPORT.md` after each task. Keep production-scoped tickets open until their deployment acceptance criteria are verified. PR creation or issue closure does not authorize a merge, production deployment or endpoint cutover. The unresolved VoxVector publish-trigger investigation is [#911](https://github.com/darenprince/darenprince-author/issues/911).
+
 When deployment behavior is uncertain, inspect the repository's current GitHub Actions workflow, package configuration, deployment documentation, and resulting runtime before making changes.
 
 Do not introduce a second hosting path merely to work around an unresolved deployment problem.

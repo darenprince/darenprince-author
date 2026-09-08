@@ -32,6 +32,8 @@ The API mediates authenticated upload operations. Persistent audio storage belon
 
 ## AUTO engineering workflow
 
+The execution layer is [GitHub tracker #915](https://github.com/darenprince/darenprince-author/issues/915), governed by [DEVELOPMENT_WORKFLOW.md](../../../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow), effective September 8, 2026. Issues own task status, dependencies and acceptance criteria; PRs own reviewable changes; [AUDIT_REPORT.md](../../../../voxvector/audits/AUDIT_REPORT.md) records evidence after each task. Follow Backlog → Ready → In progress → In review → Done, with explicit Blocked reasons. Close only after acceptance evidence is verified. Dashboard planning must link this queue and keep task status separate from runtime, deployment and scientific validation. Automated issue synchronization is not claimed.
+
 AUTO means:
 
 1. **Architecture** — establish the actual system boundary.

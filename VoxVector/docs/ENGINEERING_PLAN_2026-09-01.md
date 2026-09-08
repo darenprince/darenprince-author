@@ -2,6 +2,8 @@
 
 ## Current objective
 
+**Execution workflow updated 2026-09-08:** [Tracker #915](https://github.com/darenprince/darenprince-author/issues/915) now owns task ordering, status and dependencies under [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). The phases and dated observations below retain their architectural/historical context; they are not a live task queue. Begin with #910–#912, complete Prompt 1 through #913, then advance to #914 only when its dependency is satisfied. Every task requires acceptance criteria, a linked PR where files change, and a task-by-task update to `voxvector/audits/AUDIT_REPORT.md`. No phase, provider execution or scientific result is promoted by this workflow change.
+
 Turn the repaired production case workflow into a real, evidence-producing speech intelligence system with an auditable runtime and a live engineering cockpit.
 
 ## Phase 1 — Operational foundation

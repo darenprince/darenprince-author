@@ -171,6 +171,8 @@ The complete editing and deployment procedure is defined in `docs/DEVELOPMENT_WO
 
 ### Branch and review boundary
 
+As of September 8, 2026, substantive work is tracked in GitHub Issues under [execution tracker #915](https://github.com/darenprince/darenprince-author/issues/915). An issue records scope, owner, dependencies, acceptance criteria and evidence; its PR records the change. Follow the issue lifecycle and task-by-task audit reporting requirements in [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Issue completion, deployment verification and scientific validation remain separate claims. The archive at `voxvector/audits/` preserves evidence without replacing canonical technical documents.
+
 Substantive changes should be made on a feature branch and reviewed through a pull request before reaching `main`.
 
 GitHub Pages production deployment is sourced from `main` only. Pull requests must use an isolated preview or build artifact and must never replace the production Pages deployment.

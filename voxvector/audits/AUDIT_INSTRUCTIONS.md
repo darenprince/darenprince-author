@@ -8,6 +8,8 @@ Before work, read the user's complete plan, identify the exact prompt and accept
 
 ## Execution procedure
 
+Use [GitHub tracker #915](https://github.com/darenprince/darenprince-author/issues/915) and the canonical [issue lifecycle](../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow): Backlog → Ready → In progress → In review → Done, with Blocked reasons and dependencies explicit. Issues own task status and acceptance criteria; linked PRs own changes; this archive owns evidence snapshots and reporting. Update the issue and AUDIT_REPORT.md after each task. A draft PR does not close a partially satisfied issue. Issue statuses are manually maintained; no automated board or dashboard synchronization is implied.
+
 1. Break the requested audit into bounded tasks with explicit completion criteria. Reuse existing evidence unless it is stale for the claim being made. Do not repeatedly restart discovery or run broad checks without a concrete remaining risk.
 2. Establish architecture, canonical ownership, and the complete source to build to deployment to runtime to persistence to browser chain. A successful step does not prove the next step.
 3. Read relevant source and instructions fully, including referenced decisions. Inventory duplicates by hash but review differing mirrors independently. Record files actually read, not just search hits.

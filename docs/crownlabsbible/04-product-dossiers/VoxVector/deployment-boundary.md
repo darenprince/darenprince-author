@@ -31,6 +31,8 @@ The active technical policy is `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`.
 
 ## Canonical paths
 
+As of September 8, 2026, deployment tasks use [tracker #915](https://github.com/darenprince/darenprince-author/issues/915) and the canonical [issue workflow](../../../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow). Link issue, PR, source revision and target environment. Record build, publish, trigger acceptance, runtime and browser results separately with observation timestamps. Update [the audit report](../../../../voxvector/audits/AUDIT_REPORT.md) after each task. Keep production acceptance gates open until verified; a PR or closed issue does not authorize deployment or cutover. [#911](https://github.com/darenprince/darenprince-author/issues/911) tracks unresolved VoxVector publishing evidence. Historical infrastructure observations below are not refreshed by this policy update.
+
 Public frontend:
 
 `main → GitHub Actions → React build → GitHub Pages → https://darenprince.com/voxvector/`

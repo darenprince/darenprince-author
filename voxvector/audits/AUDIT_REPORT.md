@@ -52,4 +52,34 @@ Publication completed: [draft PR #916](https://github.com/darenprince/darenprinc
 
 ## Next task
 
+### Task 4: workflow documentation adoption, 2026-09-08
+
+Updated the canonical development flow, charter change control, AI project instructions, engineering plan, system AUTO workflow, production/deployment boundaries, Developer Console synchronization rules and three corresponding Crown Labs mirrors. Recorded the decision in PROJECT_DECISION_LOG.md. The new workflow requires an issue with scope/owner/dependencies/acceptance criteria, linked PRs, task-by-task evidence reporting and verified closure. The engineering plan now distinguishes historical phases from the live issue queue. Dashboard documentation requires source/time/issue links without claiming a live issue integration exists.
+
+This is a targeted workflow-policy update, not certification that every project document or prior Prompt 1 discrepancy has been reviewed or corrected. Archive snapshots remain unchanged. The complete historical documentation review remains open in #910. No new runtime or scientific claims are made.
+
+### Task 5: workflow verification and review handoff, 2026-09-08
+
+Tracked in [#917](https://github.com/darenprince/darenprince-author/issues/917), related to #910 and #915. Added the same workflow entry point to AI_EDITING_GUARDRAILS.md and AUDIT_INSTRUCTIONS.md. The workflow changes are documentation only; no React, API, deployment configuration or scientific implementation changed. PR #916 remains the review vehicle; issue closure awaits review.
+
+Exact updated files (repository-relative):
+
+- `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`
+- `VoxVector/docs/OPERATING_CHARTER.md`
+- `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md`
+- `VoxVector/docs/AI_EDITING_GUARDRAILS.md`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`
+- `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`
+- `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`
+- `VoxVector/docs/PROJECT_DECISION_LOG.md`
+- `voxvector/docs/DEPLOYMENT_ARCHITECTURE.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/development-workflow.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/deployment-boundary.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/system-architecture-and-auto-workflow.md`
+- `voxvector/audits/AUDIT_INSTRUCTIONS.md`
+- `voxvector/audits/AUDIT_REPORT.md`
+
+Checks: incremental `git diff --check` passed; new local Markdown link targets checked; all 76 archived snapshot hashes still match manifest.json. Application tests/build/browser checks were not run for this documentation-only policy change. This does not refresh historical CI or deployment evidence. The publication parent is `3e66dfdb3bd5a4b342066d0c47897530594d68ae`; the new commit is linked from PR #916 to avoid a self-referential hash in this report.
+
 Continue the outstanding documentation review from the recorded checkpoint. Do not repeat already completed service discovery without a specific evidence need. Next planned prompt after completing VV-GROUNDTRUTH is VV-TRUTHMODEL.

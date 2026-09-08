@@ -1,3 +1,13 @@
+## 2026-09-08 — GitHub issue execution and audit reporting workflow
+
+**Decision:** Use GitHub Issues as the execution queue under [tracker #915](https://github.com/darenprince/darenprince-author/issues/915). Link substantive engineering, documentation, dashboard, QA and deployment tasks to reviewable PRs, with owner, dependencies, acceptance criteria and evidence recorded in each issue.
+
+**Authority:** Daren requested issue tracking, authorized archive publication and requested propagation of this workflow across relevant documentation. The detailed policy lives in [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow); the audit procedure is `voxvector/audits/AUDIT_INSTRUCTIONS.md`.
+
+**Reporting:** Update `voxvector/audits/AUDIT_REPORT.md` after each completed task. Preserve original audit records and immutable historical copies. Use Backlog → Ready → In progress → In review → Done with explicit Blocked reasons. Verify acceptance criteria before closure. A merged PR does not establish production deployment, provider execution or scientific validation.
+
+**Boundary:** This is an operating workflow change. It does not install a project board, automate issue status, implement a dashboard issue feed, refresh historical runtime measurements or complete VV-GROUNDTRUTH. [Archive PR #916](https://github.com/darenprince/darenprince-author/pull/916) and task issues #910–#914 preserve the current incomplete work.
+
 ## 2026-09-05 — Public runtime hardening after mobile startup failure
 
 **Decision:** Harden the canonical public VoxVector startup path by removing nonessential public execution from the shared header, replacing the public button runtime primitive with the native browser control, and removing the Recharts runtime from the public illustrative charts.

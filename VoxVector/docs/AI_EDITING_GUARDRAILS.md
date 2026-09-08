@@ -8,7 +8,7 @@ VoxVector is the end product being built. AI work should advance the complete pr
 
 ## Canonical workflow
 
-The active branch, PR, preview, and deployment rules are defined in `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`. This document governs the editing behavior inside that workflow.
+The active issue, branch, PR, preview, deployment and task-reporting rules are defined in `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`, section 10. Use GitHub tracker #915, record dependencies and acceptance criteria, link the PR, and update `voxvector/audits/AUDIT_REPORT.md` after each task. Verify acceptance evidence before issue closure. This document governs the editing behavior inside that workflow.
 
 ## Surgical editing is the default
 

@@ -150,6 +150,8 @@ The mirror must identify its canonical technical source rather than silently div
 
 ## 5. AUTO workflow
 
+AUTO runs within the GitHub issue lifecycle defined in [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow), effective September 8, 2026. [Tracker #915](https://github.com/darenprince/darenprince-author/issues/915) is the execution entry point. Trace `issue and acceptance criteria → canonical owner → PR and revision → verification evidence → audit report → issue closure`. Record owner, dependencies and blocked reasons explicitly. Update `voxvector/audits/AUDIT_REPORT.md` after each task, preserving historical evidence in the categorized archive. Task completion remains distinct from runtime and scientific state. No automatic issue-to-dashboard synchronization is implied.
+
 AUTO means **Architecture → Ownership → Trace → Operate/verify**. It is not permission to automate assumptions.
 
 ### A. Architecture

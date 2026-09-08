@@ -211,9 +211,30 @@ Architectural cleanup must be treated as an architecture change **plus behavior 
 
 ## 10. Development flow
 
-For normal feature development, the repository's documented review flow remains:
+Effective September 8, 2026, GitHub Issues are the canonical work queue. Start at [execution tracker #915](https://github.com/darenprince/darenprince-author/issues/915). Search existing tickets before creating one. Engineering plans describe scope and architecture; issues record execution and dependencies; PRs contain reviewable changes; the audit report records evidence. These sources have different responsibilities.
+
+Every substantive documentation, engineering, dashboard, QA, production or deployment task must have a linked issue containing:
+
+- scope and canonical owners;
+- an owner when work starts;
+- status, priority/order and explicit dependencies;
+- acceptance criteria and verification boundaries;
+- source revision, evidence links and UTC observation timestamps;
+- related PRs, remaining work and the next task.
+
+Use **Backlog → Ready → In progress → In review → Done**. Record **Blocked** with the reason and dependency. These are manually maintained issue-body statuses, not an installed automation or a GitHub Projects board. Take one implementation task at a time. A draft PR indicates reviewable progress, not completed acceptance criteria.
+
+After each completed task, update [AUDIT_REPORT.md](../../voxvector/audits/AUDIT_REPORT.md) and the linked issue with exact files, revision, checks actually run, evidence, limitations and next work. Follow [AUDIT_INSTRUCTIONS.md](../../voxvector/audits/AUDIT_INSTRUCTIONS.md). Preserve dated snapshots and their hashes; do not update archive copies to make historical claims look current. Do not duplicate private cloud telemetry, tokens, audio or transcripts into the repository.
+
+Use `Related to #...` while work is partial. Close an issue only when its acceptance criteria are verified; use automatic closing references only for an issue the PR fully resolves. For production-scoped work, record the actual deployed revision, deployment result and browser/runtime verification before closure. A merge, build or accepted trigger alone is insufficient. If production verification is outside a code task's scope, link an explicit open deployment-verification issue.
+
+The initial queue is #910 (documentation alignment), #911 (publish trigger evidence), #912 (speech provenance), #913 (Prompt 1 closure, dependent on #910–#912), then #914 (truth model, dependent on #913). Later plan prompts remain in #915's backlog until their prerequisites are met. This queue does not declare Prompt 1 complete.
+
+For normal feature development, the review flow is:
 
 ```text
+linked issue with acceptance criteria
+  ↓
 main
   ↓
 feature/fix branch
@@ -228,7 +249,11 @@ manual visual / functional review
   ↓
 merge
   ↓
-production GitHub Pages deployment
+authorized production deployment and exact-revision verification
+  ↓
+audit report and issue evidence update
+  ↓
+issue closure when acceptance criteria are satisfied
 ```
 
 For authorized maintenance sessions that explicitly require direct work on `main`, use `main` exactly as instructed by the project owner and still perform the same inspection, diff, build, and verification gates. Do not create an alternate branch merely to avoid editing the canonical implementation.
