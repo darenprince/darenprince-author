@@ -25,6 +25,14 @@ At minimum, evaluate:
 
 ## Dashboard synchronization
 
+### GitHub task tracking, effective 2026-09-08
+
+The engineering work queue is [tracker #915](https://github.com/darenprince/darenprince-author/issues/915), governed by [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Dashboard planning records and Next Engineering Move documentation must reference the relevant issue, its dependencies and acceptance criteria rather than maintain a competing queue. #910 is the first documentation task; #914 remains dependent on Prompt 1 closure in #913.
+
+If the dashboard displays task data, it must identify the issue source and observation time, expose the issue/PR links and distinguish task status from pipeline execution, API health, QA and scientific validation. Static planning copy must be labeled as a dated plan; unavailable issue data must remain unknown or a direct GitHub link. This documentation update establishes the requirement; it does not claim an automated issue feed, board or dashboard integration exists.
+
+After each task, update the issue and `voxvector/audits/AUDIT_REPORT.md` with observed evidence and remaining work. Updating the report or closing an issue must never automatically mark a runtime stage complete.
+
 The Developer Console dashboard is an operator-facing projection of canonical engineering state.
 
 It must not invent progress. Build counts, current engineering stage, QA state, dependencies, deployment state, and stage status must be derived from documented implementation state or a real API response.

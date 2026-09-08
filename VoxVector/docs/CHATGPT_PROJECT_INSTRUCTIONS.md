@@ -28,6 +28,8 @@ If multiple files appear to implement the same thing, determine which one is can
 
 ## 2. SECOND RULE: CLASSIFY THE USER'S REQUEST
 
+For every substantive task, use the GitHub issue process in [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Resume [tracker #915](https://github.com/darenprince/darenprince-author/issues/915), check for existing tickets, identify scope/owner/dependencies/acceptance criteria and update issue status as work progresses. Link the review PR. After each task, update `voxvector/audits/AUDIT_REPORT.md` with exact files, revision, actual checks, evidence and remaining work. Read `voxvector/audits/AUDIT_INSTRUCTIONS.md` for audit reporting. Do not close partial work or treat an archive PR as completion of the full audit. Task status is not provider readiness, deployment state or scientific validation.
+
 Determine what the user actually asked for:
 
 - copy/text change

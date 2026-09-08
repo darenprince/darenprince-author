@@ -2,6 +2,8 @@
 
 ## Current endpoint roles
 
+Deployment work is tracked through [GitHub tracker #915](https://github.com/darenprince/darenprince-author/issues/915) and the canonical [development workflow](../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow). Each change links an issue and PR, names the target environment and revision, and records build, publication, runtime and browser evidence separately. Update [the audit report](../audits/AUDIT_REPORT.md) after each task. A green build or accepted trigger is not a completed deployment. This workflow policy does not refresh the historical infrastructure observations below.
+
 | Endpoint | Role | Status |
 |---|---|---|
 | https://www.darenprince.com/voxvector/ | Public VoxVector landing experience | Current public entry |

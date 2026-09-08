@@ -64,9 +64,13 @@ Production and PR preview workflows must reference the exact case-sensitive cano
 
 ## Development and Review Flow
 
+Effective September 8, 2026, [GitHub tracker #915](https://github.com/darenprince/darenprince-author/issues/915) is the execution queue. The canonical policy is [VoxVector DEVELOPMENT_WORKFLOW.md](../../../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow). Each substantive task records scope, owner, dependencies, acceptance criteria and evidence. Use Backlog → Ready → In progress → In review → Done; record Blocked with its reason. These statuses are maintained in issues, not an automated project board.
+
+Update [AUDIT_REPORT.md](../../../../voxvector/audits/AUDIT_REPORT.md) and the issue after every completed task. Preserve historical audit copies and source hashes. Link PRs without closing partial tasks; close only when acceptance criteria are verified. Production acceptance requires observed deployment/runtime/browser evidence as applicable. Task completion never implies scientific validation. #910 is first; #913 closes Prompt 1 after its dependencies, and #914 follows only afterward.
+
 The active engineering workflow is:
 
-**feature branch → pull request → production-like build → isolated PR preview or review artifact → manual visual and functional review → merge to `main` → production GitHub Pages deployment**
+**issue and acceptance criteria → feature branch → linked pull request → production-like build → isolated PR preview or review artifact → manual visual and functional review → authorized merge/deployment → exact-revision verification → audit update → issue closure**
 
 `main` is the production source. Feature branches and PR previews must never replace the production Pages deployment.
 
