@@ -6,8 +6,9 @@ This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGI
 
 - Backend pipeline: `0.2.26`
 - Frontend package: `0.2.37`
-- Latest confirmed live Render deployment revision: `145e3c64507f75a32e83a25a5e854ac15bae57e6`
-- Latest observed Render deployment state for that revision on 2026-09-05: `live`
+- Latest confirmed live Render deployment revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- Latest confirmed Render deploy: `dep-dafg5nv40ujc73b5l400`, observed `live` on 2026-09-08
+- Render production auto-deploy: disabled (`autoDeploy=no`, automatic trigger off) at the 2026-09-08 connected inspection
 - Runtime self-test, media-storage readiness, and provider readiness are read from the live API health contract rather than inferred from Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB
@@ -16,7 +17,7 @@ This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGI
 
 The canonical backend supports configured faster-whisper transcription plus pyannoteAI cloud diarization with an explicit local pyannote fallback path. Live provider selection and readiness are runtime-reported fields.
 
-The Developer Console now keeps these distinctions visible:
+The Developer Console keeps these distinctions visible:
 
 - configured provider
 - adapter/package presence where applicable
@@ -32,7 +33,7 @@ Provider readiness is not successful execution and is not scientific validation.
 
 The Render service remains a constrained compute baseline. Runtime hardening includes heavyweight phase serialization, RSS telemetry, provider cleanup, bounded speech-frame processing, float32 normalized audio, and conservative CPU/thread settings.
 
-The engineering UI no longer hard-codes a memory-limit claim as live status. Infrastructure state is read from the authenticated Render bridge, while analysis runtime state is read from `/health`.
+The engineering UI does not hard-code a memory-limit claim as live status. Infrastructure state is read from the authenticated Render bridge, while analysis runtime state is read from `/health`.
 
 Configured runtime safeguards may include `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and `TOKENIZERS_PARALLELISM=false`.
 
@@ -59,7 +60,7 @@ Provider readiness does not promote queued or conditional stages. Stage promotio
 
 `https://darenprince.com/voxvector/` is the public application.
 
-`https://voxvector.crownlabs.tech` is the preserved canonical Render API domain.
+`https://voxvector.crownlabs.tech` is the preserved canonical Render API domain. It is manually deployed through the protected Render deploy hook; repository pushes do not automatically deploy the Render production service.
 
 `https://awsapi.crownlabs.tech` is a separate historical benchmark environment and is not part of active QA gating.
 
@@ -67,7 +68,7 @@ Supabase remains the configured authentication, persistence, diagnostics, privat
 
 ## Developer Console interaction state
 
-The canonical Developer Console now uses one reusable collapsible-card title-bar system for applicable work surfaces. Title bars meet the top and side card edges, use only a subtle lower separator, keep supporting text subordinate, and put a small disclosure control at the far right. The Analysis Workspace uses the same pattern rather than maintaining a competing header override.
+The canonical Developer Console uses one reusable collapsible-card title-bar system for applicable work surfaces. Title bars meet the top and side card edges, use only a subtle lower separator, keep supporting text subordinate, and put a small disclosure control at the far right. The Analysis Workspace uses the same pattern rather than maintaining a competing header override.
 
 Case History preserves swipe-to-delete on touch devices and desktop trash controls while adding Select mode for multi-case deletion. Multi-delete still calls the owner-scoped canonical case endpoint and requires irreversible confirmation.
 
@@ -79,7 +80,7 @@ The Live Engineering State rail is full-width directly below the primary navigat
 
 ## Verification boundary
 
-The Supabase avatar/profile migration was applied and its private bucket and RLS policies were read back successfully. Existing Supabase security-advisor warnings unrelated to this migration remain open. The exact frontend branch still requires GitHub QA, preview build, merge, Pages deployment, and authenticated desktop/mobile browser verification before these UI changes are considered production-verified.
+The Supabase avatar/profile migration was applied and its private bucket and RLS policies were read back successfully. Existing Supabase security-advisor warnings unrelated to this migration remain open. Frontend/Developer Console changes still require exact-head QA, deployment evidence and authenticated desktop/mobile browser verification before production UI behavior is considered verified.
 
 ## Scientific boundary
 
@@ -87,4 +88,16 @@ Operational readiness, provider execution, software QA, and scientific validatio
 
 ## Manual Render deployment control
 
-The Render Runtime surface includes a protected **Deploy Now** control. The browser calls an authenticated VoxVector API route, while the API runtime keeps `RENDER_DEPLOY_HOOK_URL` server-side and sends the deploy request to Render. Trigger acceptance is distinct from completed deployment verification.
+The Render Runtime surface includes a protected **Deploy Now** control. The browser calls `POST /v1/developer/render/deploy`; the authenticated API runtime keeps `RENDER_DEPLOY_HOOK_URL` server-side and sends the deployment request to Render.
+
+The current Render service is not auto-deployed. Connected inspection on September 8 confirmed one workspace, `My Workspace` (`tea-da2errdg1s2s73cl4eeg`), and one service, `voxvector-api` (`srv-da2f88n40ujc73a8m26g`), with automatic deployment disabled.
+
+Trigger acceptance is distinct from deployment verification. Required evidence is:
+
+`hook accepted → new Render deploy observed → intended commit matched → deploy live → backend source_revision verified → /health verified → browser/runtime verification when required`
+
+Historical Render diagnostics on September 5 captured a `JSONDecodeError` on the deploy route when a successful hook response body was not JSON. Issue #920 repairs that server-side response parsing and adds JSON, text and empty-body regression coverage. The hook value remains private and non-JSON hook content is not treated as trusted deployment evidence.
+
+At the September 8 inspection checkpoint, Render was live on `73ac03ded08c161e092ee2a4ecbbed7d036771c8` while GitHub `main` was `66a1616d49e228c6ec57d3cfc4855898675fae2c`. The five intervening commits were documentation/audit/workflow changes rather than runtime implementation. That was a dated source/runtime observation, not evidence that future revisions will remain functionally equivalent.
+
+The current repair is not production-verified until the merged revision is deliberately deployed, the Developer Console request is observed, a new Render deploy reaches `live`, and the runtime/browser evidence chain is completed.
