@@ -20,11 +20,17 @@ The September 7 user request adds an organized audit archive and detailed AI exe
 
 ## Task log
 
+### Task 11: publish and verify the Prompt 1 review branch, 2026-09-08
+
+Published the 25-file documentation correction set to PR #919. Initial implementation commit: `12ec13597e7b7d13554e6b2624b7eceedfcc565b`. Report-link head: `88a51b6990b45b08cf95928c8c3e80ebf75d91d5`. Exact-head VoxVector QA runs `34259687738` and `34259684138` completed successfully; PR Preview Build run `34259687758` completed successfully. The PR is open and mergeable. No review has been submitted. A separate Netlify deploy-preview status is pending; Netlify is retired from the canonical VoxVector frontend architecture and this status is not represented as GitHub Pages production evidence.
+
+Updated #910 and #913 to In review, closed completed evidence tasks #911 and #912, updated tracker #915, and closed workflow-adoption issue #917 because PR #916 was merged. PR #919 remains the review and merge boundary. No merge or production deployment is claimed for this follow-up.
+
 ### Task 10: verify corrections and close Prompt 1 implementation, 2026-09-08
 
 Verified the documentation correction set against source invariants. `voxvector/package.json` reports 0.2.37. The source pipeline contract contains 21 stages with 16 implemented or built foundations, 4 conditional/not-invoked stages and 1 queued stage. Checked relative Markdown links in all 25 changed/new Markdown records; no missing relative targets were found. `git diff --check` passed. Reverified all 76 immutable archive snapshot hashes against `manifest.json`. The working changes are limited to documentation, audit records and `VoxVector/api/README.md`; no application implementation, workflow, schema or deployment configuration changed.
 
-Application tests and browser tests were not rerun for this documentation-only correction. Existing GitHub evidence confirms successful exact-revision QA and Pages publication for source `66a1616`; it does not validate this follow-up documentation branch until its own checks complete. The complete correction set was published in PR #919 at commit `12ec13597e7b7d13554e6b2624b7eceedfcc565b`; follow-up CI/review remains pending. Prompt 1's required source-of-truth matrix, contradictions list and timestamped evidence are complete. Recorded unknowns remain unknown: current-session Render workspace access, undisclosed Actions variables, current-revision speech artifact readback, authenticated/mobile browser coverage and scientific validation.
+Application tests and browser tests were not rerun for this documentation-only correction. Existing GitHub evidence confirms successful exact-revision QA and Pages publication for source `66a1616`; it does not validate this follow-up documentation branch until its own checks complete. The complete correction set was published in PR #919. Its report-link head is `88a51b6990b45b08cf95928c8c3e80ebf75d91d5`. Exact-head VoxVector QA runs `34259687738` and `34259684138` succeeded, and PR Preview Build run `34259687758` succeeded. No GitHub review has been submitted. A separate retired Netlify preview status remains pending and is not treated as canonical GitHub Pages evidence. Prompt 1's required source-of-truth matrix, contradictions list and timestamped evidence are complete. Recorded unknowns remain unknown: current-session Render workspace access, undisclosed Actions variables, current-revision speech artifact readback, authenticated/mobile browser coverage and scientific validation.
 
 ### Task 9: correct contradicted documentation and create the ground-truth matrix, 2026-09-08
 
