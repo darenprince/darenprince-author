@@ -2,7 +2,7 @@
 
 ## Current task status
 
-Prompt: **VV-GROUNDTRUTH (Prompt 1), incomplete**. Source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`.
+Prompt: **VV-GROUNDTRUTH (Prompt 1), incomplete**. Source revision at the original archive checkpoint: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`.
 
 The September 7 user request adds an organized audit archive and detailed AI execution/reporting instructions. This task does not certify the unfinished full documentation review or change current product behavior.
 
@@ -14,8 +14,8 @@ The September 7 user request adds an organized audit archive and detailed AI exe
 | Copy records and create source/hash index | Complete | 76 repository records copied; byte identity passed for all; zero destination collisions |
 | Write detailed AI audit instructions | Complete | AUDIT_INSTRUCTIONS.md |
 | Finish all project and Crown Labs documentation reading | Incomplete | Do not confuse archive copy coverage with semantic review |
-| Correct active documentation and corresponding mirrors | Not started | Requires remaining reading; prior discrepancies recorded in checkpoint |
-| Verify authenticated workflows and unresolved production trigger | Incomplete | Prior evidence limitations remain |
+| Correct active documentation and corresponding mirrors | In progress | Render manual-deployment truth synchronized in #920; broader #910 review remains |
+| Verify authenticated workflows and unresolved production trigger | Incomplete | Render manual deploy-hook production verification remains open in #920 |
 | Finish Prompt 1 and advance to VV-TRUTHMODEL | Not started | Prompt 1 gates remain open |
 
 ## Task log
@@ -91,5 +91,35 @@ Exact updated files (repository-relative):
 - `voxvector/audits/AUDIT_REPORT.md`
 
 Checks: incremental `git diff --check` passed; new local Markdown link targets checked; all 76 archived snapshot hashes still match manifest.json. Application tests/build/browser checks were not run for this documentation-only policy change. This does not refresh historical CI or deployment evidence. The publication parent is `3e66dfdb3bd5a4b342066d0c47897530594d68ae`; the new commit is linked from PR #916 to avoid a self-referential hash in this report.
+
+### Task 7: manual Render deploy-hook control repair and documentation alignment, 2026-09-08
+
+Tracked in [#920](https://github.com/darenprince/darenprince-author/issues/920). The investigation used live Render evidence plus current GitHub `main` rather than conversational state.
+
+Connected Render ground truth at the start of this task:
+
+- exactly one workspace: `My Workspace` (`tea-da2errdg1s2s73cl4eeg`)
+- exactly one VoxVector Render service: `voxvector-api` (`srv-da2f88n40ujc73a8m26g`)
+- source repository: `darenprince/darenprince-author`
+- Render root: `VoxVector`
+- source branch: `main`
+- production auto-deploy: **disabled** (`autoDeploy=no`, automatic trigger off)
+- latest observed live deployment: `dep-dafg5nv40ujc73b5l400`
+- deployed commit: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- GitHub `main` at investigation start: `66a1616d49e228c6ec57d3cfc4855898675fae2c`
+
+GitHub comparison showed `main` five commits ahead of the Render revision, but those five commits affected documentation, audit organization and workflow records rather than runtime implementation. This was a dated observation and does not establish permanent runtime/source parity.
+
+The Developer Console already uses the intended deployment route: `triggerRenderDeploy()` calls authenticated `POST /v1/developer/render/deploy`; the backend reads `RENDER_DEPLOY_HOOK_URL` only server-side. No duplicate deployment mechanism was created and Render auto-deploy was not enabled.
+
+A concrete backend failure mode was found in the canonical route. `_trigger_deploy_hook()` previously attempted `json.loads(raw)` for every non-empty successful hook response. Historical Render diagnostics from 2026-09-05 recorded `JSONDecodeError: Expecting value: line 1 column 1 (char 0)` on `POST /v1/developer/render/deploy`, producing HTTP 500. The repair preserves successful JSON responses while also accepting successful plain-text and empty response bodies without treating them as deployment-completion evidence. Non-JSON response content is discarded rather than projected as trusted deploy state, and the hook URL remains secret.
+
+Regression coverage now explicitly exercises successful JSON, text and empty hook responses. The API route still returns only trigger acceptance. Required production evidence remains `hook accepted → new Render deploy observed → intended commit matched → live → source_revision and /health verified → browser/runtime verification where required`.
+
+Documentation synchronized in this task includes the canonical deployment boundary, endpoint registry, deployment variable matrix, Developer Console synchronization rules, current engineering state, API environment example, corresponding Crown Labs deployment/engineering mirrors, and this audit report. Historical audit snapshots containing the old assumption that Render would auto-deploy were deliberately **not rewritten**; current canonical documentation now records that those historical statements are superseded by the connected September 8 Render inspection.
+
+Unchanged-but-evaluated active records include `VoxVector/docs/PROJECT_DECISION_LOG.md`, `VoxVector/docs/ENGINEERING_PLAN_2026-09-01.md`, `VoxVector/docs/RUNTIME_MEMORY_CONSTRAINTS.md`, and `docs/crownlabsbible/04-product-dossiers/VoxVector/overview.md`. They already state or preserve the manual/explicit Render deployment model and therefore did not require a cosmetic rewrite solely to increase file count. The existing decision log already records that Render auto-deploy remains disabled and the protected hook is the manual backend deployment boundary.
+
+At this report update point, source changes are on branch `fix/voxvector-render-deploy-hook`. Production has **not** been redeployed from this branch, the authenticated Developer Console button has **not** been browser-verified against the repair, and the protected `RENDER_DEPLOY_HOOK_URL` value has not been read back because the available connected Render tooling does not expose secret-value reads. These remain explicit acceptance gates rather than inferred success.
 
 Continue the outstanding documentation review from the recorded checkpoint. Do not repeat already completed service discovery without a specific evidence need. Next planned prompt after completing VV-GROUNDTRUTH is VV-TRUTHMODEL.
