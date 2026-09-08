@@ -52,6 +52,16 @@ Publication completed: [draft PR #916](https://github.com/darenprince/darenprinc
 
 ## Next task
 
+### Task 6: PR checks and continued decision review, 2026-09-08
+
+Reviewed GitHub PR #916 at head `33e3e8e9317a48e24e386823826c4d1ff3d56226`. It is open and mergeable, with no submitted GitHub reviews at observation. Existing CI for that exact head completed successfully: [VoxVector QA run 34175887756](https://github.com/darenprince/darenprince-author/actions/runs/34175887756) and [PR Preview Build run 34175887840](https://github.com/darenprince/darenprince-author/actions/runs/34175887840). This session inspected those run results; it did not execute a local test suite or independently verify the preview in a browser.
+
+Two separate commit statuses failed: `netlify/darenprince/deploy-preview` and `netlify/darenprinceauthor/deploy-preview`. Their underlying build logs and whether these checks are required by branch protection are not established here. Do not describe the combined checks as green or infer a Pages production failure from these Netlify statuses. Follow up through the existing general deployment issue #517 and scoped publishing investigation #911. No hosting configuration was changed, checks bypassed, merge performed or production deployment triggered.
+
+Reverified all 76 archived snapshot hashes. Continued semantic review through the six decision records PROJECT_DECISION_2026-08-27_PATCH_BEHAVIOR_RECOVERY.md, PROJECT_DECISION_2026-08-28_NO_VERCEL.md, PROJECT_DECISION_2026-09-02_NAVIGATION_TYPE_ICONOGRAPHY.md, PROJECT_DECISION_2026-09-02_PUBLIC_SHELL_ALIGNMENT.md, PROJECT_DECISION_2026-09-03_AWS_API_ENDPOINT.md and PROJECT_DECISION_ADDENDUM_2026-08-20_PRODUCT_EXPERIENCE.md. These preserve behavior migration, hosting boundaries, shared presentation and case-centered architecture; they do not establish fresh runtime verification. Remaining full-corpus review continues with PROJECT_DECISION_LOG.md and subsequent unreviewed records. Prompt 1 remains incomplete.
+
+This report-only follow-up creates a new head; successful CI cited above applies to `33e3e8e`, not automatically to the follow-up commit.
+
 ### Task 4: workflow documentation adoption, 2026-09-08
 
 Updated the canonical development flow, charter change control, AI project instructions, engineering plan, system AUTO workflow, production/deployment boundaries, Developer Console synchronization rules and three corresponding Crown Labs mirrors. Recorded the decision in PROJECT_DECISION_LOG.md. The new workflow requires an issue with scope/owner/dependencies/acceptance criteria, linked PRs, task-by-task evidence reporting and verified closure. The engineering plan now distinguishes historical phases from the live issue queue. Dashboard documentation requires source/time/issue links without claiming a live issue integration exists.
