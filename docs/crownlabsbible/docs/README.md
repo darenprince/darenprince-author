@@ -2,13 +2,7 @@
 
 ## Deployment (GitHub Pages)
 
-This docs platform is built as static HTML/CSS/JS and is ready for GitHub Pages hosting.
-
-1. Go to the repository **Settings → Pages**.
-2. Set **Source** to **Deploy from a branch**.
-3. Select the publishing branch (for example `main` or your release branch).
-4. Select the folder that contains `docs/crownlabsbible/docs` (typically `/root`).
-5. Save and verify published URLs.
+The repository publishes this static documentation through `.github/workflows/deploy-pages.yml` after eligible pushes to `main` or manual workflow dispatch. The workflow stages `docs/crownlabsbible/` into the Pages artifact. Do not switch repository Pages settings to branch-based publication; that would compete with the canonical Actions deployment.
 
 ## Core Routes
 
