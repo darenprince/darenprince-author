@@ -98,6 +98,8 @@ Verified the backend provider resolver in `VoxVector/src/voxvector/speech_provid
 
 No application code, dependency, workflow, schema, service configuration, credential or deployment was changed. Static verification passed: `git diff --check`, 13 changed-Markdown relative-link checks, all 76 immutable archive hashes, and a zero-result active Recharts import check. A local frontend build could not run because dependencies are not installed (`vite: not found`), and local backend tests could not run because `pytest` is not installed; exact-head GitHub CI is therefore the required executable verification after publication.
 
+Published correction commit `65eabd64049fea6802e0332941a3a1f764d29344` to PR #919. Its exact-commit [VoxVector QA run 34288991568](https://github.com/darenprince/darenprince-author/actions/runs/34288991568) and [PR Preview Build run 34288991665](https://github.com/darenprince/darenprince-author/actions/runs/34288991665) both completed successfully.
+
 ### Task 6: PR checks and continued decision review, 2026-09-08
 
 Reviewed GitHub PR #916 at head `33e3e8e9317a48e24e386823826c4d1ff3d56226`. It is open and mergeable, with no submitted GitHub reviews at observation. Existing CI for that exact head completed successfully: [VoxVector QA run 34175887756](https://github.com/darenprince/darenprince-author/actions/runs/34175887756) and [PR Preview Build run 34175887840](https://github.com/darenprince/darenprince-author/actions/runs/34175887840). This session inspected those run results; it did not execute a local test suite or independently verify the preview in a browser.
