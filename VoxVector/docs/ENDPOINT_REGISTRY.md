@@ -41,7 +41,7 @@ Supabase is the configured authentication, persistence, diagnostics, and private
 
 The live Render API health response observed on 2026-09-04 reports:
 
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - pipeline `0.2.26`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`

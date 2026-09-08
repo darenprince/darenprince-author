@@ -12,7 +12,9 @@
 
 **Public application:** voxvector/
 
-**Backend target:** voxvector.crownlabs.tech
+**Original API:** voxvector.crownlabs.tech
+
+**Public application:** darenprince.com/voxvector/
 
 ## Executive Summary
 

@@ -10,9 +10,9 @@ VoxVector's canonical product architecture contains 21 stages from file intake t
 
 Current runtime maturity remains:
 
-- 14 stages with implemented runtime foundations.
+- 16 stages with implemented or built runtime foundations.
 - 4 conditional or intentionally not invoked without required inputs.
-- 3 queued for deeper runtime integration.
+- 1 queued for deeper runtime integration.
 - all 21 represented in the canonical backend stage contract.
 
 The live Render runtime now reports configured, execution-ready speech providers. This is an important infrastructure milestone, but it does not promote the queued stages without real provider-backed execution and artifact persistence.
@@ -22,17 +22,17 @@ The live Render runtime now reports configured, execution-ready speech providers
 Observed live Render `/health` state:
 
 - pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - maximum sample rate `48,000 Hz`
 - maximum media size `250 MiB`
 - faster-whisper configured and execution-ready
-- pyannote Community-1 configured and execution-ready
+- pyannoteAI cloud primary configured and execution-ready; local Community-1 fallback disabled
 - Hugging Face token detected by runtime
 - current commit QA field still `external_workflow_required`
-- pyannote Community-1 is a gated Hugging Face repository; configured token detection remains distinct from successful provider-backed diarization
+- local pyannote Community-1 is a gated Hugging Face repository; model visibility remains distinct from fallback configuration or successful provider-backed diarization
 
 ## Current engineering stage
 

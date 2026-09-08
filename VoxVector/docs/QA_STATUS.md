@@ -1,13 +1,12 @@
 # VoxVector QA Status
 
-**State date:** 2026-09-04
+**State date:** 2026-09-08
 
 This document records repository-level software QA. It is not a scientific validation report.
 
 ## Current source and runtime verification state
 
-`main` is the canonical source. The live Render VoxVector API currently reports source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`, pipeline `0.2.26`, runtime self-test `passed`, and configured media-ready storage. It also reports faster-whisper and pyannote Community-1 as execution-ready providers. The runtime health field `current_commit_qa` remains `external_workflow_required`, so exact-commit GitHub Actions QA must be verified before the live runtime is marked QA-current.
-
+`main` is the canonical source. Repository source `66a1616d49e228c6ec57d3cfc4855898675fae2c` was observed on 2026-09-08 with successful `VoxVector QA` run `34187973846` and successful `Deploy GitHub Pages` run `34187973929`. The latest separately observed Render runtime, at 2026-09-07T17:08:07.471887Z, reported deployed source `73ac03ded08c161e092ee2a4ecbbed7d036771c8`, pipeline `0.2.26`, a passing runtime self-test, media-ready storage, faster-whisper readiness, and pyannoteAI cloud-primary readiness. Source QA/publish evidence and backend deployment evidence refer to different boundaries and revisions.
 ## Current implementation coverage
 
 | Area | Current state | Software evidence | Scientific claim |
@@ -29,23 +28,23 @@ This document records repository-level software QA. It is not a scientific valid
 | Developer Console | active implementation | component build/QA | none |
 | Classification/disposition | guarded boundary | tests and explicit gate | no validated inference |
 
-## Live runtime evidence — 2026-09-04
+## Latest observed runtime evidence — 2026-09-07
 
 Observed Render `/health` response:
 
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - pipeline `0.2.26`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - transcription provider `faster_whisper`; adapter installed; execution-ready
-- diarization provider `pyannote`; adapter installed; Hugging Face token detected; execution-ready
-- diarization model `pyannote/speaker-diarization-community-1`
-- current commit QA `external_workflow_required`
+- diarization primary provider `pyannote_api`; API key detected; primary execution-ready
+- local fallback `pyannote_local`; disabled and not execution-ready
+- runtime-reported current commit QA `external_workflow_required`; external GitHub QA must be matched by revision
 
 ## Current engineering gates
 
-1. Verify the exact GitHub Actions QA result for `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
+1. Preserve exact-revision linkage between source, GitHub QA, Pages publication, and backend deployment; do not combine results from different revisions.
 2. Execute a controlled short WAV with faster-whisper and verify timestamped transcript segments and words.
 3. Execute the same fixture with pyannote Community-1 and verify speaker turns.
 4. Persist transcript, diarization and alignment artifacts under case/run identity.

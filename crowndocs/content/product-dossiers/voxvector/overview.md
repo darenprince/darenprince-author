@@ -8,7 +8,9 @@ Type: Full-stack vocal and audio intelligence system
 
 Canonical implementation: `VoxVector/`
 
-Public target: `voxvector.crownlabs.tech`
+Public application: `darenprince.com/voxvector/`
+
+Original API: `voxvector.crownlabs.tech`
 
 ## Executive Summary
 

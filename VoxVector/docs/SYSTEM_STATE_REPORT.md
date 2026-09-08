@@ -1,12 +1,12 @@
 # VoxVector System State Report
 
-**State date:** 2026-09-04  
+**State date:** 2026-09-08
 **Repository:** `darenprince/darenprince-author`  
 **Canonical branch:** `main`  
 **Backend root:** `VoxVector/`  
 **Frontend root:** `voxvector/`  
 **Backend software version:** `0.2.26`  
-**Frontend version:** `0.2.36`
+**Frontend version:** `0.2.37`
 
 ## Executive summary
 
@@ -16,11 +16,11 @@ The repository uses a case-centered architecture with one canonical analysis eng
 
 ## Current verified runtime state — Render
 
-The live Render API health response observed on 2026-09-04 reports:
+The latest Render API health response observed on 2026-09-07 reports:
 
 - service: `voxvector-analysis-api`
 - pipeline: `0.2.26`
-- source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test: `passed`
 - diagnostic/media storage: `configured_media_ready`
 - media storage: `true`
@@ -29,11 +29,10 @@ The live Render API health response observed on 2026-09-04 reports:
 - transcription provider: `faster_whisper`
 - transcription adapter: installed
 - transcription execution-ready: `true`
-- diarization provider: `pyannote`
-- diarization adapter: installed
-- Hugging Face token presence: `true`
-- diarization execution-ready: `true`
-- diarization model: `pyannote/speaker-diarization-community-1`
+- primary diarization provider: `pyannote_api`
+- pyannote API-key presence: `true`
+- primary diarization execution-ready: `true`
+- local fallback: `pyannote_local`, disabled and not execution-ready
 - current commit QA: `external_workflow_required`
 
 Provider readiness is an operational configuration state. It does not establish successful model execution or scientific validation.
@@ -94,9 +93,9 @@ VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
 VOXVECTOR_WHISPER_BEAM_SIZE=3
 
-VOXVECTOR_DIARIZATION_PROVIDER=pyannote
-VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1
-HF_TOKEN=<configured as protected runtime secret>
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
+PYANNOTE_KEY=<configured as protected runtime secret>
+# Optional local fallback requires separate pyannote/HF configuration
 ```
 
 The secret value is not stored in repository source or exposed in the dashboard export path.

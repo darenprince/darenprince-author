@@ -4,18 +4,18 @@ This document distinguishes the product end state from current implementation st
 
 An unimplemented capability remains active product scope.
 
-## Current runtime checkpoint — 2026-09-04
+## Latest observed runtime checkpoint — 2026-09-07
 
 The live Render runtime now reports a healthy configured speech environment:
 
 - backend pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - faster-whisper provider configured and execution-ready
-- pyannote Community-1 provider configured and execution-ready
-- Hugging Face token presence detected by the runtime
+- pyannoteAI cloud primary provider configured and execution-ready
+- local pyannote fallback disabled and not execution-ready
 
 The canonical case-analysis route now contains the transcription invocation path and persists acquired transcript artifacts into the run record. This is a **built integration path**; stages 05, 07, and 08 are not promoted to functional production execution until controlled provider execution and artifact persistence are demonstrated on a real run.
 
@@ -63,11 +63,12 @@ The authenticated case intake workflow supports case creation/list/retrieval, WA
 
 ### Diarization
 
-- provider: `pyannote`
-- adapter: installed
-- execution readiness: `true`
-- model: `pyannote/speaker-diarization-community-1`
-- Hugging Face token presence: `true`
+- primary provider: `pyannote_api`
+- cloud API-key presence: `true`
+- primary execution readiness: `true`
+- local fallback: `pyannote_local`
+- local fallback readiness: `false`
+- successful execution: not established
 
 ## Developer Console status
 
@@ -87,9 +88,10 @@ The console must display execution readiness independently from provider executi
 | Case-bound analysis API | implemented |
 | Speech adapters | installed |
 | Transcription provider | configured / execution-ready |
-| Diarization provider | configured / execution-ready |
-| Hugging Face runtime credential | detected by `/health` |
-| Transcription invocation path | built in canonical case analysis |\n| Provider execution | controlled verification next |
+| Diarization primary provider | cloud configured / execution-ready |
+| Local diarization fallback | disabled / not ready |
+| Transcription invocation path | built in canonical case analysis |
+| Provider execution | controlled verification next |
 | Transcript/speaker alignment | foundation; provider-backed verification next |
 | Current-commit QA | exact revision verification required |
 

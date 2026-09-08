@@ -6,8 +6,8 @@ This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGI
 
 - Backend pipeline: `0.2.26`
 - Frontend package: `0.2.37`
-- Latest confirmed live Render deployment revision: `145e3c64507f75a32e83a25a5e854ac15bae57e6`
-- Latest observed Render deployment state for that revision on 2026-09-05: `live`
+- Latest confirmed live Render deployment revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- Latest observed Render deployment state for that revision on 2026-09-07: `live`
 - Runtime self-test, media-storage readiness, and provider readiness are read from the live API health contract rather than inferred from Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB

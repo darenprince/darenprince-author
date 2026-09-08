@@ -100,15 +100,15 @@ The `Sheet` supports three intentional dismissal paths: selecting navigation, ta
 
 ### Desktop console
 
-The Developer Console retains a persistent desktop sidebar. Mobile navigation uses the same compact sheet interaction model rather than maintaining a second competing navigation architecture.
+The canonical Developer Console no longer uses a persistent desktop sidebar. Shared navigation uses the compact top-navigation and Sheet interaction model, including explicit close behavior on mobile.
 
 ## Component system
 
-The frontend uses a product owned shadcn style component system with Base UI headless primitives, Tremor React analytical components, Tailwind CSS and Motion for React.
+The frontend uses a product owned shadcn style component system with Base UI headless primitives, Recharts 3 and application-owned SVG for analytical graphics, Tailwind CSS, and Motion for React.
 
 Shared application owned primitives include Button, Badge, Card, Sheet and ThemeToggle. Components are intentionally small and composable so the product controls its own visual language.
 
-Tremor is used for analytical chart and data blocks where appropriate. Application-owned layout and typography remain the controlling visual layer.
+Recharts 3 and application-owned SVG are used for analytical chart and data blocks where appropriate. Application-owned layout and typography remain the controlling visual layer.
 
 ## Iconography
 
@@ -148,7 +148,7 @@ Landing page visualizations are interface illustrations, not production telemetr
 
 The primary signal illustration uses a dense bar-based speech waveform with irregular amplitude envelopes, phrase structure, explicit silence gaps and multi-frequency variation. It is designed to read like an audio signal rather than a generic graph or decorative line.
 
-Tremor `AreaChart` components are used for secondary analytical relationships where a chart is appropriate. They are explicitly labeled as illustrative and must never be presented as real subject measurements.
+Recharts area-chart components or application-owned SVG are used for secondary analytical relationships where a chart is appropriate. They are explicitly labeled as illustrative and must never be presented as real subject measurements.
 
 Do not display fabricated deception scores, confidence percentages, live processing percentages, request counts or scientific performance numbers on the public landing page.
 

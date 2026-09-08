@@ -10,15 +10,15 @@ This document defines the dependency ordered engineering sequence and is updated
 
 The connected Render runtime has now demonstrated:
 
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - backend pipeline `0.2.26`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - faster-whisper provider configured and execution-ready
-- pyannote Community-1 provider configured and execution-ready
+- pyannoteAI cloud primary configured and execution-ready; local Community-1 fallback disabled
 - Hugging Face token presence detected by the runtime
-- 21-stage pipeline contract remains 14 implemented foundations, 4 conditional/not-invoked, and 3 queued
+- 21-stage pipeline contract remains 16 implemented or built foundations, 4 conditional/not-invoked, and 1 queued
 
 Provider readiness is an infrastructure/runtime state. It does not by itself promote stages 05 or 07 to integrated production execution or establish scientific validity.
 
@@ -165,7 +165,7 @@ Every downstream surface must consume a real upstream contract.
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The live runtime currently reports 14 implemented foundations, 4 conditional/not-invoked stages, and 3 queued stages. Runtime provider readiness does not alter the pipeline maturity count until the corresponding real execution and integration contracts are verified.
+The live runtime currently reports 16 implemented or built foundations, 4 conditional/not-invoked stages, and 1 queued stage. Runtime provider readiness does not alter the pipeline maturity count until the corresponding real execution and integration contracts are verified.
 
 ## Analysis Workspace target
 

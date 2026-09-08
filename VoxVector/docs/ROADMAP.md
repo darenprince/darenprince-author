@@ -249,7 +249,7 @@ The remaining console work connects these surfaces to fresh provider execution e
 
 ## Active engineering sequence — 2026-09-04
 
-1. Exact-commit QA for source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`.
+1. Preserve exact-revision QA and publication evidence as source and deployments advance.
 2. Controlled faster-whisper execution on a known WAV fixture.
 3. Controlled pyannote Community-1 execution on the same fixture.
 4. Persist transcript and speaker artifacts under case/run identity.

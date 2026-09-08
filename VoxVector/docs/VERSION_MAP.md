@@ -1,11 +1,11 @@
 # VoxVector Version Map
 
-**State date:** 2026-09-04
+**State date:** 2026-09-08
 
 | Area | Version / reference | Status |
 |---|---:|---|
 | Backend runtime | 0.2.26 | active |
-| Public React application | 0.2.36 | active |
+| Public React application | 0.2.37 | active; package authority verified 2026-09-08 |
 | Result schema | 0.3 | active engine and composed case envelope |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -41,11 +41,11 @@
 | Learned speech representations | not assigned | planned |
 | D Series validated inference | not assigned | not active |
 
-## Current runtime evidence — 2026-09-04
+## Latest observed runtime evidence — 2026-09-07
 
 Live Render `/health` reports:
 
-- source revision: `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - pipeline: `0.2.26`
 - runtime self-test: `passed`
 - diagnostic storage: `configured_media_ready`
@@ -53,11 +53,12 @@ Live Render `/health` reports:
 - transcription provider: `faster_whisper`
 - transcription adapter: installed
 - transcription execution readiness: `true`
-- diarization provider: `pyannote`
-- diarization adapter: installed
-- Hugging Face token presence: `true`
-- diarization execution readiness: `true`
-- diarization model: `pyannote/speaker-diarization-community-1`
+- diarization primary provider: `pyannote_api`
+- cloud API-key presence: `true`
+- primary execution readiness: `true`
+- local fallback provider: `pyannote_local`
+- local fallback execution readiness: `false`
+- successful provider execution: not established by health readiness
 
 The health response reports `current_commit_qa: external_workflow_required`; that value remains separate from runtime health until exact-commit GitHub Actions verification is observed.
 
@@ -77,9 +78,9 @@ The product pipeline additionally defines speaker processing, transcription, ali
 
 ## Speech intelligence runtime
 
-The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. Current live Render configuration makes both provider adapters execution-ready. Heavy model execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
+The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. The latest observed Render health contract makes faster-whisper and the pyannoteAI cloud primary path execution-ready; the local pyannote fallback was disabled and not ready. Heavy model execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
 
-Supported current providers are faster-whisper for transcription and pyannote Community-1 for speaker diarization.
+Supported providers are faster-whisper for transcription, pyannoteAI cloud for primary diarization, and local pyannote Community-1 as an explicit fallback when separately configured.
 
 ## Frontend authority
 

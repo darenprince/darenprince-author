@@ -10,8 +10,8 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Canonical frontend root: `voxvector/`
 - Backend pipeline version: `0.2.26`
 - Frontend version: `0.2.37`
-- Latest confirmed live Render deployment source revision: `145e3c64507f75a32e83a25a5e854ac15bae57e6`
-- Latest Render deploy state observed for that revision on 2026-09-05: `live`
+- Latest confirmed live Render deployment source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- Latest Render deploy state observed for that revision on 2026-09-07: `live`
 - Runtime self-test must be read from the live `/health` response; a Render `live` deployment is not substituted for that runtime field
 - Maximum sample rate: `48,000 Hz`
 - Maximum media size: `262,144,000 bytes`

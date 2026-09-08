@@ -36,7 +36,7 @@ This document is an engineering status record, not a claim that every pipeline s
 - **4 stages are conditional or intentionally not invoked without required inputs**
 - **speaker execution remains queued for deeper integration; transcription/alignment now have built integration paths pending controlled runtime verification**
 - **faster-whisper is configured and execution-ready on the live Render runtime**
-- **pyannote Community-1 is configured and execution-ready on the live Render runtime**
+- **pyannoteAI cloud is the configured execution-ready primary on the latest observed Render runtime; local Community-1 fallback is disabled**
 - **21 stages remain represented in the canonical contract**
 
 The maturity count does not mean sixteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
@@ -46,15 +46,15 @@ The maturity count does not mean sixteen validated deception indicators. Individ
 Observed live Render `/health` state:
 
 - pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - maximum sample rate `48,000 Hz`
 - maximum media size `262,144,000 bytes`
 - transcription provider `faster_whisper`; adapter installed; execution-ready
-- diarization provider `pyannote`; adapter installed; Hugging Face token detected; execution-ready
-- diarization model `pyannote/speaker-diarization-community-1`
+- primary diarization provider `pyannote_api`; API key detected; execution-ready
+- local fallback `pyannote_local`; disabled and not execution-ready
 - current commit QA field `external_workflow_required`
 - Hugging Face model repository `pyannote/speaker-diarization-community-1` is gated; configured token detection does not by itself prove provider download/access or successful diarization execution
 
@@ -79,7 +79,7 @@ The canonical acquisition layer provides a normalized media profile, speech/sile
 Supported providers:
 
 - transcription: faster-whisper
-- speaker diarization: pyannote Community-1
+- speaker diarization: pyannoteAI cloud primary, with local Community-1 as an explicitly configured fallback
 - alignment: VoxVector-owned timestamp overlap layer
 
 ## Stage telemetry foundation

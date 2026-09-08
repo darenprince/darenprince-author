@@ -103,7 +103,7 @@ Render is configured from the repository root with:
 
 ```text
 Root Directory: VoxVector
-Build Command: pip install -r api/requirements.txt
+Build Command: pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt
 Start Command: uvicorn api.app:app --host 0.0.0.0 --port $PORT
 Health Check: /health
 ```
