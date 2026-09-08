@@ -84,7 +84,7 @@ Supported providers are faster-whisper for transcription, pyannoteAI cloud for p
 
 ## Frontend authority
 
-Current frontend package authority is `voxvector/package.json`. The active stack is React 19.2.8, React DOM 19.2.8, Recharts 3.10.1, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, and application-owned shadcn-style composition.
+Current frontend package authority is `voxvector/package.json`. The active stack is React 19.2.8, React DOM 19.2.8, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, application-owned shadcn-style composition, and application-owned SVG analytical charts. Recharts 3.10.1 remains declared in the package manifest but is not imported by current frontend source.
 
 Historical React 18 / Tremor documentation is retained only as historical context.
 
@@ -118,4 +118,3 @@ Current canonical status records include:
 - `docs/ROADMAP.md`
 - `docs/CAPABILITY_STATUS.md`
 - `docs/QA_STATUS.md`
-

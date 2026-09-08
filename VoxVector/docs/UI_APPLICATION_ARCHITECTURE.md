@@ -12,7 +12,7 @@ The React application under `voxvector/` is the canonical public frontend. It is
 |---|---|---|
 | Application | React 19.2.8 | Product shell and route composition |
 | UI | application-owned shadcn-style composition with Base UI primitives | Accessible interaction primitives |
-| Analytical UI | Recharts 3.10.1 plus application-owned analytical components | Real and illustrative analytical visualizations |
+| Analytical UI | Application-owned SVG components, including `NativeAreaChart` | Real and illustrative analytical visualizations; Recharts 3.10.1 remains installed but is not imported by current source |
 | Styling | Tailwind CSS | Responsive layout typography tokens and theming |
 | Icons | Lucide React | Product and interface iconography |
 | Animation | Motion for React | State-driven transitions and interaction animation |

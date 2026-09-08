@@ -48,7 +48,7 @@ The documentation correction pass fixes active claims that were directly contrad
 - backend authentication guidance now acknowledges implemented Supabase token validation and protected developer routes;
 - stage totals aligned to 16 implemented/built, 4 conditional/not invoked, and 1 queued;
 - local pyannote Community-1 language separated from the cloud-primary `pyannote_api` runtime path;
-- persistent-sidebar and Tremor guidance aligned to the current navigation and Recharts/SVG stack;
+- persistent-sidebar and Tremor guidance aligned to the current navigation and application-owned SVG chart stack; Recharts remains an unused manifest dependency;
 - public application URLs separated from the original API hostname;
 - Crown Labs static documentation publishing aligned to the canonical GitHub Actions Pages workflow;
 - historical Render-access limitations scoped to their original sessions.

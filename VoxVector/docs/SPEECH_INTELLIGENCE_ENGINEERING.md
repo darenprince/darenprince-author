@@ -81,7 +81,7 @@ Supported transcription configuration:
 
 Optional tuning variables include language and beam size.
 
-Supported diarization configuration:
+Historical local-primary configuration (superseded by the cloud-primary policy in `SPEECH_RUNTIME_DEPLOYMENT.md`):
 
 `VOXVECTOR_DIARIZATION_PROVIDER=pyannote`
 

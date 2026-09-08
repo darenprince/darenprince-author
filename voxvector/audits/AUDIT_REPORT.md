@@ -90,6 +90,14 @@ Publication completed: [draft PR #916](https://github.com/darenprince/darenprinc
 
 ## Next task
 
+### Task 12: Codex review response and architecture correction, 2026-09-08
+
+Inspected the Codex review on PR #919 and verified both findings against the implementation. The active frontend chart is the application-owned SVG `NativeAreaChart` in `voxvector/src/App.jsx`; repository-wide frontend-source search finds no Recharts import, although Recharts 3.10.1 remains declared in `voxvector/package.json`. Corrected active design, UI architecture, workflow, migration, version-map, system-architecture, Crown Labs dossier and ground-truth audit language so the unused manifest dependency is not presented as an active runtime.
+
+Verified the backend provider resolver in `VoxVector/src/voxvector/speech_providers.py` and route gate in `VoxVector/api/app.py`. Corrected current configuration guidance to the cloud-primary `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` contract with `PYANNOTE_KEY`/`PYANNOTE_API_KEY`, separated the `VOXVECTOR_ENABLE_DIARIZATION_RUNS` execution gate, and documented the explicit optional local fallback variables `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`. Older Community-1 sections retained for technical history are now labeled as superseded local-primary guidance.
+
+No application code, dependency, workflow, schema, service configuration, credential or deployment was changed. Static verification passed: `git diff --check`, 13 changed-Markdown relative-link checks, all 76 immutable archive hashes, and a zero-result active Recharts import check. A local frontend build could not run because dependencies are not installed (`vite: not found`), and local backend tests could not run because `pytest` is not installed; exact-head GitHub CI is therefore the required executable verification after publication.
+
 ### Task 6: PR checks and continued decision review, 2026-09-08
 
 Reviewed GitHub PR #916 at head `33e3e8e9317a48e24e386823826c4d1ff3d56226`. It is open and mergeable, with no submitted GitHub reviews at observation. Existing CI for that exact head completed successfully: [VoxVector QA run 34175887756](https://github.com/darenprince/darenprince-author/actions/runs/34175887756) and [PR Preview Build run 34175887840](https://github.com/darenprince/darenprince-author/actions/runs/34175887840). This session inspected those run results; it did not execute a local test suite or independently verify the preview in a browser.

@@ -44,13 +44,13 @@ Transcription:
 
 The constrained `base` / CPU / int8 / beam 3 profile is now the default in the canonical adapter. The model and beam remain explicitly configurable for larger deployments.
 
-Diarization:
+Superseded local-primary reference (retained only to explain the memory-constrained Community-1 adapter; do not use as the current Render primary):
 
 `VOXVECTOR_DIARIZATION_PROVIDER=pyannote`
 
 `VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1`
 
-Credential:
+Local-adapter credential:
 
 `HF_TOKEN` must contain the Hugging Face access token accepted for the gated Community-1 model. The secret is configured in Render and is never stored in GitHub documentation.
 
@@ -72,9 +72,9 @@ The evidence-acquisition speech detector uses bounded frame groups rather than m
 
 The runtime emits `VOXVECTOR_MEMORY` lines around heavyweight provider phases containing current Linux process RSS when available, phase duration, and the configured memory reference. This provides direct application evidence to correlate with Render infrastructure telemetry.
 
-## Current verification state
+## Verification state recorded for the local-primary phase
 
-The source wiring is implemented in the current engineering branch. The live runtime is configured and execution-ready. Controlled provider execution and measured resource verification remain required before provider-backed pipeline stages are promoted beyond their current documented maturity.
+The source wiring described above was implemented during the local-primary phase. The current provider policy below supersedes that selection with the cloud adapter as primary. Controlled provider execution and measured resource verification remain required before provider-backed pipeline stages are promoted beyond their current documented maturity.
 
 ## Health verification
 

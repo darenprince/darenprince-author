@@ -106,7 +106,7 @@ Console-specific analysis controls remain in their canonical console/workspace o
 
 The Developer Console and Analysis Workspace are behavior-preservation surfaces. Architectural cleanup must not rebuild them to make a migration easier.
 
-Preserve real functionality including audio controls, waveform/spectrogram behavior, gain controls, analysis state, API handling, authentication, case workflow, Recharts 3 charts, and developer tooling unless a change explicitly targets them.
+Preserve real functionality including audio controls, waveform/spectrogram behavior, gain controls, analysis state, API handling, authentication, case workflow, application-owned SVG charts, and developer tooling unless a change explicitly targets them.
 
 ### Analysis architecture
 
