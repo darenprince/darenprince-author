@@ -13,6 +13,14 @@ class CaseNotFound(StorageError):
     """Raised when a case or source is not available to the authenticated owner."""
 
 
+class CaseDeletionError(StorageError):
+    """Raised when secure case deletion cannot complete every required boundary."""
+
+    def __init__(self, message: str, *, receipt: dict):
+        super().__init__(message)
+        self.receipt = receipt
+
+
 class CaseStore:
     """Case-centric persistence built on the existing private Supabase Storage backend."""
 
@@ -47,6 +55,17 @@ class CaseStore:
     @staticmethod
     def _source_path(user_id: str, case_id: str, source_id: str) -> str:
         return f"media/{user_id}/{case_id}/{source_id}.wav"
+
+    @staticmethod
+    def _deletion_receipt_path(deletion_id: str, requested_at: str) -> str:
+        date = requested_at[:10].replace("-", "/")
+        return f"case-deletions/{date}/{deletion_id}.json"
+
+    def _persist_deletion_receipt(self, receipt: dict) -> None:
+        self.storage.put_json(
+            self._deletion_receipt_path(str(receipt["deletion_id"]), str(receipt["requested_at"])),
+            receipt,
+        )
 
     @classmethod
     def _elapsed_ms(cls, started_at: object, completed_at: object | None = None) -> float | None:
@@ -460,16 +479,115 @@ class CaseStore:
 
     def delete_case(self, user_id: str, case_id: str) -> dict:
         case = self._read_case(user_id, case_id)
-        media_paths = []
-        for source in case.get("sources", []):
+        requested_at = self._now()
+        deletion_id = str(uuid4())
+        sources = [source for source in case.get("sources", []) if isinstance(source, dict)]
+        media_paths: list[str] = []
+        source_refs: list[dict] = []
+        for source in sources:
             path = str(source.get("media_path") or "").strip()
             if path and path not in media_paths:
                 media_paths.append(path)
+            source_refs.append(
+                {
+                    "source_id": source.get("source_id"),
+                    "sha256": source.get("sha256"),
+                }
+            )
+
+        receipt = {
+            "schema": "voxvector.case_deletion_receipt.v1",
+            "deletion_id": deletion_id,
+            "case_id": case_id,
+            "actor_id": user_id,
+            "status": "requested",
+            "requested_at": requested_at,
+            "completed_at": None,
+            "source_revision": self._runtime_source_revision(),
+            "source_count": len(sources),
+            "media_object_count": len(media_paths),
+            "media_deleted": 0,
+            "case_record_deleted": False,
+            "failed_boundary": None,
+            "error_type": None,
+            "source_refs": source_refs,
+        }
+        try:
+            self._persist_deletion_receipt(receipt)
+        except StorageError as exc:
+            raise CaseDeletionError(
+                "Deletion audit receipt could not be initialized; no case data was deleted",
+                receipt={**receipt, "status": "audit_initialization_failed", "failed_boundary": "audit_receipt"},
+            ) from exc
 
         for path in media_paths:
-            self.storage.delete_bytes(path)
-        self.storage.delete_json(self._case_path(user_id, case_id))
+            try:
+                self.storage.delete_bytes(path)
+                receipt["media_deleted"] += 1
+            except StorageError as exc:
+                receipt.update(
+                    {
+                        "status": "failed",
+                        "failed_boundary": "media_object",
+                        "error_type": type(exc).__name__,
+                        "completed_at": self._now(),
+                    }
+                )
+                try:
+                    self._persist_deletion_receipt(receipt)
+                except StorageError:
+                    pass
+                raise CaseDeletionError(
+                    "Secure case deletion stopped because a persisted media object could not be deleted",
+                    receipt=receipt,
+                ) from exc
+
+        try:
+            self.storage.delete_json(self._case_path(user_id, case_id))
+            receipt["case_record_deleted"] = True
+        except StorageError as exc:
+            receipt.update(
+                {
+                    "status": "failed",
+                    "failed_boundary": "case_record",
+                    "error_type": type(exc).__name__,
+                    "completed_at": self._now(),
+                }
+            )
+            try:
+                self._persist_deletion_receipt(receipt)
+            except StorageError:
+                pass
+            raise CaseDeletionError(
+                "Secure case deletion removed source media but could not remove the case record",
+                receipt=receipt,
+            ) from exc
+
+        receipt.update(
+            {
+                "status": "completed",
+                "completed_at": self._now(),
+                "failed_boundary": None,
+                "error_type": None,
+            }
+        )
+        try:
+            self._persist_deletion_receipt(receipt)
+        except StorageError as exc:
+            receipt.update(
+                {
+                    "status": "deleted_audit_finalize_failed",
+                    "failed_boundary": "audit_receipt_finalize",
+                    "error_type": type(exc).__name__,
+                }
+            )
+            raise CaseDeletionError(
+                "Case data was deleted but the final deletion audit receipt could not be persisted",
+                receipt=receipt,
+            ) from exc
+
         return {
             "case_id": case_id,
             "deleted_sources": len(media_paths),
+            "deletion_receipt": receipt,
         }
