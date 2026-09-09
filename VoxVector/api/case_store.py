@@ -477,7 +477,7 @@ class CaseStore:
         self.storage.put_json(self._case_path(user_id, case_id), case)
         return case
 
-    def delete_case(self, user_id: str, case_id: str) -> dict:
+    def delete_case(self, user_id: str, case_id: str, *, include_receipt: bool = False) -> dict:
         case = self._read_case(user_id, case_id)
         requested_at = self._now()
         deletion_id = str(uuid4())
@@ -586,8 +586,7 @@ class CaseStore:
                 receipt=receipt,
             ) from exc
 
-        return {
-            "case_id": case_id,
-            "deleted_sources": len(media_paths),
-            "deletion_receipt": receipt,
-        }
+        result = {"case_id": case_id, "deleted_sources": len(media_paths)}
+        if include_receipt:
+            result["deletion_receipt"] = receipt
+        return result
