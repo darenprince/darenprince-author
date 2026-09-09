@@ -2,23 +2,49 @@
 
 ## Current task status
 
-Prompt: **VV-GROUNDTRUTH (Prompt 1), complete with explicit unresolved evidence gaps**. Resumed source revision: `66a1616d49e228c6ec57d3cfc4855898675fae2c` (merged PR #916). The preceding runtime observations remain pinned to `73ac03ded08c161e092ee2a4ecbbed7d036771c8` and their original timestamps; they are not automatically refreshed by the documentation merge.
+Prompt: **VV-MVP-SPRINT-GATE-ALIGNMENT**. Source base: `fbe317660e7b9238cd46ffff3a8101291bc85580`. Tracking issue: [#933](https://github.com/darenprince/darenprince-author/issues/933). Branch: `docs/voxvector-mvp-sprint-gate-alignment`.
 
-The September 7 user request adds an organized audit archive and detailed AI execution/reporting instructions. This task does not certify the unfinished full documentation review or change current product behavior.
+This task is documentation and execution-governance alignment only. It establishes a single engineering-MVP release gate, refreshes current source/deployment evidence, maps the remaining MVP proof to the GitHub queue, and freezes duplicate planning-document expansion during the sprint. It does not fix #930, execute transcription/diarization, perform a new deployment, verify the browser, or scientifically validate VoxVector.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read supplied development plan through its end | Complete in preceding audit | Full evidence checkpoint below |
-| Inspect source, CI, deployment and connected runtime evidence | Complete for previously bounded checks | Observations retain their original timestamps |
-| Locate existing audit owners and archive categories | Complete | Root audit directory, backend docs, frontend docs/data and Bible dossier inventoried |
-| Copy records and create source/hash index | Complete | 76 repository records copied; byte identity passed for all; zero destination collisions |
-| Write detailed AI audit instructions | Complete | AUDIT_INSTRUCTIONS.md |
-| Finish inventoried project and Crown Labs documentation reading | Complete | 267 unique-text records / 328 inventoried paths; scope and recovery recorded in Task 8 |
-| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and 13–15 |
-| Verify workflows and production trigger | In review with explicit production gate | Manual Render deployment remains separate; startup/version UI task #927 requires exact-head QA and browser verification |
-| Finish Prompt 1 and advance to VV-TRUTHMODEL | Complete / next not started | Prompt 1 matrix complete; VV-TRUTHMODEL is next |
+| Read canonical charter/workflow/guardrails and active MVP/status records | Complete | Current `main` inspected at `fbe317660e7b9238cd46ffff3a8101291bc85580` |
+| Verify current source/CI/deployment boundaries | Complete for bounded evidence | QA `34305133803` success; Pages `34305133777` success; Render `dep-dagcvau7bikc73aki9b0` observed `live` for `fbe317...`; no fresh `/health` readback claimed |
+| Establish one canonical engineering-MVP exit gate | Complete in branch | `VoxVector/docs/MVP_RELEASE_GATE.md` |
+| Align MVP build plan and QA/current-state records | Complete in branch | Current intake blocker, provider-execution sequence, exact-revision proof and two-run repeatability aligned |
+| Record MVP planning-document freeze | Complete in branch | `PROJECT_DECISION_LOG.md` |
+| Map release gates to GitHub execution owners | Complete in branch | #930/#928/#920/#931/#932/#927/#910/#914 plus #915 identifiers `VV-TRANSCRIBE`, `VV-DIARIZE`, `VV-ALIGN`, `VV-DEPLOYVERIFY`, `VV-LAUNCHGATE` |
+| Exact-head PR QA | Pending after final documentation head | Required before merge recommendation |
+| Production/browser/provider/scientific verification | Not performed by this task | Explicitly remains downstream release-gate evidence |
 
 ## Task log
+
+### Task 16: engineering MVP sprint gate alignment, 2026-09-09
+
+Tracked in [#933](https://github.com/darenprince/darenprince-author/issues/933). Work started from exact `main` revision `fbe317660e7b9238cd46ffff3a8101291bc85580` on branch `docs/voxvector-mvp-sprint-gate-alignment`.
+
+Canonical source/runtime evidence was refreshed before editing. Exact-main `VoxVector QA` run `34305133803` and `Deploy GitHub Pages` run `34305133777` were observed successful. Connected Render inspection found the single `voxvector-api` service with auto-deploy disabled and deployment `dep-dagcvau7bikc73aki9b0` observed `live` for source `fbe317660e7b9238cd46ffff3a8101291bc85580`, finished `2026-09-09T03:22:43.934801Z`. No fresh `/health` response for that deployment was observed in this task, so the Render deployment record is not represented as runtime self-test, provider readiness/execution, media readiness, or browser verification.
+
+Created `VoxVector/docs/MVP_RELEASE_GATE.md` as the single engineering-MVP exit checklist. The gate requires one controlled real-audio fixture to traverse authenticated case creation/upload, private persistence/playback, actual faster-whisper and pyannoteAI cloud-primary execution, persisted transcript/speaker/alignment artifacts, eligibility/evidence/synthesis/assessment/report, history/reopen, and authenticated desktop/mobile verification. Engineering-MVP sign-off requires two complete successful golden-case executions on the same exact deployed revision; a source change resets the repeatability proof.
+
+The gate explicitly keeps repository QA, frontend publication, backend deployment, runtime `/health`, provider execution, browser verification, engineering-MVP completion, and scientific validation separate. Configuration/readiness is not called provider execution. A build is not called deployed. A Render `live` record is not called browser verified. Engineering MVP is not called scientific validation.
+
+`MVP_BUILD_PLAN.md`, `QA_STATUS.md`, and `CURRENT_ENGINEERING_STATE_2026-09-04.md` were aligned to the same release sequence. #930 is now explicit as the immediate intake reliability blocker. Controlled speech work remains mapped to #915 backlog identifiers `VV-TRANSCRIBE`, `VV-DIARIZE`, and `VV-ALIGN` until promoted. Deployed/browser release proof maps to `VV-DEPLOYVERIFY`; final engineering-MVP sign-off maps to `VV-LAUNCHGATE`. Existing issues remain owners for upload reliability/UX, manual Render deployment verification, user/developer gating, public navigation, startup/browser verification, publication evidence, and operational truth normalization.
+
+`PROJECT_DECISION_LOG.md` now records the MVP documentation freeze: use the existing canonical plan/status/QA/validation/architecture owners; do not create new `v2`, `new`, `final`, duplicate roadmaps or restated release plans during the sprint unless a real active release gate requires a new canonical record or an old owner is explicitly retired. Execution details belong in issues/PRs and completed evidence in this audit report.
+
+**Changed files at this audit checkpoint:**
+
+- `VoxVector/docs/MVP_RELEASE_GATE.md` — new canonical engineering-MVP exit gate
+- `VoxVector/docs/MVP_BUILD_PLAN.md` — current dependency/repeatability alignment
+- `VoxVector/docs/QA_STATUS.md` — current exact-source/CI/Render boundary and release sequence
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md` — current source/deployment checkpoint and MVP blocker/gate alignment
+- `VoxVector/docs/PROJECT_DECISION_LOG.md` — MVP release-gate/planning-freeze decision
+- `voxvector/audits/AUDIT_REPORT.md` — this evidence record
+
+No application source, provider configuration, workflow YAML, deployment configuration, schema, secret, raw audio, transcript, or model artifact changed in this task. No Crown Labs Bible mirror was changed because the new release gate is an internal engineering exit checklist and does not alter the mirrored product architecture, capability definition, monetization, or public/executive product claims.
+
+Pre-audit documentation head was `94dbb5af0d09c6a664531b0d42003045d58f8662`. This report update advances the branch again. Exact-head GitHub QA and PR Preview Build must be observed for the final branch head before recommending merge; earlier `main` QA is evidence for the source checkpoint, not QA for this branch. Production upload reliability, fresh deployed `/health`, authenticated browser verification, controlled speech-provider execution, golden-case repeatability, and scientific validation remain unresolved downstream evidence.
 
 ### Task 15: API startup progression, release-version alignment, and passive icon treatment, 2026-09-09
 
