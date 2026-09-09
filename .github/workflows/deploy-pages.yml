@@ -128,8 +128,11 @@ jobs:
           mkdir -p _site/VoxVector/docs
           rsync -a ./VoxVector/docs/ _site/VoxVector/docs/
           mkdir -p _site/voxvector/developer
+          mkdir -p _site/voxvector/login
           cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
+          cp ./voxvector/dist/index.html ./_site/voxvector/login/index.html
           cp ./voxvector/dist/index.html ./_site/voxvector/404.html
+          test -f ./_site/voxvector/login/index.html
 
       - name: Report staged Pages artifact
         run: |
