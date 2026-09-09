@@ -12,7 +12,7 @@ This document is an engineering status record, not a claim that every pipeline s
 | 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization; persisted run boundary | covered by API/runtime tests; production executed |
 | 03 | Provenance and Integrity | **implemented** | SHA-256 source verification; persisted run boundary | covered by case-store tests; production executed |
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised by pipeline |
-| 05 | Speaker Identification / Diarization | **queued** | pyannote adapter configured and execution-ready on live Render runtime; real controlled execution next | contract tests; provider-backed execution required |
+| 05 | Speaker Identification / Diarization | **queued** | pyannoteAI cloud primary configured and execution-ready; case invocation remains gated by `VOXVECTOR_ENABLE_DIARIZATION_RUNS`; local Community-1 fallback disabled at latest observed runtime | contract/provider tests; controlled cloud execution and persisted artifact required |
 | 06 | Speech Segmentation | **implemented foundation** | deterministic energy/voicing segmentation | deterministic tests; production executed |
 | 07 | Transcription Generation | **built integration path** | canonical case analysis invokes faster-whisper when runtime-ready and persists normalized transcript artifacts; controlled execution verification next | contract tests; controlled provider-backed execution required |
 | 08 | Transcript Alignment | **built synchronized foundation** | persisted transcript words/segments drive shared waveform and audio playhead; speaker attribution awaits diarization artifact | regression tests; controlled provider-backed verification required |
@@ -60,17 +60,21 @@ Observed live Render `/health` state:
 
 The `current_commit_qa` value is not treated as a current green QA claim until the exact source revision has a verified GitHub Actions result.
 
+`/health` provider readiness is not route execution. The authenticated case-analysis path requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it constructs and invokes the configured diarization provider.
+
 ## Speech execution sequence
 
 1. Run a short controlled WAV through faster-whisper.
 2. Capture timestamped transcript segments and word timestamps.
-3. Run the same fixture through pyannote Community-1.
-4. Capture speaker turns and speaker labels.
-5. Persist both artifacts under case/run identity.
-6. Produce and persist the multimodal alignment artifact.
-7. Capture provider timing and memory telemetry.
-8. Repeat sequential provider execution to inspect retained memory behavior.
-9. Promote stage status only from actual provider-backed execution evidence.
+3. Confirm the target runtime selects `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and has `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` without exposing the protected API key.
+4. Run the same fixture through the configured pyannoteAI cloud primary.
+5. Capture speaker turns, provider provenance, and persisted diarization artifacts.
+6. If fallback behavior itself must be tested, separately enable `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`; Community-1 fallback testing does not replace primary cloud verification.
+7. Persist transcript, speaker, and alignment artifacts under case/run identity.
+8. Produce and persist the multimodal alignment artifact.
+9. Capture provider timing and applicable runtime/resource telemetry.
+10. Repeat sequential provider execution to inspect retained resource behavior.
+11. Promote stage status only from actual provider-backed execution evidence.
 
 ## Evidence acquisition pipeline
 
@@ -118,16 +122,16 @@ A completed analysis run does not prove any individual vocal feature proves dece
 
 1. Exact-commit GitHub QA for the current deployed revision.
 2. Controlled faster-whisper execution and persisted transcript artifact readback.
-3. Controlled pyannote Community-1 execution.
-4. Persist transcript, speaker, and alignment artifacts; the canonical run contract and synchronized frontend projection are built.
-5. Feed transcript into linguistic/disfluency analysis.
-6. Add speaker-aware acoustic aggregation and independent baseline inputs.
-7. Add question/context boundaries and interaction timing.
-8. Instrument real internal method boundaries where callbacks exist.
-9. Complete Review Evidence, report, and case history/reopen surfaces.
-10. Complete authenticated browser/mobile verification.
-11. Advance the separate scientific validation program.
-
+3. Controlled pyannoteAI cloud-primary execution with the case-route gate enabled; persist and read back the diarization artifact and provider provenance.
+4. Optional explicit local Community-1 fallback exercise only after primary-path verification when fallback behavior itself needs testing.
+5. Persist transcript, speaker, and alignment artifacts; the canonical run contract and synchronized frontend projection are built.
+6. Feed transcript into linguistic/disfluency analysis.
+7. Add speaker-aware acoustic aggregation and independent baseline inputs.
+8. Add question/context boundaries and interaction timing.
+9. Instrument real internal method boundaries where callbacks exist.
+10. Complete Review Evidence, report, and case history/reopen surfaces.
+11. Complete authenticated browser/mobile verification.
+12. Advance the separate scientific validation program.
 
 ## Provider architecture update — 2026-09-04
 
@@ -138,32 +142,26 @@ Stage 05 now has two implemented provider adapters behind the same canonical dia
 
 The configured primary/fallback policy is operational engineering, not a stage promotion. Controlled provider-backed execution remains required before Stage 05 is promoted from its current maturity state. Provider provenance records whether a fallback occurred and why.
 
-
 ## Live analysis timeout and failure visibility — 2026-09-05
 
 The canonical case analysis route now persists the live stage boundary before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition have configurable server-side deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). On timeout, VoxVector records the failed stage, request ID, timeout context, persisted run state, and a diagnostic event, then returns HTTP 504 instead of leaving the client indefinitely waiting. The frontend error formatter surfaces the message, failed stage, error type when available, and request ID. These controls improve operational observability; they do not imply cancellation of already-running background worker threads or scientific validation of any analysis output.
-
 
 ## Continue-after-failure pipeline policy — 2026-09-05
 
 A failed or timed-out task is recorded on its own pipeline stage with its sanitized error and outcome, but the orchestration continues into later stages that do not depend on that failed output. Dependent stages are marked `not_run` with an explicit dependency reason rather than being falsely reported as successful. Runs containing one or more stage failures finish as `completed_with_failures` when independent work and persistence can still complete. This preserves partial artifacts, stage visibility, diagnostics, and auditability without silently treating failure as success.
 
-
 ## Case workspace live execution diagnostics — 2026-09-05
 
 The canonical Case Analysis Workspace now includes a request-scoped **Live execution log**. It reads the existing durable VoxVector diagnostics stream through the authenticated diagnostics API and filters events by the current analysis run's request ID. While a run is active, the panel refreshes every 2.5 seconds and can also be refreshed manually. Stage starts, failures, timeouts, diagnostic details, error types, durations, HTTP status, and source revision context are visible directly beside the case pipeline. This is an operational observability surface; it does not alter analytical results or validation status.
 
-
 ## Plain-English case execution updates — 2026-09-05
 
 The Case Analysis Workspace translates request-scoped operational diagnostic event codes into plain-English status updates for the product UI. Users see what started, what failed, what timed out, and whether independent work continues without needing to interpret internal event identifiers. Raw exception text and protocol details remain available under an expandable **Technical details** disclosure for debugging. This presentation layer does not alter the underlying diagnostic records.
-
 
 ## Case workspace refresh and raw diagnostic export — 2026-09-05
 
 The canonical Case Analysis Workspace now provides a **Copy raw logs** control that copies the exact request-scoped diagnostic event records as formatted JSON for engineering investigation. The readable log remains the default product view, while raw operational data is available without leaving the case.
 
 Case refresh controls now refresh the active persisted case together with the case archive where applicable, and the workspace refresh button exposes an in-progress state instead of silently issuing overlapping requests. The workspace itself is intentionally frameless: individual analysis panels own their borders and spacing so the audio/player surface does not visually create a container around unrelated analysis components.
-
 
 **Refresh controls:** Dashboard, Case Workbench, Case History, Analysis Workspace, Render Runtime, Live Logs, and Error Reports now invoke their backing queries with visible in-progress state; multi-source refresh actions await all required queries rather than silently firing disconnected requests.
