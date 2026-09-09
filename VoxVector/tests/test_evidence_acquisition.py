@@ -121,3 +121,49 @@ def test_provider_failures_are_explicit_and_non_fatal():
     assert result.provider_timings_ms["transcription"] >= 0
     assert result.provider_timings_ms["diarization"] >= 0
     assert len(result.limitations) == 2
+
+
+def test_diarization_runs_before_transcription_and_providers_are_released():
+    calls = []
+
+    class OrderedDiarizationProvider(StubDiarizationProvider):
+        def diarize(self, signal, sample_rate):
+            calls.append("diarize")
+            return super().diarize(signal, sample_rate)
+
+        def release(self):
+            calls.append("release_diarization")
+
+    class OrderedTranscriptProvider(StubProvider):
+        def transcribe(self, signal, sample_rate):
+            calls.append("transcribe")
+            return super().transcribe(signal, sample_rate)
+
+        def release(self):
+            calls.append("release_transcription")
+
+    result = build_evidence_acquisition(
+        np.ones(1600, dtype=np.float32) * 0.1,
+        8000,
+        transcript_provider=OrderedTranscriptProvider(),
+        diarization_provider=OrderedDiarizationProvider(),
+    )
+
+    assert result.diarization_state == "completed"
+    assert result.transcription_state == "completed"
+    assert calls == ["diarize", "release_diarization", "transcribe", "release_transcription"]
+
+
+def test_precomputed_source_evidence_is_reused_for_provider_execution():
+    signal = np.ones(1600, dtype=np.float32) * 0.1
+    source_evidence = build_evidence_acquisition(signal, 8000)
+    result = build_evidence_acquisition(
+        signal,
+        8000,
+        transcript_provider=StubProvider(),
+        source_evidence=source_evidence,
+    )
+
+    assert result.media_profile == source_evidence.media_profile
+    assert result.speech_timeline == source_evidence.speech_timeline
+    assert result.transcription_state == "completed"

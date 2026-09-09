@@ -120,3 +120,96 @@ def test_case_delete_rejects_cross_user_request():
         raise AssertionError("cross-user case deletion must be rejected")
 
     assert f"cases/user-1/{case['case_id']}.json" in storage.json
+
+
+def _persist_running_run(store, storage, case, *, process_instance_id=None, started_at="2026-01-01T00:00:00+00:00", timeout_seconds=180):
+    stage = {
+        "number": 7,
+        "id": "transcription_generation",
+        "name": "Transcription Generation",
+        "status": "running",
+        "started_at": started_at,
+        "completed_at": None,
+        "duration_ms": None,
+        "outcome": "provider-backed evidence acquisition started",
+        "error": None,
+    }
+    run = {
+        "run_id": "run-1",
+        "analysis_id": "run-1",
+        "request_id": "request-1",
+        "status": "running",
+        "started_at": started_at,
+        "completed_at": None,
+        "source_id": "source-1",
+        "process_instance_id": process_instance_id,
+        "current_stage": {
+            "id": "transcription_generation",
+            "name": "Transcription Generation",
+            "status": "running",
+            "timeout_seconds": timeout_seconds,
+        },
+        "stages": [stage],
+    }
+    store.update_run("user-1", case["case_id"], run)
+    return storage.json[f"cases/user-1/{case['case_id']}.json"]
+
+
+def test_case_reconcile_marks_run_interrupted_when_worker_identity_changes():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Interrupted")
+    _persist_running_run(store, storage, case, process_instance_id="old-worker", started_at="2099-01-01T00:00:00+00:00")
+
+    reconciled = store.reconcile_interrupted_runs(
+        "user-1",
+        case["case_id"],
+        current_process_id="new-worker",
+    )
+
+    run = reconciled["runs"][0]
+    assert run["status"] == "failed"
+    assert run["error"]["error_type"] == "ProcessInterrupted"
+    assert run["stages"][0]["status"] == "failed"
+    assert reconciled["status"] == "failed"
+
+
+def test_case_reconcile_recovers_legacy_stale_running_run():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Legacy stale")
+    _persist_running_run(
+        store,
+        storage,
+        case,
+        process_instance_id=None,
+        started_at="2020-01-01T00:00:00+00:00",
+        timeout_seconds=None,
+    )
+
+    reconciled = store.reconcile_interrupted_runs(
+        "user-1",
+        case["case_id"],
+        current_process_id="current-worker",
+        stale_after_seconds=420,
+    )
+
+    assert reconciled["runs"][0]["status"] == "failed"
+    assert reconciled["runs"][0]["error"]["error_type"] == "StaleRunRecovered"
+
+
+def test_case_reconcile_keeps_current_worker_run_active_before_deadline():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Active")
+    stored = _persist_running_run(store, storage, case, process_instance_id="current-worker", started_at="2099-01-01T00:00:00+00:00")
+
+    reconciled = store.reconcile_interrupted_runs(
+        "user-1",
+        case["case_id"],
+        current_process_id="current-worker",
+    )
+
+    assert reconciled["runs"][0]["status"] == "running"
+    assert reconciled["runs"][0].get("error") is None
+    assert stored["runs"][0]["status"] == "running"

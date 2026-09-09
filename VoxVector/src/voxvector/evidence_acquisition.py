@@ -185,20 +185,8 @@ def _run_provider_phase(
     return result, state, duration_ms
 
 
-def build_evidence_acquisition(
-    signal: np.ndarray,
-    sample_rate: int,
-    *,
-    transcript_provider: TranscriptionProvider | None = None,
-    diarization_provider: DiarizationProvider | None = None,
-) -> EvidenceAcquisitionResult:
-    """Build normalized source evidence and invoke providers only when explicitly supplied."""
+def _source_evidence(signal: np.ndarray, sample_rate: int) -> tuple[MediaProfile, SpeechTimeline]:
     signal = np.asarray(signal, dtype=np.float32).reshape(-1)
-    if sample_rate <= 0:
-        raise ValueError("sample_rate must be positive")
-    if signal.size and not np.all(np.isfinite(signal)):
-        raise ValueError("signal contains non-finite samples")
-
     duration = signal.size / sample_rate
     peak = float(np.max(np.abs(signal))) if signal.size else 0.0
     clipping_ratio = float(np.mean(np.abs(signal) >= 0.999)) if signal.size else 0.0
@@ -239,6 +227,33 @@ def build_evidence_acquisition(
         silence_ratio=(silence_duration / duration) if duration > 0 else None,
         sha256=sha256(signal.tobytes()).hexdigest(),
     )
+    return profile, SpeechTimeline(
+        speech=speech,
+        silence=tuple(silence),
+        method_id="evidence_acquisition.energy_activity",
+    )
+
+
+def build_evidence_acquisition(
+    signal: np.ndarray,
+    sample_rate: int,
+    *,
+    transcript_provider: TranscriptionProvider | None = None,
+    diarization_provider: DiarizationProvider | None = None,
+    source_evidence: EvidenceAcquisitionResult | None = None,
+) -> EvidenceAcquisitionResult:
+    """Build normalized source evidence and invoke providers only when explicitly supplied."""
+    signal = np.asarray(signal, dtype=np.float32).reshape(-1)
+    if sample_rate <= 0:
+        raise ValueError("sample_rate must be positive")
+    if signal.size and not np.all(np.isfinite(signal)):
+        raise ValueError("signal contains non-finite samples")
+
+    if source_evidence is None:
+        profile, speech_timeline = _source_evidence(signal, sample_rate)
+    else:
+        profile = source_evidence.media_profile
+        speech_timeline = source_evidence.speech_timeline
 
     transcript = None
     transcription_state = "not_invoked"
@@ -247,14 +262,16 @@ def build_evidence_acquisition(
     limitations: list[str] = []
     provider_timings_ms: dict[str, float] = {}
 
-    if transcript_provider is not None:
-        transcript, transcription_state, provider_timings_ms["transcription"] = _run_provider_phase(
-            "transcription", transcript_provider, "transcribe", signal, sample_rate, limitations
-        )
-
+    # Dependency order is speech/silence evidence -> speaker processing -> transcription -> alignment.
+    # Heavy providers remain serialized so their peak memory footprints do not intentionally overlap.
     if diarization_provider is not None:
         diarization, diarization_state, provider_timings_ms["diarization"] = _run_provider_phase(
             "diarization", diarization_provider, "diarize", signal, sample_rate, limitations
+        )
+
+    if transcript_provider is not None:
+        transcript, transcription_state, provider_timings_ms["transcription"] = _run_provider_phase(
+            "transcription", transcript_provider, "transcribe", signal, sample_rate, limitations
         )
 
     multimodal_timeline = None
@@ -264,7 +281,7 @@ def build_evidence_acquisition(
 
     return EvidenceAcquisitionResult(
         media_profile=profile,
-        speech_timeline=SpeechTimeline(speech=speech, silence=tuple(silence), method_id="evidence_acquisition.energy_activity"),
+        speech_timeline=speech_timeline,
         transcript=transcript,
         diarization=diarization,
         transcription_state=transcription_state,

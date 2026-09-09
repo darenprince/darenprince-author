@@ -27,6 +27,36 @@ def test_faster_whisper_adapter_serializes_wav_without_loading_model():
     assert stream.getvalue()[8:12] == b"WAVE"
 
 
+def test_faster_whisper_defaults_bound_cpu_and_process_lifetime(monkeypatch):
+    for key in (
+        "VOXVECTOR_WHISPER_BEAM_SIZE",
+        "VOXVECTOR_WHISPER_CPU_THREADS",
+        "VOXVECTOR_WHISPER_NUM_WORKERS",
+        "VOXVECTOR_WHISPER_TIMEOUT_SECONDS",
+        "VOXVECTOR_WHISPER_ISOLATED_PROCESS",
+    ):
+        monkeypatch.delenv(key, raising=False)
+
+    provider = FasterWhisperProvider()
+    config = provider._isolated_config(183.3)
+
+    assert provider.beam_size == 1
+    assert provider.cpu_threads == 1
+    assert provider.num_workers == 1
+    assert provider.timeout_seconds == 165.0
+    assert provider.isolate_process is True
+    assert config["beam_size"] == 1
+    assert config["cpu_threads"] == 1
+    assert config["num_workers"] == 1
+    assert config["audio_duration_seconds"] == 183.3
+
+
+def test_faster_whisper_process_isolation_can_be_disabled_explicitly(monkeypatch):
+    monkeypatch.setenv("VOXVECTOR_WHISPER_ISOLATED_PROCESS", "false")
+    provider = FasterWhisperProvider()
+    assert provider.isolate_process is False
+
+
 def test_cached_whisper_models_can_be_released():
     FasterWhisperProvider.release_models()
     assert FasterWhisperProvider._model.cache_info().currsize == 0

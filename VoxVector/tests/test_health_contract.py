@@ -20,6 +20,7 @@ def test_health_reports_normalized_runtime_truth(monkeypatch):
         "version": VoxVectorPipeline.software_version,
         "version_source": "VoxVector/pyproject.toml",
         "source_revision": api_app.SOURCE_REVISION,
+        "process_instance_id": api_app.PROCESS_INSTANCE_ID,
     }
     assert payload["source_revision"] == payload["runtime"]["source_revision"]
     assert payload["pipeline"] == payload["runtime"]["version"]
