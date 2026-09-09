@@ -2,22 +2,56 @@
 
 ## Current task status
 
-Prompt: **VV-MVP-SPRINT-GATE-ALIGNMENT**. Source base: `fbe317660e7b9238cd46ffff3a8101291bc85580`. Tracking issue: [#933](https://github.com/darenprince/darenprince-author/issues/933). Branch: `docs/voxvector-mvp-sprint-gate-alignment`.
+Prompt: **VV-TRUTHMODEL**. Source base: `ee9fc31069d5c332099575afa58cb71a59dc8f52`. Tracking issue: [#914](https://github.com/darenprince/darenprince-author/issues/914). Branch: `codex/vv-operational-truth-wiring`.
 
-This task is documentation and execution-governance alignment only. It establishes a single engineering-MVP release gate, refreshes current source/deployment evidence, maps the remaining MVP proof to the GitHub queue, and freezes duplicate planning-document expansion during the sprint. It does not fix #930, execute transcription/diarization, perform a new deployment, verify the browser, or scientifically validate VoxVector.
+This task aligns the source-to-test-to-deployment-to-runtime truth projection so the repository pipeline can verify it. It separates frontend build/Pages identity from backend runtime/Render identity, adds normalized observation metadata without removing compatibility fields, and adds regression coverage. It does not deploy either surface, execute a speech provider, verify an authenticated browser, resolve intake issue #930, or scientifically validate VoxVector.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read canonical charter/workflow/guardrails and active MVP/status records | Complete | Current `main` inspected at `fbe317660e7b9238cd46ffff3a8101291bc85580` |
-| Verify current source/CI/deployment boundaries | Complete for bounded evidence | QA `34305133803` success; Pages `34305133777` success; Render `dep-dagcvau7bikc73aki9b0` observed `live` for `fbe317...`; no fresh `/health` readback claimed |
-| Establish one canonical engineering-MVP exit gate | Complete in branch | `VoxVector/docs/MVP_RELEASE_GATE.md` |
-| Align MVP build plan and QA/current-state records | Complete in branch | Current intake blocker, provider-execution sequence, exact-revision proof and two-run repeatability aligned |
-| Record MVP planning-document freeze | Complete in branch | `PROJECT_DECISION_LOG.md` |
-| Map release gates to GitHub execution owners | Complete in branch | #930/#928/#920/#931/#932/#927/#910/#914 plus #915 identifiers `VV-TRANSCRIBE`, `VV-DIARIZE`, `VV-ALIGN`, `VV-DEPLOYVERIFY`, `VV-LAUNCHGATE` |
-| Exact-head PR QA | Pending after final documentation head | Required before merge recommendation |
-| Production/browser/provider/scientific verification | Not performed by this task | Explicitly remains downstream release-gate evidence |
+| Read canonical charter/workflow/guardrails and active truth/status owners | Complete | Current `main` inspected at `ee9fc31069d5c332099575afa58cb71a59dc8f52` |
+| Separate frontend and backend revision paths | Complete in implementation | Pages/frontend QA use `VITE_GITHUB_SHA`; Render/backend QA use `/health.runtime.source_revision` |
+| Normalize API and Render operational metadata | Complete in implementation | Explicit `source`, `observed_at`, version/revision and service/deploy states; compatibility fields retained |
+| Remove implicit status coercion/fallbacks | Complete in implementation | Render `not_suspended` remains explicit false; missing state/revision remains not reported/unverified |
+| Add regression coverage to the pipeline | Complete in source | Backend health/Render tests plus Node frontend contract tests; QA workflow runs Node tests before Vite build |
+| Local bounded verification | Complete | Node contract tests: 3 passed; Python syntax compilation, JS syntax check and `git diff --check` passed |
+| Exact-head GitHub QA and React build | Pending publication | Local workspace lacks FastAPI/pytest and Vite dependencies; exact-head Actions evidence required before closure |
+| Deployment/browser/provider/scientific verification | Not performed | Remains separate downstream evidence |
 
 ## Task log
+
+### Task 17: operational truth wiring and pipeline coverage, 2026-09-09
+
+Tracked in [#914](https://github.com/darenprince/darenprince-author/issues/914), reprioritized to P1 for the explicitly requested pipeline-readiness work. Work started from exact `main` revision `ee9fc31069d5c332099575afa58cb71a59dc8f52` on branch `codex/vv-operational-truth-wiring`. Published implementation commit: `42ad37724e9fa924fb11cd597f2dcfc2eb20ddc7`.
+
+The Developer Console previously requested one GitHub workflow projection using the backend `/health` revision, then compared both VoxVector QA and GitHub Pages publication to that backend revision. Because the public React artifact and Render API are independently deployed, this could mark a current Pages artifact stale whenever the backend runtime legitimately reported a different commit. The workflow projection now selects frontend QA and Pages runs using the frontend build revision and selects backend-source QA separately using the live backend runtime revision. Unknown target revision is `UNVERIFIED`; a mismatched revision is `STALE`; query failure is `UNAVAILABLE`.
+
+`GET /health` now preserves its existing fields and adds a normalized `runtime` object containing status, source, observation time, backend version, version authority and source revision. The authenticated Render status bridge adds an `operational` object containing source, observation time, explicit service/deploy states and the latest deploy revision. Missing provider data remains unknown/not reported. The frontend consumes these normalized objects with compatibility fallbacks and uses strict reported booleans for provider readiness; it no longer hard-codes an active Render state.
+
+The existing QA workflow now uses deterministic `npm ci`, executes Node contract tests, injects the exact workflow revision and canonical API URL into the Vite build, and then builds the React application. New frontend tests cover completed/in-progress/failure mappings, independent frontend/backend revision selection, stale evidence, unknown freshness and unavailable evidence. Backend tests cover the normalized health contract, degraded health, Render operational mapping, missing revisions and the existing explicit `not_suspended` conversion.
+
+Canonical console synchronization, endpoint, QA and version records were updated, together with the corresponding Crown Labs architecture mirror. Backend source remains `0.2.27` and frontend source remains `0.2.37`; their independent version streams were not forced to the same value. No deployment or production runtime state is claimed by the source change.
+
+**Changed files at the implementation checkpoint:**
+
+- `.github/workflows/voxvector-qa.yml`
+- `VoxVector/api/app.py`
+- `VoxVector/api/render_api.py`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/ENDPOINT_REGISTRY.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/VERSION_MAP.md`
+- `VoxVector/tests/test_health_contract.py`
+- `VoxVector/tests/test_render_api.py`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/system-architecture-and-auto-workflow.md`
+- `voxvector/package.json`
+- `voxvector/src/components/DeveloperEngineeringStatus.css`
+- `voxvector/src/components/DeveloperEngineeringStatus.jsx`
+- `voxvector/src/components/PipelineBuildCard.jsx`
+- `voxvector/src/lib/githubStatus.js`
+- `voxvector/tests/githubStatus.test.mjs`
+- `voxvector/audits/AUDIT_REPORT.md`
+
+Checks actually executed before this report update: `node --test voxvector/tests/*.test.mjs` (3 passed); `node --check voxvector/src/lib/githubStatus.js`; Python syntax compilation for the changed backend/test modules; and `git diff --check`. A local full Python suite and Vite build were not executable because this workspace does not contain FastAPI/pytest or frontend dependencies, and offline npm installation could not obtain uncached Vite. GitHub Actions must provide the full API-test and React-build evidence on the final report head. Issue #914 remains open until that exact-head evidence is recorded. Production deployment, `/health` readback of this revision, authenticated browser verification, speech-provider execution, golden-case repeatability, issue #930, and scientific validation remain unresolved and must not be inferred from CI.
 
 ### Task 16: engineering MVP sprint gate alignment, 2026-09-09
 
