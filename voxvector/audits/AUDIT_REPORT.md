@@ -14,10 +14,20 @@ This task aligns the source-to-test-to-deployment-to-runtime truth projection so
 | Remove implicit status coercion/fallbacks | Complete in implementation | Render `not_suspended` remains explicit false; missing state/revision remains not reported/unverified |
 | Add regression coverage to the pipeline | Complete in source | Backend health/Render tests plus Node frontend contract tests; QA workflow runs Node tests before Vite build |
 | Local bounded verification | Complete | Node contract tests: 3 passed; Python syntax compilation, JS syntax check and `git diff --check` passed |
-| Exact-head GitHub QA and React build | Pending publication | Local workspace lacks FastAPI/pytest and Vite dependencies; exact-head Actions evidence required before closure |
+| Exact-head GitHub QA and React build | Review correction pending | `c595ead...` passed QA `34317879979` and preview `34317880072`; valid review corrections require a new exact-head run |
 | Deployment/browser/provider/scientific verification | Not performed | Remains separate downstream evidence |
 
 ## Task log
+
+### Task 18: address PR #937 operational-state and information-exposure review findings, 2026-09-09
+
+PR #937 automated review identified two valid issues on verified head `c595ead24257f31866b412375264d83f2bdb195e`. First, a Render payload that omitted both explicit service state and `suspended` evidence still became `active` because a missing value passed through the false branch of the suspension fallback. Second, the public `/health` response could include an exception type and message produced by the runtime self-test.
+
+The Render bridge now maps explicitly reported boolean/string suspension values through `_reported_suspension_state`; an absent or unrecognized provider value produces `not_reported`. Existing compatibility field `service.suspended` remains boolean, while the operator-facing operational state no longer promotes missing evidence. Regression tests cover active, suspended, absent, and unrecognized values.
+
+The runtime self-test now exposes only `passed` or `failed` through public health and analysis-readiness responses. Exception contents are no longer returned to unauthenticated callers. A regression test deliberately raises an exception containing private detail and verifies the bounded public result.
+
+Prior exact-head evidence for `c595ead...` remains valid for that superseded head: VoxVector QA run `34317879979` and PR Preview Build run `34317880072` both passed. The review-correction head requires fresh exact-head QA before merge. No deployment, browser verification, provider execution, #930 resolution, golden-case proof, or scientific validation is claimed.
 
 ### Task 17: operational truth wiring and pipeline coverage, 2026-09-09
 

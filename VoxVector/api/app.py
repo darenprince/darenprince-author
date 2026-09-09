@@ -202,7 +202,7 @@ ACOUSTIC_RUNTIME_SIGNATURE = getattr(_acoustic_module, "RUNTIME_SIGNATURE", "mis
 def _runtime_self_test() -> tuple[bool, str]:
     try:
         smoke_frames = np.zeros((2, 1200), dtype=float); _acoustic_module.spectral_centroid(smoke_frames, 24000); _acoustic_module.spectral_spread(smoke_frames, 24000); return True, "passed"
-    except Exception as exc: return False, f"{type(exc).__name__}: {exc}"
+    except Exception: return False, "failed"
 
 def _read_pcm_wav_extensible(data: bytes):
     if len(data) < 12 or data[:4] != b"RIFF" or data[8:12] != b"WAVE": raise ValueError("Invalid WAV container: expected RIFF/WAVE")

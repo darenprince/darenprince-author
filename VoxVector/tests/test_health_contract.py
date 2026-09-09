@@ -27,10 +27,19 @@ def test_health_reports_normalized_runtime_truth(monkeypatch):
 
 
 def test_health_preserves_degraded_runtime_state(monkeypatch):
-    monkeypatch.setattr(api_app, "_runtime_self_test", lambda: (False, "RuntimeError: failed"))
+    monkeypatch.setattr(api_app, "_runtime_self_test", lambda: (False, "failed"))
 
     payload = asyncio.run(api_app.health())
 
     assert payload["status"] == "degraded"
     assert payload["runtime"]["status"] == "degraded"
-    assert payload["runtime_self_test"] == "RuntimeError: failed"
+    assert payload["runtime_self_test"] == "failed"
+
+
+def test_runtime_self_test_does_not_expose_exception_details(monkeypatch):
+    def fail(_frames, _sample_rate):
+        raise RuntimeError("private runtime detail")
+
+    monkeypatch.setattr(api_app._acoustic_module, "spectral_centroid", fail)
+
+    assert api_app._runtime_self_test() == (False, "failed")

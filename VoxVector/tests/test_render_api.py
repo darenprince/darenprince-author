@@ -1,6 +1,6 @@
 from urllib.parse import parse_qs, urlparse
 
-from api.render_api import _is_suspended, _owner_id, _rows, _trigger_deploy_hook, _unwrap_rows
+from api.render_api import _is_suspended, _owner_id, _reported_suspension_state, _rows, _trigger_deploy_hook, _unwrap_rows
 
 
 def test_owner_id_accepts_render_casing_and_nested_owner():
@@ -33,6 +33,15 @@ def test_render_suspended_state_handles_render_string_values():
     assert _is_suspended("not_suspended") is False
     assert _is_suspended(False) is False
     assert _is_suspended(None) is False
+
+
+def test_render_suspension_state_requires_reported_evidence():
+    assert _reported_suspension_state(True) == "suspended"
+    assert _reported_suspension_state("suspended") == "suspended"
+    assert _reported_suspension_state(False) == "active"
+    assert _reported_suspension_state("not_suspended") == "active"
+    assert _reported_suspension_state(None) is None
+    assert _reported_suspension_state("provider_unknown") is None
 
 
 def test_render_status_normalizes_live_service_and_latest_deploy(monkeypatch):
@@ -105,7 +114,7 @@ def test_render_status_reports_unknown_revision_without_coercing_missing_commit(
     result = render_api.render_status(service_id="srv-test", _={})
 
     assert result["service"]["suspended"] is False
-    assert result["operational"]["service_state"] == "active"
+    assert result["operational"]["service_state"] == "not_reported"
     assert result["operational"]["deploy_state"] == "not_reported"
     assert result["operational"]["source_revision"] == "unknown"
 
