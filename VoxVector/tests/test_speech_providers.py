@@ -115,6 +115,23 @@ def test_fallback_records_provenance():
     assert result.provenance["fallback_used"] is True
     assert result.provenance["primary_provider"] == "primary"
     assert result.provenance["fallback_provider"] == "secondary"
+    assert result.provenance["primary_error_type"] == "RuntimeError"
+    assert result.provenance["primary_error_message"] == "primary unavailable"
+
+
+def test_fallback_failure_reports_both_provider_errors():
+    class Primary:
+        provider_id = "primary"
+        def diarize(self, signal, sample_rate):
+            raise TimeoutError("primary deadline")
+
+    class Secondary:
+        provider_id = "secondary"
+        def diarize(self, signal, sample_rate):
+            raise RuntimeError("fallback unavailable")
+
+    with pytest.raises(RuntimeError, match="primary deadline.*fallback unavailable"):
+        FallbackDiarizationProvider(Primary(), Secondary()).diarize(np.zeros(1600), 16000)
 
 
 def test_cached_pyannote_pipelines_can_be_released():
