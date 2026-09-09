@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import AudioUploadPlayer from './AudioUploadPlayer'
-import { Activity, AlertTriangle, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, CircleCheck, Clipboard, ClipboardList, CloudCog, Code2, Download, FileAudio, Globe2, Images, Info, ListChecks, LogOut, Menu, Play, RefreshCw, Server, Terminal, Trash2, UserRound, Waves, X, XCircle } from 'lucide-react'
+import { Activity, AlertTriangle, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, CircleCheck, Clipboard, ClipboardList, CloudCog, Code2, Download, FileAudio, Globe2, Images, Info, ListChecks, LogOut, Menu, Play, RefreshCw, Server, Terminal, Trash2, UserRound, Users, Waves, X, XCircle } from 'lucide-react'
 import { Icon as Iconify } from '@iconify/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { analyzeCaseSource, API_BASE, createAnalysisCase, deleteAnalysisCase, getCasePlaybackUrl, getAnalysisCase, getDiagnosticErrors, getDiagnosticEvents, getHealth, getRenderLogs, getRenderStatus, triggerRenderDeploy, listAnalysisCases, uploadCaseSource } from '../lib/api'
@@ -15,6 +15,8 @@ import CaseAnalysisWorkspace from './CaseAnalysisWorkspace'
 import SiteHeader from './SiteHeader'
 import DeveloperEngineeringStatus from './DeveloperEngineeringStatus'
 import DeveloperProfileEditor, { useDeveloperProfile } from './DeveloperProfileEditor'
+import AdminUsers from './AdminUsers'
+import { isAdmin } from '../lib/supabase'
 import { AUDIT_REPORTS } from '../data/audits'
 
 const DOCS = {
@@ -65,6 +67,7 @@ export default function DeveloperConsole({ session, signOut }) {
   const analysisAbortRef = useRef(null)
   const queryClient = useQueryClient()
   const profileQuery = useDeveloperProfile(session)
+  const admin = isAdmin(session?.user)
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => { try { localStorage.setItem('voxvector-mvp-checks', JSON.stringify(checks)) } catch { /* optional browser persistence */ } }, [checks])
   useEffect(() => { if (!toast) return undefined; const timer = window.setTimeout(() => setToast(null), 4800); return () => window.clearTimeout(timer) }, [toast])
@@ -96,7 +99,7 @@ export default function DeveloperConsole({ session, signOut }) {
   const profileMenu = <div className="relative z-[260]"><button type="button" className="inline-flex items-center gap-2 rounded-full border-0 bg-transparent p-1" onClick={() => setProfileOpen(value => !value)} aria-haspopup="menu" aria-expanded={profileOpen} aria-label="Open developer profile menu">{avatar}<span className="hidden lg:block max-w-[150px] truncate text-xs font-medium text-white/65">{displayName}</span></button>{profileOpen && <div role="menu" className="vv-dev-profile-menu absolute right-0 top-[calc(100%+10px)] z-[300] w-64 border border-white/10 bg-[#101010] p-2"><div className="flex items-center gap-3 border-b border-white/10 px-2 py-3">{avatar}<div className="min-w-0"><div className="truncate text-sm font-semibold text-white">{displayName}</div><div className="truncate text-[11px] text-white/40">{user.email}</div></div></div><button type="button" role="menuitem" className="mt-2 flex w-full items-center gap-2 px-2 py-2.5 text-left text-sm text-white/65" onClick={() => choose('profile')}><UserRound size={15}/>Edit Profile</button><button type="button" role="menuitem" className="flex w-full items-center gap-2 px-2 py-2.5 text-left text-sm text-red-300/80" onClick={() => signOut()}><LogOut size={15}/>Sign out</button></div>}</div>
   const headerActions = <><a href="https://github.com/darenprince/darenprince-author/tree/main/voxvector" target="_blank" rel="noreferrer" aria-label="VoxVector source on GitHub" className="inline-flex h-9 w-9 items-center justify-center border-0 bg-transparent p-0 text-white/55 transition hover:text-white"><Iconify icon="simple-icons:github" width="18" height="18" aria-hidden="true"/></a><DeveloperEngineeringStatus mode="toolbar" accessToken={session.access_token}/>{profileMenu}</>
   const mobileHeaderButton = <Button variant="ghost" size="icon" onClick={() => setMobileOpen(value => !value)} aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen}><Menu size={19}/></Button>
-  return <div className="vv-app"><SiteHeader actions={headerActions} mobileMenuButton={mobileHeaderButton}/><Toast toast={toast} onDismiss={() => setToast(null)}/><div className="vv-shell"><Sheet open={mobileOpen} onOpenChange={setMobileOpen} ariaLabel="Developer console navigation" width={340}><div className="vv-sheet-head"><span className="vv-eyebrow">Console</span><Button variant="ghost" size="icon" onClick={() => setMobileOpen(false)} aria-label="Close navigation"><X size={18}/></Button></div><Sidebar section={section} choose={choose} close={()=>setMobileOpen(false)}/><div className="mt-4 border-t border-[var(--vv-border)] pt-4"><button type="button" className="flex w-full items-center gap-3 px-2 py-2 text-left" onClick={() => choose('profile')}>{avatar}<span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{displayName}</span><span className="block truncate text-[10px] text-[var(--vv-muted)]">{user.email}</span></span><UserRound size={16}/></button><button type="button" className="mt-1 flex w-full items-center gap-2 px-2 py-2 text-left text-sm text-red-300/80" onClick={() => signOut()}><LogOut size={15}/>Sign out</button></div></Sheet><main className="vv-main" id="developer-console-main" tabIndex="-1">
+  return <div className="vv-app"><SiteHeader actions={headerActions} mobileMenuButton={mobileHeaderButton}/><Toast toast={toast} onDismiss={() => setToast(null)}/><div className="vv-shell"><Sheet open={mobileOpen} onOpenChange={setMobileOpen} ariaLabel="Developer console navigation" width={340}><div className="vv-sheet-head"><span className="vv-eyebrow">Console</span><Button variant="ghost" size="icon" onClick={() => setMobileOpen(false)} aria-label="Close navigation"><X size={18}/></Button></div><Sidebar section={section} choose={choose} close={()=>setMobileOpen(false)} admin={admin}/><div className="mt-4 border-t border-[var(--vv-border)] pt-4"><button type="button" className="flex w-full items-center gap-3 px-2 py-2 text-left" onClick={() => choose('profile')}>{avatar}<span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{displayName}</span><span className="block truncate text-[10px] text-[var(--vv-muted)]">{user.email}</span></span><UserRound size={16}/></button><button type="button" className="mt-1 flex w-full items-center gap-2 px-2 py-2 text-left text-sm text-red-300/80" onClick={() => signOut()}><LogOut size={15}/>Sign out</button></div></Sheet><main className="vv-main" id="developer-console-main" tabIndex="-1">
       {section === 'dashboard' && <Dashboard health={health} percent={percent} complete={complete} total={total} openCases={() => choose('api')} openPlan={() => choose('mvp')} openWorkspace={() => choose('workspace')} openRender={() => choose('render')} renderStatus={renderStatus}/>} 
       {section === 'api' && <CaseWorkbench cancelAnalysis={() => analysisAbortRef.current?.abort()} list={list} selectedCaseId={selectedCaseId} setSelectedCaseId={selectCase} title={title} setTitle={setTitle} create={create} file={file} setFile={setFile} upload={upload} progress={progress} uploadStage={uploadStage} source={activeSource} data={data} playback={playback} playbackUrl={playbackUrl} analyze={analyze} run={run} renderProgress={renderProgress} error={error} refresh={refreshCaseData} refreshing={cases.isFetching || current.isFetching} openWorkspace={() => choose('workspace')} notify={notify} openState={workbenchOpen} toggleState={toggleWorkbench}/>} 
       {section === 'history' && <CaseHistory notify={notify} cases={list} selectedCaseId={selectedCaseId} loading={cases.isPending} refreshing={cases.isFetching || current.isFetching} error={cases.error} onRefresh={refreshCaseHistory} deletingCaseId={deleteCase.isPending ? deleteCase.variables : ''} onDelete={id => deleteCase.mutate(id)} onDeleteMany={ids => deleteCasesBulk.mutateAsync(ids)} bulkDeleting={deleteCasesBulk.isPending} onOpen={id => { setSelectedCaseId(id); setSection('workspace') }} />}
@@ -104,16 +107,17 @@ export default function DeveloperConsole({ session, signOut }) {
       {section === 'render' && <RenderPanel notify={notify} statusQuery={renderStatus} logsQuery={renderLogs} deployMutation={renderDeploy}/>} 
       {section === 'mvp' && <MvpBoard checks={checks} setChecks={setChecks} percent={percent} complete={complete} total={total}/>} 
       {section === 'docs' && <Docs/>}
+      {section === 'users' && admin && <AdminUsers session={session} notify={notify}/>} 
       {section === 'audits' && <Audits notify={notify}/>} {section === 'errors' && <ErrorPanel query={errors} notify={notify}/>} {section === 'logs' && <LogPanel query={logs} notify={notify}/>} {section === 'profile' && <DeveloperProfileEditor session={session} profileQuery={profileQuery} signOut={signOut} notify={notify}/>} 
     </main></div></div>
 }
 
-function Sidebar({ section, choose, close }) {
+function Sidebar({ section, choose, close, admin }) {
   const [open, setOpen] = useState(() => new Set(['workbench','observe','source','infrastructure']))
   const groups = [
     { id:'workbench', label:'Workbench', items:[['dashboard','Dashboard',Activity],['api','Case Workbench',Code2],['history','Case History',ClipboardList],['workspace','Analysis Workspace',Waves],['mvp','MVP Build Plan',ListChecks]] },
     { id:'observe', label:'Observe', items:[['logs','Live Logs',Terminal],['errors','Error Reports',AlertTriangle],['render','Render Runtime',CloudCog],['audits','Audits',ClipboardList]] },
-    { id:'source', label:'Source', items:[['docs','Methodology & Docs',BookOpen],['profile','Developer Profile',UserRound]] },
+    { id:'source', label:'Source', items:[['docs','Methodology & Docs',BookOpen],...(admin ? [['users','User Management',Users]] : []),['profile','Developer Profile',UserRound]] },
   ]
   const toggle=id=>setOpen(current=>{const next=new Set(current);next.has(id)?next.delete(id):next.add(id);return next})
   return <nav className="vv-sidebar-content vv-sidebar-scroll" aria-label="Developer Console"><div className="flex justify-end pb-2"><Button variant="ghost" size="icon" onClick={close} aria-label="Close developer console menu"><X size={17}/></Button></div>
@@ -137,7 +141,9 @@ function CaseHistoryItem({ item, selected, deleting, onOpen, onDelete, selection
   const [offset, setOffset] = useState(0)
   const touchStart = useRef(null)
   const run = latestRun(item), source = item.sources?.[0], title = item.title || 'Untitled analysis'
-  const requestDelete = () => { if (deleting) return; const confirmed = window.confirm(`Delete "${title}"?\n\nThis permanently deletes the case and its persisted source media. This can't be undone.`); if (confirmed) onDelete(item.case_id) }
+  const requestDelete = () => { if (deleting) return; const confirmed = window.confirm(`Delete "${title}"?\
+\
+This permanently deletes the case and its persisted source media. This can't be undone.`); if (confirmed) onDelete(item.case_id) }
   const onTouchStart = event => { if (selectionMode) return; const touch=event.touches?.[0]; if (!touch) return; touchStart.current={x:touch.clientX,y:touch.clientY,offset} }
   const onTouchMove = event => { if (selectionMode) return; const start=touchStart.current,touch=event.touches?.[0]; if (!start||!touch) return; const dx=touch.clientX-start.x,dy=touch.clientY-start.y; if (Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>6) return; setOffset(Math.max(-88,Math.min(0,start.offset+dx))) }
   const onTouchEnd = () => { touchStart.current=null; if (!selectionMode) setOffset(current=>current<=-44?-88:0) }
@@ -160,7 +166,9 @@ function CaseHistory({ cases, selectedCaseId, loading, refreshing, error, onRefr
   const allSelected=cases.length>0&&selectedCount===cases.length
   const toggleAll=()=>setSelectedIds(allSelected?new Set():new Set(cases.map(item=>item.case_id)))
   const exitSelection=()=>{setSelectionMode(false);setSelectedIds(new Set())}
-  const deleteSelected=async()=>{if(!selectedCount||bulkDeleting)return;const ids=[...selectedIds];const confirmed=window.confirm(`Delete ${ids.length} selected case${ids.length===1?'':'s'}?\n\nThis permanently deletes each selected case and its persisted source media. This can't be undone.`);if(!confirmed)return;try{await onDeleteMany(ids);exitSelection()}catch{/* parent mutation reports the failure */}}
+  const deleteSelected=async()=>{if(!selectedCount||bulkDeleting)return;const ids=[...selectedIds];const confirmed=window.confirm(`Delete ${ids.length} selected case${ids.length===1?'':'s'}?\
+\
+This permanently deletes each selected case and its persisted source media. This can't be undone.`);if(!confirmed)return;try{await onDeleteMany(ids);exitSelection()}catch{/* parent mutation reports the failure */}}
   const actions=<div className="flex flex-wrap gap-2">{selectionMode?<><Button variant="secondary" onClick={toggleAll}>{allSelected?'Clear All':'Select All'}</Button><Button variant="secondary" onClick={exitSelection}>Cancel</Button><Button variant="secondary" className="vv-history-bulk-delete" onClick={deleteSelected} disabled={!selectedCount||bulkDeleting}><Trash2 size={14}/>{bulkDeleting?'Deleting…':`Delete Selected (${selectedCount})`}</Button></>:<Button variant="secondary" onClick={()=>setSelectionMode(true)} disabled={!cases.length}><CircleCheck size={14}/> Select</Button>}<ExportActions value={cases} filename="voxvector-cases.json" label="Cases" notify={notify}/><Button variant="secondary" onClick={onRefresh} disabled={refreshing}><RefreshCw size={14} className={refreshing?'animate-spin':''}/> {refreshing?'Refreshing…':'Refresh'}</Button></div>
   return <div><PageTitle eyebrow="CASE ARCHIVE" title="Case History" action={actions}/><CollapsiblePanel title="Saved Analysis Cases" icon={ClipboardList} meta={`${cases.length} case${cases.length===1?'':'s'}`} className="mb-4"><p className="vv-copy">Cases are persisted in the authenticated case store and can be reopened for later review. Swipe left on a case on mobile, use the trash icon on desktop, or choose Select to remove multiple cases after irreversible confirmation.</p></CollapsiblePanel>{loading?<section className="vv-panel"><p className="vv-copy">Loading saved cases…</p></section>:error?<section className="vv-panel"><div className="vv-status-row error"><XCircle size={16}/><span>{error.message}</span></div></section>:cases.length?<div className="vv-history-list">{cases.map(item=><CaseHistoryItem key={item.case_id} item={item} selected={selectedCaseId===item.case_id} deleting={deletingCaseId===item.case_id||bulkDeleting} onOpen={onOpen} onDelete={onDelete} selectionMode={selectionMode} multiSelected={selectedIds.has(item.case_id)} onToggleSelection={toggleSelection}/>)}</div>:<section className="vv-panel"><p className="vv-copy">No saved cases yet. Create the first case from Case Workbench.</p></section>}</div>
 }

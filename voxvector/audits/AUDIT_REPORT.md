@@ -2,22 +2,65 @@
 
 ## Current task status
 
-Prompt: **VV-TRUTHMODEL**. Source base: `ee9fc31069d5c332099575afa58cb71a59dc8f52`. Tracking issue: [#914](https://github.com/darenprince/darenprince-author/issues/914). Branch: `codex/vv-operational-truth-wiring`.
+Prompt: **VV-USERCONSOLE-ROLE-GATE**. Source base: `9539fa89ede3295e588feed781971919c542427e`. Tracking issue: [#931](https://github.com/darenprince/darenprince-author/issues/931). Branch: `feat/voxvector-role-gating`.
 
-This task aligns the source-to-test-to-deployment-to-runtime truth projection so the repository pipeline can verify it. It separates frontend build/Pages identity from backend runtime/Render identity, adds normalized observation metadata without removing compatibility fields, and adds regression coverage. It does not deploy either surface, execute a speech provider, verify an authenticated browser, resolve intake issue #930, or scientifically validate VoxVector.
+This task consolidates VoxVector authentication and trusted role routing, establishes the minimum protected user destination, extends the existing Developer Console to a trusted administrator role, and adds a server-only Supabase account-administration boundary. It does not deploy the Supabase Edge Function, assign a live admin role, deploy the Render backend change, verify an authenticated browser, execute speech providers, alter the analytical pipeline, or scientifically validate VoxVector.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read canonical charter/workflow/guardrails and active truth/status owners | Complete | Current `main` inspected at `ee9fc31069d5c332099575afa58cb71a59dc8f52` |
-| Separate frontend and backend revision paths | Complete in implementation | Pages/frontend QA use `VITE_GITHUB_SHA`; Render/backend QA use `/health.runtime.source_revision` |
-| Normalize API and Render operational metadata | Complete in implementation | Explicit `source`, `observed_at`, version/revision and service/deploy states; compatibility fields retained |
-| Remove implicit status coercion/fallbacks | Complete in implementation | Render `not_suspended` remains explicit false; missing state/revision remains not reported/unverified |
-| Add regression coverage to the pipeline | Complete in source | Backend health/Render tests plus Node frontend contract tests; QA workflow runs Node tests before Vite build |
-| Local bounded verification | Complete | Node contract tests: 3 passed; Python syntax compilation, JS syntax check and `git diff --check` passed |
-| Exact-head GitHub QA and React build | Review correction pending | `c595ead...` passed QA `34317879979` and preview `34317880072`; valid review corrections require a new exact-head run |
-| Deployment/browser/provider/scientific verification | Not performed | Remains separate downstream evidence |
+| Read canonical charter/workflow/guardrails and active auth owners | Complete | Current `main` inspected at `9539fa89ede3295e588feed781971919c542427e` |
+| Inspect connected Supabase auth/profile boundary | Complete | One current trusted `developer` role observed; `profiles` and `audit_events` available; no live `admin`/`user` assignment changed |
+| Consolidate browser auth/session/role routing | Complete in source | Shared `AuthGate.jsx`; trusted `app_metadata`; direct protected-route checks |
+| Add minimum protected user destination | Complete in source | `/voxvector/app`; legacy `voxvector-dashboard.html` not adopted |
+| Add admin operator and user-management source | Complete in source | Backend admin authorization, admin-only drawer UI, server-only `voxvector-user-admin` Edge Function source |
+| Add regression coverage | Complete in source | Backend auth tests plus frontend role-routing contract tests |
+| Source checkpoint QA | Complete | `e97655d59e283d7b3c9cda1065854df469214cb1` passed VoxVector QA `34329618939` / #1838, including API suite, frontend contract tests and React build |
+| Synchronize affected canonical docs and Crown Labs mirror | Complete in branch | UI architecture, endpoint registry, QA status and architecture mirror updated |
+| Final exact-head QA / PR Preview / repository review | Pending | Documentation/audit updates moved branch head; fresh exact-head evidence required |
+| Edge Function / Render / browser verification | Not performed | Remains separate post-merge runtime evidence |
 
 ## Task log
+
+### Task 19: role-gated account access and administrator boundary, 2026-09-09
+
+Tracked in [#931](https://github.com/darenprince/darenprince-author/issues/931). Work started from exact canonical `main` revision `9539fa89ede3295e588feed781971919c542427e` on branch `feat/voxvector-role-gating`. The existing React app, `DeveloperGate.jsx`, `SiteHeader.jsx`, Supabase client, backend auth dependency, Developer Console, legacy static dashboard, connected Supabase schema, and current Auth role population were inspected before editing.
+
+The prior browser implementation had one developer-specific gate and no canonical role-routed user application entry. The branch adds `voxvector/src/lib/access.js` as the single trusted-role interpretation layer, with `admin`, `developer`, and `user` resolved only from Supabase `app_metadata`. User-editable metadata is not accepted for authorization. `AuthGate.jsx` now owns session restore, email/password login, password reset, sign-out, unknown-role denial, and role routing. `/voxvector/login` routes trusted `admin` and `developer` sessions to `/voxvector/developer`, trusted `user` sessions to `/voxvector/app`, and unknown/missing roles to a denied login state. Direct protected-route entry independently checks allowed roles instead of relying on redirects alone.
+
+The minimum protected `UserWorkspace.jsx` is intentionally bounded. It exposes authenticated account/session information and a safe user destination without copying the legacy root `voxvector-dashboard.html`, without restoring its old Deception Probability presentation, and without claiming user-facing analysis capability that has not yet been implemented and verified in the canonical React application.
+
+The public `SiteHeader.jsx` now exposes a visible Login entry on desktop and mobile while preserving the existing landing actions. The account icon and mobile workspace links use `/voxvector/login`. Google sign-in and account creation are not surfaced because no corresponding VoxVector provider/policy execution evidence was established in this task.
+
+Backend `VoxVector/api/auth.py` retains the historical `require_developer` dependency name so existing route wiring does not fork. Its trusted operator role set now accepts `developer` and `admin`; a trusted `user` remains denied. New backend tests cover developer acceptance, admin acceptance, user denial, user-metadata spoof denial, and missing bearer authentication. New frontend Node contract tests cover developer/admin/user routing, unknown roles, trusted-role checks, and user-metadata spoof resistance.
+
+Administrator account management is added to the existing Developer Console rather than as a duplicate application. A `User Management` drawer item renders only for a trusted admin session and opens `AdminUsers.jsx`. The browser uses the existing Supabase client to invoke the `voxvector-user-admin` Edge Function. The Edge Function revalidates the caller JWT and trusted `admin` role before creating a server-side admin client with `SUPABASE_SERVICE_ROLE_KEY`. Source actions support listing users, account creation/invitation, trusted role/permission metadata changes, account/profile edits, password updates/recovery, and deletion. Self-deletion and removal of the caller's own admin role are blocked. Administrative mutations write bounded records to `audit_events`; passwords, bearer tokens, and the service-role credential are not written to those audit records.
+
+Connected Supabase inspection found one current Auth account with trusted `developer` role and no current trusted `admin` or `user` assignment. `public.profiles` has RLS enabled and is used for profile data. No live user was promoted or demoted during this source task. The new `voxvector_permissions` values are trusted metadata for the account-management model; broad per-permission enforcement across every backend route is not claimed where current APIs remain role-gated.
+
+The source checkpoint `e97655d59e283d7b3c9cda1065854df469214cb1` passed VoxVector QA run `34329618939` / run #1838. The workflow executed the API package install and full API test suite, recorded the tested revision, installed frontend dependencies, ran frontend contract tests, and completed the React production build. Subsequent documentation and audit commits advance the branch beyond that checkpoint, so fresh exact-head QA and PR Preview Build remain mandatory before merge recommendation.
+
+**Changed files in this task:**
+
+- `VoxVector/api/auth.py`
+- `VoxVector/tests/test_auth.py`
+- `VoxVector/supabase/functions/voxvector-user-admin/index.ts`
+- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
+- `VoxVector/docs/ENDPOINT_REGISTRY.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/system-architecture-and-auto-workflow.md`
+- `voxvector/src/lib/access.js`
+- `voxvector/src/lib/supabase.js`
+- `voxvector/src/components/AuthGate.jsx`
+- `voxvector/src/components/DeveloperGate.jsx`
+- `voxvector/src/components/UserWorkspace.jsx`
+- `voxvector/src/components/SiteHeader.jsx`
+- `voxvector/src/main.jsx`
+- `voxvector/src/components/AdminUsers.jsx`
+- `voxvector/src/components/DeveloperConsole.jsx`
+- `voxvector/tests/access.test.mjs`
+- `voxvector/audits/AUDIT_REPORT.md`
+
+The Edge Function source has not been deployed from this branch. The Render service still reflects older backend source and therefore does not yet enforce the branch's admin operator authorization in production. No authenticated admin execution, live user-route browser verification, Render deployment, fresh `/health` readback, provider execution, golden-case proof, or scientific validation is claimed by this task checkpoint.
 
 ### Task 18: address PR #937 operational-state and information-exposure review findings, 2026-09-09
 
@@ -108,7 +151,7 @@ Affected current documentation separates source release from deployed runtime ev
 
 After PR #919 merged, canonical `main` advanced to `c2a7c3b1322899559ec27744984641b6e115271a`. PR #924 was no longer mergeable against that new base because both branches had modified active deployment/status documentation. The fix branch was updated with a true merge commit using `main` as the second parent, then the overlapping active records were reconciled rather than choosing the stale pre-#919 versions wholesale.
 
-Conflict reconciliation preserved the #919 ground-truth corrections for the pyannoteAI cloud-primary architecture, explicit `VOXVECTOR_ENABLE_DIARIZATION_RUNS` route gate, optional local Community-1 fallback, current source revision evidence, and Prompt 1 audit history. The #924 manual Render deployment-control evidence was layered onto those current records. In particular, `DEPLOYMENT_VARIABLE_MATRIX.md` keeps `pyannote_api`, `PYANNOTE_KEY`/`PYANNOTE_API_KEY`, explicit fallback variables, and the separate diarization route gate while adding the manual Render hook, service ID, observability key boundary, and disabled-auto-deploy contract. `ENDPOINT_REGISTRY.md` now uses the current `73ac03...` runtime evidence and cloud-primary provider state rather than reverting to the older local-primary snapshot. `AUDIT_REPORT.md` preserves all merged #919 task history and adds this deployment-control task instead of replacing the completed ground-truth record with an earlier incomplete snapshot.
+Conflict reconciliation preserved the #919 ground-truth corrections for the pyannoteAI cloud-primary architecture, explicit `VOXVECTOR_ENABLE_DIARIZATION_RUNS` route gate, optional local pyannote Community-1 fallback, current source revision evidence, and Prompt 1 audit history. The #924 manual Render deployment-control evidence was layered onto those current records. In particular, `DEPLOYMENT_VARIABLE_MATRIX.md` keeps `pyannote_api`, `PYANNOTE_KEY`/`PYANNOTE_API_KEY`, explicit fallback variables, and the separate diarization route gate while adding the manual Render hook, service ID, observability key boundary, and disabled-auto-deploy contract. `ENDPOINT_REGISTRY.md` now uses the current `73ac03...` runtime evidence and cloud-primary provider state rather than reverting to the older local-primary snapshot. `AUDIT_REPORT.md` preserves all merged #919 task history and adds this deployment-control task instead of replacing the completed ground-truth record with an earlier incomplete snapshot.
 
 The source repair itself remains unchanged: `VoxVector/api/render_api.py` accepts successful JSON, text, or empty deploy-hook response bodies without treating body content as deployment completion, and `VoxVector/tests/test_render_api.py` covers those response shapes. Render auto-deploy remains disabled. The protected Developer Console route remains the only production Render deployment path documented by this task.
 

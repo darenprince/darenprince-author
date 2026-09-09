@@ -11,6 +11,12 @@ This document is the authoritative endpoint map for the current VoxVector deploy
 
 GitHub Pages hosts the canonical public React application and Developer Console.
 
+Protected React routes include:
+
+- `/voxvector/login` — canonical Supabase login and trusted-role router;
+- `/voxvector/developer/` — developer/admin Developer Console;
+- `/voxvector/app` — approved-user workspace.
+
 ## Existing API
 
 `https://voxvector.crownlabs.tech`
@@ -36,6 +42,18 @@ The AWS ACM certificate for `awsapi.crownlabs.tech` is issued and DNS validated.
 ## Persistence boundary
 
 Supabase is the configured authentication, persistence, diagnostics, and private-media boundary for the connected architecture. AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
+
+### Supabase account-administration function
+
+`voxvector-user-admin` is the canonical server-side Supabase Edge Function source for administrator account management. It is not a browser-side `auth.admin` client.
+
+The function contract is:
+
+`authenticated browser → Supabase Functions invoke → JWT revalidation → trusted admin role check → server-only service-role administration`
+
+Supported source actions are `list`, `create`, `update`, `recovery`, and `delete`. The source can create or invite accounts, update trusted VoxVector role/permission metadata, maintain profile fields, administer passwords/recovery, and delete accounts. It blocks self-deletion and removal of the caller's own admin role. Administrative mutations write sanitized entries to `audit_events` without passwords, bearer tokens, or service-role credentials.
+
+The function source existing in GitHub is not proof that the Edge Function has been deployed or successfully executed. Supabase deployment, actual admin-role assignment, authenticated invocation, and browser verification remain separate evidence gates.
 
 ## Latest observed Render runtime configuration
 

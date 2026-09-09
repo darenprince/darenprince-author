@@ -8,11 +8,22 @@ from urllib.request import Request, urlopen
 from fastapi import Header, HTTPException
 
 
+_OPERATOR_ROLES = {"developer", "admin"}
+
+
+def _trusted_voxvector_role(user: dict) -> str | None:
+    metadata = user.get("app_metadata") or {}
+    role = str(metadata.get("voxvector_role") or metadata.get("role") or "").strip().lower()
+    return role or None
+
+
 def require_developer(authorization: str | None = Header(default=None)) -> dict:
-    """Validate the caller's Supabase session and require the developer role.
+    """Validate the caller's Supabase session and require a trusted operator role.
 
     The browser sends the user's access token. The service-role key is used only
-    server-side as the Supabase API key; it is never returned or logged.
+    server-side as the Supabase API key; it is never returned or logged. The
+    historical dependency name remains stable for existing developer routes,
+    while both trusted ``developer`` and ``admin`` roles are authorized.
     """
     if not authorization or not authorization.lower().startswith("bearer "):
         raise HTTPException(status_code=401, detail="Developer authentication required")
@@ -42,7 +53,6 @@ def require_developer(authorization: str | None = Header(default=None)) -> dict:
     except (URLError, OSError, ValueError) as exc:
         raise HTTPException(status_code=503, detail="Developer authentication service unavailable") from exc
 
-    metadata = user.get("app_metadata") or {}
-    if metadata.get("role") != "developer" and metadata.get("voxvector_role") != "developer":
-        raise HTTPException(status_code=403, detail="Developer role required")
+    if _trusted_voxvector_role(user) not in _OPERATOR_ROLES:
+        raise HTTPException(status_code=403, detail="Developer or admin role required")
     return user

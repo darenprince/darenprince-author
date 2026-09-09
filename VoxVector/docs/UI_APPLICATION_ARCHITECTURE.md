@@ -17,10 +17,10 @@ The React application under `voxvector/` is the canonical public frontend. It is
 | Icons | Lucide React | Product and interface iconography |
 | Animation | Motion for React | State-driven transitions and interaction animation |
 | Server state | TanStack Query | API lifecycle caching refresh mutations and diagnostics polling |
-| Authentication | Supabase Auth | Developer and user identity |
-| Authorization | Supabase metadata plus FastAPI enforcement | Developer access control |
+| Authentication | Supabase Auth | Developer, administrator, and approved user identity |
+| Authorization | trusted Supabase `app_metadata`, shared React auth gating, FastAPI enforcement, and server-only Supabase administration | Role routing and protected access control |
 | API | FastAPI via configured backend environments | Original Render API plus separately addressed AWS API environment |
-| Persistence | Supabase | Case data authentication diagnostics and private media |
+| Persistence | Supabase | Case data authentication diagnostics profiles audit events and private media |
 | Deployment | GitHub Pages | Public React application |
 
 ## Product application model
@@ -63,6 +63,33 @@ History + Reopen
 ```
 
 All surfaces share the same case identity.
+
+## Authentication and role routing
+
+`AuthGate.jsx` is the canonical browser authentication owner. It restores the Supabase session, handles email/password login, password reset and sign-out, resolves the trusted role from `app_metadata`, and prevents protected workspace content from rendering before session and role resolution.
+
+Current role routing in source is:
+
+| Trusted role | Canonical destination | Protected behavior |
+|---|---|---|
+| `admin` | `/voxvector/developer` | Developer Console plus admin-only User Management drawer item |
+| `developer` | `/voxvector/developer` | Developer Console |
+| `user` | `/voxvector/app` | minimum protected user workspace |
+| missing / unknown | `/voxvector/login` denial state | no protected workspace access |
+
+`user_metadata` is profile data only and is never accepted as a VoxVector authorization source. Direct URL entry is independently gated; redirects are navigation behavior, not access control.
+
+The `/voxvector/app` route is the canonical minimum user destination while the user-facing analysis workflow is developed. It does not adopt or redirect to the legacy root `voxvector-dashboard.html`, and it does not manufacture analytical capability that the protected user application has not yet implemented.
+
+The public landing header exposes a visible Login action on desktop and mobile. The login page does not expose Google sign-in or account creation because those provider/policy flows have not been established and tested for VoxVector.
+
+### Admin account management
+
+Administrator account controls are implemented as a separate protected boundary inside the existing Developer Console. The User Management drawer item is rendered only for a trusted `admin` role.
+
+The browser invokes the Supabase Edge Function `voxvector-user-admin`. The function revalidates the caller JWT and trusted `admin` role before using the server-only Supabase service-role credential. Supported source operations include listing users, creating or inviting accounts, changing role and permission metadata, updating account/profile fields, password administration/recovery, and permanent deletion. Self-deletion and removal of the caller's own admin role are blocked. Administrative mutations write sanitized records to `audit_events`; passwords, access tokens, and service-role credentials are not written to those audit records.
+
+The Edge Function source existing in a branch is not equivalent to a deployed function. Supabase function deployment and authenticated administrator execution must be verified separately from GitHub QA and frontend publication.
 
 ## Analysis Workspace
 
@@ -295,6 +322,7 @@ It must include:
 - source traceability
 - audit registry
 - endpoint and deployment-boundary traceability
+- admin-only user management when the session carries the trusted `admin` role
 
 ### Status semantics
 
@@ -309,7 +337,7 @@ A local task checkbox is never proof that the corresponding backend capability e
 
 ## API boundary
 
-`voxvector/src/lib/api.js` is the frontend API boundary.
+`voxvector/src/lib/api.js` is the frontend API boundary for the FastAPI environments.
 
 It preserves:
 
@@ -322,6 +350,8 @@ It preserves:
 - cancellable request handling
 - lifecycle event support
 
+The admin Auth-management surface uses the Supabase client only to invoke the JWT-protected `voxvector-user-admin` Edge Function. The browser never invokes Supabase `auth.admin` directly and never receives a service-role key.
+
 The frontend API base defaults to the original API environment at `https://voxvector.crownlabs.tech` and can be overridden with `VITE_VOXVECTOR_API_URL`. The separately addressed AWS environment is `https://awsapi.crownlabs.tech`; configuring the frontend to use AWS is an explicit deployment/configuration decision and is not implied by the existence of the AWS runtime.
 
 ## Deployment boundary
@@ -330,10 +360,12 @@ Vercel is retired.
 
 GitHub Pages is the canonical public frontend host.
 
-The public paths are:
+The public/protected React paths are:
 
-- `/voxvector/`
-- `/voxvector/developer/`
+- `/voxvector/` — public product surface
+- `/voxvector/login` — canonical account login and trusted-role router
+- `/voxvector/developer/` — protected developer/admin console
+- `/voxvector/app` — protected approved-user workspace
 
 The backend environments are:
 
@@ -343,6 +375,8 @@ The backend environments are:
 The original API hostname is preserved. The AWS environment is separately addressed and does not silently replace the existing API.
 
 The root `voxvector.html` is a compatibility redirect only.
+
+GitHub Pages publication of role-routing source does not deploy the Render backend authorization change and does not deploy the Supabase Edge Function. Those runtime boundaries require separate revision-linked evidence.
 
 ## Accessibility
 
