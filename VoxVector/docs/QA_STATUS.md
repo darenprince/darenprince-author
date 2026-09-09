@@ -8,15 +8,20 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 ## Current source and deployment verification state
 
-`main` is the canonical source. At the 2026-09-09 MVP gate-alignment checkpoint:
+`main` is the canonical source. At the 2026-09-09 post-review checkpoint:
 
-- repository source: `fbe317660e7b9238cd46ffff3a8101291bc85580`;
-- `VoxVector QA` run `34305133803` / run #1800: `success` for that exact source revision;
-- `Deploy GitHub Pages` run `34305133777` / run #1697: `success` for that exact source revision;
+- canonical `main` source: `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1` (`ci(voxvector): migrate QA actions to Node 24 runtimes (#936)`);
+- `VoxVector QA` run `34321297739` / run #1815: `success` for exact `main` source `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1`;
+- `Deploy GitHub Pages` run `34321297620` / run #1699: `success` for exact `main` source `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1`;
+- PR #937 remains open on `codex/vv-operational-truth-wiring`; the branch contains the operational-truth source changes and the accepted review correction for missing Render state evidence, but those changes are not yet part of `main`;
+- the accepted review correction changes the missing-evidence test fixture so it actually omits `suspended`; explicit `suspended: "not_suspended"` remains correctly mapped to active, while absent suspension/state evidence remains `not_reported`;
+- the final PR #937 head requires fresh exact-head `VoxVector QA` and PR Preview Build evidence after this documentation update before merge is recommended;
 - Render service: `voxvector-api` (`srv-da2f88n40ujc73a8m26g`), `autoDeploy=no` / automatic trigger off;
-- Render deployment `dep-dagcvau7bikc73aki9b0`: observed `live`, source `fbe317660e7b9238cd46ffff3a8101291bc85580`, trigger `deploy_hook`, finished `2026-09-09T03:22:43.934801Z`.
+- latest separately preserved Render deployment evidence remains `dep-dagcvau7bikc73aki9b0`, observed `live` for source `fbe317660e7b9238cd46ffff3a8101291bc85580`, trigger `deploy_hook`, finished `2026-09-09T03:22:43.934801Z`.
 
-These are separate evidence boundaries. The Render deployment record establishes neither a fresh `/health` readback nor authenticated browser verification. No fresh `/health` response for `dep-dagcvau7bikc73aki9b0` was observed during this documentation-alignment task, so runtime self-test, provider readiness, and media/storage readiness are not advanced from the last separately observed runtime evidence below.
+These are separate evidence boundaries. A successful GitHub Pages workflow establishes publication workflow completion for its source revision; it is not authenticated browser verification. The preserved Render deployment record establishes neither a fresh `/health` readback nor authenticated browser verification. No fresh `/health` response for the current `main` revision or the PR #937 candidate revision was observed during this documentation update, so runtime self-test, provider readiness, media/storage readiness, provider execution, and browser state are not advanced.
+
+PR #937's source contract keeps frontend build/Pages revision matching separate from backend runtime/Render revision matching. `/health.runtime` and the Render status `operational` object carry normalized source, observation time, and revision metadata. Until PR #937 is merged and separately deployed/observed where applicable, this remains reviewed source behavior rather than a production-runtime claim.
 
 ## Current implementation coverage
 
@@ -54,7 +59,7 @@ The latest separately recorded health checkpoint remains the 2026-09-07 observat
 - local fallback `pyannote_local`; disabled and not execution-ready;
 - runtime-reported current commit QA `external_workflow_required`; external GitHub QA must be matched by revision.
 
-Do not project those health fields onto the newer `fbe317...` deployment without a fresh runtime readback.
+Do not project those health fields onto newer source or deployment revisions without a fresh runtime readback.
 
 `/health` readiness and route invocation are separate checks. The authenticated case-analysis path invokes diarization only when `VOXVECTOR_ENABLE_DIARIZATION_RUNS` is enabled and the runtime reports diarization execution readiness. A ready cloud provider is therefore not proof that a particular case run invoked diarization.
 

@@ -50,11 +50,13 @@ VoxVector has two independently versioned application surfaces. They are not req
 - Backend runtime package version: `VoxVector/src/voxvector/__init__.py`.
 - Pipeline/API software version: `VoxVectorPipeline.software_version`, sourced from the backend package version rather than a second hard-coded release number.
 - Public React version authority: `voxvector/package.json`.
-- Live API version evidence: the `pipeline` value returned by `/health`.
+- Live API version evidence: `/health.runtime.version`, with the top-level `pipeline` value retained for compatibility.
 
 `VoxVector/tests/test_version_sync.py` reads `pyproject.toml` and requires the backend manifest, package `__version__`, and pipeline software version to match. This converts backend release alignment from a documentation convention into a QA gate.
 
 The Developer Console startup footer displays the frontend manifest version and the API version returned by the live `/health` response side by side. A source/deployment mismatch therefore remains visible instead of being replaced by a frontend hard-coded API number.
+
+Revision freshness follows the same separation. GitHub Pages and frontend QA are compared to the frontend `VITE_GITHUB_SHA`. Render deployment and backend-source QA are compared to `/health.runtime.source_revision`. Each live source keeps its own observation timestamp; missing revision identity remains unverified and a mismatch remains stale.
 
 Current source versions are frontend `0.2.37` and backend `0.2.27`. The latest separately observed production Render evidence below still reported backend pipeline `0.2.26`; that historical live observation remains valid until a newer deployment is independently verified.
 

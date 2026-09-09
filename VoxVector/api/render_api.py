@@ -152,6 +152,18 @@ def _is_suspended(value) -> bool:
     return False
 
 
+def _reported_suspension_state(value) -> str | None:
+    if isinstance(value, bool):
+        return "suspended" if value else "active"
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"suspended", "true", "yes", "1"}:
+            return "suspended"
+        if normalized in {"not_suspended", "active", "false", "no", "0"}:
+            return "active"
+    return None
+
+
 def _normalize_log(record: dict) -> dict:
     message = _text(record.get("message") or record.get("text") or record.get("event") or record.get("data"), "Render log event")
     timestamp = _scalar(record.get("timestamp") or record.get("time") or record.get("createdAt") or record.get("created_at"))
@@ -188,9 +200,14 @@ def render_status(
     deploys = _unwrap_rows(deploy_payload, "deploy")
     instances_payload = _render_get(f"/services/{resolved_service}/instances", api_key, {"limit": 20})
     instance_rows = _unwrap_rows(instances_payload, "instance")
-    suspended = _is_suspended(service.get("suspended"))
+    suspension_value = service.get("suspended")
+    suspended = _is_suspended(suspension_value)
     explicit_state = _text(service.get("state") or service.get("status") or service.get("serviceState"))
-    service_state = explicit_state or ("suspended" if suspended else "active")
+    service_state = explicit_state or _reported_suspension_state(suspension_value) or "not_reported"
+    latest_deploy = deploys[0] if deploys else {}
+    latest_commit = latest_deploy.get("commit") if isinstance(latest_deploy.get("commit"), dict) else {}
+    source_revision = _text(latest_commit.get("id") or latest_commit.get("sha"), "unknown")
+    observed_at = datetime.now(timezone.utc).isoformat()
     return {
         "status": "ok",
         "service": {
@@ -203,10 +220,17 @@ def render_status(
             "owner_id": _owner_id(service),
             "region": _text(service.get("region") or service.get("regionName") or details.get("region")),
         },
-        "latest_deploy": deploys[0] if deploys else {},
+        "latest_deploy": latest_deploy,
         "deploys": deploys,
         "instances": instance_rows,
-        "observed_at": datetime.now(timezone.utc).isoformat(),
+        "observed_at": observed_at,
+        "operational": {
+            "source": "Render API",
+            "observed_at": observed_at,
+            "service_state": service_state,
+            "deploy_state": _text(latest_deploy.get("status"), "not_reported"),
+            "source_revision": source_revision,
+        },
         "log_window_minutes": log_minutes,
     }
 

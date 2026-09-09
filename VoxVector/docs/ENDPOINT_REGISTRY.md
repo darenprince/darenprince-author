@@ -59,6 +59,19 @@ Provider readiness is not proof that a case route invoked the provider. Case-ana
 
 Commit-specific QA must be established from GitHub Actions for the exact source revision before a runtime is marked QA-current.
 
+### Health operational-truth contract
+
+`GET /health` preserves its existing top-level compatibility fields and exposes a normalized `runtime` object with:
+
+- `status`
+- `source`
+- `observed_at`
+- `version`
+- `version_source`
+- `source_revision`
+
+The observation timestamp describes the API health read. It is not a GitHub QA timestamp or a Render deployment timestamp. The React Developer Console keeps that backend revision separate from its own `VITE_GITHUB_SHA` frontend build revision.
+
 ## Deployment and migration rule
 
 The AWS endpoint is a separate deployment environment. Do not silently replace `voxvector.crownlabs.tech` or change the production frontend API base without an explicit cutover decision, exact-commit deployment verification, browser verification, and documentation update.
@@ -100,7 +113,7 @@ At the September 8 inspection checkpoint, the latest Render deployment was `dep-
 
 `GET /v1/developer/render/status`
 
-Returns current service/deployment/instance state visible to the authenticated developer bridge.
+Returns current service/deployment/instance state visible to the authenticated developer bridge. Its normalized `operational` object reports `source`, `observed_at`, `service_state`, `deploy_state`, and `source_revision`. Missing deployment revisions remain `unknown`; provider strings such as `not_suspended` are mapped explicitly rather than coerced as truthy values.
 
 `GET /v1/developer/render/logs`
 
