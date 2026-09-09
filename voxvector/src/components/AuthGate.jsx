@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AlertTriangle, ArrowLeft, KeyRound, LockKeyhole, Mail, ShieldCheck } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, LockKeyhole, Mail, ShieldCheck } from 'lucide-react'
 import { motion } from 'motion/react'
 import { getVoxVectorRole, roleAllowed, routeForVoxVectorRole, supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
