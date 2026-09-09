@@ -2,24 +2,50 @@
 
 ## Current task status
 
-Prompt: **VV-USERCONSOLE-ROLE-GATE**. Source base: `9539fa89ede3295e588feed781971919c542427e`. Tracking issue: [#931](https://github.com/darenprince/darenprince-author/issues/931). Branch: `feat/voxvector-role-gating`.
+Prompt: **VV-DEVCONSOLE-ENGINEERING-RAIL-RESTORE**. Source base: `a656c3545daef4bc5c6a941066d9a1f92f70aa61`. Tracking issue: [#947](https://github.com/darenprince/darenprince-author/issues/947). PR: [#950](https://github.com/darenprince/darenprince-author/pull/950). Branch: `fix/voxvector-engineering-status-rail`.
 
-This task consolidates VoxVector authentication and trusted role routing, establishes the minimum protected user destination, extends the existing Developer Console to a trusted administrator role, and adds a server-only Supabase account-administration boundary. It does not deploy the Supabase Edge Function, assign a live admin role, deploy the Render backend change, verify an authenticated browser, execute speech providers, alter the analytical pipeline, or scientifically validate VoxVector.
+This task repairs the existing Developer Console live engineering status rail without creating a second console, status component, header, route, or telemetry source. It keeps source, QA, deployment/runtime, provider readiness, provider execution, browser verification, and scientific validation separate.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read canonical charter/workflow/guardrails and active auth owners | Complete | Current `main` inspected at `9539fa89ede3295e588feed781971919c542427e` |
-| Inspect connected Supabase auth/profile boundary | Complete | One current trusted `developer` role observed; `profiles` and `audit_events` available; no live `admin`/`user` assignment changed |
-| Consolidate browser auth/session/role routing | Complete in source | Shared `AuthGate.jsx`; trusted `app_metadata`; direct protected-route checks |
-| Add minimum protected user destination | Complete in source | `/voxvector/app`; legacy `voxvector-dashboard.html` not adopted |
-| Add admin operator and user-management source | Complete in source | Backend admin authorization, admin-only drawer UI, server-only `voxvector-user-admin` Edge Function source |
-| Add regression coverage | Complete in source | Backend auth tests plus frontend role-routing contract tests |
-| Source checkpoint QA | Complete | `e97655d59e283d7b3c9cda1065854df469214cb1` passed VoxVector QA `34329618939` / #1838, including API suite, frontend contract tests and React build |
-| Synchronize affected canonical docs and Crown Labs mirror | Complete in branch | UI architecture, endpoint registry, QA status and architecture mirror updated |
-| Final exact-head QA / PR Preview / repository review | Pending | Documentation/audit updates moved branch head; fresh exact-head evidence required |
-| Edge Function / Render / browser verification | Not performed | Remains separate post-merge runtime evidence |
+| Inspect canonical main, charter/workflow/guardrails, shell owners and review threads | Complete | Task started from `a656c3545daef4bc5c6a941066d9a1f92f70aa61` |
+| Restore rail controls and disclosure semantics | Complete in source | Existing `DeveloperEngineeringStatus` has expand/collapse, independent hide X, non-modal disclosure region and linked `aria-controls` |
+| Restore real layout ownership | Complete in source | Rail moved out of header actions into the Developer Console shell and uses a real 34px sticky flow row under the 56px navigation |
+| Prevent top notification collision | Complete in source | Existing Toast owner uses bottom-right placement |
+| Resolve prior accessibility review finding | Complete | False `aria-modal` semantics removed; prior review thread resolved |
+| Synchronize affected canonical documentation | Complete in branch | UI architecture, CSS architecture, console sync rules, QA status and current engineering state updated |
+| Synchronize Crown Labs Bible mirrors | Complete in branch | Crown architecture and current engineering state mirror updated |
+| Exact-head QA / PR Preview after final source + docs + audit head | Pending | Earlier implementation/documentation heads passed, but final audit commit advances the head again |
+| Authenticated desktop/mobile browser verification | Not performed | Required before production UI behavior is called browser verified |
 
 ## Task log
+
+### Task 20: restore Developer engineering status rail and synchronize current documentation, 2026-09-09
+
+Issue #947 / PR #950 was rechecked against actual GitHub branch state rather than conversational or bot summary memory. That readback uncovered an important mismatch: the documentation pass described the engineering rail as a normal-flow sibling below the Developer navigation, but the then-current branch still rendered `DeveloperEngineeringStatus` inside `headerActions`, and the stylesheet still used header-dependent absolute positioning and `:has()` compensation. Those claims were corrected by fixing the canonical source rather than weakening the documentation to match the broken shell.
+
+`voxvector/src/components/DeveloperConsole.jsx` now keeps GitHub/profile controls in `SiteHeader` actions and renders the single existing `DeveloperEngineeringStatus` immediately after `SiteHeader`. `DeveloperEngineeringStatus.css` now gives toolbar mode a real 34px sticky row at `top:56px`; it removes the former header `:has()` compensation and absolute rail positioning. Hiding the component removes that row from layout. Expansion remains the existing fixed status surface from `top:90px` through the available viewport, with internal scrolling on desktop/mobile. `DeveloperEngineeringStatus.jsx` retains the independent X and expand/collapse controls, uses a non-modal `role="region"`, and now explicitly connects disclosure controls to the expanded panel with `aria-controls`. `Toast.jsx` remains bottom-right.
+
+The previous accessibility review finding about declaring a modal without a modal focus lifecycle was addressed and resolved. The implementation checkpoint `64edfb60aecdf13d4cb094838518504a994fc78d` had passed VoxVector QA #1921 and PR Preview #799. An intermediate documentation head `fc3478707fb0e3f72240d2c8938f8c9d95cd940c` also passed VoxVector QA #1937 and PR Preview #806. Those runs are historical evidence for those exact heads only. The source readback corrections and final documentation/audit synchronization move the branch again, so fresh exact-head QA and PR Preview remain mandatory before merge recommendation.
+
+Affected current documentation was synchronized rather than creating replacement plans: `CSS_ARCHITECTURE.md`, `UI_APPLICATION_ARCHITECTURE.md`, `DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`, `QA_STATUS.md`, and `CURRENT_ENGINEERING_STATE_2026-09-04.md`. The matching Crown Labs Bible `architecture.md` and `current-engineering-state-2026-09-04.md` mirrors now describe the same canonical ownership, sticky row, hide/expand behavior, non-modal accessibility contract, toast placement, and verification boundary. Historical checkpoints were not rewritten.
+
+**Changed files in this task:**
+
+- `voxvector/src/components/DeveloperConsole.jsx`
+- `voxvector/src/components/DeveloperEngineeringStatus.jsx`
+- `voxvector/src/components/DeveloperEngineeringStatus.css`
+- `voxvector/src/components/ui/Toast.jsx`
+- `VoxVector/docs/CSS_ARCHITECTURE.md`
+- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/architecture.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`
+- `voxvector/audits/AUDIT_REPORT.md`
+
+No provider configuration, provider execution, pipeline methodology, classification threshold, auth architecture, deployment policy, Render deployment, Pages publication, or scientific validation changed in this task. Authenticated browser verification remains separate.
 
 ### Task 19: role-gated account access and administrator boundary, 2026-09-09
 
