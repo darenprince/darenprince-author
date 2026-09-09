@@ -21,7 +21,8 @@
 | MFCC / cepstral module | 0.1 | integrated / observational |
 | Evidence acquisition | 0.1 | implemented foundation |
 | faster-whisper adapter | configured / execution-ready on live Render runtime | implemented; real execution verification next |
-| pyannote Community-1 adapter | configured / execution-ready on live Render runtime | implemented; real execution verification next |
+| pyannoteAI cloud primary (`pyannote_api`) | configured / primary execution-ready on latest observed Render runtime | implemented; real cloud execution verification next |
+| local pyannote Community-1 fallback (`pyannote_local`) | disabled / not execution-ready on latest observed Render runtime | implemented optional fallback; test only when explicitly enabled |
 | Transcript/speaker alignment | 0.1 | foundation implemented; provider-backed verification next |
 | Jitter / shimmer utilities | 0.1 | implemented / outside primary pipeline |
 | Reliability gate | 0.1 | implemented / eligibility control |
@@ -35,7 +36,7 @@
 | Capability status map | 0.1 | active |
 | Roadmap | 0.1 | active |
 | Deception classifier | not assigned | planned / not validated |
-| Speaker diarization | not assigned | adapter configured; execution-ready; real controlled execution next |
+| Speaker diarization | not assigned | cloud primary configured; route-gated controlled execution next |
 | Production transcription | not assigned | adapter configured; execution-ready; real controlled execution next |
 | Transcript alignment | 0.1 | foundation implemented; provider-backed execution next |
 | Learned speech representations | not assigned | planned |
@@ -62,6 +63,8 @@ Live Render `/health` reports:
 
 The health response reports `current_commit_qa: external_workflow_required`; that value remains separate from runtime health until exact-commit GitHub Actions verification is observed.
 
+The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS` before it invokes the configured diarization provider. Provider readiness in `/health` must not be read as proof that this route gate is enabled or that diarization executed on a case.
+
 ## Canonical locations
 
 VoxVector backend and analysis: `VoxVector/`
@@ -78,7 +81,7 @@ The product pipeline additionally defines speaker processing, transcription, ali
 
 ## Speech intelligence runtime
 
-The canonical acquisition layer can activate real local transcription and diarization providers through environment-selected adapters. The latest observed Render health contract makes faster-whisper and the pyannoteAI cloud primary path execution-ready; the local pyannote fallback was disabled and not ready. Heavy model execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
+The canonical acquisition layer can activate real transcription and diarization providers through environment-selected adapters. The latest observed Render health contract makes faster-whisper and the pyannoteAI cloud primary path execution-ready; the local pyannote fallback was disabled and not ready. Heavy provider execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
 
 Supported providers are faster-whisper for transcription, pyannoteAI cloud for primary diarization, and local pyannote Community-1 as an explicit fallback when separately configured.
 
