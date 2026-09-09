@@ -20,13 +20,28 @@ The public React application lives in `voxvector/`. The canonical backend and an
 - **GitHub Actions:** QA, build, artifact generation, and public frontend deployment
 - **GitHub Pages:** public React application at `darenprince.com/voxvector/`
 - **Render:** runtime host for the FastAPI API at `voxvector.crownlabs.tech`
-- **Supabase:** configured authentication, persistence, diagnostics, and private media storage
+- **Supabase:** configured authentication, persistence, diagnostics, profiles, audit records, and private media storage
 
 Render is an API runtime, not VoxVector's durable media repository. GitHub Pages is a frontend host, not the API runtime.
+
+## Account and authorization boundary
+
+The active role-gating implementation keeps authentication and authorization separate from public navigation. The canonical React application uses one Supabase session lifecycle and trusted `app_metadata` roles:
+
+- `admin` → protected Developer Console plus admin-only User Management;
+- `developer` → protected Developer Console;
+- `user` → protected `/voxvector/app` user workspace;
+- missing or unknown role → denied protected access.
+
+The public application exposes `/voxvector/login` as the single account entry. Direct protected-route entry is role checked and does not rely on redirect behavior alone. User-editable profile metadata is not an authorization source.
+
+Privileged account administration is designed as a server-only Supabase Edge Function. The browser invokes the function with the current JWT; the function revalidates a trusted `admin` role before using the Supabase service-role credential to create/invite users, maintain roles/permissions/profile fields, administer passwords/recovery, or delete accounts. The service-role credential is never exposed to the GitHub Pages client. Function source, function deployment, authenticated admin execution, and browser verification remain separate evidence states.
 
 ## Operational truth boundary
 
 The frontend and backend are independently deployed and therefore carry separate revision truth. The GitHub Pages publication is matched to the frontend build revision injected by GitHub Actions. The Render deployment is matched to the backend revision returned by `/health`. The Developer Console reports the source and observation time for each boundary and marks missing revision identity as unverified or a mismatched revision as stale. It does not infer runtime health from a successful deployment or combine these independent revisions into one synthetic state.
+
+The Supabase account-administration function is a third runtime boundary. A GitHub commit or Pages publication does not establish that the Edge Function is deployed or that an admin operation executed successfully.
 
 ## Audio flow
 
