@@ -8,7 +8,7 @@ The roadmap preserves the complete product direction while enforcing a dependenc
 
 **Current stage:** Controlled speech-provider execution and verification of the newly connected transcript workspace.
 
-The live Render runtime reports configured and execution-ready faster-whisper and pyannote providers. The canonical case-analysis path now invokes transcription when ready and persists acquired transcript artifacts; the immediate priority is controlled real-audio execution and artifact readback before promoting runtime capability state.
+The live Render runtime reports configured and execution-ready faster-whisper and pyannoteAI cloud-primary providers. The canonical case-analysis path now invokes transcription when ready and persists acquired transcript artifacts; diarization invocation remains separately gated by `VOXVECTOR_ENABLE_DIARIZATION_RUNS`. The immediate priority is controlled real-audio execution and artifact readback before promoting runtime capability state.
 
 The Developer Console remains the operator projection of canonical runtime and CI evidence. It must not invent provider execution, stage progress, QA, infrastructure metrics, or scientific results.
 
@@ -18,7 +18,7 @@ The Developer Console remains the operator projection of canonical runtime and C
 2. recording intake and provenance
 3. audio playback and waveform
 4. real 21 stage lifecycle
-5. controlled speaker processing
+5. controlled speaker processing through the configured pyannoteAI cloud primary
 6. controlled transcription
 7. timestamp normalization and transcript/speaker alignment
 8. real analytical tracks
@@ -77,7 +77,8 @@ The Developer Console remains the operator projection of canonical runtime and C
 
 - speech segmentation — implemented foundation
 - speaker identification
-- diarization — provider configured/execution-ready; controlled execution next
+- diarization — pyannoteAI cloud primary configured/execution-ready; route-gated controlled execution next
+- optional local Community-1 fallback — test only when explicitly enabled
 - turn boundaries
 - overlap detection
 - speaker confidence
@@ -251,17 +252,18 @@ The remaining console work connects these surfaces to fresh provider execution e
 
 1. Preserve exact-revision QA and publication evidence as source and deployments advance.
 2. Controlled faster-whisper execution on a known WAV fixture.
-3. Controlled pyannote Community-1 execution on the same fixture.
-4. Persist transcript and speaker artifacts under case/run identity.
-5. Normalize timestamps and produce the multimodal alignment artifact.
-6. Verify transcript/audio synchronization on a controlled provider-backed case and then expose speaker synchronization when diarization artifacts exist.
-7. Feed acquired transcript into linguistic/disfluency analysis.
-8. Add question/response boundaries and interaction timing.
-9. Add speaker-aware acoustic aggregation and independent baseline inputs.
-10. Complete granular stage callbacks where actual method boundaries exist.
-11. Build Review Evidence, assessment, reporting, and history/reopen from persistent case state.
-12. Complete authenticated browser/mobile verification.
-13. Begin scientific evaluation only after the engineering evidence chain is stable.
+3. Controlled pyannoteAI cloud-primary execution on the same fixture with `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`; verify speaker artifacts and provider provenance.
+4. Exercise local Community-1 only as a separate explicit fallback test when fallback configuration is enabled.
+5. Persist transcript and speaker artifacts under case/run identity.
+6. Normalize timestamps and produce the multimodal alignment artifact.
+7. Verify transcript/audio synchronization on a controlled provider-backed case and then expose speaker synchronization when diarization artifacts exist.
+8. Feed acquired transcript into linguistic/disfluency analysis.
+9. Add question/response boundaries and interaction timing.
+10. Add speaker-aware acoustic aggregation and independent baseline inputs.
+11. Complete granular stage callbacks where actual method boundaries exist.
+12. Build Review Evidence, assessment, reporting, and history/reopen from persistent case state.
+13. Complete authenticated browser/mobile verification.
+14. Begin scientific evaluation only after the engineering evidence chain is stable.
 
 ## Research expansion rule
 
