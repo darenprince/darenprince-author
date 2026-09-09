@@ -1,3 +1,13 @@
+## 2026-09-09 — Engineering MVP release gate and planning freeze
+
+**Decision:** Use `docs/MVP_RELEASE_GATE.md` as the single canonical engineering-MVP exit checklist. During the MVP sprint, do not create additional planning documents that merely restate the MVP, release sequence, or golden-case proof. New documentation is allowed only when an active release gate genuinely requires a new canonical record or when it intentionally replaces an explicitly retired canonical owner.
+
+**Execution model:** `MVP_BUILD_PLAN.md` remains the dependency-ordered build plan; `MVP_RELEASE_GATE.md` owns exit evidence; GitHub Issues under tracker #915 own task scope and acceptance criteria; PRs own reviewable source changes; `voxvector/audits/AUDIT_REPORT.md` owns executed evidence. Existing capability, QA, validation, deployment, and architecture records keep their current responsibilities.
+
+**Release proof:** Engineering MVP requires a controlled real-audio golden case to traverse authenticated intake, persisted source/provenance, actual transcription and cloud-primary diarization execution, persisted alignment, evidence/assessment/report, history/reopen, and deployed browser verification. Sign-off requires two complete successful golden-case executions on the same exact deployed revision. A source change resets that repeatability proof.
+
+**Boundary:** Repository QA, build success, deployment state, runtime health, provider execution, browser verification, engineering-MVP completion, and scientific validation remain separate claims. Engineering MVP does not establish deception-detection scientific validity.
+
 ## 2026-09-08 — GitHub issue execution and audit reporting workflow
 
 **Decision:** Use GitHub Issues as the execution queue under [tracker #915](https://github.com/darenprince/darenprince-author/issues/915). Link substantive engineering, documentation, dashboard, QA and deployment tasks to reviewable PRs, with owner, dependencies, acceptance criteria and evidence recorded in each issue.
