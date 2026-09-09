@@ -351,3 +351,83 @@ def test_terminal_run_persists_execution_and_failure_report(monkeypatch):
     assert run["failure_report"]["failed_work"][0]["id"] == "speaker_identification_diarization"
     assert run["failure_report"]["completed_work"][0]["id"] == "acoustic_feature_extraction"
     assert run["failure_report"]["provider_state"]["acquisition_limitations"]
+
+
+def test_case_history_respects_longer_persisted_deadline_before_stale_threshold():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Long provider")
+    started_at = (datetime.now(timezone.utc) - timedelta(seconds=500)).isoformat()
+    _persist_running_run(
+        store,
+        storage,
+        case,
+        process_instance_id="current-worker",
+        started_at=started_at,
+        timeout_seconds=600,
+    )
+
+    cases = store.list_cases("user-1", stale_after_seconds=420, deadline_grace_seconds=30)
+    run = next(item for item in cases if item["case_id"] == case["case_id"])["runs"][0]
+
+    assert run["status"] == "running"
+    assert run.get("error") is None
+
+
+def test_historical_terminal_run_does_not_inherit_reader_runtime_revision(monkeypatch):
+    monkeypatch.setenv("VOXVECTOR_SOURCE_REVISION", "reader-runtime-sha")
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Historical")
+    case_path = f"cases/user-1/{case['case_id']}.json"
+    started_at = "2026-01-01T00:00:00+00:00"
+    completed_at = "2026-01-01T00:00:05+00:00"
+    storage.json[case_path]["status"] = "failed"
+    storage.json[case_path]["current_run_id"] = "legacy-run"
+    storage.json[case_path]["runs"] = [{
+        "run_id": "legacy-run",
+        "analysis_id": "legacy-run",
+        "request_id": "legacy-request",
+        "status": "failed",
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "source_id": "legacy-source",
+        "stages": [],
+        "error": {"error_type": "LegacyFailure", "message": "historical"},
+    }]
+
+    cases = store.list_cases("user-1")
+    run = next(item for item in cases if item["case_id"] == case["case_id"])["runs"][0]
+
+    assert run.get("source_revision") is None
+    assert run["run_report"]["source_revision"] is None
+    assert storage.json[case_path]["runs"][0].get("source_revision") is None
+
+
+def test_case_history_persists_terminal_metadata_backfill():
+    storage = FakeStorage()
+    store = CaseStore(storage)
+    case = store.create_case("user-1", "Backfill")
+    case_path = f"cases/user-1/{case['case_id']}.json"
+    started_at = "2026-01-01T00:00:00+00:00"
+    completed_at = "2026-01-01T00:00:03+00:00"
+    storage.json[case_path]["status"] = "failed"
+    storage.json[case_path]["current_run_id"] = "old-terminal"
+    storage.json[case_path]["runs"] = [{
+        "run_id": "old-terminal",
+        "analysis_id": "old-terminal",
+        "request_id": "old-request",
+        "status": "failed",
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "source_id": "old-source",
+        "stages": [],
+        "error": {"error_type": "OldFailure", "message": "old failure"},
+    }]
+
+    store.list_cases("user-1")
+    persisted = storage.json[case_path]["runs"][0]
+
+    assert persisted["elapsed_ms"] == 3000.0
+    assert persisted["run_report"]["run_id"] == "old-terminal"
+    assert persisted["failure_report"]["request_id"] == "old-request"
