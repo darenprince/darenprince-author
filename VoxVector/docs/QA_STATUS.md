@@ -8,20 +8,20 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 ## Current source and deployment verification state
 
-`main` is the canonical source. At the 2026-09-09 post-review checkpoint:
+`main` is the canonical source. At the 2026-09-09 upload-reliability checkpoint:
 
-- canonical `main` source: `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1` (`ci(voxvector): migrate QA actions to Node 24 runtimes (#936)`);
-- `VoxVector QA` run `34321297739` / run #1815: `success` for exact `main` source `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1`;
-- `Deploy GitHub Pages` run `34321297620` / run #1699: `success` for exact `main` source `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1`;
-- PR #937 remains open on `codex/vv-operational-truth-wiring`; the branch contains the operational-truth source changes and the accepted review correction for missing Render state evidence, but those changes are not yet part of `main`;
-- the accepted review correction changes the missing-evidence test fixture so it actually omits `suspended`; explicit `suspended: "not_suspended"` remains correctly mapped to active, while absent suspension/state evidence remains `not_reported`;
-- the final PR #937 head requires fresh exact-head `VoxVector QA` and PR Preview Build evidence after this documentation update before merge is recommended;
+- canonical `main` source: `6c1ff7fbcb101fe271b0506d67a55926adf89055` (`fix(voxvector): align frontend/backend operational truth (#937)`);
+- `VoxVector QA` run `34322623044` / run #1820: `success` for exact `main` source `6c1ff7fbcb101fe271b0506d67a55926adf89055`;
+- `Deploy GitHub Pages` run `34322623024` / run #1700: `success` for exact `main` source `6c1ff7fbcb101fe271b0506d67a55926adf89055`;
+- operational-truth PR #937 is merged; frontend build/Pages revision matching remains separate from backend runtime/Render revision matching;
+- the active #930 upload-reliability branch is `fix/voxvector-upload-prehandler-400`; code/test head `c73e48712a76c24c5b20172bd1a7b0a0a2374dc0` passed `VoxVector QA` run `34323715115` / run #1822 before this documentation update;
+- that branch adds sanitized derived diagnostics for case-source POST responses with HTTP 400/413/415/422 when no matching `case.source_upload_started` event was observed for the same request ID; route-started 4xx responses are explicitly not labeled pre-handler failures;
 - Render service: `voxvector-api` (`srv-da2f88n40ujc73a8m26g`), `autoDeploy=no` / automatic trigger off;
 - latest separately preserved Render deployment evidence remains `dep-dagcvau7bikc73aki9b0`, observed `live` for source `fbe317660e7b9238cd46ffff3a8101291bc85580`, trigger `deploy_hook`, finished `2026-09-09T03:22:43.934801Z`.
 
-These are separate evidence boundaries. A successful GitHub Pages workflow establishes publication workflow completion for its source revision; it is not authenticated browser verification. The preserved Render deployment record establishes neither a fresh `/health` readback nor authenticated browser verification. No fresh `/health` response for the current `main` revision or the PR #937 candidate revision was observed during this documentation update, so runtime self-test, provider readiness, media/storage readiness, provider execution, and browser state are not advanced.
+These are separate evidence boundaries. A successful GitHub Pages workflow establishes publication workflow completion for its source revision; it is not authenticated browser verification. The preserved Render deployment record establishes neither a fresh `/health` readback nor authenticated browser verification. The #930 branch is source/test evidence only until it is reviewed, merged, separately deployed, and exercised against an authenticated upload.
 
-PR #937's source contract keeps frontend build/Pages revision matching separate from backend runtime/Render revision matching. `/health.runtime` and the Render status `operational` object carry normalized source, observation time, and revision metadata. Until PR #937 is merged and separately deployed/observed where applicable, this remains reviewed source behavior rather than a production-runtime claim.
+The merged source contract keeps frontend build/Pages revision matching separate from backend runtime/Render revision matching. `/health.runtime` and the Render status `operational` object carry normalized source, observation time, and revision metadata. Missing revision identity remains unverified and mismatched revisions remain stale.
 
 ## Current implementation coverage
 
@@ -81,7 +81,9 @@ The authoritative release checklist is `MVP_RELEASE_GATE.md`. The immediate QA/e
 
 ## Active reliability evidence
 
-[#930](https://github.com/darenprince/darenprince-author/issues/930) remains an engineering-MVP blocker. The latest investigated production upload 400 reached the API middleware boundary but did not emit the normal `case.source_upload_started` route event, and no media object was created for the failed request. Historical evidence contains a similar pre-handler 400 pattern. The exact pre-handler cause remains unresolved; it must not be reported as a fixed parser, invalid-WAV, storage, or memory defect until reproduced and evidenced.
+[#930](https://github.com/darenprince/darenprince-author/issues/930) remains an engineering-MVP blocker. Connected Render evidence reconfirmed two intermittent POST `/v1/cases/{case_id}/sources` HTTP 400 responses that reached `request.completed` without the normal `case.source_upload_started` route event: request `891cbceb-cee0-4753-90fe-4874fd411ea5` on source `c2a7c3b1322899559ec27744984641b6e115271a` after about 17.6 seconds, and request `21f2bc40-39d8-40a8-8fdf-2b17055272c8` on source `5041e6a32771258918ced153d18725367e1b6a7a` after about 4.59 seconds. The same service also has many successful persisted uploads, including 17,596,936-byte / 183.3-second recordings, so current evidence supports an intermittent pre-handler boundary rather than a deterministic file-size/storage failure.
+
+The #930 branch now correlates `case.source_upload_started` with `request.completed` by request ID. A case-source POST returning HTTP 400/413/415/422 without a matching route-start event emits the sanitized error event `case.source_upload_prehandler_rejected`, which is projected into the existing error-report path. It records method, route, status, duration, boundary, and the evidence basis; blocked raw-body/audio/transcript fields remain excluded. A route-started 4xx remains a normal route-level rejection and is not mislabeled as pre-handler. This hardening does not identify multipart parsing, client truncation, proxy handling, or another exact cause by itself. The root cause remains unresolved until a failure is reproduced or captured with stronger boundary evidence after deployment.
 
 ## Render incident evidence
 
