@@ -44,8 +44,21 @@ def _trigger_deploy_hook() -> dict:
     try:
         with urlopen(request, timeout=20) as response:
             raw = response.read().decode("utf-8", errors="replace")
-            payload = json.loads(raw) if raw else {}
-            return {"response_status": getattr(response, "status", 200), "payload": payload}
+            payload = {}
+            response_body_format = "empty"
+            if raw:
+                try:
+                    parsed = json.loads(raw)
+                except json.JSONDecodeError:
+                    response_body_format = "text"
+                else:
+                    payload = parsed
+                    response_body_format = "json"
+            return {
+                "response_status": getattr(response, "status", 200),
+                "response_body_format": response_body_format,
+                "payload": payload,
+            }
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise HTTPException(status_code=502, detail=f"Render deploy hook returned HTTP {exc.code}: {detail[:240]}") from exc

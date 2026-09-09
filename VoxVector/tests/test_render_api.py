@@ -115,3 +115,48 @@ def test_deploy_hook_posts_without_exposing_hook_value(monkeypatch):
     assert seen["method"] == "POST"
     assert seen["url"] == "https://example.invalid/hook/secret"
     assert result["response_status"] == 200
+    assert result["response_body_format"] == "json"
+
+
+def test_deploy_hook_accepts_successful_non_json_response(monkeypatch):
+    import api.render_api as render_api
+
+    class Response:
+        status = 200
+        def read(self):
+            return b"Deploy request accepted"
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+
+    monkeypatch.setenv("RENDER_DEPLOY_HOOK_URL", "https://example.invalid/hook/secret")
+    monkeypatch.setattr(render_api, "urlopen", lambda request, timeout: Response())
+
+    result = _trigger_deploy_hook()
+
+    assert result["response_status"] == 200
+    assert result["response_body_format"] == "text"
+    assert result["payload"] == {}
+
+
+def test_deploy_hook_accepts_successful_empty_response(monkeypatch):
+    import api.render_api as render_api
+
+    class Response:
+        status = 202
+        def read(self):
+            return b""
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+
+    monkeypatch.setenv("RENDER_DEPLOY_HOOK_URL", "https://example.invalid/hook/secret")
+    monkeypatch.setattr(render_api, "urlopen", lambda request, timeout: Response())
+
+    result = _trigger_deploy_hook()
+
+    assert result["response_status"] == 202
+    assert result["response_body_format"] == "empty"
+    assert result["payload"] == {}

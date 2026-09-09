@@ -14,11 +14,21 @@ The September 7 user request adds an organized audit archive and detailed AI exe
 | Copy records and create source/hash index | Complete | 76 repository records copied; byte identity passed for all; zero destination collisions |
 | Write detailed AI audit instructions | Complete | AUDIT_INSTRUCTIONS.md |
 | Finish inventoried project and Crown Labs documentation reading | Complete | 267 unique-text records / 328 inventoried paths; scope and recovery recorded in Task 8 |
-| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and Task 13 |
-| Verify workflows and production trigger | Complete with limits | Exact-revision QA/Pages publication verified; inaccessible Actions variables and Render workspace selection recorded |
+| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and 13–14 |
+| Verify workflows and production trigger | In review with explicit production gate | Manual Render deploy-hook source repair is in PR #924; post-merge production trigger/runtime/browser evidence remains open in #920 |
 | Finish Prompt 1 and advance to VV-TRUTHMODEL | Complete / next not started | Prompt 1 matrix complete; VV-TRUTHMODEL is next |
 
 ## Task log
+
+### Task 14: refresh PR #924 onto merged #919 ground truth and rerun exact-head QA, 2026-09-08
+
+After PR #919 merged, canonical `main` advanced to `c2a7c3b1322899559ec27744984641b6e115271a`. PR #924 was no longer mergeable against that new base because both branches had modified active deployment/status documentation. The fix branch was updated with a true merge commit using `main` as the second parent, then the overlapping active records were reconciled rather than choosing the stale pre-#919 versions wholesale.
+
+Conflict reconciliation preserved the #919 ground-truth corrections for the pyannoteAI cloud-primary architecture, explicit `VOXVECTOR_ENABLE_DIARIZATION_RUNS` route gate, optional local Community-1 fallback, current source revision evidence, and Prompt 1 audit history. The #924 manual Render deployment-control evidence was layered onto those current records. In particular, `DEPLOYMENT_VARIABLE_MATRIX.md` keeps `pyannote_api`, `PYANNOTE_KEY`/`PYANNOTE_API_KEY`, explicit fallback variables, and the separate diarization route gate while adding the manual Render hook, service ID, observability key boundary, and disabled-auto-deploy contract. `ENDPOINT_REGISTRY.md` now uses the current `73ac03...` runtime evidence and cloud-primary provider state rather than reverting to the older local-primary snapshot. `AUDIT_REPORT.md` preserves all merged #919 task history and adds this deployment-control task instead of replacing the completed ground-truth record with an earlier incomplete snapshot.
+
+The source repair itself remains unchanged: `VoxVector/api/render_api.py` accepts successful JSON, text, or empty deploy-hook response bodies without treating body content as deployment completion, and `VoxVector/tests/test_render_api.py` covers those response shapes. Render auto-deploy remains disabled. The protected Developer Console route remains the only production Render deployment path documented by this task.
+
+This refresh does not constitute a production deployment. Required post-merge evidence remains: Developer Console hook request observed → new Render deploy observed → intended commit matched → deploy reaches `live` → backend `source_revision` and `/health` verified → authenticated browser/runtime behavior verified.
 
 ### Task 13: fix active speech-provider debugging guidance after Codex review, 2026-09-08
 

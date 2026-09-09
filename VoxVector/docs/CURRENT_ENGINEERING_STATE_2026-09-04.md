@@ -11,7 +11,8 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Backend pipeline version: `0.2.26`
 - Frontend version: `0.2.37`
 - Latest confirmed live Render deployment source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- Latest Render deploy state observed for that revision on 2026-09-07: `live`
+- Latest confirmed Render deploy: `dep-dafg5nv40ujc73b5l400`, observed `live` on 2026-09-08
+- Render production auto-deploy: disabled (`autoDeploy=no`, automatic trigger off) at the 2026-09-08 connected inspection
 - Runtime self-test must be read from the live `/health` response; a Render `live` deployment is not substituted for that runtime field
 - Maximum sample rate: `48,000 Hz`
 - Maximum media size: `262,144,000 bytes`
@@ -23,7 +24,7 @@ This is the current engineering snapshot for the active VoxVector repository sta
 | Surface | Endpoint / role | Current status |
 |---|---|---|
 | Public React application | `https://darenprince.com/voxvector/` | Active public frontend |
-| Original API | `https://voxvector.crownlabs.tech` | Preserved Render API |
+| Original API | `https://voxvector.crownlabs.tech` | Preserved Render API; manually deployed through protected hook |
 | AWS API environment | `https://awsapi.crownlabs.tech` | Separate historical benchmark environment; not part of active QA gating |
 | Authentication/persistence/diagnostics/private media | Supabase | Configured boundary |
 
@@ -128,7 +129,13 @@ Infrastructure health, model execution and successful software tests must not be
 
 The canonical Developer Console includes a **Deploy Now** control on the Render Runtime surface. It calls the authenticated server-side route `POST /v1/developer/render/deploy`. The API runtime reads the protected `RENDER_DEPLOY_HOOK_URL` environment variable and triggers Render without exposing the hook to the GitHub Pages client.
 
-A successful trigger response means Render accepted or queued the deploy request. It is not evidence that the new revision built, started, passed health checks, or completed browser verification. Those states remain observable through the existing Render status/log surfaces and deployment provenance.
+Render production auto-deploy is intentionally disabled. The manual deploy hook is the current production backend deployment boundary.
+
+A successful trigger response means only that the deploy-hook request was accepted. It is not evidence that a new Render deploy was created, built, started, reached `live`, matches the intended Git revision, passed health checks, or completed browser verification. Those states remain observable through the existing Render status/log surfaces and deployment provenance.
+
+The required deployment evidence sequence is:
+
+`hook accepted → new Render deploy observed → intended commit matched → deploy live → backend source_revision verified → /health verified → browser/runtime verification when required`
 
 ## 2026-09-04 — Canonical transcription workflow and synchronized review build
 
@@ -212,3 +219,24 @@ Developer profiles now use the existing `public.profiles` record plus a private 
 The Live Engineering State control is now a full-width rail directly under the primary navigation. Opening it produces a page-filling downward drawer with touch scrolling and swipe-to-collapse. Its status projection reads API `/health`, exact-revision GitHub workflow evidence, and the authenticated Render status bridge separately. It no longer hard-codes a live Render memory limit and no longer assumes that pyannoteAI cloud readiness depends on the local pyannote adapter or Hugging Face token.
 
 **Verification boundary:** The Supabase migration was applied and its bucket/policies were read back successfully. Supabase security advisor output after the migration did not surface a new avatar-policy finding; existing unrelated warnings remain for the `developer_dashboard_summary()` SECURITY DEFINER RPC and disabled leaked-password protection. Frontend build, PR preview, exact-commit QA, and authenticated desktop/mobile browser interaction are still required for this branch before merge or production UI status is claimed.
+
+## 2026-09-08 — Manual Render deploy-hook repair and live deployment truth
+
+Connected Render inspection corrected the current production deployment record and confirmed the intended manual deployment architecture:
+
+- workspace: `My Workspace` (`tea-da2errdg1s2s73cl4eeg`)
+- single Render service: `voxvector-api` (`srv-da2f88n40ujc73a8m26g`)
+- service root: `VoxVector`
+- source branch: `main`
+- auto-deploy: **disabled**
+- automatic deploy trigger: **off**
+- latest observed live deployment: `dep-dafg5nv40ujc73b5l400`
+- deployed source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- repeated `/health` responses were HTTP 200 during the inspected runtime window
+- the instance later performed a clean Uvicorn shutdown without an observed exception or out-of-memory event; the cause of that platform lifecycle event remains unresolved
+
+GitHub `main` at the investigation checkpoint was `66a1616d49e228c6ec57d3cfc4855898675fae2c`, five commits ahead of the deployed revision. Comparison showed those five commits changed documentation, audit organization and workflow records, not runtime implementation. This explains the source/deployment revision mismatch at that moment without implying automatic deployment should have occurred.
+
+The Developer Console deploy button is wired to the existing protected route rather than a second deployment system. Historical Render diagnostics captured a 2026-09-05 failure on that route: a successful/non-error hook response body reached unconditional `json.loads(...)` parsing and produced `JSONDecodeError`, returning HTTP 500. Issue #920 changes the backend bridge so successful hook responses may be JSON, plain text or empty. Non-JSON hook content is not surfaced as trusted deployment evidence, and the protected hook URL remains server-only.
+
+**Current verification boundary:** the source repair and regression tests can establish software behavior, but the production Developer Console button is not considered fixed until the merged revision is deliberately deployed through the manual boundary, the button request is observed, a new Render deploy appears for the intended revision, that deployment reaches `live`, `/health` and `source_revision` are read back, and authenticated browser behavior is verified. Auto-deploy must remain disabled unless a future explicit architecture decision changes that policy.
