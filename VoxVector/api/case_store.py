@@ -142,8 +142,8 @@ class CaseStore:
     @classmethod
     def _finalize_run_metadata(cls, run: dict) -> dict:
         testing = run.get("testing") if isinstance(run.get("testing"), dict) else {}
-        if not run.get("source_revision"):
-            run["source_revision"] = testing.get("source_revision") or cls._runtime_source_revision()
+        if not run.get("source_revision") and testing.get("source_revision"):
+            run["source_revision"] = testing.get("source_revision")
         run["elapsed_ms"] = cls._elapsed_ms(run.get("started_at"), run.get("completed_at"))
         status = str(run.get("status") or "").lower()
         if status not in cls._PENDING_STATUSES:
@@ -154,6 +154,16 @@ class CaseStore:
             if status in {"failed", "completed_with_failures", "interrupted"} or run.get("error"):
                 run["failure_report"] = run["run_report"]
         return run
+
+    @staticmethod
+    def _metadata_snapshot(run: dict) -> tuple:
+        return (
+            run.get("source_revision"),
+            run.get("elapsed_ms"),
+            run.get("pipeline_build"),
+            run.get("run_report"),
+            run.get("failure_report"),
+        )
 
     @classmethod
     def _terminalize_pending_stages(
@@ -196,7 +206,10 @@ class CaseStore:
 
         for run in case.get("runs", []):
             if str(run.get("status") or "").lower() != "running":
+                before = cls._metadata_snapshot(run)
                 cls._finalize_run_metadata(run)
+                if cls._metadata_snapshot(run) != before:
+                    changed = True
                 continue
 
             process_id = str(run.get("process_instance_id") or "").strip()
@@ -220,14 +233,19 @@ class CaseStore:
                 and process_id
                 and process_id != current_process_id
             )
-            deadline_expired = bool(
+            usable_deadline = bool(
                 stage_started is not None
                 and timeout_seconds is not None
                 and timeout_seconds > 0
+            )
+            deadline_expired = bool(
+                usable_deadline
                 and now >= stage_started + timedelta(seconds=timeout_seconds + max(0.0, deadline_grace_seconds))
             )
             stale_expired = bool(
                 activity_started is not None
+                and not process_id
+                and not usable_deadline
                 and now >= activity_started + timedelta(seconds=max(60.0, stale_after_seconds))
             )
 
@@ -243,7 +261,7 @@ class CaseStore:
                 reason = "persisted stage exceeded its execution deadline without a terminal update"
             else:
                 error_type = "StaleRunRecovered"
-                reason = "running analysis exceeded the stale-run recovery threshold without a terminal update"
+                reason = "running analysis exceeded the stale-run recovery threshold without usable worker/deadline evidence"
 
             completed_at = cls._now()
             cls._terminalize_pending_stages(
@@ -325,8 +343,8 @@ class CaseStore:
 
         New runs carry a process identity and stage deadline. A process identity change is
         definitive evidence that the worker which owned the run no longer exists. Case
-        history can also recover a run after its stage deadline or conservative stale
-        threshold even when it cannot know the current worker identity.
+        history can also recover a run after its stage deadline, while the conservative
+        stale fallback is reserved for legacy runs without worker/deadline evidence.
         """
         case = self._read_case(user_id, case_id)
         changed = self._reconcile_case_payload(
@@ -419,7 +437,18 @@ class CaseStore:
 
     def update_run(self, user_id: str, case_id: str, run: dict) -> dict:
         case = self._read_case(user_id, case_id)
-        run = self._finalize_run_metadata(dict(run))
+        incoming = dict(run)
+        existing = next(
+            (item for item in case.get("runs", []) if item.get("run_id") == incoming.get("run_id")),
+            None,
+        )
+        if not incoming.get("source_revision"):
+            testing = incoming.get("testing") if isinstance(incoming.get("testing"), dict) else {}
+            if existing is not None:
+                incoming["source_revision"] = existing.get("source_revision") or testing.get("source_revision")
+            else:
+                incoming["source_revision"] = testing.get("source_revision") or self._runtime_source_revision()
+        run = self._finalize_run_metadata(incoming)
         runs = [item for item in case.get("runs", []) if item.get("run_id") != run.get("run_id")]
         runs.append(run)
         case["runs"] = runs[-50:]
