@@ -337,7 +337,7 @@ Preserve, unless explicitly changed:
 - playback
 - audio analysis
 - Analysis Workspace
-- Recharts 3 implementation
+- application-owned SVG chart implementation
 - API handling
 - authentication
 - user/session behavior
@@ -348,11 +348,11 @@ Preserve, unless explicitly changed:
 
 Shared chrome may migrate to `SiteHeader.jsx`, but console-specific controls remain console-specific. Use explicit composition rather than moving the entire console into the shared shell.
 
-## 15. Recharts architecture
+## 15. Analytical chart architecture
 
-The frontend uses native Recharts 3 for the current chart implementation.
+The current frontend renders analytical charts with application-owned SVG, including `NativeAreaChart` in `voxvector/src/App.jsx`. Recharts 3 remains in the package manifest but is not imported by the current frontend source.
 
-Do not reintroduce Tremor as a competing chart implementation. Do not create duplicate chart systems when the existing Recharts implementation can be edited directly.
+Do not reintroduce Tremor or Recharts as a competing chart runtime without an explicit, tested migration. Edit the existing application-owned SVG implementation directly when it satisfies the requested behavior.
 
 ## 16. Scientific integrity
 

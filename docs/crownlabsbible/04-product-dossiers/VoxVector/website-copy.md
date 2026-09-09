@@ -82,4 +82,4 @@ Apply reliability and validation gates before an inferential conclusion.
 
 **Reveal more from every conversation.**
 
-Explore VoxVector at `voxvector.crownlabs.tech`.
+Explore the public VoxVector application at `darenprince.com/voxvector/`. The original API remains `voxvector.crownlabs.tech`.

@@ -4,18 +4,18 @@ This document distinguishes the product end state from current implementation st
 
 An unimplemented capability remains active product scope.
 
-## Current runtime checkpoint — 2026-09-04
+## Latest observed runtime checkpoint — 2026-09-07
 
 The live Render runtime now reports a healthy configured speech environment:
 
 - backend pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - faster-whisper provider configured and execution-ready
-- pyannote Community-1 provider configured and execution-ready
-- Hugging Face token presence detected by the runtime
+- pyannoteAI cloud primary provider configured and execution-ready
+- local pyannote fallback disabled and not execution-ready
 
 The canonical case-analysis route now contains the transcription invocation path and persists acquired transcript artifacts into the run record. This is a **built integration path**; stages 05, 07, and 08 are not promoted to functional production execution until controlled provider execution and artifact persistence are demonstrated on a real run.
 
@@ -27,7 +27,7 @@ The canonical case-analysis route now contains the transcription invocation path
 | File Decode and Normalization | Integrated | Canonical normalized media pipeline |
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
-| Speaker Identification / Diarization | **Execution-ready provider configured; controlled execution next** | Production speaker-aware analysis |
+| Speaker Identification / Diarization | **Execution-ready cloud primary configured; controlled execution next** | Production speaker-aware analysis |
 | Speech Segmentation | **Integrated** | Production speech region segmentation |
 | Transcription Generation | **Built invocation path; provider execution verification next** | Production timestamped ASR |
 | Transcript Alignment | **Built synchronized workspace foundation; provider-backed verification next** | Word and audio synchronization |
@@ -63,11 +63,14 @@ The authenticated case intake workflow supports case creation/list/retrieval, WA
 
 ### Diarization
 
-- provider: `pyannote`
-- adapter: installed
-- execution readiness: `true`
-- model: `pyannote/speaker-diarization-community-1`
-- Hugging Face token presence: `true`
+- primary provider: `pyannote_api`
+- cloud API-key presence: `true`
+- primary execution readiness: `true`
+- case-route invocation gate: `VOXVECTOR_ENABLE_DIARIZATION_RUNS`; this must be enabled for case analysis to invoke diarization and is separate from `/health` provider readiness
+- local fallback: `pyannote_local`
+- local fallback configuration: `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` plus `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`
+- local fallback readiness at latest observed runtime: `false`
+- successful execution: not established
 
 ## Developer Console status
 
@@ -87,9 +90,11 @@ The console must display execution readiness independently from provider executi
 | Case-bound analysis API | implemented |
 | Speech adapters | installed |
 | Transcription provider | configured / execution-ready |
-| Diarization provider | configured / execution-ready |
-| Hugging Face runtime credential | detected by `/health` |
-| Transcription invocation path | built in canonical case analysis |\n| Provider execution | controlled verification next |
+| Diarization primary provider | pyannoteAI cloud configured / execution-ready |
+| Local diarization fallback | disabled / not ready |
+| Diarization route gate | explicit environment gate; must be enabled separately from provider readiness |
+| Transcription invocation path | built in canonical case analysis |
+| Provider execution | controlled verification next |
 | Transcript/speaker alignment | foundation; provider-backed verification next |
 | Current-commit QA | exact revision verification required |
 
@@ -97,13 +102,14 @@ The console must display execution readiness independently from provider executi
 
 1. Verify exact-commit GitHub QA for the live source revision.
 2. Execute faster-whisper against a controlled WAV and persist transcript segments/words.
-3. Execute pyannote Community-1 against the same controlled WAV and persist speaker turns.
-4. Produce and persist the multimodal alignment artifact.
-5. Integrate transcript-derived linguistic/disfluency evidence.
-6. Integrate speaker-aware acoustic aggregation and baseline comparisons.
-7. Integrate question/response context and response timing.
-8. Complete Review Evidence, assessment, reporting, history/reopen, and browser/mobile verification.
-9. Begin task-specific scientific validation only after engineering evidence is stable.
+3. Execute the configured pyannoteAI cloud primary (`pyannote_api`) against the same controlled WAV with `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`; persist speaker turns and provider provenance.
+4. Exercise local Community-1 only as a separate optional fallback test when fallback variables and credentials are explicitly enabled; do not use it as the primary verification path.
+5. Produce and persist the multimodal alignment artifact.
+6. Integrate transcript-derived linguistic/disfluency evidence.
+7. Integrate speaker-aware acoustic aggregation and baseline comparisons.
+8. Integrate question/response context and response timing.
+9. Complete Review Evidence, assessment, reporting, history/reopen, and browser/mobile verification.
+10. Begin task-specific scientific validation only after engineering evidence is stable.
 
 ## Scientific status rule
 

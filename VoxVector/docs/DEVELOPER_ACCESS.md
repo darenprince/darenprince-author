@@ -41,16 +41,14 @@ GitHub Pages deployment copies the React entrypoint to `voxvector/404.html` so d
 
 The developer gate protects access to the developer interface. It does **not** by itself secure backend endpoints.
 
-The current Developer Console workbench calls the existing `/health` and `/v1/analyze` endpoints, which remain governed by the current FastAPI contract. Persistent diagnostics, operational telemetry, and future administrative endpoints must receive server-side authentication and authorization before sensitive data is exposed to the browser.
+The backend validates Supabase access tokens for owner-scoped case routes and uses a trusted developer authorization dependency for protected developer infrastructure routes. Public `/health` and compatibility `/v1/analyze` retain their documented API contracts. Sensitive credentials remain server-side.
 
-## Required next backend security work
+## Remaining security verification
 
-1. Accept and validate Supabase access tokens in the FastAPI adapter.
-2. Establish a trusted developer authorization dependency.
-3. Protect diagnostic and operational endpoints with that dependency.
-4. Pass the authenticated user's request context into audit events without storing sensitive audio/transcript content.
-5. Add automated unauthorized/authorized endpoint tests.
-6. Keep service-role credentials server-side only.
+1. Continue automated unauthorized and authorized endpoint coverage as routes expand.
+2. Verify row and object ownership behavior with more than one real account before claiming cross-user isolation.
+3. Keep service-role and infrastructure credentials server-side.
+4. Preserve sanitized audit context without storing sensitive audio or transcript content in operational logs.
 
 ## Failure behavior
 

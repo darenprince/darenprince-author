@@ -53,7 +53,7 @@ The official hosted Render MCP server is the preferred AI-operations integration
 
 `https://mcp.render.com/mcp`
 
-Current Render guidance supports OAuth in compatible integrations. The current ChatGPT tool session does not have the Render plugin/MCP connection installed, so repository changes are the maximum verified integration in this session.
+Current Render guidance supports OAuth in compatible integrations. The original audit session did not have a Render connection. Later authorized inspections recorded in the Render runtime audits did access connected service and deployment state. Tool access must be reported per observation and must not be generalized from this historical limitation.
 
 ## Centralized logs
 

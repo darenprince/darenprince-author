@@ -173,7 +173,7 @@ When shared chrome is migrated:
 - preserve the existing sidebar and console navigation unless separately requested;
 - preserve authentication/session behavior;
 - preserve audio controls and analysis views;
-- preserve Recharts 3 implementation;
+- preserve the active application-owned SVG chart implementation;
 - preserve API behavior and query state;
 - preserve responsive/mobile behavior.
 
