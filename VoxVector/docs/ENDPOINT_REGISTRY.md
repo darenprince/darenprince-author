@@ -37,25 +37,27 @@ The AWS ACM certificate for `awsapi.crownlabs.tech` is issued and DNS validated.
 
 Supabase is the configured authentication, persistence, diagnostics, and private-media boundary for the connected architecture. AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
 
-## Dated Render runtime configuration snapshot — 2026-09-04
+## Latest observed Render runtime configuration
 
-The Render API health response observed on 2026-09-04 reported:
+The latest separately observed Render `/health` evidence, recorded on 2026-09-07 and carried into the September 8 documentation alignment, reports:
 
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - pipeline `0.2.26`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - transcription provider `faster_whisper`
-- transcription adapter installed `true`
-- transcription execution readiness `true`
-- diarization provider `pyannote`
-- diarization adapter installed `true`
-- diarization execution readiness `true`
-- Hugging Face token configured `true`
-- diarization model `pyannote/speaker-diarization-community-1`
+- transcription adapter installed and execution-ready
+- diarization primary provider `pyannote_api`
+- pyannoteAI API-key presence `true`
+- primary diarization execution readiness `true`
+- local fallback provider `pyannote_local`
+- local fallback disabled and not execution-ready
+- current commit QA `external_workflow_required`
 
-That is a dated runtime snapshot, not the current deployment revision. The health response reported `current_commit_qa: external_workflow_required`; commit-specific QA must be established from GitHub Actions before a runtime is marked QA-current.
+Provider readiness is not proof that a case route invoked the provider. Case-analysis diarization additionally requires the explicit route gate `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`.
+
+Commit-specific QA must be established from GitHub Actions for the exact source revision before a runtime is marked QA-current.
 
 ## Deployment and migration rule
 
@@ -73,7 +75,8 @@ At the current documentation checkpoint:
 - AWS custom-domain browser reachability: requires current external verification
 - Render original API domain: preserved
 - Public React application: GitHub Pages at `/voxvector/`
-- Render provider readiness and execution state: must be read from current runtime evidence rather than the September 4 snapshot above
+- latest connected Render deployment observation: `dep-dafg5nv40ujc73b5l400`, `live`, source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- Render provider readiness and execution state: read from current runtime evidence, not inferred from deployment status
 
 Infrastructure and provider readiness do not constitute scientific validation of VoxVector's analytical or deception-classification capability.
 
@@ -91,7 +94,7 @@ The endpoint reports **hook-request acceptance only**. Its successful response d
 
 A historical production diagnostic on 2026-09-05 showed this route returning HTTP 500 with `JSONDecodeError` after attempting to parse a non-JSON hook response. Issue #920 repairs the route so successful empty, JSON, or text hook response bodies do not by themselves cause the API bridge to fail. The hook body is not trusted as deployment-completion evidence.
 
-At the September 8 inspection checkpoint, the latest Render deployment was `dep-dafg5nv40ujc73b5l400`, live on commit `73ac03ded08c161e092ee2a4ecbbed7d036771c8`. GitHub `main` was `66a1616d49e228c6ec57d3cfc4855898675fae2c`; the five intervening commits contained documentation/audit/workflow changes rather than new runtime implementation. Future parity must be re-established from fresh evidence.
+At the September 8 inspection checkpoint, the latest Render deployment was `dep-dafg5nv40ujc73b5l400`, live on commit `73ac03ded08c161e092ee2a4ecbbed7d036771c8`. GitHub `main` at the start of that investigation was `66a1616d49e228c6ec57d3cfc4855898675fae2c`; the intervening commits contained documentation/audit/workflow changes rather than new runtime implementation. Future parity must be re-established from fresh evidence.
 
 ## Render Developer Console observability routes
 
