@@ -178,7 +178,14 @@ def test_case_reconcile_recovers_legacy_stale_running_run():
     storage = FakeStorage()
     store = CaseStore(storage)
     case = store.create_case("user-1", "Legacy stale")
-    _persist_running_run(store, storage, case, process_instance_id=None, started_at="2020-01-01T00:00:00+00:00")
+    _persist_running_run(
+        store,
+        storage,
+        case,
+        process_instance_id=None,
+        started_at="2020-01-01T00:00:00+00:00",
+        timeout_seconds=None,
+    )
 
     reconciled = store.reconcile_interrupted_runs(
         "user-1",
