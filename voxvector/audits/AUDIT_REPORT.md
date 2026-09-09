@@ -14,11 +14,21 @@ The September 7 user request adds an organized audit archive and detailed AI exe
 | Copy records and create source/hash index | Complete | 76 repository records copied; byte identity passed for all; zero destination collisions |
 | Write detailed AI audit instructions | Complete | AUDIT_INSTRUCTIONS.md |
 | Finish inventoried project and Crown Labs documentation reading | Complete | 267 unique-text records / 328 inventoried paths; scope and recovery recorded in Task 8 |
-| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 |
+| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and Task 13 |
 | Verify workflows and production trigger | Complete with limits | Exact-revision QA/Pages publication verified; inaccessible Actions variables and Render workspace selection recorded |
 | Finish Prompt 1 and advance to VV-TRUTHMODEL | Complete / next not started | Prompt 1 matrix complete; VV-TRUTHMODEL is next |
 
 ## Task log
+
+### Task 13: fix active speech-provider debugging guidance after Codex review, 2026-09-08
+
+Daren directed the remaining documentation inconsistency to be fixed so future debugging follows the actual configured architecture rather than stale local-primary instructions. The source implementation on current `main` confirms `voxvector.speech_providers` selects `pyannote_api` as a supported primary provider and retains `pyannote_local`/Community-1 as an explicit optional fallback. The case-analysis route separately requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS` before it invokes the configured diarization provider.
+
+Corrected the active debugging and execution sequence across `QA_STATUS.md`, `CAPABILITY_STATUS.md`, `VERSION_MAP.md`, `IMPLEMENTATION_PLAN.md`, `ROADMAP.md`, `PIPELINE_BUILD_STATUS.md`, `SPEECH_RUNTIME_DEPLOYMENT.md`, `SPEECH_INTELLIGENCE_ENGINEERING.md`, `SYSTEM_STATE_REPORT.md`, and the Crown Labs pipeline-build-status mirror. Current guidance now consistently requires: exact revision/QA evidence → provider readiness → explicit diarization route gate → controlled pyannoteAI cloud-primary case run → persisted speaker artifact/provenance readback → transcript/speaker alignment → optional local Community-1 fallback exercise only when fallback behavior itself is being tested.
+
+Historical local-primary records and immutable archive copies were not rewritten. Community-1 remains documented as a valid implemented fallback path, not deleted from product architecture. No application code, provider configuration, credential, deployment, workflow, model execution, or scientific validation state changed in this task.
+
+Pre-report implementation head after the documentation corrections was `637743ea31709a10a2948aee1f45de072764fd7a`. This report update advances the PR head again, so earlier CI does not automatically apply to the final report head. Exact-head GitHub QA and PR Preview Build must be observed before merge recommendation. Production provider execution, artifact readback, and authenticated browser verification remain separate future evidence gates.
 
 ### Task 11: publish and verify the Prompt 1 review branch, 2026-09-08
 
