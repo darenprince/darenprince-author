@@ -105,7 +105,7 @@ def test_render_status_reports_unknown_revision_without_coercing_missing_commit(
 
     def fake_get(path, api_key, params=None):
         if path == "/services/srv-test":
-            return {"id": "srv-test", "suspended": "not_suspended"}
+            return {"id": "srv-test"}
         if path.endswith("/deploys") or path.endswith("/instances"):
             return []
         raise AssertionError(path)
