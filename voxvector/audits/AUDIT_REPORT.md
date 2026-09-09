@@ -14,11 +14,25 @@ The September 7 user request adds an organized audit archive and detailed AI exe
 | Copy records and create source/hash index | Complete | 76 repository records copied; byte identity passed for all; zero destination collisions |
 | Write detailed AI audit instructions | Complete | AUDIT_INSTRUCTIONS.md |
 | Finish inventoried project and Crown Labs documentation reading | Complete | 267 unique-text records / 328 inventoried paths; scope and recovery recorded in Task 8 |
-| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and 13–14 |
-| Verify workflows and production trigger | In review with explicit production gate | Manual Render deploy-hook source repair is in PR #924; post-merge production trigger/runtime/browser evidence remains open in #920 |
+| Correct active documentation and corresponding mirrors | Complete | Evidence-backed corrections and mirror alignment recorded in Tasks 9–10 and 13–15 |
+| Verify workflows and production trigger | In review with explicit production gate | Manual Render deployment remains separate; startup/version UI task #927 requires exact-head QA and browser verification |
 | Finish Prompt 1 and advance to VV-TRUTHMODEL | Complete / next not started | Prompt 1 matrix complete; VV-TRUTHMODEL is next |
 
 ## Task log
+
+### Task 15: API startup progression, release-version alignment, and passive icon treatment, 2026-09-09
+
+Tracked in [#927](https://github.com/darenprince/darenprince-author/issues/927). Work started from exact `main` revision `887c39e08973d1fe45a3d5c8460ebec40d5f8816` on branch `fix/voxvector-startup-version-ui`. The existing startup component and owning stylesheet were edited directly; no patch, override, duplicate page, replacement component, or new CSS layer was created.
+
+The prior startup UI held API Connection at a fixed partial progress width while the single `/health` request waited for a cold Render runtime. Because health, runtime self-test, pipeline state, case-workflow availability, and developer-session presentation all depended on that returned payload, several checks could visually complete in the same render after a long apparent freeze. The canonical startup now treats the pre-response period as an indeterminate backend-wake state with elapsed time. When a real health payload arrives, the UI changes to Verifying runtime and progressively reveals checks backed by the already-returned health/session evidence before entering the existing dashboard preloader. This staged reveal is presentation timing only; it is not represented as backend execution progress.
+
+The startup footer now reads the public frontend version directly from `voxvector/package.json` and the API version directly from the live `/health` response, alongside the reported source revision when available. Frontend and API versions remain separate release streams and are not forced to share a number. Source inspection found a genuine backend release drift: `VoxVector/pyproject.toml` was already `0.2.27`, while package `__version__` and `VoxVectorPipeline.software_version` still reported `0.2.26`, despite commit `bd4ec8ac3d2d361148b0fcf5e49eab5241618d61` documenting the backend `0.2.27` bump. The package version is now `0.2.27`, the pipeline sources that value instead of duplicating a hard-coded release, failed-case live analysis metadata uses the pipeline value, and `tests/test_version_sync.py` reads `pyproject.toml` so CI fails if the manifest/package/pipeline versions drift again. Historical live Render evidence reporting `0.2.26` remains preserved as a dated production observation until a newer deployment is verified.
+
+The active frontend icon review followed the user's request that passive glyphs not look like buttons. Shared public-header access icons, landing section/method glyphs, collapsible-panel glyphs, engineering-state glyphs, and toast glyphs were already direct/unboxed. The remaining inspected passive full-stroke treatments were the API-startup step icon containers and the Developer Gate key icon. Those canonical owners now render the glyphs directly. Borders on actual buttons, inputs, cards/panels, selected controls, status boundaries, and avatar/media frames were intentionally preserved. `CSS_ARCHITECTURE.md` now records this affordance rule so future changes do not reintroduce decorative button-like icon boxes.
+
+Affected current documentation separates source release from deployed runtime evidence: backend source `0.2.27`, frontend source `0.2.37`, latest separately observed Render pipeline `0.2.26`. `VERSION_MAP.md`, `SYSTEM_STATE_REPORT.md`, `CURRENT_ENGINEERING_STATE_2026-09-04.md`, the Crown Labs current-engineering mirror, and `CSS_ARCHITECTURE.md` were synchronized. Historical audit snapshots were not rewritten.
+
+**Verification boundary:** source diff/readback and exact-head GitHub QA/React build are required before merge recommendation. Authenticated desktop/mobile browser verification of the startup animation and icon treatment remains a separate visual gate. A source/build success does not mean the Render API has been redeployed or that production now reports backend `0.2.27`.
 
 ### Task 14: refresh PR #924 onto merged #919 ground truth and rerun exact-head QA, 2026-09-08
 

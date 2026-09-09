@@ -8,9 +8,10 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Branch: `main`
 - Canonical backend root: `VoxVector/`
 - Canonical frontend root: `voxvector/`
-- Backend pipeline version: `0.2.26`
-- Frontend version: `0.2.37`
+- Backend source release: `0.2.27`
+- Frontend source release: `0.2.37`
 - Latest confirmed live Render deployment source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
+- Latest confirmed live Render pipeline version: `0.2.26` from the dated `/health` evidence for that deployment
 - Latest confirmed Render deploy: `dep-dafg5nv40ujc73b5l400`, observed `live` on 2026-09-08
 - Render production auto-deploy: disabled (`autoDeploy=no`, automatic trigger off) at the 2026-09-08 connected inspection
 - Runtime self-test must be read from the live `/health` response; a Render `live` deployment is not substituted for that runtime field
@@ -18,6 +19,8 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Maximum media size: `262,144,000 bytes`
 - Diagnostic/media storage: `configured_media_ready` when reported by the live API
 - Media storage: runtime-reported; do not infer it from deployment state alone
+
+The backend and frontend have separate release numbers. Backend source authority is `VoxVector/pyproject.toml`; the backend package/runtime version is synchronized to it by source and enforced by `VoxVector/tests/test_version_sync.py`. Frontend source authority is `voxvector/package.json`. Production API version remains a runtime observation from `/health` and is not advanced merely because source changed.
 
 ## Current deployment roles
 
@@ -240,3 +243,13 @@ GitHub `main` at the investigation checkpoint was `66a1616d49e228c6ec57d3cfc4855
 The Developer Console deploy button is wired to the existing protected route rather than a second deployment system. Historical Render diagnostics captured a 2026-09-05 failure on that route: a successful/non-error hook response body reached unconditional `json.loads(...)` parsing and produced `JSONDecodeError`, returning HTTP 500. Issue #920 changes the backend bridge so successful hook responses may be JSON, plain text or empty. Non-JSON hook content is not surfaced as trusted deployment evidence, and the protected hook URL remains server-only.
 
 **Current verification boundary:** the source repair and regression tests can establish software behavior, but the production Developer Console button is not considered fixed until the merged revision is deliberately deployed through the manual boundary, the button request is observed, a new Render deploy appears for the intended revision, that deployment reaches `live`, `/health` and `source_revision` are read back, and authenticated browser behavior is verified. Auto-deploy must remain disabled unless a future explicit architecture decision changes that policy.
+
+## 2026-09-09 — Developer startup progression, version truth, and icon treatment
+
+The canonical Developer Console startup surface now separates backend wake from backend verification. While the API is cold or unreachable, the UI uses an indeterminate wake animation plus elapsed time rather than holding a fabricated percentage. Once a real `/health` payload is available, the UI reveals the returned health/runtime/pipeline/session checks progressively before transitioning into the dashboard. The animation is presentation of already-returned evidence, not simulated backend execution.
+
+The startup footer reads the frontend release directly from `voxvector/package.json` and reads the API version from the live `/health` payload. The two release streams are intentionally independent. Backend source release `0.2.27` is now synchronized across `pyproject.toml`, package `__version__`, `VoxVectorPipeline.software_version`, and live case-run version metadata, with `tests/test_version_sync.py` enforcing the manifest/runtime relationship.
+
+Passive interface glyphs must not be wrapped in decorative full-stroke square containers because that treatment reads as a button. The startup step glyphs and developer authentication key glyph now render directly; actual buttons, cards, form controls, and structural/status boundaries retain their appropriate borders.
+
+**Verification boundary:** source implementation and documentation do not establish browser behavior. Exact-head QA, React build, PR preview, and authenticated desktop/mobile browser verification remain required before this UI is considered production verified.

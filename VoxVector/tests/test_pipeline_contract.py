@@ -63,7 +63,7 @@ def test_comprehensive_pipeline_preserves_stage_separation():
     assert result.candidate == 'indeterminate'
     assert result.disposition == 'insufficient_evidence'
     assert result.provenance['input_sha256']
-    assert result.provenance['software_version'] == '0.2.26'
+    assert result.provenance['software_version'] == VoxVectorPipeline.software_version
     assert result.observations
     assert result.evidence
     assert result.speech_segments

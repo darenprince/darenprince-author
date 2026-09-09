@@ -8,6 +8,7 @@ from time import perf_counter
 
 import numpy as np
 
+from . import __version__
 from .advanced_prosody import contour_dynamics, contour_delta
 from .baseline import baseline_deviation, robust_baseline
 from .cepstral import mfcc_basis, mfcc_from_power_spectrum
@@ -55,7 +56,7 @@ class VoxVectorPipeline:
     """Comprehensive auditable observational audio pipeline with persisted speech segmentation."""
 
     schema_version = "0.3"
-    software_version = "0.2.26"
+    software_version = __version__
 
     def analyze(
         self,

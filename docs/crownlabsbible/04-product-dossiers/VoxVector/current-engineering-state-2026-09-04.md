@@ -4,14 +4,17 @@ This Crown Labs product/engineering mirror reflects `VoxVector/docs/CURRENT_ENGI
 
 ## Runtime snapshot
 
-- Backend pipeline: `0.2.26`
-- Frontend package: `0.2.37`
+- Backend source release: `0.2.27`
+- Frontend source release: `0.2.37`
+- Latest confirmed live Render pipeline: `0.2.26` from the dated `/health` evidence for the deployment below
 - Latest confirmed live Render deployment revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - Latest confirmed Render deploy: `dep-dafg5nv40ujc73b5l400`, observed `live` on 2026-09-08
 - Render production auto-deploy: disabled (`autoDeploy=no`, automatic trigger off) at the 2026-09-08 connected inspection
-- Runtime self-test, media-storage readiness, and provider readiness are read from the live API health contract rather than inferred from Render deployment state
+- Runtime self-test, media-storage readiness, provider readiness, API version, and source revision are read from the live API health contract rather than inferred from source or Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB
+
+Backend and frontend are independently versioned. Backend source authority is `VoxVector/pyproject.toml`, with source/runtime alignment enforced by `VoxVector/tests/test_version_sync.py`. Frontend authority is `voxvector/package.json`. The live API release remains whatever `/health` actually reports until a newer deployment is verified.
 
 ## Speech runtime
 
@@ -77,6 +80,10 @@ Structured audits are collapsed by default and show date, title, brief summary, 
 Developer profiles use the existing `public.profiles` record and a private `voxvector-avatars` Supabase Storage bucket. Avatar access is owner-scoped; accepted profile images are JPG, PNG, or WebP up to 5 MB. The profile editor supports display-name changes and avatar upload/change. The top-navigation profile menu uses an opaque surface.
 
 The Live Engineering State rail is full-width directly below the primary navigation. Opening it produces a page-filling slide-down drawer with scroll and swipe-to-collapse. Status is assembled from separate API health, exact-revision GitHub Actions, and authenticated Render evidence instead of a synthetic single health claim.
+
+The API startup surface now uses an indeterminate wake state and elapsed time while the backend is cold instead of holding a synthetic progress percentage. After `/health` really returns, the returned checks are revealed progressively before the dashboard opens. The footer displays the frontend package version next to the API-reported live version and source revision.
+
+Passive interface glyphs render without decorative full-stroke square containers unless the element is actually an interactive control. Startup and authentication glyphs follow the same rule as the existing public header, landing, panel, engineering-status, and toast iconography.
 
 ## Verification boundary
 
