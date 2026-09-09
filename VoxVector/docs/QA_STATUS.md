@@ -6,6 +6,19 @@ This document records repository-level software QA and separately observed deplo
 
 The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELEASE_GATE.md).
 
+## PR #950 Developer engineering rail checkpoint
+
+Issue #947 / PR #950 repairs the existing Developer Console engineering-status shell without creating a second status implementation. The source base for the task is canonical `main` revision `a656c3545daef4bc5c6a941066d9a1f92f70aa61`.
+
+Implementation checkpoint `64edfb60aecdf13d4cb094838518504a994fc78d` places the collapsed 34px rail in normal sticky flow below the 56px Developer navigation, preserves full-height expansion below the combined 90px boundary, provides independent expand/collapse and hide controls, uses non-modal disclosure semantics, and places toast notifications at the bottom-right. The related Codex accessibility review finding is resolved.
+
+Exact-head software evidence for that implementation checkpoint:
+
+- VoxVector QA #1921: `success`;
+- VoxVector PR Preview Build #799: `success`.
+
+The documentation synchronization commits on the same branch advance the branch beyond `64edfb60...`; therefore #1921/#799 remain evidence for the implementation checkpoint, not exact-head evidence for the final documentation head. Fresh exact-head QA and PR Preview are required before merge recommendation. Authenticated desktop/mobile browser verification, merge, Pages publication, and production verification remain separate and unperformed by this checkpoint.
+
 ## Current source and deployment verification state
 
 `main` is the canonical source. At the 2026-09-09 role-gating checkpoint:
