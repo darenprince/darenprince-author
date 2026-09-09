@@ -112,6 +112,21 @@ The case-analysis API persists a running record before processing. New repaired-
 
 The final run persists the result, acquisition artifact, result envelope, provider timings, and explicit pending/not-run/failed states. Failure handling attempts to preserve a sanitized failed run. A process restart must not be interpreted as successful execution.
 
+### Run lifecycle recovery and export checkpoint — PR #946
+
+Issue #945 / PR #946 extends the same canonical case-run lifecycle rather than creating a second pipeline. On the branch:
+
+- Case History listing reconciles eligible stale or deadline-expired `running` runs, so recovery no longer requires opening an individual case first.
+- When interruption recovery closes a run, the interrupted active stage is marked `failed` and remaining unfinished stages are terminalized as `not_run` with an explicit reason instead of remaining indefinitely pending.
+- Active runs expose real elapsed time; terminal runs persist final elapsed time.
+- Terminal runs persist a structured `run_report`. Failed and `completed_with_failures` runs also persist a `failure_report` containing run/request/source identity, source revision when available, timing, stage states, errors, provider state, completed work, failed work, not-run work, and unresolved work.
+- The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the persisted JSON report, alongside the existing case/report copy control.
+- The explicit pyannoteAI → local Community-1 fallback wrapper preserves the primary provider failure in provenance when fallback succeeds and reports both provider failures when fallback also fails.
+
+The source checkpoint `0eaaf79082c2cf99023981d88af25ed81b5cb06c` passed VoxVector QA run #1893 (`196 passed`, eight frontend contract tests, successful React production build) and PR Preview Build #785. Documentation commits after that checkpoint require fresh exact-head CI before merge recommendation.
+
+This checkpoint does **not** mean the Hugging Face Community-1 fallback has been enabled or executed in production. The currently documented production policy remains pyannoteAI cloud primary with local fallback disabled unless explicitly configured. The Render environment has a constrained memory envelope, so local Community-1 fallback must not be represented as production-safe merely because `HF_TOKEN` and fallback variables exist. Configuration, provider execution, deployment, browser verification, and scientific validation remain separate evidence states.
+
 ## Render runtime bridge
 
 The Developer Console exposes real server-side Render status and recent logs through authenticated developer routes. GitHub Actions separately consumes protected repository Render credentials for infrastructure observability.
@@ -138,16 +153,17 @@ A green PR build does not establish that the repaired transcription path survive
 
 ## Current next steps
 
-1. Keep PR #942 on the fix branch until exact PR-merge QA and affected documentation are green.
+1. Complete review and exact-head QA for PR #946 after documentation synchronization.
 2. Merge only after reviewable source/diff integrity is confirmed.
 3. Deliberately trigger the protected Render deployment because auto-deploy is disabled.
 4. Verify `/health` reports the merged revision and intended constrained transcription settings.
-5. Reopen/read the previously stuck case and verify interrupted-run reconciliation no longer leaves an orphaned `running` stage.
+5. Refresh Case History and verify previously stuck eligible runs reconcile into terminal failed/not-run states with downloadable failure reports.
 6. Run a short controlled WAV through faster-whisper and capture bounded completion/failure plus Render instance/memory evidence.
-7. Run the controlled cloud-primary diarization path when its invocation gate is enabled and persist/read back speaker provenance.
-8. Verify transcript/speaker alignment and transcript-derived evidence only after their required artifacts exist.
-9. Repeat the golden case on the same exact deployed revision before engineering-MVP sign-off.
-10. Continue the separate scientific validation program without treating software reliability evidence as scientific validation.
+7. Run the controlled pyannoteAI cloud-primary diarization path when its invocation gate is enabled and persist/read back speaker provenance.
+8. Before enabling local Community-1 fallback in the constrained Render environment, establish a bounded memory/runtime execution plan; then verify a deliberate primary failure or timeout invokes the fallback and records provenance without destabilizing the API process.
+9. Verify transcript/speaker alignment and transcript-derived evidence only after their required artifacts exist.
+10. Repeat the golden case on the same exact deployed revision before engineering-MVP sign-off.
+11. Continue the separate scientific validation program without treating software reliability evidence as scientific validation.
 
 ## Provider architecture update — 2026-09-04
 
