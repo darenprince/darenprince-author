@@ -24,6 +24,10 @@ The public React application lives in `voxvector/`. The canonical backend and an
 
 Render is an API runtime, not VoxVector's durable media repository. GitHub Pages is a frontend host, not the API runtime.
 
+## Operational truth boundary
+
+The frontend and backend are independently deployed and therefore carry separate revision truth. The GitHub Pages publication is matched to the frontend build revision injected by GitHub Actions. The Render deployment is matched to the backend revision returned by `/health`. The Developer Console reports the source and observation time for each boundary and marks missing revision identity as unverified or a mismatched revision as stale. It does not infer runtime health from a successful deployment or combine these independent revisions into one synthetic state.
+
 ## Audio flow
 
 `Browser → frontend → API on Render → Supabase private media storage`

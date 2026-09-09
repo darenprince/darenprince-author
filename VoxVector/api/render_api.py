@@ -191,6 +191,10 @@ def render_status(
     suspended = _is_suspended(service.get("suspended"))
     explicit_state = _text(service.get("state") or service.get("status") or service.get("serviceState"))
     service_state = explicit_state or ("suspended" if suspended else "active")
+    latest_deploy = deploys[0] if deploys else {}
+    latest_commit = latest_deploy.get("commit") if isinstance(latest_deploy.get("commit"), dict) else {}
+    source_revision = _text(latest_commit.get("id") or latest_commit.get("sha"), "unknown")
+    observed_at = datetime.now(timezone.utc).isoformat()
     return {
         "status": "ok",
         "service": {
@@ -203,10 +207,17 @@ def render_status(
             "owner_id": _owner_id(service),
             "region": _text(service.get("region") or service.get("regionName") or details.get("region")),
         },
-        "latest_deploy": deploys[0] if deploys else {},
+        "latest_deploy": latest_deploy,
         "deploys": deploys,
         "instances": instance_rows,
-        "observed_at": datetime.now(timezone.utc).isoformat(),
+        "observed_at": observed_at,
+        "operational": {
+            "source": "Render API",
+            "observed_at": observed_at,
+            "service_state": service_state,
+            "deploy_state": _text(latest_deploy.get("status"), "not_reported"),
+            "source_revision": source_revision,
+        },
         "log_window_minutes": log_minutes,
     }
 

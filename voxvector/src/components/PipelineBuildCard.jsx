@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getHealth } from '../lib/api'
-import { getGitHubWorkflowStatus } from '../lib/githubStatus'
+import { getGitHubWorkflowStatus, workflowEvidenceState } from '../lib/githubStatus'
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Circle, Clock3, GitBranch, Wrench } from 'lucide-react'
 
 const STAGES = [
@@ -38,11 +38,14 @@ const STATUS = {
 export default function PipelineBuildCard({ className = '' }) {
   const [open, setOpen] = useState(false)
   const health = useQuery({ queryKey: ['pipeline-build-health'], queryFn: getHealth, refetchInterval: 30000 })
-  const workflows = useQuery({ queryKey: ['github-workflow-status'], queryFn: getGitHubWorkflowStatus, refetchInterval: 30000, staleTime: 10000 })
   const live = health.data?.payload || health.data || {}
+  const backendRevision = live.runtime?.source_revision && live.runtime.source_revision !== 'unknown' ? live.runtime.source_revision : (live.source_revision && live.source_revision !== 'unknown' ? live.source_revision : '')
+  const frontendRevision = String(import.meta.env.VITE_GITHUB_SHA || '').trim()
+  const workflows = useQuery({ queryKey: ['github-workflow-status', frontendRevision, backendRevision], queryFn: () => getGitHubWorkflowStatus({ frontendRevision, backendRevision }), refetchInterval: 30000, staleTime: 10000 })
   const livePipeline = live.pipeline_build || {}
-  const liveQa = workflows.data?.qa?.state || (workflows.isPending ? 'SYNCING' : workflows.isError ? 'UNAVAILABLE' : 'NOT REPORTED')
-  const liveDeploy = workflows.data?.deployment?.state || (workflows.isPending ? 'SYNCING' : workflows.isError ? 'UNAVAILABLE' : 'NOT REPORTED')
+  const frontendQa = workflowEvidenceState(workflows.data?.frontendQa, workflows.data?.frontendQaMatchesSource, workflows)
+  const backendQa = workflowEvidenceState(workflows.data?.backendQa, workflows.data?.backendQaMatchesSource, workflows)
+  const liveDeploy = workflowEvidenceState(workflows.data?.deployment, workflows.data?.deploymentMatchesSource, workflows)
   const counts = useMemo(() => STAGES.reduce((acc, [, , state]) => { acc[state] = (acc[state] || 0) + 1; return acc }, {}), [])
   const currentStage = STAGES.find(stage => stage[2] === 'implemented') || STAGES[0]
   const currentLabel = livePipeline.current_stage || live.current_engineering_stage || 'Upload and intake reliability'
@@ -64,8 +67,9 @@ export default function PipelineBuildCard({ className = '' }) {
             <span>{counts.queued || 0} queued</span>
             <span>{counts.conditional || 0} conditional</span>
             <span>{counts.not_invoked || 0} not invoked</span>
-            <span>QA {liveQa}</span>
-            <span>Deploy {liveDeploy}</span>
+            <span>Frontend QA {frontendQa}</span>
+            <span>Backend QA {backendQa}</span>
+            <span>Pages {liveDeploy}</span>
           </span>
         </span>
         <span className="hidden shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[.12em] text-white/30 sm:inline-flex"><Wrench size={12}/> Engineering</span>
@@ -87,7 +91,7 @@ export default function PipelineBuildCard({ className = '' }) {
         </div>
         <div className="mt-4 grid gap-2 border-t border-[var(--vv-border)] pt-4 sm:grid-cols-2">
           <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Next dependency</div><div className="mt-1 text-sm font-medium text-white/70">{livePipeline.current_dependency || 'Real per-stage telemetry'}</div></div>
-          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Pipeline contract</div><div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-emerald-400"><GitBranch size={13}/> QA {liveQa} · Deploy {liveDeploy}</div></div>
+          <div className="rounded-[7px] border border-white/[.07] bg-white/[.015] p-3"><div className="text-[9px] font-bold uppercase tracking-[.15em] text-white/30">Pipeline contract</div><div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-emerald-400"><GitBranch size={13}/> Frontend {frontendQa} · Backend {backendQa} · Pages {liveDeploy}</div></div>
         </div>
       </div>}
     </section>

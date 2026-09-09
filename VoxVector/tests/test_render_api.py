@@ -80,6 +80,34 @@ def test_render_status_normalizes_live_service_and_latest_deploy(monkeypatch):
     assert result["latest_deploy"]["id"] == "dep-live"
     assert result["latest_deploy"]["status"] == "live"
     assert result["instances"] == [{"id": "instance-1"}]
+    assert result["operational"] == {
+        "source": "Render API",
+        "observed_at": result["observed_at"],
+        "service_state": "active",
+        "deploy_state": "live",
+        "source_revision": "abc123",
+    }
+
+
+def test_render_status_reports_unknown_revision_without_coercing_missing_commit(monkeypatch):
+    import api.render_api as render_api
+
+    monkeypatch.setattr(render_api, "_config", lambda service_id=None: ("key", "srv-test"))
+
+    def fake_get(path, api_key, params=None):
+        if path == "/services/srv-test":
+            return {"id": "srv-test", "suspended": "not_suspended"}
+        if path.endswith("/deploys") or path.endswith("/instances"):
+            return []
+        raise AssertionError(path)
+
+    monkeypatch.setattr(render_api, "_render_get", fake_get)
+    result = render_api.render_status(service_id="srv-test", _={})
+
+    assert result["service"]["suspended"] is False
+    assert result["operational"]["service_state"] == "active"
+    assert result["operational"]["deploy_state"] == "not_reported"
+    assert result["operational"]["source_revision"] == "unknown"
 
 
 def test_render_log_query_uses_service_resource_and_owner_id():

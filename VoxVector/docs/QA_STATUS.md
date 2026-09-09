@@ -18,6 +18,8 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 These are separate evidence boundaries. The Render deployment record establishes neither a fresh `/health` readback nor authenticated browser verification. No fresh `/health` response for `dep-dagcvau7bikc73aki9b0` was observed during this documentation-alignment task, so runtime self-test, provider readiness, and media/storage readiness are not advanced from the last separately observed runtime evidence below.
 
+The source contract now keeps frontend build/Pages revision matching separate from backend runtime/Render revision matching. `/health.runtime` and the Render status `operational` object carry normalized source, observation time, and revision metadata. This source change is not represented as deployed or browser verified until the post-merge runtime and frontend evidence is observed.
+
 ## Current implementation coverage
 
 | Area | Current state | Software evidence | Scientific claim |

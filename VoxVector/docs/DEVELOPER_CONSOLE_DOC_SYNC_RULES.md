@@ -33,7 +33,7 @@ Only documents affected by the actual behavior change should be edited. Historic
 
 ### GitHub task tracking, effective 2026-09-08
 
-The engineering work queue is [tracker #915](https://github.com/darenprince/darenprince-author/issues/915), governed by [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Dashboard planning records and Next Engineering Move documentation must reference the relevant issue, its dependencies and acceptance criteria rather than maintain a competing queue. #910 is the first documentation task; #914 remains dependent on Prompt 1 closure in #913.
+The engineering work queue is [tracker #915](https://github.com/darenprince/darenprince-author/issues/915), governed by [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md#10-development-flow). Dashboard planning records and Next Engineering Move documentation must reference the relevant issue, its dependencies and acceptance criteria rather than maintain a competing queue. #914 owns operational truth-state normalization; #910's remaining post-merge publication check remains a separate documentation evidence gate.
 
 If the dashboard displays task data, it must identify the issue source and observation time, expose the issue/PR links and distinguish task status from pipeline execution, API health, QA and scientific validation. Static planning copy must be labeled as a dated plan; unavailable issue data must remain unknown or a direct GitHub link. This documentation update establishes the requirement; it does not claim an automated issue feed, board or dashboard integration exists.
 
@@ -91,6 +91,21 @@ Approved examples:
 - `Blocked`
 
 Technical identifiers such as request IDs, run IDs, stage IDs, commit SHAs, and HTTP codes remain available as secondary metadata.
+
+## Operational truth and revision matching
+
+The frontend artifact and backend runtime are independent deployment units and must retain independent revision identities:
+
+- frontend version: `voxvector/package.json`;
+- frontend build revision: `VITE_GITHUB_SHA`, injected by the applicable GitHub Actions build;
+- backend version: the live `/health.runtime.version`, sourced from `VoxVector/pyproject.toml` through the package/runtime version contract;
+- backend runtime revision: the live `/health.runtime.source_revision`;
+- Pages publication revision: the `Deploy GitHub Pages` workflow `head_sha`;
+- Render deployment revision: `/v1/developer/render/status.operational.source_revision`.
+
+Pages publication and frontend QA may be marked current only when their workflow revision matches the frontend build revision. Backend-source QA may be marked current only when its workflow revision matches the backend runtime revision. Render deployment parity may be marked current only when the Render deployment revision matches the backend runtime revision. A Pages revision must never be compared to the backend runtime revision as a proxy for freshness.
+
+Each live external projection must retain its `source`, `observed_at`, and applicable revision. If a target revision is unavailable, freshness is **UNVERIFIED**, not current. If evidence exists but its revision differs, the state is **STALE**. Query failure is **UNAVAILABLE**. These states must be represented explicitly and must not be derived by coercing provider strings such as `not_suspended` to booleans.
 
 ## Main dashboard stats
 

@@ -40,7 +40,13 @@ jobs:
           echo "VoxVector QA passed for $GITHUB_SHA"
       - name: Install React application dependencies
         working-directory: voxvector
-        run: npm install
+        run: npm ci --no-audit --no-fund
+      - name: Run React application contract tests
+        working-directory: voxvector
+        run: npm test
       - name: Build React application
         working-directory: voxvector
+        env:
+          VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
+          VITE_GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: npm run build
