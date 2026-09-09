@@ -20,7 +20,7 @@ The connected Render runtime has now demonstrated:
 - Hugging Face token presence detected by the runtime
 - 21-stage pipeline contract remains 16 implemented or built foundations, 4 conditional/not-invoked, and 1 queued
 
-Provider readiness is an infrastructure/runtime state. It does not by itself promote stages 05 or 07 to integrated production execution or establish scientific validity.
+Provider readiness is an infrastructure/runtime state. It does not by itself promote stages 05 or 07 to integrated production execution or establish scientific validity. The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before the configured diarization provider is invoked.
 
 The current engineering objective therefore moves from provider wiring to **controlled provider execution and artifact integration**.
 
@@ -40,12 +40,13 @@ The current engineering objective therefore moves from provider wiring to **cont
 
 ### EA2 — Speaker diarization execution — next
 
-1. Execute pyannote Community-1 against a controlled WAV fixture.
-2. Verify speaker turns and segment boundaries.
-3. Record provider duration and memory evidence.
-4. Persist the diarization artifact under case/run identity.
+1. Confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime without exposing credential values.
+2. Execute the configured pyannoteAI cloud primary against a controlled WAV fixture.
+3. Verify speaker turns, segment boundaries, provider provenance, and case/run persistence.
+4. Record provider duration and relevant runtime/resource evidence.
 5. Preserve provider limitations and confidence semantics.
-6. Promote Stage 05 from queued only after successful provider-backed execution is demonstrated.
+6. Test local Community-1 only as a separate fallback exercise by explicitly configuring `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`; do not substitute fallback testing for primary verification.
+7. Promote Stage 05 from queued only after successful provider-backed execution is demonstrated.
 
 ### EA3 — Transcription execution — next
 
@@ -116,7 +117,7 @@ The critical path is:
 2. recording intake and provenance — implemented
 3. audio playback and waveform — foundation implemented
 4. real 21-stage lifecycle — implemented foundation
-5. speaker processing — provider configured; execution next
+5. speaker processing — pyannoteAI cloud primary configured; route-gated execution next
 6. production transcription — provider configured; execution next
 7. audio/transcript/speaker alignment — foundation implemented; provider-backed execution next
 8. real analytical tracks — foundation present; synchronized expansion next
