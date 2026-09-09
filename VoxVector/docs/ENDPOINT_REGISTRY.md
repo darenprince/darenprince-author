@@ -13,9 +13,11 @@ GitHub Pages hosts the canonical public React application and Developer Console.
 
 Protected React routes include:
 
-- `/voxvector/login` — canonical Supabase login and trusted-role router;
+- `/voxvector/login/` — canonical Supabase login and trusted-role router;
 - `/voxvector/developer/` — developer/admin Developer Console;
 - `/voxvector/app` — approved-user workspace.
+
+The GitHub Pages artifact explicitly stages `voxvector/login/index.html` from the canonical React build so direct navigation to `/voxvector/login/` resolves to the same `AuthGate.jsx` implementation instead of depending on the generic SPA 404 fallback. This is a route entry for the existing React application, not a second login implementation.
 
 ## Existing API
 
