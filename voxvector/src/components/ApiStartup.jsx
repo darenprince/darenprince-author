@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Activity, Database, Gauge, Server, ShieldCheck, Waves, CheckCircle2, LoaderCircle } from 'lucide-react'
-import appPackage from '../../package.json'
+import { version as webVersion } from '../../package.json'
 
 const STEPS = [
   { id: 'connection', label: 'API connection', detail: 'Establishing a connection to the canonical VoxVector API.', icon: Server },
@@ -99,7 +99,7 @@ export default function ApiStartup({ health, session, verifying = false, leaving
         <div className="vv-api-start__brand"><img src="/voxvector/assets/voxvector-icon-final-color.png" alt=""/><div><div className="vv-api-start__eyebrow">VOXVECTOR DEVELOPER CONSOLE</div><h1>{waking ? 'API initializing' : 'Verifying runtime'}</h1><p>{waking ? 'The console will open when the canonical backend responds.' : 'Backend response received. Confirming the returned runtime state.'}</p></div></div>
         <div className="vv-api-start__overall" aria-live="polite"><div><span>{waking ? `BACKEND WAKE · ${wakeSeconds}s` : 'STARTUP VERIFICATION'}</span><strong>{overallLabel}</strong></div><div className={`vv-api-start__overall-meter ${waking ? 'is-indeterminate' : ''}`}><div className={done ? 'is-complete' : ''} style={waking ? undefined : { width: `${done ? 100 : verificationPercent}%` }} /></div></div>
         <div className="vv-api-start__steps">{STEPS.map((step, index) => <StepRow key={step.id} step={step} state={visibleStates[index]} health={health} wakeSeconds={wakeSeconds}/>)}</div>
-        <div className="vv-api-start__footer"><span>WEB v{appPackage.version} · API {apiVersion ? `v${apiVersion}` : 'version pending'}</span><span>{payload?.source_revision ? `rev ${payload.source_revision.slice(0, 12)}` : 'source revision pending'}</span></div>
+        <div className="vv-api-start__footer"><span>WEB v{webVersion} · API {apiVersion ? `v${apiVersion}` : 'version pending'}</span><span>{payload?.source_revision ? `rev ${payload.source_revision.slice(0, 12)}` : 'source revision pending'}</span></div>
       </motion.div>
     </motion.section>}
   </AnimatePresence>
