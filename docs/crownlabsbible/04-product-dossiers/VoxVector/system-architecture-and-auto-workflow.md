@@ -33,7 +33,7 @@ The active role-gating implementation keeps authentication and authorization sep
 - `user` → protected `/voxvector/app` user workspace;
 - missing or unknown role → denied protected access.
 
-The public application exposes `/voxvector/login` as the single account entry. Direct protected-route entry is role checked and does not rely on redirect behavior alone. User-editable profile metadata is not an authorization source.
+The public application exposes `/voxvector/login/` as the single account entry. The Pages artifact stages `voxvector/login/index.html` from the same canonical React build so the direct URL resolves without creating a second login implementation. Direct protected-route entry is role checked and does not rely on redirect behavior alone. User-editable profile metadata is not an authorization source.
 
 Privileged account administration is designed as a server-only Supabase Edge Function. The browser invokes the function with the current JWT; the function revalidates a trusted `admin` role before using the Supabase service-role credential to create/invite users, maintain roles/permissions/profile fields, administer passwords/recovery, or delete accounts. The service-role credential is never exposed to the GitHub Pages client. Function source, function deployment, authenticated admin execution, and browser verification remain separate evidence states.
 
