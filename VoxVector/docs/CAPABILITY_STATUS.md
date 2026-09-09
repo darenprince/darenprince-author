@@ -27,7 +27,7 @@ The canonical case-analysis route now contains the transcription invocation path
 | File Decode and Normalization | Integrated | Canonical normalized media pipeline |
 | Provenance and Integrity | Integrated | Immutable source and run provenance |
 | Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
-| Speaker Identification / Diarization | **Execution-ready provider configured; controlled execution next** | Production speaker-aware analysis |
+| Speaker Identification / Diarization | **Execution-ready cloud primary configured; controlled execution next** | Production speaker-aware analysis |
 | Speech Segmentation | **Integrated** | Production speech region segmentation |
 | Transcription Generation | **Built invocation path; provider execution verification next** | Production timestamped ASR |
 | Transcript Alignment | **Built synchronized workspace foundation; provider-backed verification next** | Word and audio synchronization |
@@ -66,8 +66,10 @@ The authenticated case intake workflow supports case creation/list/retrieval, WA
 - primary provider: `pyannote_api`
 - cloud API-key presence: `true`
 - primary execution readiness: `true`
+- case-route invocation gate: `VOXVECTOR_ENABLE_DIARIZATION_RUNS`; this must be enabled for case analysis to invoke diarization and is separate from `/health` provider readiness
 - local fallback: `pyannote_local`
-- local fallback readiness: `false`
+- local fallback configuration: `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` plus `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`
+- local fallback readiness at latest observed runtime: `false`
 - successful execution: not established
 
 ## Developer Console status
@@ -88,8 +90,9 @@ The console must display execution readiness independently from provider executi
 | Case-bound analysis API | implemented |
 | Speech adapters | installed |
 | Transcription provider | configured / execution-ready |
-| Diarization primary provider | cloud configured / execution-ready |
+| Diarization primary provider | pyannoteAI cloud configured / execution-ready |
 | Local diarization fallback | disabled / not ready |
+| Diarization route gate | explicit environment gate; must be enabled separately from provider readiness |
 | Transcription invocation path | built in canonical case analysis |
 | Provider execution | controlled verification next |
 | Transcript/speaker alignment | foundation; provider-backed verification next |
@@ -99,13 +102,14 @@ The console must display execution readiness independently from provider executi
 
 1. Verify exact-commit GitHub QA for the live source revision.
 2. Execute faster-whisper against a controlled WAV and persist transcript segments/words.
-3. Execute pyannote Community-1 against the same controlled WAV and persist speaker turns.
-4. Produce and persist the multimodal alignment artifact.
-5. Integrate transcript-derived linguistic/disfluency evidence.
-6. Integrate speaker-aware acoustic aggregation and baseline comparisons.
-7. Integrate question/response context and response timing.
-8. Complete Review Evidence, assessment, reporting, history/reopen, and browser/mobile verification.
-9. Begin task-specific scientific validation only after engineering evidence is stable.
+3. Execute the configured pyannoteAI cloud primary (`pyannote_api`) against the same controlled WAV with `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`; persist speaker turns and provider provenance.
+4. Exercise local Community-1 only as a separate optional fallback test when fallback variables and credentials are explicitly enabled; do not use it as the primary verification path.
+5. Produce and persist the multimodal alignment artifact.
+6. Integrate transcript-derived linguistic/disfluency evidence.
+7. Integrate speaker-aware acoustic aggregation and baseline comparisons.
+8. Integrate question/response context and response timing.
+9. Complete Review Evidence, assessment, reporting, history/reopen, and browser/mobile verification.
+10. Begin task-specific scientific validation only after engineering evidence is stable.
 
 ## Scientific status rule
 
