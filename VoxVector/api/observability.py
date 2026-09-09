@@ -19,9 +19,12 @@ _ERROR_EVENTS = {
     "request.server_error",
     "case.source_upload_rejected",
     "case.source_upload_failed",
+    "case.source_upload_prehandler_rejected",
     "case.analysis_failed",
     "analysis.stage_failed",
 }
+_CASE_SOURCE_PREHANDLER_STATUSES = {400, 413, 415, 422}
+_CASE_SOURCE_ROUTE_TTL_SECONDS = 15 * 60
 
 
 def _safe_text(value: Any, limit: int = 600) -> str:
@@ -51,23 +54,68 @@ def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def _is_case_source_upload(method: Any, path: Any) -> bool:
+    if str(method or "").upper() != "POST":
+        return False
+    parts = [part for part in str(path or "").split("/") if part]
+    return len(parts) == 4 and parts[0] == "v1" and parts[1] == "cases" and parts[3] == "sources"
+
+
+def _status_code(value: Any) -> int | None:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
 class DiagnosticStore:
     """Sanitized diagnostics written to stdout and durable observability storage."""
 
     def __init__(self, storage: SupabaseStorage | None = None):
         self.storage = storage or SupabaseStorage()
         self.enabled = os.getenv("VOXVECTOR_DIAGNOSTICS_ENABLED", "true").lower() not in {"0", "false", "no"}
+        self._case_source_route_started: dict[str, float] = {}
 
     def status(self) -> str:
         if not self.enabled:
             return "disabled"
         return self.storage.status()
 
+    def _prune_case_source_route_state(self) -> None:
+        cutoff = time.monotonic() - _CASE_SOURCE_ROUTE_TTL_SECONDS
+        expired = [rid for rid, started_at in self._case_source_route_started.items() if started_at < cutoff]
+        for rid in expired:
+            self._case_source_route_started.pop(rid, None)
+
     async def emit(self, event: str, **fields: Any) -> str | None:
         if not self.enabled:
             return None
         rid = fields.pop("request_id", None) or request_id()
         tid = fields.pop("trace_id", None) or trace_id()
+        self._prune_case_source_route_state()
+        if event == "case.source_upload_started":
+            self._case_source_route_started[rid] = time.monotonic()
+
+        prehandler_rejection: dict[str, Any] | None = None
+        if event == "request.completed":
+            status_code = _status_code(fields.get("status_code"))
+            if (
+                status_code in _CASE_SOURCE_PREHANDLER_STATUSES
+                and _is_case_source_upload(fields.get("method"), fields.get("path"))
+                and rid not in self._case_source_route_started
+            ):
+                prehandler_rejection = {
+                    "method": fields.get("method"),
+                    "path": fields.get("path"),
+                    "status_code": status_code,
+                    "duration_ms": fields.get("duration_ms"),
+                    "reason": "route_handler_start_not_observed",
+                    "boundary": "before_normal_upload_route_body",
+                    "error_type": "PreHandlerHTTP4xx",
+                    "error_message": f"Case source request returned HTTP {status_code} before the route-start diagnostic was observed.",
+                    "observability_basis": "case.source_upload_started missing for the same request_id",
+                }
+
         now = datetime.now(timezone.utc)
         record = {
             "schema": "voxvector.diagnostic.v2",
@@ -146,6 +194,16 @@ class DiagnosticStore:
                     print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} index=error-index error={_safe_text(exc)}", flush=True)
         except StorageError as exc:
             print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} error={_safe_text(exc)}", flush=True)
+
+        if prehandler_rejection is not None:
+            await self.emit(
+                "case.source_upload_prehandler_rejected",
+                request_id=rid,
+                trace_id=tid,
+                **prehandler_rejection,
+            )
+        if event in {"request.completed", "request.unhandled_exception"}:
+            self._case_source_route_started.pop(rid, None)
         return storage_result
 
 
