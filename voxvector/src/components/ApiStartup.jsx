@@ -63,7 +63,8 @@ export default function ApiStartup({ health, session, verifying = false, leaving
 
   useEffect(() => {
     if (health.isSuccess) return undefined
-    const started = Date.now() - (wakeSeconds * 1000)
+    const started = Date.now()
+    setWakeSeconds(0)
     const timer = window.setInterval(() => setWakeSeconds(Math.floor((Date.now() - started) / 1000)), 1000)
     return () => window.clearInterval(timer)
   }, [health.isSuccess])
