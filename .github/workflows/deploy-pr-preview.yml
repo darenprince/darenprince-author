@@ -83,15 +83,23 @@ jobs:
           VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
         run: npm run build
 
+      - name: Stage direct login entry
+        working-directory: voxvector
+        run: |
+          set -euo pipefail
+          mkdir -p dist/login
+          cp dist/index.html dist/login/index.html
+
       - name: Verify preview artifact
         working-directory: voxvector
         run: |
           set -euo pipefail
           test -f dist/index.html
+          test -f dist/login/index.html
           test -f dist/voxvector-audio-analysis-console.png
           test -f dist/VoxVector-logo-word.png
           test -f dist/voxvector-icon-final-color.png.PNG
-          echo "VoxVector PR preview build completed and required assets are present."
+          echo "VoxVector PR preview build completed and the direct login entry is present."
 
       - name: Upload PR preview artifact
         uses: actions/upload-artifact@v4
