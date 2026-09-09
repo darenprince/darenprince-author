@@ -15,11 +15,13 @@ Current runtime maturity remains:
 - 1 queued for deeper runtime integration.
 - all 21 represented in the canonical backend stage contract.
 
-The latest observed Render runtime reports faster-whisper plus the pyannoteAI cloud primary as configured/execution-ready. The local Community-1 fallback remains optional and has not been established as safe production execution on the constrained Render runtime. Provider readiness does not promote queued stages without real provider-backed execution and artifact persistence.
+The September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`. The latest observed runtime reports faster-whisper plus the pyannoteAI cloud primary as configured/execution-ready. The local Community-1 fallback remains optional and has not been established as safe production execution on the constrained Render runtime. Provider readiness and deployment health do not establish controlled provider execution or promote queued stages.
 
 ## Live API checkpoint
 
-Historical live runtime observations and later deployment verification are maintained in the canonical VoxVector engineering records. The current source task does not replace those runtime records with branch/CI evidence.
+Manual Render deployment `dep-dagjc3740ujc73ff3ge0` checked out backend revision `09381797d4486bc049cb99a527c624690274b7c7`, built successfully, started Uvicorn, returned repeated `/health` HTTP 200 responses, and reached terminal `live` state. GitHub `main` later advanced with frontend/documentation changes while Render remained intentionally on the last manually deployed backend revision.
+
+This deployment evidence is not a controlled real-audio transcription run, speaker-diarization execution, persisted transcript/speaker artifact readback, authenticated browser verification, or scientific validation.
 
 The case-analysis route requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider. This gate is separate from provider readiness.
 
@@ -71,9 +73,9 @@ Source behavior on the branch:
 - The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the JSON report.
 - The pyannoteAI → Community-1 fallback wrapper preserves the primary failure in provenance when fallback succeeds and reports both provider failures if fallback also fails.
 
-Source checkpoint `0eaaf79082c2cf99023981d88af25ed81b5cb06c` passed VoxVector QA #1893 with 196 API tests, eight frontend contract tests, and a successful React build; PR Preview Build #785 also passed. Documentation synchronization after that checkpoint requires fresh exact-head QA before merge recommendation.
+The prior documentation-synchronized head `107413b821d8a444f212c3a6d523f3bf8d95ec6b` passed VoxVector QA #1896 with 196 Python tests, eight frontend contract tests, and a successful React build; PR Preview Build #787 also passed. Runtime-evidence documentation alignment after that checkpoint advances the branch and requires fresh exact-head QA before merge recommendation.
 
-This is source/QA evidence only. It is not a production deployment, provider execution, browser verification, or scientific validation. The Community-1 fallback is not represented as enabled in production by this checkpoint.
+This is source/QA evidence only. It is not a production deployment of PR #946, provider execution, browser verification, or scientific validation. The Community-1 fallback is not represented as enabled in production by this checkpoint.
 
 ## QA boundary
 
@@ -89,7 +91,7 @@ The Console must never simulate provider execution or stage progress.
 
 ## Current engineering sequence
 
-1. Exact-head QA and review for PR #946.
+1. Fresh exact-head QA and review for PR #946.
 2. Merge only after reviewable source and documentation integrity are confirmed.
 3. Deliberately deploy the approved backend revision through the protected manual Render path.
 4. Verify runtime `/health` revision and intended runtime settings.
