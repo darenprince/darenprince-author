@@ -1,11 +1,11 @@
 # VoxVector Version Map
 
-**State date:** 2026-09-08
+**State date:** 2026-09-09
 
 | Area | Version / reference | Status |
 |---|---:|---|
-| Backend runtime | 0.2.26 | active |
-| Public React application | 0.2.37 | active; package authority verified 2026-09-08 |
+| Backend source release | 0.2.27 | active source; packaging/runtime authorities synchronized in source |
+| Public React application | 0.2.37 | active; package authority verified 2026-09-09 |
 | Result schema | 0.3 | active engine and composed case envelope |
 | Observation layer | 0.1 | implemented / observational |
 | Acoustic observation integration | 0.2 | integrated |
@@ -20,7 +20,7 @@
 | Transcript disfluency | 0.1 | optional integrated / observational |
 | MFCC / cepstral module | 0.1 | integrated / observational |
 | Evidence acquisition | 0.1 | implemented foundation |
-| faster-whisper adapter | configured / execution-ready on live Render runtime | implemented; real execution verification next |
+| faster-whisper adapter | configured / execution-ready on latest observed live Render runtime | implemented; real execution verification next |
 | pyannoteAI cloud primary (`pyannote_api`) | configured / primary execution-ready on latest observed Render runtime | implemented; real cloud execution verification next |
 | local pyannote Community-1 fallback (`pyannote_local`) | disabled / not execution-ready on latest observed Render runtime | implemented optional fallback; test only when explicitly enabled |
 | Transcript/speaker alignment | 0.1 | foundation implemented; provider-backed verification next |
@@ -41,6 +41,22 @@
 | Transcript alignment | 0.1 | foundation implemented; provider-backed execution next |
 | Learned speech representations | not assigned | planned |
 | D Series validated inference | not assigned | not active |
+
+## Release-version authority and drift prevention
+
+VoxVector has two independently versioned application surfaces. They are not required to have the same numeric version.
+
+- Backend source release authority: `VoxVector/pyproject.toml`.
+- Backend runtime package version: `VoxVector/src/voxvector/__init__.py`.
+- Pipeline/API software version: `VoxVectorPipeline.software_version`, sourced from the backend package version rather than a second hard-coded release number.
+- Public React version authority: `voxvector/package.json`.
+- Live API version evidence: the `pipeline` value returned by `/health`.
+
+`VoxVector/tests/test_version_sync.py` reads `pyproject.toml` and requires the backend manifest, package `__version__`, and pipeline software version to match. This converts backend release alignment from a documentation convention into a QA gate.
+
+The Developer Console startup footer displays the frontend manifest version and the API version returned by the live `/health` response side by side. A source/deployment mismatch therefore remains visible instead of being replaced by a frontend hard-coded API number.
+
+Current source versions are frontend `0.2.37` and backend `0.2.27`. The latest separately observed production Render evidence below still reported backend pipeline `0.2.26`; that historical live observation remains valid until a newer deployment is independently verified.
 
 ## Latest observed runtime evidence — 2026-09-07
 
