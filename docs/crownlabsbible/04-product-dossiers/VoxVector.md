@@ -397,6 +397,57 @@ The plan is organized around:
 - security
 - browser verification
 
+## Investor valuation and commercial posture
+
+VoxVector now maintains a synchronized internal investor valuation record in `VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md`.
+
+**Valuation effective date:** 2026-09-08  
+**Repository evidence base:** `887c39e08973d1fe45a3d5c8460ebec40d5f8816`
+
+The assessment is an internal analytical valuation framework. It is not an independent appraisal, fairness opinion, investment recommendation, evidence of current revenue, or scientific validation report.
+
+### Current valuation ladder
+
+| Valuation basis | Current range | Central assessment |
+|---|---:|---:|
+| Replacement / recreation | **$0.85M–$1.80M** | **$1.30M** |
+| Orderly asset sale | **$0.55M–$1.30M** | **$0.85M** |
+| Strategic as-is enterprise / IP | **$2.50M–$5.00M** | **$3.50M** |
+| Connected engineering MVP | **$5.50M–$9.50M** | **$7.50M** |
+| Paid pilots / early ARR | **$8M–$16M** | **$12M** |
+| Validated proprietary model / data system | **$15M–$35M+** | Milestone-dependent |
+| 36-month base scenario | **~$24.8M–$33.0M** | **~$29M** |
+| 36-month high-growth scenario | **$99M–$126M** | Scenario only |
+| Five-year conditional base zone | **$60M–$90M** | **~$75M** |
+
+The current approximately **$3.50M central strategic assessment** reflects the assembled software, case-centered architecture, 21-stage analytical design, provenance and reliability controls, QA/operational discipline, research and validation architecture, infrastructure evidence, product UX, documentation, and brand system.
+
+It does **not** assume that VoxVector already has recurring revenue, a large rights-cleared proprietary labeled corpus, a proprietary validated deception classifier, completed enterprise security, or scientifically validated general deception inference.
+
+The next valuation inflection is therefore proof-driven: a reproducible provider-backed golden case, complete history/reopen/report proof, enterprise hardening, external paid design partners, rights-cleared proprietary data, and task-specific scientific evaluation.
+
+### Monetization posture
+
+The strongest near-term commercial wedge is **auditable vocal/audio evidence intelligence and professional workflow**, not an automated universal lie verdict.
+
+Potential revenue layers include professional/team subscriptions, enterprise and institutional licensing, API usage, managed analytical services, research/evaluation engagements, private deployments, OEM/embedded licensing, and later validated task-specific inference offerings if the scientific evidence supports them.
+
+Current pricing ranges in the valuation model are planning assumptions only; they are not current list prices or booked revenue. Product-level assumptions and evidence gates are maintained in `crowndocs/content/product-dossiers/voxvector/monetization.md`.
+
+### Proprietary IP protection
+
+Investor and transaction value depends on clear ownership, permitted use, confidentiality, and transferability.
+
+Commercial structures should preserve Crown Labs ownership of lawfully owned VoxVector background IP while expressly carving out third-party libraries, open-source components, external models, datasets, hosted providers, and other materials governed by separate rights.
+
+Publicly disclosed repository material must not be represented as a trade secret. Non-public proprietary assets may receive confidentiality/trade-secret treatment only when they are actually kept non-public and protected appropriately.
+
+Customer or research-participant audio, transcripts, labels, annotations, and case records do not become Crown Labs training property by default. Data/model-training, retention, de-identification, evaluation, and derived-data rights should be defined expressly by contract and applicable law.
+
+The current valuation assigns no incremental premium merely for unverified patents, registrations, proprietary model weights, a rights-cleared labeled deception corpus, customer contracts, or ARR.
+
+The detailed product policy is maintained in `crowndocs/content/product-dossiers/voxvector/licensing.md`, with ecosystem licensing rules in `docs/crownlabsbible/03-investor-framework/licensing-structures.md`.
+
 ## Documentation authority
 
 The technical source of truth is the `VoxVector/` directory in GitHub.
@@ -415,4 +466,6 @@ The method library remains in `VoxVector/docs/MASTER_METHOD_INDEX.md`.
 
 The endpoint map is maintained in `VoxVector/docs/ENDPOINT_REGISTRY.md`.
 
-Material product and architecture changes should be synchronized across these canonical surfaces.
+The current internal valuation assessment is maintained in `VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md`.
+
+Material product, architecture, valuation, monetization, or licensing changes should be synchronized across the affected canonical and mirror surfaces.
