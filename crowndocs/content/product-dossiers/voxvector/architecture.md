@@ -93,4 +93,4 @@ The frontend must represent actual backend stage state. It must not manufacture 
 
 ## Deployment Boundary
 
-Render uses `VoxVector` as the root directory and `api.app:app` as the entry point. The intended public target is `voxvector.crownlabs.tech`.
+Render uses `VoxVector` as the root directory and `api.app:app` as the entry point. The public application is `darenprince.com/voxvector/`. The original API remains `voxvector.crownlabs.tech`.

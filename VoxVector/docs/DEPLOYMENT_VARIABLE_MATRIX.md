@@ -5,9 +5,13 @@
 
 | Variable / setting | Purpose | Render | AWS ECS | Notes |
 |---|---|---|---|---|
-| `HF_TOKEN` or canonical accepted equivalent | Hugging Face access for diarization runtime | [Render dashboard](https://dashboard.render.com/) | [AWS Secrets Manager](https://console.aws.amazon.com/secretsmanager/) | Secret. Exact accepted name must match canonical API. |
+| `PYANNOTE_KEY` or `PYANNOTE_API_KEY` | pyannoteAI cloud authentication for the primary diarization runtime | [Render dashboard](https://dashboard.render.com/) | [AWS Secrets Manager](https://console.aws.amazon.com/secretsmanager/) | Secret. `PYANNOTE_KEY` is preferred. |
+| `HF_TOKEN` or `HUGGINGFACE_TOKEN` | Hugging Face access for the optional local Community-1 fallback | [Render dashboard](https://dashboard.render.com/) | [AWS Secrets Manager](https://console.aws.amazon.com/secretsmanager/) | Secret. Not the cloud-primary credential. |
 | `VOXVECTOR_DIARIZATION_PROVIDER` | Select diarization provider | Render environment | ECS task environment | Use only supported canonical provider values. |
-| `VOXVECTOR_DIARIZATION_MODEL` | Select diarization model | Render environment | ECS task environment | Model availability must be verified at runtime. |
+| `VOXVECTOR_PYANNOTE_API_MODEL` | Optionally select the cloud diarization model | Render environment | ECS task environment | Provider support must be verified at runtime. |
+| `VOXVECTOR_DIARIZATION_FALLBACK` | Select the optional fallback provider | Render environment | ECS task environment | Current supported local value is `pyannote_local`; inert unless fallback is enabled. |
+| `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED` | Enable explicit fallback after primary failure | Render environment | ECS task environment | Defaults false. Fallback use must be recorded in provenance. |
+| `VOXVECTOR_ENABLE_DIARIZATION_RUNS` | Permit route-triggered diarization execution | Render environment | ECS task environment | Execution gate; separate from provider readiness. |
 | `VOXVECTOR_TRANSCRIPTION_PROVIDER` | Select transcription provider | Render environment | ECS task environment | Required before adapter becomes execution-ready. |
 | `VOXVECTOR_WHISPER_MODEL` | Select faster-whisper model | Render environment | ECS task environment | Canonical adapter reads this name; current profile uses `base`. |
 | `VOXVECTOR_WHISPER_DEVICE` | Select inference device | Render environment | ECS task environment | Current Render profile uses `cpu`. |
@@ -39,20 +43,20 @@ VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
 VOXVECTOR_WHISPER_BEAM_SIZE=3
 
-VOXVECTOR_DIARIZATION_PROVIDER=pyannote
-VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
+VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
 
-For the Hugging Face credential, the canonical pyannote adapter accepts either:
+For the cloud credential, the canonical adapter accepts either:
 
 ```text
-HF_TOKEN
-HUGGINGFACE_TOKEN
+PYANNOTE_KEY
+PYANNOTE_API_KEY
 ```
 
-Use `HF_TOKEN` as the preferred deployment secret name.
+Use `PYANNOTE_KEY` as the preferred deployment secret name. The optional local Community-1 fallback separately accepts `HF_TOKEN` or `HUGGINGFACE_TOKEN` when `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true` are both set.
 
-**Important:** The pyannote token value was not written into GitHub, documentation, or any client-side export. It must be supplied through the deployment secret manager.
+**Important:** Credential values are never written into GitHub, documentation, or client-side exports. They must be supplied through the deployment secret manager.
 
 ## Render status update
 

@@ -6,19 +6,19 @@ VoxVector is being engineered as a complete vocal intelligence and deception ana
 
 The architecture connects recording intake, speaker processing, transcription, synchronized audio analysis, evidence synthesis, classification, reporting, and audit into one case-centered workflow.
 
-## Current implementation checkpoint — 2026-09-04
+## Latest observed implementation checkpoint — 2026-09-07
 
 The live Render runtime now provides a configured speech-processing boundary in addition to the established acoustic/temporal analysis foundation:
 
 - backend pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - faster-whisper transcription provider configured and execution-ready
-- pyannote Community-1 diarization provider configured and execution-ready
-- Hugging Face token presence detected by runtime health
-- 21-stage maturity remains 14 implemented foundations, 4 conditional/not-invoked, 3 queued
+- pyannoteAI cloud primary diarization provider configured and execution-ready; local fallback disabled
+- pyannote API-key presence detected by runtime health
+- 21-stage maturity is 16 implemented or built foundations, 4 conditional/not-invoked, 1 queued
 
 The configured speech providers are an enabling runtime state. Controlled provider execution and artifact persistence remain the next dependency before stages 05, 07, and 08 are promoted.
 
@@ -130,9 +130,9 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 
 The live health contract currently reports:
 
-- 14 implemented foundations
+- 16 implemented or built foundations
 - 4 conditional/not-invoked stages
-- 3 queued stages
+- 1 queued stage
 
 Provider configuration and execution readiness do not change the maturity count. Real provider execution, persisted artifacts, integration tests, and runtime verification are required for stage promotion.
 
@@ -140,7 +140,7 @@ Provider configuration and execution readiness do not change the maturity count.
 
 The canonical acquisition layer provides a normalized media profile, speech/silence timeline, provider-neutral transcript and diarization contracts, provider selection, timestamp overlap alignment, and multimodal timeline output.
 
-Current Render provider configuration:
+Current Render cloud-primary provider configuration:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
@@ -149,12 +149,12 @@ VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
 VOXVECTOR_WHISPER_BEAM_SIZE=3
 
-VOXVECTOR_DIARIZATION_PROVIDER=pyannote
-VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1
-HF_TOKEN=<protected deployment secret>
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
+PYANNOTE_KEY=<protected deployment secret>
+VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
 
-The runtime health contract reports provider configuration/readiness without exposing the credential.
+The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. The route execution gate and provider/fallback readiness are separate states. The runtime health contract reports configuration/readiness without exposing credentials.
 
 ## Case-centered data architecture
 

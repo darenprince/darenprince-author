@@ -46,7 +46,7 @@ The current evidence layer groups observations by feature and creates neutral re
 
 The observed GitHub Actions run `32212539187` checked out commit `b66551897170b035dd8b2ca7c3d843d18124d00f` and reported **72 passing tests and 11 failures**. Those failures exposed the defects described above plus NaN-aware reproducibility and floating-point tolerance issues. The repository advanced with repairs after that run.
 
-A fresh GitHub Actions execution on the current state is still required before declaring the repaired suite green. The CI workflow has been aligned to Python 3.12 to match the current dependency baseline.
+At the time of this audit, a fresh GitHub Actions execution was still required before declaring the repaired suite green. The audit recorded a planned Python 3.12 alignment. The active `voxvector-qa.yml` workflow inspected on 2026-09-08 uses Python 3.11, so this dated paragraph is historical evidence rather than current workflow guidance.
 
 ## Next hardening targets
 

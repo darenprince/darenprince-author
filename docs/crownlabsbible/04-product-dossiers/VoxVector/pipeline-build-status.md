@@ -1,6 +1,6 @@
 # VoxVector Pipeline Build Status
 
-**Status date:** 2026-09-04
+**Status date:** 2026-09-08
 
 This is the Crown Labs executive/product mirror of the canonical engineering status maintained in `VoxVector/docs/PIPELINE_BUILD_STATUS.md`.
 
@@ -10,46 +10,46 @@ VoxVector's canonical product architecture contains 21 stages from file intake t
 
 Current runtime maturity remains:
 
-- 14 stages with implemented runtime foundations.
+- 16 stages with implemented or built runtime foundations.
 - 4 conditional or intentionally not invoked without required inputs.
-- 3 queued for deeper runtime integration.
+- 1 queued for deeper runtime integration.
 - all 21 represented in the canonical backend stage contract.
 
-The live Render runtime now reports configured, execution-ready speech providers. This is an important infrastructure milestone, but it does not promote the queued stages without real provider-backed execution and artifact persistence.
+The latest observed Render runtime reports faster-whisper plus the pyannoteAI cloud primary as configured/execution-ready. The local Community-1 fallback was disabled/not ready. Provider readiness does not promote queued stages without real provider-backed execution and artifact persistence.
 
-## Live API checkpoint — 2026-09-04
+## Live API checkpoint
 
-Observed live Render `/health` state:
+Observed Render `/health` state recorded by the canonical engineering documentation:
 
 - pipeline `0.2.26`
-- source revision `23677b258a60e5cf25287cc0dce3b199f472a7c1`
+- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
 - runtime self-test `passed`
 - diagnostic/media storage `configured_media_ready`
 - media storage `true`
 - maximum sample rate `48,000 Hz`
 - maximum media size `250 MiB`
 - faster-whisper configured and execution-ready
-- pyannote Community-1 configured and execution-ready
-- Hugging Face token detected by runtime
-- current commit QA field still `external_workflow_required`
-- pyannote Community-1 is a gated Hugging Face repository; configured token detection remains distinct from successful provider-backed diarization
+- pyannoteAI cloud primary configured and execution-ready
+- local pyannote Community-1 fallback disabled and not execution-ready
+- current commit QA field `external_workflow_required`
+
+The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider. This gate is separate from `/health` readiness.
 
 ## Current engineering stage
 
 **Controlled speech-provider execution and evidence artifact integration.**
 
-The next dependency is a controlled real WAV execution of transcription and diarization, followed by persistence and synchronized alignment.
+The next dependency is a controlled real WAV execution of transcription and the configured cloud-primary diarization path, followed by persistence and synchronized alignment.
 
 ## Provider path
 
-1. Run faster-whisper.
-2. Verify transcript segments and word timestamps.
-3. Run pyannote Community-1.
-4. Verify speaker turns.
-5. Persist transcript and speaker artifacts by case/run.
-6. Normalize timing.
-7. Produce the multimodal alignment artifact.
-8. Connect downstream linguistic, interaction, baseline, and evidence consumers.
+1. Run faster-whisper and verify transcript segments/word timestamps.
+2. Confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime without exposing credentials.
+3. Run the pyannoteAI cloud primary and verify speaker turns plus provider provenance.
+4. Persist transcript and speaker artifacts by case/run.
+5. Normalize timing and produce the multimodal alignment artifact.
+6. Test local Community-1 only as a separate explicit fallback exercise when fallback configuration is enabled.
+7. Connect downstream linguistic, interaction, baseline, and evidence consumers.
 
 ## Analysis Workspace direction
 
@@ -68,7 +68,7 @@ The post-analysis workspace is being expanded toward:
 
 ## QA boundary
 
-The exact source revision is now surfaced by the live Render runtime. The runtime still reports `external_workflow_required` for current-commit QA, so this mirror does not call the source revision QA-current until GitHub Actions provides matching evidence.
+The exact source revision is surfaced by the runtime independently from GitHub QA. Runtime `current_commit_qa` values and GitHub Actions evidence must be matched by revision before source QA is called current.
 
 Software QA, provider execution, infrastructure health, and scientific validation remain separate evidence classes.
 
@@ -82,14 +82,15 @@ The Console must never simulate provider execution or stage progress.
 
 1. Exact-commit QA.
 2. Controlled faster-whisper execution.
-3. Controlled pyannote Community-1 execution.
+3. Controlled pyannoteAI cloud-primary execution with the route gate enabled.
 4. Persist transcript, speaker, and alignment artifacts.
-5. Expose synchronized speaker/transcript/evidence views.
-6. Feed transcript into linguistic/disfluency analysis.
-7. Add question/response context, speaker-aware acoustic aggregation, and baseline inputs.
-8. Complete Review Evidence, assessment, reporting, and history/reopen.
-9. Complete authenticated desktop/mobile verification.
-10. Advance scientific validation only after engineering evidence is stable.
+5. Optional local Community-1 fallback exercise only when fallback behavior itself is being tested.
+6. Expose synchronized speaker/transcript/evidence views.
+7. Feed transcript into linguistic/disfluency analysis.
+8. Add question/response context, speaker-aware acoustic aggregation, and baseline inputs.
+9. Complete Review Evidence, assessment, reporting, and history/reopen.
+10. Complete authenticated desktop/mobile verification.
+11. Advance scientific validation only after engineering evidence is stable.
 
 ## Scientific boundary
 
@@ -97,7 +98,6 @@ The pipeline remains an evidence-analysis architecture, not a claim that an indi
 
 **Canonical source:** `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
 
-
 ## pyannote provider synchronization — 2026-09-04
 
-Canonical VoxVector now supports pyannoteAI cloud diarization as an explicitly selected primary provider using a protected server-side API key, with local pyannote Community-1 retained as an explicit configuration-controlled fallback. Provider substitution is recorded in provenance and is not silent. Implementation does not itself claim successful provider execution or scientific validation.
+Canonical VoxVector supports pyannoteAI cloud diarization as the current primary provider using a protected server-side API key, with local pyannote Community-1 retained as an explicit configuration-controlled fallback. Provider substitution is recorded in provenance and is not silent. Implementation or readiness does not itself claim successful provider execution or scientific validation.

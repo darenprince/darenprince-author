@@ -342,8 +342,8 @@ The approved architecture includes:
 - shadcn style application owned components
 - Base UI interaction primitives
 - Tailwind CSS
-- Tremor React analytical components
-- Lucide React iconography
+- application-owned SVG analytical components; Recharts 3 remains installed but is not imported by current source
+- Streamline Sharp for shared product chrome, with Lucide retained only where still owned by existing components
 - Motion for React
 - TanStack Query
 
