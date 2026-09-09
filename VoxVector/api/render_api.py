@@ -484,7 +484,7 @@ async def render_analysis(
         return {"status": "ok", "case": updated_case, "run": final_run, "result_envelope": envelope}
     except Exception as exc:
         try:
-            failed_run = {"run_id": live_run_id, "analysis_id": live_run_id, "request_id": rid, "status": "failed", "started_at": started_at, "completed_at": datetime.now(timezone.utc).isoformat(), "source_id": source_id, "pipeline_version": "0.2.26", "pipeline_build": {"total_stages": 21, "completed": sum(stage["status"] in {"complete", "completed", "success", "succeeded"} for stage in stage_states), "pending": sum(stage["status"] in {"pending", "running", "processing", "in_progress"} for stage in stage_states), "not_run": sum(stage["status"] == "not_run" for stage in stage_states), "failed": 1}, "stages": stage_states, "error": {"type": type(exc).__name__, "message": str(exc)[:1200]}}
+            failed_run = {"run_id": live_run_id, "analysis_id": live_run_id, "request_id": rid, "status": "failed", "started_at": started_at, "completed_at": datetime.now(timezone.utc).isoformat(), "source_id": source_id, "pipeline_version": VoxVectorPipeline.software_version, "pipeline_build": {"total_stages": 21, "completed": sum(stage["status"] in {"complete", "completed", "success", "succeeded"} for stage in stage_states), "pending": sum(stage["status"] in {"pending", "running", "processing", "in_progress"} for stage in stage_states), "not_run": sum(stage["status"] == "not_run" for stage in stage_states), "failed": 1}, "stages": stage_states, "error": {"type": type(exc).__name__, "message": str(exc)[:1200]}}
             await asyncio.to_thread(CASE_STORE.update_run, str(user["id"]), case_id, failed_run)
         except Exception:
             pass
