@@ -12,12 +12,12 @@ This document is an engineering status record, not a claim that every pipeline s
 | 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization; persisted run boundary | covered by API/runtime tests; production executed |
 | 03 | Provenance and Integrity | **implemented** | SHA-256 source verification; persisted run boundary | covered by case-store tests; production executed |
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised by pipeline |
-| 05 | Speech Segmentation | **implemented foundation** | deterministic energy/activity segmentation is computed and persisted before heavyweight provider execution | deterministic tests; production execution exists on prior composite path; repaired stage-order runtime verification pending |
+| 05 | Speech Segmentation | **implemented foundation** | deterministic energy/activity segmentation is computed and persisted before heavyweight provider execution | deterministic tests; controlled repaired-runtime provider execution still required |
 | 06 | Speaker Identification / Diarization | **queued provider path** | pyannoteAI cloud primary configured/execution-ready when the case invocation gate is enabled; local Community-1 fallback remains optional | contract/provider tests; controlled cloud execution and persisted artifact required |
 | 07 | Transcription Generation | **built integration path** | canonical case analysis invokes faster-whisper when runtime-ready; repaired path uses a disposable child process with a hard local deadline and persists normalized transcript artifacts | contract/process-boundary tests; controlled provider-backed production verification required |
 | 08 | Transcript Alignment | **built synchronized foundation** | transcript timestamps and optional speaker turns are aligned before downstream transcript-dependent evidence is reported complete | regression tests; controlled provider-backed verification required |
-| 09 | Eligibility and Reliability | **implemented** | downstream recording eligibility/reliability result; repaired case path does not mark it complete before upstream speech/provider acquisition resolves | covered by pipeline tests; production verification of repaired ordering pending |
-| 10 | Acoustic Feature Extraction | **implemented** | RMS, intensity, ZCR, centroid, spread, F0, harmonicity, MFCC and related observations; repaired case path begins composite analysis after upstream evidence acquisition | covered by acoustic/pipeline tests; production executed on prior path; repaired ordering pending runtime verification |
+| 09 | Eligibility and Reliability | **implemented** | downstream recording eligibility/reliability result; repaired case path does not mark it complete before upstream speech/provider acquisition resolves | covered by pipeline tests; controlled repaired-order provider execution pending |
+| 10 | Acoustic Feature Extraction | **implemented** | RMS, intensity, ZCR, centroid, spread, F0, harmonicity, MFCC and related observations; repaired case path begins composite analysis after upstream evidence acquisition | covered by acoustic/pipeline tests; controlled repaired-order runtime verification pending |
 | 11 | Prosodic and Voice Quality Analysis | **implemented foundation** | F0/intensity dynamics and HNR | feature tests; scientific validation separate |
 | 12 | Temporal and Pause Analysis | **implemented foundation** | pause topology and timing observations | feature tests; scientific validation separate |
 | 13 | Linguistic and Disfluency Analysis | **conditional** | requires transcript artifact; transcript evidence is assembled only when a real transcript result exists | unit/integration tests; controlled acquired-transcript execution required |
@@ -34,8 +34,8 @@ This document is an engineering status record, not a claim that every pipeline s
 
 - **16 stages have implemented analytical/runtime foundations**
 - **4 stages are conditional or intentionally not invoked without required inputs**
-- **speaker execution remains queued for controlled cloud-primary verification; transcription/alignment have built integration paths pending repaired-runtime execution evidence**
-- **faster-whisper is configured and execution-ready on the currently deployed Render runtime, but the deployed revision predates the September 9 containment repair**
+- **speaker execution remains queued for controlled cloud-primary verification; transcription/alignment have built integration paths pending controlled provider execution evidence**
+- **the September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`; deployment and `/health` success do not establish controlled transcription execution**
 - **pyannoteAI cloud is the configured execution-ready primary on the latest observed Render runtime; local Community-1 fallback is optional and was not the source of the September 9 transcription OOM**
 - **21 stages remain represented in the canonical contract**
 
@@ -43,9 +43,13 @@ The maturity count does not mean sixteen validated deception indicators. Individ
 
 ## Live API runtime evidence — 2026-09-09
 
-The currently live Render deploy remains commit `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`, deployed by the protected deploy-hook path. That revision predates PR #942.
+The original Render backend was deliberately deployed to merged repair revision `09381797d4486bc049cb99a527c624690274b7c7` through manual deployment `dep-dagjc3740ujc73ff3ge0`. Connected deployment evidence established checkout of that intended revision, successful build, Uvicorn startup, repeated `/health` HTTP 200 responses, and terminal `live` deployment state. Current GitHub `main` later advanced to `a656c3545daef4bc5c6a941066d9a1f92f70aa61` with frontend/documentation changes; Render remains intentionally on the last manually deployed backend revision `09381797...`.
 
-Connected Render logs for request `6bb7ec766d3e46f39462ef92c9929544` show:
+That deployment evidence establishes source-to-runtime deployment and health only. Controlled authenticated real-audio transcription on the repaired revision, runtime `/health` payload readback, memory/instance correlation during provider work, persisted transcript/speaker/alignment artifact readback, stale-history recovery, and authenticated browser verification remain separate unresolved evidence.
+
+### Historical OOM incident evidence
+
+On the earlier live revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`, connected Render logs for request `6bb7ec766d3e46f39462ef92c9929544` showed:
 
 - the production case route entered Stage 07 `transcription_generation` at `2026-09-09T09:36:46Z` with an outer 180 second acquisition deadline;
 - faster-whisper started at `09:36:47Z` for a 183.3 second WAV using the `base` model, CPU, and int8;
@@ -55,9 +59,7 @@ Connected Render logs for request `6bb7ec766d3e46f39462ef92c9929544` show:
 - the user received Render's memory-limit automatic-restart alert for the same service;
 - the persisted case run remained `running` because the process terminated before the prior in-process timeout/error handler could persist a terminal update.
 
-Source inspection of that deployed revision also confirmed that the case route ran the downstream composite pipeline first and marked Stages 06, 09–12, 16–18, 20 and 21 complete before provider-backed Stage 07 transcription began. That implementation contradicted the dependency sequence already documented below.
-
-PR #942 changes the source-level orchestration and ASR lifecycle, but those changes are not production execution evidence until merged and deliberately deployed.
+Source inspection of that historical revision also confirmed that the case route ran the downstream composite pipeline first and marked Stages 06, 09–12, 16–18, 20 and 21 complete before provider-backed Stage 07 transcription began. That implementation contradicted the canonical dependency sequence below. The merged/deployed repair at `09381797...` changes the source-level orchestration and ASR lifecycle; controlled provider execution on that repaired runtime remains required before those changes are called provider-verified.
 
 ## Speech execution sequence
 
@@ -123,7 +125,7 @@ Issue #945 / PR #946 extends the same canonical case-run lifecycle rather than c
 - The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the persisted JSON report, alongside the existing case/report copy control.
 - The explicit pyannoteAI → local Community-1 fallback wrapper preserves the primary provider failure in provenance when fallback succeeds and reports both provider failures when fallback also fails.
 
-The source checkpoint `0eaaf79082c2cf99023981d88af25ed81b5cb06c` passed VoxVector QA run #1893 (`196 passed`, eight frontend contract tests, successful React production build) and PR Preview Build #785. Documentation commits after that checkpoint require fresh exact-head CI before merge recommendation.
+The prior documentation-synchronized head `107413b821d8a444f212c3a6d523f3bf8d95ec6b` passed VoxVector QA run #1896 (`196 passed`, eight frontend contract tests, successful React production build) and PR Preview Build #787. This runtime-evidence correction advances the branch again, so fresh exact-head CI is required before merge recommendation.
 
 This checkpoint does **not** mean the Hugging Face Community-1 fallback has been enabled or executed in production. The currently documented production policy remains pyannoteAI cloud primary with local fallback disabled unless explicitly configured. The Render environment has a constrained memory envelope, so local Community-1 fallback must not be represented as production-safe merely because `HF_TOKEN` and fallback variables exist. Configuration, provider execution, deployment, browser verification, and scientific validation remain separate evidence states.
 
@@ -133,7 +135,7 @@ The Developer Console exposes real server-side Render status and recent logs thr
 
 ## Current engineering stage
 
-**Repair transcription reliability, verify dependency-ordered provider execution, and complete controlled provider artifact readback.**
+**Verify dependency-ordered provider execution, resilient run recovery, and controlled artifact readback.**
 
 The dependency order is:
 
@@ -149,11 +151,11 @@ Speaker cluster labels do not establish verified real-world identity.
 
 A completed analysis run does not prove any individual vocal feature proves deception.
 
-A green PR build does not establish that the repaired transcription path survived the Render memory ceiling.
+A green PR build does not establish that the repaired transcription path survived the Render memory ceiling under controlled provider workload.
 
 ## Current next steps
 
-1. Complete review and exact-head QA for PR #946 after documentation synchronization.
+1. Complete fresh exact-head QA for PR #946 after this runtime-evidence correction.
 2. Merge only after reviewable source/diff integrity is confirmed.
 3. Deliberately trigger the protected Render deployment because auto-deploy is disabled.
 4. Verify `/health` reports the merged revision and intended constrained transcription settings.
@@ -178,7 +180,7 @@ The configured primary/fallback policy is operational engineering, not a stage p
 
 The case route retains the route-level `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). The prior provider implementation relied on `asyncio.wait_for(asyncio.to_thread(...))`; coroutine cancellation could not terminate native local ASR work already executing in that thread, and a process-level OOM could terminate the API before the timeout handler ran.
 
-The repaired faster-whisper adapter therefore defaults to a disposable spawned child process with `VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165`, beam size 1, one CPU thread, and one worker. If the child exceeds its hard deadline the parent terminates then kills it and removes its temporary WAV. The outer 180 second route deadline remains a second boundary. This implementation has repository test evidence but still requires real Render provider execution before memory safety is claimed.
+The repaired faster-whisper adapter therefore defaults to a disposable spawned child process with `VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165`, beam size 1, one CPU thread, and one worker. If the child exceeds its hard deadline the parent terminates then kills it and removes its temporary WAV. The outer 180 second route deadline remains a second boundary. This implementation has repository test evidence and is deployed on the original Render backend, but still requires controlled real-audio provider execution before memory safety is claimed.
 
 ## Continue-after-failure pipeline policy — 2026-09-05
 
