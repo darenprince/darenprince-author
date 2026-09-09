@@ -1,12 +1,14 @@
 # VoxVector System State Report
 
-**State date:** 2026-09-08
+**State date:** 2026-09-09
 **Repository:** `darenprince/darenprince-author`  
 **Canonical branch:** `main`  
 **Backend root:** `VoxVector/`  
 **Frontend root:** `voxvector/`  
-**Backend software version:** `0.2.26`  
-**Frontend version:** `0.2.37`
+**Backend source release:** `0.2.27`  
+**Frontend source release:** `0.2.37`
+
+The backend and frontend are independently versioned packages. The frontend authority is `voxvector/package.json`; the backend packaging authority is `VoxVector/pyproject.toml`. Backend runtime version authorities are synchronized by source and enforced by `tests/test_version_sync.py`. A deployed API version remains a separate runtime observation and must be read from `/health` rather than inferred from source.
 
 ## Executive summary
 
@@ -33,6 +35,8 @@ The latest Render API health response observed on 2026-09-07 reports:
 - primary diarization execution-ready: `true`
 - local fallback: `pyannote_local`, disabled and not execution-ready
 - current commit QA: `external_workflow_required`
+
+That `0.2.26` value is a dated live-production observation. It does not override the current backend source release `0.2.27`; production must be deliberately deployed and re-read before the live version is advanced in documentation.
 
 Provider readiness is an operational configuration state. It does not establish successful model execution or scientific validation. The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider.
 
@@ -106,9 +110,9 @@ The secret values are not stored in repository source or exposed in the dashboar
 
 ## Runtime provenance and QA
 
-The canonical API supports explicit source-revision provenance from deployment environment or embedded container metadata. The current live Render source revision is reported correctly.
+The canonical API supports explicit source-revision provenance from deployment environment or embedded container metadata. The latest observed live Render source revision is reported separately from current source.
 
-The live runtime still reports `current_commit_qa: external_workflow_required`. An exact-commit GitHub Actions result must be observed before the runtime is marked QA-current.
+The latest observed live runtime still reports `current_commit_qa: external_workflow_required`. An exact-commit GitHub Actions result must be observed before the runtime is marked QA-current.
 
 ## Analysis Results / Review Evidence
 
@@ -130,6 +134,8 @@ The console is connected to:
 - structured audits
 - report/audit/log copy and download controls
 - deployment-variable documentation
+
+The API startup surface now treats a cold backend wake as an indeterminate state with elapsed time rather than a fabricated percentage. After a real `/health` response arrives, the returned checks are revealed progressively before the dashboard opens. The startup footer reads the frontend version from `voxvector/package.json` and the API version from the live health payload, so source/deployment version drift remains visible.
 
 The engineering status component compares runtime source revision with workflow source revision and distinguishes stale/current evidence instead of presenting unrelated workflow results as current.
 
