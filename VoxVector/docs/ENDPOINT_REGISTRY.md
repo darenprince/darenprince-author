@@ -41,7 +41,9 @@ HTTP on port 80 redirects to HTTPS. The AWS environment remains separately maint
 
 ## Persistence boundary
 
-Supabase is the configured authentication, persistence, diagnostics, and private-media boundary for the connected architecture. AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
+Supabase is the configured authentication, persistence, diagnostics, durable observed-log archive, and private-media boundary for the connected architecture. Render remains the native provider/runtime log source for the Render-hosted API. The #959 source change preserves Render-native logs and adds/extends the Supabase durable copy; it does not replace Render with Supabase as the provider log surface.
+
+AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
 
 ### Authenticated case lifecycle endpoints
 
@@ -78,13 +80,13 @@ The source contract is:
 
 Source actions are `list`, `create`, `update`, `recovery`, and `delete`. The implementation can create or invite accounts, update trusted VoxVector role/permission metadata, maintain profile fields, administer passwords/recovery, and delete accounts. It blocks self-deletion and removal of the caller's own admin role. Administrative mutations write sanitized entries to `audit_events` without passwords, bearer tokens, or service-role credentials.
 
-**Production status:** connected Supabase inspection on 2026-09-10 lists zero deployed Edge Functions for project `VoxVector` (`tawtkawmjqabydnatavx`). The `voxvector-user-admin` source is therefore not deployed and no authenticated live administrator execution is claimed. Issue #931 remains open for deployment, trusted admin assignment, and authenticated role/browser verification.
+Production deployment and browser verification for this Edge Function are tracked by issue #931 and remain separate from #959.
 
 ## Latest observed Render runtime configuration
 
 Connected Render inspection on 2026-09-10 confirms the single `voxvector-api` service remains the current Render backend with automatic deployment disabled.
 
-Latest observed deployment:
+Latest observed deployment at this documentation checkpoint:
 
 - deployment: `dep-dah0g13l550s73d2dbb0`;
 - source revision: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`;
@@ -92,7 +94,7 @@ Latest observed deployment:
 - trigger: `api`;
 - finished: `2026-09-10T01:36:34.195005Z`.
 
-The deployment source matches current canonical `main` and includes the merged transcription containment/dependency-order repair, upload pre-handler diagnostics, role-aware backend authorization, Developer engineering rail ancestry, and run-lifecycle recovery/report implementation.
+Current GitHub `main` is newer than that Render backend revision. Subsequent frontend/documentation merges therefore must not be described as a backend deployment. The Render source revision remains separate evidence until a deliberate backend deployment occurs.
 
 This deployment record is not a fresh complete `/health` payload. Detailed provider-readiness fields from older health checkpoints must not be projected onto this newer source without a new readback. Deployment `live` also does not establish controlled provider execution or browser verification.
 
@@ -115,7 +117,7 @@ Commit-specific QA must be established from GitHub Actions for the exact source 
 
 The observation timestamp describes the API health read. It is not a GitHub QA timestamp or a Render deployment timestamp. The React Developer Console keeps the backend revision separate from its own `VITE_GITHUB_SHA` frontend build revision.
 
-No fresh complete `/health` payload for `c21b4cf...` is recorded in this documentation synchronization.
+No fresh complete `/health` payload for the #959 source branch is recorded in this documentation synchronization.
 
 ## Deployment and migration rule
 
@@ -123,16 +125,14 @@ The AWS endpoint is a separate deployment environment. Do not silently replace `
 
 ## Engineering verification
 
-At the current documentation checkpoint:
+At the #959 source-work baseline:
 
-- canonical GitHub `main`: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`;
-- exact-main VoxVector QA #1963 / `34425588762`: success;
-- exact-main Deploy GitHub Pages #1708 / `34425588752`: success;
-- exact-main CodeQL push run #71 / `34425587747`: success;
+- canonical GitHub `main`: `073c6a099768d1a14a882dda37a9c458ac905a18`;
+- exact-main VoxVector QA #2004 / `34434051439`: success;
+- exact-main Deploy GitHub Pages #1711 / `34434051431`: success;
 - Render service: `voxvector-api`, auto-deploy disabled;
 - latest observed Render deployment: `dep-dah0g13l550s73d2dbb0`, `live`, trigger `api`, source `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`;
-- issue #945 / PR #946: merged and closed with final-head QA #1962 / Preview #818 and all six review threads resolved;
-- Supabase project `VoxVector`: zero deployed Edge Functions at the 2026-09-10 inventory; earlier project-health evidence remains separately dated;
+- #959 implementation branch and PR are newer than main and require their own exact-head QA before merge recommendation;
 - AWS custom-domain/runtime evidence remains separately maintained and is not refreshed by this task.
 
 Infrastructure state, case-run lifecycle reliability, provider readiness, provider execution, browser verification and scientific validation remain separate evidence classes.
@@ -159,7 +159,19 @@ Returns current service/deployment/instance state visible to the authenticated d
 
 `GET /v1/developer/render/logs`
 
-Returns current Render log observations through the server-side bridge. Logs and status are evidence about runtime/deployment behavior; they are not evidence of scientific validation.
+Returns the current native Render log observations through the server-side bridge. The #959 source implementation keeps this Render view and additionally attempts to persist a sanitized snapshot of the retrieved window into the private Supabase `voxvector-logs` archive. Mirror failure is reported separately and does not make the Render-native log view unavailable.
+
+Logs and status are evidence about runtime/deployment behavior; they are not evidence of scientific validation.
+
+`GET /v1/developer/render/debug-bundle?case_id=<case_id>&run_id=<run_id>`
+
+Returns an authenticated developer/admin ZIP containing bounded sanitized troubleshooting evidence for the owner-scoped analysis run. The server gathers Supabase-backed VoxVector events/errors, a bounded Render provider-log window, Render status, safe runtime health, and sanitized run/provenance metadata. `manifest.json` records exact versus time-window correlation and explicitly lists missing evidence.
+
+The endpoint intentionally excludes raw audio, transcript text, request bodies, passwords, tokens, cookies, signed URLs, Supabase service-role credentials, Render API keys, and deploy-hook URLs. It is an engineering debug export, not a report of scientific validation.
+
+The corresponding Developer Console control is added to the existing Analysis Workspace rather than a second dashboard/page. It becomes available once the case has a persisted run identifier, including an apparently stuck run whose process may have restarted.
+
+At this source checkpoint the #959 route/control are **not deployed production capability**. Merge, deliberate deployment, exact-revision `/health`, authenticated execution, Supabase mirror readback, downloaded ZIP inspection, and browser verification remain separate required evidence.
 
 ## External diarization provider boundary
 
