@@ -1,6 +1,11 @@
+import asyncio
+from types import SimpleNamespace
 from urllib.parse import parse_qs, urlparse
 
+from fastapi import HTTPException
+
 from api.render_api import _is_suspended, _normalize_log, _owner_id, _reported_suspension_state, _rows, _trigger_deploy_hook, _unwrap_rows
+from api.storage import StorageError
 
 
 def test_owner_id_accepts_render_casing_and_nested_owner():
@@ -145,6 +150,69 @@ def test_normalize_log_exposes_only_consumer_fields():
         "type": "app",
     }
     assert "raw" not in normalized
+
+
+def test_debug_bundle_route_marks_unavailable_queries_separately_from_empty_results(monkeypatch):
+    import api.app as app
+    import api.render_api as render_api
+
+    case = {
+        "case_id": "case-1",
+        "runs": [
+            {
+                "run_id": "run-1",
+                "request_id": "req-1",
+                "started_at": "2026-09-10T20:00:00+00:00",
+                "completed_at": "2026-09-10T20:00:05+00:00",
+            }
+        ],
+    }
+    monkeypatch.setattr(app, "CASE_STORE", SimpleNamespace(get_case=lambda owner_id, case_id: case))
+
+    async def fake_health():
+        return {"status": "ok"}
+
+    monkeypatch.setattr(app, "health", fake_health)
+
+    class FakeDiagnostics:
+        storage = object()
+
+        async def emit(self, *args, **kwargs):
+            return None
+
+    monkeypatch.setattr(render_api, "DIAGNOSTICS", FakeDiagnostics())
+
+    def unavailable_events(*args, **kwargs):
+        raise StorageError("diagnostic projection unavailable")
+
+    monkeypatch.setattr(render_api, "correlated_event_rows", unavailable_events)
+    monkeypatch.setattr(render_api, "correlated_error_rows", lambda *args, **kwargs: [])
+
+    def unavailable_render(*args, **kwargs):
+        raise HTTPException(status_code=503, detail="Render bridge unavailable")
+
+    monkeypatch.setattr(render_api, "_config", unavailable_render)
+
+    captured = {}
+
+    def fake_build_debug_zip(**kwargs):
+        captured.update(kwargs["correlation_counts"])
+        return b"zip", {"missing_evidence": ["supabase_voxvector_events", "render_provider_logs"]}
+
+    monkeypatch.setattr(render_api, "build_debug_zip", fake_build_debug_zip)
+
+    response = asyncio.run(
+        render_api.render_debug_bundle(
+            case_id="case-1",
+            run_id="run-1",
+            user={"id": "user-1"},
+        )
+    )
+
+    assert response.body == b"zip"
+    assert captured["events_available"] == 0
+    assert captured["errors_available"] == 1
+    assert captured["render_logs_available"] == 0
 
 
 def test_deploy_hook_posts_without_exposing_hook_value(monkeypatch):
