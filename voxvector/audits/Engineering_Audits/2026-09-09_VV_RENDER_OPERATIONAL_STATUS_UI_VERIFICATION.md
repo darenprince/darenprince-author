@@ -6,6 +6,8 @@
 **Branch:** `fix/voxvector-render-operational-status-ui`  
 **Application-source base:** `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`  
 **Repository synchronization base after PR #955:** `5d8b6a415609a0a4195cea82fdc795b633d3f505`  
+**Final PR head:** `bf1a667706a1dcb781583c54341d6e38346fd950`  
+**Merged main revision:** `5cc50422125734a34e5fed04fc0e1f11317c7ade`  
 **Prompt identifier:** `VV-RENDER-OPERATIONAL-STATUS-UI`
 
 ## Scope
@@ -30,7 +32,7 @@ Transitional values such as `PENDING`, `QUEUED`, `CREATED`, `BUILDING`, `DEPLOYI
 
 The compact top engineering rail uses the requested stricter alarm rule: any combined Render state other than terminal-live receives the red attention treatment, including legitimate transitional deployment states.
 
-Developer Overview now polls the existing authenticated Render status bridge while the dashboard is open, adds a Render Service primary status card, colors each complete primary card by state, and exposes always-visible subtext for API/frontend/backend version, runtime revision, pipeline counts, transcription provider/adapter/readiness context, Render region, and Render source/deployment revision.
+Developer Overview polls the existing authenticated Render status bridge while the dashboard is open, adds a Render Service primary status card, colors each complete primary card by state, and exposes always-visible subtext for API/frontend/backend version, runtime revision, pipeline counts, transcription provider/adapter/readiness context, Render region, and Render source/deployment revision.
 
 Render Runtime labels the Render API bridge connection separately from service and deployment lifecycle. Service state and latest deployment are independently color-coded, and missing provider state is no longer synthesized as `Active`.
 
@@ -42,7 +44,7 @@ PR #956 was therefore merged with current `main` at the branch level rather than
 
 - #956 application/source changes in the existing canonical Developer Console owners;
 - #955 tracker, QA, endpoint, pipeline, current-engineering, Crown mirror and audit evidence;
-- the distinction between repository source `5d8b6a...` and the separately observed live Render backend source `c21b4cf...`;
+- the distinction between repository source and the separately observed live Render backend source `c21b4cf...`;
 - #935's completed audit closure and the current issue queue.
 
 The two overlapping current-engineering documents were manually reconciled after the merge commit so neither branch's active truth was silently discarded.
@@ -59,9 +61,9 @@ Connected Render inspection before this source task observed one VoxVector servi
 - latest deploy state: `live`
 - trigger: `api`
 
-PR #955 was documentation/audit synchronization only, so it did not advance this backend deployment evidence. This Render observation does not establish a fresh `/health` readback, authenticated browser behavior, controlled transcription/diarization execution, engineering-MVP completion, or scientific validation. The API trigger also does not satisfy #920's protected Developer Console deploy-hook acceptance path.
+The frontend-only #956 merge did not redeploy this backend. This Render observation does not establish a fresh `/health` readback, authenticated browser behavior, controlled transcription/diarization execution, engineering-MVP completion, or scientific validation. The API trigger also does not satisfy #920's protected Developer Console deploy-hook acceptance path.
 
-## Test evidence
+## Test and merge evidence
 
 Focused test `voxvector/tests/renderOperationalState.test.mjs` covers:
 
@@ -74,18 +76,30 @@ Focused test `voxvector/tests/renderOperationalState.test.mjs` covers:
 
 Historical pre-reconciliation source/test head `80ecb3366db88549ef901cc68ecb674fb6f53907` passed VoxVector QA #1984 and PR Preview #822.
 
-After PR #955 advanced `main`, reconciled branch head `d244d33449bc6be90022417b5d6a32c183ec2482` passed:
+After PR #955 advanced `main`, reconciled branch head `d244d33449bc6be90022417b5d6a32c183ec2482` passed VoxVector QA #1994 / run `34429641159` and VoxVector PR Preview Build #827 / run `34429641182`.
 
-- VoxVector QA #1994 / run `34429641159`: success;
-- VoxVector PR Preview Build #827 / run `34429641182`: success.
+The final PR head `bf1a667706a1dcb781583c54341d6e38346fd950` then passed:
 
-CodeQL for `d244d334...` was still running when this audit record was written, so no successful CodeQL result is claimed for that checkpoint here.
+- VoxVector QA #1996 / run `34429777387`: success;
+- VoxVector PR Preview Build #828 / run `34429777388`: success;
+- CodeQL #82 / run `34429773922`: success;
+- inline review threads: none.
 
-This audit-record update advances the PR head again. Exact-head VoxVector QA and PR Preview must therefore pass on the resulting final head before merge recommendation; earlier successful runs remain evidence only for their exact revisions.
+A Codex review was requested during the task, but the configured code-review usage limit was reached. No independent final Codex review is claimed.
+
+PR #956 merged to canonical `main` as `5cc50422125734a34e5fed04fc0e1f11317c7ade`. Post-merge exact-main evidence is:
+
+- VoxVector QA #1997 / run `34429952347`: success;
+- Deploy GitHub Pages #1710 / run `34429952384`: success;
+  - build/staging job: success;
+  - `Deploy to GitHub Pages` job: success;
+- CodeQL push #83 / run `34429952114`: success.
+
+These results establish source QA and GitHub Pages publication for the merged frontend. They do not establish authenticated visual browser behavior.
 
 ## Documentation synchronization
 
-Affected current documents synchronized in this task:
+Affected current documents synchronized with the final merged state:
 
 - `VoxVector/docs/CSS_ARCHITECTURE.md`
 - `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
@@ -93,24 +107,24 @@ Affected current documents synchronized in this task:
 - `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`
 - this engineering audit record
+- `voxvector/audits/AUDIT_REPORT.md`
 
 Historical checkpoints were not rewritten. The master tracker remains issue #915.
 
 ## Browser verification boundary
 
-The PR preview verifies build/artifact integrity, but the requested Developer Console surfaces are protected by Supabase authentication. No authenticated desktop/mobile browser verification is claimed by this source/CI checkpoint.
+The merged frontend was published through GitHub Pages #1710. The requested Developer Console surfaces are protected by Supabase authentication, and no authenticated desktop/mobile browser session was exercised during this evidence pass.
 
-Do not treat successful frontend build, uploaded preview artifact, Render service status, or API bridge connectivity as browser verification.
+Therefore issue #954 is complete at the source, exact-head CI, merge, and publication boundaries, while authenticated visual browser verification remains unresolved evidence. Do not treat successful frontend build, uploaded preview artifact, Pages publication, Render service status, or API bridge connectivity as browser verification.
 
-## Merge gate
+## Closure state
 
-Before merge recommendation:
+Issue #954 is closed after PR #956 merged. The implementation and publication evidence satisfy the bounded status-presentation source task. Remaining evidence belongs to existing downstream work rather than a duplicate status implementation:
 
-1. confirm PR #956 remains mergeable against current `main`;
-2. require successful VoxVector QA on the exact final head;
-3. require successful PR Preview Build on the exact final head;
-4. inspect CodeQL/current review state and record any unresolved evidence truthfully;
-5. inspect the final diff for accidental replacement of #955 status/audit evidence;
-6. preserve protected-console browser verification as unresolved unless an authenticated session is actually exercised.
+- #930: authenticated upload reproduction and persistence/provenance/playback evidence;
+- #941: controlled faster-whisper execution and artifact/memory evidence;
+- #920: authenticated Developer Console Deploy Now path;
+- #931: Supabase administrator function, trusted roles, and authenticated role/browser verification;
+- #927: authenticated desktop/mobile browser verification work.
 
-A successful merge or Pages publication will not constitute a Render backend deployment, provider execution, browser verification, or scientific validation.
+A successful merge or Pages publication is not a Render backend deployment, provider execution, engineering-MVP completion, browser verification, or scientific validation.
