@@ -20,15 +20,19 @@ VoxVector reaches engineering MVP only when a real authenticated case can traver
 
 `create case → upload recording → provenance → decode/playback → speech segmentation → speaker processing → transcription → durable provider checkpoint → alignment → eligibility/reliability → memory-safe downstream analysis → analytical observations → evidence assembly → convergence/conflict → candidate assessment → report → persistence → close/reopen`
 
-The required evidence must come from the same exact deployed source revision and must be reproducible.
+The required evidence must come from the same exact deployed source revision and stable runtime configuration and must be reproducible.
 
 ## Current release candidate boundary — 2026-09-10
 
-Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Connected Render deployment `dep-dah7usjl550s73e00350` is live on that exact source with auto-deploy disabled.
+Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA run `34532394431` succeeded and exact-main GitHub Pages publication workflow `34532394423` succeeded.
 
-One controlled 183.3-second WAV completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words. The API then encountered confirmed post-transcription memory exhaustion during the downstream transition. Active #941 / draft PR #962 repairs cleanup, same-run upstream checkpointing, Stage 10 memory admission, stable run identity, and process-vs-Render-instance provenance.
+Connected Render deployment `dep-dahi2ics728c73b6ujug` is `live` on exact source `420536771875c6948be51851118b58cb04a596e6` with production auto-deploy disabled. The deployment finished at `2026-09-10T21:36:23.3655Z`. This is deployment evidence, not a fresh current `/health` readback.
 
-That controlled transcription is provider-execution evidence, not a completed engineering-MVP pass. The golden-case repeatability count remains zero until a reviewed deployed revision completes all required gates.
+The current live service and owner-provided Render export generated `2026-09-10T21:38:48Z` build `api/requirements-speech.txt`; the sole canonical root `render.yaml` builds `api/requirements-transcription.txt`. That reproducibility drift is owned by #964 and must be resolved before a controlled rerun is accepted as release-candidate proof.
+
+The historical 183.3-second WAV on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words, then entered the confirmed post-provider memory failure path. Merged PRs #962 and #967 now contain the intended same-run provider checkpoint, memory admission, fail-fast Stage 10 single-flight protection, process-vs-Render identity separation, and stable route-owned run identity. Issue #941 has been reopened because those merged changes still require controlled production proof on the reconciled runtime.
+
+The golden-case repeatability count remains zero. Current `420536...` is not a frozen engineering-MVP candidate because #964, #941, #970, #971, #963, #930, #959, #965, #931/PR #974, #932 and final browser/golden verification remain open.
 
 ## Golden-case fixture
 
@@ -58,12 +62,15 @@ Required before a release candidate can enter production verification:
 - [ ] Applicable Preview/Pages/security workflow evidence is recorded without conflating PR preview with production publication.
 - [ ] No P0 issue is knowingly left unresolved for the golden-case path.
 
+Current `420536...` has successful exact-main QA and Pages workflow evidence, but it is not the declared frozen candidate because candidate-affecting source/configuration work remains.
+
 A green workflow is software verification only. It is not deployment, provider execution, browser verification, or scientific validation.
 
 ## Gate 2 — Exact deployment and runtime identity
 
 Required for the backend release candidate:
 
+- [ ] Render Blueprint/runtime configuration intended for the candidate is reconciled under #964.
 - [ ] Render deployment is observed for the intended candidate SHA.
 - [ ] Render deployment reaches `live`.
 - [ ] `/health` is read after that deployment.
@@ -75,6 +82,8 @@ Required for the backend release candidate:
 - [ ] Memory reference and effective downstream admission ceiling are read back when exposed by the runtime contract.
 - [ ] Storage/runtime readiness is recorded from the runtime response where applicable.
 - [ ] Frontend build revision and backend runtime revision remain separate.
+
+Current Render `live` on `420536...` satisfies deployment identity only. No fresh `/health` payload for that exact deployment is recorded by the current synchronization pass.
 
 Hook acceptance is not deployment completion. Render `live` is not a substitute for runtime readback.
 
@@ -99,7 +108,7 @@ Provider configuration or readiness does not satisfy this gate.
 
 ### Transcription
 
-- [ ] Configured faster-whisper actually executes against the persisted golden source.
+- [ ] Configured faster-whisper actually executes against the persisted golden source on the reconciled candidate runtime.
 - [ ] Provider identity and execution provenance are persisted.
 - [ ] Timestamped transcript segments are persisted and read back.
 - [ ] Timestamped words are persisted and read back when supplied by the provider contract.
@@ -107,15 +116,17 @@ Provider configuration or readiness does not satisfy this gate.
 - [ ] Provider failure is represented as failure rather than synthetic completion.
 - [ ] A later downstream failure/restart does not erase an already-completed transcript checkpoint.
 
-The September 10 controlled run satisfies actual beam-1 provider execution for one historical attempt but does not satisfy this gate because the transcript artifact was not durably checkpointed before the later process restart. #941 / PR #962 owns that repair.
+The September 10 historical controlled run establishes actual beam-1 provider execution for older source `f0dda136...` but does not satisfy the current candidate gate. Merged #962/#967 implement the intended durability and runtime-safety path; reopened #941 must prove it on the reconciled deployed runtime.
 
 ### Speaker diarization
 
 - [ ] Configured pyannoteAI cloud primary actually executes against the same persisted golden source.
-- [ ] `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` is verified as the case-route invocation gate.
+- [ ] `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` is verified as the case-route invocation gate on the candidate runtime.
 - [ ] Speaker turns/segments are normalized, persisted, and read back.
 - [ ] Provider identity, job/provenance fields, and fallback state are persisted without secrets.
 - [ ] Local pyannote fallback, if tested, is recorded separately and is not substituted for cloud-primary proof.
+
+Issue #970 owns the current cloud-primary contract correction/execution/persistence gate after #964 and accepted #941 runtime proof.
 
 Successful provider execution establishes only that the configured software path ran. It does not establish transcript truthfulness, verified human identity, or deception-detection validity.
 
@@ -130,19 +141,24 @@ For the same case/run:
 - [ ] Speaker attribution is connected to persisted diarization where available.
 - [ ] Evidence records can reference aligned source intervals.
 
+Issue #971 owns the persisted transcript/audio/speaker alignment proof after real transcript and speaker artifacts exist.
+
 ## Gate 6 — Memory-safe downstream analysis
 
 The constrained runtime must not knowingly enter a heavyweight phase without required resource headroom.
 
 - [ ] Completed upstream provider artifacts are durably checkpointed before Stage 10 admission.
 - [ ] Stage 10 checks actual process RSS against the configured memory admission threshold before being represented as running.
+- [ ] Stage 10 composite execution uses fail-fast process-wide single-flight admission rather than leaving timed-out callers queued for later heavyweight work.
+- [ ] An admitted composite call rechecks RSS under the shared lock and retains lock ownership through the full composite analysis.
 - [ ] If headroom is insufficient, Stage 10 records an explicit bounded failure and dependent unfinished work becomes `not_run` rather than causing an uncontrolled process restart.
 - [ ] A memory-admission rejection preserves completed transcript/alignment/provider artifacts.
 - [ ] Runtime memory admission is presented as an operational safety decision, not Stage 09 analytical Eligibility and Reliability.
 - [ ] The controlled golden run does not restart the API process due to memory exhaustion.
 - [ ] Render memory/process evidence is correlated to the same run/request window.
+- [ ] Persisted `run_id` remains stable and pipeline-internal identity remains separately available as `pipeline_run_id`.
 
-Active owner: #941 / PR #962.
+Source implementation is merged through #962/#967. Reopened #941 owns controlled production proof after #964 establishes the runtime configuration.
 
 ## Gate 7 — Eligibility, evidence, and assessment integrity
 
@@ -185,7 +201,7 @@ The golden case must preserve the Operating Charter's architectural stage bounda
 - [ ] Reopened case resolves persisted source audio through the existing authenticated playback boundary without re-upload.
 - [ ] Reopened case exposes the same persisted transcript/speaker/alignment/evidence/report artifacts rather than a fabricated reconstruction.
 
-Current related work: #963 owns persisted audio/transcript rehydration after #941 establishes canonical checkpoint durability.
+Issue #963 owns persisted audio/transcript/speaker/alignment/report rehydration after the upstream runtime/provider gates establish the artifacts it must consume.
 
 ## Gate 9 — Observability, failure, and recovery behavior
 
@@ -198,22 +214,30 @@ The MVP candidate must fail honestly and preserve enough evidence to debug the f
 - [ ] Process restart is distinguishable from Render infrastructure instance identity.
 - [ ] Browser request cancellation is not represented as guaranteed server termination.
 - [ ] Retrying/reopening does not overwrite unrelated prior-run evidence.
-- [ ] VoxVector-owned diagnostic/provider events required for debugging are durably available after restart once #959 is complete.
-- [ ] Case/run debugging evidence can be exported through the canonical sanitized Debug Bundle once #959 is complete.
+- [ ] VoxVector-owned diagnostic/provider events required for debugging are durably available after restart.
+- [ ] Case/run debugging evidence can be exported through the canonical sanitized Debug Bundle.
+- [ ] A real candidate run proves the Render copy, Supabase copy and Debug Bundle contents with correct correlation/redaction.
+- [ ] Automatic bounded terminal Render snapshot capture is implemented or explicitly bounded before release sign-off.
+
+Merged PRs #961/#966/#968 provide the source foundation. Issue #959 owns production acceptance.
 
 ## Gate 10 — Authenticated browser verification and same-revision repeatability
 
 The exact deployed release candidate must be exercised in real browsers.
 
+- [ ] PR #974 login-wake/shared-profile candidate is current-main integration QA accepted and merged before the candidate is frozen.
 - [ ] Authenticated desktop flow: login → case → upload → playback → analysis → evidence → report → history/reopen.
 - [ ] Authenticated mobile flow exercises the same critical path.
+- [ ] Successful login is observed starting the intended one-shot API wake before trusted-role navigation when that feature is merged.
+- [ ] Admin and user self-profile save/reload behavior is verified without allowing editable metadata to grant authorization.
 - [ ] Navigation and gating route users to intended surfaces.
+- [ ] Public Request Access/How It Works/header/mobile/footer paths are functional under #932.
 - [ ] Keyboard interaction works for critical controls.
 - [ ] Reduced-motion behavior does not break state visibility.
 - [ ] Failure states preserve understandable status and correlation evidence.
 - [ ] Browser verification records frontend build revision and backend runtime revision actually observed.
 
-Engineering MVP sign-off requires **two successful complete golden-case executions on the same exact deployed revision**. A source change resets the count.
+Engineering MVP sign-off requires **two successful complete golden-case executions on the same exact deployed revision and stable candidate configuration**. A source or candidate-runtime configuration change resets the count.
 
 For each run record:
 
@@ -237,7 +261,8 @@ For each run record:
 | Software QA | exact-head QA + production build successful | GitHub Actions |
 | Frontend publication | applicable exact artifact/publication evidence | GitHub Actions / Pages |
 | Backend deployment | intended SHA observed `live` | Render |
-| Runtime identity | `/health` exact revision, process identity, self-test, memory profile | deployed API |
+| Runtime identity | fresh `/health` exact revision, process identity, self-test, memory/profile readback | deployed API |
+| Runtime configuration | canonical Blueprint/live service reconciled and stable for proof | #964 / Render / GitHub |
 | Intake | authenticated upload/persistence/playback passes | case/runtime/browser evidence |
 | Transcription | actual provider execution + durable same-run artifact readback | case/run provenance |
 | Diarization | actual cloud-primary execution + artifact readback | case/run provenance |
@@ -246,7 +271,9 @@ For each run record:
 | Evidence/assessment | inspectable eligibility/evidence/synthesis/assessment | persisted result + browser |
 | Report/history | report persists and case reopens with same artifacts | persisted case + browser |
 | Observability | failures/restarts leave durable correlated debugging evidence | Supabase/Render/bundle |
-| Repeatability | two complete passes, same deployed revision | golden-case record |
+| Auth/profile | trusted-role routing plus user/admin self-profile behavior verified | #931 / browser |
+| Public navigation | release-critical CTA/anchor/menu path verified | #932 / browser |
+| Repeatability | two complete passes, same deployed revision/configuration | golden-case record |
 | Scientific validation | **not implied by engineering MVP** | separate validation program |
 
 ## Current release-gate mapping — 2026-09-10
@@ -254,24 +281,22 @@ For each run record:
 | Release area | Current owner |
 | --- | --- |
 | MVP coordination | #915 |
-| Confirmed post-transcription memory + durable upstream checkpoint | #941 / PR #962 |
-| Dual Render/Supabase logs + Debug Bundle | #959 / PR #961 |
+| Render runtime/IaC reconciliation | #964 |
+| Merged Stage 10/durable speech safety controlled production proof | #941 |
+| Cloud-primary diarization contract/execution/persistence | #970 |
+| Persisted transcript/audio/speaker alignment | #971 |
+| Persisted historical case playback/transcript/artifact reopen | #963 |
 | Intermittent upload reliability | #930 |
-| Persisted historical case playback/transcript reopen | #963 |
-| Canonical Render Blueprint drift | #964 |
+| Dual Render/Supabase logs + real Debug Bundle production acceptance | #959 |
+| Truthful frontend pipeline projection | #965 |
+| Login wake/shared self-profile/current role browser verification | #931 / PR #974 |
+| Public CTA/anchor/menu repair | #932 |
 | Manual Render deployment-control verification | #920 |
 | Server-aware Stop Analysis | #949 |
 | Auditable secure deletion | #948 |
-| User Management / role browser verification | #931 |
-| Public CTA/anchor/menu repair | #932 |
 | Upload progress/cancel UX | #928 |
-| Startup/mobile authenticated verification | #927 |
-| Controlled diarization execution | #915 → `VV-DIARIZE` |
-| Persisted speaker/audio/transcript alignment | #915 → `VV-ALIGN` |
-| API contract hardening | #915 → `VV-API-CONTRACT` |
-| Security/cost hardening | #915 → `VV-SECURITYCOST` |
-| Exact deployed/browser verification | #915 → `VV-DEPLOYVERIFY` |
-| Final engineering MVP sign-off | #915 → `VV-LAUNCHGATE` |
+| Startup/passive-icon remaining browser evidence | #927 |
+| Exact deployed/browser verification and two-run sign-off | #972 |
 
 ## Documentation freeze during the MVP sprint
 
@@ -283,4 +308,4 @@ For each run record:
 
 ## Verification boundary
 
-Repository QA, build success, Render deployment, runtime health, provider execution, artifact durability, memory containment, browser verification, engineering-MVP completion, and scientific validation remain separate claims.
+Repository QA, build success, Render deployment, fresh runtime health readback, provider execution, artifact durability, memory containment, browser verification, engineering-MVP completion, and scientific validation remain separate claims.
