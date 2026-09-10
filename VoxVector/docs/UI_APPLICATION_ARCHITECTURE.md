@@ -324,6 +324,14 @@ It must include:
 - endpoint and deployment-boundary traceability
 - admin-only user management when the session carries the trusted `admin` role
 
+### Developer shell and live engineering rail
+
+`SiteHeader.jsx` remains the canonical Developer navigation owner. The existing `DeveloperEngineeringStatus` instance is rendered immediately after that header in the Developer Console shell rather than inside header actions. The collapsed 34px rail therefore occupies normal sticky document flow directly below the 56px navigation and reserves its own space instead of covering page content.
+
+The rail keeps the existing live runtime, GitHub QA, deployment, pipeline, provider-readiness, and source-traceability projections. It provides native-button expand/collapse controls plus a small independent X that hides the rail for the current component session. Hiding the rail removes the 34px layout row; expanding opens the existing full-height status surface below the 90px navigation-plus-rail boundary with internal scrolling.
+
+The expanded status surface is a non-modal disclosure region. Its controls use `aria-expanded` and `aria-controls`; it must not claim `aria-modal` behavior unless full focus containment, Escape handling, and focus restoration are implemented. Toast notifications sit at the bottom-right so they do not obscure the top rail. Desktop and mobile layouts must preserve these same ownership and non-overlap rules.
+
 ### Status semantics
 
 The console keeps these independent:

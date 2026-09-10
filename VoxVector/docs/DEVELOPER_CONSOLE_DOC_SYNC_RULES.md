@@ -344,3 +344,13 @@ The transcript surface must share the canonical audio playhead:
 - speaker labels are shown only when a persisted attribution artifact supplies them.
 
 The Developer Console may mark the synchronized transcript workspace as **BUILT** when the canonical frontend implementation exists. It must not mark provider execution **FUNCTIONAL** until a controlled case run and artifact readback have been observed.
+
+## Live engineering rail synchronization
+
+The Developer navigation remains owned by `SiteHeader.jsx`. The live engineering rail remains the single existing `DeveloperEngineeringStatus` instance rendered immediately after the header in `DeveloperConsole.jsx`, not inside header actions and not as a duplicate dashboard component.
+
+The collapsed rail occupies a real 34px sticky layout row beneath the 56px navigation. It must not be recreated as a fixed overlay with compensating `:has()` header padding or main-content top padding. The X control hides the rail and removes the row from layout; expand/collapse controls open the existing status surface across the remaining viewport below the 90px nav-plus-rail boundary.
+
+The expanded surface is a non-modal disclosure region. Native controls must remain keyboard accessible and expose `aria-expanded`/`aria-controls`; do not declare it modal without implementing the complete modal focus lifecycle. Developer Console toast notifications belong at the bottom-right so they do not obscure the live rail. Desktop/mobile behavior and reduced-motion handling must stay synchronized with the same canonical component owners.
+
+When this shell behavior changes, evaluate at minimum `UI_APPLICATION_ARCHITECTURE.md`, `CSS_ARCHITECTURE.md`, `CURRENT_ENGINEERING_STATE_2026-09-04.md`, `QA_STATUS.md`, the corresponding current Crown Labs Bible architecture/current-state mirrors, and `voxvector/audits/AUDIT_REPORT.md`. Historical checkpoints are evidence records and must not be rewritten.

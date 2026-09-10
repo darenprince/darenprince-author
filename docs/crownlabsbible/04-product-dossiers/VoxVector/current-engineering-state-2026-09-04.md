@@ -123,6 +123,14 @@ Developer profiles use the existing `public.profiles` record and a private `voxv
 
 The Live Engineering State rail is full-width directly below the primary navigation. Opening it produces a page-filling slide-down drawer with scroll and swipe-to-collapse. Status is assembled from separate API health, exact-revision GitHub Actions, and authenticated Render evidence instead of a synthetic single health claim.
 
+### PR #950 engineering rail repair checkpoint
+
+Issue #947 / PR #950 refines that existing rail without creating a second console/status implementation. The canonical `SiteHeader.jsx` remains the Developer navigation owner, while the single `DeveloperEngineeringStatus` instance is rendered immediately after the header in `DeveloperConsole.jsx`. The collapsed 34px rail is a sticky normal-flow row beneath the 56px navigation, so it reserves its own space instead of covering page content or requiring a `:has()`/main-padding compensation layer.
+
+The rail has explicit expand/collapse controls and a small independent X. Hiding it removes the 34px row from layout. Expansion uses the remaining viewport below the 90px navigation-plus-rail boundary with internal scrolling on desktop and mobile. The expanded content is a non-modal disclosure region with native controls and `aria-expanded` / `aria-controls`, and Developer Console toast notifications are positioned at the bottom-right to avoid collision with the rail.
+
+Implementation checkpoint `64edfb60aecdf13d4cb094838518504a994fc78d` passed VoxVector QA #1921 and PR Preview Build #799. Subsequent documentation synchronization advances the branch head, so those runs are evidence for the implementation checkpoint rather than final exact-head QA. Fresh exact-head QA/preview are required before merge recommendation. Authenticated desktop/mobile browser verification, merge, Pages publication, and production-browser verification remain unperformed.
+
 The API startup surface uses an indeterminate wake state and elapsed time while the backend is cold instead of holding a synthetic progress percentage. After `/health` really returns, the returned checks are revealed progressively before the dashboard opens. The footer displays the frontend package version next to the API-reported live version and source revision.
 
 Passive interface glyphs render without decorative full-stroke square containers unless the element is actually an interactive control. Startup and authentication glyphs follow the same rule as the existing public header, landing, panel, engineering-status, and toast iconography.

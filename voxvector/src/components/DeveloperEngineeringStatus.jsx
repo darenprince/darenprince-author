@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Activity, CheckCircle2, ChevronDown, Clipboard, ExternalLink, Hammer, ShieldCheck, TestTube2, AlertTriangle, CircleDashed, Mic2, Server, Rocket, LoaderCircle } from 'lucide-react'
+import { Activity, CheckCircle2, ChevronDown, Clipboard, ExternalLink, Hammer, ShieldCheck, TestTube2, AlertTriangle, CircleDashed, Mic2, Server, Rocket, LoaderCircle, Maximize2, Minimize2, X } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getHealth, getRenderStatus, triggerRenderDeploy } from '../lib/api'
 import { getGitHubWorkflowStatus, workflowEvidenceState } from '../lib/githubStatus'
@@ -25,10 +25,12 @@ const isReportedTrue = value => value === true
 
 export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessToken = '' }){
   const [open,setOpen]=useState(false)
+  const [hidden,setHidden]=useState(false)
   const [sessionToken,setSessionToken]=useState(accessToken)
   const [deployNotice,setDeployNotice]=useState('')
   const swipeStart=useRef(null)
   const queryClient=useQueryClient()
+  const panelId='vv-live-engineering-status-panel'
   useEffect(()=>{setSessionToken(accessToken)},[accessToken])
   useEffect(()=>{
     if(accessToken||!supabase)return undefined
@@ -108,18 +110,24 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const swipeStartHandler=event=>{const touch=event.touches?.[0];if(touch)swipeStart.current=touch.clientY}
   const swipeEndHandler=event=>{const start=swipeStart.current;const touch=event.changedTouches?.[0];swipeStart.current=null;if(start==null||!touch)return;if(Math.abs(touch.clientY-start)>=70)setOpen(false)}
   const launcherSummary=apiState==='HEALTHY'&&renderServiceState==='ACTIVE'?`API HEALTHY · RENDER ${renderDeployState==='LIVE'?'LIVE':renderDeployState}`:health.isPending?'SYNCING RUNTIME…':`${apiState} · RENDER ${renderServiceState}`
+  const hideStatus=()=>{setOpen(false);setHidden(true)}
 
+  if(hidden)return null
   return <section className={`vv-eng-status vv-eng-status--${mode} ${open?'is-open':'is-collapsed'}`} aria-label="Engineering status">
     <div className="vv-eng-status__header">
-      <button type="button" className="vv-eng-status__launcher" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-label={open?'Collapse live engineering state':'Expand live engineering state'}>
+      <button type="button" className="vv-eng-status__launcher" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-controls={panelId} aria-label={open?'Collapse live engineering state':'Expand live engineering state to full page'}>
         <span className="vv-eng-status__current"><Activity size={15}/><span><span className="vv-eng-status__eyebrow">LIVE ENGINEERING STATE</span><strong>{launcherSummary}</strong></span></span>
         <span className="vv-eng-status__launcher-meta">{backendRevision?backendRevision.slice(0,10):'revision pending'}</span>
         <ChevronDown size={14} className={`vv-eng-status__launcher-icon ${open?'is-open':''}`}/>
       </button>
+      <div className="vv-eng-status__header-actions">
+        <button type="button" className="vv-eng-status__icon-button" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-controls={panelId} aria-label={open?'Collapse engineering status':'Expand engineering status to full page'} title={open?'Collapse engineering status':'Expand engineering status'}>{open?<Minimize2 size={13}/>:<Maximize2 size={13}/>}</button>
+        <button type="button" className="vv-eng-status__icon-button vv-eng-status__dismiss" onClick={hideStatus} aria-label="Hide engineering status" title="Hide engineering status"><X size={13}/></button>
+      </div>
     </div>
-    {open&&<div className="vv-eng-status__body">
+    {open&&<div id={panelId} className="vv-eng-status__body" role="region" aria-label="Full live engineering status">
       <div className="vv-eng-status__swipe-handle" onTouchStart={swipeStartHandler} onTouchEnd={swipeEndHandler} onTouchCancel={()=>{swipeStart.current=null}}><span/><small>Swipe to collapse</small></div>
-      <div className="vv-eng-status__expanded-title"><span className="vv-eng-status__heading"><Activity size={16}/><span>LIVE ENGINEERING STATUS</span></span><div className="vv-eng-status__summary-wrap"><span className="vv-eng-status__summary"><span>{appPackage.version} FRONTEND</span><span>{built} BUILT</span><span>{tested}</span></span><button type="button" className="vv-eng-deploy-button" onClick={deployNow} disabled={deployMutation.isPending||!sessionToken} aria-disabled={deployMutation.isPending||!sessionToken}>{deployMutation.isPending?<><LoaderCircle size={14} className="vv-eng-deploy-spinner"/>DEPLOYING…</>:<><Rocket size={14}/>DEPLOY NOW</>}</button><button type="button" className="vv-eng-status__close" onClick={()=>setOpen(false)} aria-label="Close engineering status">×</button></div></div>
+      <div className="vv-eng-status__expanded-title"><span className="vv-eng-status__heading"><Activity size={16}/><span>LIVE ENGINEERING STATUS</span></span><div className="vv-eng-status__summary-wrap"><span className="vv-eng-status__summary"><span>{appPackage.version} FRONTEND</span><span>{built} BUILT</span><span>{tested}</span></span><button type="button" className="vv-eng-deploy-button" onClick={deployNow} disabled={deployMutation.isPending||!sessionToken} aria-disabled={deployMutation.isPending||!sessionToken}>{deployMutation.isPending?<><LoaderCircle size={14} className="vv-eng-deploy-spinner"/>DEPLOYING…</>:<><Rocket size={14}/>DEPLOY NOW</>}</button><button type="button" className="vv-eng-status__close" onClick={()=>setOpen(false)} aria-label="Collapse engineering status" title="Collapse engineering status"><Minimize2 size={14}/></button></div></div>
       {deployNotice&&<div className={`vv-eng-deploy-notice ${deployMutation.isError?'error':'success'}`} role="status">{deployMutation.isError?<AlertTriangle size={14}/>:<CheckCircle2 size={14}/>}<span>{deployNotice}</span></div>}
       {workflows.isError&&<div className="vv-status-row error"><Server size={14}/>GitHub workflow status could not be refreshed: {workflows.error?.message}</div>}
       <div className="vv-eng-state-grid"><StateChip icon={Hammer} label="BUILT" value={built}/><StateChip icon={Activity} label="API" value={apiState}/><StateChip icon={TestTube2} label="QA" value={tested}/><StateChip icon={ShieldCheck} label="PAGES" value={pagesState}/><StateChip icon={Mic2} label="TRANSCRIBE" value={transcriptionState}/><StateChip icon={Server} label="RENDER" value={renderServiceState}/></div>

@@ -231,6 +231,14 @@ The Live Engineering State control is now a full-width rail directly under the p
 
 **Verification boundary:** The Supabase migration was applied and its bucket/policies were read back successfully. Supabase security advisor output after the migration did not surface a new avatar-policy finding; existing unrelated warnings remain for the `developer_dashboard_summary()` SECURITY DEFINER RPC and disabled leaked-password protection. Frontend build, PR preview, exact-commit QA, and authenticated desktop/mobile browser interaction are still required for this branch before merge or production UI status is claimed.
 
+## 2026-09-09 — Developer engineering status rail repair
+
+Issue #947 / PR #950 keeps the existing `DeveloperEngineeringStatus` as the single live engineering projection and corrects the Developer Console shell around it. `SiteHeader.jsx` remains the navigation owner. The status component is rendered immediately after the header in `DeveloperConsole.jsx`, so the collapsed 34px rail occupies normal sticky flow below the 56px navigation instead of overlaying page content or relying on `:has()`/main-content padding compensation.
+
+The rail provides explicit expand/collapse controls plus a small independent X that hides the rail and removes its row from layout. The expanded surface uses the remaining viewport below the combined 90px navigation-plus-rail boundary with internal desktop/mobile scrolling. It is a non-modal disclosure region with native controls and `aria-expanded` / `aria-controls`; toast notifications are positioned at the bottom-right so they do not obscure the rail.
+
+Implementation checkpoint `64edfb60aecdf13d4cb094838518504a994fc78d` passed VoxVector QA #1921 and PR Preview Build #799. The accessibility review finding on false modal semantics was resolved. Documentation synchronization advances the branch beyond that implementation checkpoint, so fresh exact-head VoxVector QA and PR Preview are required before merge recommendation. Authenticated desktop/mobile browser verification, merge, Pages publication, and production-browser verification remain unperformed.
+
 ## 2026-09-08 — Manual Render deploy-hook repair and live deployment truth
 
 Connected Render inspection corrected the production deployment record at that checkpoint and confirmed the intended manual deployment architecture:
