@@ -66,7 +66,20 @@ The QA workflow checked out GitHub's synthetic PR merge commit `12df336c2fd05647
 
 The PR Preview workflow explicitly checks out `${{ github.event.pull_request.head.sha }}`, so its frontend preview build is exact-head evidence for `bfd1d92...`.
 
-This QA-status update and the required running-audit update advance the PR head again. Therefore the evidence above remains a pre-audit checkpoint only. Fresh workflow results for the final branch head must be inspected, and the final branch tree must again be compared with the tested synthetic merge tree before merge recommendation. If GitHub does not provide a literal branch-SHA backend run, the final report must say so rather than calling the merge-ref checkout literal exact-SHA QA.
+A later exact push run for branch head `85add7d4d21640346dc454cd19309fa968d922fb`, VoxVector QA `34484033457`, completed successfully with every workflow step green, including API tests, frontend contract tests, and the production build. This establishes literal branch-head workflow execution for that checkpoint because it was a push event on the branch rather than a pull-request merge ref.
+
+## Final review corrections before merge QA
+
+The final source review found two issues that were corrected before merge rather than accepted as known debt:
+
+1. intermediate checkpoint and Stage 10 memory-rejection writes updated detailed `stages` but could leave `pipeline_build` aggregate counts stale until normal finalization;
+2. GitHub Advanced Security flagged the broad case-analysis exception response for exposing exception-derived detail through the HTTP response.
+
+The canonical case route now derives `pipeline_build` from the actual current stage states at the upstream checkpoint, Stage 10 admission transition, and admission-rejection persistence boundary. Focused regression assertions cover the exact completed/pending/not-run/failed aggregate counts.
+
+The broad analysis-failure HTTP response is now bounded to a generic message, request ID, failed stage, and exception type. Raw exception text and the internal stage/error payload are no longer returned through that response. Internal sanitized diagnostics remain available through the existing protected observability path. A focused regression test verifies that exception message content is absent from the public failure-detail structure.
+
+These corrections advance the branch beyond the successful `85add7d4...` checkpoint. Fresh exact-head push QA, PR Preview, current security/review state, and branch-vs-main comparison are therefore still required before merge. No merge or Render deployment is claimed by this document.
 
 ## Supabase evidence
 
