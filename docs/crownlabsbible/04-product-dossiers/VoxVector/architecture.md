@@ -74,7 +74,7 @@ The 05/06 order above matches the canonical backend stage contract. Historical d
 
 The constrained execution sequence is:
 
-`provider completion → provider cleanup → durable same-run upstream checkpoint → Stage 10 route preflight → shared heavyweight admission lock + RSS recheck → downstream composite analysis while the lock remains held`
+`provider completion → provider cleanup → durable same-run upstream checkpoint → Stage 10 route preflight → fail-fast shared Stage 10 admission lock + RSS recheck → downstream composite analysis while the lock remains held`
 
 Completed transcript/alignment/provider output must be persisted before dependent heavyweight work is trusted to complete.
 
@@ -82,7 +82,7 @@ Stage 10 memory admission is an operational runtime guard. It is separate from S
 
 Current reference memory policy is 512 MiB with 96 MiB reserved headroom, yielding a 416 MiB admission ceiling.
 
-The follow-up source applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. That makes the actual downstream admission and execution one serialized resource boundary instead of allowing separate case requests to pass independent RSS checks and overlap heavyweight composite work.
+The follow-up source applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: a competing composite call does not wait in a worker-thread queue behind an active heavyweight phase. It fails before entering the analytical body. An admitted call rechecks RSS while holding the shared lock and retains that lock through composite execution. Existing provider `measured_phase(...)` behavior is otherwise unchanged.
 
 `process_instance_id` identifies the current Python process. `render_instance_id` preserves hosting-provider instance provenance separately because Render can restart Python while retaining the same infrastructure instance label.
 
@@ -121,7 +121,7 @@ The Developer Console remains the engineering cockpit over real backend/runtime 
 - one 21-stage dependency contract
 - bounded frame processing
 - durable completed upstream artifacts
-- process-wide serialized heavyweight execution under one admission guard
+- Stage 10 fail-fast process-wide single-flight admission with locked RSS recheck and lock ownership through composite execution
 - explicit operational memory admission
 - stable case-run identity separate from pipeline-internal run identity
 - distinct process and hosting-instance provenance
