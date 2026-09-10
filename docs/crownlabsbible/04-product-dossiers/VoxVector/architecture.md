@@ -30,7 +30,7 @@ The repository implementation and `VoxVector/docs/` remain authoritative. This p
 
 ## Current runtime evidence — 2026-09-10
 
-- canonical GitHub `main` observed before the current follow-up branch: `a249f3f781a221313549e941b9cdb650b8683a2f`
+- canonical GitHub `main` observed for the latest follow-up rebase: `8bf2e3c0a97025ea7f25f6b10bc4cbad9bfa8b1e`
 - last documented controlled Render deploy: `dep-dah7usjl550s73e00350`, `live`
 - that deployed source: exact `f0dda136...`
 - Render auto-deploy: disabled
