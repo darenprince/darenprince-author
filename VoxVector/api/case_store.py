@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
 import os
+from threading import Lock, RLock
 from uuid import uuid4
 
 from .storage import StorageError
@@ -22,6 +23,17 @@ class CaseStore:
 
     def __init__(self, storage):
         self.storage = storage
+        self._case_locks_guard = Lock()
+        self._case_locks: dict[tuple[str, str], RLock] = {}
+
+    def _case_lock(self, user_id: str, case_id: str) -> RLock:
+        key = (user_id, case_id)
+        with self._case_locks_guard:
+            lock = self._case_locks.get(key)
+            if lock is None:
+                lock = RLock()
+                self._case_locks[key] = lock
+            return lock
 
     @staticmethod
     def _now() -> str:
@@ -346,17 +358,18 @@ class CaseStore:
         history can also recover a run after its stage deadline, while the conservative
         stale fallback is reserved for legacy runs without worker/deadline evidence.
         """
-        case = self._read_case(user_id, case_id)
-        changed = self._reconcile_case_payload(
-            case,
-            current_process_id=current_process_id,
-            stale_after_seconds=stale_after_seconds,
-            deadline_grace_seconds=deadline_grace_seconds,
-        )
-        if changed:
-            case["updated_at"] = self._now()
-            self.storage.put_json(self._case_path(user_id, case_id), case)
-        return case
+        with self._case_lock(user_id, case_id):
+            case = self._read_case(user_id, case_id)
+            changed = self._reconcile_case_payload(
+                case,
+                current_process_id=current_process_id,
+                stale_after_seconds=stale_after_seconds,
+                deadline_grace_seconds=deadline_grace_seconds,
+            )
+            if changed:
+                case["updated_at"] = self._now()
+                self.storage.put_json(self._case_path(user_id, case_id), case)
+            return case
 
     def list_cases(
         self,
@@ -376,21 +389,15 @@ class CaseStore:
         if not paths:
             return []
 
-        workers = min(8, len(paths))
-        cases: list[dict] = []
-        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="voxvector-case-list") as executor:
-            futures = {
-                executor.submit(self.storage.get_json, path): path
-                for path in paths
-            }
-            for future in as_completed(futures):
-                path = futures[future]
-                try:
-                    case = future.result()
-                except StorageError:
-                    continue
+        def load_case(path: str) -> dict | None:
+            filename = path.rsplit("/", 1)[-1]
+            case_id = filename[:-5] if filename.endswith(".json") else filename
+            if not case_id:
+                return None
+            with self._case_lock(user_id, case_id):
+                case = self.storage.get_json(path)
                 if case.get("owner_id") != user_id:
-                    continue
+                    return None
                 changed = self._reconcile_case_payload(
                     case,
                     current_process_id=None,
@@ -403,30 +410,43 @@ class CaseStore:
                         self.storage.put_json(path, case)
                     except StorageError:
                         pass
-                cases.append(case)
+                return case
+
+        workers = min(8, len(paths))
+        cases: list[dict] = []
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="voxvector-case-list") as executor:
+            futures = {executor.submit(load_case, path): path for path in paths}
+            for future in as_completed(futures):
+                try:
+                    case = future.result()
+                except StorageError:
+                    continue
+                if case is not None:
+                    cases.append(case)
 
         cases.sort(key=lambda item: str(item.get("updated_at", "")), reverse=True)
         return cases[:bounded_limit]
 
     def add_source(self, user_id: str, case_id: str, filename: str, data: bytes, metadata: dict) -> dict:
-        case = self._read_case(user_id, case_id)
-        source_id = str(uuid4())
-        storage_path = self._source_path(user_id, case_id, source_id)
-        self.storage.put_bytes(storage_path, data, "audio/wav")
-        source = {
-            "source_id": source_id,
-            "filename": filename,
-            "media_path": storage_path,
-            "sha256": sha256(data).hexdigest(),
-            "bytes": len(data),
-            **metadata,
-            "created_at": self._now(),
-        }
-        case["sources"].append(source)
-        case["status"] = "source_ready"
-        case["updated_at"] = self._now()
-        self.storage.put_json(self._case_path(user_id, case_id), case)
-        return source
+        with self._case_lock(user_id, case_id):
+            case = self._read_case(user_id, case_id)
+            source_id = str(uuid4())
+            storage_path = self._source_path(user_id, case_id, source_id)
+            self.storage.put_bytes(storage_path, data, "audio/wav")
+            source = {
+                "source_id": source_id,
+                "filename": filename,
+                "media_path": storage_path,
+                "sha256": sha256(data).hexdigest(),
+                "bytes": len(data),
+                **metadata,
+                "created_at": self._now(),
+            }
+            case["sources"].append(source)
+            case["status"] = "source_ready"
+            case["updated_at"] = self._now()
+            self.storage.put_json(self._case_path(user_id, case_id), case)
+            return source
 
     def get_source(self, user_id: str, case_id: str, source_id: str) -> tuple[dict, dict]:
         case = self._read_case(user_id, case_id)
@@ -436,40 +456,42 @@ class CaseStore:
         return case, source
 
     def update_run(self, user_id: str, case_id: str, run: dict) -> dict:
-        case = self._read_case(user_id, case_id)
-        incoming = dict(run)
-        existing = next(
-            (item for item in case.get("runs", []) if item.get("run_id") == incoming.get("run_id")),
-            None,
-        )
-        if not incoming.get("source_revision"):
-            testing = incoming.get("testing") if isinstance(incoming.get("testing"), dict) else {}
-            if existing is not None:
-                incoming["source_revision"] = existing.get("source_revision") or testing.get("source_revision")
-            else:
-                incoming["source_revision"] = testing.get("source_revision") or self._runtime_source_revision()
-        run = self._finalize_run_metadata(incoming)
-        runs = [item for item in case.get("runs", []) if item.get("run_id") != run.get("run_id")]
-        runs.append(run)
-        case["runs"] = runs[-50:]
-        case["current_run_id"] = run.get("run_id")
-        case["status"] = run.get("status", "processing")
-        case["updated_at"] = self._now()
-        self.storage.put_json(self._case_path(user_id, case_id), case)
-        return case
+        with self._case_lock(user_id, case_id):
+            case = self._read_case(user_id, case_id)
+            incoming = dict(run)
+            existing = next(
+                (item for item in case.get("runs", []) if item.get("run_id") == incoming.get("run_id")),
+                None,
+            )
+            if not incoming.get("source_revision"):
+                testing = incoming.get("testing") if isinstance(incoming.get("testing"), dict) else {}
+                if existing is not None:
+                    incoming["source_revision"] = existing.get("source_revision") or testing.get("source_revision")
+                else:
+                    incoming["source_revision"] = testing.get("source_revision") or self._runtime_source_revision()
+            run = self._finalize_run_metadata(incoming)
+            runs = [item for item in case.get("runs", []) if item.get("run_id") != run.get("run_id")]
+            runs.append(run)
+            case["runs"] = runs[-50:]
+            case["current_run_id"] = run.get("run_id")
+            case["status"] = run.get("status", "processing")
+            case["updated_at"] = self._now()
+            self.storage.put_json(self._case_path(user_id, case_id), case)
+            return case
 
     def delete_case(self, user_id: str, case_id: str) -> dict:
-        case = self._read_case(user_id, case_id)
-        media_paths = []
-        for source in case.get("sources", []):
-            path = str(source.get("media_path") or "").strip()
-            if path and path not in media_paths:
-                media_paths.append(path)
+        with self._case_lock(user_id, case_id):
+            case = self._read_case(user_id, case_id)
+            media_paths = []
+            for source in case.get("sources", []):
+                path = str(source.get("media_path") or "").strip()
+                if path and path not in media_paths:
+                    media_paths.append(path)
 
-        for path in media_paths:
-            self.storage.delete_bytes(path)
-        self.storage.delete_json(self._case_path(user_id, case_id))
-        return {
-            "case_id": case_id,
-            "deleted_sources": len(media_paths),
-        }
+            for path in media_paths:
+                self.storage.delete_bytes(path)
+            self.storage.delete_json(self._case_path(user_id, case_id))
+            return {
+                "case_id": case_id,
+                "deleted_sources": len(media_paths),
+            }
