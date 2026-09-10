@@ -20,9 +20,10 @@ test('analysis workspace exposes one debug bundle control without a duplicate pa
   assert.match(buttonSource, /Download Debug Bundle/)
 })
 
-test('debug bundle is gated to terminal runs and reports loading and missing evidence', () => {
-  assert.match(buttonSource, /TERMINAL = new Set/)
-  assert.match(buttonSource, /TERMINAL\.has\(String\(run\?\.status/)
+test('debug bundle becomes available once a run id exists, including a stuck active run', () => {
+  assert.match(buttonSource, /const ready = Boolean\(accessToken && caseId && runId\)/)
+  assert.doesNotMatch(buttonSource, /TERMINAL\.has/)
+  assert.match(buttonSource, /Available as soon as an analysis run has been persisted/)
   assert.match(buttonSource, /Collecting debug bundle…/)
   assert.match(buttonSource, /missingEvidenceCount/)
   assert.match(buttonSource, /manifest\.json/)
