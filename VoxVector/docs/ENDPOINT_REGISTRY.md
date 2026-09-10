@@ -17,164 +17,174 @@ Protected React routes include:
 - `/voxvector/developer/` — developer/admin Developer Console;
 - `/voxvector/app` — approved-user workspace.
 
-The GitHub Pages artifact explicitly stages `voxvector/login/index.html` from the canonical React build so direct navigation to `/voxvector/login/` resolves to the same `AuthGate.jsx` implementation instead of depending on the generic SPA 404 fallback. This is a route entry for the existing React application, not a second login implementation.
+The physical Pages login entry resolves to the same React `AuthGate.jsx` implementation. It is not a duplicate login system.
 
 ## Existing API
 
 `https://voxvector.crownlabs.tech`
 
-This is the original VoxVector API domain and remains preserved. It is not repointed to AWS by the current work.
-
-The existing frontend API client continues to default to this endpoint unless `VITE_VOXVECTOR_API_URL` is explicitly configured.
+This is the original VoxVector API domain and remains preserved. The existing frontend API client continues to default to this endpoint unless `VITE_VOXVECTOR_API_URL` is explicitly configured.
 
 ## AWS API
 
 `https://awsapi.crownlabs.tech`
 
-This is the dedicated AWS VoxVector API hostname.
-
-Current AWS path:
+This is the separately addressed AWS VoxVector API environment:
 
 `awsapi.crownlabs.tech → AWS Application Load Balancer → HTTPS :443 → ECS Fargate → VoxVector API :8000`
 
-HTTP on port 80 redirects to HTTPS. The AWS environment remains separately maintained and is not part of the current Render/Pages release-gate evidence.
+AWS remains separate from the current Render production-verification path unless an explicit cutover decision changes that architecture.
 
 ## Persistence boundary
 
-Supabase is the configured authentication, persistence, diagnostics, durable observed-log archive, and private-media boundary for the connected architecture. Render remains the native provider/runtime log source for the Render-hosted API. The #959 source change preserves Render-native logs and adds/extends the Supabase durable copy; it does not replace Render with Supabase as the provider log surface.
+Supabase is the configured authentication, persistence, diagnostics, and private-media boundary. Provider secrets remain server-side in the applicable deployment environment and never belong in repository source or client bundles.
 
-AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
+## Authenticated case lifecycle endpoints
 
-### Authenticated case lifecycle endpoints
-
-The canonical case API remains owner scoped through the existing backend authorization boundary:
+The canonical case API remains owner-scoped through the backend authorization boundary:
 
 - `POST /v1/cases` — create a case record;
-- `GET /v1/cases` — list the authenticated owner's cases and reconcile eligible stale/interrupted run state through the canonical CaseStore;
+- `GET /v1/cases` — list the authenticated owner's cases and reconcile eligible interrupted/stale run state;
 - `GET /v1/cases/{case_id}` — read one owner-scoped case and reconcile eligible run state;
-- `POST /v1/cases/{case_id}/sources` — persist a source recording and provenance;
-- `POST /v1/cases/{case_id}/sources/{source_id}/analyze` — execute the canonical case-analysis path for that source;
-- `DELETE /v1/cases/{case_id}` — delete the owner-scoped case and its recorded persisted media through the supported storage API.
+- `POST /v1/cases/{case_id}/sources` — persist a WAV source and provenance;
+- `GET /v1/cases/{case_id}/sources/{source_id}/playback` — issue an owner-scoped time-limited signed playback URL;
+- `POST /v1/cases/{case_id}/sources/{source_id}/analyze` — execute the canonical case-analysis path for that persisted source;
+- `DELETE /v1/cases/{case_id}` — delete the owner-scoped case and persisted source media through the supported storage API.
 
-Issue #945 / PR #946 is merged in current `main`. It hardens the existing read/list lifecycle rather than adding a second endpoint family. Eligible interrupted or deadline-expired `running` runs can be reconciled to explicit terminal state when `GET /v1/cases` or the individual case path causes canonical case reconciliation. Legitimate current-worker runs with a usable future stage deadline are preserved. Reconciliation persists real elapsed/report metadata, marks the interrupted active stage failed, and records unfinished dependent work as `not_run` instead of leaving it indefinitely pending.
+Issue #945 / PR #946 remains the canonical run-lifecycle recovery/report foundation. It provides interrupted/deadline recovery, terminal run/failure reports, elapsed time, historical source-revision preservation, and same-process per-case serialization without creating another endpoint family.
 
-The merged implementation serializes per-case read/reconcile/write operations with run updates, source mutation and deletion inside the existing single-process CaseStore. This protects the current same-process runtime from a stale Case History snapshot overwriting a newer same-process run update. It is not cross-process compare-and-swap protection for future horizontally scaled object-store writers.
+## Case-analysis durability and memory contract — active #941 / PR #962
 
-Terminal run records may include `run_report`; failed or `completed_with_failures` runs may include `failure_report`. These fields are persisted case/run artifacts and are exposed through the existing case payload. They are execution/audit records, not scientific-validation reports.
+The case-analysis endpoint remains the same:
 
-### Planned server-aware cancellation endpoint — issue #949
+`POST /v1/cases/{case_id}/sources/{source_id}/analyze`
+
+PR #962 changes the implementation behind that existing route rather than adding a second analysis endpoint.
+
+The intended bounded sequence is:
+
+`source decode/integrity → Stage 05 speech segmentation → provider acquisition → Stage 07 transcription / Stage 08 alignment → durable same-run upstream checkpoint → Stage 10 memory admission → downstream composite analysis`
+
+Completed provider state is checkpointed before Stage 10 so a later downstream failure cannot erase successful transcript/alignment work.
+
+Stage 10 memory admission is an operational runtime guard. It is not analytical Stage 09 Eligibility and Reliability.
+
+The persistent case `run_id` remains stable through finalization. A pipeline-internal run ID may be retained separately but must not replace the case-run identity.
+
+## Health endpoint
+
+`GET /health`
+
+Current deployed `f0dda136...` health behavior predates PR #962's new source contract. After PR #962 is reviewed, merged and deliberately deployed, the route is expected to preserve existing compatibility fields and expose safe runtime details including:
+
+- runtime status;
+- observed timestamp;
+- backend version and version source;
+- exact `source_revision`;
+- per-Python-process `process_instance_id`;
+- separate Render infrastructure `render_instance_id` when supplied by the host;
+- runtime self-test state;
+- diagnostic/media storage readiness;
+- analysis upload/sample-rate limits;
+- configured memory reference and effective memory-admission ceiling;
+- 21-stage build summary;
+- speech-provider configuration/readiness including constrained transcription settings;
+- commit-QA provenance fields when real workflow evidence is supplied.
+
+`process_instance_id` and `render_instance_id` are intentionally different concepts. A Python process can restart while Render retains the same infrastructure instance label.
+
+A source contract in PR #962 is not current deployed health evidence. Fresh `/health` readback is required after deployment before those new fields are attributed to production.
+
+## Latest observed Render runtime — 2026-09-10
+
+Connected Render inspection confirms:
+
+- service `voxvector-api` (`srv-da2f88n40ujc73a8m26g`);
+- deployment `dep-dah7usjl550s73e00350`;
+- status `live`;
+- deployed source exact `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`;
+- trigger `api`;
+- auto-deploy disabled;
+- root directory `VoxVector`;
+- health path `/health`;
+- live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`.
+
+The canonical root `render.yaml` instead declares `api/requirements-transcription.txt`. Issue #964 owns reconciliation of the provider-generated Blueprint/export and live service into the existing root file. Do not add a second Blueprint or duplicate Render service.
+
+The current API-triggered deploy does not satisfy #920's protected Developer Console deployment-control acceptance path.
+
+## Controlled production analysis evidence
+
+On deployed source `f0dda136...`, controlled case `3515362e-f801-463d-961a-df7b3302a596` with source `cbdcdbf8-e528-49b0-a474-5cd64588d301` and request `32fdb25aee704ee4ad0a0615e2496e09` established:
+
+- successful upload/private persistence;
+- Stage 05 speech segmentation with 26 segments;
+- faster-whisper execution using `base`, CPU/int8, beam 1, one CPU thread, one worker, isolated process;
+- Stage 07 completion in about 113 seconds with 58 transcript segments and 246 timestamped words;
+- Stage 08 alignment state reached;
+- parent RSS entering the post-provider danger zone;
+- Stage 10 starting despite RSS above the configured 416 MiB admission ceiling;
+- subsequent Python API restart;
+- owner confirmation that the incident was a memory problem.
+
+This is actual provider execution evidence, not successful end-to-end analysis, browser verification, transcript truthfulness, or scientific validation.
+
+## Planned server-aware cancellation endpoint — issue #949
 
 Draft PR #952 currently defines the frontend client action for:
 
 `POST /v1/cases/{case_id}/runs/{run_id}/cancel`
 
-The server endpoint/lifecycle is **not yet implemented on canonical `main`** at this synchronization. Do not treat browser `AbortController` transport cancellation as server-side analysis cancellation. Issue #949 remains the owner for authenticated owner-scoped cancellation, persisted request/acknowledgement/terminal state, safe-boundary orchestration, UI states, tests, and documentation.
+The server lifecycle remains separate work under #949. Browser `AbortController` transport cancellation is not server-side analysis cancellation.
 
-### Supabase account-administration function
+## Supabase account-administration function
 
-`voxvector-user-admin` is the canonical server-side Supabase Edge Function source for administrator account management. It is not a browser-side `auth.admin` client.
+`voxvector-user-admin` is the canonical server-side Supabase Edge Function for administrator account management.
 
-The source contract is:
+Flow:
 
 `authenticated browser → Supabase Functions invoke → JWT revalidation → trusted admin role check → server-only service-role administration`
 
-Source actions are `list`, `create`, `update`, `recovery`, and `delete`. The implementation can create or invite accounts, update trusted VoxVector role/permission metadata, maintain profile fields, administer passwords/recovery, and delete accounts. It blocks self-deletion and removal of the caller's own admin role. Administrative mutations write sanitized entries to `audit_events` without passwords, bearer tokens, or service-role credentials.
+Supported actions include list, create/invite, update, recovery, and delete with self-protection and sanitized audit events.
 
-Production deployment and browser verification for this Edge Function are tracked by issue #931 and remain separate from #959.
+**Current production status:** connected Supabase inspection on 2026-09-10 shows `voxvector-user-admin` ACTIVE, version 2, with JWT verification enabled. Latest trusted role inventory contains one admin, one developer, and one user.
 
-## Latest observed Render runtime configuration
-
-Connected Render inspection on 2026-09-10 confirms the single `voxvector-api` service remains the current Render backend with automatic deployment disabled.
-
-Latest observed deployment at this documentation checkpoint:
-
-- deployment: `dep-dah0g13l550s73d2dbb0`;
-- source revision: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`;
-- status: `live`;
-- trigger: `api`;
-- finished: `2026-09-10T01:36:34.195005Z`.
-
-Current GitHub `main` is newer than that Render backend revision. Subsequent frontend/documentation merges therefore must not be described as a backend deployment. The Render source revision remains separate evidence until a deliberate backend deployment occurs.
-
-This deployment record is not a fresh complete `/health` payload. Detailed provider-readiness fields from older health checkpoints must not be projected onto this newer source without a new readback. Deployment `live` also does not establish controlled provider execution or browser verification.
-
-The `api` trigger does **not** verify issue #920's protected Developer Console `Deploy Now` / server-side deploy-hook route. The path under test remains separate.
-
-Provider readiness is not proof that a case route invoked the provider. Case-analysis diarization additionally requires the explicit route gate `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`.
-
-Commit-specific QA must be established from GitHub Actions for the exact source revision before a runtime is marked QA-current.
-
-### Health operational-truth contract
-
-`GET /health` preserves its compatibility fields and exposes a normalized `runtime` object with:
-
-- `status`
-- `source`
-- `observed_at`
-- `version`
-- `version_source`
-- `source_revision`
-
-The observation timestamp describes the API health read. It is not a GitHub QA timestamp or a Render deployment timestamp. The React Developer Console keeps the backend revision separate from its own `VITE_GITHUB_SHA` frontend build revision.
-
-No fresh complete `/health` payload for the #959 source branch is recorded in this documentation synchronization.
-
-## Deployment and migration rule
-
-The AWS endpoint is a separate deployment environment. Do not silently replace `voxvector.crownlabs.tech` or change the production frontend API base without an explicit cutover decision, exact-commit deployment verification, browser verification, and documentation update.
-
-## Engineering verification
-
-At the #959 source-work baseline:
-
-- canonical GitHub `main`: `073c6a099768d1a14a882dda37a9c458ac905a18`;
-- exact-main VoxVector QA #2004 / `34434051439`: success;
-- exact-main Deploy GitHub Pages #1711 / `34434051431`: success;
-- Render service: `voxvector-api`, auto-deploy disabled;
-- latest observed Render deployment: `dep-dah0g13l550s73d2dbb0`, `live`, trigger `api`, source `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`;
-- #959 implementation branch and PR are newer than main and require their own exact-head QA before merge recommendation;
-- AWS custom-domain/runtime evidence remains separately maintained and is not refreshed by this task.
-
-Infrastructure state, case-run lifecycle reliability, provider readiness, provider execution, browser verification and scientific validation remain separate evidence classes.
+Therefore #931 is no longer blocked on Edge Function deployment/bootstrap. Remaining #931 acceptance is User Management workflow/UX plus authenticated desktop/mobile role verification.
 
 ## Protected Developer Console deployment trigger
 
 `POST /v1/developer/render/deploy`
 
-This authenticated developer route triggers the configured Render Deploy Hook from the server-side API runtime. The hook URL is stored only as `RENDER_DEPLOY_HOOK_URL` in protected runtime configuration and is never returned to the browser.
+This authenticated developer route sends the protected Render deploy-hook request server-side. `RENDER_DEPLOY_HOOK_URL` is never returned to the browser.
 
-Render production auto-deploy is intentionally disabled.
+A successful response means Render accepted the trigger request only. It does not prove a new deployment exists, reaches `live`, targets the intended commit, passes `/health`, or is browser verified.
 
-The endpoint reports **hook-request acceptance only**. Its successful response does not mean a Render deployment exists, finished, went live, matches the intended Git commit, passed `/health`, or was browser verified. Required evidence remains:
+Required #920 chain remains:
 
-`Developer Console action → POST /v1/developer/render/deploy accepted → new Render deploy observed → intended commit matched → deploy status live → backend source_revision checked → fresh /health verified → browser/runtime verification when required`
-
-Current deployment `dep-dah0g13l550s73d2dbb0` was triggered by Render API and is not substituted for that path.
+`Developer Console action → server deploy-hook request accepted → new Render deploy observed → intended commit matched → deploy live → backend source_revision read back → fresh /health → browser/runtime verification when required`
 
 ## Render Developer Console observability routes
 
 `GET /v1/developer/render/status`
 
-Returns current service/deployment/instance state visible to the authenticated developer bridge. Its normalized `operational` object reports `source`, `observed_at`, `service_state`, `deploy_state`, and `source_revision`. Missing deployment revisions remain `unknown`; provider strings such as `not_suspended` are mapped explicitly rather than coerced as truthy values.
+Returns current service/deployment state through the authenticated server-side bridge.
 
 `GET /v1/developer/render/logs`
 
-Returns the current native Render log observations through the server-side bridge. The #959 source implementation keeps this Render view and additionally attempts to persist a sanitized snapshot of the retrieved window into the private Supabase `voxvector-logs` archive. Mirror failure is reported separately and does not make the Render-native log view unavailable.
+Returns current Render log observations through the protected bridge.
 
-Logs and status are evidence about runtime/deployment behavior; they are not evidence of scientific validation.
-
-`GET /v1/developer/render/debug-bundle?case_id=<case_id>&run_id=<run_id>`
-
-Returns an authenticated developer/admin ZIP containing bounded sanitized troubleshooting evidence for the owner-scoped analysis run. The server gathers Supabase-backed VoxVector events/errors, a bounded Render provider-log window, Render status, safe runtime health, and sanitized run/provenance metadata. `manifest.json` records exact versus time-window correlation and explicitly lists missing evidence.
-
-The endpoint intentionally excludes raw audio, transcript text, request bodies, passwords, tokens, cookies, signed URLs, Supabase service-role credentials, Render API keys, and deploy-hook URLs. It is an engineering debug export, not a report of scientific validation.
-
-The corresponding Developer Console control is added to the existing Analysis Workspace rather than a second dashboard/page. It becomes available once the case has a persisted run identifier, including an apparently stuck run whose process may have restarted.
-
-At this source checkpoint the #959 route/control are **not deployed production capability**. Merge, deliberate deployment, exact-revision `/health`, authenticated execution, Supabase mirror readback, downloaded ZIP inspection, and browser verification remain separate required evidence.
+Issue #959 / draft PR #961 separately owns durable dual-output logging, parent correlation propagation into speech workers, sanitized Render-log mirroring into Supabase, terminal analysis snapshots, and the one-click case/run Debug Bundle. Those changes are intentionally outside PR #962.
 
 ## External diarization provider boundary
 
-The VoxVector backend may call the pyannoteAI API as an external server-side provider when `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` is configured. The API key remains only in the deployment environment. The public React application never calls pyannoteAI directly and never receives `PYANNOTE_KEY`.
+The VoxVector backend may call pyannoteAI server-side when `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and the route invocation gate permits it. The cloud API key never reaches the public React application.
 
-Local Community-1 remains a separate provider path and may be configured as an explicit fallback. Provider switching is recorded in analysis provenance rather than hidden from the case/run record. Configuration and fallback code paths are not provider-execution evidence.
+Local Community-1 is a separate optional fallback requiring its local dependency/credential boundary. The cloud-primary adapter does not require local Community-1 or PyTorch merely to make the cloud provider request.
+
+Provider configuration/readiness is not provider execution. Controlled cloud-primary speaker execution and persisted speaker artifact readback remain open release gates.
+
+## Deployment and migration rule
+
+Do not silently replace `voxvector.crownlabs.tech`, duplicate the API, create a second Blueprint, or move a protected provider secret into source.
+
+A GitHub merge is not deployment. Render `live` is not fresh `/health`. Provider execution is not artifact durability. Artifact durability is not browser verification. None of these software states are scientific validation.

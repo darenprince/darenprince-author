@@ -1,7 +1,7 @@
 # VoxVector Engineering MVP Release Gate
 
 **Status:** Canonical engineering MVP exit gate  
-**Effective:** 2026-09-09  
+**Effective:** 2026-09-10  
 **Prompt:** `VV-MVP-SPRINT-GATE-ALIGNMENT`  
 **Tracker:** [#915](https://github.com/darenprince/darenprince-author/issues/915)  
 **Alignment task:** [#933](https://github.com/darenprince/darenprince-author/issues/933)
@@ -18,13 +18,21 @@ Engineering MVP is a connected, reproducible product milestone. It is not define
 
 VoxVector reaches engineering MVP only when a real authenticated case can traverse the canonical connected path:
 
-`create case → upload recording → provenance → decode/playback → speaker processing → transcription → alignment → eligibility/reliability → analytical observations → evidence assembly → convergence/conflict → candidate assessment → report → persistence → close/reopen`
+`create case → upload recording → provenance → decode/playback → speech segmentation → speaker processing → transcription → durable provider checkpoint → alignment → eligibility/reliability → memory-safe downstream analysis → analytical observations → evidence assembly → convergence/conflict → candidate assessment → report → persistence → close/reopen`
 
 The required evidence must come from the same exact deployed source revision and must be reproducible.
 
+## Current release candidate boundary — 2026-09-10
+
+Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Connected Render deployment `dep-dah7usjl550s73e00350` is live on that exact source with auto-deploy disabled.
+
+One controlled 183.3-second WAV completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words. The API then encountered confirmed post-transcription memory exhaustion during the downstream transition. Active #941 / draft PR #962 repairs cleanup, same-run upstream checkpointing, Stage 10 memory admission, stable run identity, and process-vs-Render-instance provenance.
+
+That controlled transcription is provider-execution evidence, not a completed engineering-MVP pass. The golden-case repeatability count remains zero until a reviewed deployed revision completes all required gates.
+
 ## Golden-case fixture
 
-The MVP proof uses one controlled real-audio fixture whose identity is stable across the verification runs.
+The MVP proof uses one controlled real-audio fixture whose identity is stable across verification runs.
 
 Record for the fixture:
 
@@ -47,10 +55,10 @@ Required before a release candidate can enter production verification:
 - [ ] Frontend source version recorded from `voxvector/package.json`.
 - [ ] `VoxVector QA` succeeds for the exact candidate SHA.
 - [ ] React production build succeeds for the exact candidate SHA.
-- [ ] Applicable GitHub Pages build/publication evidence is recorded for that same frontend source.
+- [ ] Applicable Preview/Pages/security workflow evidence is recorded without conflating PR preview with production publication.
 - [ ] No P0 issue is knowingly left unresolved for the golden-case path.
 
-A green build or workflow is software verification only. It is not deployment, provider execution, browser verification, or scientific validation.
+A green workflow is software verification only. It is not deployment, provider execution, browser verification, or scientific validation.
 
 ## Gate 2 — Exact deployment and runtime identity
 
@@ -60,50 +68,54 @@ Required for the backend release candidate:
 - [ ] Render deployment reaches `live`.
 - [ ] `/health` is read after that deployment.
 - [ ] `/health` reports the intended backend `source_revision`.
-- [ ] Runtime self-test state is recorded from `/health` rather than inferred from Render deploy state.
+- [ ] Runtime self-test state is recorded from `/health`.
+- [ ] `process_instance_id` is present and identifies the current Python process.
+- [ ] `render_instance_id` is recorded separately when supplied by Render and is not treated as the process identity.
+- [ ] Configured transcription profile is read back, including beam/thread/worker/isolation/deadline state.
+- [ ] Memory reference and effective downstream admission ceiling are read back when exposed by the runtime contract.
 - [ ] Storage/runtime readiness is recorded from the runtime response where applicable.
-- [ ] Frontend build revision and backend runtime revision are not collapsed into one synthetic status.
+- [ ] Frontend build revision and backend runtime revision remain separate.
 
-Hook acceptance is not deployment completion. A Render `live` record is not a substitute for runtime readback.
+Hook acceptance is not deployment completion. Render `live` is not a substitute for runtime readback.
 
 ## Gate 3 — Reliable authenticated intake
 
-Using the golden fixture through the real authenticated browser/application path:
+Using the golden fixture through the real authenticated application path:
 
 - [ ] Case creation succeeds and returns a persisted case identity.
 - [ ] Source upload succeeds through the canonical upload client.
 - [ ] Upload request ID/correlation evidence is retained.
 - [ ] Media persists to the configured private media store.
-- [ ] Source provenance includes the expected hash and media metadata.
+- [ ] Source provenance includes expected hash and media metadata.
 - [ ] Signed/authenticated playback succeeds from the persisted source.
 - [ ] Repeated upload attempts do not reproduce an unresolved intermittent pre-handler 4xx failure.
 - [ ] User-visible upload failure preserves useful sanitized API detail and request correlation.
 
-Current blocker: [#930](https://github.com/darenprince/darenprince-author/issues/930) tracks the intermittent case-source upload HTTP 400. Upload UX enhancement [#928](https://github.com/darenprince/darenprince-author/issues/928) follows the reliability boundary.
+Current related work: #930 owns intermittent pre-handler reliability; #928 owns upload UX after the transport boundary is sufficiently resolved.
 
-## Gate 4 — Actual speech-provider execution
+## Gate 4 — Actual speech-provider execution and durable checkpoint
 
 Provider configuration or readiness does not satisfy this gate.
 
 ### Transcription
 
-- [ ] The configured faster-whisper path actually executes against the persisted golden source.
+- [ ] Configured faster-whisper actually executes against the persisted golden source.
 - [ ] Provider identity and execution provenance are persisted.
 - [ ] Timestamped transcript segments are persisted and read back.
 - [ ] Timestamped words are persisted and read back when supplied by the provider contract.
+- [ ] Successful provider output is checkpointed to the same case run **before** downstream heavy analysis begins.
 - [ ] Provider failure is represented as failure rather than synthetic completion.
+- [ ] A later downstream failure/restart does not erase an already-completed transcript checkpoint.
 
-Execution owner until promoted to a dedicated issue: tracker #915 backlog identifier `VV-TRANSCRIBE`.
+The September 10 controlled run satisfies actual beam-1 provider execution for one historical attempt but does not satisfy this gate because the transcript artifact was not durably checkpointed before the later process restart. #941 / PR #962 owns that repair.
 
 ### Speaker diarization
 
-- [ ] The configured pyannoteAI cloud primary actually executes against the same persisted golden source.
-- [ ] `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` is verified as the explicit case-route invocation gate for the run.
+- [ ] Configured pyannoteAI cloud primary actually executes against the same persisted golden source.
+- [ ] `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` is verified as the case-route invocation gate.
 - [ ] Speaker turns/segments are normalized, persisted, and read back.
-- [ ] Provider identity, job/provenance fields, and fallback state are persisted without exposing secrets.
-- [ ] Local pyannote fallback, if tested, is recorded separately and is not substituted for cloud-primary execution proof.
-
-Execution owner until promoted to a dedicated issue: tracker #915 backlog identifier `VV-DIARIZE`.
+- [ ] Provider identity, job/provenance fields, and fallback state are persisted without secrets.
+- [ ] Local pyannote fallback, if tested, is recorded separately and is not substituted for cloud-primary proof.
 
 Successful provider execution establishes only that the configured software path ran. It does not establish transcript truthfulness, verified human identity, or deception-detection validity.
 
@@ -113,85 +125,95 @@ For the same case/run:
 
 - [ ] Audio timeline, transcript segments/words, and speaker turns share the canonical timing frame.
 - [ ] Persisted alignment is read back after the run rather than reconstructed only in transient UI state.
-- [ ] Transcript selection/playback seeking is synchronized with the persisted audio timeline.
-- [ ] Speaker attribution is connected to the persisted diarization artifact where available.
-- [ ] Evidence records can reference source intervals in the aligned timeline.
+- [ ] Alignment checkpoint survives downstream failure/restart when it completed upstream.
+- [ ] Transcript selection/playback seeking is synchronized with persisted audio.
+- [ ] Speaker attribution is connected to persisted diarization where available.
+- [ ] Evidence records can reference aligned source intervals.
 
-Execution owner until promoted to a dedicated issue: tracker #915 backlog identifier `VV-ALIGN`.
+## Gate 6 — Memory-safe downstream analysis
 
-## Gate 6 — Eligibility, evidence, and assessment integrity
+The constrained runtime must not knowingly enter a heavyweight phase without required resource headroom.
 
-The golden case must preserve the architectural stage boundaries required by the Operating Charter.
+- [ ] Completed upstream provider artifacts are durably checkpointed before Stage 10 admission.
+- [ ] Stage 10 checks actual process RSS against the configured memory admission threshold before being represented as running.
+- [ ] If headroom is insufficient, Stage 10 records an explicit bounded failure and dependent unfinished work becomes `not_run` rather than causing an uncontrolled process restart.
+- [ ] A memory-admission rejection preserves completed transcript/alignment/provider artifacts.
+- [ ] Runtime memory admission is presented as an operational safety decision, not Stage 09 analytical Eligibility and Reliability.
+- [ ] The controlled golden run does not restart the API process due to memory exhaustion.
+- [ ] Render memory/process evidence is correlated to the same run/request window.
+
+Active owner: #941 / PR #962.
+
+## Gate 7 — Eligibility, evidence, and assessment integrity
+
+The golden case must preserve the Operating Charter's architectural stage boundaries.
 
 ### Eligibility and reliability
 
 - [ ] Recording/data quality state is persisted.
 - [ ] Relevant reliability/eligibility observations are available to downstream review.
 - [ ] Missing or unreliable required evidence can block or qualify downstream interpretation.
+- [ ] Runtime resource admission remains separate from scientific/analytical eligibility.
 
 ### Evidence collection and analysis
 
 - [ ] Acoustic/prosodic/temporal observations used by the run are persisted with method identity and provenance.
-- [ ] Transcript-derived observations used by the run are persisted when transcription executes successfully.
+- [ ] Transcript-derived observations are persisted when transcription executes successfully.
 - [ ] Speaker-aware observations use persisted speaker artifacts where required.
-- [ ] Evidence records expose direction/strength/confidence only where actually produced by the implementation.
+- [ ] Evidence records expose direction/strength/confidence only where actually produced by implementation.
 
 ### Convergence, conflict, uncertainty, and alternatives
 
-- [ ] Review Evidence exposes contributing methods/evidence rather than only a dramatic aggregate number.
+- [ ] Review Evidence exposes contributing methods/evidence rather than only an aggregate number.
 - [ ] Convergence and conflict are represented when present.
 - [ ] Uncertainty/data quality are visible.
-- [ ] Recorded alternative explanations remain inspectable.
+- [ ] Alternative explanations remain inspectable.
 
 ### Candidate and final disposition boundaries
 
 - [ ] Candidate classification remains distinct from eligibility/reliability and raw evidence collection.
 - [ ] Final disposition remains gated by the implemented validation/calibration boundary.
-- [ ] The engineering MVP does not fabricate a scientifically validated deception result when the validation gate has not been satisfied.
+- [ ] Engineering MVP does not fabricate a scientifically validated deception result when validation has not been satisfied.
 
-Execution mapping: tracker #915 `VV-DEVCONSOLE`, `VV-API-CONTRACT`, and `VV-LAUNCHGATE` as applicable when promoted.
-
-## Gate 7 — Assessment, report, persistence, and reopen
+## Gate 8 — Assessment, report, persistence, and reopen
 
 - [ ] Canonical assessment/result contract is produced from persisted run data.
 - [ ] Report is generated from the same persisted case/run evidence.
-- [ ] Report includes or references eligibility/data quality, contributing evidence, convergence/conflict, uncertainty, alternatives, provenance, and disposition boundary.
+- [ ] Report references eligibility/data quality, contributing evidence, convergence/conflict, uncertainty, alternatives, provenance, and disposition boundary.
 - [ ] Case appears in persisted history.
-- [ ] User can leave the active case, return to history, and reopen it.
-- [ ] Reopened case exposes the same persisted source/run/transcript/speaker/alignment/evidence/report artifacts rather than a newly fabricated reconstruction.
+- [ ] User can leave the active case and reopen it.
+- [ ] Reopened case resolves persisted source audio through the existing authenticated playback boundary without re-upload.
+- [ ] Reopened case exposes the same persisted transcript/speaker/alignment/evidence/report artifacts rather than a fabricated reconstruction.
 
-Execution owner until promoted to a dedicated issue: tracker #915 backlog identifier `VV-LAUNCHGATE`.
+Current related work: #963 owns persisted audio/transcript rehydration after #941 establishes canonical checkpoint durability.
 
-## Gate 8 — Authenticated browser verification
+## Gate 9 — Observability, failure, and recovery behavior
+
+The MVP candidate must fail honestly and preserve enough evidence to debug the failure.
+
+- [ ] Malformed/unsupported upload returns a bounded error without corrupting the case.
+- [ ] Provider failure leaves persisted failure/not-run state rather than fake completion.
+- [ ] Provider success already checkpointed remains available if a downstream stage fails.
+- [ ] Timeout behavior is distinguishable from success.
+- [ ] Process restart is distinguishable from Render infrastructure instance identity.
+- [ ] Browser request cancellation is not represented as guaranteed server termination.
+- [ ] Retrying/reopening does not overwrite unrelated prior-run evidence.
+- [ ] VoxVector-owned diagnostic/provider events required for debugging are durably available after restart once #959 is complete.
+- [ ] Case/run debugging evidence can be exported through the canonical sanitized Debug Bundle once #959 is complete.
+
+## Gate 10 — Authenticated browser verification and same-revision repeatability
 
 The exact deployed release candidate must be exercised in real browsers.
 
 - [ ] Authenticated desktop flow: login → case → upload → playback → analysis → evidence → report → history/reopen.
 - [ ] Authenticated mobile flow exercises the same critical path.
-- [ ] Navigation and gating route the user to the intended developer/user surface.
-- [ ] Keyboard interaction works for the critical controls that support keyboard operation.
+- [ ] Navigation and gating route users to intended surfaces.
+- [ ] Keyboard interaction works for critical controls.
 - [ ] Reduced-motion behavior does not break state visibility.
-- [ ] Upload/provider/analysis failure states are understandable and preserve request correlation where available.
-- [ ] Browser verification records the frontend build revision and backend runtime revision actually observed.
+- [ ] Failure states preserve understandable status and correlation evidence.
+- [ ] Browser verification records frontend build revision and backend runtime revision actually observed.
 
-Current mapped work: #927, #931, #932, and tracker #915 identifiers `VV-DEPLOYVERIFY` / `VV-LAUNCHGATE` as applicable.
-
-## Gate 9 — Failure and recovery behavior
-
-The MVP candidate must fail honestly and recover predictably.
-
-- [ ] Malformed/unsupported upload returns an appropriate bounded error without corrupting the case.
-- [ ] Intermittent pre-handler upload rejection is resolved or reproducibly bounded before sign-off.
-- [ ] Provider failure leaves a persisted failure/queued/not-run state rather than fake completion.
-- [ ] Timeout behavior is distinguishable from successful completion.
-- [ ] Browser cancellation semantics remain explicit: cancelling the browser request is not represented as guaranteed termination of server computation already in flight.
-- [ ] Retrying/reopening a case does not silently overwrite unrelated prior-run evidence.
-
-Current mapped work: #930, #928, and tracker #915 `VV-ASYNCJOBS` where asynchronous execution/retry behavior becomes necessary.
-
-## Gate 10 — Same-revision repeatability
-
-Engineering MVP sign-off requires **two successful complete golden-case executions on the same exact deployed revision**.
+Engineering MVP sign-off requires **two successful complete golden-case executions on the same exact deployed revision**. A source change resets the count.
 
 For each run record:
 
@@ -202,77 +224,63 @@ For each run record:
 - source hash;
 - provider identities;
 - request/correlation IDs;
-- required persisted artifact readback;
-- browser/device boundary used;
+- persisted artifact readback;
+- memory/process outcome;
+- browser/device boundary;
 - pass/fail outcome and UTC timestamp.
 
-The two runs may use separate cases or separate canonical runs of the same controlled fixture, but they must not rely on changing source between run 1 and run 2. If source changes, the repeatability count resets for the new release candidate.
-
 ## Engineering MVP sign-off matrix
-
-All rows below must be explicitly evidenced.
 
 | Boundary | Required status for engineering MVP | Evidence owner |
 | --- | --- | --- |
 | Repository source | exact candidate SHA recorded | GitHub / release record |
 | Software QA | exact-head QA + production build successful | GitHub Actions |
-| Frontend publication | exact applicable Pages artifact/publication recorded | GitHub Actions / Pages |
+| Frontend publication | applicable exact artifact/publication evidence | GitHub Actions / Pages |
 | Backend deployment | intended SHA observed `live` | Render |
-| Runtime | `/health` exact revision and self-test read back | deployed API |
-| Intake | authenticated real upload/persistence/playback passes | case/runtime/browser evidence |
-| Transcription | actual provider execution + artifact readback | case/run provenance |
+| Runtime identity | `/health` exact revision, process identity, self-test, memory profile | deployed API |
+| Intake | authenticated upload/persistence/playback passes | case/runtime/browser evidence |
+| Transcription | actual provider execution + durable same-run artifact readback | case/run provenance |
 | Diarization | actual cloud-primary execution + artifact readback | case/run provenance |
 | Alignment | persisted transcript/audio/speaker timing readback | case/run evidence |
+| Memory safety | Stage 10 admitted safely or bounded without restart; golden pass completes | runtime + Render evidence |
 | Evidence/assessment | inspectable eligibility/evidence/synthesis/assessment | persisted result + browser |
 | Report/history | report persists and case reopens with same artifacts | persisted case + browser |
-| Failure paths | critical failures bounded and truthful | tests + runtime/browser evidence |
+| Observability | failures/restarts leave durable correlated debugging evidence | Supabase/Render/bundle |
 | Repeatability | two complete passes, same deployed revision | golden-case record |
 | Scientific validation | **not implied by engineering MVP** | separate validation program |
 
-## Current release-gate mapping
-
-As of the 2026-09-09 alignment pass:
+## Current release-gate mapping — 2026-09-10
 
 | Release area | Current owner |
 | --- | --- |
 | MVP coordination | #915 |
-| Release-gate documentation alignment | #933 |
+| Confirmed post-transcription memory + durable upstream checkpoint | #941 / PR #962 |
+| Dual Render/Supabase logs + Debug Bundle | #959 / PR #961 |
 | Intermittent upload reliability | #930 |
-| Upload cancellation/progress UX after reliability | #928 |
-| Manual Render deployment-control production verification | #920 |
-| User/developer role gating and public Login | #931 |
-| Public CTA/anchor/menu and drawer repair | #932 |
+| Persisted historical case playback/transcript reopen | #963 |
+| Canonical Render Blueprint drift | #964 |
+| Manual Render deployment-control verification | #920 |
+| Server-aware Stop Analysis | #949 |
+| Auditable secure deletion | #948 |
+| User Management / role browser verification | #931 |
+| Public CTA/anchor/menu repair | #932 |
+| Upload progress/cancel UX | #928 |
 | Startup/mobile authenticated verification | #927 |
-| Post-merge publication evidence | #910 |
-| Operational truth-state normalization | #914 |
-| Controlled transcription execution | #915 → `VV-TRANSCRIBE` |
 | Controlled diarization execution | #915 → `VV-DIARIZE` |
-| Persisted alignment verification | #915 → `VV-ALIGN` |
-| API contract release hardening | #915 → `VV-API-CONTRACT` |
+| Persisted speaker/audio/transcript alignment | #915 → `VV-ALIGN` |
+| API contract hardening | #915 → `VV-API-CONTRACT` |
 | Security/cost hardening | #915 → `VV-SECURITYCOST` |
-| Exact deployed/browser release verification | #915 → `VV-DEPLOYVERIFY` |
+| Exact deployed/browser verification | #915 → `VV-DEPLOYVERIFY` |
 | Final engineering MVP sign-off | #915 → `VV-LAUNCHGATE` |
-
-Backlog identifiers remain planning owners until #915 promotes them into dedicated execution issues. Promotion does not itself establish completion.
 
 ## Documentation freeze during the MVP sprint
 
-The existing canonical architecture is sufficient to execute the MVP sprint. Until engineering MVP sign-off:
+1. Do not create another planning document merely to restate the MVP.
+2. Add a new document only when an active release gate genuinely requires a new canonical record or intentionally replaces an explicitly retired owner.
+3. Put task scope/acceptance criteria in GitHub Issues, source changes in PRs, and executed evidence in `voxvector/audits/AUDIT_REPORT.md`.
+4. Update existing affected canonical records instead of creating `v2`, `new`, `final`, duplicate roadmaps, or competing checklists.
+5. Preserve dated historical evidence rather than rewriting it to match current runtime state.
 
-1. do not create another planning document merely to restate the MVP;
-2. add a new document only when an active release gate genuinely requires a new canonical record or when it intentionally replaces an explicitly retired owner;
-3. put task scope/acceptance criteria in GitHub Issues, source changes in PRs, and executed evidence in `voxvector/audits/AUDIT_REPORT.md`;
-4. update existing affected canonical records instead of creating `v2`, `new`, `final`, duplicate roadmaps, or competing checklists;
-5. defer non-blocking research expansion, visual experimentation, and new analysis-method work unless it is required to pass a listed MVP gate.
+## Verification boundary
 
-## Current observed alignment checkpoint — 2026-09-09
-
-At the start of this gate-alignment task:
-
-- GitHub `main`: `fbe317660e7b9238cd46ffff3a8101291bc85580`;
-- exact-main `VoxVector QA`: run `34305133803`, successful;
-- exact-main `Deploy GitHub Pages`: run `34305133777`, successful;
-- Render service: `voxvector-api` (`srv-da2f88n40ujc73a8m26g`), auto-deploy disabled;
-- latest observed Render deployment: `dep-dagcvau7bikc73aki9b0`, source `fbe317660e7b9238cd46ffff3a8101291bc85580`, status `live`, finished `2026-09-09T03:22:43.934801Z`.
-
-This checkpoint does **not** claim a fresh `/health` readback for that deployment, successful authenticated browser verification, successful controlled transcription/diarization execution, successful golden-case completion, or scientific validation. Those remain release gates above.
+Repository QA, build success, Render deployment, runtime health, provider execution, artifact durability, memory containment, browser verification, engineering-MVP completion, and scientific validation remain separate claims.

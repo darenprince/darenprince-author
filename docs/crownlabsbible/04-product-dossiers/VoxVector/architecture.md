@@ -1,6 +1,6 @@
 # VoxVector Architecture
 
-## Canonical Runtime Boundary
+## Canonical runtime boundary
 
 ```text
 Public React application
@@ -11,36 +11,45 @@ https://darenprince.com/voxvector/
           |                              |
           v                              v
 https://voxvector.crownlabs.tech   https://awsapi.crownlabs.tech
-Original Render API               AWS ALB + ECS API environment
-          |                              |
-          +--------------+---------------+
-                         v
-                VoxVector/api/app.py
-                         |
-                         v
-                VoxVector/src/voxvector/
-                         |
-                         v
-                21 stage VoxVector pipeline
-                         |
-                         v
-                Supabase persistence and diagnostics
+Original Render API               Separate AWS API environment
+          |
+          v
+VoxVector/api/app.py
+          |
+          v
+VoxVector/src/voxvector/
+          |
+          v
+21-stage canonical pipeline
+          |
+          v
+Supabase authentication / persistence / diagnostics / private media
 ```
 
-The FastAPI layer is the interface boundary.
+The repository implementation and `VoxVector/docs/` remain authoritative. This page mirrors the active architecture for Crown Labs documentation.
 
-The analysis engine remains canonical under `VoxVector/src/voxvector/`.
+## Current runtime evidence — 2026-09-10
 
-The public React application is maintained under `voxvector/` and is hosted separately from the backend.
+- canonical GitHub `main`: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
+- current Render deploy: `dep-dah7usjl550s73e00350`, `live`
+- deployed source: exact `f0dda136...`
+- Render auto-deploy: disabled
+- live Render build: `requirements.txt` + `requirements-speech.txt`
+- canonical root `render.yaml`: `requirements.txt` + `requirements-transcription.txt`
+- Blueprint/live-service drift: issue #964
 
-## Complete Product Pipeline
+One controlled 183.3-second production case completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words. The API later restarted during the post-provider/downstream transition after memory entered the constrained runtime danger zone. The owner confirmed the incident was a memory problem.
+
+Active #941 / draft PR #962 repairs the post-transcription reliability boundary. It does not change VoxVector's scientific methodology.
+
+## Complete product pipeline
 
 1. File Upload / Ingest
 2. File Decode and Normalization
 3. Provenance and Integrity
 4. Channel and Recording Assessment
-5. Speaker Identification / Diarization
-6. Speech Segmentation
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 7. Transcription Generation
 8. Transcript Alignment
 9. Eligibility and Reliability
@@ -57,87 +66,61 @@ The public React application is maintained under `voxvector/` and is hosted sepa
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
+The 05/06 order above matches the canonical backend stage contract. Historical dated records may retain the earlier numbering as historical evidence.
+
 **[Detailed 21-stage pipeline →](./analysis-pipeline.md)**
 
-## Product Experience Target
+## Post-transcription durability and memory boundary
 
-The product target is a connected case centered intelligence workspace containing:
+The constrained execution sequence is:
 
-- recording intake
-- source metadata
-- audio playback
-- synchronized waveform
-- speaker regions
-- transcript
-- analytical tracks
-- evidence markers
-- evidence timeline
-- pipeline state
-- evidence synthesis
-- assessment
-- reports
-- history
+`provider completion → provider cleanup → durable same-run upstream checkpoint → Stage 10 memory admission → downstream composite analysis`
 
-The supplied reference screens define the target interaction architecture.
+Completed transcript/alignment/provider output must be persisted before dependent heavyweight work is trusted to complete.
 
-## Current Analysis Foundation
+Stage 10 memory admission is an operational runtime guard. It is separate from Stage 09 Eligibility and Reliability and must not be interpreted as a scientific eligibility result.
 
-`VoxVectorPipeline.analyze()` provides reliability assessment and structured feature extraction across acoustic prosodic spectral formant temporal baseline interaction and supplied transcript observations.
+Current reference memory policy is 512 MiB with 96 MiB reserved headroom, yielding a 416 MiB admission ceiling.
 
-The broader product architecture adds production speaker processing transcription alignment richer linguistic analysis evidence synthesis calibrated classification validation reporting and final disposition.
+`process_instance_id` identifies the current Python process. `render_instance_id` preserves hosting-provider instance provenance separately because Render can restart Python while retaining the same infrastructure instance label.
 
-## Primary Implementation Boundary
+## Product experience target
 
-- `VoxVector/src/voxvector/` — canonical analysis engine
-- `VoxVector/api/app.py` — HTTP adapter
-- `VoxVector/tests/` — software QA
-- `VoxVector/docs/` — technical source of truth
-- `voxvector/` — public React application
+The product target remains a connected case-centered intelligence workspace containing recording intake, source metadata, audio playback, synchronized waveform, speaker regions, transcript, analytical tracks, evidence markers, pipeline state, evidence synthesis, assessment, reports, and history.
 
-Render uses `VoxVector` as the backend root and `api.app:app` as the entry point.
+Persisted source/transcript artifacts must remain available after later-stage failure. Reopened-case playback/transcript rehydration is tracked in #963 and consumes the existing case/source/run model rather than creating a duplicate persistence path.
 
-GitHub Pages hosts the React application under `/voxvector/`.
+## Provider boundary
 
-## AWS Endpoint
+Current production architecture uses:
 
-`https://awsapi.crownlabs.tech` is the dedicated AWS API environment. It terminates HTTPS at an Application Load Balancer and forwards HTTP traffic to the canonical VoxVector API container on ECS Fargate port 8000.
+- transcription: faster-whisper, constrained `base` / CPU / int8 / beam 1 path
+- diarization primary: pyannoteAI cloud via `pyannote_api`
+- diarization fallback: optional local Community-1 only when explicitly enabled
 
-`https://voxvector.crownlabs.tech` remains the original API domain and is not repointed by this AWS deployment.
+The cloud-primary diarization adapter does not require loading local Community-1/PyTorch merely to call the cloud provider. Current live Render dependency drift involving the broader speech requirements is therefore tracked separately in #964.
 
-## Developer Console
+Provider readiness is not provider execution. The controlled faster-whisper run is real provider-execution evidence, but end-to-end memory-safe analysis and durable transcript checkpointing still require #941 production verification after merge/deployment.
 
-The Developer Console is the engineering cockpit for the connected MVP path.
+## Developer Console and observability
 
-It exposes:
+The Developer Console remains the engineering cockpit over real backend/runtime evidence. Issue #959 / draft PR #961 separately owns dual Render + Supabase log durability, provider-worker correlation, bounded Render-log mirroring, and the server-generated Download Debug Bundle.
 
-- runtime health
-- API workbench
-- request inspection
-- lifecycle events
-- errors
-- methodology
-- documentation
-- MVP task board
-- task checkoffs
-- phase completion
-- endpoint and deployment-boundary traceability
+## Design properties
 
-### Live engineering status rail
-
-The canonical Developer navigation remains owned by `SiteHeader.jsx`. The single existing `DeveloperEngineeringStatus` instance is rendered immediately after that header in `DeveloperConsole.jsx`, not as a duplicate dashboard or nested header action.
-
-The collapsed engineering rail occupies a real 34px sticky layout row below the 56px navigation so it does not cover Developer Console content. Its independent X hides the rail and removes the row from layout. Expand/collapse controls open the existing status surface across the remaining viewport below the combined 90px boundary, with internal desktop/mobile scrolling.
-
-The expanded surface is a non-modal disclosure region using native controls and `aria-expanded` / `aria-controls`. Toast notifications are positioned at the bottom-right so they do not compete with the live status rail. This architecture preserves the separation between source, QA, deployment/runtime, provider readiness, provider execution, browser verification, and scientific validation.
-
-## Design Properties
-
+- one canonical analysis engine
+- one case/run model
+- one 21-stage dependency contract
 - bounded frame processing
-- deterministic extraction where practical
-- explicit data state handling
+- durable completed upstream artifacts
+- explicit operational memory admission
+- distinct process and hosting-instance provenance
 - immutable input fingerprinting
 - reproducible configuration
 - auditable evidence provenance
-- stage separated analytical architecture
-- synchronized audio and evidence time axis
+- synchronized audio/evidence time axis
 - preserved full capability roadmap
+
+## Scientific boundary
+
+Runtime memory containment, provider execution, artifact persistence, software QA, deployment, browser verification, engineering-MVP completion, and scientific validation are separate states. No individual vocal or behavioral feature is treated as proof of deception.
