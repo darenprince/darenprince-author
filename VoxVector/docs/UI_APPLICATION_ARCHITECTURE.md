@@ -68,6 +68,8 @@ All surfaces share the same case identity.
 
 `AuthGate.jsx` is the canonical browser authentication owner. It restores the Supabase session, handles email/password login, password reset and sign-out, resolves the trusted role from `app_metadata`, and prevents protected workspace content from rendering before session and role resolution.
 
+After a successful explicit email/password login, `AuthGate.jsx` starts one non-blocking API wake request through `voxvector/src/lib/api.js` before applying the returned session to trusted-role routing. The request targets the canonical `/health` endpoint with `cache: 'no-store'` and `keepalive: true`. Login does not wait for a Render cold start to complete, so the wake request is an attempt to start the API rather than evidence that the API is ready. Session restoration, token observation, and sign-out do not invoke this wake helper and are not used as hidden keep-alive traffic.
+
 Current role routing in source is:
 
 | Trusted role | Canonical destination | Protected behavior |
@@ -82,6 +84,14 @@ Current role routing in source is:
 The `/voxvector/app` route is the canonical minimum user destination while the user-facing analysis workflow is developed. It does not adopt or redirect to the legacy root `voxvector-dashboard.html`, and it does not manufacture analytical capability that the protected user application has not yet implemented.
 
 The public landing header exposes a visible Login action on desktop and mobile. The login page does not expose Google sign-in or account creation because those provider/policy flows have not been established and tested for VoxVector.
+
+### Self-profile editing
+
+VoxVector uses one canonical self-profile implementation for approved `admin`, `developer`, and `user` accounts rather than separate competing editors. `DeveloperProfileEditor.jsx` retains its historical component filename for source compatibility but is role-aware and exports the shared `useAccountProfile()` query owner. The existing `useDeveloperProfile` export remains as a compatibility alias for the Developer Console.
+
+The self-profile surface uses the existing `public.profiles` record and private `voxvector-avatars` Supabase Storage bucket. It supports display-name editing and avatar upload/change. Email, trusted role, and account ID are read-only. Successful display-name updates also synchronize the non-authorizing Supabase Auth `user_metadata` name fields for presentation consistency.
+
+The protected user workspace embeds this shared implementation as **User Profile**. The existing Developer Console profile route presents it as **Developer Profile** or **Admin Profile** according to the trusted role. The editor never writes trusted roles or permissions. Those remain server-controlled authorization data in `app_metadata`.
 
 ### Admin account management
 
@@ -367,6 +377,9 @@ It preserves:
 - upload progress
 - cancellable request handling
 - lifecycle event support
+- one-shot authenticated-login API wake behavior
+
+The login wake helper is intentionally non-blocking and uses the same API base configuration as other browser requests. It does not replace the Developer Console's real health/readiness observation and does not establish that Render completed startup.
 
 The admin Auth-management surface uses the Supabase client only to invoke the JWT-protected `voxvector-user-admin` Edge Function. The browser never invokes Supabase `auth.admin` directly and never receives a service-role key.
 
