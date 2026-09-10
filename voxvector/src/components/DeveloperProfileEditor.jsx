@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Camera, CheckCircle2, LogOut, Save, Upload, UserRound } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { supabase, supabaseConfigured } from '../lib/supabase'
+import { getVoxVectorRole, supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
 import CollapsiblePanel from './ui/CollapsiblePanel'
 import './DeveloperProfileEditor.css'
@@ -19,10 +19,10 @@ async function resolveAvatar(path) {
   return data?.signedUrl || ''
 }
 
-export function useDeveloperProfile(session) {
+export function useAccountProfile(session) {
   const userId = session?.user?.id || ''
   return useQuery({
-    queryKey: ['developer-profile', userId],
+    queryKey: ['account-profile', userId],
     enabled: Boolean(supabaseConfigured && userId),
     staleTime: 60_000,
     queryFn: async () => {
@@ -45,18 +45,23 @@ export function useDeveloperProfile(session) {
   })
 }
 
-export default function DeveloperProfileEditor({ session, profileQuery, signOut, notify }) {
+export const useDeveloperProfile = useAccountProfile
+
+export default function DeveloperProfileEditor({ session, profileQuery, signOut, notify, embedded = false }) {
   const queryClient = useQueryClient()
   const user = session?.user || {}
   const profile = profileQuery?.data || {}
   const metadata = user.user_metadata || {}
+  const trustedRole = getVoxVectorRole(user) || 'developer'
+  const profileKind = trustedRole === 'admin' ? 'Admin' : trustedRole === 'user' ? 'User' : 'Developer'
+  const profileKindLower = profileKind.toLowerCase()
   const [displayName, setDisplayName] = useState('')
 
   useEffect(() => {
     setDisplayName(profile.display_name || metadata.full_name || metadata.name || user.email?.split('@')[0] || '')
   }, [profile.display_name, metadata.full_name, metadata.name, user.email])
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['developer-profile', user.id] })
+  const refresh = () => queryClient.invalidateQueries({ queryKey: ['account-profile', user.id] })
 
   const saveProfile = useMutation({
     mutationFn: async () => {
@@ -78,9 +83,9 @@ export default function DeveloperProfileEditor({ session, profileQuery, signOut,
     },
     onSuccess: async () => {
       await refresh()
-      notify?.('success', 'Profile Updated', 'Your developer profile was saved.')
+      notify?.('success', 'Profile Updated', 'Your VoxVector profile was saved.')
     },
-    onError: error => notify?.('error', 'Profile Update Failed', error?.message || 'Unable to save the developer profile.'),
+    onError: error => notify?.('error', 'Profile Update Failed', error?.message || 'Unable to save the VoxVector profile.'),
   })
 
   const uploadAvatar = useMutation({
@@ -98,7 +103,7 @@ export default function DeveloperProfileEditor({ session, profileQuery, signOut,
       const { error: profileError } = await supabase.from('profiles').upsert({
         id: user.id,
         email: user.email || profile.email || null,
-        display_name: displayName.trim() || profile.display_name || metadata.full_name || metadata.name || user.email?.split('@')[0] || 'Developer',
+        display_name: displayName.trim() || profile.display_name || metadata.full_name || metadata.name || user.email?.split('@')[0] || profileKind,
         avatar_url: path,
         updated_at: new Date().toISOString(),
       })
@@ -110,22 +115,24 @@ export default function DeveloperProfileEditor({ session, profileQuery, signOut,
     },
     onSuccess: async () => {
       await refresh()
-      notify?.('success', 'Profile Photo Updated', 'Your new profile photo is now attached to your developer account.')
+      notify?.('success', 'Profile Photo Updated', 'Your new profile photo is now attached to your VoxVector account.')
     },
     onError: error => notify?.('error', 'Photo Upload Failed', error?.message || 'Unable to update the profile photo.'),
   })
 
-  const name = displayName || 'Developer'
-  const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase() || 'D'
+  const name = displayName || profileKind
+  const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase() || profileKind[0]
   const avatarUrl = profile.resolved_avatar_url || metadata.avatar_url || metadata.picture || ''
+  const mutationError = saveProfile.error || uploadAvatar.error
 
   return <div>
-    <div className="mb-5"><div className="vv-eyebrow">ACCOUNT</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">Developer Profile</h1></div>
-    <CollapsiblePanel title="Profile Details" icon={UserRound} meta={profileQuery?.isFetching ? 'Refreshing…' : 'Supabase profile'}>
-      {profileQuery?.isError && <div className="vv-status-row error mb-4"><span>{profileQuery.error?.message || 'Unable to load the developer profile.'}</span></div>}
+    {!embedded && <div className="mb-5"><div className="vv-eyebrow">ACCOUNT</div><h1 className="mt-1 text-2xl font-semibold tracking-tight">{profileKind} Profile</h1></div>}
+    <CollapsiblePanel title={embedded ? `${profileKind} Profile` : 'Profile Details'} icon={UserRound} meta={profileQuery?.isFetching ? 'Refreshing…' : 'Supabase profile'}>
+      {profileQuery?.isError && <div className="vv-status-row error mb-4"><span>{profileQuery.error?.message || 'Unable to load the VoxVector profile.'}</span></div>}
+      {mutationError && <div className="vv-status-row error mb-4" role="alert"><span>{mutationError?.message || 'Unable to update the VoxVector profile.'}</span></div>}
       <div className="vv-profile-editor">
         <div className="vv-profile-avatar-editor">
-          <div className="vv-profile-avatar-preview" aria-label="Current developer profile photo">
+          <div className="vv-profile-avatar-preview" aria-label={`Current ${profileKindLower} profile photo`}>
             {avatarUrl ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer"/> : <span>{initials}</span>}
           </div>
           <div className="min-w-0">
@@ -141,12 +148,13 @@ export default function DeveloperProfileEditor({ session, profileQuery, signOut,
         <div className="vv-profile-fields">
           <label><span>Display name</span><input className="vv-input" value={displayName} onChange={event => setDisplayName(event.target.value)} autoComplete="name"/></label>
           <label><span>Email</span><input className="vv-input" value={user.email || profile.email || ''} readOnly aria-readonly="true"/></label>
-          <label><span>Developer role</span><input className="vv-input" value={user.app_metadata?.voxvector_role || user.app_metadata?.role || 'developer'} readOnly aria-readonly="true"/></label>
+          <label><span>Role</span><input className="vv-input" value={trustedRole} readOnly aria-readonly="true"/></label>
           <label><span>Account ID</span><input className="vv-input vv-profile-id" value={user.id || ''} readOnly aria-readonly="true"/></label>
         </div>
         <div className="vv-profile-actions">
           <Button variant="accent" onClick={() => saveProfile.mutate()} disabled={saveProfile.isPending || !displayName.trim()}><Save size={15}/>{saveProfile.isPending ? 'Saving…' : 'Save Profile'}</Button>
-          {saveProfile.isSuccess && <span className="vv-profile-message"><CheckCircle2 size={14}/> Saved</span>}
+          {saveProfile.isSuccess && <span className="vv-profile-message"><CheckCircle2 size={14}/> Profile saved</span>}
+          {uploadAvatar.isSuccess && <span className="vv-profile-message"><CheckCircle2 size={14}/> Photo updated</span>}
           <Button variant="secondary" onClick={() => signOut()}><LogOut size={15}/> Sign out</Button>
         </div>
       </div>
