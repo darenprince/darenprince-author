@@ -2,21 +2,50 @@
 
 ## Current task status
 
-Prompt: **VV-RENDER-OPERATIONAL-STATUS-POSTMERGE**. Source base: `5cc50422125734a34e5fed04fc0e1f11317c7ade`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Completed implementation issue: [#954](https://github.com/darenprince/darenprince-author/issues/954). Merged implementation PR: [#956](https://github.com/darenprince/darenprince-author/pull/956). Documentation branch: `docs/voxvector-render-status-postmerge-sync`.
+Prompt: **VV-PIPELINE-POSTTRANSCRIPT-MEMORY-CHECKPOINT-FIX**. Source base: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Active implementation issue: [#941](https://github.com/darenprince/darenprince-author/issues/941). Draft implementation PR: [#962](https://github.com/darenprince/darenprince-author/pull/962). Branch: `fix/voxvector-post-transcription-memory-cleanup`.
 
-This task synchronizes the completed Render operational-state UI evidence after PR #956 merged and GitHub Pages published the frontend. It changes documentation/audit state only; it does not change application code, provider configuration, schema, Render deployment policy, credentials, or scientific methodology.
+This task repairs one backend analysis/runtime reliability subsystem after a controlled production run proved beam-1 faster-whisper execution but then encountered confirmed post-transcription memory exhaustion. It preserves the existing canonical case-analysis pipeline and CaseStore. It does not change scientific methodology, classification thresholds, frontend design, authentication, logging-sink architecture, Render deployment policy, or create a duplicate analysis engine.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Re-read canonical charter/workflow/guardrails and exact current repository state | Complete | current `main` `5cc50422125734a34e5fed04fc0e1f11317c7ade` |
-| Verify final PR #956 evidence | Complete | final head `bf1a667706a1dcb781583c54341d6e38346fd950`; QA #1996 / `34429777387`, Preview #828 / `34429777388`, CodeQL #82 / `34429773922` succeeded |
-| Verify post-merge exact-main CI/publication | Complete | QA #1997 / `34429952347`, Pages #1710 / `34429952384`, CodeQL #83 / `34429952114` succeeded; Pages build and deploy jobs succeeded |
-| Preserve backend deployment boundary | Complete | Render remains separately observed on `c21b4cf...`; #956 is frontend-only and did not redeploy Render |
-| Synchronize #954, tracker #915, current engineering docs and Crown mirror | In progress | source/CI/publication status moved from active to done; #930 becomes the next P0 runtime task |
-| Authenticated desktop/mobile Developer Console browser verification | Unresolved | protected surface was not exercised with an authenticated browser session; Pages publication is not browser verification |
-| Runtime/provider/scientific verification | No new execution | no fresh complete `/health`, provider run, engineering-MVP proof or scientific validation is inferred |
+| Re-read canonical charter/workflow/guardrails and current repository state | Complete | `main` remains `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` |
+| Preserve controlled production evidence | Complete | beam-1 faster-whisper completed 58 segments / 246 words before the post-provider memory failure; no transcript-truth or scientific claim |
+| Remove cleanup-time Torch import side effect | Implemented on PR #962 | `collect_after_heavy_phase()` uses already-loaded `torch` only; focused regression coverage added |
+| Persist completed upstream provider evidence before Stage 10 | Implemented on PR #962 | acquisition/transcript/alignment/provider timing/stage state checkpointed to the same stable case run |
+| Add Stage 10 process-memory admission | Implemented on PR #962 | admission occurs before Stage 10 is represented as running; rejection preserves upstream evidence and terminalizes dependent work |
+| Separate Python process identity from Render instance identity | Implemented on PR #962 | fresh process UUID plus separate `render_instance_id`; `/health` contract and tests updated |
+| Preserve stable case-run identity through finalization | Implemented on PR #962 | case `run_id` remains canonical; pipeline-internal run identity is separate provenance |
+| Synchronize affected canonical and Crown documentation | Complete at current source checkpoint | current stage order, runtime evidence, memory boundary, deployment drift and verification boundaries aligned; frontend static stage drift isolated in #965 |
+| Pre-audit merge-candidate QA | Complete | QA `34481815208` success: 206 Python tests, 13 frontend tests, Vite build; synthetic merge `12df336...` had same Git tree as branch head `bfd1d92...`; Preview `34481815297` exact-head success |
+| Running audit update | Complete in this commit | this Task 25 preserves source, QA, runtime and unresolved boundaries |
+| Final-head QA after audit update | Required | audit/QA-status commits advance branch; fresh final workflow and tree-equivalence readback required before merge recommendation |
+| Intermediate checkpoint aggregate-count consistency | Unresolved review item | checkpoint/rejection writes update detailed `stages`, but current readback does not recompute `pipeline_build` aggregate counts until finalization; must be resolved or explicitly accepted before #941 closure |
+| Merge / Render deployment / controlled rerun | Not performed | PR remains draft; no #962 source is represented as deployed |
+| Browser / engineering-MVP / scientific validation | Not claimed | separate downstream evidence gates remain open |
 
 ## Task log
+
+### Task 25: contain post-transcription memory and durably checkpoint completed speech evidence, 2026-09-10
+
+Issue #941 / draft PR #962 was continued from current GitHub state rather than conversational memory. Canonical `main` remains `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Connected Render evidence separately shows deployment `dep-dah7usjl550s73e00350` live on that exact source with production auto-deploy disabled. The live service currently installs `api/requirements-speech.txt`, while canonical root `render.yaml` specifies `api/requirements-transcription.txt`; that infrastructure drift remains isolated in #964 and no duplicate Blueprint was introduced.
+
+The controlling production incident is case `3515362e-f801-463d-961a-df7b3302a596`, source `cbdcdbf8-e528-49b0-a474-5cd64588d301`, request `32fdb25aee704ee4ad0a0615e2496e09`, using a 183.3-second / 17,596,936-byte WAV. Source upload/private persistence succeeded. Speech Segmentation completed with 26 segments. faster-whisper executed the constrained `base`, CPU/int8, beam-1, one-thread, one-worker, isolated-child profile with a 165-second child deadline and completed in about 113 seconds with 58 timestamped transcript segments and 246 timestamped words. That is actual provider-execution evidence for this controlled run.
+
+The same run then exposed the downstream reliability defect. API-parent RSS was about 134.75 MiB before post-provider cleanup and about 482.58 MiB afterward. VoxVector's configured downstream admission ceiling was 416 MiB on the 512 MiB reference. Stage 10 Acoustic Feature Extraction nevertheless started. Render sampled 519,041,020 bytes against a 536,870,900-byte service memory limit in the incident window and the API process restarted shortly afterward. The owner confirmed the failure was a memory problem. Render did not emit a dedicated kernel OOM/SIGKILL record, so the exact OS termination mechanism is not separately claimed.
+
+Source inspection identified the directly related defects owned by this branch: cleanup imported PyTorch solely to inspect/clear CUDA on a CPU transcription path; Stage 10 lacked an admission check before being represented as running; successful acquisition/transcript/alignment/provider data was not durably attached before downstream analysis; and `process_instance_id` reused Render infrastructure identity, weakening interruption detection when Uvicorn/Python restarted inside the same Render instance.
+
+PR #962 repairs those boundaries in the existing canonical implementation. `VoxVector/src/voxvector/runtime_memory.py` no longer imports Torch during cleanup and uses CUDA cleanup only when another runtime path already loaded the module. `VoxVector/api/app.py` now gives each Python process a fresh UUID while preserving `render_instance_id` separately, exposes safe process/memory fields in `/health`, checkpoints completed acquisition/transcript/alignment/provider state to the same case run before downstream work, emits only sanitized checkpoint counts/state to diagnostics, and calls the canonical memory-admission owner before marking Stage 10 running. Admission rejection records Stage 10 as failed and dependent downstream work as `not_run` while preserving completed upstream evidence. The route keeps the stable case `run_id`; any internal pipeline run identifier is retained separately.
+
+Focused regression coverage was added in `VoxVector/tests/test_runtime_memory.py`, `VoxVector/tests/test_case_transcript_integration.py`, and `VoxVector/tests/test_health_contract.py`. Review of the current source confirmed the intended behavior and also identified one remaining consistency concern: intermediate checkpoint/rejection persistence updates the detailed `stages` array but does not recompute the `pipeline_build` aggregate counts until normal finalization. If the process is lost after the checkpoint, detailed stage evidence remains durable but the aggregate summary can remain stale. That is not represented as resolved by the current tests and must be fixed or explicitly accepted before #941 is closed.
+
+Affected active documentation and Crown mirrors were synchronized without rewriting historical dated records. Canonical stage order is now consistently Stage 05 Speech Segmentation, Stage 06 Speaker Identification / Diarization, Stage 07 Transcription Generation, Stage 08 Transcript Alignment. The existing frontend `PipelineBuildCard.jsx` still contains the older 05/06 static order and stale mutable status language; this was deliberately not mixed into the backend reliability branch. Issue #965 now owns that frontend contract synchronization through the existing component.
+
+Pre-audit branch head `bfd1d92bf488255a5dd403a7f701790b3134be74` passed VoxVector QA run `34481815208`. The workflow's backend `pytest -q` reported **206 passed in 1.50s**; frontend contract tests reported **13 passed, 0 failed**; the Vite production build succeeded in **1.58s**. GitHub's QA workflow checked out synthetic PR merge commit `12df336c2fd056479e2eb4768a6d23354e829955`, not the literal branch SHA. The synthetic merge and branch head resolve to the same Git tree `3ca746b25e4c2b338310701dee4d4aae647b74ad`, with the branch 30 commits ahead and zero behind `main`, so this is content-tree-equivalent merge-candidate QA rather than a claim of literal branch-SHA backend execution. PR Preview Build `34481815297` succeeded and its workflow explicitly checks out `github.event.pull_request.head.sha`, establishing exact-head frontend preview evidence for `bfd1d92...`.
+
+`VoxVector/docs/QA_STATUS.md` was then updated to record that QA evidence and this running audit was updated afterward. Those documentation commits advance the branch beyond `bfd1d92...`; therefore fresh final-head workflow evidence and a renewed Git-tree comparison are required before any merge recommendation. No #962 merge, Render deployment, fresh post-#962 `/health`, same-WAV production rerun, authenticated browser verification, engineering-MVP completion, or scientific validation is claimed by this task checkpoint.
+
+Related work remains separate: #959 / PR #961 owns dual Render + Supabase logs, parent correlation, Render-log mirroring and the one-click Debug Bundle; #963 owns persisted old-case playback/transcript rehydration; #964 owns reconciliation of live Render configuration into the existing root Blueprint; #965 owns frontend pipeline-status synchronization; #930, #920, #948 and #949 retain their independent reliability/lifecycle scopes.
 
 ### Task 24: close Render operational-state UI source and publication evidence, 2026-09-10
 
@@ -279,7 +308,7 @@ Created `Engineering_Audits/VV-GROUNDTRUTH-2026-09-08.md` with every Prompt 1 ma
 
 Corrected active documentation where evidence was unambiguous: frontend version 0.2.37, current QA and publication boundaries, Python 3.11 workflow clarification, Render transcription dependency installation, implemented backend authorization, 16/4/1 stage counts, cloud-primary versus local-fallback diarization, Recharts/navigation ownership, public application versus API URLs, and Actions-based Bible publication. Dated audit evidence was preserved and clarified rather than rewritten as if newly observed.
 
-No application code, workflow, schema, service configuration, secret, model job, deployment, or private media was changed. Verification of these documentation edits follows in the next task.
+No application code, workflow, schema, service configuration, secret, model job, deployment, or private media was changed. Verification of these documentation edits follows as a separate task.
 
 ### Task 8: complete the inventoried documentation review, 2026-09-08
 
