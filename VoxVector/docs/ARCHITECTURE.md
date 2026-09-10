@@ -8,23 +8,32 @@ The architecture connects recording intake, speech segmentation, speaker process
 
 ## Latest observed implementation checkpoint — 2026-09-10
 
-Current repository and production evidence must remain separate:
+Current repository and production evidence remain separate:
 
-- canonical GitHub `main` observed for the latest follow-up rebase: `8bf2e3c0a97025ea7f25f6b10bc4cbad9bfa8b1e`
+- canonical GitHub `main`: `420536771875c6948be51851118b58cb04a596e6`
 - backend source release: `0.2.27`
 - frontend source release: `0.2.37`
+- exact-main VoxVector QA: run `34532394431`, success
+- exact-main GitHub Pages publication workflow: run `34532394423`, success
 - Render service: `voxvector-api`
-- last documented Render deployment for the controlled memory incident: `dep-dah7usjl550s73e00350`, `live`
-- that deployed source: exact `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
+- current Render deployment: `dep-dahi2ics728c73b6ujug`, `live`
+- current deployed source: exact `420536771875c6948be51851118b58cb04a596e6`
+- current deploy trigger: `api`
+- current deployment finished: `2026-09-10T21:36:23.3655Z`
 - Render production auto-deploy: disabled
-- live Render build command at that evidence point: `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
-- canonical root `render.yaml` build command at that evidence point: `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
+- live Render build command: `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+- canonical root `render.yaml` build command: `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
+- owner-provided Render export observed at `2026-09-10T21:38:48Z`, matching service/repository/root/build/start/health/domain/auto-deploy fields while redacting environment values
 
-The Render-vs-Git dependency drift is tracked separately in issue #964 and is not resolved by the runtime-memory work.
+The Render-vs-Git dependency/configuration drift is tracked in issue #964 and must be resolved before final controlled repeatability evidence is accepted. Root `render.yaml` also declares `CORS_ORIGINS` as server-managed while the owner export does not list it; backend source defaults to `*` when the variable is absent. That difference is evidence for #964 review, not permission to infer a runtime value.
 
-Controlled production execution on `f0dda136...` established that faster-whisper can complete the constrained `base` / CPU / int8 / beam 1 / one-thread / one-worker / isolated-process path on the 183.3-second reference WAV. The run produced 58 transcript segments and 246 timestamped words in about 113 seconds. The API process later restarted during the post-provider/downstream transition after parent RSS rose into the constrained service danger zone. The owner confirmed the incident was a memory problem.
+No fresh `/health` response for exact deployed source `420536...` is recorded by the current synchronization pass. Render `live` establishes deployment state only.
 
-PR #962 merged the first #941 containment repair: cleanup no longer imports PyTorch merely to clean up, completed provider artifacts are checkpointed before downstream work, Stage 10 performs a route-level memory preflight, and Python process identity remains distinct from Render infrastructure instance identity. A post-merge exact-head Codex review then identified two remaining source defects: the Stage 10 preflight was not held as a shared reservation for the full composite analysis, and the result envelope could prefer the pipeline-internal UUID over the stable persisted case-run ID. Follow-up branch `fix/voxvector-stage10-admission-envelope` addresses those two findings before #941 production rerun evidence is accepted.
+Historical controlled production execution on older source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` established that faster-whisper can complete the constrained `base` / CPU / int8 / beam 1 / one-thread / one-worker / isolated-process path on the 183.3-second reference WAV. The run produced 58 transcript segments and 246 timestamped words in about 113 seconds, then entered the confirmed post-provider memory failure path.
+
+PR #962 merged the first #941 containment repair. PR #967 then merged the reviewed Stage 10 serialization/run-identity follow-up as current `main` `420536...`. The source now provides durable pre-Stage-10 provider checkpointing, bounded memory admission, fail-fast process-wide single-flight composite analysis with locked RSS recheck, separate process-vs-Render instance identity, and stable route-owned `run_id` with pipeline UUID retained separately as `pipeline_run_id`.
+
+Issue #941 has been reopened because controlled production proof of those merged behaviors is still required. #964 should establish the runtime configuration first so the accepted proof is collected against the runtime profile intended to proceed into provider/golden verification.
 
 Provider configuration, provider execution, artifact persistence, resource stability, software QA, deployment state, browser verification, engineering-MVP completion, and scientific validation remain separate evidence classes.
 
@@ -134,17 +143,19 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 
 The stage numbering above matches the canonical backend `PIPELINE_STAGE_DEFINITIONS`. Historical documents that predate the dependency-order repair may retain the former 05/06 order as dated evidence and must not be rewritten merely to look current.
 
+Current `voxvector/src/components/PipelineBuildCard.jsx` still has stale local 05/06 ordering and queued 07/08 presentation on `main`; issue #965 owns the existing-component correction. Backend contract/runtime state must remain authoritative rather than creating a second frontend pipeline definition.
+
 ## Current stage maturity
 
 The current source contract continues to represent 21 stages with 16 implemented or built analytical/runtime foundations, four conditional or intentionally not-invoked stages, and the cloud-primary speaker path still requiring controlled execution evidence.
 
-Stage 07 has completed real faster-whisper execution in one controlled production run. That is provider-execution evidence, not proof of full analysis reliability, transcript correctness, or scientific validation. PR #962 merged the same-run upstream acquisition checkpoint before downstream work, but that source has not yet completed the required deliberate deployment and controlled production rerun. The follow-up Stage 10 serialization and envelope-identity repair must pass review and exact-head QA before that rerun is meaningful.
+Stage 07 has historical real faster-whisper execution evidence from the controlled `f0dda136...` run. That is provider-execution evidence, not proof of current `420536...` end-to-end reliability, transcript correctness, or scientific validation. Merged #962/#967 now provide the intended same-run checkpoint and bounded Stage 10 path, but reopened #941 still requires controlled production proof.
 
 ## Evidence acquisition runtime
 
 The canonical acquisition layer provides a normalized media profile, speech/silence timeline, provider-neutral transcript and diarization contracts, provider selection, timestamp overlap alignment, and multimodal timeline output.
 
-Canonical constrained Render source profile:
+Canonical constrained source profile:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
@@ -162,15 +173,17 @@ PYANNOTE_KEY=<protected deployment secret>
 VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
 
-The source profile is not a deployment claim. The documented Render production evidence on `f0dda136...` shows the intended beam-1 transcription profile actually executed and completed. The unresolved production question is the corrected post-provider/downstream memory boundary on a deliberately deployed revision.
+This source profile is not a fresh current deployment-health claim. Historical `f0dda136...` execution proved the beam-1 transcription path could execute. Current production proof after the merged safety changes remains #941 after #964 reconciliation.
 
-The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. The route execution gate and provider/fallback readiness are separate states. Runtime health reports configuration/readiness without exposing credentials.
+The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. Provider selection, route invocation gate, provider readiness, fallback readiness and actual execution remain separate states.
+
+Issue #970 additionally owns rechecking the current pyannoteAI cloud media-upload/job contract before real provider execution. A source/provider contract finding is not a claimed live failure until executed evidence establishes one.
 
 ## Memory-safe phase boundary
 
 Heavyweight provider execution and downstream analysis are separate resource phases.
 
-The intended constrained sequence is:
+The current intended sequence is:
 
 ```text
 source decode / integrity
@@ -192,9 +205,9 @@ downstream composite analysis while lock remains held
 
 A successful transcription must be persisted before downstream analysis is trusted to finish. If the API cannot safely admit downstream composite work under the configured memory reserve, the run must preserve completed upstream provider evidence and persist an explicit bounded downstream failure rather than knowingly entering the danger zone.
 
-The follow-up repair applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: when the shared heavyweight lock is already owned, the competing composite call fails before entering the analytical body instead of waiting in a worker-thread queue that could outlive the route timeout. An admitted call rechecks memory headroom under that lock and keeps the lock for the complete composite execution. Existing provider `measured_phase(...)` behavior is otherwise unchanged. The route-level Stage 10 check remains a preflight and is not itself treated as the full reservation.
+The merged #967 implementation applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: when the shared heavyweight lock is already owned, a competing composite call fails before entering the analytical body instead of waiting in a worker-thread queue that could outlive the route timeout. An admitted call rechecks memory headroom under that lock and keeps the lock for complete composite execution. Existing provider `measured_phase(...)` behavior is otherwise unchanged.
 
-`process_instance_id` identifies the current Python API process and must change on process restart. `render_instance_id` identifies Render infrastructure and is preserved separately because Render may restart the Python process while retaining the same infrastructure instance label.
+`process_instance_id` identifies the current Python API process and must change on process restart. `render_instance_id` identifies Render infrastructure and is preserved separately because Render may restart Python while retaining the same infrastructure instance label.
 
 ## Case-centered data architecture
 
@@ -202,7 +215,7 @@ One analysis case is the root object for the complete user workflow.
 
 The case model connects case ID, analysis ID, analysis run ID, source asset, source metadata, provenance, recording metadata, speaker records, speaker segments, speech segments, transcript records, transcript segments, transcript words, alignment records, analytical track records, feature observations, evidence records, evidence relationships, pipeline stage states, lifecycle events, findings, assessment, reports, and final disposition.
 
-The same persisted case run is also the durability owner for upstream acquisition checkpoints, provider timing/state, process identity, Render-instance provenance, terminal run/failure reports, and downstream failure state. The result envelope must expose that stable persisted identifier as `run_id`. The internal analytical UUID remains separately available as `pipeline_run_id` and must not replace case-run identity.
+The same persisted case run is also the durability owner for upstream acquisition checkpoints, provider timing/state, process identity, Render-instance provenance, terminal run/failure reports, and downstream failure state. The result envelope exposes that stable persisted identifier as `run_id`. The internal analytical UUID remains separately available as `pipeline_run_id` and must not replace case-run identity.
 
 ## Analysis Workspace
 
@@ -210,7 +223,7 @@ The persistent workspace combines source metadata, audio playback, waveform, spe
 
 A shared time axis remains the synchronization contract across audio, speaker, transcript, analytical observations, and evidence.
 
-Reopened-case media/transcript rehydration is tracked in #963. That frontend task consumes the canonical persisted source and upstream transcript checkpoint; it does not create another persistence model.
+Reopened-case media/transcript/artifact rehydration is tracked in #963. That frontend task consumes canonical persisted source/run state; it does not create another persistence model.
 
 ## Synchronized analytical viewer
 
@@ -239,38 +252,48 @@ Candidate classification remains distinct from evidence collection, and final di
 
 The API includes request correlation and sanitized lifecycle/stage diagnostics with durable storage support. The Developer Console consumes operational evidence rather than inventing telemetry.
 
-Issue #959 separately owns dual Render + Supabase log durability, provider-worker correlation, mirrored Render evidence, and the server-generated Debug Bundle. Those observability changes remain separate from #941's runtime-memory and run-identity boundary.
+PRs #961/#966/#968 are merged and current source includes dual Render/Supabase evidence foundations plus the server-generated Debug Bundle. Issue #959 now owns controlled production acceptance: real correlated Render/Supabase copies, real bundle contents/redaction, terminal Render snapshot behavior and browser readback.
+
+## Authentication and account boundary
+
+Current `main` authentication remains owned by `voxvector/src/components/AuthGate.jsx`. Readback on `420536...` confirms successful password login still does not start the requested one-shot API wake.
+
+Draft PR #974 under #931 contains the candidate login-wake repair and generalizes the existing `DeveloperProfileEditor.jsx` into one role-aware self-profile implementation used by developer, admin and user surfaces. It reuses `public.profiles`, existing Auth presentation metadata and the private avatar bucket; email, trusted role and account ID remain read-only. Admin-only User Management stays a separate privileged boundary.
+
+PR #974 is not merged/current/deployed behavior. Its prior QA predates the #967 advance of `main`, so current-main integration QA and browser acceptance are still required.
 
 ## Render Blueprint boundary
 
-Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. The last documented live Render service differed from that file in at least the speech dependency build command. Issue #964 owns reconciliation of the Render-generated export and live service into the existing root Blueprint. Do not upload or commit a second Blueprint for `voxvector-api`.
+Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`.
+
+The current connected Render service and owner-provided export use `requirements-speech.txt`; the root Blueprint uses `requirements-transcription.txt`. The owner export redacts environment values and therefore cannot be used to infer them. `CORS_ORIGINS` exists in the root Blueprint but is absent from the export and must be deliberately reconciled because backend source defaults to `*` when unset.
+
+Issue #964 owns field-by-field reconciliation into the existing root file. Do not upload or commit a second Blueprint for `voxvector-api`.
 
 ## Current engineering sequence
 
 ```text
-finish #941 follow-up source repair
+#964 reconcile sole Render Blueprint/runtime profile
         ↓
-exact-head QA + review
+deliberate deployment + fresh /health readback
         ↓
-deliberate Render deployment
+reopened #941 controlled same-WAV proof
         ↓
-fresh /health process + memory readback
+#970 cloud-primary diarization execution + persistence
         ↓
-same-WAV controlled rerun
-        ↓
-verify transcript checkpoint + serialized Stage 10 bounded behavior
-        ↓
-cloud-primary diarization execution
-        ↓
-persist transcript + speaker alignment
+#971 persisted transcript/audio/speaker alignment
         ↓
 #963 historical-case rehydration
         ↓
-Review Evidence / assessment / reporting
+#930 intake reliability + #959 observability acceptance
         ↓
-browser/mobile verification
+#965 truthful frontend pipeline projection
         ↓
-engineering-MVP repeatability proof
+#931 / PR #974 current-main integration + auth/profile browser acceptance
+        ↓
+#932 release-critical CTA/anchor/navigation repair
+        ↓
+#972 frozen candidate + two same-revision/configuration golden cases
         ↓
 scientific validation program
 ```
@@ -291,7 +314,7 @@ scientific validation program
 - stable case-run identity is distinct from pipeline-internal run identity
 - Python process identity is separate from hosting-provider instance identity
 - implementation maturity remains an internal engineering property
-- provider readiness, execution, software QA, deployment, browser verification, and scientific validation remain separate states
+- provider readiness, execution, software QA, deployment, runtime readback, browser verification, and scientific validation remain separate states
 - planned capabilities remain preserved in canonical documentation
 - accessibility and responsive behavior remain part of completion
 

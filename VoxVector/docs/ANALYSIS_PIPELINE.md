@@ -36,6 +36,14 @@ It is also the source model for the Analysis Workspace pipeline component and th
 
 The 05/06 order above is the current canonical backend order. Historical dated records may retain the prior diarization-before-segmentation numbering as historical evidence and must not be rewritten solely to look current.
 
+## Current source/runtime checkpoint — 2026-09-10
+
+Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Current Render deployment `dep-dahi2ics728c73b6ujug` is `live` on that exact source. No fresh `/health` response for `420536...` is recorded by the current synchronization pass.
+
+Merged PR #962 established durable pre-Stage-10 provider checkpointing, Stage 10 process-memory admission, process-vs-Render-instance identity separation, and stable case-run ownership. Merged PR #967 added fail-fast process-wide single-flight admission around the complete downstream composite analysis, a locked RSS recheck, lock ownership through composite execution, and explicit separation of route-owned `run_id` from pipeline-internal `pipeline_run_id`.
+
+Issue #941 is reopened because controlled production verification of those merged behaviors remains open. #964 should first reconcile the live Render dependency/configuration profile into the sole root Blueprint so the accepted controlled proof uses the runtime configuration intended for the candidate.
+
 ## Pipeline groupings
 
 ### Prepare
@@ -82,17 +90,19 @@ Each speech segment contains the timing and method provenance needed for downstr
 
 The stage also exposes aggregate speech-region information used by the case pipeline. It does not assign speaker identity and does not generate transcript text.
 
-The controlled 2026-09-10 production case completed Stage 05 with 26 speech segments before faster-whisper execution.
+A historical controlled 2026-09-10 production case on `f0dda136...` completed Stage 05 with 26 speech segments before faster-whisper execution.
 
 ## Stages 06 through 08 — Provider-backed speech evidence
 
 Stage 06 invokes speaker diarization only when the configured provider is execution-ready and the case route gate permits invocation. The current primary production architecture is pyannoteAI cloud via `pyannote_api`; local Community-1 is an optional explicit fallback.
 
-Stage 07 invokes faster-whisper when transcription is execution-ready. The constrained Render profile is `base`, CPU, int8, beam 1, one CPU thread, one worker, isolated child process, with a 165-second child deadline.
+Stage 07 invokes faster-whisper when transcription is execution-ready. The constrained source profile is `base`, CPU, int8, beam 1, one CPU thread, one worker, isolated child process, with a 165-second child deadline.
 
 Stage 08 builds the timestamped transcript/audio timeline and includes speaker attribution when compatible diarization turns exist.
 
-Controlled production execution on deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed faster-whisper with 58 transcript segments and 246 timestamped words in about 113 seconds. The later API restart occurred after provider completion during the post-provider/downstream transition. That provider execution is real software evidence, but the completed transcript artifact was not yet durably checkpointed before Stage 10 on that deployed revision.
+Historical controlled production execution on deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed faster-whisper with 58 transcript segments and 246 timestamped words in about 113 seconds. The later API restart occurred after provider completion during the post-provider/downstream transition. That provider execution is real software evidence, but the completed transcript artifact was not yet durably checkpointed before Stage 10 on that historical deployed revision.
+
+Current source now implements that durability checkpoint. Reopened #941 must prove its current production execution after #964 runtime reconciliation.
 
 ## Upstream checkpoint before downstream analysis
 
@@ -113,29 +123,34 @@ Operational diagnostics emitted for this checkpoint contain state/count metadata
 
 The checkpoint exists so successfully completed speech work survives a later downstream failure or process restart. It is a durability boundary, not a second pipeline or second run.
 
-## Stage 10 runtime memory admission
+## Stage 10 runtime memory admission and serialization
 
-Stage 10 remains the canonical Acoustic Feature Extraction stage. Before it is represented as running in the constrained Render path, the API must check current process RSS against the configured operational admission threshold.
+Stage 10 remains the canonical Acoustic Feature Extraction stage. Before it is represented as running in the constrained Render path, the API checks current process RSS against the configured operational admission threshold.
 
-Current reference configuration:
+Current source reference configuration:
 
 - `VOXVECTOR_MEMORY_LIMIT_MB=512`
 - `VOXVECTOR_MEMORY_HEADROOM_MB=96`
-- effective admission ceiling: 416 MiB
+- reference admission ceiling: 416 MiB
 
 If measured process RSS is already at or above the admission ceiling, Stage 10 is not started. The run records an explicit downstream memory-admission failure while preserving completed upstream speech evidence. This operational gate is separate from Stage 09 Eligibility and Reliability and must never be represented as a scientific eligibility result.
 
-The 2026-09-10 controlled failure demonstrated why this boundary is required: faster-whisper completed, API-parent RSS later rose into the constrained service danger zone, Stage 10 started anyway on the deployed source, and the API process restarted shortly afterward. The owner confirmed the incident was a memory problem.
+The complete canonical downstream composite analysis also uses the process-wide heavyweight phase guard. Admission is fail-fast: if another composite call owns the heavyweight phase, a competing call fails before entering the analytical body rather than waiting in a worker-thread queue that can outlive the request. An admitted call rechecks RSS while holding the shared lock and retains that lock through complete composite execution.
+
+The historical 2026-09-10 failure demonstrated why this boundary is required: faster-whisper completed, API-parent RSS later rose into the constrained service danger zone, Stage 10 started anyway on the old deployed source, and the API process restarted shortly afterward. The owner confirmed the incident was a memory problem.
+
+The fail-fast serialization and locked RSS recheck are merged source behavior; controlled production acceptance remains #941.
 
 ## Connected case model
 
-Every stage attaches to the same analysis case and stable case run.
+Every stage attaches to the same analysis case and stable route-owned case run.
 
-The stage contract must preserve:
+The stage contract preserves:
 
 - case ID
 - analysis ID
 - run ID
+- pipeline run ID when available
 - source asset ID
 - stage ID
 - stage state
@@ -152,7 +167,7 @@ The stage contract must preserve:
 - process instance ID
 - hosting-provider instance provenance when available
 
-A pipeline-internal execution ID may be preserved separately, but it must not replace the persistent case run identity during finalization.
+The pipeline-internal execution ID is preserved separately as `pipeline_run_id`; it must not replace the persistent route-owned `run_id` during finalization.
 
 ## Analysis Workspace mapping
 
@@ -175,7 +190,7 @@ Each stage can expose:
 
 The pipeline is expandable so a user can move from the high-level workflow into the underlying analytical stage.
 
-The frontend must consume the backend stage contract rather than maintaining a contradictory stage order or maturity claim. Any static frontend pipeline metadata that differs from the canonical backend order is a synchronization defect and must be repaired through its canonical frontend owner, not by adding a second pipeline implementation.
+The frontend must consume the backend stage contract rather than maintaining a contradictory stage order or maturity claim. Current `voxvector/src/components/PipelineBuildCard.jsx` still has stale local Stage 05/06 ordering and queued Stage 07/08 fallback text; issue #965 owns repair in that existing canonical frontend owner.
 
 ## Synchronized audio analysis surface
 
@@ -332,7 +347,9 @@ The frontend must never simulate a stage merely because the product architecture
 - Progress values come from real stage data or explicit indeterminate state.
 - Animation never stands in for analytical execution.
 - Completed provider artifacts are persisted before dependent heavyweight downstream work begins.
+- Stage 10 composite analysis uses fail-fast process-wide single-flight admission and a locked RSS recheck through execution.
 - Runtime memory admission is operational safety, not scientific eligibility.
+- Stable route-owned case-run identity remains separate from pipeline-internal run identity.
 - One case identity connects intake, playback, analysis, evidence, assessment, and reporting.
 - New analytical methods must map to a pipeline stage and a method registry entry.
 
@@ -340,23 +357,21 @@ The frontend must never simulate a stage merely because the product architecture
 
 The fastest connected implementation path follows the pipeline dependency order:
 
-1. case identity
-2. upload and ingest
-3. decode and provenance
-4. playback and waveform
-5. pipeline lifecycle
-6. speech segmentation
-7. provider-backed speaker/transcription evidence
-8. durable upstream checkpoint
-9. transcript/audio/speaker alignment
-10. bounded downstream analytical execution
-11. real analytical tracks
-12. evidence records
-13. evidence synthesis
-14. assessment
-15. report
-16. history and reopen
-17. browser end-to-end verification
+1. Render/runtime configuration reproducibility under #964
+2. persisted case identity and source
+3. speech segmentation and provider-backed transcription
+4. durable same-run provider checkpoint plus Stage 10 bounded production proof under #941
+5. cloud-primary speaker execution under #970
+6. transcript/audio/speaker alignment under #971
+7. historical-case rehydration under #963
+8. intake/observability acceptance under #930/#959
+9. truthful frontend pipeline projection under #965
+10. authenticated login/profile/browser acceptance under #931/PR #974
+11. release-critical public navigation under #932
+12. real analytical tracks and evidence records
+13. evidence synthesis and assessment/report
+14. frozen-candidate two-run golden verification under #972
+15. scientific validation separately
 
 ## Related architecture
 

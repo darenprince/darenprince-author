@@ -8,13 +8,45 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 ## Current source and deployment state
 
-Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`, the merge of PR #960 that corrected the constrained faster-whisper source profile to beam 1.
+Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967's Stage 10 bounded-serialization and stable-run-identity follow-up.
 
-The latest connected Render deployment is `dep-dah7usjl550s73e00350`, status `live`, on exact backend source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Render production auto-deploy remains disabled and the observed deployment trigger is `api`.
+Current exact-main GitHub evidence:
 
-The active runtime-memory repair is draft PR #962 on branch `fix/voxvector-post-transcription-memory-cleanup`. Source changes on that branch are not deployed production behavior until the PR passes final review/QA, is merged, and an approved Render deployment is separately verified.
+- VoxVector QA run `34532394431`: **success**;
+- API test step: **success**;
+- React application contract-test step: **success**;
+- React production-build step: **success**;
+- Deploy GitHub Pages run `34532394423`: **success**.
 
-## Controlled production transcription result — 2026-09-10
+The current connected Render deployment is `dep-dahi2ics728c73b6ujug`, status `live`, on exact backend source `420536771875c6948be51851118b58cb04a596e6`. The deployment trigger is `api`; production auto-deploy remains disabled; deployment finished at `2026-09-10T21:36:23.3655Z`.
+
+The live service builds:
+
+`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+
+The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the service repository, root directory, Python runtime, free plan, Oregon region, build/start commands, `/health` path, custom domain and auto-deploy-off state. The export lists environment-variable names with `sync: false` and no values; it is not value evidence.
+
+No fresh `/health` payload for exact deployed source `420536...` was captured by the current synchronization pass. Older health readbacks remain historical evidence and must not be relabeled as current runtime verification.
+
+## Current #941 state after merged #962/#967
+
+The runtime-safety source work is merged. PR #962 established the first durability/memory foundation; PR #967 merged the reviewed follow-up into current `main`.
+
+Current source now provides:
+
+1. CPU post-heavy cleanup without importing PyTorch merely to inspect CUDA cache;
+2. same-run checkpointing of completed acquisition/transcript/alignment/provider state before Stage 10;
+3. operational Stage 10 memory admission before running state;
+4. fail-fast process-wide single-flight composite admission so an abandoned/timed-out caller cannot wait behind the heavyweight lock and execute later;
+5. RSS recheck while the shared lock is held and lock ownership through composite execution;
+6. stable persisted route-owned `run_id` with pipeline-internal identity kept separately as `pipeline_run_id`;
+7. separate Python `process_instance_id` and Render infrastructure `render_instance_id` provenance.
+
+Issue #941 was closed at #967 merge while production verification criteria remained open and has been reopened. The next accepted runtime proof should occur after #964 reconciles the live Render dependency/configuration profile into the sole canonical root Blueprint.
+
+## Controlled production transcription result — historical 2026-09-10 evidence
+
+The controlled incident below occurred on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. It remains valid historical provider/runtime evidence but is not execution proof for current `420536...`.
 
 Controlled case:
 
@@ -33,65 +65,47 @@ Observed provider execution:
 - output contained 58 timestamped transcript segments and 246 timestamped words;
 - language was reported as `en`.
 
-This is successful provider execution evidence for that one controlled run. It is not transcript truthfulness validation and it does not establish reliable end-to-end analysis completion.
+This is successful provider execution evidence for that one historical run. It is not transcript truthfulness validation and it does not establish reliable end-to-end completion on the current source.
 
-## Confirmed post-transcription memory failure
+## Historical confirmed post-transcription memory failure
 
-The same run then exposed a separate reliability defect after successful transcription.
+The same historical run exposed the downstream reliability defect that #962/#967 were designed to contain.
 
 Application memory telemetry reported approximately 134.75 MiB parent RSS before the post-heavy-phase cleanup completed and approximately 482.58 MiB after cleanup. The configured VoxVector admission ceiling was 416 MiB on a 512 MiB reference budget. Render's 30-second service telemetry sampled 519,041,020 bytes during the incident window against a 536,870,900-byte service limit.
 
 Stage 10 Acoustic Feature Extraction was then marked started and the API process disappeared without a graceful application shutdown record. Render launched Uvicorn again shortly afterward. The owner confirmed the incident was a memory problem. Render did not emit a dedicated kernel-level OOM/SIGKILL line for this exact run, so the precise OS termination mechanism is not separately claimed.
 
-Source inspection identified four directly related defects now owned by #941 / draft PR #962:
+At that historical revision, completed acquisition/transcript/alignment/provider state had not yet been durably attached to the run before the downstream transition. The source WAV itself persisted.
 
-1. post-heavy-phase cleanup imported PyTorch merely to inspect CUDA, even on the CPU-only faster-whisper path;
-2. Stage 10 did not perform an explicit memory admission check before being represented as running;
-3. completed acquisition/transcript/alignment/provider state was not checkpointed durably before Stage 10;
-4. `process_instance_id` reused `RENDER_INSTANCE_ID`, so a Python-process restart inside one Render instance could retain the same infrastructure identity.
+## Historical source-repair QA checkpoints
 
-The active repair removes the cleanup-time Torch import, adds a Stage 10 memory admission gate, persists an upstream provider checkpoint before downstream work, and separates process-start identity from Render instance provenance.
+The #962 source-repair branch accumulated successful review-workflow checkpoints before merge, including:
 
-## PR #962 QA checkpoint
+- branch checkpoint `bfd1d92bf488255a5dd403a7f701790b3134be74` with VoxVector QA `34481815208`: success, 206 backend tests passed, 13 frontend tests passed, Vite build succeeded;
+- PR Preview `34481815297`: success;
+- later literal branch-head push checkpoint `85add7d4d21640346dc454cd19309fa968d922fb` with VoxVector QA `34484033457`: success.
 
-Pre-audit branch head `bfd1d92bf488255a5dd403a7f701790b3134be74` has successful review-workflow evidence:
+Those records remain historical source-QA evidence. Current source authority is the exact-main `420536...` QA result above.
 
-- VoxVector QA run `34481815208`: **success**;
-- backend `pytest -q`: **206 passed in 1.50s**;
-- frontend contract suite: **13 passed, 0 failed**;
-- Vite production build: **success**, `built in 1.58s`;
-- VoxVector PR Preview Build run `34481815297`: **success**.
+## Final #967 exact-main QA boundary
 
-The QA workflow checked out GitHub's synthetic PR merge commit `12df336c2fd056479e2eb4768a6d23354e829955`, whose parents are `main` `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` and branch head `bfd1d92...`. The branch head and the tested merge commit resolve to the same Git tree, `3ca746b25e4c2b338310701dee4d4aae647b74ad`. Because the branch was 30 commits ahead and zero behind `main`, this establishes byte-for-byte content-tree equivalence for the tested merge candidate. It is not represented as a literal backend workflow checkout of commit SHA `bfd1d92...`.
+PR #967 resolved the two reviewed follow-up defects before merge: bounded/cancellation-safe heavy-phase admission and preservation of route-owned case-run identity. GitHub `main` then advanced to `420536...`.
 
-The PR Preview workflow explicitly checks out `${{ github.event.pull_request.head.sha }}`, so its frontend preview build is exact-head evidence for `bfd1d92...`.
+VoxVector QA `34532394431` ran on that exact push revision and completed successfully across the API-test, frontend-contract-test and React production-build steps. GitHub Pages workflow `34532394423` also completed successfully for the same main revision.
 
-A later exact push run for branch head `85add7d4d21640346dc454cd19309fa968d922fb`, VoxVector QA `34484033457`, completed successfully with every workflow step green, including API tests, frontend contract tests, and the production build. This establishes literal branch-head workflow execution for that checkpoint because it was a push event on the branch rather than a pull-request merge ref.
-
-## Final review corrections before merge QA
-
-The final source review found two issues that were corrected before merge rather than accepted as known debt:
-
-1. intermediate checkpoint and Stage 10 memory-rejection writes updated detailed `stages` but could leave `pipeline_build` aggregate counts stale until normal finalization;
-2. GitHub Advanced Security flagged the broad case-analysis exception response for exposing exception-derived detail through the HTTP response.
-
-The canonical case route now derives `pipeline_build` from the actual current stage states at the upstream checkpoint, Stage 10 admission transition, and admission-rejection persistence boundary. Focused regression assertions cover the exact completed/pending/not-run/failed aggregate counts.
-
-The broad analysis-failure HTTP response is now bounded to a generic message, request ID, failed stage, and exception type. Raw exception text and the internal stage/error payload are no longer returned through that response. Internal sanitized diagnostics remain available through the existing protected observability path. A focused regression test verifies that exception message content is absent from the public failure-detail structure.
-
-These corrections advance the branch beyond the successful `85add7d4...` checkpoint. Fresh exact-head push QA, PR Preview, current security/review state, and branch-vs-main comparison are therefore still required before merge. No merge or Render deployment is claimed by this document.
+These results establish software QA/publication workflow success. They do not establish current Render `/health`, controlled post-merge provider execution, browser verification or scientific validity.
 
 ## Supabase evidence
 
-Connected Supabase project `VoxVector` (`tawtkawmjqabydnatavx`) currently has the `voxvector-user-admin` Edge Function active, version 2, with JWT verification enabled. Current trusted role inventory readback is one admin, one developer, and one user.
+The last connected Supabase verification established project `VoxVector` (`tawtkawmjqabydnatavx`) with `voxvector-user-admin` Edge Function active, version 2, JWT verification enabled, and a trusted role inventory of one admin, one developer and one user.
 
-For the controlled memory incident, Supabase retained:
+Historical controlled-incident evidence retained:
 
-- the private source WAV in `voxvector-media`;
-- the case JSON in the private VoxVector storage path;
+- private source WAV in `voxvector-media`;
+- case JSON in the private VoxVector storage path;
 - parent request diagnostic records through transcription start and later Stage 10 start.
 
-The provider child completion events were visible in Render but were not durably correlated into the parent Supabase diagnostic chain. That separate observability gap is owned by #959 / draft PR #961.
+Merged observability work through #961/#966/#968 adds durable correlation/debug-bundle source foundations. Issue #959 remains open for a controlled production run proving the Render copy, Supabase copy, real Debug Bundle contents/redaction and terminal snapshot behavior.
 
 ## Render configuration drift
 
@@ -99,53 +113,57 @@ Canonical root `render.yaml` currently specifies:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
 
-The connected live Render service currently reports:
+The connected live Render service and owner-provided export specify:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
-`requirements-speech.txt` installs local `pyannote.audio` in addition to faster-whisper, while the canonical primary diarization adapter is the cloud `pyannote_api` path. The downloaded Render Blueprint export has not been committed as a second file. Drift reconciliation belongs to #964 and must update the existing canonical root `render.yaml` rather than creating a duplicate Blueprint owner.
+`requirements-speech.txt` installs local `pyannote.audio` in addition to faster-whisper, while the canonical primary diarization adapter is the cloud `pyannote_api` path. `requirements-transcription.txt` contains faster-whisper only.
 
-Configuration reconciliation is not provider execution and is intentionally separate from the active #941 source repair.
+Root `render.yaml` also declares `CORS_ORIGINS` as a server-managed variable. It is absent from the owner-provided Render export, while backend source defaults to `*` when `CORS_ORIGINS` is unset. That difference must be investigated deliberately rather than inferred from the redacted export.
+
+Drift reconciliation belongs to #964 and must update the existing canonical root `render.yaml` rather than creating a duplicate Blueprint owner. Configuration reconciliation is not provider execution.
+
+## Frontend QA / truth boundary
+
+Current `main` frontend source has two material open truth/acceptance items:
+
+- `PipelineBuildCard.jsx` still uses stale local Stage 05/06 ordering and queued Stage 07/08 text despite consuming `pipeline_build`; #965 owns the existing-component correction so runtime `status_by_stage` becomes authoritative when available.
+- `AuthGate.jsx` on current `main` still lacks the requested login-triggered API wake. Draft PR #974 under #931 contains the candidate wake plus shared role-aware User/Admin/Developer Profile editor wiring. Its prior QA was against the pre-#967 base and must be rerun against current `main` before merge recommendation.
+
+These are source/application facts, not browser verification.
 
 ## Current implementation and evidence matrix
 
 | Area | Current state | Evidence | Remaining gate |
 |---|---|---|---|
-| 21-stage pipeline contract | represented | source/tests | engineering and scientific maturity remain stage-specific |
-| Authenticated source upload | implemented | latest 17.6 MB controlled WAV persisted successfully | intermittent #930 400 still requires reproduction/bounding |
-| Source persistence | implemented | Supabase object readback | old-case browser rehydration is #963 |
-| faster-whisper | provider execution proven once with beam 1 | 58 segments / 246 words on deployed `f0dda136...` | end-to-end memory-safe repeatability after #941 |
-| Transcript alignment | runtime stage completed in controlled run | Render/stage evidence | durable checkpoint/readback repair in #941 |
-| Acoustic Feature Extraction | implemented source, failed current runtime transition | source tests + memory incident | Stage 10 admission and controlled rerun |
-| pyannoteAI cloud primary | implemented/configured architecture | source/provider contracts | controlled cloud-primary execution still required |
-| local Community-1 | optional fallback | local adapter contracts | do not treat as current primary production path |
-| Run recovery/reporting | merged foundation | #945/#946 | process identity strengthened by #941; browser readback still separate |
-| Dual Render/Supabase observability | draft implementation | #959/#961 | reconcile after #941 and production verify |
-| Admin user management backend | Edge Function active | Supabase readback | remaining console UX/browser acceptance under #931 |
-| Classification/disposition | guarded foundation | source/tests | no validated deception inference |
+| 21-stage pipeline contract | represented | source/tests | frontend projection correction #965; engineering/scientific maturity stage-specific |
+| Authenticated source upload | implemented | historical large controlled WAV persistence successes | intermittent #930 400 requires reproduction/bounding |
+| Source persistence | implemented | Supabase historical object readback | old-case browser rehydration #963 |
+| faster-whisper | provider execution historically proven with beam 1 | 58 segments / 246 words on deployed `f0dda136...` | current post-#964/#967 controlled repeatability #941 |
+| Transcript alignment | source foundation + historical stage execution evidence | source/tests + historical run | current durable readback and speaker-aware alignment #971 |
+| Acoustic Feature Extraction | implemented source with merged bounded Stage 10 admission | exact-main QA | controlled production proof #941 |
+| pyannoteAI cloud primary | implemented/configured architecture | source/provider contracts + older readiness evidence | current provider contract correction/execution/persistence #970 |
+| local Community-1 | optional fallback | local adapter contracts | must not be treated as current cloud-primary execution |
+| Run recovery/reporting | merged foundation | #945/#946 + #962/#967 | controlled runtime/browser readback separate |
+| Dual Render/Supabase observability | merged source foundation | #961/#966/#968 | production dual-copy/bundle/terminal-capture proof #959 |
+| Admin user management backend | Edge Function previously verified active | Supabase readback | current-main PR #974 integration + role/profile browser acceptance #931 |
+| Login-time API wake / shared self-profile | candidate only | draft PR #974 | refresh against current main, QA/merge/publish/browser verification |
+| Classification/disposition | guarded foundation | source/tests | no scientifically validated deception inference |
 
-## Related issue queue
+## Current issue queue
 
-### #941 — active P0
-
-Contain post-transcription memory exhaustion, checkpoint successful upstream speech evidence, gate Stage 10 on actual memory headroom, and use a process-start UUID independent of Render infrastructure identity. Draft PR #962 owns this source subsystem.
-
-### #959 / PR #961 — next observability P0
-
-Preserve Render-native logs while also persisting sanitized VoxVector/provider evidence in Supabase, propagate parent request/run correlation to spawned speech workers, mirror bounded Render observations, and provide a server-generated case/run Debug Bundle.
-
-### #963 — persisted case rehydration
-
-After #941 establishes the canonical durable transcript checkpoint, make the existing frontend resolve persisted `activeSource`, obtain the existing owner-scoped signed playback URL, and render saved audio/transcript after reopening a historical case.
-
-### #964 — Render Blueprint reconciliation
-
-Reconcile live/exported Render service state into the existing root `render.yaml`, preserve secrets as external values, keep reproducible non-secret constraints in Git, and avoid duplicate infrastructure.
-
-### #965 — frontend pipeline contract synchronization
-
-Repair the existing `PipelineBuildCard.jsx` so Stage 05/06 order and mutable status projection follow the canonical backend contract. This remains separate from #941 and must not create a second pipeline component.
+- #964 — current first source/configuration task: reconcile Render Blueprint/live dependency/profile state.
+- #941 — reopened controlled production proof after #964; source fixes merged.
+- #970 — cloud-primary pyannoteAI contract/execution/persistence after #941.
+- #971 — persisted transcript/audio/speaker alignment after #970.
+- #963 — historical-case rehydration after upstream artifacts are established.
+- #930 — intermittent authenticated upload 400 must be bounded before candidate freeze.
+- #959 — merged observability source, production acceptance open.
+- #965 — frontend pipeline status contract correction before final browser freeze.
+- #931 / draft PR #974 — login wake/shared self-profile plus role/browser matrix; current-main integration QA pending.
+- #932 — release-critical public CTA/anchor/menu repair before final browser acceptance.
+- #972 — final frozen-candidate two-run golden proof.
 
 ## Verification boundary
 
-A passing software suite establishes implementation behavior only. A GitHub merge is not a Render deployment. A Render deployment is not provider execution. Successful faster-whisper execution is not transcript truthfulness, verified speaker identity, deception-detection validity, calibration, or generalization. Engineering-MVP completion and scientific validation remain separate programs.
+A passing software suite establishes implementation behavior only. A GitHub merge is not a Render deployment. A Render deployment is not a fresh `/health` readback. A fresh `/health` readback is not provider execution. Successful provider execution is not transcript truthfulness, verified speaker identity, deception-detection validity, calibration or generalization. Browser verification, engineering-MVP completion and scientific validation remain separate programs.

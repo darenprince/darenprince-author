@@ -1,30 +1,36 @@
 # VoxVector Current Engineering State — 2026-09-04
 
-This Crown Labs product/engineering mirror reflects the active VoxVector engineering state. The repository implementation and canonical `VoxVector/docs/` records remain authoritative.
+This Crown Labs product/engineering mirror reflects the active VoxVector engineering state. Repository implementation and canonical `VoxVector/docs/` records remain authoritative.
 
 ## Runtime snapshot — 2026-09-10
 
-- Current canonical `main`: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
+- Current canonical `main`: `420536771875c6948be51851118b58cb04a596e6`
 - Backend source release: `0.2.27`
 - Frontend source release: `0.2.37`
-- Current Render deployment: `dep-dah7usjl550s73e00350`, `live`
-- Current deployed backend source: exact `f0dda136...`
+- Exact-main VoxVector QA: `34532394431`, success
+- Exact-main GitHub Pages publication workflow: `34532394423`, success
+- Current Render deployment: `dep-dahi2ics728c73b6ujug`, `live`
+- Current deployed backend source: exact `420536771875c6948be51851118b58cb04a596e6`
+- Render deployment trigger: API
+- Render deployment finished: `2026-09-10T21:36:23.3655Z`
 - Render production auto-deploy: disabled
 - Render plan/region: free / Oregon
 - Live Render build: `requirements.txt` + `requirements-speech.txt`
 - Canonical root `render.yaml`: `requirements.txt` + `requirements-transcription.txt`
+- Owner Render export: `2026-09-10T21:38:48Z`, matching live service/root/build/start/health/domain/auto-deploy fields with environment values redacted
 - Render Blueprint/live-service drift: #964
 - Supabase project: `VoxVector` (`tawtkawmjqabydnatavx`)
-- `voxvector-user-admin`: ACTIVE, version 2, JWT verification enabled
-- Latest trusted role inventory: 1 admin, 1 developer, 1 user
-- Active P0 runtime repair: #941 / draft PR #962
-- Next P0 observability work: #959 / draft PR #961
+- `voxvector-user-admin`: last verified ACTIVE, version 2, JWT verification enabled
+- Latest verified trusted role inventory: 1 admin, 1 developer, 1 user
+- Current first source/configuration task: #964
+- Controlled runtime proof after #964: reopened #941
+- Current auth/profile candidate: draft PR #974 under #931; not merged into current `main`
 
-Repository QA, deployment, runtime health, provider execution, persisted artifact durability, browser verification, engineering-MVP completion, and scientific validation are separate evidence classes.
+No fresh `/health` response for exact deployed `420536...` is recorded by the current synchronization pass. Repository QA, Pages publication, Render deployment, runtime health readback, provider execution, persisted artifact durability, browser verification, engineering-MVP completion, and scientific validation are separate evidence classes.
 
-## Controlled production transcription and memory result
+## Historical controlled production transcription and memory result
 
-The latest controlled 183.3-second / 17,596,936-byte WAV successfully passed source upload/private persistence, speech segmentation, and faster-whisper transcription on deployed `f0dda136...`.
+The 183.3-second / 17,596,936-byte controlled WAV on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` successfully passed source upload/private persistence, speech segmentation, and faster-whisper transcription.
 
 Observed:
 
@@ -35,7 +41,7 @@ Observed:
 - transcript alignment state was reached;
 - API-parent RSS was about 134.75 MiB before post-provider cleanup and about 482.58 MiB afterward;
 - VoxVector's configured downstream admission ceiling was 416 MiB;
-- Stage 10 Acoustic Feature Extraction nevertheless started on the deployed source;
+- Stage 10 Acoustic Feature Extraction nevertheless started on that historical deployed source;
 - Render sampled 519,041,020 bytes against a 536,870,900-byte service limit;
 - the Python API process restarted shortly afterward;
 - the owner confirmed the incident was a memory problem;
@@ -44,21 +50,25 @@ Observed:
 
 Render did not emit a dedicated kernel OOM/SIGKILL record, so no exact OS termination mechanism is claimed.
 
-## Active #941 / PR #962 repair
+This remains valid historical provider/runtime evidence. It is not current `420536...` execution evidence.
 
-The repair keeps the existing canonical backend pipeline and CaseStore and addresses one reliability subsystem:
+## Merged #962/#967 reliability source and reopened #941 proof
+
+The repair keeps the existing canonical backend pipeline and CaseStore and now exists in current source:
 
 - post-heavy cleanup does not import PyTorch merely to clean up a CPU faster-whisper path;
 - completed acquisition/transcript/alignment/provider state is checkpointed to the same stable case run before Stage 10;
 - checkpoint diagnostics use sanitized state/count metadata rather than transcript text;
 - Stage 10 passes a process-RSS admission gate before being represented as running;
+- downstream composite analysis uses fail-fast process-wide single-flight admission;
+- an admitted composite call rechecks RSS under the shared lock and keeps the lock through execution;
+- abandoned/timed-out competing requests cannot queue behind the heavy phase and execute later;
 - insufficient headroom produces explicit downstream failed/not-run state while preserving completed upstream artifacts;
-- `process_instance_id` becomes a true per-Python-process UUID;
+- `process_instance_id` remains a per-Python-process UUID;
 - `render_instance_id` remains separate hosting-provider provenance;
-- the stable case `run_id` survives finalization and pipeline-internal IDs remain separate;
-- `/health` source contract includes process/Render identity and memory-admission fields.
+- the stable route-owned `run_id` survives finalization and `pipeline_run_id` remains separate.
 
-PR #962 remains source-only until final exact-head QA, review/merge, deliberate Render deployment, and controlled production rerun.
+Issue #941 was closed at source merge while controlled production acceptance remained open and has been reopened. #964 should first establish the intended runtime dependency/configuration profile, then #941 must rerun the same controlled WAV and read back the merged behavior.
 
 ## Canonical 21-stage pipeline
 
@@ -84,17 +94,17 @@ PR #962 remains source-only until final exact-head QA, review/merge, deliberate 
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The 05/06 order above is the current canonical backend contract. Static frontend data showing the old opposite order is a synchronization defect rather than a second valid pipeline.
+The 05/06 order above is the current canonical backend contract. Current frontend `PipelineBuildCard.jsx` still carries the stale opposite local order and queued Stage 07/08 fallback text; #965 owns that synchronization defect in the existing component.
 
-Current maturity remains 16 implemented/built analytical/runtime foundations, four conditional or intentionally not invoked stages, with cloud-primary speaker execution still requiring controlled production evidence.
+Current maturity remains 16 implemented/built analytical/runtime foundations, four conditional or intentionally not-invoked stages, with cloud-primary speaker execution still requiring controlled evidence.
 
 ## Runtime memory and durability contract
 
 The constrained execution sequence is:
 
-`provider completion → cleanup → durable same-run upstream checkpoint → Stage 10 memory admission → downstream analysis`
+`provider completion → cleanup → durable same-run upstream checkpoint → Stage 10 route preflight → fail-fast shared composite admission + locked RSS recheck → downstream analysis while admitted`
 
-Current memory reference is 512 MiB with 96 MiB reserved headroom, producing a 416 MiB admission ceiling.
+Current source memory reference is 512 MiB with 96 MiB reserved headroom, producing a 416 MiB reference admission ceiling. These values are not a fresh current `/health` claim.
 
 Memory admission is operational safety. It is not Stage 09 analytical Eligibility and Reliability and must not be represented as a scientific result.
 
@@ -102,53 +112,50 @@ Memory admission is operational safety. It is not Stage 09 analytical Eligibilit
 
 ### Transcription
 
-Beam-1 faster-whisper is no longer only configured or execution-ready. Controlled production execution completed successfully through transcription on `f0dda136...`.
-
-The remaining release blocker is durable upstream checkpointing plus downstream memory-safe continuation.
+Beam-1 faster-whisper has historical controlled production execution evidence on `f0dda136...`. The current release blocker is proving the merged durability/downstream memory-safe continuation on the reconciled runtime under #941.
 
 ### Diarization
 
 The canonical primary remains pyannoteAI cloud through `pyannote_api`. `VOXVECTOR_ENABLE_DIARIZATION_RUNS` remains the explicit route invocation gate. Local Community-1 is an optional fallback only.
 
-Controlled cloud-primary execution and persisted speaker artifact readback remain open.
+#970 owns rechecking the current provider API contract, real cloud-primary execution, persisted speaker artifact readback and provenance after #964/#941.
 
 ## Render Blueprint drift
 
-The current live Render service installs the broader `requirements-speech.txt` set, including the optional local pyannote/PyTorch stack. Canonical root `render.yaml` specifies the narrower transcription requirements.
+The current live Render service and owner export install `requirements-speech.txt`, including optional local `pyannote.audio`/PyTorch. Canonical root `render.yaml` specifies the narrower `requirements-transcription.txt` path.
 
-The cloud-primary pyannoteAI adapter does not require loading local Community-1 merely to call the external provider. #964 therefore owns deliberate dependency/Blueprint reconciliation into the existing root file. No second Blueprint should be uploaded or committed.
+Root `render.yaml` also declares `CORS_ORIGINS` server-managed while the owner export does not list it and backend source defaults to `*` when unset. The export redacts environment values and must not be treated as proof of their values.
 
-## Supabase state
+#964 owns deliberate dependency/configuration reconciliation into the existing root file. No second Blueprint or duplicate service should be created.
 
-The administrator function is now deployed and active, correcting older current-status records that described it as source-only. Remaining #931 work is the existing User Management UX and authenticated desktop/mobile role verification, not Edge Function deployment/bootstrap.
+## Frontend and account state
 
-Supabase also retained the controlled source WAV and pre-termination diagnostics across the Render process restart. Storage persistence does not itself prove browser rehydration; #963 owns that return path.
+Current `main` `AuthGate.jsx` still does not start the requested API wake at successful login. Draft PR #974 contains the candidate one-shot `/health` wake plus the shared role-aware developer/admin/user self-profile implementation. It reuses the existing `public.profiles` and private avatar boundary; trusted role/account ID remain read-only and authorization stays in trusted `app_metadata`.
 
-## Other active work
+PR #974 is not current/deployed behavior. Its prior integration QA predates the #967 main advance, so #931 requires a current-main refresh, current-base QA/Preview, merge review, and authenticated desktop/mobile/profile-save verification.
 
-- #959 / draft PR #961 — dual Render + Supabase logs, provider-worker correlation, bounded Render-log mirroring, server-generated Debug Bundle.
-- #930 — intermittent upload pre-handler 400 remains open despite the latest successful controlled upload.
-- #920 — current API-triggered Render deployment does not verify protected Developer Console Deploy Now.
-- #948 / draft PR #951 — auditable secure deletion.
-- #949 / draft PR #952 — server-aware Stop Analysis.
-- #963 — persisted historical-case audio/transcript rehydration after #941.
-- #964 — canonical Render Blueprint reconciliation.
-- #931 — User Management UX and browser role verification.
+## Supabase and observability state
+
+The administrator Edge Function was last verified active, correcting older records that described it as source-only. Remaining #931 work is current PR/browser/account behavior, not Edge Function bootstrap.
+
+Merged PRs #961/#966/#968 provide the dual Render/Supabase observability and Debug Bundle source foundation. #959 remains open for production correlated dual-copy, real bundle/redaction, terminal Render capture, restart durability, and browser acceptance.
+
+Supabase historical persistence does not itself prove browser rehydration; #963 owns that return path after upstream artifacts are established.
 
 ## Current implementation sequence
 
-1. Finish #941 / PR #962 source/docs/Crown/audit synchronization.
-2. Run and inspect exact-head QA, Preview, and applicable security checks.
-3. Merge only after review/authorization.
-4. Deliberately deploy the reviewed revision to Render.
-5. Read fresh `/health` for exact source, beam 1, process/render identity and memory-admission configuration.
-6. Rerun the same controlled WAV and prove transcript/alignment checkpoint readback plus Stage 10 completion or explicit bounded admission failure without API restart.
-7. Complete #959 / PR #961 observability/debug bundle.
-8. Execute cloud-primary diarization and persisted multimodal alignment.
-9. Complete #963 historical-case rehydration and remaining browser/product gates.
-10. Run two complete golden cases on the same deployed revision before engineering-MVP sign-off.
+1. #964 — reconcile the sole Render Blueprint/runtime profile.
+2. #941 — deliberately deploy/read back that runtime and rerun the controlled WAV.
+3. #970 — execute/persist cloud-primary diarization.
+4. #971 — persist/read back transcript/audio/speaker alignment.
+5. #963 — historical-case source/playback/artifact rehydration.
+6. #930 / #959 — intake reliability and production observability acceptance.
+7. #965 — truthful frontend pipeline projection.
+8. #931 / draft PR #974 — current-main integration, login wake/shared profiles, authenticated role/browser matrix.
+9. #932 — release-critical public CTA/anchor/navigation repair.
+10. #972 — freeze one exact revision/configuration and pass two complete golden cases.
 11. Conduct scientific validation separately.
 
 ## Scientific boundary
 
-No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature is treated as proof of deception. Runtime memory containment and provider execution are engineering evidence only.
+No individual vocal, acoustic, linguistic, behavioral, emotional, or psychological feature is treated as proof of deception. Runtime memory containment, provider execution, deployment, browser verification and engineering-MVP completion are engineering evidence only and remain separate from scientific validation.
