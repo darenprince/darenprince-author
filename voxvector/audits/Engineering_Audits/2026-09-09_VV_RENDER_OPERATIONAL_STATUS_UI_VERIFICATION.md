@@ -8,6 +8,7 @@
 **Repository synchronization base after PR #955:** `5d8b6a415609a0a4195cea82fdc795b633d3f505`  
 **Final PR head:** `bf1a667706a1dcb781583c54341d6e38346fd950`  
 **Merged main revision:** `5cc50422125734a34e5fed04fc0e1f11317c7ade`  
+**Post-merge evidence PR:** #957  
 **Prompt identifier:** `VV-RENDER-OPERATIONAL-STATUS-UI`
 
 ## Scope
@@ -99,17 +100,15 @@ These results establish source QA and GitHub Pages publication for the merged fr
 
 ## Documentation synchronization
 
-Affected current documents synchronized with the final merged state:
+Affected current documents synchronized in post-merge evidence PR #957:
 
-- `VoxVector/docs/CSS_ARCHITECTURE.md`
-- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
-- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
-- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
-- `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`
-- this engineering audit record
-- `voxvector/audits/AUDIT_REPORT.md`
+- `VoxVector/docs/CSS_ARCHITECTURE.md` and other implementation-era owners already merged in #956;
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`;
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`;
+- this engineering audit record;
+- `voxvector/audits/AUDIT_REPORT.md`.
 
-Historical checkpoints were not rewritten. The master tracker remains issue #915.
+Historical checkpoints were not rewritten. The master tracker remains issue #915. These post-merge documentation changes become canonical only if PR #957 passes exact-head review/QA and merges.
 
 ## Browser verification boundary
 
@@ -119,7 +118,9 @@ Therefore issue #954 is complete at the source, exact-head CI, merge, and public
 
 ## Closure state
 
-Issue #954 is closed after PR #956 merged. The implementation and publication evidence satisfy the bounded status-presentation source task. Remaining evidence belongs to existing downstream work rather than a duplicate status implementation:
+Issue #954 was closed automatically when PR #956 merged, then temporarily reopened because its acceptance criteria also require final canonical documentation/audit synchronization. PR #957 is the bounded post-merge evidence vehicle. After #957 passes exact-head checks and merges, #954 can return to **Done** without creating another status implementation.
+
+Remaining evidence belongs to existing downstream work:
 
 - #930: authenticated upload reproduction and persistence/provenance/playback evidence;
 - #941: controlled faster-whisper execution and artifact/memory evidence;
