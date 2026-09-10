@@ -1,3 +1,19 @@
+## 2026-09-10 — Persist completed provider evidence before downstream memory admission
+
+**Decision:** Treat successful speech-provider acquisition as a durable case-run boundary. Completed transcript, alignment, provider state/timing, and upstream stage state must be checkpointed to the same stable case run before Stage 10 or other dependent heavyweight downstream work begins.
+
+**Runtime safety:** On constrained deployments, Stage 10 must pass an operational process-RSS admission check before it is represented as running. If headroom is insufficient, downstream work must terminate explicitly as failed/not-run while completed upstream provider artifacts remain persisted. This operational admission gate is separate from analytical Stage 09 Eligibility and Reliability and must never be represented as a scientific eligibility decision.
+
+**Process provenance:** `process_instance_id` identifies the active Python API process and therefore changes when Python restarts. Hosting-provider infrastructure identity such as Render's `RENDER_INSTANCE_ID` is retained separately as `render_instance_id`; it must not be reused as process identity because the hosting instance can survive an internal Python/Uvicorn restart.
+
+**Production evidence:** A controlled 183.3-second run on deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed faster-whisper beam-1 transcription with 58 timestamped segments and 246 timestamped words, then entered confirmed post-transcription memory exhaustion before successful downstream completion. API-parent RSS rose from about 134.75 MiB before post-provider cleanup to about 482.58 MiB afterward; Render sampled 519,041,020 bytes against a 536,870,900-byte service limit before the Python API restarted. The source WAV persisted, but the normalized transcript/provider artifact had not yet been durably attached before Stage 10. The owner confirmed the incident was a memory problem. Render did not provide a dedicated kernel OOM/SIGKILL record, so the exact OS termination mechanism is not separately claimed.
+
+**Implementation owner:** Issue #941 / draft PR #962. The repair also prevents cleanup from importing PyTorch solely for cleanup on the CPU faster-whisper path and preserves stable case `run_id` across finalization. Issue #959 remains the separate observability/logging/debug-bundle subsystem; #963 remains the reopened-case playback/transcript consumer; #964 remains Render Blueprint reconciliation.
+
+**Blueprint boundary:** Git already contains the sole canonical root `render.yaml`. The current live Render service builds `requirements-speech.txt` while the root Blueprint specifies `requirements-transcription.txt`. That drift must be reconciled into the existing root file under #964, not by uploading or committing a second Blueprint.
+
+**Verification boundary:** Controlled provider execution is not transcript truthfulness. Source implementation is not QA. QA is not deployment. Deployment is not browser verification. Memory containment and artifact durability are software reliability, not scientific validation.
+
 ## 2026-09-09 — Engineering MVP release gate and planning freeze
 
 **Decision:** Use `docs/MVP_RELEASE_GATE.md` as the single canonical engineering-MVP exit checklist. During the MVP sprint, do not create additional planning documents that merely restate the MVP, release sequence, or golden-case proof. New documentation is allowed only when an active release gate genuinely requires a new canonical record or when it intentionally replaces an explicitly retired canonical owner.

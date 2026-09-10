@@ -1,52 +1,113 @@
 # VoxVector Runtime Memory Constraints
 
-**Status:** Active runtime guidance
-**Updated:** 2026-09-09
+**Status:** Active runtime guidance  
+**Updated:** 2026-09-10
 
-## Incidents
+This document owns VoxVector runtime resource-safety guidance. It records software execution and memory-containment evidence only. It is not scientific validation.
 
-The initial Render Free deployment successfully started the FastAPI service and passed `/health`, but `/v1/analyze` could terminate the instance when processing a larger WAV. Render reported that the instance exceeded its 512 MB memory ceiling.
+## Current constrained Render reference
 
-The original peak-memory cause was identified in the canonical analysis pipeline: overlapping audio frames and FFT spectra were materialized for the entire recording at once. The primary pipeline was subsequently changed to bounded frame chunks while preserving the existing 25 ms frame size and 10 ms hop.
+The current VoxVector Render service is a single free web-service instance with a platform memory limit of approximately 512 MiB. VoxVector uses these source defaults as an operational reference:
 
-A separate spectral feature dimension mismatch was corrected by deriving the frequency vector from the actual FFT output width.
+- `VOXVECTOR_MEMORY_LIMIT_MB=512`
+- `VOXVECTOR_MEMORY_HEADROOM_MB=96`
+- effective process RSS admission ceiling: **416 MiB**
 
-The HTTP adapter now offloads the CPU-heavy canonical analysis call through `asyncio.to_thread(...)` so long-running analysis does not monopolize the FastAPI event loop.
+The VoxVector values do not change Render's platform limit. They are application-side guardrails intended to reject a new heavyweight phase before the process knowingly enters an unsafe headroom range.
 
-## September 2026 recurring OOM evidence
+## Incident history
 
-Render subsequently reported multiple `voxvector-api` instance failures with the explicit message that the process **used over 512 MB**. The user-provided Render dashboard screenshots show separate failures on September 1 at approximately 7:54 PM and 8:09 PM, each followed by service recovery. A separate deployment at approximately 2:49 PM failed while waiting for the internal health check.
+### Earlier bounded-acoustic memory repair
 
-The connected Render observability workflow captured a September 2 incident window in which sampled memory rose from approximately 94.9 MB to 193.5 MB, 197.0 MB, 198.3 MB, and 198.5 MB before dropping abruptly to 73.6 MB and later stabilizing near 89–93 MB. The 30-second sampling did not resolve the instantaneous peak, while the Render instance events separately establish that actual usage crossed the 512 MB service budget.
+Earlier Render failures established that full-recording frame/spectrum materialization could exceed the service memory budget. The canonical acoustic pipeline was changed to bounded frame groups while preserving the existing 25 ms frame size and 10 ms hop. A spectral feature dimension mismatch was also corrected by deriving frequency vectors from the actual FFT output width.
 
-The same runtime period contained slow `/v1/cases` requests of approximately 10.35 seconds and 8.11 seconds. Those are tracked as separate reliability signals and are not attributed to the OOM without further correlation.
+The API adapter offloads CPU-heavy canonical analysis through `asyncio.to_thread(...)` so it does not monopolize the FastAPI event loop. These are software/runtime fixes, not scientific method changes.
 
-Raw incident evidence was captured as GitHub Actions artifact `9829899743` from workflow run `33585450916`.
+### September 1–2 recurring Render memory evidence
 
-### 2026-09-09 transcription OOM incident
+Render reported multiple `voxvector-api` failures in which service usage crossed the 512 MiB budget. A connected September 2 telemetry window sampled memory rising through roughly 95–198 MiB and later resetting after process/service disruption. Thirty-second provider telemetry did not capture every instantaneous peak, so those samples are not used as exact peak-memory proof.
 
-Connected Render logs for production revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0` show analysis request `6bb7ec766d3e46f39462ef92c9929544` entering `transcription_generation` at `09:36:46Z` for a 183.3 second WAV. faster-whisper started with the `base` model on CPU/int8 and logged model load at `09:36:48Z`. No transcription progress, completion, failure, or timeout record followed. Render started the Uvicorn command again at `09:37:05Z` and a new server process at `09:37:11Z`; the user simultaneously received Render's memory-limit automatic-restart alert.
+### September 9 transcription-process failure
 
-This incident demonstrates that an in-process `asyncio.wait_for(asyncio.to_thread(...))` deadline is not sufficient containment for heavyweight native ASR work. A process-level OOM can terminate the API before the coroutine timeout handler persists a terminal stage state, and a cancelled coroutine cannot terminate native work already executing in a Python thread.
+On historical revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`, request `6bb7ec766d3e46f39462ef92c9929544` entered faster-whisper transcription for a 183.3-second WAV, loaded the `base` CPU/int8 model, and then lost the API process before provider completion/failure/timeout persistence. The contemporaneous Render memory-limit alert established an OOM-class failure for that incident.
 
-The repair in PR #942 therefore changes the local faster-whisper boundary and orchestration before any production claim is made. This is software reliability evidence, not scientific validation.
+PR #942 responded by restoring dependency order, converting the working source to float32, dropping the persisted byte buffer before speech execution, serializing heavyweight provider phases, and moving faster-whisper into a disposable spawned process with a hard deadline. PR #960 later corrected the constrained Render source profile from beam 3 to beam 1.
 
-## Runtime efficiency strategy
+### September 10 beam-1 transcription success followed by confirmed memory exhaustion
 
-### Bounded audio processing
+The controlled production run on current deployed revision `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` materially narrowed the remaining problem.
 
-The primary pipeline processes frames in bounded groups of 256 frames and carries only compact feature streams plus the prior spectrum needed for spectral continuity. The evidence-acquisition speech detector follows the same principle: it computes frame RMS in bounded groups and retains only the one-dimensional RMS stream needed for segmentation.
+Case/runtime identifiers:
 
-The case-analysis route now releases the persisted WAV byte buffer after integrity verification and retains the canonical working signal as `float32` before entering heavyweight speech execution. Downstream composite acoustic analysis runs only after the upstream speech/evidence acquisition boundary has finished or failed, reducing avoidable overlap between ASR model memory and downstream DSP working sets.
+- case `3515362e-f801-463d-961a-df7b3302a596`
+- source `cbdcdbf8-e528-49b0-a474-5cd64588d301`
+- request `32fdb25aee704ee4ad0a0615e2496e09`
+- source duration 183.3 seconds
+- source size 17,596,936 bytes
 
-### Heavy provider serialization and release
+Observed sequence:
 
-Configured faster-whisper and pyannote provider phases are serialized so the constrained worker does not intentionally load both heavy provider families concurrently. Each provider exposes an explicit release path that clears process-level model caches after the provider attempt completes, including after provider failure. The heavy-phase boundary then performs Python garbage collection and best-effort Linux allocator trimming where applicable.
+1. source upload and private Supabase persistence succeeded;
+2. speech segmentation completed with 26 segments;
+3. faster-whisper ran with `base`, CPU, int8, beam 1, one CPU thread, one worker, isolated child process and a 165-second child deadline;
+4. transcription completed in approximately 113 seconds with 58 transcript segments and 246 timestamped words;
+5. parent-process memory telemetry reported approximately 134.75 MiB before post-provider cleanup completed;
+6. the cleanup boundary then reported approximately 482.58 MiB parent RSS;
+7. VoxVector's configured process admission ceiling was 416 MiB;
+8. Stage 10 Acoustic Feature Extraction nevertheless started;
+9. Render's 30-second service telemetry sampled 519,041,020 bytes against a 536,870,900-byte service limit during the same incident window;
+10. the API process disappeared without a graceful application shutdown and Uvicorn was launched again shortly afterward.
 
-### Constrained Whisper profile
+The owner confirmed this run failed because of memory exhaustion. Render did not emit a dedicated kernel-level OOM/SIGKILL line for this exact run, so the precise operating-system termination mechanism is not separately asserted.
 
-The constrained runtime defaults are:
+## Root cause identified in source
 
+### Cleanup must not import an optional heavyweight framework
+
+Before the active repair, `collect_after_heavy_phase()` performed `import torch` solely to inspect CUDA and clear its cache. On the CPU-only faster-whisper path this was unnecessary. Because the live Render service currently installs `api/requirements-speech.txt`, PyTorch is present through the local pyannote dependency stack. Importing it into the long-lived API process after the disposable transcription child exits defeats the purpose of reclaiming provider memory.
+
+The active #941 / PR #962 repair changes cleanup to inspect `sys.modules` and use CUDA cleanup only when another runtime path has already loaded Torch. Cleanup itself must never import Torch.
+
+### Stage 10 needs its own admission boundary
+
+Provider-phase admission alone is insufficient. The September 10 failure showed that the downstream composite acoustic phase can be entered after memory has already exceeded the safe process threshold.
+
+The active repair therefore calls `ensure_memory_headroom("pipeline:acoustic_feature_extraction")` **before** Stage 10 is marked running. If the process is already at or above the admission ceiling, Stage 10 is failed explicitly as an operational memory-admission rejection and dependent downstream stages are marked `not_run`. Completed upstream speech/transcript evidence remains intact.
+
+This admission gate is a runtime-safety decision. It is not the scientific eligibility/reliability stage and must not be described as a scientific exclusion rule.
+
+## Durable upstream checkpoint before downstream work
+
+Successful provider work is expensive and must survive a later process failure.
+
+The active #941 repair persists the same case/run after Stage 07/08 acquisition resolves and before Stage 10 admission. The checkpoint contains the actual acquisition artifact, transcript object, multimodal alignment, speaker list when available, provider timings, stage lifecycle, and non-secret provider state under the same run identity.
+
+The corresponding operational diagnostic records only sanitized metadata such as provider state, segment count, word count and alignment availability. Raw transcript text is not written into operational logs merely to prove checkpoint completion.
+
+If Stage 10 is refused or the process later fails, completed upstream artifacts remain available for case/run readback instead of being dependent on the final downstream result write.
+
+## Process identity versus Render instance identity
+
+`RENDER_INSTANCE_ID` is infrastructure identity. It is not guaranteed to change when Uvicorn/Python restarts inside the same Render service instance.
+
+The active repair therefore defines:
+
+- `process_instance_id`: fresh UUID generated at API process start;
+- `render_instance_id`: Render-provided infrastructure identifier when available.
+
+Case-run recovery compares the genuine process-start identity. This allows a new Python process to reconcile an orphaned run even when the Render instance label remains the same. Render instance identity remains useful as infrastructure provenance and is retained separately.
+
+## Bounded audio processing
+
+The primary pipeline processes frames in bounded groups of 256 frames and carries only compact feature streams plus the prior spectrum needed for spectral continuity. Evidence-acquisition speech detection follows the same principle: it computes frame RMS in bounded groups and retains only the one-dimensional activity stream required for segmentation.
+
+The case route releases the persisted WAV byte buffer after integrity verification and converts the canonical working source to float32 before heavyweight speech execution.
+
+## Constrained faster-whisper profile
+
+The constrained source defaults are:
+
+- `VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
 - `VOXVECTOR_WHISPER_MODEL=base`
 - `VOXVECTOR_WHISPER_DEVICE=cpu`
 - `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
@@ -56,79 +117,74 @@ The constrained runtime defaults are:
 - `VOXVECTOR_WHISPER_ISOLATED_PROCESS=true`
 - `VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165`
 
-These remain environment-configurable for larger deployments. The constrained defaults are an operational resource profile, not an analytical or scientific setting.
+These are operational resource settings and remain configurable for larger deployments. They are not deception-analysis parameters.
 
-### Isolated transcription process and hard deadline
+The September 10 controlled run proves this beam-1 profile can complete faster-whisper transcription for the tested 183.3-second WAV on the current deployed source. It does **not** prove the full pipeline is memory-safe after transcription. That is the active #941 gate.
 
-When `VOXVECTOR_WHISPER_ISOLATED_PROCESS=true`, faster-whisper executes in a disposable spawned process. The parent process writes the normalized WAV input to a temporary file, starts the child, waits no longer than `VOXVECTOR_WHISPER_TIMEOUT_SECONDS`, and terminates then kills the child if necessary. The temporary WAV is removed in the parent cleanup path.
+## Isolated transcription process
 
-This boundary gives VoxVector a process it can actually terminate when native ASR work exceeds the configured deadline. It also allows model memory to be reclaimed when the child exits instead of depending only on a long-lived API worker cache. Render's memory limit remains a cgroup/service limit across parent and child processes, so this design reduces retained/overlapping memory but does not itself prove that every input will stay below the platform ceiling. Production verification must still correlate real provider execution with Render memory and instance lifecycle telemetry.
+When process isolation is enabled, the parent writes a normalized temporary WAV, starts the transcription child, waits no longer than the configured process deadline, and terminates/kills the child if necessary. Temporary input and IPC resources are cleaned up by the parent.
 
-### Interrupted-run reconciliation
+This gives VoxVector a provider process it can actually terminate. Render's memory limit still applies to the service/container as a whole, so child isolation reduces retained parent memory but does not create a separate 512 MiB allowance for each process.
 
-New persisted case runs carry `process_instance_id` plus the active stage and configured stage timeout. `GET /v1/cases/{case_id}` reconciles a persisted `running` run into an explicit failed/interrupted state when the owning process identity has changed, when a persisted stage deadline plus grace period has expired, or when a legacy run without process identity exceeds the stale-run recovery threshold.
+## Heavy-phase cleanup rule
 
-This prevents an API restart or OOM from leaving the user interface indefinitely displaying `Running`. Reconciliation records the reason and process identity transition; it does not claim the failed provider completed.
+After heavyweight phases, VoxVector performs:
 
-### Memory admission control
+1. provider-owned release where implemented;
+2. Python garbage collection;
+3. best-effort Linux `malloc_trim(0)` where available;
+4. CUDA cache clearing **only if Torch is already loaded in the parent process**.
 
-Before a heavyweight provider phase starts, VoxVector checks current process RSS against a configurable admission threshold:
+Cleanup must never load a large optional runtime solely for the act of cleaning it.
 
-- `VOXVECTOR_MEMORY_LIMIT_MB=512`
-- `VOXVECTOR_MEMORY_HEADROOM_MB=96`
-- effective admission threshold: **416 MiB**
+## Runtime memory telemetry
 
-If current measured RSS is already at or above the admission threshold, the next heavy phase is rejected instead of knowingly entering the remaining platform headroom. This is a protective operational gate, not a scientific eligibility or analysis gate.
+`VoxVector/src/voxvector/runtime_memory.py` exposes current Linux process RSS and emits `VOXVECTOR_MEMORY` records around measured heavyweight provider phases. Records include phase, elapsed time, RSS before/after, post-cleanup RSS and the configured memory reference when available.
 
-### Runtime memory telemetry
+Render service metrics remain separate infrastructure evidence. Application RSS and Render container/service memory are related but not interchangeable measurements.
 
-`VoxVector/src/voxvector/runtime_memory.py` provides current Linux process RSS measurement and `VOXVECTOR_MEMORY` log records around heavyweight phases. Each record includes the phase name, elapsed time, RSS before/after, and the configured memory reference. Cleanup is recorded after provider cache release.
+## Request limits
 
-The telemetry module deliberately avoids a new runtime dependency and degrades to unavailable measurements on non-Linux platforms.
+Current API safeguards include:
 
-## Current request limits
+- application upload maximum from `VOXVECTOR_MEDIA_MAX_BYTES`, default 250 MB;
+- maximum sample rate 48,000 Hz;
+- initial analysis media format PCM WAV;
+- no general application duration cutoff.
 
-- Application-level maximum upload size: configured by `VOXVECTOR_MEDIA_MAX_BYTES` and currently defaults to 250 MB in the API adapter.
-- Maximum sample rate: 48,000 Hz
-- Initial format: PCM WAV
-- Application-level duration cutoff: none
+The upload maximum is a transport limit, not proof that a maximum-size recording can safely traverse every analytical/provider stage on a 512 MiB service.
 
-The upload ceiling is a transport-safety guard and does not imply that a maximum-size upload is safe to decode or analyze entirely in RAM. The current deployment must continue to be validated against representative media sizes and provider execution profiles before increasing concurrency or service workload. It is not a scientific constraint.
+## Render dependency/Blueprint drift
 
-## Verification requirement
+Canonical root `render.yaml` currently uses:
 
-A deployment is not considered memory-safe solely because the service starts. Required checks include:
+`pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
 
-- `/health` remains responsive during analysis;
-- the known 183.3 second incident WAV does not terminate the API worker;
-- speech acquisition uses bounded frame groups;
-- the transcription child process exits on success, provider failure, or configured deadline;
-- provider caches are empty after provider attempts where those caches exist;
-- `VOXVECTOR_MEMORY` records actual RSS around heavyweight phases;
-- faster-whisper reports actual transcript segments and timestamps or reaches an explicit bounded failure;
-- pyannote reports actual speaker turns when invoked;
-- repeated sequential provider executions are profiled for retained memory growth;
-- Render CPU/memory and instance lifecycle telemetry is correlated with provider execution;
-- interrupted persisted runs are reconciled rather than left `running` forever;
-- persisted transcript, speaker, and alignment artifacts can be read back under the case/run identity;
-- no deception probability or confidence value is fabricated.
+The connected live Render service currently reports:
 
-## Scientific and architectural boundary
+`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
-These are runtime correctness, resource-management, and observability changes only. They do not promote any analytical method to validated deception inference and do not change the required separation between eligibility/reliability, evidence collection/analysis, candidate classification, and final disposition.
+The latter installs local `pyannote.audio` and its PyTorch stack. The production primary diarization implementation is `pyannote_api`, which uses the cloud API and does not require local Community-1/Torch merely to call the primary provider.
 
-## Deployment note
+This is an infrastructure configuration drift, not an application execution result. It is tracked separately in #964. The Render-generated Blueprint export must be reconciled into the existing canonical root `render.yaml`; a second Blueprint must not be added.
 
-The canonical HTTP adapter is `VoxVector/api/app.py`. Render uses `VoxVector/` as its application/deployment root and starts `api.app:app`. Heavy speech dependencies remain in `api/requirements-speech.txt` so the base dependency set remains lightweight. The constrained speech runtime is treated as a measured resource profile, not as a reason to invent a scientific limitation.
+## Required verification for #941
 
-The September 9 repair is not production evidence until the approved revision is merged, deliberately deployed through the existing manual/deploy-hook path, `/health` reports that exact source revision, and a controlled real-audio provider execution demonstrates bounded completion/failure without an API OOM restart.
+Before the active repair is considered production-resolved:
 
-## 2026-09-05 case archive latency debugging
+1. final PR #962 head must pass focused backend tests and full exact-head VoxVector QA;
+2. affected documentation and audit records must match that exact head;
+3. the reviewed revision must be merged before production deployment;
+4. an approved Render deployment must be shown `live` on the intended source revision;
+5. fresh `/health` must show the exact source, beam-1 settings, separate process/Render instance identities and memory admission reference;
+6. the same controlled WAV must be run again;
+7. faster-whisper must complete or fail within its explicit bound without an API process restart;
+8. upstream transcript/alignment/provider state must be read back from durable case storage before downstream success is assumed;
+9. Stage 10 must either be admitted and complete safely or be refused explicitly by memory admission without process loss;
+10. Render memory, instance and application-process evidence must be correlated to the same request;
+11. authenticated browser verification remains separate from backend runtime verification.
 
-Live Render diagnostics reproduced severe latency on authenticated `GET /v1/cases` requests, including observed successful responses around 69–87 seconds during concurrent archive refresh activity. The route was completing with HTTP 200 rather than failing, which explains refresh controls appearing to spin for a long time.
+## Scientific boundary
 
-Root cause identified in the canonical storage projection: the case archive listed storage object metadata and then fetched every case JSON payload sequentially. Each Supabase Storage round trip accumulated into the user-visible request duration.
-
-Mitigation implemented in `api/case_store.py`: archive payload reads now use a bounded pool of up to eight concurrent storage reads, preserving owner filtering and updated-time sorting while removing sequential round-trip amplification. Regression coverage was added in `tests/test_case_store.py` for archive ownership and ordering.
-
-A Render deploy of commit `03fadc1a12c53882942d4270c602c6ba90673164` was explicitly triggered because the production service has auto-deploy disabled. Runtime latency improvement remains pending post-deploy measurement and must not be considered verified until new production diagnostics are observed.
+Memory containment, transcription process isolation, transcript persistence and pipeline recovery are software-engineering properties. They do not validate any vocal feature as a deception indicator, do not calibrate a deception probability and do not change the required separation among eligibility/reliability, evidence collection, candidate classification and final disposition.

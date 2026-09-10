@@ -30,6 +30,7 @@ _voxvector_package.__path__[:] = [CANONICAL_PACKAGE, *_package_paths]
 from voxvector.pipeline import VoxVectorPipeline
 from voxvector.results_envelope import compose_result_envelope
 from voxvector.evidence_acquisition import build_evidence_acquisition
+from voxvector.runtime_memory import ensure_memory_headroom, memory_admission_limit_mb, memory_limit_mb, memory_usage_mb
 from voxvector.transcript_evidence import build_transcript_evidence
 from voxvector.speech_providers import get_diarization_provider, get_transcription_provider
 from voxvector.stage_telemetry import StageTelemetry
@@ -42,7 +43,8 @@ from .storage import StorageError
 
 MAX_SAMPLE_RATE = 48_000
 MAX_MEDIA_BYTES = int(os.getenv("VOXVECTOR_MEDIA_MAX_BYTES", str(250 * 1024 * 1024)))
-PROCESS_INSTANCE_ID = os.getenv("RENDER_INSTANCE_ID", "").strip() or str(uuid4())
+RENDER_INSTANCE_ID = os.getenv("RENDER_INSTANCE_ID", "").strip() or None
+PROCESS_INSTANCE_ID = str(uuid4())
 STALE_RUN_SECONDS = float(os.getenv("VOXVECTOR_STALE_RUN_SECONDS", "420"))
 
 def _source_revision() -> str:
@@ -90,6 +92,76 @@ def _merge_transcript_evidence(result_dict: dict | None, transcript_evidence: di
     merged["provenance"] = provenance
     return merged, len(transcript_observations), len(transcript_records)
 
+
+def _checkpoint_acquisition_run(live_run: dict, acquisition_dict: dict, stage_states: list[dict]) -> dict:
+    """Persist completed upstream provider evidence before downstream heavyweight analysis."""
+    transcript = acquisition_dict.get("transcript") if isinstance(acquisition_dict, dict) else None
+    diarization = acquisition_dict.get("diarization") if isinstance(acquisition_dict, dict) else None
+    checkpointed_at = datetime.now(timezone.utc).isoformat()
+    live_run["stages"] = stage_states
+    live_run["pipeline_build"] = _pipeline_progress_summary(stage_states)
+    live_run["acquisition"] = acquisition_dict
+    live_run["transcript"] = transcript
+    live_run["speakers"] = diarization.get("speakers", []) if isinstance(diarization, dict) else []
+    live_run["tracks"] = []
+    live_run["provider_timings_ms"] = acquisition_dict.get("provider_timings_ms") if isinstance(acquisition_dict, dict) else {}
+    live_run["render_instance_id"] = RENDER_INSTANCE_ID
+    live_run["upstream_checkpoint"] = {
+        "checkpointed_at": checkpointed_at,
+        "transcription_state": acquisition_dict.get("transcription_state") if isinstance(acquisition_dict, dict) else None,
+        "diarization_state": acquisition_dict.get("diarization_state") if isinstance(acquisition_dict, dict) else None,
+        "transcript_available": bool(transcript),
+        "alignment_available": bool(acquisition_dict.get("multimodal_timeline")) if isinstance(acquisition_dict, dict) else False,
+    }
+    live_run["current_stage"] = {
+        "id": "eligibility_reliability",
+        "name": "Eligibility and Reliability",
+        "status": "pending",
+        "outcome": "upstream provider evidence checkpointed; awaiting downstream memory admission",
+    }
+    return live_run
+
+
+def _mark_downstream_memory_rejected(stage_states: list[dict], error: Exception, completed_at: str) -> str:
+    message = f"{type(error).__name__}: {str(error)[:800]}"
+    _set_stage(
+        stage_states,
+        "acoustic_feature_extraction",
+        "failed",
+        completed_at=completed_at,
+        outcome="downstream composite analysis was not started because memory admission failed; upstream speech artifacts were preserved",
+        error=message,
+    )
+    for stage_id in (
+        "eligibility_reliability",
+        "prosodic_voice_quality",
+        "temporal_pause_analysis",
+        "cross_method_evidence",
+        "evidence_convergence_conflict",
+        "candidate_classification",
+        "final_disposition",
+        "audit_provenance_output",
+    ):
+        _set_stage(
+            stage_states,
+            stage_id,
+            "not_run",
+            completed_at=completed_at,
+            outcome="not run because downstream memory admission failed before composite analysis started",
+            error=None,
+        )
+    return message
+
+
+def _analysis_failure_detail(exc: Exception, rid: str, failed_stage: str | None) -> dict:
+    return {
+        "message": "VoxVector analysis failed. Use the request ID in diagnostics for details.",
+        "request_id": rid,
+        "failed_stage": failed_stage,
+        "error_type": type(exc).__name__,
+    }
+
+
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
     CORSMiddleware,
@@ -134,6 +206,15 @@ PIPELINE_FOUNDATION_STATUS = {
 
 def _new_stage_states() -> list[dict]:
     return [{"number": number, "id": stage_id, "name": name, "status": "pending", "started_at": None, "completed_at": None, "duration_ms": None, "outcome": None, "error": None} for number, stage_id, name in PIPELINE_STAGE_DEFINITIONS]
+
+def _pipeline_progress_summary(stage_states: list[dict]) -> dict:
+    return {
+        "total_stages": len(stage_states),
+        "completed": sum(stage.get("status") in {"complete", "completed", "success", "succeeded"} for stage in stage_states),
+        "pending": sum(stage.get("status") in {"pending", "running", "processing", "in_progress"} for stage in stage_states),
+        "not_run": sum(stage.get("status") == "not_run" for stage in stage_states),
+        "failed": sum(stage.get("status") in {"failed", "error"} for stage in stage_states),
+    }
 
 def _set_stage(stage_states: list[dict], stage_id: str, status: str, *, started_at: str | None = None, completed_at: str | None = None, duration_ms: float | None = None, outcome: str | None = None, error: str | None = None) -> None:
     for stage in stage_states:
@@ -277,7 +358,7 @@ async def health():
     self_test_ok,self_test=_runtime_self_test()
     observed_at=datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
     runtime_status="healthy" if self_test_ok else "degraded"
-    return {"status":"ok" if self_test_ok else "degraded","service":"voxvector-analysis-api","observed_at":observed_at,"pipeline":VoxVectorPipeline.software_version,"source_revision":SOURCE_REVISION,"runtime":{"status":runtime_status,"source":"voxvector-analysis-api:/health","observed_at":observed_at,"version":VoxVectorPipeline.software_version,"version_source":"VoxVector/pyproject.toml","source_revision":SOURCE_REVISION,"process_instance_id":PROCESS_INSTANCE_ID},"canonical_package":CANONICAL_PACKAGE,"acoustic_module":ACOUSTIC_MODULE_PATH,"acoustic_source_sha256":ACOUSTIC_SOURCE_SHA256,"acoustic_runtime_signature":ACOUSTIC_RUNTIME_SIGNATURE,"pipeline_module":PIPELINE_MODULE_PATH,"pipeline_source_sha256":PIPELINE_SOURCE_SHA256,"runtime_self_test":self_test,"diagnostic_storage":DIAGNOSTICS.status(),"media_storage":DIAGNOSTICS.storage.media_configured,"analysis_limits":{"max_sample_rate_hz":MAX_SAMPLE_RATE,"max_media_bytes":MAX_MEDIA_BYTES},"pipeline_build":_stage_build_summary(),"speech_runtime":_speech_runtime_status(),"testing":{"current_commit_qa":CURRENT_COMMIT_QA,"source":".github/workflows/voxvector-qa.yml","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}}}
+    return {"status":"ok" if self_test_ok else "degraded","service":"voxvector-analysis-api","observed_at":observed_at,"pipeline":VoxVectorPipeline.software_version,"source_revision":SOURCE_REVISION,"runtime":{"status":runtime_status,"source":"voxvector-analysis-api:/health","observed_at":observed_at,"version":VoxVectorPipeline.software_version,"version_source":"VoxVector/pyproject.toml","source_revision":SOURCE_REVISION,"process_instance_id":PROCESS_INSTANCE_ID,"render_instance_id":RENDER_INSTANCE_ID},"canonical_package":CANONICAL_PACKAGE,"acoustic_module":ACOUSTIC_MODULE_PATH,"acoustic_source_sha256":ACOUSTIC_SOURCE_SHA256,"acoustic_runtime_signature":ACOUSTIC_RUNTIME_SIGNATURE,"pipeline_module":PIPELINE_MODULE_PATH,"pipeline_source_sha256":PIPELINE_SOURCE_SHA256,"runtime_self_test":self_test,"diagnostic_storage":DIAGNOSTICS.status(),"media_storage":DIAGNOSTICS.storage.media_configured,"analysis_limits":{"max_sample_rate_hz":MAX_SAMPLE_RATE,"max_media_bytes":MAX_MEDIA_BYTES,"memory_limit_mb":memory_limit_mb(),"memory_headroom_admission_mb":memory_admission_limit_mb()},"pipeline_build":_stage_build_summary(),"speech_runtime":_speech_runtime_status(),"testing":{"current_commit_qa":CURRENT_COMMIT_QA,"source":".github/workflows/voxvector-qa.yml","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}}}
 
 async def _read_storage_prefix(prefix: str, limit: int) -> list[dict]:
     storage=DIAGNOSTICS.storage; entries=await asyncio.to_thread(storage.list_json,prefix,min(limit,250),0); records=[]
@@ -412,7 +493,7 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
     try:
         case,source=await asyncio.to_thread(CASE_STORE.get_source,str(user["id"]),case_id,source_id)
         _set_stage(stage_states,"file_upload_ingest","complete",started_at=source.get("created_at"),completed_at=source.get("created_at"),outcome="source persisted before analysis run")
-        live_run={"run_id":live_run_id,"analysis_id":live_run_id,"request_id":rid,"status":"running","started_at":started_at,"completed_at":None,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"pipeline_duration_ms":None,"telemetry_scope":{"route_boundary_stages":["file_decode_normalization","provenance_integrity","channel_recording_assessment"],"composite_pipeline_internal_timing":"not independently instrumented"},"pipeline_build":{"total_stages":21,"completed":1,"pending":20,"not_run":0,"failed":0},"stages":stage_states,"current_stage":{"id":"file_decode_normalization","name":"File Decode and Normalization","status":"starting"}}
+        live_run={"run_id":live_run_id,"analysis_id":live_run_id,"request_id":rid,"status":"running","started_at":started_at,"completed_at":None,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"render_instance_id":RENDER_INSTANCE_ID,"pipeline_duration_ms":None,"telemetry_scope":{"route_boundary_stages":["file_decode_normalization","provenance_integrity","channel_recording_assessment"],"composite_pipeline_internal_timing":"not independently instrumented"},"pipeline_build":{"total_stages":21,"completed":1,"pending":20,"not_run":0,"failed":0},"stages":stage_states,"current_stage":{"id":"file_decode_normalization","name":"File Decode and Normalization","status":"starting"}}
         await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
 
         telemetry.start("file_decode_normalization")
@@ -504,29 +585,74 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         _set_stage(stage_states,"transcript_alignment",alignment_status,completed_at=datetime.now(timezone.utc).isoformat(),outcome=alignment_outcome)
 
         transcript_tokens=[]
+        transcript_segments=[]
+        words=[]
         if isinstance(transcript,dict):
+            transcript_segments=transcript.get("segments") or []
             words=transcript.get("words") or []
             transcript_tokens=[str(item.get("text","")).strip() for item in words if isinstance(item,dict) and str(item.get("text","")).strip()]
 
+        live_run=_checkpoint_acquisition_run(live_run,acquisition_dict,stage_states)
+        await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
+        await DIAGNOSTICS.emit(
+            "case.analysis_acquisition_checkpointed",
+            request_id=rid,
+            case_id=case_id,
+            source_id=source_id,
+            run_id=live_run_id,
+            transcription_state=transcription_state,
+            diarization_state=diarization_state,
+            transcript_segment_count=len(transcript_segments),
+            transcript_word_count=len(words),
+            alignment_available=bool(multimodal_timeline),
+        )
+
         pipeline_timeout_seconds=float(os.getenv("VOXVECTOR_PIPELINE_TIMEOUT_SECONDS","120"))
-        downstream_started_at=datetime.now(timezone.utc).isoformat()
-        _set_stage(stage_states,"eligibility_reliability","running",started_at=downstream_started_at,outcome="downstream observational analysis started after evidence acquisition")
-        _set_stage(stage_states,"acoustic_feature_extraction","running",started_at=downstream_started_at,outcome="canonical composite analysis started after evidence acquisition")
-        live_run["stages"]=stage_states; live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"running","timeout_seconds":pipeline_timeout_seconds}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
-        await DIAGNOSTICS.emit("case.analysis_stage_started",request_id=rid,case_id=case_id,source_id=source_id,stage="acoustic_feature_extraction",timeout_seconds=pipeline_timeout_seconds)
-        pipeline_started=timer()
+        pipeline_admitted=False
         try:
-            result=await asyncio.wait_for(asyncio.to_thread(VoxVectorPipeline().analyze,audio,sample_rate,transcript_tokens=transcript_tokens or None),timeout=pipeline_timeout_seconds)
-            pipeline_duration=elapsed_ms(pipeline_started); completed_at=datetime.now(timezone.utc).isoformat(); result_dict=VoxVectorPipeline.to_dict(result)
-            internal_completed={"eligibility_reliability":("complete",result.eligibility.status),"acoustic_feature_extraction":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"prosodic_voice_quality":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"temporal_pause_analysis":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"cross_method_evidence":("complete","normalized evidence assembled after required upstream evidence acquisition"),"evidence_convergence_conflict":("complete","evidence convergence/conflict structure assembled"),"candidate_classification":("complete","guarded candidate state recorded"),"final_disposition":("complete","guarded final disposition recorded"),"audit_provenance_output":("complete","analysis provenance and run record assembled")}
-            for stage_id,(status,outcome) in internal_completed.items(): _set_stage(stage_states,stage_id,status,completed_at=completed_at,duration_ms=None,outcome=outcome)
+            admitted_rss=ensure_memory_headroom("pipeline:acoustic_feature_extraction")
+            pipeline_admitted=True
         except Exception as exc:
-            pipeline_duration=elapsed_ms(pipeline_started); completed_at=datetime.now(timezone.utc).isoformat(); message=f"{type(exc).__name__}: {str(exc)[:800]}"
-            outcome="canonical composite pipeline timed out; upstream speech artifacts were preserved" if isinstance(exc,TimeoutError) else "canonical composite pipeline failed; upstream speech artifacts were preserved"
-            _set_stage(stage_states,"acoustic_feature_extraction","failed",completed_at=completed_at,outcome=outcome,error=message)
-            for stage_id in ("eligibility_reliability","prosodic_voice_quality","temporal_pause_analysis","cross_method_evidence","evidence_convergence_conflict","candidate_classification","final_disposition","audit_provenance_output"):
-                _set_stage(stage_states,stage_id,"not_run",completed_at=completed_at,outcome="not run because the composite analysis dependency failed",error=message)
-            await DIAGNOSTICS.emit("case.analysis_timeout" if isinstance(exc,TimeoutError) else "case.analysis_stage_failed",request_id=rid,case_id=case_id,source_id=source_id,stage="acoustic_feature_extraction",timeout_seconds=pipeline_timeout_seconds,error_type=type(exc).__name__,error_message=str(exc)[:1200])
+            completed_at=datetime.now(timezone.utc).isoformat()
+            message=_mark_downstream_memory_rejected(stage_states,exc,completed_at)
+            live_run["stages"]=stage_states
+            live_run["pipeline_build"]=_pipeline_progress_summary(stage_states)
+            live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"failed","completed_at":completed_at,"outcome":"memory admission rejected before downstream composite analysis started"}
+            await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
+            await DIAGNOSTICS.emit(
+                "case.analysis_stage_failed",
+                request_id=rid,
+                case_id=case_id,
+                source_id=source_id,
+                run_id=live_run_id,
+                stage="acoustic_feature_extraction",
+                reason="memory_admission_rejected",
+                error_type=type(exc).__name__,
+                error_message=str(exc)[:1200],
+                rss_mb=memory_usage_mb(),
+                admission_limit_mb=memory_admission_limit_mb(),
+                memory_limit_mb=memory_limit_mb(),
+            )
+
+        if pipeline_admitted:
+            downstream_started_at=datetime.now(timezone.utc).isoformat()
+            _set_stage(stage_states,"eligibility_reliability","running",started_at=downstream_started_at,outcome="downstream observational analysis started after evidence acquisition")
+            _set_stage(stage_states,"acoustic_feature_extraction","running",started_at=downstream_started_at,outcome="canonical composite analysis started after evidence acquisition")
+            live_run["stages"]=stage_states; live_run["pipeline_build"]=_pipeline_progress_summary(stage_states); live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"running","timeout_seconds":pipeline_timeout_seconds,"admitted_rss_mb":admitted_rss}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
+            await DIAGNOSTICS.emit("case.analysis_stage_started",request_id=rid,case_id=case_id,source_id=source_id,run_id=live_run_id,stage="acoustic_feature_extraction",timeout_seconds=pipeline_timeout_seconds,rss_mb=admitted_rss,admission_limit_mb=memory_admission_limit_mb(),memory_limit_mb=memory_limit_mb())
+            pipeline_started=timer()
+            try:
+                result=await asyncio.wait_for(asyncio.to_thread(VoxVectorPipeline().analyze,audio,sample_rate,transcript_tokens=transcript_tokens or None),timeout=pipeline_timeout_seconds)
+                pipeline_duration=elapsed_ms(pipeline_started); completed_at=datetime.now(timezone.utc).isoformat(); result_dict=VoxVectorPipeline.to_dict(result)
+                internal_completed={"eligibility_reliability":("complete",result.eligibility.status),"acoustic_feature_extraction":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"prosodic_voice_quality":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"temporal_pause_analysis":("complete","completed inside composite pipeline; internal timing not independently instrumented"),"cross_method_evidence":("complete","normalized evidence assembled after required upstream evidence acquisition"),"evidence_convergence_conflict":("complete","evidence convergence/conflict structure assembled"),"candidate_classification":("complete","guarded candidate state recorded"),"final_disposition":("complete","guarded final disposition recorded"),"audit_provenance_output":("complete","analysis provenance and run record assembled")}
+                for stage_id,(status,outcome) in internal_completed.items(): _set_stage(stage_states,stage_id,status,completed_at=completed_at,duration_ms=None,outcome=outcome)
+            except Exception as exc:
+                pipeline_duration=elapsed_ms(pipeline_started); completed_at=datetime.now(timezone.utc).isoformat(); message=f"{type(exc).__name__}: {str(exc)[:800]}"
+                outcome="canonical composite pipeline timed out; upstream speech artifacts were preserved" if isinstance(exc,TimeoutError) else "canonical composite pipeline failed; upstream speech artifacts were preserved"
+                _set_stage(stage_states,"acoustic_feature_extraction","failed",completed_at=completed_at,outcome=outcome,error=message)
+                for stage_id in ("eligibility_reliability","prosodic_voice_quality","temporal_pause_analysis","cross_method_evidence","evidence_convergence_conflict","candidate_classification","final_disposition","audit_provenance_output"):
+                    _set_stage(stage_states,stage_id,"not_run",completed_at=completed_at,outcome="not run because the composite analysis dependency failed",error=message)
+                await DIAGNOSTICS.emit("case.analysis_timeout" if isinstance(exc,TimeoutError) else "case.analysis_stage_failed",request_id=rid,case_id=case_id,source_id=source_id,run_id=live_run_id,stage="acoustic_feature_extraction",timeout_seconds=pipeline_timeout_seconds,error_type=type(exc).__name__,error_message=str(exc)[:1200])
 
         if transcript_result is not None:
             linguistic_started=timer()
@@ -535,11 +661,11 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
                 result_dict, transcript_observation_count, transcript_evidence_count=_merge_transcript_evidence(result_dict,transcript_evidence)
                 linguistic_duration=elapsed_ms(linguistic_started)
                 _set_stage(stage_states,"linguistic_disfluency","complete",completed_at=datetime.now(timezone.utc).isoformat(),duration_ms=linguistic_duration,outcome=f"transcript evidence assembled: {transcript_observation_count} observations, {transcript_evidence_count} normalized evidence records")
-                await DIAGNOSTICS.emit("case.analysis_stage_completed",request_id=rid,case_id=case_id,source_id=source_id,stage="linguistic_disfluency",duration_ms=linguistic_duration,observation_count=transcript_observation_count,evidence_count=transcript_evidence_count)
+                await DIAGNOSTICS.emit("case.analysis_stage_completed",request_id=rid,case_id=case_id,source_id=source_id,run_id=live_run_id,stage="linguistic_disfluency",duration_ms=linguistic_duration,observation_count=transcript_observation_count,evidence_count=transcript_evidence_count)
             except Exception as exc:
                 linguistic_duration=elapsed_ms(linguistic_started); message=f"{type(exc).__name__}: {str(exc)[:800]}"
                 _set_stage(stage_states,"linguistic_disfluency","failed",completed_at=datetime.now(timezone.utc).isoformat(),duration_ms=linguistic_duration,outcome="transcript-derived linguistic evidence failed; pipeline result preserved",error=message)
-                await DIAGNOSTICS.emit("case.analysis_stage_failed",request_id=rid,case_id=case_id,source_id=source_id,stage="linguistic_disfluency",duration_ms=linguistic_duration,error_type=type(exc).__name__,error_message=str(exc)[:1200])
+                await DIAGNOSTICS.emit("case.analysis_stage_failed",request_id=rid,case_id=case_id,source_id=source_id,run_id=live_run_id,stage="linguistic_disfluency",duration_ms=linguistic_duration,error_type=type(exc).__name__,error_message=str(exc)[:1200])
         else:
             _set_stage(stage_states,"linguistic_disfluency","not_run",completed_at=datetime.now(timezone.utc).isoformat(),outcome="transcript not attached")
 
@@ -548,14 +674,14 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         _set_stage(stage_states,"validation_calibration_gate","not_run",completed_at=datetime.now(timezone.utc).isoformat(),outcome="inferential validation gate not invoked")
         completed_count=sum(stage["status"] in {"complete","completed","success","succeeded"} for stage in stage_states); pending_count=sum(stage["status"] in {"pending","running","processing","in_progress"} for stage in stage_states); not_run_count=sum(stage["status"]=="not_run" for stage in stage_states); failed_count=sum(stage["status"] in {"failed","error"} for stage in stage_states)
         final_completed_at=datetime.now(timezone.utc).isoformat()
-        final_run={"run_id":result.run_id if result is not None else live_run_id,"analysis_id":result.run_id if result is not None else live_run_id,"request_id":rid,"status":"completed" if failed_count==0 else "completed_with_failures","started_at":started_at,"completed_at":final_completed_at,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"pipeline_duration_ms":pipeline_duration,"telemetry_scope":{"route_boundary_stages":["file_decode_normalization","provenance_integrity","channel_recording_assessment"],"composite_pipeline_internal_timing":"not independently instrumented"},"pipeline_build":{"total_stages":21,"completed":completed_count,"pending":pending_count,"not_run":not_run_count,"failed":failed_count},"testing":{"current_commit_qa":"external_workflow_required","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}},"stages":stage_states,"result":result_dict,"acquisition":acquisition_dict,"transcript":acquisition_dict.get("transcript") if isinstance(acquisition_dict,dict) else None,"speakers":acquisition_dict.get("diarization",{}).get("speakers",[]) if isinstance(acquisition_dict,dict) and isinstance(acquisition_dict.get("diarization"),dict) else [],"tracks":[],"provider_timings_ms":acquisition_dict.get("provider_timings_ms") if isinstance(acquisition_dict,dict) else {}}
-        envelope=compose_result_envelope(case=case,source=source,run=final_run,result=result_dict or {}); final_run["result_envelope"]=envelope; updated_case=await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,final_run); await DIAGNOSTICS.emit("case.analysis_completed",case_id=case_id,source_id=source_id,run_id=final_run["run_id"],request_id=rid,completed_stages=completed_count,pending_stages=pending_count,not_run_stages=not_run_count,failed_stages=failed_count,pipeline_duration_ms=pipeline_duration); return {"status":"ok","case":updated_case,"run":final_run,"result_envelope":envelope}
+        final_run={"run_id":live_run_id,"analysis_id":live_run_id,"pipeline_run_id":result.run_id if result is not None else None,"request_id":rid,"status":"completed" if failed_count==0 else "completed_with_failures","started_at":started_at,"completed_at":final_completed_at,"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"render_instance_id":RENDER_INSTANCE_ID,"pipeline_duration_ms":pipeline_duration,"telemetry_scope":{"route_boundary_stages":["file_decode_normalization","provenance_integrity","channel_recording_assessment"],"composite_pipeline_internal_timing":"not independently instrumented"},"pipeline_build":{"total_stages":21,"completed":completed_count,"pending":pending_count,"not_run":not_run_count,"failed":failed_count},"testing":{"current_commit_qa":"external_workflow_required","source_revision":SOURCE_REVISION,"historical_backend_baseline":{"passed":91,"duration_seconds":0.56}},"stages":stage_states,"result":result_dict,"acquisition":acquisition_dict,"transcript":acquisition_dict.get("transcript") if isinstance(acquisition_dict,dict) else None,"speakers":acquisition_dict.get("diarization",{}).get("speakers",[]) if isinstance(acquisition_dict,dict) and isinstance(acquisition_dict.get("diarization"),dict) else [],"tracks":[],"provider_timings_ms":acquisition_dict.get("provider_timings_ms") if isinstance(acquisition_dict,dict) else {},"upstream_checkpoint":live_run.get("upstream_checkpoint")}
+        envelope=compose_result_envelope(case=case,source=source,run=final_run,result=result_dict or {}); final_run["result_envelope"]=envelope; updated_case=await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,final_run); await DIAGNOSTICS.emit("case.analysis_completed",case_id=case_id,source_id=source_id,run_id=live_run_id,request_id=rid,completed_stages=completed_count,pending_stages=pending_count,not_run_stages=not_run_count,failed_stages=failed_count,pipeline_duration_ms=pipeline_duration); return {"status":"ok","case":updated_case,"run":final_run,"result_envelope":envelope}
     except CaseNotFound as exc: raise HTTPException(status_code=404,detail="Analysis case or source not found") from exc
     except StorageError as exc: raise HTTPException(status_code=503,detail="Case or media storage is unavailable") from exc
     except Exception as exc:
         try:
-            failed_run={"run_id":live_run_id,"analysis_id":live_run_id,"request_id":rid,"status":"failed","started_at":started_at,"completed_at":datetime.now(timezone.utc).isoformat(),"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"pipeline_build":{"total_stages":21,"completed":sum(s["status"] in {"complete","completed","success","succeeded"} for s in stage_states),"pending":sum(s["status"] in {"pending","running","processing","in_progress"} for s in stage_states),"not_run":sum(s["status"]=="not_run" for s in stage_states),"failed":1},"stages":stage_states,"current_stage":{"id":next((s["id"] for s in stage_states if s["status"] in {"failed","error"}),None),"status":"failed"},"error":safe_error(exc)}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,failed_run)
+            failed_run={"run_id":live_run_id,"analysis_id":live_run_id,"request_id":rid,"status":"failed","started_at":started_at,"completed_at":datetime.now(timezone.utc).isoformat(),"source_id":source_id,"pipeline_version":VoxVectorPipeline.software_version,"process_instance_id":PROCESS_INSTANCE_ID,"render_instance_id":RENDER_INSTANCE_ID,"pipeline_build":{"total_stages":21,"completed":sum(s["status"] in {"complete","completed","success","succeeded"} for s in stage_states),"pending":sum(s["status"] in {"pending","running","processing","in_progress"} for s in stage_states),"not_run":sum(s["status"]=="not_run" for s in stage_states),"failed":1},"stages":stage_states,"current_stage":{"id":next((s["id"] for s in stage_states if s["status"] in {"failed","error"}),None),"status":"failed"},"error":safe_error(exc),"acquisition":acquisition_dict if isinstance(acquisition_dict,dict) else live_run.get("acquisition") if 'live_run' in locals() else None,"transcript":(acquisition_dict or {}).get("transcript") if isinstance(acquisition_dict,dict) else live_run.get("transcript") if 'live_run' in locals() else None,"speakers":(acquisition_dict or {}).get("diarization",{}).get("speakers",[]) if isinstance(acquisition_dict,dict) and isinstance(acquisition_dict.get("diarization"),dict) else live_run.get("speakers",[]) if 'live_run' in locals() else [],"provider_timings_ms":(acquisition_dict or {}).get("provider_timings_ms",{}) if isinstance(acquisition_dict,dict) else live_run.get("provider_timings_ms",{}) if 'live_run' in locals() else {},"upstream_checkpoint":live_run.get("upstream_checkpoint") if 'live_run' in locals() else None}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,failed_run)
         except Exception: pass
         failure=safe_error(exc); failed_stage=next((s["id"] for s in stage_states if s["status"] in {"failed","error"}),None)
         await DIAGNOSTICS.emit("request.analysis_error",request_id=rid,case_id=case_id,source_id=source_id,failed_stage=failed_stage,**failure)
-        raise HTTPException(status_code=504 if isinstance(exc,TimeoutError) else 400,detail={"message":str(exc)[:1200],"request_id":rid,"failed_stage":failed_stage,"error":failure,"stages":stage_states}) from exc
+        raise HTTPException(status_code=504 if isinstance(exc,TimeoutError) else 400,detail=_analysis_failure_detail(exc,rid,failed_stage)) from exc

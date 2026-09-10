@@ -6,23 +6,21 @@ Build the complete VoxVector product represented by the canonical product archit
 
 This document defines the dependency ordered engineering sequence and is updated when the active implementation crosses a real dependency boundary.
 
-## Current execution checkpoint — 2026-09-04
+## Current execution checkpoint — 2026-09-10
 
-The connected Render runtime has now demonstrated:
+Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`, the merge of PR #960. Connected Render inspection shows deployment `dep-dah7usjl550s73e00350` live on that same source revision with production auto-deploy disabled.
 
-- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- backend pipeline `0.2.26`
-- runtime self-test `passed`
-- diagnostic/media storage `configured_media_ready`
-- media storage `true`
-- faster-whisper provider configured and execution-ready
-- pyannoteAI cloud primary configured and execution-ready; local Community-1 fallback disabled
-- Hugging Face token presence detected by the runtime
-- 21-stage pipeline contract remains 16 implemented or built foundations, 4 conditional/not-invoked, and 1 queued
+Controlled production execution on that deployed revision established that:
 
-Provider readiness is an infrastructure/runtime state. It does not by itself promote stages 05 or 07 to integrated production execution or establish scientific validity. The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before the configured diarization provider is invoked.
+- source upload/private persistence and speech segmentation succeeded for the 183.3-second controlled WAV;
+- faster-whisper executed the constrained `base`, CPU/int8, beam-1, one-thread, one-worker isolated-process profile;
+- transcription completed in about 113 seconds with 58 timestamped segments and 246 timestamped words;
+- the post-provider parent process then entered an unsafe memory state before downstream Stage 10 work and the API runtime restarted shortly afterward;
+- successful transcript/alignment/provider artifacts were not yet durably attached to the run before the downstream transition.
 
-The current engineering objective therefore moves from provider wiring to **controlled provider execution and artifact integration**.
+Issue #941 / draft PR #962 is therefore the active dependency. It keeps the canonical case-analysis pipeline, removes the cleanup-time PyTorch import side effect, adds Stage 10 memory admission, checkpoints completed upstream speech evidence to the same persisted run before downstream work, and separates Python-process identity from Render infrastructure identity.
+
+Provider execution, durable artifact persistence, downstream memory safety, deployment, browser verification, and scientific validation remain separate evidence boundaries. The successful controlled transcription is provider-execution evidence for that run; it is not transcript truthfulness or deception-validation evidence.
 
 ## Current implementation plan
 
@@ -38,24 +36,33 @@ The current engineering objective therefore moves from provider wiring to **cont
 - provider selection contracts
 - Developer Console runtime/status projection
 
-### EA2 — Speaker diarization execution — next
+### EA2 — Speech segmentation and speaker diarization execution
+
+Speech segmentation is an implemented upstream foundation and executed successfully in the latest controlled production run.
+
+Speaker diarization remains the next provider-execution dependency after the active #941 transcription-memory repair is closed:
 
 1. Confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime without exposing credential values.
-2. Execute the configured pyannoteAI cloud primary against a controlled WAV fixture.
+2. Execute the configured pyannoteAI cloud primary against the controlled WAV fixture.
 3. Verify speaker turns, segment boundaries, provider provenance, and case/run persistence.
 4. Record provider duration and relevant runtime/resource evidence.
 5. Preserve provider limitations and confidence semantics.
 6. Test local Community-1 only as a separate fallback exercise by explicitly configuring `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`; do not substitute fallback testing for primary verification.
-7. Promote Stage 05 from queued only after successful provider-backed execution is demonstrated.
+7. Promote Stage 06 only after successful cloud-primary provider execution and persisted artifact readback are demonstrated.
 
-### EA3 — Transcription execution — next
+### EA3 — Transcription execution and downstream memory safety — active
 
-1. Execute faster-whisper against the same controlled fixture.
-2. Verify transcript segments and word timestamps.
-3. Record provider duration and memory evidence.
-4. Persist transcript and provenance under case/run identity.
-5. Preserve model-generated transcript quality limitations.
-6. Promote Stage 07 from queued only after successful provider-backed execution is demonstrated.
+The faster-whisper path has now completed once under the constrained beam-1 production profile. The remaining engineering requirement is reliable persistence and transition into downstream analysis:
+
+1. Persist completed acquisition, transcript, alignment, provider state, and provider timings to the same case run before Stage 10 begins.
+2. Ensure the post-heavy-phase cleanup path does not import PyTorch merely to inspect CUDA state.
+3. Perform Stage 10 memory admission before Stage 10 is represented as running.
+4. On insufficient headroom, preserve the successful upstream checkpoint and persist an explicit bounded downstream failure/not-run state rather than allowing an uncontrolled process restart.
+5. Deliberately deploy the reviewed #941 revision and verify fresh `/health` source/process/memory contract readback.
+6. Re-run the same controlled WAV and read the checkpoint back from durable case storage.
+7. Require either safe Stage 10 completion or explicit bounded memory-admission refusal without API restart.
+
+Successful transcription establishes provider execution only. It does not establish transcript correctness, speaker identity, deception inference, or scientific validation.
 
 ### EA4 — Timestamp normalization and alignment
 
@@ -64,7 +71,7 @@ The current engineering objective therefore moves from provider wiring to **cont
 3. Join transcript words to overlapping speaker regions.
 4. Preserve unattributed words/regions when overlap is unavailable.
 5. Produce the canonical multimodal timeline artifact.
-6. Promote Stage 08 only from real provider output and regression coverage.
+6. Require persisted readback of the same-run alignment artifact rather than relying on transient in-memory state.
 
 ### EA5 — Evidence consumers
 
@@ -92,6 +99,7 @@ The current engineering objective therefore moves from provider wiring to **cont
 5. Verify diagnostic projections and Render bridge.
 6. Verify provider execution on representative fixtures.
 7. Record resource behavior and failure evidence.
+8. Require two complete golden-case passes on one exact deployed revision before engineering-MVP sign-off.
 
 ### EA8 — Scientific validation
 
@@ -114,20 +122,21 @@ Scientific validation is a distinct gate and is never inferred from software exe
 The critical path is:
 
 1. case identity and persistence — implemented
-2. recording intake and provenance — implemented
-3. audio playback and waveform — foundation implemented
+2. recording intake and provenance — implemented foundation; intermittent #930 pre-handler 400 remains open
+3. audio playback and waveform — foundation implemented; historical-case rehydration tracked separately in #963
 4. real 21-stage lifecycle — implemented foundation
-5. speaker processing — pyannoteAI cloud primary configured; route-gated execution next
-6. production transcription — provider configured; execution next
-7. audio/transcript/speaker alignment — foundation implemented; provider-backed execution next
-8. real analytical tracks — foundation present; synchronized expansion next
-9. evidence normalization — implemented foundation
-10. evidence synthesis — implemented foundation; expanded consumer integration next
-11. assessment — guarded architecture
-12. report generation — active build
-13. case history and reopen — foundation present
-14. browser end-to-end verification — required
-15. production hardening — required
+5. speech segmentation — implemented and exercised in the latest controlled run
+6. production transcription — provider execution established once; #941 owns durable checkpoint and downstream memory-safe transition
+7. speaker processing — pyannoteAI cloud-primary controlled execution remains required
+8. audio/transcript/speaker alignment — built foundation; durable provider-backed readback required
+9. real analytical tracks — foundation present; Stage 10 currently gated by #941 memory safety
+10. evidence normalization — implemented foundation
+11. evidence synthesis — implemented foundation; expanded consumer integration next
+12. assessment — guarded architecture
+13. report generation — active build
+14. case history and reopen — foundation present; persisted media/transcript rehydration tracked in #963
+15. browser end-to-end verification — required
+16. production hardening and same-revision repeatability — required
 
 Every downstream surface must consume a real upstream contract.
 
@@ -142,8 +151,8 @@ Every downstream surface must consume a real upstream contract.
 
 ### Understand
 
-5. Speaker Identification / Diarization
-6. Speech Segmentation
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 7. Transcription Generation
 8. Transcript Alignment
 9. Eligibility and Reliability
@@ -166,7 +175,7 @@ Every downstream surface must consume a real upstream contract.
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The live runtime currently reports 16 implemented or built foundations, 4 conditional/not-invoked stages, and 1 queued stage. Runtime provider readiness does not alter the pipeline maturity count until the corresponding real execution and integration contracts are verified.
+The canonical contract remains 21 stages. Current maturity and runtime execution state are stage-specific and must come from the current implementation/runtime evidence rather than from stale static labels. Provider readiness does not equal execution, and execution does not equal durable artifact persistence.
 
 ## Analysis Workspace target
 
@@ -201,6 +210,8 @@ The Developer Console is the engineering cockpit for this plan. It must consume 
 - current versus stale deployment evidence
 
 Current console capabilities include runtime health, API workbench, case workflow, 21-stage state, diagnostics, Render runtime, structured audits, and report/audit/log copy/download controls.
+
+Issue #965 separately owns synchronization of the existing frontend `PipelineBuildCard.jsx` with the canonical backend stage order and mutable `pipeline_build` status contract. It must not be folded into #941's backend reliability change.
 
 ## Engineering rules
 

@@ -1,88 +1,109 @@
 # VoxVector Deployment Boundary
 
 **Status:** Current product mirror  
-**Effective:** 2026-09-08
+**Effective:** 2026-09-10
+
+This Crown Labs Bible page mirrors the canonical deployment policy in `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`. Repository source and canonical VoxVector documentation remain authoritative.
 
 ## Canonical hosting architecture
 
-VoxVector has a deliberately separated deployment architecture:
+- **Public frontend:** `voxvector/` through GitHub Pages at `https://darenprince.com/voxvector/`.
+- **Original backend/API:** canonical `VoxVector/` workspace on Render at `https://voxvector.crownlabs.tech`.
+- **AWS backend environment:** separate canonical-container environment behind ALB/ECS at `https://awsapi.crownlabs.tech`.
+- **Authentication, persistence, diagnostics, private media:** Supabase.
+- **Source and QA:** GitHub and GitHub Actions.
 
-- **Public frontend:** the React application in `voxvector/`, deployed through GitHub Pages at `https://darenprince.com/voxvector/`.
-- **Original backend and analysis API:** the canonical `VoxVector/` workspace, served through Render at `https://voxvector.crownlabs.tech`.
-- **AWS backend environment:** the canonical `VoxVector/` workspace deployed through GitHub Actions to ECS Fargate behind an AWS Application Load Balancer at `https://awsapi.crownlabs.tech`.
-- **Operational and authentication data:** Supabase, using the existing project architecture.
-- **Deployment automation:** GitHub Actions for the public GitHub Pages build and AWS container deployment workflows. The original Render API is deliberately **not** auto-deployed from GitHub pushes.
+The original Render API hostname remains preserved. AWS does not silently replace it.
 
-The original API hostname remains preserved. AWS does not silently replace it.
+## Current Render state — 2026-09-10
+
+Connected inspection reports:
+
+- service `voxvector-api` (`srv-da2f88n40ujc73a8m26g`);
+- deployment `dep-dah7usjl550s73e00350` live;
+- deployed source exact `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`;
+- branch `main`, root `VoxVector`;
+- free plan, one instance, Oregon;
+- `/health` health check;
+- auto-deploy disabled;
+- live build command `requirements.txt` + `requirements-speech.txt`.
+
+The canonical root `render.yaml` instead specifies `requirements.txt` + `requirements-transcription.txt`.
+
+Issue #964 owns deliberate reconciliation of the Render-generated Blueprint export/live service into the **existing root `render.yaml`**. Do not upload or commit a second Blueprint and do not provision a duplicate `voxvector-api` service.
+
+## Blueprint policy
+
+The repository root `render.yaml` is the sole canonical Blueprint owner.
+
+- Protected secrets remain externally managed.
+- Reproducible non-secret operational values remain in Git where supported.
+- A provider-generated export is evidence to reconcile, not an automatic replacement for source.
+- `requirements-speech.txt` versus `requirements-transcription.txt` must be resolved from actual required runtime capability.
+- Any Blueprint sync must be separately validated against the existing service.
+
+The distinction matters because the broader speech dependency set includes optional local pyannote/PyTorch packages, while the canonical primary diarization architecture is the cloud `pyannote_api` path. Local Community-1 is an optional explicit fallback.
+
+## Current reliability boundary
+
+The deployed `f0dda136...` revision successfully completed faster-whisper beam-1 transcription on the controlled 183.3-second WAV, then encountered confirmed post-transcription memory exhaustion during the downstream transition. The owner confirmed the incident was a memory problem.
+
+Issue #941 / draft PR #962 repairs that runtime boundary. It is source work, not a deployment-policy change. The reviewed merge must be deliberately deployed and read back before production behavior is claimed.
+
+## Public/frontend deployment path
+
+`main source → GitHub Actions → React build → GitHub Pages artifact → https://darenprince.com/voxvector/`
+
+## Original Render API path
+
+`approved main revision → Developer Console/API deploy request → protected Render deploy hook → Render deploy record → intended source revision → live → fresh /health → https://voxvector.crownlabs.tech`
+
+The current live deploy was API-triggered. It does not by itself satisfy #920's protected Developer Console **Deploy Now** path.
+
+## Manual Render deployment control
+
+The canonical protected path remains:
+
+`Developer Console Deploy Now → POST /v1/developer/render/deploy → authenticated FastAPI route → server-only RENDER_DEPLOY_HOOK_URL → Render deploy hook`
+
+The browser never receives the hook URL. Hook acceptance is not a completed deployment.
+
+After acceptance, VoxVector must separately observe the deployment, match the intended commit, wait for `live`, verify `/health` and backend source revision, and complete any required runtime/browser verification.
+
+## Process versus hosting identity
+
+`process_instance_id` identifies the Python API process and changes across Python restarts. `render_instance_id` retains hosting-provider infrastructure identity separately when available.
+
+This matters because Render can restart Uvicorn/Python while retaining the same infrastructure instance label. A stable Render instance ID therefore cannot prove process continuity.
+
+## Data-flow clarification
+
+The active media path remains:
+
+`Browser → GitHub Pages frontend → Render FastAPI API → Supabase private media storage`
+
+Render is compute/runtime, not durable media storage. GitHub Pages is frontend publication, not API execution.
+
+The controlled memory failure confirmed that the source WAV and pre-termination diagnostics remained persisted in Supabase after the Python process restarted.
+
+## Supabase administrator state
+
+`voxvector-user-admin` is now ACTIVE, version 2, with JWT verification enabled. The latest trusted role inventory contains one admin, one developer, and one user.
+
+That corrects older current-state text that described the function as undeployed. Remaining #931 work is management UX and authenticated browser verification.
 
 ## Vercel
 
-**Vercel is not part of VoxVector.**
+**Vercel is not part of VoxVector.** Historical references are retained only for traceability.
 
-Vercel is retired and is not a supported VoxVector production host, frontend host, backend host, preview host, build target, dependency, configuration source, deployment target, or troubleshooting workaround.
+## Historical records
 
-Agents and developers must not introduce Vercel into VoxVector or use Vercel as an alternative path when the canonical deployment has a problem.
+Historical deployment IDs, source revisions, provider settings, and architecture observations remain historical evidence. They are not current instructions and are not rewritten merely because the live service has changed.
 
-## Historical references
+## Verification rule
 
-Some historical VoxVector records mention Vercel because it was considered or used during earlier development exploration. Those records are retained for traceability. They are not current deployment instructions.
+Keep these evidence boundaries explicit:
 
-Historical records that describe Render as automatically deploying from `main` are also preserved as dated evidence rather than rewritten. Connected Render inspection on September 8, 2026 confirmed that the current original API service has auto-deploy disabled.
+`source → QA → merge → trigger acceptance → deployment → runtime health → provider execution → artifact persistence → browser verification`
 
-The active technical policy is `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`.
-
-## Canonical paths
-
-As of September 8, 2026, deployment tasks use [tracker #915](https://github.com/darenprince/darenprince-author/issues/915) and the canonical [issue workflow](../../../../VoxVector/docs/DEVELOPMENT_WORKFLOW.md#10-development-flow). Link issue, PR, source revision and target environment. Record build, publish, trigger acceptance, runtime and browser results separately with observation timestamps. Update [the audit report](../../../../voxvector/audits/AUDIT_REPORT.md) after each task. Keep production acceptance gates open until verified; a PR or closed issue does not authorize deployment or cutover. [#920](https://github.com/darenprince/darenprince-author/issues/920) is the active manual Render deploy-hook repair. The earlier Pages trigger investigation [#911](https://github.com/darenprince/darenprince-author/issues/911) is closed. Historical infrastructure observations below are not rewritten by this policy update.
-
-Public frontend:
-
-`main → GitHub Actions → React build → GitHub Pages → https://darenprince.com/voxvector/`
-
-Original API:
-
-`approved main revision → Developer Console/API deploy request → protected Render deploy hook → Render deployment → https://voxvector.crownlabs.tech`
-
-AWS API environment:
-
-`VoxVector → GitHub Actions → ECR → ECS Fargate → ALB HTTPS → https://awsapi.crownlabs.tech`
-
-The frontend and backend hosting boundaries must remain distinct.
-
-## Original Render API deployment control
-
-The original Render API is manually deployed. Current connected inspection identified one workspace, `My Workspace`, and one VoxVector service, `voxvector-api`; the service reports `autoDeploy=no` and its automatic deploy trigger is off.
-
-The canonical manual path is:
-
-`Developer Console Deploy Now → POST /v1/developer/render/deploy → authenticated FastAPI route → protected RENDER_DEPLOY_HOOK_URL → Render deploy hook`
-
-The hook secret is never sent to the browser. Hook acceptance is not a completed deployment. After the hook accepts a request, VoxVector must observe the resulting Render deployment, match the intended commit, wait for `live`, verify the backend source revision and `/health`, and complete any required browser/runtime verification before describing production as verified.
-
-A September 5 runtime diagnostic captured a `JSONDecodeError` on the deploy route when a hook response body was not JSON. Issue #920 adds regression coverage and a backend parsing repair so successful empty, JSON, or text hook responses can be treated as trigger acceptance without exposing the hook value. The repair remains distinct from production deployment verification.
-
-At the September 8 inspection checkpoint, production Render deploy `dep-dafg5nv40ujc73b5l400` was live on commit `73ac03ded08c161e092ee2a4ecbbed7d036771c8`. GitHub `main` was later at `66a1616d49e228c6ec57d3cfc4855898675fae2c`; the intervening five commits were documentation, audit and workflow changes rather than new runtime implementation. That is a dated observation, not a permanent parity claim.
-
-## AWS HTTPS state
-
-The AWS Application Load Balancer terminates HTTPS for `awsapi.crownlabs.tech` using an ACM certificate validated through DNS. HTTP requests redirect to HTTPS. The ECS application port is protected behind the ALB security group.
-
-At the last infrastructure verification, the ALB was active and its VoxVector target was healthy.
-
-## Data-flow clarification and AUTO workflow
-
-The existing production media path is:
-
-`Browser → GitHub Pages frontend → Render-hosted FastAPI API → Supabase private media storage`
-
-The AWS environment is separately addressed for controlled runtime evaluation. AWS container health does not by itself establish authenticated Supabase parity or a production routing cutover.
-
-Render runs the original API and is not the durable media store. GitHub Pages serves the frontend and is not the API runtime.
-
-The canonical technical architecture and evidence-first AUTO workflow are maintained in:
-
-`VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`
-
-The authoritative endpoint map is:
-
-`VoxVector/docs/ENDPOINT_REGISTRY.md`
+No step is inferred solely from the previous one, and none constitutes scientific validation.
