@@ -21,7 +21,9 @@ The original Render API domain is preserved. The AWS endpoint is a separate envi
 
 ## Current Render production state — 2026-09-10
 
-Connected inspection establishes:
+Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`.
+
+Connected Render inspection establishes:
 
 - workspace `tea-da2errdg1s2s73cl4eeg`;
 - service `voxvector-api` (`srv-da2f88n40ujc73a8m26g`);
@@ -30,22 +32,34 @@ Connected inspection establishes:
 - plan `free`, one instance, Oregon;
 - health path `/health`;
 - auto-deploy disabled;
-- current deploy `dep-dah7usjl550s73e00350`, `live`;
-- deployed source exact `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`;
+- current deploy `dep-dahi2ics728c73b6ujug`, `live`;
+- deployed source exact `420536771875c6948be51851118b58cb04a596e6`;
 - deploy trigger `api`;
-- live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`.
+- deployment finished `2026-09-10T21:36:23.3655Z`;
+- live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`;
+- start command `uvicorn api.app:app --host 0.0.0.0 --port $PORT`.
+
+The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches repository URL, service name, Python runtime, free plan, Oregon region, root directory, build/start commands, health path, `voxvector.crownlabs.tech` domain and auto-deploy-off state. Its environment entries are redacted as `sync: false`; the export is evidence of names/presence, not secret or non-secret values.
 
 The canonical root `render.yaml` instead specifies `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`.
 
 That is active infrastructure-as-code drift. Issue #964 owns reconciliation of the Render-generated export/live service into the **existing root `render.yaml`**. Do not upload, commit, or provision a second Blueprint for `voxvector-api`.
 
-Secrets and protected provider values remain external. Non-secret runtime constraints that must be reproducible should remain source-controlled where the Render Blueprint specification supports them.
+Root `render.yaml` also declares `CORS_ORIGINS` as server-managed, while the owner export does not list it. Current backend source defaults to `*` when `CORS_ORIGINS` is absent. This difference must be reviewed deliberately under #964; the redacted export does not prove the runtime value or intended final policy.
+
+Secrets and protected provider values remain external. Reproducible non-secret runtime constraints should remain source-controlled where the Render Blueprint specification supports them.
+
+No fresh `/health` response for exact deployed source `420536...` is recorded by the current synchronization pass. Render `live` is deployment evidence only.
 
 ## Current runtime reliability boundary
 
-The current deployed `f0dda136...` revision successfully completed faster-whisper beam-1 transcription against the controlled 183.3-second WAV, then encountered confirmed post-transcription memory exhaustion during the transition to downstream analysis. Issue #941 / draft PR #962 owns that source repair.
+Historical deployed source `f0dda136...` successfully completed faster-whisper beam-1 transcription against the controlled 183.3-second WAV, then encountered confirmed post-transcription memory exhaustion during the transition to downstream analysis.
 
-That reliability work is not a deployment-policy change. PR #962 must be exact-head tested, reviewed and merged before any deliberate production deployment. Deployment of the eventual merge must then be verified independently through Render and fresh `/health` readback.
+PR #962 merged the first repair foundation. PR #967 then merged the reviewed bounded Stage 10 composite admission and stable route-owned run-identity follow-up as current `main` `420536...`. Current Render is `live` on that exact source.
+
+Issue #941 has been reopened because source merge/deployment did not execute all of its production acceptance criteria. Before accepting the controlled rerun, #964 should first reconcile the final dependency/configuration profile. Then the same controlled WAV must prove durable provider checkpointing and Stage 10 completion or explicit bounded refusal without uncontrolled process restart.
+
+This reliability work is not a deployment-policy or scientific-validation change.
 
 ## Required deployment paths
 
@@ -73,7 +87,7 @@ The browser never receives the hook URL.
 
 A successful hook response means trigger acceptance only. It does not establish that a deployment exists, targets the intended commit, reaches `live`, passes `/health`, reports the intended source revision, or is browser verified.
 
-Issue #920 owns verification of this exact protected path. The current live `dep-dah7usjl550s73e00350` deployment is API-triggered and therefore does not satisfy #920 merely because it is live.
+Issue #920 owns verification of this exact protected path. The current live `dep-dahi2ics728c73b6ujug` deployment is API-triggered and therefore does not satisfy #920 merely because it is live.
 
 Required #920 evidence remains:
 
@@ -88,18 +102,21 @@ Rules:
 1. Do not create `render-v2.yaml`, `render-final.yaml`, a second service definition, or another Blueprint for the same service.
 2. Treat a provider-generated Blueprint export as reconciliation evidence, not automatically canonical source.
 3. Preserve protected secrets with external management such as `sync: false` where appropriate.
-4. Keep reproducible non-secret settings explicit in Git where supported.
-5. Resolve live-vs-source drift intentionally from actual runtime requirements.
-6. Validate Blueprint syntax and inspect the diff before syncing it to Render.
-7. Verify the existing service after any deliberate Blueprint sync and ensure no duplicate service was provisioned.
+4. Do not infer redacted environment values from a provider export.
+5. Keep reproducible non-secret settings explicit in Git where supported.
+6. Resolve live-vs-source drift intentionally from actual runtime requirements.
+7. Validate Blueprint syntax and inspect the diff before syncing it to Render.
+8. Verify the existing service after any deliberate Blueprint sync and ensure no duplicate service was provisioned.
 
-The current `requirements-speech.txt` versus `requirements-transcription.txt` difference matters because the broader speech set includes optional local pyannote/PyTorch dependencies. The canonical production primary diarization architecture is the cloud `pyannote_api` adapter; local Community-1 is an optional explicit fallback. #964 will resolve the dependency set deliberately rather than assuming either current state is automatically correct.
+The current `requirements-speech.txt` versus `requirements-transcription.txt` difference matters because the broader speech set includes local `pyannote.audio`/PyTorch dependencies. The canonical production primary diarization architecture is the cloud `pyannote_api` adapter; local Community-1 is an optional explicit fallback. #964 will resolve the dependency set deliberately from actual source/runtime need rather than assuming either current state is automatically correct.
 
 ## Process and hosting identity boundary
 
 The API's application `process_instance_id` identifies the active Python process and must change when Python restarts. Render's provider-supplied infrastructure instance identity is retained separately as `render_instance_id` when available.
 
-A stable hosting instance ID is not evidence that the same Python process survived. This distinction is part of the active #941 reliability source contract and must be read back after the reviewed revision is deployed.
+A stable hosting instance ID is not evidence that the same Python process survived. Current source includes this distinction; reopened #941 must read back and exercise it on the reconciled candidate runtime.
+
+The persisted route-owned analysis identifier remains `run_id`. The pipeline-internal analytical UUID is retained separately as `pipeline_run_id` and must not replace persisted case-run identity.
 
 ## Supabase boundary
 
@@ -109,7 +126,13 @@ The existing production media path is:
 
 Render executes the API request but is not the durable media store. GitHub Pages serves the frontend artifact but is not the API runtime.
 
-Current connected Supabase evidence also shows `voxvector-user-admin` ACTIVE, version 2, with JWT verification enabled. That infrastructure state is separate from Render deployment and from remaining #931 User Management/browser work.
+The previously verified Supabase state showed `voxvector-user-admin` ACTIVE, version 2, with JWT verification enabled. That infrastructure state is separate from Render deployment and from #931's remaining PR #974 integration/browser profile acceptance.
+
+## Frontend publication / authenticated-entry boundary
+
+Exact-main GitHub Pages workflow `34532394423` succeeded for `420536...`. That is publication-workflow evidence, not interactive browser verification.
+
+Current `main` still lacks the requested login-time API wake in `AuthGate.jsx`. Draft PR #974 under #931 contains that candidate repair and shared role-aware self-profile wiring, but it is not merged or deployed. Its prior QA predates the #967 main advance and must be refreshed against current `main` before merge recommendation.
 
 ## AWS HTTPS boundary
 
@@ -153,4 +176,5 @@ Engineering deployment evidence does not establish scientific validation.
 - `docs/MVP_RELEASE_GATE.md`
 - tracker #915
 - Render Blueprint reconciliation #964
-- runtime-memory repair #941
+- controlled runtime proof #941
+- current-state synchronization #975
