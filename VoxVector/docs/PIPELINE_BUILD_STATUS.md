@@ -43,9 +43,9 @@ The maturity count does not mean sixteen validated deception indicators. Individ
 
 ## Live API runtime evidence — 2026-09-09
 
-The original Render backend was deliberately deployed to merged repair revision `09381797d4486bc049cb99a527c624690274b7c7` through manual deployment `dep-dagjc3740ujc73ff3ge0`. Connected deployment evidence established checkout of that intended revision, successful build, Uvicorn startup, repeated `/health` HTTP 200 responses, and terminal `live` deployment state. Current GitHub `main` later advanced to `a656c3545daef4bc5c6a941066d9a1f92f70aa61` with frontend/documentation changes; Render remains intentionally on the last manually deployed backend revision `09381797...`.
+The original Render backend was deliberately deployed to merged repair revision `09381797d4486bc049cb99a527c624690274b7c7` through manual deployment `dep-dagjc3740ujc73ff3ge0`. Connected deployment evidence established checkout of that intended revision, successful build, Uvicorn startup, repeated `/health` HTTP 200 responses, and terminal `live` deployment state. Canonical GitHub `main` later advanced to `010676db66e92d715290ee5fe0d1bc3b52c4b208` after Developer engineering-rail PR #950 merged; Render remains intentionally on the last manually deployed backend revision `09381797...` because automatic deployment is disabled.
 
-That deployment evidence establishes source-to-runtime deployment and health only. Controlled authenticated real-audio transcription on the repaired revision, runtime `/health` payload readback, memory/instance correlation during provider work, persisted transcript/speaker/alignment artifact readback, stale-history recovery, and authenticated browser verification remain separate unresolved evidence.
+That deployment evidence establishes source-to-runtime deployment and health-check reachability only. Controlled authenticated real-audio transcription on the repaired revision, full `/health` payload readback, memory/instance correlation during provider work, persisted transcript/speaker/alignment artifact readback, deployed lifecycle-recovery verification, and authenticated browser verification remain separate unresolved evidence.
 
 ### Historical OOM incident evidence
 
@@ -116,18 +116,25 @@ The final run persists the result, acquisition artifact, result envelope, provid
 
 ### Run lifecycle recovery and export checkpoint — PR #946
 
-Issue #945 / PR #946 extends the same canonical case-run lifecycle rather than creating a second pipeline. On the branch:
+Issue #945 / PR #946 extends the same canonical case-run lifecycle rather than creating a second pipeline. Current source checkpoint before this documentation synchronization is `18777886bf28c6cac8fb13fc00d5b5653b15b20b`.
 
 - Case History listing reconciles eligible stale or deadline-expired `running` runs, so recovery no longer requires opening an individual case first.
-- When interruption recovery closes a run, the interrupted active stage is marked `failed` and remaining unfinished stages are terminalized as `not_run` with an explicit reason instead of remaining indefinitely pending.
+- A legitimate current-worker run with a usable configured stage deadline is not stale-failed before that deadline.
+- When interruption recovery closes a run, the interrupted active stage is marked `failed` and remaining unfinished dependent work is terminalized as `not_run` with an explicit reason instead of remaining indefinitely pending.
 - Active runs expose real elapsed time; terminal runs persist final elapsed time.
 - Terminal runs persist a structured `run_report`. Failed and `completed_with_failures` runs also persist a `failure_report` containing run/request/source identity, source revision when available, timing, stage states, errors, provider state, completed work, failed work, not-run work, and unresolved work.
+- Historical terminal runs do not inherit the source revision of a later runtime merely reading the record, and legitimate terminal metadata backfill is persisted.
+- Per-case in-process serialization now covers Case History reconciliation, explicit reconciliation, `update_run`, source mutation and deletion. In the current single-process/single-instance CaseStore architecture this prevents a stale history snapshot from overwriting a newer same-process run update. It is not cross-process compare-and-swap protection for a future horizontally scaled writer model.
 - The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the persisted JSON report, alongside the existing case/report copy control.
 - The explicit pyannoteAI → local Community-1 fallback wrapper preserves the primary provider failure in provenance when fallback succeeds and reports both provider failures when fallback also fails.
 
-The prior documentation-synchronized head `107413b821d8a444f212c3a6d523f3bf8d95ec6b` passed VoxVector QA run #1896 (`196 passed`, eight frontend contract tests, successful React production build) and PR Preview Build #787. This runtime-evidence correction advances the branch again, so fresh exact-head CI is required before merge recommendation.
+Evidence chronology:
 
-This checkpoint does **not** mean the Hugging Face Community-1 fallback has been enabled or executed in production. The currently documented production policy remains pyannoteAI cloud primary with local fallback disabled unless explicitly configured. The Render environment has a constrained memory envelope, so local Community-1 fallback must not be represented as production-safe merely because `HF_TOKEN` and fallback variables exist. Configuration, provider execution, deployment, browser verification, and scientific validation remain separate evidence states.
+- `c332f58e88c73c89c036b127e5bbe57389d6ed05` passed exact-head VoxVector QA #1917 and PR Preview Build #797 after the first three review corrections.
+- `18777886bf28c6cac8fb13fc00d5b5653b15b20b` passed exact-head VoxVector QA #1954 and PR Preview Build #815 after the history-write concurrency repair and focused regression test.
+- This documentation synchronization advances the branch head again; fresh exact-head QA and Preview are required before merge.
+
+This checkpoint does **not** mean the lifecycle change has been merged or deployed, the Hugging Face Community-1 fallback has been enabled/executed in production, or any provider has been verified through a controlled case. Configuration, provider execution, deployment, browser verification, and scientific validation remain separate evidence states.
 
 ## Render runtime bridge
 
@@ -135,7 +142,7 @@ The Developer Console exposes real server-side Render status and recent logs thr
 
 ## Current engineering stage
 
-**Verify dependency-ordered provider execution, resilient run recovery, and controlled artifact readback.**
+**Merge and deploy the reviewed lifecycle recovery safely, then verify dependency-ordered provider execution and controlled artifact readback.**
 
 The dependency order is:
 
@@ -155,8 +162,8 @@ A green PR build does not establish that the repaired transcription path survive
 
 ## Current next steps
 
-1. Complete fresh exact-head QA for PR #946 after this runtime-evidence correction.
-2. Merge only after reviewable source/diff integrity is confirmed.
+1. Complete this #946 documentation/Crown Labs Bible synchronization and fresh exact-head QA/preview.
+2. Merge only after the remaining documentation review threads are resolved against actual source and the PR remains mergeable.
 3. Deliberately trigger the protected Render deployment because auto-deploy is disabled.
 4. Verify `/health` reports the merged revision and intended constrained transcription settings.
 5. Refresh Case History and verify previously stuck eligible runs reconcile into terminal failed/not-run states with downloadable failure reports.

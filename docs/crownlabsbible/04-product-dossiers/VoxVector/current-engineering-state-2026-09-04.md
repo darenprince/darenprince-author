@@ -4,24 +4,53 @@ This Crown Labs product/engineering mirror reflects the active VoxVector enginee
 
 ## Runtime snapshot
 
+- Canonical GitHub `main`: `010676db66e92d715290ee5fe0d1bc3b52c4b208`
 - Backend source release: `0.2.27`
 - Frontend source release: `0.2.37`
-- Latest confirmed live Render deployment revision: `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`
-- Latest confirmed live Render deploy: `dep-dagib9ajnfac73dpb630`, trigger `deploy_hook`, finished `2026-09-09T09:30:19.773542Z`
-- Render production auto-deploy: disabled; production backend changes require the protected manual/deploy-hook path
+- Exact-main VoxVector QA: #1950, success
+- Exact-main Deploy GitHub Pages: #1707, success
+- Latest confirmed live Render deployment revision: `09381797d4486bc049cb99a527c624690274b7c7`
+- Latest confirmed live Render deploy: `dep-dagjc3740ujc73ff3ge0`, trigger `api`, status `live`
+- Render production auto-deploy: disabled; production backend changes require a deliberate manual/deploy-hook action
+- Supabase project `VoxVector` (`tawtkawmjqabydnatavx`): `ACTIVE_HEALTHY` at the 2026-09-09 connected inspection
+- Current run-lifecycle recovery source checkpoint: PR #946 head before final docs `18777886bf28c6cac8fb13fc00d5b5653b15b20b`, QA #1954 success, PR Preview #815 success
 - Runtime self-test, media-storage readiness, provider readiness, API version, and source revision are read from the live API health contract rather than inferred from source or Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB
 
 Backend and frontend are independently versioned. Backend source authority is `VoxVector/pyproject.toml`, with source/runtime alignment enforced by `VoxVector/tests/test_version_sync.py`. Frontend authority is `voxvector/package.json`. The live API release remains whatever `/health` actually reports until a newer deployment is verified.
 
-## September 9 transcription reliability incident
+## September 9 transcription reliability incident and repair
 
-Connected Render logs for request `6bb7ec766d3e46f39462ef92c9929544` show Stage 07 transcription starting at `09:36:46Z` for a 183.3 second WAV, faster-whisper starting at `09:36:47Z`, and the `base` CPU/int8 model loading at `09:36:48Z`. No transcription completion/failure/timeout record followed. Render restarted Uvicorn at `09:37:05Z` and started a new server process at `09:37:11Z`, matching the Render memory-limit automatic-restart alert.
+Connected Render evidence tied the earlier Stage 07 loss to the constrained service memory lifecycle: the faster-whisper model loaded, the API process disappeared before an in-process terminal update could be persisted, and Uvicorn restarted. Source inspection also found the historical route completed downstream analytical work before provider-backed transcription, contradicting the required dependency order.
 
-The persisted run stayed `running` because the API process died before the prior in-process timeout handler could persist a terminal state. Source inspection also found that the deployed route marked downstream analytical stages complete before provider-backed transcription began, which did not match the canonical dependency sequence.
+The merged repair at `09381797d4486bc049cb99a527c624690274b7c7` now uses dependency-ordered provider acquisition and a disposable faster-whisper child process with a hard local deadline. Render deployment `dep-dagjc3740ujc73ff3ge0` built that revision, started Uvicorn, returned health-check HTTP 200 responses and reached `live`. That is deployment/runtime-health evidence, not controlled real-audio provider execution.
 
-PR #942 repairs this source-level lifecycle but is not production evidence until merged, deliberately deployed, and verified against the live Render runtime.
+## Run lifecycle recovery — issue #945 / PR #946
+
+PR #946 extends the existing CaseStore/run-lifecycle owner rather than creating a second pipeline or persistence layer.
+
+Current source behavior before this documentation synchronization:
+
+- Case History listing can reconcile eligible stale/deadline-expired `running` runs instead of requiring the individual case to be reopened first.
+- A legitimate current-worker run with a usable configured deadline is not stale-failed before that deadline.
+- Recovery marks the interrupted active stage failed and terminalizes unfinished dependent work as `not_run` with an explicit reason.
+- Active/final elapsed time is real and terminal `run_report` / `failure_report` metadata is persisted.
+- Historical source provenance is not fabricated from a later runtime merely reading an old record.
+- Legitimate terminal metadata backfill is persisted rather than synthesized only in a response.
+- Per-case in-process serialization covers Case History reconciliation, explicit reconciliation, run updates, source mutation and deletion. In the current one-process/one-instance CaseStore architecture, this prevents a stale history read/reconcile/write from overwriting a newer same-process run update.
+- The existing Analysis Workspace exposes Copy/Download controls for the persisted run report.
+- The explicit pyannoteAI → local Community-1 fallback wrapper retains primary/fallback failure provenance.
+
+The concurrency protection is not represented as cross-process compare-and-swap protection for a future horizontally scaled object-store writer architecture.
+
+Evidence chronology:
+
+- `c332f58e88c73c89c036b127e5bbe57389d6ed05`: VoxVector QA #1917 success; PR Preview #797 success.
+- `18777886bf28c6cac8fb13fc00d5b5653b15b20b`: VoxVector QA #1954 success; PR Preview #815 success after the concurrency repair/test.
+- Final documentation synchronization advances the PR head and therefore requires fresh exact-head QA before merge.
+
+PR #946 is not represented here as merged, deployed, browser verified, provider executed, or scientifically validated until those separate evidence steps actually occur.
 
 ## Speech runtime
 
@@ -29,18 +58,7 @@ The canonical backend supports configured faster-whisper transcription plus pyan
 
 The repaired source defaults faster-whisper to `base`, CPU, int8, beam 1, one CPU thread, one worker, an isolated spawned process, and a 165 second hard child-process deadline. The route-level evidence-acquisition deadline remains a separate outer boundary.
 
-The Developer Console keeps these distinctions visible:
-
-- configured provider
-- adapter/package presence where applicable
-- pyannote API-key presence for the cloud path
-- Hugging Face token presence for the local path
-- primary execution readiness
-- fallback execution readiness
-- successful provider execution, which still requires a controlled run
-- active process/stage identity for interrupted-run reconciliation after restart
-
-Provider readiness is not successful execution and is not scientific validation.
+The Developer Console keeps configured provider, package/key presence, execution readiness, actual execution, source revision and deployment/runtime state distinct. Provider readiness is not successful execution and is not scientific validation.
 
 ## Render runtime discipline
 
@@ -48,11 +66,7 @@ The Render service remains a constrained compute baseline. Runtime hardening inc
 
 The repaired case route releases the persisted WAV byte buffer after integrity verification, performs speech/provider evidence acquisition before downstream composite analysis, and runs faster-whisper in a disposable child process so a hard deadline can terminate native ASR work rather than merely cancelling the waiting coroutine.
 
-Render's memory ceiling still applies to the service/container as a whole. Process isolation improves termination and memory reclamation behavior but does not by itself prove a real recording will remain below the platform memory ceiling. Production provider execution and Render memory/instance correlation remain mandatory.
-
-The engineering UI does not hard-code a memory-limit claim as live status. Infrastructure state is read from the authenticated Render bridge, while analysis runtime state is read from `/health`.
-
-Configured runtime safeguards may include `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MALLOC_ARENA_MAX=2`, and `TOKENIZERS_PARALLELISM=false`.
+Process isolation improves termination and memory reclamation behavior but does not prove a real recording will remain below the platform memory ceiling. Production provider execution and Render memory/instance correlation remain mandatory.
 
 ## 21-stage pipeline
 
@@ -82,24 +96,21 @@ The source order is now:
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The repaired case route no longer intentionally reports later dependent analysis complete while Stage 07 transcription is still active. Controlled production execution is still required to verify that behavior under the Render runtime.
-
 Provider readiness does not promote queued or conditional stages. Stage promotion requires real provider-backed execution, persisted artifacts, integration behavior, and QA evidence.
 
 ## Current implementation sequence
 
-1. Exact PR-merge software QA.
-2. Review and merge the bounded transcription/order repair.
-3. Trigger the protected Render deployment manually because auto-deploy is disabled.
-4. Verify deployed source revision and `/health` runtime settings.
-5. Verify stale/interrupted persisted runs reconcile to explicit failed/interrupted state.
+1. Complete #946 final docs/Crown synchronization and exact-head QA/Preview.
+2. Merge #946 only after its remaining documentation review threads are resolved against source.
+3. Deliberately deploy the merged backend revision because Render auto-deploy is disabled.
+4. Verify the intended deploy reaches `live`, then verify runtime `/health` source revision and settings.
+5. Refresh Case History and verify eligible old `running` records terminalize with persisted reports.
 6. Run controlled transcription and correlate provider execution with Render memory/instance lifecycle.
 7. Run controlled cloud-primary speaker diarization when its route gate is enabled.
 8. Persist transcript, speaker, and alignment artifacts.
-9. Confirm downstream evidence/classification stages follow the required dependency order.
+9. Complete authenticated desktop/mobile browser verification.
 10. Repeat the engineering-MVP golden case on the same exact deployed revision.
-11. Complete authenticated desktop/mobile browser verification.
-12. Conduct scientific validation separately.
+11. Conduct scientific validation separately.
 
 ## Deployment boundary
 
@@ -113,25 +124,13 @@ Supabase remains the configured authentication, persistence, diagnostics, privat
 
 ## Developer Console interaction state
 
-The canonical Developer Console uses one reusable collapsible-card title-bar system for applicable work surfaces. Title bars meet the top and side card edges, use only a subtle lower separator, keep supporting text subordinate, and put a small disclosure control at the far right. The Analysis Workspace uses the same pattern rather than maintaining a competing header override.
+The canonical Developer Console uses one reusable collapsible-card title-bar system for applicable work surfaces. Case History preserves swipe-to-delete on touch devices and desktop trash controls while adding Select mode for multi-case deletion. Structured audits are collapsed by default. Developer profiles use the existing `public.profiles` record and private `voxvector-avatars` storage.
 
-Case History preserves swipe-to-delete on touch devices and desktop trash controls while adding Select mode for multi-case deletion. Multi-delete still calls the owner-scoped canonical case endpoint and requires irreversible confirmation.
+PR #950 is now merged into canonical `main` as `010676db66e92d715290ee5fe0d1bc3b52c4b208`. Its single `DeveloperEngineeringStatus` instance is rendered immediately after `SiteHeader` as a real sticky 34px flow row beneath the 56px navigation. It preserves independent hide/expand/collapse controls, full-height non-modal disclosure, and bottom-right toast placement. Exact-main QA #1950 and Pages #1707 succeeded. Authenticated desktop/mobile browser interaction remains a separate verification gate.
 
-Structured audits are collapsed by default and show date, title, brief summary, status, and disclosure affordance until expanded.
+## Supabase security boundary
 
-Developer profiles use the existing `public.profiles` record and a private `voxvector-avatars` Supabase Storage bucket. Avatar access is owner-scoped; accepted profile images are JPG, PNG, or WebP up to 5 MB. The profile editor supports display-name changes and avatar upload/change. The top-navigation profile menu uses an opaque surface.
-
-The Live Engineering State rail is full-width directly below the primary navigation. Opening it produces a page-filling slide-down drawer with scroll and swipe-to-collapse. Status is assembled from separate API health, exact-revision GitHub Actions, and authenticated Render evidence instead of a synthetic single health claim.
-
-The API startup surface uses an indeterminate wake state and elapsed time while the backend is cold instead of holding a synthetic progress percentage. After `/health` really returns, the returned checks are revealed progressively before the dashboard opens. The footer displays the frontend package version next to the API-reported live version and source revision.
-
-Passive interface glyphs render without decorative full-stroke square containers unless the element is actually an interactive control. Startup and authentication glyphs follow the same rule as the existing public header, landing, panel, engineering-status, and toast iconography.
-
-## Verification boundary
-
-The transcription/order repair currently has repository QA evidence only. It is not production-verified until the merged revision is deliberately deployed, `/health` reports the exact intended source revision and constrained ASR settings, a controlled real-audio transcription run completes or fails within the documented bound without an API OOM restart, persisted run state is read back, and the browser/runtime projection matches the persisted stage states.
-
-The Supabase avatar/profile migration was applied and its private bucket and RLS policies were read back successfully. Existing Supabase security-advisor warnings unrelated to this migration remain open. Frontend/Developer Console changes still require exact-head QA, deployment evidence and authenticated desktop/mobile browser verification before production UI behavior is considered verified.
+Connected inspection reports the project healthy. The security advisor still reports the existing `developer_dashboard_summary()` SECURITY DEFINER executable warning and disabled leaked-password protection. The summary RPC itself performs the existing `is_developer_admin()` authorization check. These warnings were not changed during the run-lifecycle or engineering-rail tasks and remain separate security-hardening evidence rather than being silently modified.
 
 ## Scientific boundary
 
@@ -141,12 +140,6 @@ Operational readiness, provider execution, software QA, memory containment, engi
 
 The Render Runtime surface includes a protected **Deploy Now** control. The browser calls `POST /v1/developer/render/deploy`; the authenticated API runtime keeps `RENDER_DEPLOY_HOOK_URL` server-side and sends the deployment request to Render.
 
-The current Render service is not auto-deployed. Connected inspection confirms one workspace, `My Workspace` (`tea-da2errdg1s2s73cl4eeg`), and one service, `voxvector-api` (`srv-da2f88n40ujc73a8m26g`).
-
-Trigger acceptance is distinct from deployment verification. Required evidence is:
+Render auto-deploy remains disabled. Trigger acceptance is distinct from deployment verification. Required evidence is:
 
 `hook accepted → new Render deploy observed → intended commit matched → deploy live → backend source_revision verified → /health verified → controlled provider execution → browser/runtime verification when required`
-
-Historical Render diagnostics on September 5 captured a `JSONDecodeError` on the deploy route when a successful hook response body was not JSON. Issue #920 repaired that server-side response parsing and added JSON, text and empty-body regression coverage. The hook value remains private and non-JSON hook content is not treated as trusted deployment evidence.
-
-The current repair is not production-verified until the merged revision is deliberately deployed, a new Render deploy reaches `live`, runtime source revision is verified, and the controlled provider/browser evidence chain is completed.

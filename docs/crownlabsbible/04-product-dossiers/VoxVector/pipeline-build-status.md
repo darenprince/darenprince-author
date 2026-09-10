@@ -15,21 +15,15 @@ Current runtime maturity remains:
 - 1 queued for deeper runtime integration.
 - all 21 represented in the canonical backend stage contract.
 
-The September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`. The latest observed runtime reports faster-whisper plus the pyannoteAI cloud primary as configured/execution-ready. The local Community-1 fallback remains optional and has not been established as safe production execution on the constrained Render runtime. Provider readiness and deployment health do not establish controlled provider execution or promote queued stages.
+The September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`. Connected Render inspection still reports that revision as the latest live backend because automatic deployment is disabled. Provider readiness and deployment health do not establish controlled provider execution or promote queued stages.
 
-## Live API checkpoint
-
-Manual Render deployment `dep-dagjc3740ujc73ff3ge0` checked out backend revision `09381797d4486bc049cb99a527c624690274b7c7`, built successfully, started Uvicorn, returned repeated `/health` HTTP 200 responses, and reached terminal `live` state. GitHub `main` later advanced with frontend/documentation changes while Render remained intentionally on the last manually deployed backend revision.
-
-This deployment evidence is not a controlled real-audio transcription run, speaker-diarization execution, persisted transcript/speaker artifact readback, authenticated browser verification, or scientific validation.
-
-The case-analysis route requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider. This gate is separate from provider readiness.
+Canonical GitHub `main` has advanced to `010676db66e92d715290ee5fe0d1bc3b52c4b208` after the Developer engineering-status rail repair. Exact-main VoxVector QA #1950 and Deploy GitHub Pages #1707 succeeded. This frontend/publication progression does not silently redeploy the Render backend.
 
 ## Current engineering stage
 
-**Dependency-ordered provider execution, resilient run completion, and evidence artifact integration.**
+**Finish, merge and deliberately deploy the reviewed run-lifecycle recovery, then execute controlled provider verification.**
 
-The next dependency is controlled real WAV execution of transcription and the configured cloud-primary diarization path, followed by persistence, synchronized alignment, and explicit recovery behavior under failure/timeout conditions.
+The next dependency is safe run recovery/report persistence followed by controlled real WAV execution of transcription and the configured cloud-primary diarization path, persistence, synchronized alignment, and explicit recovery behavior under failure/timeout conditions.
 
 ## Provider path
 
@@ -61,19 +55,26 @@ The post-analysis workspace includes or is being expanded toward:
 
 ## Run lifecycle recovery checkpoint — issue #945 / PR #946
 
-The active recovery branch extends the existing case-run lifecycle rather than creating a duplicate pipeline.
+The active recovery branch extends the existing case-run lifecycle rather than creating a duplicate pipeline. Current source checkpoint before the final documentation synchronization is `18777886bf28c6cac8fb13fc00d5b5653b15b20b`.
 
 Source behavior on the branch:
 
 - Case History listing reconciles eligible stale/deadline-expired `running` runs so old records do not remain indefinitely in progress merely because the individual case was never reopened.
-- Recovery marks the interrupted active stage failed and terminalizes remaining unfinished stages as `not_run` with an explicit reason.
+- A legitimate current-worker run with a usable configured deadline is not stale-failed before that deadline.
+- Recovery marks the interrupted active stage failed and terminalizes remaining unfinished dependent stages as `not_run` with an explicit reason.
 - Independent work remains eligible to continue under the existing continue-after-failure orchestration policy; dependent stages are not falsely promoted when required inputs failed.
 - Active runs expose real running time and terminal runs persist elapsed time.
 - Terminal runs persist a structured `run_report`; failed and `completed_with_failures` runs additionally persist a `failure_report` containing identifiers, source revision when available, timing, provider state, stage states, errors, completed work, failed work, not-run work, and unresolved work.
+- Historical run provenance is preserved rather than assigning the source revision of a later reader runtime, and legitimate terminal metadata backfill is persisted.
+- Per-case in-process serialization now protects the Case History reconcile/read/write path from overwriting a newer same-process run update and also serializes source mutation and deletion with the canonical CaseStore owner. This matches the current single-process/single-instance Render architecture; it is not a cross-process CAS guarantee for future horizontal scaling.
 - The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the JSON report.
 - The pyannoteAI → Community-1 fallback wrapper preserves the primary failure in provenance when fallback succeeds and reports both provider failures if fallback also fails.
 
-The prior documentation-synchronized head `107413b821d8a444f212c3a6d523f3bf8d95ec6b` passed VoxVector QA #1896 with 196 Python tests, eight frontend contract tests, and a successful React build; PR Preview Build #787 also passed. Runtime-evidence documentation alignment after that checkpoint advances the branch and requires fresh exact-head QA before merge recommendation.
+Evidence chronology:
+
+- `c332f58e88c73c89c036b127e5bbe57389d6ed05` passed exact-head VoxVector QA #1917 and PR Preview Build #797 after the initial review corrections.
+- `18777886bf28c6cac8fb13fc00d5b5653b15b20b` passed exact-head VoxVector QA #1954 and PR Preview Build #815 after the concurrency repair and focused regression test.
+- This documentation synchronization advances the branch and therefore requires one more exact-head QA/Preview cycle before merge.
 
 This is source/QA evidence only. It is not a production deployment of PR #946, provider execution, browser verification, or scientific validation. The Community-1 fallback is not represented as enabled in production by this checkpoint.
 
@@ -85,15 +86,15 @@ Software QA, provider execution, infrastructure health, browser verification, an
 
 ## Developer Console
 
-The dashboard projects real runtime and engineering evidence through the 21-stage build control, runtime health, diagnostics, Render infrastructure, AWS environment status, structured audits, and report/audit/log export controls.
+The dashboard projects real runtime and engineering evidence through the 21-stage build control, runtime health, diagnostics, Render infrastructure, structured audits, and report/audit/log export controls. The Developer engineering status rail merged through PR #950 and is published by the successful GitHub Pages #1707 workflow; authenticated browser behavior remains a separate verification gate.
 
 The Console must never simulate provider execution or stage progress.
 
 ## Current engineering sequence
 
-1. Fresh exact-head QA and review for PR #946.
-2. Merge only after reviewable source and documentation integrity are confirmed.
-3. Deliberately deploy the approved backend revision through the protected manual Render path.
+1. Complete final documentation sync and exact-head QA/Preview for PR #946.
+2. Merge only after the remaining documentation review threads are resolved against the actual source.
+3. Deliberately deploy the approved backend revision through the protected manual Render path because auto-deploy is disabled.
 4. Verify runtime `/health` revision and intended runtime settings.
 5. Refresh Case History and verify old eligible in-progress runs are terminalized with useful downloadable reports.
 6. Execute controlled faster-whisper.
