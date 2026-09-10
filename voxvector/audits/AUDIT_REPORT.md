@@ -2,24 +2,35 @@
 
 ## Current task status
 
-Prompt: **VV-TRACKER-POST-LIFECYCLE-SYNC**. Source base: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). PR: [#955](https://github.com/darenprince/darenprince-author/pull/955). Branch: `docs/voxvector-tracker-runtime-sync`.
+Prompt: **VV-RENDER-OPERATIONAL-STATUS-POSTMERGE**. Source base: `5cc50422125734a34e5fed04fc0e1f11317c7ade`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Completed implementation issue: [#954](https://github.com/darenprince/darenprince-author/issues/954). Merged implementation PR: [#956](https://github.com/darenprince/darenprince-author/pull/956). Documentation branch: `docs/voxvector-render-status-postmerge-sync`.
 
-This task synchronizes the live issue queue and active engineering/status documentation to current GitHub, Render and Supabase evidence without changing application code, provider configuration, schema, deployment policy, credentials or scientific methodology.
+This task synchronizes the completed Render operational-state UI evidence after PR #956 merged and GitHub Pages published the frontend. It changes documentation/audit state only; it does not change application code, provider configuration, schema, Render deployment policy, credentials, or scientific methodology.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read canonical charter/workflow/guardrails and current repository state | Complete | Task started from exact `main` `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` |
-| Refresh GitHub source/QA/publication evidence | Complete | exact-main QA #1963 / `34425588762`, Pages #1708 / `34425588752`, CodeQL #71 / `34425587747` succeeded |
-| Refresh Render deployment evidence | Complete | `dep-dah0g13l550s73d2dbb0` observed `live` on `c21b4cf...`, trigger `api`; this is not #920 deploy-hook verification |
-| Refresh Supabase administrator-function evidence | Complete | project `tawtkawmjqabydnatavx` currently lists zero deployed Edge Functions |
-| Synchronize tracker and affected issue bodies | Complete | #915, #920, #930, #931, #941, #948, #949, #932, #928 and #927 updated to current evidence/dependencies |
-| Synchronize active canonical docs and Crown Labs mirrors | Complete in branch | build plan, QA, endpoint, pipeline and current-engineering owners plus two applicable mirrors updated |
-| Add missing PR #936 post-merge audit record | Complete in branch | Node-24-backed action-wrapper maintenance evidence preserved below as Task 23; #935 remains open until this record is merged |
-| Exact-head QA / PR Preview | Pending | this audit commit advances PR #955 head and requires fresh exact-head checks before merge recommendation |
-| Merge / Pages publication | Pending | PR #955 is documentation-only and has not yet been merged at this checkpoint |
-| Runtime/provider/browser/scientific verification | No new execution | no fresh complete `/health`, provider run, authenticated browser verification, engineering-MVP proof or scientific validation is inferred |
+| Re-read canonical charter/workflow/guardrails and exact current repository state | Complete | current `main` `5cc50422125734a34e5fed04fc0e1f11317c7ade` |
+| Verify final PR #956 evidence | Complete | final head `bf1a667706a1dcb781583c54341d6e38346fd950`; QA #1996 / `34429777387`, Preview #828 / `34429777388`, CodeQL #82 / `34429773922` succeeded |
+| Verify post-merge exact-main CI/publication | Complete | QA #1997 / `34429952347`, Pages #1710 / `34429952384`, CodeQL #83 / `34429952114` succeeded; Pages build and deploy jobs succeeded |
+| Preserve backend deployment boundary | Complete | Render remains separately observed on `c21b4cf...`; #956 is frontend-only and did not redeploy Render |
+| Synchronize #954, tracker #915, current engineering docs and Crown mirror | In progress | source/CI/publication status moved from active to done; #930 becomes the next P0 runtime task |
+| Authenticated desktop/mobile Developer Console browser verification | Unresolved | protected surface was not exercised with an authenticated browser session; Pages publication is not browser verification |
+| Runtime/provider/scientific verification | No new execution | no fresh complete `/health`, provider run, engineering-MVP proof or scientific validation is inferred |
 
 ## Task log
+
+### Task 24: close Render operational-state UI source and publication evidence, 2026-09-10
+
+Issue #954 / PR #956 was re-read from current GitHub rather than conversational memory. PR #956 is merged. Its final implementation head `bf1a667706a1dcb781583c54341d6e38346fd950` passed VoxVector QA #1996 / run `34429777387`, VoxVector PR Preview Build #828 / run `34429777388`, and CodeQL #82 / run `34429773922`. No inline review threads remained. A Codex review had been requested during the task, but the configured review-usage limit was reached, so no independent final Codex review is claimed.
+
+The implementation merged to canonical `main` as `5cc50422125734a34e5fed04fc0e1f11317c7ade`. Exact-main VoxVector QA #1997 / `34429952347` succeeded. Deploy GitHub Pages #1710 / `34429952384` succeeded, including both its build/staging job and its `Deploy to GitHub Pages` job. CodeQL push #83 / `34429952114` also succeeded.
+
+The merged frontend keeps the existing Developer Console architecture. `voxvector/src/lib/renderOperationalState.js` remains the single frontend Render lifecycle normalization owner. Green/healthy requires both the service and latest deployment to be terminal `ACTIVE`/`LIVE`; transitional or non-live states are not promoted to healthy. The compact engineering rail uses the requested red attention treatment for any non-terminal-live combination. Developer Overview includes the Render Service card and source-backed subtext, while Render Runtime separates API-bridge connectivity from service and deployment lifecycle.
+
+No Render backend deployment is attributed to this frontend merge. The latest separately observed live backend remains deployment `dep-dah0g13l550s73d2dbb0` on `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, trigger `api`, with production auto-deploy disabled. That API-triggered deployment still does not satisfy #920's authenticated Developer Console Deploy Now path.
+
+Because the affected Developer Console surfaces are protected by Supabase authentication, no authenticated desktop/mobile visual browser verification is claimed from PR Preview or Pages publication. Source QA, publication, backend deployment state, provider execution, browser verification, engineering-MVP completion, and scientific validation remain separate evidence classes.
+
+Affected active documentation is synchronized through `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`, its Crown Labs Bible mirror, the dedicated `2026-09-09_VV_RENDER_OPERATIONAL_STATUS_UI_VERIFICATION.md` engineering audit, this report, issue #954, and tracker #915. #930 is now the next prioritized production-reliability task; #941 follows for controlled transcription execution. Existing #920, #931, #948, #949, #932, #928 and #927 boundaries remain unchanged unless separately verified.
 
 ### Task 23: record post-merge GitHub Actions Node 24 wrapper maintenance, 2026-09-10
 
