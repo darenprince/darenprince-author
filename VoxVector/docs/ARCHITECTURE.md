@@ -185,14 +185,14 @@ durable upstream checkpoint
         ↓
 Stage 10 route preflight
         ↓
-shared heavyweight admission lock + RSS recheck
+fail-fast shared Stage 10 admission lock + RSS recheck
         ↓
 downstream composite analysis while lock remains held
 ```
 
 A successful transcription must be persisted before downstream analysis is trusted to finish. If the API cannot safely admit downstream composite work under the configured memory reserve, the run must preserve completed upstream provider evidence and persist an explicit bounded downstream failure rather than knowingly entering the danger zone.
 
-The follow-up repair applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. That guard serializes heavyweight provider/composite phases and rechecks memory headroom while holding the same lock that remains held through composite execution. The route-level Stage 10 check remains a preflight and is not itself treated as the full reservation.
+The follow-up repair applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: when the shared heavyweight lock is already owned, the competing composite call fails before entering the analytical body instead of waiting in a worker-thread queue that could outlive the route timeout. An admitted call rechecks memory headroom under that lock and keeps the lock for the complete composite execution. Existing provider `measured_phase(...)` behavior is otherwise unchanged. The route-level Stage 10 check remains a preflight and is not itself treated as the full reservation.
 
 `process_instance_id` identifies the current Python API process and must change on process restart. `render_instance_id` identifies Render infrastructure and is preserved separately because Render may restart the Python process while retaining the same infrastructure instance label.
 
@@ -286,7 +286,7 @@ scientific validation program
 - every evidence record has provenance
 - every analytical stage has defined inputs and outputs
 - completed upstream artifacts are persisted before dependent heavyweight work
-- heavyweight phases are process-wide serialized under one admission guard on the constrained runtime
+- Stage 10 composite analysis uses fail-fast process-wide single-flight admission, a locked RSS recheck, and lock ownership through execution
 - runtime resource gates are separate from analytical eligibility gates
 - stable case-run identity is distinct from pipeline-internal run identity
 - Python process identity is separate from hosting-provider instance identity
