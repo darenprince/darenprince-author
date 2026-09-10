@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gc
 import os
+import sys
 import threading
 import time
 from contextlib import contextmanager
@@ -57,11 +58,21 @@ def collect_after_heavy_phase() -> None:
         libc.malloc_trim(0)
     except (OSError, AttributeError, TypeError):
         pass
+
+    # Never import PyTorch solely to perform cleanup. On the constrained CPU
+    # faster-whisper path, importing torch after the child exits can itself add
+    # hundreds of MiB to the long-lived API process. Only clear a CUDA cache
+    # when another runtime path has already loaded torch into this process.
+    torch = sys.modules.get("torch")
+    if torch is None:
+        return
     try:
-        import torch
-        if hasattr(torch, "cuda") and torch.cuda.is_available():
-            torch.cuda.empty_cache()
-    except (ImportError, RuntimeError):
+        cuda = getattr(torch, "cuda", None)
+        is_available = getattr(cuda, "is_available", None)
+        empty_cache = getattr(cuda, "empty_cache", None)
+        if callable(is_available) and is_available() and callable(empty_cache):
+            empty_cache()
+    except RuntimeError:
         pass
 
 
