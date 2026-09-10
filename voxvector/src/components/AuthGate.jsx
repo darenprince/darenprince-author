@@ -43,10 +43,10 @@ export default function AuthGate({ children, allowedRoles = [], redirectByRole =
   const targetRoute = useMemo(() => routeForVoxVectorRole(session?.user), [session?.user])
 
   useEffect(() => {
-    if (!redirectByRole || status !== 'ready' || !session || !role) return
+    if (busy || !redirectByRole || status !== 'ready' || !session || !role) return
     if (window.location.pathname.replace(/\/+$/, '') === targetRoute.replace(/\/+$/, '')) return
     window.location.replace(targetRoute)
-  }, [redirectByRole, role, session, status, targetRoute])
+  }, [busy, redirectByRole, role, session, status, targetRoute])
 
   const signOut = async () => {
     if (!supabase || signingOut) return
