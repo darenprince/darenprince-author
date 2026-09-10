@@ -6,138 +6,125 @@ This document records repository-level software QA and separately observed deplo
 
 The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELEASE_GATE.md).
 
-## Current source and deployment verification state
+## Current source and deployment state
 
-Canonical `main` is `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, the merge of run-lifecycle recovery PR #946.
+Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`, the merge of PR #960 that corrected the constrained faster-whisper source profile to beam 1.
 
-Exact-main repository evidence for that revision:
+The latest connected Render deployment is `dep-dah7usjl550s73e00350`, status `live`, on exact backend source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Render production auto-deploy remains disabled and the observed deployment trigger is `api`.
 
-- VoxVector QA #1963 / run `34425588762`: **success**. API package installation, the full API test suite, tested source revision recording, frontend dependency installation, frontend contract tests, and the React production build all completed successfully.
-- Deploy GitHub Pages #1708 / run `34425588752`: **success**. The build/staging/upload job and the Pages deployment job both completed successfully.
-- CodeQL push run #71 / `34425587747`: **success**.
+The active runtime-memory repair is draft PR #962 on branch `fix/voxvector-post-transcription-memory-cleanup`. Source changes on that branch are not deployed production behavior until the PR passes exact-head QA, is reviewed/merged, and an approved Render deployment is separately verified.
 
-These establish software QA and Pages publication workflow completion for that exact source. They do not establish authenticated browser verification.
+## Controlled production transcription result — 2026-09-10
 
-Connected Render inspection on 2026-09-10 shows deployment `dep-dah0g13l550s73d2dbb0` **live** for the same source revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, finished at `2026-09-10T01:36:34.195005Z`. Its trigger is `api`. Render production auto-deploy remains disabled. This proves the current source was deployed to Render, but the API trigger does not verify the protected Developer Console **Deploy Now** / deploy-hook path tracked in #920.
+Controlled case:
 
-No fresh complete `/health` payload readback is recorded by this synchronization. Runtime self-test details, provider readiness, transcription settings, diarization route-gate state, and other health-contract fields must therefore be read fresh before they are attributed to the `c21b4cf...` runtime.
+- case: `3515362e-f801-463d-961a-df7b3302a596`
+- source: `cbdcdbf8-e528-49b0-a474-5cd64588d301`
+- analysis request: `32fdb25aee704ee4ad0a0615e2496e09`
+- source duration: 183.3 seconds
+- source bytes: 17,596,936
+- deployed revision: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
 
-Connected Supabase inspection in this synchronization reports **zero deployed Edge Functions** for project `VoxVector` (`tawtkawmjqabydnatavx`). The merged `voxvector-user-admin` function source therefore must not be described as deployed or successfully executed in production. Earlier connected evidence reported the project itself `ACTIVE_HEALTHY`; this synchronization did not replace that project-health observation with a new one.
+Observed provider execution:
 
-## Run lifecycle recovery — issue #945 / PR #946
+- speech segmentation completed with 26 segments;
+- faster-whisper executed `base`, CPU, int8, beam 1, one CPU thread, one worker, isolated child process, 165-second child deadline;
+- transcription completed in approximately 113 seconds;
+- output contained 58 timestamped transcript segments and 246 timestamped words;
+- language was reported as `en`.
 
-Issue #945 is complete and closed. PR #946 merged as current `main` `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`.
+This is successful provider execution evidence for that one controlled run. It is not transcript truthfulness validation and it does not establish reliable end-to-end analysis completion.
 
-Final PR head `de343d593f320eea3ef23fd970bae614fcc240b1` passed:
+## Confirmed post-transcription memory failure
 
-- VoxVector QA #1962 / run `34425431175`: success;
-- PR Preview Build #818 / run `34425431147`: success;
-- changed-code CodeQL: success, no new alerts;
-- all six existing inline review threads: resolved.
+The same run then exposed a separate reliability defect after successful transcription.
 
-Merged behavior includes eligible stale/interrupted run reconciliation from Case History and individual case reads, configured-deadline protection, truthful failed/not-run terminalization, persisted elapsed time, terminal `run_report` / `failure_report` metadata, historical source-revision preservation, legitimate terminal metadata backfill, same-process per-case serialization across reconciliation and mutation, and Copy/Download run-report controls in the existing Analysis Workspace.
+Application memory telemetry reported approximately 134.75 MiB parent RSS before the post-heavy-phase cleanup completed and approximately 482.58 MiB after cleanup. The configured VoxVector admission ceiling was 416 MiB on a 512 MiB reference budget. Render's 30-second service telemetry sampled 519,041,020 bytes during the incident window against a 536,870,900-byte service limit.
 
-The per-case lock is an in-process serialization guarantee for the current single-process/single-instance CaseStore architecture. It is not cross-process compare-and-swap protection for a future horizontally scaled writer model.
+Stage 10 Acoustic Feature Extraction was then marked started and the API process disappeared without a graceful application shutdown record. Render launched Uvicorn again shortly afterward. The owner confirmed the incident was a memory problem. Render did not emit a dedicated kernel-level OOM/SIGKILL line for this exact run, so the precise OS termination mechanism is not separately claimed.
 
-The current Render deployment contains this merged lifecycle source. Production Case History reconciliation and terminal report readback have not yet been verified in this synchronization.
+Source inspection identified four directly related defects now owned by #941 / draft PR #962:
 
-## Developer engineering rail — issue #947 / PR #950
+1. post-heavy-phase cleanup imported PyTorch merely to inspect CUDA, even on the CPU-only faster-whisper path;
+2. Stage 10 did not perform an explicit memory admission check before being represented as running;
+3. completed acquisition/transcript/alignment/provider state was not checkpointed durably before Stage 10;
+4. `process_instance_id` reused `RENDER_INSTANCE_ID`, so a Python-process restart inside one Render instance could retain the same infrastructure identity.
 
-Issue #947 is closed. PR #950 remains merged in the ancestry of current `main`. Its single `DeveloperEngineeringStatus` owner is rendered directly after `SiteHeader` as a real sticky flow row with independent hide/expand/collapse controls, non-modal disclosure semantics, and bottom-right Developer Console toasts.
+The active repair removes the cleanup-time Torch import, adds a Stage 10 memory admission gate, persists an upstream provider checkpoint before downstream work, and separates process-start identity from Render instance provenance.
 
-Source and workflow evidence exist. Authenticated desktop/mobile interaction remains a separate browser-verification gate.
+## Current branch test status
 
-## Access control and login — issue #931
+Focused source tests have been added or strengthened on PR #962 for:
 
-The shared role-aware authentication implementation and the canonical login route are merged. PR #940 created the physical GitHub Pages entry for `/voxvector/login/` while continuing to use the same React `AuthGate.jsx`; PR #943 hardened login visibility so the entrance animation cannot leave the form opacity-zero if motion progress stalls.
+- cleanup not attempting a Torch import when Torch is absent;
+- cleanup using an already-loaded CUDA cache when applicable;
+- upstream acquisition checkpoint preservation under the same run identity;
+- downstream memory-admission rejection preserving completed Stage 05/07/08 states;
+- `/health` separation of process identity and Render instance identity.
 
-Trusted authorization reads Supabase `app_metadata`; user-editable metadata is not accepted for role authority. Current source routes trusted `admin` / `developer` sessions to the Developer Console, trusted `user` sessions to the protected user workspace, and unknown/missing roles to denial.
+**No final exact-head QA result is recorded here yet.** The branch remains in progress. This document must be updated with exact final workflow IDs and pass counts before merge recommendation.
 
-The current Render source also contains the backend operator-role implementation. However, production account administration is **not** complete: the connected Supabase project currently lists no deployed Edge Functions, so `voxvector-user-admin` is source-only at this checkpoint. An explicitly trusted admin assignment, authenticated administrator execution, and desktop/mobile role-routing verification remain required before #931 can close.
+## Supabase evidence
 
-## Current implementation coverage
+Connected Supabase project `VoxVector` (`tawtkawmjqabydnatavx`) currently has the `voxvector-user-admin` Edge Function active, version 2, with JWT verification enabled. Current trusted role inventory readback is one admin, one developer, and one user.
 
-| Area | Current state | Software evidence | Scientific claim |
+For the controlled memory incident, Supabase retained:
+
+- the private source WAV in `voxvector-media`;
+- the case JSON in the private VoxVector storage path;
+- parent request diagnostic records through transcription start and later Stage 10 start.
+
+The provider child completion events were visible in Render but were not durably correlated into the parent Supabase diagnostic chain. That separate observability gap is owned by #959 / draft PR #961.
+
+## Render configuration drift
+
+Canonical root `render.yaml` currently specifies:
+
+`pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
+
+The connected live Render service currently reports:
+
+`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+
+`requirements-speech.txt` installs local `pyannote.audio` in addition to faster-whisper, while the canonical primary diarization adapter is the cloud `pyannote_api` path. The downloaded Render Blueprint export has not been committed as a second file. Drift reconciliation belongs to #964 and must update the existing canonical root `render.yaml` rather than creating a duplicate Blueprint owner.
+
+Configuration reconciliation is not provider execution and is intentionally separate from the active #941 source repair.
+
+## Current implementation and evidence matrix
+
+| Area | Current state | Evidence | Remaining gate |
 |---|---|---|---|
-| 21-stage pipeline contract | represented | canonical pipeline tests/contracts | none |
-| Implemented / built runtime foundations | 16 | repository coverage and runtime evidence | none |
-| Conditional / not invoked | 4 | explicit state contracts | none |
-| Intake/upload | implemented diagnostics live; intermittent production 400 still under #930 | API/client tests + deployed diagnostic source | none |
-| Authentication/session lifecycle | merged shared role-aware implementation | auth/frontend tests + builds | none |
-| Developer/admin backend authorization | merged and present in current Render source | backend auth tests + exact-source QA | none |
-| Approved-user workspace | minimum protected React destination implemented | frontend role contracts + build | none |
-| Admin user management | source implemented; Edge Function not deployed | source + QA build | none |
-| Case persistence/history | lifecycle recovery merged and deployed source; production readback pending | case-store/lifecycle/concurrency tests | none |
-| faster-whisper | repaired integration source live; controlled execution still required | adapter/process tests + deployment evidence | none until provider execution/task evaluation |
-| pyannoteAI cloud (`pyannote_api`) | configured architecture; controlled execution still required | adapter/provider contracts | none until provider execution/task evaluation |
-| local pyannote Community-1 | optional fallback; production enablement/memory safety unverified | fallback contract tests | none |
-| Transcript/speaker alignment | foundation implemented | alignment tests | none until provider-backed execution |
-| Results envelope | implemented | API/case result tests | none |
-| Stage/execution telemetry | implemented foundation | lifecycle tests | none |
-| Developer Console | active implementation | component/build/QA evidence | none |
-| Classification/disposition | guarded boundary | tests + explicit gate | no validated inference |
+| 21-stage pipeline contract | represented | source/tests | engineering and scientific maturity remain stage-specific |
+| Authenticated source upload | implemented | latest 17.6 MB controlled WAV persisted successfully | intermittent #930 400 still requires reproduction/bounding |
+| Source persistence | implemented | Supabase object readback | old-case browser rehydration is #963 |
+| faster-whisper | provider execution proven once with beam 1 | 58 segments / 246 words on deployed `f0dda136...` | end-to-end memory-safe repeatability after #941 |
+| Transcript alignment | runtime stage completed in controlled run | Render/stage evidence | durable checkpoint/readback repair in #941 |
+| Acoustic Feature Extraction | implemented source, failed current runtime transition | source tests + memory incident | Stage 10 admission and controlled rerun |
+| pyannoteAI cloud primary | implemented/configured architecture | source/provider contracts | controlled cloud-primary execution still required |
+| local Community-1 | optional fallback | local adapter contracts | do not treat as current primary production path |
+| Run recovery/reporting | merged foundation | #945/#946 | process identity strengthened by #941; browser readback still separate |
+| Dual Render/Supabase observability | draft implementation | #959/#961 | reconcile after #941 and production verify |
+| Admin user management backend | Edge Function active | Supabase readback | remaining console UX/browser acceptance under #931 |
+| Classification/disposition | guarded foundation | source/tests | no validated deception inference |
 
-## Active P0 reliability and runtime gates
+## Related issue queue
 
-### #930 — intermittent case-source upload 400
+### #941 — active P0
 
-The merged pre-handler diagnostic hardening is now present in the current live Render source. #930 is therefore no longer blocked merely on backend deployment. It is ready for authenticated production reproduction/verification.
+Contain post-transcription memory exhaustion, checkpoint successful upstream speech evidence, gate Stage 10 on actual memory headroom, and use a process-start UUID independent of Render infrastructure identity. Draft PR #962 owns this source subsystem.
 
-The exact cause remains unproven. Required evidence is fresh request-correlated upload behavior on the current runtime, including whether `case.source_upload_prehandler_rejected` is emitted for a reproduced 400, or a successful bounded upload/playback verification if the failure does not reproduce. A fresh `/health` readback should be captured before attributing detailed runtime settings to the current deployment.
+### #959 / PR #961 — next observability P0
 
-### #941 — transcription OOM/dependency-order runtime verification
+Preserve Render-native logs while also persisting sanitized VoxVector/provider evidence in Supabase, propagate parent request/run correlation to spawned speech workers, mirror bounded Render observations, and provide a server-generated case/run Debug Bundle.
 
-The source repair merged through PR #942 and is included in current `main` and the current live Render deployment. The repaired implementation uses dependency-ordered evidence acquisition and a disposable bounded faster-whisper child process.
+### #963 — persisted case rehydration
 
-Still required before #941 closes: controlled real-audio transcription, bounded completion/failure without API OOM restart, Render memory/instance correlation, persisted transcript/run artifact readback, supported incident-media cleanup, and authenticated browser stage verification.
+After #941 establishes the canonical durable transcript checkpoint, make the existing frontend resolve persisted `activeSource`, obtain the existing owner-scoped signed playback URL, and render saved audio/transcript after reopening a historical case.
 
-### #920 — protected Developer Console deploy path
+### #964 — Render Blueprint reconciliation
 
-Current `main` is live on Render, but deployment `dep-dah0g13l550s73d2dbb0` reports trigger `api`. That does not satisfy #920, whose acceptance criterion is the authenticated Developer Console `Deploy Now` path and its server-side deploy hook. #920 remains blocked on that specific authenticated action and subsequent deploy/source/runtime verification.
+Reconcile live/exported Render service state into the existing root `render.yaml`, preserve secrets as external values, keep reproducible non-secret constraints in Git, and avoid duplicate infrastructure.
 
-### #948 / PR #951 — auditable secure deletion
+## Verification boundary
 
-Draft PR #951 is open on current `main`. It is not merge-ready. Review findings remain around deletion/mutation concurrency, durable terminal receipt recovery, and explicit receipt opt-in at the authenticated DELETE route. Application-level storage deletion must not be represented as cryptographic provider-level physical sanitization.
-
-### #949 / PR #952 — server-aware Stop Analysis
-
-Draft PR #952 is open on current `main`. Its current checkpoint only adds the canonical frontend `stopAnalysisRun(...)` API action. Server cancellation lifecycle, persistence, safe-boundary orchestration, existing Analysis Workspace states, tests, and documentation remain to be implemented. Browser transport abort is not server cancellation.
-
-## P1/P2 queue state
-
-- #932 is now **Ready** for landing CTA/anchor/menu/mobile-drawer work because the canonical `/voxvector/login/` destination exists. #931's remaining admin/runtime verification does not require recreating a login path.
-- #928 remains dependent on #930 being sufficiently resolved/bounded before upload cancellation/progress/waveform UX work is finalized.
-- #927 remains an authenticated desktop/mobile browser-verification task for already-merged startup/version/icon presentation.
-- #935 remains a documentation-maintenance item until the required post-merge audit record for PR #936 is present in `voxvector/audits/AUDIT_REPORT.md` and merged.
-
-## Latest detailed health evidence boundary
-
-The latest separately recorded detailed `/health` payload predates current `main`. Do not project its provider/readiness fields onto `c21b4cf...` merely because Render shows the new deployment `live`.
-
-The current evidence chain is intentionally separated:
-
-`source c21b4cf... → exact-main QA success → Pages publication success → Render deploy dep-dah0... live on c21b4cf...`
-
-Still separate:
-
-`fresh /health payload → authenticated case execution → persisted provider artifacts → authenticated browser verification → two-run engineering-MVP proof → scientific validation`
-
-## Current engineering gates
-
-The authoritative release checklist is `MVP_RELEASE_GATE.md`. Current execution order is:
-
-1. capture a fresh `/health` payload for the current Render source and preserve exact source/runtime settings;
-2. reproduce or sufficiently bound #930 with authenticated upload/private persistence/provenance/playback;
-3. execute controlled faster-whisper under #941 and persist/read back timestamped transcript artifacts with Render memory/instance evidence;
-4. execute controlled pyannoteAI cloud-primary diarization with the explicit invocation gate enabled and persist/read back speaker provenance;
-5. verify transcript/speaker/alignment artifacts under the same case/run identity;
-6. finish #948 and #949 as separate source subsystems with exact-head QA before merge;
-7. deploy and verify the #931 Supabase administrator function only after its trusted admin boundary is intentionally established;
-8. complete #932 and, after intake reliability, #928;
-9. complete authenticated desktop/mobile, keyboard, reduced-motion, failure/cancellation, report/history/reopen, and revision-identity browser verification;
-10. repeat the complete golden-case path a second time on the same exact deployed revision;
-11. keep engineering-MVP sign-off and scientific validation separate.
-
-## Scientific boundary
-
-A passing software suite establishes implementation behavior only. Authentication/authorization tests establish software access-control contracts, not scientific capability. Provider readiness or successful model execution does not establish transcript truthfulness, verified speaker identity, deception-detection validity, calibration, or generalization. Engineering MVP is a software/product milestone; scientific validation remains a separate program.
+A passing software suite establishes implementation behavior only. A GitHub merge is not a Render deployment. A Render deployment is not provider execution. Successful faster-whisper execution is not transcript truthfulness, verified speaker identity, deception-detection validity, calibration, or generalization. Engineering-MVP completion and scientific validation remain separate programs.
