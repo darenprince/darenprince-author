@@ -1,7 +1,8 @@
 # Developer Console Documentation Synchronization Rules
 
 **Status:** Canonical active instruction  
-**Effective:** 2026-09-08
+**Effective:** 2026-09-08  
+**Updated:** 2026-09-09
 
 This document supplements the general VoxVector editing workflow with the specific synchronization requirements for the Developer Console and connected case workflow.
 
@@ -109,18 +110,17 @@ Each live external projection must retain its `source`, `observed_at`, and appli
 
 ## Main dashboard stats
 
-Primary dashboard statistics must use consistent all-caps labels and semantic status treatment.
+The Developer Overview primary status row is a compact operational projection, not a generic connectivity dashboard. Its current canonical categories are:
 
-Required primary categories are:
+- **API** — current health/reachability plus frontend and API/backend version context.
+- **RUNTIME** — runtime self-test plus backend version and source revision.
+- **PIPELINE** — implemented-foundation count plus queued/conditional context. The existence of all 21 stage definitions is not by itself a green pipeline state.
+- **TRANSCRIPTION** — configured provider, adapter presence and execution-readiness context. Configuration/readiness is not successful provider execution.
+- **RENDER SERVICE** — normalized Render service state and latest deployment state, with region and deployment/source revision context.
 
-- **API** — current health/reachability state.
-- **RUNTIME** — runtime self-test or operational state.
-- **PIPELINE** — 21-stage implementation and execution state.
-- **QA** — current test/build verification state.
+Each primary status card must include an explicit text state and useful always-visible secondary context. Whole-card color treatment is semantic and supplementary: healthy is green, transitional/attention-needed states such as checking/building/deploying/updating are amber, and unavailable/failed/suspended/deactivated/unreported states are red. Color must never be the only status channel.
 
-When infrastructure integration is configured, **RENDER** may be shown as an additional primary status for deployment/runtime evidence. It must never masquerade as a case-analysis metric.
-
-Each primary stat should have a meaningful icon and color-coded status. Color is supplementary; the text state must remain explicit and accessible.
+Render is healthy only when the service state and the latest deployment state are each in the accepted terminal live set (`ACTIVE` or `LIVE`). A successful request to the authenticated Render bridge is displayed separately as connection metadata and must not make the Render Service card green.
 
 ## QA checks
 
@@ -171,6 +171,20 @@ GitHub Actions and Render runtime have separate secret scopes. `RENDER_API_KEY` 
 The repository Render observability workflow uses `RENDER_SERVICE_ID` as its default target and permits an optional controlled service override.
 
 Infrastructure state is evidence about the runtime environment. It is not application timing truth and is not scientific validation.
+
+### Render operational status semantics
+
+`GET /v1/developer/render/status` is the authority consumed by the console for normalized operational projection. The UI reads `operational.service_state` and `operational.deploy_state` independently and does not replace absent provider evidence with an assumed `Active` state.
+
+The current console coloring contract is:
+
+- service `ACTIVE` or `LIVE` **and** latest deployment `ACTIVE` or `LIVE` → healthy/green;
+- pending, queued, created, building, deploying, updating, pre-deploy/update/build in progress → transitional/amber in cards, while the compact top engineering rail remains red because the service/deploy combination is not yet terminal-live;
+- suspended, deactivated, failed, canceled, unavailable, unknown/unreported, or any other non-live state → attention/red.
+
+The authenticated Render API bridge may itself be connected while the service is deploying, suspended, failed or otherwise non-live. Bridge connectivity is therefore secondary metadata only. It must never override service/deployment state or create a green operational status.
+
+The Render Runtime page color-codes the **Service state** and **Latest deployment** blocks separately. The service name/URL and bridge-connection text remain neutral metadata. This preserves the distinction between a reachable control plane and the actual application service lifecycle.
 
 ### Manual Render deployment lifecycle — verified policy 2026-09-08
 
@@ -351,6 +365,10 @@ The Developer navigation remains owned by `SiteHeader.jsx`. The live engineering
 
 The collapsed rail occupies a real 34px sticky layout row beneath the 56px navigation. It must not be recreated as a fixed overlay with compensating `:has()` header padding or main-content top padding. The X control hides the rail and removes the row from layout; expand/collapse controls open the existing status surface across the remaining viewport below the 90px nav-plus-rail boundary.
 
+The compact rail is an operational attention surface. It uses the normal dark treatment only when the normalized Render service state and latest deployment state are both accepted `ACTIVE`/`LIVE` terminal states. Any other combination makes the rail red, including transitional deploying/updating states, because the runtime is not currently terminal-live. The text summary must continue to name the actual API, Render service and Render deployment states so the red treatment is not ambiguous. Render bridge connectivity cannot clear this attention state.
+
 The expanded surface is a non-modal disclosure region. Native controls must remain keyboard accessible and expose `aria-expanded`/`aria-controls`; do not declare it modal without implementing the complete modal focus lifecycle. Developer Console toast notifications belong at the bottom-right so they do not obscure the live rail. Desktop/mobile behavior and reduced-motion handling must stay synchronized with the same canonical component owners.
+
+The rail status does not establish revision parity, successful provider execution, authenticated browser behavior or scientific validation. Those evidence gates remain separate.
 
 When this shell behavior changes, evaluate at minimum `UI_APPLICATION_ARCHITECTURE.md`, `CSS_ARCHITECTURE.md`, `CURRENT_ENGINEERING_STATE_2026-09-04.md`, `QA_STATUS.md`, the corresponding current Crown Labs Bible architecture/current-state mirrors, and `voxvector/audits/AUDIT_REPORT.md`. Historical checkpoints are evidence records and must not be rewritten.
