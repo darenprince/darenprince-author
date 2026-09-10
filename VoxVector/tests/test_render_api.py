@@ -1,6 +1,6 @@
 from urllib.parse import parse_qs, urlparse
 
-from api.render_api import _is_suspended, _owner_id, _reported_suspension_state, _rows, _trigger_deploy_hook, _unwrap_rows
+from api.render_api import _is_suspended, _normalize_log, _owner_id, _reported_suspension_state, _rows, _trigger_deploy_hook, _unwrap_rows
 
 
 def test_owner_id_accepts_render_casing_and_nested_owner():
@@ -124,6 +124,27 @@ def test_render_log_query_uses_service_resource_and_owner_id():
     assert query["ownerId"] == ["owner"]
     assert query["resource"] == ["service"]
     assert query["type"] == ["app", "request"]
+
+
+def test_normalize_log_exposes_only_consumer_fields():
+    normalized = _normalize_log(
+        {
+            "timestamp": "2026-09-10T20:00:00Z",
+            "level": "info",
+            "type": "app",
+            "message": "provider line",
+            "requestId": "provider-internal-request",
+            "metadata": {"private": "provider payload"},
+        }
+    )
+
+    assert normalized == {
+        "message": "provider line",
+        "timestamp": "2026-09-10T20:00:00Z",
+        "level": "info",
+        "type": "app",
+    }
+    assert "raw" not in normalized
 
 
 def test_deploy_hook_posts_without_exposing_hook_value(monkeypatch):
