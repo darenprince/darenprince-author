@@ -32,6 +32,8 @@ test('treats suspended, deactivated, failed, unavailable, and unreported states 
   assert.equal(renderOperationalState({ serviceState: 'suspended', deployState: 'live' }).tone, 'error')
   assert.equal(renderOperationalState({ serviceState: 'active', deployState: 'deactivated' }).tone, 'error')
   assert.equal(renderOperationalState({ serviceState: 'active', deployState: 'build_failed' }).tone, 'error')
+  assert.equal(renderOperationalState({ serviceState: 'suspended', deployState: 'build_in_progress' }).tone, 'error')
+  assert.equal(renderOperationalState({ serviceState: 'not_reported', deployState: 'deploying' }).tone, 'error')
   assert.equal(renderOperationalState({}).tone, 'error')
   assert.equal(renderOperationalState({ error: true }).tone, 'error')
 })
