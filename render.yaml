@@ -18,4 +18,4 @@ services:
       - key: VOXVECTOR_WHISPER_COMPUTE_TYPE
         value: int8
       - key: VOXVECTOR_WHISPER_BEAM_SIZE
-        value: "3"
+        value: "1"
