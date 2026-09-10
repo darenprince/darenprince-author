@@ -171,9 +171,13 @@ Returns current service/deployment state through the authenticated server-side b
 
 `GET /v1/developer/render/logs`
 
-Returns current Render log observations through the protected bridge.
+Returns the normalized Render log observations required by the Developer Console: message, timestamp, level, and log type. The provider's complete nested raw record is not returned to the browser. The same bounded observations remain eligible for sanitized Supabase mirroring through the server-side bridge.
 
-Issue #959 / draft PR #961 separately owns durable dual-output logging, parent correlation propagation into speech workers, sanitized Render-log mirroring into Supabase, terminal analysis snapshots, and the one-click case/run Debug Bundle. Those changes are intentionally outside PR #962.
+`GET /v1/developer/render/debug-bundle?case_id=<case>&run_id=<run>`
+
+Returns the authenticated server-generated case/run debug ZIP. Retrieval availability is recorded independently from row count, so a successful empty Supabase/Render query is distinguishable from an unavailable evidence source in `manifest.json`.
+
+PR #961 merged the dual Render/Supabase logging and debug-bundle foundation. PR #966 hardened deterministic snapshot identity, speech-worker correlation, process/Render provenance, and bundle availability semantics. Issue #959 remains open for the remaining runtime acceptance work, including automatic terminal Render capture, retention/quota policy, exact deployed-revision dual-store readback, bundle inspection, and browser verification.
 
 ## External diarization provider boundary
 
