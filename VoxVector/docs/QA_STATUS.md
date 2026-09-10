@@ -12,7 +12,7 @@ Canonical GitHub `main` is `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`, the merge
 
 The latest connected Render deployment is `dep-dah7usjl550s73e00350`, status `live`, on exact backend source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Render production auto-deploy remains disabled and the observed deployment trigger is `api`.
 
-The active runtime-memory repair is draft PR #962 on branch `fix/voxvector-post-transcription-memory-cleanup`. Source changes on that branch are not deployed production behavior until the PR passes exact-head QA, is reviewed/merged, and an approved Render deployment is separately verified.
+The active runtime-memory repair is draft PR #962 on branch `fix/voxvector-post-transcription-memory-cleanup`. Source changes on that branch are not deployed production behavior until the PR passes final review/QA, is merged, and an approved Render deployment is separately verified.
 
 ## Controlled production transcription result — 2026-09-10
 
@@ -52,17 +52,21 @@ Source inspection identified four directly related defects now owned by #941 / d
 
 The active repair removes the cleanup-time Torch import, adds a Stage 10 memory admission gate, persists an upstream provider checkpoint before downstream work, and separates process-start identity from Render instance provenance.
 
-## Current branch test status
+## PR #962 QA checkpoint
 
-Focused source tests have been added or strengthened on PR #962 for:
+Pre-audit branch head `bfd1d92bf488255a5dd403a7f701790b3134be74` has successful review-workflow evidence:
 
-- cleanup not attempting a Torch import when Torch is absent;
-- cleanup using an already-loaded CUDA cache when applicable;
-- upstream acquisition checkpoint preservation under the same run identity;
-- downstream memory-admission rejection preserving completed Stage 05/07/08 states;
-- `/health` separation of process identity and Render instance identity.
+- VoxVector QA run `34481815208`: **success**;
+- backend `pytest -q`: **206 passed in 1.50s**;
+- frontend contract suite: **13 passed, 0 failed**;
+- Vite production build: **success**, `built in 1.58s`;
+- VoxVector PR Preview Build run `34481815297`: **success**.
 
-**No final exact-head QA result is recorded here yet.** The branch remains in progress. This document must be updated with exact final workflow IDs and pass counts before merge recommendation.
+The QA workflow checked out GitHub's synthetic PR merge commit `12df336c2fd056479e2eb4768a6d23354e829955`, whose parents are `main` `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` and branch head `bfd1d92...`. The branch head and the tested merge commit resolve to the same Git tree, `3ca746b25e4c2b338310701dee4d4aae647b74ad`. Because the branch was 30 commits ahead and zero behind `main`, this establishes byte-for-byte content-tree equivalence for the tested merge candidate. It is not represented as a literal backend workflow checkout of commit SHA `bfd1d92...`.
+
+The PR Preview workflow explicitly checks out `${{ github.event.pull_request.head.sha }}`, so its frontend preview build is exact-head evidence for `bfd1d92...`.
+
+This QA-status update and the required running-audit update advance the PR head again. Therefore the evidence above remains a pre-audit checkpoint only. Fresh workflow results for the final branch head must be inspected, and the final branch tree must again be compared with the tested synthetic merge tree before merge recommendation. If GitHub does not provide a literal branch-SHA backend run, the final report must say so rather than calling the merge-ref checkout literal exact-SHA QA.
 
 ## Supabase evidence
 
@@ -124,6 +128,10 @@ After #941 establishes the canonical durable transcript checkpoint, make the exi
 ### #964 — Render Blueprint reconciliation
 
 Reconcile live/exported Render service state into the existing root `render.yaml`, preserve secrets as external values, keep reproducible non-secret constraints in Git, and avoid duplicate infrastructure.
+
+### #965 — frontend pipeline contract synchronization
+
+Repair the existing `PipelineBuildCard.jsx` so Stage 05/06 order and mutable status projection follow the canonical backend contract. This remains separate from #941 and must not create a second pipeline component.
 
 ## Verification boundary
 
