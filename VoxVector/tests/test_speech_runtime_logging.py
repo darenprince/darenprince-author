@@ -2,7 +2,9 @@ import json
 from types import SimpleNamespace
 
 import api.observability as observability
+from voxvector.runtime_context import new_request_id, set_analysis_run_id, set_trace_id
 from voxvector.speech_runtime_logging import speech_log
+from voxvector.transcription_faster_whisper import FasterWhisperProvider
 
 
 class FakeDiagnostics:
@@ -61,3 +63,25 @@ def test_speech_log_durable_failure_is_bounded_and_does_not_dump_record(monkeypa
     assert "VOXVECTOR_SPEECH_DURABLE_FAILURE" in captured.err
     assert "do-not-echo-in-fallback" not in captured.err
     assert "secret-marker" not in captured.err
+
+
+def test_isolated_transcription_config_carries_parent_correlation():
+    new_request_id("parent-request")
+    set_trace_id("parent-trace")
+    set_analysis_run_id("parent-run")
+
+    provider = FasterWhisperProvider(
+        model_size="base",
+        device="cpu",
+        compute_type="int8",
+        beam_size=1,
+        cpu_threads=1,
+        num_workers=1,
+        timeout_seconds=165,
+        isolate_process=True,
+    )
+    config = provider._isolated_config(12.5)
+
+    assert config["request_id"] == "parent-request"
+    assert config["trace_id"] == "parent-trace"
+    assert config["analysis_run_id"] == "parent-run"
