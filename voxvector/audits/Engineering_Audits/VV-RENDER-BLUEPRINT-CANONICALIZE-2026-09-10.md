@@ -79,7 +79,9 @@ The Blueprint source-controls the non-secret constrained profile used for the ne
 
 Protected values remain external. The source does not contain pyannoteAI, Hugging Face, Supabase service-role, Render API, or Render deploy-hook secret values.
 
-Current Render Blueprint documentation states that existing environment variables omitted from a Blueprint are preserved for an existing service unless explicitly overwritten. The task therefore does not copy the provider export's redacted `sync: false` list wholesale into Git. Existing secrets stay server-managed.
+Current Render Blueprint documentation states that existing environment variables omitted from a Blueprint are preserved for an existing service unless explicitly overwritten. It also states that `sync: false` entries are ignored on updates to an existing Blueprint. The task therefore does not copy the provider export's redacted `sync: false` list wholesale into Git. Existing secrets stay server-managed.
+
+Reference reviewed: `https://render.com/docs/blueprint-spec` and `https://render.com/docs/infrastructure-as-code` on 2026-09-10. The documented `autoDeployTrigger: off` mode matches VoxVector's manual-production-deploy policy.
 
 ## Automated source coverage added
 
@@ -92,19 +94,23 @@ Current Render Blueprint documentation states that existing environment variable
 - dedicated local requirements retaining `pyannote.audio==4.0.7`;
 - Dockerfile retaining installation of the optional local dependency manifest.
 
+A local YAML parse using `yaml.safe_load()` succeeded against the candidate `render.yaml`. That proves YAML syntax/loadability in that parser only; it is not a Render sync, deployment, or server-side Blueprint validation result.
+
 ## Documentation synchronized
 
 Affected canonical documentation:
 
+- `VoxVector/docs/ARCHITECTURE.md`;
 - `VoxVector/docs/DEPLOYMENT_BOUNDARY.md`;
 - `VoxVector/docs/DEPLOYMENT_VARIABLE_MATRIX.md`;
 - `VoxVector/docs/SPEECH_RUNTIME_DEPLOYMENT.md`.
 
-Affected Crown Labs Bible mirror:
+Affected Crown Labs Bible mirrors:
 
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/architecture.md`;
 - `docs/crownlabsbible/04-product-dossiers/VoxVector/deployment-boundary.md`.
 
-The issue body remains the live execution record for final branch QA, merge and production deployment evidence.
+The architecture records distinguish current live source `420536...` from the #964 branch candidate. They do not call the candidate deployed.
 
 ## Verification state
 
