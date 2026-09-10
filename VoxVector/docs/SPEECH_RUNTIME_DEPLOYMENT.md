@@ -19,25 +19,30 @@ Current architecture supports:
 
 Provider configuration is not provider execution. A provider output is not scientific validation.
 
-## Canonical Render service boundary
+## Current source and deployment boundary
 
-Render application root:
+Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded. GitHub Pages publication workflow `34532394423` also succeeded for that source.
 
-`VoxVector`
+Current Render service:
 
-Start command:
+- service `voxvector-api` / `srv-da2f88n40ujc73a8m26g`;
+- root `VoxVector`;
+- region Oregon;
+- plan free;
+- auto-deploy disabled;
+- deploy `dep-dahi2ics728c73b6ujug`;
+- deploy status `live`;
+- exact deployed source `420536771875c6948be51851118b58cb04a596e6`;
+- deploy trigger `api`;
+- deploy finished `2026-09-10T21:36:23.3655Z`;
+- start command `uvicorn api.app:app --host 0.0.0.0 --port $PORT`;
+- health path `/health`.
 
-`uvicorn api.app:app --host 0.0.0.0 --port $PORT`
-
-Health route:
-
-`/health`
-
-Production auto-deploy remains disabled. Deliberate deployment verification is required after an approved merge.
+No fresh `/health` response for exact deployed `420536...` is recorded by this synchronization pass. Render `live` is not a substitute for runtime readback.
 
 ## Current Render Blueprint/configuration drift
 
-Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. Do not add the downloaded Render-generated Blueprint export as a second file or a second service owner.
+Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. Do not add the owner-provided Render-generated project export as a second file or second service owner.
 
 Current repository Blueprint build command:
 
@@ -47,11 +52,13 @@ Current connected live Render service build command:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
-The two are not the same configuration.
+The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the current live repository/service/root/build/start/health/domain/auto-deploy fields. Its environment-variable entries are represented with `sync: false` and no values. Those entries are redaction/name evidence, not values to copy into or delete from source.
 
-`api/requirements-transcription.txt` installs faster-whisper only. `api/requirements-speech.txt` also installs local `pyannote.audio`, bringing the local PyTorch stack into the service image. The canonical production primary diarization adapter is `pyannote_api`, which performs cloud API calls and does not require loading local Community-1/Torch merely to use the primary provider.
+`api/requirements-transcription.txt` installs faster-whisper only. `api/requirements-speech.txt` also installs `pyannote.audio==4.0.7`, bringing the local pyannote/PyTorch stack into the service image. The canonical production primary diarization adapter is `pyannote_api`, which performs cloud API calls and does not require local Community-1/Torch merely to invoke the primary provider.
 
-Issue #964 owns the infrastructure-as-code reconciliation. It must update the existing root `render.yaml`, preserve secret values outside Git, keep reproducible non-secret runtime constraints in Git where supported, and verify that the existing Render service is updated rather than provisioning a duplicate service.
+Root `render.yaml` also declares `CORS_ORIGINS` as server-managed. The owner export does not list that key; current backend source defaults to `*` when the environment variable is absent. That difference must be investigated deliberately rather than inferred from the export.
+
+Issue #964 is the current first source/configuration task. It must update the existing root `render.yaml`, preserve secret values outside Git, keep reproducible non-secret runtime constraints in Git where supported, resolve the CORS ownership/policy explicitly, and verify that the existing Render service is updated rather than provisioning a duplicate service.
 
 A Blueprint commit or Render configuration update is not provider execution.
 
@@ -73,6 +80,8 @@ VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165
 
 The process deadline is intentionally shorter than the outer provider-acquisition deadline so the isolated child can return a bounded provider failure before route-level timeout.
 
+These are source/runtime-profile values, not a fresh current `/health` claim.
+
 ## Required primary diarization configuration
 
 Current primary:
@@ -86,6 +95,8 @@ VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 `PYANNOTE_API_KEY` is also accepted as the cloud-key alias.
 
 The route invocation gate is separate from provider readiness. `/health` may report the configured cloud adapter ready while the case path still does not invoke diarization if `VOXVECTOR_ENABLE_DIARIZATION_RUNS` is disabled.
+
+Issue #970 owns rechecking the current official pyannoteAI media-ticket/upload/diarize/job-poll contract, correcting the existing adapter if the current provider contract confirms the audited mismatch, executing the cloud primary, and persisting/reading back speaker evidence.
 
 ## Optional local fallback
 
@@ -101,18 +112,18 @@ HF_TOKEN=<protected Hugging Face token>
 
 ## Memory reference
 
-Current application reference:
+Current source/application reference:
 
 ```text
 VOXVECTOR_MEMORY_LIMIT_MB=512
 VOXVECTOR_MEMORY_HEADROOM_MB=96
 ```
 
-Effective application admission ceiling on that reference is 416 MiB RSS. These variables do not alter Render's actual service limit.
+The reference application admission ceiling is 416 MiB RSS. These variables do not alter Render's actual service limit and are not a fresh current `/health` readback.
 
-## Current production execution evidence
+## Historical production execution evidence
 
-The September 10 controlled run on deployed revision `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` established that the corrected beam-1 transcription path can execute successfully.
+The September 10 controlled run on older deployed revision `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` established that the beam-1 transcription path can execute successfully for the controlled fixture.
 
 Case `3515362e-f801-463d-961a-df7b3302a596`, source `cbdcdbf8-e528-49b0-a474-5cd64588d301`, request `32fdb25aee704ee4ad0a0615e2496e09`:
 
@@ -123,21 +134,36 @@ Case `3515362e-f801-463d-961a-df7b3302a596`, source `cbdcdbf8-e528-49b0-a474-5cd
 - 58 timestamped segments and 246 timestamped words were produced;
 - language was reported as `en`.
 
-This closes the earlier question of whether the beam-1 provider path can run at all on the deployed service for that fixture. It does not close #941 because the API subsequently failed from post-transcription memory exhaustion before a safe downstream completion.
+This historical run established provider execution. It did not establish transcript truthfulness, current runtime reliability, or scientific validation.
 
-## Post-transcription memory failure and active repair
+## Historical post-transcription memory failure
 
-During the same run, parent RSS was approximately 134.75 MiB before post-provider cleanup and approximately 482.58 MiB after cleanup. Stage 10 then started even though the configured admission ceiling was 416 MiB. Render sampled 519,041,020 bytes during the incident against a 536,870,900-byte service limit, and Uvicorn restarted shortly afterward. The owner confirmed the failure was a memory problem.
+During that same historical run, parent RSS was approximately 134.75 MiB before post-provider cleanup and approximately 482.58 MiB after cleanup. Stage 10 then started even though the configured admission ceiling was 416 MiB. Render sampled 519,041,020 bytes during the incident against a 536,870,900-byte service limit, and Uvicorn restarted shortly afterward. The owner confirmed the failure was a memory problem.
 
-The active #941 / draft PR #962 repair changes the deployment/runtime behavior expected after merge:
+Completed provider/transcript/alignment state had not yet been durably attached to the persisted run before downstream work on that deployed source.
 
-1. `collect_after_heavy_phase()` must never import Torch merely to perform cleanup;
+Render did not emit a dedicated kernel OOM/SIGKILL record for the run, so the exact OS termination mechanism is not separately claimed.
+
+## Merged durability and Stage 10 safety source
+
+Merged PR #962 established:
+
+1. `collect_after_heavy_phase()` does not import Torch merely to perform cleanup on the CPU faster-whisper path;
 2. Stage 10 must pass an explicit process-memory admission check before being marked running;
-3. successful provider acquisition, transcript, alignment and provider timings must be checkpointed durably before downstream Stage 10 work;
-4. `process_instance_id` must be a fresh Python-process UUID while `render_instance_id` remains separate infrastructure provenance;
-5. the case route must retain the same canonical run identity through finalization, with any internal pipeline result identifier stored separately.
+3. successful provider acquisition, transcript, alignment and provider timings are checkpointed durably before downstream Stage 10 work;
+4. `process_instance_id` is a fresh Python-process UUID while `render_instance_id` remains separate infrastructure provenance;
+5. the case route retains the same canonical persisted `run_id` through finalization.
 
-These are source changes until merged and deployed. Do not describe them as current production execution yet.
+Merged PR #967 then added:
+
+6. fail-fast process-wide single-flight admission for the complete downstream composite analysis so competing timed-out/abandoned requests do not queue behind an active heavyweight phase and execute later;
+7. a memory/RSS recheck while holding the shared heavyweight lock;
+8. lock ownership through the complete composite analysis execution;
+9. explicit preservation of the pipeline-internal analytical UUID as `pipeline_run_id` rather than overwriting persisted case-run identity.
+
+These source changes are present in current `main` and current Render deployment metadata. They have **not** yet been accepted as controlled production execution merely because the deployment is `live`.
+
+Issue #941 has been reopened for the production proof after #964 reconciles the runtime configuration.
 
 ## Memory-safe execution behavior
 
@@ -157,17 +183,11 @@ This controls provider lifetime and lets child model memory disappear when the p
 
 ### Cleanup rule
 
-After a heavy provider phase, VoxVector performs provider release, Python garbage collection and best-effort Linux allocator trimming. The active repair permits CUDA cache clearing only if Torch is already loaded by another runtime path. Cleanup must not import Torch just to ask whether CUDA exists.
+After a heavy provider phase, VoxVector performs provider release, Python garbage collection and best-effort Linux allocator trimming. CUDA cache clearing is allowed only if Torch is already loaded by another runtime path. Cleanup must not import Torch just to ask whether CUDA exists.
 
-### Downstream memory admission
+### Durable provider checkpoint
 
-The active repair applies `ensure_memory_headroom("pipeline:acoustic_feature_extraction")` before Stage 10 is represented as running. If the current process is already at or above the configured admission ceiling, VoxVector must persist a bounded Stage 10 failure and mark dependent downstream stages `not_run` while keeping upstream speech/transcript artifacts.
-
-Memory admission is operational resource protection, not the scientific Eligibility and Reliability stage.
-
-## Durable provider checkpoint
-
-After provider acquisition resolves and Stage 07/08 lifecycle state is known, the active repair persists an upstream checkpoint to the same case/run before downstream analysis.
+After provider acquisition resolves and Stage 07/08 lifecycle state is known, current source persists an upstream checkpoint to the same case/run before downstream analysis.
 
 The checkpoint includes:
 
@@ -181,18 +201,26 @@ The checkpoint includes:
 
 Operational logs emitted for checkpoint completion contain only sanitized state/count metadata. They do not copy raw transcript text into diagnostics.
 
-## Process and infrastructure identity
+### Downstream memory admission
 
-After the active repair:
+Current source applies Stage 10 route preflight and a process-wide shared heavyweight phase guard before the complete `VoxVectorPipeline.analyze()` composite call.
+
+A competing composite request fails fast if that downstream phase is already occupied. An admitted request rechecks memory under the shared lock and keeps the lock through complete composite execution. If current process RSS is already at or above the configured admission ceiling, VoxVector persists a bounded Stage 10 failure and marks dependent downstream stages `not_run` while keeping upstream speech/transcript artifacts.
+
+Memory admission is operational resource protection, not the scientific Eligibility and Reliability stage.
+
+## Process, infrastructure, and run identity
 
 - `process_instance_id` is a new UUID created when the Python API process starts;
-- `render_instance_id` is the Render infrastructure instance identifier when present.
+- `render_instance_id` is the Render infrastructure identifier when present;
+- persisted route-owned `run_id` remains the stable case-run identity;
+- pipeline-internal analytical identity is retained separately as `pipeline_run_id`.
 
-This distinction is required because Uvicorn may restart inside the same Render instance. Run reconciliation must detect Python process replacement even when the infrastructure label is unchanged.
+This distinction is required because Uvicorn may restart inside the same Render infrastructure instance and because case history/reopen depends on stable persisted run identity.
 
 ## `/health` verification
 
-The safe health contract reports non-secret runtime state. After #941 is merged/deployed it must expose:
+The safe health contract can expose:
 
 - exact source revision;
 - backend/pipeline version;
@@ -204,32 +232,37 @@ The safe health contract reports non-secret runtime state. After #941 is merged/
 - memory reference and admission ceiling;
 - runtime self-test state.
 
-Health readiness does not prove an analysis invoked a provider.
+Health readiness does not prove an analysis invoked a provider. Current `420536...` deployment still needs a fresh readback before those runtime fields are attributed to that deployment.
 
 ## Current controlled verification sequence
 
-The next production verification after #941 source acceptance is:
-
-1. confirm final PR #962 exact-head QA;
-2. merge only the reviewed exact head;
-3. deliberately deploy that merged revision to Render;
-4. verify Render reports the intended exact source as `live`;
-5. capture fresh `/health` and confirm beam 1, process-vs-Render identity separation and memory admission reference;
-6. rerun the same 183.3-second controlled WAV through the authenticated case path;
+1. complete #964 Blueprint/dependency/CORS/runtime-profile reconciliation in the existing root `render.yaml`;
+2. exact-head QA the #964 source change and review the diff;
+3. deliberately deploy the reconciled exact revision to the existing Render service;
+4. verify Render reports that intended source as `live`;
+5. capture fresh `/health` and confirm exact source, beam/profile values, process-vs-Render identity separation and memory-admission reference;
+6. rerun the same 183.3-second controlled WAV through the authenticated case path under reopened #941;
 7. verify faster-whisper again completes or fails inside its explicit bound without API process loss;
 8. read the upstream transcript/alignment/provider checkpoint from durable case storage before depending on downstream completion;
 9. verify Stage 10 is admitted only below the safe threshold and either completes or returns a bounded admission failure without restart;
-10. correlate Render service memory/instance lifecycle with application process and request identifiers;
-11. only after transcription reliability is stable, execute the cloud-primary pyannoteAI diarization gate and persist/read back speaker provenance;
-12. perform authenticated desktop/mobile browser verification separately.
+10. confirm the persisted `run_id` remains stable and `pipeline_run_id` remains separate;
+11. correlate Render service memory/instance lifecycle with application process and request identifiers;
+12. only after the transcription/runtime proof is accepted, execute the cloud-primary pyannoteAI diarization gate under #970 and persist/read back speaker provenance;
+13. persist transcript/audio/speaker alignment under #971;
+14. perform authenticated desktop/mobile browser verification separately.
 
 ## Related work
 
-- #941 / draft PR #962: active post-transcription memory containment and provider checkpoint repair;
-- #959 / draft PR #961: dual Render/Supabase speech and diagnostic persistence, parent correlation and Debug Bundle;
-- #963: historical-case playback/transcript rehydration after backend checkpoint ownership is stable;
-- #964: canonical Render Blueprint reconciliation;
-- #920: protected Developer Console Deploy Now path verification.
+- #964: current first task, canonical Render Blueprint/runtime-profile reconciliation;
+- #941: reopened controlled post-#967 production proof after #964;
+- #959: merged dual Render/Supabase logging and Debug Bundle source; production acceptance remains open;
+- #970: cloud-primary pyannoteAI contract/execution/persistence;
+- #971: persisted transcript/audio/speaker alignment;
+- #963: historical-case playback/transcript/speaker/alignment/report rehydration;
+- #965: frontend pipeline status projection correction;
+- #931 / draft PR #974: login wake/shared self-profile/current role browser acceptance;
+- #920: protected Developer Console Deploy Now path verification;
+- #972: final same-revision/configuration golden-case release gate.
 
 ## Scientific boundary
 
