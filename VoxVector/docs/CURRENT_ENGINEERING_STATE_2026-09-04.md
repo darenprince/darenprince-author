@@ -8,12 +8,12 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Branch: `main`
 - Canonical backend root: `VoxVector/`
 - Canonical frontend root: `voxvector/`
-- Repository synchronization checkpoint before issue #954 reconciliation: `5d8b6a415609a0a4195cea82fdc795b633d3f505`
+- Current canonical `main` source: `5cc50422125734a34e5fed04fc0e1f11317c7ade`
 - Backend source release: `0.2.27`
 - Frontend source release: `0.2.37`
-- Exact-main VoxVector QA at that checkpoint: #1989 / `34428496308`, `success`
-- Exact-main GitHub Pages workflow at that checkpoint: #1709 / `34428497382`, `success`
-- Exact-main CodeQL push run at that checkpoint: #78 / `34428495545`, `success`
+- Exact-main VoxVector QA: #1997 / `34429952347`, `success`
+- Exact-main GitHub Pages workflow: #1710 / `34429952384`, `success`
+- Exact-main CodeQL push run: #83 / `34429952114`, `success`
 - Latest observed live Render deployment source revision: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`
 - Latest observed Render deploy: `dep-dah0g13l550s73d2dbb0`, trigger `api`, status `live`
 - Render production auto-deploy: disabled
@@ -22,11 +22,12 @@ This is the current engineering snapshot for the active VoxVector repository sta
 - Maximum sample rate: `48,000 Hz`
 - Maximum media size: `262,144,000 bytes`
 - Current engineering-MVP intake blocker: intermittent case-source upload HTTP 400 tracked in #930, ready for production reproduction on the deployed diagnostics
-- Current active source task: issue #954 / PR #956, Render operational-state presentation in the existing Developer Console
+- Most recently completed source task: issue #954 / PR #956, Render operational-state presentation in the existing Developer Console
+- Next prioritized production-reliability task: #930 authenticated upload reproduction and evidence capture
 
 The backend and frontend have separate release numbers. Backend source authority is `VoxVector/pyproject.toml`; frontend source authority is `voxvector/package.json`. Production API version, runtime self-test, media/storage readiness and provider readiness remain runtime observations from `/health` and must not be advanced merely because source, documentation or deployment state changed.
 
-The repository revision and Render backend revision are currently different because PR #955 was documentation/audit synchronization only and did not redeploy the backend. That is expected evidence separation, not a deployment failure.
+The repository revision and Render backend revision are currently different because PR #956 is a frontend/Developer Console change and did not redeploy the backend. That is expected evidence separation, not a deployment failure.
 
 The canonical engineering-MVP exit criteria are maintained in [`MVP_RELEASE_GATE.md`](MVP_RELEASE_GATE.md).
 
@@ -34,7 +35,7 @@ The canonical engineering-MVP exit criteria are maintained in [`MVP_RELEASE_GATE
 
 | Surface | Endpoint / role | Current status |
 |---|---|---|
-| Public React application | `https://darenprince.com/voxvector/` | Canonical GitHub Pages frontend; #1709 published the #955 synchronization merge |
+| Public React application | `https://darenprince.com/voxvector/` | Canonical GitHub Pages frontend; #1710 published merged PR #956 source from `5cc504...` |
 | Original API | `https://voxvector.crownlabs.tech` | Preserved Render API; deployment `dep-dah0g13l550s73d2dbb0` is live on backend source `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` |
 | AWS API environment | `https://awsapi.crownlabs.tech` | Separate historical benchmark environment; not part of active QA gating |
 | Authentication/persistence/diagnostics/private media | Supabase | Configured boundary; administrator Edge Function source is not currently deployed |
@@ -43,7 +44,7 @@ Render hosting the API does not make Render the durable media store. GitHub Page
 
 The current Render deploy was triggered through Render's API. It is deployment evidence only and does **not** verify issue #920's authenticated Developer Console **Deploy Now** / server-side deploy-hook path.
 
-A successful Render bridge/control-plane request also does not establish that the service itself is live. The Developer Console must keep bridge connectivity, service lifecycle, latest deployment lifecycle and `/health` runtime evidence separate.
+A successful Render bridge/control-plane request also does not establish that the service itself is live. The Developer Console keeps bridge connectivity, service lifecycle, latest deployment lifecycle and `/health` runtime evidence separate.
 
 ## Current 21-stage pipeline
 
@@ -108,27 +109,27 @@ Production Case History reconciliation/report readback remains unverified. The p
 
 ## Runtime provenance and QA
 
-Repository synchronization PR #955 merged as `5d8b6a415609a0a4195cea82fdc795b633d3f505` and then passed exact-main VoxVector QA #1989, Deploy GitHub Pages #1709 and CodeQL #78. That merge was documentation/audit synchronization only.
+PR #956 merged as `5cc50422125734a34e5fed04fc0e1f11317c7ade`. Its final PR head `bf1a667706a1dcb781583c54341d6e38346fd950` passed VoxVector QA #1996 / `34429777387`, PR Preview Build #828 / `34429777388`, and CodeQL #82 / `34429773922`. After merge, exact-main VoxVector QA #1997 / `34429952347`, Deploy GitHub Pages #1710 / `34429952384`, and CodeQL #83 / `34429952114` succeeded. The Pages workflow's build and deploy jobs both completed successfully.
 
-Connected Render deployment `dep-dah0g13l550s73d2dbb0` remains live on backend source `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. This establishes a separately observed backend deployment identity; it must not be rewritten as `5d8b6a...` merely because repository documentation advanced. A fresh complete `/health` payload has not yet been recorded for the latest synchronization.
+Connected Render deployment `dep-dah0g13l550s73d2dbb0` remains live on backend source `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. PR #956 did not alter backend source and did not redeploy Render. A fresh complete `/health` payload has not yet been recorded for this post-merge checkpoint.
 
 ## Render operational status projection — issue #954 / PR #956
 
-Issue #954 tightens the existing Developer Console status projection without changing Render deployment policy, backend service behavior, analysis execution, authentication, or scientific methodology.
+Issue #954 is complete at the source, exact-head CI, merge and GitHub Pages publication boundaries. PR #956 changed only the existing Developer Console status presentation; it did not change Render deployment policy, backend service behavior, analysis execution, authentication, or scientific methodology.
 
-The PR #956 source behavior is:
+Merged behavior:
 
 - `voxvector/src/lib/renderOperationalState.js` is the single frontend normalization owner for Render lifecycle presentation;
 - only an `ACTIVE`/`LIVE` service combined with an `ACTIVE`/`LIVE` latest deployment is green/healthy;
 - pending, queued, building, deploying, updating and other in-progress states are transitional rather than healthy;
 - suspended, deactivated, failed, unavailable and unreported states are explicit attention/error states;
 - the compact live engineering rail is red whenever the combined Render service/deployment state is anything other than terminal-live, including transitional states;
-- Developer Overview requests Render status while the dashboard itself is open and adds a full-card color-coded Render Service block;
+- Developer Overview requests Render status while the dashboard is open and adds a full-card color-coded Render Service block;
 - API, Runtime, Pipeline, Transcription and Render Service blocks carry always-visible subtext such as version, revision, provider, stage-count, region and deploy context;
 - Render Runtime separates authenticated bridge connectivity from operational state and color-codes service and deployment blocks independently;
 - missing Render state is not defaulted to `Active`.
 
-PR #956 was reconciled after PR #955 advanced `main`; the reconciliation preserves #955's current repository/runtime evidence and #956's canonical Developer Console source changes. These statements remain source-level behavior until final exact-head QA/review, merge, Pages publication and browser verification are separately established.
+The merged frontend was published by GitHub Pages #1710. Because these Developer Console surfaces are protected by Supabase authentication, no authenticated desktop/mobile visual browser verification is claimed from CI or Pages publication alone.
 
 ## Developer Console requirements and current shell
 
@@ -144,7 +145,7 @@ The deployed Render source contains backend operator authorization for trusted `
 
 ## Active issue state
 
-- #954 / PR #956 — **In progress.** Render operational-state Developer Console source has been reconciled onto the #955 repository state; final exact-head QA/review, merge/publication, and browser verification remain separate gates.
+- #954 / PR #956 — **Done at source/CI/Pages publication boundaries.** Final PR head `bf1a667...` passed QA #1996, Preview #828 and CodeQL #82; merge `5cc504...` passed exact-main QA #1997, Pages #1710 and CodeQL #83. Authenticated Developer Console visual verification remains separate unresolved evidence.
 - #930 — **Ready for production reproduction/verification.** Live Render source includes the bounded pre-handler upload diagnostics; exact root cause and authenticated upload evidence remain open.
 - #941 — **Ready for controlled production transcription verification.** Source repair is deployed; provider execution, memory behavior, transcript artifact readback, and supported cleanup remain open.
 - #920 — **Blocked on authenticated Developer Console action.** Current Render deployment was API-triggered and does not verify the protected deploy-hook path.
@@ -174,19 +175,18 @@ The current API-triggered deployment is not substituted for that acceptance path
 
 ## Current engineering sequence
 
-1. finish #954 exact-head QA/review on the reconciled branch and merge only if clean;
-2. publish the merged frontend through GitHub Pages and browser-verify Developer Overview and Render Runtime on desktop/mobile where tooling permits;
-3. capture fresh `/health` on the deployed Render backend and preserve exact runtime/provider configuration fields;
-4. reproduce or sufficiently bound #930 through authenticated upload/private persistence/provenance/playback;
-5. execute controlled faster-whisper under #941 with Render memory/instance correlation and persisted transcript/run readback;
-6. execute controlled pyannoteAI cloud-primary diarization with its route gate enabled and persist/read back speaker provenance;
-7. verify transcript/speaker/alignment artifacts under the same case/run identity;
-8. finish #948 and #949 as separate bounded source changes with exact-head QA and review;
-9. deploy and verify the #931 Supabase administrator function and trusted admin boundary;
-10. complete #932 and, after #930, #928;
-11. complete authenticated desktop/mobile browser verification and history/reopen/report acceptance;
-12. repeat the complete golden case on the same exact deployed revision before engineering-MVP sign-off;
-13. keep scientific validation as a separate program.
+1. reproduce or sufficiently bound #930 through authenticated upload/private persistence/provenance/playback and capture fresh request-correlated evidence;
+2. capture fresh `/health` on the deployed Render backend and preserve exact runtime/provider configuration fields as part of the production reliability work;
+3. execute controlled faster-whisper under #941 with Render memory/instance correlation and persisted transcript/run readback;
+4. execute controlled pyannoteAI cloud-primary diarization with its route gate enabled and persist/read back speaker provenance;
+5. verify transcript/speaker/alignment artifacts under the same case/run identity;
+6. finish #948 and #949 as separate bounded source changes with exact-head QA and review;
+7. deploy and verify the #931 Supabase administrator function and trusted admin boundary;
+8. complete #932 and, after #930, #928;
+9. complete #920 through the authenticated Developer Console deployment-control path;
+10. complete authenticated desktop/mobile browser verification and history/reopen/report acceptance;
+11. repeat the complete golden case on the same exact deployed revision before engineering-MVP sign-off;
+12. keep scientific validation as a separate program.
 
 ## Evidence and scientific boundary
 
