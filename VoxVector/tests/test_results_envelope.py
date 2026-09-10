@@ -5,9 +5,9 @@ def test_compose_result_envelope_preserves_connected_identity_and_explicit_gaps(
     envelope = compose_result_envelope(
         case={"case_id": "case-1"},
         source={"source_id": "source-1", "sha256": "abc", "filename": "sample.wav", "duration_seconds": 4.2},
-        run={"run_id": "run-1", "status": "completed", "stages": [{"id": "decode", "status": "complete"}]},
+        run={"run_id": "case-run-1", "pipeline_run_id": "pipeline-run-1", "status": "completed", "stages": [{"id": "decode", "status": "complete"}]},
         result={
-            "run_id": "run-1",
+            "run_id": "pipeline-run-1",
             "schema_version": "0.3",
             "eligibility": {"status": "eligible"},
             "observations": [{"feature": "rms", "value": 0.2}],
@@ -20,8 +20,9 @@ def test_compose_result_envelope_preserves_connected_identity_and_explicit_gaps(
     )
 
     assert envelope["case_id"] == "case-1"
-    assert envelope["analysis_id"] == "run-1"
-    assert envelope["run_id"] == "run-1"
+    assert envelope["analysis_id"] == "case-run-1"
+    assert envelope["run_id"] == "case-run-1"
+    assert envelope["pipeline_run_id"] == "pipeline-run-1"
     assert envelope["pipeline"]["stages"][0]["status"] == "complete"
     assert envelope["observations"][0]["feature"] == "rms"
     assert envelope["candidate"] == "indeterminate"

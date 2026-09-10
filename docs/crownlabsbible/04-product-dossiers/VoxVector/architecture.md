@@ -30,17 +30,17 @@ The repository implementation and `VoxVector/docs/` remain authoritative. This p
 
 ## Current runtime evidence — 2026-09-10
 
-- canonical GitHub `main`: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
-- current Render deploy: `dep-dah7usjl550s73e00350`, `live`
-- deployed source: exact `f0dda136...`
+- canonical GitHub `main` observed for the latest follow-up rebase: `8bf2e3c0a97025ea7f25f6b10bc4cbad9bfa8b1e`
+- last documented controlled Render deploy: `dep-dah7usjl550s73e00350`, `live`
+- that deployed source: exact `f0dda136...`
 - Render auto-deploy: disabled
-- live Render build: `requirements.txt` + `requirements-speech.txt`
-- canonical root `render.yaml`: `requirements.txt` + `requirements-transcription.txt`
+- live Render build at that evidence point: `requirements.txt` + `requirements-speech.txt`
+- canonical root `render.yaml` at that evidence point: `requirements.txt` + `requirements-transcription.txt`
 - Blueprint/live-service drift: issue #964
 
 One controlled 183.3-second production case completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words. The API later restarted during the post-provider/downstream transition after memory entered the constrained runtime danger zone. The owner confirmed the incident was a memory problem.
 
-Active #941 / draft PR #962 repairs the post-transcription reliability boundary. It does not change VoxVector's scientific methodology.
+PR #962 merged the first #941 containment repair. A post-merge Codex review identified two remaining source defects: Stage 10's route preflight did not reserve the shared heavyweight execution boundary for the full composite analysis, and the result envelope could prefer the pipeline-internal UUID over the stable case-run ID. Follow-up branch `fix/voxvector-stage10-admission-envelope` addresses both findings before production rerun evidence is accepted. This work does not change VoxVector's scientific methodology.
 
 ## Complete product pipeline
 
@@ -74,7 +74,7 @@ The 05/06 order above matches the canonical backend stage contract. Historical d
 
 The constrained execution sequence is:
 
-`provider completion → provider cleanup → durable same-run upstream checkpoint → Stage 10 memory admission → downstream composite analysis`
+`provider completion → provider cleanup → durable same-run upstream checkpoint → Stage 10 route preflight → fail-fast shared Stage 10 admission lock + RSS recheck → downstream composite analysis while the lock remains held`
 
 Completed transcript/alignment/provider output must be persisted before dependent heavyweight work is trusted to complete.
 
@@ -82,7 +82,15 @@ Stage 10 memory admission is an operational runtime guard. It is separate from S
 
 Current reference memory policy is 512 MiB with 96 MiB reserved headroom, yielding a 416 MiB admission ceiling.
 
+The follow-up source applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: a competing composite call does not wait in a worker-thread queue behind an active heavyweight phase. It fails before entering the analytical body. An admitted call rechecks RSS while holding the shared lock and retains that lock through composite execution. Existing provider `measured_phase(...)` behavior is otherwise unchanged.
+
 `process_instance_id` identifies the current Python process. `render_instance_id` preserves hosting-provider instance provenance separately because Render can restart Python while retaining the same infrastructure instance label.
+
+## Case and run identity
+
+The persisted case run remains the durable analysis identity across source, acquisition, stage state, reporting, history, and failure recovery. The result envelope exposes that stable ID as `run_id`.
+
+The canonical analytical pipeline still creates its own internal UUID. That identifier is preserved separately as `pipeline_run_id`; it must not replace the case-run identifier used by persisted cases and reopened history.
 
 ## Product experience target
 
@@ -98,13 +106,13 @@ Current production architecture uses:
 - diarization primary: pyannoteAI cloud via `pyannote_api`
 - diarization fallback: optional local Community-1 only when explicitly enabled
 
-The cloud-primary diarization adapter does not require loading local Community-1/PyTorch merely to call the cloud provider. Current live Render dependency drift involving the broader speech requirements is therefore tracked separately in #964.
+The cloud-primary diarization adapter does not require loading local Community-1/PyTorch merely to call the cloud provider. Current documented live Render dependency drift involving the broader speech requirements is therefore tracked separately in #964.
 
-Provider readiness is not provider execution. The controlled faster-whisper run is real provider-execution evidence, but end-to-end memory-safe analysis and durable transcript checkpointing still require #941 production verification after merge/deployment.
+Provider readiness is not provider execution. The controlled faster-whisper run is real provider-execution evidence, but end-to-end memory-safe analysis still requires #941 follow-up review, exact-head QA, deliberate deployment, and controlled production verification.
 
 ## Developer Console and observability
 
-The Developer Console remains the engineering cockpit over real backend/runtime evidence. Issue #959 / draft PR #961 separately owns dual Render + Supabase log durability, provider-worker correlation, bounded Render-log mirroring, and the server-generated Download Debug Bundle.
+The Developer Console remains the engineering cockpit over real backend/runtime evidence. Issue #959 separately owns dual Render + Supabase log durability, provider-worker correlation, bounded Render-log mirroring, and the server-generated Download Debug Bundle.
 
 ## Design properties
 
@@ -113,7 +121,9 @@ The Developer Console remains the engineering cockpit over real backend/runtime 
 - one 21-stage dependency contract
 - bounded frame processing
 - durable completed upstream artifacts
+- Stage 10 fail-fast process-wide single-flight admission with locked RSS recheck and lock ownership through composite execution
 - explicit operational memory admission
+- stable case-run identity separate from pipeline-internal run identity
 - distinct process and hosting-instance provenance
 - immutable input fingerprinting
 - reproducible configuration

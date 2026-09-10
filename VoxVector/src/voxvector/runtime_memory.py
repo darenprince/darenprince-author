@@ -6,8 +6,13 @@ import sys
 import threading
 import time
 from contextlib import contextmanager
+from functools import wraps
 
 _LOCK = threading.Lock()
+
+
+class HeavyPhaseBusyError(RuntimeError):
+    """Raised when a heavyweight phase cannot start without queuing."""
 
 
 def memory_usage_mb() -> float | None:
@@ -77,9 +82,12 @@ def collect_after_heavy_phase() -> None:
 
 
 @contextmanager
-def measured_phase(name: str):
-    """Serialize heavyweight phases, enforce headroom, and emit RSS telemetry."""
-    with _LOCK:
+def measured_phase(name: str, *, wait_for_lock: bool = True):
+    """Admit one heavyweight phase at a time, enforce headroom, and emit RSS telemetry."""
+    acquired = _LOCK.acquire(blocking=wait_for_lock)
+    if not acquired:
+        raise HeavyPhaseBusyError(f"Heavyweight phase is already active; cannot start {name} without queuing")
+    try:
         started = time.perf_counter()
         before = ensure_memory_headroom(name)
         try:
@@ -106,3 +114,18 @@ def measured_phase(name: str):
                 f"limit_mb={memory_limit_mb():.0f}",
                 flush=True,
             )
+    finally:
+        _LOCK.release()
+
+
+def serialized_heavy_phase(name: str):
+    """Run a complete heavyweight call under fail-fast shared admission."""
+    def decorate(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            with measured_phase(name, wait_for_lock=False):
+                return func(*args, **kwargs)
+
+        return wrapped
+
+    return decorate

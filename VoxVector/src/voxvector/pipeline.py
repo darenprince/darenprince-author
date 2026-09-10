@@ -19,6 +19,7 @@ from .hnr import harmonic_to_noise_ratio
 from .reliability import assess_signal
 from .research_interaction import response_latency
 from .research_timing import pause_topology
+from .runtime_memory import serialized_heavy_phase
 from .schemas import AnalysisResult, Eligibility, Observation, SpeechSegment as ResultSpeechSegment
 from .speech_segmentation import segment_speech
 from .spectral import spectral_flux, spectral_rolloff
@@ -58,6 +59,7 @@ class VoxVectorPipeline:
     schema_version = "0.3"
     software_version = __version__
 
+    @serialized_heavy_phase("pipeline:acoustic_feature_extraction")
     def analyze(
         self,
         signal: np.ndarray,

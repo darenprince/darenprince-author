@@ -664,8 +664,9 @@ async def render_analysis(
         not_run_count = sum(stage["status"] == "not_run" for stage in stage_states)
         failed_count = sum(stage["status"] in {"failed", "error"} for stage in stage_states)
         final_run = {
-            "run_id": result.run_id,
-            "analysis_id": result.run_id,
+            "run_id": live_run_id,
+            "analysis_id": live_run_id,
+            "pipeline_run_id": result.run_id,
             "request_id": rid,
             "status": "completed",
             "started_at": started_at,
@@ -687,7 +688,7 @@ async def render_analysis(
         envelope = compose_result_envelope(case=case, source=source, run=final_run, result=result_dict)
         final_run["result_envelope"] = envelope
         updated_case = await asyncio.to_thread(CASE_STORE.update_run, str(user["id"]), case_id, final_run)
-        await DIAGNOSTICS.emit("case.live_provider_analysis_completed", case_id=case_id, source_id=source_id, run_id=result.run_id, request_id=rid, completed_stages=completed_count, transcription_state=transcription_state, diarization_state=diarization_state, pipeline_duration_ms=pipeline_duration)
+        await DIAGNOSTICS.emit("case.live_provider_analysis_completed", case_id=case_id, source_id=source_id, run_id=live_run_id, pipeline_run_id=result.run_id, request_id=rid, completed_stages=completed_count, transcription_state=transcription_state, diarization_state=diarization_state, pipeline_duration_ms=pipeline_duration)
         return {"status": "ok", "case": updated_case, "run": final_run, "result_envelope": envelope}
     except Exception as exc:
         try:
