@@ -1,201 +1,236 @@
 # VoxVector Speech Runtime Deployment
 
-**State date:** 2026-09-09
+**State date:** 2026-09-10
 
 ## Purpose
 
-Deploy the optional speech intelligence runtime without weakening the lightweight base API deployment or exhausting the constrained Render memory budget.
+Deploy and operate the VoxVector speech-intelligence runtime without weakening the canonical backend boundary or exhausting the constrained Render memory budget.
+
+This document separates source configuration, provider readiness, actual provider execution, persistence and production verification.
 
 ## Runtime components
 
-- faster-whisper for transcription
-- pyannoteAI cloud (`pyannote_api`) as the current primary speaker-diarization provider
-- local pyannote Community-1 (`pyannote_local`) as an optional explicit fallback
-- VoxVector alignment and evidence acquisition contracts
+Current architecture supports:
 
-## Current Render activation
+- faster-whisper for transcription;
+- pyannoteAI cloud through `pyannote_api` as the current primary speaker-diarization provider;
+- local pyannote Community-1 through `pyannote_local` as an optional explicit fallback;
+- VoxVector-owned speech segmentation, normalized evidence contracts and timestamp alignment.
 
-## 2026-09-02 wiring correction
+Provider configuration is not provider execution. A provider output is not scientific validation.
 
-The transcription adapter was implemented but the canonical Render blueprint installed only `api/requirements.txt`. That meant the production service could report a configured provider while `faster_whisper` itself was absent. The root cause was therefore deployment wiring, not the transcription contract.
+## Canonical Render service boundary
 
-The canonical Render blueprint now installs the speech dependency set used by the active service. Runtime package installation and provider readiness must be verified from the current deployment/build evidence rather than inferred from this historical wiring note.
+Render application root:
 
-Keep the existing Start Command:
+`VoxVector`
+
+Start command:
 
 `uvicorn api.app:app --host 0.0.0.0 --port $PORT`
 
-## Required Render environment configuration
+Health route:
 
-Transcription:
+`/health`
 
-`VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
+Production auto-deploy remains disabled. Deliberate deployment verification is required after an approved merge.
 
-`VOXVECTOR_WHISPER_MODEL=base`
+## Current Render Blueprint/configuration drift
 
-`VOXVECTOR_WHISPER_DEVICE=cpu`
+Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. Do not add the downloaded Render-generated Blueprint export as a second file or a second service owner.
 
-`VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
+Current repository Blueprint build command:
 
-`VOXVECTOR_WHISPER_BEAM_SIZE=1`
+`pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
 
-`VOXVECTOR_WHISPER_CPU_THREADS=1`
+Current connected live Render service build command:
 
-`VOXVECTOR_WHISPER_NUM_WORKERS=1`
+`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
-`VOXVECTOR_WHISPER_ISOLATED_PROCESS=true`
+The two are not the same configuration.
 
-`VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165`
+`api/requirements-transcription.txt` installs faster-whisper only. `api/requirements-speech.txt` also installs local `pyannote.audio`, bringing the local PyTorch stack into the service image. The canonical production primary diarization adapter is `pyannote_api`, which performs cloud API calls and does not require loading local Community-1/Torch merely to use the primary provider.
 
-The constrained `base` / CPU / int8 / beam 1 / one-thread / one-worker profile is the current source default for the repaired Render path. The model and resource settings remain explicitly configurable for larger deployments. The process timeout is intentionally shorter than the outer evidence-acquisition deadline so the child can terminate and return a bounded provider failure before the route-level deadline expires.
+Issue #964 owns the infrastructure-as-code reconciliation. It must update the existing root `render.yaml`, preserve secret values outside Git, keep reproducible non-secret runtime constraints in Git where supported, and verify that the existing Render service is updated rather than provisioning a duplicate service.
 
-Current primary diarization configuration:
+A Blueprint commit or Render configuration update is not provider execution.
 
-`VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api`
+## Required transcription configuration
 
-`PYANNOTE_KEY=<protected pyannoteAI API key>`
+Current constrained source profile:
 
-The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias.
+```text
+VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
+VOXVECTOR_WHISPER_MODEL=base
+VOXVECTOR_WHISPER_DEVICE=cpu
+VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
+VOXVECTOR_WHISPER_BEAM_SIZE=1
+VOXVECTOR_WHISPER_CPU_THREADS=1
+VOXVECTOR_WHISPER_NUM_WORKERS=1
+VOXVECTOR_WHISPER_ISOLATED_PROCESS=true
+VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165
+```
 
-Case-analysis invocation gate:
+The process deadline is intentionally shorter than the outer provider-acquisition deadline so the isolated child can return a bounded provider failure before route-level timeout.
 
-`VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`
+## Required primary diarization configuration
 
-This gate is separate from `/health` provider readiness. A runtime can report the cloud provider as configured/execution-ready while case analysis still does not invoke diarization if this gate is disabled.
+Current primary:
 
-Optional explicit local fallback:
+```text
+VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
+PYANNOTE_KEY=<protected deployment secret>
+VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
+```
 
-`VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`
+`PYANNOTE_API_KEY` is also accepted as the cloud-key alias.
 
-`VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`
+The route invocation gate is separate from provider readiness. `/health` may report the configured cloud adapter ready while the case path still does not invoke diarization if `VOXVECTOR_ENABLE_DIARIZATION_RUNS` is disabled.
 
-`HF_TOKEN=<protected Hugging Face token>`
+## Optional local fallback
 
-The local adapter also accepts `HUGGINGFACE_TOKEN`. Community-1 fallback is not the current primary deployment path and should not be used as the first production verification target.
+Explicit fallback configuration:
 
-Superseded local-primary reference retained for history only:
+```text
+VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local
+VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true
+HF_TOKEN=<protected Hugging Face token>
+```
 
-`VOXVECTOR_DIARIZATION_PROVIDER=pyannote`
+`HUGGINGFACE_TOKEN` is also accepted by the local adapter. Community-1 is not the current primary production target. Local fallback execution must not be represented as cloud-primary verification.
 
-`VOXVECTOR_DIARIZATION_MODEL=pyannote/speaker-diarization-community-1`
+## Memory reference
 
-Do not use the superseded local-primary block as current Render setup guidance.
+Current application reference:
 
-Runtime memory reference:
+```text
+VOXVECTOR_MEMORY_LIMIT_MB=512
+VOXVECTOR_MEMORY_HEADROOM_MB=96
+```
 
-`VOXVECTOR_MEMORY_LIMIT_MB=512`
+Effective application admission ceiling on that reference is 416 MiB RSS. These variables do not alter Render's actual service limit.
 
-This is a diagnostic reference only. It does not override Render's platform memory limit.
+## Current production execution evidence
 
-Memory admission reserve:
+The September 10 controlled run on deployed revision `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` established that the corrected beam-1 transcription path can execute successfully.
 
-`VOXVECTOR_MEMORY_HEADROOM_MB=96`
+Case `3515362e-f801-463d-961a-df7b3302a596`, source `cbdcdbf8-e528-49b0-a474-5cd64588d301`, request `32fdb25aee704ee4ad0a0615e2496e09`:
 
-On the 512 MiB reference budget, a heavyweight local provider phase is admitted only while measured process RSS is below **416 MiB**. This protects a reserve for allocator overhead, transient tensors, request state, and runtime activity. The cloud provider does not load the local Community-1 model into the Render process, but application/runtime resource behavior still requires measurement.
+- 183.3-second WAV;
+- speech segmentation completed with 26 segments;
+- faster-whisper ran as `base` / CPU / int8 / beam 1 / one thread / one worker / isolated child;
+- transcription completed in about 113 seconds;
+- 58 timestamped segments and 246 timestamped words were produced;
+- language was reported as `en`.
+
+This closes the earlier question of whether the beam-1 provider path can run at all on the deployed service for that fixture. It does not close #941 because the API subsequently failed from post-transcription memory exhaustion before a safe downstream completion.
+
+## Post-transcription memory failure and active repair
+
+During the same run, parent RSS was approximately 134.75 MiB before post-provider cleanup and approximately 482.58 MiB after cleanup. Stage 10 then started even though the configured admission ceiling was 416 MiB. Render sampled 519,041,020 bytes during the incident against a 536,870,900-byte service limit, and Uvicorn restarted shortly afterward. The owner confirmed the failure was a memory problem.
+
+The active #941 / draft PR #962 repair changes the deployment/runtime behavior expected after merge:
+
+1. `collect_after_heavy_phase()` must never import Torch merely to perform cleanup;
+2. Stage 10 must pass an explicit process-memory admission check before being marked running;
+3. successful provider acquisition, transcript, alignment and provider timings must be checkpointed durably before downstream Stage 10 work;
+4. `process_instance_id` must be a fresh Python-process UUID while `render_instance_id` remains separate infrastructure provenance;
+5. the case route must retain the same canonical run identity through finalization, with any internal pipeline result identifier stored separately.
+
+These are source changes until merged and deployed. Do not describe them as current production execution yet.
 
 ## Memory-safe execution behavior
 
-The evidence-acquisition speech detector uses bounded frame groups rather than materializing a full-recording frame matrix. Heavy provider phases are serialized and checked against configured RSS admission where applicable. Provider caches are explicitly released after each attempt, including failed attempts, followed by Python garbage collection and best-effort Linux allocator trimming where applicable.
+### Source decoding and working representation
 
-The case route drops the persisted byte buffer after SHA-256 integrity verification, retains the canonical audio signal as float32, executes upstream speech/evidence acquisition before downstream composite analysis, and therefore avoids intentionally overlapping downstream DSP working sets with local ASR model execution.
+The case route retrieves the private persisted WAV, verifies SHA-256 provenance, performs channel/recording assessment, converts the working audio to float32 and releases the original persisted byte buffer before heavyweight provider execution.
 
-faster-whisper now runs in a disposable spawned process by default. The parent writes a temporary WAV, starts the child, waits up to `VOXVECTOR_WHISPER_TIMEOUT_SECONDS`, terminates then kills the child if the hard deadline is exceeded, closes IPC state, and removes the temporary WAV. This provides a terminable boundary around native ASR execution rather than relying only on coroutine cancellation around an in-process thread.
+### Bounded speech segmentation
 
-The runtime emits `VOXVECTOR_MEMORY` lines around heavyweight provider phases containing current Linux process RSS when available, phase duration, and the configured memory reference. This provides application evidence to correlate with Render infrastructure telemetry.
+Speech activity extraction processes bounded frame groups and retains compact timing state rather than a full-recording frame matrix.
 
-Render's memory limit applies to the service/container rather than independently to each child process. Process isolation therefore improves termination and reclamation behavior but is not, by itself, proof that a specific recording stays below the 512 MiB service ceiling. Real provider execution remains required.
+### Isolated faster-whisper process
 
-## 2026-09-09 production transcription OOM evidence
+With process isolation enabled, faster-whisper executes in a spawned disposable child. The parent creates a temporary normalized WAV, starts the child, waits only to the configured provider deadline, terminates/kills the child if required, closes IPC state and removes the temporary file.
 
-Production revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0` processed request `6bb7ec766d3e46f39462ef92c9929544`. Render logged Stage 07 `transcription_generation` at `09:36:46Z`, faster-whisper start at `09:36:47Z`, and model load at `09:36:48Z` for a 183.3 second WAV. No transcription completion/failure/timeout record followed. Render then launched Uvicorn again at `09:37:05Z` and a new server process at `09:37:11Z`, consistent with the contemporaneous Render memory-limit automatic-restart alert.
+This controls provider lifetime and lets child model memory disappear when the process exits. Render's service memory ceiling still applies across parent and child processes.
 
-The persisted run remained `running` because the process terminated before the prior in-process timeout/error path could store a terminal state. The repair in PR #942 adds persisted process identity/stage deadline metadata and case-read reconciliation so a prior worker's orphaned run can be marked explicitly interrupted or deadline-exceeded instead of remaining indefinitely active.
+### Cleanup rule
 
-This is runtime execution evidence and software reliability work. It is not scientific validation.
+After a heavy provider phase, VoxVector performs provider release, Python garbage collection and best-effort Linux allocator trimming. The active repair permits CUDA cache clearing only if Torch is already loaded by another runtime path. Cleanup must not import Torch just to ask whether CUDA exists.
 
-## Verification state recorded for the local-primary phase
+### Downstream memory admission
 
-The earlier local-primary source wiring remains historical evidence. The current provider policy supersedes that selection with the cloud adapter as primary. Controlled provider execution and measured resource verification remain required before provider-backed pipeline stages are promoted beyond their current documented maturity.
+The active repair applies `ensure_memory_headroom("pipeline:acoustic_feature_extraction")` before Stage 10 is represented as running. If the current process is already at or above the configured admission ceiling, VoxVector must persist a bounded Stage 10 failure and mark dependent downstream stages `not_run` while keeping upstream speech/transcript artifacts.
 
-## Health verification
+Memory admission is operational resource protection, not the scientific Eligibility and Reliability stage.
 
-After deployment, `/health` exposes non-secret speech runtime state including configured providers, adapter installation state, credential-presence booleans, primary/fallback readiness, current constrained transcription settings, process identity, and runtime provenance. Health does not expose credentials and does not prove a case actually invoked a provider.
+## Durable provider checkpoint
 
-For debugging, inspect these separately:
+After provider acquisition resolves and Stage 07/08 lifecycle state is known, the active repair persists an upstream checkpoint to the same case/run before downstream analysis.
 
-1. configured provider (`pyannote_api` expected for the current primary path)
-2. cloud API-key presence/readiness
-3. `VOXVECTOR_ENABLE_DIARIZATION_RUNS` route gate
-4. optional fallback provider/readiness
-5. faster-whisper isolated-process/deadline configuration
-6. actual case/run stage evidence and persisted provider provenance
-7. Render instance lifecycle and memory telemetry for the same request window
+The checkpoint includes:
 
-## Controlled first execution
+- normalized acquisition object;
+- transcript artifact when available;
+- multimodal alignment when available;
+- speaker list when available;
+- provider state and provider timings;
+- stage lifecycle state;
+- process and Render instance provenance.
 
-Use one short known WAV fixture and verify the active primary path in this order:
+Operational logs emitted for checkpoint completion contain only sanitized state/count metadata. They do not copy raw transcript text into diagnostics.
 
-1. confirm the intended backend source revision and exact-commit QA evidence;
-2. confirm faster-whisper is configured/execution-ready and reports the intended isolated-process/deadline profile;
-3. confirm diarization primary is `pyannote_api` and primary readiness is true;
-4. confirm `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime;
-5. run the fixture through the authenticated case-analysis path;
-6. verify pipeline stage order remains upstream-to-downstream and no later dependent stage is marked complete while transcription is still active;
-7. verify faster-whisper returns timestamped transcript segments/words or reaches an explicit bounded failure without an API restart;
-8. verify pyannoteAI cloud returns speaker turns when invoked, provider provenance identifies the cloud primary, and diarization artifacts persist under the same case/run;
-9. verify the multimodal alignment artifact is produced from real transcript and speaker timing when both inputs exist;
-10. capture provider duration, request/stage diagnostics, and relevant Render/runtime resource evidence;
-11. repeat sequential execution to inspect stability and retained resource behavior;
-12. only if fallback behavior itself must be tested, explicitly enable `pyannote_local` fallback and exercise a controlled primary-failure scenario; do not count fallback execution as proof of the primary cloud path.
+## Process and infrastructure identity
 
-The engineering-MVP release gate separately requires two complete golden-case executions on the same exact deployed revision. One successful provider call is not sufficient for that gate.
+After the active repair:
 
-## Render observability operating procedure
+- `process_instance_id` is a new UUID created when the Python API process starts;
+- `render_instance_id` is the Render infrastructure instance identifier when present.
 
-Render logs and Live Tail remain the first-line runtime view. The repository-side GitHub Actions workflow captures service, deployment, log, and incident-window evidence through protected repository credentials. The authenticated Developer Console Render Runtime surface reads the separate server-side Render bridge.
+This distinction is required because Uvicorn may restart inside the same Render instance. Run reconciliation must detect Python process replacement even when the infrastructure label is unchanged.
 
-Use infrastructure telemetry to correlate:
+## `/health` verification
 
-`provider start → provider completion/failure → persistence/readback → cleanup → instance lifecycle`
+The safe health contract reports non-secret runtime state. After #941 is merged/deployed it must expose:
 
-For local provider runs, also correlate memory rise and cleanup. Application provider duration remains the source of truth for provider execution time; Render timestamps remain infrastructure evidence.
+- exact source revision;
+- backend/pipeline version;
+- process instance UUID;
+- Render instance identifier separately;
+- transcription provider and beam/thread/worker/process settings;
+- diarization provider/readiness without credential values;
+- media/diagnostic storage readiness;
+- memory reference and admission ceiling;
+- runtime self-test state.
+
+Health readiness does not prove an analysis invoked a provider.
+
+## Current controlled verification sequence
+
+The next production verification after #941 source acceptance is:
+
+1. confirm final PR #962 exact-head QA;
+2. merge only the reviewed exact head;
+3. deliberately deploy that merged revision to Render;
+4. verify Render reports the intended exact source as `live`;
+5. capture fresh `/health` and confirm beam 1, process-vs-Render identity separation and memory admission reference;
+6. rerun the same 183.3-second controlled WAV through the authenticated case path;
+7. verify faster-whisper again completes or fails inside its explicit bound without API process loss;
+8. read the upstream transcript/alignment/provider checkpoint from durable case storage before depending on downstream completion;
+9. verify Stage 10 is admitted only below the safe threshold and either completes or returns a bounded admission failure without restart;
+10. correlate Render service memory/instance lifecycle with application process and request identifiers;
+11. only after transcription reliability is stable, execute the cloud-primary pyannoteAI diarization gate and persist/read back speaker provenance;
+12. perform authenticated desktop/mobile browser verification separately.
+
+## Related work
+
+- #941 / draft PR #962: active post-transcription memory containment and provider checkpoint repair;
+- #959 / draft PR #961: dual Render/Supabase speech and diagnostic persistence, parent correlation and Debug Bundle;
+- #963: historical-case playback/transcript rehydration after backend checkpoint ownership is stable;
+- #964: canonical Render Blueprint reconciliation;
+- #920: protected Developer Console Deploy Now path verification.
 
 ## Scientific boundary
 
-Successful transcription or diarization establishes software execution and provider output. It does not validate VoxVector deception inference. Provider confidence is not deception confidence, and speaker cluster labels are not verified real-world identities.
-
-## pyannoteAI cloud provider and fallback policy — 2026-09-04
-
-The runtime supports a cloud diarization path that does not require loading the local pyannote model into the Render process.
-
-Primary cloud configuration:
-
-`VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api`
-
-`PYANNOTE_KEY=<protected pyannoteAI API key>`
-
-Optional model selection:
-
-`VOXVECTOR_PYANNOTE_API_MODEL=<provider-supported model>`
-
-Optional explicit local fallback:
-
-`VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`
-
-`VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`
-
-`HF_TOKEN=<protected Hugging Face token>`
-
-The cloud provider uploads normalized audio to pyannoteAI temporary media, submits a diarization job, polls for terminal status, and normalizes returned speaker turns into VoxVector evidence contracts. Results must be persisted immediately under the canonical case/run identity because provider job results are externally retained for a limited period. The local fallback is attempted only when explicitly enabled and the primary provider fails; the fallback event is recorded in provenance.
-
-## Live analysis timeout and failure visibility — 2026-09-05, superseded in part 2026-09-09
-
-The canonical case analysis route persists live stage boundaries before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition retain configurable route-level deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). The previous implementation used `asyncio.wait_for(asyncio.to_thread(...))` around heavyweight provider work. That protected the waiting coroutine but could not terminate native work already running inside the background thread and could not persist a timeout if the API process was killed first.
-
-For faster-whisper, the September 9 repair adds the separate hard process deadline `VOXVECTOR_WHISPER_TIMEOUT_SECONDS` (default 165 seconds) inside a disposable child process. The route-level 180 second deadline remains a second outer boundary. A production OOM can still terminate the service if the platform memory ceiling is exceeded, so persisted process identity and stale/deadline reconciliation are also required.
-
-These controls improve operational observability and bounded execution. They do not establish scientific validation of any analysis output.
-
-## Continue-after-failure pipeline policy — 2026-09-05
-
-A failed or timed-out task is recorded on its own pipeline stage with its sanitized error and outcome, but orchestration continues only into work that does not depend on that failed output. Dependent stages are marked `not_run` with an explicit dependency reason rather than falsely reported as successful. Runs containing one or more stage failures finish as `completed_with_failures` when independent work and persistence can still complete. This preserves partial artifacts, stage visibility, diagnostics, and auditability without silently treating failure as success.
+Successful transcription establishes that a speech provider executed and returned an artifact. It does not establish transcript truthfulness, speaker identity, deception inference, calibration or scientific validity. Speech/provider reliability remains separate from VoxVector's target-condition validation program.
