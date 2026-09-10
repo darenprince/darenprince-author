@@ -64,6 +64,86 @@ def test_render_profile_does_not_override_constrained_whisper_beam_size():
     assert match.group(1) == "1"
 
 
+def test_render_blueprint_matches_canonical_service_shape_and_manual_deploy_policy():
+    render_yaml = (Path(__file__).resolve().parents[2] / "render.yaml").read_text(encoding="utf-8")
+
+    assert "name: voxvector-api" in render_yaml
+    assert "repo: https://github.com/darenprince/darenprince-author" in render_yaml
+    assert "branch: main" in render_yaml
+    assert "plan: free" in render_yaml
+    assert "region: oregon" in render_yaml
+    assert "rootDir: VoxVector" in render_yaml
+    assert "buildCommand: pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt" in render_yaml
+    assert "startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT" in render_yaml
+    assert "healthCheckPath: /health" in render_yaml
+    assert "autoDeployTrigger: off" in render_yaml
+    assert "- voxvector.crownlabs.tech" in render_yaml
+
+
+def test_render_blueprint_uses_explicit_browser_cors_and_bounded_runtime_profile():
+    render_yaml = (Path(__file__).resolve().parents[2] / "render.yaml").read_text(encoding="utf-8")
+
+    cors_match = re.search(r"- key: CORS_ORIGINS\s+value: ([^\n]+)", render_yaml)
+    assert cors_match is not None
+    cors_origins = {origin.strip() for origin in cors_match.group(1).split(",")}
+    assert cors_origins == {
+        "https://darenprince.com",
+        "https://www.darenprince.com",
+        "https://voxvector.crownlabs.tech",
+    }
+    assert "*" not in cors_match.group(1)
+
+    required_values = {
+        "VOXVECTOR_TRANSCRIPTION_PROVIDER": "faster_whisper",
+        "VOXVECTOR_WHISPER_MODEL": "base",
+        "VOXVECTOR_WHISPER_DEVICE": "cpu",
+        "VOXVECTOR_WHISPER_COMPUTE_TYPE": "int8",
+        "VOXVECTOR_WHISPER_BEAM_SIZE": "1",
+        "VOXVECTOR_WHISPER_CPU_THREADS": "1",
+        "VOXVECTOR_WHISPER_NUM_WORKERS": "1",
+        "VOXVECTOR_WHISPER_ISOLATED_PROCESS": "true",
+        "VOXVECTOR_WHISPER_TIMEOUT_SECONDS": "165",
+        "VOXVECTOR_MEMORY_LIMIT_MB": "512",
+        "VOXVECTOR_MEMORY_HEADROOM_MB": "96",
+        "VOXVECTOR_DIARIZATION_PROVIDER": "pyannote_api",
+        "VOXVECTOR_DIARIZATION_FALLBACK": "none",
+        "VOXVECTOR_DIARIZATION_FALLBACK_ENABLED": "false",
+        "VOXVECTOR_ENABLE_DIARIZATION_RUNS": "false",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MALLOC_ARENA_MAX": "2",
+        "TOKENIZERS_PARALLELISM": "false",
+    }
+    for key, expected in required_values.items():
+        match = re.search(rf"- key: {re.escape(key)}\s+value: [\"']?([^\"'\n]+)[\"']?", render_yaml)
+        assert match is not None, key
+        assert match.group(1).strip() == expected, key
+
+
+def test_render_speech_manifest_excludes_optional_local_pyannote_runtime():
+    api_dir = Path(__file__).resolve().parents[1] / "api"
+    speech_requirements = (api_dir / "requirements-speech.txt").read_text(encoding="utf-8")
+    transcription_requirements = (api_dir / "requirements-transcription.txt").read_text(encoding="utf-8")
+    local_requirements = (api_dir / "requirements-diarization-local.txt").read_text(encoding="utf-8")
+
+    active_speech_requirements = [
+        line.strip()
+        for line in speech_requirements.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    assert active_speech_requirements == ["-r requirements-transcription.txt"]
+    assert "faster-whisper" in transcription_requirements
+    assert "pyannote.audio==4.0.7" in local_requirements
+
+
+def test_container_preserves_explicit_local_diarization_fallback_dependency():
+    dockerfile = (Path(__file__).resolve().parents[1] / "Dockerfile").read_text(encoding="utf-8")
+
+    assert "requirements-diarization-local.txt" in dockerfile
+    assert "python -m pip install -r /app/api/requirements-diarization-local.txt" in dockerfile
+
+
 def test_faster_whisper_process_isolation_can_be_disabled_explicitly(monkeypatch):
     monkeypatch.setenv("VOXVECTOR_WHISPER_ISOLATED_PROCESS", "false")
     provider = FasterWhisperProvider()

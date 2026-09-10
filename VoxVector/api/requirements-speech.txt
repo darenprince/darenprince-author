@@ -1,4 +1,3 @@
-# Optional VoxVector speech-intelligence runtime.
-# Keep separate from requirements.txt so the base Render deployment remains lightweight.
-faster-whisper>=1.2,<2
-pyannote.audio==4.0.7
+# Production cloud-primary VoxVector speech runtime.
+# Keep local Community-1 dependencies in requirements-diarization-local.txt.
+-r requirements-transcription.txt

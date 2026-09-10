@@ -14,10 +14,11 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY api/requirements.txt api/requirements-speech.txt /app/api/
+COPY api/requirements.txt api/requirements-transcription.txt api/requirements-speech.txt api/requirements-diarization-local.txt /app/api/
 RUN python -m pip install --upgrade pip \
     && python -m pip install -r /app/api/requirements.txt \
-    && python -m pip install -r /app/api/requirements-speech.txt
+    && python -m pip install -r /app/api/requirements-speech.txt \
+    && python -m pip install -r /app/api/requirements-diarization-local.txt
 
 COPY pyproject.toml /app/
 COPY api /app/api

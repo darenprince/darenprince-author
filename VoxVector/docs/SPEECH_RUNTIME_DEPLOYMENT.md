@@ -21,50 +21,49 @@ Provider configuration is not provider execution. A provider output is not scien
 
 ## Current source and deployment boundary
 
-Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded. GitHub Pages publication workflow `34532394423` also succeeded for that source.
+Canonical GitHub `main` at the start of issue #964 is `53ee1b5e27b89fb436fd72da342cd6f947a667b0`.
 
-Current Render service:
+Current connected Render service:
 
 - service `voxvector-api` / `srv-da2f88n40ujc73a8m26g`;
 - root `VoxVector`;
 - region Oregon;
 - plan free;
 - auto-deploy disabled;
-- deploy `dep-dahi2ics728c73b6ujug`;
+- last recorded deploy before the #964 source change `dep-dahi2ics728c73b6ujug`;
 - deploy status `live`;
 - exact deployed source `420536771875c6948be51851118b58cb04a596e6`;
 - deploy trigger `api`;
 - deploy finished `2026-09-10T21:36:23.3655Z`;
+- build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`;
 - start command `uvicorn api.app:app --host 0.0.0.0 --port $PORT`;
 - health path `/health`.
 
-No fresh `/health` response for exact deployed `420536...` is recorded by this synchronization pass. Render `live` is not a substitute for runtime readback.
+The later `53ee1b5...` merge changed documentation only, and Render auto-deploy is off, so it is not represented as a newer backend deployment. No fresh `/health` response for the #964 source is claimed until that source is reviewed, merged and deliberately deployed.
 
-## Current Render Blueprint/configuration drift
+## Canonical Render dependency profile — issue #964
 
-Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. Do not add the owner-provided Render-generated project export as a second file or second service owner.
+Git contains one canonical VoxVector Blueprint at repository root `render.yaml`. Do not add the owner-provided Render-generated export as a second file or second service owner.
 
-Current repository Blueprint build command:
+The owner-provided Render export generated `2026-09-10T21:38:48Z` matches the existing service's repository, service name, Python runtime, free plan, Oregon region, root, build/start commands, health path, custom domain and auto-deploy-off state. Its environment entries contain names with `sync: false`, so they are redacted export evidence rather than value evidence.
 
-`pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
+Source inspection resolved the dependency mismatch:
 
-Current connected live Render service build command:
+- `api/requirements-transcription.txt` owns faster-whisper;
+- `PyannoteAPIDiarizationProvider`, the production cloud-primary adapter, does not import `pyannote.audio` or Torch;
+- `PyannoteDiarizationProvider`, the optional local Community-1 fallback, imports `pyannote.audio` and Torch only when that local path executes.
 
-`pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+Issue #964 therefore makes `api/requirements-speech.txt` the cloud-primary Render speech manifest by including the transcription manifest and excluding local pyannote/Torch. The optional local dependency is isolated in `api/requirements-diarization-local.txt`.
 
-The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the current live repository/service/root/build/start/health/domain/auto-deploy fields. Its environment-variable entries are represented with `sync: false` and no values. Those entries are redaction/name evidence, not values to copy into or delete from source.
+`VoxVector/Dockerfile` continues to install the dedicated local manifest as well. This preserves the existing container/AWS optional local-fallback capability while allowing the Render cloud-primary runtime to remain lightweight. The Docker edit is dependency-preservation only; it is not an AWS deployment or cutover.
 
-`api/requirements-transcription.txt` installs faster-whisper only. `api/requirements-speech.txt` also installs `pyannote.audio==4.0.7`, bringing the local pyannote/PyTorch stack into the service image. The canonical production primary diarization adapter is `pyannote_api`, which performs cloud API calls and does not require local Community-1/Torch merely to invoke the primary provider.
+The root Blueprint uses the same `requirements-speech.txt` build command as the connected Render service and explicitly records repository, `main` branch, free plan, Oregon region, root directory, start command, health path, `voxvector.crownlabs.tech` domain and `autoDeployTrigger: off`.
 
-Root `render.yaml` also declares `CORS_ORIGINS` as server-managed. The owner export does not list that key; current backend source defaults to `*` when the environment variable is absent. That difference must be investigated deliberately rather than inferred from the export.
-
-Issue #964 is the current first source/configuration task. It must update the existing root `render.yaml`, preserve secret values outside Git, keep reproducible non-secret runtime constraints in Git where supported, resolve the CORS ownership/policy explicitly, and verify that the existing Render service is updated rather than provisioning a duplicate service.
-
-A Blueprint commit or Render configuration update is not provider execution.
+This source reconciliation is not a deployment. Render remains on the previously recorded deployment until a deliberate post-merge deployment is observed.
 
 ## Required transcription configuration
 
-Current constrained source profile:
+Canonical constrained Render profile:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
@@ -80,27 +79,32 @@ VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165
 
 The process deadline is intentionally shorter than the outer provider-acquisition deadline so the isolated child can return a bounded provider failure before route-level timeout.
 
-These are source/runtime-profile values, not a fresh current `/health` claim.
+## Primary diarization configuration and execution gate
 
-## Required primary diarization configuration
-
-Current primary:
+Canonical primary selection remains:
 
 ```text
 VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
 PYANNOTE_KEY=<protected deployment secret>
-VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
 
 `PYANNOTE_API_KEY` is also accepted as the cloud-key alias.
 
-The route invocation gate is separate from provider readiness. `/health` may report the configured cloud adapter ready while the case path still does not invoke diarization if `VOXVECTOR_ENABLE_DIARIZATION_RUNS` is disabled.
+For the #964 → #941 runtime-stability candidate, the Blueprint deliberately sets:
 
-Issue #970 owns rechecking the current official pyannoteAI media-ticket/upload/diarize/job-poll contract, correcting the existing adapter if the current provider contract confirms the audited mismatch, executing the cloud primary, and persisting/reading back speaker evidence.
+```text
+VOXVECTOR_DIARIZATION_FALLBACK=none
+VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=false
+VOXVECTOR_ENABLE_DIARIZATION_RUNS=false
+```
+
+This does not retire cloud-primary diarization. It prevents the separate, not-yet-verified cloud diarization request path from changing the controlled #941 transcription/Stage-10 runtime proof. Issue #970 owns rechecking the current official pyannoteAI media-ticket/upload/diarize/job-poll contract, correcting the adapter if required, changing the execution gate deliberately, executing the cloud provider and persisting speaker evidence.
+
+Provider selection/readiness remains distinct from provider execution.
 
 ## Optional local fallback
 
-Explicit fallback configuration:
+When separately authorized and provisioned in a runtime that installs `api/requirements-diarization-local.txt`, the local fallback configuration is:
 
 ```text
 VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local
@@ -108,18 +112,37 @@ VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true
 HF_TOKEN=<protected Hugging Face token>
 ```
 
-`HUGGINGFACE_TOKEN` is also accepted by the local adapter. Community-1 is not the current primary production target. Local fallback execution must not be represented as cloud-primary verification.
+`HUGGINGFACE_TOKEN` is also accepted by the local adapter. Community-1 is not the current Render primary production target. Local fallback execution must not be represented as cloud-primary verification.
 
-## Memory reference
+## CORS configuration
 
-Current source/application reference:
+Backend source defaults `CORS_ORIGINS` to `*` when the variable is absent. The owner Render export did not contain that key, so issue #964 removes ambiguity by making the Blueprint own the explicit production list:
+
+```text
+CORS_ORIGINS=https://darenprince.com,https://www.darenprince.com,https://voxvector.crownlabs.tech
+```
+
+The same production example is maintained in `api/.env.example`.
+
+## Secret ownership
+
+Protected credentials remain in the existing Render environment. They are not copied from the generated export into Git. Render preserves existing service environment variables that are omitted from a Blueprint unless the Blueprint explicitly overwrites them, so the canonical file only source-controls the non-secret runtime values required for reproducibility.
+
+## Memory and native-thread reference
+
+Canonical application/runtime values for the constrained Render profile are:
 
 ```text
 VOXVECTOR_MEMORY_LIMIT_MB=512
 VOXVECTOR_MEMORY_HEADROOM_MB=96
+OMP_NUM_THREADS=1
+MKL_NUM_THREADS=1
+OPENBLAS_NUM_THREADS=1
+MALLOC_ARENA_MAX=2
+TOKENIZERS_PARALLELISM=false
 ```
 
-The reference application admission ceiling is 416 MiB RSS. These variables do not alter Render's actual service limit and are not a fresh current `/health` readback.
+The application admission ceiling is 416 MiB RSS. These values do not alter Render's actual platform memory limit and are not scientific eligibility thresholds.
 
 ## Historical production execution evidence
 
@@ -161,9 +184,7 @@ Merged PR #967 then added:
 8. lock ownership through the complete composite analysis execution;
 9. explicit preservation of the pipeline-internal analytical UUID as `pipeline_run_id` rather than overwriting persisted case-run identity.
 
-These source changes are present in current `main` and current Render deployment metadata. They have **not** yet been accepted as controlled production execution merely because the deployment is `live`.
-
-Issue #941 has been reopened for the production proof after #964 reconciles the runtime configuration.
+These source changes have deployment metadata on `420536...`, but their controlled production acceptance remains open under #941.
 
 ## Memory-safe execution behavior
 
@@ -189,17 +210,9 @@ After a heavy provider phase, VoxVector performs provider release, Python garbag
 
 After provider acquisition resolves and Stage 07/08 lifecycle state is known, current source persists an upstream checkpoint to the same case/run before downstream analysis.
 
-The checkpoint includes:
+The checkpoint includes normalized acquisition, transcript when available, multimodal alignment when available, speaker state when available, provider state/timings, stage lifecycle state, and process/Render provenance.
 
-- normalized acquisition object;
-- transcript artifact when available;
-- multimodal alignment when available;
-- speaker list when available;
-- provider state and provider timings;
-- stage lifecycle state;
-- process and Render instance provenance.
-
-Operational logs emitted for checkpoint completion contain only sanitized state/count metadata. They do not copy raw transcript text into diagnostics.
+Operational logs emitted for checkpoint completion contain sanitized state/count metadata and do not copy raw transcript text into diagnostics.
 
 ### Downstream memory admission
 
@@ -216,45 +229,33 @@ Memory admission is operational resource protection, not the scientific Eligibil
 - persisted route-owned `run_id` remains the stable case-run identity;
 - pipeline-internal analytical identity is retained separately as `pipeline_run_id`.
 
-This distinction is required because Uvicorn may restart inside the same Render infrastructure instance and because case history/reopen depends on stable persisted run identity.
-
 ## `/health` verification
 
-The safe health contract can expose:
+The safe health contract can expose exact source revision, backend/pipeline version, process instance UUID, Render instance identity, transcription provider/profile, diarization provider/readiness without credentials, media/diagnostic storage readiness, memory reference/admission ceiling and runtime self-test state.
 
-- exact source revision;
-- backend/pipeline version;
-- process instance UUID;
-- Render instance identifier separately;
-- transcription provider and beam/thread/worker/process settings;
-- diarization provider/readiness without credential values;
-- media/diagnostic storage readiness;
-- memory reference and admission ceiling;
-- runtime self-test state.
+Health readiness does not prove an analysis invoked a provider. A fresh `/health` readback is required after the #964 reviewed merge is deliberately deployed before the new profile is attributed to production.
 
-Health readiness does not prove an analysis invoked a provider. Current `420536...` deployment still needs a fresh readback before those runtime fields are attributed to that deployment.
+## Controlled verification sequence
 
-## Current controlled verification sequence
-
-1. complete #964 Blueprint/dependency/CORS/runtime-profile reconciliation in the existing root `render.yaml`;
-2. exact-head QA the #964 source change and review the diff;
-3. deliberately deploy the reconciled exact revision to the existing Render service;
-4. verify Render reports that intended source as `live`;
-5. capture fresh `/health` and confirm exact source, beam/profile values, process-vs-Render identity separation and memory-admission reference;
-6. rerun the same 183.3-second controlled WAV through the authenticated case path under reopened #941;
-7. verify faster-whisper again completes or fails inside its explicit bound without API process loss;
+1. complete #964 source, documentation, audit and exact-head QA;
+2. merge only the reviewed exact head;
+3. deliberately deploy that exact merge to the existing Render service;
+4. verify the deployment targets the intended commit and reaches `live`;
+5. capture fresh `/health` and confirm exact source, constrained transcription/memory values, cloud-primary provider selection with diarization invocation still disabled, and process-vs-Render identity separation;
+6. under reopened #941, rerun the same 183.3-second controlled WAV through the authenticated case path;
+7. verify faster-whisper completes or fails inside its explicit bound without API process loss;
 8. read the upstream transcript/alignment/provider checkpoint from durable case storage before depending on downstream completion;
 9. verify Stage 10 is admitted only below the safe threshold and either completes or returns a bounded admission failure without restart;
-10. confirm the persisted `run_id` remains stable and `pipeline_run_id` remains separate;
+10. confirm persisted `run_id` remains stable and `pipeline_run_id` remains separate;
 11. correlate Render service memory/instance lifecycle with application process and request identifiers;
-12. only after the transcription/runtime proof is accepted, execute the cloud-primary pyannoteAI diarization gate under #970 and persist/read back speaker provenance;
+12. only after #941 acceptance, continue #970 to enable/execute cloud-primary diarization and persist speaker provenance;
 13. persist transcript/audio/speaker alignment under #971;
 14. perform authenticated desktop/mobile browser verification separately.
 
 ## Related work
 
-- #964: current first task, canonical Render Blueprint/runtime-profile reconciliation;
-- #941: reopened controlled post-#967 production proof after #964;
+- #964: canonical Render Blueprint/runtime dependency reconciliation;
+- #941: controlled post-#967 production proof after #964;
 - #959: merged dual Render/Supabase logging and Debug Bundle source; production acceptance remains open;
 - #970: cloud-primary pyannoteAI contract/execution/persistence;
 - #971: persisted transcript/audio/speaker alignment;

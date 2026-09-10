@@ -28,27 +28,27 @@ Supabase authentication / persistence / diagnostics / private media
 
 The repository implementation and `VoxVector/docs/` remain authoritative. This page mirrors the active architecture for Crown Labs documentation.
 
-## Current runtime evidence — 2026-09-10
+## Current runtime and candidate evidence — 2026-09-10
 
-- canonical GitHub `main`: `420536771875c6948be51851118b58cb04a596e6`
-- exact-main VoxVector QA `34532394431`: success
-- exact-main GitHub Pages publication workflow `34532394423`: success
-- current Render deploy: `dep-dahi2ics728c73b6ujug`, `live`
-- deployed source: exact `420536771875c6948be51851118b58cb04a596e6`
+- canonical GitHub `main` observed at issue #964 start: `53ee1b5e27b89fb436fd72da342cd6f947a667b0`
+- runtime-bearing source currently deployed on Render: exact `420536771875c6948be51851118b58cb04a596e6`
+- exact-main VoxVector QA for `420536...`: `34532394431`, success
+- exact-main GitHub Pages publication workflow for `420536...`: `34532394423`, success
+- current recorded Render deploy: `dep-dahi2ics728c73b6ujug`, `live`
 - deploy trigger: API
 - Render auto-deploy: disabled
 - live Render build: `requirements.txt` + `requirements-speech.txt`
-- canonical root `render.yaml`: `requirements.txt` + `requirements-transcription.txt`
 - owner Render export: `2026-09-10T21:38:48Z`, matching current live service/root/build/start/health/domain/auto-deploy fields with environment values redacted
-- Blueprint/live-service/configuration drift: issue #964
 
-No fresh `/health` response for exact deployed `420536...` is recorded by the current synchronization pass. Deployment `live` remains separate from runtime readback.
+A forced-fresh `/health` readback at `2026-09-10T22:13:09.960535Z` returned HTTP 200 from exact deployed source `420536...`. It reported pipeline `0.2.27`, runtime self-test `passed`, the 512 MiB memory reference and 416 MiB Stage 10 admission ceiling, faster-whisper `base` / beam 1 / one-thread / one-worker / isolated-process readiness, and cloud-primary `pyannote_api` readiness. The current live image also reported the local pyannote adapter installed. Readiness remains separate from provider execution.
+
+Issue #964 keeps the live build-command path but changes dependency ownership: `requirements-speech.txt` becomes the cloud-primary Render speech manifest and delegates to `requirements-transcription.txt` without local pyannote/Torch. Optional Community-1 dependencies move to `requirements-diarization-local.txt` and remain installed explicitly by the container build. The same candidate makes the non-secret bounded Render profile and production CORS allowlist reproducible in the sole root `render.yaml`; protected secrets remain server-managed.
 
 One historical controlled 183.3-second production case on older source `f0dda136...` completed faster-whisper beam-1 transcription with 58 transcript segments and 246 timestamped words. The API later restarted during the post-provider/downstream transition after memory entered the constrained runtime danger zone. The owner confirmed the incident was a memory problem.
 
-PR #962 merged the first #941 containment repair. PR #967 merged the reviewed follow-up and is current `main`. Current source now persists completed upstream provider evidence before Stage 10, applies operational memory admission, uses fail-fast process-wide single-flight admission around the full downstream composite analysis with locked RSS recheck, distinguishes process and Render instance identity, and preserves stable route-owned `run_id` separately from `pipeline_run_id`.
+PR #962 merged the first #941 containment repair. PR #967 merged the reviewed follow-up. Runtime-bearing source `420536...` persists completed upstream provider evidence before Stage 10, applies operational memory admission, uses fail-fast process-wide single-flight admission around the full downstream composite analysis with locked RSS recheck, distinguishes process and Render instance identity, and preserves stable route-owned `run_id` separately from `pipeline_run_id`.
 
-Issue #941 has been reopened because controlled production acceptance remains unexecuted. #964 should establish the intended runtime dependency/configuration profile before the same controlled WAV is rerun.
+Issue #941 remains open because controlled production acceptance is still unexecuted. #964 establishes the intended reproducible runtime profile before the same controlled WAV is rerun.
 
 ## Complete product pipeline
 
@@ -90,9 +90,9 @@ Completed transcript/alignment/provider output must be persisted before dependen
 
 Stage 10 memory admission is an operational runtime guard. It is separate from Stage 09 Eligibility and Reliability and must not be interpreted as a scientific eligibility result.
 
-Current source reference memory policy is 512 MiB with 96 MiB reserved headroom, yielding a 416 MiB reference admission ceiling. These values are not a fresh current `/health` claim.
+Current source reference memory policy is 512 MiB with 96 MiB reserved headroom, yielding a 416 MiB reference admission ceiling.
 
-The merged source applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: a competing composite call does not wait in a worker-thread queue behind an active heavyweight phase. It fails before entering the analytical body. An admitted call rechecks RSS while holding the shared lock and retains that lock through composite execution. Existing provider `measured_phase(...)` behavior remains separate.
+The merged runtime source applies the existing process-wide heavyweight phase guard to the complete canonical `VoxVectorPipeline.analyze()` call. Stage 10 composite admission is fail-fast: a competing composite call does not wait in a worker-thread queue behind an active heavyweight phase. An admitted call rechecks RSS while holding the shared lock and retains that lock through composite execution.
 
 `process_instance_id` identifies the current Python process. `render_instance_id` preserves hosting-provider instance provenance separately because Render can restart Python while retaining the same infrastructure instance label.
 
@@ -110,23 +110,20 @@ Persisted source/transcript artifacts must remain available after later-stage fa
 
 ## Provider boundary
 
-Current production architecture uses:
+The #964 constrained Render candidate uses:
 
-- transcription: faster-whisper, constrained `base` / CPU / int8 / beam 1 path;
-- diarization primary: pyannoteAI cloud via `pyannote_api`;
-- diarization fallback: optional local Community-1 only when explicitly enabled.
+- transcription: faster-whisper, `base` / CPU / int8 / beam 1 / one thread / one worker / isolated process;
+- diarization configured primary: pyannoteAI cloud via `pyannote_api`;
+- diarization route execution gate: disabled during the #941 runtime-stability proof;
+- local Community-1 fallback: disabled and excluded from the constrained Render dependency manifest.
 
-The cloud-primary diarization adapter does not require loading local Community-1/PyTorch merely to call the cloud provider. Current live Render dependency drift involving the broader speech requirements is therefore tracked in #964.
+The cloud-primary adapter uses stdlib HTTP plus NumPy and does not require local Community-1/PyTorch. Optional local dependencies are isolated in `requirements-diarization-local.txt` and preserved by the container build rather than the constrained Render speech manifest.
 
-Provider readiness is not provider execution. The historical controlled faster-whisper run is real provider-execution evidence, but current durable/end-to-end memory-safe analysis still requires #964 reconciliation and reopened #941 controlled production verification.
-
-Issue #970 owns rechecking the current pyannoteAI cloud media-upload/job contract and obtaining real cloud-primary diarization plus persisted speaker evidence after #964/#941. Issue #971 then owns persisted transcript/audio/speaker alignment.
+Provider configuration is not provider execution. Issue #970 owns deliberately enabling the route gate, rechecking the current pyannoteAI media/job contract, and obtaining real cloud-primary diarization plus persisted speaker evidence after #964/#941. Issue #971 then owns persisted transcript/audio/speaker alignment.
 
 ## Authentication and profile boundary
 
-Current `main` `AuthGate.jsx` still does not issue the requested login-time API wake. Draft PR #974 under #931 contains the candidate one-shot `/health` wake and shared role-aware self-profile editor for developer/admin/user accounts. It reuses the existing `public.profiles` and private avatar boundary; trusted authorization remains in `app_metadata`.
-
-PR #974 is not current or deployed behavior. Its prior integration QA predates the #967 advance of `main`, so current-main integration QA/Preview and authenticated desktop/mobile/profile-save verification remain open.
+Authentication/profile work remains separately owned by #931. It is not part of the Render Blueprint/dependency subsystem.
 
 ## Developer Console and observability
 
@@ -134,13 +131,17 @@ The Developer Console remains the engineering cockpit over real backend/runtime 
 
 ## Render Blueprint boundary
 
-The existing root `render.yaml` is the sole canonical Blueprint owner. The owner export is reconciliation evidence, not canonical replacement source. Environment values redacted as `sync: false` must not be inferred.
+The existing root `render.yaml` is the sole canonical Blueprint owner. The owner export remains reconciliation evidence, not canonical replacement source, and redacted environment values are not inferred.
 
-`CORS_ORIGINS` exists in the root Blueprint but is absent from the owner export; backend source defaults to `*` if it is unset. #964 must resolve that difference deliberately together with the dependency set and other reproducible runtime fields.
+Issue #964 reconciles the existing service into that root file. The candidate uses the connected service's `requirements-speech.txt` build path while redefining that manifest as cloud-primary, moves local pyannote/Torch to a separate optional manifest, explicitly records the service repository/branch/plan/region/root/domain and `autoDeployTrigger: off`, and source-controls the bounded non-secret runtime profile.
+
+Production CORS becomes explicit as `https://darenprince.com,https://www.darenprince.com,https://voxvector.crownlabs.tech` instead of relying on the backend wildcard fallback. Protected credentials remain server-managed and omitted from Git.
+
+This is source/configuration state until reviewed, merged, deliberately applied to the existing Render service, deployed, and verified with fresh `/health`. No duplicate Blueprint or service is authorized.
 
 ## Current engineering sequence
 
-`#964 Render profile reconciliation → reopened #941 controlled proof → #970 cloud diarization → #971 persisted multimodal alignment → #963 case rehydration → #930/#959 reliability/observability → #965 frontend pipeline truth → #931/PR #974 auth/profile browser acceptance → #932 public navigation → #972 frozen-candidate two-run golden proof`
+`#964 Render profile reconciliation → exact-head QA/review → merge authorization → deliberate existing-service deployment + fresh /health → reopened #941 controlled proof → #970 cloud diarization → #971 persisted multimodal alignment → #963 case rehydration → #930/#959 reliability/observability → #965 frontend pipeline truth → #931 auth/profile browser acceptance → #932 public navigation → #972 frozen-candidate two-run golden proof`
 
 ## Design properties
 
@@ -150,6 +151,7 @@ The existing root `render.yaml` is the sole canonical Blueprint owner. The owner
 - bounded frame processing
 - durable completed upstream artifacts
 - Stage 10 fail-fast process-wide single-flight admission with locked RSS recheck and lock ownership through composite execution
+- Render cloud-primary speech packaging excludes optional local pyannote/Torch unless the local fallback manifest is explicitly installed
 - explicit operational memory admission
 - stable case-run identity separate from pipeline-internal run identity
 - distinct process and hosting-instance provenance

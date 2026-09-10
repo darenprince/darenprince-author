@@ -1,0 +1,3 @@
+# Optional local pyannote Community-1 fallback runtime.
+# Render cloud-primary production does not install this manifest.
+pyannote.audio==4.0.7
