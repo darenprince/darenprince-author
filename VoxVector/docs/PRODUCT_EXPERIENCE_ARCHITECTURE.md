@@ -25,7 +25,7 @@ The experience is organized around six connected surfaces:
 
 All surfaces share one analysis case model.
 
-The user workflow is continuous from upload through playback analysis evidence assessment and reporting.
+The user workflow is continuous from upload through playback, analysis, evidence, assessment, and reporting.
 
 ## Application shell
 
@@ -67,11 +67,15 @@ The New Analysis flow is the primary entry point.
 3. Display metadata
 4. Establish provenance
 5. Assess recording quality
-6. Establish speaker context
-7. Generate transcript
-8. Establish transcript alignment
-9. Start processing
-10. Open the Analysis Workspace
+6. Establish speech regions
+7. Establish speaker context when diarization is invoked
+8. Generate transcript
+9. Establish transcript/audio alignment
+10. Persist completed upstream provider evidence
+11. Admit downstream analysis only when the runtime resource gate permits it
+12. Open the Analysis Workspace
+
+The resource-admission step is an operational safety boundary. It does not replace or redefine the analytical Eligibility and Reliability stage.
 
 ### File intake requirements
 
@@ -109,6 +113,8 @@ It combines:
 - key metrics
 - evidence timeline
 - assessment state
+
+Persisted source and transcript artifacts must remain available after a later stage failure. Reopened-case playback/transcript rehydration consumes the canonical persisted case/source/run state and must not require a duplicate persistence model or re-upload.
 
 ## Synchronized audio analysis viewer
 
@@ -292,9 +298,9 @@ The workspace includes the complete 21 stage pipeline:
 
 ### Understand
 
-05 Speaker Identification / Diarization
+05 Speech Segmentation
 
-06 Speech Segmentation
+06 Speaker Identification / Diarization
 
 07 Transcription Generation
 
@@ -330,6 +336,8 @@ The workspace includes the complete 21 stage pipeline:
 
 21 Audit and Provenance Output
 
+The 05/06 order above matches the canonical backend stage contract. Static frontend metadata must not preserve an older contradictory stage order; the frontend should consume or mirror the backend contract through its canonical owner.
+
 Each stage exposes:
 
 - stage name
@@ -342,6 +350,14 @@ Each stage exposes:
 - evidence
 - linked source regions
 - related events
+
+## Provider completion and downstream resource safety
+
+When transcription, diarization, or alignment completes, those upstream artifacts must be persisted to the same case run before heavyweight downstream work is trusted to complete.
+
+On constrained deployments, Stage 10 must pass its operational memory-admission boundary before the interface represents Acoustic Feature Extraction as running. If admission fails, the user experience should show a bounded downstream failure while preserving completed transcript/alignment evidence. The UI must not display a scientific eligibility failure for a runtime memory condition.
+
+Python process identity and hosting-provider instance identity are separate operational concepts. A process restart can occur while the hosting provider retains the same infrastructure instance label, so the Developer Console and case history must preserve both when available.
 
 ## Method intelligence surfaces
 
@@ -524,11 +540,13 @@ It surfaces:
 - dependency visibility
 - next task visibility
 
+Operational state must distinguish repository source, QA, deployment, process identity, Render instance identity, provider execution, persisted artifact availability, and browser verification.
+
 ## Responsive behavior
 
 Desktop prioritizes:
 
-- persistent sidebar
+- persistent sidebar where applicable to the active shell
 - wide synchronized waveform
 - multi column evidence layout
 - simultaneous analytical tracks
@@ -554,12 +572,14 @@ The experience requires a shared case model containing:
 
 - case ID
 - analysis ID
+- stable run ID
 - source file metadata
 - provenance
 - recording metadata
 - speaker records
 - transcript records
 - alignment records
+- upstream provider checkpoint metadata
 - feature observations
 - analytical tracks
 - evidence records
@@ -582,6 +602,8 @@ Every analytical event has a provenance path.
 Every status indicator represents real runtime state.
 
 Every final assessment is derived from the canonical analysis result.
+
+Operational memory admission must not be confused with scientific eligibility or final analytical disposition.
 
 ## End state
 
