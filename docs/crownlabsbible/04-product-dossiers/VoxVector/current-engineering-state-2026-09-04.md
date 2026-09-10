@@ -4,33 +4,34 @@ This Crown Labs product/engineering mirror reflects the active VoxVector enginee
 
 ## Runtime snapshot
 
-- Canonical GitHub `main`: `010676db66e92d715290ee5fe0d1bc3b52c4b208`
+- Canonical GitHub `main`: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`
 - Backend source release: `0.2.27`
 - Frontend source release: `0.2.37`
-- Exact-main VoxVector QA: #1950, success
-- Exact-main Deploy GitHub Pages: #1707, success
-- Latest confirmed live Render deployment revision: `09381797d4486bc049cb99a527c624690274b7c7`
-- Latest confirmed live Render deploy: `dep-dagjc3740ujc73ff3ge0`, trigger `api`, status `live`
+- Exact-main VoxVector QA: #1963, success
+- Exact-main Deploy GitHub Pages: #1708, success
+- Latest directly observed live Render deployment revision: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`
+- Latest directly observed Render deploy: `dep-dah0g13l550s73d2dbb0`, trigger `api`, status `live`
+- Latest directly observed Render suspension value: `not_suspended`
 - Render production auto-deploy: disabled; production backend changes require a deliberate manual/deploy-hook action
 - Supabase project `VoxVector` (`tawtkawmjqabydnatavx`): `ACTIVE_HEALTHY` at the 2026-09-09 connected inspection
-- Current run-lifecycle recovery source checkpoint: PR #946 head before final docs `18777886bf28c6cac8fb13fc00d5b5653b15b20b`, QA #1954 success, PR Preview #815 success
+- Current Render operational-status UI task: issue #954 on `fix/voxvector-render-operational-status-ui`; unmerged source until exact-head QA/PR evidence is complete
 - Runtime self-test, media-storage readiness, provider readiness, API version, and source revision are read from the live API health contract rather than inferred from source or Render deployment state
 - Maximum sample rate: 48 kHz
 - Maximum media size: 250 MiB
 
-Backend and frontend are independently versioned. Backend source authority is `VoxVector/pyproject.toml`, with source/runtime alignment enforced by `VoxVector/tests/test_version_sync.py`. Frontend authority is `voxvector/package.json`. The live API release remains whatever `/health` actually reports until a newer deployment is verified.
+Backend and frontend are independently versioned. Backend source authority is `VoxVector/pyproject.toml`, with source/runtime alignment enforced by `VoxVector/tests/test_version_sync.py`. Frontend authority is `voxvector/package.json`. The live API release remains whatever `/health` actually reports until a newer runtime readback is verified.
 
 ## September 9 transcription reliability incident and repair
 
 Connected Render evidence tied the earlier Stage 07 loss to the constrained service memory lifecycle: the faster-whisper model loaded, the API process disappeared before an in-process terminal update could be persisted, and Uvicorn restarted. Source inspection also found the historical route completed downstream analytical work before provider-backed transcription, contradicting the required dependency order.
 
-The merged repair at `09381797d4486bc049cb99a527c624690274b7c7` now uses dependency-ordered provider acquisition and a disposable faster-whisper child process with a hard local deadline. Render deployment `dep-dagjc3740ujc73ff3ge0` built that revision, started Uvicorn, returned health-check HTTP 200 responses and reached `live`. That is deployment/runtime-health evidence, not controlled real-audio provider execution.
+The repaired backend is included in current main `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. Direct Render inspection observed deploy `dep-dah0g13l550s73d2dbb0` for that revision in terminal `live` state. That is deployment/service evidence, not controlled real-audio provider execution or a substitute for fresh `/health` runtime readback.
 
 ## Run lifecycle recovery — issue #945 / PR #946
 
-PR #946 extends the existing CaseStore/run-lifecycle owner rather than creating a second pipeline or persistence layer.
+PR #946 extends the existing CaseStore/run-lifecycle owner rather than creating a second pipeline or persistence layer and is merged into current main.
 
-Current source behavior before this documentation synchronization:
+Current source behavior:
 
 - Case History listing can reconcile eligible stale/deadline-expired `running` runs instead of requiring the individual case to be reopened first.
 - A legitimate current-worker run with a usable configured deadline is not stale-failed before that deadline.
@@ -48,9 +49,10 @@ Evidence chronology:
 
 - `c332f58e88c73c89c036b127e5bbe57389d6ed05`: VoxVector QA #1917 success; PR Preview #797 success.
 - `18777886bf28c6cac8fb13fc00d5b5653b15b20b`: VoxVector QA #1954 success; PR Preview #815 success after the concurrency repair/test.
-- Final documentation synchronization advances the PR head and therefore requires fresh exact-head QA before merge.
+- `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`: merged main; exact-main VoxVector QA #1963 success and Deploy GitHub Pages #1708 success.
+- Render deploy `dep-dah0g13l550s73d2dbb0` was directly observed for `c21b4cf...` in terminal `live` state.
 
-PR #946 is not represented here as merged, deployed, browser verified, provider executed, or scientifically validated until those separate evidence steps actually occur.
+Production failure-report readback, controlled provider execution, authenticated browser verification, engineering-MVP proof and scientific validation remain separate evidence gates unless independently observed.
 
 ## Speech runtime
 
@@ -100,15 +102,15 @@ Provider readiness does not promote queued or conditional stages. Stage promotio
 
 ## Current implementation sequence
 
-1. Complete #946 final docs/Crown synchronization and exact-head QA/Preview.
-2. Merge #946 only after its remaining documentation review threads are resolved against source.
-3. Deliberately deploy the merged backend revision because Render auto-deploy is disabled.
-4. Verify the intended deploy reaches `live`, then verify runtime `/health` source revision and settings.
-5. Refresh Case History and verify eligible old `running` records terminalize with persisted reports.
-6. Run controlled transcription and correlate provider execution with Render memory/instance lifecycle.
-7. Run controlled cloud-primary speaker diarization when its route gate is enabled.
-8. Persist transcript, speaker, and alignment artifacts.
-9. Complete authenticated desktop/mobile browser verification.
+1. Complete #954 source/docs synchronization and fresh exact-head QA/PR preview.
+2. Inspect the exact #954 diff and resolve any review findings before merge recommendation.
+3. Browser-verify Developer Overview and Render Runtime behavior on desktop and mobile, including non-live state presentation where safely reproducible.
+4. Merge #954 only after exact-head evidence is clean and current main has not moved underneath the branch.
+5. Treat merged frontend publication separately from the Render backend. The #954 UI task does not itself require or constitute a Render backend deployment.
+6. Continue the separate #930 intermittent upload investigation and controlled provider-execution program.
+7. Run controlled transcription and correlate provider execution with Render memory/instance lifecycle.
+8. Run controlled cloud-primary speaker diarization when its route gate is enabled.
+9. Persist transcript, speaker, and alignment artifacts.
 10. Repeat the engineering-MVP golden case on the same exact deployed revision.
 11. Conduct scientific validation separately.
 
@@ -126,11 +128,15 @@ Supabase remains the configured authentication, persistence, diagnostics, privat
 
 The canonical Developer Console uses one reusable collapsible-card title-bar system for applicable work surfaces. Case History preserves swipe-to-delete on touch devices and desktop trash controls while adding Select mode for multi-case deletion. Structured audits are collapsed by default. Developer profiles use the existing `public.profiles` record and private `voxvector-avatars` storage.
 
-PR #950 is now merged into canonical `main` as `010676db66e92d715290ee5fe0d1bc3b52c4b208`. Its single `DeveloperEngineeringStatus` instance is rendered immediately after `SiteHeader` as a real sticky 34px flow row beneath the 56px navigation. It preserves independent hide/expand/collapse controls, full-height non-modal disclosure, and bottom-right toast placement. Exact-main QA #1950 and Pages #1707 succeeded. Authenticated desktop/mobile browser interaction remains a separate verification gate.
+The single `DeveloperEngineeringStatus` instance remains rendered immediately after `SiteHeader` as a real sticky 34px flow row beneath the 56px navigation. It preserves independent hide/expand/collapse controls, full-height non-modal disclosure, and bottom-right toast placement.
+
+Issue #954 tightens operational truth presentation inside that existing shell. Source on `fix/voxvector-render-operational-status-ui` centralizes Render lifecycle normalization, makes the compact engineering rail red whenever the Render service/deployment combination is anything other than terminal `ACTIVE`/`LIVE`, and adds a Render Service block to the Developer Overview. Dashboard blocks now carry always-visible subtext such as frontend/backend version, revision, provider, stage counts, region and deployment revision, and the whole block is semantically tinted by status.
+
+The Render Runtime page now separates authenticated Render-bridge connectivity from actual service/deploy lifecycle state and color-codes the Service state and Latest deployment blocks independently. Bridge connectivity cannot create a green Render state, and an absent provider state is not defaulted to Active. These statements describe branch source until exact-head QA, publication and browser verification occur.
 
 ## Supabase security boundary
 
-Connected inspection reports the project healthy. The security advisor still reports the existing `developer_dashboard_summary()` SECURITY DEFINER executable warning and disabled leaked-password protection. The summary RPC itself performs the existing `is_developer_admin()` authorization check. These warnings were not changed during the run-lifecycle or engineering-rail tasks and remain separate security-hardening evidence rather than being silently modified.
+Connected inspection reports the project healthy. The security advisor still reports the existing `developer_dashboard_summary()` SECURITY DEFINER executable warning and disabled leaked-password protection. The summary RPC itself performs the existing `is_developer_admin()` authorization check. These warnings were not changed during the Render operational-status UI task and remain separate security-hardening evidence rather than being silently modified.
 
 ## Scientific boundary
 
