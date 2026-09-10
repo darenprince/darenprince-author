@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
 from datetime import datetime, timezone
 from typing import Any
@@ -9,6 +10,26 @@ from typing import Any
 from .runtime_context import analysis_run_id as current_analysis_run_id
 from .runtime_context import request_id as current_request_id
 from .runtime_context import trace_id as current_trace_id
+
+
+def _persist_durable(record: dict[str, Any]) -> None:
+    """Mirror the Render-visible speech line into the canonical Supabase event archive."""
+    try:
+        from api.observability import DIAGNOSTICS
+
+        if not DIAGNOSTICS.enabled or not DIAGNOSTICS.storage.config.configured:
+            return
+        DIAGNOSTICS.persist_external_record(record)
+    except Exception as exc:
+        # Last-resort provider telemetry only. Never include the record/body in this fallback.
+        print(
+            "VOXVECTOR_SPEECH_DURABLE_FAILURE "
+            f"event={str(record.get('event') or 'unknown')[:120]} "
+            f"request_id={str(record.get('request_id') or '')[:120]} "
+            f"error_type={type(exc).__name__}",
+            file=sys.stderr,
+            flush=True,
+        )
 
 
 def speech_log(
@@ -35,3 +56,4 @@ def speech_log(
     if started is not None:
         record["elapsed_ms"] = round((time.perf_counter() - started) * 1000.0, 2)
     print("VOXVECTOR_SPEECH " + json.dumps(record, separators=(",", ":"), sort_keys=True), flush=True)
+    _persist_durable(record)
