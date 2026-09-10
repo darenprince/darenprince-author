@@ -2,13 +2,20 @@ services:
   - type: web
     name: voxvector-api
     runtime: python
+    repo: https://github.com/darenprince/darenprince-author
+    branch: main
+    plan: free
+    region: oregon
     rootDir: VoxVector
-    buildCommand: pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt
+    buildCommand: pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt
     startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
+    autoDeployTrigger: off
+    domains:
+      - voxvector.crownlabs.tech
     envVars:
       - key: CORS_ORIGINS
-        sync: false
+        value: https://darenprince.com,https://www.darenprince.com,https://voxvector.crownlabs.tech
       - key: VOXVECTOR_TRANSCRIPTION_PROVIDER
         value: faster_whisper
       - key: VOXVECTOR_WHISPER_MODEL
@@ -19,3 +26,33 @@ services:
         value: int8
       - key: VOXVECTOR_WHISPER_BEAM_SIZE
         value: "1"
+      - key: VOXVECTOR_WHISPER_CPU_THREADS
+        value: "1"
+      - key: VOXVECTOR_WHISPER_NUM_WORKERS
+        value: "1"
+      - key: VOXVECTOR_WHISPER_ISOLATED_PROCESS
+        value: "true"
+      - key: VOXVECTOR_WHISPER_TIMEOUT_SECONDS
+        value: "165"
+      - key: VOXVECTOR_MEMORY_LIMIT_MB
+        value: "512"
+      - key: VOXVECTOR_MEMORY_HEADROOM_MB
+        value: "96"
+      - key: VOXVECTOR_DIARIZATION_PROVIDER
+        value: pyannote_api
+      - key: VOXVECTOR_DIARIZATION_FALLBACK
+        value: none
+      - key: VOXVECTOR_DIARIZATION_FALLBACK_ENABLED
+        value: "false"
+      - key: VOXVECTOR_ENABLE_DIARIZATION_RUNS
+        value: "false"
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: MKL_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: MALLOC_ARENA_MAX
+        value: "2"
+      - key: TOKENIZERS_PARALLELISM
+        value: "false"
