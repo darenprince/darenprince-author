@@ -1,6 +1,6 @@
 # VoxVector Speech Intelligence Engineering
 
-**State date:** 2026-09-08
+**State date:** 2026-09-10
 
 ## Purpose
 
@@ -71,7 +71,7 @@ The current faster-whisper implementation follows the provider API for word-leve
 
 ## Runtime activation
 
-Supported transcription configuration:
+Supported constrained transcription source profile:
 
 `VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper`
 
@@ -81,7 +81,9 @@ Supported transcription configuration:
 
 `VOXVECTOR_WHISPER_COMPUTE_TYPE=int8`
 
-`VOXVECTOR_WHISPER_BEAM_SIZE=3`
+`VOXVECTOR_WHISPER_BEAM_SIZE=1`
+
+The source profile is distinct from deployed runtime evidence. On 2026-09-10, two controlled production transcription attempts on deployed revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` were observed executing with `beam_size=3` before transcript-stage runtime restarts. The active correction is tracked in #941; deployment and controlled beam-1 provider execution remain required before the runtime is represented as repaired.
 
 Current primary diarization configuration:
 
@@ -135,7 +137,7 @@ The faster-whisper adapter deliberately does not convert `avg_logprob` into a pr
 
 ## Current verification
 
-Regression coverage includes provider selection, cloud/local provider contracts, explicit unavailable states, audio serialization, token/key gating, acquisition degradation behavior, transcript/speaker alignment, and fallback orchestration. Full provider execution still requires a configured target runtime and a controlled case run.
+Regression coverage includes provider selection, cloud/local provider contracts, explicit unavailable states, audio serialization, token/key gating, acquisition degradation behavior, transcript/speaker alignment, fallback orchestration, bounded faster-whisper defaults, and the canonical Render beam-size profile. Full provider execution still requires a configured target runtime and a controlled case run.
 
 For debugging, keep these states separate:
 
@@ -150,16 +152,17 @@ For debugging, keep these states separate:
 ## Next build gates
 
 1. Verify the intended deployed source revision and exact-commit QA evidence.
-2. Execute a controlled short WAV through faster-whisper and record runtime duration, transcript segment count, word timestamp coverage, provenance, and persistence.
-3. Confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime without exposing credential values.
-4. Execute the same controlled fixture through the pyannoteAI cloud primary and record speaker-turn output, provider provenance, job/result behavior, runtime duration, and persisted artifact readback.
-5. Exercise local Community-1 only as a separate fallback test when `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true` are explicitly enabled; do not treat fallback success as primary-path verification.
-6. Persist normalized transcript, speaker, and multimodal alignment artifacts under the existing case/run identity.
-7. Connect transcript-derived observations to the existing linguistic/disfluency modules.
-8. Add speaker-aware acoustic aggregation and within-speaker baseline inputs.
-9. Add question/answer boundary ingestion and interaction analysis.
-10. Exercise the full case → acquisition → transcription → cloud diarization → alignment → evidence path before production promotion.
-11. Only after engineering stability, begin target-condition scientific evaluation.
+2. Deploy the constrained beam-1 transcription profile and verify runtime readback before repeating the controlled WAV.
+3. Execute a controlled WAV through faster-whisper and record runtime duration, transcript segment count, word timestamp coverage, provenance, persistence, memory behavior, and process continuity.
+4. Confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` in the target runtime without exposing credential values.
+5. Execute the same controlled fixture through the pyannoteAI cloud primary and record speaker-turn output, provider provenance, job/result behavior, runtime duration, and persisted artifact readback.
+6. Exercise local Community-1 only as a separate fallback test when `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local` and `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true` are explicitly enabled; do not treat fallback success as primary-path verification.
+7. Persist normalized transcript, speaker, and multimodal alignment artifacts under the existing case/run identity.
+8. Connect transcript-derived observations to the existing linguistic/disfluency modules.
+9. Add speaker-aware acoustic aggregation and within-speaker baseline inputs.
+10. Add question/answer boundary ingestion and interaction analysis.
+11. Exercise the full case → acquisition → transcription → cloud diarization → alignment → evidence path before production promotion.
+12. Only after engineering stability, begin target-condition scientific evaluation.
 
 ## Dependency and license review
 
@@ -167,7 +170,7 @@ Provider and model/library license terms remain separate provenance records. The
 
 ## Current conclusion
 
-The speech intelligence architecture is a real provider-backed implementation path with faster-whisper transcription, pyannoteAI cloud-primary diarization, and explicit local fallback support. The next milestone is controlled provider execution and artifact persistence, not additional placeholder contracts. No production transcription or diarization capability is claimed until those runtime gates succeed.
+The speech intelligence architecture is a real provider-backed implementation path with faster-whisper transcription, pyannoteAI cloud-primary diarization, and explicit local fallback support. The immediate runtime milestone is controlled beam-1 transcription execution with persisted artifact readback, followed by cloud-primary diarization and alignment. No production transcription or diarization capability is claimed until those runtime gates succeed.
 
 ## pyannoteAI cloud adapter — 2026-09-04
 

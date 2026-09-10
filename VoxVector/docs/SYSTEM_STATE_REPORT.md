@@ -1,6 +1,6 @@
 # VoxVector System State Report
 
-**State date:** 2026-09-09
+**State date:** 2026-09-10
 **Repository:** `darenprince/darenprince-author`  
 **Canonical branch:** `main`  
 **Backend root:** `VoxVector/`  
@@ -18,27 +18,22 @@ The repository uses a case-centered architecture with one canonical analysis eng
 
 ## Current verified runtime state — Render
 
-The latest Render API health response observed on 2026-09-07 reports:
+Connected Render inspection on 2026-09-10 reports the `voxvector-api` service live on deploy `dep-dah0g13l550s73d2dbb0`, sourced from backend revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. Repeated Render health requests returned HTTP 200 during the observed period. This synchronization did not capture a fresh complete `/health` JSON payload, so provider-readiness and version fields are not re-attributed from an older health payload.
 
-- pipeline: `0.2.26`
-- source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- runtime self-test: `passed`
-- diagnostic/media storage: `configured_media_ready`
-- media storage: `true`
-- maximum sample rate: `48,000 Hz`
-- maximum media size: `262,144,000 bytes`
-- transcription provider: `faster_whisper`
-- transcription adapter: installed
-- transcription execution-ready: `true`
-- primary diarization provider: `pyannote_api`
-- pyannote API-key presence: `true`
-- primary diarization execution-ready: `true`
-- local fallback: `pyannote_local`, disabled and not execution-ready
-- current commit QA: `external_workflow_required`
+Controlled production transcription on that deployed revision established the following execution evidence:
 
-That `0.2.26` value is a dated live-production observation. It does not override the current backend source release `0.2.27`; production must be deliberately deployed and re-read before the live version is advanced in documentation.
+- the same 183.3 second / 17,596,936 byte WAV was persisted successfully twice;
+- speech segmentation completed with 26 segments on both analysis attempts;
+- faster-whisper was actually invoked with model `base`, CPU/int8, one CPU thread, one worker, isolated process execution, and a 165 second process deadline;
+- the deployed runtime used **beam size 3**, despite the constrained source/runtime contract specifying beam size 1;
+- the first attempt loaded the model and produced one progress record after about 65 seconds, reaching only about 6.03 seconds of the 183.3 second source before the API runtime restarted;
+- Render memory sampling rose to roughly 458 MB against a reported 536,870,900 byte service memory limit before restart; the 30 second metric resolution does not prove the exact unsampled peak crossed the limit;
+- the second attempt loaded the model and the service relaunched before a transcript progress/completion/failure record was persisted;
+- no successful transcript artifact readback was established from either attempt.
 
-Provider readiness is an operational configuration state. It does not establish successful model execution or scientific validation. The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider.
+The active #941 correction aligns the canonical Render source profile to beam size 1. That source correction is not a deployment claim. A deliberate deployment and controlled provider rerun are still required before the deployed transcription path is represented as repaired.
+
+Provider configuration, provider execution, artifact persistence, resource stability, software QA, deployment state, browser verification, and scientific validation remain separate evidence boundaries.
 
 ## Repository and deployment boundary
 
@@ -68,6 +63,8 @@ The connected case path is implemented:
 
 Case records preserve ownership, source metadata, SHA-256 provenance, run identity, status, and current run state. Private media uses the configured storage boundary and signed access.
 
+The September 10 controlled transcript incident provides positive evidence that case creation, source persistence, source retrieval, and speech segmentation can succeed before the transcription boundary fails. That evidence does not establish general intake reliability for every supported file or close separate intake issue #930.
+
 ## Current 21-stage pipeline maturity
 
 The canonical 21-stage contract reports:
@@ -77,7 +74,7 @@ The canonical 21-stage contract reports:
 - **Stage 05 Speaker Identification / Diarization remains queued for controlled provider execution**
 - **Stages 07 Transcription Generation and 08 Transcript Alignment have built integration paths pending controlled provider-backed verification**
 
-Transcription and alignment now have canonical invocation, persistence, and synchronized workspace foundations. Their functional production state still requires real controlled provider execution, artifact persistence, and verification evidence.
+Transcription and alignment have canonical invocation, persistence, and synchronized workspace foundations. Their functional production state still requires successful controlled provider execution, artifact persistence, and verification evidence.
 
 ## Primary analytical pipeline
 
@@ -87,14 +84,14 @@ Transcription and alignment now have canonical invocation, persistence, and sync
 
 The acquisition layer provides a normalized media profile, speech/silence timeline, provider-neutral transcript and diarization contracts, provider selection, transcript-to-speaker timestamp alignment, and multimodal timeline output.
 
-Current supported provider configuration on Render:
+Canonical constrained Render source profile:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
 VOXVECTOR_WHISPER_MODEL=base
 VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
-VOXVECTOR_WHISPER_BEAM_SIZE=3
+VOXVECTOR_WHISPER_BEAM_SIZE=1
 
 VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
 PYANNOTE_KEY=<configured as protected runtime secret>
@@ -106,13 +103,13 @@ VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true
 HF_TOKEN=<protected Hugging Face token>
 ```
 
-The secret values are not stored in repository source or exposed in the dashboard export path. The local fallback variables are optional and should be enabled only when fallback behavior is intentionally being tested.
+The secret values are not stored in repository source or exposed in the dashboard export path. The local fallback variables are optional and should be enabled only when fallback behavior is intentionally being tested. The source profile above must not be confused with the last observed deployed beam-size value of 3; #941 owns that correction and production verification.
 
 ## Runtime provenance and QA
 
-The canonical API supports explicit source-revision provenance from deployment environment or embedded container metadata. The latest observed live Render source revision is reported separately from current source.
+The canonical API supports explicit source-revision provenance from deployment environment or embedded container metadata. The latest observed live Render source revision is `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, reported separately from current GitHub source.
 
-The latest observed live runtime still reports `current_commit_qa: external_workflow_required`. An exact-commit GitHub Actions result must be observed before the runtime is marked QA-current.
+GitHub source QA and deployed runtime provenance remain separate. A successful source workflow cannot be used as proof that the corresponding revision is running on Render until the deployment is observed and the runtime revision is read back.
 
 ## Analysis Results / Review Evidence
 
@@ -135,23 +132,24 @@ The console is connected to:
 - report/audit/log copy and download controls
 - deployment-variable documentation
 
-The API startup surface now treats a cold backend wake as an indeterminate state with elapsed time rather than a fabricated percentage. After a real `/health` response arrives, the returned checks are revealed progressively before the dashboard opens. The startup footer reads the frontend version from `voxvector/package.json` and the API version from the live health payload, so source/deployment version drift remains visible.
+The API startup surface treats a cold backend wake as an indeterminate state with elapsed time rather than a fabricated percentage. After a real `/health` response arrives, the returned checks are revealed progressively before the dashboard opens. The startup footer reads the frontend version from `voxvector/package.json` and the API version from the live health payload, so source/deployment version drift remains visible.
 
 The engineering status component compares runtime source revision with workflow source revision and distinguishes stale/current evidence instead of presenting unrelated workflow results as current.
 
 ## Current engineering priorities
 
-1. Verify exact-commit GitHub QA for the current live source revision.
-2. Execute faster-whisper on a controlled short WAV and persist timestamped transcript segments/words.
-3. Confirm the target runtime selects `pyannote_api` and has `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`, then execute pyannoteAI cloud-primary diarization on the same controlled WAV and persist speaker turns plus provider provenance.
-4. Exercise local Community-1 only as a separate explicit fallback test when fallback configuration is enabled; do not substitute fallback testing for primary cloud verification.
-5. Produce and persist the multimodal alignment artifact.
-6. Feed acquired transcript data into linguistic/disfluency analysis.
-7. Add speaker-aware acoustic aggregation, independent baseline input, and question/response context.
-8. Instrument actual internal method boundaries where real callbacks exist.
-9. Complete Review Evidence, assessment, reporting, history/reopen, and synchronized analytical tracks.
-10. Verify authenticated desktop/mobile browser behavior and failure paths.
-11. Advance scientific validation only after engineering evidence is stable.
+1. Complete #941 source correction so the canonical Render transcription profile uses beam size 1 and exact-head QA protects that deployment setting.
+2. Deliberately deploy the reviewed #941 revision, confirm the deployed source revision and beam-size runtime readback, and rerun the controlled WAV while correlating Supabase case diagnostics with Render resource/process telemetry.
+3. Require an explicit successful transcript artifact readback or an explicit bounded failure; do not treat model load/readiness as successful transcription.
+4. Confirm the target runtime selects `pyannote_api` and has `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`, then execute pyannoteAI cloud-primary diarization on the same controlled WAV and persist speaker turns plus provider provenance.
+5. Exercise local Community-1 only as a separate explicit fallback test when fallback configuration is enabled; do not substitute fallback testing for primary cloud verification.
+6. Produce and persist the multimodal alignment artifact.
+7. Feed acquired transcript data into linguistic/disfluency analysis.
+8. Add speaker-aware acoustic aggregation, independent baseline input, and question/response context.
+9. Instrument actual internal method boundaries where real callbacks exist.
+10. Complete Review Evidence, assessment, reporting, history/reopen, and synchronized analytical tracks.
+11. Verify authenticated desktop/mobile browser behavior and failure paths.
+12. Advance scientific validation only after engineering evidence is stable.
 
 ## Endpoint registry
 

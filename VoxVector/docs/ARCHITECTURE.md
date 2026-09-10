@@ -140,19 +140,21 @@ Provider configuration and execution readiness do not change the maturity count.
 
 The canonical acquisition layer provides a normalized media profile, speech/silence timeline, provider-neutral transcript and diarization contracts, provider selection, timestamp overlap alignment, and multimodal timeline output.
 
-Current Render cloud-primary provider configuration:
+Canonical constrained Render source profile:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
 VOXVECTOR_WHISPER_MODEL=base
 VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
-VOXVECTOR_WHISPER_BEAM_SIZE=3
+VOXVECTOR_WHISPER_BEAM_SIZE=1
 
 VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
 PYANNOTE_KEY=<protected deployment secret>
 VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
+
+The source profile is not a deployment claim. Controlled production evidence on 2026-09-10 showed deployed revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` still executing faster-whisper with `beam_size=3` before transcript-stage runtime restarts. Issue #941 owns the correction and requires deliberate deployment plus runtime readback before the deployed profile is represented as beam 1.
 
 The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. The route execution gate and provider/fallback readiness are separate states. The runtime health contract reports configuration/readiness without exposing credentials.
 

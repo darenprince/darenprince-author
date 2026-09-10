@@ -1,6 +1,6 @@
 # VoxVector Deployment Variable Matrix
 
-**Date:** 2026-09-08  
+**Date:** 2026-09-10  
 **Purpose:** deployment configuration checklist. Do not place secret values in GitHub source, documentation, client bundles, or public dashboard exports.
 
 | Variable / setting | Purpose | Render | AWS ECS | Notes |
@@ -14,9 +14,9 @@
 | `VOXVECTOR_ENABLE_DIARIZATION_RUNS` | Permit route-triggered diarization execution | Render environment | ECS task environment | Execution gate; separate from provider readiness. |
 | `VOXVECTOR_TRANSCRIPTION_PROVIDER` | Select transcription provider | Render environment | ECS task environment | Required before adapter becomes execution-ready. |
 | `VOXVECTOR_WHISPER_MODEL` | Select faster-whisper model | Render environment | ECS task environment | Canonical adapter reads this name; current profile uses `base`. |
-| `VOXVECTOR_WHISPER_DEVICE` | Select inference device | Render environment | ECS task environment | Current Render profile uses `cpu`. |
-| `VOXVECTOR_WHISPER_COMPUTE_TYPE` | Select inference compute type | Render environment | ECS task environment | Current Render profile uses `int8`. |
-| `VOXVECTOR_WHISPER_BEAM_SIZE` | Control decoding beam size | Render environment | ECS task environment | Current Render profile uses `3`. |
+| `VOXVECTOR_WHISPER_DEVICE` | Select inference device | Render environment | ECS task environment | Current constrained profile uses `cpu`. |
+| `VOXVECTOR_WHISPER_COMPUTE_TYPE` | Select inference compute type | Render environment | ECS task environment | Current constrained profile uses `int8`. |
+| `VOXVECTOR_WHISPER_BEAM_SIZE` | Control decoding beam size | Render environment | ECS task environment | Current constrained profile uses `1`; deployment/runtime readback remains a separate verification gate. |
 | `VOXVECTOR_SOURCE_REVISION` | Deployment provenance | Render build/runtime metadata | ECS workflow/task definition | Prefer workflow-injected commit SHA. |
 | `VOXVECTOR_CURRENT_COMMIT_QA` | Source-specific QA provenance | Render deployment metadata | ECS workflow/task definition | Must come from real QA execution. |
 | `RENDER_API_KEY` | Server-side Render observability bridge | Render secret environment | Not used by active AWS path | Required by Developer Console Render status/log routes; never expose to browser. |
@@ -35,20 +35,22 @@
 - [AWS ECR](https://console.aws.amazon.com/ecr/)
 - [Hugging Face settings](https://huggingface.co/settings/tokens)
 
-## Current verified configuration contract
+## Current source configuration contract
 
-The canonical backend currently accepts:
+The canonical backend source profile currently accepts:
 
 ```text
 VOXVECTOR_TRANSCRIPTION_PROVIDER=faster_whisper
 VOXVECTOR_WHISPER_MODEL=base
 VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
-VOXVECTOR_WHISPER_BEAM_SIZE=3
+VOXVECTOR_WHISPER_BEAM_SIZE=1
 
 VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
 VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
+
+The source contract is not a deployment claim. On 2026-09-10, controlled Render transcription evidence on deployed revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` showed `beam_size=3` during two failed transcription attempts. Issue #941 tracks the bounded correction and requires a deliberate deployment plus runtime readback before the deployed profile is represented as beam 1.
 
 For the cloud credential, the canonical adapter accepts either:
 
