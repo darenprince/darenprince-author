@@ -2,30 +2,45 @@
 
 ## Current task status
 
-Prompt: **VV-PIPELINE-POSTTRANSCRIPT-MEMORY-CHECKPOINT-FIX**. Source base: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Active implementation issue: [#941](https://github.com/darenprince/darenprince-author/issues/941). Draft implementation PR: [#962](https://github.com/darenprince/darenprince-author/pull/962). Branch: `fix/voxvector-post-transcription-memory-cleanup`.
+Prompt: **VV-OBSERVABILITY-AVAILABILITY-REFINE**. Source base: `a249f3f781a221313549e941b9cdb650b8683a2f`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Active implementation issue: [#959](https://github.com/darenprince/darenprince-author/issues/959). Merged implementation PR: [#968](https://github.com/darenprince/darenprince-author/pull/968). Canonical merged revision: `7305d0727fafe60a1f78be4995dfddb618ed0192`.
 
-This task repairs one backend analysis/runtime reliability subsystem after a controlled production run proved beam-1 faster-whisper execution but then encountered confirmed post-transcription memory exhaustion. It preserves the existing canonical case-analysis pipeline and CaseStore. It does not change scientific methodology, classification thresholds, frontend design, authentication, logging-sink architecture, Render deployment policy, or create a duplicate analysis engine.
+This checkpoint refines one observability/debug-bundle subsystem after PRs #961 and #966 established the dual Render/Supabase log foundation, deterministic Render snapshot identity, durable speech-worker correlation, and debug evidence packaging. The change does not alter analytical methodology, provider configuration, authentication architecture, deployment policy, classification behavior, or create a second logging system.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Re-read canonical charter/workflow/guardrails and current repository state | Complete | `main` remains `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` |
-| Preserve controlled production evidence | Complete | beam-1 faster-whisper completed 58 segments / 246 words before the post-provider memory failure; no transcript-truth or scientific claim |
-| Remove cleanup-time Torch import side effect | Implemented on PR #962 | `collect_after_heavy_phase()` uses already-loaded `torch` only; focused regression coverage added |
-| Persist completed upstream provider evidence before Stage 10 | Implemented on PR #962 | acquisition/transcript/alignment/provider timing/stage state checkpointed to the same stable case run |
-| Add Stage 10 process-memory admission | Implemented on PR #962 | admission occurs before Stage 10 is represented as running; rejection preserves upstream evidence and terminalizes dependent work |
-| Separate Python process identity from Render instance identity | Implemented on PR #962 | fresh process UUID plus separate `render_instance_id`; `/health` contract and tests updated |
-| Preserve stable case-run identity through finalization | Implemented on PR #962 | case `run_id` remains canonical; pipeline-internal run identity is separate provenance |
-| Synchronize affected canonical and Crown documentation | Complete at current source checkpoint | current stage order, runtime evidence, memory boundary, deployment drift and verification boundaries aligned; frontend static stage drift isolated in #965 |
-| Pre-audit merge-candidate QA | Complete | QA `34481815208` success: 206 Python tests, 13 frontend tests, Vite build; synthetic merge `12df336...` had same Git tree as branch head `bfd1d92...`; Preview `34481815297` exact-head success |
-| Literal branch-head QA checkpoint | Complete | push QA `34484033457` succeeded on exact branch head `85add7d4d21640346dc454cd19309fa968d922fb` |
-| Intermediate checkpoint aggregate-count consistency | Resolved in source | canonical `_pipeline_progress_summary()` now refreshes checkpoint, Stage 10 admitted, and memory-rejection persisted aggregates; focused assertions added |
-| GHAS exception-detail exposure review | Resolved in source, security recheck required | broad analysis-failure HTTP detail no longer returns exception text/internal stage payload; request ID, failed stage and exception type remain; focused regression added |
-| Running audit update | Complete in this commit | this Task 25 preserves source, QA, runtime, review corrections and unresolved boundaries |
-| Final-head QA / Preview / security state | Required | this audit update advances the branch; final exact-head push QA, PR Preview and review/security readback are required before merge |
-| Merge / Render deployment / controlled rerun | Not performed at this checkpoint | user authorized merge once acceptance gates pass; no #962 source is represented as deployed |
-| Browser / engineering-MVP / scientific validation | Not claimed | separate downstream evidence gates remain open |
+| Re-read canonical charter/workflow/guardrails and current repository state | Complete | source work started from `a249f3f781a221313549e941b9cdb650b8683a2f` |
+| Preserve Render native log view | Preserved | normalized browser response still contains message/timestamp/level/type; provider stdout/stderr architecture unchanged |
+| Remove unnecessary browser-facing raw Render payload | Complete | `_normalize_log()` no longer returns the full nested provider record |
+| Distinguish empty evidence from unavailable evidence | Complete in source | debug route now sets explicit event/error/Render retrieval availability before manifest generation |
+| Add focused regression coverage | Complete | browser-facing Render log contract plus route-level available-empty/unavailable behavior covered in `test_render_api.py` |
+| Synchronize affected canonical docs | Complete | `ENDPOINT_REGISTRY.md` and `STORAGE_AND_OBSERVABILITY.md` reflect the refined source contract |
+| Exact-head PR QA | Complete | VoxVector QA `34525214723` success on PR head `7cd89cc40a06ddcebc6285f38e242d3fb553d96c`; API tests, React contract tests and Vite production build all completed successfully |
+| Exact-head PR Preview | Complete | PR Preview Build `34525214748` success on the same PR head |
+| Review readback | Complete | no open inline review threads observed before merge |
+| Merge | Complete | PR #968 merged as `7305d0727fafe60a1f78be4995dfddb618ed0192` |
+| Exact-main QA | Complete | push-triggered VoxVector QA `34525449309` succeeded on `7305d0727fafe60a1f78be4995dfddb618ed0192` |
+| GitHub Pages publication | Complete, not Render deployment | Deploy GitHub Pages `34525449351` succeeded for the merged revision |
+| Render production deployment / dual-store execution proof | Not performed in this checkpoint | merge/Pages publication are not backend deployment or provider/log execution evidence |
+| Remaining #959 acceptance | Open | automatic terminal Render snapshot capture, retention/quota coordination, deliberate exact-revision Render deployment, controlled Render + Supabase readback, generated bundle inspection and authenticated browser verification |
+| Scientific validation | Not claimed | observability engineering work does not validate deception methodology or models |
 
 ## Task log
+
+### Task 26: refine debug evidence availability and protected Render response, 2026-09-10
+
+Issue #959 was found closed even though its production acceptance criteria were still incomplete, so it was reopened before this refinement. Current source was read from GitHub rather than prior conversation state. The refinement began from canonical `main` `a249f3f781a221313549e941b9cdb650b8683a2f` on branch `fix/voxvector-observability-route-availability` and remained inside the existing observability/debug-bundle subsystem.
+
+The protected Render bridge previously normalized provider records for the Developer Console but also returned the complete provider object under a nested `raw` field. No repository consumer was found that required that nested provider envelope. PR #968 removes the `raw` field while preserving the existing message, timestamp, level and type contract. This is a browser-response hardening change only; it does not remove Render-native stdout/stderr logging, the authenticated Render bridge, or sanitized Render-log mirroring into Supabase.
+
+The debug bundle already had manifest support for separate evidence availability flags after PR #966, but `render_debug_bundle()` did not consistently populate those flags from actual query success/failure. PR #968 now marks successful event/error/Render-log retrieval as available even when zero rows are returned and marks provider/storage retrieval failures unavailable. The resulting manifest can therefore distinguish an empty correlated result from a source that could not be queried instead of silently conflating the two conditions.
+
+Regression coverage in `VoxVector/tests/test_render_api.py` verifies that normalized Render log records expose only the intended consumer fields and directly exercises the debug-bundle route with an unavailable event store, successful empty error query and unavailable Render bridge. The captured manifest inputs must report `events_available=0`, `errors_available=1`, and `render_logs_available=0` for that controlled test. Existing debug-bundle tests continue to cover sanitization, deterministic snapshot identity, process/Render provenance, correlation and available-empty manifest behavior.
+
+Affected canonical documentation was synchronized in `VoxVector/docs/ENDPOINT_REGISTRY.md` and `VoxVector/docs/STORAGE_AND_OBSERVABILITY.md`. The docs now state that the protected Render response does not return the full nested provider record and that retrieval availability is independent of row count. No Crown Labs Bible mirror was changed because this refinement is an internal protected debugging/evidence-contract correction and does not alter the mirrored product capability or architecture claim.
+
+The exact PR head before merge was `7cd89cc40a06ddcebc6285f38e242d3fb553d96c`. VoxVector QA run `34525214723` completed successfully on that head; its API test, React contract-test and production-build steps all succeeded. PR Preview Build `34525214748` also succeeded, and no open inline review threads were observed. PR #968 was then squash-merged as canonical revision `7305d0727fafe60a1f78be4995dfddb618ed0192`. A push-triggered exact-main VoxVector QA run `34525449309` subsequently succeeded. GitHub Pages workflow `34525449351` also succeeded for the merge, but Pages publication is not represented as a Render backend deployment.
+
+Issue #959 intentionally remains open. This source/QA checkpoint does not prove that the merged revision is running on Render, that a real terminal analysis automatically captures a Render provider-log snapshot, that the same run has both Render and Supabase copies, that a real debug ZIP was downloaded and inspected, or that the protected UI was browser verified. Retention/quota coordination with #958 also remains open. No scientific validation claim is made.
 
 ### Task 25: contain post-transcription memory and durably checkpoint completed speech evidence, 2026-09-10
 
