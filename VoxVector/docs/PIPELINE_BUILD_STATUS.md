@@ -1,6 +1,6 @@
 # VoxVector 21 Stage Pipeline — Build Status
 
-**Status date:** 2026-09-09
+**Status date:** 2026-09-10
 
 This document is an engineering status record, not a claim that every pipeline stage is currently integrated or scientifically validated.
 
@@ -8,58 +8,55 @@ This document is an engineering status record, not a claim that every pipeline s
 
 | # | Stage | Current build state | Runtime state | QA state |
 |---:|---|---|---|---|
-| 01 | File Upload / Ingest | **implemented** | persisted case source intake | production executed on observed case path |
-| 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization; persisted run boundary | covered by API/runtime tests; production executed |
-| 03 | Provenance and Integrity | **implemented** | SHA-256 source verification; persisted run boundary | covered by case-store tests; production executed |
+| 01 | File Upload / Ingest | **implemented** | persisted case source intake; merged pre-handler 4xx diagnostics are in the current live Render source | production reproduction for intermittent 400 remains open in #930 |
+| 02 | File Decode and Normalization | **implemented** | PCM WAV decode and mono normalization; persisted run boundary | covered by API/runtime tests; prior production execution exists |
+| 03 | Provenance and Integrity | **implemented** | SHA-256 source verification; persisted run boundary | covered by case-store tests; prior production execution exists |
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised by pipeline |
-| 05 | Speech Segmentation | **implemented foundation** | deterministic energy/activity segmentation is computed and persisted before heavyweight provider execution | deterministic tests; controlled repaired-runtime provider execution still required |
-| 06 | Speaker Identification / Diarization | **queued provider path** | pyannoteAI cloud primary configured/execution-ready when the case invocation gate is enabled; local Community-1 fallback remains optional | contract/provider tests; controlled cloud execution and persisted artifact required |
-| 07 | Transcription Generation | **built integration path** | canonical case analysis invokes faster-whisper when runtime-ready; repaired path uses a disposable child process with a hard local deadline and persists normalized transcript artifacts | contract/process-boundary tests; controlled provider-backed production verification required |
-| 08 | Transcript Alignment | **built synchronized foundation** | transcript timestamps and optional speaker turns are aligned before downstream transcript-dependent evidence is reported complete | regression tests; controlled provider-backed verification required |
-| 09 | Eligibility and Reliability | **implemented** | downstream recording eligibility/reliability result; repaired case path does not mark it complete before upstream speech/provider acquisition resolves | covered by pipeline tests; controlled repaired-order provider execution pending |
-| 10 | Acoustic Feature Extraction | **implemented** | RMS, intensity, ZCR, centroid, spread, F0, harmonicity, MFCC and related observations; repaired case path begins composite analysis after upstream evidence acquisition | covered by acoustic/pipeline tests; controlled repaired-order runtime verification pending |
+| 05 | Speech Segmentation | **implemented foundation** | deterministic energy/activity segmentation is computed and persisted before heavyweight provider execution | deterministic tests; controlled current-runtime provider execution still required |
+| 06 | Speaker Identification / Diarization | **queued provider path** | pyannoteAI cloud primary architecture with explicit optional local Community-1 fallback | contract/provider tests; controlled cloud execution and persisted artifact required |
+| 07 | Transcription Generation | **built integration path** | current live source uses dependency-ordered faster-whisper in a disposable child process with hard local deadline | contract/process tests; #941 controlled production execution required |
+| 08 | Transcript Alignment | **built synchronized foundation** | transcript timestamps and optional speaker turns align before transcript-dependent evidence can report complete | regression tests; controlled provider-backed verification required |
+| 09 | Eligibility and Reliability | **implemented** | downstream recording eligibility/reliability result after required upstream acquisition resolves | covered by pipeline tests; current-runtime provider verification pending |
+| 10 | Acoustic Feature Extraction | **implemented** | RMS, intensity, ZCR, centroid, spread, F0, harmonicity, MFCC and related observations | covered by acoustic/pipeline tests |
 | 11 | Prosodic and Voice Quality Analysis | **implemented foundation** | F0/intensity dynamics and HNR | feature tests; scientific validation separate |
 | 12 | Temporal and Pause Analysis | **implemented foundation** | pause topology and timing observations | feature tests; scientific validation separate |
-| 13 | Linguistic and Disfluency Analysis | **conditional** | requires transcript artifact; transcript evidence is assembled only when a real transcript result exists | unit/integration tests; controlled acquired-transcript execution required |
+| 13 | Linguistic and Disfluency Analysis | **conditional** | requires persisted transcript artifact | unit/integration tests; controlled acquired-transcript execution required |
 | 14 | Question / Answer Alignment | **conditional** | requires question/context boundaries | timing tests; product integration next |
 | 15 | Within Speaker Baseline | **conditional** | requires independent baseline input | baseline unit tests |
-| 16 | Cross Method Evidence Assembly | **implemented foundation** | normalized evidence records from observations after required upstream dependencies resolve | evidence tests; production execution present on prior path |
+| 16 | Cross Method Evidence Assembly | **implemented foundation** | normalized evidence records after required upstream dependencies resolve | evidence tests |
 | 17 | Evidence Convergence and Conflict | **implemented foundation** | evidence relationships and conflict/convergence structures | convergence tests; persisted result structure |
 | 18 | Candidate Classification | **implemented guarded foundation** | candidate remains guarded/indeterminate in current observational path | classification tests |
-| 19 | Validation and Calibration Gate | **not invoked** | inferential validation gate is not executed by current run | validation program required |
+| 19 | Validation and Calibration Gate | **not invoked** | inferential validation gate is not executed by the current run | validation program required |
 | 20 | Final Classification / Disposition | **implemented guarded foundation** | guarded final disposition architecture | disposition tests |
-| 21 | Audit and Provenance Output | **implemented foundation** | run, stage, method, source and provenance records persisted | case-store/provenance coverage |
+| 21 | Audit and Provenance Output | **implemented foundation** | run, stage, method, source and provenance records persisted; terminal run/failure reports added by #946 | case-store/provenance/lifecycle coverage |
 
 ## Current maturity count
 
 - **16 stages have implemented analytical/runtime foundations**
 - **4 stages are conditional or intentionally not invoked without required inputs**
 - **speaker execution remains queued for controlled cloud-primary verification; transcription/alignment have built integration paths pending controlled provider execution evidence**
-- **the September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`; deployment and `/health` success do not establish controlled transcription execution**
-- **pyannoteAI cloud is the configured execution-ready primary on the latest observed Render runtime; local Community-1 fallback is optional and was not the source of the September 9 transcription OOM**
+- **the current Render deployment contains the September 9 transcription containment/dependency-order repair and the merged #946 run-lifecycle recovery**
 - **21 stages remain represented in the canonical contract**
 
 The maturity count does not mean sixteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
 
-## Live API runtime evidence — 2026-09-09
+## Live API runtime evidence — 2026-09-10
 
-The original Render backend was deliberately deployed to merged repair revision `09381797d4486bc049cb99a527c624690274b7c7` through manual deployment `dep-dagjc3740ujc73ff3ge0`. Connected deployment evidence established checkout of that intended revision, successful build, Uvicorn startup, repeated `/health` HTTP 200 responses, and terminal `live` deployment state. Canonical GitHub `main` later advanced to `010676db66e92d715290ee5fe0d1bc3b52c4b208` after Developer engineering-rail PR #950 merged; Render remains intentionally on the last manually deployed backend revision `09381797...` because automatic deployment is disabled.
+Canonical GitHub `main` is `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. Exact-main VoxVector QA #1963 (`34425588762`), Deploy GitHub Pages #1708 (`34425588752`), and CodeQL push run #71 (`34425587747`) all completed successfully.
 
-That deployment evidence establishes source-to-runtime deployment and health-check reachability only. Controlled authenticated real-audio transcription on the repaired revision, full `/health` payload readback, memory/instance correlation during provider work, persisted transcript/speaker/alignment artifact readback, deployed lifecycle-recovery verification, and authenticated browser verification remain separate unresolved evidence.
+Connected Render inspection shows deployment `dep-dah0g13l550s73d2dbb0` `live` on the same source revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, with trigger `api`. The prior `09381797...` deployment is deactivated. Render automatic deployment remains disabled.
 
-### Historical OOM incident evidence
+This source/deployment alignment is useful evidence, but the deployment record is not a fresh complete `/health` payload, provider execution, browser verification, or scientific validation. Detailed provider/readiness fields from older health checkpoints must not be projected onto the current source without a fresh readback.
 
-On the earlier live revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`, connected Render logs for request `6bb7ec766d3e46f39462ef92c9929544` showed:
+The API-triggered deployment also does not verify issue #920's protected Developer Console `Deploy Now` / deploy-hook path. That acceptance chain remains separate.
 
-- the production case route entered Stage 07 `transcription_generation` at `2026-09-09T09:36:46Z` with an outer 180 second acquisition deadline;
-- faster-whisper started at `09:36:47Z` for a 183.3 second WAV using the `base` model, CPU, and int8;
-- the model loaded at `09:36:48Z`;
-- no transcription progress/completion/failure/timeout event followed;
-- Render started Uvicorn again at `09:37:05Z` and a new server process at `09:37:11Z`;
-- the user received Render's memory-limit automatic-restart alert for the same service;
-- the persisted case run remained `running` because the process terminated before the prior in-process timeout/error handler could persist a terminal update.
+## Historical OOM incident and repair
 
-Source inspection of that historical revision also confirmed that the case route ran the downstream composite pipeline first and marked Stages 06, 09–12, 16–18, 20 and 21 complete before provider-backed Stage 07 transcription began. That implementation contradicted the canonical dependency sequence below. The merged/deployed repair at `09381797...` changes the source-level orchestration and ASR lifecycle; controlled provider execution on that repaired runtime remains required before those changes are called provider-verified.
+On the earlier live revision `7d5a66fa406efde4abfd79361a4d589b5b75e6e0`, Render evidence showed a case enter Stage 07 transcription, faster-whisper load, then loss/restart of the API process before completion/failure/timeout persistence. The user also received Render's memory-limit restart alert. Source inspection found downstream analysis was executed before provider-backed transcription, contrary to the canonical dependency order.
+
+PR #942 repaired that source path by moving provider evidence acquisition before dependent downstream analysis and isolating faster-whisper in a disposable child process with bounded CPU/thread/beam settings and a hard local deadline. That repair is now included in current `main` and the current live Render deployment.
+
+Issue #941 remains open because controlled real-audio faster-whisper execution on the repaired/current runtime has not yet established bounded completion/failure, Render memory/instance behavior, or persisted transcript/run artifact readback. Deployment is not provider execution.
 
 ## Speech execution sequence
 
@@ -80,14 +77,14 @@ The canonical dependency sequence is:
 For controlled provider verification:
 
 1. confirm the intended backend source revision and exact-revision QA evidence;
-2. confirm faster-whisper runtime settings and isolated-process deadline from `/health` after deployment;
-3. confirm the target runtime selects `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and has `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` when cloud-primary diarization is being tested;
+2. capture a fresh `/health` payload and confirm current transcription/diarization settings without exposing credentials;
+3. confirm `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before a cloud-primary diarization test;
 4. run one short known WAV through the authenticated case-analysis path;
 5. capture timestamped transcript segments and word timestamps or an explicit bounded provider failure;
 6. capture speaker turns and provider provenance when diarization is invoked;
 7. persist transcript, speaker, and alignment artifacts under the same case/run identity;
-8. capture provider timing and applicable Render/runtime resource telemetry;
-9. verify no later dependent stage is already `complete` while Stage 06 or Stage 07 is still active;
+8. capture provider timing and applicable Render/runtime memory/instance telemetry;
+9. verify dependent stages do not report complete before their required Stage 06/07 artifacts exist;
 10. repeat on the same exact deployed revision as required by the engineering-MVP release gate.
 
 ## Evidence acquisition pipeline
@@ -100,7 +97,7 @@ Supported providers:
 - speaker diarization: pyannoteAI cloud primary, with local Community-1 as an explicitly configured fallback
 - alignment: VoxVector-owned timestamp overlap layer
 
-Heavy provider phases are serialized. The repaired case path calculates the source speech timeline first, releases the persisted byte buffer, retains the working audio as float32, performs provider-backed acquisition, then starts the downstream composite analytical pipeline. This reduces avoidable overlap between local ASR model memory and downstream DSP working sets.
+Heavy provider phases are serialized. The repaired case path calculates the source speech timeline first, releases the persisted byte buffer, retains the working audio as float32, performs provider-backed acquisition, then starts downstream composite analytical work. This reduces avoidable overlap between local ASR model memory and downstream DSP working sets.
 
 ## Stage telemetry foundation
 
@@ -108,103 +105,70 @@ Heavy provider phases are serialized. The repaired case path calculates the sour
 
 Route-boundary timing is real for decoded route stages. Composite pipeline stages without actual callbacks retain null independent durations rather than fabricated values.
 
-## Case-run lifecycle
+## Case-run lifecycle — issue #945 / PR #946
 
-The case-analysis API persists a running record before processing. New repaired-path runs carry `process_instance_id`, active-stage identity, and configured stage timeout. Case reads reconcile a persisted `running` run to an explicit failed/interrupted state when the owning process identity changed, the active stage exceeded its persisted deadline plus grace period, or a legacy pre-process-identity run exceeded the stale-run threshold.
+Issue #945 is closed and PR #946 is merged as current `main`.
 
-The final run persists the result, acquisition artifact, result envelope, provider timings, and explicit pending/not-run/failed states. Failure handling attempts to preserve a sanitized failed run. A process restart must not be interpreted as successful execution.
-
-### Run lifecycle recovery and export checkpoint — PR #946
-
-Issue #945 / PR #946 extends the same canonical case-run lifecycle rather than creating a second pipeline. Current source checkpoint before this documentation synchronization is `18777886bf28c6cac8fb13fc00d5b5653b15b20b`.
+The merged lifecycle behavior includes:
 
 - Case History listing reconciles eligible stale or deadline-expired `running` runs, so recovery no longer requires opening an individual case first.
 - A legitimate current-worker run with a usable configured stage deadline is not stale-failed before that deadline.
-- When interruption recovery closes a run, the interrupted active stage is marked `failed` and remaining unfinished dependent work is terminalized as `not_run` with an explicit reason instead of remaining indefinitely pending.
+- When interruption recovery closes a run, the interrupted active stage is `failed` and remaining unfinished dependent work is terminalized `not_run` with an explicit reason.
 - Active runs expose real elapsed time; terminal runs persist final elapsed time.
 - Terminal runs persist a structured `run_report`. Failed and `completed_with_failures` runs also persist a `failure_report` containing run/request/source identity, source revision when available, timing, stage states, errors, provider state, completed work, failed work, not-run work, and unresolved work.
 - Historical terminal runs do not inherit the source revision of a later runtime merely reading the record, and legitimate terminal metadata backfill is persisted.
-- Per-case in-process serialization now covers Case History reconciliation, explicit reconciliation, `update_run`, source mutation and deletion. In the current single-process/single-instance CaseStore architecture this prevents a stale history snapshot from overwriting a newer same-process run update. It is not cross-process compare-and-swap protection for a future horizontally scaled writer model.
-- The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the persisted JSON report, alongside the existing case/report copy control.
+- Per-case in-process serialization covers Case History reconciliation, explicit reconciliation, `update_run`, source mutation and deletion. In the current single-process/single-instance CaseStore architecture this prevents a stale history snapshot from overwriting a newer same-process run update. It is not cross-process compare-and-swap protection for a future horizontally scaled writer model.
+- The existing Case Analysis Workspace exposes Copy and Download run-report controls for the persisted JSON report.
 - The explicit pyannoteAI → local Community-1 fallback wrapper preserves the primary provider failure in provenance when fallback succeeds and reports both provider failures when fallback also fails.
 
-Evidence chronology:
+Final PR head `de343d593f320eea3ef23fd970bae614fcc240b1` passed VoxVector QA #1962 and PR Preview #818, with changed-code CodeQL clean and all six existing review threads resolved. The merge `c21b4cf...` then passed exact-main QA #1963, Pages #1708, and CodeQL #71.
 
-- `c332f58e88c73c89c036b127e5bbe57389d6ed05` passed exact-head VoxVector QA #1917 and PR Preview Build #797 after the first three review corrections.
-- `18777886bf28c6cac8fb13fc00d5b5653b15b20b` passed exact-head VoxVector QA #1954 and PR Preview Build #815 after the history-write concurrency repair and focused regression test.
-- This documentation synchronization advances the branch head again; fresh exact-head QA and Preview are required before merge.
+The current Render deployment contains this merged lifecycle source. Production Case History reconciliation/report readback remains unverified and must not be inferred from deployment state.
 
-This checkpoint does **not** mean the lifecycle change has been merged or deployed, the Hugging Face Community-1 fallback has been enabled/executed in production, or any provider has been verified through a controlled case. Configuration, provider execution, deployment, browser verification, and scientific validation remain separate evidence states.
+## Stop Analysis work — issue #949 / draft PR #952
 
-## Render runtime bridge
+Server-aware Stop Analysis remains a separate active P0 subsystem. Draft PR #952 is based on current `main` but at the current checkpoint only establishes the canonical frontend `stopAnalysisRun(...)` request action.
 
-The Developer Console exposes real server-side Render status and recent logs through authenticated developer routes. GitHub Actions separately consumes protected repository Render credentials for infrastructure observability.
+The server cancellation endpoint/lifecycle, authenticated owner scope, persisted request/acknowledgement/terminal states, safe-boundary cancellation checks, supported faster-whisper child termination where possible, existing Analysis Workspace controls/states, regression tests, and synchronized docs remain unimplemented on canonical `main`.
+
+Browser `AbortController` transport cancellation is not server cancellation.
+
+## Secure deletion work — issue #948 / draft PR #951
+
+Auditable secure deletion remains a separate active P0 subsystem. Draft PR #951 is based on current `main` and is not merge-ready. Open review work includes mutation/delete serialization, durable final receipt recovery, and explicit authenticated DELETE-route opt-in to the receipt response.
+
+The intended receipt is sanitized and must not preserve raw audio, transcript text, case title, signed URL, credentials, or secrets. Application-level deletion through the supported storage API is not cryptographic proof of provider-level physical-media sanitization.
+
+## Run/report and case workspace diagnostics
+
+The canonical Case Analysis Workspace includes request-scoped live execution diagnostics, readable status translation, expandable technical details, raw-log copy, visible refresh states, active elapsed time, terminal duration, and Copy/Download controls for persisted run/failure reports.
+
+These are operational observability and auditability surfaces. They do not alter analytical results or validation status.
 
 ## Current engineering stage
 
-**Merge and deploy the reviewed lifecycle recovery safely, then verify dependency-ordered provider execution and controlled artifact readback.**
+**Verify current deployed intake and speech execution, while completing the two active P0 lifecycle-adjacent source tasks separately.**
 
-The dependency order is:
+The dependency order remains:
 
 **media extraction → speech segmentation → speaker diarization → transcription → timestamp normalization → transcript/audio alignment → eligibility/reliability and multimodal evidence → downstream analysis → candidate classification → validation/calibration gate → final disposition.**
+
+## Current next steps
+
+1. capture a fresh `/health` payload for `c21b4cf...` and record current runtime/provider settings;
+2. reproduce or sufficiently bound #930 on the current live pre-handler diagnostics and verify authenticated upload/private persistence/provenance/playback;
+3. execute a short controlled WAV through faster-whisper under #941 and capture bounded completion/failure plus Render memory/instance evidence;
+4. run controlled pyannoteAI cloud-primary diarization when its invocation gate is enabled and persist/read back speaker provenance;
+5. verify transcript/speaker alignment and transcript-derived evidence only after required artifacts exist;
+6. complete #948 and #949 as separate source changes with exact-head QA/review before merge;
+7. deploy and verify the #931 Supabase administrator Edge Function and trusted admin role boundary;
+8. complete #932 navigation/CTA work and, after #930, #928 upload UX hardening;
+9. complete authenticated desktop/mobile browser verification, saved history/reopen, and report acceptance;
+10. repeat the golden case on the same exact deployed revision before engineering-MVP sign-off;
+11. continue the separate scientific validation program.
 
 ## Verification boundary
 
 Software execution, provider readiness, deployment health, memory containment, engineering-MVP completion, and scientific validation are different states.
 
-A successful transcription output does not establish transcript truthfulness.
-
-Speaker cluster labels do not establish verified real-world identity.
-
-A completed analysis run does not prove any individual vocal feature proves deception.
-
-A green PR build does not establish that the repaired transcription path survived the Render memory ceiling under controlled provider workload.
-
-## Current next steps
-
-1. Complete this #946 documentation/Crown Labs Bible synchronization and fresh exact-head QA/preview.
-2. Merge only after the remaining documentation review threads are resolved against actual source and the PR remains mergeable.
-3. Deliberately trigger the protected Render deployment because auto-deploy is disabled.
-4. Verify `/health` reports the merged revision and intended constrained transcription settings.
-5. Refresh Case History and verify previously stuck eligible runs reconcile into terminal failed/not-run states with downloadable failure reports.
-6. Run a short controlled WAV through faster-whisper and capture bounded completion/failure plus Render instance/memory evidence.
-7. Run the controlled pyannoteAI cloud-primary diarization path when its invocation gate is enabled and persist/read back speaker provenance.
-8. Before enabling local Community-1 fallback in the constrained Render environment, establish a bounded memory/runtime execution plan; then verify a deliberate primary failure or timeout invokes the fallback and records provenance without destabilizing the API process.
-9. Verify transcript/speaker alignment and transcript-derived evidence only after their required artifacts exist.
-10. Repeat the golden case on the same exact deployed revision before engineering-MVP sign-off.
-11. Continue the separate scientific validation program without treating software reliability evidence as scientific validation.
-
-## Provider architecture update — 2026-09-04
-
-Speaker diarization has two implemented provider adapters behind the same canonical diarization contract:
-
-- **pyannoteAI cloud:** asynchronous job API using a protected deployment key, temporary media upload, job polling, and normalized speaker turns.
-- **local pyannote Community-1:** Hugging Face-gated local model path retained as an explicit fallback.
-
-The configured primary/fallback policy is operational engineering, not a stage promotion. Controlled provider-backed execution remains required before the speaker stage is promoted from its current maturity state. Provider provenance records whether a fallback occurred and why.
-
-## Live analysis timeout and failure visibility — 2026-09-05, superseded in part 2026-09-09
-
-The case route retains the route-level `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). The prior provider implementation relied on `asyncio.wait_for(asyncio.to_thread(...))`; coroutine cancellation could not terminate native local ASR work already executing in that thread, and a process-level OOM could terminate the API before the timeout handler ran.
-
-The repaired faster-whisper adapter therefore defaults to a disposable spawned child process with `VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165`, beam size 1, one CPU thread, and one worker. If the child exceeds its hard deadline the parent terminates then kills it and removes its temporary WAV. The outer 180 second route deadline remains a second boundary. This implementation has repository test evidence and is deployed on the original Render backend, but still requires controlled real-audio provider execution before memory safety is claimed.
-
-## Continue-after-failure pipeline policy — 2026-09-05
-
-A failed or timed-out task is recorded on its own pipeline stage with its sanitized error and outcome, but orchestration continues only into later work that is genuinely independent of the failed output. Dependent stages are marked `not_run` with an explicit dependency reason rather than being falsely reported as successful. Runs containing one or more stage failures finish as `completed_with_failures` when independent work and persistence can still complete. This preserves partial artifacts, stage visibility, diagnostics, and auditability without silently treating failure as success.
-
-## Case workspace live execution diagnostics — 2026-09-05
-
-The canonical Case Analysis Workspace includes a request-scoped **Live execution log**. It reads the existing durable VoxVector diagnostics stream through the authenticated diagnostics API and filters events by the current analysis run's request ID. While a run is active, the panel refreshes every 2.5 seconds and can also be refreshed manually. Stage starts, failures, timeouts, diagnostic details, error types, durations, HTTP status, and source revision context are visible directly beside the case pipeline. This is an operational observability surface; it does not alter analytical results or validation status.
-
-## Plain-English case execution updates — 2026-09-05
-
-The Case Analysis Workspace translates request-scoped operational diagnostic event codes into plain-English status updates for the product UI. Users see what started, what failed, what timed out, and whether independent work continues without needing to interpret internal event identifiers. Raw exception text and protocol details remain available under an expandable **Technical details** disclosure for debugging. This presentation layer does not alter the underlying diagnostic records.
-
-## Case workspace refresh and raw diagnostic export — 2026-09-05
-
-The canonical Case Analysis Workspace provides a **Copy raw logs** control that copies the exact request-scoped diagnostic event records as formatted JSON for engineering investigation. The readable log remains the default product view, while raw operational data is available without leaving the case.
-
-Case refresh controls refresh the active persisted case together with the case archive where applicable, and the workspace refresh button exposes an in-progress state instead of silently issuing overlapping requests. The workspace itself is intentionally frameless: individual analysis panels own their borders and spacing so the audio/player surface does not visually create a container around unrelated analysis components.
-
-**Refresh controls:** Dashboard, Case Workbench, Case History, Analysis Workspace, Render Runtime, Live Logs, and Error Reports invoke their backing queries with visible in-progress state; multi-source refresh actions await all required queries rather than silently firing disconnected requests.
+A successful transcription output does not establish transcript truthfulness. Speaker cluster labels do not establish verified real-world identity. A completed analysis run does not prove any individual vocal feature proves deception. A green build or live deployment does not establish controlled provider execution under the Render memory ceiling.
