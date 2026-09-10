@@ -41,7 +41,7 @@ export function renderOperationalState({ serviceState, deployState, pending = fa
   return {
     serviceState: service,
     deployState: deploy,
-    tone: live ? 'healthy' : serviceTone === 'warning' || deployTone === 'warning' ? 'warning' : 'error',
+    tone: live ? 'healthy' : serviceTone === 'error' || deployTone === 'error' ? 'error' : 'warning',
     live,
   }
 }
