@@ -85,8 +85,8 @@ The VoxVector pipeline encompasses:
 - audio decoding and normalization
 - provenance and integrity
 - recording and channel assessment
-- speaker identification and diarization
 - speech segmentation
+- speaker identification and diarization
 - transcription generation
 - transcript alignment
 - analysis readiness and reliability
@@ -139,7 +139,7 @@ The underlying endpoints remain:
 
 `POST /v1/cases/{case_id}/sources/{source_id}/analyze`
 
-The backend retrieves the authenticated case and source, reads the stored WAV, runs the canonical `VoxVectorPipeline`, persists the run and stage state, and returns the updated case and run.
+The backend retrieves the authenticated case and source, reads the stored WAV, runs the canonical VoxVector pipeline, persists the run and stage state, and returns the updated case and run.
 
 ### Developer Console presentation
 
@@ -245,7 +245,6 @@ The earlier analysis-specific correction remains documented in:
 
 The Crown Labs dossier remains the executive/product mirror; VoxVector implementation and canonical technical documentation remain authoritative.
 
-
 ## System Architecture and AUTO Workflow — 2026-09-01
 
 VoxVector's current operating architecture is explicitly separated across GitHub/GitHub Actions and GitHub Pages for the public React application, Render for the FastAPI runtime, and Supabase for configured authentication, persistence, diagnostics, and private media storage.
@@ -254,11 +253,9 @@ The durable audio path is mediated by the API and terminates in Supabase storage
 
 The engineering workflow is now consolidated as **Architecture → Ownership → Trace → Operate/verify**. The complete technical record is `VoxVector/docs/SYSTEM_ARCHITECTURE_AND_AUTO_WORKFLOW.md`.
 
-
 ## 2026-09-01 Observability and Audit Surface
 
 The Developer Console includes Live Logs, Error Reports, and structured Audits. The observability design preserves immutable diagnostic archives while projecting sanitized lifecycle and error records into relational Supabase tables for operator-facing queries. Production verification remains separate from source implementation.
-
 
 ## Implementation Sync — 2026-09-04
 
@@ -266,21 +263,17 @@ The current canonical case-analysis workflow includes built transcription execut
 
 Controlled provider execution, persisted artifact readback, and deployed browser/mobile verification remain separate functional checks.
 
-
 ## Live analysis timeout and failure visibility — 2026-09-05
 
 The canonical case analysis route now persists the live stage boundary before entering long-running work. The composite analysis boundary and provider-backed evidence acquisition have configurable server-side deadlines: `VOXVECTOR_PIPELINE_TIMEOUT_SECONDS` (default 120 seconds) and `VOXVECTOR_EVIDENCE_ACQUISITION_TIMEOUT_SECONDS` (default 180 seconds). On timeout, VoxVector records the failed stage, request ID, timeout context, persisted run state, and a diagnostic event, then returns HTTP 504 instead of leaving the client indefinitely waiting. The frontend error formatter surfaces the message, failed stage, error type when available, and request ID. These controls improve operational observability; they do not imply cancellation of already-running background worker threads or scientific validation of any analysis output.
-
 
 ## Continue-after-failure pipeline policy — 2026-09-05
 
 A failed or timed-out task is recorded on its own pipeline stage with its sanitized error and outcome, but the orchestration continues into later stages that do not depend on that failed output. Dependent stages are marked `not_run` with an explicit dependency reason rather than being falsely reported as successful. Runs containing one or more stage failures finish as `completed_with_failures` when independent work and persistence can still complete. This preserves partial artifacts, stage visibility, diagnostics, and auditability without silently treating failure as success.
 
-
 ## Case workspace live execution diagnostics — 2026-09-05
 
 The canonical Case Analysis Workspace now includes a request-scoped **Live execution log**. It reads the existing durable VoxVector diagnostics stream through the authenticated diagnostics API and filters events by the current analysis run's request ID. While a run is active, the panel refreshes every 2.5 seconds and can also be refreshed manually. Stage starts, failures, timeouts, diagnostic details, error types, durations, HTTP status, and source revision context are visible directly beside the case pipeline. This is an operational observability surface; it does not alter analytical results or validation status.
-
 
 ## Case workspace refresh and raw diagnostic export — 2026-09-05
 
@@ -288,9 +281,7 @@ The canonical Case Analysis Workspace now provides a **Copy raw logs** control t
 
 Case refresh controls now refresh the active persisted case together with the case archive where applicable, and the workspace refresh button exposes an in-progress state instead of silently issuing overlapping requests. The workspace itself is intentionally frameless: individual analysis panels own their borders and spacing so the audio/player surface does not visually create a container around unrelated analysis components.
 
-
 **Refresh controls:** Dashboard, Case Workbench, Case History, Analysis Workspace, Render Runtime, Live Logs, and Error Reports now invoke their backing queries with visible in-progress state; multi-source refresh actions await all required queries rather than silently firing disconnected requests.
-
 
 ## 2026-09-05 case archive latency debugging
 
@@ -302,7 +293,16 @@ Mitigation implemented in `api/case_store.py`: archive payload reads now use a b
 
 A Render deploy of commit `03fadc1a12c53882942d4270c602c6ba90673164` was explicitly triggered because the production service has auto-deploy disabled. Runtime latency improvement remains pending post-deploy measurement and must not be considered verified until new production diagnostics are observed.
 
-
 ## Stage 10 acoustic runtime observability — 2026-09-05
 
 The canonical acoustic extraction path now records a measured feature-family timing breakdown and the case workspace presents clearer execution states with elapsed time for active stages. Shared spectrum, pitch/harmonicity, and MFCC setup computations reduce duplicate work in the canonical implementation. This is an engineering performance and observability change; controlled production measurement remains required before claiming a specific live latency improvement.
+
+## Current speech-runtime and memory checkpoint — 2026-09-10
+
+Controlled production execution on Render deployment `dep-dah7usjl550s73e00350`, source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`, established successful faster-whisper execution for the 183.3-second controlled WAV under the constrained `base`, CPU/int8, beam-1, one-thread, one-worker isolated-process profile. The provider completed in about 113 seconds with 58 timestamped transcript segments and 246 timestamped words.
+
+That run then exposed a post-transcription memory transition defect: the API parent entered an unsafe memory state before downstream Stage 10 processing and the runtime restarted shortly afterward. Successful transcript/alignment/provider artifacts had not yet been durably attached to the run before the downstream transition.
+
+Issue #941 / draft PR #962 owns the bounded backend repair. The canonical design is to checkpoint completed upstream speech evidence to the same persisted run before Stage 10, avoid importing PyTorch merely for cleanup on the CPU transcription path, perform memory admission before Stage 10 is represented as running, preserve the upstream checkpoint when memory is insufficient, and separate Python-process identity from Render infrastructure identity. Source implementation is not represented as deployed until the reviewed revision is deliberately deployed and read back.
+
+Cloud-primary pyannoteAI diarization remains a separate controlled provider-execution gate. Successful transcription execution does not establish transcript truthfulness, verified speaker identity, or scientifically validated deception inference.
