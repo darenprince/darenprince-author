@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.parse import quote
 
-from .storage import StorageError, SupabaseStorage
+from .storage import SupabaseStorage
 
 _BLOCKED_KEYS = {
     "audio",
@@ -118,22 +118,37 @@ def mirror_render_snapshot(
         return None
     safe_logs = sanitize_render_logs(logs)
     safe_context = sanitize(context or {})
+    observed = parse_time(observed_at) or utc_now()
+    service_value = redact_text(service_id, 180)
+    owner_value = redact_text(owner_id or "", 180) or None
+    source_revision = redact_text((context or {}).get("source_revision") or "unknown", 180)
     payload = {
         "schema": "voxvector.render_log_snapshot.v1",
         "provider": "render",
-        "service_id": redact_text(service_id, 180),
-        "owner_id": redact_text(owner_id or "", 180) or None,
-        "observed_at": parse_time(observed_at).isoformat() if parse_time(observed_at) else utc_now().isoformat(),
-        "source_revision": redact_text((context or {}).get("source_revision") or "unknown", 180),
+        "service_id": service_value,
+        "owner_id": owner_value,
+        "observed_at": observed.isoformat(),
+        "source_revision": source_revision,
         "correlation": safe_context,
         "log_count": len(safe_logs),
         "logs": safe_logs,
     }
-    serialized = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    identity = {
+        "schema": payload["schema"],
+        "provider": payload["provider"],
+        "service_id": service_value,
+        "owner_id": owner_value,
+        "source_revision": source_revision,
+        "correlation": safe_context,
+        "log_count": len(safe_logs),
+        "logs": safe_logs,
+    }
+    serialized = json.dumps(identity, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     digest = hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:24]
-    observed = parse_time(payload["observed_at"]) or utc_now()
+    log_times = [parsed for parsed in (parse_time(row.get("timestamp")) for row in safe_logs) if parsed is not None]
+    snapshot_date = min(log_times) if log_times else observed
     service_slug = re.sub(r"[^A-Za-z0-9._-]+", "_", str(service_id))[:120] or "render"
-    object_path = f"render-snapshots/{observed.strftime('%Y/%m/%d')}/{service_slug}/{digest}.json"
+    object_path = f"render-snapshots/{snapshot_date.strftime('%Y/%m/%d')}/{service_slug}/{digest}.json"
     return storage.put_json(object_path, payload)
 
 
@@ -259,10 +274,12 @@ def run_debug_record(case: dict[str, Any], run: dict[str, Any]) -> dict[str, Any
                 "pipeline_version": run.get("pipeline_version"),
                 "source_revision": run.get("source_revision") or (run.get("testing") or {}).get("source_revision"),
                 "process_instance_id": run.get("process_instance_id"),
+                "render_instance_id": run.get("render_instance_id"),
                 "current_stage": run.get("current_stage"),
                 "pipeline_build": run.get("pipeline_build"),
                 "provider_timings_ms": run.get("provider_timings_ms"),
                 "stages": run.get("stages") or run.get("stage_states") or [],
+                "upstream_checkpoint": run.get("upstream_checkpoint"),
                 "error": run.get("error"),
                 "run_report": run.get("run_report"),
                 "failure_report": run.get("failure_report"),
@@ -299,12 +316,15 @@ def build_debug_zip(
     generated_at = utc_now()
     case_id = str(case.get("case_id") or "unknown")
     run_id = str(run.get("run_id") or run.get("analysis_id") or "unknown")
+    events_available = bool(correlation_counts.get("events_available", 1))
+    errors_available = bool(correlation_counts.get("errors_available", 1))
+    render_logs_available = bool(correlation_counts.get("render_logs_available", 1))
     missing: list[str] = []
-    if not events:
+    if not events_available:
         missing.append("supabase_voxvector_events")
-    if not errors:
+    if not errors_available:
         missing.append("correlated_error_reports")
-    if not render_logs:
+    if not render_logs_available:
         missing.append("render_provider_logs")
     if not render_status:
         missing.append("render_status")
@@ -329,6 +349,14 @@ def build_debug_zip(
                 "render_logs": "analysis_time_window",
                 "render_mirror_path": render_mirror_path,
             },
+            "availability": {
+                "voxvector_events": events_available,
+                "correlated_error_reports": errors_available,
+                "render_provider_logs": render_logs_available,
+                "render_status": bool(render_status),
+                "runtime_health": bool(runtime_health),
+                "supabase_render_log_mirror": bool(render_mirror_path),
+            },
             "included": {
                 "case_run": True,
                 "voxvector_events": len(events),
@@ -348,7 +376,7 @@ def build_debug_zip(
         "This archive contains sanitized operational evidence for one analysis run.\n"
         "VoxVector application/diagnostic/speech events are read from the durable Supabase-backed observability path.\n"
         "Render provider logs are collected for the analysis time window, remain available in Render, and are mirrored to Supabase when possible.\n"
-        "manifest.json identifies exact versus time-window correlation and lists unavailable evidence.\n\n"
+        "manifest.json distinguishes available-but-empty evidence from unavailable evidence and identifies exact versus time-window correlation.\n\n"
         "The archive intentionally excludes raw audio and transcript text and is an engineering debugging artifact, not scientific-validation evidence.\n"
     ).encode("utf-8")
 

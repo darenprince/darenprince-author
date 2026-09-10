@@ -13,6 +13,9 @@ from typing import Any
 import numpy as np
 
 from .evidence_acquisition import TranscriptResult, TranscriptSegment, TranscriptWord
+from .runtime_context import analysis_run_id as current_analysis_run_id
+from .runtime_context import new_request_id, request_id as current_request_id
+from .runtime_context import set_analysis_run_id, set_trace_id, trace_id as current_trace_id
 from .speech_runtime_logging import speech_log
 
 
@@ -207,6 +210,9 @@ class FasterWhisperProvider:
             "num_workers": self.num_workers,
             "timeout_seconds": self.timeout_seconds,
             "audio_duration_seconds": audio_duration_seconds,
+            "request_id": current_request_id(),
+            "trace_id": current_trace_id(),
+            "analysis_run_id": current_analysis_run_id(),
         }
 
     def _transcribe_isolated(
@@ -323,6 +329,9 @@ class FasterWhisperProvider:
 def _isolated_transcription_worker(config: dict[str, Any], wav_path: str, connection) -> None:
     """Execute faster-whisper in a disposable process so timeout/OOM state is isolated."""
     try:
+        new_request_id(config.get("request_id"))
+        set_trace_id(config.get("trace_id"))
+        set_analysis_run_id(config.get("analysis_run_id"))
         started = time.perf_counter()
         provider = FasterWhisperProvider(
             model_size=str(config["model_size"]),

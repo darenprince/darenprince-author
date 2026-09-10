@@ -26,7 +26,7 @@ class FakeStorage:
         return list(self.rows.get(table, []))
 
 
-def test_render_snapshot_is_sanitized_and_deterministic_for_identical_observation():
+def test_render_snapshot_is_sanitized_and_deterministic_across_observation_times():
     storage = FakeStorage()
     logs = [
         {
@@ -37,16 +37,15 @@ def test_render_snapshot_is_sanitized_and_deterministic_for_identical_observatio
             "raw": {"authorization": "Bearer raw-secret", "safe": "not needed"},
         }
     ]
-    kwargs = {
+    common = {
         "service_id": "srv-test",
         "owner_id": "owner-test",
         "logs": logs,
-        "observed_at": "2026-09-10T07:01:00+00:00",
         "context": {"case_id": "case-1", "run_id": "run-1", "source_revision": "abc123"},
     }
 
-    first = mirror_render_snapshot(storage, **kwargs)
-    second = mirror_render_snapshot(storage, **kwargs)
+    first = mirror_render_snapshot(storage, observed_at="2026-09-10T07:01:00+00:00", **common)
+    second = mirror_render_snapshot(storage, observed_at="2026-09-10T07:05:00+00:00", **common)
 
     assert first == second
     assert len(storage.objects) == 1
@@ -126,6 +125,8 @@ def test_debug_zip_contains_expected_evidence_and_excludes_content_and_secrets()
         "completed_at": "2026-09-10T07:00:20+00:00",
         "pipeline_version": "p1",
         "source_revision": "abc123",
+        "process_instance_id": "process-1",
+        "render_instance_id": "render-1",
         "transcript": {"text": "TOP SECRET TRANSCRIPT"},
         "stages": [{"id": "transcription_generation", "status": "failed", "error": "token=supersecret"}],
         "error": {"type": "RuntimeError", "message": "authorization=Bearer should-not-leak"},
@@ -140,12 +141,19 @@ def test_debug_zip_contains_expected_evidence_and_excludes_content_and_secrets()
         render_status={"service": {"id": "srv-test"}},
         runtime_health={"status": "ok", "service_role_key": "never-export"},
         render_mirror_path="voxvector-logs/render-snapshots/test.json",
-        correlation_counts={"exact": 1, "time_window_speech": 0},
+        correlation_counts={
+            "exact": 1,
+            "time_window_speech": 0,
+            "events_available": 1,
+            "errors_available": 1,
+            "render_logs_available": 1,
+        },
         window_start=start,
         window_end=end,
     )
 
     assert manifest["missing_evidence"] == []
+    assert manifest["availability"]["correlated_error_reports"] is True
     with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
         assert set(archive.namelist()) == {
             "manifest.json",
@@ -158,7 +166,10 @@ def test_debug_zip_contains_expected_evidence_and_excludes_content_and_secrets()
             "README.txt",
         }
         combined = b"\n".join(archive.read(name) for name in archive.namelist()).decode("utf-8")
+        case_run = json.loads(archive.read("case-run.json"))
 
+    assert case_run["run"]["process_instance_id"] == "process-1"
+    assert case_run["run"]["render_instance_id"] == "render-1"
     for secret in (
         "TOP SECRET TRANSCRIPT",
         "supersecret",
@@ -174,9 +185,34 @@ def test_debug_zip_contains_expected_evidence_and_excludes_content_and_secrets()
     assert "[REDACTED]" in combined
 
 
-def test_debug_manifest_reports_missing_sources():
+def test_debug_manifest_distinguishes_available_empty_errors_from_unavailable_sources():
     start = datetime(2026, 9, 10, 7, 0, tzinfo=timezone.utc)
     archive_bytes, manifest = build_debug_zip(
+        case={"case_id": "case-1"},
+        run={"run_id": "run-1", "started_at": start.isoformat(), "completed_at": start.isoformat()},
+        events=[],
+        errors=[],
+        render_logs=[],
+        render_status={"status": "ok"},
+        runtime_health={"status": "ok"},
+        render_mirror_path="voxvector-logs/render-snapshots/empty.json",
+        correlation_counts={
+            "exact": 0,
+            "time_window_speech": 0,
+            "events_available": 1,
+            "errors_available": 1,
+            "render_logs_available": 1,
+        },
+        window_start=start,
+        window_end=start,
+    )
+
+    assert archive_bytes
+    assert manifest["missing_evidence"] == []
+    assert manifest["included"]["errors"] == 0
+    assert manifest["availability"]["correlated_error_reports"] is True
+
+    _, unavailable_manifest = build_debug_zip(
         case={"case_id": "case-1"},
         run={"run_id": "run-1", "started_at": start.isoformat(), "completed_at": start.isoformat()},
         events=[],
@@ -185,13 +221,18 @@ def test_debug_manifest_reports_missing_sources():
         render_status=None,
         runtime_health=None,
         render_mirror_path=None,
-        correlation_counts={"exact": 0, "time_window_speech": 0},
+        correlation_counts={
+            "exact": 0,
+            "time_window_speech": 0,
+            "events_available": 0,
+            "errors_available": 0,
+            "render_logs_available": 0,
+        },
         window_start=start,
         window_end=start,
     )
 
-    assert archive_bytes
-    assert set(manifest["missing_evidence"]) == {
+    assert set(unavailable_manifest["missing_evidence"]) == {
         "supabase_voxvector_events",
         "correlated_error_reports",
         "render_provider_logs",
