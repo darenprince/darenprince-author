@@ -183,7 +183,6 @@ def _normalize_log(record: dict) -> dict:
         "timestamp": timestamp,
         "level": _scalar(record.get("level")),
         "type": _scalar(record.get("type")),
-        "raw": record,
     }
 
 
@@ -372,8 +371,9 @@ async def render_debug_bundle(
             case_id=case_id,
             run_id=run_id,
         )
+        correlation_counts["events_available"] = 1
     except StorageError:
-        events, correlation_counts = [], {"exact": 0, "time_window_speech": 0}
+        events, correlation_counts = [], {"exact": 0, "time_window_speech": 0, "events_available": 0}
     try:
         errors = await asyncio.to_thread(
             correlated_error_rows,
@@ -382,8 +382,10 @@ async def render_debug_bundle(
             end=end,
             request_id=request_id_value,
         )
+        correlation_counts["errors_available"] = 1
     except StorageError:
         errors = []
+        correlation_counts["errors_available"] = 0
 
     render_logs_for_bundle: list[dict] = []
     render_status_for_bundle: dict = {}
@@ -398,6 +400,7 @@ async def render_debug_bundle(
             end=end,
             limit=100,
         )
+        correlation_counts["render_logs_available"] = 1
         mirror = await asyncio.to_thread(
             _mirror_render_window,
             service_id=resolved_service,
@@ -417,6 +420,7 @@ async def render_debug_bundle(
         render_mirror_path = mirror.get("path")
         render_status_for_bundle = await asyncio.to_thread(render_status, resolved_service, 30, user)
     except (HTTPException, StorageError, ValueError):
+        correlation_counts["render_logs_available"] = 0
         render_logs_for_bundle = render_logs_for_bundle or []
         render_status_for_bundle = render_status_for_bundle or {}
 
