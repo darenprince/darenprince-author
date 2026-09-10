@@ -24,6 +24,12 @@ test('successful password login starts a nonblocking canonical API wake before r
   assert.ok(signInSource.indexOf('void wakeApi()') < signInSource.indexOf('setSession(authData.session)'))
 })
 
+test('role redirect is held while explicit login is busy so auth-state callbacks cannot outrun the wake call', () => {
+  const redirectStart = authGateSource.indexOf("if (busy || !redirectByRole || status !== 'ready' || !session || !role) return")
+  assert.notEqual(redirectStart, -1)
+  assert.match(authGateSource, /\[busy, redirectByRole, role, session, status, targetRoute\]/)
+})
+
 test('session restoration and auth-state observation do not themselves create API keep-awake traffic', () => {
   const restoreStart = authGateSource.indexOf('useEffect(() => {')
   const restoreEnd = authGateSource.indexOf('\n\n  const role =', restoreStart)
