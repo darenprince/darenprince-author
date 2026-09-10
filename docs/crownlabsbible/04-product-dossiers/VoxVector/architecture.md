@@ -122,6 +122,14 @@ It exposes:
 - phase completion
 - endpoint and deployment-boundary traceability
 
+### Live engineering status rail
+
+The canonical Developer navigation remains owned by `SiteHeader.jsx`. The single existing `DeveloperEngineeringStatus` instance is rendered immediately after that header in `DeveloperConsole.jsx`, not as a duplicate dashboard or nested header action.
+
+The collapsed engineering rail occupies a real 34px sticky layout row below the 56px navigation so it does not cover Developer Console content. Its independent X hides the rail and removes the row from layout. Expand/collapse controls open the existing status surface across the remaining viewport below the combined 90px boundary, with internal desktop/mobile scrolling.
+
+The expanded surface is a non-modal disclosure region using native controls and `aria-expanded` / `aria-controls`. Toast notifications are positioned at the bottom-right so they do not compete with the live status rail. This architecture preserves the separation between source, QA, deployment/runtime, provider readiness, provider execution, browser verification, and scientific validation.
+
 ## Design Properties
 
 - bounded frame processing

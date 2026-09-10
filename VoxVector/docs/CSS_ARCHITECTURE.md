@@ -61,6 +61,14 @@ Borders remain appropriate when the containing element is actually interactive o
 
 This rule applies across the public application, authentication surfaces, startup/runtime surfaces, Analysis Workspace, and Developer Console. Component-specific owners must enforce it locally rather than adding a global patch selector.
 
+## Developer engineering status rail contract
+
+`DeveloperEngineeringStatus.css` owns the live engineering rail below the canonical Developer navigation. In toolbar mode the collapsed 34px rail is a sticky, normal-flow row immediately below the 56px navigation rather than a fixed overlay. Hiding the rail removes its row from layout so console content closes the gap naturally; do not recreate the former `:has()` header-padding or main-content compensation workaround.
+
+The expanded engineering surface may occupy the remaining viewport below the 90px navigation-plus-rail boundary and must remain internally scrollable on desktop and mobile. Its accessibility contract is a non-modal disclosure region connected to native button controls through `aria-expanded` and `aria-controls`; do not label it `aria-modal` unless a complete modal focus lifecycle is implemented.
+
+Toast placement belongs to the existing toast owner. Developer Console toasts are positioned at the bottom-right so top-of-page notifications do not collide with or obscure the engineering rail. Responsive and reduced-motion behavior remains local to the existing component owners.
+
 ## Archived styles
 
 Historical layers removed from the active cascade are preserved under:
