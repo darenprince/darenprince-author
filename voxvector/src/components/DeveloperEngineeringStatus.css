@@ -54,6 +54,14 @@
 .vv-eng-status--toolbar .vv-eng-status__expanded-title,.vv-eng-status--toolbar .vv-eng-state-grid,.vv-eng-status--toolbar .vv-eng-current,.vv-eng-status--toolbar .vv-eng-grid{max-width:1280px;margin-left:auto;margin-right:auto}
 .vv-app:has(.vv-eng-status--toolbar) main.vv-main section[aria-label="Case workflow"]{top:90px}
 .vv-developer-header{z-index:900!important;overflow:visible!important}.vv-developer-header>div{overflow:visible!important}.vv-dev-profile-menu{z-index:1100!important}
+.vv-eng-status--toolbar.is-service-attention,.vv-eng-status--toolbar.is-service-attention .vv-eng-status__header,.vv-eng-status--toolbar.is-service-attention .vv-eng-status__launcher,.vv-eng-status--toolbar.is-service-attention .vv-eng-status__header-actions{background:linear-gradient(90deg,#52151b 0%,#421116 55%,#321014 100%)}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__header{border-bottom-color:rgba(239,107,115,.48);box-shadow:inset 0 -1px 0 rgba(255,155,163,.08)}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__launcher:hover{background:linear-gradient(90deg,#60191f 0%,#4a1419 55%,#381116 100%)}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__current svg{color:#ff9ca4}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__eyebrow{color:rgba(255,218,221,.58)}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__current strong{color:#fff4f5}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__launcher-meta,.vv-eng-status--toolbar.is-service-attention .vv-eng-status__launcher-icon{color:rgba(255,220,223,.62)}
+.vv-eng-status--toolbar.is-service-attention .vv-eng-status__icon-button{border-color:rgba(255,183,188,.15);background:rgba(42,8,12,.46);color:rgba(255,224,226,.66)}
 @keyframes vvEngDrawerDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
 
 @media(max-width:1000px){.vv-eng-state-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vv-eng-current{grid-template-columns:1fr 1fr}.vv-eng-grid{grid-template-columns:1fr}}
