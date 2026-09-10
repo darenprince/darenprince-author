@@ -1,3 +1,6 @@
+import sys
+from types import SimpleNamespace
+
 import pytest
 
 from voxvector.runtime_memory import (
@@ -37,3 +40,20 @@ def test_memory_admission_rejects_danger_zone(monkeypatch):
 
 def test_heavy_phase_cleanup_is_safe():
     collect_after_heavy_phase()
+
+
+def test_heavy_phase_cleanup_does_not_import_torch_when_absent(monkeypatch):
+    monkeypatch.delitem(sys.modules, "torch", raising=False)
+    collect_after_heavy_phase()
+    assert "torch" not in sys.modules
+
+
+def test_heavy_phase_cleanup_uses_already_loaded_cuda_cache(monkeypatch):
+    calls = []
+    cuda = SimpleNamespace(
+        is_available=lambda: True,
+        empty_cache=lambda: calls.append("empty_cache"),
+    )
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=cuda))
+    collect_after_heavy_phase()
+    assert calls == ["empty_cache"]
