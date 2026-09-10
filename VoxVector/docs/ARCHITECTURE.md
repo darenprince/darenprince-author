@@ -10,7 +10,7 @@ The architecture connects recording intake, speech segmentation, speaker process
 
 Current repository and production evidence must remain separate:
 
-- canonical GitHub `main` observed before this follow-up branch: `a249f3f781a221313549e941b9cdb650b8683a2f`
+- canonical GitHub `main` observed for the latest follow-up rebase: `8bf2e3c0a97025ea7f25f6b10bc4cbad9bfa8b1e`
 - backend source release: `0.2.27`
 - frontend source release: `0.2.37`
 - Render service: `voxvector-api`
