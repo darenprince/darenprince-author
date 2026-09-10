@@ -127,9 +127,12 @@ def test_render_speech_manifest_excludes_optional_local_pyannote_runtime():
     transcription_requirements = (api_dir / "requirements-transcription.txt").read_text(encoding="utf-8")
     local_requirements = (api_dir / "requirements-diarization-local.txt").read_text(encoding="utf-8")
 
-    assert "-r requirements-transcription.txt" in speech_requirements
-    assert "pyannote.audio" not in speech_requirements
-    assert "torch" not in speech_requirements.lower()
+    active_speech_requirements = [
+        line.strip()
+        for line in speech_requirements.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    assert active_speech_requirements == ["-r requirements-transcription.txt"]
     assert "faster-whisper" in transcription_requirements
     assert "pyannote.audio==4.0.7" in local_requirements
 
