@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -49,6 +52,16 @@ def test_faster_whisper_defaults_bound_cpu_and_process_lifetime(monkeypatch):
     assert config["cpu_threads"] == 1
     assert config["num_workers"] == 1
     assert config["audio_duration_seconds"] == 183.3
+
+
+def test_render_profile_does_not_override_constrained_whisper_beam_size():
+    render_yaml = (Path(__file__).resolve().parents[2] / "render.yaml").read_text(encoding="utf-8")
+    match = re.search(
+        r"- key: VOXVECTOR_WHISPER_BEAM_SIZE\s+value: [\"']?(\d+)[\"']?",
+        render_yaml,
+    )
+    assert match is not None
+    assert match.group(1) == "1"
 
 
 def test_faster_whisper_process_isolation_can_be_disabled_explicitly(monkeypatch):
