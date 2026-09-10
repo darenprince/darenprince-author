@@ -1,8 +1,10 @@
 from api.app import (
+    _analysis_failure_detail,
     _checkpoint_acquisition_run,
     _mark_downstream_memory_rejected,
     _merge_transcript_evidence,
     _new_stage_states,
+    _pipeline_progress_summary,
 )
 from voxvector.evidence_acquisition import TranscriptResult, TranscriptSegment, TranscriptWord
 from voxvector.transcript_evidence import build_transcript_evidence
@@ -108,6 +110,13 @@ def test_upstream_acquisition_checkpoint_preserves_same_run_and_provider_artifac
     assert checkpoint["upstream_checkpoint"]["alignment_available"] is True
     assert checkpoint["current_stage"]["status"] == "pending"
     assert checkpoint["render_instance_id"] == "render-instance-1"
+    assert checkpoint["pipeline_build"] == {
+        "total_stages": 21,
+        "completed": 2,
+        "pending": 19,
+        "not_run": 0,
+        "failed": 0,
+    }
 
 
 def test_downstream_memory_rejection_marks_composite_dependency_without_erasing_upstream_stages():
@@ -122,6 +131,7 @@ def test_downstream_memory_rejection_marks_composite_dependency_without_erasing_
         "2026-09-10T12:00:00+00:00",
     )
     by_id = {stage["id"]: stage for stage in stages}
+    summary = _pipeline_progress_summary(stages)
 
     assert message.startswith("RuntimeError: Insufficient memory headroom")
     assert by_id["speech_segmentation"]["status"] == "complete"
@@ -131,3 +141,26 @@ def test_downstream_memory_rejection_marks_composite_dependency_without_erasing_
     assert "upstream speech artifacts were preserved" in by_id["acoustic_feature_extraction"]["outcome"]
     assert by_id["eligibility_reliability"]["status"] == "not_run"
     assert by_id["final_disposition"]["status"] == "not_run"
+    assert summary == {
+        "total_stages": 21,
+        "completed": 3,
+        "pending": 9,
+        "not_run": 8,
+        "failed": 1,
+    }
+
+
+def test_analysis_failure_detail_does_not_expose_exception_message():
+    secret = "sensitive stack/path/token-like detail"
+
+    detail = _analysis_failure_detail(
+        RuntimeError(secret),
+        "request-1",
+        "acoustic_feature_extraction",
+    )
+
+    assert detail["request_id"] == "request-1"
+    assert detail["failed_stage"] == "acoustic_feature_extraction"
+    assert detail["error_type"] == "RuntimeError"
+    assert secret not in str(detail)
+    assert "Use the request ID in diagnostics" in detail["message"]
