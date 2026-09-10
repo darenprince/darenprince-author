@@ -35,6 +35,10 @@ The active role-gating implementation keeps authentication and authorization sep
 
 The public application exposes `/voxvector/login/` as the single account entry. The Pages artifact stages `voxvector/login/index.html` from the same canonical React build so the direct URL resolves without creating a second login implementation. Direct protected-route entry is role checked and does not rely on redirect behavior alone. User-editable profile metadata is not an authorization source.
 
+After a successful explicit email/password login, the canonical authentication gate starts one non-blocking request to the API `/health` endpoint before applying the authenticated session to trusted-role routing. This is a user-driven wake attempt for a Render service that may have wound down. It does not wait for backend readiness, and session restoration, token observation, and sign-out do not generate hidden keep-alive traffic. Developer/admin startup state remains separately derived from real `/health` responses after routing.
+
+Self-profile editing reuses one canonical profile implementation across `admin`, `developer`, and `user` accounts. The existing `public.profiles` record and private `voxvector-avatars` storage bucket remain the sole profile stores. Display name and avatar are editable; email, trusted role, and account ID remain read-only identity fields. The protected user workspace embeds the User Profile editor. The existing Developer Console profile route presents the same implementation as Developer Profile or Admin Profile according to the trusted role. Admin-only User Management remains a separate privileged surface for administering other accounts. Profile writes never grant or change authorization because trusted access continues to come only from server-controlled `app_metadata`.
+
 Privileged account administration is designed as a server-only Supabase Edge Function. The browser invokes the function with the current JWT; the function revalidates a trusted `admin` role before using the Supabase service-role credential to create/invite users, maintain roles/permissions/profile fields, administer passwords/recovery, or delete accounts. The service-role credential is never exposed to the GitHub Pages client. Function source, function deployment, authenticated admin execution, and browser verification remain separate evidence states.
 
 ## Operational truth boundary
@@ -42,6 +46,8 @@ Privileged account administration is designed as a server-only Supabase Edge Fun
 The frontend and backend are independently deployed and therefore carry separate revision truth. The GitHub Pages publication is matched to the frontend build revision injected by GitHub Actions. The Render deployment is matched to the backend revision returned by `/health`. The Developer Console reports the source and observation time for each boundary and marks missing revision identity as unverified or a mismatched revision as stale. It does not infer runtime health from a successful deployment or combine these independent revisions into one synthetic state.
 
 The Supabase account-administration function is a third runtime boundary. A GitHub commit or Pages publication does not establish that the Edge Function is deployed or that an admin operation executed successfully.
+
+A successful login wake request is likewise not equivalent to a completed Render startup. API readiness must still be observed from the backend health response, and authenticated browser behavior must be verified independently from source/build evidence.
 
 ## Audio flow
 
