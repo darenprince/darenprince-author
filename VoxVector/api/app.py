@@ -99,6 +99,7 @@ def _checkpoint_acquisition_run(live_run: dict, acquisition_dict: dict, stage_st
     diarization = acquisition_dict.get("diarization") if isinstance(acquisition_dict, dict) else None
     checkpointed_at = datetime.now(timezone.utc).isoformat()
     live_run["stages"] = stage_states
+    live_run["pipeline_build"] = _pipeline_progress_summary(stage_states)
     live_run["acquisition"] = acquisition_dict
     live_run["transcript"] = transcript
     live_run["speakers"] = diarization.get("speakers", []) if isinstance(diarization, dict) else []
@@ -151,6 +152,16 @@ def _mark_downstream_memory_rejected(stage_states: list[dict], error: Exception,
         )
     return message
 
+
+def _analysis_failure_detail(exc: Exception, rid: str, failed_stage: str | None) -> dict:
+    return {
+        "message": "VoxVector analysis failed. Use the request ID in diagnostics for details.",
+        "request_id": rid,
+        "failed_stage": failed_stage,
+        "error_type": type(exc).__name__,
+    }
+
+
 app = FastAPI(title="VoxVector Analysis API", version=VoxVectorPipeline.software_version)
 app.add_middleware(
     CORSMiddleware,
@@ -195,6 +206,15 @@ PIPELINE_FOUNDATION_STATUS = {
 
 def _new_stage_states() -> list[dict]:
     return [{"number": number, "id": stage_id, "name": name, "status": "pending", "started_at": None, "completed_at": None, "duration_ms": None, "outcome": None, "error": None} for number, stage_id, name in PIPELINE_STAGE_DEFINITIONS]
+
+def _pipeline_progress_summary(stage_states: list[dict]) -> dict:
+    return {
+        "total_stages": len(stage_states),
+        "completed": sum(stage.get("status") in {"complete", "completed", "success", "succeeded"} for stage in stage_states),
+        "pending": sum(stage.get("status") in {"pending", "running", "processing", "in_progress"} for stage in stage_states),
+        "not_run": sum(stage.get("status") == "not_run" for stage in stage_states),
+        "failed": sum(stage.get("status") in {"failed", "error"} for stage in stage_states),
+    }
 
 def _set_stage(stage_states: list[dict], stage_id: str, status: str, *, started_at: str | None = None, completed_at: str | None = None, duration_ms: float | None = None, outcome: str | None = None, error: str | None = None) -> None:
     for stage in stage_states:
@@ -596,6 +616,7 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
             completed_at=datetime.now(timezone.utc).isoformat()
             message=_mark_downstream_memory_rejected(stage_states,exc,completed_at)
             live_run["stages"]=stage_states
+            live_run["pipeline_build"]=_pipeline_progress_summary(stage_states)
             live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"failed","completed_at":completed_at,"outcome":"memory admission rejected before downstream composite analysis started"}
             await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
             await DIAGNOSTICS.emit(
@@ -617,7 +638,7 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
             downstream_started_at=datetime.now(timezone.utc).isoformat()
             _set_stage(stage_states,"eligibility_reliability","running",started_at=downstream_started_at,outcome="downstream observational analysis started after evidence acquisition")
             _set_stage(stage_states,"acoustic_feature_extraction","running",started_at=downstream_started_at,outcome="canonical composite analysis started after evidence acquisition")
-            live_run["stages"]=stage_states; live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"running","timeout_seconds":pipeline_timeout_seconds,"admitted_rss_mb":admitted_rss}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
+            live_run["stages"]=stage_states; live_run["pipeline_build"]=_pipeline_progress_summary(stage_states); live_run["current_stage"]={"id":"acoustic_feature_extraction","name":"Acoustic Feature Extraction","status":"running","timeout_seconds":pipeline_timeout_seconds,"admitted_rss_mb":admitted_rss}; await asyncio.to_thread(CASE_STORE.update_run,str(user["id"]),case_id,live_run)
             await DIAGNOSTICS.emit("case.analysis_stage_started",request_id=rid,case_id=case_id,source_id=source_id,run_id=live_run_id,stage="acoustic_feature_extraction",timeout_seconds=pipeline_timeout_seconds,rss_mb=admitted_rss,admission_limit_mb=memory_admission_limit_mb(),memory_limit_mb=memory_limit_mb())
             pipeline_started=timer()
             try:
@@ -663,4 +684,4 @@ async def analyze_case_source(case_id:str,source_id:str,user:dict=Depends(requir
         except Exception: pass
         failure=safe_error(exc); failed_stage=next((s["id"] for s in stage_states if s["status"] in {"failed","error"}),None)
         await DIAGNOSTICS.emit("request.analysis_error",request_id=rid,case_id=case_id,source_id=source_id,failed_stage=failed_stage,**failure)
-        raise HTTPException(status_code=504 if isinstance(exc,TimeoutError) else 400,detail={"message":str(exc)[:1200],"request_id":rid,"failed_stage":failed_stage,"error":failure,"stages":stage_states}) from exc
+        raise HTTPException(status_code=504 if isinstance(exc,TimeoutError) else 400,detail=_analysis_failure_detail(exc,rid,failed_stage)) from exc
