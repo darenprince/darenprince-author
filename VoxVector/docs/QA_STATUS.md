@@ -1,6 +1,6 @@
 # VoxVector QA Status
 
-**State date:** 2026-09-09
+**State date:** 2026-09-10
 
 This document records repository-level software QA and separately observed deployment/runtime evidence. It is not a scientific validation report.
 
@@ -8,43 +8,52 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 ## Current source and deployment verification state
 
-Canonical `main` at this lifecycle-documentation checkpoint is `010676db66e92d715290ee5fe0d1bc3b52c4b208`, the merge of Developer engineering-rail PR #950. Exact-main VoxVector QA #1950 completed successfully and Deploy GitHub Pages #1707 completed successfully for that revision. Those workflow results establish repository software QA and publication workflow completion for that exact source; they are not authenticated browser verification.
+Canonical `main` is `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, the merge of run-lifecycle recovery PR #946.
 
-Render remains intentionally separate because automatic deployment is disabled. Connected Render inspection on 2026-09-09 shows the single `voxvector-api` service (`srv-da2f88n40ujc73a8m26g`) live on deployment `dep-dagjc3740ujc73ff3ge0`, source `09381797d4486bc049cb99a527c624690274b7c7`. No later backend deployment is inferred from frontend/docs merges.
+Exact-main repository evidence for that revision:
 
-Connected Supabase inspection on 2026-09-09 reports project `VoxVector` (`tawtkawmjqabydnatavx`) as `ACTIVE_HEALTHY`. The current security advisor still reports two known warnings: authenticated execution of the guarded `public.developer_dashboard_summary()` SECURITY DEFINER RPC and disabled leaked-password protection. No Supabase schema, policy, role, or secret was changed by the current lifecycle work.
+- VoxVector QA #1963 / run `34425588762`: **success**. API package installation, the full API test suite, tested source revision recording, frontend dependency installation, frontend contract tests, and the React production build all completed successfully.
+- Deploy GitHub Pages #1708 / run `34425588752`: **success**. The build/staging/upload job and the Pages deployment job both completed successfully.
+- CodeQL push run #71 / `34425587747`: **success**.
 
-## PR #946 run lifecycle recovery checkpoint
+These establish software QA and Pages publication workflow completion for that exact source. They do not establish authenticated browser verification.
 
-Issue #945 / PR #946 extends the existing case/run persistence owner so interrupted analysis runs can be terminalized truthfully and exported without inventing successful work.
+Connected Render inspection on 2026-09-10 shows deployment `dep-dah0g13l550s73d2dbb0` **live** for the same source revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, finished at `2026-09-10T01:36:34.195005Z`. Its trigger is `api`. Render production auto-deploy remains disabled. This proves the current source was deployed to Render, but the API trigger does not verify the protected Developer Console **Deploy Now** / deploy-hook path tracked in #920.
 
-Current source checkpoint `18777886bf28c6cac8fb13fc00d5b5653b15b20b` includes:
+No fresh complete `/health` payload readback is recorded by this synchronization. Runtime self-test details, provider readiness, transcription settings, diarization route-gate state, and other health-contract fields must therefore be read fresh before they are attributed to the `c21b4cf...` runtime.
 
-- stale/interrupted run reconciliation from Case History and individual case reads;
-- configured-deadline protection so a legitimate current-worker run is not failed before its usable deadline;
-- failed active-stage plus explicit `not_run` terminalization for unfinished dependent work;
-- persisted active/final elapsed time and terminal `run_report` / `failure_report` metadata;
-- preservation of historical source revision rather than assigning the revision of a later reader runtime;
-- persistence of legitimate terminal metadata backfill;
-- per-case in-process serialization across history reconciliation, run updates, source mutation and deletion so the current single-process Render runtime cannot persist a stale history snapshot over a newer same-process run update;
-- a focused concurrency regression proving a concurrent history reconciliation cannot erase a newer completed run artifact;
-- preserved pyannoteAI-primary / explicit local-fallback provenance; and
-- Copy/Download run-report controls in the existing Analysis Workspace.
+Connected Supabase inspection in this synchronization reports **zero deployed Edge Functions** for project `VoxVector` (`tawtkawmjqabydnatavx`). The merged `voxvector-user-admin` function source therefore must not be described as deployed or successfully executed in production. Earlier connected evidence reported the project itself `ACTIVE_HEALTHY`; this synchronization did not replace that project-health observation with a new one.
 
-Exact-head software evidence for `18777886bf28c6cac8fb13fc00d5b5653b15b20b`:
+## Run lifecycle recovery — issue #945 / PR #946
 
-- VoxVector QA #1954: `success`;
-- VoxVector PR Preview Build #815: `success`.
+Issue #945 is complete and closed. PR #946 merged as current `main` `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`.
 
-The per-case lock is an in-process serialization guarantee for the current single-process/single-instance CaseStore architecture. It is not represented as cross-process compare-and-swap protection for a future horizontally scaled object-store writer model.
+Final PR head `de343d593f320eea3ef23fd970bae614fcc240b1` passed:
 
-This documentation synchronization advances the PR head beyond `18777886...`, so fresh exact-head QA and PR Preview are required before merge. Merge, Render deployment of the lifecycle change, production report readback, controlled provider execution, and authenticated browser verification remain separate and unperformed at this checkpoint.
+- VoxVector QA #1962 / run `34425431175`: success;
+- PR Preview Build #818 / run `34425431147`: success;
+- changed-code CodeQL: success, no new alerts;
+- all six existing inline review threads: resolved.
 
-## PR #950 Developer engineering rail merged checkpoint
+Merged behavior includes eligible stale/interrupted run reconciliation from Case History and individual case reads, configured-deadline protection, truthful failed/not-run terminalization, persisted elapsed time, terminal `run_report` / `failure_report` metadata, historical source-revision preservation, legitimate terminal metadata backfill, same-process per-case serialization across reconciliation and mutation, and Copy/Download run-report controls in the existing Analysis Workspace.
 
-Issue #947 / PR #950 repaired the existing Developer Console engineering-status shell without creating a second status implementation. The final PR head `c5aa7f7a6277caf3055afb5dbc565b8438e18b84` passed VoxVector QA #1949 and PR Preview Build #813, then merged to `main` as `010676db66e92d715290ee5fe0d1bc3b52c4b208`. Exact-main VoxVector QA #1950 and Deploy GitHub Pages #1707 subsequently succeeded.
+The per-case lock is an in-process serialization guarantee for the current single-process/single-instance CaseStore architecture. It is not cross-process compare-and-swap protection for a future horizontally scaled writer model.
 
-The source renders the existing `DeveloperEngineeringStatus` immediately after the canonical Developer navigation, uses a real 34px sticky flow row beneath the 56px nav, preserves independent hide/expand/collapse controls, uses non-modal disclosure semantics, and positions Developer Console toasts at the bottom-right. Authenticated desktop/mobile browser interaction remains a separate verification gate.
+The current Render deployment contains this merged lifecycle source. Production Case History reconciliation and terminal report readback have not yet been verified in this synchronization.
+
+## Developer engineering rail — issue #947 / PR #950
+
+Issue #947 is closed. PR #950 remains merged in the ancestry of current `main`. Its single `DeveloperEngineeringStatus` owner is rendered directly after `SiteHeader` as a real sticky flow row with independent hide/expand/collapse controls, non-modal disclosure semantics, and bottom-right Developer Console toasts.
+
+Source and workflow evidence exist. Authenticated desktop/mobile interaction remains a separate browser-verification gate.
+
+## Access control and login — issue #931
+
+The shared role-aware authentication implementation and the canonical login route are merged. PR #940 created the physical GitHub Pages entry for `/voxvector/login/` while continuing to use the same React `AuthGate.jsx`; PR #943 hardened login visibility so the entrance animation cannot leave the form opacity-zero if motion progress stalls.
+
+Trusted authorization reads Supabase `app_metadata`; user-editable metadata is not accepted for role authority. Current source routes trusted `admin` / `developer` sessions to the Developer Console, trusted `user` sessions to the protected user workspace, and unknown/missing roles to denial.
+
+The current Render source also contains the backend operator-role implementation. However, production account administration is **not** complete: the connected Supabase project currently lists no deployed Edge Functions, so `voxvector-user-admin` is source-only at this checkpoint. An explicitly trusted admin assignment, authenticated administrator execution, and desktop/mobile role-routing verification remain required before #931 can close.
 
 ## Current implementation coverage
 
@@ -53,78 +62,81 @@ The source renders the existing `DeveloperEngineeringStatus` immediately after t
 | 21-stage pipeline contract | represented | canonical pipeline tests/contracts | none |
 | Implemented / built runtime foundations | 16 | repository coverage and runtime evidence | none |
 | Conditional / not invoked | 4 | explicit state contracts | none |
-| Queued deeper integration | diarization controlled execution; transcription/alignment built paths pending controlled verification | canonical maturity record | none |
-| Intake/upload | implemented foundation; intermittent production 400 remains open in #930 | API/client tests plus production diagnostic evidence | none |
-| Authentication/session lifecycle | merged shared role-aware implementation | Supabase client contracts, React build and exact-source QA | none |
-| Developer/admin authorization | merged source implementation; runtime deployment evidence remains separate | backend auth tests plus exact-source QA | none |
-| Approved-user workspace | minimum protected React destination implemented | frontend role contracts and React build | none |
-| Admin user management | source implementation exists; live Edge Function/admin execution evidence remains separate | frontend/server source plus QA build | none |
-| Acoustic / temporal / voice quality | implemented foundations | deterministic/unit/pipeline tests | observational only |
-| Reliability / eligibility | implemented | pipeline tests and runtime execution | eligibility control |
-| Evidence acquisition | implemented foundation | acquisition tests/contracts | none |
-| faster-whisper | configured / execution-ready at last health checkpoint; controlled repaired-case execution still required | adapter and provider tests plus dated runtime health evidence | none until provider run + task evaluation |
-| pyannoteAI cloud (`pyannote_api`) | configured / primary execution-ready at last health checkpoint; controlled case execution still required | adapter/provider selection tests plus dated runtime health evidence | none until provider run + task evaluation |
-| local pyannote Community-1 (`pyannote_local`) | optional fallback; disabled / not execution-ready at latest health checkpoint | local adapter and fallback contract tests | none until explicitly enabled and exercised |
-| Transcript/speaker alignment | foundation implemented | alignment regression tests | none until provider-backed execution |
+| Intake/upload | implemented diagnostics live; intermittent production 400 still under #930 | API/client tests + deployed diagnostic source | none |
+| Authentication/session lifecycle | merged shared role-aware implementation | auth/frontend tests + builds | none |
+| Developer/admin backend authorization | merged and present in current Render source | backend auth tests + exact-source QA | none |
+| Approved-user workspace | minimum protected React destination implemented | frontend role contracts + build | none |
+| Admin user management | source implemented; Edge Function not deployed | source + QA build | none |
+| Case persistence/history | lifecycle recovery merged and deployed source; production readback pending | case-store/lifecycle/concurrency tests | none |
+| faster-whisper | repaired integration source live; controlled execution still required | adapter/process tests + deployment evidence | none until provider execution/task evaluation |
+| pyannoteAI cloud (`pyannote_api`) | configured architecture; controlled execution still required | adapter/provider contracts | none until provider execution/task evaluation |
+| local pyannote Community-1 | optional fallback; production enablement/memory safety unverified | fallback contract tests | none |
+| Transcript/speaker alignment | foundation implemented | alignment tests | none until provider-backed execution |
 | Results envelope | implemented | API/case result tests | none |
 | Stage/execution telemetry | implemented foundation | lifecycle tests | none |
-| Case persistence/history | implemented foundation; #946 lifecycle hardening in review | case-store, lifecycle and concurrency tests | none |
-| Render API bridge | implemented, environment-gated | bridge code and route tests | none |
-| Developer Console | active implementation | component build/QA | none |
-| Classification/disposition | guarded boundary | tests and explicit gate | no validated inference |
+| Developer Console | active implementation | component/build/QA evidence | none |
+| Classification/disposition | guarded boundary | tests + explicit gate | no validated inference |
 
-## Access-control source evidence
+## Active P0 reliability and runtime gates
 
-The merged access-control implementation consolidates browser authentication into one `AuthGate.jsx`, reads role authority from trusted Supabase `app_metadata`, and routes `admin` / `developer` to `/voxvector/developer`, `user` to `/voxvector/app`, and unknown/missing roles to a denied login state. Direct protected-route entry applies the same role checks; redirects are not treated as access control.
+### #930 — intermittent case-source upload 400
 
-Backend operator authorization retains the existing `require_developer` dependency name for route stability while accepting trusted `developer` and `admin` roles. Automated coverage verifies that a trusted `user` role is denied and user-editable metadata cannot spoof operator access.
+The merged pre-handler diagnostic hardening is now present in the current live Render source. #930 is therefore no longer blocked merely on backend deployment. It is ready for authenticated production reproduction/verification.
 
-The administrator UI appears only for a trusted `admin` session. Its privileged operations are delegated to the `voxvector-user-admin` Supabase Edge Function source. The function revalidates the JWT and trusted admin role before using the server-only Supabase service-role credential. Source operations cover user listing, account creation/invitation, trusted role/permission updates, profile/account edits, password administration/recovery, deletion and sanitized audit recording. Self-deletion and removal of the caller's own admin role are blocked.
+The exact cause remains unproven. Required evidence is fresh request-correlated upload behavior on the current runtime, including whether `case.source_upload_prehandler_rejected` is emitted for a reproduced 400, or a successful bounded upload/playback verification if the failure does not reproduce. A fresh `/health` readback should be captured before attributing detailed runtime settings to the current deployment.
 
-Current evidence does **not** establish authenticated live administrator execution from the browser. Granular `voxvector_permissions` are trusted metadata for the administration model; broad backend permission-by-permission enforcement is not claimed where routes currently enforce role only.
+### #941 — transcription OOM/dependency-order runtime verification
 
-## Latest observed `/health` evidence — prior runtime checkpoint
+The source repair merged through PR #942 and is included in current `main` and the current live Render deployment. The repaired implementation uses dependency-ordered evidence acquisition and a disposable bounded faster-whisper child process.
 
-The latest separately recorded detailed `/health` payload checkpoint remains the 2026-09-07 observation for deployed source `73ac03ded08c161e092ee2a4ecbbed7d036771c8`:
+Still required before #941 closes: controlled real-audio transcription, bounded completion/failure without API OOM restart, Render memory/instance correlation, persisted transcript/run artifact readback, supported incident-media cleanup, and authenticated browser stage verification.
 
-- pipeline `0.2.26`;
-- runtime self-test `passed`;
-- diagnostic/media storage `configured_media_ready`;
-- media storage `true`;
-- transcription provider `faster_whisper`; adapter installed; execution-ready;
-- diarization primary provider `pyannote_api`; API key detected; primary execution-ready;
-- local fallback `pyannote_local`; disabled and not execution-ready;
-- runtime-reported current commit QA `external_workflow_required`; external GitHub QA must be matched by revision.
+### #920 — protected Developer Console deploy path
 
-A later Render deployment record proves `09381797d4486bc049cb99a527c624690274b7c7` reached `live` and returned health-check HTTP 200 responses, but no newer complete `/health` payload readback is projected here. Do not project older detailed provider fields onto newer source without a fresh runtime readback.
+Current `main` is live on Render, but deployment `dep-dah0g13l550s73d2dbb0` reports trigger `api`. That does not satisfy #920, whose acceptance criterion is the authenticated Developer Console `Deploy Now` path and its server-side deploy hook. #920 remains blocked on that specific authenticated action and subsequent deploy/source/runtime verification.
 
-`/health` readiness and route invocation are separate checks. The authenticated case-analysis path invokes diarization only when `VOXVECTOR_ENABLE_DIARIZATION_RUNS` is enabled and the runtime reports diarization execution readiness. A ready cloud provider is therefore not proof that a particular case run invoked diarization.
+### #948 / PR #951 — auditable secure deletion
+
+Draft PR #951 is open on current `main`. It is not merge-ready. Review findings remain around deletion/mutation concurrency, durable terminal receipt recovery, and explicit receipt opt-in at the authenticated DELETE route. Application-level storage deletion must not be represented as cryptographic provider-level physical sanitization.
+
+### #949 / PR #952 — server-aware Stop Analysis
+
+Draft PR #952 is open on current `main`. Its current checkpoint only adds the canonical frontend `stopAnalysisRun(...)` API action. Server cancellation lifecycle, persistence, safe-boundary orchestration, existing Analysis Workspace states, tests, and documentation remain to be implemented. Browser transport abort is not server cancellation.
+
+## P1/P2 queue state
+
+- #932 is now **Ready** for landing CTA/anchor/menu/mobile-drawer work because the canonical `/voxvector/login/` destination exists. #931's remaining admin/runtime verification does not require recreating a login path.
+- #928 remains dependent on #930 being sufficiently resolved/bounded before upload cancellation/progress/waveform UX work is finalized.
+- #927 remains an authenticated desktop/mobile browser-verification task for already-merged startup/version/icon presentation.
+- #935 remains a documentation-maintenance item until the required post-merge audit record for PR #936 is present in `voxvector/audits/AUDIT_REPORT.md` and merged.
+
+## Latest detailed health evidence boundary
+
+The latest separately recorded detailed `/health` payload predates current `main`. Do not project its provider/readiness fields onto `c21b4cf...` merely because Render shows the new deployment `live`.
+
+The current evidence chain is intentionally separated:
+
+`source c21b4cf... → exact-main QA success → Pages publication success → Render deploy dep-dah0... live on c21b4cf...`
+
+Still separate:
+
+`fresh /health payload → authenticated case execution → persisted provider artifacts → authenticated browser verification → two-run engineering-MVP proof → scientific validation`
 
 ## Current engineering gates
 
-The authoritative release checklist is `MVP_RELEASE_GATE.md`. The immediate QA/execution sequence is:
+The authoritative release checklist is `MVP_RELEASE_GATE.md`. Current execution order is:
 
-1. Complete PR #946 lifecycle documentation synchronization, fresh exact-head QA/preview, review-thread closure and merge if clean.
-2. Deliberately deploy the merged #946 backend revision to Render because automatic deployment is disabled; verify intended source revision, `live` state and `/health` before runtime claims.
-3. Reproduce or sufficiently capture #930 on the deployed diagnostic revision, then verify authenticated upload, private persistence, provenance and playback for the golden fixture.
-4. Verify the current administrator path only with an explicitly trusted admin account and live authenticated execution; keep browser verification distinct from source presence.
-5. Execute a controlled golden WAV with faster-whisper and verify timestamped transcript segments/words are persisted and read back (`#915 → VV-TRANSCRIBE`).
-6. Execute the same fixture through the configured pyannoteAI cloud primary with `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`; verify speaker turns, provider provenance and persisted diarization artifacts (`#915 → VV-DIARIZE`).
-7. Persist and read back transcript, diarization and alignment artifacts under the same case/run identity (`#915 → VV-ALIGN`).
-8. Verify Analysis Results / Review Evidence / assessment / report / history/reopen in the deployed application.
-9. Complete authenticated desktop/mobile, keyboard, reduced-motion, failure-path and revision-identity browser verification.
-10. Repeat the complete golden-case path a second time on the same exact deployed revision. Any source change resets that two-run release proof.
-11. Keep software QA, provider execution, engineering-MVP sign-off and scientific validation as separate states.
-
-## Active reliability evidence
-
-[#930](https://github.com/darenprince/darenprince-author/issues/930) remains an engineering-MVP blocker. Connected Render evidence reconfirmed two intermittent POST `/v1/cases/{case_id}/sources` HTTP 400 responses that reached `request.completed` without the normal `case.source_upload_started` route event: request `891cbceb-cee0-4753-90fe-4874fd411ea5` on source `c2a7c3b1322899559ec27744984641b6e115271a` after about 17.6 seconds, and request `21f2bc40-39d8-40a8-8fdf-2b17055272c8` on source `5041e6a32771258918ced153d18725367e1b6a7a` after about 4.59 seconds. The same service also has many successful persisted uploads, including 17,596,936-byte / 183.3-second recordings, so current evidence supports an intermittent pre-handler boundary rather than a deterministic file-size/storage failure.
-
-Merged source correlates `case.source_upload_started` with `request.completed` by request ID. A case-source POST returning HTTP 400/413/415/422 without a matching route-start event emits the sanitized error event `case.source_upload_prehandler_rejected`, which is projected into the existing error-report path. This hardening does not identify multipart parsing, client truncation, proxy handling, or another exact cause by itself.
-
-## Render incident evidence
-
-Historical Render OOM and lifecycle evidence remains preserved in prior incident records and workflow artifacts. Provider readiness must not be interpreted as proof that provider execution fits the observed Render resource envelope. Controlled provider execution/profile evidence is required.
+1. capture a fresh `/health` payload for the current Render source and preserve exact source/runtime settings;
+2. reproduce or sufficiently bound #930 with authenticated upload/private persistence/provenance/playback;
+3. execute controlled faster-whisper under #941 and persist/read back timestamped transcript artifacts with Render memory/instance evidence;
+4. execute controlled pyannoteAI cloud-primary diarization with the explicit invocation gate enabled and persist/read back speaker provenance;
+5. verify transcript/speaker/alignment artifacts under the same case/run identity;
+6. finish #948 and #949 as separate source subsystems with exact-head QA before merge;
+7. deploy and verify the #931 Supabase administrator function only after its trusted admin boundary is intentionally established;
+8. complete #932 and, after intake reliability, #928;
+9. complete authenticated desktop/mobile, keyboard, reduced-motion, failure/cancellation, report/history/reopen, and revision-identity browser verification;
+10. repeat the complete golden-case path a second time on the same exact deployed revision;
+11. keep engineering-MVP sign-off and scientific validation separate.
 
 ## Scientific boundary
 

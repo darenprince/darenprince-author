@@ -2,24 +2,48 @@
 
 ## Current task status
 
-Prompt: **VV-RUN-LIFECYCLE-RECOVERY-REPORT**. Source base for the current merge cycle: `010676db66e92d715290ee5fe0d1bc3b52c4b208`. Tracking issue: [#945](https://github.com/darenprince/darenprince-author/issues/945). PR: [#946](https://github.com/darenprince/darenprince-author/pull/946). Branch: `fix/voxvector-run-lifecycle-recovery-report`.
+Prompt: **VV-TRACKER-POST-LIFECYCLE-SYNC**. Source base: `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). PR: [#955](https://github.com/darenprince/darenprince-author/pull/955). Branch: `docs/voxvector-tracker-runtime-sync`.
 
-This task hardens the existing case/run lifecycle so interrupted analysis runs can be reconciled, terminalized and exported without fabricating successful work or allowing Case History reconciliation to regress a newer same-process run update. It remains separate from secure-deletion issue #948 / PR #951 and Stop Analysis issue #949 / PR #952.
+This task synchronizes the live issue queue and active engineering/status documentation to current GitHub, Render and Supabase evidence without changing application code, provider configuration, schema, deployment policy, credentials or scientific methodology.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Read canonical charter/workflow/guardrails and actual current source | Complete | Current merge-cycle base is `010676db66e92d715290ee5fe0d1bc3b52c4b208` |
-| Resolve lifecycle review findings | Complete in source | Deadline handling, historical revision preservation, durable terminal metadata backfill, same-process Case History/write serialization, QA chronology and active docs were corrected; all six existing inline review threads are resolved |
-| Preserve cloud-primary/fallback failure provenance | Complete in source | Primary failure is retained when configured fallback succeeds; both provider failures are surfaced when fallback also fails; no real provider execution is claimed by source tests |
-| Expose elapsed/final timing and run/failure report controls | Complete in source | Existing Analysis Workspace exposes running/final duration plus Copy/Download run report controls |
-| Synchronize affected canonical docs and Crown Labs Bible mirrors | Complete in branch | QA, endpoint, pipeline and current-engineering owners plus applicable mirrors are synchronized |
-| Preserve historical audit evidence | Complete in this correction | Task 20 and every earlier canonical audit entry from base `010676db...` are preserved verbatim below this new Task 21 entry |
-| Pre-audit exact-head QA / Preview / CodeQL | Complete | `ebe9f48352d4ac3e02ce4a32a3e07eb0e35d5c4a` passed VoxVector QA #1958 / run `34424533024`, PR Preview #816 / run `34424533023`, and CodeQL reported no new alerts in changed code |
-| Final exact-head QA / PR Preview after audit-preservation commit | Pending | This audit-preservation commit advances the branch head; fresh exact-head evidence is required before merge recommendation |
-| Merge / Render deployment / runtime verification | Not performed at this checkpoint | Render auto-deploy remains disabled; merge and production runtime verification are separate gates |
-| Browser/provider/scientific verification | Not performed | These remain separate evidence gates and are not inferred from source or CI |
+| Read canonical charter/workflow/guardrails and current repository state | Complete | Task started from exact `main` `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` |
+| Refresh GitHub source/QA/publication evidence | Complete | exact-main QA #1963 / `34425588762`, Pages #1708 / `34425588752`, CodeQL #71 / `34425587747` succeeded |
+| Refresh Render deployment evidence | Complete | `dep-dah0g13l550s73d2dbb0` observed `live` on `c21b4cf...`, trigger `api`; this is not #920 deploy-hook verification |
+| Refresh Supabase administrator-function evidence | Complete | project `tawtkawmjqabydnatavx` currently lists zero deployed Edge Functions |
+| Synchronize tracker and affected issue bodies | Complete | #915, #920, #930, #931, #941, #948, #949, #932, #928 and #927 updated to current evidence/dependencies |
+| Synchronize active canonical docs and Crown Labs mirrors | Complete in branch | build plan, QA, endpoint, pipeline and current-engineering owners plus two applicable mirrors updated |
+| Add missing PR #936 post-merge audit record | Complete in branch | Node-24-backed action-wrapper maintenance evidence preserved below as Task 23; #935 remains open until this record is merged |
+| Exact-head QA / PR Preview | Pending | this audit commit advances PR #955 head and requires fresh exact-head checks before merge recommendation |
+| Merge / Pages publication | Pending | PR #955 is documentation-only and has not yet been merged at this checkpoint |
+| Runtime/provider/browser/scientific verification | No new execution | no fresh complete `/health`, provider run, authenticated browser verification, engineering-MVP proof or scientific validation is inferred |
 
 ## Task log
+
+### Task 23: record post-merge GitHub Actions Node 24 wrapper maintenance, 2026-09-10
+
+Issue #935 tracks the bounded workflow-maintenance change previously merged through PR #936. The implementation changed exactly `.github/workflows/voxvector-qa.yml`: `actions/checkout@v4` moved to `actions/checkout@v5`, `actions/setup-python@v5` to `actions/setup-python@v6`, and `actions/setup-node@v4` to `actions/setup-node@v5`. Python 3.11, Node 22, cache paths, triggers, API test commands, tested-source recording, frontend dependency installation and the React production build semantics were preserved.
+
+PR #936 merged as `c06914300cbfa1dbd4594e89b08dd0b0cee9e7e1`; implementation head was `1af06769da52b6a042393967ec34f4c6e3cf865d`. Exact-head VoxVector QA #1810 / run `34316464136` succeeded, including the updated action wrappers, 170 backend tests and the React production build. PR Preview Build #760 / run `34316464156` also succeeded. The reported GitHub Actions Node.js 20 wrapper annotation was absent at that checkpoint. Separate upstream/runtime deprecation messages for Node `punycode` and `url.parse()` were outside this bounded change.
+
+This maintenance record does not claim application-runtime behavior, Render deployment, provider execution, browser verification or scientific validation. Issue #935 may close only after this audit record is merged into canonical `main`.
+
+### Task 22: synchronize live tracker, issues and current engineering evidence, 2026-09-10
+
+Canonical `main` was re-read at `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, the merge of run-lifecycle recovery PR #946. Exact-main VoxVector QA #1963 / run `34425588762`, Deploy GitHub Pages #1708 / run `34425588752`, and CodeQL push run #71 / `34425587747` all completed successfully.
+
+Connected Render inspection found deployment `dep-dah0g13l550s73d2dbb0` `live` on the same `c21b4cf...` revision with trigger `api`; production auto-deploy remains disabled. This corrects the previous tracker state that described current source as undeployed. The evidence is deliberately bounded: an API-triggered deployment does not verify #920's protected Developer Console `Deploy Now` / server deploy-hook path, and a Render deployment record is not a fresh `/health` payload or browser verification.
+
+The current deployment includes the merged upload pre-handler diagnostics, transcription containment/dependency-order repair, role-aware backend authorization and run-lifecycle recovery/report work. Accordingly, #930 moved from deployment-blocked to ready for production reproduction/authenticated upload verification, and #941 moved to ready for controlled real-audio faster-whisper verification. Neither root cause nor provider execution is inferred from deployment.
+
+Connected Supabase inspection for project `VoxVector` (`tawtkawmjqabydnatavx`) returned an empty Edge Function inventory. Issue #931 therefore remains open: login/role source and backend administrator authorization are merged, but `voxvector-user-admin` is not deployed, no trusted-admin production assignment is established here, and authenticated administrator/user/developer browser verification remains open.
+
+Issue #948 / draft PR #951 and issue #949 / draft PR #952 are now represented as separate active P0 source tasks. #951 remains not merge-ready with open deletion concurrency/receipt-recovery/route-contract work. #952 currently establishes only the frontend cancellation API action and remains incomplete until server lifecycle, persistence, workspace state, tests and documentation are implemented. #932 is now ready because the canonical `/voxvector/login/` destination exists; #928 remains blocked by #930 and is kept separate from #949's server-aware Stop Analysis lifecycle. #927 remains open only for authenticated desktop/mobile startup/icon verification.
+
+Affected canonical status owners were synchronized directly instead of creating replacement roadmaps: `MVP_BUILD_PLAN.md`, `QA_STATUS.md`, `CURRENT_ENGINEERING_STATE_2026-09-04.md`, `ENDPOINT_REGISTRY.md`, and `PIPELINE_BUILD_STATUS.md`, with the applicable Crown Labs current-engineering and pipeline mirrors. Tracker #915 and the affected issue bodies were updated to the same evidence/dependency model. No application code, workflow YAML, schema, service configuration, provider setting, credential, raw media, transcript, model artifact or classification methodology changed in this synchronization.
+
+PR #955 is the review vehicle for the documentation files. Because this audit update advances the branch head, exact-head VoxVector QA and PR Preview evidence must be observed after this commit before any merge recommendation. No Render deployment is required for the documentation-only PR; a later GitHub Pages workflow may establish publication of the merged documentation, but that still would not be browser verification.
 
 ### Task 21: harden run lifecycle reconciliation and preserve audit history, 2026-09-09
 
