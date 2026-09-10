@@ -4,23 +4,29 @@
 
 VoxVector is being engineered as a complete vocal intelligence and deception analysis system.
 
-The architecture connects recording intake, speaker processing, transcription, synchronized audio analysis, evidence synthesis, classification, reporting, and audit into one case-centered workflow.
+The architecture connects recording intake, speech segmentation, speaker processing, transcription, synchronized audio analysis, evidence synthesis, classification, reporting, and audit into one case-centered workflow.
 
-## Latest observed implementation checkpoint — 2026-09-07
+## Latest observed implementation checkpoint — 2026-09-10
 
-The live Render runtime now provides a configured speech-processing boundary in addition to the established acoustic/temporal analysis foundation:
+Current repository and production evidence must remain separate:
 
-- backend pipeline `0.2.26`
-- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- runtime self-test `passed`
-- diagnostic/media storage `configured_media_ready`
-- media storage `true`
-- faster-whisper transcription provider configured and execution-ready
-- pyannoteAI cloud primary diarization provider configured and execution-ready; local fallback disabled
-- pyannote API-key presence detected by runtime health
-- 21-stage maturity is 16 implemented or built foundations, 4 conditional/not-invoked, 1 queued
+- canonical GitHub `main`: `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
+- backend source release: `0.2.27`
+- frontend source release: `0.2.37`
+- Render service: `voxvector-api`
+- current Render deployment: `dep-dah7usjl550s73e00350`, `live`
+- deployed source: exact `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`
+- Render production auto-deploy: disabled
+- live Render build command: `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
+- canonical root `render.yaml` build command: `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
 
-The configured speech providers are an enabling runtime state. Controlled provider execution and artifact persistence remain the next dependency before stages 05, 07, and 08 are promoted.
+The Render-vs-Git dependency drift is tracked separately in issue #964 and is not resolved by the active runtime-memory repair.
+
+Controlled production execution on `f0dda136...` established that faster-whisper can complete the constrained `base` / CPU / int8 / beam 1 / one-thread / one-worker / isolated-process path on the 183.3-second reference WAV. The run produced 58 transcript segments and 246 timestamped words in about 113 seconds. The API process later restarted during the post-provider/downstream transition after parent RSS rose into the constrained service danger zone. The owner confirmed the incident was a memory problem.
+
+The active #941 / PR #962 repair therefore owns the post-transcription reliability boundary: cleanup must not import PyTorch solely for cleanup, completed provider artifacts must be durably checkpointed before downstream work, Stage 10 must pass memory admission before it is represented as running, and Python process identity must remain distinct from Render infrastructure instance identity.
+
+Provider configuration, provider execution, artifact persistence, resource stability, software QA, deployment state, browser verification, engineering-MVP completion, and scientific validation remain separate evidence classes.
 
 ## Application boundary
 
@@ -47,8 +53,8 @@ VoxVector/src/voxvector/
         +--> decode / normalization
         +--> provenance / integrity
         +--> recording / channel assessment
-        +--> speaker identification / diarization
         +--> speech segmentation
+        +--> speaker identification / diarization
         +--> transcription generation
         +--> transcript alignment
         +--> eligibility / reliability
@@ -102,8 +108,8 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 
 ### Understand
 
-5. Speaker Identification / Diarization
-6. Speech Segmentation
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 7. Transcription Generation
 8. Transcript Alignment
 9. Eligibility and Reliability
@@ -126,15 +132,13 @@ The complete product pipeline is defined in `docs/ANALYSIS_PIPELINE.md`.
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
+The stage numbering above matches the canonical backend `PIPELINE_STAGE_DEFINITIONS`. Historical documents that predate the dependency-order repair may retain the former 05/06 order as dated evidence and must not be rewritten merely to look current.
+
 ## Current stage maturity
 
-The live health contract currently reports:
+The current source contract continues to represent 21 stages with 16 implemented or built analytical/runtime foundations, four conditional or intentionally not-invoked stages, and the cloud-primary speaker path still requiring controlled execution evidence.
 
-- 16 implemented or built foundations
-- 4 conditional/not-invoked stages
-- 1 queued stage
-
-Provider configuration and execution readiness do not change the maturity count. Real provider execution, persisted artifacts, integration tests, and runtime verification are required for stage promotion.
+Stage 07 has now completed real faster-whisper execution in one controlled production run. That is provider-execution evidence, not proof of durable transcript checkpointing, full analysis reliability, transcript correctness, or scientific validation. Stage 08 alignment state was reached in the same run, but the completed acquisition artifact was not durably attached before the later process restart. PR #962 repairs that persistence boundary before downstream work.
 
 ## Evidence acquisition runtime
 
@@ -148,15 +152,45 @@ VOXVECTOR_WHISPER_MODEL=base
 VOXVECTOR_WHISPER_DEVICE=cpu
 VOXVECTOR_WHISPER_COMPUTE_TYPE=int8
 VOXVECTOR_WHISPER_BEAM_SIZE=1
+VOXVECTOR_WHISPER_CPU_THREADS=1
+VOXVECTOR_WHISPER_NUM_WORKERS=1
+VOXVECTOR_WHISPER_ISOLATED_PROCESS=true
+VOXVECTOR_WHISPER_TIMEOUT_SECONDS=165
 
 VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api
 PYANNOTE_KEY=<protected deployment secret>
 VOXVECTOR_ENABLE_DIARIZATION_RUNS=true
 ```
 
-The source profile is not a deployment claim. Controlled production evidence on 2026-09-10 showed deployed revision `c21b4cf07f6475eddb15c99e67f1ff70d6a50167` still executing faster-whisper with `beam_size=3` before transcript-stage runtime restarts. Issue #941 owns the correction and requires deliberate deployment plus runtime readback before the deployed profile is represented as beam 1.
+The source profile is not a deployment claim. Current Render production evidence on `f0dda136...` shows the intended beam-1 transcription profile actually executed and completed. The unresolved production defect is now the post-provider/downstream memory boundary rather than beam-size configuration.
 
-The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. The route execution gate and provider/fallback readiness are separate states. The runtime health contract reports configuration/readiness without exposing credentials.
+The runtime also accepts `PYANNOTE_API_KEY` as the cloud-key alias. The local Community-1 adapter is not the primary configuration; it may be selected only as an explicit fallback with `VOXVECTOR_DIARIZATION_FALLBACK=pyannote_local`, `VOXVECTOR_DIARIZATION_FALLBACK_ENABLED=true`, and a protected `HF_TOKEN` or `HUGGINGFACE_TOKEN`. The route execution gate and provider/fallback readiness are separate states. Runtime health reports configuration/readiness without exposing credentials.
+
+## Memory-safe phase boundary
+
+Heavyweight provider execution and downstream analysis are separate resource phases.
+
+The intended constrained sequence is:
+
+```text
+source decode / integrity
+        ↓
+speech segmentation
+        ↓
+provider-backed acquisition
+        ↓
+provider cleanup
+        ↓
+durable upstream checkpoint
+        ↓
+Stage 10 memory admission
+        ↓
+downstream composite analysis
+```
+
+A successful transcription must be persisted before downstream analysis is trusted to finish. If the API cannot safely admit Stage 10 under the configured memory reserve, the run must preserve completed upstream provider evidence and persist an explicit bounded downstream failure rather than knowingly entering the danger zone.
+
+`process_instance_id` identifies the current Python API process and must change on process restart. `render_instance_id` identifies Render infrastructure and is preserved separately because Render may restart the Python process while retaining the same infrastructure instance label.
 
 ## Case-centered data architecture
 
@@ -164,11 +198,15 @@ One analysis case is the root object for the complete user workflow.
 
 The case model connects case ID, analysis ID, analysis run ID, source asset, source metadata, provenance, recording metadata, speaker records, speaker segments, speech segments, transcript records, transcript segments, transcript words, alignment records, analytical track records, feature observations, evidence records, evidence relationships, pipeline stage states, lifecycle events, findings, assessment, reports, and final disposition.
 
+The same persisted case run is also the durability owner for upstream acquisition checkpoints, provider timing/state, process identity, Render-instance provenance, terminal run/failure reports, and downstream failure state. A pipeline-internal run identifier must not replace the stable case run identity.
+
 ## Analysis Workspace
 
 The persistent workspace combines source metadata, audio playback, waveform, speaker regions, transcript, synchronized analytical tracks, evidence markers, pipeline state, evidence timeline, Review Evidence, assessment state, report controls, and case history.
 
 A shared time axis remains the synchronization contract across audio, speaker, transcript, analytical observations, and evidence.
+
+Reopened-case media/transcript rehydration is tracked in #963. That frontend task consumes the canonical persisted source and upstream transcript checkpoint; it does not create another persistence model.
 
 ## Synchronized analytical viewer
 
@@ -189,34 +227,50 @@ Every track is driven by canonical analysis data and never synthetic telemetry.
 
 Reliability is an eligibility control, not a deception probability.
 
+Runtime memory admission is an operational safety gate, not the analytical Eligibility and Reliability stage. A memory-admission refusal must not be represented as a scientific eligibility result.
+
 Candidate classification remains distinct from evidence collection, and final disposition remains distinct from candidate classification. Validation and calibration remain a separate gate.
 
 ## Operational observability
 
 The API includes request correlation and sanitized lifecycle/stage diagnostics with durable storage support. The Developer Console consumes operational evidence rather than inventing telemetry.
 
+Issue #959 / PR #961 separately owns dual Render + Supabase log durability, provider-worker correlation, mirrored Render evidence, and the one-click server-generated Debug Bundle. Those observability changes are intentionally not mixed into PR #962.
+
+## Render Blueprint boundary
+
+Git already contains the sole canonical VoxVector Blueprint at repository root `render.yaml`. The live Render service currently differs from that file in at least the speech dependency build command. Issue #964 owns reconciliation of the Render-generated export and live service into the existing root Blueprint. Do not upload or commit a second Blueprint for `voxvector-api`.
+
 ## Current engineering sequence
 
 ```text
-controlled provider execution
+complete #941 source repair
         ↓
-persist transcript + speaker artifacts
+exact-head QA and audit
         ↓
-timestamp normalization
+deliberate Render deployment
         ↓
-transcript / speaker / audio alignment
+fresh /health process + memory readback
         ↓
-multimodal evidence timeline
+same-WAV controlled rerun
         ↓
-linguistic + interaction + baseline consumers
+verify transcript checkpoint + Stage 10 bounded behavior
         ↓
-Review Evidence
+#959 durable debugging evidence / bundle
         ↓
-assessment + reporting + history
+cloud-primary diarization execution
+        ↓
+persist transcript + speaker alignment
+        ↓
+#963 historical-case rehydration
+        ↓
+Review Evidence / assessment / reporting
         ↓
 browser/mobile verification
         ↓
-scientific validation
+engineering-MVP repeatability proof
+        ↓
+scientific validation program
 ```
 
 ## Engineering principles
@@ -229,11 +283,13 @@ scientific validation
 - every visualization has a data contract
 - every evidence record has provenance
 - every analytical stage has defined inputs and outputs
+- completed upstream artifacts are persisted before dependent heavyweight work
+- runtime resource gates are separate from analytical eligibility gates
+- Python process identity is separate from hosting-provider instance identity
 - implementation maturity remains an internal engineering property
-- provider readiness, execution, software QA, and scientific validation remain separate states
+- provider readiness, execution, software QA, deployment, browser verification, and scientific validation remain separate states
 - planned capabilities remain preserved in canonical documentation
 - accessibility and responsive behavior remain part of completion
-
 
 ## Diarization provider boundary — 2026-09-04
 
@@ -247,4 +303,4 @@ canonical diarization contract
         +-- explicit fallback: local Community-1 (HF_TOKEN)
 ```
 
-The primary provider and fallback are selected by deployment configuration. A primary failure may use the fallback only when explicitly enabled. Provider identity, fallback state, and failure class are preserved in the resulting provenance. This prevents silent provider substitution and keeps case analysis reproducible.
+The primary provider and fallback are selected by deployment configuration. A primary failure may use the fallback only when explicitly enabled. Provider identity, fallback state, and failure class are preserved in resulting provenance. This prevents silent provider substitution and keeps case analysis reproducible.
