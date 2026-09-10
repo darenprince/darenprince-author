@@ -6,6 +6,7 @@ import sys
 import threading
 import time
 from contextlib import contextmanager
+from functools import wraps
 
 _LOCK = threading.Lock()
 
@@ -106,3 +107,16 @@ def measured_phase(name: str):
                 f"limit_mb={memory_limit_mb():.0f}",
                 flush=True,
             )
+
+
+def serialized_heavy_phase(name: str):
+    """Run a complete heavyweight call under the shared admission lock."""
+    def decorate(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            with measured_phase(name):
+                return func(*args, **kwargs)
+
+        return wrapped
+
+    return decorate

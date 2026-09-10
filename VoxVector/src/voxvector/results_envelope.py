@@ -64,7 +64,8 @@ def compose_result_envelope(
     return {
         "case_id": case.get("case_id"),
         "analysis_id": run.get("analysis_id") or run.get("run_id"),
-        "run_id": result.get("run_id") or run.get("run_id"),
+        "run_id": run.get("run_id") or result.get("run_id"),
+        "pipeline_run_id": run.get("pipeline_run_id") or result.get("run_id"),
         "schema_version": result.get("schema_version"),
         "source": dict(source),
         "source_provenance": source_provenance,
