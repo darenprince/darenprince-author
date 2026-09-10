@@ -26,7 +26,15 @@ class FallbackDiarizationProvider:
         try:
             return self.primary.diarize(signal, sample_rate)
         except Exception as primary_error:
-            result = self.fallback.diarize(signal, sample_rate)
+            try:
+                result = self.fallback.diarize(signal, sample_rate)
+            except Exception as fallback_error:
+                raise RuntimeError(
+                    f"Primary diarization provider {self.primary.provider_id} failed "
+                    f"({type(primary_error).__name__}: {str(primary_error)[:500]}); "
+                    f"fallback {self.fallback.provider_id} also failed "
+                    f"({type(fallback_error).__name__}: {str(fallback_error)[:500]})"
+                ) from fallback_error
             return DiarizationResult(
                 provider_id=result.provider_id,
                 speakers=result.speakers,
@@ -40,6 +48,8 @@ class FallbackDiarizationProvider:
                     "fallback_provider": self.fallback.provider_id,
                     "fallback_used": True,
                     "fallback_reason": type(primary_error).__name__,
+                    "primary_error_type": type(primary_error).__name__,
+                    "primary_error_message": str(primary_error)[:500],
                 },
             )
 

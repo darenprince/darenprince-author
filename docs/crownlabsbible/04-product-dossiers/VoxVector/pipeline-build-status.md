@@ -1,6 +1,6 @@
 # VoxVector Pipeline Build Status
 
-**Status date:** 2026-09-08
+**Status date:** 2026-09-09
 
 This is the Crown Labs executive/product mirror of the canonical engineering status maintained in `VoxVector/docs/PIPELINE_BUILD_STATUS.md`.
 
@@ -15,31 +15,15 @@ Current runtime maturity remains:
 - 1 queued for deeper runtime integration.
 - all 21 represented in the canonical backend stage contract.
 
-The latest observed Render runtime reports faster-whisper plus the pyannoteAI cloud primary as configured/execution-ready. The local Community-1 fallback was disabled/not ready. Provider readiness does not promote queued stages without real provider-backed execution and artifact persistence.
+The September 9 transcription containment/dependency-order repair is deployed on the original Render backend at revision `09381797d4486bc049cb99a527c624690274b7c7`. Connected Render inspection still reports that revision as the latest live backend because automatic deployment is disabled. Provider readiness and deployment health do not establish controlled provider execution or promote queued stages.
 
-## Live API checkpoint
-
-Observed Render `/health` state recorded by the canonical engineering documentation:
-
-- pipeline `0.2.26`
-- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- runtime self-test `passed`
-- diagnostic/media storage `configured_media_ready`
-- media storage `true`
-- maximum sample rate `48,000 Hz`
-- maximum media size `250 MiB`
-- faster-whisper configured and execution-ready
-- pyannoteAI cloud primary configured and execution-ready
-- local pyannote Community-1 fallback disabled and not execution-ready
-- current commit QA field `external_workflow_required`
-
-The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true` before it invokes the configured diarization provider. This gate is separate from `/health` readiness.
+Canonical GitHub `main` has advanced to `010676db66e92d715290ee5fe0d1bc3b52c4b208` after the Developer engineering-status rail repair. Exact-main VoxVector QA #1950 and Deploy GitHub Pages #1707 succeeded. This frontend/publication progression does not silently redeploy the Render backend.
 
 ## Current engineering stage
 
-**Controlled speech-provider execution and evidence artifact integration.**
+**Finish, merge and deliberately deploy the reviewed run-lifecycle recovery, then execute controlled provider verification.**
 
-The next dependency is a controlled real WAV execution of transcription and the configured cloud-primary diarization path, followed by persistence and synchronized alignment.
+The next dependency is safe run recovery/report persistence followed by controlled real WAV execution of transcription and the configured cloud-primary diarization path, persistence, synchronized alignment, and explicit recovery behavior under failure/timeout conditions.
 
 ## Provider path
 
@@ -48,12 +32,13 @@ The next dependency is a controlled real WAV execution of transcription and the 
 3. Run the pyannoteAI cloud primary and verify speaker turns plus provider provenance.
 4. Persist transcript and speaker artifacts by case/run.
 5. Normalize timing and produce the multimodal alignment artifact.
-6. Test local Community-1 only as a separate explicit fallback exercise when fallback configuration is enabled.
-7. Connect downstream linguistic, interaction, baseline, and evidence consumers.
+6. Retain local Community-1 as the explicit fallback path; before enabling it on the constrained Render runtime, establish and verify bounded memory/runtime behavior.
+7. When a deliberate primary failure or timeout test is performed, verify fallback invocation and provenance without representing configuration as execution.
+8. Connect downstream linguistic, interaction, baseline, and evidence consumers only when their required inputs exist.
 
 ## Analysis Workspace direction
 
-The post-analysis workspace is being expanded toward:
+The post-analysis workspace includes or is being expanded toward:
 
 - synchronized audio and waveform
 - speaker regions
@@ -61,36 +46,65 @@ The post-analysis workspace is being expanded toward:
 - analytical tracks
 - evidence markers
 - 21-stage lifecycle state
+- running and final elapsed time
 - Review Evidence
 - assessment
 - reporting
 - saved case history and reopen
+- copy/download of structured run and failure reports
+
+## Run lifecycle recovery checkpoint — issue #945 / PR #946
+
+The active recovery branch extends the existing case-run lifecycle rather than creating a duplicate pipeline. Current source checkpoint before the final documentation synchronization is `18777886bf28c6cac8fb13fc00d5b5653b15b20b`.
+
+Source behavior on the branch:
+
+- Case History listing reconciles eligible stale/deadline-expired `running` runs so old records do not remain indefinitely in progress merely because the individual case was never reopened.
+- A legitimate current-worker run with a usable configured deadline is not stale-failed before that deadline.
+- Recovery marks the interrupted active stage failed and terminalizes remaining unfinished dependent stages as `not_run` with an explicit reason.
+- Independent work remains eligible to continue under the existing continue-after-failure orchestration policy; dependent stages are not falsely promoted when required inputs failed.
+- Active runs expose real running time and terminal runs persist elapsed time.
+- Terminal runs persist a structured `run_report`; failed and `completed_with_failures` runs additionally persist a `failure_report` containing identifiers, source revision when available, timing, provider state, stage states, errors, completed work, failed work, not-run work, and unresolved work.
+- Historical run provenance is preserved rather than assigning the source revision of a later reader runtime, and legitimate terminal metadata backfill is persisted.
+- Per-case in-process serialization now protects the Case History reconcile/read/write path from overwriting a newer same-process run update and also serializes source mutation and deletion with the canonical CaseStore owner. This matches the current single-process/single-instance Render architecture; it is not a cross-process CAS guarantee for future horizontal scaling.
+- The existing Case Analysis Workspace exposes Copy run report and Download run report controls for the JSON report.
+- The pyannoteAI → Community-1 fallback wrapper preserves the primary failure in provenance when fallback succeeds and reports both provider failures if fallback also fails.
+
+Evidence chronology:
+
+- `c332f58e88c73c89c036b127e5bbe57389d6ed05` passed exact-head VoxVector QA #1917 and PR Preview Build #797 after the initial review corrections.
+- `18777886bf28c6cac8fb13fc00d5b5653b15b20b` passed exact-head VoxVector QA #1954 and PR Preview Build #815 after the concurrency repair and focused regression test.
+- This documentation synchronization advances the branch and therefore requires one more exact-head QA/Preview cycle before merge.
+
+This is source/QA evidence only. It is not a production deployment of PR #946, provider execution, browser verification, or scientific validation. The Community-1 fallback is not represented as enabled in production by this checkpoint.
 
 ## QA boundary
 
-The exact source revision is surfaced by the runtime independently from GitHub QA. Runtime `current_commit_qa` values and GitHub Actions evidence must be matched by revision before source QA is called current.
+The exact source revision is surfaced by the runtime independently from GitHub QA. Runtime source revision values and GitHub Actions evidence must be matched by revision before source QA is called current.
 
-Software QA, provider execution, infrastructure health, and scientific validation remain separate evidence classes.
+Software QA, provider execution, infrastructure health, browser verification, and scientific validation remain separate evidence classes.
 
 ## Developer Console
 
-The dashboard projects real runtime and engineering evidence through the 21-stage build control, runtime health, diagnostics, Render infrastructure, AWS environment status, structured audits, and report/audit/log export controls.
+The dashboard projects real runtime and engineering evidence through the 21-stage build control, runtime health, diagnostics, Render infrastructure, structured audits, and report/audit/log export controls. The Developer engineering status rail merged through PR #950 and is published by the successful GitHub Pages #1707 workflow; authenticated browser behavior remains a separate verification gate.
 
 The Console must never simulate provider execution or stage progress.
 
 ## Current engineering sequence
 
-1. Exact-commit QA.
-2. Controlled faster-whisper execution.
-3. Controlled pyannoteAI cloud-primary execution with the route gate enabled.
-4. Persist transcript, speaker, and alignment artifacts.
-5. Optional local Community-1 fallback exercise only when fallback behavior itself is being tested.
-6. Expose synchronized speaker/transcript/evidence views.
-7. Feed transcript into linguistic/disfluency analysis.
-8. Add question/response context, speaker-aware acoustic aggregation, and baseline inputs.
-9. Complete Review Evidence, assessment, reporting, and history/reopen.
-10. Complete authenticated desktop/mobile verification.
-11. Advance scientific validation only after engineering evidence is stable.
+1. Complete final documentation sync and exact-head QA/Preview for PR #946.
+2. Merge only after the remaining documentation review threads are resolved against the actual source.
+3. Deliberately deploy the approved backend revision through the protected manual Render path because auto-deploy is disabled.
+4. Verify runtime `/health` revision and intended runtime settings.
+5. Refresh Case History and verify old eligible in-progress runs are terminalized with useful downloadable reports.
+6. Execute controlled faster-whisper.
+7. Execute controlled pyannoteAI cloud-primary diarization with the route gate enabled.
+8. Persist transcript, speaker, and alignment artifacts.
+9. Establish a bounded memory/runtime plan before enabling local Community-1 fallback on constrained Render; then deliberately verify fallback behavior.
+10. Feed transcript into linguistic/disfluency analysis and continue only dependency-valid downstream work.
+11. Complete Review Evidence, assessment, reporting, and history/reopen.
+12. Complete authenticated desktop/mobile verification.
+13. Advance scientific validation only after engineering evidence is stable.
 
 ## Scientific boundary
 

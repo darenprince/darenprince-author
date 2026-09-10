@@ -2,23 +2,56 @@
 
 ## Current task status
 
-Prompt: **VV-DEVCONSOLE-ENGINEERING-RAIL-RESTORE**. Source base: `a656c3545daef4bc5c6a941066d9a1f92f70aa61`. Tracking issue: [#947](https://github.com/darenprince/darenprince-author/issues/947). PR: [#950](https://github.com/darenprince/darenprince-author/pull/950). Branch: `fix/voxvector-engineering-status-rail`.
+Prompt: **VV-RUN-LIFECYCLE-RECOVERY-REPORT**. Source base for the current merge cycle: `010676db66e92d715290ee5fe0d1bc3b52c4b208`. Tracking issue: [#945](https://github.com/darenprince/darenprince-author/issues/945). PR: [#946](https://github.com/darenprince/darenprince-author/pull/946). Branch: `fix/voxvector-run-lifecycle-recovery-report`.
 
-This task repairs the existing Developer Console live engineering status rail without creating a second console, status component, header, route, or telemetry source. It keeps source, QA, deployment/runtime, provider readiness, provider execution, browser verification, and scientific validation separate.
+This task hardens the existing case/run lifecycle so interrupted analysis runs can be reconciled, terminalized and exported without fabricating successful work or allowing Case History reconciliation to regress a newer same-process run update. It remains separate from secure-deletion issue #948 / PR #951 and Stop Analysis issue #949 / PR #952.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Inspect canonical main, charter/workflow/guardrails, shell owners and review threads | Complete | Task started from `a656c3545daef4bc5c6a941066d9a1f92f70aa61` |
-| Restore rail controls and disclosure semantics | Complete in source | Existing `DeveloperEngineeringStatus` has expand/collapse, independent hide X, non-modal disclosure region and linked `aria-controls` |
-| Restore real layout ownership | Complete in source | Rail moved out of header actions into the Developer Console shell and uses a real 34px sticky flow row under the 56px navigation |
-| Prevent top notification collision | Complete in source | Existing Toast owner uses bottom-right placement |
-| Resolve prior accessibility review finding | Complete | False `aria-modal` semantics removed; prior review thread resolved |
-| Synchronize affected canonical documentation | Complete in branch | UI architecture, CSS architecture, console sync rules, QA status and current engineering state updated |
-| Synchronize Crown Labs Bible mirrors | Complete in branch | Crown architecture and current engineering state mirror updated |
-| Exact-head QA / PR Preview after final source + docs + audit head | Pending | Earlier implementation/documentation heads passed, but final audit commit advances the head again |
-| Authenticated desktop/mobile browser verification | Not performed | Required before production UI behavior is called browser verified |
+| Read canonical charter/workflow/guardrails and actual current source | Complete | Current merge-cycle base is `010676db66e92d715290ee5fe0d1bc3b52c4b208` |
+| Resolve lifecycle review findings | Complete in source | Deadline handling, historical revision preservation, durable terminal metadata backfill, same-process Case History/write serialization, QA chronology and active docs were corrected; all six existing inline review threads are resolved |
+| Preserve cloud-primary/fallback failure provenance | Complete in source | Primary failure is retained when configured fallback succeeds; both provider failures are surfaced when fallback also fails; no real provider execution is claimed by source tests |
+| Expose elapsed/final timing and run/failure report controls | Complete in source | Existing Analysis Workspace exposes running/final duration plus Copy/Download run report controls |
+| Synchronize affected canonical docs and Crown Labs Bible mirrors | Complete in branch | QA, endpoint, pipeline and current-engineering owners plus applicable mirrors are synchronized |
+| Preserve historical audit evidence | Complete in this correction | Task 20 and every earlier canonical audit entry from base `010676db...` are preserved verbatim below this new Task 21 entry |
+| Pre-audit exact-head QA / Preview / CodeQL | Complete | `ebe9f48352d4ac3e02ce4a32a3e07eb0e35d5c4a` passed VoxVector QA #1958 / run `34424533024`, PR Preview #816 / run `34424533023`, and CodeQL reported no new alerts in changed code |
+| Final exact-head QA / PR Preview after audit-preservation commit | Pending | This audit-preservation commit advances the branch head; fresh exact-head evidence is required before merge recommendation |
+| Merge / Render deployment / runtime verification | Not performed at this checkpoint | Render auto-deploy remains disabled; merge and production runtime verification are separate gates |
+| Browser/provider/scientific verification | Not performed | These remain separate evidence gates and are not inferred from source or CI |
 
 ## Task log
+
+### Task 21: harden run lifecycle reconciliation and preserve audit history, 2026-09-09
+
+Issue #945 / PR #946 was implemented in the existing VoxVector case/run lifecycle rather than through a competing runtime or report surface. `CaseStore` now reconciles eligible stale/interrupted `running` cases from Case History, respects usable configured stage deadlines, terminalizes the interrupted active stage and unfinished dependent work with explicit terminal states, persists elapsed time plus terminal `run_report` / `failure_report` metadata, and preserves historical source revision truth instead of assigning the revision of a later runtime merely reading an old run.
+
+Review exposed a stale-snapshot race in which Case History could read and later persist an older whole-case snapshot after a newer run update. The repair stays inside the canonical CaseStore: per-case in-process serialization now covers history read/reconcile/write, explicit reconciliation, run updates, source mutation and deletion. `VoxVector/tests/test_case_store_concurrency.py` deliberately blocks a history read, starts a newer completed run write, verifies that writer waits for the case lock, releases history, then confirms the final completed run and artifact remain persisted. This is an in-process guarantee for the current single-process/single-instance architecture and is not represented as cross-process compare-and-swap protection for a future horizontally scaled writer model.
+
+The existing speech-provider fallback preserves pyannoteAI cloud-primary semantics while adding bounded failure provenance: when the primary fails and the configured fallback succeeds, the fallback result records the primary error type/message; when both fail, the raised error preserves both failures. Automated tests exercise these code paths without representing configuration or mocks as real provider execution.
+
+The existing `CaseAnalysisWorkspace.jsx` now exposes active elapsed time, terminal total duration, source revision, and Copy/Download controls for the persisted engineering run/failure report without creating another report page. The affected QA, endpoint, pipeline and current-engineering documents and applicable Crown Labs Bible mirrors are synchronized to the implemented lifecycle contract and its evidence boundaries.
+
+The first Codex review cycle identified current-worker deadline handling, historical source-revision fabrication and terminal metadata-persistence defects; those were corrected and covered by focused regressions. A later review identified the Case History/write race plus documentation synchronization gaps; those were also corrected. All six existing inline review threads are resolved. A fresh exact-head Codex review was requested later but the configured Codex code-review usage limit was reached, so no clean fresh Codex review is claimed.
+
+Pre-audit exact head `ebe9f48352d4ac3e02ce4a32a3e07eb0e35d5c4a` passed VoxVector QA #1958 / run `34424533024`, PR Preview Build #816 / run `34424533023`, and CodeQL reported no new alerts in code changed by the PR. This audit-preservation correction advances the branch head again; those successful runs remain evidence for `ebe9f483...` only and fresh exact-head QA / Preview are required before merge recommendation.
+
+**Changed files in PR #946 at this checkpoint:**
+
+- `VoxVector/api/case_store.py`
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
+- `VoxVector/docs/ENDPOINT_REGISTRY.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/src/voxvector/speech_providers.py`
+- `VoxVector/tests/test_case_store.py`
+- `VoxVector/tests/test_case_store_concurrency.py`
+- `VoxVector/tests/test_speech_providers.py`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/pipeline-build-status.md`
+- `voxvector/audits/AUDIT_REPORT.md`
+- `voxvector/src/components/CaseAnalysisWorkspace.jsx`
+
+No merge, Render deployment of #946, production case recovery/readback, controlled provider execution, authenticated browser verification, engineering-MVP proof, or scientific validation is claimed at this checkpoint.
 
 ### Task 20: restore Developer engineering status rail and synchronize current documentation, 2026-09-09
 

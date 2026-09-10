@@ -1,6 +1,6 @@
 # VoxVector Endpoint Registry
 
-**Effective:** 2026-09-08  
+**Effective:** 2026-09-09  
 **Status:** Canonical active endpoint map
 
 This document is the authoritative endpoint map for the current VoxVector deployment architecture.
@@ -45,6 +45,23 @@ The AWS ACM certificate for `awsapi.crownlabs.tech` is issued and DNS validated.
 
 Supabase is the configured authentication, persistence, diagnostics, and private-media boundary for the connected architecture. AWS is a separately addressed API environment. Provider secrets must be managed by the target deployment environment and must never be placed in repository source or client bundles.
 
+### Authenticated case lifecycle endpoints
+
+The canonical case API remains owner scoped through the existing backend authorization boundary:
+
+- `POST /v1/cases` — create a case record;
+- `GET /v1/cases` — list the authenticated owner's cases;
+- `GET /v1/cases/{case_id}` — read one owner-scoped case;
+- `POST /v1/cases/{case_id}/sources` — persist a source recording and provenance;
+- `POST /v1/cases/{case_id}/sources/{source_id}/analyze` — execute the canonical case-analysis path for that source;
+- `DELETE /v1/cases/{case_id}` — delete the owner-scoped case and its recorded persisted media through the supported storage API.
+
+Issue #945 / PR #946 hardens the read/list lifecycle rather than adding a second endpoint family. Eligible interrupted or deadline-expired `running` runs can be reconciled to explicit terminal state when `GET /v1/cases` or the individual case path causes canonical case reconciliation. Legitimate current-worker runs with a usable future stage deadline are preserved. Reconciliation persists real elapsed/report metadata, marks the interrupted active stage failed, and records unfinished dependent work as `not_run` instead of leaving it indefinitely pending.
+
+The current #946 implementation serializes per-case read/reconcile/write operations with run updates, source mutation and deletion inside the existing single-process CaseStore. This prevents a Case History poll from persisting a stale case snapshot after a newer same-process run update. It is not a claim of cross-process compare-and-swap semantics for future horizontally scaled object-store writers.
+
+Terminal run records may include `run_report`; failed or `completed_with_failures` runs may include `failure_report`. These fields are persisted case/run artifacts and are exposed through the existing case payload. They are execution/audit records, not scientific-validation reports.
+
 ### Supabase account-administration function
 
 `voxvector-user-admin` is the canonical server-side Supabase Edge Function source for administrator account management. It is not a browser-side `auth.admin` client.
@@ -55,25 +72,13 @@ The function contract is:
 
 Supported source actions are `list`, `create`, `update`, `recovery`, and `delete`. The source can create or invite accounts, update trusted VoxVector role/permission metadata, maintain profile fields, administer passwords/recovery, and delete accounts. It blocks self-deletion and removal of the caller's own admin role. Administrative mutations write sanitized entries to `audit_events` without passwords, bearer tokens, or service-role credentials.
 
-The function source existing in GitHub is not proof that the Edge Function has been deployed or successfully executed. Supabase deployment, actual admin-role assignment, authenticated invocation, and browser verification remain separate evidence gates.
+Source presence is not proof of successful authenticated live administration. Edge Function deployment state, actual admin-role assignment, authenticated invocation, and browser verification remain separate evidence gates.
 
 ## Latest observed Render runtime configuration
 
-The latest separately observed Render `/health` evidence, recorded on 2026-09-07 and carried into the September 8 documentation alignment, reports:
+Connected Render inspection on 2026-09-09 confirms the single `voxvector-api` service (`srv-da2f88n40ujc73a8m26g`) still follows `main`, has automatic deployment disabled, and has one active service instance configured. The latest observed live deployment is `dep-dagjc3740ujc73ff3ge0`, source revision `09381797d4486bc049cb99a527c624690274b7c7`, which contains the merged September 9 transcription memory/dependency-order repair.
 
-- source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- pipeline `0.2.26`
-- runtime self-test `passed`
-- diagnostic/media storage `configured_media_ready`
-- media storage `true`
-- transcription provider `faster_whisper`
-- transcription adapter installed and execution-ready
-- diarization primary provider `pyannote_api`
-- pyannoteAI API-key presence `true`
-- primary diarization execution readiness `true`
-- local fallback provider `pyannote_local`
-- local fallback disabled and not execution-ready
-- current commit QA `external_workflow_required`
+The latest separately recorded detailed `/health` payload remains an older checkpoint. Its provider-readiness fields must not be projected onto a newer source revision without a fresh health payload readback. The later `09381797...` deployment was observed building, starting Uvicorn, returning health-check HTTP 200 responses and reaching Render `live`; that does not establish controlled provider execution.
 
 Provider readiness is not proof that a case route invoked the provider. Case-analysis diarization additionally requires the explicit route gate `VOXVECTOR_ENABLE_DIARIZATION_RUNS=true`.
 
@@ -100,18 +105,16 @@ The AWS endpoint is a separate deployment environment. Do not silently replace `
 
 At the current documentation checkpoint:
 
-- AWS ALB: active at the last connected infrastructure audit
-- AWS target health: healthy at the last connected infrastructure audit
-- AWS HTTPS listener: configured
-- AWS HTTP listener: redirects to HTTPS
-- ACM certificate: issued and DNS validated
-- AWS custom-domain browser reachability: requires current external verification
-- Render original API domain: preserved
-- Public React application: GitHub Pages at `/voxvector/`
-- latest connected Render deployment observation: `dep-dafg5nv40ujc73b5l400`, `live`, source revision `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- Render provider readiness and execution state: read from current runtime evidence, not inferred from deployment status
+- canonical GitHub `main`: `010676db66e92d715290ee5fe0d1bc3b52c4b208`;
+- exact-main VoxVector QA #1950: success;
+- exact-main Deploy GitHub Pages #1707: success;
+- Render service: `voxvector-api`, auto-deploy disabled;
+- latest observed Render deployment: `dep-dagjc3740ujc73ff3ge0`, `live`, source `09381797d4486bc049cb99a527c624690274b7c7`;
+- current #946 lifecycle source checkpoint before this documentation commit: `18777886bf28c6cac8fb13fc00d5b5653b15b20b`, VoxVector QA #1954 success, PR Preview Build #815 success;
+- Supabase project `VoxVector`: `ACTIVE_HEALTHY` at the 2026-09-09 connected inspection;
+- AWS custom-domain/runtime evidence remains separately maintained and is not refreshed by this task.
 
-Infrastructure and provider readiness do not constitute scientific validation of VoxVector's analytical or deception-classification capability.
+Infrastructure state, case-run lifecycle reliability, provider readiness, provider execution, browser verification and scientific validation remain separate evidence classes.
 
 ## Protected Developer Console deployment trigger
 
@@ -119,15 +122,11 @@ Infrastructure and provider readiness do not constitute scientific validation of
 
 This authenticated developer route triggers the configured Render Deploy Hook from the server-side API runtime. The hook URL is stored only as `RENDER_DEPLOY_HOOK_URL` in protected runtime configuration and is never returned to the browser.
 
-Render production auto-deploy is intentionally disabled. Connected inspection on 2026-09-08 confirmed one workspace (`My Workspace`, `tea-da2errdg1s2s73cl4eeg`) and one Render service (`voxvector-api`, `srv-da2f88n40ujc73a8m26g`) with `autoDeploy=no` and the automatic deploy trigger off.
+Render production auto-deploy is intentionally disabled. Connected inspection on 2026-09-09 reconfirmed one workspace (`My Workspace`, `tea-da2errdg1s2s73cl4eeg`) and one Render service (`voxvector-api`, `srv-da2f88n40ujc73a8m26g`) with `autoDeploy=no` and the automatic deploy trigger off.
 
 The endpoint reports **hook-request acceptance only**. Its successful response does not mean a Render deployment exists, finished, went live, matches the intended Git commit, passed `/health`, or was browser verified. The required evidence chain is:
 
 `POST /v1/developer/render/deploy accepted → new Render deploy observed → intended commit matched → deploy status live → backend source_revision checked → /health verified → browser/runtime verification when required`
-
-A historical production diagnostic on 2026-09-05 showed this route returning HTTP 500 with `JSONDecodeError` after attempting to parse a non-JSON hook response. Issue #920 repairs the route so successful empty, JSON, or text hook response bodies do not by themselves cause the API bridge to fail. The hook body is not trusted as deployment-completion evidence.
-
-At the September 8 inspection checkpoint, the latest Render deployment was `dep-dafg5nv40ujc73b5l400`, live on commit `73ac03ded08c161e092ee2a4ecbbed7d036771c8`. GitHub `main` at the start of that investigation was `66a1616d49e228c6ec57d3cfc4855898675fae2c`; the intervening commits contained documentation/audit/workflow changes rather than new runtime implementation. Future parity must be re-established from fresh evidence.
 
 ## Render Developer Console observability routes
 
