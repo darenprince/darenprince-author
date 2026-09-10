@@ -1,4 +1,9 @@
-from api.app import _merge_transcript_evidence
+from api.app import (
+    _checkpoint_acquisition_run,
+    _mark_downstream_memory_rejected,
+    _merge_transcript_evidence,
+    _new_stage_states,
+)
 from voxvector.evidence_acquisition import TranscriptResult, TranscriptSegment, TranscriptWord
 from voxvector.transcript_evidence import build_transcript_evidence
 
@@ -62,3 +67,67 @@ def test_case_result_can_persist_transcript_evidence_when_composite_result_is_un
     assert merged["observations"]
     assert merged["evidence"]
     assert merged["provenance"]["transcript_evidence"]["metrics"]["token_count"] == 2
+
+
+def test_upstream_acquisition_checkpoint_preserves_same_run_and_provider_artifacts(monkeypatch):
+    from api import app as api_app
+
+    monkeypatch.setattr(api_app, "RENDER_INSTANCE_ID", "render-instance-1")
+    stages = _new_stage_states()
+    for stage in stages:
+        if stage["id"] in {"transcription_generation", "transcript_alignment"}:
+            stage["status"] = "complete"
+    live_run = {
+        "run_id": "run-1",
+        "analysis_id": "run-1",
+        "status": "running",
+        "process_instance_id": "process-1",
+        "stages": stages,
+    }
+    acquisition = {
+        "transcription_state": "completed",
+        "diarization_state": "not_invoked",
+        "transcript": {
+            "segments": [{"start_s": 0.0, "end_s": 1.0, "text": "hello"}],
+            "words": [{"text": "hello", "start_s": 0.0, "end_s": 0.4}],
+        },
+        "multimodal_timeline": {"words": [{"text": "hello", "start_s": 0.0, "end_s": 0.4}]},
+        "diarization": {"speakers": []},
+        "provider_timings_ms": {"transcription": 123.0},
+    }
+
+    checkpoint = _checkpoint_acquisition_run(live_run, acquisition, stages)
+
+    assert checkpoint["run_id"] == "run-1"
+    assert checkpoint["analysis_id"] == "run-1"
+    assert checkpoint["acquisition"] is acquisition
+    assert checkpoint["transcript"]["words"][0]["text"] == "hello"
+    assert checkpoint["provider_timings_ms"] == {"transcription": 123.0}
+    assert checkpoint["upstream_checkpoint"]["transcription_state"] == "completed"
+    assert checkpoint["upstream_checkpoint"]["transcript_available"] is True
+    assert checkpoint["upstream_checkpoint"]["alignment_available"] is True
+    assert checkpoint["current_stage"]["status"] == "pending"
+    assert checkpoint["render_instance_id"] == "render-instance-1"
+
+
+def test_downstream_memory_rejection_marks_composite_dependency_without_erasing_upstream_stages():
+    stages = _new_stage_states()
+    for stage in stages:
+        if stage["id"] in {"speech_segmentation", "transcription_generation", "transcript_alignment"}:
+            stage["status"] = "complete"
+
+    message = _mark_downstream_memory_rejected(
+        stages,
+        RuntimeError("Insufficient memory headroom for pipeline:acoustic_feature_extraction"),
+        "2026-09-10T12:00:00+00:00",
+    )
+    by_id = {stage["id"]: stage for stage in stages}
+
+    assert message.startswith("RuntimeError: Insufficient memory headroom")
+    assert by_id["speech_segmentation"]["status"] == "complete"
+    assert by_id["transcription_generation"]["status"] == "complete"
+    assert by_id["transcript_alignment"]["status"] == "complete"
+    assert by_id["acoustic_feature_extraction"]["status"] == "failed"
+    assert "upstream speech artifacts were preserved" in by_id["acoustic_feature_extraction"]["outcome"]
+    assert by_id["eligibility_reliability"]["status"] == "not_run"
+    assert by_id["final_disposition"]["status"] == "not_run"
