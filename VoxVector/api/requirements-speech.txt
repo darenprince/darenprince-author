@@ -1,3 +1,3 @@
 # Production cloud-primary VoxVector speech runtime.
-# Keep local Community-1 / PyTorch dependencies in requirements-diarization-local.txt.
+# Keep local Community-1 dependencies in requirements-diarization-local.txt.
 -r requirements-transcription.txt
