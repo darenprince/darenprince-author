@@ -87,6 +87,22 @@ export async function getAnalysisCase(accessToken, caseId) { if (!caseId) throw 
 export async function deleteAnalysisCase(accessToken, caseId) { if (!caseId) throw new Error('Choose a case before deleting it.'); return apiRequest(`/v1/cases/${encodeURIComponent(caseId)}`, { method: 'DELETE', headers: authHeaders(accessToken) }) }
 export async function getRenderStatus(accessToken, { serviceId = '', logMinutes = 30 } = {}) { const query = new URLSearchParams(); if (serviceId) query.set('service_id', serviceId); query.set('log_minutes', String(logMinutes)); return apiRequest(`/v1/developer/render/status?${query.toString()}`, { headers: authHeaders(accessToken) }) }
 export async function getRenderLogs(accessToken, { serviceId = '', minutes = 10, limit = 100 } = {}) { const query = new URLSearchParams(); if (serviceId) query.set('service_id', serviceId); query.set('minutes', String(Math.min(60, Math.max(1, Number(minutes) || 10)))); query.set('limit', String(Math.min(100, Math.max(1, Number(limit) || 100)))); return apiRequest(`/v1/developer/render/logs?${query.toString()}`, { headers: authHeaders(accessToken) }) }
+export async function downloadDebugBundle(accessToken, caseId, runId) {
+  if (!caseId || !runId) throw new Error('A persisted case and analysis run are required for a debug bundle.')
+  const response = await fetch(`${API_BASE}/v1/developer/render/debug-bundle?case_id=${encodeURIComponent(caseId)}&run_id=${encodeURIComponent(runId)}`, { headers: { Accept: 'application/zip', ...authHeaders(accessToken) } })
+  const requestId = response.headers.get('X-Request-ID')
+  if (!response.ok) {
+    const contentType = response.headers.get('content-type') || ''
+    const payload = contentType.includes('application/json') ? await response.json() : await response.text()
+    const detail = errorDetail(payload, `Debug bundle failed (HTTP ${response.status}).`)
+    throw Object.assign(new Error(`${detail}${requestId ? ` [request ${requestId}]` : ''}`), { response, payload, requestId })
+  }
+  const blob = await response.blob()
+  const disposition = response.headers.get('content-disposition') || ''
+  const match = disposition.match(/filename="?([^";]+)"?/i)
+  const filename = match?.[1] || `voxvector-debug-${caseId}-${runId}.zip`
+  return { blob, filename, requestId, missingEvidenceCount: Number(response.headers.get('X-VoxVector-Debug-Missing') || 0) }
+}
 export async function triggerRenderDeploy(accessToken) { return apiRequest('/v1/developer/render/deploy', { method: 'POST', headers: authHeaders(accessToken) }) }
 
 export function uploadCaseSource(accessToken, caseId, file, onProgress, { onState } = {}) {

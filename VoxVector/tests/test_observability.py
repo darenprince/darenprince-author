@@ -77,7 +77,7 @@ def test_diagnostic_store_survives_storage_failure(capsys):
     assert result is None
     captured = capsys.readouterr()
     assert "VOXVECTOR_DIAGNOSTIC" in captured.out
-    assert "VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE" in captured.out
+    assert "VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE" in captured.err
     assert "VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE" in captured.err
 
 

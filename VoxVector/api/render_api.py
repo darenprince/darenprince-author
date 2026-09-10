@@ -9,8 +9,19 @@ from urllib.parse import urlencode
 from urllib.request import Request as UrlRequest, urlopen
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import Response
 
 from .auth import require_developer
+from .debug_bundle import (
+    build_debug_zip,
+    correlated_error_rows,
+    correlated_event_rows,
+    mirror_render_snapshot,
+    run_window,
+    safe_bundle_filename,
+)
+from .observability import DIAGNOSTICS
+from .storage import StorageError
 
 RENDER_API_BASE = "https://api.render.com/v1"
 render_router = APIRouter(prefix="/v1/developer/render", tags=["developer-render"])
@@ -186,6 +197,57 @@ def _owner_id(service: dict) -> str | None:
     return None
 
 
+def _render_log_window(
+    api_key: str,
+    service_id: str,
+    *,
+    start: datetime,
+    end: datetime,
+    limit: int = 100,
+) -> tuple[str, list[dict]]:
+    service_payload = _render_get(f"/services/{service_id}", api_key)
+    service = _object(service_payload, "service", "data")
+    owner_id = _owner_id(service)
+    if not owner_id:
+        raise HTTPException(status_code=502, detail="Render service response did not include a workspace owner ID for log queries.")
+    payload = _render_get(
+        "/logs",
+        api_key,
+        {
+            "ownerId": owner_id,
+            "startTime": start.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "endTime": end.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "direction": "backward",
+            "resource": service_id,
+            "limit": min(max(1, int(limit)), 100),
+            "type": ["app", "request", "build"],
+        },
+    )
+    return owner_id, [_normalize_log(record) for record in _rows(payload)]
+
+
+def _mirror_render_window(
+    *,
+    service_id: str,
+    owner_id: str,
+    logs: list[dict],
+    observed_at: str,
+    context: dict | None = None,
+) -> dict:
+    try:
+        path = mirror_render_snapshot(
+            DIAGNOSTICS.storage,
+            service_id=service_id,
+            owner_id=owner_id,
+            logs=logs,
+            observed_at=observed_at,
+            context=context,
+        )
+        return {"status": "persisted" if path else "not_configured", "path": path}
+    except (StorageError, ValueError):
+        return {"status": "failed", "path": None}
+
+
 @render_router.get("/status")
 def render_status(
     service_id: str | None = Query(default=None),
@@ -250,37 +312,154 @@ def render_deploy(_: dict = Depends(require_developer)):
 def render_logs(
     service_id: str | None = Query(default=None),
     minutes: int = Query(default=10, ge=1, le=60),
-    limit: int = Query(default=120, ge=1, le=100),
+    limit: int = Query(default=100, ge=1, le=100),
     _: dict = Depends(require_developer),
 ):
     api_key, resolved_service = _config(service_id)
-    service_payload = _render_get(f"/services/{resolved_service}", api_key)
-    service = service_payload if isinstance(service_payload, dict) else {}
-    owner_id = _owner_id(service)
-    if not owner_id:
-        raise HTTPException(status_code=502, detail="Render service response did not include a workspace owner ID for log queries.")
     end = datetime.now(timezone.utc)
     start = end - timedelta(minutes=minutes)
-    payload = _render_get(
-        "/logs",
-        api_key,
-        {
-            "ownerId": owner_id,
-            "startTime": start.isoformat().replace("+00:00", "Z"),
-            "endTime": end.isoformat().replace("+00:00", "Z"),
-            "direction": "backward",
-            "resource": resolved_service,
-            "limit": min(limit, 100),
-            "type": ["app", "request", "build"],
-        },
+    owner_id, logs = _render_log_window(api_key, resolved_service, start=start, end=end, limit=limit)
+    mirror = _mirror_render_window(
+        service_id=resolved_service,
+        owner_id=owner_id,
+        logs=logs,
+        observed_at=end.isoformat(),
+        context={"source_revision": os.getenv("RENDER_GIT_COMMIT", "unknown"), "correlation_basis": "render_log_window"},
     )
     return {
         "status": "ok",
         "service_id": resolved_service,
         "owner_id": owner_id,
-        "logs": [_normalize_log(record) for record in _rows(payload)],
+        "logs": logs,
         "observed_at": end.isoformat(),
+        "supabase_mirror": mirror,
     }
+
+
+@render_router.get("/debug-bundle")
+async def render_debug_bundle(
+    case_id: str = Query(..., min_length=1),
+    run_id: str = Query(..., min_length=1),
+    user: dict = Depends(require_developer),
+):
+    """Download one sanitized case/run-scoped engineering debug archive."""
+    from .app import CASE_STORE, health
+
+    try:
+        case = await asyncio.to_thread(CASE_STORE.get_case, str(user["id"]), case_id)
+    except StorageError as exc:
+        raise HTTPException(status_code=404, detail="The requested analysis case is unavailable.") from exc
+    run = next(
+        (
+            item
+            for item in case.get("runs", [])
+            if isinstance(item, dict) and str(item.get("run_id") or item.get("analysis_id") or "") == run_id
+        ),
+        None,
+    )
+    if run is None:
+        raise HTTPException(status_code=404, detail="The requested analysis run is unavailable for this case.")
+
+    start, end = run_window(run)
+    request_id_value = str(run.get("request_id") or "") or None
+    try:
+        events, correlation_counts = await asyncio.to_thread(
+            correlated_event_rows,
+            DIAGNOSTICS.storage,
+            start=start,
+            end=end,
+            request_id=request_id_value,
+            case_id=case_id,
+            run_id=run_id,
+        )
+    except StorageError:
+        events, correlation_counts = [], {"exact": 0, "time_window_speech": 0}
+    try:
+        errors = await asyncio.to_thread(
+            correlated_error_rows,
+            DIAGNOSTICS.storage,
+            start=start,
+            end=end,
+            request_id=request_id_value,
+        )
+    except StorageError:
+        errors = []
+
+    render_logs_for_bundle: list[dict] = []
+    render_status_for_bundle: dict = {}
+    render_mirror_path = None
+    try:
+        api_key, resolved_service = _config(None)
+        owner_id, render_logs_for_bundle = await asyncio.to_thread(
+            _render_log_window,
+            api_key,
+            resolved_service,
+            start=start,
+            end=end,
+            limit=100,
+        )
+        mirror = await asyncio.to_thread(
+            _mirror_render_window,
+            service_id=resolved_service,
+            owner_id=owner_id,
+            logs=render_logs_for_bundle,
+            observed_at=end.isoformat(),
+            context={
+                "case_id": case_id,
+                "run_id": run_id,
+                "request_id": request_id_value,
+                "source_revision": run.get("source_revision") or (run.get("testing") or {}).get("source_revision") or "unknown",
+                "window_start": start.isoformat(),
+                "window_end": end.isoformat(),
+                "correlation_basis": "analysis_time_window",
+            },
+        )
+        render_mirror_path = mirror.get("path")
+        render_status_for_bundle = await asyncio.to_thread(render_status, resolved_service, 30, user)
+    except (HTTPException, StorageError, ValueError):
+        render_logs_for_bundle = render_logs_for_bundle or []
+        render_status_for_bundle = render_status_for_bundle or {}
+
+    try:
+        runtime_health = await health()
+    except Exception:
+        runtime_health = {}
+
+    archive, manifest = await asyncio.to_thread(
+        build_debug_zip,
+        case=case,
+        run=run,
+        events=events,
+        errors=errors,
+        render_logs=render_logs_for_bundle,
+        render_status=render_status_for_bundle,
+        runtime_health=runtime_health,
+        render_mirror_path=render_mirror_path,
+        correlation_counts=correlation_counts,
+        window_start=start,
+        window_end=end,
+    )
+    filename = safe_bundle_filename(case_id, run_id)
+    await DIAGNOSTICS.emit(
+        "case.debug_bundle_generated",
+        case_id=case_id,
+        run_id=run_id,
+        request_id=request_id_value,
+        included_event_count=len(events),
+        included_error_count=len(errors),
+        included_render_log_count=len(render_logs_for_bundle),
+        missing_evidence_count=len(manifest.get("missing_evidence") or []),
+        render_mirror_persisted=bool(render_mirror_path),
+    )
+    return Response(
+        content=archive,
+        media_type="application/zip",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Cache-Control": "no-store",
+            "X-VoxVector-Debug-Missing": str(len(manifest.get("missing_evidence") or [])),
+        },
+    )
 
 
 @render_router.post("/analysis")

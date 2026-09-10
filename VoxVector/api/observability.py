@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import os
 import sys
@@ -11,7 +12,26 @@ from typing import Any
 from .storage import StorageError, SupabaseStorage
 from voxvector.runtime_context import new_request_id, new_trace_id, request_id, trace_id
 
-_BLOCKED_FIELDS = {"audio", "audio_bytes", "raw_audio", "transcript", "raw_transcript", "file_content", "request_body", "data"}
+_BLOCKED_FIELDS = {
+    "audio",
+    "audio_bytes",
+    "raw_audio",
+    "transcript",
+    "raw_transcript",
+    "file_content",
+    "request_body",
+    "data",
+    "password",
+    "authorization",
+    "cookie",
+    "access_token",
+    "refresh_token",
+    "service_role_key",
+    "signed_url",
+    "deploy_hook_url",
+    "api_key",
+    "render_api_key",
+}
 _ERROR_EVENTS = {
     "request.rejected",
     "request.analysis_error",
@@ -54,6 +74,11 @@ def _safe_fields(fields: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def _is_error_event(event: str) -> bool:
+    normalized = str(event or "").strip().lower()
+    return normalized in _ERROR_EVENTS or normalized.endswith((".failed", ".timeout", ".timed_out"))
+
+
 def _is_case_source_upload(method: Any, path: Any) -> bool:
     if str(method or "").upper() != "POST":
         return False
@@ -66,6 +91,19 @@ def _status_code(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _event_datetime(value: Any) -> datetime:
+    text = str(value or "").strip()
+    if text:
+        try:
+            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed.astimezone(timezone.utc)
+        except ValueError:
+            pass
+    return datetime.now(timezone.utc)
 
 
 class DiagnosticStore:
@@ -86,6 +124,157 @@ class DiagnosticStore:
         expired = [rid for rid, started_at in self._case_source_route_started.items() if started_at < cutoff]
         for rid in expired:
             self._case_source_route_started.pop(rid, None)
+
+    def persist_external_record(self, record: dict[str, Any]) -> str | None:
+        """Persist one already-emitted sanitized event through the canonical Supabase path.
+
+        This method intentionally does not write the normal event to stdout. Callers such as
+        speech-runtime logging keep their native Render-visible stdout line and then use this
+        method for the durable Supabase copy. Storage/database failures emit only bounded
+        provider-visible fallback diagnostics.
+        """
+        if not self.enabled:
+            return None
+
+        safe_record = _safe_fields(dict(record))
+        event = _safe_text(safe_record.get("event") or "runtime.event", 160)
+        rid = _safe_text(safe_record.get("request_id") or new_request_id(), 160)
+        tid = _safe_text(safe_record.get("trace_id") or new_trace_id(), 160)
+        occurred = _event_datetime(safe_record.get("timestamp"))
+        timestamp = occurred.isoformat()
+        source_revision = safe_record.get("source_revision") or os.getenv("RENDER_GIT_COMMIT", "unknown")
+        pipeline_version = safe_record.get("pipeline") or safe_record.get("pipeline_version") or os.getenv("VOXVECTOR_PIPELINE_VERSION", "unknown")
+        safe_record.update(
+            {
+                "event": event,
+                "request_id": rid,
+                "trace_id": tid,
+                "timestamp": timestamp,
+                "source_revision": source_revision,
+            }
+        )
+        if "pipeline" not in safe_record and "pipeline_version" not in safe_record:
+            safe_record["pipeline_version"] = pipeline_version
+
+        try:
+            insert_row = getattr(self.storage, "insert_table_row", None)
+            if not callable(insert_row):
+                raise StorageError("Diagnostic relational projection is unavailable")
+            request_row = {
+                "occurred_at": timestamp,
+                "request_id": rid,
+                "route": safe_record.get("path"),
+                "method": safe_record.get("method"),
+                "status_code": safe_record.get("status_code"),
+                "duration_ms": _duration_ms_for_projection(safe_record.get("duration_ms") or safe_record.get("elapsed_ms")),
+                "source_revision": source_revision,
+                "pipeline_version": pipeline_version,
+                "metadata": {
+                    "event": event,
+                    "error_event": _is_error_event(event),
+                    **{
+                        k: v
+                        for k, v in safe_record.items()
+                        if k
+                        not in {
+                            "schema",
+                            "timestamp",
+                            "request_id",
+                            "trace_id",
+                            "path",
+                            "method",
+                            "status_code",
+                            "duration_ms",
+                            "source_revision",
+                            "pipeline",
+                            "pipeline_version",
+                        }
+                    },
+                },
+            }
+            insert_row("api_request_logs", request_row)
+        except StorageError as exc:
+            print(
+                f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=api_request_logs error={_safe_text(exc)}",
+                file=sys.stderr,
+                flush=True,
+            )
+
+        if _is_error_event(event):
+            try:
+                insert_error = getattr(self.storage, "insert_table_row", None)
+                if not callable(insert_error):
+                    raise StorageError("Diagnostic relational projection is unavailable")
+                error_row = {
+                    "occurred_at": timestamp,
+                    "severity": "error",
+                    "status": "open",
+                    "service": "voxvector-api",
+                    "route": safe_record.get("path"),
+                    "method": safe_record.get("method"),
+                    "status_code": safe_record.get("status_code"),
+                    "request_id": rid,
+                    "source_revision": source_revision,
+                    "pipeline_version": pipeline_version,
+                    "error_type": safe_record.get("error_type"),
+                    "message": safe_record.get("error_message") or safe_record.get("reason") or event,
+                    "context": {
+                        "event": event,
+                        "trace_id": tid,
+                        **{
+                            k: v
+                            for k, v in safe_record.items()
+                            if k
+                            not in {
+                                "schema",
+                                "timestamp",
+                                "request_id",
+                                "trace_id",
+                                "error_type",
+                                "error_message",
+                                "path",
+                                "method",
+                                "status_code",
+                                "source_revision",
+                                "pipeline",
+                                "pipeline_version",
+                            }
+                        },
+                    },
+                }
+                insert_error("error_reports", error_row)
+            except StorageError as exc:
+                print(
+                    f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=error_reports error={_safe_text(exc)}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+        serialized = json.dumps(safe_record, separators=(",", ":"), sort_keys=True, ensure_ascii=False)
+        digest = hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:20]
+        date_path = occurred.strftime("%Y/%m/%d")
+        object_name = f"{event.replace('.', '_')}_{digest}.json"
+        object_path = f"events/{date_path}/{rid}/{object_name}"
+        storage_result = None
+        try:
+            storage_result = self.storage.put_json(object_path, safe_record)
+            if _is_error_event(event):
+                index_path = f"error-index/{date_path}/{rid}_{event.replace('.', '_')}_{digest}.json"
+                try:
+                    self.storage.put_json(index_path, safe_record)
+                except StorageError as exc:
+                    print(
+                        f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} index=error-index error={_safe_text(exc)}",
+                        file=sys.stderr,
+                        flush=True,
+                    )
+        except StorageError as exc:
+            print(
+                f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} error={_safe_text(exc)}",
+                file=sys.stderr,
+                flush=True,
+            )
+        return storage_result
 
     async def emit(self, event: str, **fields: Any) -> str | None:
         if not self.enabled:
@@ -128,72 +317,7 @@ class DiagnosticStore:
             **_safe_fields(fields),
         }
         print("VOXVECTOR_DIAGNOSTIC " + json.dumps(record, separators=(",", ":"), sort_keys=True), flush=True)
-
-        date_path = now.strftime("%Y/%m/%d")
-        object_name = f"{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
-        object_path = f"events/{date_path}/{rid}/{object_name}"
-        try:
-            insert_row = getattr(self.storage, "insert_table_row", None)
-            if not callable(insert_row):
-                raise StorageError("Diagnostic relational projection is unavailable")
-            request_row = {
-                "occurred_at": record["timestamp"],
-                "request_id": rid,
-                "route": record.get("path"),
-                "method": record.get("method"),
-                "status_code": record.get("status_code"),
-                "duration_ms": _duration_ms_for_projection(record.get("duration_ms")),
-                "source_revision": record.get("source_revision"),
-                "pipeline_version": record.get("pipeline"),
-                "metadata": {
-                    "event": event,
-                    "error_event": event in _ERROR_EVENTS,
-                    **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "trace_id", "path", "method", "status_code", "duration_ms", "source_revision", "pipeline"}},
-                },
-            }
-            await asyncio.to_thread(insert_row, "api_request_logs", request_row)
-        except StorageError as exc:
-            print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=api_request_logs error={_safe_text(exc)}", file=sys.stderr, flush=True)
-
-        if event in _ERROR_EVENTS:
-            try:
-                insert_error = getattr(self.storage, "insert_table_row", None)
-                if not callable(insert_error):
-                    raise StorageError("Diagnostic relational projection is unavailable")
-                error_row = {
-                    "occurred_at": record["timestamp"],
-                    "severity": "error",
-                    "status": "open",
-                    "service": "voxvector-api",
-                    "route": record.get("path"),
-                    "method": record.get("method"),
-                    "status_code": record.get("status_code"),
-                    "request_id": rid,
-                    "source_revision": record.get("source_revision"),
-                    "pipeline_version": record.get("pipeline"),
-                    "error_type": record.get("error_type"),
-                    "message": record.get("error_message") or record.get("reason") or event,
-                    "context": {
-                        "event": event,
-                        "trace_id": tid,
-                        **{k: v for k, v in record.items() if k not in {"schema", "timestamp", "request_id", "trace_id", "error_type", "error_message", "path", "method", "status_code", "source_revision", "pipeline"}},
-                    },
-                }
-                await asyncio.to_thread(insert_error, "error_reports", error_row)
-            except StorageError as exc:
-                print(f"VOXVECTOR_DIAGNOSTIC_DATABASE_FAILURE request_id={rid} trace_id={tid} event={event} table=error_reports error={_safe_text(exc)}", file=sys.stderr, flush=True)
-
-        storage_result = None
-        try:
-            storage_result = await asyncio.to_thread(self.storage.put_json, object_path, record)
-            if event in _ERROR_EVENTS:
-                index_path = f"error-index/{date_path}/{rid}_{event.replace('.', '_')}_{now.strftime('%H%M%S_%f')}.json"
-                try:
-                    await asyncio.to_thread(self.storage.put_json, index_path, record)
-                except StorageError as exc:
-                    print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} index=error-index error={_safe_text(exc)}", flush=True)
-        except StorageError as exc:
-            print(f"VOXVECTOR_DIAGNOSTIC_STORAGE_FAILURE request_id={rid} trace_id={tid} event={event} error={_safe_text(exc)}", flush=True)
+        storage_result = await asyncio.to_thread(self.persist_external_record, record)
 
         if prehandler_rejection is not None:
             await self.emit(
