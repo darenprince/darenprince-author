@@ -104,6 +104,8 @@ The same sanitized VoxVector diagnostic and speech/provider records are also sen
 
 The authenticated Render log bridge remains available. When VoxVector fetches a Render log window through that bridge, the returned provider lines are sanitized and a snapshot is mirrored into `voxvector-logs` with service/revision/correlation provenance. Render remains the original provider log source; the Supabase copy is VoxVector's durable observed archive.
 
+The protected browser response exposes only the normalized consumer fields needed by the Developer Console: message, timestamp, level, and log type. The complete provider record is not returned as a nested `raw` payload. This keeps provider-only metadata on the server side while preserving the existing Render log view.
+
 A Supabase write failure does not suppress the Render-native line. The application emits only a bounded fallback marker to provider telemetry and does not dump event bodies, audio, transcripts, request bodies, credentials, or tokens into the fallback.
 
 ## Protected Error Reports
@@ -132,7 +134,7 @@ The server gathers the bounded evidence window and returns one ZIP. The browser 
 
 The default archive contains, when available:
 
-- `manifest.json` — case/run IDs, request ID, source revision, pipeline version, generation time, bounded time window, correlation basis, included counts, and explicit missing evidence;
+- `manifest.json` — case/run IDs, request ID, source revision, pipeline version, generation time, bounded time window, correlation basis, included counts, availability state, and explicit missing evidence;
 - `case-run.json` — sanitized case/source/run/stage/provenance/failure metadata;
 - `voxvector-events.jsonl` — correlated Supabase-backed VoxVector diagnostic and speech/provider events;
 - `errors.jsonl` — correlated Supabase error projections;
@@ -142,6 +144,8 @@ The default archive contains, when available:
 - `README.txt` — evidence-source and privacy notes.
 
 Exact request/case/run identifiers are preferred. Speech/provider events with child-process identifiers and Render provider lines that cannot be structurally tied to a run may be included by the documented analysis start/end window plus a small bounded buffer. The manifest labels this as time-window correlation rather than exact attribution.
+
+The debug route records retrieval availability separately from row count. A successful query returning zero correlated errors/events/logs is therefore represented as available-but-empty, while a failed provider/storage query is represented as unavailable evidence rather than silently looking empty.
 
 The default debug archive excludes raw audio, transcript text, request bodies, passwords, access/refresh tokens, cookies, signed URLs, Supabase service-role credentials, Render API keys, deploy-hook URLs, and other protected secrets.
 
@@ -231,7 +235,7 @@ After deploying the exact reviewed revision:
 4. confirm speech/provider start/progress/completion/failure events are visible in Render and persisted in Supabase when those events execute;
 5. fetch the protected Render log view and confirm a sanitized Render snapshot is written to `voxvector-logs`;
 6. download the case/run debug bundle from the Analysis Workspace;
-7. inspect `manifest.json` for exact/time-window correlation and missing evidence;
+7. inspect `manifest.json` for exact/time-window correlation, availability state, and missing evidence;
 8. confirm the ZIP contains the expected sanitized files and no raw audio/transcript or protected credentials;
 9. confirm a process restart does not erase successfully persisted Supabase event evidence;
 10. record exact source, deployment, Supabase readback, and browser evidence separately.
@@ -260,4 +264,6 @@ This fixes the prior behavior where relational rows could be returned outside th
 
 ## 2026-09-10 dual-log/debug-bundle implementation status
 
-Issue #959 owns the dual Render/Supabase logging and one-click debug-bundle change. Source implementation is being reviewed on its linked feature branch/PR. Until the exact reviewed revision is merged, deliberately deployed, and exercised, the behavior above is a source implementation contract rather than a production-verification claim.
+PR #961 merged the dual Render/Supabase logging and server-generated debug-bundle foundation. PR #966 then hardened deterministic Render snapshot identity, speech-worker correlation, process/Render provenance, and bundle availability semantics. Issue #959 remains open until the remaining runtime acceptance work is complete. The current source refinement removes the unnecessary nested raw Render provider record from the protected browser response and wires route-level retrieval success/failure into the bundle availability manifest.
+
+These are source implementation states. They are not proof that the exact revision is deployed, that a real analysis produced both Render and Supabase copies, that a production debug bundle was downloaded and inspected, or that browser verification occurred.
