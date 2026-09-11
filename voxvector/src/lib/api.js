@@ -79,6 +79,7 @@ async function resolveCaseSourceId(accessToken, caseId, sourceId = '') {
 }
 
 export async function getHealth() { return apiRequest('/health') }
+export async function wakeApi() { return apiRequest('/health', { cache: 'no-store', keepalive: true }) }
 export async function getDiagnosticErrors(accessToken, { days = 14, limit = 100 } = {}) { return apiRequest(`/v1/diagnostics/errors?days=${encodeURIComponent(days)}&limit=${encodeURIComponent(limit)}`, { headers: authHeaders(accessToken) }) }
 export async function getDiagnosticEvents(accessToken, { requestId = '', days = 2, limit = 100 } = {}) { const query = new URLSearchParams({ days: String(days), limit: String(limit) }); if (requestId) query.set('request_id', requestId); return apiRequest(`/v1/diagnostics/events?${query.toString()}`, { headers: authHeaders(accessToken) }) }
 export async function createAnalysisCase(accessToken, title = '') { const normalizedTitle = String(title || '').trim(); if (!normalizedTitle) throw new Error('Enter a case title before creating the case.'); return apiRequest('/v1/cases', { method: 'POST', headers: { ...authHeaders(accessToken), 'Content-Type': 'application/json' }, body: JSON.stringify({ title: normalizedTitle }) }) }

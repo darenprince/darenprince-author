@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, ArrowLeft, LockKeyhole, Mail, ShieldCheck } from 'lucide-react'
 import { motion } from 'motion/react'
+import { wakeApi } from '../lib/api'
 import { getVoxVectorRole, roleAllowed, routeForVoxVectorRole, supabase, supabaseConfigured } from '../lib/supabase'
 import Button from './ui/Button'
 
@@ -42,10 +43,10 @@ export default function AuthGate({ children, allowedRoles = [], redirectByRole =
   const targetRoute = useMemo(() => routeForVoxVectorRole(session?.user), [session?.user])
 
   useEffect(() => {
-    if (!redirectByRole || status !== 'ready' || !session || !role) return
+    if (busy || !redirectByRole || status !== 'ready' || !session || !role) return
     if (window.location.pathname.replace(/\/+$/, '') === targetRoute.replace(/\/+$/, '')) return
     window.location.replace(targetRoute)
-  }, [redirectByRole, role, session, status, targetRoute])
+  }, [busy, redirectByRole, role, session, status, targetRoute])
 
   const signOut = async () => {
     if (!supabase || signingOut) return
@@ -65,8 +66,12 @@ export default function AuthGate({ children, allowedRoles = [], redirectByRole =
     if (!supabase || busy) return
     setBusy(true)
     setError('')
-    const { error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
     if (authError) setError(authError.message)
+    else {
+      void wakeApi().catch(() => {})
+      if (authData?.session) setSession(authData.session)
+    }
     setBusy(false)
   }
 
