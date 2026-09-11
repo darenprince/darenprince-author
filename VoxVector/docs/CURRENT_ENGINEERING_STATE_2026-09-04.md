@@ -204,6 +204,16 @@ The Developer Console remains the engineering cockpit for runtime health, case w
 
 PRs #961, #966 and #968 are merged into current source. Issue #959 now owns **production acceptance**, not a queued draft foundation: confirm correlated Render + Supabase copies on a controlled run, generate/inspect a real Debug Bundle, complete the automatic terminal Render snapshot gap and record authenticated browser readback separately.
 
+## Developer Console wake/chrome candidate — issue #981 / draft PR #986
+
+Issue #981 is a bounded frontend-only refinement of the existing Developer Console. Draft PR #986 adds a manual **Wake API** action to the existing `DeveloperEngineeringStatus` surface using the canonical `GET /health` client boundary, makes the compact Case Workflow tracker opaque/theme-aware, and suppresses the duplicate drawer account/email/sign-out presentation while retaining the canonical header profile menu.
+
+The implementation checkpoint before this documentation synchronization was `81c7f776a4504bafa13682c8e0f1c79f0887ad2a` on branch `fix/voxvector-developer-console-wake-chrome`, based on canonical `main` `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. GitHub's merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719` passed VoxVector QA `34560296284`: 224 backend tests passed, 19 frontend contract tests passed, and the Vite production build succeeded. PR Preview Build `34560296296` also succeeded.
+
+The documentation synchronization advances the branch beyond that implementation checkpoint, so fresh exact-head QA and Preview are required before merge recommendation. Authenticated desktop/mobile browser verification remains open. A health request attempt is not deployment or readiness proof; a preview build is not production publication or browser verification. No additional public landing/shared-shell change is included; the earlier trailing phrase was a punctuation/transcription error.
+
+This manual Developer Console wake control is distinct from #931 / PR #974's requested login-triggered wake. It does not replace that auth-flow work.
+
 ## Authentication and administrator state — issue #931 / draft PR #974
 
 The prior administrator Edge Function infrastructure blocker is resolved at the previously verified infrastructure boundary: `voxvector-user-admin` was ACTIVE version 2 with JWT verification enabled, and the verified trusted-role inventory contained an admin, developer and user.
@@ -223,6 +233,7 @@ PR #974 is not current source or deployed behavior. Its prior QA was against the
 - #959 — **P0 production acceptance open.** Merged observability/debug source; real dual-copy/bundle/terminal-capture proof remains.
 - #965 — **P0 Ready before final browser freeze.** Correct current frontend pipeline projection from backend contract.
 - #931 / PR #974 — **P0 auth/account candidate + browser matrix.** Candidate source not merged; current-main integration QA required.
+- #981 / PR #986 — **P1 Developer Console wake/chrome candidate.** Source and pre-documentation QA are complete; fresh post-documentation QA/Preview and authenticated desktop/mobile browser verification remain.
 - #932 — **P1 release-critical frontend navigation.** Complete before final browser/golden freeze.
 - #920 — **P1 browser verification.** API-triggered Render deploy does not verify protected Developer Console Deploy Now.
 - #948 / PR #951 and #949 / PR #952 — separate secure-deletion/cancellation work, not the current source task.
@@ -253,9 +264,10 @@ A successful trigger response establishes only request acceptance. #920 still re
 6. bound #930 authenticated upload reliability and #959 production observability acceptance;
 7. correct the existing frontend pipeline projection under #965;
 8. refresh draft PR #974 against current `main`, rerun integration QA, merge after review and complete #931 browser/profile acceptance;
-9. complete #932 release-critical CTA/anchor/navigation behavior;
-10. freeze one exact candidate revision/configuration and complete #972 two-run golden proof;
-11. continue scientific validation separately.
+9. complete #981 Developer Console wake/chrome exact-head QA/Preview and authenticated desktop/mobile verification;
+10. complete #932 release-critical CTA/anchor/navigation behavior;
+11. freeze one exact candidate revision/configuration and complete #972 two-run golden proof;
+12. continue scientific validation separately.
 
 ## Evidence and scientific boundary
 
