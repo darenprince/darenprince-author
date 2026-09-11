@@ -138,12 +138,16 @@ jobs:
           test -f ./_site/VoxVector/Assets/voxvector_icon_2_cropped.png
           test -f ./_site/VoxVector/Assets/voxvector_logo_icon.png
           test -f ./_site/VoxVector/Assets/VoxVector-logo-word.png
-          mkdir -p _site/voxvector/developer
-          mkdir -p _site/voxvector/login
-          cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
-          cp ./voxvector/dist/index.html ./_site/voxvector/login/index.html
+
+          # GitHub Pages has no SPA rewrite. These physical entries all serve the
+          # same built React shell so canonical client routes work on direct load,
+          # refresh, and role-based redirects without creating duplicate apps.
+          for route in developer login app site-map; do
+            mkdir -p "_site/voxvector/$route"
+            cp ./voxvector/dist/index.html "_site/voxvector/$route/index.html"
+            test -f "_site/voxvector/$route/index.html"
+          done
           cp ./voxvector/dist/index.html ./_site/voxvector/404.html
-          test -f ./_site/voxvector/login/index.html
 
       - name: Report staged Pages artifact
         run: |
