@@ -6,6 +6,7 @@ These files are historical snapshots retained for audit and recovery. They are *
 
 - Temporary refinement, enhancement, visibility, and chrome layers were merged into an owning stylesheet or retired because they were no longer referenced.
 - Unreferenced stylesheets were removed from the active source tree to prevent future developers from treating them as competing sources of truth.
+- `landing-public-legacy.css` preserves the former `voxvector/public/landing.css` behavior that was migrated into `voxvector/src/canonical-landing.css` under issue #996. Its hero opacity, gradient, mask, pseudo-element fade, and structural `nth-child` overlay rules are historical only and must not return to production.
 - The active stylesheet contract is documented in `VoxVector/docs/CSS_ARCHITECTURE.md`.
 
 Do not restore an archived file as an override. If a historical rule is genuinely needed, migrate that rule into the stylesheet that owns the relevant component or page and document the reason.
