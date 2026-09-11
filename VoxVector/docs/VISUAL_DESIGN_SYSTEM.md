@@ -174,6 +174,8 @@ The design does not rely on color alone to communicate important state.
 
 A visually polished section is not considered complete if its underlying interaction, data behavior, accessibility or scientific wording is misleading. Visual quality and functional honesty are both acceptance criteria.
 
+
+
 ## Developer workflow tracker
 
 The Case Workbench workflow tracker is a compact stateful navigation aid rather than another large dashboard card.
@@ -182,10 +184,7 @@ The Case Workbench workflow tracker is a compact stateful navigation aid rather 
 - The active step uses the restrained coffee/copper state with a subtle pulse.
 - Completed prerequisite steps transition to a solid semantic green state.
 - After a short dwell, the tracker contracts into a thin current-step rail to return vertical space to the workbench.
-- The compact rail uses an opaque theme-aware surface so underlying analysis content does not bleed through the workflow guidance.
 - Hover and keyboard focus expand the full tracker without introducing a separate control surface.
 - Reduced-motion users retain the expanded readable state.
 - Status values belong on the right edge of checks and workflow rows so labels and state metadata remain scannable as separate columns.
 - Collapsed workbench sections communicate state through the chevron and structure rather than a redundant literal “Collapsed” label.
-
-The September 11, 2026 opacity refinement changes presentation only. It does not create a second workflow tracker, change case state, imply pipeline execution, or alter scientific status.
