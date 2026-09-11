@@ -55,17 +55,21 @@ export default function PipelineBuildCard({ className = '' }) {
   const backendQa = workflowEvidenceState(workflows.data?.backendQa, workflows.data?.backendQaMatchesSource, workflows)
   const liveDeploy = workflowEvidenceState(workflows.data?.deployment, workflows.data?.deploymentMatchesSource, workflows)
   const statusByStage = livePipeline.status_by_stage && typeof livePipeline.status_by_stage === 'object' ? livePipeline.status_by_stage : {}
+  const runtimeContractAvailable = Object.keys(statusByStage).length > 0
   const rows = useMemo(() => STAGES.map(([number, id, name, fallbackState, detail]) => ({
     number,
     id,
     name,
     detail,
     state: normalizeFoundationState(statusByStage[id] || fallbackState),
-    rawState: statusByStage[id] || fallbackState,
   })), [statusByStage])
   const counts = useMemo(() => rows.reduce((acc, row) => { acc[row.state] = (acc[row.state] || 0) + 1; return acc }, {}), [rows])
   const currentToken = String(livePipeline.current_stage_id || livePipeline.current_stage || '').trim().toLowerCase()
-  const currentLabel = livePipeline.current_stage || live.current_engineering_stage || 'Runtime pipeline state'
+  const currentLabel = runtimeContractAvailable
+    ? (livePipeline.current_stage || live.current_engineering_stage || 'Runtime pipeline state')
+    : health.isError
+      ? 'Backend pipeline status unavailable — showing source-contract fallback'
+      : 'Loading backend pipeline status — source-contract fallback shown meanwhile'
   const implementedCount = livePipeline.total === 21 && Number.isFinite(Number(livePipeline.implemented_foundations))
     ? Number(livePipeline.implemented_foundations)
     : (counts.implemented || 0)
@@ -78,6 +82,7 @@ export default function PipelineBuildCard({ className = '' }) {
           <span className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-[.16em] text-white/45">21 stage build</span>
             <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-emerald-400"><CheckCircle2 size={12}/> {implementedCount} foundations</span>
+            <span className={`text-[10px] font-bold uppercase tracking-[.12em] ${runtimeContractAvailable ? 'text-sky-300' : health.isError ? 'text-amber-200' : 'text-white/35'}`}>{runtimeContractAvailable ? 'Runtime contract' : health.isError ? 'Backend unavailable · fallback' : 'Backend loading · fallback'}</span>
           </span>
           <span className="mt-2 block text-base font-semibold tracking-tight text-white">Current engineering stage</span>
           <span className="mt-1 block text-sm leading-5 text-white/55">{currentLabel}</span>
