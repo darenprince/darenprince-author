@@ -1,6 +1,6 @@
 # VoxVector Public Shell Alignment
 
-Canonical decision: `VoxVector/docs/PROJECT_DECISION_2026-09-02_PUBLIC_SHELL_ALIGNMENT.md`.
+Canonical decision: `VoxVector/docs/Decision Logs/PROJECT_DECISION_2026-09-02_PUBLIC_SHELL_ALIGNMENT.md`.
 
 The public VoxVector landing shell is the visual source for non-developer public surfaces. `methods.html`, `pipeline.html`, and the image asset index retain their existing page content while receiving the shared public shell through the build-time normalization script and `public-shell.css`.
 
