@@ -68,7 +68,7 @@ The canonical public landing page uses a restrained black, white, gray, espresso
 
 The current landing composition uses:
 
-- the 1920×1080 audio-signal artwork as the hero background, with a controlled bottom fade into the page
+- supplied canonical desktop and mobile hero artwork from `VoxVector/Assets/voxvector-hero-desktop.svg` and `VoxVector/Assets/voxvector-hero-mobile.svg`, displayed directly without hero-specific gradient, mask, or opacity treatment
 - the network background behind the analytical workflow and existing console artwork
 - the topographic background in the Technology section
 - evidence-analysis editorial artwork in the Analytical Interface section
