@@ -20,6 +20,7 @@
     .asset-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-height:270px}
     .asset-preview{height:150px;background:var(--surface-2);display:grid;place-items:center;padding:20px;border-bottom:1px solid var(--border)}
     .asset-preview img{max-width:100%;max-height:110px;object-fit:contain}
+    .asset-preview img.vv-wordmark-preview{filter:brightness(0) invert(94%);opacity:.96}
     .asset-body{padding:17px 18px 19px}
     .asset-body h3{margin-bottom:5px;color:var(--heading);font-size:1rem}
     .asset-role{color:var(--text);font-size:.9rem;margin-bottom:8px}
@@ -75,9 +76,9 @@
           <article class="asset-card"><div class="asset-preview"><img src="../../../../desktopui-Nobg.PNG" alt="CrownCode.ai product screenshot" loading="lazy"></div><div class="asset-body"><h3>CrownCode.ai</h3><div class="asset-role">Product screenshot</div><div class="asset-path">desktopui-Nobg.PNG</div></div></article>
           <article class="asset-card"><div class="asset-preview"><img src="../../../../VoxVector/Assets/voxvector_icon_2_cropped.png" alt="VoxVector app icon" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">App icon / squircle</div><div class="asset-path">VoxVector/Assets/voxvector_icon_2_cropped.png</div></div></article>
           <article class="asset-card"><div class="asset-preview"><img src="../../../../VoxVector/Assets/voxvector_logo_icon.png" alt="VoxVector logo symbol" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">Logo symbol only</div><div class="asset-path">VoxVector/Assets/voxvector_logo_icon.png</div></div></article>
-          <article class="asset-card"><div class="asset-preview"><img src="../../../../VoxVector/Assets/VoxVector-logo-word.png" alt="VoxVector wordmark" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">Wordmark</div><div class="asset-path">VoxVector/Assets/VoxVector-logo-word.png</div></div></article>
+          <article class="asset-card"><div class="asset-preview"><img class="vv-wordmark-preview" src="../../../../VoxVector/Assets/voxvector_wordmark.svg" alt="VoxVector wordmark" loading="lazy"></div><div class="asset-body"><h3>VoxVector</h3><div class="asset-role">Wordmark</div><div class="asset-path">VoxVector/Assets/voxvector_wordmark.svg</div></div></article>
         </div>
-        <div class="registry-note"><strong>Governance note:</strong> product documentation should reference the registered asset path, preserve the approved role, and avoid inventing replacement artwork. VoxVector app surfaces use the canonical squircle app icon, brand lockups use the icon-only mark, and the existing wordmark remains unchanged.</div>
+        <div class="registry-note"><strong>Governance note:</strong> product documentation should reference the registered asset path, preserve the approved role, and avoid inventing replacement artwork. VoxVector app surfaces use the canonical squircle app icon, brand lockups use the icon-only mark with the SVG wordmark, the wordmark is presented in very light gray on dark UI, and side-by-side icon + wordmark lockups render both images at exactly the same height.</div>
       </div>
     </article>
   </div></main>
