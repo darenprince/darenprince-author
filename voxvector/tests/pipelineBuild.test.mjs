@@ -19,6 +19,13 @@ test('Developer Console pipeline card prefers backend status_by_stage and normal
   assert.match(source, /\['08', 'transcript_alignment', 'Transcript Alignment', 'implemented_foundation'/)
 })
 
+test('Developer Console pipeline card labels backend-unavailable and loading fallback states explicitly', () => {
+  assert.match(source, /Backend pipeline status unavailable — showing source-contract fallback/)
+  assert.match(source, /Loading backend pipeline status — source-contract fallback shown meanwhile/)
+  assert.match(source, /Backend unavailable · fallback/)
+  assert.match(source, /Backend loading · fallback/)
+})
+
 test('Developer Console pipeline card does not falsely mark Stage 01 current when runtime has no exact current-stage token', () => {
   assert.doesNotMatch(source, /STAGES\.find\(stage => stage\[2\] === 'implemented'\)/)
   assert.match(source, /Boolean\(currentToken\)/)
