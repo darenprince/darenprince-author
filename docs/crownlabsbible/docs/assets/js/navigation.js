@@ -1,6 +1,7 @@
 ;(function () {
   const root=document.documentElement,key='theme',app=document.getElementById('app')
-  const applyTheme=theme=>{root.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo)}
+  const syncVoxWordmark=()=>document.querySelectorAll('.cl-doc-brand-logo--voxvector').forEach(img=>{img.style.filter=root.dataset.theme==='light'?'none':'brightness(0) invert(94%)';img.style.opacity=root.dataset.theme==='light'?'1':'.96'})
+  const applyTheme=theme=>{root.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo);syncVoxWordmark()}
   applyTheme(localStorage.getItem(key)||'dark')
 
   document.getElementById('themeToggle')?.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';localStorage.setItem(key,next);applyTheme(next)})
@@ -54,6 +55,7 @@
     insert(data.logo,`cl-doc-brand-logo${data.alt==='VoxVector'?' cl-doc-brand-logo--voxvector':''}`,data.alt+' logo')
     insert(data.hero,'cl-doc-brand-hero',data.alt+' hero')
     insert(data.icon,'cl-doc-brand-icon',data.alt+' app icon')
+    syncVoxWordmark()
     content.dataset.brandPath=p
   }
   brandDocument()
