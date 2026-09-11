@@ -355,7 +355,7 @@ section[aria-label='Case workflow'] > .vv-panel:has(audio):has(audio[src]) {
     padding-top:0;
     padding-bottom:0;
     transform:translateY(-2px);
-    background:rgba(185,139,98,.14)!important;
+    background:color-mix(in srgb,var(--vv-panel) 92%,#b98b62 8%)!important;
     border-color:rgba(185,139,98,.42)!important;
   }
 }
@@ -472,3 +472,6 @@ html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-be
 @media (hover:hover) and (pointer:fine){.vv-history-delete-rail{display:none}}
 @media (hover:none),(pointer:coarse){.vv-history-delete-icon{display:none}.vv-history-swipe .vv-history-item{cursor:grab}.vv-history-swipe.is-open .vv-history-item{cursor:grabbing}}
 @media (prefers-reduced-motion:reduce){.vv-history-swipe .vv-history-item{transition:none}}
+
+/* Account actions are owned by the header profile menu; suppress the duplicate drawer footer block. */
+.vv-app nav[aria-label="Developer Console"] + .mt-4 { display:none; }

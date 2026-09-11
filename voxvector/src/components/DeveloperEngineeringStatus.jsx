@@ -28,6 +28,7 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const [hidden,setHidden]=useState(false)
   const [sessionToken,setSessionToken]=useState(accessToken)
   const [deployNotice,setDeployNotice]=useState('')
+  const [wakeNotice,setWakeNotice]=useState(null)
   const swipeStart=useRef(null)
   const queryClient=useQueryClient()
   const panelId='vv-live-engineering-status-panel'
@@ -44,6 +45,21 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   useEffect(()=>{if(!open)return undefined;const previous=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{document.body.style.overflow=previous}},[open])
 
   const health=useQuery({queryKey:['engineering-status-health'],queryFn:getHealth,refetchInterval:30000})
+  const wakeMutation=useMutation({
+    mutationFn:getHealth,
+    onMutate:()=>setWakeNotice({tone:'pending',message:'Sending a fresh health request to the VoxVector API…'}),
+    onSuccess:result=>{
+      queryClient.setQueryData(['engineering-status-health'],result)
+      const payload=result?.payload||result||{}
+      const observedAt=payload.runtime?.observed_at||payload.observed_at||''
+      if(payload.status==='ok'){
+        setWakeNotice({tone:'success',message:`API responded healthy${observedAt?` · observed ${new Date(observedAt).toLocaleString()}`:''}.`})
+      }else{
+        setWakeNotice({tone:'error',message:`API responded, but did not report healthy status${payload.status?` · ${payload.status}`:''}.`})
+      }
+    },
+    onError:error=>setWakeNotice({tone:'error',message:error?.message||'The API did not return a healthy response.'}),
+  })
   const h=health.data?.payload||health.data||{}
   const runtime=h.runtime||{}
   const backendRevision=(runtime.source_revision||h.source_revision)&&((runtime.source_revision||h.source_revision)!=='unknown')?(runtime.source_revision||h.source_revision):''
@@ -133,7 +149,8 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
     </div>
     {open&&<div id={panelId} className="vv-eng-status__body" role="region" aria-label="Full live engineering status">
       <div className="vv-eng-status__swipe-handle" onTouchStart={swipeStartHandler} onTouchEnd={swipeEndHandler} onTouchCancel={()=>{swipeStart.current=null}}><span/><small>Swipe to collapse</small></div>
-      <div className="vv-eng-status__expanded-title"><span className="vv-eng-status__heading"><Activity size={16}/><span>LIVE ENGINEERING STATUS</span></span><div className="vv-eng-status__summary-wrap"><span className="vv-eng-status__summary"><span>{appPackage.version} FRONTEND</span><span>{built} BUILT</span><span>{tested}</span></span><button type="button" className="vv-eng-deploy-button" onClick={deployNow} disabled={deployMutation.isPending||!sessionToken} aria-disabled={deployMutation.isPending||!sessionToken}>{deployMutation.isPending?<><LoaderCircle size={14} className="vv-eng-deploy-spinner"/>DEPLOYING…</>:<><Rocket size={14}/>DEPLOY NOW</>}</button><button type="button" className="vv-eng-status__close" onClick={()=>setOpen(false)} aria-label="Collapse engineering status" title="Collapse engineering status"><Minimize2 size={14}/></button></div></div>
+      <div className="vv-eng-status__expanded-title"><span className="vv-eng-status__heading"><Activity size={16}/><span>LIVE ENGINEERING STATUS</span></span><div className="vv-eng-status__summary-wrap"><span className="vv-eng-status__summary"><span>{appPackage.version} FRONTEND</span><span>{built} BUILT</span><span>{tested}</span></span><button type="button" className="vv-eng-deploy-button" onClick={()=>wakeMutation.mutate()} disabled={wakeMutation.isPending} aria-disabled={wakeMutation.isPending}>{wakeMutation.isPending?<><LoaderCircle size={14} className="vv-eng-deploy-spinner"/>WAKING…</>:<><Activity size={14}/>WAKE API</>}</button><button type="button" className="vv-eng-deploy-button" onClick={deployNow} disabled={deployMutation.isPending||!sessionToken} aria-disabled={deployMutation.isPending||!sessionToken}>{deployMutation.isPending?<><LoaderCircle size={14} className="vv-eng-deploy-spinner"/>DEPLOYING…</>:<><Rocket size={14}/>DEPLOY NOW</>}</button><button type="button" className="vv-eng-status__close" onClick={()=>setOpen(false)} aria-label="Collapse engineering status" title="Collapse engineering status"><Minimize2 size={14}/></button></div></div>
+      {wakeNotice&&<div className={`vv-eng-deploy-notice ${wakeNotice.tone==='error'?'error':wakeNotice.tone==='pending'?'':'success'}`} role="status">{wakeNotice.tone==='error'?<AlertTriangle size={14}/>:wakeNotice.tone==='pending'?<LoaderCircle size={14} className="vv-eng-deploy-spinner"/>:<CheckCircle2 size={14}/>}<span>{wakeNotice.message}</span></div>}
       {deployNotice&&<div className={`vv-eng-deploy-notice ${deployMutation.isError?'error':'success'}`} role="status">{deployMutation.isError?<AlertTriangle size={14}/>:<CheckCircle2 size={14}/>}<span>{deployNotice}</span></div>}
       {workflows.isError&&<div className="vv-status-row error"><Server size={14}/>GitHub workflow status could not be refreshed: {workflows.error?.message}</div>}
       <div className="vv-eng-state-grid"><StateChip icon={Hammer} label="BUILT" value={built}/><StateChip icon={Activity} label="API" value={apiState}/><StateChip icon={TestTube2} label="QA" value={tested}/><StateChip icon={ShieldCheck} label="PAGES" value={pagesState}/><StateChip icon={Mic2} label="TRANSCRIBE" value={transcriptionState}/><StateChip icon={Server} label="RENDER" value={`${renderServiceState} · ${renderDeployState}`} tone={renderStatusState.tone}/></div>
