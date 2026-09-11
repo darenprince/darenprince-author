@@ -25,7 +25,7 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 #root { overflow-x: clip !important; }
 .vv-app { position: static !important; overflow: visible !important; transform: none !important; }
 
-/* Every side-by-side VoxVector icon + wordmark lockup shares one exact image height. */
+/* Every side-by-side VoxVector icon + wordmark lockup shares one exact image height. No exceptions. */
 .vv-logo-lockup {
   --vv-lockup-image-height: 24px;
   display: inline-flex !important;
