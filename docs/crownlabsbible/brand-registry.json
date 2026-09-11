@@ -1,13 +1,13 @@
 {
   "title": "Crown Labs Brand Logo & Icon Registry",
-  "version": "1.1",
+  "version": "1.2",
   "canonical": true,
   "source": "docs/crownlabsbible/brand-registry.json",
   "notes": [
     "Use this registry as the source of truth for documentation-facing brand artwork.",
     "Binary image files are referenced by repository-relative path and are not duplicated into the documentation tree.",
     "The supplied Picdetective/deticon.png pairing was classified as PicDetective because the repository identifies it with the PicDetective product.",
-    "VoxVector separates the squircle app icon, icon-only brand mark, and unchanged wordmark so each surface uses the correct canonical asset."
+    "VoxVector separates the squircle app icon, icon-only brand mark, and canonical SVG wordmark so each surface uses the correct canonical asset. The SVG wordmark is styled very light gray on dark UI surfaces, and every side-by-side icon + wordmark lockup renders both images at the exact same height."
   ],
   "assets": [
     {"brand":"Crown Psychology","role":"Full logo / wordmark","path":"assets/images/Crown-Psychology-Wordmark.png","placement":["Crown Psychology documentation overview","product portfolio card","brand registry"]},
@@ -28,6 +28,6 @@
     {"brand":"CrownCode.ai","role":"Product screenshot","path":"desktopui-Nobg.PNG","placement":["CrownCode.ai overview","brand registry"]},
     {"brand":"VoxVector","role":"App icon / squircle","path":"VoxVector/Assets/voxvector_icon_2_cropped.png","placement":["VoxVector login","favicon","installed web app","Crown Labs product portfolio","VoxVector documentation","brand registry"]},
     {"brand":"VoxVector","role":"Logo symbol only","path":"VoxVector/Assets/voxvector_logo_icon.png","placement":["VoxVector navigation","combined icon + wordmark lockups","loaders","brand registry"]},
-    {"brand":"VoxVector","role":"Wordmark","path":"VoxVector/Assets/VoxVector-logo-word.png","placement":["VoxVector navigation lockups","VoxVector documentation","brand registry"]}
+    {"brand":"VoxVector","role":"Wordmark","path":"VoxVector/Assets/voxvector_wordmark.svg","placement":["VoxVector navigation lockups","VoxVector documentation","brand registry"]}
   ]
 }

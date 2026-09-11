@@ -25,7 +25,39 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 #root { overflow-x: clip !important; }
 .vv-app { position: static !important; overflow: visible !important; transform: none !important; }
 
-.vv-public-header .vv-logo-lockup,
+/* Every side-by-side VoxVector icon + wordmark lockup shares one exact image height. No exceptions. */
+.vv-logo-lockup {
+  --vv-lockup-image-height: 24px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px;
+  vertical-align: middle;
+  margin: 0 !important;
+}
+
+.vv-logo-lockup img {
+  display: block;
+  height: var(--vv-lockup-image-height) !important;
+  max-height: none !important;
+  margin: 0 !important;
+  object-fit: contain;
+}
+
+.vv-logo-lockup .vv-logo-icon {
+  width: var(--vv-lockup-image-height) !important;
+  max-width: none !important;
+  flex: 0 0 var(--vv-lockup-image-height);
+}
+
+.vv-logo-lockup .vv-logo-wordmark {
+  width: auto !important;
+  max-width: none !important;
+  filter: brightness(0) invert(94%);
+  opacity: .96;
+}
+
+.vv-public-header .vv-logo-lockup { height: 56px !important; }
 .vv-developer-header a[aria-label="VoxVector Developer Console"] {
   display: inline-flex !important;
   align-items: center !important;
@@ -33,12 +65,7 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
   vertical-align: middle;
   margin: 0 !important;
 }
-
-.vv-public-header .vv-logo-lockup { height: 56px !important; }
-.vv-public-header .vv-logo-lockup img,
 .vv-developer-header img { display: block; margin: 0 !important; }
-.vv-public-header .vv-logo-icon { width: 34px !important; height: 34px !important; object-fit: contain; }
-.vv-public-header .vv-logo-wordmark { width: auto !important; max-width: 148px; max-height: 24px !important; object-fit: contain; }
 .vv-developer-header { isolation: isolate; }
 .vv-developer-header > div > div:first-child,
 .vv-developer-header > div > div:last-child { height: 56px !important; display: flex !important; align-items: center !important; }
@@ -134,6 +161,13 @@ body:has(.vv-public-header) { overflow-x: clip !important; }
 @media (max-width: 900px) {
   .vv-public-header,
   .vv-developer-header { z-index: 400 !important; }
+}
+
+@media (max-width: 480px) {
+  .vv-logo-lockup {
+    --vv-lockup-image-height: 22px;
+    gap: 7px;
+  }
 }
 
 /* The developer drawer is the sole console navigation surface. Keep its trigger
