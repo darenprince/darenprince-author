@@ -323,6 +323,7 @@ It must include:
 - audit registry
 - endpoint and deployment-boundary traceability
 - admin-only user management when the session carries the trusted `admin` role
+- an explicit health-backed **Wake API** control in the existing live engineering status surface
 
 ### Developer Overview status model
 
@@ -341,6 +342,14 @@ The rail keeps the existing live runtime, GitHub QA, deployment, pipeline, provi
 The compact rail is a stricter operational alarm than the individual dashboard warning palette: it stays in the normal dark treatment only while the Render service and latest deployment are both accepted `ACTIVE`/`LIVE` states. Any other Render state combination, including a transitional deployment, makes the rail red and the text summary names both service and deployment states. Render control-plane connectivity cannot suppress that red state.
 
 The expanded status surface is a non-modal disclosure region. Its controls use `aria-expanded` and `aria-controls`; it must not claim `aria-modal` behavior unless full focus containment, Escape handling, and focus restoration are implemented. Toast notifications sit at the bottom-right so they do not obscure the top rail. Desktop and mobile layouts must preserve these same ownership and non-overlap rules.
+
+The existing live engineering status surface also owns the explicit **Wake API** action. The action reuses the canonical frontend health client and therefore requests `GET /health`; it does not create a second wake endpoint. The UI distinguishes the request-in-progress state, a returned healthy response, and a non-healthy/error response. Sending the request is not itself evidence that the API is ready; only the returned health observation may be represented as health evidence for that request.
+
+The canonical header profile menu remains the account/email/sign-out presentation owner for the Developer Console shell. The slide-out Developer drawer must not present a second visual copy of that account footer. Removing the duplicate drawer presentation does not remove sign-out or account behavior from the header profile menu.
+
+### Case Workflow tracker presentation
+
+The existing Case Workflow tracker remains the single workflow guide above the workbench. After its short settle period, the compact sticky state uses an opaque theme-aware surface so underlying analysis content does not bleed through. Hover/focus expansion continues to reveal the existing tracker details. This is a presentation refinement only and does not alter case identity, workflow state, stage semantics, or analysis execution.
 
 ### Status semantics
 
