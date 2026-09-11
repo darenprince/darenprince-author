@@ -114,11 +114,18 @@ Application-owned SVG is used for current analytical chart and data blocks. Do n
 
 **Streamline Sharp** is the canonical icon family for the VoxVector product experience. The Sharp collection is used for its geometric precision, high legibility and technical character.
 
-The web implementation uses Iconify's on-demand `streamline-sharp` collection so only requested glyphs are resolved at runtime. The design source remains Streamline Sharp; the separate Streamline API is the authoritative route for licensed asset discovery, download and broader collection access.
+The web implementation uses Iconify's on-demand `streamline-sharp` collection so only requested glyphs are resolved at runtime. The canonical React wrapper is `voxvector/src/components/SharpIcon.jsx`, which uses `@iconify/react` with the `streamline-sharp` collection. Shared VoxVector chrome should use this primitive rather than adding a competing icon family for new or replacement interface icons.
+
+Canonical library references:
+
+- Official Streamline icon browser: <https://www.streamlinehq.com/icons>
+- Exact runtime collection browser: <https://icon-sets.iconify.design/streamline-sharp/>
 
 Use the Line style for primary interface navigation and compact controls. Use Solid or Remix variants selectively where a stronger visual anchor is appropriate. Icons should normally be 16–20px in navigation and 18–24px for primary controls, with larger feature icons allowed where they function as visual anchors.
 
-Do not mix unrelated icon families inside the same interaction cluster. Existing specialist visualizations may retain their own rendering primitives where an icon is part of the visualization itself, but shared application chrome should follow Sharp.
+When adding or replacing a shared interface icon, search Streamline Sharp first and use the existing `SharpIcon` primitive when the required glyph exists. Do not bypass the canonical wrapper with a direct unrelated icon-library import merely for convenience. Existing components that still legitimately own another icon primitive may retain it until an intentional migration is performed; specialist visualizations may also retain their own rendering primitives where an icon is part of the visualization itself.
+
+The design source remains Streamline Sharp. The separate Streamline API is the authoritative route for licensed asset discovery, download and broader collection access. Do not embed private Streamline credentials in client code. When an icon is downloaded or bundled directly rather than resolved through Iconify, retain its asset provenance and applicable license/attribution information.
 
 Streamline's free Sharp distribution is attribution based and permits commercial use according to its stated license. Asset provenance should be retained when downloaded or bundled directly.
 

@@ -347,6 +347,13 @@ The approved architecture includes:
 - Motion for React
 - TanStack Query
 
+For shared VoxVector product chrome, **Streamline Sharp** is the canonical icon family. The React application resolves it through the existing `voxvector/src/components/SharpIcon.jsx` wrapper using Iconify's `streamline-sharp` collection. New or replacement shared-interface icons should use that canonical wrapper when the glyph exists rather than introducing another icon family for convenience. Existing components may retain a different icon primitive until an intentional migration is performed.
+
+Canonical library references:
+
+- Official Streamline icon browser: <https://www.streamlinehq.com/icons>
+- Exact Iconify runtime collection: <https://icon-sets.iconify.design/streamline-sharp/>
+
 The frontend remains an interface over the canonical FastAPI analysis architecture.
 
 ## Backend architecture
