@@ -2,7 +2,7 @@
 
 **Status:** Canonical active instruction  
 **Effective:** 2026-09-08  
-**Updated:** 2026-09-09
+**Updated:** 2026-09-11
 
 This document supplements the general VoxVector editing workflow with the specific synchronization requirements for the Developer Console and connected case workflow.
 
@@ -370,5 +370,15 @@ The compact rail is an operational attention surface. It uses the normal dark tr
 The expanded surface is a non-modal disclosure region. Native controls must remain keyboard accessible and expose `aria-expanded`/`aria-controls`; do not declare it modal without implementing the complete modal focus lifecycle. Developer Console toast notifications belong at the bottom-right so they do not obscure the live rail. Desktop/mobile behavior and reduced-motion handling must stay synchronized with the same canonical component owners.
 
 The rail status does not establish revision parity, successful provider execution, authenticated browser behavior or scientific validation. Those evidence gates remain separate.
+
+### Wake API and console chrome synchronization
+
+The existing `DeveloperEngineeringStatus` surface owns the explicit **Wake API** control. It must reuse the canonical frontend health request (`GET /health`) rather than introduce a second wake endpoint. The interface must distinguish request-in-progress, returned healthy response, and returned non-healthy/error states. A request attempt is not proof of readiness, deployment, provider execution, browser verification, or scientific validation.
+
+The compact Case Workflow tracker remains the single tracker above the workbench. When it settles into compact mode, it uses an opaque theme-aware surface; hover/focus expansion continues to reveal the existing tracker. This is presentation only and must not invent workflow progress or create a duplicate tracker.
+
+The canonical header profile menu remains the Developer Console account/email/sign-out presentation owner. The slide-out drawer must not visually duplicate that footer presentation. Removing the duplicate drawer presentation must preserve the header profile menu, account routing, role behavior, and sign-out action.
+
+This September 11, 2026 refinement contains no additional public landing/shared-shell change. The earlier trailing phrase was a punctuation/transcription error and must not be treated as an unfinished public-shell instruction.
 
 When this shell behavior changes, evaluate at minimum `UI_APPLICATION_ARCHITECTURE.md`, `CSS_ARCHITECTURE.md`, `CURRENT_ENGINEERING_STATE_2026-09-04.md`, `QA_STATUS.md`, the corresponding current Crown Labs Bible architecture/current-state mirrors, and `voxvector/audits/AUDIT_REPORT.md`. Historical checkpoints are evidence records and must not be rewritten.
