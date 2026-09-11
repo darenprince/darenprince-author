@@ -4,10 +4,17 @@ import assert from 'node:assert/strict'
 import { getVoxVectorRole, isAdmin, isApprovedUser, isDeveloper, roleAllowed, routeForVoxVectorRole } from '../src/lib/access.js'
 
 const userWith = (appMetadata = {}, userMetadata = {}) => ({ app_metadata: appMetadata, user_metadata: userMetadata })
+const ADMIN_PERMISSIONS = [
+  'developer.console',
+  'users.manage',
+  'cases.manage',
+  'deploy.manage',
+  'diagnostics.read',
+]
 
 test('trusted app metadata routes each supported VoxVector role', () => {
   const developer = userWith({ voxvector_role: 'developer' })
-  const admin = userWith({ role: 'admin' })
+  const admin = userWith({ role: 'admin', voxvector_permissions: ADMIN_PERMISSIONS })
   const user = userWith({ voxvector_role: 'user' })
 
   assert.equal(getVoxVectorRole(developer), 'developer')
@@ -19,6 +26,8 @@ test('trusted app metadata routes each supported VoxVector role', () => {
   assert.equal(routeForVoxVectorRole(admin), '/voxvector/developer')
   assert.equal(isDeveloper(admin), true)
   assert.equal(isAdmin(admin), true)
+  assert.equal(roleAllowed(admin, ['developer', 'admin']), true)
+  assert.deepEqual(admin.app_metadata.voxvector_permissions, ADMIN_PERMISSIONS)
 
   assert.equal(getVoxVectorRole(user), 'user')
   assert.equal(routeForVoxVectorRole(user), '/voxvector/app')
@@ -34,7 +43,7 @@ test('unknown or missing roles route to login and fail protected-role checks', (
 })
 
 test('user-editable metadata never grants VoxVector authorization', () => {
-  const spoofed = userWith({}, { voxvector_role: 'admin', role: 'developer' })
+  const spoofed = userWith({}, { voxvector_role: 'admin', role: 'developer', voxvector_permissions: ADMIN_PERMISSIONS })
   assert.equal(getVoxVectorRole(spoofed), null)
   assert.equal(isDeveloper(spoofed), false)
   assert.equal(isAdmin(spoofed), false)
@@ -42,7 +51,7 @@ test('user-editable metadata never grants VoxVector authorization', () => {
 
 test('roleAllowed distinguishes user and operator surfaces', () => {
   const developer = userWith({ role: 'developer' })
-  const admin = userWith({ role: 'admin' })
+  const admin = userWith({ role: 'admin', voxvector_permissions: ADMIN_PERMISSIONS })
   const user = userWith({ role: 'user' })
   assert.equal(roleAllowed(developer, ['developer', 'admin']), true)
   assert.equal(roleAllowed(admin, ['developer', 'admin']), true)
