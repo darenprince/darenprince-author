@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           CONSOLE_SOURCE="VoxVector/Assets/voxvector-audio-analysis-console.png"
-          WORDMARK_SOURCE="VoxVector/Assets/VoxVector-logo-word.png"
+          WORDMARK_SOURCE="VoxVector/Assets/voxvector_wordmark.svg"
           APP_ICON_SOURCE="VoxVector/Assets/voxvector_icon_2_cropped.png"
           LOGO_ICON_SOURCE="VoxVector/Assets/voxvector_logo_icon.png"
 
@@ -74,19 +74,19 @@ jobs:
             echo "Use the canonical source: $CONSOLE_SOURCE"
             exit 1
           fi
-          if test -e "VoxVector/VoxVector-logo-word.png"; then
-            echo "ERROR: obsolete duplicate wordmark path exists: VoxVector/VoxVector-logo-word.png"
+          if test -e "VoxVector/voxvector_wordmark.svg"; then
+            echo "ERROR: obsolete duplicate wordmark path exists: VoxVector/voxvector_wordmark.svg"
             echo "Use the canonical source: $WORDMARK_SOURCE"
             exit 1
           fi
 
           mkdir -p voxvector/public
           cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
-          cp "$WORDMARK_SOURCE" voxvector/public/VoxVector-logo-word.png
+          cp "$WORDMARK_SOURCE" voxvector/public/voxvector_wordmark.svg
           cp "$APP_ICON_SOURCE" voxvector/public/voxvector_icon_2_cropped.png
           cp "$LOGO_ICON_SOURCE" voxvector/public/voxvector_logo_icon.png
           test -f voxvector/public/voxvector-audio-analysis-console.png
-          test -f voxvector/public/VoxVector-logo-word.png
+          test -f voxvector/public/voxvector_wordmark.svg
           test -f voxvector/public/voxvector_icon_2_cropped.png
           test -f voxvector/public/voxvector_logo_icon.png
           echo "Canonical VoxVector image assets staged before Vite build."
@@ -134,10 +134,10 @@ jobs:
           mkdir -p _site/VoxVector/Assets
           cp ./VoxVector/Assets/voxvector_icon_2_cropped.png ./_site/VoxVector/Assets/voxvector_icon_2_cropped.png
           cp ./VoxVector/Assets/voxvector_logo_icon.png ./_site/VoxVector/Assets/voxvector_logo_icon.png
-          cp ./VoxVector/Assets/VoxVector-logo-word.png ./_site/VoxVector/Assets/VoxVector-logo-word.png
+          cp ./VoxVector/Assets/voxvector_wordmark.svg ./_site/VoxVector/Assets/voxvector_wordmark.svg
           test -f ./_site/VoxVector/Assets/voxvector_icon_2_cropped.png
           test -f ./_site/VoxVector/Assets/voxvector_logo_icon.png
-          test -f ./_site/VoxVector/Assets/VoxVector-logo-word.png
+          test -f ./_site/VoxVector/Assets/voxvector_wordmark.svg
           mkdir -p _site/voxvector/developer
           mkdir -p _site/voxvector/login
           cp ./voxvector/dist/index.html ./_site/voxvector/developer/index.html
