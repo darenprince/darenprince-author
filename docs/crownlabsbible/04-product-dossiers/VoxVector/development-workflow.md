@@ -40,7 +40,7 @@ The workflow section contains one canonical VoxVector audio analysis console ima
 
 The console presentation includes one full-width coffee-colored animated waveform behind the supplied console image. The waveform is decorative interface motion only. It is not live telemetry, analysis output, or a scientific result.
 
-The public header icon and wordmark lockup is allocated **50% of the available header width on mobile**. The icon and wordmark form one cohesive lockup at the same visual height. Desktop uses a restrained professional SaaS/application size rather than the oversized mobile treatment. The footer places the supplied icon above the wordmark, centered immediately before the copyright row.
+The public header icon and wordmark lockup is allocated **50% of the available header width on mobile**. Whenever the icon and wordmark are rendered side-by-side, both image elements must use the exact same rendered height at every breakpoint, with no exception. Desktop uses a restrained professional SaaS/application size rather than the oversized mobile treatment. The footer follows the same equal-height side-by-side lockup rule.
 
 These are presentation-layer changes and must preserve the existing landing DOM, navigation, responsive behavior, accessibility behavior, and asset staging boundary.
 
@@ -53,21 +53,21 @@ Canonical VoxVector design assets live under `VoxVector/Assets/`. Frontend build
 The current canonical frontend brand assets include:
 
 - `VoxVector/Assets/voxvector-audio-analysis-console.png`
-- `VoxVector/Assets/VoxVector-logo-word.png`
+- `VoxVector/Assets/voxvector_wordmark.svg`
 - `VoxVector/Assets/voxvector_icon_2_cropped.png`
 - `VoxVector/Assets/voxvector_logo_icon.png`
 
 The semantic asset rule is explicit:
 
 - use `voxvector_icon_2_cropped.png` for the squircle/application identity, including login, favicon, Apple touch icon, installed/PWA app icon, Crown Labs product cards, and Crown Labs Bible product/document navigation;
-- use `voxvector_logo_icon.png` for icon-only brand marks and combined icon + unchanged wordmark lockups, including the top navigation and startup/load states;
-- keep `VoxVector-logo-word.png` unchanged wherever a wordmark is used.
+- use `voxvector_logo_icon.png` for icon-only brand marks and combined icon + wordmark lockups, including the top navigation and startup/load states;
+- use `voxvector_wordmark.svg` everywhere a VoxVector wordmark is required; on dark VoxVector UI surfaces the black source SVG is styled very light gray, and every side-by-side icon + wordmark lockup renders both images at the exact same CSS height.
 
-The deployment workflows stage both icon assets into the React public directory before the Vite build. The production Pages artifact also exposes the selected canonical brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
+The deployment workflows stage both icon assets and the SVG wordmark into the React public directory before the Vite build. The production Pages artifact also exposes the selected canonical brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
 
-The landing refinement references the emitted console image as `/voxvector/voxvector-audio-analysis-console.png` and the emitted wordmark as `/voxvector/VoxVector-logo-word.png`.
+The landing refinement references the emitted console image as `/voxvector/voxvector-audio-analysis-console.png` and the emitted wordmark as `/voxvector/voxvector_wordmark.svg`.
 
-The obsolete source path `VoxVector/voxvector-audio-analysis-console.png` must not be recreated. Neither should a competing permanent copy of the wordmark be placed at `VoxVector/VoxVector-logo-word.png`.
+The obsolete source path `VoxVector/voxvector-audio-analysis-console.png` must not be recreated. Neither should a competing permanent copy of the wordmark be placed at `VoxVector/voxvector_wordmark.svg`.
 
 Production and PR preview workflows must reference the exact case-sensitive canonical paths, stage assets before Vite builds, and verify the resulting files in `dist/`. If an obsolete duplicate source path appears, the workflow should fail clearly rather than choose between competing files.
 
