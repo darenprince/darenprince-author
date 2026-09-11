@@ -82,15 +82,18 @@ The earlier runtime `CanonicalHeroCopy.jsx` mechanism is not restored. The conte
 
 The canonical image source tree is `VoxVector/Assets/`.
 
-The repository currently contains:
+The current frontend brand and workflow assets include:
 
 - `VoxVector/Assets/voxvector-audio-analysis-console.png`
 - `VoxVector/Assets/VoxVector-logo-word.png`
-- `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
+- `VoxVector/Assets/voxvector_icon_2_cropped.png`
+- `VoxVector/Assets/voxvector_logo_icon.png`
 
-The production Pages workflow stages these assets into the React public directory before the Vite build. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
+The icon roles are intentionally separate. `voxvector_icon_2_cropped.png` is the squircle/application icon for login, favicon, Apple touch/PWA install surfaces, Crown Labs product cards, and Crown Labs Bible product/document navigation. `voxvector_logo_icon.png` is the icon-only brand mark used in top navigation, combined icon + unchanged wordmark lockups, and startup/load states. The existing wordmark remains `VoxVector-logo-word.png` and is not replaced by either icon asset.
 
-The canonical landing workflow visual now references the staged console asset at `/voxvector/voxvector-audio-analysis-console.png`.
+The production Pages workflow stages the console, wordmark, app icon, and logo icon into the React public directory before the Vite build. The Pages artifact also exposes the selected canonical VoxVector brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
+
+The canonical landing workflow visual references the staged console asset at `/voxvector/voxvector-audio-analysis-console.png`.
 
 ## Behavior migration: developer dashboard refinement
 
