@@ -39,13 +39,24 @@ function normalizeRole(value: unknown) {
   return ALLOWED_ROLES.has(role) ? role : null;
 }
 
-function normalizePermissions(value: unknown, role: string) {
-  if (!Array.isArray(value)) return DEFAULT_PERMISSIONS[role] || [];
-  return [...new Set(value.map(item => safeText(item, 64)).filter(Boolean))].slice(0, 32);
+function normalizePermissions(value: unknown, role: string, useDefaults = false) {
+  const allowed = new Set(DEFAULT_PERMISSIONS[role] || []);
+  const source = Array.isArray(value) ? value : (useDefaults ? DEFAULT_PERMISSIONS[role] || [] : []);
+  return [...new Set(
+    source
+      .map(item => safeText(item, 64))
+      .filter(item => Boolean(item) && allowed.has(item)),
+  )];
 }
 
 function trustedRole(user: any) {
   return normalizeRole(user?.app_metadata?.voxvector_role || user?.app_metadata?.role);
+}
+
+function trustedPermissions(user: any) {
+  const role = trustedRole(user);
+  if (!role) return [];
+  return normalizePermissions(user?.app_metadata?.voxvector_permissions, role, false);
 }
 
 function safeUser(user: any, profile: any = null) {
@@ -54,9 +65,7 @@ function safeUser(user: any, profile: any = null) {
     id: user?.id || "",
     email: user?.email || "",
     role,
-    permissions: Array.isArray(user?.app_metadata?.voxvector_permissions)
-      ? user.app_metadata.voxvector_permissions.filter((item: unknown) => typeof item === "string")
-      : (role ? DEFAULT_PERMISSIONS[role] || [] : []),
+    permissions: role ? trustedPermissions(user) : [],
     display_name: profile?.display_name || user?.user_metadata?.full_name || user?.user_metadata?.name || "",
     avatar_url: profile?.avatar_url || "",
     created_at: user?.created_at || null,
@@ -91,7 +100,9 @@ Deno.serve(async req => {
   const { data: callerData, error: callerError } = await callerClient.auth.getUser(token);
   const caller = callerData?.user;
   if (callerError || !caller) return json(origin, 401, { error: "Invalid or expired session" });
-  if (trustedRole(caller) !== "admin") return json(origin, 403, { error: "Admin role required" });
+  if (trustedRole(caller) !== "admin" || !trustedPermissions(caller).includes("users.manage")) {
+    return json(origin, 403, { error: "Admin role and users.manage permission required" });
+  }
 
   const admin = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -143,7 +154,7 @@ Deno.serve(async req => {
     if (!email || !email.includes("@")) return json(origin, 400, { error: "A valid email is required" });
     if (!role) return json(origin, 400, { error: "Role must be admin, developer, or user" });
     if (password && password.length < 8) return json(origin, 400, { error: "Passwords must contain at least 8 characters" });
-    const permissions = normalizePermissions(body?.permissions, role);
+    const permissions = normalizePermissions(body?.permissions, role, true);
     let createdUser: any = null;
     if (invite) {
       const { data: inviteData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
@@ -176,7 +187,7 @@ Deno.serve(async req => {
       updated_at: new Date().toISOString(),
     };
     await admin.from("profiles").upsert(profile);
-    await audit("user.created", createdUser.id, { role, invite });
+    await audit("user.created", createdUser.id, { role, permissions, invite });
     return json(origin, 201, { user: safeUser(createdUser, profile) });
   }
 
@@ -186,10 +197,17 @@ Deno.serve(async req => {
     const { data: targetData, error: targetError } = await admin.auth.admin.getUserById(userId);
     const target = targetData?.user;
     if (targetError || !target) return json(origin, 404, { error: "User not found" });
-    const nextRole = body?.role == null ? trustedRole(target) : normalizeRole(body.role);
+    const currentRole = trustedRole(target);
+    const nextRole = body?.role == null ? currentRole : normalizeRole(body.role);
     if (!nextRole) return json(origin, 400, { error: "Role must be admin, developer, or user" });
     if (caller.id === userId && nextRole !== "admin") return json(origin, 409, { error: "You cannot remove your own admin role" });
-    const permissions = normalizePermissions(body?.permissions, nextRole);
+    const roleChanged = nextRole !== currentRole;
+    const permissions = body?.permissions == null
+      ? normalizePermissions(roleChanged ? undefined : target?.app_metadata?.voxvector_permissions, nextRole, roleChanged)
+      : normalizePermissions(body.permissions, nextRole, false);
+    if (caller.id === userId && !permissions.includes("users.manage")) {
+      return json(origin, 409, { error: "You cannot remove your own users.manage permission" });
+    }
     const attributes: Record<string, unknown> = {
       app_metadata: { ...(target.app_metadata || {}), voxvector_role: nextRole, voxvector_permissions: permissions },
     };
@@ -214,7 +232,7 @@ Deno.serve(async req => {
         updated_at: new Date().toISOString(),
       });
     }
-    await audit("user.updated", userId, { role: nextRole, email_changed: Boolean(email), password_changed: Boolean(password) });
+    await audit("user.updated", userId, { role: nextRole, permissions, email_changed: Boolean(email), password_changed: Boolean(password) });
     return json(origin, 200, { user: safeUser(updatedData.user) });
   }
 
