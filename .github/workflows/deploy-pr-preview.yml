@@ -46,11 +46,15 @@ jobs:
           WORDMARK_SOURCE="VoxVector/Assets/voxvector_wordmark.svg"
           APP_ICON_SOURCE="VoxVector/Assets/voxvector_icon_2_cropped.png"
           LOGO_ICON_SOURCE="VoxVector/Assets/voxvector_logo_icon.png"
+          HERO_DESKTOP_SOURCE="VoxVector/Assets/voxvector-hero-desktop.svg"
+          HERO_MOBILE_SOURCE="VoxVector/Assets/voxvector-hero-mobile.svg"
 
           test -f "$CONSOLE_SOURCE"
           test -f "$WORDMARK_SOURCE"
           test -f "$APP_ICON_SOURCE"
           test -f "$LOGO_ICON_SOURCE"
+          test -f "$HERO_DESKTOP_SOURCE"
+          test -f "$HERO_MOBILE_SOURCE"
 
           if test -e "VoxVector/voxvector-audio-analysis-console.png"; then
             echo "ERROR: obsolete duplicate console asset path exists: VoxVector/voxvector-audio-analysis-console.png"
@@ -63,15 +67,19 @@ jobs:
             exit 1
           fi
 
-          mkdir -p voxvector/public
+          mkdir -p voxvector/public/assets
           cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
           cp "$WORDMARK_SOURCE" voxvector/public/voxvector_wordmark.svg
           cp "$APP_ICON_SOURCE" voxvector/public/voxvector_icon_2_cropped.png
           cp "$LOGO_ICON_SOURCE" voxvector/public/voxvector_logo_icon.png
+          cp "$HERO_DESKTOP_SOURCE" voxvector/public/assets/voxvector-hero-desktop.svg
+          cp "$HERO_MOBILE_SOURCE" voxvector/public/assets/voxvector-hero-mobile.svg
           test -f voxvector/public/voxvector-audio-analysis-console.png
           test -f voxvector/public/voxvector_wordmark.svg
           test -f voxvector/public/voxvector_icon_2_cropped.png
           test -f voxvector/public/voxvector_logo_icon.png
+          test -f voxvector/public/assets/voxvector-hero-desktop.svg
+          test -f voxvector/public/assets/voxvector-hero-mobile.svg
           echo "Canonical VoxVector preview assets staged before Vite build."
 
       - name: Install VoxVector dependencies
@@ -104,6 +112,8 @@ jobs:
           test -f dist/voxvector_wordmark.svg
           test -f dist/voxvector_icon_2_cropped.png
           test -f dist/voxvector_logo_icon.png
+          test -f dist/assets/voxvector-hero-desktop.svg
+          test -f dist/assets/voxvector-hero-mobile.svg
           echo "VoxVector PR preview build completed and the direct login entry is present."
 
       - name: Upload PR preview artifact
