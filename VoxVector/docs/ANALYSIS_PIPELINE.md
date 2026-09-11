@@ -36,13 +36,13 @@ It is also the source model for the Analysis Workspace pipeline component and th
 
 The 05/06 order above is the current canonical backend order. Historical dated records may retain the prior diarization-before-segmentation numbering as historical evidence and must not be rewritten solely to look current.
 
-## Current source/runtime checkpoint — 2026-09-10
+## Preserved source/runtime checkpoint — 2026-09-10
 
-Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Current Render deployment `dep-dahi2ics728c73b6ujug` is `live` on that exact source. No fresh `/health` response for `420536...` is recorded by the current synchronization pass.
+At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Render deployment `dep-dahi2ics728c73b6ujug` was `live` on that exact source. No fresh `/health` response for `420536...` was recorded by that synchronization pass.
 
 Merged PR #962 established durable pre-Stage-10 provider checkpointing, Stage 10 process-memory admission, process-vs-Render-instance identity separation, and stable case-run ownership. Merged PR #967 added fail-fast process-wide single-flight admission around the complete downstream composite analysis, a locked RSS recheck, lock ownership through composite execution, and explicit separation of route-owned `run_id` from pipeline-internal `pipeline_run_id`.
 
-Issue #941 is reopened because controlled production verification of those merged behaviors remains open. #964 should first reconcile the live Render dependency/configuration profile into the sole root Blueprint so the accepted controlled proof uses the runtime configuration intended for the candidate.
+Issue #964 was subsequently completed after the intended Render dependency/configuration profile was reconciled into the sole root Blueprint and sole-service inventory was verified. Issue #941 remains reopened because controlled production verification of the merged durability and Stage-10 behaviors is still separate work.
 
 ## Pipeline groupings
 
@@ -102,7 +102,7 @@ Stage 08 builds the timestamped transcript/audio timeline and includes speaker a
 
 Historical controlled production execution on deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed faster-whisper with 58 transcript segments and 246 timestamped words in about 113 seconds. The later API restart occurred after provider completion during the post-provider/downstream transition. That provider execution is real software evidence, but the completed transcript artifact was not yet durably checkpointed before Stage 10 on that historical deployed revision.
 
-Current source now implements that durability checkpoint. Reopened #941 must prove its current production execution after #964 runtime reconciliation.
+Current source implements that durability checkpoint. Reopened #941 must prove its current production execution; #964 is complete and no longer the prerequisite configuration task.
 
 ## Upstream checkpoint before downstream analysis
 
@@ -190,7 +190,7 @@ Each stage can expose:
 
 The pipeline is expandable so a user can move from the high-level workflow into the underlying analytical stage.
 
-The frontend must consume the backend stage contract rather than maintaining a contradictory stage order or maturity claim. Current `voxvector/src/components/PipelineBuildCard.jsx` still has stale local Stage 05/06 ordering and queued Stage 07/08 fallback text; issue #965 owns repair in that existing canonical frontend owner.
+The frontend consumes the backend stage contract rather than maintaining a contradictory order or maturity claim. In PR #993, the existing `voxvector/src/components/PipelineBuildCard.jsx` uses the canonical Stage 05/06 order and prefers `pipeline_build.status_by_stage` when available; its local metadata is a labeled loading/offline fallback only. Stage 07/08 fallback states match the backend implemented-foundation contract. No duplicate pipeline owner was introduced.
 
 ## Synchronized audio analysis surface
 
@@ -357,21 +357,19 @@ The frontend must never simulate a stage merely because the product architecture
 
 The fastest connected implementation path follows the pipeline dependency order:
 
-1. Render/runtime configuration reproducibility under #964
-2. persisted case identity and source
-3. speech segmentation and provider-backed transcription
-4. durable same-run provider checkpoint plus Stage 10 bounded production proof under #941
-5. cloud-primary speaker execution under #970
-6. transcript/audio/speaker alignment under #971
-7. historical-case rehydration under #963
-8. intake/observability acceptance under #930/#959
-9. truthful frontend pipeline projection under #965
-10. authenticated login/profile/browser acceptance under #931/PR #974
-11. release-critical public navigation under #932
-12. real analytical tracks and evidence records
-13. evidence synthesis and assessment/report
-14. frozen-candidate two-run golden verification under #972
-15. scientific validation separately
+1. persisted case identity and source
+2. speech segmentation and provider-backed transcription
+3. durable same-run provider checkpoint plus Stage 10 bounded production proof under #941
+4. cloud-primary speaker execution under #970
+5. transcript/audio/speaker alignment under #971
+6. historical-case rehydration under #963
+7. intake/observability acceptance under #930/#959
+8. truthful frontend pipeline projection under #965 / PR #993
+9. release-critical public navigation under #932 / PR #993
+10. real analytical tracks and evidence records
+11. evidence synthesis and assessment/report
+12. frozen-candidate two-run golden verification under #972
+13. scientific validation separately
 
 ## Related architecture
 
