@@ -129,6 +129,12 @@ Authentication/profile work remains separately owned by #931. It is not part of 
 
 The Developer Console remains the engineering cockpit over real backend/runtime evidence. Merged PRs #961/#966/#968 provide dual Render + Supabase observability and Debug Bundle source foundations. Issue #959 owns production correlated dual-copy, real bundle/redaction, terminal Render capture, restart durability and browser acceptance.
 
+Issue #981 / draft PR #986 is a separate frontend-only Developer Console refinement. It keeps the existing `DeveloperEngineeringStatus`, `DeveloperConsole`, `SiteHeader`, and Case Workflow owners. The existing live engineering status surface gains a manual **Wake API** control that reuses the canonical `GET /health` client request and distinguishes request-in-progress, returned healthy, and returned non-healthy/error states. A request attempt is not represented as readiness evidence.
+
+The same candidate makes the compact Case Workflow tracker opaque/theme-aware and removes the duplicate account/email/sign-out presentation from the Developer drawer while preserving the canonical header profile menu. No second tracker, account menu, wake endpoint, public landing change, or shared-shell implementation is introduced. The owner clarified that the earlier trailing public/shared-shell phrase was a punctuation/transcription error.
+
+This manual Developer Console wake control is independent of #931 / PR #974's requested login-triggered API wake. Source/build QA, authenticated browser verification, merge, publication, backend deployment, provider execution, and scientific validation remain separate evidence gates.
+
 ## Render Blueprint boundary
 
 The existing root `render.yaml` is the sole canonical Blueprint owner. The owner export remains reconciliation evidence, not canonical replacement source, and redacted environment values are not inferred.
@@ -141,7 +147,7 @@ This is source/configuration state until reviewed, merged, deliberately applied 
 
 ## Current engineering sequence
 
-`#964 Render profile reconciliation → exact-head QA/review → merge authorization → deliberate existing-service deployment + fresh /health → reopened #941 controlled proof → #970 cloud diarization → #971 persisted multimodal alignment → #963 case rehydration → #930/#959 reliability/observability → #965 frontend pipeline truth → #931 auth/profile browser acceptance → #932 public navigation → #972 frozen-candidate two-run golden proof`
+`#964 Render profile reconciliation → exact-head QA/review → merge authorization → deliberate existing-service deployment + fresh /health → reopened #941 controlled proof → #970 cloud diarization → #971 persisted multimodal alignment → #963 case rehydration → #930/#959 reliability/observability → #965 frontend pipeline truth → #931 auth/profile browser acceptance → #981 Developer Console wake/chrome browser acceptance → #932 public navigation → #972 frozen-candidate two-run golden proof`
 
 ## Design properties
 
