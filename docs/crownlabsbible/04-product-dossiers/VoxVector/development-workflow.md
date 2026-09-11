@@ -50,11 +50,20 @@ The public React application is `voxvector/`. The backend and analysis-engine wo
 
 Canonical VoxVector design assets live under `VoxVector/Assets/`. Frontend builds may stage those source assets into `voxvector/public/` as a build-time operation so Vite emits them into the production artifact. Do not create a second permanent canonical asset directory merely to make a deployment work.
 
-The current canonical landing assets include:
+The current canonical frontend brand assets include:
 
 - `VoxVector/Assets/voxvector-audio-analysis-console.png`
 - `VoxVector/Assets/VoxVector-logo-word.png`
-- `VoxVector/Assets/voxvector-icon-final-color.png.PNG`
+- `VoxVector/Assets/voxvector_icon_2_cropped.png`
+- `VoxVector/Assets/voxvector_logo_icon.png`
+
+The semantic asset rule is explicit:
+
+- use `voxvector_icon_2_cropped.png` for the squircle/application identity, including login, favicon, Apple touch icon, installed/PWA app icon, Crown Labs product cards, and Crown Labs Bible product/document navigation;
+- use `voxvector_logo_icon.png` for icon-only brand marks and combined icon + unchanged wordmark lockups, including the top navigation and startup/load states;
+- keep `VoxVector-logo-word.png` unchanged wherever a wordmark is used.
+
+The deployment workflows stage both icon assets into the React public directory before the Vite build. The production Pages artifact also exposes the selected canonical brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
 
 The landing refinement references the emitted console image as `/voxvector/voxvector-audio-analysis-console.png` and the emitted wordmark as `/voxvector/VoxVector-logo-word.png`.
 

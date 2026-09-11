@@ -1,0 +1,18 @@
+{
+  "name": "VoxVector",
+  "short_name": "VoxVector",
+  "description": "Advanced vocal intelligence and audio analysis.",
+  "start_url": "/voxvector/",
+  "scope": "/voxvector/",
+  "display": "standalone",
+  "background_color": "#080706",
+  "theme_color": "#080706",
+  "icons": [
+    {
+      "src": "/voxvector/voxvector_icon_2_cropped.png",
+      "type": "image/png",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}
