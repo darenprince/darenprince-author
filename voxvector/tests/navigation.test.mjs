@@ -9,6 +9,8 @@ const header = read('../src/components/SiteHeader.jsx')
 const main = read('../src/main.jsx')
 const siteMap = read('../src/components/SiteMapPage.jsx')
 const pipeline = read('../public/pipeline.html')
+const pagesWorkflow = read('../../.github/workflows/deploy-pages.yml')
+const previewWorkflow = read('../../.github/workflows/deploy-pr-preview.yml')
 
 test('landing primary actions and canonical anchors resolve to real VoxVector destinations', () => {
   assert.match(app, /onClick=\{goToRequestAccess\}>Request Access/)
@@ -36,6 +38,15 @@ test('React router exposes the real site map page and hash restoration does not 
   assert.match(siteMap, /Every published VoxVector surface, organized\./)
   for (const href of ['/voxvector/pipeline.html', '/voxvector/methods.html', '/voxvector/login', '/voxvector/app', '/voxvector/developer']) {
     assert.ok(siteMap.includes(href), `site map missing ${href}`)
+  }
+})
+
+test('GitHub Pages and PR preview stage physical entries for every canonical React route', () => {
+  assert.match(pagesWorkflow, /for route in developer login app site-map; do/)
+  assert.match(pagesWorkflow, /_site\/voxvector\/\$route\/index\.html/)
+  assert.match(previewWorkflow, /for route in developer login app site-map; do/)
+  for (const route of ['developer', 'login', 'app', 'site-map']) {
+    assert.match(previewWorkflow, new RegExp(`test -f dist/${route}/index\\.html`), `preview does not verify ${route}`)
   }
 })
 
