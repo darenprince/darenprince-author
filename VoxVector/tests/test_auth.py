@@ -32,10 +32,27 @@ def test_require_developer_accepts_trusted_developer_role(monkeypatch):
     assert user["id"] == "dev-1"
 
 
-def test_require_developer_accepts_trusted_admin_role(monkeypatch):
-    configure(monkeypatch, {"id": "admin-1", "app_metadata": {"role": "admin"}})
+def test_require_developer_accepts_trusted_admin_role_with_permissions(monkeypatch):
+    permissions = [
+        "developer.console",
+        "users.manage",
+        "cases.manage",
+        "deploy.manage",
+        "diagnostics.read",
+    ]
+    configure(
+        monkeypatch,
+        {
+            "id": "admin-1",
+            "app_metadata": {
+                "role": "admin",
+                "voxvector_permissions": permissions,
+            },
+        },
+    )
     user = auth.require_developer("Bearer token")
     assert user["id"] == "admin-1"
+    assert user["app_metadata"]["voxvector_permissions"] == permissions
 
 
 def test_require_developer_rejects_approved_user_role(monkeypatch):
