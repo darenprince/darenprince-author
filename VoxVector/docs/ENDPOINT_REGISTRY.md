@@ -1,6 +1,6 @@
 # VoxVector Endpoint Registry
 
-**Effective:** 2026-09-10  
+**Effective:** 2026-09-11  
 **Status:** Canonical active endpoint map
 
 This document is the authoritative endpoint map for the current VoxVector deployment architecture.
@@ -11,15 +11,24 @@ This document is the authoritative endpoint map for the current VoxVector deploy
 
 GitHub Pages hosts the canonical public React application and Developer Console.
 
+Canonical public frontend routes and styled references are:
+
+- `/voxvector/` — public VoxVector landing application;
+- `/voxvector/site-map` — human-readable VoxVector page inventory rendered through the existing public React shell;
+- `/voxvector/pipeline.html` — styled 21-stage analysis-pipeline reference;
+- `/voxvector/methods.html` — styled analysis-method and data-point reference;
+- `/voxvector/image-index/` — published visual asset index;
+- `/voxvector/loading-demo.html` — published loading-state demonstration surface.
+
 Protected React routes include:
 
 - `/voxvector/login/` — canonical Supabase login and trusted-role router;
 - `/voxvector/developer/` — developer/admin Developer Console;
 - `/voxvector/app` — approved-user workspace.
 
-The physical Pages login entry resolves to the same React `AuthGate.jsx` implementation. It is not a duplicate login system.
+GitHub Pages has no SPA rewrite. The production Pages workflow therefore stages physical `index.html` entries for `developer`, `login`, `app`, and `site-map`, all pointing to the same built React shell. These are route aliases of one canonical application, not duplicate implementations. The styled pipeline, methods, image-index, and loading-demo surfaces are emitted from the existing `voxvector/public/` build inputs.
 
-Current `main` `AuthGate.jsx` does not yet issue the requested login-time API wake. Draft PR #974 under #931 contains that candidate repair and shared role-aware self-profile wiring. It is not merged/current behavior.
+Current `AuthGate.jsx` performs the requested non-blocking API wake request after a successful password login and then routes the authenticated account through trusted VoxVector role metadata. A wake request is not provider execution, deployment verification, or proof that an analysis completed.
 
 ## Existing API
 
@@ -81,7 +90,7 @@ Issue #941 is reopened because these merged source behaviors still require contr
 
 `GET /health`
 
-Current source `420536771875c6948be51851118b58cb04a596e6` preserves the health contract for safe runtime details including:
+Current source preserves the health contract for safe runtime details including:
 
 - runtime status;
 - observed timestamp;
@@ -99,32 +108,7 @@ Current source `420536771875c6948be51851118b58cb04a596e6` preserves the health c
 
 `process_instance_id` and `render_instance_id` are intentionally different concepts. A Python process can restart while Render retains the same infrastructure instance label.
 
-No fresh `/health` response for the current `420536...` deployment is recorded by this synchronization pass. A source contract or Render `live` record is not substituted for runtime readback.
-
-## Latest observed Render deployment — 2026-09-10
-
-Canonical GitHub `main`: `420536771875c6948be51851118b58cb04a596e6`.
-
-Connected Render inspection confirms:
-
-- workspace `tea-da2errdg1s2s73cl4eeg`;
-- service `voxvector-api` (`srv-da2f88n40ujc73a8m26g`);
-- deployment `dep-dahi2ics728c73b6ujug`;
-- status `live`;
-- deployed source exact `420536771875c6948be51851118b58cb04a596e6`;
-- trigger `api`;
-- deployment finished `2026-09-10T21:36:23.3655Z`;
-- auto-deploy disabled;
-- root directory `VoxVector`;
-- health path `/health`;
-- live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`;
-- start command `uvicorn api.app:app --host 0.0.0.0 --port $PORT`.
-
-The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches repository/service/root/build/start/health/domain/auto-deploy fields and lists environment-variable names with redacted `sync: false` values.
-
-The canonical root `render.yaml` instead declares `api/requirements-transcription.txt`. It also declares `CORS_ORIGINS` as server-managed, while the owner export does not list that key and backend source defaults to `*` when it is absent. Issue #964 owns field-by-field reconciliation into the existing root file. Do not add a second Blueprint or duplicate Render service, and do not infer redacted environment values from the export.
-
-The current API-triggered deploy does not satisfy #920's protected Developer Console deployment-control acceptance path.
+Fresh runtime observations remain separate evidence from source and this route registry. Do not advance runtime state merely because frontend or documentation source changes.
 
 ## Controlled production analysis evidence — historical revision
 
@@ -160,9 +144,7 @@ Flow:
 
 Supported actions include list, create/invite, update, recovery, and delete with self-protection and sanitized audit events.
 
-**Last verified production infrastructure status:** connected Supabase inspection on 2026-09-10 showed `voxvector-user-admin` ACTIVE, version 2, with JWT verification enabled and one admin, one developer, and one user in the trusted role inventory.
-
-#931 is no longer blocked on Edge Function deployment/bootstrap. Draft PR #974 contains the candidate current self-profile/login-wake work; remaining acceptance includes current-main integration QA and authenticated desktop/mobile role/profile verification.
+Production Edge Function state is external runtime evidence and must be read from Supabase when current status is needed. Source documentation does not substitute for that readback.
 
 ## Protected Developer Console deployment trigger
 
@@ -178,19 +160,14 @@ Required #920 chain remains:
 
 ## Render Developer Console observability routes
 
-`GET /v1/developer/render/status`
+The frontend client in `voxvector/src/lib/api.js` keeps Render credentials server-side and calls the existing authenticated router mounted by `VoxVector/api/app.py` from `VoxVector/api/render_api.py`:
 
-Returns current service/deployment state through the authenticated server-side bridge.
+- `GET /v1/developer/render/status` — current service/deployment state through the authenticated server-side bridge;
+- `GET /v1/developer/render/logs` — normalized Render log observations;
+- `GET /v1/developer/render/debug-bundle?case_id=<case>&run_id=<run>` — authenticated server-generated case/run debug ZIP;
+- `POST /v1/developer/render/deploy` — protected deploy-hook trigger.
 
-`GET /v1/developer/render/logs`
-
-Returns normalized Render log observations required by the Developer Console: message, timestamp, level, and log type. The provider's complete nested raw record is not returned to the browser. The same bounded observations remain eligible for sanitized Supabase mirroring through the server-side bridge.
-
-`GET /v1/developer/render/debug-bundle?case_id=<case>&run_id=<run>`
-
-Returns the authenticated server-generated case/run debug ZIP. Retrieval availability is recorded independently from row count, so a successful empty Supabase/Render query is distinguishable from an unavailable evidence source in `manifest.json`.
-
-PRs #961, #966 and #968 are merged into current `main`. Issue #959 remains open for production acceptance: automatic terminal Render capture, exact deployed-revision dual-store readback, real bundle inspection/redaction, restart durability, and browser verification.
+The frontend also uses the canonical `/health`, diagnostics, case CRUD, source upload, signed playback, and case-analysis routes. Focused frontend contract tests verify those client paths remain mapped to their canonical backend route owners. That source-level wiring check is software verification only; it does not execute providers or prove production browser behavior.
 
 ## External diarization provider boundary
 
@@ -202,7 +179,18 @@ Issue #970 owns rechecking/correcting the current pyannoteAI media-upload/job co
 
 ## Frontend pipeline/status boundary
 
-The Developer Console consumes `/health` pipeline state. Current `voxvector/src/components/PipelineBuildCard.jsx` nevertheless retains stale local Stage 05/06 ordering and queued Stage 07/08 fallback text. Issue #965 owns correction in that existing component so `pipeline_build.status_by_stage` is preferred when available. No second pipeline endpoint or component should be created.
+The Developer Console consumes `/health` pipeline state through the existing `PipelineBuildCard.jsx`.
+
+In this revision the component:
+
+- uses the canonical backend Stage 05 Speech Segmentation → Stage 06 Speaker Identification / Diarization order;
+- uses backend `pipeline_build.status_by_stage` as the preferred mutable stage-state source when available;
+- treats `implemented`, `implemented_foundation`, and `implemented_guarded` as built presentation states without converting them into provider-execution claims;
+- keeps Stage 07/08 contract-matching source fallbacks as implemented foundations rather than stale queued text;
+- explicitly labels loading/unavailable backend status as a source-contract fallback;
+- does not falsely mark Stage 01 current when the backend supplies no exact current-stage identifier.
+
+No second pipeline endpoint, page owner, or Developer Console component is introduced. Styled public `/voxvector/pipeline.html` is a reference surface; runtime status continues to come from the backend health contract.
 
 ## Deployment and migration rule
 
