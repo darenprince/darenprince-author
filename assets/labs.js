@@ -13,7 +13,7 @@
     'crown-psychology': { src: '../assets/images/Untitled%20design.png', alt: 'Crown Psychology' },
     'crown-sos': { src: '../emergency-911/CrownSOS-icon.PNG', alt: 'Crown SOS' },
     'sentinel-vault': { src: '../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png', alt: 'Sentinel Vault' },
-    'voxvector': { src: '../VoxVector/Assets/voxvector-icon-final-color.png.PNG', alt: 'VoxVector' }
+    'voxvector': { src: '../VoxVector/Assets/voxvector_icon_2_cropped.png', alt: 'VoxVector' }
   }
 
   const iconMap = {
@@ -54,24 +54,34 @@
   const appendProductIdentity = (article, product) => {
     const asset = assetMap[product.id]
     const identity = createElement('div', 'product-identity')
-    const media = createElement('div', 'product-mark')
-    if (asset) {
+    if (asset && product.id === 'voxvector') {
       const img = document.createElement('img')
       img.src = asset.src
       img.alt = asset.alt
       img.loading = 'lazy'
       img.decoding = 'async'
-      media.append(img)
-    } else if (iconMap[product.id]) {
-      const icon = document.createElement('iconify-icon')
-      icon.setAttribute('icon', iconMap[product.id])
-      icon.setAttribute('aria-hidden', 'true')
-      icon.className = 'product-mark-icon'
-      media.append(icon)
+      img.className = 'product-mark-image product-mark-image--raw'
+      identity.append(img)
     } else {
-      media.append(createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1)))
+      const media = createElement('div', 'product-mark')
+      if (asset) {
+        const img = document.createElement('img')
+        img.src = asset.src
+        img.alt = asset.alt
+        img.loading = 'lazy'
+        img.decoding = 'async'
+        media.append(img)
+      } else if (iconMap[product.id]) {
+        const icon = document.createElement('iconify-icon')
+        icon.setAttribute('icon', iconMap[product.id])
+        icon.setAttribute('aria-hidden', 'true')
+        icon.className = 'product-mark-icon'
+        media.append(icon)
+      } else {
+        media.append(createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1)))
+      }
+      identity.append(media)
     }
-    identity.append(media)
     article.prepend(identity)
   }
 
