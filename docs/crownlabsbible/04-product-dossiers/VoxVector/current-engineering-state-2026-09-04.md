@@ -134,6 +134,16 @@ Current `main` `AuthGate.jsx` still does not start the requested API wake at suc
 
 PR #974 is not current/deployed behavior. Its prior integration QA predates the #967 main advance, so #931 requires a current-main refresh, current-base QA/Preview, merge review, and authenticated desktop/mobile/profile-save verification.
 
+## Developer Console wake/chrome candidate
+
+Issue #981 / draft PR #986 is a separate frontend-only Developer Console refinement. It does not replace #931's login-triggered wake work.
+
+The existing Live Engineering Status surface gains a manual **Wake API** action backed by the canonical `GET /health` frontend client boundary. The UI distinguishes request-in-progress, returned healthy response, and returned non-healthy/error response; sending the request is not itself proof that the API is ready.
+
+The same candidate makes the compact Case Workflow tracker opaque/theme-aware and suppresses the duplicate account/email/sign-out footer in the Developer drawer while preserving the canonical header profile menu and sign-out behavior. No second status rail, workflow tracker, account menu, route, wake endpoint, public landing change, or shared-shell implementation is introduced. The owner clarified that the earlier trailing public/shared-shell phrase was a punctuation/transcription error.
+
+Pre-documentation merge-candidate evidence for PR #986: VoxVector QA `34560296284` succeeded with 224 backend tests passed, 19 frontend tests passed, and a successful Vite production build; PR Preview `34560296296` also succeeded. Documentation synchronization advances the branch, so fresh exact-head QA/Preview remains required before merge recommendation. Authenticated desktop/mobile browser verification remains open.
+
 ## Supabase and observability state
 
 The administrator Edge Function was last verified active, correcting older records that described it as source-only. Remaining #931 work is current PR/browser/account behavior, not Edge Function bootstrap.
@@ -152,9 +162,10 @@ Supabase historical persistence does not itself prove browser rehydration; #963 
 6. #930 / #959 — intake reliability and production observability acceptance.
 7. #965 — truthful frontend pipeline projection.
 8. #931 / draft PR #974 — current-main integration, login wake/shared profiles, authenticated role/browser matrix.
-9. #932 — release-critical public CTA/anchor/navigation repair.
-10. #972 — freeze one exact revision/configuration and pass two complete golden cases.
-11. Conduct scientific validation separately.
+9. #981 / draft PR #986 — manual Developer Console wake/chrome exact-head QA/Preview and authenticated browser acceptance.
+10. #932 — release-critical public CTA/anchor/navigation repair.
+11. #972 — freeze one exact revision/configuration and pass two complete golden cases.
+12. Conduct scientific validation separately.
 
 ## Scientific boundary
 
