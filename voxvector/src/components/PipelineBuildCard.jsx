@@ -5,28 +5,36 @@ import { getGitHubWorkflowStatus, workflowEvidenceState } from '../lib/githubSta
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Circle, Clock3, GitBranch, Wrench } from 'lucide-react'
 
 const STAGES = [
-  ['01', 'File Upload / Ingest', 'implemented', 'Case source intake is persisted.'],
-  ['02', 'File Decode and Normalization', 'implemented', 'PCM WAV decoding and mono normalization.'],
-  ['03', 'Provenance and Integrity', 'implemented', 'Source and run provenance is recorded.'],
-  ['04', 'Channel and Recording Assessment', 'implemented', 'Sample rate, duration, peak and clipping are assessed.'],
-  ['05', 'Speaker Identification / Diarization', 'queued', 'Production speaker processing is the next integration dependency.'],
-  ['06', 'Speech Segmentation', 'implemented', 'Deterministic speech regions are produced.'],
-  ['07', 'Transcription Generation', 'queued', 'Production timestamped ASR is not yet attached.'],
-  ['08', 'Transcript Alignment', 'queued', 'Audio and transcript synchronization follows ASR.'],
-  ['09', 'Eligibility and Reliability', 'implemented', 'Recording eligibility and reliability state is evaluated.'],
-  ['10', 'Acoustic Feature Extraction', 'implemented', 'Current acoustic observation families are executed.'],
-  ['11', 'Prosodic and Voice Quality Analysis', 'implemented', 'F0, intensity and HNR observations are available.'],
-  ['12', 'Temporal and Pause Analysis', 'implemented', 'Pause topology and timing observations are available.'],
-  ['13', 'Linguistic and Disfluency Analysis', 'conditional', 'Runs when a transcript is supplied.'],
-  ['14', 'Question / Answer Alignment', 'conditional', 'Runs when question or response context is supplied.'],
-  ['15', 'Within Speaker Baseline', 'conditional', 'Runs when an independent speaker baseline is supplied.'],
-  ['16', 'Cross Method Evidence Assembly', 'implemented', 'Normalized evidence records are assembled.'],
-  ['17', 'Evidence Convergence and Conflict', 'implemented', 'Evidence relationships are represented.'],
-  ['18', 'Candidate Classification', 'implemented', 'Guarded candidate classification boundary is present.'],
-  ['19', 'Validation and Calibration Gate', 'not_invoked', 'Inferential validation is not invoked by the current runtime.'],
-  ['20', 'Final Classification / Disposition', 'implemented', 'Guarded indeterminate disposition boundary is present.'],
-  ['21', 'Audit and Provenance Output', 'implemented', 'Run, stage, source and provenance records are persisted.'],
+  ['01', 'file_upload_ingest', 'File Upload / Ingest', 'implemented', 'Case source intake is persisted.'],
+  ['02', 'file_decode_normalization', 'File Decode and Normalization', 'implemented', 'PCM WAV decoding and mono normalization.'],
+  ['03', 'provenance_integrity', 'Provenance and Integrity', 'implemented', 'Source and run provenance is recorded.'],
+  ['04', 'channel_recording_assessment', 'Channel and Recording Assessment', 'implemented', 'Sample rate, duration, peak and clipping are assessed.'],
+  ['05', 'speech_segmentation', 'Speech Segmentation', 'implemented_foundation', 'Speech regions are established before provider acquisition.'],
+  ['06', 'speaker_identification_diarization', 'Speaker Identification / Diarization', 'queued', 'Cloud-primary speaker processing remains a controlled execution and persistence gate.'],
+  ['07', 'transcription_generation', 'Transcription Generation', 'implemented_foundation', 'Timestamped transcription generation is wired through the configured provider path.'],
+  ['08', 'transcript_alignment', 'Transcript Alignment', 'implemented_foundation', 'Transcript timing alignment is present as an implemented foundation.'],
+  ['09', 'eligibility_reliability', 'Eligibility and Reliability', 'implemented', 'Recording eligibility and reliability state is evaluated.'],
+  ['10', 'acoustic_feature_extraction', 'Acoustic Feature Extraction', 'implemented', 'Current acoustic observation families are executed.'],
+  ['11', 'prosodic_voice_quality', 'Prosodic and Voice Quality Analysis', 'implemented_foundation', 'F0, intensity and voice-quality observations are available as a foundation.'],
+  ['12', 'temporal_pause_analysis', 'Temporal and Pause Analysis', 'implemented_foundation', 'Pause topology and timing observations are available as a foundation.'],
+  ['13', 'linguistic_disfluency', 'Linguistic and Disfluency Analysis', 'conditional', 'Runs when a transcript is available.'],
+  ['14', 'question_answer_alignment', 'Question / Answer Alignment', 'conditional', 'Runs when question or response context is available.'],
+  ['15', 'within_speaker_baseline', 'Within Speaker Baseline', 'conditional', 'Runs when an independent speaker baseline is available.'],
+  ['16', 'cross_method_evidence', 'Cross Method Evidence Assembly', 'implemented_foundation', 'Normalized evidence records are assembled.'],
+  ['17', 'evidence_convergence_conflict', 'Evidence Convergence and Conflict', 'implemented_foundation', 'Evidence relationships are represented.'],
+  ['18', 'candidate_classification', 'Candidate Classification', 'implemented_guarded', 'A guarded candidate-classification boundary is present.'],
+  ['19', 'validation_calibration_gate', 'Validation and Calibration Gate', 'not_invoked', 'Inferential validation is not invoked by the current runtime.'],
+  ['20', 'final_disposition', 'Final Classification / Disposition', 'implemented_guarded', 'A guarded final-disposition boundary is present.'],
+  ['21', 'audit_provenance_output', 'Audit and Provenance Output', 'implemented_foundation', 'Run, stage, source and provenance records are persisted.'],
 ]
+
+const normalizeFoundationState = value => {
+  const state = String(value || '').trim().toLowerCase()
+  if (state.startsWith('implemented')) return 'implemented'
+  if (state === 'conditional') return 'conditional'
+  if (state === 'not_invoked') return 'not_invoked'
+  return 'queued'
+}
 
 const STATUS = {
   implemented: { label: 'Built', Icon: CheckCircle2, className: 'text-emerald-400' },
@@ -46,10 +54,21 @@ export default function PipelineBuildCard({ className = '' }) {
   const frontendQa = workflowEvidenceState(workflows.data?.frontendQa, workflows.data?.frontendQaMatchesSource, workflows)
   const backendQa = workflowEvidenceState(workflows.data?.backendQa, workflows.data?.backendQaMatchesSource, workflows)
   const liveDeploy = workflowEvidenceState(workflows.data?.deployment, workflows.data?.deploymentMatchesSource, workflows)
-  const counts = useMemo(() => STAGES.reduce((acc, [, , state]) => { acc[state] = (acc[state] || 0) + 1; return acc }, {}), [])
-  const currentStage = STAGES.find(stage => stage[2] === 'implemented') || STAGES[0]
-  const currentLabel = livePipeline.current_stage || live.current_engineering_stage || 'Upload and intake reliability'
-  const implementedCount = livePipeline.total === 21 ? (livePipeline.implemented_foundations || counts.implemented || 0) : (counts.implemented || 0)
+  const statusByStage = livePipeline.status_by_stage && typeof livePipeline.status_by_stage === 'object' ? livePipeline.status_by_stage : {}
+  const rows = useMemo(() => STAGES.map(([number, id, name, fallbackState, detail]) => ({
+    number,
+    id,
+    name,
+    detail,
+    state: normalizeFoundationState(statusByStage[id] || fallbackState),
+    rawState: statusByStage[id] || fallbackState,
+  })), [statusByStage])
+  const counts = useMemo(() => rows.reduce((acc, row) => { acc[row.state] = (acc[row.state] || 0) + 1; return acc }, {}), [rows])
+  const currentToken = String(livePipeline.current_stage_id || livePipeline.current_stage || '').trim().toLowerCase()
+  const currentLabel = livePipeline.current_stage || live.current_engineering_stage || 'Runtime pipeline state'
+  const implementedCount = livePipeline.total === 21 && Number.isFinite(Number(livePipeline.implemented_foundations))
+    ? Number(livePipeline.implemented_foundations)
+    : (counts.implemented || 0)
 
   return (
     <section className={`rounded-[9px] border border-[var(--vv-border)] bg-[var(--vv-surface)] shadow-[0_24px_70px_var(--vv-shadow)] ${className}`}>
@@ -63,7 +82,7 @@ export default function PipelineBuildCard({ className = '' }) {
           <span className="mt-2 block text-base font-semibold tracking-tight text-white">Current engineering stage</span>
           <span className="mt-1 block text-sm leading-5 text-white/55">{currentLabel}</span>
           <span className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-white/35">
-            <span>{livePipeline.total || STAGES.length} total</span>
+            <span>{livePipeline.total || rows.length} total</span>
             <span>{counts.queued || 0} queued</span>
             <span>{counts.conditional || 0} conditional</span>
             <span>{counts.not_invoked || 0} not invoked</span>
@@ -77,10 +96,10 @@ export default function PipelineBuildCard({ className = '' }) {
 
       {open && <div id="voxvector-pipeline-build-details" className="border-t border-[var(--vv-border)] px-4 pb-4 sm:px-5 sm:pb-5">
         <div className="mt-4 grid gap-1">
-          {STAGES.map(([number, name, state, detail]) => {
+          {rows.map(({ number, id, name, state, detail }) => {
             const config = STATUS[state] || STATUS.queued
             const Icon = config.Icon
-            const isCurrent = number === currentStage[0]
+            const isCurrent = Boolean(currentToken) && [number, id, name].some(value => String(value).toLowerCase() === currentToken)
             return <div key={number} className={`grid grid-cols-[34px_20px_1fr_auto] items-start gap-3 rounded-[7px] px-3 py-3 ${isCurrent ? 'bg-white/[.045] ring-1 ring-white/[.08]' : 'hover:bg-white/[.025]'}`}>
               <span className="pt-0.5 font-mono text-[10px] font-semibold tracking-[.12em] text-white/25">{number}</span>
               <Icon size={15} className={`${config.className} mt-0.5`} aria-hidden="true" />
