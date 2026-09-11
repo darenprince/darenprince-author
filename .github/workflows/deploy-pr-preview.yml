@@ -44,11 +44,13 @@ jobs:
           set -euo pipefail
           CONSOLE_SOURCE="VoxVector/Assets/voxvector-audio-analysis-console.png"
           WORDMARK_SOURCE="VoxVector/Assets/VoxVector-logo-word.png"
-          ICON_SOURCE="VoxVector/Assets/voxvector-icon-final-color.png.PNG"
+          APP_ICON_SOURCE="VoxVector/Assets/voxvector_icon_2_cropped.png"
+          LOGO_ICON_SOURCE="VoxVector/Assets/voxvector_logo_icon.png"
 
           test -f "$CONSOLE_SOURCE"
           test -f "$WORDMARK_SOURCE"
-          test -f "$ICON_SOURCE"
+          test -f "$APP_ICON_SOURCE"
+          test -f "$LOGO_ICON_SOURCE"
 
           if test -e "VoxVector/voxvector-audio-analysis-console.png"; then
             echo "ERROR: obsolete duplicate console asset path exists: VoxVector/voxvector-audio-analysis-console.png"
@@ -64,10 +66,12 @@ jobs:
           mkdir -p voxvector/public
           cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
           cp "$WORDMARK_SOURCE" voxvector/public/VoxVector-logo-word.png
-          cp "$ICON_SOURCE" voxvector/public/voxvector-icon-final-color.png.PNG
+          cp "$APP_ICON_SOURCE" voxvector/public/voxvector_icon_2_cropped.png
+          cp "$LOGO_ICON_SOURCE" voxvector/public/voxvector_logo_icon.png
           test -f voxvector/public/voxvector-audio-analysis-console.png
           test -f voxvector/public/VoxVector-logo-word.png
-          test -f voxvector/public/voxvector-icon-final-color.png.PNG
+          test -f voxvector/public/voxvector_icon_2_cropped.png
+          test -f voxvector/public/voxvector_logo_icon.png
           echo "Canonical VoxVector preview assets staged before Vite build."
 
       - name: Install VoxVector dependencies
@@ -98,7 +102,8 @@ jobs:
           test -f dist/login/index.html
           test -f dist/voxvector-audio-analysis-console.png
           test -f dist/VoxVector-logo-word.png
-          test -f dist/voxvector-icon-final-color.png.PNG
+          test -f dist/voxvector_icon_2_cropped.png
+          test -f dist/voxvector_logo_icon.png
           echo "VoxVector PR preview build completed and the direct login entry is present."
 
       - name: Upload PR preview artifact
