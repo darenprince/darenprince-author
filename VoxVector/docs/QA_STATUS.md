@@ -1,6 +1,6 @@
 # VoxVector QA Status
 
-**State date:** 2026-09-10
+**State date:** 2026-09-11
 
 This document records repository-level software QA and separately observed deployment/runtime evidence. It is not a scientific validation report.
 
@@ -27,6 +27,31 @@ The live service builds:
 The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the service repository, root directory, Python runtime, free plan, Oregon region, build/start commands, `/health` path, custom domain and auto-deploy-off state. The export lists environment-variable names with `sync: false` and no values; it is not value evidence.
 
 No fresh `/health` payload for exact deployed source `420536...` was captured by the current synchronization pass. Older health readbacks remain historical evidence and must not be relabeled as current runtime verification.
+
+## Developer Console wake/chrome candidate — issue #981 / PR #986
+
+The current Developer Console refinement is isolated to the frontend branch `fix/voxvector-developer-console-wake-chrome` and draft PR #986. It does not change the FastAPI endpoint contract, provider configuration, deployment policy, analysis methodology, authentication architecture, or scientific status.
+
+The implementation checkpoint before documentation synchronization was branch head `81c7f776a4504bafa13682c8e0f1c79f0887ad2a`, based on canonical `main` `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. GitHub synthesized merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719` for PR #986.
+
+Observed QA on that merge candidate:
+
+- VoxVector QA run `34560296284`: **success**;
+- backend `pytest -q`: **224 passed in 1.92s**;
+- frontend `npm test`: **19 passed, 0 failed**;
+- Vite production build: **success**;
+- PR Preview Build `34560296296`: **success**, including preview build, direct-login staging, artifact verification and upload.
+
+The covered behaviors are:
+
+1. the existing Live Engineering Status surface exposes an explicit **Wake API** control backed by the canonical `GET /health` client boundary;
+2. wake state distinguishes request-in-progress, returned healthy response, and returned non-healthy/error response without treating the request attempt as readiness proof;
+3. the compact Case Workflow tracker uses an opaque theme-aware surface;
+4. the Developer Console drawer suppresses the duplicate account/email/sign-out footer while the canonical header profile menu remains the account owner.
+
+The owner clarified that the earlier trailing public/shared-shell phrase was a punctuation/transcription error. No additional public landing or shared-shell change is part of #981/#986.
+
+This documentation synchronization advances the branch beyond the `81c7f776...` implementation checkpoint. Fresh exact-head VoxVector QA and PR Preview evidence are therefore required after the documentation commit before merge recommendation. Authenticated desktop/mobile browser verification remains a separate unresolved gate. A successful wake request or preview build is not a deployment, provider execution, browser verification, or scientific validation.
 
 ## Current #941 state after merged #962/#967
 
@@ -128,7 +153,9 @@ Drift reconciliation belongs to #964 and must update the existing canonical root
 Current `main` frontend source has two material open truth/acceptance items:
 
 - `PipelineBuildCard.jsx` still uses stale local Stage 05/06 ordering and queued Stage 07/08 text despite consuming `pipeline_build`; #965 owns the existing-component correction so runtime `status_by_stage` becomes authoritative when available.
-- `AuthGate.jsx` on current `main` still lacks the requested login-triggered API wake. Draft PR #974 under #931 contains the candidate wake plus shared role-aware User/Admin/Developer Profile editor wiring. Its prior QA was against the pre-#967 base and must be rerun against current `main` before merge recommendation.
+- `AuthGate.jsx` on current `main` still lacks the requested login-triggered API wake. Draft PR #974 under #931 contains the candidate login wake plus shared role-aware User/Admin/Developer Profile editor wiring. Its prior QA was against the pre-#967 base and must be rerun against current `main` before merge recommendation.
+
+PR #986's Developer Console **Wake API** control is a separate manual operator action inside the existing Live Engineering Status surface. It does not replace or satisfy #931's requested login-triggered wake behavior.
 
 These are source/application facts, not browser verification.
 
@@ -148,6 +175,7 @@ These are source/application facts, not browser verification.
 | Dual Render/Supabase observability | merged source foundation | #961/#966/#968 | production dual-copy/bundle/terminal-capture proof #959 |
 | Admin user management backend | Edge Function previously verified active | Supabase readback | current-main PR #974 integration + role/profile browser acceptance #931 |
 | Login-time API wake / shared self-profile | candidate only | draft PR #974 | refresh against current main, QA/merge/publish/browser verification |
+| Developer Console manual Wake API / chrome cleanup | candidate with successful pre-doc merge-candidate QA | #981 / PR #986, QA `34560296284`, Preview `34560296296` | fresh post-doc exact-head QA/Preview, authenticated desktop/mobile browser verification, merge |
 | Classification/disposition | guarded foundation | source/tests | no scientifically validated deception inference |
 
 ## Current issue queue
@@ -161,6 +189,7 @@ These are source/application facts, not browser verification.
 - #959 — merged observability source, production acceptance open.
 - #965 — frontend pipeline status contract correction before final browser freeze.
 - #931 / draft PR #974 — login wake/shared self-profile plus role/browser matrix; current-main integration QA pending.
+- #981 / draft PR #986 — Developer Console manual Wake API, opaque compact workflow tracker, and duplicate drawer-account presentation cleanup; authenticated desktop/mobile verification remains open.
 - #932 — release-critical public CTA/anchor/menu repair before final browser acceptance.
 - #972 — final frozen-candidate two-run golden proof.
 
