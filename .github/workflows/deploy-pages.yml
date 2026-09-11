@@ -62,11 +62,15 @@ jobs:
           WORDMARK_SOURCE="VoxVector/Assets/voxvector_wordmark.svg"
           APP_ICON_SOURCE="VoxVector/Assets/voxvector_icon_2_cropped.png"
           LOGO_ICON_SOURCE="VoxVector/Assets/voxvector_logo_icon.png"
+          HERO_DESKTOP_SOURCE="VoxVector/Assets/voxvector-hero-desktop.svg"
+          HERO_MOBILE_SOURCE="VoxVector/Assets/voxvector-hero-mobile.svg"
 
           test -f "$CONSOLE_SOURCE"
           test -f "$WORDMARK_SOURCE"
           test -f "$APP_ICON_SOURCE"
           test -f "$LOGO_ICON_SOURCE"
+          test -f "$HERO_DESKTOP_SOURCE"
+          test -f "$HERO_MOBILE_SOURCE"
 
           # Fail loudly if an obsolete permanent source copy is reintroduced.
           if test -e "VoxVector/voxvector-audio-analysis-console.png"; then
@@ -80,15 +84,19 @@ jobs:
             exit 1
           fi
 
-          mkdir -p voxvector/public
+          mkdir -p voxvector/public/assets
           cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
           cp "$WORDMARK_SOURCE" voxvector/public/voxvector_wordmark.svg
           cp "$APP_ICON_SOURCE" voxvector/public/voxvector_icon_2_cropped.png
           cp "$LOGO_ICON_SOURCE" voxvector/public/voxvector_logo_icon.png
+          cp "$HERO_DESKTOP_SOURCE" voxvector/public/assets/voxvector-hero-desktop.svg
+          cp "$HERO_MOBILE_SOURCE" voxvector/public/assets/voxvector-hero-mobile.svg
           test -f voxvector/public/voxvector-audio-analysis-console.png
           test -f voxvector/public/voxvector_wordmark.svg
           test -f voxvector/public/voxvector_icon_2_cropped.png
           test -f voxvector/public/voxvector_logo_icon.png
+          test -f voxvector/public/assets/voxvector-hero-desktop.svg
+          test -f voxvector/public/assets/voxvector-hero-mobile.svg
           echo "Canonical VoxVector image assets staged before Vite build."
 
       - name: Build VoxVector React application
