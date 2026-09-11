@@ -73,6 +73,14 @@ The expanded engineering surface may occupy the remaining viewport below the 90p
 
 Toast placement belongs to the existing toast owner. Developer Console toasts are positioned at the bottom-right so top-of-page notifications do not collide with or obscure the engineering rail. Responsive and reduced-motion behavior remains local to the existing component owners.
 
+## Developer Console chrome ownership
+
+`DeveloperConsole.css` owns the page-specific Case Workflow tracker and Developer drawer presentation. When the sticky Case Workflow tracker settles into its compact state, its surface must be opaque and theme-aware so underlying analysis content cannot visually bleed through. Hover and focus may expand the existing tracker; the compact-state opacity rule must not create a second tracker or change the workflow state semantics.
+
+The Developer drawer must not visually duplicate the account/email/sign-out presentation already owned by the canonical header profile menu. Suppressing that redundant drawer footer is a Developer Console presentation rule only; it does not remove the shared profile menu, role routing, sign-out behavior, or account controls from their canonical owners.
+
+The explicit **Wake API** control belongs to `DeveloperEngineeringStatus.jsx`, not CSS. It uses the existing health client boundary and reports the observed request state. Styling must not imply that merely sending a wake request proves API readiness.
+
 ## Archived styles
 
 Historical layers removed from the active cascade are preserved under:
@@ -86,3 +94,5 @@ Those files are reference-only and must not be reintroduced as production import
 The September 2, 2026 audit removed competing JSX CSS imports, consolidated the developer console's enhancement/workflow layers into its canonical owner, and retired unreferenced refinement and duplicate stylesheets from the active source tree.
 
 The September 9, 2026 active-UI icon review confirmed that shared header access glyphs, landing section/method glyphs, collapsible-panel glyphs, engineering-state glyphs, and toast status glyphs already render without decorative full-stroke boxes. The remaining active passive full-stroke treatments were the API-startup step glyph container and the Developer Gate key glyph; those canonical owners were corrected directly. Interactive buttons and structural card/status borders were intentionally preserved.
+
+The September 11, 2026 Developer Console chrome refinement keeps these rules in the existing canonical owners: `DeveloperConsole.css` owns the opaque compact Case Workflow tracker and duplicate drawer-footer suppression, while `DeveloperEngineeringStatus.jsx` owns the health-backed Wake API behavior. No additional public/shared-shell styling change is part of that refinement.
