@@ -2,29 +2,57 @@
 
 ## Current task status
 
-Prompt: **VV-OBSERVABILITY-AVAILABILITY-REFINE**. Source base: `a249f3f781a221313549e941b9cdb650b8683a2f`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Active implementation issue: [#959](https://github.com/darenprince/darenprince-author/issues/959). Merged implementation PR: [#968](https://github.com/darenprince/darenprince-author/pull/968). Canonical merged revision: `7305d0727fafe60a1f78be4995dfddb618ed0192`.
+Prompt: **VV-DEVELOPER-CONSOLE-WAKE-AND-CHROME**. Source base: `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. Tracking issue: [#981](https://github.com/darenprince/darenprince-author/issues/981). Draft implementation PR: [#986](https://github.com/darenprince/darenprince-author/pull/986). Active branch: `fix/voxvector-developer-console-wake-chrome`.
 
-This checkpoint refines one observability/debug-bundle subsystem after PRs #961 and #966 established the dual Render/Supabase log foundation, deterministic Render snapshot identity, durable speech-worker correlation, and debug evidence packaging. The change does not alter analytical methodology, provider configuration, authentication architecture, deployment policy, classification behavior, or create a second logging system.
+This checkpoint is a bounded Developer Console frontend refinement. It adds a manual health-backed Wake API action to the existing live engineering status surface, makes the compact Case Workflow tracker opaque, removes the duplicate account/email/sign-out presentation from the Developer drawer while preserving the canonical header profile menu, and synchronizes affected canonical documentation. It does not add a new API endpoint, alter analysis methodology, change provider configuration, change deployment policy, or create a second status rail, tracker, account menu, public landing implementation, or shared shell.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Re-read canonical charter/workflow/guardrails and current repository state | Complete | source work started from `a249f3f781a221313549e941b9cdb650b8683a2f` |
-| Preserve Render native log view | Preserved | normalized browser response still contains message/timestamp/level/type; provider stdout/stderr architecture unchanged |
-| Remove unnecessary browser-facing raw Render payload | Complete | `_normalize_log()` no longer returns the full nested provider record |
-| Distinguish empty evidence from unavailable evidence | Complete in source | debug route now sets explicit event/error/Render retrieval availability before manifest generation |
-| Add focused regression coverage | Complete | browser-facing Render log contract plus route-level available-empty/unavailable behavior covered in `test_render_api.py` |
-| Synchronize affected canonical docs | Complete | `ENDPOINT_REGISTRY.md` and `STORAGE_AND_OBSERVABILITY.md` reflect the refined source contract |
-| Exact-head PR QA | Complete | VoxVector QA `34525214723` success on PR head `7cd89cc40a06ddcebc6285f38e242d3fb553d96c`; API tests, React contract tests and Vite production build all completed successfully |
-| Exact-head PR Preview | Complete | PR Preview Build `34525214748` success on the same PR head |
-| Review readback | Complete | no open inline review threads observed before merge |
-| Merge | Complete | PR #968 merged as `7305d0727fafe60a1f78be4995dfddb618ed0192` |
-| Exact-main QA | Complete | push-triggered VoxVector QA `34525449309` succeeded on `7305d0727fafe60a1f78be4995dfddb618ed0192` |
-| GitHub Pages publication | Complete, not Render deployment | Deploy GitHub Pages `34525449351` succeeded for the merged revision |
-| Render production deployment / dual-store execution proof | Not performed in this checkpoint | merge/Pages publication are not backend deployment or provider/log execution evidence |
-| Remaining #959 acceptance | Open | automatic terminal Render snapshot capture, retention/quota coordination, deliberate exact-revision Render deployment, controlled Render + Supabase readback, generated bundle inspection and authenticated browser verification |
-| Scientific validation | Not claimed | observability engineering work does not validate deception methodology or models |
+| Re-read current `main`, charter, workflow and AI guardrails | Complete | current `main` at task start: `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` |
+| Preserve canonical Developer Console owners | Complete in source | existing `DeveloperEngineeringStatus`, `DeveloperConsole.css`, `SiteHeader`, and Case Workflow tracker were edited/retained rather than recreated |
+| Manual Wake API action | Complete in source | existing `getHealth` / `GET /health` client boundary; pending, healthy and non-healthy/error response states are separate |
+| Compact Case Workflow opacity | Complete in source | settled compact tracker uses an opaque theme-aware surface while preserving hover/focus expansion |
+| Duplicate drawer account footer | Complete in source | redundant drawer presentation suppressed; canonical header profile menu and sign-out behavior remain the account owner |
+| Focused frontend regression coverage | Complete | `voxvector/tests/developer-console-chrome.test.mjs` covers the three requested behaviors |
+| Pre-documentation merge-candidate QA | Complete | VoxVector QA `34560296284`: 224 backend tests passed, 19 frontend tests passed, Vite production build succeeded on synthetic merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719` |
+| Pre-documentation PR Preview | Complete | PR Preview Build `34560296296` succeeded for implementation head `81c7f776a4504bafa13682c8e0f1c79f0887ad2a` |
+| Synchronize affected canonical docs and Crown mirrors | Complete in source | CSS/UI architecture, console sync rules, QA/current-state records, two Crown Labs mirrors and this audit are synchronized |
+| Fresh exact-head QA after documentation | Required next | documentation commits advance the branch beyond the pre-documentation QA checkpoint |
+| Authenticated desktop/mobile browser verification | Open | protected Developer Console behavior has not been exercised in an authenticated browser in this task |
+| Merge | Not performed | PR #986 remains the review boundary |
+| Scientific validation | Not claimed | frontend UI/operational-control work does not validate deception methodology or models |
 
 ## Task log
+
+### Task 27: synchronize Developer Console Wake API and chrome documentation, 2026-09-11
+
+Issue #981 / draft PR #986 was continued from the current GitHub repository rather than conversational memory. Canonical `main` was re-read at `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. The requested subsystem remains the existing Developer Console frontend: no duplicate page, status rail, workflow tracker, account menu, route, API wake endpoint, or public/shared-shell implementation was created.
+
+The implementation uses the canonical owners already present in source. `voxvector/src/components/DeveloperEngineeringStatus.jsx` adds a manual **Wake API** mutation that calls the existing `getHealth` boundary, surfaces request-in-progress state, updates the engineering health query from the returned observation, and distinguishes a healthy response from a returned non-healthy status or request error. Sending the request is not represented as proof of readiness. `voxvector/src/components/DeveloperConsole.css` makes the compact settled Case Workflow tracker opaque/theme-aware and suppresses the redundant account/email/sign-out presentation at the bottom of the Developer drawer while leaving the canonical header profile menu intact. `voxvector/tests/developer-console-chrome.test.mjs` locks those three behavior contracts.
+
+The owner clarified that the earlier trailing phrase concerning the public-facing landing/shared shell was a punctuation/transcription error: the sentence was supposed to end with a period. Accordingly, no additional public landing or shared-shell work is inferred or included.
+
+The implementation checkpoint `81c7f776a4504bafa13682c8e0f1c79f0887ad2a` passed VoxVector QA run `34560296284` on GitHub's synthetic PR merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719`. The backend step reported **224 passed in 1.92s**. The frontend contract suite reported **19 passed, 0 failed**. The Vite production build succeeded. PR Preview Build `34560296296` also succeeded, including canonical asset staging, preview build, direct-login staging, artifact verification and artifact upload. These are source/build/artifact evidence for that checkpoint, not authenticated browser verification or production deployment.
+
+Affected active documentation was synchronized directly rather than creating replacement plans: `VoxVector/docs/CSS_ARCHITECTURE.md`, `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`, `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`, `VoxVector/docs/QA_STATUS.md`, `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`, `docs/crownlabsbible/04-product-dossiers/VoxVector/architecture.md`, `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`, and this audit report. Historical checkpoints were not rewritten. Unrelated endpoint, capability, pipeline, roadmap, provider, deployment and research documents were evaluated but not edited because this bounded frontend change does not alter those contracts.
+
+The documentation commits advance the branch beyond the earlier implementation checkpoint, so fresh exact-head/merge-candidate VoxVector QA and PR Preview evidence are mandatory before any merge recommendation. Authenticated desktop/mobile browser verification remains separate and unresolved. The manual Developer Console Wake API action is also distinct from #931 / PR #974's login-triggered wake requirement.
+
+**Changed files in this task at the documentation checkpoint:**
+
+- `voxvector/src/components/DeveloperEngineeringStatus.jsx`
+- `voxvector/src/components/DeveloperConsole.css`
+- `voxvector/tests/developer-console-chrome.test.mjs`
+- `VoxVector/docs/CSS_ARCHITECTURE.md`
+- `VoxVector/docs/UI_APPLICATION_ARCHITECTURE.md`
+- `VoxVector/docs/DEVELOPER_CONSOLE_DOC_SYNC_RULES.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/architecture.md`
+- `docs/crownlabsbible/04-product-dossiers/VoxVector/current-engineering-state-2026-09-04.md`
+- `voxvector/audits/AUDIT_REPORT.md`
+
+No backend endpoint, provider configuration, provider execution, pipeline methodology, classification threshold, authentication architecture, deployment policy, Render deployment, Pages publication, or scientific validation is changed or claimed by this task.
 
 ### Task 26: refine debug evidence availability and protected Render response, 2026-09-10
 
