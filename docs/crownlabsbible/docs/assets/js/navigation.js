@@ -1,6 +1,7 @@
 ;(function () {
   const root=document.documentElement,key='theme',app=document.getElementById('app')
-  const applyTheme=theme=>{root.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo)}
+  const syncVoxWordmark=()=>document.querySelectorAll('.cl-doc-brand-logo--voxvector').forEach(img=>{img.style.filter=root.dataset.theme==='light'?'none':'brightness(0) invert(94%)';img.style.opacity=root.dataset.theme==='light'?'1':'.96'})
+  const applyTheme=theme=>{root.dataset.theme=theme;document.querySelectorAll('[data-dark-logo]').forEach(img=>img.src=theme==='light'?img.dataset.lightLogo:img.dataset.darkLogo);syncVoxWordmark()}
   applyTheme(localStorage.getItem(key)||'dark')
 
   document.getElementById('themeToggle')?.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';localStorage.setItem(key,next);applyTheme(next)})
@@ -24,7 +25,7 @@
     sentinelLogo:'../../../../assets/images/28D4FFEB-D071-419E-A5C9-8CCE7D9F3734.png',
     sentinelHero:'../../../../assets/images/B93001C0-650C-4E55-AF4D-04A402D582FF.png',
     sentinelIcon:'../../../../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png',
-    voxLogo:'../../../../VoxVector/Assets/VoxVector-logo-word.png',
+    voxLogo:'../../../../VoxVector/Assets/voxvector_wordmark.svg',
     voxIcon:'../../../../VoxVector/Assets/voxvector_icon_2_cropped.png',
     picLogo:'../../../../Picdetective/detlogo2.PNG',
     picIcon:'../../../../Picdetective/deticon.png',
@@ -51,9 +52,10 @@
     content.querySelectorAll('[data-doc-brand]').forEach(el=>el.remove())
     const heading=content.querySelector('h1');if(!heading)return
     const insert=(src,cls,alt)=>{if(!src)return;const img=document.createElement('img');img.src=src;img.className=cls;img.alt=alt;img.dataset.docBrand='true';heading.before(img)}
-    insert(data.logo,'cl-doc-brand-logo',data.alt+' logo')
+    insert(data.logo,`cl-doc-brand-logo${data.alt==='VoxVector'?' cl-doc-brand-logo--voxvector':''}`,data.alt+' logo')
     insert(data.hero,'cl-doc-brand-hero',data.alt+' hero')
     insert(data.icon,'cl-doc-brand-icon',data.alt+' app icon')
+    syncVoxWordmark()
     content.dataset.brandPath=p
   }
   brandDocument()
