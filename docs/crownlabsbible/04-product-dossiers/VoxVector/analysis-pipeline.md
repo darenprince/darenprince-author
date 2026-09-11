@@ -32,13 +32,29 @@ The canonical product pipeline is:
 
 The 05/06 order above mirrors the canonical backend contract. Historical dated records may preserve the prior numbering as historical evidence.
 
-## Current source and deployment checkpoint — 2026-09-10
+## Frontend engineering alignment — PR #993
 
-Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
+The existing `voxvector/src/components/PipelineBuildCard.jsx` is the single Developer Console owner for the 21-stage engineering projection. PR #993 corrects that existing component rather than creating another pipeline surface.
 
-Render deployment `dep-dahi2ics728c73b6ujug` is `live` on exact source `420536771875c6948be51851118b58cb04a596e6`, with production auto-deploy disabled. No fresh `/health` response for that exact deployment is recorded by the current synchronization pass.
+In the candidate source:
 
-The current live service and owner-provided Render export generated `2026-09-10T21:38:48Z` use `requirements-speech.txt`; canonical root `render.yaml` uses `requirements-transcription.txt`. Root Blueprint also declares `CORS_ORIGINS` while the export does not list it. #964 owns deliberate reconciliation into the existing root Blueprint before final controlled runtime evidence is accepted.
+- Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization, matching the backend contract;
+- mutable row state prefers backend `pipeline_build.status_by_stage` whenever `/health` provides it;
+- `implemented*` foundation variants are normalized for presentation without converting readiness into provider execution evidence;
+- static stage metadata is used only as a contract-matching fallback while backend state is loading or unavailable, and the fallback is labeled explicitly;
+- Stage 07 and Stage 08 fallback states match the backend implemented-foundation contract rather than the obsolete queued presentation;
+- no stage is marked current unless a backend current-stage token identifies it;
+- the same `/health` contract and existing `PipelineBuildCard.jsx` remain in place, with no duplicate frontend or backend pipeline owner.
+
+This is software/source truth correction only. It is not provider execution, a deployment claim, authenticated browser verification, engineering-MVP completion, or scientific validation.
+
+## Preserved deployment checkpoint — 2026-09-10
+
+At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
+
+Render deployment `dep-dahi2ics728c73b6ujug` was `live` on exact source `420536771875c6948be51851118b58cb04a596e6`, with production auto-deploy disabled. No fresh `/health` response for that exact deployment was recorded by that synchronization pass.
+
+The historical checkpoint recorded a Render dependency-profile drift under #964. Issue #964 was subsequently completed after repository/service reconciliation and sole-service inventory verification. The checkpoint is retained here as historical evidence and is not used as proof of the PR #993 frontend candidate.
 
 ## Historical controlled provider execution
 
@@ -52,7 +68,7 @@ A controlled 183.3-second case on older deployed source `f0dda13694bd17ae3347e9e
 
 The API process later restarted during the post-provider/downstream transition after memory entered the constrained runtime danger zone. The owner confirmed the incident was a memory problem. The source audio remained persisted, but the completed transcript/provider artifact was not durably attached to the run before Stage 10 on that historical deployed revision.
 
-This proves provider execution for that historical run. It does not prove current `420536...` end-to-end stability, transcript correctness, browser verification, or scientific validation.
+This proves provider execution for that historical run. It does not prove current end-to-end stability, transcript correctness, browser verification, or scientific validation.
 
 ## Prepare
 
@@ -98,11 +114,11 @@ Current source reference:
 - reserved headroom: 96 MiB
 - reference admission ceiling: 416 MiB
 
-Current merged source also places the complete downstream composite analysis behind fail-fast process-wide single-flight admission. A competing request cannot wait behind an active heavyweight lock and later execute after its route has already failed. An admitted composite call rechecks RSS while owning the shared lock and retains that lock through complete composite execution.
+Merged source also places the complete downstream composite analysis behind fail-fast process-wide single-flight admission. A competing request cannot wait behind an active heavyweight lock and later execute after its route has already failed. An admitted composite call rechecks RSS while owning the shared lock and retains that lock through complete composite execution.
 
 If current RSS is already at or above the ceiling, Stage 10 must not start. The run preserves completed upstream transcript/alignment evidence and records an explicit bounded downstream failure/not-run state.
 
-This is operational safety, not a scientific eligibility decision. Reopened #941 owns controlled production verification after #964 establishes the intended runtime configuration.
+This is operational safety, not a scientific eligibility decision. Reopened #941 owns controlled production verification; #964 is complete and no longer blocks that proof gate.
 
 ## Analyze
 
@@ -130,36 +146,34 @@ The target case-centered workspace connects source metadata, audio playback, wav
 
 Reopened cases must use persisted source/run artifacts. #963 owns frontend playback/transcript/speaker/alignment/report rehydration after the upstream runtime/provider evidence gates establish those artifacts.
 
-## Frontend engineering alignment
+## Authenticated entry state
 
-Runtime state comes from the backend contract. Current `voxvector/src/components/PipelineBuildCard.jsx` still has stale local Stage 05/06 ordering and queued Stage 07/08 fallback text. #965 owns correction in that existing component so backend `pipeline_build.status_by_stage` is preferred when available. This is a synchronization defect, not an alternate pipeline.
+Current merged `AuthGate.jsx` performs a non-blocking canonical API wake after successful password login before trusted-role routing settles. Shared role-aware profile handling remains part of the canonical account implementation.
 
-Current `main` `AuthGate.jsx` still lacks the requested login-time API wake. Draft PR #974 under #931 contains the candidate wake plus shared role-aware developer/admin/user self-profile implementation. It is not current/deployed behavior and requires current-main integration QA and browser acceptance.
+That wake is connectivity/readiness behavior only. It is not provider execution, a Render deployment, successful analysis, or scientific validation. Authenticated desktop/mobile browser acceptance remains a separate evidence class.
 
 ## Engineering dependency path
 
-1. #964 — Render Blueprint/runtime-profile reconciliation.
-2. Reopened #941 — controlled durable transcription/Stage 10 proof.
-3. #970 — current pyannoteAI cloud contract, provider execution, persisted speaker evidence.
-4. #971 — persisted transcript/audio/speaker alignment.
-5. #963 — historical-case source/playback/artifact rehydration.
-6. #930 / #959 — intake reliability and production observability acceptance.
-7. #965 — truthful frontend pipeline projection.
-8. #931 / draft PR #974 — login wake/shared profiles/authenticated role browser matrix.
-9. #932 — release-critical public navigation.
-10. #972 — frozen candidate and two same-revision/configuration golden cases.
-11. Scientific validation as a separate program.
+1. Reopened #941 — controlled durable transcription/Stage 10 proof.
+2. #970 — current pyannoteAI cloud contract, provider execution, persisted speaker evidence.
+3. #971 — persisted transcript/audio/speaker alignment.
+4. #963 — historical-case source/playback/artifact rehydration.
+5. #930 / #959 — intake reliability and production observability acceptance.
+6. #965 / PR #993 — truthful frontend pipeline projection; source QA and browser acceptance remain separate gates.
+7. #932 / PR #993 — release-critical public navigation and site-map wiring; browser acceptance remains separate.
+8. #972 — frozen candidate and two same-revision/configuration golden cases.
+9. Scientific validation as a separate program.
 
 ## Related active work
 
-- #964: canonical root Render Blueprint/runtime-profile reconciliation.
-- #941: reopened controlled post-#967 production proof.
+- #964: **completed** canonical Render Blueprint/runtime-profile reconciliation.
+- #941: reopened controlled production proof.
 - #970: cloud-primary diarization execution/persistence.
 - #971: persisted multimodal alignment.
 - #959: merged dual Render + Supabase logs and Debug Bundle source; production acceptance open.
 - #963: reopened persisted source/audio/transcript/speaker/alignment/report rehydration.
-- #965: frontend pipeline contract synchronization.
-- #931 / draft PR #974: login wake/shared self-profile/current role browser acceptance.
+- #965 / PR #993: frontend pipeline contract synchronization.
+- #932 / PR #993: public CTA/anchor/menu and site-map repair.
 - #972: final engineering-MVP repeatability gate.
 
 ## Authority
