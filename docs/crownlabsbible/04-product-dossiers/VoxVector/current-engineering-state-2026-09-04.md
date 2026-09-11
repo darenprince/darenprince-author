@@ -2,22 +2,22 @@
 
 This Crown Labs product/engineering mirror reflects the active VoxVector engineering state. Repository implementation and canonical `VoxVector/docs/` records remain authoritative.
 
-## Runtime snapshot — 2026-09-10
+## Runtime snapshot — updated 2026-09-11
 
-- Current canonical `main`: `420536771875c6948be51851118b58cb04a596e6`
+- Current canonical `main` observed for this task: `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`
 - Backend source release: `0.2.27`
 - Frontend source release: `0.2.37`
-- Exact-main VoxVector QA: `34532394431`, success
-- Exact-main GitHub Pages publication workflow: `34532394423`, success
-- Current Render deployment: `dep-dahi2ics728c73b6ujug`, `live`
-- Current deployed backend source: exact `420536771875c6948be51851118b58cb04a596e6`
+- Latest previously recorded exact-main QA baseline: `34532394431`, success on `420536771875c6948be51851118b58cb04a596e6`
+- Latest previously recorded GitHub Pages publication baseline: `34532394423`, success on `420536771875c6948be51851118b58cb04a596e6`
+- Latest separately recorded Render deployment: `dep-dahi2ics728c73b6ujug`, `live`
+- Latest separately recorded deployed backend source: exact `420536771875c6948be51851118b58cb04a596e6`
 - Render deployment trigger: API
 - Render deployment finished: `2026-09-10T21:36:23.3655Z`
 - Render production auto-deploy: disabled
 - Render plan/region: free / Oregon
 - Live Render build: `requirements.txt` + `requirements-speech.txt`
 - Canonical root `render.yaml`: `requirements.txt` + `requirements-transcription.txt`
-- Owner Render export: `2026-09-10T21:38:48Z`, matching live service/root/build/start/health/domain/auto-deploy fields with environment values redacted
+- Owner Render export: `2026-09-10T21:38:48Z`, matching the separately recorded live service/root/build/start/health/domain/auto-deploy fields with environment values redacted
 - Render Blueprint/live-service drift: #964
 - Supabase project: `VoxVector` (`tawtkawmjqabydnatavx`)
 - `voxvector-user-admin`: last verified ACTIVE, version 2, JWT verification enabled
@@ -26,7 +26,9 @@ This Crown Labs product/engineering mirror reflects the active VoxVector enginee
 - Controlled runtime proof after #964: reopened #941
 - Current auth/profile candidate: draft PR #974 under #931; not merged into current `main`
 
-No fresh `/health` response for exact deployed `420536...` is recorded by the current synchronization pass. Repository QA, Pages publication, Render deployment, runtime health readback, provider execution, persisted artifact durability, browser verification, engineering-MVP completion, and scientific validation are separate evidence classes.
+Current GitHub `main` is newer than the separately recorded Render deployment and the `420536...` QA/Pages baseline. The GitHub connector did not return a push-triggered exact-main QA run for `1cc10f40...` in the current synchronization, so the older runs are retained as historical evidence rather than relabeled as current-main proof.
+
+No fresh `/health` response for current GitHub `main` or a newer Render deployment is recorded by this synchronization pass. Repository QA, Pages publication, Render deployment, runtime health readback, provider execution, persisted artifact durability, browser verification, engineering-MVP completion, and scientific validation are separate evidence classes.
 
 ## Historical controlled production transcription and memory result
 
@@ -50,11 +52,11 @@ Observed:
 
 Render did not emit a dedicated kernel OOM/SIGKILL record, so no exact OS termination mechanism is claimed.
 
-This remains valid historical provider/runtime evidence. It is not current `420536...` execution evidence.
+This remains valid historical provider/runtime evidence. It is not current GitHub-main execution evidence.
 
 ## Merged #962/#967 reliability source and reopened #941 proof
 
-The repair keeps the existing canonical backend pipeline and CaseStore and now exists in current source:
+The repair keeps the existing canonical backend pipeline and CaseStore and remains present in later current source:
 
 - post-heavy cleanup does not import PyTorch merely to clean up a CPU faster-whisper path;
 - completed acquisition/transcript/alignment/provider state is checkpointed to the same stable case run before Stage 10;
@@ -94,7 +96,7 @@ Issue #941 was closed at source merge while controlled production acceptance rem
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The 05/06 order above is the current canonical backend contract. Current frontend `PipelineBuildCard.jsx` still carries the stale opposite local order and queued Stage 07/08 fallback text; #965 owns that synchronization defect in the existing component.
+The 05/06 order above is the current canonical backend contract. The previously documented frontend `PipelineBuildCard.jsx` projection defect remains owned by #965 in the existing component.
 
 Current maturity remains 16 implemented/built analytical/runtime foundations, four conditional or intentionally not-invoked stages, with cloud-primary speaker execution still requiring controlled evidence.
 
@@ -122,7 +124,7 @@ The canonical primary remains pyannoteAI cloud through `pyannote_api`. `VOXVECTO
 
 ## Render Blueprint drift
 
-The current live Render service and owner export install `requirements-speech.txt`, including optional local `pyannote.audio`/PyTorch. Canonical root `render.yaml` specifies the narrower `requirements-transcription.txt` path.
+The latest separately recorded live Render service and owner export install `requirements-speech.txt`, including optional local `pyannote.audio`/PyTorch. Canonical root `render.yaml` specifies the narrower `requirements-transcription.txt` path.
 
 Root `render.yaml` also declares `CORS_ORIGINS` server-managed while the owner export does not list it and backend source defaults to `*` when unset. The export redacts environment values and must not be treated as proof of their values.
 
@@ -130,9 +132,9 @@ Root `render.yaml` also declares `CORS_ORIGINS` server-managed while the owner e
 
 ## Frontend and account state
 
-Current `main` `AuthGate.jsx` still does not start the requested API wake at successful login. Draft PR #974 contains the candidate one-shot `/health` wake plus the shared role-aware developer/admin/user self-profile implementation. It reuses the existing `public.profiles` and private avatar boundary; trusted role/account ID remain read-only and authorization stays in trusted `app_metadata`.
+Current GitHub `main` was re-read at `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` for the Developer Console synchronization. #931 / draft PR #974 remains the independently owned login-triggered API wake and shared role-aware developer/admin/user self-profile candidate. It reuses the existing `public.profiles` and private avatar boundary; trusted role/account ID remain read-only and authorization stays in trusted `app_metadata`.
 
-PR #974 is not current/deployed behavior. Its prior integration QA predates the #967 main advance, so #931 requires a current-main refresh, current-base QA/Preview, merge review, and authenticated desktop/mobile/profile-save verification.
+PR #974 is not current/deployed behavior. It requires its own current-main integration evidence, merge review, and authenticated desktop/mobile/profile-save verification.
 
 ## Developer Console wake/chrome candidate
 
@@ -142,7 +144,7 @@ The existing Live Engineering Status surface gains a manual **Wake API** action 
 
 The same candidate makes the compact Case Workflow tracker opaque/theme-aware and suppresses the duplicate account/email/sign-out footer in the Developer drawer while preserving the canonical header profile menu and sign-out behavior. No second status rail, workflow tracker, account menu, route, wake endpoint, public landing change, or shared-shell implementation is introduced. The owner clarified that the earlier trailing public/shared-shell phrase was a punctuation/transcription error.
 
-Pre-documentation merge-candidate evidence for PR #986: VoxVector QA `34560296284` succeeded with 224 backend tests passed, 19 frontend tests passed, and a successful Vite production build; PR Preview `34560296296` also succeeded. Documentation synchronization advances the branch, so fresh exact-head QA/Preview remains required before merge recommendation. Authenticated desktop/mobile browser verification remains open.
+Pre-documentation merge-candidate evidence for PR #986: VoxVector QA `34560296284` succeeded with 224 backend tests passed, 19 frontend tests passed, and a successful Vite production build; PR Preview `34560296296` also succeeded. Documentation synchronization advances the branch, so fresh final-head QA/Preview remains required before merge recommendation. Authenticated desktop/mobile browser verification remains open.
 
 ## Supabase and observability state
 
@@ -162,7 +164,7 @@ Supabase historical persistence does not itself prove browser rehydration; #963 
 6. #930 / #959 — intake reliability and production observability acceptance.
 7. #965 — truthful frontend pipeline projection.
 8. #931 / draft PR #974 — current-main integration, login wake/shared profiles, authenticated role/browser matrix.
-9. #981 / draft PR #986 — manual Developer Console wake/chrome exact-head QA/Preview and authenticated browser acceptance.
+9. #981 / draft PR #986 — manual Developer Console wake/chrome final-head QA/Preview and authenticated browser acceptance.
 10. #932 — release-critical public CTA/anchor/navigation repair.
 11. #972 — freeze one exact revision/configuration and pass two complete golden cases.
 12. Conduct scientific validation separately.
