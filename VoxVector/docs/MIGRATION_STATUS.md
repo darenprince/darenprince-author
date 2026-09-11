@@ -85,15 +85,15 @@ The canonical image source tree is `VoxVector/Assets/`.
 The current frontend brand and workflow assets include:
 
 - `VoxVector/Assets/voxvector-audio-analysis-console.png`
-- `VoxVector/Assets/VoxVector-logo-word.png`
+- `VoxVector/Assets/voxvector_wordmark.svg`
 - `VoxVector/Assets/voxvector_icon_2_cropped.png`
 - `VoxVector/Assets/voxvector_logo_icon.png`
 
-The icon roles are intentionally separate. `voxvector_icon_2_cropped.png` is the squircle/application icon for login, favicon, Apple touch/PWA install surfaces, Crown Labs product cards, and Crown Labs Bible product/document navigation. `voxvector_logo_icon.png` is the icon-only brand mark used in top navigation, combined icon + unchanged wordmark lockups, and startup/load states. The existing wordmark remains `VoxVector-logo-word.png` and is not replaced by either icon asset.
+The brand roles are intentionally separate. `voxvector_icon_2_cropped.png` is the squircle/application icon for login, favicon, Apple touch/PWA install surfaces, Crown Labs product cards, and Crown Labs Bible product/document navigation. `voxvector_logo_icon.png` is the icon-only brand mark used in top navigation, combined icon + wordmark lockups, and startup/load states. `voxvector_wordmark.svg` is the sole canonical VoxVector wordmark for active surfaces; its black source artwork is styled very light gray on dark VoxVector UI. Whenever `voxvector_logo_icon.png` and `voxvector_wordmark.svg` appear side-by-side, the canonical lockup CSS gives both image elements the exact same rendered height at every breakpoint, with no exceptions.
 
-The production Pages workflow stages the console, wordmark, app icon, and logo icon into the React public directory before the Vite build. The Pages artifact also exposes the selected canonical VoxVector brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
+The production Pages workflow stages the console, SVG wordmark, app icon, and logo icon into the React public directory before the Vite build. The Pages artifact also exposes the selected canonical VoxVector brand assets under `/VoxVector/Assets/` for Crown Labs and Crown Labs Bible consumers. Asset migration must therefore trace source → staging → build → Pages artifact rather than assuming an asset is absent because it is not under `voxvector/public/` in the source tree.
 
-The canonical landing workflow visual references the staged console asset at `/voxvector/voxvector-audio-analysis-console.png`.
+The canonical landing workflow visual references the staged console asset at `/voxvector/voxvector-audio-analysis-console.png`; active wordmark consumers reference the staged `/voxvector/voxvector_wordmark.svg`.
 
 ## Behavior migration: developer dashboard refinement
 
