@@ -8,9 +8,9 @@ The canonical engineering-MVP exit checklist is [`MVP_RELEASE_GATE.md`](MVP_RELE
 
 ## Current source and deployment state
 
-Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967's Stage 10 bounded-serialization and stable-run-identity follow-up.
+Canonical GitHub `main` was observed for this task at `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` on 2026-09-11. That source is newer than the separately observed Render deployment described below.
 
-Current exact-main GitHub evidence:
+The most recent exact-main QA/publication baseline already recorded in this document belongs to runtime-bearing revision `420536771875c6948be51851118b58cb04a596e6`:
 
 - VoxVector QA run `34532394431`: **success**;
 - API test step: **success**;
@@ -18,7 +18,9 @@ Current exact-main GitHub evidence:
 - React production-build step: **success**;
 - Deploy GitHub Pages run `34532394423`: **success**.
 
-The current connected Render deployment is `dep-dahi2ics728c73b6ujug`, status `live`, on exact backend source `420536771875c6948be51851118b58cb04a596e6`. The deployment trigger is `api`; production auto-deploy remains disabled; deployment finished at `2026-09-10T21:36:23.3655Z`.
+The GitHub connector did not return a push-triggered exact-main QA run for `1cc10f40...` through the commit-run/status lookups used in this synchronization. Therefore the `420536...` runs remain a historical QA baseline, not proof for current `main`.
+
+The latest separately recorded connected Render deployment is `dep-dahi2ics728c73b6ujug`, status `live`, on backend source `420536771875c6948be51851118b58cb04a596e6`. The deployment trigger is `api`; production auto-deploy remains disabled; deployment finished at `2026-09-10T21:36:23.3655Z`. This deployment is older than current GitHub `main` and must not be described as deploying `1cc10f40...`.
 
 The live service builds:
 
@@ -26,13 +28,13 @@ The live service builds:
 
 The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the service repository, root directory, Python runtime, free plan, Oregon region, build/start commands, `/health` path, custom domain and auto-deploy-off state. The export lists environment-variable names with `sync: false` and no values; it is not value evidence.
 
-No fresh `/health` payload for exact deployed source `420536...` was captured by the current synchronization pass. Older health readbacks remain historical evidence and must not be relabeled as current runtime verification.
+No fresh `/health` payload for current GitHub `main` or a newer Render deployment was captured by this documentation synchronization. Older health readbacks remain historical evidence and must not be relabeled as current runtime verification.
 
 ## Developer Console wake/chrome candidate — issue #981 / PR #986
 
 The current Developer Console refinement is isolated to the frontend branch `fix/voxvector-developer-console-wake-chrome` and draft PR #986. It does not change the FastAPI endpoint contract, provider configuration, deployment policy, analysis methodology, authentication architecture, or scientific status.
 
-The implementation checkpoint before documentation synchronization was branch head `81c7f776a4504bafa13682c8e0f1c79f0887ad2a`, based on canonical `main` `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. GitHub synthesized merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719` for PR #986.
+The implementation checkpoint before documentation synchronization was branch head `81c7f776a4504bafa13682c8e0f1c79f0887ad2a`, based on GitHub `main` `1cc10f40bb6b94e0a8f3380c1b70529137e89d93`. GitHub synthesized merge candidate `5c8e41e706930cb7e4ee8f44fbca1ba95a2df719` for PR #986.
 
 Observed QA on that merge candidate:
 
@@ -51,13 +53,13 @@ The covered behaviors are:
 
 The owner clarified that the earlier trailing public/shared-shell phrase was a punctuation/transcription error. No additional public landing or shared-shell change is part of #981/#986.
 
-This documentation synchronization advances the branch beyond the `81c7f776...` implementation checkpoint. Fresh exact-head VoxVector QA and PR Preview evidence are therefore required after the documentation commit before merge recommendation. Authenticated desktop/mobile browser verification remains a separate unresolved gate. A successful wake request or preview build is not a deployment, provider execution, browser verification, or scientific validation.
+Documentation synchronization advances the branch beyond the `81c7f776...` implementation checkpoint. Fresh final-head VoxVector QA and PR Preview evidence are required after the last documentation commit before merge recommendation. Authenticated desktop/mobile browser verification remains a separate unresolved gate. A successful wake request or preview build is not a deployment, provider execution, browser verification, or scientific validation.
 
 ## Current #941 state after merged #962/#967
 
-The runtime-safety source work is merged. PR #962 established the first durability/memory foundation; PR #967 merged the reviewed follow-up into current `main`.
+The runtime-safety source work is merged. PR #962 established the first durability/memory foundation; PR #967 merged the reviewed follow-up.
 
-Current source now provides:
+Current source contains:
 
 1. CPU post-heavy cleanup without importing PyTorch merely to inspect CUDA cache;
 2. same-run checkpointing of completed acquisition/transcript/alignment/provider state before Stage 10;
@@ -71,7 +73,7 @@ Issue #941 was closed at #967 merge while production verification criteria remai
 
 ## Controlled production transcription result — historical 2026-09-10 evidence
 
-The controlled incident below occurred on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. It remains valid historical provider/runtime evidence but is not execution proof for current `420536...`.
+The controlled incident below occurred on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2`. It remains valid historical provider/runtime evidence but is not execution proof for current GitHub `main`.
 
 Controlled case:
 
@@ -90,7 +92,7 @@ Observed provider execution:
 - output contained 58 timestamped transcript segments and 246 timestamped words;
 - language was reported as `en`.
 
-This is successful provider execution evidence for that one historical run. It is not transcript truthfulness validation and it does not establish reliable end-to-end completion on the current source.
+This is successful provider execution evidence for that one historical run. It is not transcript truthfulness validation and it does not establish reliable end-to-end completion on current source.
 
 ## Historical confirmed post-transcription memory failure
 
@@ -110,15 +112,15 @@ The #962 source-repair branch accumulated successful review-workflow checkpoints
 - PR Preview `34481815297`: success;
 - later literal branch-head push checkpoint `85add7d4d21640346dc454cd19309fa968d922fb` with VoxVector QA `34484033457`: success.
 
-Those records remain historical source-QA evidence. Current source authority is the exact-main `420536...` QA result above.
+Those records remain historical source-QA evidence.
 
 ## Final #967 exact-main QA boundary
 
-PR #967 resolved the two reviewed follow-up defects before merge: bounded/cancellation-safe heavy-phase admission and preservation of route-owned case-run identity. GitHub `main` then advanced to `420536...`.
+PR #967 resolved the two reviewed follow-up defects before merge: bounded/cancellation-safe heavy-phase admission and preservation of route-owned case-run identity. GitHub `main` at that checkpoint was `420536771875c6948be51851118b58cb04a596e6`.
 
-VoxVector QA `34532394431` ran on that exact push revision and completed successfully across the API-test, frontend-contract-test and React production-build steps. GitHub Pages workflow `34532394423` also completed successfully for the same main revision.
+VoxVector QA `34532394431` ran on that exact push revision and completed successfully across the API-test, frontend-contract-test and React production-build steps. GitHub Pages workflow `34532394423` also completed successfully for the same revision.
 
-These results establish software QA/publication workflow success. They do not establish current Render `/health`, controlled post-merge provider execution, browser verification or scientific validity.
+These results remain software QA/publication workflow evidence for `420536...`. They do not establish QA for newer current `main`, current Render `/health`, controlled provider execution, browser verification or scientific validity.
 
 ## Supabase evidence
 
@@ -138,7 +140,7 @@ Canonical root `render.yaml` currently specifies:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-transcription.txt`
 
-The connected live Render service and owner-provided export specify:
+The latest separately recorded connected live Render service and owner-provided export specify:
 
 `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`
 
@@ -150,10 +152,10 @@ Drift reconciliation belongs to #964 and must update the existing canonical root
 
 ## Frontend QA / truth boundary
 
-Current `main` frontend source has two material open truth/acceptance items:
+Current GitHub `main` was re-read at `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` for this task. The following open truth/acceptance items remain independently tracked:
 
-- `PipelineBuildCard.jsx` still uses stale local Stage 05/06 ordering and queued Stage 07/08 text despite consuming `pipeline_build`; #965 owns the existing-component correction so runtime `status_by_stage` becomes authoritative when available.
-- `AuthGate.jsx` on current `main` still lacks the requested login-triggered API wake. Draft PR #974 under #931 contains the candidate login wake plus shared role-aware User/Admin/Developer Profile editor wiring. Its prior QA was against the pre-#967 base and must be rerun against current `main` before merge recommendation.
+- `PipelineBuildCard.jsx` carries the previously documented Stage 05/06 projection issue; #965 owns that existing-component correction.
+- #931 / draft PR #974 owns the requested login-triggered API wake plus shared role-aware User/Admin/Developer Profile editor wiring; it is separate from this task and requires its own current-main integration evidence.
 
 PR #986's Developer Console **Wake API** control is a separate manual operator action inside the existing Live Engineering Status surface. It does not replace or satisfy #931's requested login-triggered wake behavior.
 
@@ -168,19 +170,19 @@ These are source/application facts, not browser verification.
 | Source persistence | implemented | Supabase historical object readback | old-case browser rehydration #963 |
 | faster-whisper | provider execution historically proven with beam 1 | 58 segments / 246 words on deployed `f0dda136...` | current post-#964/#967 controlled repeatability #941 |
 | Transcript alignment | source foundation + historical stage execution evidence | source/tests + historical run | current durable readback and speaker-aware alignment #971 |
-| Acoustic Feature Extraction | implemented source with merged bounded Stage 10 admission | exact-main QA | controlled production proof #941 |
+| Acoustic Feature Extraction | implemented source with merged bounded Stage 10 admission | historical exact-main QA baseline | controlled production proof #941 |
 | pyannoteAI cloud primary | implemented/configured architecture | source/provider contracts + older readiness evidence | current provider contract correction/execution/persistence #970 |
 | local Community-1 | optional fallback | local adapter contracts | must not be treated as current cloud-primary execution |
 | Run recovery/reporting | merged foundation | #945/#946 + #962/#967 | controlled runtime/browser readback separate |
 | Dual Render/Supabase observability | merged source foundation | #961/#966/#968 | production dual-copy/bundle/terminal-capture proof #959 |
 | Admin user management backend | Edge Function previously verified active | Supabase readback | current-main PR #974 integration + role/profile browser acceptance #931 |
 | Login-time API wake / shared self-profile | candidate only | draft PR #974 | refresh against current main, QA/merge/publish/browser verification |
-| Developer Console manual Wake API / chrome cleanup | candidate with successful pre-doc merge-candidate QA | #981 / PR #986, QA `34560296284`, Preview `34560296296` | fresh post-doc exact-head QA/Preview, authenticated desktop/mobile browser verification, merge |
+| Developer Console manual Wake API / chrome cleanup | candidate with merge-candidate QA evidence | #981 / PR #986 | final-head QA/Preview, authenticated desktop/mobile browser verification, merge |
 | Classification/disposition | guarded foundation | source/tests | no scientifically validated deception inference |
 
 ## Current issue queue
 
-- #964 — current first source/configuration task: reconcile Render Blueprint/live dependency/profile state.
+- #964 — source/configuration task: reconcile Render Blueprint/live dependency/profile state.
 - #941 — reopened controlled production proof after #964; source fixes merged.
 - #970 — cloud-primary pyannoteAI contract/execution/persistence after #941.
 - #971 — persisted transcript/audio/speaker alignment after #970.
@@ -188,7 +190,7 @@ These are source/application facts, not browser verification.
 - #930 — intermittent authenticated upload 400 must be bounded before candidate freeze.
 - #959 — merged observability source, production acceptance open.
 - #965 — frontend pipeline status contract correction before final browser freeze.
-- #931 / draft PR #974 — login wake/shared self-profile plus role/browser matrix; current-main integration QA pending.
+- #931 / draft PR #974 — login wake/shared self-profile plus role/browser matrix; independent current-main integration QA pending.
 - #981 / draft PR #986 — Developer Console manual Wake API, opaque compact workflow tracker, and duplicate drawer-account presentation cleanup; authenticated desktop/mobile verification remains open.
 - #932 — release-critical public CTA/anchor/menu repair before final browser acceptance.
 - #972 — final frozen-candidate two-run golden proof.
