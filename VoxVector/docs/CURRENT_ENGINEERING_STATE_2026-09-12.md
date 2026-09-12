@@ -8,7 +8,7 @@
 - React frontend: `voxvector/`
 - Crown Labs executive mirror: `docs/crownlabsbible/04-product-dossiers/VoxVector/`
 - Backend source release: **0.2.27**
-- Frontend source release: **0.2.37**
+- Frontend source release: **0.2.38**
 - Current deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 
 This is the living engineering handoff. Older dated state files remain historical evidence.
@@ -41,9 +41,26 @@ Result:
 - Stage 10 after-GC RSS: **128.63 MB**
 - the same Render instance remained active; no uncontrolled API restart occurred
 
-Issue **#941 is complete**. Current controlled transcription durability and Stage 10 production proof are now established for this deployed revision.
+Issue **#941 is complete**. Current controlled transcription durability and Stage 10 production proof are established for this deployed revision.
 
-## Intentionally not run in the successful case
+## Frontend 0.2.38 validation repair
+
+The actual canonical Developer Dashboard in `voxvector/src/components/DeveloperConsole.jsx` was updated after the browser/validation review.
+
+Frontend 0.2.38 now:
+
+- passes `setProgress` into `CaseWorkbench`, fixing the file-picker state-setter error that had been masked by the existing direct file-input fallback;
+- keeps the fallback as defensive recovery rather than making it the normal React state path;
+- recognizes the controlled transcription proof only when live backend revision matches the accepted proof revision;
+- shows transcription as **PROVEN** on that matched runtime rather than `execution ready, unverified`;
+- changes **Next Engineering Move** from stale `Transcription first` copy to **#970 diarization**;
+- replaces the old 71% / 20-of-28 release-readiness presentation with evidence-backed controlled-proof, foundation, next-P0 and Render state;
+- labels the 28-task checklist as implementation coverage rather than release readiness;
+- includes a focused regression contract for the upload setter and dashboard proof wording.
+
+The immediately preceding validation-snapshot QA run `34684789612` completed successfully. Because 0.2.38 changes frontend source after that run, exact-head QA for the final 0.2.38 synchronization head remains the required verification boundary before calling the release source QA-verified.
+
+## Intentionally not run in the successful backend case
 
 - Stage 06 Speaker Identification / Diarization: cloud provider was not invoked in the constrained Render analysis path
 - Stage 14 Question / Answer Alignment: no question context attached
@@ -69,7 +86,7 @@ Connected Render inspection on September 12 established:
 - faster-whisper: base, CPU/int8, beam 1, one thread, one worker, isolated process, 165-second timeout, execution ready
 - pyannoteAI cloud primary: configured and execution ready
 
-Recent runtime resource use was low, roughly 79–110 MB memory with low CPU outside the heavy controlled analysis window.
+Backend deployment identity is intentionally separate from frontend 0.2.38 source identity.
 
 ## Runtime defect discovered during visual validation
 
@@ -81,7 +98,7 @@ A separate Developer Console browser session exposed a real case-read failure wh
 - that request returned HTTP 500
 - subsequent reads of the same case returned HTTP 200
 
-This is currently classified as an **observability persistence timeout leaking into the request path**, not a pipeline-analysis failure. It must be fixed so diagnostic persistence is best-effort/non-fatal to successful product requests.
+This is classified as an **observability persistence timeout leaking into the request path**, tracked by **#998**. Diagnostic persistence must become best-effort/non-fatal to an otherwise successful product request.
 
 ## Visual/browser evidence
 
@@ -95,7 +112,7 @@ The September 12 Confidential IP screenshot set visually confirms current Develo
 - waveform and spectral visualization
 - analysis engine stage progression
 
-The screenshot set also reproduces the visible fetch failure described above. Visual evidence is product/browser evidence, not scientific validation.
+The visual 4:16 `1017 LA-524 2.wav` session is separate from the 183.3-second controlled proof case and must not be conflated with it. Its visible fetch failure is evidence for the reliability work above, not evidence that the successful controlled analysis run failed.
 
 ## Debug Bundle status
 
@@ -139,12 +156,12 @@ The bundle intentionally excludes raw audio and transcript text. Its manifest cu
 2. **#971** persisted transcript/audio/speaker alignment using the same run/source
 3. **#963** historical-case reopen/playback/artifact/report rehydration
 4. **#930** bound intermittent authenticated upload 400 behavior
-5. **observability request-path timeout**: make diagnostic persistence non-fatal to product requests
+5. **#998** make diagnostic persistence non-fatal to product requests
 6. **#959** complete dual-copy observability and Debug Bundle correlation
-7. authenticated desktop/mobile acceptance for current auth/profile/navigation/pipeline UI
+7. authenticated desktop/mobile acceptance for current auth/profile/navigation/pipeline/upload UI
 8. **#972** two complete same-revision/configuration golden cases
 9. scientific validation separately
 
 ## Evidence boundary
 
-Current evidence proves a real, completed, same-revision controlled transcription + Stage 10 run. It does **not** prove speaker diarization, general deception validity, transcript truthfulness, legal admissibility, or scientific accuracy.
+Current evidence proves a real completed same-revision controlled transcription + Stage 10 backend run and source-level frontend 0.2.38 repairs. It does **not** prove current cloud speaker execution, human speaker identity, general deception validity, transcript truthfulness, legal admissibility, or scientific accuracy.
