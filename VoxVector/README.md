@@ -9,14 +9,14 @@ The repository remains the source of truth for what is actually implemented. Sof
 - Backend/API/engine: `VoxVector/`
 - Public/authenticated React application: `../voxvector/`
 - Backend source release: **0.2.27**
-- Frontend source release: **0.2.37**
+- Frontend source release: **0.2.38**
 - Current deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - Current engineering handoff: `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
 - Current validation snapshot: `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
 - Living version map: `docs/VERSION_MAP.md`
 - Living QA record: `docs/QA_STATUS.md`
 
-Frontend and backend are independently versioned.
+Frontend and backend are independently versioned. Frontend 0.2.38 contains the Developer Dashboard/file-picker validation repairs; the validated deployed backend remains 0.2.27.
 
 ## Canonical 21-stage pipeline
 
@@ -107,9 +107,17 @@ Local pyannote Community-1/Hugging Face tooling is optional fallback infrastruct
 
 The Developer Console is the operational engineering cockpit for API health, case workflow, analysis workspace, pipeline projection, diagnostics, GitHub QA, Render status/log/debug evidence, documentation and trusted account functions.
 
-The engineering-status module now recognizes the validated deployed proof revision and can display transcription as **PROVEN** rather than `execution unverified`. The source-level 16/21 foundations count remains separate from the successful 17/21 controlled runtime result.
+Frontend 0.2.38 updates the actual canonical `DeveloperConsole.jsx` Dashboard directly:
 
-The September 12 screenshot PDFs also exposed stale pre-validation dashboard copy such as `Transcription first`, `71% complete`, `20 of 28` and `execution ready, unverified`. Those values are historical rendered evidence from before the validation reconciliation and are not current engineering truth.
+- matched controlled transcription proof is shown as **PROVEN**;
+- source-level 16/21 foundations remain separate from the successful 17/21 controlled runtime result;
+- **Next Engineering Move** is **#970 diarization**;
+- stale `Transcription first`, `execution ready, unverified`, and legacy percentage/count release-readiness copy are removed from the current Dashboard;
+- the 28-task checklist is explicitly implementation coverage, not the release gate.
+
+The same release fixes the Case Workbench file picker by passing `setProgress` into `CaseWorkbench`. The existing direct file-input lookup remains defensive fallback only and no second upload path was created.
+
+A focused source-contract regression test guards the file-picker prop and Dashboard proof wording.
 
 ## Observability finding
 
@@ -125,7 +133,7 @@ A separate browser case reproduced one HTTP 500 caused by a `TimeoutError` while
 4. #930 upload reliability bounding
 5. #998 observability persistence isolation
 6. #959 complete dual-copy observability/debug-bundle correlation
-7. authenticated desktop/mobile acceptance
+7. authenticated desktop/mobile acceptance, including frontend 0.2.38 readback
 8. #972 two complete golden cases on one frozen revision/configuration
 9. scientific validation as a separate program
 
