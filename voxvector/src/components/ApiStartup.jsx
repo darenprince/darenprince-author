@@ -7,7 +7,7 @@ const STEPS = [
   { id: 'connection', label: 'API connection', detail: 'Establishing a connection to the canonical VoxVector API.', icon: Server },
   { id: 'health', label: 'Health endpoint', detail: 'Confirming the service is responding normally.', icon: Activity },
   { id: 'runtime', label: 'Runtime self test', detail: 'Checking the backend analysis runtime self test.', icon: Gauge },
-  { id: 'pipeline', label: 'Pipeline readiness', detail: 'Reading the canonical 21 stage pipeline build state.', icon: Waves },
+  { id: 'pipeline', label: 'Pipeline contract', detail: 'Confirming the backend reports the canonical 21 stage engineering contract.', icon: Waves },
   { id: 'storage', label: 'Case workflow', detail: 'Confirming the authenticated case workflow can be opened.', icon: Database },
   { id: 'security', label: 'Developer session', detail: 'Confirming the authenticated developer console session.', icon: ShieldCheck },
 ]
