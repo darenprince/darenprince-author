@@ -1,0 +1,15 @@
+{
+  "archive_event": "user_supplied_audit_snapshot",
+  "archived_at": "2026-09-12T10:23:03Z",
+  "base_revision": "4e1abaf7c54c1406e0feb22b93fcdca78271545f",
+  "scope": "Dated addendum for an externally supplied VoxVector and Crown Labs audit report. The September 7 manifest remains an immutable historical collection snapshot.",
+  "entries": [
+    {
+      "source_type": "user_supplied_file",
+      "source_title": "VoxVector & Crown Labs – Comprehensive Audit Report",
+      "copy": "Engineering_Audits/VoxVector/docs/COMPREHENSIVE_AUDIT_REPORT_2026-09-12.md",
+      "sha256": "1ef68e268cec93885deedea549d9bbf131bada9de093d93ef136416c0c443d2a",
+      "note": "Preserved as reported with an archive disclaimer; not a fresh independent verification of every runtime, CI, deployment, security, or valuation claim."
+    }
+  ]
+}
