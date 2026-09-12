@@ -1,205 +1,144 @@
 # VoxVector Capability Status
 
-This document distinguishes the product end state from current implementation state and scientific validation state.
+This living document separates product scope, current implementation, runtime evidence, engineering acceptance, and scientific validation.
 
-An unimplemented capability remains active product scope.
+An unimplemented capability remains active product scope unless explicitly removed. A implemented foundation is not automatically production-verified or scientifically validated.
 
-## Preserved runtime checkpoint — 2026-09-10
+## Version and source context
 
-At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
+- backend release authority: **0.2.27**
+- frontend release authority: **0.2.37**
+- current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- 2026-09-12 reconciliation baseline before documentation/status commits: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
+- exact-baseline VoxVector QA `34679916767`: success
 
-Connected Render inspection at that checkpoint showed `voxvector-api` deployment `dep-dahi2ics728c73b6ujug` `live` on exact source `420536771875c6948be51851118b58cb04a596e6` with automatic deployment disabled. The live service built `api/requirements.txt` plus `api/requirements-speech.txt`.
+Subsequent documentation/status commits legitimately make `main` newer. Do not rewrite the baseline SHA as a deployment claim.
 
-That historical checkpoint recorded repository/live dependency drift under #964. Issue #964 was subsequently completed after the sole root Blueprint was reconciled and sole-service inventory verified. The 2026-09-10 deployment observation is retained as historical evidence and is not used as proof of the current frontend PR candidate.
+## Capability matrix
 
-A controlled 183.3-second production case on older source `f0dda136...` established real faster-whisper execution:
+| Capability | Source state | Runtime / evidence state | Remaining acceptance |
+|---|---|---|---|
+| Case create/list/read/delete | implemented | active case API | owner-scoped browser/error edge cases continue through release gate |
+| Private source upload | implemented | historical/current successful persistence | #930 intermittent authenticated 400 bounding |
+| Source metadata + SHA-256 provenance | implemented | persisted in case/source path | final golden-case readback |
+| Protected playback | implemented | signed playback route | #963 historical reopen/playback proof |
+| Speech segmentation | implemented foundation | historical controlled execution | current golden-path persistence/readback |
+| Speaker diarization | cloud-primary path wired | pyannoteAI configured/readiness evidence | #970 real current execution + persisted speaker evidence |
+| Transcription | implemented integration | historical real faster-whisper beam-1 execution | #941 current same-revision repeatability/durability |
+| Transcript alignment | implemented foundation | historical/partial evidence | #971 persisted transcript/audio/speaker proof |
+| Eligibility / reliability | implemented foundation | source/tests | task/population validation remains separate |
+| Stage 10 acoustic extraction | implemented with admission controls | source/tests; historical constrained-memory incident | #941 controlled current production proof |
+| Prosodic / voice-quality analysis | implemented foundation | source/tests | scientific interpretation/validation separate |
+| Temporal / pause analysis | implemented foundation | source/tests | scientific interpretation/validation separate |
+| Linguistic / disfluency analysis | conditional | requires transcript evidence | current full-path run and scientific interpretation separate |
+| Question / answer alignment | conditional | requires question/context boundaries | product/runtime proof when inputs exist |
+| Within-speaker baseline | optional integrated | source/tests | runtime use requires independent baseline input |
+| Evidence assembly | implemented foundation | source/tests | complete persisted end-to-end evidence proof |
+| Convergence / conflict | implemented foundation | source/tests | scientific interpretation/calibration separate |
+| Candidate classification | guarded foundation | intentionally conservative | no validated deception inference claimed |
+| Validation / calibration gate | not invoked | scientific program required | explicit validated task/population/model evidence |
+| Final disposition | guarded foundation | source/tests | scientific authorization/calibration required for non-indeterminate inference |
+| Audit / provenance output | implemented foundation | source/run/diagnostic persistence | final golden-case completeness proof |
+| Historical case rehydration | partial foundation | source/case persistence exists | #963 complete reopen/playback/artifact/report proof |
+| Developer Console | implemented active surface | health/case/pipeline/diagnostics/docs/QA surfaces exist | authenticated desktop/mobile acceptance |
+| Public navigation/site map | merged | source + exact-baseline QA | rendered desktop/mobile acceptance |
+| Login-time API wake | current source | source/tests | cold/warm authenticated browser observation |
+| Shared self-profile | current source | source/tests | save/reload browser acceptance |
+| Dual operational observability | implemented foundation | active Supabase durable diagnostics + protected Render routes | #959 production dual-evidence/debug-bundle acceptance |
+| Golden-case engineering repeatability | not yet passed | historical partial/provider evidence only | #972 two complete runs on one frozen revision/configuration |
+| General deception validity | not established | no authorized claim | scientific validation program |
 
-- speech segmentation completed with 26 segments;
-- faster-whisper executed `base`, CPU, int8, beam 1, one CPU thread, one worker, isolated child process;
-- transcription completed in about 113 seconds;
-- 58 transcript segments and 246 timestamped words were produced;
-- the API process later restarted during the post-provider/downstream transition after memory entered the constrained service danger zone;
-- the owner confirmed the failure was a memory problem;
-- the completed transcript/provider artifact was not durably attached to the persisted run before downstream analysis started on that historical revision.
+## Canonical 21-stage order
 
-That changed the transcription evidence class from configuration/readiness-only to **controlled provider execution observed** for the historical run. It did not establish full production reliability, durable checkpointing, transcript correctness, browser verification, or scientific validation.
+1. File Upload / Ingest
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
+5. Speech Segmentation
+6. Speaker Identification / Diarization
+7. Transcription Generation
+8. Transcript Alignment
+9. Eligibility and Reliability
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
+14. Question / Answer Alignment
+15. Within Speaker Baseline
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
+18. Candidate Classification
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
 
-Merged PRs #962 and #967 implement the intended post-transcription durability, bounded Stage 10 admission, process/runtime provenance and stable run identity in source. Issue #941 remains reopened for controlled production proof.
+Any living status surface that reverses Stage 05 and 06 is stale.
 
-## Canonical 21 stage capability map
-
-| Stage | Current state | Product target |
-|---|---|---|
-| File Upload / Ingest | Integrated | Durable multi-format case intake |
-| File Decode and Normalization | Integrated | Canonical normalized media pipeline |
-| Provenance and Integrity | Integrated | Immutable source and run provenance |
-| Channel and Recording Assessment | Integrated / expanding | Full recording and artifact assessment |
-| Speech Segmentation | **Integrated; historical controlled production execution observed** | Production speech region segmentation |
-| Speaker Identification / Diarization | **Cloud-primary provider path built; controlled cloud execution still required** | Production speaker-aware analysis |
-| Transcription Generation | **Historical controlled faster-whisper execution observed; current durable/runtime proof open** | Production timestamped ASR |
-| Transcript Alignment | **Built synchronized foundation; same-run checkpoint source merged; persisted multimodal proof open** | Word/audio/speaker synchronization |
-| Eligibility and Reliability | Integrated | Complete eligibility and reliability gate |
-| Acoustic Feature Extraction | Integrated source; bounded Stage 10 admission merged; controlled runtime proof open | Expanded acoustic observation layer |
-| Prosodic and Voice Quality Analysis | Integrated foundation | Expanded prosodic and source analysis |
-| Temporal and Pause Analysis | Integrated | Expanded interaction timing |
-| Linguistic and Disfluency Analysis | Integrated when transcript supplied | Production linguistic intelligence |
-| Question / Answer Alignment | Integrated when supplied | Full conversational alignment |
-| Within Speaker Baseline | Integrated when baseline supplied | Persistent baseline workflows |
-| Cross Method Evidence Assembly | Integrated | Expanded evidence graph |
-| Evidence Convergence and Conflict | Integrated foundation | Dependence-aware multimethod synthesis |
-| Candidate Classification | Integrated boundary | Validated task-specific candidate models |
-| Validation and Calibration Gate | Planned research | Production validation gate |
-| Final Classification / Disposition | Integrated boundary | Validated final disposition architecture |
-| Audit and Provenance Output | Integrated | Complete auditable case package |
-
-The canonical stage numbering places Speech Segmentation at Stage 05 and Speaker Identification / Diarization at Stage 06. Historical dated records may retain earlier numbering as historical evidence.
-
-The existing Developer Console `PipelineBuildCard.jsx` is corrected in PR #993 to match that order, prefer backend `pipeline_build.status_by_stage` whenever available, label loading/offline source-contract fallback explicitly, and present Stage 07/08 fallback state consistently with the backend implemented-foundation contract. No alternate pipeline component was created.
-
-## Live input and case capabilities
-
-The authenticated case intake workflow supports case creation/list/retrieval, WAV source upload, metadata extraction, SHA-256 provenance, private media storage, signed playback, source provenance persistence, case-bound analysis runs, live persisted run state, interruption recovery, and prior-run review.
-
-Historical controlled cases confirm that a 17,596,936-byte source can persist and survive a later API restart. Separate intermittent intake issue #930 remains open and is not closed by successful uploads.
-
-## Speech runtime contract
+## Current provider truth
 
 ### Transcription
 
-Current constrained source profile:
+Canonical provider: faster-whisper.
 
-- provider: `faster_whisper`
-- model: `base`
-- device: `cpu`
-- compute type: `int8`
-- beam size: `1`
-- CPU threads: `1`
-- workers: `1`
-- isolated child process: enabled
-- child deadline: `165` seconds
+Historical real execution exists. Current controlled repeatability, durable upstream checkpointing and Stage 10 containment remain #941.
 
-Historical production execution of this beam-1 profile was observed on exact deployed source `f0dda136...`. Merged #962/#967 contain the durability and Stage 10 resource-safety path. Reopened #941 must prove the current implementation in controlled production.
+### Speaker diarization
 
-### Diarization
+Canonical primary provider: pyannoteAI cloud.
 
-- primary provider: `pyannote_api`
-- cloud API credential is server-side only
-- case-route invocation gate: `VOXVECTOR_ENABLE_DIARIZATION_RUNS`
-- local fallback: `pyannote_local`
-- local fallback is explicit and requires separate configuration/credential readiness
-- successful controlled cloud-primary execution: not yet established in the current release-gate evidence
+Wired/configured does not mean executed. #970 remains the current execution/persistence gate.
 
-The local Community-1 path and its PyTorch dependency are not required merely to call the cloud-primary `pyannote_api` adapter.
+### Hugging Face
 
-Issue #970 owns rechecking/correcting the current pyannoteAI cloud media-upload/job contract and obtaining real provider execution plus persisted speaker evidence after the separate #941 runtime proof.
+Connected identity: `crownlabs-voxvector`.
 
-## Post-transcription durability and memory boundary
+Hugging Face is relevant to optional/local model and fallback workflows. It does not prove the pyannoteAI cloud-primary path. During the 2026-09-12 reconciliation, model/Space discovery actions returned connector-level not-found errors, so no Hub inventory is claimed from those calls.
 
-A provider call is not considered durably integrated merely because it returned successfully in memory.
+### Legacy LLM/Base44 status
 
-The case-run boundary is:
+Old Base44 TranscribeAudio/InvokeLLM dashboard provider descriptions are retired from current canonical provider truth. Transcription is faster-whisper. Current evidence synthesis/classification is application-owned and guarded; no active LLM analysis provider is claimed by default.
 
-`provider completion → normalized acquisition/alignment → durable same-run checkpoint → Stage 10 route preflight → fail-fast shared composite admission + locked RSS recheck → downstream composite analysis while admitted`
+## Current frontend status
 
-Merged source preserves the acquired transcript, alignment, provider state/timing, completed upstream stage states, stable run identity, and process/runtime provenance before dependent heavy work begins.
+Merged/current source includes:
 
-On the constrained Render path, Stage 10 must not be represented as running until current process RSS passes the configured operational memory-admission check. A competing composite call must fail fast rather than wait behind the heavyweight lock and execute after its route has timed out. If admission fails, the upstream transcript/alignment checkpoint remains valid while downstream work records an explicit bounded failure/not-run state.
+- Request Access → canonical login;
+- route-qualified landing anchors and restored hash navigation;
+- human site map;
+- styled Pipeline and Analysis Methods destinations;
+- corrected Stage 05/06 projection;
+- backend-driven pipeline status where available;
+- canonical hero artwork/cascade ownership;
+- one-shot login-time API wake;
+- shared role-aware self-profile implementation.
 
-This memory-admission gate is operational safety and is separate from analytical Eligibility and Reliability.
+The Developer Console startup step is labeled **Pipeline contract**. COMPLETE there verifies that the backend reported a 21-stage contract. The separate foundations count communicates maturity.
 
-## Process, hosting and run provenance
+## Current operational evidence
 
-`process_instance_id` identifies the current Python API process and must change across Python process restarts.
+Connected Supabase reconciliation found:
 
-`render_instance_id` identifies the Render infrastructure instance when available and is stored separately. A Render instance label may survive an internal Python process restart, so it cannot serve as the sole process identity for interruption recovery.
+- ACTIVE_HEALTHY project on PostgreSQL 17.6;
+- RLS on inspected operational public tables;
+- `voxvector-user-admin` Edge Function ACTIVE at version 2 with JWT verification;
+- active request/error diagnostics;
+- 6,405 private log objects and 28 private media objects at inspection time;
+- current diagnostic request rows tagged with the reconciled source baseline `66f2ea...`.
 
-The persisted route-owned `run_id` remains the case-run identity. The pipeline-internal analytical UUID is preserved separately as `pipeline_run_id` and must not replace it.
+Current Supabase hardening advisories include the dashboard SECURITY DEFINER boundary, leaked-password protection, selected unindexed foreign keys, RLS auth-function reevaluation inefficiencies and unused error-report indexes.
 
-## Developer Console status
+## Current release-critical queue
 
-The Developer Console remains the engineering cockpit with runtime health, case workflow, 21-stage status, live run polling, synchronized waveform/transcript review, diagnostics, Render runtime, methodology and pipeline navigation, structured audits, and report/audit/log copy/download controls.
+1. #941 controlled current-revision transcription/durability/Stage 10 proof
+2. #970 real cloud-primary diarization + speaker persistence
+3. #971 persisted multimodal alignment
+4. #963 historical-case rehydration
+5. #930 upload reliability bounding
+6. #959 production observability/debug-bundle acceptance
+7. authenticated desktop/mobile acceptance for current frontend/auth behavior
+8. #972 two complete same-revision/configuration golden cases
+9. scientific validation separately
 
-The frontend API client continues to route case, diagnostics, health and Render operations through the preserved VoxVector backend contract. PR #993 adds source-level contract tests that trace the client routes to `VoxVector/api/app.py` and the mounted `VoxVector/api/render_api.py` router. That establishes source wiring only; it is not backend/provider execution or browser verification.
+## Evidence boundary
 
-Merged PRs #961/#966/#968 provide the observability/Debug Bundle source foundation. #959 remains open for production dual-copy/bundle/terminal-capture/browser acceptance.
-
-The console must display execution readiness independently from provider execution, artifact durability, resource stability, browser verification, and scientific validation.
-
-## Authentication and self-profile status
-
-Current merged `AuthGate.jsx` performs a non-blocking canonical API wake after successful password login before trusted-role routing settles. Shared developer/admin/user self-profile behavior remains in the canonical role-aware account implementation.
-
-The login wake is connectivity/readiness behavior only. It is not provider execution, deployment proof, successful analysis, or scientific validation. Authenticated desktop/mobile browser acceptance remains separate.
-
-## Public frontend navigation status — PR #993
-
-PR #993 repairs the canonical public application rather than creating replacement pages:
-
-- Request Access routes to `/voxvector/login`;
-- landing/menu/footer anchors are route-qualified and map to unique current landing sections;
-- Pipeline and Analysis Methods use the existing styled frontend references instead of raw repository Markdown where those styled surfaces exist;
-- `/voxvector/site-map` is a human-readable inventory rendered through the existing React public shell;
-- GitHub Pages and PR Preview staging create physical direct-route entries for `developer`, `login`, `app`, and `site-map`, all serving the same built React application rather than duplicate implementations;
-- hash restoration honors direct load, refresh and browser navigation instead of forcing every hash load to page top.
-
-Source/build QA and production/browser acceptance remain separate evidence classes.
-
-## Operational status boundaries
-
-| Area | State |
-|---|---|
-| Case persistence API | implemented |
-| Case-bound analysis API | implemented |
-| Speech segmentation | historical controlled production execution observed |
-| Transcription provider | historical controlled beam-1 execution observed |
-| Transcript artifact durability before downstream failure | implementation merged; current production proof reopened in #941 |
-| Stage 10 constrained-memory/single-flight admission | implementation merged; current production proof reopened in #941 |
-| Diarization primary provider | pyannoteAI cloud architecture built; controlled primary execution still required #970 |
-| Local diarization fallback | optional explicit path; not primary |
-| Transcript/speaker alignment | foundation implemented; controlled durable provider-backed readback still required #971 |
-| Frontend pipeline projection | corrected in PR #993 source; exact-head QA/browser acceptance remain separate |
-| Public CTA/anchors/site map | corrected in PR #993 source; exact-head QA/browser acceptance remain separate |
-| Login wake/shared self-profile | merged source behavior; browser acceptance remains separate |
-| Browser verification | separate unresolved gate |
-
-Historical deployment revisions and workflow runs remain recorded in dated checkpoints and QA documents. They are not silently promoted into current deployment evidence for a later source revision.
-
-## Current engineering sequence
-
-1. Complete exact-head source QA/review for PR #993 and preserve browser acceptance as a separate gate.
-2. Complete reopened #941 with the controlled WAV on an explicitly observed deployed revision.
-3. Execute cloud-primary diarization under #970 and persist speaker turns/provenance.
-4. Produce/persist transcript/audio/speaker alignment under #971.
-5. Complete #963 reopened-case audio/transcript/speaker/alignment/report rehydration through the existing authenticated playback route.
-6. Bound #930 intake reliability and complete #959 observability production acceptance.
-7. Complete #932/#965 authenticated desktop/mobile frontend acceptance before the final freeze.
-8. Freeze one exact deployed candidate and complete two same-revision/configuration golden cases under #972.
-9. Continue task-specific scientific validation as a separate program.
-
-## Scientific status rule
-
-Implementation, configuration, execution, software testing, artifact persistence, runtime reliability, engineering-MVP completion, and scientific validation are separate states. Provider execution does not establish transcript truthfulness, verified speaker identity, or deception inference validity. A single vocal or behavioral feature is not sufficient proof of deception.
-
-## Documentation authority
-
-- `docs/MASTER_METHOD_INDEX.md` — complete data point inventory
-- `docs/ANALYSIS_METHODS.md` — method definitions
-- `docs/METHOD_QA_MATRIX.md` — software QA controls
-- `docs/VALIDATION.md` — scientific validation requirements
-- `docs/ROADMAP.md` — future development
-- `docs/ANALYSIS_PIPELINE.md` — canonical 21-stage dependency contract
-- `docs/MVP_BUILD_PLAN.md` — fastest connected implementation path
-- `docs/MVP_RELEASE_GATE.md` — canonical engineering-MVP exit gate
-- `docs/PIPELINE_BUILD_STATUS.md` — current 21-stage build/runtime state
-- `docs/CURRENT_ENGINEERING_STATE_2026-09-04.md` — current implementation snapshot
-- `docs/QA_STATUS.md` — software QA state
-- `docs/DEPLOYMENT_BOUNDARY.md` and `docs/DEPLOYMENT_VARIABLE_MATRIX.md` — deployment/runtime ownership
-- `docs/RUNTIME_MEMORY_CONSTRAINTS.md` — constrained runtime memory behavior
-
-Historical capability statements remain preserved in versioned checkpoints; this file is the current capability record.
-
-## Transcript-derived linguistic evidence
-
-When provider-backed transcription returns a normalized transcript and that artifact is available to the case-analysis path, the canonical transcript evidence builder can persist observations and normalized evidence records into the case result. Stage 13 reports actual completion or failure from that execution boundary rather than being assumed complete merely because Stage 07 returned.
-
-The merged durability repair is designed so a successfully completed upstream transcript can survive a later downstream failure. That improves engineering reliability only; it does not establish scientific validity for transcript-derived evidence.
+Source implementation, test success, deployment, runtime health, provider execution, durable artifacts, browser acceptance, engineering repeatability and scientific validation are different evidence states. This document never promotes one into another without supporting evidence.
