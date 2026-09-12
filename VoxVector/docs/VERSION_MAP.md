@@ -6,16 +6,16 @@ This map records current version authorities and evidence boundaries. Dated audi
 
 ## Active version authorities
 
-| Area                            | Current authority                     | Current value / state                |
-| ------------------------------- | ------------------------------------- | ------------------------------------ |
-| Backend source release          | `VoxVector/pyproject.toml`            | **0.2.27**                           |
-| Backend package/runtime version | `VoxVector/src/voxvector/__init__.py` | must match backend source release    |
-| Pipeline/API software version   | `VoxVectorPipeline.software_version`  | sourced from backend package version |
-| Public React application        | `voxvector/package.json`              | **0.2.38**                           |
-| Frontend lockfile root package  | `voxvector/package-lock.json`         | **0.2.38**                           |
-| Result schema                   | engine result contract                | **0.3**                              |
-| Observation layer               | engine observation contract           | **0.1**                              |
-| Validation registry             | validation contract                   | **0.3**                              |
+| Area | Current authority | Current value / state |
+|---|---|---|
+| Backend source release | `VoxVector/pyproject.toml` | **0.2.27** |
+| Backend package/runtime version | `VoxVector/src/voxvector/__init__.py` | must match backend source release |
+| Pipeline/API software version | `VoxVectorPipeline.software_version` | sourced from backend package version |
+| Public React application | `voxvector/package.json` | **0.2.38** |
+| Frontend lockfile root package | `voxvector/package-lock.json` | **0.2.38** |
+| Result schema | engine result contract | **0.3** |
+| Observation layer | engine observation contract | **0.1** |
+| Validation registry | validation contract | **0.3** |
 
 Frontend and backend versions are intentionally independent. Frontend 0.2.38 is the Developer Dashboard/file-picker validation repair release. Backend remains 0.2.27 because the validated backend runtime was not changed by that frontend repair.
 
@@ -51,32 +51,32 @@ The release:
 
 ## Pipeline and capability versions
 
-| Capability                          |               Version / state | Current engineering interpretation                                                               |
-| ----------------------------------- | ----------------------------: | ------------------------------------------------------------------------------------------------ |
-| Acoustic observation integration    |                           0.2 | integrated / observational                                                                       |
-| Temporal observation integration    |                           0.2 | integrated / observational                                                                       |
-| Voice quality HNR                   |                           0.1 | integrated / observational                                                                       |
-| Prosodic dynamics                   |                           0.1 | integrated / observational                                                                       |
-| Spectral dynamics / rolloff         |                           0.1 | integrated / observational                                                                       |
-| Formant frame tracking              |                           0.1 | integrated / observational                                                                       |
-| Speech segmentation                 |                           0.1 | integrated foundation                                                                            |
-| Speaker baseline                    |                           0.1 | optional integrated / observational                                                              |
-| Response latency                    |                           0.1 | optional integrated / observational                                                              |
-| Transcript disfluency               |                           0.1 | optional integrated / observational                                                              |
-| MFCC / cepstral module              |                           0.1 | integrated / observational                                                                       |
-| Evidence acquisition                |                           0.1 | implemented foundation                                                                           |
-| faster-whisper adapter              | configured + controlled proof | real current-revision provider execution and durable checkpoint proof established by #941        |
-| pyannoteAI cloud primary            |                    configured | provider path ready; real current execution/persisted speaker evidence remains #970              |
-| local pyannote Community-1 fallback |                      optional | not part of the constrained cloud-primary path unless explicitly enabled                         |
-| Transcript/audio alignment          |                           0.1 | current controlled transcript/audio alignment proven; speaker-aware persisted proof remains #971 |
-| Reliability gate                    |                           0.1 | implemented analytical eligibility control                                                       |
-| Evidence grouping                   |                           0.1 | implemented / neutral                                                                            |
-| Candidate classification boundary   |                           0.1 | implemented guarded foundation                                                                   |
-| Final disposition gate              |                           0.1 | implemented guarded foundation                                                                   |
-| Reproducibility / QA                |                           0.1 | implemented regression controls                                                                  |
-| Research method expansion           |                           0.2 | active backlog                                                                                   |
-| Deception classifier                |                  not assigned | no validated production classifier claimed                                                       |
-| D Series validated inference        |                  not assigned | not active                                                                                       |
+| Capability | Version / state | Current engineering interpretation |
+|---|---:|---|
+| Acoustic observation integration | 0.2 | integrated / observational |
+| Temporal observation integration | 0.2 | integrated / observational |
+| Voice quality HNR | 0.1 | integrated / observational |
+| Prosodic dynamics | 0.1 | integrated / observational |
+| Spectral dynamics / rolloff | 0.1 | integrated / observational |
+| Formant frame tracking | 0.1 | integrated / observational |
+| Speech segmentation | 0.1 | integrated foundation |
+| Speaker baseline | 0.1 | optional integrated / observational |
+| Response latency | 0.1 | optional integrated / observational |
+| Transcript disfluency | 0.1 | optional integrated / observational |
+| MFCC / cepstral module | 0.1 | integrated / observational |
+| Evidence acquisition | 0.1 | implemented foundation |
+| faster-whisper adapter | configured + controlled proof | real current-revision provider execution and durable checkpoint proof established by #941 |
+| pyannoteAI cloud primary | configured | provider path ready; real current execution/persisted speaker evidence remains #970 |
+| local pyannote Community-1 fallback | optional | not part of the constrained cloud-primary path unless explicitly enabled |
+| Transcript/audio alignment | 0.1 | current controlled transcript/audio alignment proven; speaker-aware persisted proof remains #971 |
+| Reliability gate | 0.1 | implemented analytical eligibility control |
+| Evidence grouping | 0.1 | implemented / neutral |
+| Candidate classification boundary | 0.1 | implemented guarded foundation |
+| Final disposition gate | 0.1 | implemented guarded foundation |
+| Reproducibility / QA | 0.1 | implemented regression controls |
+| Research method expansion | 0.2 | active backlog |
+| Deception classifier | not assigned | no validated production classifier claimed |
+| D Series validated inference | not assigned | not active |
 
 ## Canonical 21-stage order
 

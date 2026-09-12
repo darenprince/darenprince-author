@@ -60,23 +60,23 @@ Frontend 0.2.38 directly repairs `voxvector/src/components/DeveloperConsole.jsx`
 
 ## Current implementation/evidence matrix
 
-| Area                            | Current state               | Current evidence                                         | Remaining acceptance                                       |
-| ------------------------------- | --------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
-| 21-stage contract               | implemented                 | source/tests/live health                                 | scientific maturity remains separate                       |
-| Case create/upload/playback     | implemented                 | visual browser evidence + persisted case/source          | #930 edge-case bounding, #963 historical reopen            |
-| File-picker React state path    | repaired in 0.2.38          | canonical source + regression contract                   | exact-head QA + browser acceptance                         |
-| Developer Dashboard proof state | repaired in 0.2.38          | canonical source + regression contract                   | exact-head QA + browser acceptance                         |
-| Speech segmentation             | current runtime proven      | 26 segments on controlled run                            | golden repeatability                                       |
-| faster-whisper                  | current runtime proven      | same-revision controlled provider execution              | golden repeatability only                                  |
-| Transcript checkpoint           | current runtime proven      | 58 segments / 246 words durably checkpointed             | golden repeatability                                       |
-| Transcript/audio alignment      | current runtime proven      | checkpoint available before Stage 10                     | add speaker evidence under #971                            |
-| Stage 10 admission              | current runtime proven      | 118.6 MB RSS, 416 MB ceiling                             | golden repeatability                                       |
-| Stage 10 acoustic extraction    | current runtime proven      | completed ~73.8 s                                        | golden repeatability                                       |
-| pyannoteAI cloud                | ready/configured            | live health readiness                                    | #970 real execution/persistence                            |
-| Speaker-inclusive alignment     | not yet proven              | no Stage 06 provider output in controlled run            | #971 after #970                                            |
-| Debug Bundle                    | partially proven            | real sanitized bundle, Render logs/status/health present | #959 exact durable event/error correlation                 |
-| Authenticated UI                | materially browser-observed | September 12 PDFs                                        | remaining role/profile/mobile acceptance + 0.2.38 readback |
-| Scientific validity             | not established             | no claim authorized                                      | validation program                                         |
+| Area | Current state | Current evidence | Remaining acceptance |
+|---|---|---|---|
+| 21-stage contract | implemented | source/tests/live health | scientific maturity remains separate |
+| Case create/upload/playback | implemented | visual browser evidence + persisted case/source | #930 edge-case bounding, #963 historical reopen |
+| File-picker React state path | repaired in 0.2.38 | canonical source + regression contract | exact-head QA + browser acceptance |
+| Developer Dashboard proof state | repaired in 0.2.38 | canonical source + regression contract | exact-head QA + browser acceptance |
+| Speech segmentation | current runtime proven | 26 segments on controlled run | golden repeatability |
+| faster-whisper | current runtime proven | same-revision controlled provider execution | golden repeatability only |
+| Transcript checkpoint | current runtime proven | 58 segments / 246 words durably checkpointed | golden repeatability |
+| Transcript/audio alignment | current runtime proven | checkpoint available before Stage 10 | add speaker evidence under #971 |
+| Stage 10 admission | current runtime proven | 118.6 MB RSS, 416 MB ceiling | golden repeatability |
+| Stage 10 acoustic extraction | current runtime proven | completed ~73.8 s | golden repeatability |
+| pyannoteAI cloud | ready/configured | live health readiness | #970 real execution/persistence |
+| Speaker-inclusive alignment | not yet proven | no Stage 06 provider output in controlled run | #971 after #970 |
+| Debug Bundle | partially proven | real sanitized bundle, Render logs/status/health present | #959 exact durable event/error correlation |
+| Authenticated UI | materially browser-observed | September 12 PDFs | remaining role/profile/mobile acceptance + 0.2.38 readback |
+| Scientific validity | not established | no claim authorized | validation program |
 
 ## Fresh Render health
 

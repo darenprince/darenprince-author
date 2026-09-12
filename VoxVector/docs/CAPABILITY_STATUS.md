@@ -11,37 +11,37 @@ This living document separates source implementation, runtime proof, browser evi
 
 ## Capability matrix
 
-| Capability                      | Source state                | Current evidence                                                 | Remaining acceptance                                 |
-| ------------------------------- | --------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------- |
-| Case create/list/read/delete    | implemented                 | active API + browser evidence                                    | #998 observability timeout isolation; edge cases     |
-| Private source upload           | implemented                 | successful September 12 persistence                              | #930 intermittent 400 bounding                       |
-| Developer file picker           | repaired in frontend 0.2.38 | canonical setter prop wiring + regression contract               | exact-head QA + browser readback                     |
-| Developer Dashboard proof state | repaired in frontend 0.2.38 | revision-bound controlled-proof projection + regression contract | exact-head QA + browser readback                     |
-| Source provenance               | implemented                 | SHA-256 confirmed in current run                                 | golden repeatability                                 |
-| Protected playback              | implemented                 | browser screenshot evidence                                      | #963 historical reopen proof                         |
-| Speech segmentation             | implemented                 | **current runtime proven: 26 segments**                          | golden repeatability                                 |
-| Speaker diarization             | cloud-primary path wired    | readiness/configuration proven                                   | **#970 real execution + persisted speaker evidence** |
-| Transcription                   | implemented                 | **current faster-whisper execution proven: ~150.1 s**            | golden repeatability                                 |
-| Transcript durability           | implemented                 | **58 segments / 246 words checkpointed before Stage 10**         | golden repeatability                                 |
-| Transcript/audio alignment      | implemented                 | **current runtime proven before Stage 10**                       | add speaker dimension under #971                     |
-| Eligibility / reliability       | implemented                 | current controlled run completed eligible                        | scientific validation separate                       |
-| Stage 10 admission              | implemented                 | **118.6 MB RSS vs 416 MB ceiling / 512 MB limit**                | golden repeatability                                 |
-| Acoustic extraction             | implemented                 | **current runtime proven ~73.8 s**                               | golden repeatability                                 |
-| Prosodic / voice quality        | implemented foundation      | current run completed                                            | scientific interpretation separate                   |
-| Temporal / pause                | implemented foundation      | current run completed                                            | scientific interpretation separate                   |
-| Linguistic / disfluency         | conditional on transcript   | current run completed 8 observations / 8 evidence records        | scientific interpretation separate                   |
-| Question / answer alignment     | conditional                 | not run; no question context                                     | runtime proof when context exists                    |
-| Within-speaker baseline         | conditional                 | not run; no baseline                                             | runtime proof when baseline exists                   |
-| Cross-method evidence           | implemented                 | current run completed                                            | golden repeatability                                 |
-| Convergence / conflict          | implemented                 | current run completed                                            | scientific calibration separate                      |
-| Candidate classification        | guarded                     | current run completed guarded state                              | no deception-validity claim                          |
-| Validation / calibration        | not invoked                 | intentionally not run                                            | scientific program                                   |
-| Final disposition               | guarded                     | current run completed guarded state                              | scientific authorization separate                    |
-| Audit / provenance              | implemented                 | current run completed                                            | golden completeness proof                            |
-| Debug Bundle                    | implemented foundation      | real sanitized bundle generated                                  | #959 missing exact exported VoxVector events/errors  |
-| Developer Console               | active                      | current visual evidence plus 0.2.38 source repairs               | exact-head QA + remaining role/mobile acceptance     |
-| Golden repeatability            | not passed                  | one current controlled run passed                                | #972 two-run proof                                   |
-| General deception validity      | not established             | no authorized claim                                              | scientific validation                                |
+| Capability | Source state | Current evidence | Remaining acceptance |
+|---|---|---|---|
+| Case create/list/read/delete | implemented | active API + browser evidence | #998 observability timeout isolation; edge cases |
+| Private source upload | implemented | successful September 12 persistence | #930 intermittent 400 bounding |
+| Developer file picker | repaired in frontend 0.2.38 | canonical setter prop wiring + regression contract | exact-head QA + browser readback |
+| Developer Dashboard proof state | repaired in frontend 0.2.38 | revision-bound controlled-proof projection + regression contract | exact-head QA + browser readback |
+| Source provenance | implemented | SHA-256 confirmed in current run | golden repeatability |
+| Protected playback | implemented | browser screenshot evidence | #963 historical reopen proof |
+| Speech segmentation | implemented | **current runtime proven: 26 segments** | golden repeatability |
+| Speaker diarization | cloud-primary path wired | readiness/configuration proven | **#970 real execution + persisted speaker evidence** |
+| Transcription | implemented | **current faster-whisper execution proven: ~150.1 s** | golden repeatability |
+| Transcript durability | implemented | **58 segments / 246 words checkpointed before Stage 10** | golden repeatability |
+| Transcript/audio alignment | implemented | **current runtime proven before Stage 10** | add speaker dimension under #971 |
+| Eligibility / reliability | implemented | current controlled run completed eligible | scientific validation separate |
+| Stage 10 admission | implemented | **118.6 MB RSS vs 416 MB ceiling / 512 MB limit** | golden repeatability |
+| Acoustic extraction | implemented | **current runtime proven ~73.8 s** | golden repeatability |
+| Prosodic / voice quality | implemented foundation | current run completed | scientific interpretation separate |
+| Temporal / pause | implemented foundation | current run completed | scientific interpretation separate |
+| Linguistic / disfluency | conditional on transcript | current run completed 8 observations / 8 evidence records | scientific interpretation separate |
+| Question / answer alignment | conditional | not run; no question context | runtime proof when context exists |
+| Within-speaker baseline | conditional | not run; no baseline | runtime proof when baseline exists |
+| Cross-method evidence | implemented | current run completed | golden repeatability |
+| Convergence / conflict | implemented | current run completed | scientific calibration separate |
+| Candidate classification | guarded | current run completed guarded state | no deception-validity claim |
+| Validation / calibration | not invoked | intentionally not run | scientific program |
+| Final disposition | guarded | current run completed guarded state | scientific authorization separate |
+| Audit / provenance | implemented | current run completed | golden completeness proof |
+| Debug Bundle | implemented foundation | real sanitized bundle generated | #959 missing exact exported VoxVector events/errors |
+| Developer Console | active | current visual evidence plus 0.2.38 source repairs | exact-head QA + remaining role/mobile acceptance |
+| Golden repeatability | not passed | one current controlled run passed | #972 two-run proof |
+| General deception validity | not established | no authorized claim | scientific validation |
 
 ## #941 status
 

@@ -22,44 +22,44 @@ Frontend and backend are independently versioned. Frontend 0.2.38 contains the D
 
 ### Prepare
 
-|   # | Stage                            |
-| --: | -------------------------------- |
-|   1 | File Upload / Ingest             |
-|   2 | File Decode and Normalization    |
-|   3 | Provenance and Integrity         |
-|   4 | Channel and Recording Assessment |
+| # | Stage |
+|---:|---|
+| 1 | File Upload / Ingest |
+| 2 | File Decode and Normalization |
+| 3 | Provenance and Integrity |
+| 4 | Channel and Recording Assessment |
 
 ### Understand
 
-|   # | Stage                                |
-| --: | ------------------------------------ |
-|   5 | Speech Segmentation                  |
-|   6 | Speaker Identification / Diarization |
-|   7 | Transcription Generation             |
-|   8 | Transcript Alignment                 |
-|   9 | Eligibility and Reliability          |
+| # | Stage |
+|---:|---|
+| 5 | Speech Segmentation |
+| 6 | Speaker Identification / Diarization |
+| 7 | Transcription Generation |
+| 8 | Transcript Alignment |
+| 9 | Eligibility and Reliability |
 
 ### Analyze
 
-|   # | Stage                               |
-| --: | ----------------------------------- |
-|  10 | Acoustic Feature Extraction         |
-|  11 | Prosodic and Voice Quality Analysis |
-|  12 | Temporal and Pause Analysis         |
-|  13 | Linguistic and Disfluency Analysis  |
-|  14 | Question / Answer Alignment         |
-|  15 | Within Speaker Baseline             |
+| # | Stage |
+|---:|---|
+| 10 | Acoustic Feature Extraction |
+| 11 | Prosodic and Voice Quality Analysis |
+| 12 | Temporal and Pause Analysis |
+| 13 | Linguistic and Disfluency Analysis |
+| 14 | Question / Answer Alignment |
+| 15 | Within Speaker Baseline |
 
 ### Synthesize and Decide
 
-|   # | Stage                              |
-| --: | ---------------------------------- |
-|  16 | Cross Method Evidence Assembly     |
-|  17 | Evidence Convergence and Conflict  |
-|  18 | Candidate Classification           |
-|  19 | Validation and Calibration Gate    |
-|  20 | Final Classification / Disposition |
-|  21 | Audit and Provenance Output        |
+| # | Stage |
+|---:|---|
+| 16 | Cross Method Evidence Assembly |
+| 17 | Evidence Convergence and Conflict |
+| 18 | Candidate Classification |
+| 19 | Validation and Calibration Gate |
+| 20 | Final Classification / Disposition |
+| 21 | Audit and Provenance Output |
 
 Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization. Historical documents may preserve older numbering, but living product surfaces must use this order.
 
