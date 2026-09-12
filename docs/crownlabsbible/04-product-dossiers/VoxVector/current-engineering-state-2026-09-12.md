@@ -4,102 +4,74 @@
 
 Canonical technical source: `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`.
 
-## Current source identity
+## Current identity
 
-- backend: `VoxVector/`
-- frontend: `voxvector/`
 - backend release: **0.2.27**
 - frontend release: **0.2.37**
-- engineering baseline reconciled before the documentation pass: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
-- exact-baseline VoxVector QA `34679916767`: **success**
-
-Frontend and backend are independently versioned. The documentation pass aligns references to the real package authorities and does not fabricate a new software release.
+- deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
+- exact-baseline VoxVector QA `34679916767`: success
 
 ## Product state
 
-VoxVector is a working full-stack vocal and audio intelligence platform with a case-centered architecture, protected user/developer surfaces, private media persistence, a canonical 21-stage analysis contract, operational diagnostics and multiple implemented analytical foundations.
+VoxVector is an advanced pre-release, case-centered vocal/audio intelligence platform with private media persistence, a canonical 21-stage analysis contract, operational diagnostics, protected Developer Console surfaces and now a current same-revision controlled transcription-through-Stage-10 success.
 
-Current engineering status should be described as **advanced pre-release engineering / connected MVP build**, not as a finished or scientifically validated universal deception detector.
+It is not represented as a scientifically validated universal deception detector.
 
-## Canonical pipeline order
+## September 12 controlled runtime proof
 
-1. File Upload / Ingest
-2. File Decode and Normalization
-3. Provenance and Integrity
-4. Channel and Recording Assessment
-5. Speech Segmentation
-6. Speaker Identification / Diarization
-7. Transcription Generation
-8. Transcript Alignment
-9. Eligibility and Reliability
-10. Acoustic Feature Extraction
-11. Prosodic and Voice Quality Analysis
-12. Temporal and Pause Analysis
-13. Linguistic and Disfluency Analysis
-14. Question / Answer Alignment
-15. Within Speaker Baseline
-16. Cross Method Evidence Assembly
-17. Evidence Convergence and Conflict
-18. Candidate Classification
-19. Validation and Calibration Gate
-20. Final Classification / Disposition
-21. Audit and Provenance Output
+A 183.3-second controlled WAV completed on the current deployed backend candidate:
 
-The old 05/06 reversal is stale on any undated living surface.
+- **17/21 stages complete**
+- **0 failed**
+- **4 intentionally not run**
+- 26 speech segments
+- faster-whisper: ~150.1 seconds
+- durable checkpoint: 58 transcript segments / 246 words
+- transcript/audio alignment available before Stage 10
+- Stage 10 admission: 118.6 MB RSS under 416 MB ceiling / 512 MB limit
+- Stage 10 acoustic extraction: ~73.8 seconds
+- no uncontrolled API restart
 
-## Current maturity
+Issue **#941 is passed and closed**.
 
-- about 16 stages have implemented analytical/runtime foundations;
-- four stages remain conditional or intentionally not invoked without required inputs/authorization;
-- faster-whisper has historical real provider execution;
-- current controlled transcription/durability/Stage 10 proof remains open;
-- pyannoteAI cloud-primary provider architecture is wired, but current real speaker execution/persistence remains open;
-- multimodal transcript/audio/speaker alignment requires current persisted proof;
-- classification/disposition remains guarded and is not represented as scientifically validated deception inference.
+## Provider state
 
-## Current frontend
+- faster-whisper: **current same-revision controlled execution proven**
+- transcript durability: **proven for the controlled run**
+- transcript/audio alignment: **proven for the controlled run**
+- Stage 10 bounded execution: **proven for the controlled run**
+- pyannoteAI cloud-primary: configured/readiness proven, but Stage 06 was intentionally not invoked in the controlled run
+- speaker evidence: still open under **#970**
+- speaker-inclusive multimodal alignment: still open under **#971**
 
-Merged source now includes:
+## Fresh Render state
 
-- Request Access to canonical login;
-- route-safe landing navigation;
-- human site map;
-- styled Pipeline and Analysis Methods destinations;
-- correct Stage 05/06 ordering and backend-driven pipeline status projection;
-- current hero artwork without the retired legacy darkening cascade;
-- one-shot login-time API wake;
-- shared role-aware self-profile editing.
+`voxvector-api` is live in Oregon on deployment `dep-daifrgoae00c73ebcc20` at revision `66f2ea...`. Fresh `/health` returns 200, backend 0.2.27, runtime self-test passed, faster-whisper execution-ready and pyannoteAI cloud-primary execution-ready.
 
-Authenticated desktop/mobile browser acceptance remains distinct from source/CI completion.
+## Browser/observability finding
 
-## Current operational layer
+A separate Developer Console validation case exposed one case-read HTTP 500 caused by a diagnostic persistence `TimeoutError` while `/health` remained healthy and later case reads succeeded. This is classified as an observability persistence reliability defect rather than pipeline failure. GitHub issue **#998** tracks the fix.
 
-Connected Supabase inspection during the synchronization pass established:
+## Debug Bundle
 
-- project healthy on PostgreSQL 17.6;
-- RLS on inspected operational tables;
-- `voxvector-user-admin` ACTIVE at version 2 with JWT verification;
-- 1,393 API request records in the last 24 hours;
-- 6,405 private log objects and 28 private media objects;
-- approximately 407.97 MB of current VoxVector media represented by storage metadata;
-- current diagnostic request records tagged with the reconciled source baseline `66f2ea...`.
+A real sanitized Debug Bundle now exists with case/run state, runtime health, Render status and 100 bounded Render logs. Its manifest shows a Supabase Render-log mirror but zero exported exact VoxVector events and zero correlated error records, so **#959 remains open**.
 
-Security/performance hardening remains open for the dashboard SECURITY DEFINER boundary, leaked-password protection, selected indexes and RLS query efficiency.
+## Visual evidence
+
+The Confidential IP screenshot PDFs directly show the current Developer Console dashboard, drawer navigation, case creation, source upload, protected playback, waveform/spectral analysis and stage progression. They also capture the separate fetch failure associated with the observability timeout case.
 
 ## Current release gates
 
-1. #941 controlled same-WAV transcription/durability/Stage 10 proof
-2. #970 real cloud diarization and persisted speaker evidence
-3. #971 persisted multimodal alignment
-4. #963 historical-case reopen/playback/artifact/report rehydration
-5. #930 upload reliability bounding
-6. #959 production observability/debug-bundle acceptance
-7. authenticated desktop/mobile acceptance for already-merged frontend/auth changes
+1. #970 real cloud-primary diarization and persisted speaker evidence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case reopen/playback/artifact/report rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability and Debug Bundle correlation
+7. authenticated desktop/mobile acceptance
 8. #972 two complete same-revision/configuration golden cases
-9. scientific validation as a separate program
+9. scientific validation separately
 
-## Evidence discipline
+## Boundary
 
-Crown Labs documentation must keep source, QA, deployment, health, provider execution, durable artifacts, browser acceptance, golden-case repeatability and scientific validation as separate evidence categories.
-
-Historical dated documents remain historical records. This file is the current executive engineering mirror.
+The September 12 evidence materially strengthens engineering readiness. It does not establish validated deception accuracy, verified speaker identity, transcript truthfulness or legal admissibility.
