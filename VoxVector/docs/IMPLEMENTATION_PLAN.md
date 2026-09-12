@@ -9,13 +9,14 @@ Build the complete VoxVector product represented by the canonical product archit
 ## Current source context
 
 - backend source release: **0.2.27**
-- frontend source release: **0.2.37**
+- frontend source release: **0.2.38**
 - deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
 - current validation snapshot: `VALIDATION_SNAPSHOT_2026-09-12.md`
 - canonical Stage 05 = Speech Segmentation
 - canonical Stage 06 = Speaker Identification / Diarization
 - #941 controlled transcription/durability/Stage 10 proof: **passed and closed**
+- frontend 0.2.38 Developer Dashboard/file-picker validation repair: **implemented in canonical source**
 
 ## Architecture principles
 
@@ -164,7 +165,16 @@ The status UI must preserve the evidence chain:
 
 `source → QA → deployment → health → provider execution → durable artifacts → browser acceptance`
 
-The current engineering-status module now recognizes the validated `66f2ea...` proof revision and can report transcription as **PROVEN**. The screenshot-era dashboard strings `Transcription first`, `execution ready, unverified`, `71% complete`, and `20 of 28` are stale pre-validation copy and must not be used as current project truth.
+Frontend 0.2.38 directly updates the actual `DeveloperConsole.jsx` owner:
+
+- the Developer Overview recognizes the accepted `66f2ea...` controlled proof and displays transcription as **PROVEN** only on a matching live backend revision;
+- **Next Engineering Move** is #970 diarization;
+- stale `Transcription first`, `execution ready, unverified`, `71% complete`, and `20 of 28` release-readiness presentation is retired;
+- the legacy 28-task list is explicitly implementation coverage only;
+- `setProgress` is passed into `CaseWorkbench`, fixing the file-picker setter error while retaining the old direct file-input lookup only as defensive fallback;
+- a focused source-contract regression test guards these behaviors.
+
+The immediately preceding validation-snapshot QA `34684789612` passed. Final exact-head 0.2.38 QA and authenticated browser readback remain separate acceptance evidence.
 
 ## Phase I — frontend/product shell
 
@@ -205,7 +215,7 @@ Remaining hardening includes:
 Follow `MVP_RELEASE_GATE.md`:
 
 1. complete #970, #971, #963, #930, #998 and #959;
-2. finish authenticated desktop/mobile acceptance;
+2. finish authenticated desktop/mobile acceptance, including frontend 0.2.38 readback;
 3. freeze one exact source/configuration candidate;
 4. run exact-head QA;
 5. intentionally publish/deploy;

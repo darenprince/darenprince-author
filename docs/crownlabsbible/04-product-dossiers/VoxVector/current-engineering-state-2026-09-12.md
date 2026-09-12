@@ -7,13 +7,16 @@ Canonical technical source: `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12
 ## Current identity
 
 - backend release: **0.2.27**
-- frontend release: **0.2.37**
+- frontend release: **0.2.38**
 - deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
-- exact-baseline VoxVector QA `34679916767`: success
+- deployed-baseline QA `34679916767`: success
+- validation-snapshot QA `34684789612`: success
+
+Frontend 0.2.38 is newer than the deployed backend and contains the canonical Developer Dashboard/file-picker validation repairs.
 
 ## Product state
 
-VoxVector is an advanced pre-release, case-centered vocal/audio intelligence platform with private media persistence, a canonical 21-stage analysis contract, operational diagnostics, protected Developer Console surfaces and now a current same-revision controlled transcription-through-Stage-10 success.
+VoxVector is an advanced pre-release, case-centered vocal/audio intelligence platform with private media persistence, a canonical 21-stage analysis contract, operational diagnostics, protected Developer Console surfaces and a current same-revision controlled transcription-through-Stage-10 success.
 
 It is not represented as a scientifically validated universal deception detector.
 
@@ -33,6 +36,22 @@ A 183.3-second controlled WAV completed on the current deployed backend candidat
 - no uncontrolled API restart
 
 Issue **#941 is passed and closed**.
+
+## Frontend 0.2.38 correction
+
+The actual Developer Overview and Case Workbench were corrected in their existing canonical owner, `voxvector/src/components/DeveloperConsole.jsx`.
+
+Current source now:
+
+- passes the missing upload-progress setter into `CaseWorkbench`;
+- uses the existing file-input lookup as fallback only;
+- shows matched controlled transcription proof as **PROVEN**;
+- makes **#970 diarization** the next engineering move;
+- retires the old `Transcription first`, `execution ready, unverified`, 71% and 20-of-28 release-readiness presentation;
+- labels the 28-task board as implementation coverage only;
+- includes a focused regression contract.
+
+Final exact-head 0.2.38 QA and authenticated browser readback remain separate acceptance evidence.
 
 ## Provider state
 
@@ -54,11 +73,11 @@ A separate Developer Console validation case exposed one case-read HTTP 500 caus
 
 ## Debug Bundle
 
-A real sanitized Debug Bundle now exists with case/run state, runtime health, Render status and 100 bounded Render logs. Its manifest shows a Supabase Render-log mirror but zero exported exact VoxVector events and zero correlated error records, so **#959 remains open**.
+A real sanitized Debug Bundle exists with case/run state, runtime health, Render status and 100 bounded Render logs. Its manifest shows a Supabase Render-log mirror but zero exported exact VoxVector events and zero correlated error records, so **#959 remains open**.
 
 ## Visual evidence
 
-The Confidential IP screenshot PDFs directly show the current Developer Console dashboard, drawer navigation, case creation, source upload, protected playback, waveform/spectral analysis and stage progression. They also capture the separate fetch failure associated with the observability timeout case.
+The Confidential IP screenshot PDFs directly show the Developer Console dashboard, drawer navigation, case creation, source upload, protected playback, waveform/spectral analysis and stage progression. They also capture the separate fetch failure associated with the observability timeout case. Those screenshots predate the 0.2.38 Dashboard/file-picker repair.
 
 ## Current release gates
 
@@ -68,7 +87,7 @@ The Confidential IP screenshot PDFs directly show the current Developer Console 
 4. #930 upload reliability bounding
 5. #998 observability persistence isolation
 6. #959 complete dual-copy observability and Debug Bundle correlation
-7. authenticated desktop/mobile acceptance
+7. authenticated desktop/mobile acceptance, including frontend 0.2.38 readback
 8. #972 two complete same-revision/configuration golden cases
 9. scientific validation separately
 

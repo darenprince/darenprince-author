@@ -5,7 +5,7 @@
 ## Current authority
 
 - backend release: **0.2.27**
-- frontend release: **0.2.37**
+- frontend release: **0.2.38**
 - deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - canonical branch: `main`
 
@@ -13,7 +13,9 @@
 
 VoxVector is a working case-centered vocal/audio intelligence platform with a 21-stage engineering contract, protected case workflow, private persistence, live Developer Console, production Render deployment and current same-revision controlled speech execution.
 
-The September 12 validation materially advances the engineering state: the current deployed candidate completed a full constrained transcription-through-Stage-10 run without restart. The next major runtime blocker is now cloud-primary diarization, not transcription durability.
+The September 12 validation materially advances the engineering state: the current deployed backend completed a full constrained transcription-through-Stage-10 run without restart. The next major runtime blocker is cloud-primary diarization, not transcription durability.
+
+Frontend **0.2.38** is the current Developer Console validation-repair release. It updates the actual canonical Dashboard and repairs the Case Workbench file-picker setter wiring without creating duplicate UI or upload owners.
 
 ## Current controlled run
 
@@ -32,6 +34,20 @@ Controlled source: 183.3-second WAV.
 
 Issue #941 is complete.
 
+## Developer Console 0.2.38
+
+The canonical `DeveloperConsole.jsx` now:
+
+- passes `setProgress` into `CaseWorkbench`, repairing the file-picker state path that had been masked by the existing file-input fallback;
+- reports the accepted controlled transcription proof as **PROVEN** only when the live backend revision matches the proven revision;
+- sets **#970 diarization** as the next engineering move;
+- removes stale `Transcription first` and `execution ready, unverified` wording from the matched proof state;
+- stops using the old 71% / 20-of-28 checklist count as release readiness;
+- preserves the 28-task list only as legacy implementation coverage;
+- includes a focused regression source-contract test.
+
+Validation-snapshot QA `34684789612` passed before these 0.2.38 source changes. Exact-head QA of the final 0.2.38 synchronization head is therefore the active source-verification boundary.
+
 ## Render
 
 `voxvector-api` is live in Oregon on deployment `dep-daifrgoae00c73ebcc20`, commit `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Auto-deploy remains disabled. `/health` is returning 200 and reports backend 0.2.27, runtime self-test passed, 21 total stages, 16 implemented foundations, 1 queued and 4 conditional/not invoked.
@@ -42,11 +58,13 @@ Speech runtime reports faster-whisper ready and pyannoteAI cloud-primary configu
 
 A separate browser validation session produced one case-read 500 while `/health` remained 200. The traceback shows `TimeoutError: The read operation timed out` during `DIAGNOSTICS.emit()` persistence from diagnostic middleware after a case request. Subsequent case reads succeeded.
 
-Current classification: observability persistence is able to leak a storage/read timeout into an otherwise healthy product request. Diagnostic persistence should be isolated as best-effort/non-fatal.
+Current classification: observability persistence is able to leak a storage/read timeout into an otherwise healthy product request. This is tracked by **#998**. Diagnostic persistence should be isolated as best-effort/non-fatal.
 
 ## Visual evidence
 
 Current Confidential IP PDFs visually verify the Developer Console dashboard, navigation drawer, case creation, source upload, protected playback, waveform/spectral presentation and analysis-stage progression. They also visually capture the fetch failure tied to the observability timeout above.
+
+The visual 4:16 `1017 LA-524 2.wav` session is separate from the successful 183.3-second controlled proof case.
 
 ## Debug evidence
 
@@ -65,12 +83,12 @@ A sanitized Debug Bundle exists for the successful run with case/run data, runti
 2. #971 same-run speaker/transcript/audio alignment persistence
 3. #963 historical case rehydration
 4. #930 upload 400 bounding
-5. isolate observability persistence failures from product-request success
+5. #998 isolate observability persistence failures from product-request success
 6. #959 dual-copy/debug-bundle correlation acceptance
-7. authenticated desktop/mobile acceptance
+7. authenticated desktop/mobile acceptance, including 0.2.38 dashboard/file-picker readback
 8. #972 two same-revision/configuration golden cases
 9. scientific validation separately
 
 ## Boundary
 
-The current snapshot proves stronger engineering maturity and repeatability than prior records. It does not authorize deception-accuracy or scientific-validity claims.
+The current snapshot proves stronger engineering maturity and controlled runtime behavior than prior records. Frontend 0.2.38 is a source repair until exact-head QA and browser readback complete. None of these engineering states authorize deception-accuracy or scientific-validity claims.

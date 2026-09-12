@@ -8,9 +8,11 @@ The React application under `voxvector/` is the canonical public and authenticat
 
 ## Current version and source ownership
 
-- frontend release authority: `voxvector/package.json` → **0.2.37**
+- frontend release authority: `voxvector/package.json` → **0.2.38**
+- frontend lockfile root: `voxvector/package-lock.json` → **0.2.38**
 - frontend root: `voxvector/`
 - backend/API root: `VoxVector/`
+- backend release: **0.2.27**
 - current engineering state: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
 
 Frontend and backend versions remain independent.
@@ -64,6 +66,30 @@ Merged current source includes:
 - canonical hero artwork without the retired legacy darkening cascade.
 
 These are current source behaviors. They are not an unmerged PR candidate.
+
+## Developer Dashboard ownership
+
+`voxvector/src/components/DeveloperConsole.jsx` is the actual Developer Overview owner. Frontend 0.2.38 updates that existing component directly rather than adding a second dashboard/status layer.
+
+The Developer Overview now:
+
+- derives frontend version from `voxvector/package.json`;
+- derives API/backend identity from live `/health`;
+- recognizes the accepted September 12 controlled transcription proof only when live backend revision matches the proven deployed revision;
+- shows **PROVEN** for that matched transcription state;
+- makes **#970 diarization** the next engineering move;
+- presents `pipeline_build.implemented_foundations` as source maturity, not all-stage completion;
+- no longer presents the old 71% / 20-of-28 checklist state as release readiness.
+
+The separate `DeveloperEngineeringStatus.jsx` toolbar and the Dashboard share the same evidence rule: configuration/readiness is not provider execution, and provider execution is not scientific validation.
+
+## Case Workbench upload ownership
+
+`CaseWorkbench` inside `DeveloperConsole.jsx` remains the canonical Developer Console upload owner.
+
+Frontend 0.2.38 repairs the file picker by explicitly passing and destructuring `setProgress`. The picker can now reset upload progress through the normal React state path when a user selects a file. The existing direct DOM file-input read remains only as defensive fallback in `handleUpload()`; it is not a second upload implementation.
+
+A focused source-contract regression test guards this prop wiring and the Dashboard proof wording.
 
 ## Analysis Workspace
 

@@ -7,12 +7,13 @@ This document defines the shortest dependency-ordered path from the current repo
 ## Current starting state
 
 - backend release: **0.2.27**
-- frontend release: **0.2.37**
+- frontend release: **0.2.38**
 - deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
 - current runtime snapshot: `VALIDATION_SNAPSHOT_2026-09-12.md`
 - canonical 21-stage order uses Stage 05 Speech Segmentation and Stage 06 Speaker Identification / Diarization
 - #941 controlled transcription/durability/Stage 10 proof: **passed and closed**
+- frontend 0.2.38 Developer Dashboard/file-picker repair: **implemented in canonical source; exact-head QA/browser readback required**
 
 ## Already connected and currently proven
 
@@ -34,6 +35,8 @@ The current product foundation includes:
 - acoustic/prosodic/temporal/linguistic/evidence foundations
 - guarded classification/disposition architecture
 - Developer Console health/case/pipeline/diagnostic/documentation surfaces
+- repaired Developer Overview proof projection and #970 next-step state
+- repaired Case Workbench file-picker progress setter wiring
 - durable Supabase request/error evidence
 - real sanitized Debug Bundle foundation
 - public/authenticated React shell and current navigation paths
@@ -73,6 +76,8 @@ Reopen a persisted case without re-upload and restore:
 
 Use current candidate uploads to either reproduce and identify the intermittent pre-handler 400 or tightly bound the residual risk with repeated successful attempts and sanitized request-envelope evidence.
 
+The frontend file-picker setter defect discovered during validation is distinct from #930 and has been repaired in 0.2.38; the existing fallback remains defensive only.
+
 ### 5. #998 — isolate observability persistence from product success
 
 A September 12 browser validation case returned HTTP 500 because `DIAGNOSTICS.emit()` timed out while persisting a completed-request record. `/health` stayed healthy and later case reads succeeded.
@@ -102,6 +107,8 @@ Remaining acceptance:
 
 Verify the current canonical implementation:
 
+- frontend 0.2.38 Developer Overview shows matched proof as **PROVEN** and #970 as next P0;
+- frontend 0.2.38 file selection follows the repaired React state path without setter errors;
 - login wake ordering and cold/warm readiness presentation;
 - developer/admin/user routing and unauthorized denial;
 - session restore/sign-out/reset;
@@ -112,7 +119,7 @@ Verify the current canonical implementation:
 - error recovery after #998;
 - desktop/mobile accessibility and responsive behavior.
 
-The September 12 PDFs already provide direct visual evidence for dashboard, drawer, case creation, upload, protected playback, waveform/spectral rendering and live analysis progression.
+The September 12 PDFs already provide direct visual evidence for dashboard, drawer, case creation, upload, protected playback, waveform/spectral rendering and live analysis progression, but they predate the 0.2.38 Dashboard/picker repair.
 
 ### 8. #972 — freeze and prove two golden cases
 
