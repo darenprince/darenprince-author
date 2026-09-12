@@ -1,124 +1,96 @@
 # VoxVector QA Status
 
-**Living software QA record**
+**Living software QA and runtime-verification record**
 
-This document separates repository QA from deployment/runtime/provider/browser/scientific evidence.
+## Versions
 
-## Current synchronized baseline
+- backend: **0.2.27**
+- frontend: **0.2.37**
+- deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 
-The 2026-09-12 systemwide reconciliation started from GitHub `main` revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`.
+## Repository QA
 
-Exact-baseline VoxVector QA run `34679916767` completed **successfully**.
+Exact-baseline VoxVector QA run `34679916767` passed on revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`.
 
-That baseline includes merged PR #993 frontend navigation/site-map/pipeline projection work and merged PR #997 landing-cascade cleanup. Documentation synchronization commits after that baseline make `main` newer and therefore require their own CI before they can be called exact-head QA verified.
+Later documentation/status commits make repository `main` newer than the deployed backend. Do not confuse current docs head with current Render source revision.
 
-## Version authorities
+## September 12 controlled runtime proof
 
-- backend source: **0.2.27**
-- public React application: **0.2.37**
-- frontend and backend remain independent release streams
+A 183.3-second WAV completed the deployed canonical analysis path on backend 0.2.27 and source revision `66f2ea...`.
 
-## Current source-level frontend truth
+- case `ecdc428a-7009-47ed-99de-7b58baf52860`
+- source `9c464d7b-89f0-41ea-b1eb-8707f12c9b2b`
+- request `8e43718cb11746f3852863da4dbe536a`
+- run `d05dc0bb-0f04-4c15-bb0e-6da1dba38935`
+- run status: completed
+- elapsed: 247,984 ms
+- 17/21 stages complete
+- 0 failed
+- 4 intentionally not run
+- 26 speech segments
+- faster-whisper execution: ~150.1 s
+- durable acquisition checkpoint: 58 transcript segments / 246 words
+- alignment available before Stage 10
+- Stage 10 admitted at 118.6 MB RSS under 416 MB ceiling / 512 MB service limit
+- Stage 10 acoustic extraction: ~73.8 s
+- Stage 10 after-GC RSS: 128.63 MB
+- no uncontrolled API restart
 
-Merged current source includes:
-
-- Request Access routed to the canonical login;
-- route-qualified public anchors and restored hash navigation;
-- human site map and direct React route publication support;
-- styled Pipeline and Analysis Methods destinations;
-- canonical Stage 05 Speech Segmentation → Stage 06 Speaker Identification / Diarization order;
-- `PipelineBuildCard.jsx` preferring backend `pipeline_build.status_by_stage` for mutable stage state;
-- one-shot login-time `/health` wake through `AuthGate.jsx` / `wakeApi()`;
-- shared role-aware self-profile implementation;
-- obsolete landing CSS retired from production style ownership so canonical hero artwork is not darkened by the legacy cascade.
-
-Historical PR #974 was closed without merge and is not the current auth/profile authority. Historical PR #986 is likewise not the authority for current Developer Console behavior. Current repository source is authoritative.
-
-## Current Supabase operational evidence
-
-Connected inspection during the same reconciliation pass found:
-
-- project `VoxVector` ACTIVE_HEALTHY;
-- PostgreSQL 17.6;
-- RLS on inspected operational tables;
-- `voxvector-user-admin` ACTIVE at version 2 with JWT verification;
-- 1,393 API request records in the last 24 hours;
-- one 5xx and 271 4xx request records in that window;
-- two open error records in that window;
-- current request-log entries tagged with source revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`;
-- 6,405 private log objects and 28 private media objects.
-
-This is persistence/diagnostic evidence. It is not exact current `/health`, Render deployment status, provider execution or browser verification.
-
-## Latest retained fresh backend health evidence
-
-The latest separately retained forced-fresh `/health` evidence was observed on 2026-09-11 for source `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` and reported:
-
-- HTTP 200;
-- `status=ok`;
-- backend/pipeline version **0.2.27**;
-- runtime self-test passed;
-- 512 MiB memory reference and 416 MiB Stage-10 admission ceiling;
-- faster-whisper base / CPU / int8 / beam 1 / one thread / one worker / isolated process / 165-second timeout ready;
-- cloud-primary `pyannote_api` configured and execution-ready;
-- local fallback disabled in that constrained runtime.
-
-Do not relabel that older health payload as a fresh readback for the current documentation-sync head.
-
-## Historical real provider execution
-
-A controlled 183.3-second WAV on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` established real faster-whisper execution:
-
-- speech segmentation completed with 26 segments;
-- faster-whisper ran `base`, CPU/int8, beam 1, one CPU thread, one worker, isolated child process;
-- transcription completed in about 113 seconds;
-- output contained 58 timestamped transcript segments and 246 timestamped words.
-
-That same historical run exposed the downstream constrained-memory failure that the later Stage 10 safety work was designed to contain. Historical provider execution is not current repeatability proof.
+**#941 is passed and closed.**
 
 ## Current implementation/evidence matrix
 
-| Area | Source state | Evidence already established | Remaining acceptance |
+| Area | Current state | Current evidence | Remaining acceptance |
 |---|---|---|---|
-| 21-stage contract | implemented | backend source/tests | stage-specific runtime and scientific maturity |
-| Public navigation / site map | merged | source + exact-baseline QA | desktop/mobile browser acceptance |
-| Frontend pipeline projection | merged | source + exact-baseline QA | authenticated browser acceptance |
-| Landing hero cascade cleanup | merged | source + exact-baseline QA | desktop/mobile visual readback |
-| Login-time API wake | merged current source | source/tests | authenticated cold/warm browser observation |
-| Shared user/admin/developer self-profile | merged current source | source/tests | save/reload browser acceptance |
-| Authenticated source upload | implemented | historical successful large WAV persistence | #930 intermittent 400 bounding |
-| Private source persistence | implemented | Supabase objects and historical cases | #963 reopen/playback/artifact acceptance |
-| faster-whisper | integrated | historical real provider execution | #941 current controlled repeatability |
-| Stage 10 memory admission | merged foundation | source/tests | #941 controlled production proof |
-| pyannoteAI cloud primary | wired | source/readiness evidence | #970 real execution/persistence |
-| Multimodal alignment | foundation | source/tests/historical partial evidence | #971 current durable proof |
-| Dual operational observability | merged foundation | active Supabase diagnostics | #959 real dual-copy/debug-bundle acceptance |
-| Candidate/final disposition | guarded foundation | source/tests | no validated deception inference claimed |
+| 21-stage contract | implemented | source/tests/live health | scientific maturity remains separate |
+| Case create/upload/playback | implemented | visual browser evidence + persisted case/source | #930 edge-case bounding, #963 historical reopen |
+| Speech segmentation | current runtime proven | 26 segments on controlled run | golden repeatability |
+| faster-whisper | current runtime proven | same-revision controlled provider execution | golden repeatability only |
+| Transcript checkpoint | current runtime proven | 58 segments / 246 words durably checkpointed | golden repeatability |
+| Transcript/audio alignment | current runtime proven | checkpoint available before Stage 10 | add speaker evidence under #971 |
+| Stage 10 admission | current runtime proven | 118.6 MB RSS, 416 MB ceiling | golden repeatability |
+| Stage 10 acoustic extraction | current runtime proven | completed ~73.8 s | golden repeatability |
+| pyannoteAI cloud | ready/configured | live health readiness | #970 real execution/persistence |
+| Speaker-inclusive alignment | not yet proven | no Stage 06 provider output in controlled run | #971 after #970 |
+| Debug Bundle | partially proven | real sanitized bundle, Render logs/status/health present | #959 exact durable event/error correlation |
+| Authenticated UI | materially browser-observed | September 12 PDFs | remaining role/profile/mobile acceptance |
+| Scientific validity | not established | no claim authorized | validation program |
+
+## Fresh Render health
+
+Connected Render evidence shows `voxvector-api` live, `/health` returning 200, runtime self-test passed, backend 0.2.27, faster-whisper execution-ready and pyannoteAI cloud-primary execution-ready.
+
+## New QA defect: observability timeout can fail product request
+
+During visual validation, one `GET /v1/cases/{id}` returned 500 because diagnostic middleware timed out while persisting a completed-request diagnostic record. `/health` remained 200 and subsequent case reads returned 200.
+
+This must be treated as a product reliability defect: observability persistence should not convert a successful/healthy product path into a user-visible failure.
+
+## Visual inspection findings
+
+The September 12 screenshot PDFs visibly confirm:
+
+- Developer Overview and engineering state
+- navigation drawer
+- case creation
+- source upload and persistence
+- protected playback
+- waveform and spectral visualizations
+- analysis engine progression through early stages
+- user-visible fetch failure in the separate timeout case
 
 ## Current release-critical order
 
-1. #941
-2. #970
-3. #971
-4. #963
-5. #930
+1. #970
+2. #971
+3. #963
+4. #930
+5. observability persistence timeout isolation
 6. #959
-7. authenticated desktop/mobile acceptance of already-merged frontend/auth changes
+7. authenticated desktop/mobile acceptance
 8. #972 two complete same-revision/configuration golden cases
-9. scientific validation program separately
-
-## Current hardening findings
-
-Supabase advisory review currently identifies:
-
-- SECURITY DEFINER review required for `developer_dashboard_summary()` exposure;
-- leaked-password protection disabled;
-- unindexed foreign keys;
-- some RLS auth-function reevaluation inefficiencies;
-- unused `error_reports` indexes.
-
-These findings belong to engineering hardening and must not be confused with scientific model validation.
+9. scientific validation separately
 
 ## Evidence boundary
 
-A passing test suite is software QA. A GitHub commit is source state. Pages publication or backend deployment is distribution state. `/health` is runtime state. Provider execution is workload state. Durable case artifacts are persistence state. Browser acceptance is UX/integration evidence. Two golden cases are engineering repeatability evidence. None of those, alone or together, establishes scientifically validated deception inference.
+Software QA, runtime execution, persistence, browser evidence, engineering repeatability and scientific validation remain distinct evidence classes.
